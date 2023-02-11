@@ -5,7 +5,7 @@
  */
 package beanstesty;
 
-import comparator.Umowacomparator;
+import comparator.UmowaStareNowecomparator;
 import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.RodzajwynagrodzeniaFacade;
@@ -28,7 +28,9 @@ import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaZlec;
 import kadryiplace.ZatrudHist;
@@ -129,19 +131,21 @@ public class UmowaBean {
         return umowa;
     }
 
-    public static String obliczdatepierwszegozasilku(List<Umowa> umowaList, Umowa selected) {
+    public static String obliczdatepierwszegozasilku(Angaz angaz, Umowa selected) {
+        List<Umowa> umowaList = new CopyOnWriteArrayList<Umowa>(angaz.getUmowaList());
         String zwrot = selected.getDataod();
         try {
             if (umowaList == null || umowaList.isEmpty()) {
                 zwrot = pokazXXdzien(selected.getDataod(), 30);
             } else {
-                Collections.sort(umowaList, new Umowacomparator());
+                Collections.sort(umowaList, new UmowaStareNowecomparator());
                 if (czyjestdziesieclatubezpieczenia(umowaList)) {
                     zwrot = selected.getDataod();
                 } else {
                     int iledni = 0;
-                    for (Umowa u : umowaList) {
-                        if (u.getId() != null && !u.getId().equals(selected.getId())) {
+                    for (Iterator<Umowa> it = umowaList.iterator();it.hasNext();) {
+                        Umowa u = it.next();
+                        if (u.getId() != null && !u.getId().equals(selected.getId()) && u.getDatado()!=null && !u.getDatado().equals("")) {
                             if (u.getSlownikszkolazatrhistoria().getPraca0nauka1()) {
                                 int wciaguiludnipodjetoprace = Data.iletodniKalendarzowych(u.getDatado(), selected.getDataod());
                                 if ( wciaguiludnipodjetoprace < 90) {
@@ -204,7 +208,7 @@ public class UmowaBean {
                 if (selected.getUmowakodzus().isPraca()) {
                     selected.setLiczdourlopu(true);
                     try {
-                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(angaz.getUmowaList(), selected);
+                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(angaz, selected);
                         selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
                     } catch (Exception e){}
                 }
@@ -263,7 +267,7 @@ public class UmowaBean {
                 if (selected.getUmowakodzus().isPraca()) {
                     selected.setLiczdourlopu(true);
                     try {
-                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(angaz.getUmowaList(), selected);
+                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(angaz, selected);
                         selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
                     } catch (Exception e){}
                 }
@@ -351,5 +355,26 @@ public class UmowaBean {
         int dzienodint = Integer.parseInt(dzienod);
         System.out.println(dziendoint-dzienodint+1);
     }
+
+    public static void naniesDatezasilkunaimportowane(List<Angaz> lista, UmowaFacade umowaFacade) {
+        for (Angaz angaz : lista) {
+            List<Umowa> umowaList = angaz.getUmowaList();
+            for (Iterator<Umowa> it = umowaList.iterator();it.hasNext();) {
+                Umowa umowa = it.next();
+                if (umowa.getUmowakodzus().isPraca()) {
+                       umowa.setLiczdourlopu(true);
+                       try {
+                           String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(angaz, umowa);
+                           umowa.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
+                       } catch (Exception e){
+                           System.out.println("");
+                       }
+                   }
+            }
+            umowaFacade.editList(umowaList);
+        }
+    }
+
+  
     
 }

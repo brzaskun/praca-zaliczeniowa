@@ -101,6 +101,7 @@ public class Rozwiazanieumowy implements Serializable {
     @Column(name = "pracownikotrzymal")
     private String pracownikotrzymal;
 
+
     public Rozwiazanieumowy() {
     }
 
@@ -264,6 +265,8 @@ public class Rozwiazanieumowy implements Serializable {
     public void setPracownikotrzymal(String pracownikotrzymal) {
         this.pracownikotrzymal = pracownikotrzymal;
     }
+
+        
 
     @Override
     public int hashCode() {

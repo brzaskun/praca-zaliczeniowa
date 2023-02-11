@@ -312,7 +312,7 @@ public class UmowaView implements Serializable {
                 selected.setAngaz(angaz);
                 if (selected.getUmowakodzus().isPraca()) {
                     try {
-                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(angaz.getUmowaList(), selected);
+                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(angaz, selected);
                         selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
                     } catch (Exception e){}
                 }
@@ -475,7 +475,7 @@ public class UmowaView implements Serializable {
                 }
                 if (selected.getUmowakodzus().isPraca()) {
                     try {
-                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(wpisView.getAngaz().getUmowaList(), selected);
+                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(wpisView.getAngaz(), selected);
                         selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
                     } catch (Exception e){}
                 }

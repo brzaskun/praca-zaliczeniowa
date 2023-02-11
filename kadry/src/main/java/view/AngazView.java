@@ -95,6 +95,8 @@ public class AngazView  implements Serializable {
     @PostConstruct
     public void init() {
         lista  = angazFacade.findAll();
+        //!!!Usunac 01.03
+        //UmowaBean.naniesDatezasilkunaimportowane(lista, umowaFacade);
         listafirm = firmaFacade.findAll();
         listapracownikow = pracownikFacade.findAll();
         if (wpisView.getFirma()!=null) {

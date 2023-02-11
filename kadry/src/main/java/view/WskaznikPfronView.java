@@ -143,12 +143,7 @@ public class WskaznikPfronView  implements Serializable {
         if (angaz!=null) {
             wpisView.setAngaz(angaz);
             wpisView.setPracownik(angaz.getPracownik());
-            List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
-            if (umowy==null) {
-                try {
-                    umowy = umowaFacade.findByAngaz(angaz);
-                } catch (Exception ex){}
-            }
+            List<Umowa> umowy = umowaFacade.findByAngaz(angaz);
             if (umowy!=null && umowy.size()==1) {
                 wpisView.setUmowa(umowy.get(0));
             } else if (umowy!=null&&!umowy.isEmpty()) {

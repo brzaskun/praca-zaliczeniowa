@@ -10,6 +10,8 @@ import dao.NieobecnoscswiadectwoschemaFacade;
 import dao.RozwiazanieumowyFacade;
 import dao.UmowaFacade;
 import data.Data;
+import embeddable.WypowiedzeniePodstawa;
+import embeddable.WypowiedzenieSposob;
 import entity.Dzien;
 import entity.Nieobecnosc;
 import entity.Nieobecnoscswiadectwoschema;
@@ -56,6 +58,10 @@ public class RozwiazanieumowyView  implements Serializable {
     private NieobecnoscswiadectwoschemaFacade nieobecnoscswiadectwoschemaFacade;
     private List<Swiadectwodni> dnidoswiadectwa;
     private Swiadectwodni selected;
+    @Inject
+    private WypowiedzenieSposob wypowiedzenieSposob;
+    @Inject
+    private WypowiedzeniePodstawa wypowiedzeniePodstawa;
     
     
     
@@ -65,6 +71,7 @@ public class RozwiazanieumowyView  implements Serializable {
     }
 
     public void pobierzRozwiazanie() {
+        lista = new ArrayList<>();
         if (wybranaumowa!=null) {
             Rozwiazanieumowy pobrane = rozwiazanieumowyFacade.findByUmowa(wybranaumowa);
             if (pobrane!=null) {
@@ -198,6 +205,22 @@ public class RozwiazanieumowyView  implements Serializable {
 
     public void setSelected(Swiadectwodni selected) {
         this.selected = selected;
+    }
+
+    public WypowiedzenieSposob getWypowiedzenieSposob() {
+        return wypowiedzenieSposob;
+    }
+
+    public void setWypowiedzenieSposob(WypowiedzenieSposob wypowiedzenieSposob) {
+        this.wypowiedzenieSposob = wypowiedzenieSposob;
+    }
+
+    public WypowiedzeniePodstawa getWypowiedzeniePodstawa() {
+        return wypowiedzeniePodstawa;
+    }
+
+    public void setWypowiedzeniePodstawa(WypowiedzeniePodstawa wypowiedzeniePodstawa) {
+        this.wypowiedzeniePodstawa = wypowiedzeniePodstawa;
     }
 
    

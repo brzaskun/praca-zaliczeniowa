@@ -20,6 +20,9 @@ import javax.persistence.Embeddable;
 @Embeddable
 @SessionScoped
 public class Panstwa implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
+     
     private final static List<String> wykazPanstw;
     
 static{

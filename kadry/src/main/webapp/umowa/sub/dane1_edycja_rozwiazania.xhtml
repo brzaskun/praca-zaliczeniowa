@@ -13,10 +13,30 @@
                         <p:panelGrid columns="2" >
                             <h:outputText value="rozwiązywana umowa: "/>
                                 <h:outputText value="#{rozwiazanieumowyView.nowy.umowa.nrkolejny}"/>
-                                <h:outputText value="data wypowiedzenia: "/>
+                                <h:outputText value="umowa od: "/>
+                                <h:outputText value="#{rozwiazanieumowyView.nowy.umowa.dataod}"/>
+                                <h:outputText value="czas trwania: "/>
+                                <h:outputText value="#{rozwiazanieumowyView.nowy.umowa.czastrwania}"/>
+                                <h:outputText value="kod umowy: "/>
+                                <h:outputText value="#{rozwiazanieumowyView.nowy.umowa.umowakodzus.kod}"/>
+                                <h:outputText value="data wypowiedzenia: " style="margin-top: 20x;"/>
                                 <p:inputText value="#{rozwiazanieumowyView.nowy.datawypowiedzenia}" size="10" placeholder="____-__-__"/>
                                 <h:outputText value="przyczyna wypowiedzenia: "/>
-                                <p:inputText value="#{rozwiazanieumowyView.nowy.przyczyna}" size="100"/>
+                                 <p:selectOneListbox id="pracownik" value="#{rozwiazanieumowyView.nowy.przyczyna}" required="true" requiredMessage="Wybierz sposób rozwiązania"  
+                                                     style="width: 500px;" filter="true" filterMatchMode="contains" scrollHeight="130">
+                                     <f:selectItems value="#{wypowiedzenieSposob.getWypowiedzenieSposob()}"
+                                                   var="pracownikItem"
+                                                   itemValue="#{pracownikItem}" itemLabel="#{pracownikItem}"/>
+                                    <p:ajax event="change" partialSubmit="true" global="true"/>
+                                </p:selectOneListbox>
+                                <h:outputText value="podstawa prawna: "/>
+                                 <p:selectOneListbox id="podstawa" value="#{rozwiazanieumowyView.nowy.podstawaprawna}" required="true" requiredMessage="Wybierz sposób rozwiązania"  
+                                                     style="width: 1200px;" filter="true" filterMatchMode="contains" scrollHeight="130">
+                                     <f:selectItems value="#{wypowiedzeniePodstawa.getWypowiedzeniePodstawa()}"
+                                                   var="pracownikItem"
+                                                   itemValue="#{pracownikItem}" itemLabel="#{pracownikItem}"/>
+                                    <p:ajax event="change" partialSubmit="true" global="true"/>
+                                </p:selectOneListbox>
                                 <h:outputText value="rodzaj wypowiedzenia: "/>
                                 <p:column>
                                     <p:panelGrid columns="2" >
