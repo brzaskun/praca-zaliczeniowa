@@ -51,6 +51,8 @@ public class Nieobecnoscprezentacja implements Serializable {
     private int wymiarokresbiezacy;
     @Column(name = "doprzeniesienia")
     private int doprzeniesienia;
+    @Column(name = "doprzeniesieniadni")
+    private int doprzeniesieniadni;
     @Column(name = "wykorzystanierokbiezacy")
     private int wykorzystanierokbiezacy;
     @Column(name = "wykorzystanierokbiezacyekwiwalent")
@@ -92,6 +94,14 @@ public class Nieobecnoscprezentacja implements Serializable {
 
     public void setRok(String rok) {
         this.rok = rok;
+    }
+
+    public int getDoprzeniesieniadni() {
+        return doprzeniesieniadni;
+    }
+
+    public void setDoprzeniesieniadni(int doprzeniesieniadni) {
+        this.doprzeniesieniadni = doprzeniesieniadni;
     }
 
   

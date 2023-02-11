@@ -30,16 +30,22 @@ public class UrlopBean {
      public static Nieobecnoscprezentacja pobierzurlop(Angaz angaz, String rok, String stannadzien) {
          Nieobecnoscprezentacja urlopprezentacja = new Nieobecnoscprezentacja(angaz, rok);
         if (angaz!=null) {
-            List<Kalendarzmiesiac> kalendarze = angaz.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)).collect(Collectors.toList());
-            urlopprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
-            List<Umowa> umowy = angaz.getUmowaList();
-            if (angaz.getRok().equals(rok)) {
-                urlopprezentacja.setOkrespoprzedni(angaz.getBourlopgodziny());
-            } else if (angaz.getSerialsp()!=null&&rok.equals("2023")) {
-                urlopprezentacja.setOkrespoprzedni(angaz.getBourlopgodziny());
+            EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,stannadzien);
+            if (pobierzetat!=null) {
+                List<Kalendarzmiesiac> kalendarze = angaz.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)).collect(Collectors.toList());
+                urlopprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
+                List<Umowa> umowy = angaz.getUmowaList();
+                if (angaz.getRok().equals(rok)) {
+                    urlopprezentacja.setOkrespoprzedni(angaz.getBourlopgodziny());
+                } else if (angaz.getSerialsp()!=null&&rok.equals("2023")) {
+                    urlopprezentacja.setOkrespoprzedni(angaz.getBourlopgodziny());
+                }
+                urlopprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, pobierzetat, stannadzien, rok));
+                int doprzeniesienia = urlopprezentacja.getOkrespoprzedni()+urlopprezentacja.getWymiarokresbiezacy()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
+                urlopprezentacja.setDoprzeniesienia(doprzeniesienia);
+                int doprzeniesieniadni = (doprzeniesienia/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
+                urlopprezentacja.setDoprzeniesieniadni(doprzeniesieniadni);
             }
-            urlopprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, angaz.pobierzetat(stannadzien), stannadzien, rok));
-            urlopprezentacja.setDoprzeniesienia(urlopprezentacja.getOkrespoprzedni()+urlopprezentacja.getWymiarokresbiezacy()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent());
             //Msg.msg("Pobrano dane urlopowe");
         }
         return urlopprezentacja;
@@ -71,7 +77,7 @@ public class UrlopBean {
                             wykorzystanie.setGodziny((int) r.getPrzepracowano());
                         }
                         wykorzystanie.setUrlopprezentacja(urlopprezentacja);
-                        EtatPrac pobierzetat = p.getAngaz().pobierzetat(wykorzystanie.getData());
+                        EtatPrac pobierzetat = EtatBean.pobierzetat(p.getAngaz(),wykorzystanie.getData());
                         if (pobierzetat!=null) {
                             wykorzystanie.setEtat1(pobierzetat.getEtat1());
                             wykorzystanie.setEtat2(pobierzetat.getEtat2());
@@ -155,11 +161,10 @@ public class UrlopBean {
             double nowywymiarwdniach =  Math.ceil(wymiarwdniach);
             double wymiargodzin = (nowywymiarwdniach*8);
             if (etat!=null) {
-                nowywymiarwdniach =  Math.ceil(wymiarwdniach*etat.getEtat1()/etat.getEtat2());
                 if (napoczetemiesiace.size()>0) {
-                    nowywymiarwdniach = (int) (Math.ceil(wymiarwdniach/12.0*napoczetemiesiace.size()));
-                    wymiargodzin = (nowywymiarwdniach*8*etat.getEtat1()/etat.getEtat2());
+                    wymiarwdniach = (int) (Math.ceil(wymiarwdniach/12.0*napoczetemiesiace.size()));
                 }
+                wymiargodzin = (wymiarwdniach*8*etat.getEtat1()/etat.getEtat2());
             }
         return (int) wymiargodzin;
         //nie wiem co z tym etatem czy badac

@@ -393,6 +393,10 @@ public class Data implements Serializable {
         return czyjestpo(dataOd, rok, mc) && czyjestprzed(dataDo, rok, mc);
     }
     
+     public static boolean czyjestpomiedzy (String termingraniczny1, String badanadata, String termingraniczny2) {
+        return czyjestpo(termingraniczny1, badanadata) && czyjestprzed(termingraniczny2, badanadata);
+    }
+    
     //chodzi o to czy okres data jest po jakiesc dacie
     public static boolean czyjestpo(String termingraniczny, String badanadata) {
         boolean zwrot = false;
