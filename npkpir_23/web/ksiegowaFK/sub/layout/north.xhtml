@@ -9,7 +9,7 @@
     <p:layoutUnit position="north" size="63" resizable="false" >
         <h:form id="menubarnorth">
             <p:menubar autoDisplay="true" style="border: none;">
-                <p:menuitem icon="fa fa-institution" value="firma" outcome="firmaFK"/>
+                <p:menuitem icon="fa fa-institution" value="firma" outcome="ksiegowaFKFirma_1"/>
                 <p:menuitem icon="fa fa-stack-overflow" value="#{mgs.dokumenty}" outcome="menudokumentyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-sheqel" value="salda kont" outcome="zestawieniaFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-tasks" value="VAT" outcome="rejestryFK" rendered="#{WpisView.czegosbrakuje == false}"/>
