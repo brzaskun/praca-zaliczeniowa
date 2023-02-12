@@ -166,36 +166,22 @@
                         <p:inputText id="kod" value="#{firmaImportView.selectedlista.kod}" title="kod pocztowy" required="true" requiredMessage="Wpisz kod pocztowy"/>
                         <p:outputLabel value="poczta" for="poczta" />
                         <p:inputText id="poczta" value="#{firmaImportView.selectedlista.poczta}" title="miasto" required="true" requiredMessage="Wpisz nazwę poczty"/>
+                       
                     </p:panelGrid>
-                    <p:panel header="reprezentant"/>
+                    <p:panel header="dodatkowe dane"/>
                     <p:panelGrid columns="2">
-                        <p:outputLabel value="imię nazwisko" for="rep" />
+                        <p:outputLabel value="imię nazwisko reprezentata" for="rep" />
                         <p:inputText id="rep" value="#{firmaImportView.selectedlista.reprezentant}" title="reprezentant" required="true" requiredMessage="Wpisz imię i nazwisko reprezentanta" size="49"/>
-                    </p:panelGrid>
-                    <p:panel header="osoba fizyczna"/>
-                    <p:panelGrid columns="4">
-                        <p:outputLabel value="osoba fizyczna" for="osoba" />
+                        <p:outputLabel value="firma osoby fizycznej" for="osoba" />
                         <p:selectBooleanCheckbox id="osoba" value="#{firmaImportView.selectedlista.osobafizyczna}" title="forma prawna"/>
                         <p:outputLabel value="dzień naliczania lp: np. 01, 10" for="dzienlp" />
                         <p:inputText id="dzienlp" value="#{firmaImportView.selectedlista.dzienlp}" title="dzień naliczania listy płac" size="4" maxlength="2" required="false"/>
-                    </p:panelGrid>
-                    <p:panel header="dane kontaktowe"/>
-                    <p:panelGrid columns="4">
-                        <p:outputLabel value="telefon" for="tel" />
+                        <p:outputLabel value="telefon kont." for="tel" />
                         <p:inputText id="tel" value="#{firmaImportView.selectedlista.telefon}" title="telefon" required="true" requiredMessage="Wpisz nr telefonu" size="32"/>
                         <p:outputLabel value="adres email" for="email" />
                         <p:inputText id="email" value="#{firmaImportView.selectedlista.email}" title="email" required="true" requiredMessage="Wpisz adres email" size="32"/>
-                    </p:panelGrid>
-                    <p:panel header="bank"/>
-                    <p:panelGrid columns="4">
-                        <p:outputLabel value="nazwa banku" for="nzbaku" />
-                        <p:inputText id="nzbaku" value="#{firmaImportView.selectedlista.banknazwa}" title="nazwa banku" size="32"/>
-                        <p:outputLabel value="nr konta" for="nrkonta" />
-                        <p:inputText id="nrkonta" value="#{firmaImportView.selectedlista.bankkonto}" title="telefon" maxlength="32" size="32"/>
-                    </p:panelGrid>
-                     <p:panel header="urząd skarbowy"/>
-                    <p:panelGrid columns="1">
-                        <p:autoComplete completeMethod="#{tKodUS.complete}" value="#{firmaImportView.selectedlista.nazwaurzeduskarbowego}"
+                         <p:outputLabel value="urząd skarbowy" for="urzad" />
+                        <p:autoComplete id="urzad" completeMethod="#{tKodUS.complete}" value="#{firmaImportView.selectedlista.nazwaurzeduskarbowego}"
                                     forceSelection="true" maxResults="15" size="250"  minQueryLength="3" effect="clip" var="p"
                                     itemLabel="#{p}" itemValue="#{p}" inputStyle="width:400px;">
                         <f:facet name="itemtip">  
@@ -207,7 +193,16 @@
                                 <h:outputText id="npelna" value="#{p}" />  
                             </h:panelGrid>
                         </f:facet>
-                    </p:autoComplete>
+                            </p:autoComplete>
+                         <p:outputLabel value="sąd pracy" for="sad" />
+                         <p:inputText id="sad" value="#{firmaImportView.selectedlista.sadpracy}" title="sad"  size="100"/>
+                    </p:panelGrid>
+                    <p:panel header="bank"/>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="nazwa banku" for="nzbaku" />
+                        <p:inputText id="nzbaku" value="#{firmaImportView.selectedlista.banknazwa}" title="nazwa banku" size="32"/>
+                        <p:outputLabel value="nr konta" for="nrkonta" />
+                        <p:inputText id="nrkonta" value="#{firmaImportView.selectedlista.bankkonto}" title="telefon" maxlength="32" size="32"/>
                     </p:panelGrid>
                      <p:panel header="domyślny format listy płac"/>
                      <p:panelGrid columns="1">

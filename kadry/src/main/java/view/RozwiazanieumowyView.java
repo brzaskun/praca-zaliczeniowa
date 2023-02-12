@@ -8,6 +8,7 @@ package view;
 import dao.NieobecnoscFacade;
 import dao.NieobecnoscswiadectwoschemaFacade;
 import dao.RozwiazanieumowyFacade;
+import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
 import data.Data;
 import embeddable.WypowiedzeniePodstawa;
@@ -16,9 +17,11 @@ import entity.Dzien;
 import entity.Nieobecnosc;
 import entity.Nieobecnoscswiadectwoschema;
 import entity.Rozwiazanieumowy;
+import entity.SMTPSettings;
 import entity.Swiadectwo;
 import entity.Swiadectwodni;
 import entity.Umowa;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +33,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
 import pdf.PdfSwiadectwo;
+import pdf.PdfWypowiedzenie;
 
 /**
  *
@@ -49,7 +53,7 @@ public class RozwiazanieumowyView  implements Serializable {
     private List<Rozwiazanieumowy> lista;
     private Umowa wybranaumowa;
     @Inject
-    private Rozwiazanieumowy nowy;
+    private Rozwiazanieumowy rozwiazanieUmowyNowe;
     @Inject
     private WpisView wpisView;
     private List<Nieobecnosc> listanieob;
@@ -62,6 +66,8 @@ public class RozwiazanieumowyView  implements Serializable {
     private WypowiedzenieSposob wypowiedzenieSposob;
     @Inject
     private WypowiedzeniePodstawa wypowiedzeniePodstawa;
+    @Inject
+    private SMTPSettingsFacade sMTPSettingsFacade;
     
     
     
@@ -78,7 +84,7 @@ public class RozwiazanieumowyView  implements Serializable {
                 lista.add(pobrane);
             } else {
                 lista = new ArrayList<>();
-                nowy.setUmowa(wybranaumowa);
+                rozwiazanieUmowyNowe.setUmowa(wybranaumowa);
             }
             if (wpisView.getUmowa()!=null) {
                 listanieob  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
@@ -129,10 +135,10 @@ public class RozwiazanieumowyView  implements Serializable {
     
     public void dodajnowy() {
         if (wybranaumowa!=null && wybranaumowa.getRozwiazanieumowy()==null) {
-            nowy.setData(new Date());
-            rozwiazanieumowyFacade.create(nowy);
-            lista.add(nowy);
-            wybranaumowa.setRozwiazanieumowy(nowy);
+            rozwiazanieUmowyNowe.setData(new Date());
+            rozwiazanieumowyFacade.create(rozwiazanieUmowyNowe);
+            lista.add(rozwiazanieUmowyNowe);
+            wybranaumowa.setRozwiazanieumowy(rozwiazanieUmowyNowe);
             umowaFacade.edit(wybranaumowa);
             Msg.msg("Dodano nowe wypowiedzenie");
         } else {
@@ -151,6 +157,36 @@ public class RozwiazanieumowyView  implements Serializable {
         }
     }
     
+    public void drukujwypowiedzenie() {
+        if (rozwiazanieUmowyNowe!=null && rozwiazanieUmowyNowe.getUmowa()!=null) {
+            String nazwa = rozwiazanieUmowyNowe.getUmowa().getPracownik().getPesel()+"wypowiedzenie.pdf";
+            PdfWypowiedzenie.drukuj(rozwiazanieUmowyNowe, nazwa);
+        } else {
+            Msg.msg("e","Nie wybrano wypowiedzenia do wydruku");
+        }
+    }
+    
+     public void drukujwypowiedzenie(Rozwiazanieumowy roz) {
+        if (roz!=null && roz.getUmowa()!=null) {
+            String nazwa = roz.getUmowa().getPracownik().getPesel()+"wypowiedzenie.pdf";
+            PdfWypowiedzenie.drukuj(roz, nazwa);
+        } else {
+            Msg.msg("e","Nie wybrano wypowiedzenia do wydruku");
+        }
+    }
+     
+     public void mailwypowiedzenie(Rozwiazanieumowy rozwiazanie) {
+         if (rozwiazanie==null) {
+                Msg.msg("w", "Nie wybrano wypowiedze nia");
+            } else {
+                String nazwa = rozwiazanie.getUmowa().getPracownik().getPesel()+"wypowiedzenie.pdf";
+                ByteArrayOutputStream drukujmail = PdfWypowiedzenie.drukujMail(rozwiazanie, nazwa);
+                SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                mail.Mail.mailUmowyoPrace(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
+                Msg.msg("Wysłano umowę o pracę do klienta");
+         }
+    }
+    
     public Rozwiazanieumowy getSelectedlista() {
         return selectedlista;
     }
@@ -167,12 +203,12 @@ public class RozwiazanieumowyView  implements Serializable {
         this.lista = lista;
     }
 
-    public Rozwiazanieumowy getNowy() {
-        return nowy;
+    public Rozwiazanieumowy getRozwiazanieUmowyNowe() {
+        return rozwiazanieUmowyNowe;
     }
 
-    public void setNowy(Rozwiazanieumowy nowy) {
-        this.nowy = nowy;
+    public void setRozwiazanieUmowyNowe(Rozwiazanieumowy rozwiazanieUmowyNowe) {
+        this.rozwiazanieUmowyNowe = rozwiazanieUmowyNowe;
     }
 
     public Umowa getWybranaumowa() {

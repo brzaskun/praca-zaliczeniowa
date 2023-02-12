@@ -90,6 +90,28 @@
                                 </f:facet>
                                 <h:outputText value="&#x2714;"    rendered="#{itemroz.zwolnieniezpracy}"/>
                             </p:column>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                   <h:outputText value="edy."/>
+                               </f:facet>
+                               <p:commandButton icon="pi pi-pencil" actionListener="#{rozwiazanieumowyView.edytuj(itemroz)}" update="north, @(form)"/>
+                           </p:column>
+
+       <!--                    <p:column width="40" style="text-align: center;">
+                               <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowa)}" oncomplete="PF('dialogumowatresc').show();" update="north, @(form)" async="true"/>
+                           </p:column>-->
+                           <p:column width="40" style="text-align: center;">
+                               <f:facet name="header">
+                                   <h:outputText value="pdf"/>
+                               </f:facet>
+                               <p:commandButton icon="pi pi-print"  actionListener="#{rozwiazanieumowyView.drukujwypowiedzenie(itemroz)}" update="north, akordeon:UmowaListForm"/>
+                           </p:column>
+                           <p:column width="40" style="text-align: center;">
+                               <f:facet name="header">
+                                   <h:outputText value="mail"/>
+                               </f:facet>
+                               <p:commandButton icon="pi pi-cloud-upload"  actionListener="#{umowaView.mailUmowaPraca(itemroz)}" update="north akordeon:UmowaListForm"/>
+                           </p:column>
                             <p:column style="text-align: center; width: 30px;">
                                 <p:commandButton icon="pi pi-trash" actionListener="#{rozwiazanieumowyView.usun(itemroz)}" update="north, @(form)"/>
                             </p:column>

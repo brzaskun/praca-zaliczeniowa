@@ -67,6 +67,12 @@ public class Rozwiazanieumowy implements Serializable {
     @Size(max = 10)
     @Column(name = "datawypowiedzenia")
     private String datawypowiedzenia;
+    @Size(max = 10)
+    @Column(name = "datauplywuokresuwyp")
+    private String datauplywuokresuwyp;
+    @Size(max = 10)
+    @Column(name = "datadokumentu")
+    private String datadokumentu;
     @Column(name = "wypowiedzenie")
     private boolean wypowiedzenie;
     @Column(name = "rozwiazanie")
@@ -100,6 +106,8 @@ public class Rozwiazanieumowy implements Serializable {
     @Size(max = 10)
     @Column(name = "pracownikotrzymal")
     private String pracownikotrzymal;
+    @Column(name = "sposobwypowiedzenia")
+    private String sposobwypowiedzenia;
 
 
     public Rozwiazanieumowy() {
@@ -264,6 +272,30 @@ public class Rozwiazanieumowy implements Serializable {
 
     public void setPracownikotrzymal(String pracownikotrzymal) {
         this.pracownikotrzymal = pracownikotrzymal;
+    }
+
+    public String getSposobwypowiedzenia() {
+        return sposobwypowiedzenia;
+    }
+
+    public void setSposobwypowiedzenia(String sposobwypowiedzenia) {
+        this.sposobwypowiedzenia = sposobwypowiedzenia;
+    }
+
+    public String getDatauplywuokresuwyp() {
+        return datauplywuokresuwyp;
+    }
+
+    public void setDatauplywuokresuwyp(String datauplywuokresuwyp) {
+        this.datauplywuokresuwyp = datauplywuokresuwyp;
+    }
+
+    public String getDatadokumentu() {
+        return datadokumentu;
+    }
+
+    public void setDatadokumentu(String datadokumentu) {
+        this.datadokumentu = datadokumentu;
     }
 
         
