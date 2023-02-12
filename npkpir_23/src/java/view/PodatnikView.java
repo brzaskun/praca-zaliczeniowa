@@ -1453,7 +1453,7 @@ public class PodatnikView implements Serializable {
             List<Rodzajedok> dokumentyBiezacegoPodatnikaRokPoprzedni = rodzajedokDAO.findListaPodatnik(selected, rokpoprzedni);
             Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
             List<Rodzajedok> wspolnedokumentypodatnikow = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);
-            if (((dokumentyBiezacegoPodatnikaRokPoprzedni==null||dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) && dokumentyBiezacegoPodatnika.isEmpty()) && (wspolnedokumentypodatnikow!=null && !wspolnedokumentypodatnikow.isEmpty())) {
+            if (((dokumentyBiezacegoPodatnikaRokPoprzedni==null||dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) && (dokumentyBiezacegoPodatnika==null||dokumentyBiezacegoPodatnika.isEmpty())) && (wspolnedokumentypodatnikow!=null && !wspolnedokumentypodatnikow.isEmpty())) {
                 dokumentyBiezacegoPodatnikaRokPoprzedni = wspolnedokumentypodatnikow;
             }
             if (wpisView.getFormaprawna()!=null&&wpisView.getFormaprawna().equals("OSOBA_FIZYCZNA")==false) {
@@ -1493,12 +1493,15 @@ public class PodatnikView implements Serializable {
                                     nowy.setKontoRZiS(null);
                                     nowy.setKontorozrachunkowe(null);
                                     nowy.setKontovat(null);
+                                    nowy.setOznaczenie1(null);
+                                    nowy.setOznaczenie2(null);
+                                    rodzajedokDAO.create(nowy);
                                     nowy.setOznaczenie1(tmp.getOznaczenie1());
                                     nowy.setOznaczenie2(tmp.getOznaczenie2());
                                     nowy.setTylkojpk(tmp.isTylkojpk());
                                     nowy.setTylkopodatkowo(tmp.isTylkopodatkowo());
                                     KontaFKBean.nanieskonta(nowy, kontoDAOfk);
-                                    rodzajedokDAO.create(nowy);
+                                    rodzajedokDAO.edit(nowy);
                                     dokumentyBiezacegoPodatnika.add(nowy);
                                 }
                             } catch (Exception e){
