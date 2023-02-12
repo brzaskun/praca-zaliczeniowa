@@ -141,6 +141,10 @@ public class RozwiazanieumowyView  implements Serializable {
             wybranaumowa.setRozwiazanieumowy(rozwiazanieUmowyNowe);
             umowaFacade.edit(wybranaumowa);
             Msg.msg("Dodano nowe wypowiedzenie");
+        } else if (rozwiazanieUmowyNowe.getId()!=null) {
+            rozwiazanieUmowyNowe.setData(new Date());
+            rozwiazanieumowyFacade.edit(rozwiazanieUmowyNowe);
+            Msg.msg("Edytowano wypowiedzenie");
         } else {
             Msg.msg("e","Umowa ma już wygenerowane wypowiedzenie.");   
         }
@@ -170,6 +174,15 @@ public class RozwiazanieumowyView  implements Serializable {
         if (roz!=null && roz.getUmowa()!=null) {
             String nazwa = roz.getUmowa().getPracownik().getPesel()+"wypowiedzenie.pdf";
             PdfWypowiedzenie.drukuj(roz, nazwa);
+        } else {
+            Msg.msg("e","Nie wybrano wypowiedzenia do wydruku");
+        }
+    }
+     
+     public void edytuj(Rozwiazanieumowy roz) {
+        if (roz!=null && roz.getUmowa()!=null) {
+            rozwiazanieUmowyNowe = roz;
+            Msg.msg("Dokument gotowy do edycji");
         } else {
             Msg.msg("e","Nie wybrano wypowiedzenia do wydruku");
         }

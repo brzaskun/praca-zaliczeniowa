@@ -77,7 +77,7 @@
                                 <p:selectBooleanCheckbox label="zwolnienie" value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.zwolnieniezpracy}"/>
                                 <p:panelGrid columns="2">
                                     <p:column style="text-align: center; width: 30px;">
-                                        <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rozwiazanieumowyView.dodajnowy()}" update="@(form)"/>
+                                        <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rozwiazanieumowyView.dodajnowy()}" update="@(form) akordeon:RozwiazaniaListForm"/>
                                     </p:column>
                                     <p:column style="text-align: center; width: 30px;">
                                         <p:commandButton value="drukuj" styleClass="buttonnorm2" actionListener="#{rozwiazanieumowyView.drukujwypowiedzenie()}" />

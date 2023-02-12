@@ -88,6 +88,14 @@ public class PdfSwiadectwo {
                         String ustanie1 = "za wypowiedzeniem ze strony pracownika "+rozwiazanieumowy.getPodstawaprawna();
                         PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, ustanie1, Element.ALIGN_LEFT, 2);
                     }
+                    boolean pracodawca = rozwiazanieumowy.isPracodawca();
+                    if (pracodawca) {
+                        String ustanie1 = "za wypowiedzeniem ze strony pracodawcy "+rozwiazanieumowy.getPodstawaprawna();
+                        PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, ustanie1, Element.ALIGN_LEFT, 2);
+                    }
+                } else {
+                    String ustanie1 = " na mocy porozumienia stron "+rozwiazanieumowy.getPodstawaprawna();
+                    PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, ustanie1, Element.ALIGN_LEFT, 2);
                 }
                 document.add(Chunk.NEWLINE);
                 String skr = "5. Został zastosowany skrócony okres wypowiedzenia umowy o pracę na podstawie art. 36 1 § 1 Kodeksu pracy: ";

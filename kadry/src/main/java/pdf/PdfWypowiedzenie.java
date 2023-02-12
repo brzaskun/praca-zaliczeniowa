@@ -198,7 +198,7 @@ public class PdfWypowiedzenie {
             }
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
-            if (rozwiazanieumowy.isPracodawca()) {
+            if (rozwiazanieumowy.isPracodawca()&&!rozwiazanieumowy.isPorozumienie()) {
                 if (rozwiazanieumowy.isRozwiazanie()&&!rozwiazanieumowy.isSkroceneiokresuwyp()) {
                     String wypowiadam = "Niniejszym wypowiadam ww umowę z zachowaniem okresu wypowiedzenia, który upływa dnia "+rozwiazanieumowy.getDatauplywuokresuwyp();
                     PdfMain.dodajLinieOpisu(document, wypowiadam, Element.ALIGN_JUSTIFIED, 1);
@@ -210,14 +210,11 @@ public class PdfWypowiedzenie {
                     String przyczyna = "Przyczyna wypowiedzenia: "+rozwiazanieumowy.getPrzyczyna();
                     PdfMain.dodajLinieOpisu(document, przyczyna, Element.ALIGN_JUSTIFIED, 1);
                 }
-                document.add(Chunk.NEWLINE);
                 String pouczenie =  "Jednocześnie informuję, że przysługuje Panu/ Pani, prawo do wniesienia odwołania do "+firma.getSadpracy()+" w terminie 21 dni od dnia otrzymania niniejszego zawiadomienia.";
                 PdfMain.dodajLinieOpisu(document, pouczenie, Element.ALIGN_JUSTIFIED, 1);
             } else if (rozwiazanieumowy.isPorozumienie()) {
-                    String wypowiadam = "Proponuję rozwiązac ww umowę  z dniem "+rozwiazanieumowy.getDatawypowiedzenia();
+                    String wypowiadam = "Proponuję rozwiązac wyżej wymienioną umowę za porozumieniem stron z dniem "+rozwiazanieumowy.getDatawypowiedzenia();
                     PdfMain.dodajLinieOpisu(document, wypowiadam, Element.ALIGN_JUSTIFIED, 1);
-                    String przyczyna = "Przyczyna wypowiedzenia: "+rozwiazanieumowy.getPrzyczyna();
-                    PdfMain.dodajLinieOpisu(document, przyczyna, Element.ALIGN_JUSTIFIED, 1);
                 } 
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
