@@ -213,7 +213,7 @@ public class DokfkView implements Serializable {
     private boolean pokazzapisywzlotowkach;
     @Inject
     private CechazapisuDAOfk cechazapisuDAOfk;
-    private List<Cechazapisu> pobranecechypodatnik;
+    private Set<Cechazapisu> pobranecechypodatnik;
     private List<Cechazapisu> pobranecechypodatnikzapas;
     private StronaWiersza stronaWierszaCechy;
     private List<Dokfk> filteredValue;
@@ -273,7 +273,9 @@ public class DokfkView implements Serializable {
     private boolean nietrzebapodczepiac;
     private boolean dodacdoslownikow;
     private List<JPKoznaczenia> listaoznaczenjpk;
-    
+    //wybeana cecha przy wpisie
+    @Inject
+    private Cechazapisu wbranacechawpisywanie;
 
      
     
@@ -288,7 +290,7 @@ public class DokfkView implements Serializable {
         this.symbolwalutydowiersza = "";
         this.zapisz0edytuj1 = false;
         this.listaewidencjivatRK = Collections.synchronizedList(new ArrayList<>());
-        this.pobranecechypodatnik = Collections.synchronizedList(new ArrayList<>());
+        this.pobranecechypodatnik = new HashSet<>();
         this.pobranecechypodatnikzapas = Collections.synchronizedList(new ArrayList<>());
         this.dokumentypodatnika = Collections.synchronizedList(new ArrayList<>());
         this.cechydokzlisty = Collections.synchronizedList(new ArrayList<>());
@@ -315,7 +317,7 @@ public class DokfkView implements Serializable {
                 ewidencjadlaRKDEL = evewidencjaDAO.znajdzponazwie("zakup");
                 domyslnaTabelanbp = DokFKBean.pobierzWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO);
                 wybranacechadok = null;
-                pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
+                pobranecechypodatnik = new HashSet<>(cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt()));
                 pobranecechypodatnikzapas.addAll(pobranecechypodatnik);
                 miesiacWpisuPokaz = wpisView.getMiesiacWpisu();
                 kontadlaewidencji.put("221-3", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
@@ -2047,7 +2049,7 @@ public class DokfkView implements Serializable {
             w = (EVatwpisFK) wybranewierszeewidencji.get(wybranewierszeewidencji.size()-1);
         }
         if (w!=null) {
-            pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
+            pobranecechypodatnik = new HashSet<>(cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt()));
             pobranecechypodatnikzapas.addAll(pobranecechypodatnik);
             Dokfk dokdk = dokDAOfk.findDokfkObj(w.getDokfk());
             int rowek = 0;
@@ -2286,7 +2288,7 @@ public class DokfkView implements Serializable {
          }
         rodzajedokumentowPodatnika = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
         //cechydokzlisty = znajdzcechy(wykazZaksiegowanychDokumentow);
-        pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
+        pobranecechypodatnik = new HashSet<>(cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt()));
         wybranacechadok = null;
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
@@ -2555,7 +2557,7 @@ public class DokfkView implements Serializable {
                 } else {
                     stronaWierszaCechy = wiersz.getStronaMa();
                 }
-                pobranecechypodatnik = new ArrayList<>(pobranecechypodatnikzapas);
+                pobranecechypodatnik = new HashSet<>(pobranecechypodatnikzapas);
                 List<Cechazapisu> cechyuzyte = stronaWierszaCechy.getCechazapisuLista();
                 for (Cechazapisu c : cechyuzyte) {
                     pobranecechypodatnik.remove(c);
@@ -2657,6 +2659,7 @@ public class DokfkView implements Serializable {
                 }
             }
         }
+
         return zwrot;
     }
     
@@ -2665,6 +2668,7 @@ public class DokfkView implements Serializable {
         if (tacechajestwwierszu) {
             Msg.msg("e","Cecha użyta w wierszu. Nie można dodać do dokumentu!");
         } else {
+            wbranacechawpisywanie = c;
             pobranecechypodatnik.remove(c);
             selected.getCechadokumentuLista().add(c);
             Msg.msg("Dodano cechę do dokumentu");
@@ -2672,6 +2676,20 @@ public class DokfkView implements Serializable {
         //c.getDokfkLista().add(selected);
     }
 
+    public void dodajcechedodokumentu() {
+       if (wbranacechawpisywanie != null) {
+           boolean tacechajestwwierszu = czycechajestwstronach(selected.getStronyWierszy(), cechazapisudododania);
+            if (tacechajestwwierszu) {
+               Msg.msg("e","Cecha użyta w wierszu. Nie można dodać do dokumentu!");
+            } else {
+                pobranecechypodatnik.remove(wbranacechawpisywanie);
+                selected.getCechadokumentuLista().add(wbranacechawpisywanie);
+                Msg.msg("Dodano cechę do dokumentu");
+            }
+            //cechazapisudododania.getStronaWierszaLista().add(stronaWierszaCechy);
+       }
+    }
+    
     public void usuncechedodokumentu(Cechazapisu c) {
         pobranecechypodatnik.add(c);
         selected.getCechadokumentuLista().remove(c);
@@ -2688,7 +2706,7 @@ public class DokfkView implements Serializable {
                 } else {
                     cechyuzyte = selected.getCechadokumentuLista();
                 }
-                pobranecechypodatnik = new ArrayList<>(pobranecechypodatnikzapas);
+                pobranecechypodatnik = new HashSet<>(pobranecechypodatnikzapas);
                 for (Cechazapisu c : cechyuzyte) {
                     pobranecechypodatnik.remove(c);
                 }
@@ -4274,13 +4292,15 @@ public void oznaczjakonkup() {
         this.wybranaTabelanbp = wybranaTabelanbp;
     }
 
-    public List<Cechazapisu> getPobranecechypodatnik() {
+    public Set<Cechazapisu> getPobranecechypodatnik() {
         return pobranecechypodatnik;
     }
 
-    public void setPobranecechypodatnik(List<Cechazapisu> pobranecechypodatnik) {
+    public void setPobranecechypodatnik(Set<Cechazapisu> pobranecechypodatnik) {
         this.pobranecechypodatnik = pobranecechypodatnik;
     }
+
+   
 
     public boolean isPotraktujjakoNowaTransakcje() {
         return potraktujjakoNowaTransakcje;
@@ -4775,6 +4795,14 @@ public void oznaczjakonkup() {
 
     public void setSumadokbo(double[] sumadokbo) {
         this.sumadokbo = sumadokbo;
+    }
+
+    public Cechazapisu getWbranacechawpisywanie() {
+        return wbranacechawpisywanie;
+    }
+
+    public void setWbranacechawpisywanie(Cechazapisu wbranacechawpisywanie) {
+        this.wbranacechawpisywanie = wbranacechawpisywanie;
     }
 
     public GUSView getgUSView() {

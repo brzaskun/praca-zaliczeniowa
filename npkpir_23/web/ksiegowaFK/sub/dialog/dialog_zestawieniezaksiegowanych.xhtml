@@ -239,13 +239,16 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="30" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="20" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty ne 'PLN' ? item.walutadokumentu.symbolwaluty : null}" id="walutadokumentuzest"/>
                 </p:column>
                 <p:column headerText="#{mgs.VAT}" styleClass="vatzak" width="20" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
                     <h:outputText value="#{item.ewidencjaVAT.size() gt 0 ? item.vatM : null}" style="color: #{item.vatM ne item.miesiac ? 'red' : null}" id="vatdokumentuzest"/>
                 </p:column>
-                <p:column headerText="" width="30" sortBy="#{dokfkView.charakterdokumentu(item)}" style="text-align: center; #{dokfkView.charakterdokumentu(item) eq '' ? null : 'color: red;'}">
+                <p:column width="30" style="text-align: center;" headerText="nr kol." sortBy="#{item.nrewidencyjnyfirmy}" >
+                    <h:outputText value="#{item.nrewidencyjnyfirmy}" style="width: 25px;"/>
+                </p:column>
+                <p:column  width="30" headerText="spec." sortBy="#{dokfkView.charakterdokumentu(item)}" style="text-align: center; #{dokfkView.charakterdokumentu(item) eq '' ? null : 'color: red;'}">
                     <h:outputText value="#{dokfkView.charakterdokumentu(item)}" style="width: 25px;"/>
                 </p:column>
                 <p:column headerText="ujęto" width="40" style="text-align: center;" sortBy="#{item.dataujecia}">
@@ -260,23 +263,23 @@
                     </h:outputText>
                     <h:outputText value=" #{item.wprowadzil}" rendered="#{item.dataksiegowania ne null}"/>
                 </p:column>
-                <p:column width="25" style="text-align: center;" >
+                <p:column width="20" style="text-align: center;" >
                     <p:commandButton id="drukujbutton" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
                                       style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
                 </p:column>
-                <p:column width="25" style="text-align: center;" >
+                <p:column width="20" style="text-align: center;" >
                     <p:commandButton id="drukujbutton2" icon="fa fa-file-pdf-o" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfFaktura.drukuj(item.fakturakontrahent, row, item.fakturakontrahent.wystawca)}" styleClass="fkbutton"
                                      style="width: 30px;"  rendered="#{item.fakturakontrahent ne null}"/>
                 </p:column>
 
-                <p:column width="25" style="text-align: center;" >
+                <p:column width="20" style="text-align: center;" >
                     <p:commandButton id="edytujbutton" icon="fa fa-pencil-square-o"
                                      actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" 
                                      styleClass="fkbutton" 
                                       style="width: 30px;"  onsuccess="PF('wpisywanie').show();"
                                       rendered="#{item.dataksiegowania eq null and !WpisView.rokzamkniety}"/>
                 </p:column>
-                <p:column width="25" style="text-align: center;">
+                <p:column width="20" style="text-align: center;">
                     <p:commandButton actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="fa fa-trash-o" 
                                      oncomplete="PF('confirm3').show();" global="false"  style="width: 30px;"
                                      rendered="#{item.dataksiegowania eq null and !WpisView.rokzamkniety}"

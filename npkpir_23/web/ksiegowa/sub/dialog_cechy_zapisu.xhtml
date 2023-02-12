@@ -10,7 +10,7 @@
               onShow="ustawdialog('dialogCechyZapisu','dodWiad:wprowadzanie',1130,600);" focus=":formCHpkpir" 
               closeOnEscape="true">
         <h:form id="formCHpkpir" >
-            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
+            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechypodatnik}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
                         rowKey="#{item.nazwacechy}" style="overflow-y: scroll; height: 400px;"
                         filteredValue="#{cechazapisuView.pobranecechyfiltered}">
                 <p:column filterBy="#{item.nazwacechy}">
@@ -44,12 +44,12 @@
                     <h:outputText value="#{item.podatnik.printnazwa}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="fa fa-edit"  actionListener="#{cechazapisuView.edit(item)}"
+                    <p:commandButton icon="fa fa-edit"  actionListener="#{cechazapisuView.edit(item)}"  rendered="#{cechazapisuView.czypokazacceche(item)}"
                              update=":formCHpkpir:dataList formCHpkpir1:nowacecha"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton  icon="fa fa-trash"  actionListener="#{cechazapisuView.usun(item)}"
-                             update=":formCHpkpir:dataList"/>
+                                      update=":formCHpkpir:dataList" rendered="#{cechazapisuView.czypokazacceche(item)}"/>
                 </p:column>
             </p:dataTable>
             </h:form>
@@ -69,14 +69,14 @@
                         <p:column>
                             <h:outputText value="przesunięcie"/>
                         </p:column>
-                        <p:column width="280">
+<!--                        <p:column width="280">
                             <h:outputText value="podatnik"/>
-                        </p:column>
+                        </p:column>-->
                     </p:row>
                 </f:facet>
                 <p:row>
                     <p:column>
-                        <p:inputText value="#{cechazapisuView.selected.nazwacechy}" style="width: 150px;" requiredMessage="Wpis nazwę cechy" required="true"/>
+                        <p:inputText value="#{cechazapisuView.selected.nazwacechy}" style="width: 300px;" requiredMessage="Wpis nazwę cechy" required="true"/>
                     </p:column>
                     <p:column>
                         <p:selectOneMenu value="#{cechazapisuView.selected.rodzajcechy}" style="width: 300px;" requiredMessage="Wybierz rodzaj cechy" required="true">
@@ -100,12 +100,12 @@
                     <p:column>
                         <p:inputText value="#{cechazapisuView.selected.przesuniecie}" style="width: 100px;"/>
                     </p:column>
-                     <p:column>
+<!--                     <p:column>
                          <p:selectOneMenu id="podatnikWpisu" value="#{cechazapisuView.selected.podatnik}" style="width: 280px;" converter="#{podatConv}">
                              <f:selectItem itemLabel="#{WpisView.podatnikObiekt.printnazwa}" itemValue="#{WpisView.podatnikObiekt}"/>
                              <f:selectItem itemLabel="wszyscy" itemValue=""/>
                          </p:selectOneMenu>
-                    </p:column>
+                    </p:column>-->
                 </p:row>
             </p:panelGrid>
             <p:outputPanel style="padding: 5px;">

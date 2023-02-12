@@ -121,6 +121,8 @@ public class Dokfk extends DokSuper implements Serializable {
     @NotNull
     @Column(name = "nrkolejnywserii", nullable = false)
     private int nrkolejnywserii;
+    @Column(name = "nrewidencyjnyfirmy")
+    private String nrewidencyjnyfirmy;
     @Basic(optional = false)
     @NotNull
     @Size(min = 4, max = 4)
@@ -668,6 +670,15 @@ public class Dokfk extends DokSuper implements Serializable {
         return rodzajedok.getSkrot();
     }
 
+    public String getNrewidencyjnyfirmy() {
+        return nrewidencyjnyfirmy;
+    }
+
+    public void setNrewidencyjnyfirmy(String nrewidencyjnyfirmy) {
+        this.nrewidencyjnyfirmy = nrewidencyjnyfirmy;
+    }
+
+  
 
 //    @XmlTransient
 //    public List<Kontozapisy> getZapisynakoncie() {

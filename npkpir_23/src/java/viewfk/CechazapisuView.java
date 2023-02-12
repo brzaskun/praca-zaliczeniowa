@@ -6,22 +6,20 @@
 
 package viewfk;
 
-import dao.DokDAO;
 import dao.CechazapisuDAOfk;
+import dao.DokDAO;
 import entity.Dok;
 import entityfk.Cechazapisu;
 import entityfk.CharakterCechy;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import view.WpisView;
 /**
@@ -118,6 +116,14 @@ public class CechazapisuView implements Serializable {
             mapa.put(p.getNazwacechy(), p);
         });
         return mapa;
+    }
+    
+    public boolean czypokazacceche (Cechazapisu cecha) {
+        boolean zwrot = true;
+        if (cecha.getNazwacechy().equals("NKUP")||cecha.getNazwacechy().equals("NPUP")||cecha.getNazwacechy().equals("KUPMN")||cecha.getNazwacechy().equals("PMN")) {
+            zwrot = false;
+        }
+        return zwrot;
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">    
