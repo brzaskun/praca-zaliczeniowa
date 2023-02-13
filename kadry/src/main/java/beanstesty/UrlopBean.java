@@ -40,7 +40,7 @@ public class UrlopBean {
                 } else if (angaz.getSerialsp()!=null&&rok.equals("2023")) {
                     urlopprezentacja.setOkrespoprzedni(angaz.getBourlopgodziny());
                 }
-                urlopprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, pobierzetat, stannadzien, rok));
+                urlopprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien));
                 int doprzeniesienia = urlopprezentacja.getOkrespoprzedni()+urlopprezentacja.getWymiarokresbiezacy()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
                 urlopprezentacja.setDoprzeniesienia(doprzeniesienia);
                 int doprzeniesieniadni = (doprzeniesienia/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
@@ -110,7 +110,7 @@ public class UrlopBean {
         return lista;
     }
      
-     public static int obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat, String stannadzien, String rok) {
+     public static int obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat, String rok, String stannadzien) {
         int wymiarwdniach = 20;
         double liczbadni = 0;
         for (Umowa p : umowy) {

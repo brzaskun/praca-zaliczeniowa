@@ -99,7 +99,9 @@ public class PracownikNieobecnoscView  implements Serializable {
                 pobierzoddelegowanie();
                 wspolczynnikEkwiwalent = wspolczynnikEkwiwalentFacade.findbyRok(wpisView.getRokWpisu());
             }
-        } catch (Exception e){}
+        } catch (Exception e){
+            System.out.println("");
+        }
     }
 
         
@@ -266,7 +268,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                 double dobowanormaczasupracy = (8/(wybranyetat.getEtat1()/wybranyetat.getEtat2()));
                 double dniekwiwalent = Z.z(godzinyekwiwalent/dobowanormaczasupracy);
                 for (Skladnikwynagrodzenia p : skladniki) {
-                      if (p.getRodzajwynagrodzenia().getStale0zmienne1()==false) {
+                      if (p.getRodzajwynagrodzenia().getStale0zmienne1()==false&&!p.getRodzajwynagrodzenia().getWks_serial().equals("1014")) {
                         for (Zmiennawynagrodzenia r : p.getZmiennawynagrodzeniaList()) {
                              if (DataBean.czysiemiesci(data, data, r.getDataod(), r.getDatado())) {
                                 double kwotastala = r.getKwota();
@@ -288,7 +290,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                                 skladnikistale.add(naliczenienieobecnosc);
                              }
                         }
-                      } else {
+                      } else if (!p.getRodzajwynagrodzenia().getWks_serial().equals("1014")) {
                           List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(wpisView.getAngaz());
                             String dzien = wpisView.getAngaz().getFirma().getDzienlp();
                             if (dzien!=null) {

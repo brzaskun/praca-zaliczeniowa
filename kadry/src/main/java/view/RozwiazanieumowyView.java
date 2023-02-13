@@ -72,8 +72,9 @@ public class RozwiazanieumowyView  implements Serializable {
     
     
     @PostConstruct
-    private void init() {
+    public void init() {
         lista = new ArrayList<>();
+        
     }
 
     public void pobierzRozwiazanie() {

@@ -589,7 +589,7 @@ public class UmowaView implements Serializable {
                 System.out.println("Nie pobrano umów do angażu");
             }
             init();
-            updateClassView.updateUmowa();
+            updateClassView.updateUmowaRozwiazanei();
             //updateClassView.updateUmowa();
             Msg.msg("Aktywowano pracownika");
         }
