@@ -112,6 +112,18 @@ private static final long serialVersionUID = 1L;
     private double setka;
     @Column(name="poranocna")
     private double poranocna;
+    @Column(name="godzinydelegowaniewymiar")
+    private double godzinydelegowaniewymiar;
+    @Column(name="godzinydelegowanieprzepracowane")
+    private double godzinydelegowanieprzepracowane;
+    @Column(name="delegowanienadgodziny")
+    private double delegowanienadgodziny;
+    @Column(name="stawkazagodzine")
+    private double stawkazagodzine;
+    @Column(name="dodatekzanadgodziny")
+    private double dodatekzanadgodziny;
+    @Column(name="dodatekzanadgodzinymc")
+    private double dodatekzanadgodzinymc;
     
     
 
@@ -1015,6 +1027,54 @@ private static final long serialVersionUID = 1L;
             }
         }
         return zwrot;
+    }
+
+    public double getGodzinydelegowaniewymiar() {
+        return godzinydelegowaniewymiar;
+    }
+
+    public void setGodzinydelegowaniewymiar(double godzinydelegowaniewymiar) {
+        this.godzinydelegowaniewymiar = godzinydelegowaniewymiar;
+    }
+
+    public double getGodzinydelegowanieprzepracowane() {
+        return godzinydelegowanieprzepracowane;
+    }
+
+    public void setGodzinydelegowanieprzepracowane(double godzinydelegowanieprzepracowane) {
+        this.godzinydelegowanieprzepracowane = godzinydelegowanieprzepracowane;
+    }
+
+    public double getDelegowanienadgodziny() {
+        return delegowanienadgodziny;
+    }
+
+    public void setDelegowanienadgodziny(double delegowanienadgodziny) {
+        this.delegowanienadgodziny = delegowanienadgodziny;
+    }
+
+    public double getStawkazagodzine() {
+        return stawkazagodzine;
+    }
+
+    public void setStawkazagodzine(double stawkazagodzine) {
+        this.stawkazagodzine = stawkazagodzine;
+    }
+
+    public double getDodatekzanadgodziny() {
+        return dodatekzanadgodziny;
+    }
+
+    public void setDodatekzanadgodziny(double dodatekzanadgodziny) {
+        this.dodatekzanadgodziny = dodatekzanadgodziny;
+    }
+
+    public double getDodatekzanadgodzinymc() {
+        return dodatekzanadgodzinymc;
+    }
+
+    public void setDodatekzanadgodzinymc(double dodatekzanadgodzinymc) {
+        this.dodatekzanadgodzinymc = dodatekzanadgodzinymc;
     }
 
     

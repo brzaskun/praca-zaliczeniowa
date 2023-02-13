@@ -275,6 +275,10 @@ public class PasekwynagrodzenBean {
         KalendarzmiesiacBean.nalicznadgodzinyDB(kalendarz, pasek, false);
         //setki
         KalendarzmiesiacBean.nalicznadgodzinyDB(kalendarz, pasek, true);
+        //nadgodziny oddelegowanie
+        if (jestoddelegowanie) {
+            KalendarzmiesiacBean.nalicznadgodzinyOddelegowanieDB(kalendarz, pasek);
+        }
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);

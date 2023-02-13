@@ -1,0 +1,88 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    >
+    <style>
+        .itemNieob .ui-datatable .ui-datatable-data tr{
+            height : 25px !important;
+        }
+        .pickzbiorcze .ui-picklist-list {
+            height: 600px  !important;
+        }
+    </style>
+    <p:dialog id="dialognadgodzinyniemcy" header="wyliczanie nadgodzin Niemcy umowa o pracę" widgetVar="dialognadgodzinyniemcy"  
+              resizable="false"  onShow="ustawdialog('dialognadgodzinyniemcy','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialognadgodzinyniemcy');" 
+              fitViewport="true">
+        <p:ajax event="open" listener="#{nadgodzinyNiemcyView.init()}" update="NadgodzinyNiemcyForm" global="false"/>
+        <p:outputPanel style="height: 680px">
+            <p:panelGrid columns="1">
+                <h:form  styleClass="formadmin" id="NadgodzinyNiemcyForm">
+                    <h:panelGroup id="display">
+                        <h:outputText value="Na liście znajdują się tylko pracownicy ze stawką godzinową za oddelegowanie kod 13"
+                                      style="color: green;"/>
+                        <p:panelGrid columns="4" style="margin-top: 20px;">
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="data od" for="dataod" />
+                                <p:inputText id="dataod" value="#{nadgodzinyNiemcyView.dataod}" title="datac od"  maxlength="10" required="true" requiredMessage="Wprowadź datę od" readonly="true">
+                                </p:inputText>
+                                <p:outputLabel value="data do" for="datado" />
+                                <p:inputText id="datado" value="#{nadgodzinyNiemcyView.datado}" title="data do"   maxlength="10" required="true" requiredMessage="Wprowadź datę do" readonly="true">
+                                </p:inputText>
+                                <p:panelGrid columns="2" >
+                                    <p:messages><p:autoUpdate/></p:messages>
+                                </p:panelGrid>
+                            </p:panelGrid>
+<!--                            <p:commandButton styleClass="buttonnorm" actionListener="#{zmienneZbiorczoView.createzbiorczo()}" value="#{bundle.Save}"  update="display, NadgodzinyNiemcyForm:datalist">
+                                <p:confirm type="popup" header="Potwierdzenie" message="Nanieść nowe zmienne?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>-->
+                            <p:commandButton value="#{bundle.Cancel}" onclick="dialognadgodzinyniemcy.hide()" styleClass="buttonnorm2" />
+                        </p:panelGrid>
+                        <p:panelGrid columns="1">
+                            <p:dataTable id="datalist" value="#{nadgodzinyNiemcyView.kalendarze}" var="itemdra"
+                                         selectionMode="single" selection="#{nadgodzinyNiemcyView.selectedlista}" rowIndexVar="indexdra"
+                                         rowKey="#{itemdra.pracownik.id}" sortBy="#{itemdra.pracownik.nazwiskoImie}"
+                                         style="height: 500px; overflow-y: scroll;width: 870px;"
+                                         emptyMessage="nie pobrano danych"
+                                         >
+                                <p:column width="10">
+                                    <h:outputText value="#{indexdra+1}"/>
+                                </p:column>
+                                <p:column width="150" headerText="nazwisko i imie">
+                                    <h:outputText value="#{itemdra.pracownik.nazwiskoImie}"/>
+                                </p:column>
+                                <p:column width="60" headerText="norma godzin" style="text-align: center;">
+                                    <p:inputNumber value="#{itemdra.godzinydelegowaniewymiar}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right">
+                                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                                    </p:inputNumber>
+                                </p:column>
+                                <p:column width="60" headerText="przepracow." style="text-align: center;">
+                                    <p:inputNumber value="#{itemdra.godzinydelegowanieprzepracowane}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right">
+                                        <p:ajax event="change" partialSubmit="true" listener="#{nadgodzinyNiemcyView.przelicznadgodziny(itemdra)}" update="@parent:@parent" global="false"/>
+                                    </p:inputNumber>
+                                </p:column>
+                                <p:column width="60" headerText="nadgodziny">
+                                    <bcf:outputpl value="#{itemdra.delegowanienadgodziny}" styleClass="wjersz"/>
+                                </p:column>
+                                <p:column width="60" headerText="stawka/h">
+                                    <bcf:outputpl value="#{itemdra.stawkazagodzine}"/>
+                                </p:column>
+                                <p:column width="60" headerText="dodatek/h">
+                                    <bcf:outputpl value="#{itemdra.dodatekzanadgodziny}"/>
+                                </p:column>
+                                <p:column width="60" headerText="dodatek/mc">
+                                    <bcf:outputpl value="#{itemdra.dodatekzanadgodzinymc}" styleClass="wjersz"/>
+                                </p:column>
+                                
+                            </p:dataTable>
+                        </p:panelGrid>
+                    </h:panelGroup>
+                </h:form>
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>
+

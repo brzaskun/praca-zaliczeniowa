@@ -5,9 +5,12 @@
  */
 package dao;
 
+import entity.FirmaKadry;
+import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -45,7 +48,14 @@ public class ZmiennaWynagrodzeniaFacade extends DAO implements Serializable {
         super.em = em;
     }
 
- 
+  public List<Zmiennawynagrodzenia> findByRodzajFirma(Rodzajwynagrodzenia rodzaj, FirmaKadry firma) {
+        List<Zmiennawynagrodzenia> lista = new ArrayList<>();
+        try {
+            lista =  getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByRodzajFirma").setParameter("rodzajwynagrodzenia", rodzaj).setParameter("firma", firma).getResultList();
+        } catch (Exception ex) {}
+        return lista;
+    }
+    
 
     public List<Zmiennawynagrodzenia> findBySkladnik(Skladnikwynagrodzenia skladnikwynagrodzenia) {
         return getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findBySkladnik").setParameter("skladnikwynagrodzenia", skladnikwynagrodzenia).getResultList();

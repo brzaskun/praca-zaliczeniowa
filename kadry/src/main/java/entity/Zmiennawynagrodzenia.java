@@ -43,7 +43,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnik", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia = :skladnikwynagrodzenia AND z.dataod = :dataod AND z.datado = :datado"),
     @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnikNull", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia = :skladnikwynagrodzenia AND z.dataod = :dataod AND z.datado IS NULL"),
     @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnikRodzajAngaz", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.rodzajwynagrodzenia = :rodzajwynagrodzenia AND z.skladnikwynagrodzenia.angaz = :angaz AND z.dataod = :dataod AND z.datado = :datado"),
-    @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnikRodzajAngazNull", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.rodzajwynagrodzenia = :rodzajwynagrodzenia AND z.skladnikwynagrodzenia.angaz = :angaz AND z.dataod = :dataod AND z.datado IS NULL")
+    @NamedQuery(name = "Zmiennawynagrodzenia.findByDataSkladnikRodzajAngazNull", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.rodzajwynagrodzenia = :rodzajwynagrodzenia AND z.skladnikwynagrodzenia.angaz = :angaz AND z.dataod = :dataod AND z.datado IS NULL"),
+    @NamedQuery(name = "Zmiennawynagrodzenia.findByRodzajFirma", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.rodzajwynagrodzenia = :rodzajwynagrodzenia AND z.skladnikwynagrodzenia.angaz.firma = :firma")
 })
 public class Zmiennawynagrodzenia implements Serializable {
 
