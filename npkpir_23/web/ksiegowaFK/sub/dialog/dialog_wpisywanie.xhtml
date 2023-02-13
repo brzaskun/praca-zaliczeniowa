@@ -267,7 +267,7 @@
                                                      onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
                                                      style="width: 200px; height: 19px;" converter="#{rodzajedokConv}">
                                         <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
-                                        <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:numerwlasny formwpisdokument:przypkontotxt formwpisdokument:przypkonto formwpisdokument:saldobopop" partialSubmit="true"/>
+                                        <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny}" update="@(.numerauto) formwpisdokument:numer formwpisdokument:numerwlasny formwpisdokument:przypkontotxt formwpisdokument:przypkonto formwpisdokument:saldobopop" partialSubmit="true"/>
 <!--                                        <p:ajax global="false" event="change" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>-->
                                         <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat wpisywaniefooter:panelinfo"/>
                                         <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijoznaczenia}" update="wpisywaniefooter:panelinfo"/>
@@ -276,10 +276,10 @@
                                     </h:selectOneMenu>
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="numer" value="#{dokfkView.selected.nrkolejnywserii}" 
+                                    <p:inputText styleClass="numerauto" value="#{dokfkView.selected.nrkolejnywserii}" 
                                                  style="width: 40px; font-weight: 900; margin-left: 15%;" readonly="true" rendered="#{WpisView.podatnikObiekt.nip ne '8513036220'}">
                                     </p:inputText>
-                                     <p:inputText id="numer" value="#{dokfkView.selected.nrewidencyjnyfirmy}" 
+                                     <p:inputText styleClass="numerauto" value="#{dokfkView.selected.nrewidencyjnyfirmy}" 
                                                   style="width: 30px;" rendered="#{WpisView.podatnikObiekt.nip eq '8513036220'}">
                                     </p:inputText>
                                 </p:column>
