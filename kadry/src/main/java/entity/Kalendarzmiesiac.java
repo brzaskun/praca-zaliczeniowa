@@ -891,7 +891,7 @@ private static final long serialVersionUID = 1L;
                 dzienaktualny.setKod(kod);
                 p.setNaniesiona(true);
                 
-            } else if (kod.equals("ZC")) {
+            } else if (kod.equals("ZC")||kod.equals("W")) {
                 dzienaktualny.setZasilek(dzienaktualny.getNormagodzin());
                 dzienaktualny.setPrzepracowano(0);
                 dzienaktualny.setKod(kod);
@@ -993,7 +993,7 @@ private static final long serialVersionUID = 1L;
         double kwota = 0.0;
         if (this.getPasek()!=null) {
             for (Naliczenienieobecnosc p : this.getPasek().getNaliczenienieobecnoscList()) {
-                if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("CH")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("ZC")) {
+                if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("CH")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("ZC")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("W")) {
                     kwota = p.getPodstawadochoroby();
                 }
             }
@@ -1005,7 +1005,7 @@ private static final long serialVersionUID = 1L;
         double kwota = 0.0;
         if (this.getPasek()!=null) {
             for (Naliczenienieobecnosc p : this.getPasek().getNaliczenienieobecnoscList()) {
-                if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("CH")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("ZC")) {
+                if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("CH")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("ZC")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("W")) {
                     kwota = p.getSumakwotdosredniej();
                 }
             }

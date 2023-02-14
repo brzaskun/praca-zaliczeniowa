@@ -189,6 +189,9 @@ public class KalendarzmiesiacBean {
                 if (kod.equals("ZC")) {
                     //zasilek chorobowy
                     naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, definicjadlazasilkow, limitpodstawyzasilkow);
+                } else if (kod.equals("W")) {
+                    //zasilek chorobowy
+                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, definicjadlazasilkow, limitpodstawyzasilkow);
                 } else if (kod.equals("CH")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
                     naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, null, limitpodstawyzasilkow);

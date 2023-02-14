@@ -184,6 +184,7 @@ public class PasekwynagrodzenBean {
             umowafunkcjawyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich);
         } else if (zasilekchorobowy) {
             zasilekchorobowywyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, nieobecnosci, kalendarzlista, wynagrodzenieminimalne, kalendarzwzor, definicjadlazasilkow);
+            //zasilekwypadkowywyliczenie(kalendarz, pasek, kurs, definicjalistaplac, czyodlicoznokwotewolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, nieobecnosci, kalendarzlista, wynagrodzenieminimalne, kalendarzwzor, definicjadlazasilkow);
         }
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.netto(pasek);
@@ -357,6 +358,25 @@ public class PasekwynagrodzenBean {
         //List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");
         //List<Nieobecnosc> choroba = pobierz(nieobecnosci, "CH");
         List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci, "ZC");
+        zasilekchorobowy.addAll(pobierz(nieobecnosci, "W"));
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs, definicjalistaplac, definicjadlazasilkow, wynagrodzenieminimalne.getLimitswiadczenchorobowych());
+        //PasekwynagrodzenBean.obliczbruttozus(pasek);
+        PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);
+        PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
+        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZasilekDB(pasek, stawkipodatkowe);
+        PasekwynagrodzenBean.obliczpodatekwstepnyDBStandard(pasek, pasek.getPodstawaopodatkowania(), stawkipodatkowe, sumapoprzednich);
+        if (czyodlicoznokwotewolna == false) {
+            PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true, odliczaculgepodatkowa);
+        }
+    }
+    
+    private static void zasilekwypadkowywyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna,
+            boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, List<Nieobecnosc> nieobecnosci, List<Kalendarzmiesiac> kalendarzlista, Wynagrodzenieminimalne wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor, Definicjalistaplac definicjadlazasilkow) {
+        KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzwzor);
+        boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
+        //List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");
+        //List<Nieobecnosc> choroba = pobierz(nieobecnosci, "CH");
+        List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci, "W");
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs, definicjalistaplac, definicjadlazasilkow, wynagrodzenieminimalne.getLimitswiadczenchorobowych());
         //PasekwynagrodzenBean.obliczbruttozus(pasek);
         PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);

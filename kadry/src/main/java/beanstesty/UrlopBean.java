@@ -70,7 +70,7 @@ public class UrlopBean {
                         if (kod.equals("CH")) {
                             wykorzystanie.setGodziny((int) r.getWynagrodzeniezachorobe());
                         }
-                        if (kod.equals("ZC")) {
+                        if (kod.equals("ZC")||kod.equals("W")) {
                             wykorzystanie.setGodziny((int) r.getZasilek());
                         }
                         if (kod.equals("Z")) {
@@ -100,7 +100,7 @@ public class UrlopBean {
         if (kod.equals("CH")) {
             urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());
         }
-        if (kod.equals("ZC")) {
+        if (kod.equals("ZC")||kod.equals("W")) {
             urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());
         }
         if (kod.equals("Z")) {
