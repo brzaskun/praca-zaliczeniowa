@@ -283,6 +283,20 @@ public class UmowaView implements Serializable {
         }
     }
      
+     public void createzleceniezbiorcze() {
+         if (listaeast2!=null) {
+             int i = 0;
+             for (Angaz angaz : listaeast2) {
+                 if (i<2) {
+                    Umowa jednorazowa = serialclone.SerialClone.clone(selected);
+                    jednorazowa.setAngaz(angaz);
+                    Umowa umowa = beanstesty.UmowaBean.createpierwsza(jednorazowa, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade);
+                    i++;
+                 }
+             }
+         }
+     }
+     
      public void createfunkcja() {
         if (selected != null && wpisView.getAngaz() != null) {
             if (listazlecenia != null && listazlecenia.size()>0) {

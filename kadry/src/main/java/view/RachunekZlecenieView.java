@@ -148,6 +148,8 @@ public class RachunekZlecenieView implements Serializable {
                     rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
                     rachunekdoumowyzlecenia.setProcentkosztowuzyskania(umowabiezaca.getAngaz().getKosztyuzyskaniaprocent());
                     rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwotasuma() * umowabiezaca.getAngaz().getKosztyuzyskaniaprocent() * 0.2 / 100.0));
+                } else {
+                    Msg.msg("e","Brak kalendarza");
                 }
             } else {
                 Msg.msg("Pobrano zachowany rachunek");

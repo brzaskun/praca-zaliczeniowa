@@ -246,6 +246,9 @@
                     </p:panelGrid>
                 <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.edit}" value="Edytuj" update="north, @(form)" rendered="#{umowaView.selected.id ne null}"/>
                 <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.createzlecenie}" value="Dodaj" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
+                <p:commandButton styleClass="buttonnorm2" actionListener="#{umowaView.createzleceniezbiorcze}" value="Zbiorcze" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}">
+                        <p:confirm type="popup" header="Potwierdzenie" message="Dodać umowy zbiorczo dla wszystkich?" icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
                 <p:commandButton styleClass="buttonnorm2" value="Anuluj"  actionListener="#{umowaView.cancel}"  update="north, @(form)" process="@this"/>
             </h:panelGroup>
 <!--            UMOWA ZLECENIA *****************************************************************************-->
