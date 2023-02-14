@@ -31,6 +31,8 @@
                 </p:selectBooleanCheckbox>
                 <h:outputText value="tylko przeterminowane" style="margin-left: 20px;"/>
                 <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.tylkoprzeterminowane}" style="margin-left: 10px;"/>
+                <h:outputText value="dwa lata" style="margin-left: 20px;"/>
+                <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.pobierzdwalata}" style="margin-left: 10px;"/>
                 <p:commandButton value="bez wezw." actionListener="#{fakturaRozrachunkiAnalizaView.bezwezwania()}"  style="width: 120px; margin-left: 20px;" update="akordeon:fakturaanalizazbiorcza:tablicaanaliza">
                 </p:commandButton>
                 <p:panelGrid columns="2" style="padding: 10px;" id="suma">

@@ -90,6 +90,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private UISelectOne selectOneUI;
     private boolean pokaznadplaty;
     private boolean tylkoprzeterminowane;
+    private boolean pobierzdwalata;
     private String tekstwiadomosci;
     private boolean dolaczrokpoprzedni;
     private String dodatkowyadresmailowy;
@@ -136,6 +137,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     //tu zbiorczo
     public void pobierzwszystko(String mc, Klienci klient) {
+        if (pobierzdwalata) {
+            dolaczrokpoprzedni = true;
+        }
         nowepozycje = pobierzelementy(mc, false, klient);
         archiwum = pobierzelementy(mc, true, klient);
         sortujsumuj(nowepozycje);
@@ -982,6 +986,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
 
     public void setRazemwybrane(double razemwybrane) {
         this.razemwybrane = razemwybrane;
+    }
+
+    public boolean isPobierzdwalata() {
+        return pobierzdwalata;
+    }
+
+    public void setPobierzdwalata(boolean pobierzdwalata) {
+        this.pobierzdwalata = pobierzdwalata;
     }
 
     
