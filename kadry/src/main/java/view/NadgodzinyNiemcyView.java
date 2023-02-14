@@ -84,6 +84,16 @@ public class NadgodzinyNiemcyView implements Serializable {
         return zwrot;
     }
     
+    public void przeliczgodziny(Kalendarzmiesiac kalendarz) {
+        if (kalendarz!=null) {
+            kalendarz.setGodzinydelegowaniewymiar(kalendarz.getDnidelegowaniewymiar()*8);
+            double nadgodziny = Z.z(kalendarz.getGodzinydelegowanieprzepracowane()-kalendarz.getGodzinydelegowaniewymiar())>0.0?Z.z(kalendarz.getGodzinydelegowanieprzepracowane()-kalendarz.getGodzinydelegowaniewymiar()):0.0;
+            kalendarz.setDelegowanienadgodziny(nadgodziny);
+            kalendarz.setDodatekzanadgodzinymc(Z.z(kalendarz.getDodatekzanadgodziny()*nadgodziny));
+            kalendarzmiesiacFacade.edit(kalendarz);
+        }
+    }
+    
     public void przelicznadgodziny(Kalendarzmiesiac kalendarz) {
         if (kalendarz!=null) {
             double nadgodziny = Z.z(kalendarz.getGodzinydelegowanieprzepracowane()-kalendarz.getGodzinydelegowaniewymiar())>0.0?Z.z(kalendarz.getGodzinydelegowanieprzepracowane()-kalendarz.getGodzinydelegowaniewymiar()):0.0;

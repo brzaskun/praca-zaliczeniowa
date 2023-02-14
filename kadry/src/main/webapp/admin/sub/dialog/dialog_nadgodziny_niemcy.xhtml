@@ -45,7 +45,7 @@
                             <p:dataTable id="datalist" value="#{nadgodzinyNiemcyView.kalendarze}" var="itemdra"
                                          selectionMode="single" selection="#{nadgodzinyNiemcyView.selectedlista}" rowIndexVar="indexdra"
                                          rowKey="#{itemdra.pracownik.id}" sortBy="#{itemdra.pracownik.nazwiskoImie}"
-                                         style="height: 500px; overflow-y: scroll;width: 870px;"
+                                         style="height: 500px; overflow-y: scroll;width: 930px;"
                                          emptyMessage="nie pobrano danych"
                                          >
                                 <p:column width="10">
@@ -53,6 +53,11 @@
                                 </p:column>
                                 <p:column width="150" headerText="nazwisko i imie">
                                     <h:outputText value="#{itemdra.pracownik.nazwiskoImie}"/>
+                                </p:column>
+                                  <p:column width="60" headerText="dni pracy" style="text-align: center;">
+                                      <p:inputNumber value="#{itemdra.dnidelegowaniewymiar}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right">
+                                          <p:ajax event="change" partialSubmit="true" listener="#{nadgodzinyNiemcyView.przeliczgodziny(itemdra)}" update="@parent:@parent" global="false"/>
+                                    </p:inputNumber>
                                 </p:column>
                                 <p:column width="60" headerText="norma godzin" style="text-align: center;">
                                     <p:inputNumber value="#{itemdra.godzinydelegowaniewymiar}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right">

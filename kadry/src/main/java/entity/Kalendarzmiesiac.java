@@ -112,6 +112,8 @@ private static final long serialVersionUID = 1L;
     private double setka;
     @Column(name="poranocna")
     private double poranocna;
+    @Column(name="dnidelegowaniewymiar")
+    private double dnidelegowaniewymiar;
     @Column(name="godzinydelegowaniewymiar")
     private double godzinydelegowaniewymiar;
     @Column(name="godzinydelegowanieprzepracowane")
@@ -1075,6 +1077,14 @@ private static final long serialVersionUID = 1L;
 
     public void setDodatekzanadgodzinymc(double dodatekzanadgodzinymc) {
         this.dodatekzanadgodzinymc = dodatekzanadgodzinymc;
+    }
+
+    public double getDnidelegowaniewymiar() {
+        return dnidelegowaniewymiar;
+    }
+
+    public void setDnidelegowaniewymiar(double dnidelegowaniewymiar) {
+        this.dnidelegowaniewymiar = dnidelegowaniewymiar;
     }
 
     

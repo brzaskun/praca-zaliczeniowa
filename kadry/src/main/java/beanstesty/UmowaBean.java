@@ -259,6 +259,66 @@ public class UmowaBean {
         return selected;
     }
     
+    public static Umowa createpierwszaZlecenie(Umowa selected, UmowaFacade umowaFacade, EtatPracFacade etatFacade, StanowiskopracFacade stanowiskopracFacade, 
+            RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade, KalendarzmiesiacFacade kalendarzmiesiacFacade) {
+        if (selected != null && selected.getAngaz() != null) {
+            Angaz angaz = selected.getAngaz();
+            try {
+                
+                if (selected.getUmowakodzus().isPraca()) {
+                    selected.setLiczdourlopu(true);
+                    try {
+                        String dataodkiedywyplatazasilku = UmowaBean.obliczdatepierwszegozasilku(angaz, selected);
+                        selected.setPierwszydzienzasilku(dataodkiedywyplatazasilku);
+                    } catch (Exception e){}
+                }
+                selected.setAktywna(true);
+                selected.setDatasystem(new Date());
+                String dataostatniejumowy = null;
+                selected.setLicznikumow(1);
+                umowaFacade.create(selected);
+                
+                if (selected.getUmowakodzus().isPraca() && selected.getEtat1() != null && selected.getEtat2() != null) {
+                    EtatPrac etat = new EtatPrac(angaz, selected.getDataod(), selected.getDatado(), selected.getEtat1(), selected.getEtat2());
+                    etatFacade.create(etat);
+                    EtatBean.edytujkalendarz(etat, kalendarzmiesiacFacade);
+                }
+                if (selected.getUmowakodzus().isPraca() && selected.getKodzawodu() != null) {
+                    Stanowiskoprac stanowisko = new Stanowiskoprac(angaz, selected.getDataod(), selected.getDatado(), selected.getStanowisko());
+                    stanowiskopracFacade.create(stanowisko);
+                }
+                if (selected.getWynagrodzeniemiesieczne() != 0.0) {
+                    Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findZasadniczePraca() : rodzajwynagrodzeniaFacade.findZasadniczeZlecenie();
+                    Skladnikwynagrodzenia skladnikwynagrodzenia =  dodajskladnikwynagrodzenia(rodzajwynagrodzenia, selected, skladnikWynagrodzeniaFacade);
+                    Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia, "PLN", selected, 1, zmiennaWynagrodzeniaFacade);
+                    if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
+                        Msg.msg("Dodano składniki wynagrodzania");
+                    }
+                }
+                if (selected.getWynagrodzeniegodzinowe() != 0.0) {
+                    Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findGodzinowePraca() : rodzajwynagrodzeniaFacade.findGodzinoweZlecenie();
+                    Skladnikwynagrodzenia skladnikwynagrodzenia = dodajskladnikwynagrodzenia(rodzajwynagrodzenia, selected, skladnikWynagrodzeniaFacade);
+                    Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia, "PLN", selected, 2, zmiennaWynagrodzeniaFacade);
+                    if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
+                        Msg.msg("Dodano składniki wynagrodzania");
+                    }
+                }
+                
+                if (selected.getWynagrodzenieoddelegowanie() != 0.0&&selected.getSymbolwalutyoddelegowanie()!=null) {
+                    Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findGodzinoweOddelegowaniePraca() : rodzajwynagrodzeniaFacade.findGodzinoweOddelegowanieZlecenie();
+                    Skladnikwynagrodzenia skladnikwynagrodzenia = dodajskladnikwynagrodzeniaOddelegowanie(rodzajwynagrodzenia, selected, skladnikWynagrodzeniaFacade);
+                    Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia, selected.getSymbolwalutyoddelegowanie(), selected, 3, zmiennaWynagrodzeniaFacade);
+                    if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {
+                        Msg.msg("Dodano składniki wynagrodzania");
+                    }
+                }
+            } catch (Exception e) {
+                Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
+            }
+        }
+        return selected;
+    }
+    
     public static Umowa createpierwszaFunkcja(Umowa selected, UmowaFacade umowaFacade, EtatPracFacade etatFacade, StanowiskopracFacade stanowiskopracFacade, RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
         if (selected != null && selected.getAngaz() != null) {
             Angaz angaz = selected.getAngaz();
