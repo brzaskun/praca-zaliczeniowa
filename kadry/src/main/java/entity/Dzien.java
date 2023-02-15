@@ -8,7 +8,9 @@ package entity;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -366,10 +368,12 @@ public class Dzien implements Serializable {
     }
 
     public String getTypdniaString() {
-        String zwrot = "robocz.";
+        LocalDate dzienszukany = LocalDate.parse(this.datastring);
+        String dayOfWeek = dzienszukany.getDayOfWeek().getDisplayName(TextStyle.SHORT, new Locale("pl","PL"));
+        String zwrot = dayOfWeek;
         switch (typdnia) {
             case -1:
-                zwrot = "";
+                zwrot = "XXX";
             case 1:
                 zwrot = "sobota";
                 break;
@@ -390,7 +394,7 @@ public class Dzien implements Serializable {
         String zwrot = "init";
         switch (typdnia) {
             case -1:
-                zwrot = "white";
+                zwrot = "lightgray";
                 break;
             case 1:
                 zwrot = "blue";

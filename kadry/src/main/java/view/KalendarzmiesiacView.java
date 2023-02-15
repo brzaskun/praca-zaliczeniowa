@@ -20,6 +20,7 @@ import entity.Nieobecnosc;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.faces.view.ViewScoped;
@@ -64,6 +65,13 @@ public class KalendarzmiesiacView  implements Serializable {
             selected.setMc(wpisView.getMiesiacWpisu());
         } else {
             selected  = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+            List<Dzien> dzienList = selected.getDzienList();
+            for (Iterator<Dzien> it= dzienList.iterator();it.hasNext();) {
+                Dzien dzien = it.next();
+                if (dzien.getTypdnia()==-1) {
+                    it.remove();
+                }
+            }
         }
         pobierzkalendarzeprac();
     }
@@ -229,7 +237,15 @@ public class KalendarzmiesiacView  implements Serializable {
                 selected = new Kalendarzmiesiac();
                 selected.setRok(wpisView.getRokWpisu());
                 selected.setMc(wpisView.getMiesiacWpisu());
-            } 
+            } else {
+                List<Dzien> dzienList = selected.getDzienList();
+                for (Iterator<Dzien> it= dzienList.iterator();it.hasNext();) {
+                    Dzien dzien = it.next();
+                    if (dzien.getTypdnia()==-1) {
+                        it.remove();
+                    }
+                }
+            }
         } else {
             Msg.msg("e","Nie można pobrać kalendarza. Nie wybrano pracownika i umowy");
         }
@@ -240,6 +256,13 @@ public class KalendarzmiesiacView  implements Serializable {
             for (Kalendarzmiesiac p : listakalendarzeprac) {
                 if (p.getMc().equals(mc)) {
                     this.selected = p;
+                    List<Dzien> dzienList = selected.getDzienList();
+                    for (Iterator<Dzien> it= dzienList.iterator();it.hasNext();) {
+                        Dzien dzien = it.next();
+                        if (dzien.getTypdnia()==-1) {
+                            it.remove();
+                        }
+                    }
                     Msg.msg("Pobrano kalendarz");
                     break;
                 }
