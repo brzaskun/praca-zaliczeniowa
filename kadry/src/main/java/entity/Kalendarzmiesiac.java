@@ -862,11 +862,11 @@ private static final long serialVersionUID = 1L;
 
     
     
-    public void naniesnieobecnosc(Nieobecnosc p, boolean pierwszymc, boolean ostatnimc) {
-        int dzienod = Data.getDzienI(p.getDataod());
-        int dziendo = Data.getDzienI(p.getDatado());
-        String mcod = Data.getMc(p.getDataod());
-        String mcdo = Data.getMc(p.getDatado());
+    public int[] naniesnieobecnosc(Nieobecnosc nieobecnosc, boolean pierwszymc, boolean ostatnimc) {
+        int dzienod = Data.getDzienI(nieobecnosc.getDataod());
+        int dziendo = Data.getDzienI(nieobecnosc.getDatado());
+        String mcod = Data.getMc(nieobecnosc.getDataod());
+        String mcdo = Data.getMc(nieobecnosc.getDatado());
         if (pierwszymc==true&&ostatnimc==false) {
             dziendo = 31;
         } else if (pierwszymc==false&&ostatnimc==true) {
@@ -877,79 +877,81 @@ private static final long serialVersionUID = 1L;
         }
         int dnirobocze = 0;
         int godzinyrobocze = 0;
-        if (p.getDzienList()==null) {
-            p.setDzienList(new ArrayList<>());
+        if (nieobecnosc.getDzienList()==null) {
+            nieobecnosc.setDzienList(new ArrayList<>());
         }
         for (int i = dzienod; i <= dziendo; i++) {
             final int j = i;
             Dzien dzienaktualny = this.dzienList.stream().filter(pa->pa.getNrdnia()==j).findFirst().get();
-            String kod = p.getKod();
-            String kodzbiorczy = p.getRodzajnieobecnosci().getKodzbiorczy();
-            if (kod.equals("CH")) {
-                dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
-                dzienaktualny.setPrzepracowano(0);
-                dzienaktualny.setKod(kod);
-                p.setNaniesiona(true);
-                
-            } else if (kod.equals("ZC")||kod.equals("W")) {
-                dzienaktualny.setZasilek(dzienaktualny.getNormagodzin());
-                dzienaktualny.setPrzepracowano(0);
-                dzienaktualny.setKod(kod);
-                p.setNaniesiona(true);
-            } else if (kod.equals("U")||kod.equals("UD")) {
-                dzienaktualny.setUrlopPlatny(dzienaktualny.getNormagodzin());
-                dzienaktualny.setPrzepracowano(0);
-                dzienaktualny.setKod(kod);
-                p.setNaniesiona(true);
-            } else if (kod.equals("X")||kod.equals("NP")||kod.equals("NN")) {
-                dzienaktualny.setUrlopbezplatny(dzienaktualny.getNormagodzin());
-                dzienaktualny.setPrzepracowano(0);
-                dzienaktualny.setKod(kod);
-                p.setNaniesiona(true);
-            } else if (kod.equals("MD")) {
-                dzienaktualny.setOpiekadziecko(dzienaktualny.getNormagodzin());
-                dzienaktualny.setPrzepracowano(0);
-                dzienaktualny.setKod(kod);
-                p.setNaniesiona(true);
-            } else if (kod.equals("UM")) {
-                dzienaktualny.setMacierzynski(dzienaktualny.getNormagodzin());
-                dzienaktualny.setPrzepracowano(0);
-                dzienaktualny.setKod(kod);
-                p.setNaniesiona(true);
-            } else if (kod.equals("UR")) {
-                dzienaktualny.setMacierzynski(dzienaktualny.getNormagodzin());
-                dzienaktualny.setPrzepracowano(0);
-                dzienaktualny.setKod(kod);
-                p.setNaniesiona(true);
-            } else if (kod.equals("WY")) {
-                dzienaktualny.setWychowawczy(dzienaktualny.getNormagodzin());
-                dzienaktualny.setPrzepracowano(0);
-                dzienaktualny.setKod(kod);
-                p.setNaniesiona(true);
-            }  else if (kod.equals("Z")) {
-                if (p.isPonpiatek()) {
-                    if (dzienaktualny.getTypdnia()==0) {
-                        dzienaktualny.setKod(kod);
-                        p.setNaniesiona(true);
-                    }
-                } else {
+            if (dzienaktualny.getTypdnia()!=-1) {
+                String kod = nieobecnosc.getKod();
+                String kodzbiorczy = nieobecnosc.getRodzajnieobecnosci().getKodzbiorczy();
+                if (kod.equals("CH")) {
+                    dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
+                    dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);
-                    p.setNaniesiona(true);
+                    nieobecnosc.setNaniesiona(true);
+
+                } else if (kod.equals("ZC")||kod.equals("W")) {
+                    dzienaktualny.setZasilek(dzienaktualny.getNormagodzin());
+                    dzienaktualny.setPrzepracowano(0);
+                    dzienaktualny.setKod(kod);
+                    nieobecnosc.setNaniesiona(true);
+                } else if (kod.equals("U")||kod.equals("UD")) {
+                    dzienaktualny.setUrlopPlatny(dzienaktualny.getNormagodzin());
+                    dzienaktualny.setPrzepracowano(0);
+                    dzienaktualny.setKod(kod);
+                    nieobecnosc.setNaniesiona(true);
+                } else if (kod.equals("X")||kod.equals("NP")||kod.equals("NN")) {
+                    dzienaktualny.setUrlopbezplatny(dzienaktualny.getNormagodzin());
+                    dzienaktualny.setPrzepracowano(0);
+                    dzienaktualny.setKod(kod);
+                    nieobecnosc.setNaniesiona(true);
+                } else if (kod.equals("MD")) {
+                    dzienaktualny.setOpiekadziecko(dzienaktualny.getNormagodzin());
+                    dzienaktualny.setPrzepracowano(0);
+                    dzienaktualny.setKod(kod);
+                    nieobecnosc.setNaniesiona(true);
+                } else if (kod.equals("UM")) {
+                    dzienaktualny.setMacierzynski(dzienaktualny.getNormagodzin());
+                    dzienaktualny.setPrzepracowano(0);
+                    dzienaktualny.setKod(kod);
+                    nieobecnosc.setNaniesiona(true);
+                } else if (kod.equals("UR")) {
+                    dzienaktualny.setMacierzynski(dzienaktualny.getNormagodzin());
+                    dzienaktualny.setPrzepracowano(0);
+                    dzienaktualny.setKod(kod);
+                    nieobecnosc.setNaniesiona(true);
+                } else if (kod.equals("WY")) {
+                    dzienaktualny.setWychowawczy(dzienaktualny.getNormagodzin());
+                    dzienaktualny.setPrzepracowano(0);
+                    dzienaktualny.setKod(kod);
+                    nieobecnosc.setNaniesiona(true);
+                }  else if (kod.equals("Z")) {
+                    if (nieobecnosc.isPonpiatek()) {
+                        if (dzienaktualny.getTypdnia()==0) {
+                            dzienaktualny.setKod(kod);
+                            nieobecnosc.setNaniesiona(true);
+                        }
+                    } else {
+                        dzienaktualny.setKod(kod);
+                        nieobecnosc.setNaniesiona(true);
+                    }
+                } else if (kod.equals("D")) {
+                    dzienaktualny.setKod(kod);
+                    dzienaktualny.setPrzepracowano(0);
+                    nieobecnosc.setNaniesiona(true);
                 }
-            } else if (kod.equals("D")) {
-                dzienaktualny.setKod(kod);
-                dzienaktualny.setPrzepracowano(0);
-                p.setNaniesiona(true);
+                dzienaktualny.setNieobecnosc(nieobecnosc);
+                if (dzienaktualny.getTypdnia()==0) {
+                    dnirobocze = dnirobocze+1;
+                    godzinyrobocze = godzinyrobocze+((int)dzienaktualny.getNormagodzin());
+                }
+                nieobecnosc.getDzienList().add(dzienaktualny);
             }
-            dzienaktualny.setNieobecnosc(p);
-            if (dzienaktualny.getTypdnia()==0) {
-                dnirobocze = dnirobocze+1;
-                godzinyrobocze = godzinyrobocze+((int)dzienaktualny.getNormagodzin());
-            }
-            p.getDzienList().add(dzienaktualny);
         }
-        p.setDniroboczenieobecnosci(dnirobocze);
-        p.setGodzinyroboczenieobecnosc(godzinyrobocze);
+        int[] zwrot = new int[]{dnirobocze,godzinyrobocze};
+        return zwrot;
 
     }
 

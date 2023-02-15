@@ -276,7 +276,9 @@ public class NieobecnosciBean {
                     }
                     if (start) {
                         //tu zmieniłem 2023-02-04 nieobecnosci nanoszenie dni i dodalem godziny
-                         kal.naniesnieobecnosc(nieobecnosc, pierwszymc, ostatnimc);
+                         int[] dnigodziny = kal.naniesnieobecnosc(nieobecnosc, pierwszymc, ostatnimc);
+                         nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dnigodziny[0]);
+                         nieobecnosc.setGodzinyroboczenieobecnosc(nieobecnosc.getGodzinyroboczenieobecnosc()+dnigodziny[1]);
                          nieobecnoscFacade.edit(nieobecnosc);
                          kalendarzmiesiacFacade.edit(kal);
                          czynaniesiono = true;

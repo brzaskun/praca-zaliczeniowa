@@ -361,7 +361,7 @@ public class NieobecnoscView  implements Serializable {
     
     public void naniesrodzajnieobecnoscizbiorcze() {
         if (selectedzbiorczo.getRodzajnieobecnosci()!=null) {
-            swiadczeniekodzusLista = swiadczeniekodzusFacade.findByRodzajnieobecnosciAktiv(selected.getRodzajnieobecnosci());
+            swiadczeniekodzusLista = swiadczeniekodzusFacade.findByRodzajnieobecnosciAktiv(selectedzbiorczo.getRodzajnieobecnosci());
             if (selectedzbiorczo.getRodzajnieobecnosci().getKod().equals("Z")) {
                 selectedzbiorczo.setKrajoddelegowania("Niemcy");
                 selectedzbiorczo.setWalutadiety("EUR");
