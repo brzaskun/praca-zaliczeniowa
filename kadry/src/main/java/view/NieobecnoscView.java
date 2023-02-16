@@ -110,6 +110,7 @@ public class NieobecnoscView  implements Serializable {
     private  boolean pokazcalyrok;
     private org.primefaces.model.DualListModel<Pracownik> listapracownikow;
     private boolean delegacja;
+    private boolean zwolnienie;
     private int dniwykorzystanewroku;
     private boolean naniesbezposrednio;
     private Nieobecnoscprezentacja urlopprezentacja;
@@ -122,6 +123,7 @@ public class NieobecnoscView  implements Serializable {
         listapracownikow.setSource(new ArrayList<>());
         listapracownikow.setTarget(new ArrayList<>());
         delegacja = false;
+        zwolnienie = false;
         naniesbezposrednio = true;
         String stannadzien = data.Data.ostatniDzien(wpisView);
         Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
@@ -131,6 +133,7 @@ public class NieobecnoscView  implements Serializable {
     
     public void init() {
         if (wpisView.getUmowa()!=null) {
+            selected = new Nieobecnosc();
             lista  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
             selected.setAngaz(wpisView.getAngaz());
             if (pokazcalyrok==false) {
@@ -141,8 +144,12 @@ public class NieobecnoscView  implements Serializable {
         listaabsencji = rodzajnieobecnosciFacade.findAll();
         Collections.sort(listaabsencji, new Rodzajnieobecnoscicomparator());
         delegacja = false;
+        zwolnienie = false;
         naniesbezposrednio = true;
         dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
+        if (dniwykorzystanewroku>=33) {
+            listaabsencji = listaabsencji.stream().filter(p->!p.getKod().equals("CH")).collect(Collectors.toList());
+        }
         //Collections.sort(listaabsencji, new Nieobecnoscikodzuscomparator());
     }
     
@@ -160,6 +167,7 @@ public class NieobecnoscView  implements Serializable {
             this.listapracownikow.setTarget(new ArrayList<>());
         }
         delegacja = false;
+        zwolnienie = false;
     }
 
     public void sprawdzdaty() {
@@ -167,7 +175,7 @@ public class NieobecnoscView  implements Serializable {
             String dataod = selected.getDataod();
             String datado = selected.getDatado();
             for (Nieobecnosc p : lista) {
-                if (!selected.getKod().equals("UD")) {
+                if (selected.getKod()!=null&&!selected.getKod().equals("UD")) {
                     if (selected.getId()==null || (selected.getId()!=null&&!selected.getId().equals(p.getId()))) {
                         boolean jestwsrodkuod = Data.czydatasiezawieranieobecnosc(dataod, p.getDataod(), p.getDatado());
                         boolean jestwsrodkudo = Data.czydatasiezawieranieobecnosc(datado, p.getDataod(), p.getDatado());
@@ -190,7 +198,7 @@ public class NieobecnoscView  implements Serializable {
             String dataod = selected.getDataod();
             String datado = selected.getDatado();
             for (Nieobecnosc p : lista) {
-                if (!selected.getKod().equals("UD")) {
+                if (selected.getKod()!=null&&!selected.getKod().equals("UD")) {
                     boolean jestwsrodkuod = Data.czydatasiezawieranieobecnosc(dataod, p.getDataod(), p.getDatado());
                     boolean jestwsrodkudo = Data.czydatasiezawieranieobecnosc(datado, p.getDataod(), p.getDatado());
                     if (jestwsrodkuod||jestwsrodkudo) {
@@ -344,13 +352,21 @@ public class NieobecnoscView  implements Serializable {
     public void naniesrodzajnieobecnosci() {
         if (selected.getRodzajnieobecnosci()!=null) {
             swiadczeniekodzusLista = swiadczeniekodzusFacade.findByRodzajnieobecnosciAktiv(selected.getRodzajnieobecnosci());
+            if (selected.getRodzajnieobecnosci().getKod().equals("CH")||selected.getRodzajnieobecnosci().getKod().equals("ZC")) {
+                selected.setZwolnienieprocent(80);
+            } else {
+                selected.setZwolnienieprocent(0);
+            }
+            zwolnienie = false;
+            delegacja = false;
             if (selected.getRodzajnieobecnosci().getKod().equals("Z")) {
                 selected.setKrajoddelegowania("Niemcy");
                 selected.setWalutadiety("EUR");
                 selected.setDietaoddelegowanie(49.0);
                 delegacja = true;
-            } else {
-                delegacja = false;
+            }
+            if (selected.getRodzajnieobecnosci().getKod().equals("CH")||selected.getRodzajnieobecnosci().getKod().equals("ZC")) {
+                zwolnienie = true;
             }
             if (swiadczeniekodzusLista.size()==1) {
                 selected.setSwiadczeniekodzus(swiadczeniekodzusLista.get(0));
@@ -362,13 +378,16 @@ public class NieobecnoscView  implements Serializable {
     public void naniesrodzajnieobecnoscizbiorcze() {
         if (selectedzbiorczo.getRodzajnieobecnosci()!=null) {
             swiadczeniekodzusLista = swiadczeniekodzusFacade.findByRodzajnieobecnosciAktiv(selectedzbiorczo.getRodzajnieobecnosci());
+            zwolnienie = false;
+            delegacja = false;
             if (selectedzbiorczo.getRodzajnieobecnosci().getKod().equals("Z")) {
                 selectedzbiorczo.setKrajoddelegowania("Niemcy");
                 selectedzbiorczo.setWalutadiety("EUR");
                 selectedzbiorczo.setDietaoddelegowanie(49.0);
                 delegacja = true;
-            } else {
-                delegacja = false;
+            }
+            if (selected.getRodzajnieobecnosci().getKod().equals("CH")||selected.getRodzajnieobecnosci().getKod().equals("ZC")) {
+                zwolnienie = true;
             }
             if (swiadczeniekodzusLista.size()==1) {
                 selected.setSwiadczeniekodzus(swiadczeniekodzusLista.get(0));
@@ -689,6 +708,14 @@ public class NieobecnoscView  implements Serializable {
 
     public void setUrlopprezentacja(Nieobecnoscprezentacja urlopprezentacja) {
         this.urlopprezentacja = urlopprezentacja;
+    }
+
+    public boolean isZwolnienie() {
+        return zwolnienie;
+    }
+
+    public void setZwolnienie(boolean zwolnienie) {
+        this.zwolnienie = zwolnienie;
     }
 
    

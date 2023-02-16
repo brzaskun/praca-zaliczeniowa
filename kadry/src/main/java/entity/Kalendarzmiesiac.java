@@ -349,10 +349,13 @@ private static final long serialVersionUID = 1L;
                     dataod = Data.czyjestpo(pierwszydzienmiesiaca, d.getNieobecnosc().getDataod())?d.getNieobecnosc().getDataod():pierwszydzienmiesiaca;
                     datado = Data.czyjestprzed(ostatnidzienmiesiaca, d.getNieobecnosc().getDatado())?d.getNieobecnosc().getDatado():ostatnidzienmiesiaca;
                     chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe();
-                    zwrot[0] = Data.iletodniKalendarzowych(dataod, datado);
+                }
+                if (d.getKod()!=null&&d.getKod().equals("CH")) {
+                    chorobadni = chorobadni+1;
                 }
             }
         }
+        zwrot[0] = chorobadni;
         zwrot[1] = chorobagodziny;
         return zwrot;
     }

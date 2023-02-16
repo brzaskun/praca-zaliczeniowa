@@ -30,7 +30,7 @@
                                     <f:selectItems value="#{nieobecnoscView.listaabsencji}" 
                                                    var="kodzusItem"
                                                    itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.kod} #{kodzusItem.opis}"/>
-                                    <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:swiadczenie" listener="#{nieobecnoscView.naniesrodzajnieobecnosci()}"/>
+                                    <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:swiadczenie NieobecnoscCreateForm:zakladkazwolnienie" listener="#{nieobecnoscView.naniesrodzajnieobecnosci()}"/>
                                 </p:selectOneMenu>
                                 <p:outputLabel value="świadczenie" for="swiadczenie" />
                                 <p:selectOneMenu id="swiadczenie" value="#{nieobecnoscView.selected.swiadczeniekodzus}"  converter="#{swiadczeniekodzusConverter}" filter="true" filterMatchMode="contains"
@@ -50,18 +50,19 @@
                                     <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{nieobecnoscView.sprawdzdaty()}" update="@(.dataklasa)"/>
                                 </p:inputText>
                             </p:panelGrid>
-                            <p:panelGrid columns="2">
-
-
-                                <p:outputLabel value="przyczyna" for="przyczyna" />
-                                <p:inputText id="przyczyna" value="#{nieobecnoscView.selected.uzasadnienie}" title="przyczyna"/>
-                                <p:outputLabel value="seria i nr zw." for="seriainrzwolnienia" />
-                                <p:inputText id="seriainrzwolnienia" value="#{nieobecnoscView.selected.seriainrzwolnienia}" title="seria i nr zw."/>
-                                <p:outputLabel value="procent" for="procent" />
-                                <p:inputText  id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="procent zwolenienia" />
-                                <p:outputLabel value="średnia zmienne" />
-                                <bcf:inputpl  value="#{nieobecnoscView.selected.sredniazmiennerecznie}"/>
-                            </p:panelGrid>
+                             <p:fragment>
+                                <p:autoUpdate/>
+                                 <p:panelGrid columns="2" id="zakladkazwolnienie"   rendered="#{nieobecnoscView.zwolnienie}">
+                                       <p:outputLabel value="przyczyna" for="przyczyna" />
+                                    <p:inputText id="przyczyna" value="#{nieobecnoscView.selected.uzasadnienie}" title="przyczyna"/>
+                                    <p:outputLabel value="seria i nr zw." for="seriainrzwolnienia" />
+                                    <p:inputText id="seriainrzwolnienia" value="#{nieobecnoscView.selected.seriainrzwolnienia}" title="seria i nr zw."/>
+                                    <p:outputLabel value="procent" for="procent" />
+                                    <p:inputText  id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="procent zwolenienia" />
+                                    <p:outputLabel value="średnia zmienne" />
+                                    <bcf:inputpl  value="#{nieobecnoscView.selected.sredniazmiennerecznie}"/>
+                                </p:panelGrid>
+                             </p:fragment>
                             <p:fragment>
                                 <p:autoUpdate/>
                                 <p:panelGrid columns="2"  rendered="#{nieobecnoscView.delegacja}">
@@ -123,7 +124,8 @@
                     <h:outputText value="wynagrodzenie za czas choroby płatne od dnia: " style="margin-left: 20px;"/>
                     <h:outputText value="#{wpisView.umowa.pierwszydzienzasilku}" style="color: green;"/>
                     <h:outputText value="wypłacono wynagr. za czas choroby za dni: " style="margin-left: 20px;"/>
-                    <h:outputText value="#{nieobecnoscView.dniwykorzystanewroku}" style="color: green;"/>
+                    <h:outputText value="#{nieobecnoscView.dniwykorzystanewroku}" style="color: red;" rendered="#{nieobecnoscView.dniwykorzystanewroku gt 33}"/>
+                    <h:outputText value="#{nieobecnoscView.dniwykorzystanewroku}" style="color: green;" rendered="#{nieobecnoscView.dniwykorzystanewroku lt 33}"/>
                     <p:outputLabel value="nanieś bezpośrednio na kalendarz" style="margin-left: 20px;"/>
                     <p:selectBooleanCheckbox value="#{nieobecnoscView.naniesbezposrednio}">
                         <p:ajax event="change"  partialSubmit="true" />
