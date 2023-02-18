@@ -136,18 +136,20 @@ public class UrlopBean {
         if (liczbadni>=3650) {
             wymiarwdniach = 26;
         }
-        //a teraz sprawdzamy czy nie sa umowy tylko z tego roku i trzeba proporckjonalnie
+        //trzeba pobrad date od, albo poczatek roku albo data pierwszej umowy w roku
             Set<String> napoczetemiesiace = new HashSet<>();
+            String dataod = data.Data.pierwszyDzien(rok, "01");
             for (Umowa p : umowy) {
                 if (p.isLiczdourlopu()) {
                     if (p.getSlownikszkolazatrhistoria() != null) {
                         if (p.getSlownikszkolazatrhistoria().getPraca0nauka1() == false) {
-                            String rokumowy = Data.getRok(p.getDataod());
-                            boolean czyumowaztegoroku = rok.equals(rokumowy);
-                            if (czyumowaztegoroku == false) {
-                                break;
-                            } else {
-                                String dataod = p.getDataod();
+                            boolean czyumowaztegoroku = p.czynalezydoroku(rok);
+                            if (czyumowaztegoroku == true) {
+                                dataod = p.getDataod();
+                                String rokdataod = Data.getRok(dataod);
+                                if (!rok.equals(rokdataod)) {
+                                    dataod = Data.pierwszyDzien(rok, "01");
+                                }
                                 String datado = stannadzien;
                                 if (p.getDatado() != null && Data.czyjestpo(p.getDatado(), stannadzien)) {
                                     datado = p.getDatado();

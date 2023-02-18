@@ -979,6 +979,38 @@ public class Umowa implements Serializable {
         return zwrot;
     }
 
-    
+    public boolean czynalezydoroku(String rok) {
+        boolean zwrot = false;
+        String rokod = Data.getRok(this.dataod);
+        String rokdo = Data.getRok(this.datado);
+        if (rokdo==null||rokdo.equals("")) {
+            rokdo = rok;
+        }
+        Integer rokodInt = Integer.parseInt(rokod);//2022
+        Integer rokdoInt = Integer.parseInt(rokdo);//2023
+        Integer rokInt = Integer.parseInt(rok);//2021
+        if (rokodInt<=rokInt&&rokInt<=rokdoInt) {
+            zwrot = true;
+        }
+        //String dataod ()
+        return zwrot;
+    }
+
+    public static void main(String[] args) {
+        boolean zwrot = false;
+        String rok = "2023";
+        String rokod = Data.getRok("2022-01-01");
+        String rokdo = Data.getRok(null);
+        if (rokdo==null||rokdo.equals("")) {
+            rokdo = rok;
+        }
+        Integer rokodInt = Integer.parseInt(rokod);//2022
+        Integer rokdoInt = Integer.parseInt(rokdo);//2023
+        Integer rokInt = Integer.parseInt(rok);//2021
+        if (rokodInt<=rokInt&&rokInt<=rokdoInt) {
+            zwrot = true;
+        }
+        System.out.println("wynik "+zwrot);
+    }
    
 }

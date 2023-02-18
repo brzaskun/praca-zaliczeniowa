@@ -99,8 +99,12 @@
                             </p:inputText>
                             <h:outputText value="współczynnik dla ekwawalentu "/>
                             <bcf:outputpl value="#{pracownikNieobecnoscView.wspolczynnikEkwiwalent.kwota}"/>
-                            <p:outputLabel value="wymiar rok bieżący" for="urloplp1e" />
+                            <p:outputLabel value="niewykorzystany rok poprzedni godz." for="urloplpop" />
+                            <h:outputText id="urloplpop" value="#{pracownikNieobecnoscView.urlopprezentacja.okrespoprzedni}" />
+                            <p:outputLabel value="wymiar na dzień naliczenia godz." for="urloplp1e" />
                             <h:outputText id="urloplp1e" value="#{pracownikNieobecnoscView.urlopprezentacja.wymiarokresbiezacy}" />
+                            <p:outputLabel value="suma rok bież/poprzedni" for="urloplpop1" />
+                            <h:outputText id="urloplpop1" value="#{pracownikNieobecnoscView.urlopprezentacja.doprzeniesienia}" />
                             <h:outputText value="etat "/>
                             <h:outputText value="#{pracownikNieobecnoscView.wybranyetat.getEtat()}"/>
                             <h:outputText value="ekwiwalent składniki stałe "/>

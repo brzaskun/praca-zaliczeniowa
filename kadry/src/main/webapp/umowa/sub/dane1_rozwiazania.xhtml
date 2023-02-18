@@ -15,7 +15,7 @@
                                      rowKey="#{itemroz.id}" emptyMessage="Brak sporządzonych rozwiązań umowy"
                                      style="height: 150px; overflow-y: scroll;"
                                      >
-                            <p:ajax event="rowSelect" partialSubmit="true" global="false" />
+                            <p:ajax event="rowSelect" partialSubmit="true" global="false" update="akordeon:SwiadectwoWydrukForm"/>
                             <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="id"/>

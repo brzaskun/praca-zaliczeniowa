@@ -93,11 +93,13 @@ public class PracownikNieobecnoscView  implements Serializable {
         try {
             if (wpisView.getPracownik()!=null) {
                 stannadzien = data.Data.ostatniDzien(wpisView);
+                ekwiwalent.setDataod(stannadzien);
                 pobierzurlop();
                 pobierzchoroba();
                 pobierzzasilek();
                 pobierzoddelegowanie();
                 wspolczynnikEkwiwalent = wspolczynnikEkwiwalentFacade.findbyRok(wpisView.getRokWpisu());
+                obliczekwiwalent();
             }
         } catch (Exception e){
             System.out.println("");
@@ -248,11 +250,14 @@ public class PracownikNieobecnoscView  implements Serializable {
             skladnikistale = new ArrayList<>();
             skladnikizmienne = new ArrayList<>();
             String data = ekwiwalent.getDataod();
+            stannadzien = ekwiwalent.getDataod();
             ekwiwalent.setDatado(data);
             String rok = Data.getRok(data);
             String mc = Data.getMc(data);
             ewiewalentskladnikistale = 0.0;
             List<Skladnikwynagrodzenia> skladniki = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz());
+            pobierzurlop();
+            double godzinypoprzednirok = urlopprezentacja.getOkrespoprzedni();
             double godzinyekwiwalent = urlopprezentacja.getDoprzeniesienia();
             ekwiwalentrazem = 0.0;
             if (godzinyekwiwalent>0) {
