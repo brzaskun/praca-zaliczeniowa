@@ -128,7 +128,7 @@ public class NieobecnoscView  implements Serializable {
     }
     
     public void init() {
-        if (wpisView.getUmowa()!=null) {
+        if (wpisView.getAngaz()!=null) {
             selected = new Nieobecnosc();
             lista  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
             selected.setAngaz(wpisView.getAngaz());
@@ -224,7 +224,29 @@ public class NieobecnoscView  implements Serializable {
               Msg.msg("e", "Brak kodu/dat");
           } else {
             try {
-              if (selected.getId()==null) {
+              selected.setAngaz(wpisView.getAngaz());
+              boolean wygenerowano = false;
+              if (selected.getId()==null&&selected.getRodzajnieobecnosci().getKod().equals("CA")) {
+                double dnizezwolnienia = selected.getDnikalendarzoweOblicz();
+                double dniwyplacone = dniwykorzystanewroku;
+                double limit = 33;
+                double dorozliczenia = limit-dniwyplacone;
+                double rozliczono = dorozliczenia-dnizezwolnienia;
+                if (dniwyplacone>=33) {
+                    double dowyplatyjakoZC = dnizezwolnienia;
+                    Msg.msg("Zasiłek chorobowy "+dowyplatyjakoZC);
+                } else if (rozliczono>=0) {
+                    double dowyplatyjakoCH = dnizezwolnienia;
+                    Msg.msg("Wynagrodzenie chorobowe "+dowyplatyjakoCH);
+                } else if (rozliczono<0 && dorozliczenia>0) {
+                    double dowyplatyjakoCH = dorozliczenia;
+                    Msg.msg("Wynagrodzenie chorobowe "+dowyplatyjakoCH);
+                    double dowyplatyjakoZC = Math.abs(rozliczono);
+                    Msg.msg("Zasiłek chorobowy "+dowyplatyjakoZC);
+                }
+                
+                Msg.msg("Choroba automat");
+              } else if (selected.getId()==null&&!selected.getRodzajnieobecnosci().getKod().equals("CA")) {
                   selected.setRokod(Data.getRok(selected.getDataod()));
                   selected.setRokdo(Data.getRok(selected.getDatado()));
                   selected.setMcod(Data.getMc(selected.getDataod()));
@@ -238,8 +260,9 @@ public class NieobecnoscView  implements Serializable {
                   String stannadzien = data.Data.ostatniDzien(wpisView);
                   Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
                   urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
+                  wygenerowano = true;
                   Msg.msg("Dodano nieobecność");
-              } else {
+              } else if (selected.getId()!=null&&!selected.getRodzajnieobecnosci().getKod().equals("CA")) {
                   selected.setRokod(Data.getRok(selected.getDataod()));
                   selected.setRokdo(Data.getRok(selected.getDatado()));
                   selected.setMcod(Data.getMc(selected.getDataod()));
@@ -249,9 +272,10 @@ public class NieobecnoscView  implements Serializable {
                   double iloscdni = DAYS.between(oddata,dodata);
                   selected.setDnikalendarzowe(iloscdni+1.0);
                   nieobecnoscFacade.edit(selected);
+                  wygenerowano = true;
                   Msg.msg("Edytowano nieobecność");
               }
-              if (naniesbezposrednio) {
+              if (naniesbezposrednio && wygenerowano) {
                   nanies(selected);
                   String stannadzien = data.Data.ostatniDzien(wpisView);
                   Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());

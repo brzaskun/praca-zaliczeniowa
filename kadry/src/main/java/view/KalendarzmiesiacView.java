@@ -13,6 +13,7 @@ import dao.NieobecnoscFacade;
 import dao.RodzajnieobecnosciFacade;
 import dao.UmowaFacade;
 import embeddable.Mce;
+import entity.Angaz;
 import entity.Dzien;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
@@ -183,10 +184,10 @@ public class KalendarzmiesiacView  implements Serializable {
         if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null) {
             String rok = wpisView.getRokWpisu();
             Integer rokI = Integer.parseInt(rok);
-            String mcu = wpisView.getMiesiacWpisu();
-            if (rokI<wpisView.getRokWpisuInt()) {
-                mcu = "01";
-            }
+            String mcu = "01";
+//            if (rokI<wpisView.getRokWpisuInt()) {
+//                mcu = "01";
+//            }
             Integer mcod = Integer.parseInt(mcu);
             Integer dzienod = 1;
             List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
@@ -224,6 +225,65 @@ public class KalendarzmiesiacView  implements Serializable {
             listakalendarzeprac = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
             init();
             Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
+        } else {
+            Msg.msg("e","Nie wybrano pracownika i umowy");
+        }
+    }
+    
+    
+    
+    public void zrobkal() {
+        List<Angaz> angaze = wpisView.getFirma().getAngazList();
+        for (Angaz angaz : angaze) {
+            try {
+                generujrok(angaz, "2023");
+            } catch (Exception e){}
+            System.out.println("angaz "+angaz.getNazwiskoiImie());
+        }
+    }
+    
+    
+    public void generujrok(Angaz angaz, String rok) {
+        if (angaz!=null && wpisView.getPracownik()!=null) {
+            Integer rokI = Integer.parseInt(rok);
+            String mcu = "01";
+            Integer mcod = Integer.parseInt(mcu);
+            Integer dzienod = 1;
+            List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
+            for (String mc: Mce.getMceListS()) {
+                Integer kolejnymc = Integer.parseInt(mc);
+                if (kolejnymc>=mcod) {
+                    Kalendarzmiesiac kal = new Kalendarzmiesiac();
+                    kal.setRok(rok);
+                    kal.setMc(mc);
+                    kal.setAngaz(angaz);
+                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcAngaz(angaz, rok, mc);
+                    if (kalmiesiac==null) {
+                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getAngaz().getFirma(), kal.getRok(), mc);
+                        if (znaleziono!=null) {
+                            kal.ganerujdnizwzrocowego(znaleziono, dzienod, angaz.getEtatList());
+                            kalendarzmiesiacFacade.create(kal);
+                            dzienod = null;
+                            kalendarze.add(kal);
+                        } else {
+                            Msg.msg("e","Brak kalendarza wzorcowego za "+mc);
+                        }
+                    } else {
+                        kalendarze.add(kalmiesiac);
+                    }
+                }
+            }
+//            if (wpisView.getUmowa()!=null) {
+//                String mcu1 = angaz.getMc();
+//                Kalendarzmiesiac kalendarz = kalendarze.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mcu1)).findFirst().get();
+//                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.rozpoczecieumowywtrakcieMiesiaca(angaz, wpisView.getUmowa().getDataod(), wpisView.getUmowa().getDatado(),rodzajnieobecnosciFacade, rok, mcu1, kalendarz, null);
+//                if (zatrudnieniewtrakciemiesiaca!=null) {
+//                  nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
+//                }
+//            }
+//            listakalendarzeprac = kalendarzmiesiacFacade.findByRokAngaz(angaz, wpisView.getRokWpisu());
+//            init();
+//            Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
         } else {
             Msg.msg("e","Nie wybrano pracownika i umowy");
         }

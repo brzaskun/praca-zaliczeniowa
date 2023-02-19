@@ -8,6 +8,8 @@ package entity;
 import data.Data;
 import generated.RaportEzla;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -328,6 +330,21 @@ public class Nieobecnosc implements Serializable {
         this.uzasadnienie = uzasadnienie;
     }
 
+    public int getDnikalendarzoweOblicz() {
+        int zwrot = 0;
+        if (this.dataod!=null&&this.datado!=null) {
+            try {
+                LocalDate dataprzyj = LocalDate.parse(this.dataod);
+                LocalDate datawypl = LocalDate.parse(this.datado);
+                long dni = ChronoUnit.DAYS.between(dataprzyj, datawypl);
+                zwrot = ((int)dni)+1;
+            } catch (Exception e){
+                zwrot = -1;
+            }
+        }
+        return zwrot;
+    }
+    
     public double getDnikalendarzowe() {
         double zwrot = dnikalendarzowe;
         if (this.dzienList!=null && this.dzienList.size()>0) {

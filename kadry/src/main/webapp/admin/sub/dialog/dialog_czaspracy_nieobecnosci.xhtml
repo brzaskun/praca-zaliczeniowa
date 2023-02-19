@@ -49,6 +49,10 @@
                                 <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do" styleClass="dataklasa">
                                     <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{nieobecnoscView.sprawdzdaty()}" update="@(.dataklasa)"/>
                                 </p:inputText>
+                                <h:outputText value="ilość dni kal."/>
+                                <p:outputPanel  styleClass="dataklasa">
+                                    <h:outputText value="#{nieobecnoscView.selected.dnikalendarzoweOblicz}"/>
+                                </p:outputPanel>
                             </p:panelGrid>
                              <p:fragment>
                                 <p:autoUpdate/>
