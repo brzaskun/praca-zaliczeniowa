@@ -433,7 +433,9 @@ public class Angaz implements Serializable {
         return "Angaz{, firma=" + firma.getNazwa() + ", pracownik=" + pracownik.getNazwiskoImie() + ", serialsp=" + serialsp + '}';
     }
 
-   
+   public String getNazwiskoiImie() {
+        return this.getPracownik().getNazwiskoImie();
+   }
 
     public String getAngazString() {
         return this.getFirma().getNazwa()+" "+this.getPracownik().getNazwiskoImie();

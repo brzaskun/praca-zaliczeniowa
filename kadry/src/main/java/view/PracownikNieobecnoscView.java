@@ -10,6 +10,7 @@ import beanstesty.EtatBean;
 import beanstesty.IPaddress;
 import static beanstesty.KalendarzmiesiacBean.pobierzpaski;
 import beanstesty.UrlopBean;
+import dao.EkwiwalentUrlopFacade;
 import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.NieobecnoscprezentacjaFacade;
@@ -19,11 +20,11 @@ import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
 import dao.WspolczynnikEkwiwalentFacade;
 import data.Data;
+import entity.EkwiwalentUrlop;
 import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczenieskladnikawynagrodzenia;
-import entity.Nieobecnosc;
 import entity.Nieobecnoscprezentacja;
 import entity.Nieobecnoscwykorzystanie;
 import entity.Pasekwynagrodzen;
@@ -38,7 +39,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -70,6 +73,8 @@ public class PracownikNieobecnoscView  implements Serializable {
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     @Inject
+    private EkwiwalentUrlopFacade ekwiwalentSkladnikiFacade;
+    @Inject
     private WpisView wpisView;
     private Nieobecnoscprezentacja urlopprezentacja;
     private Nieobecnoscprezentacja chorobaprezentacja;
@@ -80,25 +85,26 @@ public class PracownikNieobecnoscView  implements Serializable {
     private String stannadzien;
     private WspolczynnikEkwiwalent wspolczynnikEkwiwalent;
     @Inject
-    private Nieobecnosc ekwiwalent;
-    double ewiewalentskladnikizmienne;
-    double ewiewalentskladnikistale;
-    double ekwiwalentrazem;
+    private EkwiwalentUrlop ekwiwalent;
     List<Naliczenienieobecnosc> skladnikistale;
     List<Naliczenienieobecnosc> skladnikizmienne;
     private EtatPrac wybranyetat;
     private String wiekdlachoroby;
     
+    @PostConstruct
     public void init() {
         try {
             if (wpisView.getPracownik()!=null) {
                 stannadzien = data.Data.ostatniDzien(wpisView);
-                ekwiwalent.setDataod(stannadzien);
+                ekwiwalent.setDziennaliczenia(stannadzien);
+                ekwiwalent.setAngaz(wpisView.getAngaz());
+                ekwiwalent.setUmowa(wpisView.getUmowa());
                 pobierzurlop();
                 pobierzchoroba();
                 pobierzzasilek();
                 pobierzoddelegowanie();
                 wspolczynnikEkwiwalent = wspolczynnikEkwiwalentFacade.findbyRok(wpisView.getRokWpisu());
+                ekwiwalent.setWspolczynnik(wspolczynnikEkwiwalent.getKwota());
                 obliczekwiwalent();
             }
         } catch (Exception e){
@@ -188,7 +194,18 @@ public class PracownikNieobecnoscView  implements Serializable {
         return zwrot;
     }
     
-    
+    public void zapiszekwiwalent() {
+        if (ekwiwalent!=null) {
+            EkwiwalentUrlop znaleziony = ekwiwalentSkladnikiFacade.findbyUmowa(ekwiwalent.getUmowa());
+            if (znaleziony!=null) {
+                ekwiwalentSkladnikiFacade.remove(znaleziony);
+            }
+            ekwiwalentSkladnikiFacade.create(ekwiwalent=ekwiwalent);
+            Msg.msg("Zachowano wyliczenie ekwiwalentu");
+        } else {
+            Msg.dPe();
+        }
+    }
 
     
     
@@ -246,27 +263,38 @@ public class PracownikNieobecnoscView  implements Serializable {
     }
     
     public void obliczekwiwalent() {
-        if (ekwiwalent.getDataod() != null) {
+        if (ekwiwalent.getDziennaliczenia() != null) {
+            ekwiwalent.setKwota(0.0);
+            ekwiwalent.setAngaz(wpisView.getAngaz());
+            ekwiwalent.setUmowa(wpisView.getUmowa());
             skladnikistale = new ArrayList<>();
             skladnikizmienne = new ArrayList<>();
-            String data = ekwiwalent.getDataod();
-            stannadzien = ekwiwalent.getDataod();
-            ekwiwalent.setDatado(data);
+            String data = ekwiwalent.getDziennaliczenia();
+            stannadzien = ekwiwalent.getDziennaliczenia();
             String rok = Data.getRok(data);
             String mc = Data.getMc(data);
-            ewiewalentskladnikistale = 0.0;
             List<Skladnikwynagrodzenia> skladniki = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz());
             pobierzurlop();
             double godzinypoprzednirok = urlopprezentacja.getOkrespoprzedni();
             double godzinyekwiwalent = urlopprezentacja.getDoprzeniesienia();
-            ekwiwalentrazem = 0.0;
+            ekwiwalent.setZalegly((int)godzinypoprzednirok);
+            ekwiwalent.setBiezacy((int)urlopprezentacja.getWymiarokresbiezacy());
+            ekwiwalent.setGodziny((int)godzinyekwiwalent);
+            ekwiwalent.setDni(urlopprezentacja.getDoprzeniesieniadni());
+            ekwiwalent.setRok(rok);
+            ekwiwalent.setMc(mc);
+            ekwiwalent.setData(new Date());
             if (godzinyekwiwalent>0) {
                 List<EtatPrac> etatlist = etatPracFacade.findByAngaz(wpisView.getAngaz());
                 wybranyetat = etatlist.get(0);
+                ekwiwalent.setEtat1(wybranyetat.getEtat1());
+                ekwiwalent.setEtat2(wybranyetat.getEtat2());
                 if (etatlist.size()>1) {
                     for (EtatPrac e : etatlist) {
                         if (DataBean.czysiemiesci(data, data, e.getDataod(), e.getDatado())) {
                             wybranyetat = e;
+                            ekwiwalent.setEtat1(e.getEtat1());
+                            ekwiwalent.setEtat2(e.getEtat2());
                             break;
                         }
                     }
@@ -291,8 +319,8 @@ public class PracownikNieobecnoscView  implements Serializable {
                                 double kwotaekwiwalentu = Z.z(stawkagodzinowa*godzinyekwiwalent);
                                 naliczenienieobecnosc.setStawkagodzinowa(stawkagodzinowa);
                                 naliczenienieobecnosc.setKwota(kwotaekwiwalentu);
-                                ewiewalentskladnikistale = ewiewalentskladnikistale+kwotaekwiwalentu;
-                                ekwiwalentrazem = ekwiwalentrazem+kwotaekwiwalentu;
+                                ekwiwalent.setKwotastale(kwotaekwiwalentu);
+                                ekwiwalent.setKwota(ekwiwalent.getKwota()+kwotaekwiwalentu);
                                 skladnikistale.add(naliczenienieobecnosc);
                              }
                         }
@@ -346,8 +374,8 @@ public class PracownikNieobecnoscView  implements Serializable {
                                 naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
                                 double kwotaekwiwalentu = stawkazagodzine*godzinyekwiwalent;
                                 naliczenienieobecnosc.setKwota(kwotaekwiwalentu);
-                                ewiewalentskladnikizmienne = ewiewalentskladnikizmienne+kwotaekwiwalentu;
-                                ekwiwalentrazem = ekwiwalentrazem+kwotaekwiwalentu;
+                                ekwiwalent.setKwotazmienne(kwotaekwiwalentu);
+                                ekwiwalent.setKwota(ekwiwalent.getKwota()+kwotaekwiwalentu);
                                 skladnikizmienne.add(naliczenienieobecnosc);
                             }
                       }
@@ -399,13 +427,14 @@ public class PracownikNieobecnoscView  implements Serializable {
         this.wspolczynnikEkwiwalent = wspolczynnikEkwiwalent;
     }
 
-    public Nieobecnosc getEkwiwalent() {
+    public EkwiwalentUrlop getEkwiwalent() {
         return ekwiwalent;
     }
 
-    public void setEkwiwalent(Nieobecnosc ekwiwalent) {
+    public void setEkwiwalent(EkwiwalentUrlop ekwiwalent) {
         this.ekwiwalent = ekwiwalent;
     }
+
 
     public String getWiekdlachoroby() {
         return wiekdlachoroby;
@@ -413,30 +442,6 @@ public class PracownikNieobecnoscView  implements Serializable {
 
     public void setWiekdlachoroby(String wiekdlachoroby) {
         this.wiekdlachoroby = wiekdlachoroby;
-    }
-
-    public double getEwiewalentskladnikizmienne() {
-        return ewiewalentskladnikizmienne;
-    }
-
-    public void setEwiewalentskladnikizmienne(double ewiewalentskladnikizmienne) {
-        this.ewiewalentskladnikizmienne = ewiewalentskladnikizmienne;
-    }
-
-    public double getEwiewalentskladnikistale() {
-        return ewiewalentskladnikistale;
-    }
-
-    public void setEwiewalentskladnikistale(double ewiewalentskladnikistale) {
-        this.ewiewalentskladnikistale = ewiewalentskladnikistale;
-    }
-
-    public double getEkwiwalentrazem() {
-        return ekwiwalentrazem;
-    }
-
-    public void setEkwiwalentrazem(double ekwiwalentrazem) {
-        this.ekwiwalentrazem = ekwiwalentrazem;
     }
 
     public List<Naliczenienieobecnosc> getSkladnikistale() {

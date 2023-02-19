@@ -5,6 +5,7 @@
  */
 package view;
 
+import dao.EkwiwalentUrlopFacade;
 import dao.NieobecnoscFacade;
 import dao.NieobecnoscswiadectwoschemaFacade;
 import dao.RozwiazanieumowyFacade;
@@ -14,6 +15,7 @@ import data.Data;
 import embeddable.WypowiedzeniePodstawa;
 import embeddable.WypowiedzenieSposob;
 import entity.Dzien;
+import entity.EkwiwalentUrlop;
 import entity.Nieobecnosc;
 import entity.Nieobecnoscswiadectwoschema;
 import entity.Rozwiazanieumowy;
@@ -49,6 +51,8 @@ public class RozwiazanieumowyView  implements Serializable {
     private UmowaFacade umowaFacade;
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
+    @Inject
+    private EkwiwalentUrlopFacade ekwiwalentSkladnikiFacade;
     private Rozwiazanieumowy selectedlista;
     private List<Rozwiazanieumowy> lista;
     private Umowa wybranaumowa;
@@ -156,7 +160,8 @@ public class RozwiazanieumowyView  implements Serializable {
         if (selectedlista!=null) {
             swiadectwo.setDatawystawienia(Data.aktualnaData());
             swiadectwo.setRozwiazanieumowy(selectedlista);
-            PdfSwiadectwo.drukuj(swiadectwo, dnidoswiadectwa);
+            EkwiwalentUrlop ekwiwalent = ekwiwalentSkladnikiFacade.findbyUmowa(swiadectwo.getRozwiazanieumowy().getUmowa());
+            PdfSwiadectwo.drukuj(swiadectwo, dnidoswiadectwa, ekwiwalent);
         } else {
             Msg.msg("e","Brak wypowiedzenia");
         }

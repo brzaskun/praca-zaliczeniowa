@@ -267,7 +267,7 @@ public class Pasekwynagrodzen implements Serializable {
     private double wolneodzajecia;
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "ekwiwalentskladniki", referencedColumnName = "id")
-//    private EkwiwalentSkladniki ekwiwalentSkladniki;
+//    private EkwiwalentUrlop ekwiwalentSkladniki;
 
     
     public Pasekwynagrodzen() {
@@ -1201,11 +1201,11 @@ public class Pasekwynagrodzen implements Serializable {
     
     
 //
-//    public EkwiwalentSkladniki getEkwiwalentSkladniki() {
+//    public EkwiwalentUrlop getEkwiwalentUrlop() {
 //        return ekwiwalentSkladniki;
 //    }
 //
-//    public void setEkwiwalentSkladniki(EkwiwalentSkladniki ekwiwalentSkladniki) {
+//    public void setEkwiwalentUrlop(EkwiwalentUrlop ekwiwalentSkladniki) {
 //        this.ekwiwalentSkladniki = ekwiwalentSkladniki;
 //    }
 

@@ -167,6 +167,8 @@ public class Umowa implements Serializable {
     private String opiszawodu;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
+    private List<EkwiwalentUrlop> ekwiwalenskladnikiList;
     @Size(max = 1256)
     @Column(name = "innewarunkizatrudnienia")
     private String innewarunkizatrudnienia;
@@ -807,6 +809,14 @@ public class Umowa implements Serializable {
 
     public void setSymbolwalutyoddelegowanie(String symbolwalutyoddelegowanie) {
         this.symbolwalutyoddelegowanie = symbolwalutyoddelegowanie;
+    }
+
+    public List<EkwiwalentUrlop> getEkwiwalenskladnikiList() {
+        return ekwiwalenskladnikiList;
+    }
+
+    public void setEkwiwalenskladnikiList(List<EkwiwalentUrlop> ekwiwalenskladnikiList) {
+        this.ekwiwalenskladnikiList = ekwiwalenskladnikiList;
     }
 
   

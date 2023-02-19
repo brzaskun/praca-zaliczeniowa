@@ -92,23 +92,31 @@
                 </p:tab>
                 <p:tab title="naliczenie ekwiwalentu za urlop">
                     <h:form  styleClass="formadmin" id="EkwiwalentForm">
-                        <p:panelGrid columns="2">
+                        <p:panelGrid columns="6" style="width: 700px;">
                             <h:outputText value="naliczenie na dzień"/>
-                            <p:inputText value="#{pracownikNieobecnoscView.ekwiwalent.dataod}" title="naliczenie na dzien"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
-                                <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pracownikNieobecnoscView.obliczekwiwalent}" update="akordeon:EkwiwalentForm"/>
+                            <p:inputText value="#{pracownikNieobecnoscView.ekwiwalent.dziennaliczenia}" title="naliczenie na dzien"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
+                                <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pracownikNieobecnoscView.obliczekwiwalent}" update="akordeon:EkwiwalentForm"/>
                             </p:inputText>
+                            <h:outputText value="pracownik:"/>
+                            <h:outputText value="#{pracownikNieobecnoscView.ekwiwalent.angaz.nazwiskoiImie}"/>
+                            <h:outputText value="umowa:"/>
+                            <h:outputText value="#{pracownikNieobecnoscView.ekwiwalent.umowa.nrkolejny}"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2">
                             <h:outputText value="współczynnik dla ekwawalentu "/>
-                            <bcf:outputpl value="#{pracownikNieobecnoscView.wspolczynnikEkwiwalent.kwota}"/>
+                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.wspolczynnik}"/>
                             <p:outputLabel value="niewykorzystany rok poprzedni godz." for="urloplpop" />
-                            <h:outputText id="urloplpop" value="#{pracownikNieobecnoscView.urlopprezentacja.okrespoprzedni}" />
+                            <h:outputText id="urloplpop" value="#{pracownikNieobecnoscView.ekwiwalent.zalegly}" />
                             <p:outputLabel value="wymiar na dzień naliczenia godz." for="urloplp1e" />
-                            <h:outputText id="urloplp1e" value="#{pracownikNieobecnoscView.urlopprezentacja.wymiarokresbiezacy}" />
-                            <p:outputLabel value="suma rok bież/poprzedni" for="urloplpop1" />
-                            <h:outputText id="urloplpop1" value="#{pracownikNieobecnoscView.urlopprezentacja.doprzeniesienia}" />
+                            <h:outputText id="urloplp1e" value="#{pracownikNieobecnoscView.ekwiwalent.biezacy}" />
+                            <p:outputLabel value="suma rok bież+poprzedni godziny" for="urloplpop1" />
+                            <h:outputText id="urloplpop1" value="#{pracownikNieobecnoscView.ekwiwalent.godziny}" />
+                            <p:outputLabel value="suma rok bież+poprzedni dni" for="urloplpop3" />
+                            <h:outputText id="urloplpop3" value="#{pracownikNieobecnoscView.ekwiwalent.dni}" />
                             <h:outputText value="etat "/>
-                            <h:outputText value="#{pracownikNieobecnoscView.wybranyetat.getEtat()}"/>
+                            <h:outputText value="#{pracownikNieobecnoscView.ekwiwalent.getEtat()}"/>
                             <h:outputText value="ekwiwalent składniki stałe "/>
-                            <bcf:outputpl value="#{pracownikNieobecnoscView.ewiewalentskladnikistale}"/>
+                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.kwotastale}"/>
                         </p:panelGrid>
                         <p:panelGrid columns="1">
                             <p:dataTable id="datalist2" value="#{pracownikNieobecnoscView.skladnikistale}" var="itempasekpotr"
@@ -140,7 +148,7 @@
                         </p:panelGrid>
                         <p:panelGrid columns="2" style="width: 360px;">
                             <h:outputText value="ekwiwalent składniki zmienne "/>
-                            <bcf:outputpl value="#{pracownikNieobecnoscView.ewiewalentskladnikizmienne}"/>
+                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.kwotazmienne}"/>
                         </p:panelGrid>
                         <p:panelGrid columns="1">
                             <p:dataTable id="datalist4" value="#{pracownikNieobecnoscView.skladnikizmienne}" var="itempasekpotr1"
@@ -216,8 +224,11 @@
                         </p:panelGrid>
                         <p:panelGrid columns="2" style="width: 360px;">
                             <h:outputText value="ekwiwalent składniki razem "/>
-                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalentrazem}"/>
+                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.kwota}"/>
                         </p:panelGrid>
+                        <p:outputPanel>
+                            <p:commandButton value="zapisz" actionListener="#{pracownikNieobecnoscView.zapiszekwiwalent()}" styleClass="buttonnorm"/>
+                        </p:outputPanel>
                     </h:form>
                 </p:tab>
                 <p:tab title="wykorzystanie choroby rok biezacy">

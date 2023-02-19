@@ -9,6 +9,7 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.PdfWriter;
+import entity.EkwiwalentUrlop;
 import entity.EtatPrac;
 import entity.FirmaKadry;
 import entity.Naliczeniepotracenie;
@@ -37,7 +38,7 @@ import z.Z;
  * @author Osito
  */
 public class PdfSwiadectwo {
-     public static void drukuj(Swiadectwo swiadectwo, List<Swiadectwodni> dnidoswiadectwa) {
+     public static void drukuj(Swiadectwo swiadectwo, List<Swiadectwodni> dnidoswiadectwa, EkwiwalentUrlop ekwiwalentSkladniki) {
         try {
             Rozwiazanieumowy rozwiazanieumowy = swiadectwo.getRozwiazanieumowy();
             Umowa umowa = swiadectwo.getRozwiazanieumowy().getUmowa();
@@ -110,16 +111,30 @@ public class PdfSwiadectwo {
                 String urlop = "6. W okresie zatrudnienia pracownik: ";
                 PdfMain.dodajLinieOpisuBezOdstepu(document, urlop, Element.ALIGN_LEFT, 2);
                 String urlop1 = "1) wykorzystał urlop wypoczynkowy w wymiarze: ";
+                int dniwykorzystane = 0;
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKodzbiorczy().equals("U")) {
-                        urlop1 = urlop1+s.getDni();
+                        dniwykorzystane = (int) (dniwykorzystane+s.getDni());
                         czydodano = true;
                     }
                 }
+                int dniekwiwalentu = 0;
+                if (ekwiwalentSkladniki!=null&&ekwiwalentSkladniki.getKwota()>0.0) {
+                    dniwykorzystane = dniwykorzystane+ekwiwalentSkladniki.getDni();
+                    dniekwiwalentu = dniekwiwalentu+ekwiwalentSkladniki.getDni();
+                    czydodano = true;
+                }
+                int sumadniurlopu = dniwykorzystane; 
                 if (czydodano==false) {
                     urlop1 = urlop1+" nie dotyczy";
+                } else {
+                    urlop1 = urlop1+sumadniurlopu;
                 }
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop1, Element.ALIGN_LEFT, 2);
+                if (dniekwiwalentu>0) {
+                    String urlop1a = "W tym wypłacono ekwiwalent za dni: " +dniekwiwalentu;
+                    PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop1a, Element.ALIGN_LEFT, 2);
+                }
                 czydodano = false;
                 String urlop2 = "w tym urlop wypoczynkowy wykorzystany na podstawie art. 167 2 Kodeksu pracy w roku kalendarzowym, w którym ustał stosunek pracy: ";
                 for (Swiadectwodni s : dnidoswiadectwa) {

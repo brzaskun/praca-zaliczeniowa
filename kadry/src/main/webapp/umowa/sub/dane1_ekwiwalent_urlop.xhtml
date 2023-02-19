@@ -8,9 +8,145 @@
     >
     <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
         <p:outputPanel>
-            <h:form styleClass="formumowa" id="EkwiwalentForm">
-                >
-            </h:form>
+            <h:form  styleClass="formadmin" id="EkwiwalentForm">
+                        <p:panelGrid columns="6" style="width: 700px;">
+                            <h:outputText value="naliczenie na dzień"/>
+                            <p:inputText value="#{pracownikNieobecnoscView.ekwiwalent.dziennaliczenia}" title="naliczenie na dzien"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
+                                <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pracownikNieobecnoscView.obliczekwiwalent}" update="akordeon:EkwiwalentForm"/>
+                            </p:inputText>
+                            <h:outputText value="pracownik:"/>
+                            <h:outputText value="#{pracownikNieobecnoscView.ekwiwalent.angaz.nazwiskoiImie}"/>
+                            <h:outputText value="umowa:"/>
+                            <h:outputText value="#{pracownikNieobecnoscView.ekwiwalent.umowa.nrkolejny}"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2">
+                            <h:outputText value="współczynnik dla ekwawalentu "/>
+                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.wspolczynnik}"/>
+                            <p:outputLabel value="niewykorzystany rok poprzedni godz." for="urloplpop" />
+                            <h:outputText id="urloplpop" value="#{pracownikNieobecnoscView.ekwiwalent.zalegly}" />
+                            <p:outputLabel value="wymiar na dzień naliczenia godz." for="urloplp1e" />
+                            <h:outputText id="urloplp1e" value="#{pracownikNieobecnoscView.ekwiwalent.biezacy}" />
+                            <p:outputLabel value="suma rok bież+poprzedni godziny" for="urloplpop1" />
+                            <h:outputText id="urloplpop1" value="#{pracownikNieobecnoscView.ekwiwalent.godziny}" />
+                            <p:outputLabel value="suma rok bież+poprzedni dni" for="urloplpop3" />
+                            <h:outputText id="urloplpop3" value="#{pracownikNieobecnoscView.ekwiwalent.dni}" />
+                            <h:outputText value="etat "/>
+                            <h:outputText value="#{pracownikNieobecnoscView.ekwiwalent.getEtat()}"/>
+                            <h:outputText value="ekwiwalent składniki stałe "/>
+                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.kwotastale}"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="1">
+                            <p:dataTable id="datalist2" value="#{pracownikNieobecnoscView.skladnikistale}" var="itempasekpotr"
+                                         rowIndexVar="indexpasekszcz2" emptyMessage="Nie ma danych"  rowKey="#{itempasekpotr.id}"
+                                         style="height: 100px; overflow-y: scroll;width: 750px;padding: 20px;" 
+                                         >
+                                <p:column style="text-align: center;" headerText="lp" width="40">
+                                    <h:outputText value="#{indexpasekszcz2+1}"/>
+                                </p:column>
+                                <p:column headerText="składnik" width="200" >
+                                    <h:outputText value="#{itempasekpotr.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
+                                </p:column>
+                                <p:column headerText="dni" width="40" style="text-align: center;">
+                                    <h:outputText value="#{itempasekpotr.liczbadniurlopu}"/>
+                                </p:column>
+                                <p:column headerText="stawka dzienna" width="40">
+                                    <bcf:outputpl value="#{itempasekpotr.stawkadzienna}"/>
+                                </p:column>
+                                <p:column headerText="godziny" width="40" style="text-align: center;">
+                                    <h:outputText value="#{itempasekpotr.liczbagodzinurlopu}"/>
+                                </p:column>
+                                <p:column headerText="stawka godzin." width="40">
+                                    <bcf:outputpl value="#{itempasekpotr.stawkagodzinowa}"/>
+                                </p:column>
+                                <p:column headerText="kwota do listy płac" width="60">
+                                    <bcf:outputpl value="#{itempasekpotr.kwota}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" style="width: 360px;">
+                            <h:outputText value="ekwiwalent składniki zmienne "/>
+                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.kwotazmienne}"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="1">
+                            <p:dataTable id="datalist4" value="#{pracownikNieobecnoscView.skladnikizmienne}" var="itempasekpotr1"
+                                         rowIndexVar="indexpasekszcz2" emptyMessage="Nie ma danych"  rowKey="#{itempasekpotr1.id}"
+                                         style="height: 200px; overflow-y: scroll;width: 900px;padding: 20px;" 
+                                         >
+                                <p:column width="20" style="text-align: center;">
+                                    <p:rowToggler rendered="#{itempasekpotr1.sredniadlanieobecnosciList.size() gt 0}"/>
+                                </p:column>
+                                <p:column style="text-align: center;" headerText="lp" width="40">
+                                    <h:outputText value="#{indexpasekszcz2+1}"/>
+                                </p:column>
+                                <p:column headerText="składnik" width="200" >
+                                    <h:outputText value="#{itempasekpotr1.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
+                                </p:column>
+                                <p:column headerText="dni" width="40" style="text-align: center;">
+                                    <h:outputText value="#{itempasekpotr1.liczbadniurlopu}"/>
+                                </p:column>
+                                <p:column headerText="stawka dzienna" width="40">
+                                    <bcf:outputpl value="#{itempasekpotr1.stawkadzienna}"/>
+                                </p:column>
+                                <p:column headerText="godziny" width="40" style="text-align: center;">
+                                    <h:outputText value="#{itempasekpotr1.liczbagodzinurlopu}"/>
+                                </p:column>
+                                <p:column headerText="stawka godzin." width="40">
+                                    <bcf:outputpl value="#{itempasekpotr1.stawkagodzinowa}"/>
+                                </p:column>
+                                <p:column headerText="kwota do listy płac" width="60">
+                                    <bcf:outputpl value="#{itempasekpotr1.kwota}"/>
+                                </p:column>
+                                <p:rowExpansion>
+                                    <p:dataTable id="datalistsrednia1" value="#{itempasekpotr1.sredniadlanieobecnosciList}" var="itempaseksrednia"
+                                                 rowIndexVar="itempaseksredniaid" rowKey="#{itempaseksrednia.id}"
+                                                 style="height: 200px; overflow-y: scroll;width: 800px;"
+                                                 >
+                                        <p:column style="text-align: center;" headerText="lp" width="40">
+                                            <h:outputText value="#{itempaseksredniaid+1}"/>
+                                        </p:column>
+                                        <p:column headerText="rok" width="40" style="text-align: center;"  sortBy="#{itempaseksrednia.rok}" sortOrder="desc" sortPriority="0">
+                                            <h:outputText value="#{itempaseksrednia.rok}"/>
+                                        </p:column>
+                                        <p:column headerText="mc" width="40" style="text-align: center;" sortBy="#{itempaseksrednia.mc}" sortOrder="desc" sortPriority="1">
+                                            <h:outputText value="#{itempaseksrednia.mc}"/>
+                                        </p:column>
+                                        <p:column headerText="dni">
+                                            <h:outputText value="#{itempaseksrednia.dninalezne}"/>
+                                            <h:outputText value="/"/>
+                                            <h:outputText value="#{itempaseksrednia.dnifaktyczne}"/>
+                                        </p:column>
+                                        <p:column headerText="godziny">
+                                            <h:outputText value="#{itempaseksrednia.godzinynalezne}"/>
+                                            <h:outputText value="/"/>
+                                            <h:outputText value="#{itempaseksrednia.godzinyfaktyczne}"/>
+                                        </p:column>
+                                        <p:column headerText="kwota" width="80">
+                                            <bcf:outputpl value="#{itempaseksrednia.kwotawyplacona}"/>
+                                        </p:column>
+                                        <p:column headerText="stawka godzin." width="40">
+                                            <bcf:outputpl value="#{itempaseksrednia.stawkagodzinowa}"/>
+                                        </p:column>
+                                        <p:column headerText="kwota zwaloryz." width="50">
+                                            <bcf:outputpl value="#{itempaseksrednia.kwotazwaloryzowana}"/>
+                                        </p:column>
+                                        <p:column headerText="godzina zwaloryz." width="50">
+                                            <bcf:outputpl value="#{itempaseksrednia.godzinazwaloryzowana}"/>
+                                        </p:column>
+                                        <p:column headerText="podst. pop. choroba" width="60">
+                                            <bcf:outputpl value="#{itempaseksrednia.podstawapoprzedniachoroba}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:rowExpansion>
+                            </p:dataTable>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" style="width: 360px;">
+                            <h:outputText value="ekwiwalent składniki razem "/>
+                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.kwota}"/>
+                        </p:panelGrid>
+                        <p:outputPanel>
+                            <p:commandButton value="zapisz" actionListener="#{pracownikNieobecnoscView.zapiszekwiwalent()}" styleClass="buttonnorm"/>
+                        </p:outputPanel>
+                    </h:form>
         </p:outputPanel>
     </p:panelGrid>
 </ui:composition>
