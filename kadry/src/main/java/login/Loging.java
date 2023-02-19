@@ -4,10 +4,18 @@
  */
 package login;
 
+import comparator.UmowaStareNowecomparator;
+import dao.AngazFacade;
+import dao.UmowaFacade;
 import dao.UzFacade;
+import entity.Angaz;
+import entity.Umowa;
 import entity.Uz;
 import error.E;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -31,6 +39,7 @@ public class Loging implements Serializable {
     @Inject
     private UzFacade uzFacade;
     @Inject WpisView wpisView;
+    
 
     public Loging() {
        
@@ -79,6 +88,7 @@ public class Loging implements Serializable {
 //               System.out.println("<class>"+toString+"</class>");
 //             }
             //Msg.msg("Zweryfikowano hasło");
+            ustawaktywne();
             return navto;
         } catch (Exception exp) {
             E.e(exp);
@@ -129,6 +139,40 @@ public class Loging implements Serializable {
 
     public void setHaslo(String haslo) {
         this.haslo = haslo;
+    }
+    
+    @Inject
+    private AngazFacade angazFacade;
+    @Inject
+    private UmowaFacade umowaFacade;
+
+    private void ustawaktywne() {
+        List<Angaz> angaze = angazFacade.findAll();
+        for (Angaz angaz : angaze) {
+            try {
+                List<Umowa> umowaList = angaz.getUmowaList();
+                if (umowaList!=null&&umowaList.size()==1) {
+                    Umowa umowa = umowaList.get(0);
+                    if (umowa.isPraca()) {
+                        umowa.setAktywna(true);
+                        umowaFacade.edit(umowa);
+                    }
+                } else if (umowaList!=null&&umowaList.size()>1) {
+                    List<Umowa> umowapraca = umowaList.stream().filter(p->p.isPraca()).collect(Collectors.toList());
+                    Collections.singletonMap(umowapraca,new UmowaStareNowecomparator());
+                    for (Umowa umow: umowaList) {
+                        umow.setAktywna(false);
+                    }
+                    Umowa ostatnia = umowapraca.get(umowapraca.size()-1);
+                    ostatnia.setAktywna(true);
+                    umowaFacade.editList(umowaList);
+                }
+                //System.out.println("koniec angaz "+angaz.getNazwiskoiImie());
+            } catch (Exception e) {
+                System.out.println("błąd angaz "+angaz.getNazwiskoiImie()+" "+angaz.getFirma().getNazwa());
+            }
+        }
+        System.out.println("KONIEC");
     }
     
     
