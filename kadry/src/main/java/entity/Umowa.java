@@ -1022,5 +1022,9 @@ public class Umowa implements Serializable {
         }
         System.out.println("wynik "+zwrot);
     }
+
+    public boolean isPraca() {
+        return this.umowakodzus.isPraca();
+    }
    
 }

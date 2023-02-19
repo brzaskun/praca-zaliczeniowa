@@ -20,7 +20,7 @@ import javax.inject.Named;
 @Named
 public class UmowaStareNowecomparator implements Comparator<Umowa> {
 
-    //najstarsza jest pierwsza
+    //najstarsza jest pierwsza, ten komparator stare na poczatku
     @Override
     public int compare(Umowa o1, Umowa o2) {
         String datao1 = o1.getDataod();
