@@ -238,7 +238,7 @@ public class KalendarzmiesiacView  implements Serializable {
             try {
                 generujrok(angaz, "2023");
             } catch (Exception e){}
-            System.out.println("angaz "+angaz.getNazwiskoiImie());
+            //System.out.println("angaz "+angaz.getNazwiskoiImie());
         }
     }
     
