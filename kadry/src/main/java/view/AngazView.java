@@ -133,6 +133,7 @@ public class AngazView  implements Serializable {
             }
             pasekwynagrodzenView.init();
             init();
+            updateClassView.updateAdminTab();
             Msg.msg("Aktywowano firmę "+firma.getNazwa());
         }
     }

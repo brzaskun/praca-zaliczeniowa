@@ -35,8 +35,10 @@ public class StanowiskoPracView implements Serializable {
     
     @PostConstruct
     public void init() {
-        selected.setAngaz(wpisView.getAngaz());
-        lista = stanowiskopracFacade.findByAngaz(wpisView.getAngaz());
+        if (wpisView.getAngaz()!=null) {
+            selected.setAngaz(wpisView.getAngaz());
+            lista = stanowiskopracFacade.findByAngaz(wpisView.getAngaz());
+        }
     }
     
     public void create() {

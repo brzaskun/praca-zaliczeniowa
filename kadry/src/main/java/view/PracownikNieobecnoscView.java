@@ -381,7 +381,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                       }
                 }
             } else {
-                Msg.msg("w","Wykorzystano urlop w całości. NIe ma ekwiwalentu");
+                //Msg.msg("w","Wykorzystano urlop w całości. NIe ma ekwiwalentu");
             }
         }
     }

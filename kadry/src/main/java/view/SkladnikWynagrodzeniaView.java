@@ -7,7 +7,6 @@ package view;
 
 import dao.RodzajwynagrodzeniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
-import dao.UmowaFacade;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
 import java.io.Serializable;
@@ -35,17 +34,13 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     @Inject
     private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
     @Inject
-    private UmowaFacade umowaFacade;
-    @Inject
     private RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade;
     @Inject
     private WpisView wpisView;
-    @Inject
-    private ZmiennaWynagrodzeniaView zmiennaWynagrodzeniaView;
     
     @PostConstruct
     public void init() {
-        if (wpisView.getUmowa()!=null) {
+        if (wpisView.getAngaz()!=null) {
             lista  = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz());
         }
         selected.setAngaz(wpisView.getAngaz());

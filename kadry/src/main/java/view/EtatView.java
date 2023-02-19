@@ -39,7 +39,7 @@ public class EtatView implements Serializable {
     
     @PostConstruct
     public void init() {
-        if (wpisView.getUmowa()!=null){
+        if (wpisView.getAngaz()!=null){
             selected.setAngaz(wpisView.getAngaz());
             lista = etatFacade.findByAngaz(wpisView.getAngaz());
         }

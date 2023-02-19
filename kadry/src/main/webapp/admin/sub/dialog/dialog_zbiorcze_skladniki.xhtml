@@ -1,0 +1,76 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    >
+    <style>
+        .itemNieob .ui-datatable .ui-datatable-data tr{
+            height : 25px !important;
+        }
+        .pickzbiorcze .ui-picklist-list {
+            height: 600px  !important;
+        }
+    </style>
+    <p:dialog id="dialogbiorczeskladniki" header="Zbiorcze wprowadzanie składników wynagrodzenia. Widać tylko aktywne angaże." widgetVar="dialogbiorczeskladniki"  
+              resizable="false"  onShow="ustawdialog('dialogbiorczeskladniki','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogbiorczeskladniki');" 
+              fitViewport="true">
+        <p:ajax event="open" listener="#{skladnikZbiorczoView.init()}" update="SkladnikibiorczeCreateForm" global="false"/>
+        <p:outputPanel style="height: 680px">
+            <p:panelGrid columns="1">
+                <h:form  styleClass="formadmin" id="SkladnikibiorczeCreateForm">
+                    <h:panelGroup id="display">
+                        <h:outputText value="Po wybraniu skłądnika pokazywane są tylko te osobny, które mają taką aktywne angaze i skłądnik ten jest już przyporządkowany danej osobie. Program naniesie składnik tylko tym osobom, które są wybrane"
+                                      style="color: green;"/>
+                        <p:panelGrid columns="4" style="margin-top: 20px;">
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="nazwa składnika" for="skladnik" />
+                                <p:selectOneMenu id="skladnik" value="#{skladnikZbiorczoView.wybranyrodzaj}" required="true" requiredMessage="wybierz rodzaj składnika wynagrodzenia"  converter="#{rodzajwynagrodzeniaConverter}" filter="true" filterMatchMode="contains">
+                                    <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                    <f:selectItems value="#{skladnikZbiorczoView.rodzajewynagrodzen}" 
+                                                   var="rodzajItem"
+                                                   itemValue="#{rodzajItem}" itemLabel="#{rodzajItem.kod} #{rodzajItem.opispelny}"/>
+                                    <p:ajax event="change" partialSubmit="true" />
+                                </p:selectOneMenu>
+                               <p:outputLabel value="oddelegowanie" for="oddelegowanie" />
+                                <p:selectBooleanCheckbox id="oddelegowanie" value="#{skladnikZbiorczoView.oddelegowanie}" title="oddelegowanie">
+                                    <p:ajax event="change"  partialSubmit="true" global="false" />
+                                </p:selectBooleanCheckbox>
+                                <p:panelGrid columns="2" >
+                                    <p:messages><p:autoUpdate/></p:messages>
+                                </p:panelGrid>
+                            </p:panelGrid>
+                            <p:commandButton styleClass="buttonnorm" actionListener="#{skladnikZbiorczoView.tworzzmienne()}" value="#{bundle.Save}"  update="display, SkladnikibiorczeCreateForm:datalist">
+                                <p:confirm type="popup" header="Potwierdzenie" message="Nanieść nowe zmienne?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                            <p:commandButton value="#{bundle.Cancel}" onclick="dialogbiorczeskladniki.hide()" styleClass="buttonnorm2" />
+                        </p:panelGrid>
+                        <p:panelGrid columns="1">
+                            <p:dataTable id="datalist" value="#{skladnikZbiorczoView.angazList}" var="itemsklzbio"
+                                         selection="#{skladnikZbiorczoView.angazListselected}" rowSelectMode="add" rowIndexVar="indexzbio"
+                                         rowKey="#{itemsklzbio.id}" sortBy="#{itemsklzbio.nazwiskoiImie}" 
+                                         style="height: 500px; overflow-y: scroll;width: 400px;"
+                                         emptyMessage="nie pobrano danych"
+                                         >
+                                <p:ajax event="rowSelectCheckbox"  partialSubmit="true" global="false"/>
+                                <p:ajax event="rowUnselectCheckbox" partialSubmit="true" global="false"/>
+                                <p:ajax event="rowSelect"  partialSubmit="true" global="false"/>
+                                <p:ajax event="rowUnselect"  partialSubmit="true" global="false"/>
+                                <p:column width="40" selectionMode="multiple" selectRow="true" style="text-align: center;"/>
+                                <p:column width="10">
+                                    <h:outputText value="#{indexzbio+1}"/>
+                                </p:column>
+                                <p:column width="180" headerText="nazwisko i imie" sortBy="#{itemsklzbio.nazwiskoiImie}" sortable="true"  sortOrder="asc">
+                                    <h:outputText value="#{itemsklzbio.nazwiskoiImie}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+                    </h:panelGroup>
+                </h:form>
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>
+

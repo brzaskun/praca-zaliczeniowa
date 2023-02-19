@@ -24,9 +24,9 @@
                     <h:panelGroup id="display">
                         <h:outputText value="Po wybraniu rodzaju zmkiennej pokazywane są tylko te osobny, które mają taką zmienną i zmienna ta nie ma już wprowadzonej wartości za dany okres. Program naniesie tylko te osoby, które mają wartość zmiennej różną od zera"
                                       style="color: green;"/>
-                        <p:panelGrid columns="4" style="margin-top: 20px;">
-                            <p:panelGrid columns="2">
-                                <p:outputLabel value="nazwa składnika" for="skladnik" />
+                        <p:panelGrid columns="1" style="margin-top: 20px;width: 600px;">
+                            <p:panelGrid columns="4">
+                                <p:outputLabel value="rodzaj składnika wyn." for="skladnik" />
                                 <p:selectOneMenu id="skladnik" value="#{zmienneZbiorczoView.wybranyrodzaj}" required="true" requiredMessage="wybierz rodzaj składnika wynagrodzenia"  converter="#{rodzajwynagrodzeniaConverter}" filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                     <f:selectItems value="#{zmienneZbiorczoView.rodzajewynagrodzen}" 
@@ -34,10 +34,26 @@
                                                    itemValue="#{rodzajItem}" itemLabel="#{rodzajItem.kod} #{rodzajItem.opispelny}"/>
                                     <p:ajax event="change" partialSubmit="true" listener="#{zmienneZbiorczoView.tworzzmienne()}" update="ZmiennezbiorczeCreateForm:datalist"/>
                                 </p:selectOneMenu>
+                                <p:outputLabel value="nazwa zmiennej" for="nazwa" />
+                                <p:inputText id="nazwa" value="#{zmienneZbiorczoView.nazwazmiennej}" title="nazwa"  required="true"/>
+                            </p:panelGrid>
+                            <p:panelGrid columns="6" style="width: 600px;">
+                                <p:outputLabel value="waluta" for="umowaskladnik" />
+                                <p:selectOneMenu id="umowaskladnik" value="#{zmienneZbiorczoView.walutazmiennej}" required="true">
+                                   <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                                   <f:selectItems value="#{waluty.listawalut}"/>
+                               </p:selectOneMenu>
+                                 <p:outputLabel value="brutto" for="bruttonetto" />
+                                <p:selectBooleanCheckbox id="bruttonetto" value="#{zmienneZbiorczoView.netto0brutto1}"/>
+                                <p:outputLabel value="min. ustaw." for="maxust" />
+                                <p:selectBooleanCheckbox id="maxust" value="#{zmienneZbiorczoView.minimalneustatowe}"/>
+                                 </p:panelGrid>
+                            <p:panelGrid columns="4" style="width: 600px;">
                                 <p:outputLabel value="data od" for="dataod" />
                                 <p:inputText id="dataod" value="#{zmienneZbiorczoView.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
                                     <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
                                 </p:inputText>
+                           
                                 <p:outputLabel value="data do" for="datado" />
                                 <p:inputText id="datado" value="#{zmienneZbiorczoView.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do">
                                     <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />

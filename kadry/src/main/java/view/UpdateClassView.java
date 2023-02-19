@@ -56,6 +56,8 @@ public class UpdateClassView   implements Serializable {
     @Inject
     private ZmienneZbiorczoView zmienneZbiorczoView;
     @Inject
+    private SkladnikZbiorczoView skladnikiZbiorczoView;
+    @Inject
     private RozwiazanieumowyView rozwiazanieumowyView;
     @Inject
     private WpisView wpisView;
@@ -87,7 +89,6 @@ public class UpdateClassView   implements Serializable {
         etatView.init();
         skladnikPotraceniaView.init();
         pasekwynagrodzenView.init();
-        zmienneZbiorczoView.init();
     }
     
     public void updateAdminTab(){
@@ -96,6 +97,8 @@ public class UpdateClassView   implements Serializable {
         pracownikNieobecnoscView.init();
         skladnikWynagrodzeniaView.init();
         pasekwynagrodzenView.init();
+        zmienneZbiorczoView.init();
+        skladnikiZbiorczoView.init();
         try {
             kartaWynagrodzenView.pobierzdane(wpisView.getAngaz());
             rachunekZlecenieView.init(wpisView.getUmowa());

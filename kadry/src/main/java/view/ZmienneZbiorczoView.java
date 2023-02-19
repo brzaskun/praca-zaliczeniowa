@@ -48,6 +48,10 @@ public class ZmienneZbiorczoView implements Serializable {
     private List<ZmiennaZbiorcze> pracownikzmienna;
     private ZmiennaZbiorcze selectedlista;
     private List<Angaz> angazList;
+    private String nazwazmiennej;
+    private String walutazmiennej;
+    private boolean netto0brutto1;
+    private  boolean minimalneustatowe;
     
     @PostConstruct
     public void init() {
@@ -57,6 +61,7 @@ public class ZmienneZbiorczoView implements Serializable {
         dataod = Data.dzienpierwszy(wpisView);
         datado = Data.ostatniDzien(wpisView);
         rodzajewynagrodzen = pobierzrodzajewyn();
+        netto0brutto1 = true;
     }
     
     private List<Pracownik> pobierzpracownikow() {
@@ -101,10 +106,29 @@ public class ZmienneZbiorczoView implements Serializable {
                                 zmiennawynagrodzenia.setNrkolejnyzmiennej(ostatniaZmienna.getNrkolejnyzmiennej()+1);
                                 zmiennawynagrodzenia.setWaluta(ostatniaZmienna.getWaluta());
                                 zmiennawynagrodzenia.setAktywna(true);
+                                zmiennawynagrodzenia.setNetto0brutto1(ostatniaZmienna.isNetto0brutto1());
+                                zmiennawynagrodzenia.setMinimalneustatowe(ostatniaZmienna.isMinimalneustatowe());
                                 ostatniaZmienna.setAktywna(false);
                                 ostatniaZmienna.setDatado(Data.odejmijdni(dataod, 1));
                                 zmiennaZbiorcze.setOstatniazmienna(ostatniaZmienna);
                                 zmiennaZbiorcze.setZmienna(zmiennawynagrodzenia);
+                                
+                                pracownikzmienna.add(zmiennaZbiorcze);
+                            } else if (skl.getRodzajwynagrodzenia().equals(wybranyrodzaj) && ostatniaZmienna==null) {
+                                ZmiennaZbiorcze zmiennaZbiorcze = new ZmiennaZbiorcze();
+                                zmiennaZbiorcze.setPracownik(p.getPracownik());
+                                Zmiennawynagrodzenia zmiennawynagrodzenia = new Zmiennawynagrodzenia();
+                                zmiennawynagrodzenia.setSkladnikwynagrodzenia(skl);
+                                zmiennawynagrodzenia.setDataod(dataod);
+                                zmiennawynagrodzenia.setDatado(datado);
+                                zmiennawynagrodzenia.setNazwa(nazwazmiennej);
+                                zmiennawynagrodzenia.setNrkolejnyzmiennej(1);
+                                zmiennawynagrodzenia.setWaluta(walutazmiennej);
+                                zmiennawynagrodzenia.setAktywna(true);
+                                zmiennawynagrodzenia.setNetto0brutto1(netto0brutto1);
+                                zmiennawynagrodzenia.setMinimalneustatowe(minimalneustatowe);
+                                zmiennaZbiorcze.setZmienna(zmiennawynagrodzenia);
+                                
                                 pracownikzmienna.add(zmiennaZbiorcze);
                             }
                         }
@@ -120,7 +144,9 @@ public class ZmienneZbiorczoView implements Serializable {
                 if (p.getZmienna().getKwota()>0.0) {
                     try {
                         zmiennaWynagrodzeniaFacade.create(p.getZmienna());
-                        zmiennaWynagrodzeniaFacade.edit(p.getOstatniazmienna());
+                        if (p.getOstatniazmienna()!=null) {
+                            zmiennaWynagrodzeniaFacade.edit(p.getOstatniazmienna());
+                        }
                     } catch (Exception e) {
                         Msg.msg("e","Błąd przy nanoszeniu zmiennej "+p.getPracownik().getNazwiskoImie());
                     }
@@ -176,6 +202,38 @@ public class ZmienneZbiorczoView implements Serializable {
 
     public void setSelectedlista(ZmiennaZbiorcze selectedlista) {
         this.selectedlista = selectedlista;
+    }
+
+    public String getNazwazmiennej() {
+        return nazwazmiennej;
+    }
+
+    public void setNazwazmiennej(String nazwazmiennej) {
+        this.nazwazmiennej = nazwazmiennej;
+    }
+
+    public String getWalutazmiennej() {
+        return walutazmiennej;
+    }
+
+    public void setWalutazmiennej(String walutazmiennej) {
+        this.walutazmiennej = walutazmiennej;
+    }
+
+    public boolean isNetto0brutto1() {
+        return netto0brutto1;
+    }
+
+    public void setNetto0brutto1(boolean netto0brutto1) {
+        this.netto0brutto1 = netto0brutto1;
+    }
+
+    public boolean isMinimalneustatowe() {
+        return minimalneustatowe;
+    }
+
+    public void setMinimalneustatowe(boolean minimalneustatowe) {
+        this.minimalneustatowe = minimalneustatowe;
     }
 
     
