@@ -234,15 +234,118 @@ public class NieobecnoscView  implements Serializable {
                 double rozliczono = dorozliczenia-dnizezwolnienia;
                 if (dniwyplacone>=33) {
                     double dowyplatyjakoZC = dnizezwolnienia;
-                    Msg.msg("Zasiłek chorobowy "+dowyplatyjakoZC);
+                    Msg.msg("Tylko Zasiłek chorobowy "+dowyplatyjakoZC);
+                    String dataodCH = selected.getDataod();
+                    String datadoCH = selected.getDatado();
+                    Nieobecnosc selectedCH = new Nieobecnosc();
+                    selectedCH.setAngaz(selected.getAngaz());
+                    selectedCH.setRokod(Data.getRok(dataodCH));
+                    selectedCH.setRokdo(Data.getRok(datadoCH));
+                    selectedCH.setMcod(Data.getMc(dataodCH));
+                    selectedCH.setMcdo(Data.getMc(datadoCH));
+                    selectedCH.setUzasadnienie(selected.getUzasadnienie());
+                    selectedCH.setSeriainrzwolnienia(selected.getSeriainrzwolnienia());
+                    selectedCH.setZwolnienieprocent(selected.getZwolnienieprocent());
+                    selectedCH.setSredniazmiennerecznie(selected.getSredniazmiennerecznie());
+                    LocalDate oddata = LocalDate.parse(dataodCH);
+                    LocalDate dodata = LocalDate.parse(datadoCH);
+                    double iloscdni = DAYS.between(oddata,dodata);
+                    selectedCH.setDnikalendarzowe(iloscdni+1.0);
+                    Rodzajnieobecnosci nieobecnoscCH = listaabsencji.stream().filter(p->p.getKod().equals("ZC")).findFirst().get();
+                    selectedCH.setDataod(dataodCH);
+                    selectedCH.setDatado(datadoCH);
+                    selectedCH.setRodzajnieobecnosci(nieobecnoscCH);
+                    selectedCH.setSwiadczeniekodzus(nieobecnoscCH.getSwiadczeniekodzusList().stream().filter(pr->pr.getKod().equals("313")).findFirst().get());
+                    nieobecnoscFacade.create(selectedCH);
+                    lista.add(selectedCH);
+                    Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
+                    dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(angaznowy, wpisView.getRokWpisu()));
+                    Msg.msg("Dodano nieobecność");
                 } else if (rozliczono>=0) {
                     double dowyplatyjakoCH = dnizezwolnienia;
-                    Msg.msg("Wynagrodzenie chorobowe "+dowyplatyjakoCH);
+                    Msg.msg("Tylko Wynagrodzenie chorobowe "+dowyplatyjakoCH);
+                    String dataodCH = selected.getDataod();
+                    String datadoCH = selected.getDatado();
+                    Nieobecnosc selectedCH = new Nieobecnosc();
+                    selectedCH.setAngaz(selected.getAngaz());
+                    selectedCH.setRokod(Data.getRok(dataodCH));
+                    selectedCH.setRokdo(Data.getRok(datadoCH));
+                    selectedCH.setMcod(Data.getMc(dataodCH));
+                    selectedCH.setMcdo(Data.getMc(datadoCH));
+                    selectedCH.setUzasadnienie(selected.getUzasadnienie());
+                    selectedCH.setSeriainrzwolnienia(selected.getSeriainrzwolnienia());
+                    selectedCH.setZwolnienieprocent(selected.getZwolnienieprocent());
+                    selectedCH.setSredniazmiennerecznie(selected.getSredniazmiennerecznie());
+                    LocalDate oddata = LocalDate.parse(dataodCH);
+                    LocalDate dodata = LocalDate.parse(datadoCH);
+                    double iloscdni = DAYS.between(oddata,dodata);
+                    selectedCH.setDnikalendarzowe(iloscdni+1.0);
+                    Rodzajnieobecnosci nieobecnoscCH = listaabsencji.stream().filter(p->p.getKod().equals("CH")).findFirst().get();
+                    selectedCH.setDataod(dataodCH);
+                    selectedCH.setDatado(datadoCH);
+                    selectedCH.setRodzajnieobecnosci(nieobecnoscCH);
+                    selectedCH.setSwiadczeniekodzus(nieobecnoscCH.getSwiadczeniekodzusList().stream().filter(pr->pr.getKod().equals("331")).findFirst().get());
+                    nieobecnoscFacade.create(selectedCH);
+                    lista.add(selectedCH);
+                    Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
+                    dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(angaznowy, wpisView.getRokWpisu()));
+                    Msg.msg("Dodano nieobecność");
                 } else if (rozliczono<0 && dorozliczenia>0) {
+                    String dataodCH = selected.getDataod();
+                    String datadoCH = Data.dodajdni(dataodCH, ((int) dorozliczenia)-1);
                     double dowyplatyjakoCH = dorozliczenia;
-                    Msg.msg("Wynagrodzenie chorobowe "+dowyplatyjakoCH);
+                    Msg.msg("Wynagrodzenie chorobowe "+dowyplatyjakoCH+" data "+datadoCH);
+                    Nieobecnosc selectedCH = new Nieobecnosc();
+                    selectedCH.setAngaz(selected.getAngaz());
+                    selectedCH.setRokod(Data.getRok(dataodCH));
+                    selectedCH.setRokdo(Data.getRok(datadoCH));
+                    selectedCH.setMcod(Data.getMc(dataodCH));
+                    selectedCH.setMcdo(Data.getMc(datadoCH));
+                    selectedCH.setUzasadnienie(selected.getUzasadnienie());
+                    selectedCH.setSeriainrzwolnienia(selected.getSeriainrzwolnienia());
+                    selectedCH.setZwolnienieprocent(selected.getZwolnienieprocent());
+                    selectedCH.setSredniazmiennerecznie(selected.getSredniazmiennerecznie());
+                    LocalDate oddata = LocalDate.parse(dataodCH);
+                    LocalDate dodata = LocalDate.parse(datadoCH);
+                    double iloscdni = DAYS.between(oddata,dodata);
+                    selectedCH.setDnikalendarzowe(iloscdni+1.0);
+                    Rodzajnieobecnosci nieobecnoscCH = listaabsencji.stream().filter(p->p.getKod().equals("CH")).findFirst().get();
+                    selectedCH.setDataod(dataodCH);
+                    selectedCH.setDatado(datadoCH);
+                    selectedCH.setRodzajnieobecnosci(nieobecnoscCH);
+                    selectedCH.setSwiadczeniekodzus(nieobecnoscCH.getSwiadczeniekodzusList().stream().filter(pr->pr.getKod().equals("331")).findFirst().get());
+                    nieobecnoscFacade.create(selectedCH);
+                    lista.add(selectedCH);
+                    Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
+                    dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(angaznowy, wpisView.getRokWpisu()));
+                    //*************
+                    String dataodZC = Data.dodajdni(datadoCH, 1);
+                    String datadoZC = Data.dodajdni(dataodZC, ((int) Math.abs(rozliczono)-1));
                     double dowyplatyjakoZC = Math.abs(rozliczono);
-                    Msg.msg("Zasiłek chorobowy "+dowyplatyjakoZC);
+                    Msg.msg("Zasiłek chorobowy "+dowyplatyjakoZC+" data "+datadoZC);
+                    Nieobecnosc selectedZC = new Nieobecnosc();
+                    selectedZC.setAngaz(selected.getAngaz());
+                    selectedZC.setRokod(Data.getRok(dataodZC));
+                    selectedZC.setRokdo(Data.getRok(datadoZC));
+                    selectedZC.setMcod(Data.getMc(dataodZC));
+                    selectedZC.setMcdo(Data.getMc(datadoZC));
+                    selectedZC.setUzasadnienie(selected.getUzasadnienie());
+                    selectedZC.setSeriainrzwolnienia(selected.getSeriainrzwolnienia());
+                    selectedZC.setZwolnienieprocent(selected.getZwolnienieprocent());
+                    selectedZC.setSredniazmiennerecznie(selected.getSredniazmiennerecznie());
+                    oddata = LocalDate.parse(dataodZC);
+                    dodata = LocalDate.parse(datadoZC);
+                    iloscdni = DAYS.between(oddata,dodata);
+                    selectedZC.setDnikalendarzowe(iloscdni+1.0);
+                    nieobecnoscCH = listaabsencji.stream().filter(p->p.getKod().equals("ZC")).findFirst().get();
+                    selectedZC.setDataod(dataodZC);
+                    selectedZC.setDatado(datadoZC);
+                    selectedZC.setRodzajnieobecnosci(nieobecnoscCH);
+                    selectedZC.setSwiadczeniekodzus(nieobecnoscCH.getSwiadczeniekodzusList().stream().filter(pr->pr.getKod().equals("313")).findFirst().get());
+                    nieobecnoscFacade.create(selectedZC);
+                    lista.add(selectedZC);
+                    angaznowy = angazFacade.findById(wpisView.getAngaz());
+                    dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(angaznowy, wpisView.getRokWpisu()));
                 }
                 
                 Msg.msg("Choroba automat");
@@ -260,6 +363,7 @@ public class NieobecnoscView  implements Serializable {
                   String stannadzien = data.Data.ostatniDzien(wpisView);
                   Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
                   urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
+                  dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
                   wygenerowano = true;
                   Msg.msg("Dodano nieobecność");
               } else if (selected.getId()!=null&&!selected.getRodzajnieobecnosci().getKod().equals("CA")) {
@@ -280,6 +384,7 @@ public class NieobecnoscView  implements Serializable {
                   String stannadzien = data.Data.ostatniDzien(wpisView);
                   Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
                   urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
+                  dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
               }
               selected = new Nieobecnosc(wpisView.getAngaz());
             } catch (Exception e) {
@@ -375,7 +480,7 @@ public class NieobecnoscView  implements Serializable {
     public void naniesrodzajnieobecnosci() {
         if (selected.getRodzajnieobecnosci()!=null) {
             swiadczeniekodzusLista = swiadczeniekodzusFacade.findByRodzajnieobecnosciAktiv(selected.getRodzajnieobecnosci());
-            if (selected.getRodzajnieobecnosci().getKod().equals("CH")||selected.getRodzajnieobecnosci().getKod().equals("ZC")) {
+            if (selected.getRodzajnieobecnosci().getKod().equals("CH")||selected.getRodzajnieobecnosci().getKod().equals("ZC")||selected.getRodzajnieobecnosci().getKod().equals("CA")) {
                 selected.setZwolnienieprocent(80);
             } else {
                 selected.setZwolnienieprocent(0);
@@ -388,7 +493,7 @@ public class NieobecnoscView  implements Serializable {
                 selected.setDietaoddelegowanie(49.0);
                 delegacja = true;
             }
-            if (selected.getRodzajnieobecnosci().getKod().equals("CH")||selected.getRodzajnieobecnosci().getKod().equals("ZC")) {
+            if (selected.getRodzajnieobecnosci().getKod().equals("CH")||selected.getRodzajnieobecnosci().getKod().equals("ZC")||selected.getRodzajnieobecnosci().getKod().equals("CA")) {
                 zwolnienie = true;
             }
             if (swiadczeniekodzusLista.size()==1) {
@@ -613,6 +718,10 @@ public class NieobecnoscView  implements Serializable {
             nieobecnoscFacade.edit(nieob);
             nieobecnoscFacade.remove(nieob);
             lista.remove(nieob);
+            dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
+            String stannadzien = data.Data.ostatniDzien(wpisView);
+            Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
+            urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
             kalendarzmiesiacView.init();
             Msg.msg("Usunięto nieobecność. Naniesiono zmiany w kalendarzu");
         } else {

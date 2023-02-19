@@ -129,7 +129,7 @@
                     <h:outputText value="#{wpisView.umowa.pierwszydzienzasilku}" style="color: green;"/>
                     <h:outputText value="wypłacono wynagr. za czas choroby za dni: " style="margin-left: 20px;"/>
                     <h:outputText value="#{nieobecnoscView.dniwykorzystanewroku}" style="color: red;" rendered="#{nieobecnoscView.dniwykorzystanewroku gt 33}"/>
-                    <h:outputText value="#{nieobecnoscView.dniwykorzystanewroku}" style="color: green;" rendered="#{nieobecnoscView.dniwykorzystanewroku lt 33}"/>
+                    <h:outputText value="#{nieobecnoscView.dniwykorzystanewroku}" style="color: green;" rendered="#{nieobecnoscView.dniwykorzystanewroku lt 34}"/>
                     <p:outputLabel value="nanieś bezpośrednio na kalendarz" style="margin-left: 20px;"/>
                     <p:selectBooleanCheckbox value="#{nieobecnoscView.naniesbezposrednio}">
                         <p:ajax event="change"  partialSubmit="true" />
@@ -279,13 +279,14 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="pi pi-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm"
-                                             rendered="#{itemNieob.naniesiona eq false and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}">
+                            <p:commandButton icon="pi pi-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm NieobecnoscCreateForm"
+                                             rendered="#{itemNieob.naniesiona eq false and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}" >
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć nieobecność?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz()}" value="nanieś na kal." update="NieobecnoscListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacListForm KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz()}" value="nanieś na kal." 
+                                     update="NieobecnoscListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacListForm KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm"/>
                 </p:panel>
             </h:form>
         </p:outputPanel>
