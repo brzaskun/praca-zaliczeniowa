@@ -24,7 +24,7 @@
                   <div class="inline-block col-1 bg-taxman text-3xl flex-auto text-white font-bold text-center p-1 border-round">
                       <p:selectOneMenu id="rokWpisu" value="#{wpisView.okreswpisu}"  style="width: 150px;" converter="#{okresConverter}">
                           <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
-                            <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"  listener="#{updateClassView.updateUmowa()}"/>
+                            <p:ajax event="change" partialSubmit="true" global="false" update="@(.formadmin)"  listener="#{updateClassView.updateUmowa()}"/>
                         </p:selectOneMenu>
                     </div>
             </div>

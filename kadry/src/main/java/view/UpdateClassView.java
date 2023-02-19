@@ -90,7 +90,7 @@ public class UpdateClassView   implements Serializable {
         zmienneZbiorczoView.init();
     }
     
-    public void updateUmowaPlace(){
+    public void updateAdminTab(){
         kalendarzmiesiacView.init();
         nieobecnoscView.init();
         pracownikNieobecnoscView.init();

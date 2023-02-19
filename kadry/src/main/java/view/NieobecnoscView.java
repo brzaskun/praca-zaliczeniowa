@@ -125,10 +125,6 @@ public class NieobecnoscView  implements Serializable {
         delegacja = false;
         zwolnienie = false;
         naniesbezposrednio = true;
-        String stannadzien = data.Data.ostatniDzien(wpisView);
-        Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
-        urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
-        
     }
     
     public void init() {
@@ -150,6 +146,9 @@ public class NieobecnoscView  implements Serializable {
         if (dniwykorzystanewroku>=33) {
             listaabsencji = listaabsencji.stream().filter(p->!p.getKod().equals("CH")).collect(Collectors.toList());
         }
+        Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
+        String stannadzien = data.Data.ostatniDzien(wpisView);
+        urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
         //Collections.sort(listaabsencji, new Nieobecnoscikodzuscomparator());
     }
     
