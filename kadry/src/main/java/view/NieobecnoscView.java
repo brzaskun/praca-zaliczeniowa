@@ -596,6 +596,8 @@ public class NieobecnoscView  implements Serializable {
         if (czynaniesiono==false) {
             Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
         }
+        kalendarzmiesiacView.init();
+        dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
         String stannadzien = data.Data.ostatniDzien(wpisView);
         Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
         urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
@@ -685,6 +687,7 @@ public class NieobecnoscView  implements Serializable {
             nieob.setDniroboczenieobecnosci(0.0);
             nieobecnoscFacade.edit(nieob);
             kalendarzmiesiacView.init();
+            dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
             String stannadzien = data.Data.ostatniDzien(wpisView);
             Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
             urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);

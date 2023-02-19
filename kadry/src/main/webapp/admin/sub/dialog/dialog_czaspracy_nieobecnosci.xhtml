@@ -255,7 +255,8 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="pi pi-thumbs-up" actionListener="#{nieobecnoscView.nanies(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm  @(.urlopnizostalo)"
+                            <p:commandButton icon="pi pi-thumbs-up" actionListener="#{nieobecnoscView.nanies(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist @(.urlopnizostalo) KalendarzmiesiacCreateForm 
+                                             KalendarzmiesiacCreateRokForm  @(.urlopnizostalo) NieobecnoscListForm"
                                              rendered="#{itemNieob.naniesiona eq false and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}">
                             </p:commandButton>
                         </p:column>
@@ -263,7 +264,8 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="pi pi-thumbs-down" actionListener="#{nieobecnoscView.zdejmijzkalendarza(itemNieob)}"  update="@parent:@parent KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm  @(.urlopnizostalo)"  
+                            <p:commandButton icon="pi pi-thumbs-down" actionListener="#{nieobecnoscView.zdejmijzkalendarza(itemNieob)}"  update="@parent:@parent KalendarzmiesiacListForm:datalist @(.urlopnizostalo) KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm  
+                                             @(.urlopnizostalo) NieobecnoscListForm"  
                                              rendered="#{itemNieob.naniesiona eq true and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}">
                             </p:commandButton>
                         </p:column>
@@ -271,7 +273,7 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="pi pi-pencil" actionListener="#{nieobecnoscView.edytuj(itemNieob)}"  update="NieobecnoscCreateForm" 
+                            <p:commandButton icon="pi pi-pencil" actionListener="#{nieobecnoscView.edytuj(itemNieob)}"  update="NieobecnoscCreateForm " 
                                              rendered="#{itemNieob.naniesiona eq false and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}">
                             </p:commandButton>
                         </p:column>
@@ -279,14 +281,14 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="pi pi-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm NieobecnoscCreateForm"
+                            <p:commandButton icon="pi pi-trash" actionListener="#{nieobecnoscView.usun(itemNieob)}"  update="NieobecnoscListForm:datalist KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm @(.urlopnizostalo) NieobecnoscListForm"
                                              rendered="#{itemNieob.naniesiona eq false and (itemNieob.naliczenienieobecnoscList ne null or itemNieob.naliczenienieobecnoscList.size() eq 0)}" >
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć nieobecność?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz()}" value="nanieś na kal." 
-                                     update="NieobecnoscListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacListForm KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm"/>
+                                     update="NieobecnoscListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacListForm KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm @(.urlopnizostalo) NieobecnoscListForm"/>
                 </p:panel>
             </h:form>
         </p:outputPanel>
