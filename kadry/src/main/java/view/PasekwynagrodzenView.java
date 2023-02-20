@@ -350,16 +350,21 @@ public class PasekwynagrodzenView implements Serializable {
                         rachunkilista.add(rachunekdoumowyzlecenia);
                     }
                     Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaGlobalnaRokMc(pracownikmc.getRok(), pracownikmc.getMc());
-                    Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, 
-                            wynagrodzenieminimalne, czyodlicoznokwotewolna,
-                            kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, kalendarzwzor, definicjadlazasilkow);
-                    usunpasekjakzawiera(pasek);
-                    pasek.setSporzadzil(wpisView.getUzer().getLogin());
-                    lista.add(pasek);
-                    it.remove();
-                    if (rachunekdoumowyzlecenia!=null) {
-                        rachunekdoumowyzlecenia.setPasekwynagrodzen(pasek);
+                    try {
+                        Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, 
+                                wynagrodzenieminimalne, czyodlicoznokwotewolna,
+                                kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, kalendarzwzor, definicjadlazasilkow);
+                        usunpasekjakzawiera(pasek);
+                        pasek.setSporzadzil(wpisView.getUzer().getLogin());
+                        lista.add(pasek);
+                        it.remove();
+                        if (rachunekdoumowyzlecenia!=null) {
+                            rachunekdoumowyzlecenia.setPasekwynagrodzen(pasek);
+                        }
+                    } catch (Exception e) {
+                        Msg.msg("e","Błąd podczas wyliczania "+wpisView.getPracownik().getNazwiskoImie());
                     }
+                    
                 }
                 Msg.msg("Sporządzono listę płac");
                 zapisz();

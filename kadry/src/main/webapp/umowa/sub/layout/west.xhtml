@@ -31,7 +31,8 @@
                              style="height: 350px;overflow-y: scroll;"
                              >
                     <p:ajax event="rowSelect" listener="#{umowaView.aktywuj(umowaView.selectedeast)}" partialSubmit="true" global="true" update="north,@(.formumowa)"/>
-                    <p:column sortBy="#{item2.pracownik.nazwiskoImie}">
+                    <p:ajax event="filter" global="false"/>
+                    <p:column sortBy="#{item2.pracownik.nazwiskoImie}" filterBy="#{item2.pracownik.nazwiskoImie}" filterMatchMode="contains" filterable="true">
                         <h:outputText value="#{item2.pracownik.nazwiskoImie}" rendered="#{item2.jestumowaAktywna(wpisView.rokWpisu, wpisView.miesiacWpisu) eq true}" />
                         <h:outputText value="#{item2.pracownik.nazwiskoImie}" rendered="#{item2.jestumowaAktywna(wpisView.rokWpisu, wpisView.miesiacWpisu) eq false}" style="color: #9E9E9E"/>
                     </p:column>
