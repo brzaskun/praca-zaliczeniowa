@@ -11,7 +11,6 @@ import beanstesty.NieobecnosciBean;
 import beanstesty.PasekwynagrodzenBean;
 import beanstesty.UmowaBean;
 import comparator.UmowaDataBazacomparator;
-import comparator.Umowacomparator;
 import dao.AngazFacade;
 import dao.DzienFacade;
 import dao.EtatPracFacade;
@@ -590,12 +589,12 @@ public class UmowaView implements Serializable {
                 if (badanie.isPresent()) {
                     umowaaktywna = (Umowa) badanie.get();
                 }
-                if (umowaaktywna==null) {
-                    Collections.sort(umowy, new Umowacomparator());
-                    umowaaktywna = umowy.get(0);
-                    umowaaktywna.setAktywna(true);
-                    umowaFacade.edit(umowaaktywna);
-                }
+//                if (umowaaktywna==null) {
+//                    Collections.sort(umowy, new Umowacomparator());
+//                    umowaaktywna = umowy.get(0);
+//                    umowaaktywna.setAktywna(true);
+//                    umowaFacade.edit(umowaaktywna);
+//                }
                 wpisView.setUmowa(umowaaktywna);
             } else {
                 Msg.msg("e","Nie ma żadnej umowy do angażu");
@@ -616,21 +615,34 @@ public class UmowaView implements Serializable {
                 wpisView.setPracownik(null);
                 wpisView.setAngaz(null);
                 wpisView.setUmowa(null);
-            } else {
+            } else if (firma.getAngazList()!=null) {
                 Angaz angaz = firma.getAngazList().get(0);
                 wpisView.setPracownik(angaz.getPracownik());
                 wpisView.setAngaz(angaz);
+                selectedeast = angaz;
                 List<Umowa> umowy = angaz.getUmowaList();
+                if (umowy==null) {
+                try {
+                    umowy = umowaFacade.findByAngaz(angaz);
+                } catch (Exception ex){}
+                }
                 if (umowy!=null && umowy.size()==1) {
                     wpisView.setUmowa(umowy.get(0));
-                } else if (umowy!=null) {
-                    try {
-                        wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
-                    } catch (Exception e){}
+                } else if (umowy!=null&&!umowy.isEmpty()) {
+                    Umowa umowaaktywna = null;
+                    Optional badanie  = umowy.stream().filter(p->p.isAktywna()).findFirst();
+                    if (badanie.isPresent()) {
+                        umowaaktywna = (Umowa) badanie.get();
+                    }
+                    wpisView.setUmowa(umowaaktywna);
                 }
+            } else {
+                Msg.msg("e","Nie ma żadnej umowy do angażu");
+                wpisView.setUmowa(null);
+                System.out.println("Nie pobrano umów do angażu");
             }
             init();
-            updateClassView.updateUmowa();
+            updateClassView.updateUmowaRozwiazanei();
             Msg.msg("Aktywowano firmę "+firma.getNazwa());
         }
     }

@@ -80,11 +80,12 @@ public class UpdateClassView   implements Serializable {
         pasekwynagrodzenView.init();
     }
     
+    //identyczne z tym powyzej bo nie chce mi sie poprawiac
     public void updateUmowa(){
         umowaView.init();
+        rozwiazanieumowyView.init();
         skladnikWynagrodzeniaView.init();
         zmiennaWynagrodzeniaView.init();
-        kalendarzmiesiacView.init();
         zmiennaPotraceniaView.init();
         etatView.init();
         skladnikPotraceniaView.init();
