@@ -147,7 +147,7 @@ public class NieobecnoscView  implements Serializable {
             listaabsencji = listaabsencji.stream().filter(p->!p.getKod().equals("CH")).collect(Collectors.toList());
         }
         Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
-        String stannadzien = data.Data.ostatniDzien(wpisView);
+        String stannadzien = data.Data.ostatniDzien(wpisView.getRokWpisu(),"12");
         urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
         //Collections.sort(listaabsencji, new Nieobecnoscikodzuscomparator());
     }

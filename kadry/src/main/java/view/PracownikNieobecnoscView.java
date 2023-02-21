@@ -299,7 +299,7 @@ public class PracownikNieobecnoscView  implements Serializable {
                         }
                     }
                 }
-                double dobowanormaczasupracy = (8/(wybranyetat.getEtat1()/wybranyetat.getEtat2()));
+                double dobowanormaczasupracy = (8.0*(((double)wybranyetat.getEtat1())/((double)wybranyetat.getEtat2())));
                 double dniekwiwalent = Z.z(godzinyekwiwalent/dobowanormaczasupracy);
                 for (Skladnikwynagrodzenia p : skladniki) {
                       if (p.getRodzajwynagrodzenia().getStale0zmienne1()==false&&!p.getRodzajwynagrodzenia().getWks_serial().equals("1014")) {
