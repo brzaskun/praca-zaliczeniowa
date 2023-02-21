@@ -805,7 +805,7 @@ public class KalendarzmiesiacBean {
                 double dowyplatyzaczasnieobecnosci = stawkagodzinowa * liczbagodzinurlopu;
                 naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
-                naliczenienieobecnosc.setKwotaredukcji(0.0);
+                naliczenienieobecnosc.setKwotaredukcji(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
                 pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
             }
@@ -1353,6 +1353,7 @@ public class KalendarzmiesiacBean {
         }
     }
 
+    //przywrocilem dla urlopu 21-02-2023
     static void redukujskladnikistale2(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
         if (pasekwynagrodzen.getNaliczenienieobecnoscList() != null && pasekwynagrodzen.getNaliczenienieobecnoscList().size() > 0) {
             for (Naliczenieskladnikawynagrodzenia pa : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
@@ -1367,7 +1368,7 @@ public class KalendarzmiesiacBean {
                                 //redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
                                 break;
                             case "U":
-                                redukcjazaurlop = redukcjazaurlop + p.getKwotaredukcji();
+                                redukcjazaurlop = Z.z(redukcjazaurlop + p.getKwotaredukcji());
                                 break;
                             case "X":
                                 //redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();
@@ -1384,7 +1385,8 @@ public class KalendarzmiesiacBean {
                 if (pa.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
                     double kwotyredukujace = pa.getKwotyredukujacesuma();
                     pa.setKwotyredukujacesuma(Z.z(kwotyredukujace + redukcjazabezplatny + redukcjazaurlop + redukcjazadnipozaumowa));
-                    pa.setKwotadolistyplac(Z.z(pa.getKwotadolistyplac() - redukcjazaurlop));
+                    double kwotalp = pa.getKwotadolistyplac() - redukcjazaurlop>0.0?pa.getKwotadolistyplac() - redukcjazaurlop:0.0;
+                    pa.setKwotadolistyplac(kwotalp);
                 }
             }
         }

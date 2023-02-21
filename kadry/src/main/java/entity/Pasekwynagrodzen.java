@@ -1323,6 +1323,7 @@ public class Pasekwynagrodzen implements Serializable {
                     wiersz.stawkadzienna = p.getStawkadzienna();
                     wiersz.waluta = p.getWaluta();
                     wiersz.procentzwolnienia = p.getNieobecnosc().getZwolnienieprocent();
+                    wiersz.wynagrodzeniezmienna = p.getSkladnikistale();
                     wiersz.wynagrodzeniezmiennawaluta = p.getKwotawaluta();
                     zwrot.add(wiersz);
                 }

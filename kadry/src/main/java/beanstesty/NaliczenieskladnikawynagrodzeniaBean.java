@@ -130,7 +130,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 double godzinyobecnosciroboczestat = 0.0;
                 double stawkadzienna = 0.0;
                 double stawkagodzinowa = 0.0;
-                double kwotazaokresBezchoroby = 0.0;
+                double godzinystosunkupracy = 0.0;
                 double dowyplatyzaczasprzepracowany = 0.0;
                 double liczbazmiennych = 0.0;
                 double redukcja = 0.0;
@@ -162,6 +162,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                                 godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getNormagodzin();
                             }
                         }
+                        if (s.getKod() == null||(s.getKod()!=null&&!s.getKod().equals("D"))&&s.getNormagodzin()>0.0) {
+                            godzinystosunkupracy = godzinystosunkupracy + s.getNormagodzin();
+                        }
                         if (s.getKod() != null && (s.getKod().equals("CH") || s.getKod().equals("ZC") || s.getKod().equals("W"))) {
                             if (s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                                 dnichoroby = dnichoroby + 1;
@@ -175,25 +178,17 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
                         redukcja = redukcja + Z.z(skladnikistale /30.0*dnichoroby);
                     }
-                    kwotazaokresBezchoroby = skladnikistale-redukcja >0.0?skladnikistale-redukcja:0.0;
                     double dnipozachoroba = dniroboczenominalnewmiesiacu-dnichorobyrobocze;
                     double godzinypozachoroba = godzinyroboczenominalnewmiesiacu-godzinychoroby;
                     //zlikwidowano zaokraglenia 29-11-2022, na wniosek Oli przywrocono zaokraglenia 05-01-2022 zeby pasowalo z superplace
-                    double stawkadziennazm = dnipozachoroba==0.0?0.0:Z.z(kwotazaokresBezchoroby / dnipozachoroba);
+                    double stawkadziennazm = dnipozachoroba==0.0?0.0:Z.z(skladnikistale / dniroboczenominalnewmiesiacu);
                     //wstawilem tu zaokraglanie do 6 miejsc bo inaczej wychodzily braki
-                    double stawkagodzinowazm = godzinypozachoroba==0.0?0.0:Z.z6(kwotazaokresBezchoroby / godzinypozachoroba);
+                    double stawkagodzinowazm = godzinypozachoroba==0.0?0.0:Z.z6(skladnikistale / godzinyroboczenominalnewmiesiacu);
                     stawkadzienna = stawkadzienna + stawkadziennazm;
                     stawkagodzinowa = stawkagodzinowa + stawkagodzinowazm;
-                    //tu wylicza wynagrodzenie za faktycznie przepracowany czas i date obowiazywania zmiennej
-//                    if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
-//                        kwotazaokresnieprzepracowany = kwotazaokresnieprzepracowany + Z.z(stawkagodzinowazm * godzinychoroby);
-//                        redukcja = Z.z(kwotazaokresnieprzepracowany);
-//                        dowyplatyzaczasprzepracowany = Z.z(skladnikistale-redukcja);
-//                    } else {
-//                        dowyplatyzaczasprzepracowany = skladnikistale;
-//                    }
                     if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
-                        dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany+stawkagodzinowa*godzinyobecnosciroboczestat;
+                        dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany+stawkagodzinowa*godzinystosunkupracy;
+                        dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany-redukcja >0.0?dowyplatyzaczasprzepracowany-redukcja:0.0;
                     } else {
                         dowyplatyzaczasprzepracowany = skladnikistale;
                     }
