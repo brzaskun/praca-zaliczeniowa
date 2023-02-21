@@ -12,11 +12,19 @@
                 <p:outputPanel>
                     <p:panel header="zakres zmian"/>
                     <p:panelGrid columns="2">
+                        <p:outputLabel value="rodzaj składnika wyn." for="skladnik" />
+                        <p:selectOneMenu id="skladnik" value="#{pracownikAneksyView.wybranyrodzaj}" required="true" requiredMessage="wybierz rodzaj składnika wynagrodzenia"  converter="#{rodzajwynagrodzeniaConverter}" filter="true" filterMatchMode="contains">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{pracownikAneksyView.rodzajewynagrodzen}" 
+                                           var="rodzajItem"
+                                           itemValue="#{rodzajItem}" itemLabel="#{rodzajItem.kod} #{rodzajItem.opispelny}"/>
+                            <p:ajax event="change" partialSubmit="true" listener="#{pracownikAneksyView.tworzzmienne()}" update="akordeon:AneksForm:datalist"/>
+                        </p:selectOneMenu>
                         <p:outputLabel for="dataaneksu1" value="data aneksu" />
                         <p:inputText id="dataaneksu1" value="#{pracownikAneksyView.dataaneksu}" placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę aneksu"/>
                         <p:outputLabel for="dataaneksu" value="od kiedy zmiana" />
                         <p:inputText id="dataaneksu" value="#{pracownikAneksyView.odkiedyzmiana}" placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę zmiany"/>
-                        <p:outputLabel for="kwotaaneksu" value="nowa kwota wynagrodzenia" />
+                        <p:outputLabel for="kwotaaneksu" value="nowa kwota zmiennej dla wszystk." />
                         <p:inputNumber id="kwotaaneksu" value="#{pracownikAneksyView.kwotaaneksu}"  size="14"  maxlength="7" decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right">
                             <p:ajax event="change" listener="#{pracownikAneksyView.nanieskwote}" update="akordeon:AneksForm:datalist"/>
                         </p:inputNumber>

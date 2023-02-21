@@ -14,6 +14,7 @@ import data.Data;
 import entity.Angaz;
 import entity.Dokumenty;
 import entity.FirmaKadry;
+import entity.Rodzajwynagrodzenia;
 import entity.SMTPSettings;
 import entity.Skladnikwynagrodzenia;
 import entity.Umowa;
@@ -21,7 +22,9 @@ import entity.Zmiennawynagrodzenia;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -58,6 +61,8 @@ public class PracownikAneksyView  implements Serializable {
     private String odkiedyzmiana;
     private double kwotaaneksu;
     private String innewarunkizatrudnienia;
+    private Rodzajwynagrodzenia wybranyrodzaj;
+    private List<Rodzajwynagrodzenia> rodzajewynagrodzen;
     
     @PostConstruct
     private void init() {
@@ -67,13 +72,34 @@ public class PracownikAneksyView  implements Serializable {
             for (Angaz a : angaze) {
                 listaumowy.addAll(a.getUmowaList().stream().filter(p -> p.isAktywna()).collect(Collectors.toList()));
             }
+            rodzajewynagrodzen = pobierzrodzajewyn(angaze);
+        }
+    }
+    
+    private List<Rodzajwynagrodzenia> pobierzrodzajewyn(List<Angaz> angaze) {
+        Set<Rodzajwynagrodzenia> rodzajeset = new HashSet<>();
+        for (Angaz p : angaze) {
+            List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = p.getSkladnikwynagrodzeniaList();
+            if (skladnikwynagrodzeniaList!=null) {
+                for (Skladnikwynagrodzenia skl : skladnikwynagrodzeniaList) {
+                    rodzajeset.add(skl.getRodzajwynagrodzenia());
+                }
+            }
+            
+        }
+        return new ArrayList<>(rodzajeset);
+    }
+    
+
+    public void tworzzmienne() {
+        if (wybranyrodzaj!=null && listaumowy!=null) {
             for (Umowa u : listaumowy) {
                 Skladnikwynagrodzenia zwrot = null;
                 List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList1 = u.getAngaz().getSkladnikwynagrodzeniaList();
                 if (skladnikwynagrodzeniaList1 != null) {
                     for (Skladnikwynagrodzenia s : skladnikwynagrodzeniaList1) {
-                        if (s.getRodzajwynagrodzenia().getKod().equals("11")||s.getRodzajwynagrodzenia().getKod().equals("50")) {
-                            if (s.getOstatniaZmienna()!=null) {
+                        if (s.getRodzajwynagrodzenia().equals(wybranyrodzaj)) {
+                            if (s.getOstatniaZmienna() != null) {
                                 u.setZmiennawynagrodzenia(s.getOstatniaZmienna());
                                 u.setNetto0brutto1(s.getOstatniaZmienna().isNetto0brutto1());
                                 break;
@@ -84,6 +110,7 @@ public class PracownikAneksyView  implements Serializable {
             }
         }
     }
+        
     
    public void aktywujPracAneksy(FirmaKadry firma) {
         if (firma!=null) {
@@ -317,6 +344,22 @@ public class PracownikAneksyView  implements Serializable {
 
     public void setOdkiedyzmiana(String odkiedyzmiana) {
         this.odkiedyzmiana = odkiedyzmiana;
+    }
+
+    public Rodzajwynagrodzenia getWybranyrodzaj() {
+        return wybranyrodzaj;
+    }
+
+    public void setWybranyrodzaj(Rodzajwynagrodzenia wybranyrodzaj) {
+        this.wybranyrodzaj = wybranyrodzaj;
+    }
+
+    public List<Rodzajwynagrodzenia> getRodzajewynagrodzen() {
+        return rodzajewynagrodzen;
+    }
+
+    public void setRodzajewynagrodzen(List<Rodzajwynagrodzenia> rodzajewynagrodzen) {
+        this.rodzajewynagrodzen = rodzajewynagrodzen;
     }
 
 

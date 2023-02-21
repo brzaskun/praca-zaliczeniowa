@@ -359,7 +359,7 @@ public class PdfUmowaoPrace {
                 String rodzaj = zmiennawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()?"miesięcznie":"za godzinę";
                 String zmienna = zmiennawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny();
                 String nettobruttostring = netto0brutto1?"brutto":"netto";
-                PdfMain.dodajElementListy(document, literka+zmienna+": ", f.F.curr(zmiennawynagrodzenia.getNowakwota(), "PLN")+" "+nettobruttostring+" "+rodzaj, fontM);
+                PdfMain.dodajElementListy(document, literka+zmienna+": ", f.F.curr(zmiennawynagrodzenia.getNowakwota(), zmiennawynagrodzenia.getWaluta())+" "+nettobruttostring+" "+rodzaj, fontM);
                 literka = "b) ";
             }
             if (innewarunkizatrudnienia!=null&&!innewarunkizatrudnienia.isEmpty()) {
