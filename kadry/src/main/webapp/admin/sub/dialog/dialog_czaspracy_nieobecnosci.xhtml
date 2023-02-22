@@ -166,7 +166,7 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.rodzajnieobecnosci.opis}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column> 
-                        <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith" sortBy="#{itemNieob.dataod}" sortOrder="desc" >
+                        <p:column width="50" filterBy="#{itemNieob.dataod}" filterMatchMode="startsWith" sortBy="#{itemNieob.dataod}" sortOrder="desc" sortPriority="1">
                             <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>

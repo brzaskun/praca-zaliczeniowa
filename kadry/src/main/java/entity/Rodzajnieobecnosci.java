@@ -118,7 +118,7 @@ public class Rodzajnieobecnosci implements Serializable {
     }
 
     public String getKodzbiorczy() {
-        String zwrot = kodzbiorczy;
+        String zwrot = this.kodzbiorczy;
         if (zwrot==null) {
             kodzbiorczy = "";
         }

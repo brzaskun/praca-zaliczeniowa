@@ -523,6 +523,9 @@ public class Dzien implements Serializable {
         this.wychowawczy = wychowawczy;
     }
 
+    
+    
+
     void nanies(Dzien dzienwzor) {
         this.nrdnia = dzienwzor.nrdnia;
         this.datastring = dzienwzor.datastring;

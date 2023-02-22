@@ -151,13 +151,13 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
                         //zmienilem zdanie. redukcja bedzie statystyczna
                         //tu musza byc faktycznie dni
-                        if (s.getKod() == null || s.getKod().equals("") || s.getKod().equals("CH") || s.getKod().equals("ZC") || s.getKod().equals("MD") || s.getKod().equals("UR") || s.getKod().equals("UR") || s.getKod().equals("W")) {
+                        if (s.getKod() == null || s.getKod().equals("") || s.getKod().equals("CH") || s.getKod().equals("ZC") || s.getKod().equals("MD") || s.getKod().equals("UR") || s.getKod().equals("UR") || s.getKod().equals("WY")) {
                             if (s.getTypdnia() == 0 && s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                                 dniroboczeprzepracowanestat = dniroboczeprzepracowanestat + 1;
                                 godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getPrzepracowano();
                             }
                             //bo MD nie redukuje i sie nie oblicza inaczej
-                            if (s.getKod() != null && s.getKod().equals("MD") && s.getTypdnia() == 0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                            if (s.getKod() != null && (s.getKod().equals("MD")||s.getKod().equals("O")) && s.getTypdnia() == 0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                                 dniroboczeprzepracowanestat = dniroboczeprzepracowanestat + 1;
                                 godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getNormagodzin();
                             }
@@ -165,7 +165,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                         if (s.getKod() == null||(s.getKod()!=null&&!s.getKod().equals("D"))&&s.getNormagodzin()>0.0) {
                             godzinystosunkupracy = godzinystosunkupracy + s.getNormagodzin();
                         }
-                        if (s.getKod() != null && (s.getKod().equals("CH") || s.getKod().equals("ZC") || s.getKod().equals("W"))) {
+                        if (s.getKod() != null && (s.getKod().equals("CH") || s.getKod().equals("ZC") || s.getKod().equals("WY"))) {
                             if (s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                                 dnichoroby = dnichoroby + 1;
                                 godzinychoroby = godzinychoroby + s.getNormagodzin();

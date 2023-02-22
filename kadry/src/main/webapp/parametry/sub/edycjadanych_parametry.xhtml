@@ -444,6 +444,12 @@
                             </f:facet>
                             <h:outputText value="#{item13roz.kod}"/>
                         </p:column>
+                         <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.kodzbiorczy}" filterBy="#{item13roz.kodzbiorczy}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="grupa"/>
+                            </f:facet>
+                             <h:outputText value="#{item13roz.kodzbiorczy}"/>
+                        </p:column>
                         <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.kolejnosc}" filterBy="#{item13roz.kolejnosc}" filterMatchMode="contains" sortable="true" sortPriority="1">
                             <f:facet name="header">
                                 <h:outputText value="kol."/>
