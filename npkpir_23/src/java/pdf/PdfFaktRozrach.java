@@ -21,7 +21,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.primefaces.PrimeFaces;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.*;
- import plik.Plik;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -46,15 +46,25 @@ public class PdfFaktRozrach {
             dodajOpisWstepnyFaktury(document, "Zadłużenie wobec/debt to/Schulden gegenüber  ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajLinieOpisu(document, "kontrahent/client/Mandant "+szukanyklient.getNpelna());
             dodajLinieOpisu(document, "NIP: "+szukanyklient.getNip());
-            dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
-            FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);
-            if (n.getSaldopln() > 0) {
+            dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),70,0);
+            double faktura = 0.0;
+            double przelew = 0.0;
+            double saldo = 0.0;
+            for (FakturaPodatnikRozliczenie fr : nowepozycje) {
+                 if (fr.isFaktura0rozliczenie1()) {
+                    przelew = przelew + fr.getKwota();
+                } else {
+                    faktura = faktura + fr.getKwota();
+                }
+            }
+            saldo = faktura-przelew;
+            if (saldo > 0) {
                 dodajLinieOpisu(document, " ");
 //                if (n.getSaldo()!=0) {
 //                    dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia faktur w Euro : "+F.curr(n.getSaldo(),"EUR"));
 //                    dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w przeliczeniu na PLN: "+F.curr(n.getSaldopln()));
 //                }
-                dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w PLN: "+F.curr(n.getSaldopln()));
+                dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w PLN: "+F.curr(saldo));
                 
                 dodajLinieOpisu(document, "");
                 dodajLinieOpisu(document, "Szczecin "+Data.aktualnaData());

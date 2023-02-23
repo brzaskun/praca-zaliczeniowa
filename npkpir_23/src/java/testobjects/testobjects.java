@@ -515,8 +515,8 @@ public static List[] getKontoZapisy3(List<StronaWiersza> wiersze) {
         if (modyfikator == 0) {
             List n = new ArrayList();
             n.add("lp");
-            n.add("faktura/invoice/Rechn. nr");
-            n.add("data wystawienia");
+            n.add("dokument/doc");
+            n.add("data/dstr/Datum");
             n.add("kwota/amount/Summe");
             List[] tabela = new List[2];
             tabela[0] = n;

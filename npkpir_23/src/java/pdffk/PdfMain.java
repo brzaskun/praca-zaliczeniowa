@@ -1033,9 +1033,9 @@ public class PdfMain {
                 if (modyfikator == 0) {
                     col = new int[size];
                     col[0] = 1;
-                    col[1] = 3;
-                    col[2] = 3;
-                    col[3] = 3;
+                    col[1] = 6;
+                    col[2] = 2;
+                    col[3] = 2;
                     return col;
                 } else {
                     col = new int[size];
@@ -1683,7 +1683,7 @@ public class PdfMain {
             if (nazwaklasy.equals("embeddable.FakturaPodatnikRozliczenie")) {
                 if (modyfikator == 0) {
                     FakturaPodatnikRozliczenie p = (FakturaPodatnikRozliczenie) it.next();
-                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
 //                    if (p.getRodzajDok().equals("faktura")) {
 //                        table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
 //                    } else if (p.getRodzajDok().startsWith("ka ")) {
@@ -1694,13 +1694,14 @@ public class PdfMain {
 //                        table.addCell(ustawfrazeAlign("płatność", "left", 8));
 //                    }
                     if (p.getRodzajDok().equals("faktura")||p.getRodzajDok().startsWith("ka ")) {
-                        table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
+                        String str = "faktura/invoice/Rechnung ";
+                        table.addCell(ustawfrazeAlign(str+p.getNrDok(), "left", 8));
                         table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
                     } else if (p.getRodzajDok().startsWith("bo")) {
                         table.addCell(ustawfrazeAlign("rok.pop/last year/letztes Jahr", "left", 8));
                         table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("przelew/transfer/Überweisung", "left", 8));
                         table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
                     }
                     
