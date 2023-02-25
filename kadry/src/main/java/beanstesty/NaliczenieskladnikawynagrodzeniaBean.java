@@ -518,13 +518,19 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         }
         double godzinyobecnoscirobocze = dniroboczeprzepracowane * 8.0;
         double godzinyobecnosciroboczestat = dniroboczeprzepracowanestat * 8.0;
-        double stawkadzienna = zmiennawynagrodzeniakwota / godzinyroboczewmiesiacu;
-        double dowyplatyzaczasprzepracowany = Z.z(stawkadzienna * godzinyobecnoscirobocze);
+        double stawkadzienna = zmiennawynagrodzeniakwota / dniroboczewmiesiacu;
+        double stawkagodzinowa = zmiennawynagrodzeniakwota / godzinyroboczewmiesiacu;
+        double dowyplatyzaczasprzepracowany = Z.z(stawkagodzinowa * godzinyobecnoscirobocze);
         naliczenieskladnikawynagrodzenia.setDataod(datastart);
         naliczenieskladnikawynagrodzenia.setDatado(dataend);
         naliczenieskladnikawynagrodzenia.setStawkadzienna(stawkadzienna);
+        naliczenieskladnikawynagrodzenia.setStawkagodzinowa(stawkagodzinowa);
         naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
-        naliczenieskladnikawynagrodzenia.setKwotadolistyplac(zmiennawynagrodzeniakwota);
+        if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
+            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(dowyplatyzaczasprzepracowany);
+        } else {
+            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(zmiennawynagrodzeniakwota);
+        }
         naliczenieskladnikawynagrodzenia.setDninalezne(dniroboczewmiesiacu);
         naliczenieskladnikawynagrodzenia.setDnifaktyczne(dniroboczeprzepracowanestat);
         naliczenieskladnikawynagrodzenia.setGodzinynalezne(godzinyroboczewmiesiacu);
