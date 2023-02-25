@@ -499,8 +499,10 @@ public class Angaz implements Serializable {
         String zwrot = "";
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                zwrot = zwrot+p.getRodzajwynagrodzenia().getOpispelny()+" ";
-                zwrot = zwrot+pobierzkwoteString(p.getZmiennawynagrodzeniaList(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                if (p.getRodzajwynagrodzenia().getKod().equals("50")) {
+                    zwrot = zwrot+p.getRodzajwynagrodzenia().getOpispelny()+" ";
+                    zwrot = zwrot+pobierzkwoteString(p.getZmiennawynagrodzeniaList(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                }
             }
         }
         return zwrot;
@@ -510,8 +512,10 @@ public class Angaz implements Serializable {
         String zwrot = "";
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                zwrot = zwrot+p.getRodzajwynagrodzenia().getOpispelny()+" ";
-                zwrot = zwrot+pobierzkwoteString(p.getZmiennawynagrodzeniaList());
+                if (p.getRodzajwynagrodzenia().getKod().equals("50")) {
+                    zwrot = zwrot+p.getRodzajwynagrodzenia().getOpispelny()+" ";
+                    zwrot = zwrot+pobierzkwoteString(p.getZmiennawynagrodzeniaList());
+                }
             }
         }
         return zwrot;
@@ -553,7 +557,9 @@ public class Angaz implements Serializable {
         double zwrot = 0.0;
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                zwrot = zwrot + pobierzkwoteKwota(p.getZmiennawynagrodzeniaList(), rok, mc, kalendarz);
+                if (p.getRodzajwynagrodzenia().getKod().equals("50")) {
+                    zwrot = zwrot + pobierzkwoteKwota(p.getZmiennawynagrodzeniaList(), rok, mc, kalendarz);
+                }
             }
         }
         return zwrot;

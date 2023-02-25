@@ -39,7 +39,8 @@
                     <h:outputText value="#{rachunekZlecenieView.umowabiezaca.angaz.pobierzwynagrodzenieString(wpisView)}" styleClass="ww"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1" style="margin-top: 10px;">
-                    <h:outputText value="Brak zawartej umowy zlecenia z " styleClass="ww" rendered="#{rachunekZlecenieView.umowabiezaca eq null}"/>
+                    <h:outputText value="Umowa nr #{rachunekZlecenieView.umowabiezaca.nrkolejny}" style="color:green;" rendered="#{rachunekZlecenieView.umowabiezaca ne null}"/>
+                    <h:outputText value="Brak zawartej umowy zlecenia " styleClass="ww" rendered="#{rachunekZlecenieView.umowabiezaca eq null}"/>
                     <h:outputText value="Jest zawarta umowa, ale nie dotyczy bieżacego okresu" styleClass="ww" rendered="#{rachunekZlecenieView.trzebazrobicrachunek eq false and rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
                     <h:outputText value="Jest zawarta umowa. Nalezy rozliczyć bieżacy okres" styleClass="ww" rendered="#{rachunekZlecenieView.trzebazrobicrachunek eq true and rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
                 </p:panelGrid>

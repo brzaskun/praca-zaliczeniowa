@@ -83,6 +83,7 @@ public class RachunekZlecenieView implements Serializable {
     public Rachunekdoumowyzlecenia robrachunek(Umowa umowabiezaca) {
         Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = null;
         if (umowabiezaca != null && umowabiezaca.getUmowakodzus().isZlecenie()) {
+            this.umowabiezaca = umowabiezaca;
             umowabiezaca = umowaFacade.findById(umowabiezaca.getId());
             String datado = umowabiezaca.getDatado();
             trzebazrobicrachunek = false;
