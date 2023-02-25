@@ -252,14 +252,6 @@ public class PasekwynagrodzenBean {
             boolean czyodlicoznokwotewolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean nieodliczackup, List<Nieobecnosc> nieobecnoscilista,
             double limit26, List<Kalendarzmiesiac> kalendarzlista, Wynagrodzenieminimalne wynagrodzenieminimalne, double sumabruttopoprzednich) {
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
-        double dniroboczewmiesiacu = 0.0;
-        double godzinyroboczewmiesiacu = 0.0;
-        for (Dzien p : kalendarz.getDzienList()) {
-            if (p.getTypdnia() == 0) {
-                dniroboczewmiesiacu++;
-                godzinyroboczewmiesiacu = godzinyroboczewmiesiacu + p.getNormagodzin();
-            }
-        }
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny);
         List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz, nieobecnoscilista);
         //List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");

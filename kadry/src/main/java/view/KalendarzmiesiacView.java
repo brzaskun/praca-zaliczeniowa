@@ -11,7 +11,6 @@ import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.NieobecnoscFacade;
 import dao.RodzajnieobecnosciFacade;
-import dao.UmowaFacade;
 import embeddable.Mce;
 import entity.Angaz;
 import entity.Dzien;
@@ -44,8 +43,6 @@ public class KalendarzmiesiacView  implements Serializable {
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
-    @Inject
-    private UmowaFacade umowaFacade;
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
     @Inject

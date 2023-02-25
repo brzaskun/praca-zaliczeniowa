@@ -16,6 +16,7 @@ import entity.Zmiennawynagrodzenia;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import z.Z;
 
 /**
@@ -105,19 +106,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
 
     public static List<Naliczenieskladnikawynagrodzenia> createWynagrodzenieDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor) {
         List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
-        double dniroboczenominalnewmiesiacu = 0.0;
-        double godzinyroboczenominalnewmiesiacu = 0.0;
-        List<Dzien> biezacedni = kalendarz.getDzienList();
-        Collections.sort(biezacedni, new Dziencomparator());
-        for (Dzien p : kalendarzwzor.getDzienList()) {
-            if (p.getTypdnia() == 0) {
-                dniroboczenominalnewmiesiacu++;
-                double normagodzin = p.getNormagodzin();
-                Dzien get = kalendarz.getDzienList().get(p.getNrdnia()-1);
-                normagodzin = normagodzin*get.getEtat1()/get.getEtat2();
-                godzinyroboczenominalnewmiesiacu = godzinyroboczenominalnewmiesiacu + normagodzin;
-            }
-        }
+        Map<String, Double> normatyw = PasekwynagrodzenGodzinyBean.godzinynormatywne(kalendarz, kalendarzwzor);
+        double dniroboczenominalnewmiesiacu = normatyw.get("dniroboczenominalnewmiesiacu");
+        double godzinyroboczenominalnewmiesiacu = normatyw.get("godzinyroboczenominalnewmiesiacu");
         boolean wynagrodzeniekrajowemiesieczne = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("11");
         boolean wynagrodzeniekierowca = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13") && skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true;
         if (wynagrodzeniekrajowemiesieczne || wynagrodzeniekierowca) {
@@ -147,7 +138,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                         skladnikistale = wynagrodzenieminimalne;
                     }
                     double dnichorobyrobocze = 0.0;
-                    for (Dzien s : kalendarz.getDzienList()) {
+                    List<Dzien> biezacedni = kalendarz.getDzienList();
+                    Collections.sort(biezacedni, new Dziencomparator());
+                    for (Dzien s : biezacedni) {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
                         //zmienilem zdanie. redukcja bedzie statystyczna
                         //tu musza byc faktycznie dni
@@ -162,8 +155,10 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                                 godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getNormagodzin();
                             }
                         }
-                        if (s.getKod() == null||(s.getKod()!=null&&!s.getKod().equals("D"))&&s.getNormagodzin()>0.0) {
-                            godzinystosunkupracy = godzinystosunkupracy + s.getNormagodzin();
+                        if (s.getKod() == null||(s.getKod()!=null&&!s.getKod().equals("D")&&!s.getKod().equals("Z")&&!s.getKod().equals("U")&&!s.getKod().equals("UD"))&&s.getNormagodzin()>0.0) {
+                            if ( s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                                godzinystosunkupracy = godzinystosunkupracy + s.getNormagodzin();
+                            }
                         }
                         if (s.getKod() != null && (s.getKod().equals("CH") || s.getKod().equals("ZC") || s.getKod().equals("WY"))) {
                             if (s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
@@ -187,8 +182,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     stawkadzienna = stawkadzienna + stawkadziennazm;
                     stawkagodzinowa = stawkagodzinowa + stawkagodzinowazm;
                     if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
+                        redukcja = redukcja + (skladnikistale-(stawkagodzinowa*godzinystosunkupracy));
                         dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany+stawkagodzinowa*godzinystosunkupracy;
-                        dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany-redukcja >0.0?dowyplatyzaczasprzepracowany-redukcja:0.0;
+                        //dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany-redukcja >0.0?dowyplatyzaczasprzepracowany-redukcja:0.0;
                     } else {
                         dowyplatyzaczasprzepracowany = skladnikistale;
                     }

@@ -13,9 +13,7 @@ import comparator.Rodzajnieobecnoscicomparator;
 import dao.AngazFacade;
 import dao.DzienFacade;
 import dao.KalendarzmiesiacFacade;
-import dao.KalendarzwzorFacade;
 import dao.NieobecnoscFacade;
-import dao.PracownikFacade;
 import dao.RodzajnieobecnosciFacade;
 import dao.SwiadczeniekodzusFacade;
 import dao.UmowaFacade;
@@ -84,8 +82,6 @@ public class NieobecnoscView  implements Serializable {
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
     @Inject
-    private PracownikFacade pracownikFacade;
-    @Inject
     private AngazFacade angazFacade;
     @Inject
     private SwiadczeniekodzusFacade swiadczeniekodzusFacade;
@@ -95,8 +91,6 @@ public class NieobecnoscView  implements Serializable {
     private SwiadczeniekodzusFacade nieobecnosckodzusFacade;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
-    @Inject
-    private KalendarzwzorFacade kalendarzwzorFacade;
     @Inject
     private UmowaFacade umowaFacade;
     @Inject
