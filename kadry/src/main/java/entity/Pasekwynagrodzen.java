@@ -265,6 +265,10 @@ public class Pasekwynagrodzen implements Serializable {
     private double przychodzagranicasuperplace;
     @Column(name = "wolneodzajecia")
     private double wolneodzajecia;
+    @Column(name = "fpprzekroczeniewiek")
+    private boolean fpprzekroczeniewiek;
+    @Column(name = "fppowrotmacierzynski")
+    private boolean fppowrotmacierzynski;
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "ekwiwalentskladniki", referencedColumnName = "id")
 //    private EkwiwalentUrlop ekwiwalentSkladniki;
@@ -1406,6 +1410,22 @@ public class Pasekwynagrodzen implements Serializable {
             
         }
         return zwrot;
+    }
+
+    public boolean isFpprzekroczeniewiek() {
+        return fpprzekroczeniewiek;
+    }
+
+    public void setFpprzekroczeniewiek(boolean fpprzekroczeniewiek) {
+        this.fpprzekroczeniewiek = fpprzekroczeniewiek;
+    }
+
+    public boolean isFppowrotmacierzynski() {
+        return fppowrotmacierzynski;
+    }
+
+    public void setFppowrotmacierzynski(boolean fppowrotmacierzynski) {
+        this.fppowrotmacierzynski = fppowrotmacierzynski;
     }
    
     

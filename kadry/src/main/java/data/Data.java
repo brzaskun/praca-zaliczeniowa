@@ -1036,6 +1036,12 @@ LocalDate date = LocalDate.parse(dateString, formatter);
         return tomorrow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
      }
      
+     public static String dodajmiesiac(String data, int l) {
+        LocalDate datal = LocalDate.parse(data);
+        LocalDate tonextmonth = datal.plusMonths(l);  
+        return tonextmonth.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+     }
+     
      public static String odejmijdzien(String data, int l) {
         LocalDate datal = LocalDate.parse(data);
         LocalDate tomorrow = datal.minusDays(l);  

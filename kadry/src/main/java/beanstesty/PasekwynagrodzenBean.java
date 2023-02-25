@@ -205,8 +205,11 @@ public class PasekwynagrodzenBean {
         boolean przekroczeniewieku = czyprzekroczonowiek(kalendarz, pasek.getDatawyplaty());
         boolean ponizejwynminimalnego = czyponizejminimalnego(pasek, wynagrodzenieminimalne.getKwotabrutto());
         boolean firmamatylkozlecenia = czysatylkozlecenia(kalendarz);
-        if (przekroczeniewieku == true) {
+        boolean powrotzmacierzynskiego = czyjestpowrotzmacierzynskiego(kalendarz.getAngaz().getNieobecnoscList(), pasek.getDatawyplaty());
+        if (przekroczeniewieku == true || powrotzmacierzynskiego ==true) {
             //obojetnei jaka forma prawna jak jest przekroczenie wieku to nie liczymy FP i FGSP
+            pasek.setFpprzekroczeniewiek(przekroczeniewieku);
+            pasek.setFppowrotmacierzynski(powrotzmacierzynskiego);
         } else if (ponizejwynminimalnego == true) {
             PasekwynagrodzenBean.fgsp(pasek);
         } else if (kalendarz.getAngaz().getFirma().isOsobafizyczna()&&firmamatylkozlecenia == true) {
@@ -1652,6 +1655,25 @@ public class PasekwynagrodzenBean {
         } catch (Exception e){
             E.e(e);
         }
+    }
+
+    private static boolean czyjestpowrotzmacierzynskiego(List<Nieobecnosc> nieobecnoscList, String datawyplaty) {
+        boolean jestpowrot = false;
+        if (nieobecnoscList!=null) {
+            String datakoncazwolnienia = null;
+            for (Nieobecnosc nieob : nieobecnoscList) {
+                if (nieob.getSwiadczeniekodzus()!=null&&(nieob.getSwiadczeniekodzus().getKod().equals("319")||nieob.getSwiadczeniekodzus().getKod().equals("121"))) {
+                    if (nieob.getDatado()!=null) {
+                        datakoncazwolnienia = nieob.getDatado();
+                        break;
+                    }
+                }
+            }
+            String datapowrotu = Data.dodajdzien(datakoncazwolnienia, 1);
+            String data36mcy = Data.dodajmiesiac(datapowrotu, 36);
+            jestpowrot = Data.czyjestpo(datawyplaty, data36mcy);
+        }
+        return jestpowrot;
     }
 
 }

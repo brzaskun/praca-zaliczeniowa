@@ -993,10 +993,10 @@ public class KalendarzmiesiacBean {
                 kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
                 liczba++;
                 boolean skladnikstaly = false;
-                //tylko dla Toczek po inporcvie usunac!!!!!!!!!!!!!!!!!!!!!
-                if (pa.getGodzinyfaktyczne()==0.0) {
-                    pa.setGodzinyfaktyczne(liczbagodzinobowiazku);
-                }
+//                //tylko dla Toczek po inporcvie usunac!!!!!!!!!!!!!!!!!!!!!
+//                if (pa.getGodzinyfaktyczne()==0.0) {
+//                    pa.setGodzinyfaktyczne(liczbagodzinobowiazku);
+//                }
                 double stawkazagodzinezm = Z.z(pa.getKwotadolistyplac() / pa.getGodzinyfaktyczne());
                 double sredniadopodstazm = Z.z(stawkazagodzinezm * liczbagodzinieobecnosci);
                 Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), skladnikstaly, naliczenienieobecnosc, liczbagodzinieobecnosci, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
@@ -1261,8 +1261,8 @@ public class KalendarzmiesiacBean {
             Skladnikwynagrodzenia skladniknadgodziny50 = pobierzskladnik(kalendarz, "12");
             if (skladniknadgodziny50 != null) {
                 naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladniknadgodziny50);
-                Zmiennawynagrodzenia zmiennaaktywna = pobierzaktywnazmienna (wynagrodzeniezasadnicze.getZmiennawynagrodzeniaList());
-                double skladnik = zmiennaaktywna.getKwota();
+                Zmiennawynagrodzenia zmiennabiezaca = pobierzaktywnazmienna (wynagrodzeniezasadnicze.getZmiennawynagrodzeniaList(), kalendarz);
+                double skladnik = zmiennabiezaca.getKwota();
                 double wspolczynnik = sto ? 2.0 : 1.5;
                 double stawkagodznowanormalna = Z.z(skladnik / godzinyrobocze * wspolczynnik);
                 String uwagi = sto ? "setki" : "pięćdz.";
@@ -1436,11 +1436,11 @@ public class KalendarzmiesiacBean {
         return 2800;
     }
 
-    private static Zmiennawynagrodzenia pobierzaktywnazmienna(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
+    private static Zmiennawynagrodzenia pobierzaktywnazmienna(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList, Kalendarzmiesiac kalendarz) {
         Zmiennawynagrodzenia zwrot = new Zmiennawynagrodzenia();
         if (zmiennawynagrodzeniaList!=null) {
             for (Zmiennawynagrodzenia zmienna : zmiennawynagrodzeniaList) {
-                if (zmienna.isAktywna()) {
+                if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), zmienna.getDataod(), zmienna.getDatado())) {
                     zwrot = zmienna;
                     break;
                 }

@@ -178,10 +178,14 @@
                             <h:outputText value="do wypł."/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="FP"/>
+                            <h:outputText value="FP" rendered="#{itempasek.fpprzekroczeniewiek eq false and itempasek.fppowrotmacierzynski eq false}"/>
+                            <h:outputText value="FP zwol. wiek" rendered="#{itempasek.fpprzekroczeniewiek eq true}"/>
+                            <h:outputText value="FP powrót mac." rendered="#{itempasek.fppowrotmacierzynski eq true}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="FGŚP"/>
+                            <h:outputText value="FGŚP" rendered="#{itempasek.fpprzekroczeniewiek eq false and itempasek.fppowrotmacierzynski eq false}"/>
+                            <h:outputText value="FGŚP zwol. wiek" rendered="#{itempasek.fpprzekroczeniewiek eq true}"/>
+                            <h:outputText value="FGŚP powrót mac." rendered="#{itempasek.fppowrotmacierzynski eq true}"/>
                         </p:column>
 
                     </p:row>
