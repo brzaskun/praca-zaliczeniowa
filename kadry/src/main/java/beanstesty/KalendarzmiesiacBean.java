@@ -1368,7 +1368,7 @@ public class KalendarzmiesiacBean {
                                 //redukcjazarchorobe = redukcjazarchorobe+p.getKwotaredukcji();
                                 break;
                             case "U":
-                                redukcjazaurlop = Z.z(redukcjazaurlop + p.getKwotaredukcji());
+                                //redukcjazaurlop = Z.z(redukcjazaurlop + p.getKwotaredukcji());
                                 break;
                             case "X":
                                 //redukcjazabezplatny = redukcjazabezplatny+p.getKwotaredukcji();

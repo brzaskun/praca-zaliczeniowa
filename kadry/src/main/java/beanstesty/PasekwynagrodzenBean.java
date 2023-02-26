@@ -289,6 +289,7 @@ public class PasekwynagrodzenBean {
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych());
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopoddelegowanie, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych());
         //przywrocilem 21-02-2023 po tym jak zmienilem rozliczanie "D"
+        //odkrecilem 26-02-2023 po przebudowie kompletnej wyliczania zasadniczego, redukcja jest juz na poczatku
         KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
         String umowakodzus = pasek.getKodZus();
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
