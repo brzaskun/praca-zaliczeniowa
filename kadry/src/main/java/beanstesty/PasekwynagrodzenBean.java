@@ -1669,9 +1669,11 @@ public class PasekwynagrodzenBean {
                     }
                 }
             }
-            String datapowrotu = Data.dodajdzien(datakoncazwolnienia, 1);
-            String data36mcy = Data.dodajmiesiac(datapowrotu, 36);
-            jestpowrot = Data.czyjestpo(datawyplaty, data36mcy);
+            if (datakoncazwolnienia!=null) {
+                String datapowrotu = Data.dodajdzien(datakoncazwolnienia, 1);
+                String data36mcy = Data.dodajmiesiac(datapowrotu, 36);
+                jestpowrot = Data.czyjestpo(datawyplaty, data36mcy);
+            }
         }
         return jestpowrot;
     }

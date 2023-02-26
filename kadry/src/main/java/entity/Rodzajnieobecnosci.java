@@ -72,6 +72,10 @@ public class Rodzajnieobecnosci implements Serializable {
     private List<Swiadczeniekodzus> swiadczeniekodzusList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajnieobecnosci")
     private List<Nieobecnosc> nieobecnoscList;
+    @Column(name = "rozliczanapar11")
+    private boolean rozliczanapar11;
+    @Column(name = "rozliczanapar12")
+    private boolean rozliczanapar12;
 
     public Rodzajnieobecnosci() {
     }
@@ -159,6 +163,22 @@ public class Rodzajnieobecnosci implements Serializable {
 
     public void setKolejnosc(int kolejnosc) {
         this.kolejnosc = kolejnosc;
+    }
+
+    public boolean isRozliczanapar11() {
+        return rozliczanapar11;
+    }
+
+    public void setRozliczanapar11(boolean rozliczanapar11) {
+        this.rozliczanapar11 = rozliczanapar11;
+    }
+
+    public boolean isRozliczanapar12() {
+        return rozliczanapar12;
+    }
+
+    public void setRozliczanapar12(boolean rozliczanapar12) {
+        this.rozliczanapar12 = rozliczanapar12;
     }
 
     

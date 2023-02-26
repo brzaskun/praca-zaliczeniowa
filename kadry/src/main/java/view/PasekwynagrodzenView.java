@@ -312,46 +312,48 @@ public class PasekwynagrodzenView implements Serializable {
             } else if (stawkipodatkowe != null && !stawkipodatkowe.isEmpty()) {
                 List<Rachunekdoumowyzlecenia> rachunkilista = new ArrayList<>();
                 for (Iterator<Kalendarzmiesiac>  it = listakalendarzmiesiac.getTarget().iterator();it.hasNext();) {
-                    Kalendarzmiesiac pracownikmc = it.next();
-                    boolean czysainnekody = pracownikmc.czysainnekody();
+                    Kalendarzmiesiac kalendarzpracownikaLP = it.next();
+                    Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaGlobalnaRokMc(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc());
+                    kalendarzpracownikaLP.podsumujdnigodziny(kalendarzwzor);
+                    kalendarzmiesiacFacade.edit(kalendarzpracownikaLP);
+                    boolean czysainnekody = kalendarzpracownikaLP.czysainnekody();
                     List<Pasekwynagrodzen> paskidowyliczeniapodstawy = new ArrayList<>();
                     List<Wynagrodzeniahistoryczne> historiawynagrodzen = new ArrayList<>();
                     if (czysainnekody) {
-                        paskidowyliczeniapodstawy = pobierzpaskidosredniej(pracownikmc);
-                        historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(pracownikmc.getAngaz());
+                        paskidowyliczeniapodstawy = pobierzpaskidosredniej(kalendarzpracownikaLP);
+                        historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(kalendarzpracownikaLP.getAngaz());
                     }
-                    double sumapoprzednich = PasekwynagrodzenBean.sumapodstawaopodpopmce(pasekwynagrodzenFacade, pracownikmc, stawkipodatkowe.get(1).getKwotawolnaod());
+                    double sumapoprzednich = PasekwynagrodzenBean.sumapodstawaopodpopmce(pasekwynagrodzenFacade, kalendarzpracownikaLP, stawkipodatkowe.get(1).getKwotawolnaod());
                     String rokwyplaty = Data.getRok(datawyplaty);
                     String mcwyplaty = Data.getMc(datawyplaty);
-                    double sumabruttopoprzednich = PasekwynagrodzenBean.sumabruttopodstawaopodpopmce(pasekwynagrodzenFacade, rokwyplaty, mcwyplaty,  pracownikmc.getAngaz(), stawkipodatkowe.get(1).getKwotawolnaod());
-                    List<Wynagrodzenieminimalne> wynagrodzenielist = wynagrodzenieminimalneFacade.findByRok(pracownikmc.getRok());
+                    double sumabruttopoprzednich = PasekwynagrodzenBean.sumabruttopodstawaopodpopmce(pasekwynagrodzenFacade, rokwyplaty, mcwyplaty,  kalendarzpracownikaLP.getAngaz(), stawkipodatkowe.get(1).getKwotawolnaod());
+                    List<Wynagrodzenieminimalne> wynagrodzenielist = wynagrodzenieminimalneFacade.findByRok(kalendarzpracownikaLP.getRok());
                     Wynagrodzenieminimalne wynagrodzenieminimalne = null;
                     if (wynagrodzenielist!=null&&wynagrodzenielist.size()==1) {
                         wynagrodzenieminimalne = wynagrodzenielist.get(0);
                     } else if (wynagrodzenielist!=null&&wynagrodzenielist.size()>1){
                         for (Wynagrodzenieminimalne w : wynagrodzenielist) {
-                            if (Data.czyjestpomiedzy(w.getDataod(), w.getDatado(), pracownikmc.getRok(), pracownikmc.getMc())) {
+                            if (Data.czyjestpomiedzy(w.getDataod(), w.getDatado(), kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc())) {
                                 wynagrodzenieminimalne = w;
                                 break;
                             }
                         }
                     }
                     //zeby nei odoliczyc kwoty wolnej dwa razy
-                    boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(pracownikmc.getRok(), pracownikmc.getMc(), pracownikmc.getAngaz(), pasekwynagrodzenFacade);
+                    boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc(), kalendarzpracownikaLP.getAngaz(), pasekwynagrodzenFacade);
                     double limitzus = 0.0;
                     OddelegowanieZUSLimit oddelegowanieZUSLimit = oddelegowanieZUSLimitFacade.findbyRok(Data.getRok(datawyplaty));
                     if (oddelegowanieZUSLimit != null) {
                         limitzus = oddelegowanieZUSLimit.getKwota();
                     }
-                    List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(pracownikmc.getAngaz());
-                    List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(pracownikmc.getAngaz());
-                    Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = rachunekdoumowyzleceniaFacade.findByRokMcUmowa(pracownikmc.getRok(),pracownikmc.getMc(), pracownikmc.getAngaz().getAktywnaUmowa());
+                    List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(kalendarzpracownikaLP.getAngaz());
+                    List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(kalendarzpracownikaLP.getAngaz());
+                    Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = rachunekdoumowyzleceniaFacade.findByRokMcUmowa(kalendarzpracownikaLP.getRok(),kalendarzpracownikaLP.getMc(), kalendarzpracownikaLP.getAngaz().getAktywnaUmowa());
                     if (rachunekdoumowyzlecenia!=null) {
                         rachunkilista.add(rachunekdoumowyzlecenia);
                     }
-                    Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaGlobalnaRokMc(pracownikmc.getRok(), pracownikmc.getMc());
                     try {
-                        Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(pracownikmc, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, 
+                        Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(kalendarzpracownikaLP, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, 
                                 wynagrodzenieminimalne, czyodlicoznokwotewolna,
                                 kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, kalendarzwzor, definicjadlazasilkow);
                         usunpasekjakzawiera(pasek);

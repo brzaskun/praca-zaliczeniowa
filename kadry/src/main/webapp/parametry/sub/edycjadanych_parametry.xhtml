@@ -474,6 +474,22 @@
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{item13roz.nieskladkowy}" style="color: green;"/>
                         </p:column>
+                         <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="§11 (chor)"/>
+                            </f:facet>
+                             <p:selectBooleanCheckbox value="#{item13roz.rozliczanapar11}">
+                                 <p:ajax event="change" partialSubmit="true" listener="#{rodzajenieobecnosciView.edytuj(item13roz)}"/>
+                             </p:selectBooleanCheckbox>
+                        </p:column>
+                         <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="§12 (urlop)"/>
+                            </f:facet>
+                             <p:selectBooleanCheckbox value="#{item13roz.rozliczanapar12}">
+                                 <p:ajax event="change" partialSubmit="true" listener="#{rodzajenieobecnosciView.edytuj(item13roz)}"/>
+                             </p:selectBooleanCheckbox>
+                        </p:column>
                     </p:dataTable>
                 </h:form>
             </p:tab>

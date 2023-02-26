@@ -126,6 +126,8 @@ public class Nieobecnosc implements Serializable {
     @Column(name = "sredniazmiennerecznie")
     private double sredniazmiennerecznie;
     
+    
+    
    
     
 
@@ -462,4 +464,13 @@ public class Nieobecnosc implements Serializable {
         this.sredniazmiennerecznie = sredniazmiennerecznie;
     }
     
+     public boolean isRozliczanapar11() {
+        return this.rodzajnieobecnosci.isRozliczanapar11();
+    }
+
+    public boolean isRozliczanapar12() {
+        return this.rodzajnieobecnosci.isRozliczanapar12();
+    }
+
+
 }

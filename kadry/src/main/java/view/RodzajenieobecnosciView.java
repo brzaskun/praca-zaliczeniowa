@@ -40,6 +40,15 @@ public class RodzajenieobecnosciView  implements Serializable {
         rodzajnieobecnosciFacade.editList(lista);
         Msg.msg("Zmiany zachowane");
     }
+    
+    public void edytuj(Rodzajnieobecnosci rodzajnieobecnosci) {
+        if (rodzajnieobecnosci!=null) {
+            rodzajnieobecnosciFacade.edit(rodzajnieobecnosci);
+            Msg.msg("Naniesiono zmiany");
+        } else {
+            Msg.msg("e","Wystąpił błąd");
+        }
+    }
 
     public Rodzajnieobecnosci getSelectedlista() {
         return selectedlista;

@@ -184,13 +184,13 @@ public class PdfUmowaoZlecenia {
             //document.add(new Paragraph(new Phrase(umowa.getPracownik().getNazwiskoImie()+"                                                          "+umowa.getAngaz().getFirma().getReprezentant(), fontM)));
             Paragraph p = new Paragraph();
             p.add(new Phrase(umowa.getPracownik().getNazwiskoImie(), fontM));
-            p.setTabSettings(new TabSettings(350));
+            p.setTabSettings(new TabSettings(250));
             p.add(Chunk.TABBING);
             p.add(new Phrase(umowa.getAngaz().getFirma().getReprezentant(), fontM));
             document.add(p);
             p = new Paragraph();
             p.add(new Phrase("(data i podpis pracownika)", fontS));
-            p.setTabSettings(new TabSettings(350));
+            p.setTabSettings(new TabSettings(250));
             p.add(Chunk.TABBING);
             p.add(new Phrase("(podpis pracodawcy lub osoby reprezentującej pracodawcę)", fontS));
             document.add(p);

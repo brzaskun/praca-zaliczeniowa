@@ -12,8 +12,10 @@ import data.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -126,8 +128,18 @@ private static final long serialVersionUID = 1L;
     private double dodatekzanadgodziny;
     @Column(name="dodatekzanadgodzinymc")
     private double dodatekzanadgodzinymc;
-    
-    
+    @Column(name="dniroboczenominalnewmiesiacu")
+    private double dniroboczenominalnewmiesiacu;
+    @Column(name="godzinyroboczenominalnewmiesiacu")
+    private double godzinyroboczenominalnewmiesiacu;
+    @Column(name="dniroboczewmiesiacu")
+    private double dniroboczewmiesiacu;
+    @Column(name="godzinyroboczewmiesiacu")
+    private double godzinyroboczewmiesiacu;
+    @Column(name="dnipracywmiesiacu")
+    private double dnipracywmiesiacu;
+    @Column(name="godzinypracywmiesiacu")
+    private double godzinypracywmiesiacu;
 
 
     public Kalendarzmiesiac() {
@@ -863,6 +875,38 @@ private static final long serialVersionUID = 1L;
         this.wychowawczy = wychowawczy;
     }
 
+    public double getDniroboczewmiesiacu() {
+        return dniroboczewmiesiacu;
+    }
+
+    public void setDniroboczewmiesiacu(double dniroboczewmiesiacu) {
+        this.dniroboczewmiesiacu = dniroboczewmiesiacu;
+    }
+
+    public double getGodzinyroboczewmiesiacu() {
+        return godzinyroboczewmiesiacu;
+    }
+
+    public void setGodzinyroboczewmiesiacu(double godzinyroboczewmiesiacu) {
+        this.godzinyroboczewmiesiacu = godzinyroboczewmiesiacu;
+    }
+
+    public double getDnipracywmiesiacu() {
+        return dnipracywmiesiacu;
+    }
+
+    public void setDnipracywmiesiacu(double dnipracywmiesiacu) {
+        this.dnipracywmiesiacu = dnipracywmiesiacu;
+    }
+
+    public double getGodzinypracywmiesiacu() {
+        return godzinypracywmiesiacu;
+    }
+
+    public void setGodzinypracywmiesiacu(double godzinypracywmiesiacu) {
+        this.godzinypracywmiesiacu = godzinypracywmiesiacu;
+    }
+
     
     
     public int[] naniesnieobecnosc(Nieobecnosc nieobecnosc, boolean pierwszymc, boolean ostatnimc) {
@@ -956,6 +1000,90 @@ private static final long serialVersionUID = 1L;
         int[] zwrot = new int[]{dnirobocze,godzinyrobocze};
         return zwrot;
 
+    }
+    
+    public void podsumujdnigodziny(Kalendarzwzor kalendarzwzor) {
+        Map<String, Double> normatyw = godzinynormatywne(this, kalendarzwzor);
+        this.dniroboczenominalnewmiesiacu = normatyw.get("dniroboczenominalnewmiesiacu");
+        this.godzinyroboczenominalnewmiesiacu = normatyw.get("godzinyroboczenominalnewmiesiacu");
+        Map<String, Double> planowanapraca = godzinypracy(this);
+        this.dniroboczewmiesiacu = planowanapraca.get("dniroboczewmiesiacu");
+        this.godzinyroboczewmiesiacu = planowanapraca.get("godzinyroboczewmiesiacu");
+        Map<String, Double> przepracowane = godzinyfaktyczneprzepracowane(this);
+        this.dnipracywmiesiacu = przepracowane.get("dnipracywmiesiacu");
+        this.godzinypracywmiesiacu = przepracowane.get("godzinypracywmiesiacu");
+    }
+    
+    /**
+    * Zwraca mape. Uwzględnia etat
+    * @param  kalendarzmiesiac  kalendarzmiesiac
+    * @param  kalendarzwzor kalendarzwzor
+    * @return  Map<String, Double>   dniroboczenominalnewmiesiacu, godzinyroboczenominalnewmiesiacu
+    */
+    public Map<String, Double> godzinynormatywne(Kalendarzmiesiac kalendarzmiesiac, Kalendarzwzor kalendarzwzor) {
+        double dniroboczenominalnewmiesiacu = 0.0;
+        double godzinyroboczenominalnewmiesiacu = 0.0;
+        List<Dzien> biezacedni = kalendarzmiesiac.getDzienList();
+        Collections.sort(biezacedni, new Dziencomparator());
+        for (Dzien p : kalendarzwzor.getDzienList()) {
+            if (p.getTypdnia() == 0) {
+                dniroboczenominalnewmiesiacu++;
+                double normagodzin = p.getNormagodzin();
+                Dzien etat=  kalendarzmiesiac.getDzienList().get(p.getNrdnia()-1);
+                normagodzin = normagodzin*etat.getEtat1()/etat.getEtat2();
+                godzinyroboczenominalnewmiesiacu = godzinyroboczenominalnewmiesiacu + normagodzin;
+            }
+        }
+        Map<String, Double> zwrot = new HashMap<>();
+        zwrot.put("dniroboczenominalnewmiesiacu", dniroboczenominalnewmiesiacu);
+        zwrot.put("godzinyroboczenominalnewmiesiacu", godzinyroboczenominalnewmiesiacu);
+        return zwrot;
+    }
+    
+    /**
+    * Zwraca mape. Uwzględnia etat
+    * @param  kalendarzmiesiac  kalendarzmiesiac
+    * @param  kalendarzwzor kalendarzwzor
+    * @return  Map<String, Double>   dniroboczenominalnewmiesiacu, godzinyroboczenominalnewmiesiacu
+    */
+    public Map<String, Double> godzinypracy(Kalendarzmiesiac kalendarzmiesiac) {
+        double dniroboczewmiesiacu = 0.0;
+        double godzinyroboczewmiesiacu = 0.0;
+        List<Dzien> biezacedni = kalendarzmiesiac.getDzienList();
+        Collections.sort(biezacedni, new Dziencomparator());
+        for (Dzien p : kalendarzmiesiac.getDzienList()) {
+            if (p.getTypdnia() == 0) {
+                dniroboczewmiesiacu++;
+                godzinyroboczewmiesiacu = godzinyroboczewmiesiacu + p.getNormagodzin();
+            }
+        }
+        Map<String, Double> zwrot = new HashMap<>();
+        zwrot.put("dniroboczewmiesiacu", dniroboczewmiesiacu);
+        zwrot.put("godzinyroboczewmiesiacu", godzinyroboczewmiesiacu);
+        return zwrot;
+    }
+    
+    /**
+    * Zwraca mape. Uwzględnia etat
+    * @param  kalendarzmiesiac  kalendarzmiesiac
+    * @param  kalendarzwzor kalendarzwzor
+    * @return  Map<String, Double>   dniroboczenominalnewmiesiacu, godzinyroboczenominalnewmiesiacu
+    */
+    public Map<String, Double> godzinyfaktyczneprzepracowane(Kalendarzmiesiac kalendarzmiesiac) {
+        double dnipracywmiesiacu = 0.0;
+        double godzinypracywmiesiacu = 0.0;
+        List<Dzien> biezacedni = kalendarzmiesiac.getDzienList();
+        Collections.sort(biezacedni, new Dziencomparator());
+        for (Dzien p : kalendarzmiesiac.getDzienList()) {
+            if (p.getTypdnia() == 0 && p.getKod()==null && p.getNormagodzin()>0.0) {
+                dnipracywmiesiacu++;
+                godzinypracywmiesiacu = godzinypracywmiesiacu + p.getNormagodzin();
+            }
+        }
+        Map<String, Double> zwrot = new HashMap<>();
+        zwrot.put("dnipracywmiesiacu", dnipracywmiesiacu);
+        zwrot.put("godzinypracywmiesiacu", godzinypracywmiesiacu);
+        return zwrot;
     }
 
 //    private int modyfikujod(String mcod, int dzienod) {
@@ -1091,6 +1219,24 @@ private static final long serialVersionUID = 1L;
     public void setDnidelegowaniewymiar(double dnidelegowaniewymiar) {
         this.dnidelegowaniewymiar = dnidelegowaniewymiar;
     }
+
+    public double getDniroboczenominalnewmiesiacu() {
+        return dniroboczenominalnewmiesiacu;
+    }
+
+    public void setDniroboczenominalnewmiesiacu(double dniroboczenominalnewmiesiacu) {
+        this.dniroboczenominalnewmiesiacu = dniroboczenominalnewmiesiacu;
+    }
+
+    public double getGodzinyroboczenominalnewmiesiacu() {
+        return godzinyroboczenominalnewmiesiacu;
+    }
+
+    public void setGodzinyroboczenominalnewmiesiacu(double godzinyroboczenominalnewmiesiacu) {
+        this.godzinyroboczenominalnewmiesiacu = godzinyroboczenominalnewmiesiacu;
+    }
+
+    
 
     
        
