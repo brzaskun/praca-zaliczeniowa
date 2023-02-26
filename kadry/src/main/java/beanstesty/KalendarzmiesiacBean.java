@@ -802,7 +802,7 @@ public class KalendarzmiesiacBean {
                 //zliwkidowalem zaokragklenia bo dawid mial roznice grosza 2023-02-01
                 naliczenienieobecnosc.setStawkagodzinowa(stawkagodzinowa);
                 naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
-                double dowyplatyzaczasnieobecnosci = stawkagodzinowa * liczbagodzinurlopu;
+                double dowyplatyzaczasnieobecnosci = Z.z(stawkagodzinowa * liczbagodzinurlopu);
                 naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotaredukcji(dowyplatyzaczasnieobecnosci);
@@ -953,7 +953,9 @@ public class KalendarzmiesiacBean {
         //wyliczenie dla skladnika stalego ze zmiennymi
         if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1() && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1() == false) {
             //niemoge brac tego co w umowie bo bedzie za wiele, musze zredukowac do czasu przepracowanego po uwzgledneinu nieobecnosci wynikajace z choroby wazne!!!!!!!!!!!!!!
-            sredniadopodstawy = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()-naliczenieskladnikawynagrodzenia.getKwotyredukujacesuma();
+            //sredniadopodstawy = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc()-naliczenieskladnikawynagrodzenia.getKwotyredukujacesuma();
+            //usuwam redukcje za chorobe bo robie to w momencie naliczania skladnika, w ten sposob skoryguje za bardzo
+            sredniadopodstawy = naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc();
             boolean skladnikstaly = true;
             Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawy, skladnikstaly, 
                     naliczenienieobecnosc, liczbagodzinieobecnosci, naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), 

@@ -1075,7 +1075,7 @@ private static final long serialVersionUID = 1L;
         List<Dzien> biezacedni = kalendarzmiesiac.getDzienList();
         Collections.sort(biezacedni, new Dziencomparator());
         for (Dzien p : kalendarzmiesiac.getDzienList()) {
-            if (p.getTypdnia() == 0 && p.getKod()==null && p.getNormagodzin()>0.0) {
+            if (p.getTypdnia() == 0 && (p.getKod()==null||p.getKod().equals("")) && p.getNormagodzin()>0.0) {
                 dnipracywmiesiacu++;
                 godzinypracywmiesiacu = godzinypracywmiesiacu + p.getNormagodzin();
             }
