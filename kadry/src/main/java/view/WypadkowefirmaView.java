@@ -52,7 +52,7 @@ public class WypadkowefirmaView implements Serializable {
     
     public void usun(Wypadkowefirma wyp) {
         if (wyp!=null&& wyp.getDataod()!=null) {
-            wypadkowefirmaFacade.create(wyp);
+            wypadkowefirmaFacade.remove(wyp);
             lista.remove(wyp);
             Msg.msg("Usunięto pozycję");
         } else {

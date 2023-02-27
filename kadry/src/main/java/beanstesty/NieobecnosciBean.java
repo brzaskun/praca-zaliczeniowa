@@ -257,6 +257,8 @@ public class NieobecnosciBean {
                 boolean stop = false;
                 List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByAngaz(nieobecnosc.getAngaz());
                 Collections.sort(kalendarze, new KalendarzmiesiacRMNormalcomparator());
+                nieobecnosc.setDniroboczenieobecnosci(0.0);
+                nieobecnosc.setGodzinyroboczenieobecnosc(0.0);
                 for (Kalendarzmiesiac kal : kalendarze) {
                     boolean pierwszymc = false;
                     boolean ostatnimc = false;
