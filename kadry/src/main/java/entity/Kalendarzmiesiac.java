@@ -915,30 +915,29 @@ private static final long serialVersionUID = 1L;
         String mcod = Data.getMc(nieobecnosc.getDataod());
         String mcdo = Data.getMc(nieobecnosc.getDatado());
         if (pierwszymc==true&&ostatnimc==false) {
-            dziendo = 31;
+            dziendo = Data.ostatnidzienInt(this.getDzienList().get(0).getDatastring());
         } else if (pierwszymc==false&&ostatnimc==true) {
             dzienod = 1;
         } else if (pierwszymc==false&&ostatnimc==false) {
             dzienod = 1;
-            dziendo = 31;
+            dziendo = Data.ostatnidzienInt(this.getDzienList().get(0).getDatastring());;
         }
         int dnirobocze = 0;
         int godzinyrobocze = 0;
         if (nieobecnosc.getDzienList()==null) {
             nieobecnosc.setDzienList(new ArrayList<>());
         }
+        String kod = nieobecnosc.getKod();
+        String kodzbiorczy = nieobecnosc.getRodzajnieobecnosci().getKodzbiorczy();
         for (int i = dzienod; i <= dziendo; i++) {
             final int j = i;
             Dzien dzienaktualny = this.dzienList.stream().filter(pa->pa.getNrdnia()==j).findFirst().get();
             if (dzienaktualny.getTypdnia()!=-1) {
-                String kod = nieobecnosc.getKod();
-                String kodzbiorczy = nieobecnosc.getRodzajnieobecnosci().getKodzbiorczy();
                 if (kod.equals("CH")) {
                     dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
                     dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);
                     nieobecnosc.setNaniesiona(true);
-
                 } else if (kod.equals("ZC")||kod.equals("W")) {
                     dzienaktualny.setZasilek(dzienaktualny.getNormagodzin());
                     dzienaktualny.setPrzepracowano(0);

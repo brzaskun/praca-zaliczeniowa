@@ -12,6 +12,8 @@ import data.Data;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
 import error.E;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Collections;
 import java.util.List;
 import msg.Msg;
@@ -297,5 +299,10 @@ public class NieobecnosciBean {
         return czynaniesiono;
     }
      
+    public static void main(String[] args) {
+        LocalDate monty = LocalDate.parse("2023-02-01").with(TemporalAdjusters.lastDayOfMonth());
+        int wynik = monty.getDayOfMonth();
+        System.out.println("ostatni "+wynik);
+    }
      
 }

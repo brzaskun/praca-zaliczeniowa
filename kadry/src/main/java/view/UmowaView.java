@@ -43,6 +43,7 @@ import entity.Stanowiskoprac;
 import entity.Umowa;
 import entity.Umowakodzus;
 import entity.Zmiennawynagrodzenia;
+import error.E;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -512,15 +513,17 @@ public class UmowaView implements Serializable {
                 String rok = Data.getRok(selected.getDataod());
                 String mc = Data.getMc(selected.getDataod());
                 Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(selected.getAngaz(), selected.getRok(), selected.getMc());
-                List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.rozpoczecieumowywtrakcieMiesiaca(selected.getAngaz(), selected.getDataod(), selected.getDatado(), rodzajnieobecnosciFacade, rok, mc, kalendarz, dataostatniejumowy);
-                if (zatrudnieniewtrakciemiesiaca != null) {
-                    nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
+                if (kalendarz!=null) {
+                    List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.rozpoczecieumowywtrakcieMiesiaca(selected.getAngaz(), selected.getDataod(), selected.getDatado(), rodzajnieobecnosciFacade, rok, mc, kalendarz, dataostatniejumowy);
+                    if (zatrudnieniewtrakciemiesiaca != null) {
+                        nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
+                    }
                 }
                 selected = new Umowa();
                 Msg.msg("Edycja umowy zakończona");
             } catch (Exception e) {
                 Msg.msg("e", "Błąd - nie zmieniono danych nowej umowy. Sprawdź angaż.");
-                Msg.msg("e", "Czy istnieją już listy płac? Usuń je.");
+                Msg.msg("e", E.e(e));
             }
         }
     }

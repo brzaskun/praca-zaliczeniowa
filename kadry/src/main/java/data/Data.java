@@ -19,6 +19,7 @@ import java.time.Period;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import static java.time.temporal.ChronoUnit.DAYS;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -65,6 +66,12 @@ public class Data implements Serializable {
             default:
                 return rok + "-" + mc + "-30";
         }
+    }
+    
+     public static int ostatnidzienInt(String data) {
+        LocalDate monty = LocalDate.parse(data).with(TemporalAdjusters.lastDayOfMonth());
+        int wynik = monty.getDayOfMonth();
+        return wynik;
     }
     
     public static String ostatniDzienKalendarz(Kalendarzmiesiac kalendarz) {
