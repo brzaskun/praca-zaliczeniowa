@@ -78,7 +78,7 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
                 entity.setDnioddelegowania(Z.z(entity.getDnioddelegowania()+1));
             }
         }
-        super.edit(entity);
+         super.edit(entity);
     }
    
    public void create(Kalendarzmiesiac entity) {

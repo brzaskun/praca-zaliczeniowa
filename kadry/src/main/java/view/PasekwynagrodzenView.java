@@ -50,6 +50,7 @@ import entity.Tabelanbp;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
 import entity.Wynagrodzenieminimalne;
+import error.E;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -313,6 +314,7 @@ public class PasekwynagrodzenView implements Serializable {
                 List<Rachunekdoumowyzlecenia> rachunkilista = new ArrayList<>();
                 for (Iterator<Kalendarzmiesiac>  it = listakalendarzmiesiac.getTarget().iterator();it.hasNext();) {
                     Kalendarzmiesiac kalendarzpracownikaLP = it.next();
+                    Angaz angaz = kalendarzpracownikaLP.getAngaz();
                     Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaGlobalnaRokMc(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc());
                     kalendarzpracownikaLP.podsumujdnigodziny(kalendarzwzor);
                     kalendarzmiesiacFacade.edit(kalendarzpracownikaLP);
@@ -321,12 +323,12 @@ public class PasekwynagrodzenView implements Serializable {
                     List<Wynagrodzeniahistoryczne> historiawynagrodzen = new ArrayList<>();
                     if (czysainnekody) {
                         paskidowyliczeniapodstawy = pobierzpaskidosredniej(kalendarzpracownikaLP);
-                        historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(kalendarzpracownikaLP.getAngaz());
+                        historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(angaz);
                     }
                     double sumapoprzednich = PasekwynagrodzenBean.sumapodstawaopodpopmce(pasekwynagrodzenFacade, kalendarzpracownikaLP, stawkipodatkowe.get(1).getKwotawolnaod());
                     String rokwyplaty = Data.getRok(datawyplaty);
                     String mcwyplaty = Data.getMc(datawyplaty);
-                    double sumabruttopoprzednich = PasekwynagrodzenBean.sumabruttopodstawaopodpopmce(pasekwynagrodzenFacade, rokwyplaty, mcwyplaty,  kalendarzpracownikaLP.getAngaz(), stawkipodatkowe.get(1).getKwotawolnaod());
+                    double sumabruttopoprzednich = PasekwynagrodzenBean.sumabruttopodstawaopodpopmce(pasekwynagrodzenFacade, rokwyplaty, mcwyplaty,  angaz, stawkipodatkowe.get(1).getKwotawolnaod());
                     List<Wynagrodzenieminimalne> wynagrodzenielist = wynagrodzenieminimalneFacade.findByRok(kalendarzpracownikaLP.getRok());
                     Wynagrodzenieminimalne wynagrodzenieminimalne = null;
                     if (wynagrodzenielist!=null&&wynagrodzenielist.size()==1) {
@@ -340,15 +342,15 @@ public class PasekwynagrodzenView implements Serializable {
                         }
                     }
                     //zeby nei odoliczyc kwoty wolnej dwa razy
-                    boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc(), kalendarzpracownikaLP.getAngaz(), pasekwynagrodzenFacade);
+                    boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc(), angaz, pasekwynagrodzenFacade);
                     double limitzus = 0.0;
                     OddelegowanieZUSLimit oddelegowanieZUSLimit = oddelegowanieZUSLimitFacade.findbyRok(Data.getRok(datawyplaty));
                     if (oddelegowanieZUSLimit != null) {
                         limitzus = oddelegowanieZUSLimit.getKwota();
                     }
-                    List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(kalendarzpracownikaLP.getAngaz());
-                    List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(kalendarzpracownikaLP.getAngaz());
-                    Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = rachunekdoumowyzleceniaFacade.findByRokMcUmowa(kalendarzpracownikaLP.getRok(),kalendarzpracownikaLP.getMc(), kalendarzpracownikaLP.getAngaz().getAktywnaUmowa());
+                    List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(angaz);
+                    List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(angaz);
+                    Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = rachunekdoumowyzleceniaFacade.findByRokMcUmowa(kalendarzpracownikaLP.getRok(),kalendarzpracownikaLP.getMc(), angaz.getAktywnaUmowa());
                     if (rachunekdoumowyzlecenia!=null) {
                         rachunkilista.add(rachunekdoumowyzlecenia);
                     }
@@ -364,7 +366,8 @@ public class PasekwynagrodzenView implements Serializable {
                             rachunekdoumowyzlecenia.setPasekwynagrodzen(pasek);
                         }
                     } catch (Exception e) {
-                        Msg.msg("e","Błąd podczas wyliczania "+wpisView.getPracownik().getNazwiskoImie());
+                        E.e(e);
+                        Msg.msg("e","Błąd podczas wyliczania "+angaz.getNazwiskoiImie()+" "+E.e(e));
                     }
                     
                 }

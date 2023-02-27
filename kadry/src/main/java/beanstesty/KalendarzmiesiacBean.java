@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import msg.Msg;
 import z.Z;
 
 /**
@@ -322,6 +323,7 @@ public class KalendarzmiesiacBean {
                         pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                     }
                 } else {
+                    Msg.msg("w", "Nie ma formuly naliczenia skladnika wynagrodzzenia " + p.getRodzajwynagrodzenia().getOpisskrocony());
                     System.out.println("Nie ma formuly naliczenia skladnika wynagrodzzenia " + p.getRodzajwynagrodzenia().getOpisskrocony());
                 }
             }
@@ -990,22 +992,24 @@ public class KalendarzmiesiacBean {
             double stawkazagodzine = 0.0;
             int liczba = 0;
             for (Naliczenieskladnikawynagrodzenia pa : naliczonyskladnikdosredniej) {
-                godzinyfaktyczne = godzinyfaktyczne + pa.getGodzinyfaktyczne();
-                dnifaktyczne = dnifaktyczne + pa.getDnifaktyczne();
-                kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
-                liczba++;
-                boolean skladnikstaly = false;
-//                //tylko dla Toczek po inporcvie usunac!!!!!!!!!!!!!!!!!!!!!
-//                if (pa.getGodzinyfaktyczne()==0.0) {
-//                    pa.setGodzinyfaktyczne(liczbagodzinobowiazku);
-//                }
-                double stawkazagodzinezm = Z.z(pa.getKwotadolistyplac() / pa.getGodzinyfaktyczne());
-                double sredniadopodstazm = Z.z(stawkazagodzinezm * liczbagodzinieobecnosci);
-                Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), skladnikstaly, naliczenienieobecnosc, liczbagodzinieobecnosci, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
-                naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
-                naliczenienieobecnosc.setSredniazailemcy(liczba);
-                if (liczba > 3) {
-                    break;
+                if (pa.getKwotadolistyplac()>0.0&&pa.getGodzinyfaktyczne()>0.0) {
+                    godzinyfaktyczne = godzinyfaktyczne + pa.getGodzinyfaktyczne();
+                    dnifaktyczne = dnifaktyczne + pa.getDnifaktyczne();
+                    kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
+                    liczba++;
+                    boolean skladnikstaly = false;
+    //                //tylko dla Toczek po inporcvie usunac!!!!!!!!!!!!!!!!!!!!!
+    //                if (pa.getGodzinyfaktyczne()==0.0) {
+    //                    pa.setGodzinyfaktyczne(liczbagodzinobowiazku);
+    //                }
+                    double stawkazagodzinezm = Z.z(pa.getKwotadolistyplac() / pa.getGodzinyfaktyczne());
+                    double sredniadopodstazm = Z.z(stawkazagodzinezm * liczbagodzinieobecnosci);
+                    Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), skladnikstaly, naliczenienieobecnosc, liczbagodzinieobecnosci, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
+                    naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
+                    naliczenienieobecnosc.setSredniazailemcy(liczba);
+                    if (liczba > 3) {
+                        break;
+                    }
                 }
             }
             if (godzinyfaktyczne != 0.0 && dnifaktyczne != 0.0) {

@@ -368,25 +368,28 @@ public class Dzien implements Serializable {
     }
 
     public String getTypdniaString() {
-        LocalDate dzienszukany = LocalDate.parse(this.datastring);
-        String dayOfWeek = dzienszukany.getDayOfWeek().getDisplayName(TextStyle.SHORT, new Locale("pl","PL"));
-        String zwrot = dayOfWeek;
-        switch (typdnia) {
-            case -1:
-                zwrot = "XXX";
-            case 1:
-                zwrot = "sobota";
-                break;
-            case 2: 
-                zwrot = "niedziela";
-                break;
-            case 3: 
-                zwrot = "święto";
-                break;
-            case 4: 
-                zwrot = "ekw.za św.";
-                break;
-        }
+        String zwrot = "błąd";
+        try {
+            LocalDate dzienszukany = LocalDate.parse(this.datastring);
+            String dayOfWeek = dzienszukany.getDayOfWeek().getDisplayName(TextStyle.SHORT, new Locale("pl","PL"));
+            zwrot = dayOfWeek;
+            switch (typdnia) {
+                case -1:
+                    zwrot = "XXX";
+                case 1:
+                    zwrot = "sobota";
+                    break;
+                case 2: 
+                    zwrot = "niedziela";
+                    break;
+                case 3: 
+                    zwrot = "święto";
+                    break;
+                case 4: 
+                    zwrot = "ekw.za św.";
+                    break;
+            }
+        } catch (Exception e) {}
         return zwrot;
     }
     
