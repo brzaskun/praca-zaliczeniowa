@@ -105,6 +105,13 @@ public class NaliczeniepotracenieBean {
                         p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
 
+                }  else if (p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()==14) {
+                        double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
+                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
+                        zwrot.setKwota(potracenie);
+                        p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
+                        zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
+
                 }
                 
             }

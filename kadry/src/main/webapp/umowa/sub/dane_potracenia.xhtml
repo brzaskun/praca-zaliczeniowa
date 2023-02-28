@@ -11,7 +11,7 @@
                 <h:form styleClass="formumowa" id="PotraceniaCreateForm">
                     <p:panel header="Dodawanie/edycja składnika potrąceń"/>
                     <h:panelGroup id="display">
-                        <p:panelGrid columns="4" rendered="#{skladnikPotraceniaView.selected != null}">
+                        <p:panelGrid columns="2" rendered="#{skladnikPotraceniaView.selected != null}">
                              <p:outputLabel value="nazwa" for="nazwa" />
                              <p:selectOneMenu id="nazwa" value="#{skladnikPotraceniaView.selected.rodzajpotracenia}" converter="#{slownikpotracenConverter}" filter="true" required="true">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
