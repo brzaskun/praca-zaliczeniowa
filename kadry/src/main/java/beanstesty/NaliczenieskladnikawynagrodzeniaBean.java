@@ -177,7 +177,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             //jest tylko choroba
                             redukcja_11 = redukcja_11 + (kwotazmiennej /30.0*dniredukcji_11);
                             double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_11);
-                            if (kwotazmiennejporedukcji>0.0) {
+                            if (kwotazmiennejporedukcji>0.0&&kalendarz.getDnipracywmiesiacu()>0.0) {
                                 stawkadzienna = Z.z6(kwotazmiennejporedukcji/kalendarz.getDnipracywmiesiacu());
                                 stawkagodzinowa = Z.z6(kwotazmiennejporedukcji/kalendarz.getGodzinypracywmiesiacu());
                             } else {
