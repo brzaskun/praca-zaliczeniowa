@@ -56,8 +56,8 @@ public class PIT11_29Bean {
                     Msg.msg("Walidacja JPK pomyślna");
                 } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
                     zwrot[0] = sciezka;
-                    zwrot[1] = null;
-                    zwrot[2] = null;
+                    zwrot[1] = "błąd";
+                    zwrot[2] = deklaracja;
                     Msg.msg("e", (String) walidacja[1]);
                 }
             Msg.msg("Wygenerowano plik JPK");
