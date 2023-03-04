@@ -470,6 +470,20 @@ public class PasekwynagrodzenView implements Serializable {
             Msg.msg("e", "Błąd drukowania. Brak pasków");
         }
     }
+    
+    public void drukujlisteMini() {
+        if (lista != null && lista.size() > 0) {
+            List<Grupakadry> grupyfirma = grupakadryFacade.findByFirma(wpisView.getFirma());
+            PdfListaPlac.drukujListaPodstawowaMini(lista, wybranalistaplac, rodzajnieobecnosciFacade, grupyfirma);
+            Msg.msg("Wydrukowano listę płac");
+            if (wybranalistaplac.getRodzajlistyplac().getSymbol().equals("UZ")) {
+                String nazwa = wpisView.getFirma().getNip()+"rachunekzlecenie.pdf";
+                PdfRachunekZlecenie.drukuj(lista, wybranalistaplac, nazwa);
+            }
+        } else {
+            Msg.msg("e", "Błąd drukowania. Brak pasków");
+        }
+    }
 
     public void mailListaPlac() {
         if (lista != null && lista.size() > 0) {

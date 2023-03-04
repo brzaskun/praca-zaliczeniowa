@@ -92,7 +92,11 @@
                             <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.usun()}" value="usuń" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm2" rendered="#{pasekwynagrodzenView.lista ne null and pasekwynagrodzenView.lista.size() gt 0 and pasekwynagrodzenView.lista.get(0).datawysylki ne null}">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Lista juz wysłana. Usunąć?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
-                            <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista"/>
+<!--                            <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista"/>-->
+                            <p:splitButton styleClass="buttonnorm2" menuStyleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista">
+                                 <p:menuitem value="druk mini" action="#{pasekwynagrodzenView.drukujlisteMini}"/>
+                            </p:splitButton>
+
 <!--                            //tego juz nie uzywamy, kazda lista jest zachowywana
                             <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.zapisz}" value="Save" update="PasekwynagrodzenListForm" />-->
                         <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.generujXLS}" value="lista XLS"  global="false"  ajax="false"/>

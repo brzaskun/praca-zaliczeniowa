@@ -171,7 +171,8 @@ public class ZaswiadczeniaView  implements Serializable {
     
      public void drukuj () {
         if (wpisView.getPracownik()!=null) {
-            ByteArrayOutputStream dra = PdfZaswiadczenieZarobki.drukuj(wpisView.getFirma(), paskiwynagrodzen, wpisView.getPracownik(), dataod, datado, zatrudnienie,
+            Collections.sort(paskiwynagrodzen, new Pasekwynagrodzencomparator());
+            ByteArrayOutputStream dra = PdfZaswiadczenieZarobki.drukujMini(wpisView.getFirma(), paskiwynagrodzen, wpisView.getPracownik(), dataod, datado, zatrudnienie,
                     zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, dataostatnieumowy);
         } else {
             Msg.msg("e","Błąd drukowania zaświadczenia.");

@@ -17,6 +17,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import dao.RodzajnieobecnosciFacade;
 import entity.Angaz;
 import entity.Definicjalistaplac;
+import entity.FirmaKadry;
 import entity.Grupakadry;
 import entity.Kalendarzmiesiac;
 import entity.Naliczenienieobecnosc;
@@ -116,6 +117,21 @@ public class PdfListaPlac {
         }
     }
     
+    public static void dodajtabeleglownaMini(List<Pasekwynagrodzen> paski, Document document, FirmaKadry firma) {
+        try {
+            Pasekwynagrodzen p = paski.get(0);
+            PdfPTable table = generujTabeleMini(firma.getNazwa(), p.getKalendarzmiesiac().getRok(),p.getKalendarzmiesiac().getMc(), p.getDefinicjalistaplac().getNrkolejny(), p.getDatawyplaty());
+            int i = 1;
+            for (Pasekwynagrodzen pa : paski) {
+                dodajwierszMini(pa, table, i);
+                i++;
+            }
+            document.add(table);
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfListaPlac.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private static PdfPTable generujTabele(String firma, String pracownik, String pesel, String rok, String mc, String nrkol, String datawyplaty) {
         PdfPTable table = new PdfPTable(19);
         try {
@@ -175,6 +191,67 @@ public class PdfListaPlac {
         return table;
     }
     
+    private static PdfPTable generujTabeleMini(String firma, String rok, String mc, String nrkol, String datawyplaty) {
+        PdfPTable table = new PdfPTable(19);
+        try {
+            table.setWidthPercentage(100);
+            table.setWidths(new int[]{1, 6, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3});
+            table.addCell(ustawfrazeSpanFont("lista skrócona", 4, 0, 6));
+            table.addCell(ustawfrazeSpanFont("", 2, 0, 6));
+            table.addCell(ustawfrazeSpanFont("firma: " + firma, 6, 0, 6));
+            table.addCell(ustawfrazeSpanFont("", 3, 0, 6));
+            table.addCell(ustawfrazeSpanFont("", 2, 0, 6));
+            table.addCell(ustawfrazeSpanFont("", 2, 0, 6));
+
+            table.addCell(ustawfrazeSpanFont("lp", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Dane pracownika", 3, 0, 6));
+            table.addCell(ustawfrazeSpanFont("Wynagrodzenie brutto", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Podst. wymiaru składek ubezp. społecznych", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Składki ZUS pracownik", 3, 0, 6));
+            table.addCell(ustawfrazeSpanFont("Podst. wymiaru składek ubezp. zdrowotnego", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Składka zdrow.", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Koszty uzyskania przychodu", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Podstawa opodatkowania", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Potrącona zaliczka na podatek dochodowy", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Ubezpieczenie zdrowotne", 0, 0, 6));
+            table.addCell(ustawfrazeSpanFont("Kwota wolna", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Należna zaliczka na podatek dochodowy", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Inne potrącenia", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Do wypłaty", 0, 2, 6));
+            
+            table.addCell(ustawfrazeAlign("Nazwisko i imię", "center",6));
+            table.addCell(ustawfrazeAlign("Pesel", "center",6));
+            table.addCell(ustawfrazeAlign("okr rozl", "center",6));
+            table.addCell(ustawfrazeAlign("Ubezp. Emerytalne", "center",6));
+            table.addCell(ustawfrazeAlign("Ubezp. rentowe", "center",6));
+            table.addCell(ustawfrazeAlign("Ubezp. chorobowe", "center",6));
+            table.addCell(ustawfrazeAlign("Potrącona z wyn.", "center",6));
+            //table.addCell(ustawfrazeAlign("Odliczona od podatku", "center",6));
+            table.addCell(ustawfrazeAlign("1", "center",6));
+            table.addCell(ustawfrazeAlign("2", "center",6));
+            table.addCell(ustawfrazeAlign("3", "center",6));
+            table.addCell(ustawfrazeAlign("4", "center",6));
+            table.addCell(ustawfrazeAlign("5", "center",6));
+            table.addCell(ustawfrazeAlign("6", "center",6));
+            table.addCell(ustawfrazeAlign("7", "center",6));
+            table.addCell(ustawfrazeAlign("8", "center",6));
+            table.addCell(ustawfrazeAlign("9", "center",6));
+            table.addCell(ustawfrazeAlign("10", "center",6));
+            table.addCell(ustawfrazeAlign("11", "center",6));
+            table.addCell(ustawfrazeAlign("12", "center",6));
+            table.addCell(ustawfrazeAlign("13", "center",6));
+            table.addCell(ustawfrazeAlign("14", "center",6));
+            table.addCell(ustawfrazeAlign("15", "center",6));
+            table.addCell(ustawfrazeAlign("16", "center",6));
+            table.addCell(ustawfrazeAlign("17", "center",6));
+            table.addCell(ustawfrazeAlign("18", "center",6));
+            table.addCell(ustawfrazeAlign("19", "center",6));
+            table.setHeaderRows(4);
+        } catch (DocumentException ex) {
+        }
+        return table;
+    }
+    
     public static void dodajwiersze(List<Pasekwynagrodzen> wykaz,PdfPTable table) {
         int i = 1;
         for (Pasekwynagrodzen rs : wykaz) {
@@ -198,6 +275,42 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy()+rs.getPodatekdochodowyzagranica())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPotracenia())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getNetto())), "right",7));
+        }
+    }
+    
+    public static void dodajwierszMini(Pasekwynagrodzen rs,PdfPTable table, int i) {
+        table.addCell(ustawfrazeAlign(String.valueOf(i), "center",7,18f));
+        table.addCell(ustawfrazeAlign(rs.getPracownik().getNazwiskoImie(), "left",7));
+        table.addCell(ustawfrazeAlign(rs.getPracownik().getPesel(), "left",7));
+        table.addCell(ustawfrazeAlign(rs.getRok()+"/"+rs.getMc(), "left",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBrutto())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaskladkizus())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracemerytalne())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracrentowe())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracchorobowe())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaubezpzdrowotne())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotne())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKosztyuzyskania())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaopodatkowania())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekwstepny())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedopotracenia())), "right",7));
+        //table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedoodliczenia())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKwotawolna())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy()+rs.getPodatekdochodowyzagranica())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPotracenia())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getNetto())), "right",7));
+    }
+    
+    public static void dodajtabeleglownamini(Pasekwynagrodzen p, Document document) {
+        try {
+            Angaz a = p.getKalendarzmiesiac().getAngaz();
+            PdfPTable table = generujTabele(a.getFirma().getNazwa(),a.getPracownik().getNazwiskoImie(), a.getPracownik().getPesel(), p.getKalendarzmiesiac().getRok(),p.getKalendarzmiesiac().getMc(), p.getDefinicjalistaplac().getNrkolejny(), p.getDatawyplaty());
+            List<Pasekwynagrodzen> wykaz = new ArrayList<>();
+            wykaz.add(p);
+            dodajwiersze(wykaz, table);
+            document.add(table);
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfListaPlac.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -605,6 +718,55 @@ public class PdfListaPlac {
         }
     }
     
+    public static void drukujListaPodstawowaMini(List<Pasekwynagrodzen> lista, Definicjalistaplac def, RodzajnieobecnosciFacade rodzajnieobecnosciFacade, List<Grupakadry> grupyfirma) {
+        try {
+            String nrpoprawny = def.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
+            String nazwa = def.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
+            if (lista != null) {
+                Document document = PdfMain.inicjacjaA4Landscape();
+                PdfWriter writer = inicjacjaWritera(document, nazwa);
+                naglowekStopkaL(writer);
+                otwarcieDokumentu(document, nazwa);
+                List<String> nazwy = new ArrayList<>();
+                nazwy.add(def.getNrkolejny());
+                String datawyplaty = null;
+                for (Pasekwynagrodzen p :lista) {
+                    datawyplaty = p.getDatawyplaty();
+                    break;
+                }
+                if (grupyfirma==null||grupyfirma.isEmpty()) {
+                    sublistaMini(document, nazwa, def, lista, nazwy, datawyplaty, rodzajnieobecnosciFacade);
+                } else {
+                    Set<String> nazwygrup = new HashSet<>(grupyfirma.stream().map(Grupakadry::getNazwa).collect(Collectors.toList()));
+                    int licznik = 0;
+                    for (String nazwa1 : nazwygrup) {
+                        if (licznik>0) {
+                            document.add(Chunk.NEXTPAGE);
+                        }
+                        List<Pasekwynagrodzen> podlista = lista.stream().filter(p->p.getUmowa().getGrupakadry()!=null&&p.getUmowa().getGrupakadry().getNazwa().equals(nazwa1)).collect(Collectors.toList());
+                        if (podlista!=null&&podlista.size()>0) {
+                            sublistaMini(document, nazwa1, def, podlista, nazwy, datawyplaty, rodzajnieobecnosciFacade);
+                            licznik++;
+                        }
+                    }
+                    List<Pasekwynagrodzen> podlista = lista.stream().filter(p->p.getUmowa().getGrupakadry()==null).collect(Collectors.toList());
+                    if (podlista!=null&&podlista.size()>0) {
+                        document.add(Chunk.NEXTPAGE);
+                        sublistaMini(document, "", def, podlista, nazwy, datawyplaty, rodzajnieobecnosciFacade);
+                    }
+                }
+                
+                finalizacjaDokumentuQR(document, nazwa);
+                String f = "pokazwydruk('" + nazwa + "');";
+                PrimeFaces.current().executeScript(f);
+            } else {
+                Msg.msg("w", "Nie ma Paska do wydruku");
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
     private static void sublista(Document document, String nazwagrupy, Definicjalistaplac def, List<Pasekwynagrodzen> lista, List<String> nazwy, String datawyplaty, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
         try {
             PdfMain.dodajOpisWstepny(document, "Lista płac - " + nazwagrupy, def.getRok(), def.getMc(), def.getFirma().getNip(), nazwy, datawyplaty);
@@ -623,6 +785,23 @@ public class PdfListaPlac {
                 document.add(ustawparagrafSmall(sb.toString()));
                 document.add(Chunk.NEWLINE);
             }
+            document.add(Chunk.NEXTPAGE);
+            Paragraph opiswstepny = new Paragraph(new Phrase("DANE DO WYPŁATY", ft[1]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+            document.add(listadowyplaty(lista));
+        } catch (Exception e) {
+            E.e(e);
+        }
+
+    }
+    
+    
+     private static void sublistaMini(Document document, String nazwagrupy, Definicjalistaplac def, List<Pasekwynagrodzen> lista, List<String> nazwy, String datawyplaty, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
+        try {
+            PdfMain.dodajOpisWstepny(document, "Lista płac - " + nazwagrupy, def.getRok(), def.getMc(), def.getFirma().getNip(), nazwy, datawyplaty);
+            dodajtabeleglownaMini(lista, document, def.getFirma());
             document.add(Chunk.NEXTPAGE);
             Paragraph opiswstepny = new Paragraph(new Phrase("DANE DO WYPŁATY", ft[1]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);

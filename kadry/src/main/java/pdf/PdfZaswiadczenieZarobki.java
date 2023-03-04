@@ -64,6 +64,34 @@ public class PdfZaswiadczenieZarobki {
         return out;
     }
     
+    public static ByteArrayOutputStream drukujMini(FirmaKadry firma, List<Pasekwynagrodzen> paskiwynagrodzen, Pracownik pracownik, String dataod, String datado, 
+            boolean zatrudnienie, boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String dataostatnieumowy) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            String nazwa = pracownik.getPesel() + "_zaswiadczenie.pdf";
+            if ((bruttosrednia > 0.0 && zarobki) || (zatrudnienie && zarobki==false)) {
+                Document document = PdfMain.inicjacjaA4Portrait(60, 20);
+                PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
+                naglowekStopkaP(writer);
+                otwarcieDokumentu(document, nazwa);
+                dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, dataostatnieumowy);
+                if (zarobki) {
+                    drukujPasekMini(paskiwynagrodzen, document, firma);
+                }
+                finalizacjaDokumentuQR(document, nazwa);
+                Plik.zapiszBufferdoPlik(nazwa, out);
+                String f = "pokazwydruk('" + nazwa + "');";
+                PrimeFaces.current().executeScript(f);
+                Msg.msg("Wydrukowano zaświadczenie");
+            } else {
+                Msg.msg("w", "Nie ma Paska do wydruku. Nie można wydrukować zarobków");
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return out;
+    }
+    
      public static void drukujPasek(List<Pasekwynagrodzen> paski,Document document) {
         try {
             if (document != null) {
@@ -73,6 +101,21 @@ public class PdfZaswiadczenieZarobki {
                 for (Pasekwynagrodzen p : paski) {
                     PdfListaPlac.dodajtabeleglowna(p, document);
                 }
+            } else {
+                Msg.msg("w", "Nie ma Paska do wydruku");
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+     
+     public static void drukujPasekMini(List<Pasekwynagrodzen> paski,Document document, FirmaKadry firma) {
+        try {
+            if (document != null) {
+                document.setPageSize(PageSize.A4.rotate());
+                document.newPage();
+                PdfMain.dodajLinieOpisu(document, "Załącznik do zaświadczenia o zarobkach z dnia "+Data.aktualnaData(), Element.ALIGN_CENTER, 3);
+                PdfListaPlac.dodajtabeleglownaMini(paski, document, firma);
             } else {
                 Msg.msg("w", "Nie ma Paska do wydruku");
             }

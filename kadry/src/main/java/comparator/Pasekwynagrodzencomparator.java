@@ -22,9 +22,9 @@ public class Pasekwynagrodzencomparator implements Comparator<Pasekwynagrodzen> 
         int mcO1 = Integer.parseInt(obP.getMc());
         int mcO2 = Integer.parseInt(obW.getMc());
         if (rokO1 < rokO2) {
-            return -1;
-        } else if (rokO1 > rokO2) {
             return 1;
+        } else if (rokO1 > rokO2) {
+            return -1;
         } else if (rokO1 == rokO2) {
             if (mcO1 == mcO2) {
                 return 0;

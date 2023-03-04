@@ -16,7 +16,34 @@ and open the template in the editor.
     border-color: #a6c9e2 !important;
 }
 
+.buttonnorm.ui-splitbutton {
+    width: 100px !important;
+    margin-top: 10px;
+    border-style: solid !important;
+    border-width: 1px !important;
+    border-color: #a6c9e2 !important;
+}
+
+.buttonnorm2.ui-splitbutton {
+    width: 100px !important;
+    margin-top: 10px;
+    margin-left: 30px;
+    border-style: solid !important;
+    border-width: 1px !important;
+    border-color: #a6c9e2 !important;
+}
+
 .buttonnorm2.ui-button {
+    width: 120px !important;
+    margin-top: 10px;
+    margin-left: 30px;
+    border-style: solid !important;
+    border-width: 1px !important;
+    border-color: #a6c9e2 !important;
+}
+
+
+.buttonnorm2.ui-menuitem {
     width: 120px !important;
     margin-top: 10px;
     margin-left: 30px;
