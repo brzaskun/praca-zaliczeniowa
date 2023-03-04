@@ -56,8 +56,8 @@ public class PIT11_29Bean {
                     Msg.msg("Walidacja JPK pomyślna");
                 } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
                     zwrot[0] = sciezka;
-                    zwrot[1] = "błąd";
-                    zwrot[2] = deklaracja;
+                    zwrot[1] = null;
+                    zwrot[2] = null;
                     Msg.msg("e", (String) walidacja[1]);
                 }
             Msg.msg("Wygenerowano plik JPK");
@@ -579,11 +579,11 @@ public class PIT11_29Bean {
                 if (poz.getP40()==null) {
                     poz.setP40(BigInteger.ZERO);
                 }
-            }
-             if (poz.getP39()!=null) {
-                poz.setP39(poz.getP39().add(BigDecimal.valueOf(dochodzagranica))); 
-            } else{
-                poz.setP39(BigDecimal.valueOf(dochodzagranica));
+                if (poz.getP39()!=null) {
+                    poz.setP39(poz.getP39().add(BigDecimal.valueOf(dochodzagranica))); 
+                } else{
+                    poz.setP39(BigDecimal.valueOf(dochodzagranica));
+                }
             }
             if (poz.getP122()!=null) {
                 poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedopotracenia()))));
