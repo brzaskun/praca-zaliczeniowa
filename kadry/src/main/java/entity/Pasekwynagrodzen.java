@@ -1401,7 +1401,7 @@ public class Pasekwynagrodzen implements Serializable {
         boolean zwrot = false;
         if (this.getNaliczeniepotracenieList()!=null && this.getNaliczeniepotracenieList().size()>0) {
             for (Naliczeniepotracenie nal  : this.getNaliczeniepotracenieList()) {
-                if (nal.getSkladnikpotracenia().getKwotakomornicza()>0.0) {
+                if (nal.getSkladnikpotracenia().getRodzajpotracenia().isPotraceniekomornicze()) {
                     zwrot = true;
                 } else {
                     zwrot = false;

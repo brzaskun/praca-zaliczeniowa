@@ -66,6 +66,8 @@ public class Rodzajpotracenia implements Serializable {
     private boolean zdrowotne;
     @Column(name = "numer")
     private int numer;
+    @Column(name ="potraceniekomornicze")
+    private boolean potraceniekomornicze;
     
     public Rodzajpotracenia() {
     }
@@ -146,6 +148,14 @@ public class Rodzajpotracenia implements Serializable {
 
     public void setNumer(int numer) {
         this.numer = numer;
+    }
+
+    public boolean isPotraceniekomornicze() {
+        return potraceniekomornicze;
+    }
+
+    public void setPotraceniekomornicze(boolean potraceniekomornicze) {
+        this.potraceniekomornicze = potraceniekomornicze;
     }
     
     
