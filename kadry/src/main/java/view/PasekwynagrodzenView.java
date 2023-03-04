@@ -360,6 +360,13 @@ public class PasekwynagrodzenView implements Serializable {
                                 kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, kalendarzwzor, definicjadlazasilkow);
                         usunpasekjakzawiera(pasek);
                         pasek.setSporzadzil(wpisView.getUzer().getLogin());
+                        //usuwaniezerowych
+                        for (Iterator<Naliczenieskladnikawynagrodzenia> ita = pasek.getNaliczenieskladnikawynagrodzeniaList().iterator(); ita.hasNext();) {
+                            Naliczenieskladnikawynagrodzenia skl = ita.next();
+                            if (skl.getKwotadolistyplac()==0.0) {
+                                ita.remove();
+                            }
+                        }
                         lista.add(pasek);
                         it.remove();
                         if (rachunekdoumowyzlecenia!=null) {

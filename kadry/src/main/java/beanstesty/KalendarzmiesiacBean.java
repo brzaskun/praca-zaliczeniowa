@@ -306,7 +306,7 @@ public class KalendarzmiesiacBean {
                     //if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() != 0.0) {
                         pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                     //}
-                } else if (p.getRodzajwynagrodzenia().getKod().equals("PU")||p.getRodzajwynagrodzenia().getKod().equals("70")) {
+                } else if (p.getRodzajwynagrodzenia().getKod().equals("PU")) {
                     Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(kalendarz, pasekwynagrodzen, p);
                     //trzeba dodac daty do skladniow
                     //if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() != 0.0) {
@@ -317,7 +317,7 @@ public class KalendarzmiesiacBean {
                     if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc() != 0.0) {
                         pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                     }
-                } else if (p.getRodzajwynagrodzenia().getKod().equals("50")) {
+                } else if (p.getRodzajwynagrodzenia().getKod().equals("50")||p.getRodzajwynagrodzenia().getKod().equals("70")) {
                     Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(kalendarz, pasekwynagrodzen, p);
                     if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac()>0.0) {
                         pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);

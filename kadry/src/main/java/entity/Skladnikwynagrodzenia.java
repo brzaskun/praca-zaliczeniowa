@@ -190,7 +190,7 @@ public class Skladnikwynagrodzenia implements Serializable {
 
     @Override
     public String toString() {
-        return "Skladnikwynagrodzenia{" + "rodzajwynagrodzenia=" + rodzajwynagrodzenia.getOpisskrocony() + ", angaz=" + angaz.getPracownik().getNazwiskoImie() + ", oddelegowanie=" + oddelegowanie + '}';
+        return "Skladnikwynagrodzenia kod:" + rodzajwynagrodzenia.getKod() + " rodzajwynagrodzenia=" + rodzajwynagrodzenia.getOpisskrocony() + ", angaz=" + angaz.getPracownik().getNazwiskoImie() + ", oddelegowanie=" + oddelegowanie + '}';
     }
 
    
