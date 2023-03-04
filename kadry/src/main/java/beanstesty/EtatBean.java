@@ -77,16 +77,20 @@ public class EtatBean {
        EtatPrac zwrot = null;
         List<EtatPrac> etatList1 = angaz.getEtatList();
         if (etatList1!=null) {
-            for (EtatPrac p : etatList1) {
-                String datagranicznaod = p.getDataod();
-                String datagranicznado = p.getDataod()==null||p.getDatado().equals("")? null : p.getDatado();
-                if (datagranicznado==null) {
-                    if (Data.czyjestpo(datagranicznaod, data)) {
-                        zwrot = p;
-                    }
-                } else {
-                    if (DataBean.czysiemiescidzien(data, datagranicznaod, datagranicznado)) {
-                        zwrot = p;
+            if (etatList1.size()==1) {
+                zwrot = etatList1.get(0);
+            } else {
+                for (EtatPrac p : etatList1) {
+                    String datagranicznaod = p.getDataod();
+                    String datagranicznado = p.getDataod()==null||p.getDatado().equals("")? null : p.getDatado();
+                    if (datagranicznado==null) {
+                        if (Data.czyjestpo(datagranicznaod, data)) {
+                            zwrot = p;
+                        }
+                    } else {
+                        if (DataBean.czysiemiescidzien(data, datagranicznaod, datagranicznado)) {
+                            zwrot = p;
+                        }
                     }
                 }
             }

@@ -27,10 +27,10 @@ import java.util.stream.Collectors;
  * @author Osito
  */
 public class UrlopBean {
-     public static Nieobecnoscprezentacja pobierzurlop(Angaz angaz, String rok, String stannadzien) {
+     public static Nieobecnoscprezentacja pobierzurlop(Angaz angaz, String rok, String stannadzien, String dataDlaEtatu) {
          Nieobecnoscprezentacja urlopprezentacja = new Nieobecnoscprezentacja(angaz, rok);
         if (angaz!=null) {
-            EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,stannadzien);
+            EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,dataDlaEtatu);
             if (pobierzetat!=null) {
                 List<Kalendarzmiesiac> kalendarze = angaz.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)).collect(Collectors.toList());
                 urlopprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));

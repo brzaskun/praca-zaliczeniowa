@@ -43,14 +43,24 @@ public class StanowiskoPracView implements Serializable {
     
     public void create() {
       if (selected!=null && wpisView.getAngaz()!=null) {
-          try {
-            selected.setAngaz(wpisView.getAngaz());
-            stanowiskopracFacade.create(selected);
-            lista.add(selected);
-            selected = new Stanowiskoprac();
-            Msg.msg("Dodano stanowisko");
-          } catch (Exception e) {
-              Msg.msg("e", "Błąd - nie dodano stanowiska");
+          if (selected.getId()==null) {
+            try {
+              selected.setAngaz(wpisView.getAngaz());
+              stanowiskopracFacade.create(selected);
+              lista.add(selected);
+              selected = new Stanowiskoprac();
+              Msg.msg("Dodano stanowisko");
+            } catch (Exception e) {
+                Msg.msg("e", "Błąd - nie dodano stanowiska");
+            }
+          } else {
+              try {
+              stanowiskopracFacade.edit(selected);
+              selected = new Stanowiskoprac();
+              Msg.msg("Edytowano stanowisko");
+            } catch (Exception e) {
+                Msg.msg("e", "Błąd - nie edytowano stanowiska");
+            }
           }
       } else {
           Msg.msg("e","Brak wybranej umowy");
@@ -65,6 +75,19 @@ public class StanowiskoPracView implements Serializable {
         } else {
             Msg.msg("e","Nie wybrano etatu");
         }
+    }
+    
+    public void wybierzdoedycji(Stanowiskoprac selected) {
+      if (selected!=null && selected.getAngaz()!=null) {
+          try {
+            this.selected  = selected;
+            Msg.msg("Zmieniono stanowisko");
+          } catch (Exception e) {
+              Msg.msg("e", "Błąd edycji stanowiska");
+          }
+      } else {
+          Msg.msg("e", "Nie wybrano stanowiska");
+      }
     }
 
     public Stanowiskoprac getSelected() {

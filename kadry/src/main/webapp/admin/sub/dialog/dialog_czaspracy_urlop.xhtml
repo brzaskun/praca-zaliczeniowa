@@ -25,7 +25,7 @@
                             <p:inputText id="urloprok" value="#{pracownikNieobecnoscView.urlopprezentacja.rok}" readonly="true"/>
                             <p:outputLabel value="zaległe/przeniesione godziny " for="urloplp" />
                             <p:inputNumber id="urloplp" value="#{pracownikNieobecnoscView.urlopprezentacja.okrespoprzedni}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
-                            <p:outputLabel value="wymiar rok bieżący" for="urloplp1" />
+                            <p:outputLabel value="wymiar godzin rok bieżący" for="urloplp1" />
                             <p:inputNumber id="urloplp1" value="#{pracownikNieobecnoscView.urlopprezentacja.wymiarokresbiezacy}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
                         </p:panelGrid>
                         <p:dataTable id="datalist" value="#{pracownikNieobecnoscView.urlopprezentacja.nieobecnoscwykorzystanieList}" var="urlopwykorzystanie"

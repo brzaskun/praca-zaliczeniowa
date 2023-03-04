@@ -87,7 +87,7 @@ public class EtatView implements Serializable {
       if (selected!=null && selected.getAngaz()!=null) {
           try {
             this.selected  = selected;
-            Msg.msg("Zmieniono etat do edycji");
+            Msg.msg("Zmieniono etat");
           } catch (Exception e) {
               Msg.msg("e", "Błąd edycji etatu");
           }

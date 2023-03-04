@@ -32,7 +32,7 @@
                         <p:dataTable id="datalist" value="#{stanowiskoPracView.lista}" var="itemstanow"
                                      selectionMode="single" selection="#{stanowiskoPracView.selectedlista}"
                                      rowKey="#{itemstanow.hashCode()}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
-                                     style="height: 100px; overflow-y: scroll;width: 800px;"
+                                     style="height: 100px; overflow-y: scroll;width: 700px;"
                                      >
 
                             <p:column width="40" style="text-align: center;">
@@ -59,8 +59,11 @@
                                 </f:facet>
                                 <h:outputText value="#{itemstanow.opis}"/>
                             </p:column>
-                            <p:column style="text-align: center;">
-                                <p:commandButton icon="pi pi-trash" actionListener="#{stanowiskoPracView.usun(itemstanow)}" update="north @(form)"/>
+                            <p:column width="30" style="text-align: center;">
+                                <p:commandButton icon="pi pi-pencil"  actionListener="#{stanowiskoPracView.wybierzdoedycji(itemstanow)}" update="north, akordeon:StanowiskoCreateForm"/>
+                            </p:column>
+                            <p:column width="30" style="text-align: center;">
+                                <p:commandButton icon="pi pi-trash" actionListener="#{stanowiskoPracView.usun(itemstanow)}" update="north  akordeon:StanowiskoListForm"/>
                             </p:column>
                         </p:dataTable>
                     </p:panel>

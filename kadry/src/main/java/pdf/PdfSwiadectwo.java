@@ -46,6 +46,7 @@ public class PdfSwiadectwo {
             FirmaKadry firma = umowa.getAngaz().getFirma();
             String pesel = pracownik.getPesel()!=null?pracownik.getPesel():pracownik.getPaszport();
             String nazwa = pesel+"swiadectwo.pdf";
+            boolean mezczyzna = pracownik.isMezczyzna();
             if (nazwa != null) {
                 Document document = PdfMain.inicjacjaA4PortraitLean();
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
@@ -60,24 +61,28 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepu(document, pracodawca2, Element.ALIGN_LEFT, 2);
                 PdfMain.dodajLinieOpisu(document, pracodawca3, Element.ALIGN_LEFT, 2);
                 PdfMain.dodajLinieOpisu(document, "ŚWIADECTWO PRACY", Element.ALIGN_CENTER, 3);
-                String pracownik1 = "1. Stwierdza się, że "+pracownik.getNazwiskoImie()+" urodzony/a "+pracownik.getDataurodzenia();
+                String text1 = mezczyzna?"urodzony":"urodzona";
+                String pracownik1 = "1. Stwierdza się, że "+pracownik.getNazwiskoImie()+" "+text1+" "+pracownik.getDataurodzenia();
                 PdfMain.dodajLinieOpisuBezOdstepu(document, pracownik1, Element.ALIGN_LEFT, 2);
-                String pracownik3 = "był/a zatrudniony "+pracodawca1+" "+pracodawca3;
+                text1 = mezczyzna?"był zatrudniony":"była zatrudniona";
+                String pracownik3 = text1+" "+pracodawca1+" "+pracodawca3;
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, pracownik3, Element.ALIGN_LEFT, 2);
                 List<EtatPrac> etatList = umowa.getAngaz().getEtatList();
                 for (EtatPrac et : etatList) {
-                    String etat = "w okresie od "+et.getDataod()+" do "+et.getDatado()+" w wymiarze "+et.getEtat();
+                    String etat = "w okresie od "+et.getDataod()+" do "+et.getDatado()+" w wymiarze etatu: "+et.getEtat();
                     PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, etat, Element.ALIGN_LEFT, 2);
                 }
                 document.add(Chunk.NEWLINE);
-                String stanowisko = "2. W okresie zatrudnienia pracownik wykonywał/a pracę";
+                text1 = mezczyzna?"wykonywał":"wykonywała";
+                String stanowisko = "2. W okresie zatrudnienia pracownik "+text1+" pracę";
+                PdfMain.dodajLinieOpisuBezOdstepu(document, stanowisko, Element.ALIGN_LEFT, 2);
                 List<Stanowiskoprac> stanowiskopracList = umowa.getAngaz().getStanowiskopracList();
                 for (Stanowiskoprac p : stanowiskopracList) {
-                    String stan = "w okresie od "+p.getDataod()+" do "+p.getDatado()+" w wymiarze "+p.getOpis();
+                    String stan = "w okresie od "+p.getDataod()+" do "+p.getDatado()+" na stanowisku: "+p.getOpis();
                     PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, stan, Element.ALIGN_LEFT, 2);
                 }
                 document.add(Chunk.NEWLINE);
-                String tym = "3. W okresie zatrudnienia pracownik wykonywał/a pracę tymczasową na rzecz - nie dotyczy";
+                String tym = "3. W okresie zatrudnienia pracownik "+text1+" pracę tymczasową na rzecz - nie dotyczy";
                 PdfMain.dodajLinieOpisuBezOdstepu(document, tym, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
                 String ustanie = "4. Stosunek pracy ustał w wyniku: ";
@@ -95,7 +100,7 @@ public class PdfSwiadectwo {
                         PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, ustanie1, Element.ALIGN_LEFT, 2);
                     }
                 } else {
-                    String ustanie1 = " na mocy porozumienia stron "+rozwiazanieumowy.getPodstawaprawna();
+                    String ustanie1 = rozwiazanieumowy.getPodstawaprawna();
                     PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, ustanie1, Element.ALIGN_LEFT, 2);
                 }
                 document.add(Chunk.NEWLINE);
@@ -110,7 +115,8 @@ public class PdfSwiadectwo {
                 boolean czydodano = false;
                 String urlop = "6. W okresie zatrudnienia pracownik: ";
                 PdfMain.dodajLinieOpisuBezOdstepu(document, urlop, Element.ALIGN_LEFT, 2);
-                String urlop1 = "1) wykorzystał urlop wypoczynkowy w wymiarze: ";
+                text1 = mezczyzna?"wykorzystał":"wykorzystała";
+                String urlop1 = "1) "+text1+" urlop wypoczynkowy w wymiarze: ";
                 int dniwykorzystane = 0;
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKodzbiorczy().equals("U")) {
@@ -126,11 +132,15 @@ public class PdfSwiadectwo {
                 }
                 int sumadniurlopu = dniwykorzystane; 
                 if (czydodano==false) {
-                    urlop1 = urlop1+" nie dotyczy";
+                    urlop1 = urlop1+sumadniurlopu+" 0";
                 } else {
                     urlop1 = urlop1+sumadniurlopu;
                 }
-                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop1, Element.ALIGN_LEFT, 2);
+                String urlopdni = urlop1+" dni";
+                double urlopgodzi = sumadniurlopu*8.0;
+                String urlopgodziny = " tj. "+urlopgodzi+" godzin";
+                String razemurlop = urlopdni+urlopgodziny;
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, razemurlop, Element.ALIGN_LEFT, 2);
                 if (dniekwiwalentu>0) {
                     String urlop1a = "W tym wypłacono ekwiwalent za dni: " +dniekwiwalentu;
                     PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop1a, Element.ALIGN_LEFT, 2);

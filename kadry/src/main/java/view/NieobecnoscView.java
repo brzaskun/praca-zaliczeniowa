@@ -142,7 +142,8 @@ public class NieobecnoscView  implements Serializable {
         }
         Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
         String stannadzien = data.Data.ostatniDzien(wpisView.getRokWpisu(),"12");
-        urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
+        String dataDlaEtatu = data.Data.ostatniDzien(wpisView.getRokWpisu(),wpisView.getMiesiacWpisu());
+        urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien, dataDlaEtatu);
         //Collections.sort(listaabsencji, new Nieobecnoscikodzuscomparator());
     }
     
@@ -356,7 +357,8 @@ public class NieobecnoscView  implements Serializable {
                   lista.add(selected);
                   String stannadzien = data.Data.ostatniDzien(wpisView);
                   Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
-                  urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
+                  String dataDlaEtatu = data.Data.ostatniDzien(wpisView.getRokWpisu(),wpisView.getMiesiacWpisu());
+                  urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien, dataDlaEtatu);
                   dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
                   wygenerowano = true;
                   Msg.msg("Dodano nieobecność");
@@ -377,7 +379,8 @@ public class NieobecnoscView  implements Serializable {
                   nanies(selected);
                   String stannadzien = data.Data.ostatniDzien(wpisView);
                   Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
-                  urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
+                  String dataDlaEtatu = data.Data.ostatniDzien(wpisView.getRokWpisu(),wpisView.getMiesiacWpisu());
+                  urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien, dataDlaEtatu);
                   dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
               }
               selected = new Nieobecnosc(wpisView.getAngaz());
@@ -462,7 +465,8 @@ public class NieobecnoscView  implements Serializable {
             kalendarzmiesiacView.init();
             String stannadzien = data.Data.ostatniDzien(wpisView);
             Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
-            urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
+            String dataDlaEtatu = data.Data.ostatniDzien(wpisView.getRokWpisu(),wpisView.getMiesiacWpisu());
+            urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien, dataDlaEtatu);
             if (czynaniesiono) {
                 Msg.msg("Naniesiono nieobecnosci");
             } else {
@@ -594,7 +598,8 @@ public class NieobecnoscView  implements Serializable {
         dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
         String stannadzien = data.Data.ostatniDzien(wpisView);
         Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
-        urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
+        String dataDlaEtatu = data.Data.ostatniDzien(wpisView.getRokWpisu(),wpisView.getMiesiacWpisu());
+        urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien, dataDlaEtatu);
         return czynaniesiono;
     }
 
@@ -684,7 +689,8 @@ public class NieobecnoscView  implements Serializable {
             dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
             String stannadzien = data.Data.ostatniDzien(wpisView);
             Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
-            urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
+            String dataDlaEtatu = data.Data.ostatniDzien(wpisView.getRokWpisu(),wpisView.getMiesiacWpisu());
+            urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien, dataDlaEtatu);
             Msg.msg("Zdjęto nieobecnośćz kalendarza.");
         } else {
             Msg.msg("e","Nie można usunąc nieobecnosci");
@@ -718,7 +724,8 @@ public class NieobecnoscView  implements Serializable {
             dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
             String stannadzien = data.Data.ostatniDzien(wpisView);
             Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
-            urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien);
+            String dataDlaEtatu = data.Data.ostatniDzien(wpisView.getRokWpisu(),wpisView.getMiesiacWpisu());
+            urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien, dataDlaEtatu);
             kalendarzmiesiacView.init();
             Msg.msg("Usunięto nieobecność. Naniesiono zmiany w kalendarzu");
         } else {

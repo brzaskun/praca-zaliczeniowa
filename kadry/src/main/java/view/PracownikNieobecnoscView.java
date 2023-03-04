@@ -130,7 +130,7 @@ public class PracownikNieobecnoscView  implements Serializable {
     
     public void pobierzurlop() {
         if (wpisView.getPracownik()!=null) {
-            urlopprezentacja = UrlopBean.pobierzurlop(wpisView.getAngaz(), wpisView.getRokWpisu(), stannadzien);
+            urlopprezentacja = UrlopBean.pobierzurlop(wpisView.getAngaz(), wpisView.getRokWpisu(), stannadzien, stannadzien);
         }
     }
     public void pobierzoddelegowanie() {
