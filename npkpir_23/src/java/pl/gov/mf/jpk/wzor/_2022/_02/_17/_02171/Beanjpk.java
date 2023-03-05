@@ -307,10 +307,9 @@ public class Beanjpk {
     
     private static String pobierzNIPkontrahenta(pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK.Faktura faktura) {
         String nip = "";
-        if (faktura.getP5A()!=null) {
-            nip = nip+faktura.getP5A();
-        }
-        if (faktura.getP5B()!=null) {
+        if (faktura.getP5A()!=null&&faktura.getP5B()!=null) {
+            nip = nip+faktura.getP5A()+faktura.getP5B();
+        } else  if (faktura.getP5B()!=null) {
             nip = nip+faktura.getP5B();
         }
         return nip;

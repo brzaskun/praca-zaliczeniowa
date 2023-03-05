@@ -553,6 +553,17 @@ public class ImportBean {
                             nd.getEwidencjaVAT().add(eVatwpisFK);
                             break;
                         }
+                        if (nd.getSeriadokfk().startsWith("UPTK") && p.getNazwa().contains("usługi świad. poza ter.kraju")) {
+                            eVatwpisFK.setNettowwalucie(Z.z(netto));
+                            eVatwpisFK.setVatwwalucie(Z.z(vat));
+                            eVatwpisFK.setNetto(Z.z(netto));
+                            eVatwpisFK.setVat(0.0);
+                            eVatwpisFK.setBrutto(Z.z(netto));
+                            eVatwpisFK.setDokfk(nd);
+                            eVatwpisFK.setEstawka("op");
+                            nd.getEwidencjaVAT().add(eVatwpisFK);
+                            break;
+                        }
                         if (nd.getSeriadokfk().equals("EXP") && p.getNazwa().equals("eksport towarów")) {
                             eVatwpisFK.setNettowwalucie(Z.z(netto));
                             eVatwpisFK.setVatwwalucie(Z.z(vat));

@@ -8,6 +8,7 @@ package view;
 import beansDok.ListaEwidencjiVat;
 import beansJPK.KlienciJPKBean;
 import comparator.Kontocomparator;
+import comparator.Rodzajedokcomparator;
 import dao.DokDAO;
 import dao.DokDAOfk;
 import dao.EvewidencjaDAO;
@@ -84,6 +85,7 @@ public class ImportFakturyView  implements Serializable {
     private TabelanbpDAO tabelanbpDAO;
     private Rodzajedok sprzedazkraj;
     private Rodzajedok sprzedazwdt;
+    private Rodzajedok sprzedazwybranyRodzaj;
     private List<Evewidencja> evewidencje;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
@@ -105,6 +107,7 @@ public class ImportFakturyView  implements Serializable {
     private Konto kontokasadlajpk;
     private boolean usunaktualnewpisy;
     private String symbol;
+    private List<Rodzajedok> rodzajedok;
         
     
     public void init() { //E.m(this);
@@ -116,6 +119,8 @@ public class ImportFakturyView  implements Serializable {
         listaKontKasaBank = kontoDAO.findlistaKontKasaBank(wpisView);
         Collections.sort(listaKontKasaBank, new Kontocomparator());
         usunaktualnewpisy = false;
+        rodzajedok = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        Collections.sort(rodzajedok, new Rodzajedokcomparator());
     }
     
     public void importujsprzedaz(FileUploadEvent event) {
@@ -427,9 +432,13 @@ public class ImportFakturyView  implements Serializable {
                 String waldok = walutapliku.toString();
                 if (wiersz.getP5B() != null && wiersz.getP5B().length()>=0) {
                     Dokfk dok = null;
-                    if (wiersz.getP5A()!=null && !wiersz.getP5A().toString().equals("PL")) {    
+                    if (wiersz.getP5A()!=null && !wiersz.getP5A().toString().equals("PL")) {
+                        Rodzajedok rodzaj = sprzedazwdt;
+                        if (sprzedazwybranyRodzaj!=null) {
+                            rodzaj = sprzedazwybranyRodzaj;
+                        }
                         dok = pl.gov.mf.jpk.wzor._2022._02._17._02171.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, 
-                                wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazwdt, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, kontokasadlajpk);
+                                wpisView.getPodatnikObiekt(), dokDAOfk, rodzaj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, kontokasadlajpk);
                     } else {
                         dok = pl.gov.mf.jpk.wzor._2022._02._17._02171.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, 
                                 wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, kontokasadlajpk);
@@ -997,6 +1006,22 @@ public class ImportFakturyView  implements Serializable {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public Rodzajedok getSprzedazwybranyRodzaj() {
+        return sprzedazwybranyRodzaj;
+    }
+
+    public void setSprzedazwybranyRodzaj(Rodzajedok sprzedazwybranyRodzaj) {
+        this.sprzedazwybranyRodzaj = sprzedazwybranyRodzaj;
+    }
+
+    public List<Rodzajedok> getRodzajedok() {
+        return rodzajedok;
+    }
+
+    public void setRodzajedok(List<Rodzajedok> rodzajedok) {
+        this.rodzajedok = rodzajedok;
     }
 
     

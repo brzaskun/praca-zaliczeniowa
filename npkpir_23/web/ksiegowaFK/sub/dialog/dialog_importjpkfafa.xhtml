@@ -18,7 +18,7 @@
     <p:dialog id="importjpkfafa" header="Zestawienie pobranych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="importjpkfafa" height="840" width="1450"
               resizable="false"  onShow="ustawdialog('importjpkfafa','menudokumenty',1450,840);" closeOnEscape="true" onHide="resetujdialog('importjpkfafa');" >
         <p:ajax event="open" listener="#{importFakturyView.init()}" update="form1_jpkfafa importtabelafafa"/>
-        <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update="zestawieniedokumentowimport"/>
+        <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport()}" update="zestawieniedokumentowimport"/>
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
@@ -39,6 +39,11 @@
                 <p:selectOneMenu value="#{importFakturyView.kontokasadlajpk}" style="width: 250px;height: 25px;" converter="#{kontoConv}" >
                     <f:selectItem itemLabel="wybierz konto kasowe" itemValue="" />
                     <f:selectItems value="#{importFakturyView.listaKontKasaBank}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" />
+                    <p:ajax event="itemSelect" partialSubmit="true" />
+                </p:selectOneMenu>
+                <p:selectOneMenu value="#{importFakturyView.sprzedazwybranyRodzaj}" style="width: 250px;height: 25px;" converter="#{rodzajedokConv}" >
+                    <f:selectItem itemLabel="rodzaj dok. dla sprzed. zagr." itemValue="" />
+                    <f:selectItems value="#{importFakturyView.rodzajedok}" var="itema" itemLabel="#{itema.skrot} #{itema.nazwa}" itemValue="#{itema}" />
                     <p:ajax event="itemSelect" partialSubmit="true" />
                 </p:selectOneMenu>
             </p:panelGrid>
