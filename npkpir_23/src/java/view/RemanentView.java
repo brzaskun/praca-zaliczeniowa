@@ -10,9 +10,9 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 /**
  *
@@ -60,7 +60,7 @@ public class RemanentView implements Serializable {
                     if (tmp instanceof Parametr) {
                         String parametrweryf = tmp.getParametr().replace(",", ".");
                         remanentKoniecRoku = Double.valueOf(parametrweryf);
-                        roznica = remanentPoczRoku - remanentKoniecRoku;
+                        roznica = remanentKoniecRoku-remanentPoczRoku;
                     } else {
                         Msg.msg("e", "Nie wprowadzono remanentu końcowego! Program nie obliczy poprawnie PIT-u za grudzien.");
                         roznica = 0.0;

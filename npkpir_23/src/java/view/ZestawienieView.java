@@ -153,6 +153,7 @@ public class ZestawienieView implements Serializable {
     private double zus51zrekivalue;
     private boolean pierwszypitwroku;
     private boolean pierwszypitwrokuzaznacz;
+    private boolean pitroczny;
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
     @Inject
@@ -246,6 +247,7 @@ public class ZestawienieView implements Serializable {
         naniesnaliste(wIpolrocze, Ipolrocze);
         naniesnaliste(wIIpolrocze, IIpolrocze);
         naniesnaliste(wrok, rok);
+        pitroczny = false;
     }
     
     private void sumowaniemiesiecy(Podatnik podatnik, String rokint, String mcints) {
@@ -521,6 +523,12 @@ public class ZestawienieView implements Serializable {
         obliczPit();
     }
 
+    public void obliczPitRoczny() {
+        pitroczny = true;
+        obliczPit();
+        pitroczny = false;
+    }
+    
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
         biezacyPit = new Pitpoz();
@@ -564,14 +572,15 @@ public class ZestawienieView implements Serializable {
                 biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody().multiply(new BigDecimal(procent)));
                 biezacyPit.setPrzychodyudzialmc(Z.z(biezacyPit.getPrzychodymc()*procent));
                 biezacyPit.setKoszty(obliczkoszt(biezacyPit));
-                if (wpisView.getMiesiacWpisu().equals("12")) {
+                if (pitroczny) {
                     BigDecimal roznicaremanentow = new BigDecimal(remanentView.getRoznica());
                     biezacyPit.setRemanent(roznicaremanentow);
-                    BigDecimal kosztypokorekcie = biezacyPit.getKoszty().add(roznicaremanentow);
-                    biezacyPit.setKosztymc(Z.z(biezacyPit.getKosztymc()+roznicaremanentow.doubleValue()));
+                    BigDecimal kosztypokorekcie = biezacyPit.getKoszty().subtract(roznicaremanentow);
+                    biezacyPit.setKosztymc(Z.z(biezacyPit.getKosztymc()-roznicaremanentow.doubleValue()));
                     biezacyPit.setKosztyudzial(kosztypokorekcie.multiply(new BigDecimal(procent)));
                     biezacyPit.setKosztyudzialmc(Z.z(biezacyPit.getKosztymc()*procent));
                 } else {
+                    biezacyPit.setRemanent(BigDecimal.ZERO);
                     biezacyPit.setKosztyudzial(biezacyPit.getKoszty().multiply(new BigDecimal(procent)));
                     biezacyPit.setKosztyudzialmc(Z.z(biezacyPit.getKosztymc()*procent));
                 }
@@ -1717,6 +1726,14 @@ public class ZestawienieView implements Serializable {
 
     public void setZus51zrekivalue(double zus51zrekivalue) {
         this.zus51zrekivalue = zus51zrekivalue;
+    }
+
+    public boolean isPitroczny() {
+        return pitroczny;
+    }
+
+    public void setPitroczny(boolean pitroczny) {
+        this.pitroczny = pitroczny;
     }
 
 

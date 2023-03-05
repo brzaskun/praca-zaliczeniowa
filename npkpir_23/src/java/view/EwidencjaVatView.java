@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -624,13 +625,17 @@ public class EwidencjaVatView implements Serializable {
 
     private Collection<? extends EVatwpisSuper> stworzevatwpisMK(List<StronaWiersza> wiersze) {
         List<EVatwpisFK> zwrot = new ArrayList<>();
+        Set<EVatwpisFK> wybrane = new HashSet<>();
         for (StronaWiersza p : wiersze) {
             if (p.getWiersz().geteVatwpisFK()!=null) {
-                if (!zwrot.contains(p.getWiersz().geteVatwpisFK())) {
-                    zwrot.add(p.getWiersz().geteVatwpisFK());
+                wybrane.add(p.getWiersz().geteVatwpisFK());
+            } else {
+                if (p.getWiersz().getDokfk().getEwidencjaVAT()!=null) {
+                    wybrane.addAll(p.getWiersz().getDokfk().getEwidencjaVAT());
                 }
             }
         }
+        zwrot = new ArrayList<>(wybrane);
         return zwrot;
     }
      
