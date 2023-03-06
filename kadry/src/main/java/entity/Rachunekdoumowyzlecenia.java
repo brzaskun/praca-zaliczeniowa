@@ -129,6 +129,8 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     private boolean statusstudenta;
     @Column(name="odliczackwotewolna")
     private boolean odliczackwotewolna;
+    @Column(name="innytytulminim")
+    private boolean innytytulminim;
 
     public Rachunekdoumowyzlecenia() {
     }
@@ -415,6 +417,14 @@ public class Rachunekdoumowyzlecenia implements Serializable {
 
     public void setOdliczackwotewolna(boolean odliczackwotewolna) {
         this.odliczackwotewolna = odliczackwotewolna;
+    }
+
+    public boolean isInnytytulminim() {
+        return innytytulminim;
+    }
+
+    public void setInnytytulminim(boolean innytytulminim) {
+        this.innytytulminim = innytytulminim;
     }
 
     

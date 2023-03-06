@@ -216,6 +216,7 @@ public class Umowa implements Serializable {
     private Zmiennawynagrodzenia zmiennawynagrodzenia;
     @Transient
     private  boolean netto0brutto1;
+    
    
 
     public Umowa() {
@@ -818,6 +819,8 @@ public class Umowa implements Serializable {
     public void setEkwiwalenskladnikiList(List<EkwiwalentUrlop> ekwiwalenskladnikiList) {
         this.ekwiwalenskladnikiList = ekwiwalenskladnikiList;
     }
+
+   
 
   
     public String getWiekumowa() {

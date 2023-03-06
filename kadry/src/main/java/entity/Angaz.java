@@ -139,6 +139,9 @@ public class Angaz implements Serializable {
     private int bourlopdni;
     @Column(name = "bourlopgodziny")
     private int bourlopgodziny;
+    @Column(name = "databezrobotnyskierowanie")
+    private String  databezrobotnyskierowanie;
+    
      
 
     public Angaz() {
@@ -334,6 +337,14 @@ public class Angaz implements Serializable {
 
     public void setUkryj(boolean ukryj) {
         this.ukryj = ukryj;
+    }
+
+    public String getDatabezrobotnyskierowanie() {
+        return databezrobotnyskierowanie;
+    }
+
+    public void setDatabezrobotnyskierowanie(String databezrobotnyskierowanie) {
+        this.databezrobotnyskierowanie = databezrobotnyskierowanie;
     }
     
     

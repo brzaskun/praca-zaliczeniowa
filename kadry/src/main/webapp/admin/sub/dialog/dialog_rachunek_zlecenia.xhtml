@@ -98,6 +98,10 @@
                     <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.statusstudenta}" styleClass="czekpole">
                         <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.edytujkwadraciki}"/>
                     </p:selectBooleanCheckbox>
+                    <p:outputLabel value="otrzymuje inne wyn. powyżej min.:"/>
+                    <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.innytytulminim}" styleClass="czekpole">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.edytujkwadraciki}"/>
+                    </p:selectBooleanCheckbox>
                     <p:outputLabel value="odliczać kwotę wolną:"/>
                     <p:selectBooleanCheckbox value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.odliczackwotewolna}" styleClass="czekpole">
                         <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.edytujkwadraciki}"/>

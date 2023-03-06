@@ -231,7 +231,9 @@
                         <p:outputLabel value="kwota wolna procent" for="kwotawol" />
                         <p:inputNumber id="kwotawol" value="#{angazView.selectedlista.kwotawolnaprocent}" title="kwota wolna procent" required="true" requiredMessage="Wpisz kwota wolna procent" size="6"/>
                         <p:outputLabel value="data przyjazdu do Polski" for="polska" />
-                        <p:inputText id="polska" value="#{angazView.selectedlista.dataprzyjazdudopolski}" title="data przyjazdu do Polski"/>
+                        <p:inputText id="polska" value="#{angazView.selectedlista.dataprzyjazdudopolski}" title="data przyjazdu do Polski"  placeholder="____-__-__"  maxlength="10"/>
+                        <p:outputLabel value="bezrobotny - pierwszy dzień zwolnienia z FP" for="pup" />
+                        <p:inputText id="pup" value="#{angazView.selectedlista.databezrobotnyskierowanie}" title="bezrobotny skierowany przez PUP" placeholder="____-__-__"  maxlength="10"/>
                         <p:outputLabel value="odliczać kwotę wolną" for="ulga" />
                         <p:selectBooleanCheckbox id="ulga" value="#{angazView.selectedlista.odliczaculgepodatkowa}"/>
                         <p:outputLabel value="status studenta" for="student" />

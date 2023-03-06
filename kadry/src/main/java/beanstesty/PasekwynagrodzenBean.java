@@ -206,7 +206,10 @@ public class PasekwynagrodzenBean {
         boolean ponizejwynminimalnego = czyponizejminimalnego(pasek, wynagrodzenieminimalne.getKwotabrutto());
         boolean firmamatylkozlecenia = czysatylkozlecenia(kalendarz);
         boolean powrotzmacierzynskiego = czyjestpowrotzmacierzynskiego(kalendarz.getAngaz().getNieobecnoscList(), pasek.getDatawyplaty());
-        if (przekroczeniewieku == true || powrotzmacierzynskiego ==true) {
+        boolean bezrobotnyskierowanieFP = czynienaliczacFPbezrobotny(kalendarz);
+        if (bezrobotnyskierowanieFP==true) {
+            PasekwynagrodzenBean.fgsp(pasek);
+        } else if (przekroczeniewieku == true || powrotzmacierzynskiego ==true) {
             //obojetnei jaka forma prawna jak jest przekroczenie wieku to nie liczymy FP i FGSP
             pasek.setFpprzekroczeniewiek(przekroczeniewieku);
             pasek.setFppowrotmacierzynski(powrotzmacierzynskiego);
@@ -607,9 +610,12 @@ public class PasekwynagrodzenBean {
         if (pasek.isDo26lat() && rachunekdoumowyzlecenia.isStatusstudenta()) {
             double bruttozusbezzusbezpodatek = bruttozuskraj + bruttozusoddelegowanie;
             pasek.setBruttobezzusbezpodatek(Z.z(bruttozusbezzusbezpodatek));
-        } else if (pasek.isDo26lat()) {
+        } else if (pasek.isDo26lat()&&rachunekdoumowyzlecenia.isInnytytulminim()==false) {
             double bruttozusbezpodatek = bruttozuskraj + bruttozusoddelegowanie;
             pasek.setBruttozusbezpodatek(Z.z(bruttozusbezpodatek));
+        } else if (pasek.isDo26lat()&&rachunekdoumowyzlecenia.isInnytytulminim()) {
+            double bruttobezspolecznych = bruttozuskraj + bruttozusoddelegowanie;
+            pasek.setBruttobezspolecznych(bruttobezspolecznych);
         } else if (rachunekdoumowyzlecenia.isSpoleczne()) {
             double bruttozus = bruttozuskraj + bruttozusoddelegowanie;
             pasek.setBruttozus(bruttozus);
@@ -1677,6 +1683,17 @@ public class PasekwynagrodzenBean {
             }
         }
         return jestpowrot;
+    }
+
+    private static boolean czynienaliczacFPbezrobotny(Kalendarzmiesiac kalendarz) {
+        boolean zwrot = false;
+        String data = kalendarz.getAngaz().getDatabezrobotnyskierowanie();
+        if (data!=null&&!data.equals("")) {
+            String datalisty = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
+            String limit12mcy = Data.dodajmiesiac(data, 12);
+            zwrot = Data.czyjestprzed(limit12mcy, datalisty);
+        }
+        return zwrot;
     }
 
 }
