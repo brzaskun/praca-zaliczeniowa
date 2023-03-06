@@ -40,6 +40,12 @@ public class DataBean {
         if (pierwszydzienmiesiaca.equals(zmiennadatado)) {
             zwrot = true;
         }
+        if (ostatnidzienmiesiaca.equals(zmiennadatado)) {
+            zwrot = true;
+        }
+        if (pierwszydzienmiesiaca.equals(zmiennadataod)) {
+            zwrot = true;
+        }
         return zwrot;
     }
     
