@@ -72,6 +72,7 @@ public class RozwiazanieumowyView  implements Serializable {
     private WypowiedzeniePodstawa wypowiedzeniePodstawa;
     @Inject
     private SMTPSettingsFacade sMTPSettingsFacade;
+    private String datawystawieniaswiadectwa;
     
     
     
@@ -159,6 +160,9 @@ public class RozwiazanieumowyView  implements Serializable {
         Swiadectwo swiadectwo = new  Swiadectwo();
         if (selectedlista!=null) {
             swiadectwo.setDatawystawienia(Data.aktualnaData());
+            if (datawystawieniaswiadectwa!=null&&!datawystawieniaswiadectwa.equals("")) {
+                swiadectwo.setDatawystawienia(datawystawieniaswiadectwa);
+            }
             swiadectwo.setRozwiazanieumowy(selectedlista);
             EkwiwalentUrlop ekwiwalent = ekwiwalentSkladnikiFacade.findbyUmowa(swiadectwo.getRozwiazanieumowy().getUmowa());
             PdfSwiadectwo.drukuj(swiadectwo, dnidoswiadectwa, ekwiwalent);
@@ -276,6 +280,14 @@ public class RozwiazanieumowyView  implements Serializable {
 
     public void setWypowiedzeniePodstawa(WypowiedzeniePodstawa wypowiedzeniePodstawa) {
         this.wypowiedzeniePodstawa = wypowiedzeniePodstawa;
+    }
+
+    public String getDatawystawieniaswiadectwa() {
+        return datawystawieniaswiadectwa;
+    }
+
+    public void setDatawystawieniaswiadectwa(String datawystawieniaswiadectwa) {
+        this.datawystawieniaswiadectwa = datawystawieniaswiadectwa;
     }
 
    

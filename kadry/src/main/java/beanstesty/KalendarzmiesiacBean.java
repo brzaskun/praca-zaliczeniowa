@@ -11,6 +11,7 @@ import data.Data;
 import embeddable.Mce;
 import entity.Definicjalistaplac;
 import entity.Dzien;
+import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Naliczenienieobecnosc;
@@ -513,13 +514,20 @@ public class KalendarzmiesiacBean {
         rok = poprzedniOkres[1];
         List<Kalendarzmiesiac> kalendarzmiesiacList = kalendarz.getAngaz().getKalendarzmiesiacList();
         Collections.sort(kalendarzmiesiacList, new KalendarzmiesiacRMcomparator());
+        String dataetat = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
+        EtatPrac pobierzetat = kalendarz.getAngaz().pobierzetat(dataetat);
         for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
             boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
             if (kal.getRok().equals(rok) && kal.getMc().equals(mc)&&czyjestZarudnienieWtrakcieMca==false) {
-                kalendarze.add(kal);
-                poprzedniOkres = Data.poprzedniOkres(mc, rok);
-                mc = poprzedniOkres[0];
-                rok = poprzedniOkres[1];
+                String dataetat1 = Data.ostatniDzien(kal.getRok(), kal.getMc());
+                EtatPrac pobierzetat1 = kalendarz.getAngaz().pobierzetat(dataetat1);
+                //pobieramy z uwzglednieniem tego samego etatu
+                if (pobierzetat.equals(pobierzetat1)) {
+                    kalendarze.add(kal);
+                    poprzedniOkres = Data.poprzedniOkres(mc, rok);
+                    mc = poprzedniOkres[0];
+                    rok = poprzedniOkres[1];
+                }
             }
             if (kalendarze.size() == 12||czyjestZarudnienieWtrakcieMca) {
                 break;

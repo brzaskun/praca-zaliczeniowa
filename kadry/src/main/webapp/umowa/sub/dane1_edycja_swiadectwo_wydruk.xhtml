@@ -14,6 +14,12 @@
                     <h:outputText value="#{rozwiazanieumowyView.selectedlista.datadokumentu}" rendered="#{rozwiazanieumowyView.selectedlista ne null}"/>
                     <h:outputText value="nie wybrano rozwiązania umowy" rendered="#{rozwiazanieumowyView.selectedlista eq null}" style="color: red;"/>
                 </p:panelGrid>
+                <p:panelGrid columns="2">
+                    <h:outputText value="data wystawienia świadectwa"/>
+                    <p:inputText id="pup" value="#{rozwiazanieumowyView.datawystawieniaswiadectwa}" title="data wystawienia świadectwa" placeholder="____-__-__"  maxlength="10" size="12" style="margin-left: 30px;">
+                        <p:ajax event="change" partialSubmit="true"/>
+                    </p:inputText>
+                </p:panelGrid>
                 <p:panel header="Zestawienie danych do świadectwa">
                     <p:commandButton value="druk" styleClass="buttonnorm" actionListener="#{rozwiazanieumowyView.drukujswiadectwo}"/>
                 </p:panel>
