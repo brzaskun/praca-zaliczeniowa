@@ -623,9 +623,7 @@ public class PasekwynagrodzenView implements Serializable {
             }
             if (rodzajlistyplac.getSymbol().equals("ZR")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMcNierezydent(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
-            }
-            Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
-            if (rodzajlistyplac.getSymbol().equals("ZR")) {
+                Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac p = it.next();
                     Angaz angaz = p.getAngaz();
@@ -636,6 +634,8 @@ public class PasekwynagrodzenView implements Serializable {
                 }
             }
             if (rodzajlistyplac.getSymbol().equals("WZ")) {
+                listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+                Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                 Kalendarzmiesiac kal = it.next();
                 Pasekwynagrodzen pasek = kal.getPasek(wybranalistaplac);

@@ -355,14 +355,14 @@ private static final long serialVersionUID = 1L;
         String datado = null;
         if (this.dzienList!=null) {
             for (Dzien d : dzienList) {
-                if (d.getWynagrodzeniezachorobe()>0.0) {
+                if (d.getWynagrodzeniezachorobe()>0.0 &&d.getNieobecnosc()!=null) {
                     String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(this);
                     String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(this);
                     dataod = Data.czyjestpo(pierwszydzienmiesiaca, d.getNieobecnosc().getDataod())?d.getNieobecnosc().getDataod():pierwszydzienmiesiaca;
                     datado = Data.czyjestprzed(ostatnidzienmiesiaca, d.getNieobecnosc().getDatado())?d.getNieobecnosc().getDatado():ostatnidzienmiesiaca;
                     chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe();
                 }
-                if (d.getKod()!=null&&d.getKod().equals("CH")) {
+                if (d.getKod()!=null&&d.getKod().equals("CH") &&d.getNieobecnosc()!=null) {
                     chorobadni = chorobadni+1;
                 }
             }

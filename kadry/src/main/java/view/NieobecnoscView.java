@@ -13,6 +13,7 @@ import comparator.Rodzajnieobecnoscicomparator;
 import dao.AngazFacade;
 import dao.DzienFacade;
 import dao.KalendarzmiesiacFacade;
+import dao.NaliczenienieobecnoscFacade;
 import dao.NieobecnoscFacade;
 import dao.RodzajnieobecnosciFacade;
 import dao.SwiadczeniekodzusFacade;
@@ -22,6 +23,7 @@ import entity.Angaz;
 import entity.Dzien;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
+import entity.Naliczenienieobecnosc;
 import entity.Nieobecnosc;
 import entity.Nieobecnoscprezentacja;
 import entity.Pracownik;
@@ -97,6 +99,8 @@ public class NieobecnoscView  implements Serializable {
     private DzienFacade dzienFacade;
     @Inject
     private KalendarzmiesiacView kalendarzmiesiacView;
+    @Inject
+    private NaliczenienieobecnoscFacade naliczenienieobecnoscFacade;
     @Inject
     private WpisView wpisView;
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/zuszla.wsdl")
@@ -719,6 +723,10 @@ public class NieobecnoscView  implements Serializable {
             }
             nieob.setDzienList(null);
             nieobecnoscFacade.edit(nieob);
+            List<Naliczenienieobecnosc> naliczenienieobecnosci = naliczenienieobecnoscFacade.findByNieobecnosc(nieob);
+            if (naliczenienieobecnosci!=null) {
+                naliczenienieobecnoscFacade.removeList(naliczenienieobecnosci);
+            }
             nieobecnoscFacade.remove(nieob);
             lista.remove(nieob);
             dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
