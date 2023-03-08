@@ -132,7 +132,7 @@ public class PdfUmowaoPrace {
             PdfMain.dodajLinieOpisuSpacing(document, par8, Element.ALIGN_JUSTIFIED, 1, 10);
             PdfMain.dodajElementListy(document, "6) termin rozpoczęcia pracy: ", umowa.getTerminrozpoczeciapracy(), fontM);
             PdfMain.dodajElementListy(document, "7) dopuszczalna liczba godzin, których przekroczenie uprawnia pracownika do dodatku z art. 151(1)§1 KP", umowa.getDopuszczalnailoscgodzin(), fontM);
-            paragraph = new Paragraph(new Phrase("2. Przyczyny uzasadniające zawarcie umowy o pracę na czas nieokreślony w celu, o którym mowa w art. 25(1)§4pkt.1-3,4: ", fontM));
+            paragraph = new Paragraph(new Phrase("2. Przyczyny uzasadniające zawarcie umowy (informacja, o której mowa w art. 29 § 1(1) Kodeksu pracy)", fontM));
             document.add(paragraph);
             paragraph = new Paragraph(new Phrase(umowa.getPrzyczynaumowaokreslony(), fontM));
             document.add(paragraph);

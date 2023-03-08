@@ -327,7 +327,12 @@ public class PdfSwiadectwo {
                 "świadectwa pracy. W razie nieuwzględnienia wniosku pracownikowi przysługuje, w ciągu 14 dni od zawiadomienia o odmowie " +
                 "sprostowania świadectwa pracy, prawo wystąpienia z żądaniem jego sprostowania do sądu pracy. W przypadku " +
                 "niezawiadomienia przez pracodawcę o odmowie sprostowania świadectwa pracy, żądanie sprostowania świadectwa pracy " +
-                "wnosi się do sądu pracy.";
+                "wnosi się do sądu pracy";
+                if (firma.getSadpracy()!=null&&!firma.getSadpracy().equals("")) {
+                    pouczenie = pouczenie + " "+firma.getSadpracy();
+                } else {
+                    pouczenie = pouczenie + "..............................................................................";
+                }
                 PdfMain.dodajLinieOpisu(document, pouczenie, Element.ALIGN_JUSTIFIED, 1);
                 PdfMain.dodajLinieOpisu(document, "(podstawa prawna - art. 97 §2(1) Kodeksu pracy)", Element.ALIGN_CENTER, 1);
                 finalizacjaDokumentuQR(document,nazwa);

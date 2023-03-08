@@ -1241,6 +1241,7 @@ public class KalendarzmiesiacBean {
                 naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(nadliczbowe);
                 naliczenieskladnikawynagrodzenia.setDninalezne(dnirobocze);
                 naliczenieskladnikawynagrodzenia.setGodzinynalezne(godzinyrobocze);
+                naliczenieskladnikawynagrodzenia.setKwotadolistyplacwaluta(Z.z(naliczenieskladnikawynagrodzenia.getStawkagodzinowawaluta() * nadliczbowe));
                 naliczenieskladnikawynagrodzenia.setKwotadolistyplac(Z.z(naliczenieskladnikawynagrodzenia.getStawkagodzinowa() * nadliczbowe));
                 //naliczenieskladnikawynagrodzenia.setKwotazus(Z.z(stawkagodznowanormalna*nadliczbowe));
                 naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
