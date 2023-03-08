@@ -442,7 +442,7 @@ public class KalendarzmiesiacBean {
             double dnikalendarzoweniechoroby = Data.iletodniKalendarzowych(dataod, datado);
             for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
                 //to z mysla o pramiach uznaniowych, ktore jako nierekukowane nei wchodza w sklad podstawy
-                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()) {
+                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()||naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("13")) {
                     Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
                     naliczenienieobecnosc.setDataod(dataod);
                     naliczenienieobecnosc.setDatado(datado);
