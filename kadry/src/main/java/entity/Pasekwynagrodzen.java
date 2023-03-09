@@ -1427,6 +1427,15 @@ public class Pasekwynagrodzen implements Serializable {
     public void setFppowrotmacierzynski(boolean fppowrotmacierzynski) {
         this.fppowrotmacierzynski = fppowrotmacierzynski;
     }
+
+    public double obliczproporcjeZusOddelegowani() {
+        double zwrot = 1;
+        double razempodstawa = this.limitzus + this.limitzuspoza;
+        if (this.limitzuspoza>0.0) {
+            zwrot = this.limitzuspoza/razempodstawa;
+        }
+        return zwrot;
+    }
    
     
 

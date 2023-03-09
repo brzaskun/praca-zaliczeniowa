@@ -590,14 +590,14 @@ public class KalendarzmiesiacBean {
             double sumakwotdosredniej = 0.0;
             String kontynuacja = "";
             //kontynuacja zwolnienia jest ciaglosc trzeba pobrac poprzednia zmienna
-            for (Kalendarzmiesiac p : kalendarze) {
-                if (!p.equals(kalendarz)) {
-                    if (p.czyjestchoroba()) {
-                        int ilemcy = Mce.odlegloscMcy(p.getMc(), p.getRok(), kalendarz.getMc(), kalendarz.getRok());
+            for (Kalendarzmiesiac kalendarzdosredniej : kalendarze) {
+                if (!kalendarzdosredniej.equals(kalendarz)) {
+                    if (kalendarzdosredniej.czyjestchoroba()) {
+                        int ilemcy = Mce.odlegloscMcy(kalendarzdosredniej.getMc(), kalendarzdosredniej.getRok(), kalendarz.getMc(), kalendarz.getRok());
                         if (ilemcy <= 1) {
-                            sumakwotdosredniej = p.pobierzSumeKwotNieobecnosc(nieobecnosc);
-                            sredniadopodstawyzmienne = p.pobierzPodstaweNieobecnosc(nieobecnosc);
-                            kontynuacja = p.getRokMc();
+                            sumakwotdosredniej = kalendarzdosredniej.pobierzSumeKwotNieobecnosc(nieobecnosc);
+                            sredniadopodstawyzmienne = kalendarzdosredniej.pobierzPodstaweNieobecnosc(nieobecnosc);
+                            kontynuacja = kalendarzdosredniej.getRokMc();
                         }
                     }
                 }
@@ -714,8 +714,10 @@ public class KalendarzmiesiacBean {
                             double wynagrodzeniemcwyplacone = 0.0;
                             double wynagrodzeniemczwaloryzowane = 0.0;
                             Definicjalistaplac definicjabiezaca = definicjadlazasilkow!=null?definicjadlazasilkow:definicjalistaplac;
+                            Pasekwynagrodzen pasek = kalendarzdosredniej.getPasek(definicjabiezaca);
+                            double procent = pasek.obliczproporcjeZusOddelegowani();
                             if (kalendarzdosredniej.getPasek(definicjabiezaca).getNaliczenieskladnikawynagrodzeniaList() != null) {
-                                for (Naliczenieskladnikawynagrodzenia pa : kalendarzdosredniej.getPasek(definicjabiezaca).getNaliczenieskladnikawynagrodzeniaList()) {
+                            for (Naliczenieskladnikawynagrodzenia pa : kalendarzdosredniej.getPasek(definicjabiezaca).getNaliczenieskladnikawynagrodzeniaList()) {
                                     //superpłace usunac potem "Wyn. za pracę w Niemczech"
                                     if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())||pa.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny().equals("Wyn. za pracę w Niemczech")) {
                                         if (waloryzowac) {
@@ -735,6 +737,7 @@ public class KalendarzmiesiacBean {
                                     }
                                 }
                             }
+                            wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone*procent;
                             Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), wynagrodzeniemcwyplacone, wynagrodzeniemczwaloryzowane, skladnikstaly, naliczenienieobecnosc, pominiety,
                                     godzinyprzepracowanezm, dniprzepracowane, godzinyroboczezm, dnirobocze);
                             srednia.setWaloryzowane(waloryzowac);
