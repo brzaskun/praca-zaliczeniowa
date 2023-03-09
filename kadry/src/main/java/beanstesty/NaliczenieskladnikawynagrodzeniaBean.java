@@ -172,7 +172,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                        }
                     }
                     double dniredukcjiIurlopu = dniredukcji_12+dniurlopu;
-                    if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
+                    if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()||wynagrodzeniekierowca) {
                          if (dniredukcji_11==0.0 && dniurlopu>0.0 && dniredukcji_12==0.0) {
                             //jest tylko urlop badz koniec umowy
                             redukcja_12 = redukcja_12 + (kwotazmiennej /kalendarz.getGodzinyroboczewmiesiacu()*godzinyurlopu);
