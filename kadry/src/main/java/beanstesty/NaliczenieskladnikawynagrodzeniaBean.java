@@ -173,7 +173,14 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     }
                     double dniredukcjiIurlopu = dniredukcji_12+dniurlopu;
                     if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
-                        if (dniredukcji_11==0.0 && dniredukcjiIurlopu>0.0) {
+                         if (dniredukcji_11==0.0 && dniurlopu>0.0 && dniredukcji_12==0.0) {
+                            //jest tylko urlop badz koniec umowy
+                            redukcja_12 = redukcja_12 + (kwotazmiennej /kalendarz.getGodzinyroboczewmiesiacu()*godzinyurlopu);
+                            double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_12);
+                            stawkadzienna = Z.z6(kwotazmiennej/kalendarz.getDniroboczewmiesiacu());
+                            stawkagodzinowa = Z.z6(kwotazmiennej/kalendarz.getGodzinyroboczewmiesiacu());
+                            dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji;
+                        } else if (dniredukcji_11==0.0 && dniredukcjiIurlopu>0.0) {
                             //jest tylko urlop badz koniec umowy
                             redukcja_12 = redukcja_12 + (kwotazmiennej /kalendarz.getGodzinyroboczewmiesiacu()*godzinyredukcji_12);
                             double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_12);

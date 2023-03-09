@@ -59,7 +59,7 @@ public class NadgodzinyNiemcyView implements Serializable {
                 Kalendarzmiesiac kalendarzpracownikamiesiac = pobierzkalendarz(kalendarzewstep, zm.getSkladnikwynagrodzenia().getAngaz(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                 if (kalendarzpracownikamiesiac!=null) {
                     kalendarzpracownikamiesiac.setStawkazagodzine(Z.z(zm.getKwota()));
-                    kalendarzpracownikamiesiac.setDodatekzanadgodziny(Z.z(zm.getKwota()*.25));
+                    kalendarzpracownikamiesiac.setDodatekzanadgodziny(Z.z(zm.getKwota()*1.25));
                     kalendarze.add(kalendarzpracownikamiesiac);
                 }
             }

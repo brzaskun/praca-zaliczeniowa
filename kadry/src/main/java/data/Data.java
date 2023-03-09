@@ -121,13 +121,15 @@ public class Data implements Serializable {
        String zwrot = "brak daty";
         if (dataurodzenia!=null && databiezaca!=null) {
             if (!dataurodzenia.equals("") && !databiezaca.equals("")) {
-            LocalDate dataur = LocalDate.parse(dataurodzenia);
-            LocalDate dataumowy = LocalDate.parse(databiezaca);
-            Period period = Period.between(dataur, dataumowy);
-            int years = period.getYears();
-            int months = period.getMonths();
-            int days = period.getDays();
-            zwrot = years+" lat, "+months+" mcy, "+days+" dni";
+                try {
+                    LocalDate dataur = LocalDate.parse(dataurodzenia);
+                    LocalDate dataumowy = LocalDate.parse(databiezaca);
+                    Period period = Period.between(dataur, dataumowy);
+                    int years = period.getYears();
+                    int months = period.getMonths();
+                    int days = period.getDays();
+                    zwrot = years+" lat, "+months+" mcy, "+days+" dni";
+                } catch (Exception s) {}
             }
         }
         return zwrot;
