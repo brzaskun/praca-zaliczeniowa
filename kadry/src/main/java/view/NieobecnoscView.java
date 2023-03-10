@@ -141,9 +141,9 @@ public class NieobecnoscView  implements Serializable {
         zwolnienie = false;
         naniesbezposrednio = true;
         dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));
-        if (dniwykorzystanewroku>=33) {
-            listaabsencji = listaabsencji.stream().filter(p->!p.getKod().equals("CH")).collect(Collectors.toList());
-        }
+//        if (dniwykorzystanewroku>=33) {
+//            listaabsencji = listaabsencji.stream().filter(p->!p.getKod().equals("CH")).collect(Collectors.toList());
+//        }
         Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
         String stannadzien = data.Data.ostatniDzien(wpisView.getRokWpisu(),"12");
         String dataDlaEtatu = data.Data.ostatniDzien(wpisView.getRokWpisu(),wpisView.getMiesiacWpisu());

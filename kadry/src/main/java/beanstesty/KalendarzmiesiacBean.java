@@ -291,7 +291,8 @@ public class KalendarzmiesiacBean {
 
     static void naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor) {
         for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
-            if (p.getRodzajwynagrodzenia().isTylkosuperplace()==false) {
+            //trzeba usunac tylkospuerplace==true
+            if (p.getRodzajwynagrodzenia().isTylkosuperplace()==false||p.getRodzajwynagrodzenia().isTylkosuperplace()==true) {
                 if (p.getRodzajwynagrodzenia().getKod().equals("11") && p.isOddelegowanie() == false) {
                     List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs, wynagrodzenieminimalne, kalendarzwzor);
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().addAll(naliczenieskladnikawynagrodzenia);
