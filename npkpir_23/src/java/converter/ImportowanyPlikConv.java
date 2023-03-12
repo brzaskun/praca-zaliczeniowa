@@ -75,6 +75,7 @@ public class ImportowanyPlikConv implements javax.faces.convert.Converter,Serial
         zwrot.add(new ImportowanyPlik("K3F xml","xml","",9));
         zwrot.add(new ImportowanyPlik("Amazon taxraport csv","csv","",10));
         zwrot.add(new ImportowanyPlik("Bud-Instal epp","epp","",11));
+        zwrot.add(new ImportowanyPlik("AGLP xls","xls","",12));
         //to dotyczy importowanych bankow
         zwrot.addAll(BankImportWykaz.getWYKAZ());
         return zwrot;

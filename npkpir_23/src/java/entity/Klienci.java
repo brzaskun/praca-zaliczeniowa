@@ -65,6 +65,9 @@ public class Klienci extends KlienciSuper implements Serializable {
     @Size(max = 255)
     @Column(name = "nskrocona")
     private String nskrocona;
+    @Size(max = 255)
+    @Column(name = "adresnowe")
+    private String adresnowe;
     @Transient
     private String pkpirKolumna;
     @Size(max = 255)
@@ -208,6 +211,15 @@ public class Klienci extends KlienciSuper implements Serializable {
         return email;
     }
 
+    public String getAdresnowe() {
+        return adresnowe;
+    }
+
+    public void setAdresnowe(String adresnowe) {
+        this.adresnowe = adresnowe;
+    }
+
+    
     public boolean isAktywnydlafaktrozrachunki() {
         return aktywnydlafaktrozrachunki;
     }

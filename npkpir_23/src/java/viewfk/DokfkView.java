@@ -350,7 +350,7 @@ public class DokfkView implements Serializable {
         init();
         if (zapisz0edytuj1 == false) {
             resetujDokument();
-        } else if (selected.getRodzajedok().getSkrotNazwyDok().equals("BO")) {
+        } else if (selected.getRodzajedok()!=null&&selected.getRodzajedok().getSkrotNazwyDok().equals("BO")) {
             sumadokbo = ObslugaWiersza.sumujwierszeBO(selected);
             PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
         }

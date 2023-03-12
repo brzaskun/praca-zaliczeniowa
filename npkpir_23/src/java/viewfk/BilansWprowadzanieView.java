@@ -184,8 +184,8 @@ public class BilansWprowadzanieView implements Serializable {
         this.pokazstarekonta = false;
         tworzListeZbiorcza();
         wprowadzonesymbolewalut = walutyDAOfk.findAll();
-        Podatnik p = wpisView.getPodatnikObiekt();
-        String r = wpisView.getRokWpisuSt();
+        Podatnik podatnik = wpisView.getPodatnikObiekt();
+        String rok = wpisView.getRokWpisuSt();
         String mc = wpisView.getMiesiacWpisu();
         walutadomyslna = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
         this.listaW = Collections.synchronizedList(new ArrayList<>());
@@ -193,51 +193,51 @@ public class BilansWprowadzanieView implements Serializable {
             String mcl = Data.getMc(wpisView.getPodatnikObiekt().getDataotwarcialikwidacji());
             wpisView.setMiesiacWpisu(mcl);
         }
-        this.lista0.addAll(wierszBODAO.lista("0%", wpisView, tojestbilanslikwidacyjny));
+        this.lista0.addAll(wierszBODAO.lista("0%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
         if (lista0.isEmpty()) {
-            this.lista0.add(new WierszBO(p, r, walutadomyslna, mc));
+            this.lista0.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista0);
         }
-        this.lista1.addAll(wierszBODAO.lista("1%", wpisView, tojestbilanslikwidacyjny));
+        this.lista1.addAll(wierszBODAO.lista("1%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
         if (lista1.isEmpty()) {
-            this.lista1.add(new WierszBO(p, r, walutadomyslna, mc));
+            this.lista1.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista1);
         }
-        this.lista2.addAll(wierszBODAO.lista("2%", wpisView, tojestbilanslikwidacyjny));
+        this.lista2.addAll(wierszBODAO.lista("2%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
         if (lista2.isEmpty()) {
-            this.lista2.add(new WierszBO(p, r, walutadomyslna, mc));
+            this.lista2.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista2);
         }
-        this.lista3.addAll(wierszBODAO.lista("3%", wpisView, tojestbilanslikwidacyjny));
+        this.lista3.addAll(wierszBODAO.lista("3%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
         if (lista3.isEmpty()) {
-            this.lista3.add(new WierszBO(p, r, walutadomyslna, mc));
+            this.lista3.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista3);
         }
-        this.lista4.addAll(wierszBODAO.lista("4%", wpisView, tojestbilanslikwidacyjny));
+        this.lista4.addAll(wierszBODAO.lista("4%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
         if (lista4.isEmpty()) {
-            this.lista4.add(new WierszBO(p, r, walutadomyslna, mc));
+            this.lista4.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista4);
         }
-        this.lista6.addAll(wierszBODAO.lista("6%", wpisView, tojestbilanslikwidacyjny));
+        this.lista6.addAll(wierszBODAO.lista("6%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
         if (lista6.isEmpty()) {
-            this.lista6.add(new WierszBO(p, r, walutadomyslna, mc));
+            this.lista6.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista6);
         }
-        this.lista7.addAll(wierszBODAO.lista("7%", wpisView, tojestbilanslikwidacyjny));
+        this.lista7.addAll(wierszBODAO.lista("7%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
         if (lista7.isEmpty()) {
-            this.lista7.add(new WierszBO(p, r, walutadomyslna, mc));
+            this.lista7.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista7);
         }
-        this.lista8.addAll(wierszBODAO.lista("8%", wpisView, tojestbilanslikwidacyjny));
+        this.lista8.addAll(wierszBODAO.lista("8%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
         if (lista8.isEmpty()) {
-            this.lista8.add(new WierszBO(p, r, walutadomyslna, mc));
+            this.lista8.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista8);
         }
@@ -268,7 +268,7 @@ public class BilansWprowadzanieView implements Serializable {
         listaGrupa.put(6, lista6);
         listaGrupa.put(7, lista7);
         listaGrupa.put(8, lista8);
-        selected = new WierszBO(p, r, walutadomyslna, mc);
+        selected = new WierszBO(podatnik, rok, walutadomyslna, mc);
         listaBO = lista0;
         listaBOsumy = listaSumList.get(0);
         nraktualnejlisty = 0;
@@ -625,6 +625,7 @@ public class BilansWprowadzanieView implements Serializable {
                             p.setRok(rok);
                             p.setMc(mc);
                         }
+                        p.setObrotyrozpoczecia(tojestgenerowanieobrotow);
                         try {
                             if (p.getWaluta().getSymbolwaluty().equals("PLN")) {
                                 p.setKwotaWnPLN(p.getKwotaWn());

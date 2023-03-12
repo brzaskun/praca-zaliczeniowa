@@ -186,6 +186,7 @@ public class InterpaperImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("K3F xml","xml","",9));
         zwrot.add(new ImportowanyPlik("Amazon taxraport csv","csv","",10));
         zwrot.add(new ImportowanyPlik("Bud-Instal epp","epp","",11));
+        zwrot.add(new ImportowanyPlik("AGLP xls","xls","",12));
         return zwrot;
     }
     
@@ -285,6 +286,9 @@ public class InterpaperImportView implements Serializable {
                     przerwanyimport = (List<InterpaperXLS>) zwrot4[1];
                     importyzbrakami = (List<InterpaperXLS>) zwrot4[2];
                     innyokres = (List<InterpaperXLS>) zwrot4[3];
+                    break;
+                case 12:
+                    pobranefaktury = ReadXLSAGLPFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
                     break;
             }
             sumujnadole(pobranefaktury);
@@ -640,7 +644,7 @@ public class InterpaperImportView implements Serializable {
                 } else if (this.rodzajdok.equals("IU")) {
                     rodzajdk = "IU";
                 }
-                dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "zakup towarów/koszty", true, kontovatzagr, kontovatpol);
+                dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "zakup towarów/usług/koszty", true, kontovatzagr, kontovatpol);
             }
             
             try {
@@ -1423,6 +1427,9 @@ public class InterpaperImportView implements Serializable {
             case 10:
             case 11:
                 zwrot.add("sprzedaż");
+                break;
+            case 12:
+                zwrot.add("zakup");
                 break;
         }
         return zwrot;

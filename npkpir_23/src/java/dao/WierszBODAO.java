@@ -49,11 +49,14 @@ public class WierszBODAO extends DAO implements Serializable {
         super(WierszBO.class);
         super.em = this.em;
     }   
-    public List<WierszBO> lista(String grupa, WpisView wpisView, boolean likwidacja) {
+    public List<WierszBO> lista(String grupa, WpisView wpisView, boolean likwidacja, boolean obrotyrozpoczecia) {
         List<WierszBO> zwrot = new ArrayList<>();
         try {
             if (likwidacja) {
                 zwrot  = getEntityManager().createNamedQuery("WierszBO.findByListaLikwidacja").setParameter("grupakonta", grupa).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
+    
+            } else if (obrotyrozpoczecia) {
+                zwrot  = getEntityManager().createNamedQuery("WierszBO.findByListaObroty").setParameter("grupakonta", grupa).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
     
             } else {
                 zwrot = getEntityManager().createNamedQuery("WierszBO.findByLista").setParameter("grupakonta", grupa).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();

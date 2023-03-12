@@ -72,13 +72,14 @@ public class SzukajDaneBean {
     }
      
      public static Klienci znajdzdaneregonAutomat(String nip) {
-        if (nip.equals("9930282842")) {
-            error.E.s("");
+        if (nip!=null&&nip.startsWith("PL")) {
+            nip = nip.replace("PL", "");
         }
         Klienci selected = new Klienci();
         try {
             Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(
             Matcher m = p.matcher(nip.substring(0,1));  //<-- matcher( not Matcher
+              
             if (nip != null && !m.find() && nip.length()==10) {
                 GUS poc = new GUS();
                 Map<String, String> dane = poc.pobierz(nip);
