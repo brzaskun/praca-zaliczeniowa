@@ -192,6 +192,7 @@ public class PasekwynagrodzenView implements Serializable {
             pobierzkalendarzezamc();
             //pobierzkalendarzezamcanaliza();
         } catch (Exception e) {
+            E.e(e);
         }
         listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
         ileszczegolow = "normalna";
@@ -639,8 +640,10 @@ public class PasekwynagrodzenView implements Serializable {
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                 Kalendarzmiesiac kal = it.next();
                 Pasekwynagrodzen pasek = kal.getPasek(wybranalistaplac);
-                if (kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie()||kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja()) {
-                    it.remove();
+                if (kal.getAngaz().getAktywnaUmowa()!=null) {
+                    if (kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie()||kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja()) {
+                        it.remove();
+                    }
                 }
             }
             }
