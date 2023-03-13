@@ -55,7 +55,8 @@ public class PdfSwiadectwo {
                 String gdzie = firma.getMiasto()+", "+swiadectwo.getDatawystawienia();
                 PdfMain.dodajLinieOpisu(document, gdzie, Element.ALIGN_RIGHT, 2);
                 String pracodawca1 = firma.getNazwa();
-                String pracodawca2 = "Regon "+firma.getRegon()+", PKD brak";
+                //String pracodawca2 = "Regon "+firma.getRegon()+", PKD brak";
+                String pracodawca2 = "NIP "+firma.getNip();
                 String pracodawca3 = firma.getAdres();
                 PdfMain.dodajLinieOpisuBezOdstepu(document, pracodawca1, Element.ALIGN_LEFT, 2);
                 PdfMain.dodajLinieOpisuBezOdstepu(document, pracodawca2, Element.ALIGN_LEFT, 2);
@@ -323,16 +324,15 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepu(document, "(pieczęć i podpis pracodawcy lub osoby działającej w jego imieniu)", Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
                 PdfMain.dodajLinieOpisu(document, "POUCZENIE", Element.ALIGN_CENTER, 1);
-                String pouczenie = "Pracownik może w ciągu 14 dni od otrzymania świadectwa pracy wystąpić z wnioskiem do pracodawcy o sprostowanie " +
-                "świadectwa pracy. W razie nieuwzględnienia wniosku pracownikowi przysługuje, w ciągu 14 dni od zawiadomienia o odmowie " +
-                "sprostowania świadectwa pracy, prawo wystąpienia z żądaniem jego sprostowania do sądu pracy. W przypadku " +
-                "niezawiadomienia przez pracodawcę o odmowie sprostowania świadectwa pracy, żądanie sprostowania świadectwa pracy " +
-                "wnosi się do sądu pracy";
-                if (firma.getSadpracy()!=null&&!firma.getSadpracy().equals("")) {
-                    pouczenie = pouczenie + " "+firma.getSadpracy();
-                } else {
-                    pouczenie = pouczenie + "..............................................................................";
-                }
+                String pouczenie = "Pracownik może w ciągu 14 dni od otrzymania świadectwa pracy wystąpić z wnioskiem do pracodawcy o sprostowanie świadectwa pracy. W razie nieuwzględnienia wniosku "
+                        + "pracownikowi przysługuje, w ciągu 14 dni od zawiadomienia o odmowie sprostowania świadectwa pracy, prawo wystąpienia z żądaniem jego sprostowania do sądu pracy. "
+                        + "W przypadku niezawiadomienia przez pracodawcę o odmowie sprostowania świadectwa pracy, żądanie sprostowania świadectwa pracy wnosi się do sądu pracy."
+                        + "(podstawa prawna – art. 97 § 2¹ Kodeksu pracy)";
+//                if (firma.getSadpracy()!=null&&!firma.getSadpracy().equals("")) {
+//                    pouczenie = pouczenie + " "+firma.getSadpracy();
+//                } else {
+//                    pouczenie = pouczenie + "..............................................................................";
+//                }
                 PdfMain.dodajLinieOpisu(document, pouczenie, Element.ALIGN_JUSTIFIED, 1);
                 PdfMain.dodajLinieOpisu(document, "(podstawa prawna - art. 97 §2(1) Kodeksu pracy)", Element.ALIGN_CENTER, 1);
                 finalizacjaDokumentuQR(document,nazwa);
