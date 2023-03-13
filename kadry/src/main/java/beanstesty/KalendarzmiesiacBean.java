@@ -745,10 +745,8 @@ public class KalendarzmiesiacBean {
                             srednia.setWaloryzowane(waloryzowac);
                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                             double suma = wynagrodzeniemcwyplacone + wynagrodzeniemczwaloryzowane;
-                            if (suma > 0.0) {
-                                sredniadopodstawyzmienne = Z.z(sredniadopodstawyzmienne + wynagrodzeniemcwyplacone + wynagrodzeniemczwaloryzowane);
-                                i++;
-                            }
+                            sredniadopodstawyzmienne = Z.z(sredniadopodstawyzmienne + wynagrodzeniemcwyplacone + wynagrodzeniemczwaloryzowane);
+                            i++;
                         }
                     }
                 }
