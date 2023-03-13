@@ -62,6 +62,14 @@ public class Data implements Serializable {
        return ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
     }
     
+    public static String ostatniDzien(String data) {
+       String zwrot = null;
+       if (data!=null) {
+            zwrot = ostatniDzien(Data.getRok(data), Data.getMc(data));
+       }
+       return zwrot;
+    }
+    
     public static String pierwszyDzien(WpisView wpisView) {
        String rok = wpisView.getRokWpisuSt();
        String mc = wpisView.getMiesiacWpisu();

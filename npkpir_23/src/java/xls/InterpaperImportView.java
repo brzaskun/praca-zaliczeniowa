@@ -761,11 +761,12 @@ public class InterpaperImportView implements Serializable {
             nd.setDatawplywu(dataotrzymania);
             nd.setDatawystawienia(dataotrzymania);
         } else {
-            nd.setDatawystawienia(datawystawienia);
-            nd.setDatawplywu(datawystawienia);
+            String koniecmiesiaca = Data.ostatniDzien(datawystawienia);
+            nd.setDatawystawienia(koniecmiesiaca);
+            nd.setDatawplywu(koniecmiesiaca);
         }
         nd.setDataoperacji(datasprzedazy);
-        nd.setDatadokumentu(datasprzedazy);
+        nd.setDatadokumentu(datawystawienia);
         nd.setDataujecia(new Date());
         nd.setMiesiac(wpisView.getMiesiacWpisu());
         if (rodzajdok.contains("sprzedaż")) {
