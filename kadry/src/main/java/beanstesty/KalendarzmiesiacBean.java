@@ -716,7 +716,8 @@ public class KalendarzmiesiacBean {
                             double wynagrodzeniemczwaloryzowane = 0.0;
                             Definicjalistaplac definicjabiezaca = definicjadlazasilkow!=null?definicjadlazasilkow:definicjalistaplac;
                             Pasekwynagrodzen pasek = kalendarzdosredniej.getPasek(definicjabiezaca);
-                            double procent = pasek.obliczproporcjeZusOddelegowani();
+                            double procentOddelegowanie = pasek.obliczproporcjeZusOddelegowani();
+                            naliczenienieobecnosc.setProcentoddelegowanie(procentOddelegowanie);
                             if (kalendarzdosredniej.getPasek(definicjabiezaca).getNaliczenieskladnikawynagrodzeniaList() != null) {
                             for (Naliczenieskladnikawynagrodzenia pa : kalendarzdosredniej.getPasek(definicjabiezaca).getNaliczenieskladnikawynagrodzeniaList()) {
                                     //superpłace usunac potem "Wyn. za pracę w Niemczech"
@@ -738,7 +739,7 @@ public class KalendarzmiesiacBean {
                                     }
                                 }
                             }
-                            wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone*procent;
+                            wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone*procentOddelegowanie;
                             Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), wynagrodzeniemcwyplacone, wynagrodzeniemczwaloryzowane, skladnikstaly, naliczenienieobecnosc, pominiety,
                                     godzinyprzepracowanezm, dniprzepracowane, godzinyroboczezm, dnirobocze);
                             srednia.setWaloryzowane(waloryzowac);

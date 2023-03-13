@@ -1486,7 +1486,10 @@ public class Pasekwynagrodzen implements Serializable {
         public String getDataod() {
             return dataod;
         }
-
+        public String getDataodShort() {
+           return Data.getDzien(dataod);
+        }
+        
         public void setDataod(String dataod) {
             this.dataod = dataod;
         }
@@ -1494,7 +1497,9 @@ public class Pasekwynagrodzen implements Serializable {
         public String getDatado() {
             return datado;
         }
-
+        public String getDatadoShort() {
+            return Data.getDzien(datado);
+        }
         public void setDatado(String datado) {
             this.datado = datado;
         }

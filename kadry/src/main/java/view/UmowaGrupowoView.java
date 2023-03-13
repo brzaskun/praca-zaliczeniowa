@@ -161,16 +161,11 @@ public class UmowaGrupowoView implements Serializable {
         if (selected != null && selected.getDatazawarcia() != null) {
             String rok = selected.getDatazawarcia().substring(0,4);
             int rokI = Integer.parseInt(rok);
-            if (rokI<2022) {
-                selected.setDatazawarcia(null);
-                Msg.msg("e","Umowa nie może być z wcześniejszego roku niż 2022");
-            } else {
-                selected.setDataspoleczne(selected.getDatazawarcia());
-                selected.setDatazdrowotne(selected.getDatazawarcia());
-                selected.setDataod(selected.getDatazawarcia());
-                selected.setTerminrozpoczeciapracy(selected.getDatazawarcia());
-                obliczwiek();
-            }
+            selected.setDataspoleczne(selected.getDatazawarcia());
+            selected.setDatazdrowotne(selected.getDatazawarcia());
+            selected.setDataod(selected.getDatazawarcia());
+            selected.setTerminrozpoczeciapracy(selected.getDatazawarcia());
+            obliczwiek();
         }
     }
      

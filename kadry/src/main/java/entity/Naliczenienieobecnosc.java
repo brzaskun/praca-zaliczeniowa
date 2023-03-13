@@ -115,6 +115,8 @@ public class Naliczenienieobecnosc implements Serializable {
     private String datado;
     @Column(name = "waluta")
     private String waluta;
+    @Column(name = "procentoddelegowanie")
+    private double procentoddelegowanie;
 
     public Naliczenienieobecnosc() {
         this.sredniadlanieobecnosciList = new ArrayList<>();
@@ -203,6 +205,14 @@ public class Naliczenienieobecnosc implements Serializable {
 
     public void setDatado(String datado) {
         this.datado = datado;
+    }
+
+    public double getProcentoddelegowanie() {
+        return procentoddelegowanie;
+    }
+
+    public void setProcentoddelegowanie(double procentoddelegowanie) {
+        this.procentoddelegowanie = procentoddelegowanie;
     }
     
 

@@ -270,14 +270,17 @@
                     <p:column headerText="dni" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
                         <h:outputText value="#{itempasekszcz.dniobowiazku}/#{itempasekszcz.dniprzepracowane}"/>
                     </p:column>
-                    <p:column headerText="godziny" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
-                        <h:outputText value="#{itempasekszcz.godzinyobowiazku}/#{itempasekszcz.godzinyprzepracowane}"/>
+                    <p:column headerText="godz/norma" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                        <h:outputText value="#{itempasekszcz.godzinyobowiazku}"/>
                     </p:column>
-                    <p:column headerText="data od" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
-                        <h:outputText value="#{itempasekszcz.dataod}"/>
+                    <p:column headerText="godz/prac" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                        <h:outputText value="#{itempasekszcz.godzinyprzepracowane}"/>
                     </p:column>
-                    <p:column headerText="data do" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
-                        <h:outputText value="#{itempasekszcz.datado}"/>
+                    <p:column headerText="data od" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                        <h:outputText value="#{itempasekszcz.getDataodShort()}"/>
+                    </p:column>
+                    <p:column headerText="data do" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                        <h:outputText value="#{itempasekszcz.getDatadoShort()}"/>
                     </p:column>
                     <p:column headerText="waluta" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
                         <bcf:outputpl value="#{itempasekszcz.wynagrodzeniezmiennawaluta}"/>
@@ -300,7 +303,7 @@
                     <p:column headerText="redukcja" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
                         <bcf:outputpl value="#{itempasekszcz.redukcja}"/>
                     </p:column>
-                    <p:column headerText="waluta" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
+                    <p:column headerText="waluta" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
                         <bcf:outputpl value="#{itempasekszcz.waluta}"/>
                     </p:column>
                 </p:dataTable>

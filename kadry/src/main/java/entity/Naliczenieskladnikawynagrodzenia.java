@@ -5,6 +5,7 @@
  */
 package entity;
 
+import data.Data;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -229,6 +230,9 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     public String getDatado() {
         return datado;
     }
+    public String getDatadoShort() {
+        return Data.getDzien(datado);
+    }
 
     public void setDatado(String datado) {
         this.datado = datado;
@@ -236,6 +240,10 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public String getDataod() {
         return dataod;
+    }
+    
+    public String getDataodShort() {
+        return Data.getDzien(dataod);
     }
 
     public void setDataod(String dataod) {
