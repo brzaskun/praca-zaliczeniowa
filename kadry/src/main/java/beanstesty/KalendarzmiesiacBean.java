@@ -758,7 +758,7 @@ public class KalendarzmiesiacBean {
 //                naliczenienieobecnosc.setStawkadzienna(Z.z(kwotywyplacone/dnifaktyczne));
 //                naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
                 if (i > 0) {
-                    sredniadopodstawy = Z.z(sredniadopodstawyzmienne / i);
+                    sredniadopodstawy = Z.z(sredniadopodstawy+(sredniadopodstawyzmienne / i));
                 }
             }
         }

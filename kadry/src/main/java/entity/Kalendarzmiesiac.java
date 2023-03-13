@@ -437,7 +437,7 @@ private static final long serialVersionUID = 1L;
         zwrot[1] = chorobagodziny;
         //jedynka to trzeba upgradowac
         if (przepracowane!=godzinyobowiazku) {
-            zwrot[2] = przepracowane>polowagodzinyobowiazku?1:0;
+            zwrot[2] = przepracowane>polowagodzinyobowiazku?0:1;
         } else {
             zwrot[2] = 0;
         }
