@@ -7,6 +7,7 @@ package view;
 import dao.FirmaKadryFacade;
 import dao.MemoryFacade;
 import dao.PracownikFacade;
+import dao.UzFacade;
 import data.Data;
 import embeddable.Okres;
 import entity.Angaz;
@@ -17,8 +18,8 @@ import entity.Umowa;
 import entity.Uz;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Osito
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class WpisView implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -37,6 +38,8 @@ public class WpisView implements Serializable {
     private FirmaKadryFacade firmaFacade;
     @Inject
     private PracownikFacade pracownikFacade;
+    @Inject
+    private UzFacade uzFacade;
     private Memory memory;
     private String rokWpisu;
     private String rokUprzedni;
@@ -64,7 +67,9 @@ public class WpisView implements Serializable {
         okreswpisu = new Okres(rokWpisu, miesiacWpisu);
         if (uzer == null) {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            uzer = (Uz) request.getAttribute("uzer");
+//            uzer = (Uz) request.getAttribute("uzer");
+            String wprowadzilX = request.getUserPrincipal().getName();
+            uzer = uzFacade.findUzByLogin(wprowadzilX);
         }
         if (uzer != null && uzer.getUprawnienia().getNazwa().equals("Pracodawca")) {
             this.firma = uzer.getFirma();

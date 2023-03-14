@@ -5,17 +5,19 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-     <p:panelGrid columns="1" columnClasses="twenty-percent, eighty-percent" style="height: 300px;width: 1200px;">
+    <p:panelGrid columns="1" style="padding: 20px;">
+        <h:outputText value="Wprowadzamy dane na koniec 2022" style="color: blue;"/>
+    </p:panelGrid>
+     <p:panelGrid columns="1" columnClasses="twenty-percent, eighty-percent" style="height: 300px;width: 900px;">
         <p:outputPanel>
              <h:form id="AngazListForm" styleClass="formangaz">
                  <p:panel header="Wykaz nierozliczonych urlopów dla pracowników w firmie #{wpisView.firma.nazwa} z momentem wprowadzenia do programu">
-                    <p:dataTable id="datalist" value="#{angazView.lista}" var="itemAngaz"
-                                 selectionMode="single" selection="#{angazView.selectedlista}"
+                    <p:dataTable id="datalist" value="#{zalegleUrlopyView.lista}" var="itemAngaz"
+                                 selectionMode="single" selection="#{zalegleUrlopyView.selectedlista}"
                                  rowKey="#{itemAngaz.id}"  sortBy="#{itemAngaz.pracownik.nazwisko}"
                                 style="height: 500px; overflow-y: scroll;"
                                 emptyMessage="Nie ma angażów w firmie"
                                  >
-                        <p:ajax event="rowSelect" listener="#{angazView.aktywuj}" partialSubmit="true" global="false" update="north"/>
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
@@ -54,7 +56,7 @@
                                 <h:outputText value="urlop dni"/>
                             </f:facet>
                             <p:inputNumber value="#{itemAngaz.bourlopdni}" size="4" decimalPlaces="0" minValue="0" required="true" requiredMessage="Wpisz wartość">
-                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.edytuj(itemAngaz)}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{zalegleUrlopyView.edytuj(itemAngaz)}"/>
                             </p:inputNumber>
                         </p:column>
                         <p:column  width="50" style="text-align: center;">
@@ -62,21 +64,15 @@
                                 <h:outputText value="urlop godziny"/>
                             </f:facet>
                             <p:inputNumber value="#{itemAngaz.bourlopgodziny}" size="4" decimalPlaces="0" minValue="0" required="true" requiredMessage="Wpisz wartość">
-                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.edytuj(itemAngaz)}" />
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{zalegleUrlopyView.edytuj(itemAngaz)}" />
                             </p:inputNumber>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="zmienił"/>
-                            </f:facet>
-                            <h:outputText value="#{itemAngaz.pracownik.modyfikowal}"/>
                         </p:column>
                         <p:column width="30" sortBy="#{itemAngaz.pracownik.aktywny}" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="akt."/>
                             </f:facet>
                              <p:selectBooleanCheckbox value="#{itemAngaz.pracownik.aktywny}">
-                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.zapisz(itemAngaz.pracownik)}"/>
+                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{zalegleUrlopyView.zapisz(itemAngaz.pracownik)}"/>
                              </p:selectBooleanCheckbox>
                         </p:column>
                         <p:column width="30">
@@ -99,14 +95,6 @@
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.zapisz(itemAngaz.pracownik)}"/>
                             </p:selectBooleanCheckbox>
                         </p:column>-->
-                        <p:column headerText="mail"  width="40" style="text-align: center;">
-                            <p:commandButton icon="pi pi-file-text" actionListener="#{angazView.mail(itemAngaz.pracownik)}"/>
-                        </p:column>
-                          <p:column width="40" style="text-align: center;">
-                            <p:commandButton icon="pi pi-trash" actionListener="#{angazView.usun(itemAngaz)}" update="north AngazListForm">
-                                <p:confirm type="popup" header="Potwierdzenie" message="Usunąć angaż pracownika?" icon="pi pi-exclamation-triangle"/>
-                            </p:commandButton>
-                        </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>
