@@ -227,8 +227,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                         redukcja = redukcja_11 + redukcja_12;
                     } else {
                         //jezeli  nie ma ani jednego dnia faktycznie przepracowanego to sie nie nalezy
-                        stawkadzienna = 0.0;
-                        stawkagodzinowa = 0.0;
+//                        stawkadzienna = 0.0;
+//                        stawkagodzinowa = 0.0;
+//te stawki musza zostac bo sa potrzebne do wyliczania urlopu nawet jak nie ma ani jednego dnia pracy
                         dowyplatyzaczasprzepracowany = 0.0;
                         redukcja = kwotazmiennej;
                     }
