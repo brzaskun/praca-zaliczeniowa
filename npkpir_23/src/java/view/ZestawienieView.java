@@ -886,10 +886,12 @@ public class ZestawienieView implements Serializable {
             for (Strata p : straty) {
                 double zostalo = wyliczStrataZostalo(p);
                 double wyliczmaks = zostalo - p.getPolowakwoty();
-                if (wyliczmaks > 0) {
-                    sumastrat += p.getPolowakwoty();
-                } else {
-                    sumastrat += zostalo;
+                if (zostalo > 0.0) {
+                    if (wyliczmaks > 0.0) {
+                        sumastrat += p.getPolowakwoty();
+                    } else {
+                        sumastrat += zostalo;
+                    }
                 }
             }
             BigDecimal wynikpozus = BigDecimal.ZERO;
@@ -960,17 +962,18 @@ public class ZestawienieView implements Serializable {
     private double wyliczStrataZostalo(Strata tmp) {
         double zostalo = 0.0;
         double sumabiezace = 0.0;
-        if (tmp.getListawykorzystanie() != null) {
-            for (StrataWykorzystanie s : tmp.getListawykorzystanie()) {
-                if (Integer.parseInt(s.getRok()) < wpisView.getRokWpisu()) {
+        int rokInt = tmp.getRok();
+        if (rokInt < wpisView.getRokWpisu() && (wpisView.getRokWpisu()-rokInt<7)) {
+            if (tmp.getListawykorzystanie() != null) {
+                for (StrataWykorzystanie s : tmp.getListawykorzystanie()) {
                     sumabiezace += s.getKwotawykorzystania();
                 }
-            }
-        } else {
-            tmp.setListawykorzystanie(new ArrayList<StrataWykorzystanie>());
+            } else {
+                tmp.setListawykorzystanie(new ArrayList<StrataWykorzystanie>());
 
+            }
+            zostalo += Z.z(tmp.getKwota() - tmp.getWykorzystano() - Z.z(sumabiezace));
         }
-        zostalo += Z.z(tmp.getKwota() - tmp.getWykorzystano() - Z.z(sumabiezace));
         return zostalo;
     }
 
