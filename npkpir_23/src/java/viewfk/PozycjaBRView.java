@@ -332,38 +332,42 @@ public class PozycjaBRView implements Serializable {
 
     
      public void obliczBilansOtwarcia() {
-        if (uklad.getUklad() == null) {
-            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        }
-        List<PozycjaRZiSBilans> pozycjeaktywa = Collections.synchronizedList(new ArrayList<>());
-        List<PozycjaRZiSBilans> pozycjepasywa = Collections.synchronizedList(new ArrayList<>());
-        pobierzPozycjeAktywaPasywa(pozycjeaktywa, pozycjepasywa);
-        rootBilansAktywa.getChildren().clear();
-        rootBilansPasywa.getChildren().clear();
-        //List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokBilansBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        //lista jest zerowa bo teraz zapisy bo sa nanoszone na bo, nie mozna dodawac zapisow z bo bo bedzie duplikat!
-        List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
-        try {
-            List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaKwotaBezPotomkow(wpisView);
-//            for (Konto p : plankont) {
-//                if (p.getPelnynumer().equals("220-2")) {
-//                    error.E.s("");
-//                }
-//            }
-            Konto kontowyniku = kontoDAO.findKonto860(wpisView);
-            naniesKwoteWynikFinansowyBO(kontowyniku);
-            PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
-            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
-            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont, "pasywa");
-            level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
-            Msg.msg("i", "Pobrano i wyliczono BO");
-            sumaaktywapasywaoblicz("aktywa");
-            sumaaktywapasywaoblicz("pasywa");
-        } catch (Exception e) {
-            E.e(e);
+        if (uklad!=null) {
+            if (uklad.getUklad() == null) {
+                uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            }
+            List<PozycjaRZiSBilans> pozycjeaktywa = Collections.synchronizedList(new ArrayList<>());
+            List<PozycjaRZiSBilans> pozycjepasywa = Collections.synchronizedList(new ArrayList<>());
+            pobierzPozycjeAktywaPasywa(pozycjeaktywa, pozycjepasywa);
             rootBilansAktywa.getChildren().clear();
             rootBilansPasywa.getChildren().clear();
-            Msg.msg("e", e.getLocalizedMessage());
+            //List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokBilansBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            //lista jest zerowa bo teraz zapisy bo sa nanoszone na bo, nie mozna dodawac zapisow z bo bo bedzie duplikat!
+            List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
+            try {
+                List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaKwotaBezPotomkow(wpisView);
+    //            for (Konto p : plankont) {
+    //                if (p.getPelnynumer().equals("220-2")) {
+    //                    error.E.s("");
+    //                }
+    //            }
+                Konto kontowyniku = kontoDAO.findKonto860(wpisView);
+                naniesKwoteWynikFinansowyBO(kontowyniku);
+                PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
+                PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
+                PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont, "pasywa");
+                level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
+                Msg.msg("i", "Pobrano i wyliczono BO");
+                sumaaktywapasywaoblicz("aktywa");
+                sumaaktywapasywaoblicz("pasywa");
+            } catch (Exception e) {
+                E.e(e);
+                rootBilansAktywa.getChildren().clear();
+                rootBilansPasywa.getChildren().clear();
+                Msg.msg("e", e.getLocalizedMessage());
+            }
+        } else {
+            Msg.msg("e","Brak układu Bilansu. Nie można generować zestawienia.");
         }
     }
      

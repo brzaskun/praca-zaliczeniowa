@@ -1451,7 +1451,7 @@ public class Vat7DKView implements Serializable {
     public void setRodzajzobowiazania(String rodzajzobowiazania) {
         if (rodzajzobowiazania!=null) {
             try {
-                String pattern = "[^a-zA-Z0-9]";
+                String pattern = "[`~!@#$%^&*()_+[\\]\\\\;\',./{}|:\"<>?]";
                 rodzajzobowiazania = rodzajzobowiazania.replaceAll(pattern, "");
             } catch (Exception e){}
         }

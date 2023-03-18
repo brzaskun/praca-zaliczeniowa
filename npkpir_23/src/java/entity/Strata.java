@@ -63,6 +63,8 @@ public class Strata  implements Serializable {
     private double kwota;
     @Column(name = "polowakwoty")
     private double polowakwoty;
+    @Column(name = "limitroczny")
+    private double limitroczny;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "strata", fetch = FetchType.EAGER)
     private List<StrataWykorzystanie> listawykorzystanie;
@@ -154,12 +156,26 @@ public class Strata  implements Serializable {
     }
 
     public double getPolowakwoty() {
-        return polowakwoty;
+        double zwrot = this.polowakwoty;
+        if (this.limitroczny>0) {
+            zwrot = this.kwota*this.limitroczny/100.0;
+        }
+        return zwrot;
     }
 
     public void setPolowakwoty(double polowakwoty) {
         this.polowakwoty = polowakwoty;
     }
+
+    public double getLimitroczny() {
+        return limitroczny;
+    }
+
+    public void setLimitroczny(double limitroczny) {
+        this.limitroczny = limitroczny;
+    }
+    
+    
 
     public double getWykorzystano() {
         double zwrot = 0.0;

@@ -465,7 +465,7 @@
             <h:form id="form1">
                 <p:panel header="Nanoszenie strat możliwe jest jedynie po sporządzeniu PIT-ow za 12 mcy oraz po wybraniu miesiąca stycznia roku następnego"/>
                 <p:dataTable id="tabelastrat" value="#{strataView.stratypodatnika}" emptyMessage="Nie ma nic" var="loop"
-                             style="min-width: 500px; max-width: 900px;" expandedRow="true">
+                             style="min-width: 500px; max-width: 990px;" expandedRow="true">
                     <p:column style="width: 4%;">
                         <p:rowToggler />
                     </p:column>
@@ -487,8 +487,12 @@
                     <p:column headerText="wykorzyst. bieżące" width="90">
                         <bcf:outputpl value="#{loop.sumabiezace}"/>
                     </p:column>
-                    <p:column headerText="zostało" width="90">
+                    <p:column headerText="proc./rok" width="90">
                         <bcf:outputpl value="#{loop.zostalo}"/>
+                    </p:column>
+                    <p:column headerText="zostało" style="text-align: center;">
+                         <p:inputNumber id="sumbrutto" value="#{loop.limitroczny}"  required="true" requiredMessage="Brak procentu - uzupełnij" size="6"
+                                        style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="0" minValue="0" styleClass="wiersznetto"/> 
                     </p:column>
                     <p:column headerText="usuń" width="50" style="text-align: center;">
                         <p:commandButton icon="ui-icon-trash" actionListener="#{strataView.usunstrate(loop)}" update="akordeon:form1:tabelastrat"/>

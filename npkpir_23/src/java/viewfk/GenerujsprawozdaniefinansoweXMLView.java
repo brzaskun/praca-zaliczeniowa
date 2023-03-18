@@ -98,7 +98,7 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
                 planKontView.init();
                 PodatnikOpodatkowanieD rokbiezacy = podatnikOpodatkowanieDAO.findOpodatkowaniePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 PodatnikOpodatkowanieD rokuprzedni = podatnikOpodatkowanieDAO.findOpodatkowaniePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
-                if (rokuprzedni==null || rokuprzedni.getDolaczonydoroku()==null || rokuprzedni.getDolaczonydoroku().equals("")) {
+                if (rokuprzedni==null || rokuprzedni.getDolaczonydoroku()==null || rokuprzedni.getDolaczonydoroku().equals("")|| (rokuprzedni.getDolaczonydoroku()!=null&&!rokuprzedni.getDolaczonydoroku().equals(wpisView.getRokWpisuSt()))) {
                     Map<String, List<PozycjaRZiSBilans>> bilans = pozycjaBRView.obliczBilansOtwarciaBilansDataXML();
                     List<PozycjaRZiSBilans> rzis = pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSDataXML();
                     generuj(bilans, rzis);
