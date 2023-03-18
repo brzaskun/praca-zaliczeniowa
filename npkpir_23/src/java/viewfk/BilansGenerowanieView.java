@@ -247,7 +247,7 @@ public class BilansGenerowanieView implements Serializable {
                 } else {
                     Msg.msg("w","Nie znaleziono dokumentu BO. Albo go nie ma, albo jesteś w niewłaściwym miesiącu");
                 }
-                wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                wierszBODAO.deletePodatnikRokBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
                 saldoAnalitykaView.initGenerowanieBO();
                 List<SaldoKonto> listaSaldoKontoRokPop = saldoAnalitykaView.getListaSaldoKonto();

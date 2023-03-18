@@ -301,7 +301,7 @@ public class PodmiotView implements Serializable {
     }
     
     public void dodajnowy() {
-        if (nowy!=null) {
+        if (nowy!=null && nowy.getNazwa().equals("TAKI PODMIOT JUŻ ISTNIEJE")) {
             if (nowy.getNip()==null&&nowy.getPesel()!=null) {
                 Msg.msg("e","Błąd. Należy wprowadzić albo NIP albo Pesel");
             } else {
@@ -314,6 +314,8 @@ public class PodmiotView implements Serializable {
                 nowy.setKrajrezydencji("PL");
                 Msg.msg("Dodano nowy podmiot "+podmiot);
             }
+        } else {
+            Msg.msg("e","TAKI PODMIOT JUŻ ISTNIEJE");
         }
     }
     

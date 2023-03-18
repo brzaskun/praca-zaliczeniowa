@@ -961,7 +961,8 @@ public class PlanKontView implements Serializable {
             wyczyscKonta("wynikowe");
             wyczyscKonta("bilansowe");
             usunpozycjezapisane();
-            wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            wierszBODAO.deletePodatnikRokBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            wierszBODAO.deletePodatnikRokObroty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<Rodzajedok> rodzajeDokPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             if (!rodzajeDokPodatnika.isEmpty()) {
                 for (Rodzajedok r : rodzajeDokPodatnika) {

@@ -10,11 +10,13 @@ import dao.WierszBODAO;
 import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 /**
  *
@@ -46,7 +48,7 @@ public class BilansBoUsunView  implements Serializable {
             if (dokbo != null) {
                 dokDAOfk.remove(dokbo);
             }
-            wierszBODAO.deletePodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            wierszBODAO.deletePodatnikRokMcBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             FacesContext context = FacesContext.getCurrentInstance();
             BilansWprowadzanieView bean = context.getApplication().evaluateExpressionGet(context, "#{bilansWprowadzanieView}", BilansWprowadzanieView.class);
             bean.init();

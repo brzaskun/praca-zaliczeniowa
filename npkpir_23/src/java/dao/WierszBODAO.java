@@ -90,12 +90,28 @@ public class WierszBODAO extends DAO implements Serializable {
         return zwrot;
     }
     
-    public int deletePodatnikRok(Podatnik podatnik, String rok) {
-        return getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
+//    public int deletePodatnikRok(Podatnik podatnik, String rok) {
+//        return getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
+//    }
+//    
+//    public int deletePodatnikRokMc(Podatnik podatnik, String rok, String mc) {
+//        return getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
+//    }
+    
+    public int deletePodatnikRokBO(Podatnik podatnik, String rok) {
+        return getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRokBO").setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
     }
     
-    public int deletePodatnikRokMc(Podatnik podatnik, String rok, String mc) {
-        return getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
+    public int deletePodatnikRokMcBO(Podatnik podatnik, String rok, String mc) {
+        return getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRokMcBO").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
+    }
+    
+    public int deletePodatnikRokObroty(Podatnik podatnik, String rok) {
+        return getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRokObroty").setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
+    }
+    
+    public int deletePodatnikRokMcObroty(Podatnik podatnik, String rok, String mc) {
+        return getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRokMcObroty").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
     }
     
     public List<WierszBO> findPodatnikRokRozrachunkowe(Podatnik podatnik, String rok) {
