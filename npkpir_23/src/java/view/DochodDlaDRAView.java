@@ -90,6 +90,7 @@ public class DochodDlaDRAView implements Serializable {
     private RyczDAO ryczDAO;
     private String rok;
     private String mc;
+    private String mcplatnik;
     private String maxmc;
     private String opodatkowanie;
     private List<WierszDRA> wiersze;
@@ -351,16 +352,132 @@ public class DochodDlaDRAView implements Serializable {
      private DraPlatnikTimer draPlatnikTimer;
      
      public void pobierzzplatnika() {
-        try {
-            List<kadryiplace.Firma> firmy = firmaFacade.findAll();
-            List<Podatnik> podatnicy = podatnikDAO.findAllManager();
-            List<Podmiot> podmioty = podmiotDAO.findAll();
-            draPlatnikTimer.podsumujDRA(rok, mc, firmy, podatnicy, podmioty);
-            Msg.msg("Zakończono pobieranie deklaracji z Płatnika");
-        } catch (Exception e) {
-            Msg.msg("e","Wystąpił błąd podczas pobierania deklaracji z Płatnika");
+        if (mcplatnik!=null) {
+            try {
+                List<kadryiplace.Firma> firmy = firmaFacade.findAll();
+                List<Podatnik> podatnicy = podatnikDAO.findAllManager();
+                List<Podmiot> podmioty = podmiotDAO.findAll();
+                List<DraSumy> bazadanych = draSumyDAO.zwrocRokMc(rok, mc);
+                podsumujDRAF(mcplatnik, rok, bazadanych, firmy, podatnicy, podmioty);
+                Msg.msg("Zakończono pobieranie deklaracji z Płatnika");
+            } catch (Exception e) {
+                Msg.msg("e","Wystąpił błąd podczas pobierania deklaracji z Płatnika");
+            }
+        } else {
+            Msg.msg("e","Nie wybrano miesiąca");
         }
      }
+     
+     public void podsumujDRAF(String mc, String rok, List<DraSumy> bazadanych, List<kadryiplace.Firma> firmy, List<Podatnik> podatnicy, List<Podmiot> podmioty) {
+        List<DraSumy> drasumy = new ArrayList<>();
+        if (mc==null) {
+            mc = Data.poprzedniMc();
+        }
+        String okres = mc+rok;
+        
+        List<Zusdra> zusdra = zusdraDAO.findByOkres(okres);
+        List<Zusrca> zusrca = zusrcaDAO.findByOkres(okres);
+        int i = 1;
+        for (Zusdra z : zusdra) {
+            try {
+                //trzeba pobrac jak juz istnieje!!!
+                DraSumy dras = pobierzdrasumy(z.getIdDokument());
+                dras.setRok(rok);
+                dras.setMc(mc);
+                for (Podatnik za : podatnicy) {
+                    if (za.getNip().equals(z.getIi1Nip())) {
+                        dras.setPodatnik(za);
+                        break;
+                    }
+                }
+                if (dras.getPodatnik()==null) {
+                    for (Podatnik za : podatnicy) {
+                        if (za.getPesel()!=null && za.getPesel().equals(z.getIi3Pesel())) {
+                            dras.setPodatnik(za);
+                            break;
+                        }
+                    }
+                }
+                if (dras.getPodatnik()==null && podmioty!=null) {
+                    for (Podmiot za : podmioty) {
+                        if (za.getNip()!=null&&za.getNip().equals(z.getIi1Nip())) {
+                            dras.setPodmiot(za);
+                            break;
+                        }
+                    }
+                    if (dras.getPodmiot()==null) {
+                        for (Podmiot za : podmioty) {
+                            if (za.getPesel()!=null && za.getPesel().equals(z.getIi3Pesel())) {
+                                dras.setPodmiot(za);
+                                break;
+                            }
+                        }
+                    }
+                }
+                dras.setZusdra(z);
+                dras.setIddokument(z.getIdDokument());
+                dras.setNazwa(dras.getNazwaF());
+                if (bazadanych!=null&&!bazadanych.isEmpty()) {
+                    dras = pobierzbaza(dras,bazadanych);
+                }
+                dras.setZusdra(z);
+                dras.setIddokument(z.getIdDokument());
+                for (Zusrca rca : zusrca) {
+                    if (rca.getI12okrrozl().equals(z.getI22okresdeklar()) && rca.getIdPlatnik()==z.getIdPlatnik()) {
+                        dras.setZusrca(rca);
+                        List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(rca);
+                        dras.setUbezpZusrcaList(zalezne);
+                        break;
+                    }
+                }
+                if (dras.getUbezpZusrcaList()!=null && !dras.getUbezpZusrcaList().isEmpty()) {
+                    for (UbezpZusrca u : dras.getUbezpZusrcaList()) {
+                        if (u.getIiiA4Identyfik().equals(z.getIi3Pesel())) {
+                            dras.setUbezpZusrca(u);
+                        }
+                    }
+                }
+                dras.setUbezpieczeni(dras.getUbezpieczeniF());
+                dras.setPrzedsiebiorcy(dras.getPrzedsiebiorcyF());
+                dras.setPracownicy(dras.getPracownicyF());
+                dras.setPracownicyzerowi(dras.getPracownicyZerowiF());
+                dras.setZleceniobiorcy(dras.getZleceniobiorcyF());
+                dras.setZleceniobiorcyzerowi(dras.getZleceniobiorcyZerowiF());
+                dras.setInnetytuly(dras.getInnetytulyF());
+                dras.setKod(dras.getKodF());
+                dras.setSpoleczne(dras.getSpoleczneF());
+                dras.setZdrowotne(dras.getZdrowotneF());
+                dras.setData(Data.data_yyyyMMdd(z.getXii8Datawypel()));
+                dras.setNr(z.getI21iddekls());
+                dras.setOkres(z.getI22okresdeklar());
+                dras.setDraprzychody(dras.getDraprzychodyF());
+                dras.setDraprzychodyRR(dras.getDraprzychodyRRF());
+    //            System.out.println("okres "+dras.getOkres());
+    //            System.out.println("nazwa "+dras.getNazwa());
+    //            System.out.println("id "+z.getIdDokument());
+                double kwota = z.getIx2Kwdozaplaty()!=null?z.getIx2Kwdozaplaty().doubleValue():0.0;
+                dras.setDozaplaty(kwota);
+                double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
+                dras.setFp(kwotafp);
+                dodajpit4DRA(dras, firmy);
+                drasumy.add(dras);
+            } catch (Exception e) {
+                Msg.msg("e","Bład przy pobieraniu z płatnika firmy "+z.getIi6Nazwaskr());
+                System.out.println("");
+            }
+            
+        }
+        draSumyDAO.editList(drasumy);
+        //System.out.println("Koniec DRA");
+    }
+     
+     private DraSumy pobierzdrasumy(Integer idDokument) {
+        DraSumy zwrot = new DraSumy();
+        if (idDokument!=null) {
+            zwrot = draSumyDAO.findByIddokument(idDokument);
+        }
+        return zwrot;
+    }
     
     
 //    public void pobierzrok() {
@@ -1093,6 +1210,14 @@ public class DochodDlaDRAView implements Serializable {
 
     public void setOpodatkowanie(String opodatkowanie) {
         this.opodatkowanie = opodatkowanie;
+    }
+
+    public String getMcplatnik() {
+        return mcplatnik;
+    }
+
+    public void setMcplatnik(String mcplatnik) {
+        this.mcplatnik = mcplatnik;
     }
 
     

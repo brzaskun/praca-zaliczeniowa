@@ -92,86 +92,89 @@ public class DraPlatnikTimer {
         List<Zusrca> zusrca = zusrcaDAO.findByOkres(okres);
         int i = 1;
         for (Zusdra z : zusdra) {
-            //trzeba pobrac jak juz istnieje!!!
-            DraSumy dras = pobierzdrasumy(z.getIdDokument());
-            dras.setRok(rok);
-            dras.setMc(mc);
-            for (Podatnik za : podatnicy) {
-                if (za.getNip().equals(z.getIi1Nip())) {
-                    dras.setPodatnik(za);
-                    break;
-                }
-            }
-            if (dras.getPodatnik()==null) {
+            try {
+                //trzeba pobrac jak juz istnieje!!!
+                DraSumy dras = pobierzdrasumy(z.getIdDokument());
+                dras.setRok(rok);
+                dras.setMc(mc);
                 for (Podatnik za : podatnicy) {
-                    if (za.getPesel()!=null && za.getPesel().equals(z.getIi3Pesel())) {
+                    if (za.getNip()!=null&&za.getNip().equals(z.getIi1Nip())) {
                         dras.setPodatnik(za);
                         break;
                     }
                 }
-            }
-            if (dras.getPodatnik()==null && podmioty!=null) {
-                for (Podmiot za : podmioty) {
-                    if (za.getNip().equals(z.getIi1Nip())) {
-                        dras.setPodmiot(za);
-                        break;
-                    }
-                }
-                if (dras.getPodmiot()==null) {
-                    for (Podmiot za : podmioty) {
+                if (dras.getPodatnik()==null) {
+                    for (Podatnik za : podatnicy) {
                         if (za.getPesel()!=null && za.getPesel().equals(z.getIi3Pesel())) {
-                            dras.setPodmiot(za);
+                            dras.setPodatnik(za);
                             break;
                         }
                     }
                 }
-            }
-            dras.setZusdra(z);
-            dras.setIddokument(z.getIdDokument());
-            dras.setNazwa(dras.getNazwaF());
-            if (bazadanych!=null&&!bazadanych.isEmpty()) {
-                dras = pobierzbaza(dras,bazadanych);
-            }
-            dras.setZusdra(z);
-            dras.setIddokument(z.getIdDokument());
-            for (Zusrca rca : zusrca) {
-                if (rca.getI12okrrozl().equals(z.getI22okresdeklar()) && rca.getIdPlatnik()==z.getIdPlatnik()) {
-                    dras.setZusrca(rca);
-                    List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(rca);
-                    dras.setUbezpZusrcaList(zalezne);
-                    break;
-                }
-            }
-            if (dras.getUbezpZusrcaList()!=null && !dras.getUbezpZusrcaList().isEmpty()) {
-                for (UbezpZusrca u : dras.getUbezpZusrcaList()) {
-                    if (u.getIiiA4Identyfik().equals(z.getIi3Pesel())) {
-                        dras.setUbezpZusrca(u);
+                if (dras.getPodatnik()==null && podmioty!=null) {
+                    for (Podmiot za : podmioty) {
+                        if (za.getNip().equals(z.getIi1Nip())) {
+                            dras.setPodmiot(za);
+                            break;
+                        }
+                    }
+                    if (dras.getPodmiot()==null) {
+                        for (Podmiot za : podmioty) {
+                            if (za.getPesel()!=null && za.getPesel().equals(z.getIi3Pesel())) {
+                                dras.setPodmiot(za);
+                                break;
+                            }
+                        }
                     }
                 }
-            }
-            dras.setUbezpieczeni(dras.getUbezpieczeniF());
-            dras.setPrzedsiebiorcy(dras.getPrzedsiebiorcyF());
-            dras.setPracownicy(dras.getPracownicyF());
-            dras.setZleceniobiorcy(dras.getZleceniobiorcyF());
-            dras.setZleceniobiorcyzerowi(dras.getZleceniobiorcyZerowiF());
-            dras.setInnetytuly(dras.getInnetytulyF());
-            dras.setKod(dras.getKodF());
-            dras.setSpoleczne(dras.getSpoleczneF());
-            dras.setZdrowotne(dras.getZdrowotneF());
-            dras.setData(Data.data_yyyyMMdd(z.getXii8Datawypel()));
-            dras.setNr(z.getI21iddekls());
-            dras.setOkres(z.getI22okresdeklar());
-            dras.setDraprzychody(dras.getDraprzychodyF());
-            dras.setDraprzychodyRR(dras.getDraprzychodyRRF());
-//            System.out.println("okres "+dras.getOkres());
-//            System.out.println("nazwa "+dras.getNazwa());
-//            System.out.println("id "+z.getIdDokument());
-            double kwota = z.getIx2Kwdozaplaty()!=null?z.getIx2Kwdozaplaty().doubleValue():0.0;
-            dras.setDozaplaty(kwota);
-            double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
-            dras.setFp(kwotafp);
-            dodajpit4DRA(dras, firmy);
-            drasumy.add(dras);
+                dras.setZusdra(z);
+                dras.setIddokument(z.getIdDokument());
+                dras.setNazwa(dras.getNazwaF());
+                if (bazadanych!=null&&!bazadanych.isEmpty()) {
+                    dras = pobierzbaza(dras,bazadanych);
+                }
+                dras.setZusdra(z);
+                dras.setIddokument(z.getIdDokument());
+                for (Zusrca rca : zusrca) {
+                    if (rca.getI12okrrozl().equals(z.getI22okresdeklar()) && rca.getIdPlatnik()==z.getIdPlatnik()) {
+                        dras.setZusrca(rca);
+                        List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(rca);
+                        dras.setUbezpZusrcaList(zalezne);
+                        break;
+                    }
+                }
+                if (dras.getUbezpZusrcaList()!=null && !dras.getUbezpZusrcaList().isEmpty()) {
+                    for (UbezpZusrca u : dras.getUbezpZusrcaList()) {
+                        if (u.getIiiA4Identyfik().equals(z.getIi3Pesel())) {
+                            dras.setUbezpZusrca(u);
+                        }
+                    }
+                }
+                dras.setUbezpieczeni(dras.getUbezpieczeniF());
+                dras.setPrzedsiebiorcy(dras.getPrzedsiebiorcyF());
+                dras.setPracownicy(dras.getPracownicyF());
+                dras.setPracownicyzerowi(dras.getPracownicyZerowiF());
+                dras.setZleceniobiorcy(dras.getZleceniobiorcyF());
+                dras.setZleceniobiorcyzerowi(dras.getZleceniobiorcyZerowiF());
+                dras.setInnetytuly(dras.getInnetytulyF());
+                dras.setKod(dras.getKodF());
+                dras.setSpoleczne(dras.getSpoleczneF());
+                dras.setZdrowotne(dras.getZdrowotneF());
+                dras.setData(Data.data_yyyyMMdd(z.getXii8Datawypel()));
+                dras.setNr(z.getI21iddekls());
+                dras.setOkres(z.getI22okresdeklar());
+                dras.setDraprzychody(dras.getDraprzychodyF());
+                dras.setDraprzychodyRR(dras.getDraprzychodyRRF());
+    //            System.out.println("okres "+dras.getOkres());
+    //            System.out.println("nazwa "+dras.getNazwa());
+    //            System.out.println("id "+z.getIdDokument());
+                double kwota = z.getIx2Kwdozaplaty()!=null?z.getIx2Kwdozaplaty().doubleValue():0.0;
+                dras.setDozaplaty(kwota);
+                double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
+                dras.setFp(kwotafp);
+                dodajpit4DRA(dras, firmy);
+                drasumy.add(dras);
+            } catch (Exception e){}
             
         }
         draSumyDAO.editList(drasumy);

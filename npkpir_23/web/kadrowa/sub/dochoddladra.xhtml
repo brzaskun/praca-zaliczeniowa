@@ -475,7 +475,7 @@
                                     <p:ajax event="change" partialSubmit="true"/>
                                 </p:selectOneMenu>
                                 <h:outputText value="miesiąc deklaracji:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                                <p:selectOneMenu id="miesiacWpisu" value="#{dochodDlaDRAView.mc}" style="width: 70px;">
+                                <p:selectOneMenu id="miesiacWpisu" value="#{dochodDlaDRAView.mcplatnik}" style="width: 70px;">
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                     <f:selectItems value="#{mce.mceList}"/>
                                     <p:ajax event="change" partialSubmit="true" listener="#{dochodDlaDRAView.podsumujDRA()}" update="akordeon:formtabeladra"/>
@@ -483,7 +483,7 @@
                                 <p:commandButton id="przeliczbutton1" value="pobierz z bazy" actionListener="#{dochodDlaDRAView.podsumujDRA()}"  style="width: 120px;margin-left: 20px;" update="akordeon:formtabeladra"/>
                                 <p:commandButton id="przeliczbutton2" value="aktual. z Płatnika" actionListener="#{dochodDlaDRAView.pobierzzplatnika}"  style="width: 120px;margin-left: 20px;" update="akordeon:formtabeladra"/>
                             </p:panelGrid>
-                            <p:dataTable value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1950px;padding: 20px;"  reflow="true"
+                            <p:dataTable value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1980px;padding: 20px;"  reflow="true"
                                          scrollable="true" scrollHeight="750" scrollRows="30" selectionMode="single"
                                          emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.nazwa}" rowIndexVar="yndex1"
                                          sortBy="#{itemdra.nazwa}" sortOrder="ascending">
@@ -556,6 +556,12 @@
                                         <h:outputText value="prac."/>
                                     </f:facet>
                                     <h:outputText value="#{itemdra.pracownicy}"  rendered="#{itemdra.pracownicy gt 0}"/>
+                                </p:column>
+                                <p:column  style="text-align: center;width: 30px;">
+                                    <f:facet name="header">
+                                        <h:outputText value="prac.0"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemdra.pracownicyzerowi}"  rendered="#{itemdra.pracownicyzerowi gt 0}"/>
                                 </p:column>
                                 <p:column  style="text-align: center;width: 30px;">
                                     <f:facet name="header">
