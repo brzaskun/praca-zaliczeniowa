@@ -594,6 +594,7 @@ public class DochodDlaDRAView implements Serializable {
             dras.setUbezpieczeni(dras.getUbezpieczeniF());
             dras.setPrzedsiebiorcy(dras.getPrzedsiebiorcyF());
             dras.setPracownicy(dras.getPracownicyF());
+            dras.setPracownicyzerowi(dras.getPracownicyZerowiF());
             dras.setZleceniobiorcy(dras.getZleceniobiorcyF());
             dras.setZleceniobiorcyzerowi(dras.getZleceniobiorcyZerowiF());
             dras.setInnetytuly(dras.getInnetytulyF());

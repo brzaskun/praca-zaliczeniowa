@@ -82,6 +82,8 @@ public class DraSumy implements Serializable {
     private int przedsiebiorcy;
     @Column(name = "pracownicy")
     private int pracownicy;
+    @Column(name = "pracownicyzerowi")
+    private int pracownicyzerowi;
     @Column(name = "zleceniobiorcy")
     private int zleceniobiorcy;
     @Column(name = "zleceniobiorcyzerowi")
@@ -391,11 +393,22 @@ public class DraSumy implements Serializable {
         return suma;
     }
      
+    public int getPracownicyZerowiF() {
+        int suma = 0;
+        if (this.ubezpZusrcaList!=null) {
+            for (UbezpZusrca p : this.ubezpZusrcaList) {
+                if (p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub().startsWith("01")&&p.getIiiB6Podwymzdr()!=null&&p.getIiiB6Podwymzdr().doubleValue()==0.0) {
+                    suma = suma+1;
+                }
+            }
+        }
+        return suma;
+    }
     public int getPracownicyF() {
         int suma = 0;
         if (this.ubezpZusrcaList!=null) {
             for (UbezpZusrca p : this.ubezpZusrcaList) {
-                if (p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub().startsWith("01")) {
+                if (p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub()!=null&&p.getIiiB11kodtytub().startsWith("01")&&p.getIiiB6Podwymzdr()!=null&&p.getIiiB6Podwymzdr().doubleValue()!=0.0) {
                     suma = suma+1;
                 }
             }
@@ -606,6 +619,14 @@ public class DraSumy implements Serializable {
 
     public void setDraprzychodyRR(double draprzychodyRR) {
         this.draprzychodyRR = draprzychodyRR;
+    }
+
+    public int getPracownicyzerowi() {
+        return pracownicyzerowi;
+    }
+
+    public void setPracownicyzerowi(int pracownicyzerowi) {
+        this.pracownicyzerowi = pracownicyzerowi;
     }
      
      
