@@ -134,10 +134,10 @@ public class DraPlatnikTimer {
             }
             dras.setZusdra(z);
             dras.setIddokument(z.getIdDokument());
-            for (Zusrca r : zusrca) {
-                if (r.getI12okrrozl().equals(z.getI22okresdeklar()) && r.getIdPlatnik()==z.getIdPlatnik()) {
-                    dras.setZusrca(r);
-                    List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(r);
+            for (Zusrca rca : zusrca) {
+                if (rca.getI12okrrozl().equals(z.getI22okresdeklar()) && rca.getIdPlatnik()==z.getIdPlatnik()) {
+                    dras.setZusrca(rca);
+                    List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(rca);
                     dras.setUbezpZusrcaList(zalezne);
                     break;
                 }

@@ -60,6 +60,7 @@ import kadryiplace.Place;
 import kadryiplace.Rok;
 import mail.MaiManager;
 import msg.Msg;
+import timer.DraPlatnikTimer;
 import waluty.Z;
 
 /**
@@ -345,6 +346,21 @@ public class DochodDlaDRAView implements Serializable {
             Msg.msg("Pobrano i przeliczono dane");
         }
     }
+     
+     @Inject
+     private DraPlatnikTimer draPlatnikTimer;
+     
+     public void pobierzzplatnika() {
+        try {
+            List<kadryiplace.Firma> firmy = firmaFacade.findAll();
+            List<Podatnik> podatnicy = podatnikDAO.findAllManager();
+            List<Podmiot> podmioty = podmiotDAO.findAll();
+            draPlatnikTimer.podsumujDRA(rok, mc, firmy, podatnicy, podmioty);
+            Msg.msg("Zakończono pobieranie deklaracji z Płatnika");
+        } catch (Exception e) {
+            Msg.msg("e","Wystąpił błąd podczas pobierania deklaracji z Płatnika");
+        }
+     }
     
     
 //    public void pobierzrok() {
