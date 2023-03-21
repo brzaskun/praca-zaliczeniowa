@@ -215,7 +215,17 @@ public class PodmiotView implements Serializable {
     }
     
     private boolean sprawdznip(List<Podmiot> podmioty, String nip) {
-        Podmiot znaleziony = podmioty.stream().filter(p->p.getNip().equals(nip)).findFirst().orElse(null);
+        Podmiot znaleziony = null;
+        if (nowy.getNip()!=null) {
+            for (Podmiot p : podmioty) {
+                if (p.getNip()!=null && p.getNip().equals(nowy.getNip())) {
+                    znaleziony = p;
+                }
+            }
+            if (znaleziony!=null) {
+                 this.nowy.setNazwa("TAKI PODMIOT JUŻ ISTNIEJE");
+            } 
+        }
         return znaleziony==null;
     }
     

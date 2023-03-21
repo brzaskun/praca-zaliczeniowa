@@ -130,16 +130,18 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
                 if (liczbakont > 0) {
                     nrkonta = String.valueOf(liczbakont+1);
                 }
-                p.setPelnynumer(kontomacierzyste.getPelnynumer()+"-"+nrkonta);
-                results.add(p);
-                p = new Konto();
-                p.setNazwapelna("dodaj kontrahenta");
-                p.setPelnynumer(kontomacierzyste.getPelnynumer()+"-"+nrkonta);
-                results.add(p);
-                p = new Konto();
-                p.setNazwapelna("dodaj el.słownika");
-                p.setPelnynumer(kontomacierzyste.getPelnynumer()+"-"+nrkonta);
-                results.add(p);
+                if (kontomacierzyste!=null){
+                    p.setPelnynumer(kontomacierzyste.getPelnynumer()+"-"+nrkonta);
+                    results.add(p);
+                    p = new Konto();
+                    p.setNazwapelna("dodaj kontrahenta");
+                    p.setPelnynumer(kontomacierzyste.getPelnynumer()+"-"+nrkonta);
+                    results.add(p);
+                    p = new Konto();
+                    p.setNazwapelna("dodaj el.słownika");
+                    p.setPelnynumer(kontomacierzyste.getPelnynumer()+"-"+nrkonta);
+                    results.add(p);
+                }
 
             }
             return results;

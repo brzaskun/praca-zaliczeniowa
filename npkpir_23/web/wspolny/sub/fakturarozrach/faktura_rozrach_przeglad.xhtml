@@ -33,7 +33,8 @@
                          widgetVar="fakturarozliczenia_tablica" editable="true" paginator="true" rows="20" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                          rowsPerPageTemplate="20,40,80,120">
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}"/>
-                <p:ajax event="filter" global="false" oncomplete="przeliczfilter1();"/>
+                <p:ajax event="filter" global="false"/>
+<!--                <p:ajax event="filter" global="false" oncomplete="przeliczfilter1();"/>-->
                 <p:column width="30" sortBy="#{item.lp}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="lp"/>
