@@ -196,7 +196,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                 } else if (co==3) {
                     Msg.msg("Zmieniono permanentne");
                 } else if (co==4) {
-                    Msg.msg("Oznaczono do generowania fakt");
+                    //Msg.msg("Oznaczono do generowania fakt");
                 }
             } catch (Exception e) {
                 Msg.msg("e","Nieudana zmiana danych");
