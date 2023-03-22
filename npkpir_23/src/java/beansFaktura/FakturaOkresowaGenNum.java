@@ -105,10 +105,12 @@ public class FakturaOkresowaGenNum {
         return String.valueOf(starynumer);
     }
 
+    //do sprawdzenia
     private static String generujNumer(String poczatek, String[] elementy, String nip) {
         String nowynumer = poczatek;
         for (int i = 1; i < elementy.length; i++) {
-            nowynumer += "/" + elementy[i]+nip;
+            nowynumer += "/" + elementy[i];
+            //nowynumer += "/" + elementy[i]+nip;
         }
         return nowynumer;
     }

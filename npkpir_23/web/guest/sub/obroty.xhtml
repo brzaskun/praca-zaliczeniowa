@@ -42,7 +42,7 @@
                     <f:convertDateTime dateStyle="medium" locale="pl"/>
                 </h:outputText>
             </p:column>
-            <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
+            <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" >  
                 <h:outputText value="#{wpis.kontr.npelna}"  />
             </p:column>
             <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzajedok.rodzajtransakcji}" filterMatchMode="contains" sortBy="#{wpis.rodzajedok.rodzajtransakcji}">  
