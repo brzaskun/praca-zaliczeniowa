@@ -169,6 +169,13 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                               dniredukcji_pozaumowa = dniredukcji_pozaumowa+1;
                            }
                            godzinyredukcji_pozaumowa = godzinyredukcji_pozaumowa+s.getNormagodzin();
+                       } else if (s.getTypdnia()!=-1){
+                           dniredukcji_12 = dniredukcji_12+1;
+                           godzinyredukcji_12 = godzinyredukcji_12+s.getNormagodzin();
+                           if (s.getNormagodzin()>0.0) {
+                              dniredukcji_pozaumowa = dniredukcji_pozaumowa+1;
+                           }
+                           godzinyredukcji_pozaumowa = godzinyredukcji_pozaumowa+s.getNormagodzin();
                        }
                     }
                     double dniredukcjiIurlopu = dniredukcji_12+dniurlopu;
