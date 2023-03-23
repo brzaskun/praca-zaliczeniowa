@@ -164,8 +164,16 @@ public class PdfWypowiedzenie {
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
-            document.add(new Paragraph(new Phrase("..............................", fontM)));
-            document.add(new Paragraph(new Phrase("pieczątka firmy", fontS)));
+            paragraph = new Paragraph(new Phrase("Pracodawca:", fontM));
+            document.add(paragraph);
+            paragraph = new Paragraph(new Phrase(firma.getNazwa(), fontM));
+            document.add(paragraph);
+            paragraph = new Paragraph(new Phrase("z siedziną w : ", fontM));
+            document.add(paragraph);
+            paragraph = new Paragraph(new Phrase(firma.getAdres(), fontM));
+            document.add(paragraph);
+            paragraph = new Paragraph(new Phrase("NIP : "+firma.getNip(), fontM));
+            document.add(paragraph);
             document.add(Chunk.NEWLINE);
             String naglowek = umowa.getUmowakodzus().isPraca()?"ROZWIĄZANIE UMOWY O PRACĘ":"ROZWIĄZANIE UMOWY ZLECENIA";
             PdfMain.dodajLinieOpisuBezOdstepu(document, naglowek, Element.ALIGN_CENTER, 3);
@@ -199,12 +207,12 @@ public class PdfWypowiedzenie {
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
             if (rozwiazanieumowy.isPracodawca()&&!rozwiazanieumowy.isPorozumienie()) {
-                if (rozwiazanieumowy.isRozwiazanie()&&!rozwiazanieumowy.isSkroceneiokresuwyp()) {
+                if (rozwiazanieumowy.isWypowiedzenie()&&!rozwiazanieumowy.isSkroceneiokresuwyp()) {
                     String wypowiadam = "Niniejszym wypowiadam ww umowę z zachowaniem okresu wypowiedzenia, który upływa dnia "+rozwiazanieumowy.getDatauplywuokresuwyp();
                     PdfMain.dodajLinieOpisu(document, wypowiadam, Element.ALIGN_JUSTIFIED, 1);
                     String przyczyna = "Przyczyna wypowiedzenia: "+rozwiazanieumowy.getPrzyczyna();
                     PdfMain.dodajLinieOpisu(document, przyczyna, Element.ALIGN_JUSTIFIED, 1);
-                } else if (rozwiazanieumowy.isRozwiazanie()&&rozwiazanieumowy.isSkroceneiokresuwyp()) { 
+                } else if (rozwiazanieumowy.isWypowiedzenie()&&rozwiazanieumowy.isSkroceneiokresuwyp()) { 
                     String wypowiadam = "Niniejszym wypowiadam ww umowę bez zachowania okresu wypowiedzenia";
                     PdfMain.dodajLinieOpisu(document, wypowiadam, Element.ALIGN_JUSTIFIED, 1);
                     String przyczyna = "Przyczyna wypowiedzenia: "+rozwiazanieumowy.getPrzyczyna();
