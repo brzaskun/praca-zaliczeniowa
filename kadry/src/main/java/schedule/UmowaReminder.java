@@ -47,7 +47,7 @@ public class UmowaReminder {
                     try {
                         String data = Data.zmienkolejnosc(u.getDatado());
                         LocalDate today = LocalDate.parse(data) ;
-                        LocalDate tomorrow = today.minusDays(14) ;
+                        LocalDate tomorrow = today.minusDays(18) ;
                         u.setDataprzypomnienia(tomorrow.toString());
                     } catch (Exception e){}
                 }

@@ -285,7 +285,7 @@ public class NieobecnosciBean {
                          nieobecnosc.setGodzinyroboczenieobecnosc(nieobecnosc.getGodzinyroboczenieobecnosc()+dnigodziny[1]);
                          nieobecnoscFacade.edit(nieobecnosc);
                          kalendarzmiesiacFacade.edit(kal);
-                         czynaniesiono = true;
+                         czynaniesiono = nieobecnosc.isNaniesiona();
                      }
                      if (stop) {
                          break;

@@ -597,6 +597,7 @@ public class NieobecnoscView  implements Serializable {
         boolean czynaniesiono = NieobecnosciBean.nanies(nieobecnosc, kalendarzmiesiacFacade, nieobecnoscFacade);
         if (czynaniesiono==false) {
             Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
+            Msg.msg("e", "Program nie obsługuje danego symbolu nieobecności");
         }
         kalendarzmiesiacView.init();
         dniwykorzystanewroku = obliczdnichoroby(kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu()));

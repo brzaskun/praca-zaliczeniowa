@@ -943,7 +943,7 @@ private static final long serialVersionUID = 1L;
                     dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);
                     nieobecnosc.setNaniesiona(true);
-                } else if (kod.equals("U")||kod.equals("UD")) {
+                } else if (kod.equals("U")||kod.equals("UD")||kod.equals("O")) {
                     dzienaktualny.setUrlopPlatny(dzienaktualny.getNormagodzin());
                     dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);
@@ -958,7 +958,7 @@ private static final long serialVersionUID = 1L;
                     dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);
                     nieobecnosc.setNaniesiona(true);
-                } else if (kod.equals("UM")) {
+                } else if (kod.equals("UM")||kod.equals("UO")) {
                     dzienaktualny.setMacierzynski(dzienaktualny.getNormagodzin());
                     dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);

@@ -35,7 +35,8 @@ public class PracownikAlertyView  implements Serializable {
     private UmowaFacade umowaFacade;
     private List<Umowa> listaumowy;
     private List<Umowa> listaszkoleniabhp;
-    
+    private List<Angaz> listaA1;
+   
     @PostConstruct
     private void init() {
         if (wpisView.getFirma()!=null) {
@@ -48,6 +49,8 @@ public class PracownikAlertyView  implements Serializable {
             for (Angaz a : angaze) {
                 listaszkoleniabhp.addAll(a.getUmowaList().stream().filter(p->p.isAktywna()).collect(Collectors.toList()));
             }
+            listaA1 = new ArrayList<Angaz>(angaze);
+
 //            if (listaumowy!=null) {
 //                for (Umowa u : listaumowy) {
 //                    if (u.getDataprzypomnienia()==null && u.getDatado()!=null && !u.getDatado().equals("")) {
@@ -64,6 +67,12 @@ public class PracownikAlertyView  implements Serializable {
         umowaFacade.editList(listaszkoleniabhp);
         Msg.msg("Zachowane zmiany");
     }
+    
+    public void zapiszzmianya1() {
+        angazFacade.editList(listaA1);
+        Msg.msg("Zachowane zmiany");
+    }
+
 
     public List<Umowa> getListaumowy() {
         return listaumowy;
@@ -80,6 +89,15 @@ public class PracownikAlertyView  implements Serializable {
     public void setListaszkoleniabhp(List<Umowa> listaszkoleniabhp) {
         this.listaszkoleniabhp = listaszkoleniabhp;
     }
-    
+
+    public List<Angaz> getListaA1() {
+        return listaA1;
+    }
+
+    public void setListaA1(List<Angaz> listaA1) {
+        this.listaA1 = listaA1;
+    }
+
+   
     
 }

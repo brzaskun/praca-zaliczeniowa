@@ -141,6 +141,8 @@ public class Angaz implements Serializable {
     private int bourlopgodziny;
     @Column(name = "databezrobotnyskierowanie")
     private String  databezrobotnyskierowanie;
+    @Column(name = "dataa1")
+    private String  dataa1;
     
      
 
@@ -406,6 +408,14 @@ public class Angaz implements Serializable {
 
     public void setStudent(boolean student) {
         this.student = student;
+    }
+
+    public String getDataa1() {
+        return dataa1;
+    }
+
+    public void setDataa1(String dataa1) {
+        this.dataa1 = dataa1;
     }
     
     

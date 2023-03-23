@@ -134,5 +134,40 @@
                 <p:commandButton value="zapisz" styleClass="buttonnorm" actionListener="#{pracownikAlertyView.zapiszzmianybhp()}" />
             </h:form>
         </p:tab>
+        <p:tab title="ZUS A1"> 
+            <h:form id="forma1">
+            <h:outputText value="Wprowadzamy daty ważności A1" style="color: blue;margin-top: 40px;"/>
+            <p:dataTable id="datalist2" value="#{pracownikAlertyView.listaA1}" var="itemA1" rowIndexVar="yndex1"
+                         selectionMode="single" 
+                         rowKey="#{itemA1.id}"   sortBy="#{itemA1.nazwiskoiImie}"
+                         style="height: 550px; overflow-y: scroll;width: 500px; margin-top: 10px"
+                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                         emptyMessage="Nie pobrano listy"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="Daty upływu ważności "/>
+                </f:facet>
+                <p:column width="20" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="id"/>
+                    </f:facet>
+                    <h:outputText value="#{yndex1+1}"/>
+                </p:column>
+                <p:column width="150"  sortBy="#{itemA1.nazwiskoiImie}" sortOrder="asc" sortPriority="1">
+                    <f:facet name="header">
+                        <h:outputText value="nazwisko i imię"/>
+                    </f:facet>
+                    <h:outputText value="#{itemA1.nazwiskoiImie}"/>
+                </p:column>
+                <p:column width="60" style="text-align: center;" sortBy="#{itemA1.dataa1}" sortOrder="desc">
+                    <f:facet name="header">
+                        <h:outputText value="data ważności A1"/>
+                    </f:facet>
+                    <p:inputText value="#{itemA1.dataa1}" title="datac od"  placeholder="____-__-__" maxlength="10" size="11"/>
+                </p:column>
+            </p:dataTable>
+                <p:commandButton value="zapisz" styleClass="buttonnorm" actionListener="#{pracownikAlertyView.zapiszzmianya1()}" />
+            </h:form>
+        </p:tab>
     </p:tabView>
 </ui:composition>
