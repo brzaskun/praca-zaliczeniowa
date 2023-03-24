@@ -9,6 +9,7 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.PdfWriter;
+import entity.Angaz;
 import entity.EkwiwalentUrlop;
 import entity.EtatPrac;
 import entity.FirmaKadry;
@@ -38,12 +39,12 @@ import z.Z;
  * @author Osito
  */
 public class PdfSwiadectwo {
-     public static void drukuj(Swiadectwo swiadectwo, List<Swiadectwodni> dnidoswiadectwa, EkwiwalentUrlop ekwiwalentSkladniki) {
+     public static void drukuj(Swiadectwo swiadectwo, List<Swiadectwodni> dnidoswiadectwa, EkwiwalentUrlop ekwiwalentSkladniki, Angaz angaz) {
         try {
             Rozwiazanieumowy rozwiazanieumowy = swiadectwo.getRozwiazanieumowy();
             Umowa umowa = swiadectwo.getRozwiazanieumowy().getUmowa();
             Pracownik pracownik = umowa.getPracownik();
-            FirmaKadry firma = umowa.getAngaz().getFirma();
+            FirmaKadry firma = angaz.getFirma();
             String pesel = pracownik.getPesel()!=null?pracownik.getPesel():pracownik.getPaszport();
             String nazwa = pesel+"swiadectwo.pdf";
             boolean mezczyzna = pracownik.isMezczyzna();
@@ -68,7 +69,7 @@ public class PdfSwiadectwo {
                 text1 = mezczyzna?"był zatrudniony":"była zatrudniona";
                 String pracownik3 = text1+" "+pracodawca1+" "+pracodawca3;
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, pracownik3, Element.ALIGN_LEFT, 2);
-                List<EtatPrac> etatList = umowa.getAngaz().getEtatList();
+                List<EtatPrac> etatList = angaz.getEtatList();
                 for (EtatPrac et : etatList) {
                     String etat = "w okresie od "+et.getDataod()+" do "+et.getDatado()+" w wymiarze etatu: "+et.getEtat();
                     PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, etat, Element.ALIGN_LEFT, 2);
@@ -77,10 +78,15 @@ public class PdfSwiadectwo {
                 text1 = mezczyzna?"wykonywał":"wykonywała";
                 String stanowisko = "2. W okresie zatrudnienia pracownik "+text1+" pracę";
                 PdfMain.dodajLinieOpisuBezOdstepu(document, stanowisko, Element.ALIGN_LEFT, 2);
-                List<Stanowiskoprac> stanowiskopracList = umowa.getAngaz().getStanowiskopracList();
-                for (Stanowiskoprac p : stanowiskopracList) {
-                    String stan = "w okresie od "+p.getDataod()+" do "+p.getDatado()+" na stanowisku: "+p.getOpis();
-                    PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, stan, Element.ALIGN_LEFT, 2);
+                List<Stanowiskoprac> stanowiskopracList = angaz.getStanowiskopracList();
+                if (stanowiskopracList==null||stanowiskopracList.size()==0) {
+                    String stan = "w okresie od ................. do ............ na stanowisku: BRAK OPISU STANOWISKA W SKŁADNIKACH";
+                        PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, stan, Element.ALIGN_LEFT, 2);
+                } else {
+                    for (Stanowiskoprac p : stanowiskopracList) {
+                        String stan = "w okresie od "+p.getDataod()+" do "+p.getDatado()+" na stanowisku: "+p.getOpis();
+                        PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, stan, Element.ALIGN_LEFT, 2);
+                    }
                 }
                 document.add(Chunk.NEWLINE);
                 String tym = "3. W okresie zatrudnienia pracownik "+text1+" pracę tymczasową na rzecz - nie dotyczy";
@@ -299,7 +305,7 @@ public class PdfSwiadectwo {
                 document.add(Chunk.NEWLINE);
                 String komornik = "7. Informacja o zajęciu wynagrodzenia: ";
                 PdfMain.dodajLinieOpisuBezOdstepu(document, komornik, Element.ALIGN_LEFT, 2);
-                List<Skladnikpotracenia> skladnikpotraceniaList = umowa.getAngaz().getSkladnikpotraceniaList();
+                List<Skladnikpotracenia> skladnikpotraceniaList = angaz.getSkladnikpotraceniaList();
                 czydodano = false;
                 for (Skladnikpotracenia skl : skladnikpotraceniaList) {
                     if (skl.getRodzajpotracenia().getOpis().contains("Tytuł wykonawczy")&&skl.isRozliczony()==false) {

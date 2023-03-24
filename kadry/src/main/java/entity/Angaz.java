@@ -74,7 +74,7 @@ public class Angaz implements Serializable {
     private String serialsp;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz", orphanRemoval = true)
     private List<Kartawynagrodzen> kartawynagrodzenList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz", orphanRemoval = true)
     private List<Wynagrodzeniahistoryczne> wynagrodzeniahistoryczneList;
     @OneToMany(mappedBy = "angaz")
     private List<Memory> memoryList;
@@ -117,7 +117,7 @@ public class Angaz implements Serializable {
     private boolean ukryj;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz", orphanRemoval = true)
     private List<EtatPrac> etatList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz", orphanRemoval = true)
     private List<Nieobecnosc> nieobecnoscList;
     @OneToMany(mappedBy = "angaz", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Kalendarzmiesiac> kalendarzmiesiacList;
@@ -125,11 +125,11 @@ public class Angaz implements Serializable {
     private List<Skladnikpotracenia> skladnikpotraceniaList;
     @OneToMany(mappedBy = "angaz", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz", orphanRemoval = true)
     private List<Stanowiskoprac> stanowiskopracList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz", orphanRemoval = true)
     private List<Nieobecnoscprezentacja> urlopprezentacjaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz", orphanRemoval = true)
     private List<Dokumenty> dokumentyList;
     @Column(name = "student")
     private  boolean student;
