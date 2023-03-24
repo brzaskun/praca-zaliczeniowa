@@ -200,7 +200,7 @@ public class PracownikNieobecnoscView  implements Serializable {
             if (znaleziony!=null) {
                 ekwiwalentSkladnikiFacade.remove(znaleziony);
             }
-            ekwiwalentSkladnikiFacade.create(ekwiwalent=ekwiwalent);
+            ekwiwalentSkladnikiFacade.create(ekwiwalent);
             Msg.msg("Zachowano wyliczenie ekwiwalentu");
         } else {
             Msg.dPe();

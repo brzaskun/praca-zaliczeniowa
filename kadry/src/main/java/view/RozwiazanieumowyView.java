@@ -232,7 +232,7 @@ public class RozwiazanieumowyView  implements Serializable {
             List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = angaz.getSkladnikwynagrodzeniaList();
             for (Skladnikwynagrodzenia sklad : skladnikwynagrodzeniaList) {
                 List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = sklad.getZmiennawynagrodzeniaList();
-                if (zmiennawynagrodzeniaList!=null) {
+                if (zmiennawynagrodzeniaList!=null&&zmiennawynagrodzeniaList.size()>0) {
                     Collections.sort(zmiennawynagrodzeniaList, new ZmiennaWynagrodzeniacomparator());
                     zmiennawynagrodzeniaList.get(0).setDatado(rozwiazanieUmowyNowe.getDatauplywuokresuwyp());
                 }
@@ -240,7 +240,7 @@ public class RozwiazanieumowyView  implements Serializable {
             List<Skladnikpotracenia> skladnikpotraceniaList = angaz.getSkladnikpotraceniaList();
             for (Skladnikpotracenia sklad : skladnikpotraceniaList) {
                 List<Zmiennapotracenia> zmiennapotraceniaList = sklad.getZmiennapotraceniaList();
-                if (zmiennapotraceniaList!=null) {
+                if (zmiennapotraceniaList!=null&&zmiennapotraceniaList.size()>0) {
                     Collections.sort(zmiennapotraceniaList, new ZmiennaPotraceniacomparator());
                     zmiennapotraceniaList.get(0).setDatado(rozwiazanieUmowyNowe.getDatauplywuokresuwyp());
                 }

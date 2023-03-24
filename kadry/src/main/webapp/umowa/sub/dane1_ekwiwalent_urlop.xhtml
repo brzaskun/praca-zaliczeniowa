@@ -143,6 +143,9 @@
                             <h:outputText value="ekwiwalent składniki razem "/>
                             <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.kwota}"/>
                         </p:panelGrid>
+                        <p:panelGrid columns="2" style="width: 360px;">
+                            <h:outputText value="Zapisz ekwiwalent jesli ma być ujęty na świadectwie" style="color: red;" rendered="#{pracownikNieobecnoscView.ekwiwalent.id eq null}"/>
+                        </p:panelGrid>
                         <p:outputPanel>
                             <p:commandButton value="zapisz" actionListener="#{pracownikNieobecnoscView.zapiszekwiwalent()}" styleClass="buttonnorm"/>
                         </p:outputPanel>
