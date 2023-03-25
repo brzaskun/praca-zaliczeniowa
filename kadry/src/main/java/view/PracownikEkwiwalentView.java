@@ -42,8 +42,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -55,8 +55,8 @@ import z.Z;
  * @author Osito
  */
 @Named
-@RequestScoped
-public class PracownikNieobecnoscView  implements Serializable {
+@ViewScoped
+public class PracownikEkwiwalentView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private PracownikFacade pracownikFacade;
@@ -97,9 +97,9 @@ public class PracownikNieobecnoscView  implements Serializable {
             if (wpisView.getPracownik()!=null) {
                 stannadzien = data.Data.ostatniDzien(wpisView);
                 wspolczynnikEkwiwalent = wspolczynnikEkwiwalentFacade.findbyRok(wpisView.getRokWpisu());
-                EkwiwalentUrlop znaleziony = ekwiwalentSkladnikiFacade.findbyUmowa(ekwiwalent.getUmowa());
+                EkwiwalentUrlop znaleziony = ekwiwalentSkladnikiFacade.findbyUmowa(wpisView.getUmowa());
                 if (znaleziony!=null) {
-                    obliczekwiwalent(ekwiwalent);
+                    ekwiwalent=znaleziony;
                 } else {
                     ustawekwiwalent(ekwiwalent, wspolczynnikEkwiwalent.getKwota(), stannadzien);
                 }
@@ -217,6 +217,18 @@ public class PracownikNieobecnoscView  implements Serializable {
         }
     }
 
+    public void usunekwiwalent() {
+        if (ekwiwalent!=null) {
+            ekwiwalentSkladnikiFacade.remove(ekwiwalent);
+            ekwiwalent = new EkwiwalentUrlop();
+            ustawekwiwalent(ekwiwalent, wspolczynnikEkwiwalent.getKwota(), stannadzien);
+            obliczekwiwalent(ekwiwalent);
+            Msg.msg("Usunięto ekwiwalent");
+        } else {
+            Msg.dPe();
+        }
+    }
+    
     
     
     private int obliczwymiarwgodzinachchoroba(List<Umowa> umowy, EtatPrac etat) {

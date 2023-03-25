@@ -11,32 +11,32 @@
             <h:form  styleClass="formadmin" id="EkwiwalentForm">
                         <p:panelGrid columns="6" style="width: 700px;">
                             <h:outputText value="naliczenie na dzień"/>
-                            <p:inputText value="#{pracownikNieobecnoscView.ekwiwalent.dziennaliczenia}" title="naliczenie na dzien"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
-                                <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pracownikNieobecnoscView.obliczekwiwalent}" update="akordeon:EkwiwalentForm"/>
+                            <p:inputText value="#{pracownikEkwiwalentView.ekwiwalent.dziennaliczenia}" title="naliczenie na dzien"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
+                                <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pracownikEkwiwalentView.obliczekwiwalent}" update="akordeon:EkwiwalentForm"/>
                             </p:inputText>
                             <h:outputText value="pracownik:"/>
-                            <h:outputText value="#{pracownikNieobecnoscView.ekwiwalent.angaz.nazwiskoiImie}"/>
+                            <h:outputText value="#{pracownikEkwiwalentView.ekwiwalent.angaz.nazwiskoiImie}"/>
                             <h:outputText value="umowa:"/>
-                            <h:outputText value="#{pracownikNieobecnoscView.ekwiwalent.umowa.nrkolejny}"/>
+                            <h:outputText value="#{pracownikEkwiwalentView.ekwiwalent.umowa.nrkolejny}"/>
                         </p:panelGrid>
                         <p:panelGrid columns="2">
                             <h:outputText value="współczynnik dla ekwawalentu "/>
-                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.wspolczynnik}"/>
+                            <bcf:outputpl value="#{pracownikEkwiwalentView.ekwiwalent.wspolczynnik}"/>
                             <p:outputLabel value="niewykorzystany rok poprzedni godz." for="urloplpop" />
-                            <h:outputText id="urloplpop" value="#{pracownikNieobecnoscView.ekwiwalent.zalegly}" />
+                            <h:outputText id="urloplpop" value="#{pracownikEkwiwalentView.ekwiwalent.zalegly}" />
                             <p:outputLabel value="wymiar na dzień naliczenia godz." for="urloplp1e" />
-                            <h:outputText id="urloplp1e" value="#{pracownikNieobecnoscView.ekwiwalent.biezacy}" />
+                            <h:outputText id="urloplp1e" value="#{pracownikEkwiwalentView.ekwiwalent.biezacy}" />
                             <p:outputLabel value="suma rok bież+poprzedni godziny" for="urloplpop1" />
-                            <h:outputText id="urloplpop1" value="#{pracownikNieobecnoscView.ekwiwalent.godziny}" />
+                            <h:outputText id="urloplpop1" value="#{pracownikEkwiwalentView.ekwiwalent.godziny}" />
                             <p:outputLabel value="suma rok bież+poprzedni dni" for="urloplpop3" />
-                            <h:outputText id="urloplpop3" value="#{pracownikNieobecnoscView.ekwiwalent.dni}" />
+                            <h:outputText id="urloplpop3" value="#{pracownikEkwiwalentView.ekwiwalent.dni}" />
                             <h:outputText value="etat "/>
-                            <h:outputText value="#{pracownikNieobecnoscView.ekwiwalent.getEtat()}"/>
+                            <h:outputText value="#{pracownikEkwiwalentView.ekwiwalent.getEtat()}"/>
                             <h:outputText value="ekwiwalent składniki stałe "/>
-                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.kwotastale}"/>
+                            <bcf:outputpl value="#{pracownikEkwiwalentView.ekwiwalent.kwotastale}"/>
                         </p:panelGrid>
                         <p:panelGrid columns="1">
-                            <p:dataTable id="datalist2" value="#{pracownikNieobecnoscView.skladnikistale}" var="itempasekpotr"
+                            <p:dataTable id="datalist2" value="#{pracownikEkwiwalentView.skladnikistale}" var="itempasekpotr"
                                          rowIndexVar="indexpasekszcz2" emptyMessage="Nie ma danych"  rowKey="#{itempasekpotr.id}"
                                          style="height: 100px; overflow-y: scroll;width: 750px;padding: 20px;" 
                                          >
@@ -65,10 +65,10 @@
                         </p:panelGrid>
                         <p:panelGrid columns="2" style="width: 360px;">
                             <h:outputText value="ekwiwalent składniki zmienne "/>
-                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.kwotazmienne}"/>
+                            <bcf:outputpl value="#{pracownikEkwiwalentView.ekwiwalent.kwotazmienne}"/>
                         </p:panelGrid>
                         <p:panelGrid columns="1">
-                            <p:dataTable id="datalist4" value="#{pracownikNieobecnoscView.skladnikizmienne}" var="itempasekpotr1"
+                            <p:dataTable id="datalist4" value="#{pracownikEkwiwalentView.skladnikizmienne}" var="itempasekpotr1"
                                          rowIndexVar="indexpasekszcz2" emptyMessage="Nie ma danych"  rowKey="#{itempasekpotr1.id}"
                                          style="height: 200px; overflow-y: scroll;width: 900px;padding: 20px;" 
                                          >
@@ -141,13 +141,15 @@
                         </p:panelGrid>
                         <p:panelGrid columns="2" style="width: 360px;">
                             <h:outputText value="ekwiwalent składniki razem "/>
-                            <bcf:outputpl value="#{pracownikNieobecnoscView.ekwiwalent.kwota}"/>
+                            <bcf:outputpl value="#{pracownikEkwiwalentView.ekwiwalent.kwota}"/>
                         </p:panelGrid>
                         <p:panelGrid columns="2" style="width: 360px;">
-                            <h:outputText value="Zapisz ekwiwalent jesli ma być ujęty na świadectwie" style="color: red;" rendered="#{pracownikNieobecnoscView.ekwiwalent.id eq null}"/>
+                            <h:outputText value="Ekwiwalent pobrany z bazy danych" style="color: green;" rendered="#{pracownikEkwiwalentView.ekwiwalent.id ne null}"/>
+                            <h:outputText value="Zapisz ekwiwalent jesli ma być ujęty na świadectwie" style="color: red;" rendered="#{pracownikEkwiwalentView.ekwiwalent.id eq null}"/>
                         </p:panelGrid>
                         <p:outputPanel>
-                            <p:commandButton value="zapisz" actionListener="#{pracownikNieobecnoscView.zapiszekwiwalent()}" styleClass="buttonnorm"/>
+                            <p:commandButton value="zapisz" actionListener="#{pracownikEkwiwalentView.zapiszekwiwalent()}" styleClass="buttonnorm" update="@form"/>
+                            <p:commandButton value="usuń" actionListener="#{pracownikEkwiwalentView.usunekwiwalent()}" styleClass="buttonnorm2" update="@form"/>
                         </p:outputPanel>
                     </h:form>
         </p:outputPanel>

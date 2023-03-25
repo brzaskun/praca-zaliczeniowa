@@ -168,7 +168,7 @@ public class PdfWypowiedzenie {
             document.add(paragraph);
             paragraph = new Paragraph(new Phrase(firma.getNazwa(), fontM));
             document.add(paragraph);
-            paragraph = new Paragraph(new Phrase("z siedziną w : ", fontM));
+            paragraph = new Paragraph(new Phrase("z siedzibą w : ", fontM));
             document.add(paragraph);
             paragraph = new Paragraph(new Phrase(firma.getAdres(), fontM));
             document.add(paragraph);

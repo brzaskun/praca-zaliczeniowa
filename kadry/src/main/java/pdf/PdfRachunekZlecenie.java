@@ -90,7 +90,7 @@ public class PdfRachunekZlecenie {
             paragraph = new Paragraph(new Phrase("dla "+firma.getNazwa(), fontM));
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
-            paragraph = new Paragraph(new Phrase("z siedziną w : ", fontM));
+            paragraph = new Paragraph(new Phrase("z siedzibą w : ", fontM));
             document.add(paragraph);
             paragraph = new Paragraph(new Phrase(firma.getAdres(), fontM));
             document.add(paragraph);

@@ -39,7 +39,7 @@ import z.Z;
  * @author Osito
  */
 public class PdfSwiadectwo {
-     public static void drukuj(Swiadectwo swiadectwo, List<Swiadectwodni> dnidoswiadectwa, EkwiwalentUrlop ekwiwalentSkladniki, Angaz angaz) {
+     public static void drukuj(Swiadectwo swiadectwo, List<Swiadectwodni> dnidoswiadectwa, EkwiwalentUrlop ekwiwalentUrlop, Angaz angaz) {
         try {
             Rozwiazanieumowy rozwiazanieumowy = swiadectwo.getRozwiazanieumowy();
             Umowa umowa = swiadectwo.getRozwiazanieumowy().getUmowa();
@@ -132,9 +132,9 @@ public class PdfSwiadectwo {
                     }
                 }
                 int dniekwiwalentu = 0;
-                if (ekwiwalentSkladniki!=null&&ekwiwalentSkladniki.getKwota()>0.0) {
-                    dniwykorzystane = dniwykorzystane+ekwiwalentSkladniki.getDni();
-                    dniekwiwalentu = dniekwiwalentu+ekwiwalentSkladniki.getDni();
+                if (ekwiwalentUrlop!=null&&ekwiwalentUrlop.getKwota()>0.0) {
+                    dniwykorzystane = dniwykorzystane+ekwiwalentUrlop.getDni();
+                    dniekwiwalentu = dniekwiwalentu+ekwiwalentUrlop.getDni();
                     czydodano = true;
                 }
                 int sumadniurlopu = dniwykorzystane; 

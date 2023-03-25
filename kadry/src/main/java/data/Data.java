@@ -85,6 +85,8 @@ public class Data implements Serializable {
         return rok+"-"+mc+"-01";
     }
     
+    
+    
     public static String pierwszyDzien(String rok, String mc) {
         return rok+"-"+mc+"-01";
     }
@@ -97,6 +99,12 @@ public class Data implements Serializable {
         String rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
         return rok+"-"+mc+"-01";
+    }
+    
+    public static String ostatniDzien(String data) {
+        String rok = getRok(data);
+        String mc = getMc(data);
+        return ostatniDzien(rok, mc);
     }
     
     public static String ostatniDzien(WpisView wpisView) {
