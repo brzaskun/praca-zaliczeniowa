@@ -400,14 +400,14 @@
                             <p:inputText id="urlopimie" value="#{pracownikNieobecnoscView.oddelegowanieprezentacja.angaz.pracownik.nazwiskoImie}" readonly="true"/>
                             <p:outputLabel value="rok rozliczeniowy" for="urloprok" />
                             <p:inputText id="urloprok" value="#{pracownikNieobecnoscView.oddelegowanieprezentacja.rok}" readonly="true"/>
-                            <p:outputLabel value="zaległy rok uprzedni" for="urloplp" />
-                            <p:inputNumber id="urloplp" value="#{pracownikNieobecnoscView.oddelegowanieprezentacja.okrespoprzedni}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
-                            <p:outputLabel value="wymiar rok bieżący" for="urloplp1" />
-                            <p:inputNumber id="urloplp1" value="#{pracownikNieobecnoscView.oddelegowanieprezentacja.wymiarokresbiezacy}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>
+<!--                            <p:outputLabel value="zaległy rok uprzedni" for="urloplp" />
+                            <p:inputNumber id="urloplp" value="#{pracownikNieobecnoscView.oddelegowanieprezentacja.okrespoprzedni}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>-->
+<!--                            <p:outputLabel value="ilośc dni rok bieżący" for="urloplp1" />
+                            <p:inputNumber id="urloplp1" value="#{pracownikNieobecnoscView.oddelegowanieprezentacja.wymiarokresbiezacy}"  size="5" maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right"/>-->
                         </p:panelGrid>
                         <p:dataTable id="datalist" value="#{pracownikNieobecnoscView.oddelegowanieprezentacja.nieobecnoscwykorzystanieList}" var="oddelegowanie"
                                      rowKey="#{oddelegowanie.id}" emptyMessage="brak oddelegowania w roku bieżącym" rowIndexVar="indexoddelegowanie"
-                                     style="height: 560px;overflow-y: scroll; width: 620px; margin-left: 50px;" sortBy="#{oddelegowanie.data}"
+                                     style="height: 560px;overflow-y: scroll; width: 630px; margin-left: 50px;" sortBy="#{oddelegowanie.data}"
                                      >
                             <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
@@ -432,7 +432,7 @@
                                 </f:facet>
                                 <h:outputText value="#{oddelegowanie.data}"/>
                             </p:column>
-                            <p:column width="240">
+                            <p:column width="180">
                                 <f:facet name="header">
                                     <h:outputText value="rodzaj"/>
                                 </f:facet>
@@ -463,13 +463,10 @@
                                 <p:column style="text-align: center;">
                                     <h:outputText value="#{pracownikNieobecnoscView.sumujdni(oddelegowanie.mc,pracownikNieobecnoscView.oddelegowanieprezentacja)}">
                                     </h:outputText>
+                                    <h:outputText value=" "/>
                                 </p:column>
                             </p:summaryRow>
                         </p:dataTable>
-                        <p:panelGrid columns="4"  style="margin-top: 20px;">
-                            <p:outputLabel value="do rozliczenia/wykorzystania:" for="przeniesienia" />
-                            <h:outputText id="przeniesienia" value="#{pracownikNieobecnoscView.oddelegowanieprezentacja.doprzeniesienia}" style="color: green;"/>
-                        </p:panelGrid>
                     </h:form>
                 </p:tab>
             </p:tabView>

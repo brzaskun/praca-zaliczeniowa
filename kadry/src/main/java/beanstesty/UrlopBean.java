@@ -5,6 +5,7 @@
  */
 package beanstesty;
 
+import comparator.KalendarzmiesiacRMNormalcomparator;
 import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
@@ -17,6 +18,7 @@ import entity.Umowa;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,6 +36,7 @@ public class UrlopBean {
             if (pobierzetat!=null) {
                 List<Kalendarzmiesiac> kalendarze = angaz.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)).collect(Collectors.toList());
                 urlopprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
+                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
                 List<Umowa> umowy = angaz.getUmowaList();
                 if (angaz.getRok().equals(rok)) {
                     urlopprezentacja.setOkrespoprzedni(angaz.getBourlopgodziny());
@@ -54,10 +57,11 @@ public class UrlopBean {
      public static List<Nieobecnoscwykorzystanie> naniesdnizkodem(List<Kalendarzmiesiac> kalendarze, Nieobecnoscprezentacja urlopprezentacja, String kod) {
         List<Nieobecnoscwykorzystanie> lista = new ArrayList<>();
         Nieobecnoscwykorzystanie wykorzystaniesuma = new Nieobecnoscwykorzystanie("podsum.",0);
+        Collections.sort(kalendarze, new KalendarzmiesiacRMNormalcomparator());
         for (Kalendarzmiesiac p : kalendarze) {
             for (Dzien r : p.getDzienList()) {
                 if (r.getNieobecnosc()!=null) {
-                    if (r.getNieobecnosc().getKod().equals(kod)) {
+                    if (r.getNieobecnosc().getKod().equals(kod)||r.getKod().equals(kod)) {
                         Nieobecnoscwykorzystanie wykorzystanie = new Nieobecnoscwykorzystanie();
                         wykorzystanie.setMc(p.getMc());
                         wykorzystanie.setData(Data.zrobdate(r.getNrdnia(), p.getMc(), p.getRok()));
@@ -65,6 +69,9 @@ public class UrlopBean {
                         wykorzystanie.setOpis(r.getNieobecnosc().getOpisRodzajSwiadczenie());
                         wykorzystanie.setKod(r.getNieobecnosc().getKod());
                         if (kod.equals("U")) {
+                            wykorzystanie.setGodziny((int) r.getUrlopPlatny());
+                        }
+                        if (kod.equals("UD")) {
                             wykorzystanie.setGodziny((int) r.getUrlopPlatny());
                         }
                         if (kod.equals("CH")) {
@@ -94,7 +101,7 @@ public class UrlopBean {
                 }
             }
         }
-        if (kod.equals("U")) {
+        if (kod.equals("U")||kod.equals("UD")) {
             urlopprezentacja.setWykorzystanierokbiezacy(wykorzystaniesuma.getGodziny());
         }
         if (kod.equals("CH")) {

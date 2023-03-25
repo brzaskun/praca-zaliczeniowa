@@ -10,6 +10,7 @@ import beanstesty.EtatBean;
 import beanstesty.IPaddress;
 import static beanstesty.KalendarzmiesiacBean.pobierzpaski;
 import beanstesty.UrlopBean;
+import comparator.Nieobecnoscwykorzystaniecomparator;
 import dao.EkwiwalentUrlopFacade;
 import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
@@ -39,6 +40,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -186,20 +188,22 @@ public class PracownikNieobecnoscView  implements Serializable {
         }
     }
      
-    public String sumujdni(String ob, Nieobecnoscprezentacja n) {
-        String zwrot = "";
+    public int sumujdni(String ob, Nieobecnoscprezentacja n) {
+        int zwrot = 0;
         if (ob!=null) {
             int razem = 0;
-            for (Nieobecnoscwykorzystanie p : n.getNieobecnoscwykorzystanieList()) {
+            List<Nieobecnoscwykorzystanie> lista = n.getNieobecnoscwykorzystanieList();
+            Collections.sort(lista, new Nieobecnoscwykorzystaniecomparator());
+            for (Nieobecnoscwykorzystanie p : lista) {
                 if (p.getMc()!=null&&p.getMc().equals(ob)) {
-                    if (p.getKod().equals("Z")) {
+                    if (p.getKod()!=null&&p.getKod().equals("Z")) {
                         razem = razem+(int)p.getDni();
                     } else {
                         razem = razem+(int)p.getGodziny();
                     }
                 }
             }
-            zwrot = String.valueOf(razem);
+            zwrot = razem;
         } 
         return zwrot;
     }
