@@ -59,6 +59,7 @@ import msg.Msg;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.model.FileHeader;
 import org.primefaces.model.DualListModel;
+import pdf.PdfNieobecnosci;
 import zuszla.PobierzRaporty;
 import zuszla.PobierzRaportyResponse;
 import zuszla.WsdlPlatnikRaportyZlaPortType;
@@ -75,8 +76,7 @@ public class NieobecnoscView  implements Serializable {
     private Nieobecnosc selected;
     @Inject
     private Nieobecnosc selectedzbiorczo;
-    @Inject
-    private Nieobecnosc selectedlista;
+    private List<Nieobecnosc> selectedlista;
     private List<Nieobecnosc> lista;
     private List<Rodzajnieobecnosci> listaabsencji;
     private List<Umowa> listaumowa;
@@ -456,6 +456,14 @@ public class NieobecnoscView  implements Serializable {
         }
         return zwrot;
     }
+     
+     public void drukujnieobecnosci() {
+         if (selectedlista!=null) {
+             PdfNieobecnosci.drukuj(selectedlista, wpisView.getAngaz(), wpisView.getRokWpisu());
+         } else {
+             Msg.msg("e","Nie wybrano pozycji do wydruku");
+         }
+     }
 
     
     public void nieniesnakalendarz() {
@@ -767,13 +775,6 @@ public class NieobecnoscView  implements Serializable {
         this.lista = lista;
     }
 
-    public Nieobecnosc getSelectedlista() {
-        return selectedlista;
-    }
-
-    public void setSelectedlista(Nieobecnosc selectedlista) {
-        this.selectedlista = selectedlista;
-    }
 
     public List<Umowa> getListaumowa() {
         return listaumowa;
@@ -861,6 +862,14 @@ public class NieobecnoscView  implements Serializable {
 
     public void setZwolnienie(boolean zwolnienie) {
         this.zwolnienie = zwolnienie;
+    }
+
+    public List<Nieobecnosc> getSelectedlista() {
+        return selectedlista;
+    }
+
+    public void setSelectedlista(List<Nieobecnosc> selectedlista) {
+        this.selectedlista = selectedlista;
     }
 
    

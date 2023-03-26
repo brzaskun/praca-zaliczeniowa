@@ -142,7 +142,7 @@
                          <f:facet name="header">
                             <h:outputText value="edy."/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-pencil" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, akordeon:UmowaCreateForm"/>
+                        <p:commandButton icon="pi pi-pencil" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, @(.formumowa), akordeon:UmowaCreateForm"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north, @(form)"/>

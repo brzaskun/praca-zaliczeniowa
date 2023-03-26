@@ -742,6 +742,7 @@ public class UmowaView implements Serializable {
     public void edytuj(Umowa umowa) {
         if (umowa != null) {
             selected = umowa;
+            rodzajumowy = umowa.isPraca()?"1":"2";
             Msg.msg("Wybrano umowę do edycji");
         } else {
             Msg.msg("e", "Nie wybrano umowy");
