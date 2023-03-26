@@ -104,6 +104,8 @@ public class EkwiwalentUrlop implements Serializable {
     private Integer etat1;
     @Column(name = "etat2")
     private Integer etat2;
+    @Column(name = "wykorzystany")
+    private Integer wykorzystany;
 
     public EkwiwalentUrlop() {
     }
@@ -255,6 +257,14 @@ public class EkwiwalentUrlop implements Serializable {
 
     public void setAngaz(Angaz angaz) {
         this.angaz = angaz;
+    }
+
+    public Integer getWykorzystany() {
+        return wykorzystany;
+    }
+
+    public void setWykorzystany(Integer wykorzystany) {
+        this.wykorzystany = wykorzystany;
     }
     
     public String getEtat() {

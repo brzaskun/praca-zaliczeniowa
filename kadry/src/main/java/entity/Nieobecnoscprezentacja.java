@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -76,6 +77,7 @@ public class Nieobecnoscprezentacja implements Serializable {
     public Nieobecnoscprezentacja(Angaz angaz, String rok) {
         this.angaz = angaz;
         this.rok = rok;
+        this.nieobecnoscwykorzystanieList = new ArrayList<>();
     }
 
     public Integer getId() {

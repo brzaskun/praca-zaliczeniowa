@@ -35,7 +35,7 @@ public class UrlopBean {
             EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,dataDlaEtatu);
             if (pobierzetat!=null) {
                 List<Kalendarzmiesiac> kalendarze = angaz.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)).collect(Collectors.toList());
-                urlopprezentacja.setNieobecnoscwykorzystanieList(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
+                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
                 List<Umowa> umowy = angaz.getUmowaList();
                 if (angaz.getRok().equals(rok)) {
@@ -61,7 +61,7 @@ public class UrlopBean {
         for (Kalendarzmiesiac p : kalendarze) {
             for (Dzien r : p.getDzienList()) {
                 if (r.getNieobecnosc()!=null) {
-                    if (r.getNieobecnosc().getKod().equals(kod)||r.getKod().equals(kod)) {
+                    if (r.getNieobecnosc().getKod().equals(kod)||r.getKod().equals(kod)&&r.getNieobecnosc().isNaniesiona()) {
                         Nieobecnoscwykorzystanie wykorzystanie = new Nieobecnoscwykorzystanie();
                         wykorzystanie.setMc(p.getMc());
                         wykorzystanie.setData(Data.zrobdate(r.getNrdnia(), p.getMc(), p.getRok()));
@@ -102,7 +102,7 @@ public class UrlopBean {
             }
         }
         if (kod.equals("U")||kod.equals("UD")) {
-            urlopprezentacja.setWykorzystanierokbiezacy(wykorzystaniesuma.getGodziny());
+            urlopprezentacja.setWykorzystanierokbiezacy(urlopprezentacja.getWykorzystanierokbiezacy()+wykorzystaniesuma.getGodziny());
         }
         if (kod.equals("CH")) {
             urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());

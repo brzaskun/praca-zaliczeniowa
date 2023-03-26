@@ -100,12 +100,9 @@ public class PracownikNieobecnoscView  implements Serializable {
                 stannadzien = data.Data.ostatniDzien(wpisView);
                 wspolczynnikEkwiwalent = wspolczynnikEkwiwalentFacade.findbyRok(wpisView.getRokWpisu());
                 EkwiwalentUrlop znaleziony = ekwiwalentSkladnikiFacade.findbyUmowa(ekwiwalent.getUmowa());
-                if (znaleziony!=null) {
-                    obliczekwiwalent(ekwiwalent);
-                } else {
-                    ustawekwiwalent(ekwiwalent, wspolczynnikEkwiwalent.getKwota(), stannadzien);
-                }
+                ustawekwiwalent(ekwiwalent, wspolczynnikEkwiwalent.getKwota(), stannadzien);
                 pobierzurlop();
+                ekwiwalent.setWykorzystany(urlopprezentacja.getWykorzystanierokbiezacy());
                 pobierzchoroba();
                 pobierzzasilek();
                 pobierzoddelegowanie();
