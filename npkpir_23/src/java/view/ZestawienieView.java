@@ -885,10 +885,10 @@ public class ZestawienieView implements Serializable {
         try {
             for (Strata p : straty) {
                 double zostalo = wyliczStrataZostalo(p);
-                double wyliczmaks = zostalo - p.getPolowakwoty();
+                double wyliczmaks = zostalo - (p.getDoBiezacegoWykorzystania()*p.getLimitroczny()/100.0);
                 if (zostalo > 0.0) {
                     if (wyliczmaks > 0.0) {
-                        sumastrat += p.getPolowakwoty();
+                        sumastrat += (p.getDoBiezacegoWykorzystania()*p.getLimitroczny()/100.0);
                     } else {
                         sumastrat += zostalo;
                     }
