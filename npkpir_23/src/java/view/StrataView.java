@@ -56,6 +56,18 @@ public class StrataView  implements Serializable{
             Msg.msg("e", "Wystąpił błąd. Wołaj szefa " + loop, "akordeon:form2:messages");
         }
     }
+
+    public void editstrate(Strata loop) {
+        if (loop!=null) {
+            try {
+                strataDAO.edit(loop);
+                Msg.msg("i", "Edytowano stratę za rok " + loop.getRok(), "akordeon:form2:messages");
+            } catch (Exception e) { E.e(e); 
+                Msg.msg("e", "Wystąpił błąd. Wołaj szefa " + loop, "akordeon:form2:messages");
+            }
+        }
+    }
+
     
     public void dodajstrate() {
         try {
