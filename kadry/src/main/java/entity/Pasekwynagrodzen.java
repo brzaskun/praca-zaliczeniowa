@@ -623,6 +623,10 @@ public class Pasekwynagrodzen implements Serializable {
         return this.getRokwypl()+this.getMcwypl();
     }
     
+    public String getOkresNalezny() {
+        return this.getRok()+this.getMc();
+    }
+    
     @XmlTransient
     public List<Naliczeniepotracenie> getNaliczeniepotracenieList() {
         return naliczeniepotracenieList;

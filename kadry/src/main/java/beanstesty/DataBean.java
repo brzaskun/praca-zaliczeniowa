@@ -7,6 +7,7 @@ package beanstesty;
 
 import data.Data;
 import entity.Kalendarzmiesiac;
+import entity.Zmiennawynagrodzenia;
 
 /**
  *
@@ -49,45 +50,55 @@ public class DataBean {
         return zwrot;
     }
     
-    public static boolean czysiemiescidzien(String databadana, String datagranicznaod, String datagranicznado) {
+    public static boolean czyZmiennasieMiesci(Zmiennawynagrodzenia zmiennawyn, Kalendarzmiesiac kalendarz) {
         boolean zwrot = false;
-        //czy data poczatkowa zmiennej jest starsza od daty koncowej kalendarza
-        if (datagranicznado==null||datagranicznado.equals("")) {
-            boolean czyjestpopoczatku = Data.czyjestpo(datagranicznaod, databadana);
-            if (czyjestpopoczatku) {
-                zwrot = true;
-            }
-        } else {
-            boolean czyjestprzedkoncem = Data.czyjestprzed(datagranicznado, databadana);
-            boolean czyjestpopoczatku = Data.czyjestpo(datagranicznaod, databadana);
-            if (czyjestprzedkoncem&&czyjestpopoczatku) {
-                zwrot = true;
-            }
-        }
+        String datastart = DataBean.dataodString(zmiennawyn.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+        String dataend = DataBean.datadoString(zmiennawyn.getDatado(), kalendarz.getRok(), kalendarz.getMc());
+        String pierwszydzienmiesiaca = kalendarz.getPierwszyDzien();
+        String ostatnidzienmiesiaca = kalendarz.getOstatniDzien();
+        zwrot = DataBean.czysiemiesci(pierwszydzienmiesiaca, ostatnidzienmiesiaca, zmiennawyn.getDataod(), zmiennawyn.getDatado());
         return zwrot;
-    }
-    
-    public static int dataod(String data, String rok, String mc) {
-        String dataod = Data.pierwszyDzien(rok, mc);
-        if (data!=null&&!data.equals("")&&Data.getRok(data).equals(rok)&&Data.getMc(data).equals(mc)) {
-            dataod = data;
+}
+
+public static boolean czysiemiescidzien(String databadana, String datagranicznaod, String datagranicznado) {
+    boolean zwrot = false;
+    //czy data poczatkowa zmiennej jest starsza od daty koncowej kalendarza
+    if (datagranicznado==null||datagranicznado.equals("")) {
+        boolean czyjestpopoczatku = Data.czyjestpo(datagranicznaod, databadana);
+        if (czyjestpopoczatku) {
+            zwrot = true;
         }
-        int dziendozmienna = Data.getDzienI(dataod);
-        return dziendozmienna;
-    }
-    
-    public static String dataodString(String datazmiennej, String rok, String mc) {
-        String zwrot = null;
-        String datakalendarza = Data.pierwszyDzien(rok, mc);
-        int jestwokresie = Data.compare(datakalendarza, datazmiennej);
-        if (datazmiennej!=null&&!datazmiennej.equals("")&&Data.getRok(datazmiennej).equals(rok)&&Data.getMc(datazmiennej).equals(mc)) {
-            zwrot = datazmiennej;
-        } else if (jestwokresie>0) {
-            zwrot = datakalendarza;
-        } else {
-            zwrot = "2055-01-01";
+    } else {
+        boolean czyjestprzedkoncem = Data.czyjestprzed(datagranicznado, databadana);
+        boolean czyjestpopoczatku = Data.czyjestpo(datagranicznaod, databadana);
+        if (czyjestprzedkoncem&&czyjestpopoczatku) {
+            zwrot = true;
         }
-        return zwrot;
+    }
+    return zwrot;
+}
+
+public static int dataod(String data, String rok, String mc) {
+    String dataod = Data.pierwszyDzien(rok, mc);
+    if (data!=null&&!data.equals("")&&Data.getRok(data).equals(rok)&&Data.getMc(data).equals(mc)) {
+        dataod = data;
+    }
+    int dziendozmienna = Data.getDzienI(dataod);
+    return dziendozmienna;
+}
+
+public static String dataodString(String datazmiennej, String rok, String mc) {
+    String zwrot = null;
+    String datakalendarza = Data.pierwszyDzien(rok, mc);
+    int jestwokresie = Data.compare(datakalendarza, datazmiennej);
+    if (datazmiennej!=null&&!datazmiennej.equals("")&&Data.getRok(datazmiennej).equals(rok)&&Data.getMc(datazmiennej).equals(mc)) {
+        zwrot = datazmiennej;
+    } else if (jestwokresie>0) {
+        zwrot = datakalendarza;
+    } else {
+        zwrot = "2055-01-01";
+    }
+    return zwrot;
     }
     
     public static int datado(String data, String rok, String mc) {

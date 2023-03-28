@@ -259,14 +259,17 @@ public class PdfSwiadectwo {
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
                 String choroba = "8) był niezdolny do pracy przez okres:  ";
+                double chorobadni = 0;
                 for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKodzbiorczy().equals("CH")) {
-                        choroba = choroba+s.getDni()+" dni";
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("CH")) {
+                        chorobadni = chorobadni+s.getDni();
                         czydodano = true;
                     }
                 }
                 if (czydodano==false) {
                     choroba = choroba+" nie dotyczy";
+                } else {
+                    choroba = choroba +chorobadni+" dni";
                 }
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, choroba, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
@@ -297,7 +300,7 @@ public class PdfSwiadectwo {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().isNieskladkowy()) {
                         List<Nieobecnosc> nieobecnoscilista = s.getNieobecnoscilista()!=null?s.getNieobecnoscilista():new ArrayList<>();
                         for (Nieobecnosc nie : nieobecnoscilista) {
-                            String nieobdetal = s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getOpis() + " w okresie od "+nie.getDataod()+" do "+nie.getDatado();
+                            String nieobdetal = s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getOpis() + " w okresie od "+nie.getDataod()+" do "+nie.getDatado()+" dni "+nie.getDnikalendarzowe();
                             PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, nieobdetal, Element.ALIGN_LEFT, 2);
                         }
                     }

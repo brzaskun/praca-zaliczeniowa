@@ -210,9 +210,15 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             redukcja_11 = redukcja_11 + (kwotazmiennej /30.0*dniredukcji_11);
                             double stawkagodzinowadlaredukcji_12 = kwotazmiennej/kalendarz.getGodzinyroboczewmiesiacu();
                             redukcja_12 = redukcja_12 + (stawkagodzinowadlaredukcji_12*godzinyredukcji_12);
-                            double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_11-redukcja_12);
-                            stawkadzienna = Z.z6(kwotazmiennejporedukcji/(dnipracyurlopu+dniredukcji_pozaumowa));
-                            stawkagodzinowa = Z.z6(kwotazmiennejporedukcji/(godzinypracyurlopu+godzinyredukcji_pozaumowa));
+                            double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_11-redukcja_12)<0.0?0.0:(kwotazmiennej-redukcja_11-redukcja_12);
+                            double dzielnik = dnipracyurlopu+dniredukcji_pozaumowa;
+                            if (dzielnik>0.0) {
+                                stawkadzienna = Z.z6(kwotazmiennejporedukcji/dzielnik);
+                                stawkagodzinowa = Z.z6(kwotazmiennejporedukcji/dzielnik);
+                            } else {
+                                stawkadzienna = 0.0;
+                                stawkagodzinowa = 0.0;
+                            }
                             double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
                             dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji-redukcja_urlop;
                         } else {

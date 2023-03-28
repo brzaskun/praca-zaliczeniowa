@@ -6,6 +6,7 @@
 package view;
 
 import beanstesty.AngazBean;
+import beanstesty.DataBean;
 import beanstesty.KalendarzmiesiacBean;
 import beanstesty.PasekwynagrodzenBean;
 import comparator.Defnicjalistaplaccomparator;
@@ -46,10 +47,12 @@ import entity.Podatki;
 import entity.Rachunekdoumowyzlecenia;
 import entity.Rodzajlistyplac;
 import entity.SMTPSettings;
+import entity.Skladnikwynagrodzenia;
 import entity.Tabelanbp;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
 import entity.Wynagrodzenieminimalne;
+import entity.Zmiennawynagrodzenia;
 import error.E;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -638,14 +641,34 @@ public class PasekwynagrodzenView implements Serializable {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
                 Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
-                Kalendarzmiesiac kal = it.next();
-                Pasekwynagrodzen pasek = kal.getPasek(wybranalistaplac);
-                if (kal.getAngaz().getAktywnaUmowa()!=null) {
-                    if (kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie()||kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja()) {
-                        it.remove();
+                    Kalendarzmiesiac kal = it.next();
+                    Pasekwynagrodzen pasek = kal.getPasek(wybranalistaplac);
+                    if (kal.getAngaz().getAktywnaUmowa() != null) {
+                        if (kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie() || kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja()) {
+                            it.remove();
+                        } else {
+                            List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = kal.getAngaz().getSkladnikwynagrodzeniaList();
+                            List<Zmiennawynagrodzenia> zmienneList = new ArrayList<>();
+                            if (skladnikwynagrodzeniaList != null) {
+                                for (Skladnikwynagrodzenia skl : skladnikwynagrodzeniaList) {
+                                    zmienneList.addAll(skl.getZmiennawynagrodzeniaList());
+                                }
+                            }
+                            if (zmienneList != null && zmienneList.size() > 0) {
+                                boolean jestwokresie = false;
+                                for (Zmiennawynagrodzenia zmienna : zmienneList) {
+                                    if (DataBean.czyZmiennasieMiesci(zmienna, kal)) {
+                                        jestwokresie = true;
+                                        break;
+                                    }
+                                }
+                                if (jestwokresie == false) {
+                                    it.remove();
+                                }
+                            }
+                        }
                     }
                 }
-            }
             }
             lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
             for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {

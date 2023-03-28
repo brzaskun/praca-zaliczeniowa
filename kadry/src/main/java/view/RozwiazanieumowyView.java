@@ -103,6 +103,7 @@ public class RozwiazanieumowyView  implements Serializable {
             Rozwiazanieumowy pobrane = rozwiazanieumowyFacade.findByUmowa(wybranaumowa);
             if (pobrane!=null) {
                 lista.add(pobrane);
+                selectedlista = pobrane;
             } else {
                 lista = new ArrayList<>();
                 rozwiazanieUmowyNowe.setUmowa(wybranaumowa);

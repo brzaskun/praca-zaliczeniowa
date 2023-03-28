@@ -173,7 +173,7 @@ public class KalendarzmiesiacBean {
         }
         if (nieobecnosc.getKod().equals("CH")) {
             naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, null, null, 0.0);
-        } else if (nieobecnosc.getKod().equals("U")||nieobecnosc.getKod().equals("O")) {
+        } else if (nieobecnosc.getKod().equals("U")||nieobecnosc.getKod().equals("O")||nieobecnosc.getKod().equals("MD")) {
             naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
         } else if (nieobecnosc.getKod().equals("X")||nieobecnosc.getKod().equals("NP")||nieobecnosc.getKod().equals("NN")) {
             naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "X");
@@ -197,7 +197,7 @@ public class KalendarzmiesiacBean {
                 } else if (kod.equals("CH")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
                     naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, null, limitpodstawyzasilkow);
-                } else if (kod.equals("U")||kod.equals("O")) {
+                } else if (kod.equals("U")||kod.equals("O")||kod.equals("MD")) {
                     //urlop wypoczynowy
                     naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
                 } else if (kod.equals("UD")) {
@@ -794,7 +794,7 @@ public class KalendarzmiesiacBean {
             }
             if (p.getTypdnia() == 0 && p.getNrdnia() >= dzienod && p.getNrdnia() <= dziendo) {
                 liczbadniurlopu = liczbadniurlopu + 1;
-                liczbagodzinurlopu = liczbagodzinurlopu + p.getUrlopPlatny();
+                liczbagodzinurlopu = liczbagodzinurlopu + p.getUrlopPlatny()+p.getOpiekadziecko();
             }
         }
         for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {

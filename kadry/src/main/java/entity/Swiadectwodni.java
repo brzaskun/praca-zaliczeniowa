@@ -150,7 +150,9 @@ public class Swiadectwodni implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Swiadectwodni[ id=" + id + " ]";
+        return "Swiadectwodni{" + "nieobecnoscswiadectwoschema=" + nieobecnoscswiadectwoschema.getRodzajnieobecnosci().getKod() + ", dni=" + dni + ", godziny=" + godziny + ", czesci=" + czesci + '}';
     }
+
+   
     
 }

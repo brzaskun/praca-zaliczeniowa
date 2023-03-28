@@ -52,6 +52,10 @@
                 <p:inputText id="datado" value="#{zaswiadczeniaView.datado}" title="data do"  placeholder="____-__-__"  required="true" styleClass="dataUmowy dataklasa" maxlength="10" size="10">
                         <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" listener="#{zaswiadczeniaView.init()}" partialSubmit="true" global="false"  update="@(.formcentrum)"/>
                 </p:inputText>
+                <p:outputLabel for="zatrudnienie2" value="wg miesiąca wypłaty "/>
+                <p:selectBooleanCheckbox value="#{zaswiadczeniaView.mcwyplaty}" id="zatrudnienie2">
+                    <p:ajax event="change" listener="#{zaswiadczeniaView.init()}" partialSubmit="true" global="false"  update="@(.formcentrum)"/>
+                </p:selectBooleanCheckbox>
                 <p:outputLabel for="zatrudnienie" value="dodać zatrudnienie "/>
                 <p:selectBooleanCheckbox value="#{zaswiadczeniaView.zatrudnienie}" id="zatrudnienie"/>
                 <p:outputLabel for="zarobki" value="dodać zarobki "/>

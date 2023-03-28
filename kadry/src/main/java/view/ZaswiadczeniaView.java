@@ -66,6 +66,7 @@ public class ZaswiadczeniaView  implements Serializable {
     private String dataod;
     private String datado;
     private boolean zatrudnienie;
+    private boolean mcwyplaty;
     private boolean zarobki;
     private String rodzajumowy;
     private String dataostatnieumowy;
@@ -148,7 +149,12 @@ public class ZaswiadczeniaView  implements Serializable {
                 
                 List<Pasekwynagrodzen> wybranyokres = okrespaski.get(ok);
                 for (Pasekwynagrodzen pasek :paski) {
-                    if (pasek.getOkresWypl().equals(ok.getRokmc())) {
+                    if (mcwyplaty==true&&pasek.getOkresWypl().equals(ok.getRokmc())) {
+                        bruttosuma = bruttosuma + pasek.getBrutto();
+                        nettosuma = nettosuma + pasek.getNetto();
+                        czyjestkomornik = pasek.czyjestkomornik();
+                        wybranyokres.add(pasek);
+                    } else if (mcwyplaty==false&&pasek.getOkresNalezny().equals(ok.getRokmc())) {
                         bruttosuma = bruttosuma + pasek.getBrutto();
                         nettosuma = nettosuma + pasek.getNetto();
                         czyjestkomornik = pasek.czyjestkomornik();
@@ -362,6 +368,14 @@ public class ZaswiadczeniaView  implements Serializable {
 
     public void setPaskiwynagrodzen(List<Pasekwynagrodzen> paskiwynagrodzen) {
         this.paskiwynagrodzen = paskiwynagrodzen;
+    }
+
+    public boolean isMcwyplaty() {
+        return mcwyplaty;
+    }
+
+    public void setMcwyplaty(boolean mcwyplaty) {
+        this.mcwyplaty = mcwyplaty;
     }
 
     
