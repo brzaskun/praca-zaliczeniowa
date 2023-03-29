@@ -195,7 +195,7 @@ public class UmowaView implements Serializable {
         } else {
             wpisView.setUmowa(selectedlista);
         }
-        pasekwynagrodzenView.setSymulacjabrrutto(wpisView.getRokWpisuInt() < 2022 ? 2800 : 3010);
+        pasekwynagrodzenView.setSymulacjabrrutto(wpisView.getRokWpisuInt() < 2023 ? 3010 : 3490);
         pasekwynagrodzenView.symulacjaoblicz("1");
     }
 

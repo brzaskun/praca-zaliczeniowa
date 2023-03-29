@@ -10,6 +10,7 @@ import dao.ZmiennaPotraceniaFacade;
 import entity.Skladnikpotracenia;
 import entity.Zmiennapotracenia;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -44,6 +45,8 @@ public class ZmiennaPotraceniaView  implements Serializable {
             listaskladnikipotracenia = skladnikPotraceniaFacade.findByPracownik(wpisView.getAngaz().getPracownik());
             if (listaskladnikipotracenia != null && !listaskladnikipotracenia.isEmpty()) {
                 lista = zmiennaPotraceniaFacade.findBySkladnik(listaskladnikipotracenia.get(0));
+            } else {
+                lista = new ArrayList<>();
             }
         }
     }
