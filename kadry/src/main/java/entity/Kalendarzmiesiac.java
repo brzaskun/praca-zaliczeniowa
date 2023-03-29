@@ -436,8 +436,9 @@ private static final long serialVersionUID = 1L;
         zwrot[0] = godzinyobowiazku;
         zwrot[1] = chorobagodziny;
         //jedynka to trzeba upgradowac
+        //przywrocone 29-03-2023 bo bylo od 08-03-2023 odwrotnie i nie waloryzaowl
         if (przepracowane!=godzinyobowiazku) {
-            zwrot[2] = przepracowane>polowagodzinyobowiazku?0:1;
+            zwrot[2] = przepracowane>polowagodzinyobowiazku?1:0;
         } else {
             zwrot[2] = 0;
         }
