@@ -5,26 +5,14 @@
  */
 package beansFK;
 
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import entityfk.SprFinKwotyInfDod;
-import view.WpisView;
-import java.io.File;
-import pdffk.PdfMain;
-import static pdffk.PdfMain.*;
-import com.itextpdf.text.pdf.PdfPTable;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
-import entityfk.Konto;
+import entityfk.SprFinKwotyInfDod;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import plik.Plik;
+import pdffk.PdfMain;
 import waluty.Z;
 
 /**
@@ -100,7 +88,7 @@ public class SprFinInfDodBeanTXT {
         PdfMain.dodajLinieOpisuBezOdstepu(document,"Środki trwałe są wycenianie w cenie nabycia lub koszcie wytworzenia po aktualizacji wyceny składników majątku pomniejszonych o skumulowane umorzenie oraz dokonane odpisy aktualizujące ich wartość.", Element.ALIGN_JUSTIFIED);
         PdfMain.dodajLinieOpisuBezOdstepu(document,"Dla celów podatkowych przyjmowane były stawki amortyzacyjne wynikające z ustawy z dnia 15 lutego 1992 roku o podatku dochodowym od osób prawnych określającej wysokość amortyzacji stanowiącej koszty uzyskania przychodów. Określa ono wysokość amortyzacji stanowiącej koszty uzyskania przychodu.", Element.ALIGN_JUSTIFIED);
         PdfMain.dodajLinieOpisuBezOdstepu(document,"Dla celów bilansowych środki trwałe amortyzucje się metodą liniową.", Element.ALIGN_JUSTIFIED);
-        PdfMain.dodajLinieOpisuBezOdstepu(document,"Składniki majątku o przewidywanym okresie użytkowania nieprzekraczającym jednego roku oraz wartości początkowej nieprzekraczającej 3,5 tysiąca złotych są jednorazowo odpisywane w ciężar kosztów w momencie przekazania do użytkowania. ", Element.ALIGN_JUSTIFIED);
+        PdfMain.dodajLinieOpisuBezOdstepu(document,"Składniki majątku o przewidywanym okresie użytkowania nieprzekraczającym jednego roku oraz wartości początkowej nieprzekraczającej 10000 złotych są jednorazowo odpisywane w ciężar kosztów w momencie przekazania do użytkowania. ", Element.ALIGN_JUSTIFIED);
         PdfMain.dodajLinieOpisuBezOdstepu(document,"Środki trwałe umarzane są według metody liniowej począwszy od miesiąca następnego po miesiącu przyjęcia do eksploatacji w okresie odpowiadającym szacowanemu okresowi ich ekonomicznej użyteczności.", Element.ALIGN_JUSTIFIED);
         PdfMain.dodajLinieOpisuBezOdstepu(document,"Środki trwałe w budowie wycenia się w wysokości ogółu kosztów pozostających w bezpośrednim związku z ich nabyciem lub wytworzeniem, pomniejszonych o odpisy z tytułu trwałej utraty wartości.", Element.ALIGN_JUSTIFIED);
         PdfMain.dodajLinieOpisuBezOdstepu(document,"Udziały (akcje) w innych jednostkach wycenia się na dzień bilansowy według ceny nabycia pomniejszonej o odpisy z tytułu trwałej utraty wartości", Element.ALIGN_JUSTIFIED);

@@ -150,7 +150,7 @@ var focusNowyVAT = function (wiersz) {
 
 var sprawdzmcshift = function (pole) {
     var nrpola = parseInt($(pole).val());
-    if (nrpola < -3 || nrpola > 3) {
+    if (nrpola < -11 || nrpola > 3) {
         pole.style.color = "red";
     } else {
         pole.style.color = "initial";

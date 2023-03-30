@@ -64,6 +64,7 @@ public class SprawozdanieFin2018RZiSBean {
         a.bv = zrobTPoztchaSprawozdania("BV", l);
         a.bvi = zrobBVI(l);
         a.bvii = zrobTPoztchaSprawozdania("BVII", l);
+        a.bviii = zrobTPoztchaSprawozdania("BVIII", l);
         return a;
     }
 
