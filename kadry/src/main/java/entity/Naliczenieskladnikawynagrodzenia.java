@@ -63,11 +63,15 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     private double dnifaktyczne;
     @Column(name = "dnichoroby")
     private double dnichoroby;
+    @Column(name = "dnipracyurlopu")
+    private double dnipracyurlopu;
     @Column(name = "godzinynalezne")
     private double godzinynalezne;
     @Column(name = "godzinyfaktyczne")
     private double godzinyfaktyczne;
     @Column(name = "godzinychoroby")
+    private double godzinypracyurlopu;
+    @Column(name = "godzinypracyurlopu")
     private double godzinychoroby;
     @Column(name = "stawkadzienna")
     private double stawkadzienna;
@@ -162,6 +166,22 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public void setGodzinychoroby(double godzinychoroby) {
         this.godzinychoroby = godzinychoroby;
+    }
+
+    public double getDnipracyurlopu() {
+        return dnipracyurlopu;
+    }
+
+    public void setDnipracyurlopu(double dnipracyurlopu) {
+        this.dnipracyurlopu = dnipracyurlopu;
+    }
+
+    public double getGodzinypracyurlopu() {
+        return godzinypracyurlopu;
+    }
+
+    public void setGodzinypracyurlopu(double godzinypracyurlopu) {
+        this.godzinypracyurlopu = godzinypracyurlopu;
     }
 
     

@@ -211,16 +211,17 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             double stawkagodzinowadlaredukcji_12 = kwotazmiennej/kalendarz.getGodzinyroboczewmiesiacu();
                             redukcja_12 = redukcja_12 + (stawkagodzinowadlaredukcji_12*godzinyredukcji_12);
                             double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_11-redukcja_12)<0.0?0.0:(kwotazmiennej-redukcja_11-redukcja_12);
-                            double dzielnik = dnipracyurlopu+dniredukcji_pozaumowa;
-                            if (dzielnik>0.0) {
-                                stawkadzienna = Z.z6(kwotazmiennejporedukcji/dzielnik);
-                                stawkagodzinowa = Z.z6(kwotazmiennejporedukcji/dzielnik);
+                            double dzielnikdni = dnipracyurlopu+dniredukcji_pozaumowa;
+                            double dzielnikgodziny = godzinypracyurlopu+godzinyredukcji_pozaumowa;
+                            if (dzielnikdni>0.0) {
+                                stawkadzienna = Z.z6(kwotazmiennejporedukcji/dzielnikdni);
+                                stawkagodzinowa = Z.z6(kwotazmiennejporedukcji/dzielnikgodziny);
                             } else {
                                 stawkadzienna = 0.0;
                                 stawkagodzinowa = 0.0;
                             }
-                            double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
-                            dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji-redukcja_urlop;
+                            redukcja_12 = redukcja_12 + stawkagodzinowa*godzinyurlopu;
+                            dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji-redukcja_12;
                         } else {
                             stawkadzienna = Z.z6(kwotazmiennej/kalendarz.getDniroboczewmiesiacu());
                             stawkagodzinowa = Z.z6(kwotazmiennej/kalendarz.getGodzinyroboczewmiesiacu());
@@ -254,10 +255,12 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     naliczenieskladnikawynagrodzenia.setKwotadolistyplac(Z.z6(dowyplatyzaczasprzepracowany));
                     naliczenieskladnikawynagrodzenia.setDninalezne(kalendarz.getDniroboczewmiesiacu());
                     naliczenieskladnikawynagrodzenia.setDnifaktyczne(kalendarz.getDnipracywmiesiacu());
+                    naliczenieskladnikawynagrodzenia.setDnipracyurlopu(dnipracyurlopu);
                     naliczenieskladnikawynagrodzenia.setDnichoroby(dniredukcji_11);
                     naliczenieskladnikawynagrodzenia.setGodzinychoroby(godzinyredukcji_11);
                     naliczenieskladnikawynagrodzenia.setGodzinynalezne(kalendarz.getGodzinyroboczewmiesiacu());
                     naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(kalendarz.getGodzinypracywmiesiacu());
+                    naliczenieskladnikawynagrodzenia.setGodzinypracyurlopu(godzinypracyurlopu);
                     naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                     naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
                     naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(redukcja);

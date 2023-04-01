@@ -587,7 +587,7 @@ public class KalendarzmiesiacBean {
                     sredniadopodstawystale = sredniadopodstawystale + Z.z(stawkadziennazm * godzinyobecnosciroboczezm);
                     boolean skladnikstaly = true;
                     Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawystale, skladnikstaly, naliczenienieobecnosc, godzinyobecnosciroboczezm,
-                            naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
+                            naliczenieskladnikawynagrodzenia.getGodzinypracyurlopu(), naliczenieskladnikawynagrodzenia.getDnipracyurlopu(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
                     naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                 }
 
@@ -629,7 +629,7 @@ public class KalendarzmiesiacBean {
                     }
                     boolean skladnikstaly = false;
                     Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawyzmienne, skladnikstaly, naliczenienieobecnosc, godzinyobecnosciroboczezm,
-                            naliczenieskladnikawynagrodzenia.getGodzinyfaktyczne(), naliczenieskladnikawynagrodzenia.getDnifaktyczne(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
+                            naliczenieskladnikawynagrodzenia.getGodzinypracyurlopu(), naliczenieskladnikawynagrodzenia.getDnipracyurlopu(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);
                     srednia.getNaliczenienieobecnosc().setSumakwotdosredniej(sumakwotdosredniej);
                     srednia.setKontynuacja(kontynuacja);
                     naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
@@ -644,9 +644,9 @@ public class KalendarzmiesiacBean {
                     Kalendarzmiesiac kalendarzdosredniej = it.next();
                     boolean czyjestwiecejniepracy = false;
                     int dnirobocze = 0;
-                    int dniprzepracowane = 0;
+                    int dniprzepracowaneIurlop = 0;
                     double godzinyrobocze = 0;
-                    double godzinyprzepracowane = 0;
+                    double godzinyprzepracowaneIurlop = 0;
                     int dninieobecnosci = 0;
                     double godzinynieobecnosci = 0;
                     boolean zatrudnieniewtraciemiesiaca = false;
@@ -657,15 +657,18 @@ public class KalendarzmiesiacBean {
                                 godzinyrobocze = godzinyrobocze + d.getNormagodzin();
                             }
                             if (d.getPrzepracowano() > 0) {
-                                dniprzepracowane++;
-                                godzinyprzepracowane = godzinyprzepracowane + d.getNormagodzin();
+                                dniprzepracowaneIurlop++;
+                                godzinyprzepracowaneIurlop = godzinyprzepracowaneIurlop + d.getNormagodzin();
+                            } else if (d.getUrlopPlatny() > 0) {
+                                dniprzepracowaneIurlop++;
+                                godzinyprzepracowaneIurlop = godzinyprzepracowaneIurlop + d.getUrlopPlatny();
                             } else {
                                 dninieobecnosci++;
                                 godzinynieobecnosci = godzinynieobecnosci + d.getNormagodzin();
                             }
                         }
                         int polowaroboczych = dnirobocze / 2;
-                        if (dniprzepracowane < polowaroboczych) {
+                        if (dniprzepracowaneIurlop < polowaroboczych) {
                             czyjestwiecejniepracy = true;
                         }
                     }
@@ -690,14 +693,14 @@ public class KalendarzmiesiacBean {
                                     }
                                 }
                             }
-                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), wynagrodzeniemcwyplacone, skladnikstaly, naliczenienieobecnosc, pominiety, godzinyprzepracowane, dniprzepracowane, godzinyrobocze, dnirobocze);
+                            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), wynagrodzeniemcwyplacone, skladnikstaly, naliczenienieobecnosc, pominiety, godzinyprzepracowaneIurlop, dniprzepracowaneIurlop, godzinyrobocze, dnirobocze);
                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                         }
                         it.remove();
                     } else {
                         if (!kalendarzdosredniej.equals(kalendarz)) {
                             dnirobocze = 0;
-                            dniprzepracowane = 0;
+                            dniprzepracowaneIurlop = 0;
                             double godzinyroboczezm = 0.0;
                             double godzinyprzepracowanezm = 0.0;
                             if (kalendarzdosredniej.getDzienList() != null) {
@@ -708,16 +711,16 @@ public class KalendarzmiesiacBean {
                                         godzinyroboczezm = godzinyroboczezm + d.getNormagodzin();
                                     }
                                     if (d.getPrzepracowano() > 0) {
-                                        dniprzepracowane++;
-                                        godzinyprzepracowane = godzinyprzepracowane + d.getNormagodzin();
                                         godzinyprzepracowanezm = godzinyprzepracowanezm + d.getNormagodzin();
+                                    } else  if (d.getUrlopPlatny() > 0) {
+                                        godzinyprzepracowanezm = godzinyprzepracowanezm + d.getUrlopPlatny();
                                     } else {
                                         dninieobecnosci++;
                                         godzinynieobecnosci = godzinynieobecnosci + d.getNormagodzin();
                                     }
                                 }
                                 int polowaroboczych = dnirobocze / 2;
-                                if (dniprzepracowane < polowaroboczych) {
+                                if (dniprzepracowaneIurlop < polowaroboczych) {
                                     czyjestwiecejniepracy = true;
                                 }
                             }
@@ -754,7 +757,7 @@ public class KalendarzmiesiacBean {
                             }
                             wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone*procentOddelegowanie;
                             Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), wynagrodzeniemcwyplacone, wynagrodzeniemczwaloryzowane, skladnikstaly, naliczenienieobecnosc, pominiety,
-                                    godzinyprzepracowanezm, dniprzepracowane, godzinyroboczezm, dnirobocze);
+                                    godzinyprzepracowanezm, dniprzepracowaneIurlop, godzinyroboczezm, dnirobocze);
                             srednia.setWaloryzowane(waloryzowac);
                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                             double suma = wynagrodzeniemcwyplacone + wynagrodzeniemczwaloryzowane;
@@ -878,6 +881,10 @@ public class KalendarzmiesiacBean {
                                     dniprzepracowane++;
                                     godzinyprzepracowane = godzinyprzepracowane + d.getNormagodzin();
                                     godzinyprzepracowanezm = godzinyprzepracowanezm + d.getNormagodzin();
+                                } else if (d.getUrlopPlatny() > 0) {
+                                    dniprzepracowane++;
+                                    godzinyprzepracowane = godzinyprzepracowane + d.getUrlopPlatny();
+                                    godzinyprzepracowanezm = godzinyprzepracowanezm + d.getUrlopPlatny();
                                 } else {
                                     dninieobecnosci++;
                                     godzinynieobecnosci = godzinynieobecnosci + d.getNormagodzin();

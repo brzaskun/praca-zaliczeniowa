@@ -260,23 +260,25 @@
                                             <p:column headerText="mc" width="40" style="text-align: center;" sortBy="#{itempaseksrednia.mc}" sortOrder="desc" sortPriority="1">
                                                 <h:outputText value="#{itempaseksrednia.mc}"/>
                                             </p:column>
-                                            <p:column headerText="dni">
+                                            <p:column headerText="dni ob." width="30" style="text-align: center;">
                                                 <h:outputText value="#{itempaseksrednia.dninalezne}"/>
-                                                <h:outputText value="/"/>
+                                            </p:column>
+                                            <p:column headerText="dni pr." width="30" style="text-align: center;">
                                                 <h:outputText value="#{itempaseksrednia.dnifaktyczne}"/>
                                             </p:column>
-                                            <p:column headerText="godziny">
+                                            <p:column headerText="god. ob." width="30" style="text-align: center;">
                                                 <h:outputText value="#{itempaseksrednia.godzinynalezne}"/>
-                                                <h:outputText value="/"/>
+                                            </p:column>
+                                            <p:column headerText="god. pr." width="30" style="text-align: center;">
                                                 <h:outputText value="#{itempaseksrednia.godzinyfaktyczne}"/>
                                             </p:column>
-                                            <p:column headerText="pomin." width="50" style="text-align: center;">
+                                            <p:column headerText="pom." width="40" style="text-align: center;">
                                                 <h:outputText value="&#x2714;"  rendered="#{itempaseksrednia.pominiete}" styleClass="ww"/>
                                             </p:column>
-                                            <p:column headerText="waloryz." width="50" style="text-align: center;">
+                                            <p:column headerText="wal." width="40" style="text-align: center;">
                                                 <h:outputText value="&#x2714;"  rendered="#{itempaseksrednia.waloryzowane}" styleClass="ww"/>
                                             </p:column>
-                                            <p:column headerText="stałe" width="50" style="text-align: center;">
+                                            <p:column headerText="stałe" width="40" style="text-align: center;">
                                                 <h:outputText value="&#x2714;"  rendered="#{itempaseksrednia.skladnikstaly}" styleClass="ww"/>
                                             </p:column>
                                             <p:column headerText="kont." width="50" style="text-align: center;">

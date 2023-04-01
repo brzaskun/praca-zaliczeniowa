@@ -648,8 +648,14 @@ public class PasekwynagrodzenBean {
                 }
             }
         }
-        for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
+       for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
+            
+            if (p.getNieobecnosc().getKod().equals("UD")) {
+                bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotawaluta());
+                bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie+ p.getKwotazus());
+            } else {
+                bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
+            }
         }
         double bruttobezzus = bruttozuskraj + bruttozusoddelegowanie;
         pasek.setOddelegowaniepln(bruttozusoddelegowanie);
