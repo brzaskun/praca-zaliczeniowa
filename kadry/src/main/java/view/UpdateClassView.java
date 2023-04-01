@@ -95,7 +95,8 @@ public class UpdateClassView   implements Serializable {
     public void updateAdminTab(){
         kalendarzmiesiacView.init();
         nieobecnoscView.init();
-        pracownikNieobecnoscView.init();
+        //wywalilem bo jest RequestScoped
+        //pracownikNieobecnoscView.init();
         skladnikWynagrodzeniaView.init();
         pasekwynagrodzenView.init();
         zmienneZbiorczoView.init();

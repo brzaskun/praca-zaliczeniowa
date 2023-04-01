@@ -60,8 +60,8 @@ public class UrlopBean {
         Collections.sort(kalendarze, new KalendarzmiesiacRMNormalcomparator());
         for (Kalendarzmiesiac p : kalendarze) {
             for (Dzien r : p.getDzienList()) {
-                if (r.getNieobecnosc()!=null) {
-                    if (r.getNieobecnosc().getKod().equals(kod)||r.getKod().equals(kod)&&r.getNieobecnosc().isNaniesiona()) {
+                if (r.getNieobecnosc()!=null&&r.getNieobecnosc().getRodzajnieobecnosci().getKod()!=null&&r.getKod()!=null) {
+                    if (r.getNieobecnosc().getRodzajnieobecnosci().getKod().equals(kod)||r.getKod().equals(kod)&&r.getNieobecnosc().isNaniesiona()) {
                         Nieobecnoscwykorzystanie wykorzystanie = new Nieobecnoscwykorzystanie();
                         wykorzystanie.setMc(p.getMc());
                         wykorzystanie.setData(Data.zrobdate(r.getNrdnia(), p.getMc(), p.getRok()));
