@@ -9,9 +9,13 @@ import beanstesty.PasekwynagrodzenBean;
 import comparator.Defnicjalistaplaccomparator;
 import comparator.PasekwynagrodzenNazwiskacomparator;
 import dao.DefinicjalistaplacFacade;
+import dao.NieobecnoscFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.SMTPSettingsFacade;
+import data.Data;
+import entity.Angaz;
 import entity.Definicjalistaplac;
+import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.SMTPSettings;
 import java.io.ByteArrayOutputStream;
@@ -19,9 +23,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -49,6 +55,8 @@ public class DraView  implements Serializable {
      @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
      @Inject
+    private NieobecnoscFacade nieobecnoscFacade;
+     @Inject
     private SMTPSettingsFacade sMTPSettingsFacade;
      @Inject
     private WpisView wpisView;
@@ -65,6 +73,7 @@ public class DraView  implements Serializable {
     private double pit4;
     private double potracenia;
     private String mcdra;
+    private List<Nieobecnosc> listanieobecnosci;
     //nie dupad
     
     public void init() {
@@ -86,7 +95,41 @@ public class DraView  implements Serializable {
             listywybrane = listadefinicjalistaplac;
             Msg.msg("Pobrano listy płac");
             pobierzpaski();
+            List<Angaz> angazelista = pobierzangaze(paskiwynagrodzen);
+            listanieobecnosci = new ArrayList<>();
+            if (angazelista!=null) {
+                for (Angaz angaz : angazelista) {
+                    List<Nieobecnosc> nieobecnoscilista = nieobecnoscFacade.findByAngaz(angaz);
+                    if (nieobecnoscilista!=null&&nieobecnoscilista.size()>0) {
+                        listanieobecnosci.addAll(pobierznieobecnosci(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), nieobecnoscilista));
+                    }
+                }
+            }
         }
+    }
+    
+    private static List<Nieobecnosc> pobierznieobecnosci(String rok, String mc, List<Nieobecnosc> nieobecnosci) {
+        boolean jestod = false;
+        boolean jestdo = false;
+        List<Nieobecnosc> zwrot = new ArrayList<>();
+        for (Nieobecnosc p : nieobecnosci) {
+            jestod = Data.czydatajestwmcu(p.getDataod(), rok, mc);
+            jestdo = Data.czydatajestwmcu(p.getDatado(), rok, mc);
+            if ((jestod || jestdo) && p.isNaniesiona()) {
+                zwrot.add(p);
+            }
+        }
+        return zwrot;
+    }
+    
+    private List<Angaz> pobierzangaze(List<Pasekwynagrodzen> paskiwynagrodzen) {
+        Set<Angaz> angaze = new HashSet<>();
+        if (paskiwynagrodzen!=null) {
+            for (Pasekwynagrodzen pas : paskiwynagrodzen) {
+               angaze.add(pas.getAngaz());
+            }
+        }
+        return new ArrayList<>(angaze);
     }
     
     public void drukujliste () {
@@ -104,7 +147,7 @@ public class DraView  implements Serializable {
             danezus.put("brutto", brutto);
             danezus.put("netto", netto);
             danezus.put("potracenia", potracenia);
-            ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa());
+            ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa());
             mailListaDRA(dra.toByteArray());
             Msg.msg("Wydrukowano listę płac");
         } else {
@@ -139,7 +182,7 @@ public class DraView  implements Serializable {
             danezus.put("brutto", brutto);
             danezus.put("netto", netto);
             danezus.put("potracenia", potracenia);
-            ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa());
+            ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa());
              byte[] dra = drastream.toByteArray();
             if (dra != null && dra.length > 0) {
                 SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
@@ -337,6 +380,8 @@ public class DraView  implements Serializable {
     public void setNetto(double netto) {
         this.netto = netto;
     }
+
+    
 
     
 
