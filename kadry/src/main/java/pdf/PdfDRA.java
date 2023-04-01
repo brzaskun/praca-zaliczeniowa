@@ -12,7 +12,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Definicjalistaplac;
-import entity.Naliczenienieobecnosc;
+import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import error.E;
 import java.io.ByteArrayOutputStream;
@@ -145,27 +145,25 @@ public class PdfDRA {
         }
     }
     
-     public static void dodajwierszeRsa(List<Naliczenienieobecnosc> lista,PdfPTable table) {
+     public static void dodajwierszeRsa(List<Nieobecnosc> listanieobecnosci,PdfPTable table) {
         int i = 1;
-        for (Naliczenienieobecnosc rs : lista) {
+        for (Nieobecnosc rs : listanieobecnosci) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "center",7,18f));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getAngaz().getPracownik().getNazwiskoImie(), "left",7,18f));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getAngaz().getPracownik().getPesel(), "left",7,18f));
-            if (rs.getNieobecnosc().getSwiadczeniekodzus()!=null) {
-                table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getSwiadczeniekodzus().getOpis(), "left",7,18f));
+            table.addCell(ustawfrazeAlign(rs.getAngaz().getPracownik().getNazwiskoImie(), "left",7,18f));
+            table.addCell(ustawfrazeAlign(rs.getAngaz().getPracownik().getPesel(), "left",7,18f));
+            if (rs.getSwiadczeniekodzus()!=null) {
+                table.addCell(ustawfrazeAlign(rs.getSwiadczeniekodzus().getOpis(), "left",7,18f));
             } else {
-                table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getOpis(), "left",7,18f));
+                table.addCell(ustawfrazeAlign(rs.getOpis(), "left",7,18f));
             }
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getKod(), "center",7,18f));
-            if (rs.getNieobecnosc().getSwiadczeniekodzus()!=null) {
-                table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getSwiadczeniekodzus().getKod(), "center",7,18f));
+            table.addCell(ustawfrazeAlign(rs.getKod(), "center",7,18f));
+            if (rs.getSwiadczeniekodzus()!=null) {
+                table.addCell(ustawfrazeAlign(rs.getSwiadczeniekodzus().getKod(), "center",7,18f));
             } else {
                 table.addCell(ustawfrazeAlign("", "left",7,18f));
             }
             table.addCell(ustawfrazeAlign(rs.getDataod(), "center",7,18f));
             table.addCell(ustawfrazeAlign(rs.getDatado(), "center",7,18f));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKwota())), "right",7));
-            table.addCell(ustawfrazeAlign(rs.getLiczbadniurlopu(), "center",7,18f));
         }
     }
     
@@ -179,7 +177,7 @@ public class PdfDRA {
 //            danezus.put("zus", zus);
 //            danezus.put("pit4", pit4);
      
-    public static ByteArrayOutputStream drukujListaPodstawowa(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> def, String nip, String mc, Map<String,Double> danezus, String nazwafirmy) {
+    public static ByteArrayOutputStream drukujListaPodstawowa(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> def, List<Nieobecnosc> listanieobecnosci, String nip, String mc, Map<String,Double> danezus, String nazwafirmy) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = nip + "_" + mc + "_" + "DRA.pdf";
@@ -219,12 +217,12 @@ public class PdfDRA {
                 //lista do RSA
                 document.add(Chunk.NEWLINE);
                 document.add(Chunk.NEWLINE);
-                List<Naliczenienieobecnosc> nieobecnosci = new ArrayList<>();
-                for (Pasekwynagrodzen p : lista) {
-                    nieobecnosci.addAll(p.getNaliczenienieobecnoscList());
-                }
-                String[] opisyrsa = {"lp","Nazwisko i imię","Pesel","Opis nieobecności", "Kod", "Kod ZUS", "Data od", "Data do", "Kwota", "Liczba dni"};
-                dodajtabeleRSA(nieobecnosci, document, opisyrsa);
+//                List<Naliczenienieobecnosc> nieobecnosci = new ArrayList<>();
+//                for (Pasekwynagrodzen p : lista) {
+//                    nieobecnosci.addAll(p.getNaliczenienieobecnoscList());
+//                }
+                String[] opisyrsa = {"lp","Nazwisko i imię","Pesel","Opis nieobecności", "Kod", "Kod ZUS", "Data od", "Data do"};
+                dodajtabeleRSA(listanieobecnosci, document, opisyrsa);
                 finalizacjaDokumentuQR(document, nazwa);
                 Plik.zapiszBufferdoPlik(nazwa, out);
                 String f = "pokazwydruk('" + nazwa + "');";
@@ -238,10 +236,10 @@ public class PdfDRA {
         return out;
     }
 
-    private static void dodajtabeleRSA(List<Naliczenienieobecnosc> nieobecnosci, Document document, String[] opisyrsa) {
+    private static void dodajtabeleRSA(List<Nieobecnosc> listanieobecnosci, Document document, String[] opisyrsa) {
         try {
             PdfPTable table = generujTabeleRsa(opisyrsa);
-            dodajwierszeRsa(nieobecnosci, table);
+            dodajwierszeRsa(listanieobecnosci, table);
             document.add(table);
         } catch (DocumentException ex) {
             Logger.getLogger(PdfDRA.class.getName()).log(Level.SEVERE, null, ex);
@@ -249,10 +247,10 @@ public class PdfDRA {
     }
     
      private static PdfPTable generujTabeleRsa(String[] opisy) {
-        PdfPTable table = new PdfPTable(10);
+        PdfPTable table = new PdfPTable(8);
         try {
             table.setWidthPercentage(70);
-            table.setWidths(new int[]{1, 5, 3, 7, 2, 2, 2, 2, 2, 2});
+            table.setWidths(new int[]{1, 5, 3, 7, 2, 2, 2, 2});
             table.addCell(ustawfrazeAlign(opisy[0], "center",6));
             table.addCell(ustawfrazeAlign(opisy[1], "center",6));
             table.addCell(ustawfrazeAlign(opisy[2], "center",6));
@@ -261,8 +259,6 @@ public class PdfDRA {
             table.addCell(ustawfrazeAlign(opisy[5], "center",6));
             table.addCell(ustawfrazeAlign(opisy[6], "center",6));
             table.addCell(ustawfrazeAlign(opisy[7], "center",6));
-            table.addCell(ustawfrazeAlign(opisy[8], "center",6));
-            table.addCell(ustawfrazeAlign(opisy[9], "center",6));
             table.addCell(ustawfrazeAlign("1", "center",6));
             table.addCell(ustawfrazeAlign("2", "center",6));
             table.addCell(ustawfrazeAlign("3", "center",6));
@@ -271,8 +267,6 @@ public class PdfDRA {
             table.addCell(ustawfrazeAlign("6", "center",6));
             table.addCell(ustawfrazeAlign("7", "center",6));
             table.addCell(ustawfrazeAlign("8", "center",6));
-            table.addCell(ustawfrazeAlign("9", "center",6));
-            table.addCell(ustawfrazeAlign("10", "center",6));
             table.setHeaderRows(2);
         } catch (DocumentException ex) {
         }
