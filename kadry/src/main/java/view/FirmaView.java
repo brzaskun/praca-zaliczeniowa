@@ -33,7 +33,7 @@ public class FirmaView  implements Serializable {
     @PostConstruct
     private void init() {
         lista  = firmaKadryFacade.findAll();
-        if (!wpisView.getUzer().getLogin().equals("ola")&&!wpisView.getUzer().getLogin().equals("2")) {
+        if (!wpisView.getUzer().getLogin().equals("mariola")&&!wpisView.getUzer().getLogin().equals("2")) {
             for (Iterator<FirmaKadry> it = lista.iterator();it.hasNext();) {
                 FirmaKadry f = it.next();
                 if (f.getNip().equals("8511005008")) {
