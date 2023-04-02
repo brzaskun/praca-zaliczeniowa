@@ -85,12 +85,23 @@ public class Z implements Serializable {
      }
      
      
+//     public static double z(double l) {
+//        float baba = (float)l*100f;
+//        BigDecimal nowa = new BigDecimal(baba).setScale(0, RoundingMode.HALF_UP);
+//        double pierwszy = nowa.doubleValue()/100.0;
+//        return pierwszy;
+//     }
+     
      public static double z(double l) {
-        float baba = (float)l*100f;
-        BigDecimal nowa = new BigDecimal(baba).setScale(0, RoundingMode.HALF_UP);
-        double pierwszy = nowa.doubleValue()/100.0;
+        double pierwszy = Math.round(l*100.0)/100.0;
         return pierwszy;
      }
+//     public static double zZUS(double l) {
+//        float baba = (float)l*1f;
+//        BigDecimal nowa = new BigDecimal(baba).setScale(2, RoundingMode.HALF_EVEN);
+//        double pierwszy = nowa.doubleValue();
+//        return pierwszy;
+//     }
      
     
     public static void main(String[] args) {
