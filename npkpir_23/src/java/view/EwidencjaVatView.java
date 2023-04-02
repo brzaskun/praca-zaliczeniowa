@@ -941,7 +941,7 @@ public class EwidencjaVatView implements Serializable {
             }
             for (Iterator<EVatwpisFK> it = zwrot.iterator(); it.hasNext();) {
                 EVatwpisFK p = it.next();
-                if (p.getDokfk().memorailowo0kasowo1()) {
+                if (!p.getDokfk().getSeriadokfk().equals("RK")&&p.getDokfk().memorailowo0kasowo1()) {
                     it.remove();
                 }
             }

@@ -222,7 +222,7 @@ public class ImportCSVView  implements Serializable {
         List<KlientJPK> lista = listafk.stream().filter(p->p.isWdt()||p.isWnt()).collect(Collectors.toList());
         System.out.println("");
         klientJPKDAO.createList(lista);
-        Msg.msg("Zaksięgowano dokumenty dla JPK");
+        Msg.msg("Zaksięgowano dokumenty dla JPK oraz rejestry WDT");
     }
     
      public void usunmiesiac() {
