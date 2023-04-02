@@ -445,7 +445,7 @@ public class KalendarzmiesiacBean {
             double dnikalendarzoweniechoroby = Data.iletodniKalendarzowych(dataod, datado);
             boolean recznapodstawajedenskladnik = nieobecnosc.getSredniazmiennerecznie()>0.0?true:false;
             for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
-                //to z mysla o pramiach uznaniowych, ktore jako nierekukowane nei wchodza w sklad podstawy
+                //to z mysla o pramiach uznaniowych, ktore jako nierekukowane nei wchodza w sklad podstawyfeeffe
                 if ((recznapodstawajedenskladnik&&naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("11"))||(recznapodstawajedenskladnik&&naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("13"))||recznapodstawajedenskladnik==false) {
                     if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany()||naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("13")||naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("12")) {
                         Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
