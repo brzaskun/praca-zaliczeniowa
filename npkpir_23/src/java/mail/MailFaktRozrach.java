@@ -51,9 +51,11 @@ public class MailFaktRozrach implements Serializable{
             MimeBodyPart mbp1 = new MimeBodyPart();
             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
             mbp1.setContent("Witam"
-                     + "<p>W poniższej tabeli wykaz niezapłaconych faktur na rzecz naszego biura (plik pdf). Prosimy o niezwłoczne uregulowanie zaległości.</p>"
-                     + "<p>Przelewy księgowane są automatycznie przez nasz program po pobraniu wyciągów z banku. Jeśli robią państwo przelewy ekpresowe lub z nowego konta może dojśc do niewłaściwego przyporządkowania wpłaty.</p>"
+                     + "<p>W poniższej tabeli wykaz niezapłaconych faktur na rzecz naszego biura (plik pdf). Prosimy o jego weryfikacje. W przypadku, gdy zestawienie jest poprawne, prosimy o niezwłoczne uregulowanie zaległości.</p>"
+                     + "<p>Przelewy księgowane są automatycznie przez nasz program po pobraniu wyciągów z banku. <b>Jeśli robią państwo przelewy ekpresowe lub z nowego konta może dojśc do niewłaściwego przyporządkowania wpłaty.</b></p>"
                      + "<p>W takich przypadkach prosimy o kontakt w celu weryfikacji salda.</p>"
+                    + "<p>Przypominamy, że od kilku lat mamy nowe konto bankowe - firmowe. Dane konta są każdorazowo umieszczane na fakturze. Niektórzy nasi długoletni klienci dalej wysyłają płatności na stare konto. Proszę zwrócić na to uwagę.</p>"
+                    + "<p></p>"
                      + "<p>Please find below a list of unsettled invoices issued by us . Please settle any existing arrears as soon as possible.</p>"
                      + "<p>Transfers are posted automatically by our program after downloading bank statements. If you make express transfers or transfers from a new account, the payment may be incorrectly allocated.</p>"
                      + "<p>In such cases, please contact us to verify the balance.</p>"
