@@ -190,9 +190,10 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                         } else if (dniredukcji_11==0.0 && dniredukcjiIurlopu>0.0) {
                             //jest tylko urlop badz koniec umowy
                             redukcja_12 = redukcja_12 + (kwotazmiennej /kalendarz.getGodzinyroboczewmiesiacu()*godzinyredukcji_12);
-                            double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_12);
                             stawkadzienna = Z.z6(kwotazmiennej/kalendarz.getDniroboczewmiesiacu());
                             stawkagodzinowa = Z.z6(kwotazmiennej/kalendarz.getGodzinyroboczewmiesiacu());
+                            redukcja_12 = redukcja_12 + stawkagodzinowa*godzinyurlopu;
+                            double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_12);
                             dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji;
                         } else if (dniredukcjiIurlopu==0.0 && dniredukcji_11>0.0) {
                             //jest tylko choroba
