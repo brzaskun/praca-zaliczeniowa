@@ -165,7 +165,15 @@
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
-                            <h:outputText value="#{item11.kod}"/>
+                            <p:inplace editor="true">
+                                 <f:facet name="output">
+                                     <h:outputText value="#{item11.kod}"/>
+                                 </f:facet>
+                                 <f:facet name="input">
+                                     <p:inputText value="#{item11.kod}" rendered="#{wpisView.uzer.login eq '2'}" size="3"/>
+                                 </f:facet>
+                                         <p:ajax event="save" listener="#{rodzjawynagrodzeniaSetView.edytujrodzajwyn(item11)}" />
+                            </p:inplace>
                         </p:column>
                         <p:column width="300" >
                             <f:facet name="header">

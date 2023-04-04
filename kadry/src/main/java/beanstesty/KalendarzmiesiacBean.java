@@ -353,7 +353,7 @@ public class KalendarzmiesiacBean {
     static boolean naliczskladnikiwynagrodzeniaDBZlecenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double zmiennawynagrodzeniakwota, double iloscgodzin,double zmiennawynagrodzeniakwotaodelegowanie) {
         boolean jestoddelegowanie = false;
         for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
-            if (p.getRodzajwynagrodzenia().getKod().equals("50")) {
+            if (p.getRodzajwynagrodzenia().getKod().equals("4   0")) {
                 double kwota = p.getRodzajwynagrodzenia().getOpispelny().contains("oddelegowanie")?zmiennawynagrodzeniakwotaodelegowanie:zmiennawynagrodzeniakwota;
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBZlecenie(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs, kwota);
                 naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(iloscgodzin);

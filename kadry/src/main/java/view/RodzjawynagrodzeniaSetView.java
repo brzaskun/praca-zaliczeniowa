@@ -65,6 +65,15 @@ public class RodzjawynagrodzeniaSetView  implements Serializable {
         Msg.dP();
     }
     
+    public void edytujrodzajwyn(Rodzajwynagrodzenia rodzaj) {
+        if (rodzaj!=null) {
+          rodzajwynagrodzeniaFacade.edit(rodzaj);
+          Msg.msg("Naniesiono zmiany");
+        } else {
+            Msg.msg("Nie wybrano rodzaju wynagordzenia");
+        }
+    }
+    
     public List<Rodzajwynagrodzenia> getLista() {
         return lista;
     }
