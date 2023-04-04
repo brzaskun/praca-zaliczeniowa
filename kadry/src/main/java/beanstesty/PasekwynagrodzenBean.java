@@ -208,7 +208,6 @@ public class PasekwynagrodzenBean {
         boolean powrotzmacierzynskiego = czyjestpowrotzmacierzynskiego(kalendarz.getAngaz().getNieobecnoscList(), pasek.getDatawyplaty());
         boolean bezrobotnyskierowanieFP = czynienaliczacFPbezrobotny(kalendarz);
         if (bezrobotnyskierowanieFP==true) {
-            PasekwynagrodzenBean.fgsp(pasek);
         } else if (przekroczeniewieku == true || powrotzmacierzynskiego ==true) {
             //obojetnei jaka forma prawna jak jest przekroczenie wieku to nie liczymy FP i FGSP
             pasek.setFpprzekroczeniewiek(przekroczeniewieku);
@@ -827,7 +826,7 @@ public class PasekwynagrodzenBean {
         Wypadkowefirma pobrane = null;
         if (wypadkowefirmaList != null) {
             for (Wypadkowefirma w : wypadkowefirmaList) {
-                if (w.czynalezydookresu(pasek.getRok(), pasek.getMc())) {
+                if (w.czynalezydookresu(pasek.getRok(), pasek.getMcwypl())) {
                     pobrane = w;
                     break;
                 }

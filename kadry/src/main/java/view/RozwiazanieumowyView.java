@@ -100,18 +100,24 @@ public class RozwiazanieumowyView  implements Serializable {
     public void pobierzRozwiazanie() {
         lista = new ArrayList<>();
         if (wybranaumowa!=null) {
-            Rozwiazanieumowy pobrane = rozwiazanieumowyFacade.findByUmowa(wybranaumowa);
-            if (pobrane!=null) {
-                lista.add(pobrane);
-                selectedlista = pobrane;
+            if (wybranaumowa.getRozwiazanieumowy()!=null) {
+                selectedlista = wybranaumowa.getRozwiazanieumowy();
+                Msg.msg("Pobrano istniejące rozwiazanie umowy");
             } else {
-                lista = new ArrayList<>();
-                rozwiazanieUmowyNowe.setUmowa(wybranaumowa);
-            }
-            if (wpisView.getUmowa()!=null) {
-                listanieob  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
-                listanieobecschema = nieobecnoscswiadectwoschemaFacade.findAll();
-                dnidoswiadectwa = naniesnieobecnoscinascheme(listanieob, listanieobecschema, pobrane, wpisView.getRokWpisu());
+                Rozwiazanieumowy pobrane = rozwiazanieumowyFacade.findByUmowa(wybranaumowa);
+                if (pobrane!=null) {
+                    Msg.msg("Pobrano istniejące rozwiazanie umowy");
+                    lista.add(pobrane);
+                    selectedlista = pobrane;
+                } else {
+                    lista = new ArrayList<>();
+                    rozwiazanieUmowyNowe.setUmowa(wybranaumowa);
+                }
+                if (wpisView.getUmowa()!=null) {
+                    listanieob  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
+                    listanieobecschema = nieobecnoscswiadectwoschemaFacade.findAll();
+                    dnidoswiadectwa = naniesnieobecnoscinascheme(listanieob, listanieobecschema, pobrane, wpisView.getRokWpisu());
+                }
             }
             Msg.msg("Pobrano rozwiązania umowy");
         } else {
