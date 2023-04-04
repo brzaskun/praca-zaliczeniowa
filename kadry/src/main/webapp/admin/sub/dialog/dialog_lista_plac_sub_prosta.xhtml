@@ -170,7 +170,7 @@
             </p:column>
             <p:rowExpansion>
                 <p:dataTable id="datalist1" value="#{itempasek.getPobierzskladniki(pasekwynagrodzenView.wybranalistaplac)}" var="itempasekszcz"
-                             rowIndexVar="indexpasekszcz"
+                             rowIndexVar="indexpasekszcz"  emptyMessage="Nie zachowano żadnych składników"
                              style="height: 200px; overflow-y: scroll;width: 1500px;"
                              >
                     <p:column style="text-align: center;color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};" headerText="lp" width="40">
