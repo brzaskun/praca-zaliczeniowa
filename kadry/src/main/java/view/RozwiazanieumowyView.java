@@ -102,24 +102,26 @@ public class RozwiazanieumowyView  implements Serializable {
         if (wybranaumowa!=null) {
             if (wybranaumowa.getRozwiazanieumowy()!=null) {
                 selectedlista = wybranaumowa.getRozwiazanieumowy();
+                lista = new ArrayList<>();
+                lista.add(wybranaumowa.getRozwiazanieumowy());
                 Msg.msg("Pobrano istniejące rozwiazanie umowy");
             } else {
                 Rozwiazanieumowy pobrane = rozwiazanieumowyFacade.findByUmowa(wybranaumowa);
                 if (pobrane!=null) {
                     Msg.msg("Pobrano istniejące rozwiazanie umowy");
+                    lista = new ArrayList<>();
                     lista.add(pobrane);
                     selectedlista = pobrane;
                 } else {
                     lista = new ArrayList<>();
                     rozwiazanieUmowyNowe.setUmowa(wybranaumowa);
                 }
-                if (wpisView.getUmowa()!=null) {
+            }
+            if (wpisView.getUmowa()!=null && selectedlista!=null) {
                     listanieob  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
                     listanieobecschema = nieobecnoscswiadectwoschemaFacade.findAll();
-                    dnidoswiadectwa = naniesnieobecnoscinascheme(listanieob, listanieobecschema, pobrane, wpisView.getRokWpisu());
-                }
+                    dnidoswiadectwa = naniesnieobecnoscinascheme(listanieob, listanieobecschema, selectedlista, wpisView.getRokWpisu());
             }
-            Msg.msg("Pobrano rozwiązania umowy");
         } else {
             lista = new ArrayList<>();
         }
