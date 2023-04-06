@@ -20,15 +20,15 @@
                                 <h:outputText value="kod umowy: "/>
                                 <h:outputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.umowa.umowakodzus.kod}"/>
                                 <h:outputText value="data dokumentu: " style="margin-top: 30x;"/>
-                                <p:inputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.datadokumentu}" size="10" placeholder="____-__-__">
+                                <p:inputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.datadokumentu}" size="10" placeholder="____-__-__" maxlength="10">
                                      <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
                                 </p:inputText>
                                 <h:outputText value="data wypowiedzenia: " style="margin-top: 30x;"/>
-                                <p:inputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.datawypowiedzenia}" size="10" placeholder="____-__-__">
+                                <p:inputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.datawypowiedzenia}" size="10" placeholder="____-__-__" maxlength="10">
                                     <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
                                 </p:inputText>
                                 <h:outputText value="okres wyp./umowa upłynie dnia: " />
-                                <p:inputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.datauplywuokresuwyp}" size="10" placeholder="____-__-__" required="true" requiredMessage="Wpisa datę zakończenia umowy">
+                                <p:inputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.datauplywuokresuwyp}" size="10" placeholder="____-__-__" required="true" requiredMessage="Wpisa datę zakończenia umowy" maxlength="10">
                                     <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
                                 </p:inputText>
                                 <h:outputText value="przyczyna wypowiedzenia: "/>

@@ -43,7 +43,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -55,7 +55,7 @@ import pdf.PdfWypowiedzenie;
  * @author Osito
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class RozwiazanieumowyView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -114,7 +114,6 @@ public class RozwiazanieumowyView  implements Serializable {
                     selectedlista = pobrane;
                 } else {
                     lista = new ArrayList<>();
-                    rozwiazanieUmowyNowe.setUmowa(wybranaumowa);
                 }
             }
             if (wpisView.getUmowa()!=null && selectedlista!=null) {
@@ -156,6 +155,7 @@ public class RozwiazanieumowyView  implements Serializable {
             r.getUmowa().setRozwiazanieumowy(null);
             umowaFacade.edit(r.getUmowa());
             rozwiazanieumowyFacade.remove(r);
+            rozwiazanieUmowyNowe = new Rozwiazanieumowy();
             lista.remove(r);
             Msg.msg("Usunieto rozwiązanie");
         } else {
@@ -170,11 +170,17 @@ public class RozwiazanieumowyView  implements Serializable {
             lista.add(rozwiazanieUmowyNowe);
             wybranaumowa.setRozwiazanieumowy(rozwiazanieUmowyNowe);
             umowaFacade.edit(wybranaumowa);
-            zamknijskladniki(wpisView.getAngaz(), rozwiazanieUmowyNowe);
+            Angaz angaz = angazFacade.findById(wpisView.getAngaz());
+            zamknijskladniki(angaz, rozwiazanieUmowyNowe.getDatauplywuokresuwyp());
             Msg.msg("Dodano nowe wypowiedzenie");
+            if (wybranaumowa!=null && rozwiazanieUmowyNowe!=null) {
+                listanieob  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
+                listanieobecschema = nieobecnoscswiadectwoschemaFacade.findAll();
+                dnidoswiadectwa = naniesnieobecnoscinascheme(listanieob, listanieobecschema, rozwiazanieUmowyNowe, wpisView.getRokWpisu());
+            }
         } else if (rozwiazanieUmowyNowe.getId()!=null) {
             rozwiazanieUmowyNowe.setData(new Date());
-            zamknijskladniki(wpisView.getAngaz(), rozwiazanieUmowyNowe);
+            zamknijskladniki(wpisView.getAngaz(), rozwiazanieUmowyNowe.getDatauplywuokresuwyp());
             rozwiazanieumowyFacade.edit(rozwiazanieUmowyNowe);
             Msg.msg("Edytowano wypowiedzenie");
         } else {
@@ -236,14 +242,14 @@ public class RozwiazanieumowyView  implements Serializable {
          }
     }
     
-    private void zamknijskladniki(Angaz angaz, Rozwiazanieumowy rozwiazanieUmowyNowe) {
+    private void zamknijskladniki(Angaz angaz, String data) {
         if (angaz!=null&&rozwiazanieUmowyNowe!=null) {
             List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = angaz.getSkladnikwynagrodzeniaList();
             for (Skladnikwynagrodzenia sklad : skladnikwynagrodzeniaList) {
                 List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = sklad.getZmiennawynagrodzeniaList();
                 if (zmiennawynagrodzeniaList!=null&&zmiennawynagrodzeniaList.size()>0) {
                     Collections.sort(zmiennawynagrodzeniaList, new ZmiennaWynagrodzeniacomparator());
-                    zmiennawynagrodzeniaList.get(0).setDatado(rozwiazanieUmowyNowe.getDatauplywuokresuwyp());
+                    zmiennawynagrodzeniaList.get(0).setDatado(data);
                 }
             }
             List<Skladnikpotracenia> skladnikpotraceniaList = angaz.getSkladnikpotraceniaList();
@@ -251,21 +257,21 @@ public class RozwiazanieumowyView  implements Serializable {
                 List<Zmiennapotracenia> zmiennapotraceniaList = sklad.getZmiennapotraceniaList();
                 if (zmiennapotraceniaList!=null&&zmiennapotraceniaList.size()>0) {
                     Collections.sort(zmiennapotraceniaList, new ZmiennaPotraceniacomparator());
-                    zmiennapotraceniaList.get(0).setDatado(rozwiazanieUmowyNowe.getDatauplywuokresuwyp());
+                    zmiennapotraceniaList.get(0).setDatado(data);
                 }
             }
             List<Stanowiskoprac> stanowiskopracList = angaz.getStanowiskopracList();
             if (stanowiskopracList!=null&&stanowiskopracList.size()>0) {
                 Collections.sort(stanowiskopracList, new Stanowiskocomparator());
-                stanowiskopracList.get(0).setDatado(rozwiazanieUmowyNowe.getDatauplywuokresuwyp());
+                stanowiskopracList.get(0).setDatado(data);
             }
             List<EtatPrac> etatpracList = angaz.getEtatList();
             if (etatpracList!=null&&etatpracList.size()>0) {
                 Collections.sort(etatpracList, new Etatcomparator());
-                etatpracList.get(0).setDatado(rozwiazanieUmowyNowe.getDatauplywuokresuwyp());
+                etatpracList.get(0).setDatado(data);
             }
         }
-        angazFacade.edit(angaz);
+        //angazFacade.edit(angaz);
         Msg.msg("Zamknięto składniki umowy");
     }
 
