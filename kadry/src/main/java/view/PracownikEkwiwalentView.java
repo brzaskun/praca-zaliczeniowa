@@ -150,8 +150,8 @@ public class PracownikEkwiwalentView  implements Serializable {
             oddelegowanieprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, oddelegowanieprezentacja, "Z"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
-            oddelegowanieprezentacja.setWymiarokresbiezacy(UrlopBean.obliczwymiarwgodzinach(umowy, pobierzetat, wpisView.getRokWpisu(), stannadzien));
-            oddelegowanieprezentacja.setDoprzeniesienia(oddelegowanieprezentacja.getWymiarokresbiezacy()-oddelegowanieprezentacja.getWykorzystanierokbiezacy()-oddelegowanieprezentacja.getWykorzystanierokbiezacyekwiwalent());
+            oddelegowanieprezentacja.setWymiarokresbiezacygodziny(UrlopBean.obliczwymiarwgodzinach(umowy, pobierzetat, wpisView.getRokWpisu(), stannadzien));
+            oddelegowanieprezentacja.setDoprzeniesienia(oddelegowanieprezentacja.getWymiarokresbiezacygodziny()-oddelegowanieprezentacja.getWykorzystanierokbiezacy()-oddelegowanieprezentacja.getWykorzystanierokbiezacyekwiwalent());
             //Msg.msg("Pobrano oddelegowania");
         }
     }
@@ -163,8 +163,8 @@ public class PracownikEkwiwalentView  implements Serializable {
             chorobaprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, chorobaprezentacja, "CH"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
-            chorobaprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachchoroba(umowy, pobierzetat));
-            chorobaprezentacja.setDoprzeniesienia(chorobaprezentacja.getWymiarokresbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacyekwiwalent());
+            chorobaprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinachchoroba(umowy, pobierzetat));
+            chorobaprezentacja.setDoprzeniesienia(chorobaprezentacja.getWymiarokresbiezacygodziny()-chorobaprezentacja.getWykorzystanierokbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacyekwiwalent());
             wiekdlachoroby = obliczwiek(wpisView.getAngaz().getPracownik());
             //Msg.msg("Pobrano dane chorobowe");
         }
@@ -180,8 +180,8 @@ public class PracownikEkwiwalentView  implements Serializable {
             zasilekprezentacja.getNieobecnoscwykorzystanieList().addAll(UrlopBean.naniesdnizkodem(kalendarze, zasilekprezentacja, "W"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
-            zasilekprezentacja.setWymiarokresbiezacy(obliczwymiarwgodzinachzasilek(umowy, pobierzetat));
-            zasilekprezentacja.setDoprzeniesienia(zasilekprezentacja.getWymiarokresbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacyekwiwalent());
+            zasilekprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinachzasilek(umowy, pobierzetat));
+            zasilekprezentacja.setDoprzeniesienia(zasilekprezentacja.getWymiarokresbiezacygodziny()-zasilekprezentacja.getWykorzystanierokbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacyekwiwalent());
             //Msg.msg("Pobrano dni zasiłkowe");
         }
     }
@@ -299,10 +299,10 @@ public class PracownikEkwiwalentView  implements Serializable {
             String mc = Data.getMc(data);
             List<Skladnikwynagrodzenia> skladniki = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz());
             pobierzurlop();
-            double godzinypoprzednirok = urlopprezentacja.getOkrespoprzedni();
+            double godzinypoprzednirok = urlopprezentacja.getBilansotwarciagodziny();
             double godzinyekw = urlopprezentacja.getDoprzeniesienia();
             ekw.setZalegly((int)godzinypoprzednirok);
-            ekw.setBiezacy((int)urlopprezentacja.getWymiarokresbiezacy());
+            ekw.setBiezacy((int)urlopprezentacja.getWymiarokresbiezacygodziny());
             ekw.setGodziny((int)godzinyekw);
             ekw.setDni(urlopprezentacja.getDoprzeniesieniadni());
             ekw.setRok(rok);

@@ -46,10 +46,12 @@ public class Nieobecnoscprezentacja implements Serializable {
     @Column(name = "rok", nullable = false)
     private String rok;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "okrespoprzedni")
-    private int okrespoprzedni;
-    @Column(name = "wymiarokresbiezacy")
-    private int wymiarokresbiezacy;
+    @Column(name = "bilansotwarciagodziny")
+    private int bilansotwarciagodziny;
+    @Column(name = "bilansotwarciadni")
+    private int bilansotwarciadni;
+    @Column(name = "wymiarokresbiezacygodziny")
+    private int wymiarokresbiezacygodziny;
     @Column(name = "doprzeniesienia")
     private int doprzeniesienia;
     @Column(name = "doprzeniesieniadni")
@@ -134,20 +136,28 @@ public class Nieobecnoscprezentacja implements Serializable {
         return "beans.Nieobecnoscprezentacja[ id=" + id + " ]";
     }
 
-    public int getOkrespoprzedni() {
-        return okrespoprzedni;
+    public int getBilansotwarciagodziny() {
+        return bilansotwarciagodziny;
     }
 
-    public void setOkrespoprzedni(int okrespoprzedni) {
-        this.okrespoprzedni = okrespoprzedni;
+    public void setBilansotwarciagodziny(int bilansotwarciagodziny) {
+        this.bilansotwarciagodziny = bilansotwarciagodziny;
     }
 
-    public int getWymiarokresbiezacy() {
-        return wymiarokresbiezacy;
+    public int getBilansotwarciadni() {
+        return bilansotwarciadni;
     }
 
-    public void setWymiarokresbiezacy(int wymiarokresbiezacy) {
-        this.wymiarokresbiezacy = wymiarokresbiezacy;
+    public void setBilansotwarciadni(int bilansotwarciadni) {
+        this.bilansotwarciadni = bilansotwarciadni;
+    }
+
+    public int getWymiarokresbiezacygodziny() {
+        return wymiarokresbiezacygodziny;
+    }
+
+    public void setWymiarokresbiezacygodziny(int wymiarokresbiezacygodziny) {
+        this.wymiarokresbiezacygodziny = wymiarokresbiezacygodziny;
     }
 
     public int getDoprzeniesienia() {
