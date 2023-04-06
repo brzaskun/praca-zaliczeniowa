@@ -221,8 +221,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                                 stawkadzienna = 0.0;
                                 stawkagodzinowa = 0.0;
                             }
-                            redukcja_12 = redukcja_12 + stawkagodzinowa*godzinyurlopu;
-                            dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji-redukcja_12;
+                            double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
+                            dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji-redukcja_urlop;
                         } else {
                             stawkadzienna = Z.z6(kwotazmiennej/kalendarz.getDniroboczewmiesiacu());
                             stawkagodzinowa = Z.z6(kwotazmiennej/kalendarz.getGodzinyroboczewmiesiacu());
