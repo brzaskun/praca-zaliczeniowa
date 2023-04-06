@@ -38,6 +38,14 @@ public class NaliczeniepotracenieBean {
         Naliczeniepotracenie zwrot = new Naliczeniepotracenie();
         List<Zmiennapotracenia> zmiennawynagrodzeniaList = skladnikpotracenia.getZmiennapotraceniaList();
         for (Zmiennapotracenia p : zmiennawynagrodzeniaList) {
+            double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
+            if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")) {
+                ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
+            }
+            if (p.isMaxustawowy()==false) {
+                wolneodzajecia = 0.0;
+                ilemozna = 100;
+            }
             int dzienodzmienna = DataBean.dataod(p.getDataod(), kalendarz.getRok(), kalendarz.getMc());
             int dziendozmienna = DataBean.datado(p.getDatado(), kalendarz.getRok(), kalendarz.getMc());
             if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), p.getDataod(), p.getDatado())) {
@@ -54,7 +62,7 @@ public class NaliczeniepotracenieBean {
                     }
                 } else if (p.getKwotakomornicza()>0.0) {
                     if (p.getKwotakomornicza()>juzrozliczono) {
-                       double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
+                       
                         double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
                         if (juzrozliczono+potracenie>p.getKwotakomornicza()) {
                             potracenie = Z.z(p.getKwotakomornicza()-juzrozliczono);
@@ -63,7 +71,11 @@ public class NaliczeniepotracenieBean {
                         if (nowenetto>wolneodzajecia) {
                             zwrot.setKwota(Z.z(potracenie));
                         } else {
-                            zwrot.setKwota(Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-wolneodzajecia));
+                            double potraceniepokorekcie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-wolneodzajecia);
+                            if (potraceniepokorekcie<0.0) {
+                                potraceniepokorekcie = 0.0;
+                            }
+                            zwrot.setKwota(Z.z(potraceniepokorekcie));
                         }
                         p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
@@ -77,7 +89,6 @@ public class NaliczeniepotracenieBean {
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
                 } else if (p.isMaxustawowy()&&p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()!=1) {
                     if (pasekwynagrodzen.getNettoprzedpotraceniami()>wolneodzajecia) {
-                        double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
                         double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
                         double nowenetto = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-potracenie);
                         if (nowenetto>wolneodzajecia) {
@@ -92,21 +103,18 @@ public class NaliczeniepotracenieBean {
                     }
 
                 } else if (p.isMaxustawowy()&&p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()==1 && pasekwynagrodzen.isPraca()) {
-                        double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
                         double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
                         zwrot.setKwota(potracenie);
                         p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
 
                 }  else if (p.isMaxustawowy()&&p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()==1) {
-                        double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
                         double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
                         zwrot.setKwota(potracenie);
                         p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
 
                 }  else if (p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()==14) {
-                        double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
                         double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
                         zwrot.setKwota(potracenie);
                         p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
