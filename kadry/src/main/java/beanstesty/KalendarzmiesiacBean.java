@@ -202,7 +202,7 @@ public class KalendarzmiesiacBean {
                     naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
                 } else if (kod.equals("UD")) {
                     //urlop wypoczynowy
-                    naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList, kurs);
+                    naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(kalendarz, nieobecnosc, pasekwynagrodzen, kurs);
                 } else if (kod.equals("X")||kod.equals("NP")||kod.equals("NN")) {
                     //urlopo bezpłatny
                     naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, kod);
@@ -1035,7 +1035,7 @@ public class KalendarzmiesiacBean {
         }
     }
 
-    static void naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, List<Kalendarzmiesiac> kalendarzList, double kurs) {
+    static void naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         double liczbadniobowiazku = 0.0;
         double liczbadniurlopu = 0.0;
         double liczbagodzinurlopu = 0.0;
@@ -1067,7 +1067,7 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 //double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowaZmienneOddelegowanie(kalendarz, skladnikwynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc, kalendarzList);
-                double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowaZmienneOddelegowanieNowe(kalendarz, skladnikwynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc, kalendarzList, kurs);
+                double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowaZmienneOddelegowanieNowe(kalendarz, skladnikwynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc, kurs);
                 naliczenienieobecnosc.setJakiskladnikredukowalny(skladnikwynagrodzenia.getUwagi());
                 naliczenienieobecnosc.setSkladnikistale(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setLiczbadniobowiazku(liczbadniobowiazku);
@@ -1260,12 +1260,12 @@ public class KalendarzmiesiacBean {
     }
 
     private static double wyliczsredniagodzinowaZmienneOddelegowanieNowe(Kalendarzmiesiac kalendarz, Skladnikwynagrodzenia skladnikwynagrodzenia, double liczbagodzinieobecnosci, double liczbagodzinobowiazku,
-            Naliczenienieobecnosc naliczenienieobecnosc, List<Kalendarzmiesiac> kalendarzList, double kurs) {
+            Naliczenienieobecnosc naliczenienieobecnosc, double kurs) {
         double sredniadopodstawy = 0.0;
         double sredniadopodstawywaluta = 0.0;
         double normadzienna = 0.0;
         if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1() == true && skladnikwynagrodzenia.isOddelegowanie()) {
-            if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13") && skladnikwynagrodzenia.isOddelegowanie()) {
+            if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isSredniaurlopowaoddelegowanie() && skladnikwynagrodzenia.isOddelegowanie()) {
                 for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
                     Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
                     naliczenieskladnikawynagrodzenia.setWaluta(r.getWaluta());
