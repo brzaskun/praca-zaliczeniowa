@@ -76,7 +76,7 @@ public class PracownikUmowyView  implements Serializable {
                 List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList1 = u.getAngaz().getSkladnikwynagrodzeniaList();
                 if (skladnikwynagrodzeniaList1 != null) {
                     for (Skladnikwynagrodzenia s : skladnikwynagrodzeniaList1) {
-                        if (s.getRodzajwynagrodzenia().getKod().equals("11") || s.getRodzajwynagrodzenia().getKod().equals("50")) {
+                        if (s.getRodzajwynagrodzenia().getKod().equals("11") || s.getRodzajwynagrodzenia().getKod().equals("40")) {
                             if (s.getOstatniaZmienna() != null) {
                                 u.setZmiennawynagrodzenia(s.getOstatniaZmienna());
                                 u.setNetto0brutto1(s.getOstatniaZmienna().isNetto0brutto1());
