@@ -267,6 +267,7 @@ public class PasekwynagrodzenBean {
         List<Nieobecnosc> urlopoddelegowanie = pobierz(nieobecnosci, "UD");
         List<Nieobecnosc> urlopmatkadziecko = pobierz(nieobecnosci, "MD");
         List<Nieobecnosc> urlopookolicznosciowy = pobierz(nieobecnosci, "O");
+        List<Nieobecnosc> urloponazadanie = pobierz(nieobecnosci, "UZ");
         List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci, "X");
         List<Nieobecnosc> nieobecnoscNN = pobierz(nieobecnosci, "NN");
         List<Nieobecnosc> nieobecnoscNP = pobierz(nieobecnosci, "NP");
@@ -294,6 +295,7 @@ public class PasekwynagrodzenBean {
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopoddelegowanie, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych());
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopmatkadziecko, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych());
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopookolicznosciowy, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych());
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urloponazadanie, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych());
         //przywrocilem 21-02-2023 po tym jak zmienilem rozliczanie "D"
         //odkrecilem 26-02-2023 po przebudowie kompletnej wyliczania zasadniczego, redukcja jest juz na poczatku
         KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);

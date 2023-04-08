@@ -944,7 +944,7 @@ private static final long serialVersionUID = 1L;
                     dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);
                     nieobecnosc.setNaniesiona(true);
-                } else if (kod.equals("U")||kod.equals("UD")||kod.equals("O")) {
+                } else if (kod.equals("U")||kod.equals("UD")||kod.equals("O")||kod.equals("UZ")) {
                     dzienaktualny.setUrlopPlatny(dzienaktualny.getNormagodzin());
                     dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);
