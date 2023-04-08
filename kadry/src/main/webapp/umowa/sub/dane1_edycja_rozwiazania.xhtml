@@ -9,9 +9,9 @@
     <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
             <p:outputPanel>
                 <h:form styleClass="formumowa" id="RozwiazaniaNowyForm">
-                    <p:panel header="dodawanie nowego rozwiązania umowy">
+                    <p:panel header="dodawanie nowego rozwiązania umowy o pracę" rendered="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.umowa.umowakodzus.praca}">
                         <p:panelGrid columns="2" >
-                            <h:outputText value="rozwiązywana umowa: "/>
+                            <h:outputText value="rozwiązywana umowa o pracę: "/>
                                 <h:outputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.umowa.nrkolejny}"/>
                                 <h:outputText value="umowa od: "/>
                                 <h:outputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.umowa.dataod}"/>
@@ -81,6 +81,90 @@
                                 </p:column>
                                 <h:outputText value="zwolnienie z ob. pracy" />
                                 <p:selectBooleanCheckbox label="zwolnienie" value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.zwolnieniezpracy}"/>
+                                <p:panelGrid columns="2">
+                                    <p:column style="text-align: center; width: 30px;">
+                                        <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rozwiazanieumowyView.dodajnowy()}" update="@(form) akordeon:RozwiazaniaListForm"/>
+                                    </p:column>
+                                    <p:column style="text-align: center; width: 30px;">
+                                        <p:commandButton value="drukuj" styleClass="buttonnorm2" actionListener="#{rozwiazanieumowyView.drukujwypowiedzenie()}" />
+                                    </p:column>
+                                </p:panelGrid>
+                        </p:panelGrid>
+                    </p:panel>
+<!--                    panel umowy zlecenia-->
+                    <p:panel header="dodawanie nowego rozwiązania umowy zlecenia" rendered="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.umowa.umowakodzus.zlecenie}">
+                        <p:panelGrid columns="2" >
+                            <h:outputText value="rozwiązywana umowa zlecenia: "/>
+                                <h:outputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.umowa.nrkolejny}"/>
+                                <h:outputText value="umowa od: "/>
+                                <h:outputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.umowa.dataod}"/>
+                                <h:outputText value="czas trwania: "/>
+                                <h:outputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.umowa.czastrwania}"/>
+                                <h:outputText value="kod umowy: "/>
+                                <h:outputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.umowa.umowakodzus.kod}"/>
+                                <h:outputText value="data dokumentu: " style="margin-top: 30x;"/>
+                                <p:inputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.datadokumentu}" size="10" placeholder="____-__-__" maxlength="10">
+                                     <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
+                                <h:outputText value="data wypowiedzenia: " style="margin-top: 30x;"/>
+                                <p:inputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.datawypowiedzenia}" size="10" placeholder="____-__-__" maxlength="10">
+                                    <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
+                                <h:outputText value="okres wyp./umowa upłynie dnia: " />
+                                <p:inputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.datauplywuokresuwyp}" size="10" placeholder="____-__-__" required="true" requiredMessage="Wpisa datę zakończenia umowy" maxlength="10">
+                                    <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
+                                <h:outputText value="przyczyna wypowiedzenia: "/>
+                                <p:inputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.przyczyna}" size="200"/>
+                                <h:outputText value="sposob wypowiedzenia: "/>
+                                <p:selectOneListbox id="zleceniobiorca" value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.sposobwypowiedzenia}" required="true" requiredMessage="Wybierz sposób rozwiązania"  
+                                                     style="width: 500px;" filter="true" filterMatchMode="contains" scrollHeight="130">
+                                    <f:selectItems value="#{wypowiedzenieZlecenieSposob.getWypowiedzenieSposob()}"
+                                                   var="pracownikItem"
+                                                   itemValue="#{pracownikItem}" itemLabel="#{pracownikItem}"/>
+                                    <p:ajax event="change" partialSubmit="true" global="true"/>
+                                </p:selectOneListbox>
+<!--                                <h:outputText value="podstawa prawna: "/>
+                                 <p:selectOneListbox id="podstawa" value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.podstawaprawna}" required="true" requiredMessage="Wybierz sposób rozwiązania"  
+                                                     style="width: 1200px;" filter="true" filterMatchMode="contains" scrollHeight="130">
+                                     <f:selectItems value="#{wypowiedzeniePodstawa.getWypowiedzeniePodstawa()}"
+                                                   var="pracownikItem"
+                                                   itemValue="#{pracownikItem}" itemLabel="#{pracownikItem}"/>
+                                    <p:ajax event="change" partialSubmit="true" global="true"/>
+                                </p:selectOneListbox>-->
+                                <h:outputText value="rodzaj wypowiedzenia: "/>
+                                <p:column>
+                                    <p:panelGrid columns="2" >
+                                        <h:outputText value="a) wypowiedzenie"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.wypowiedzenie}" label="wypowiedzenie"/>
+                                        <h:outputText value="b) rozwiązanie"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.rozwiazanie}" label="rozwiązanie"/>
+                                        <h:outputText value="c) porozumienie stron"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.porozumienie}" label="porozumienie"/>
+                                    </p:panelGrid>
+                                </p:column>
+                                <h:outputText value="inicjator wypowiedzenia"/>
+                                <p:column>
+                                    <p:panelGrid columns="2" >
+                                        <h:outputText value="a) zleceniodawca"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.pracodawca}"/>
+                                        <h:outputText value="b) zleceniobiorca"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.pracownik}"/>
+                                    </p:panelGrid>
+                                </p:column>
+                                <h:outputText value="okres wypowiedzenia"/>
+                                <p:column>
+<!--                                    <p:panelGrid columns="2" >
+                                        <h:outputText value="a) 2 tygodnie"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.tygodnie2}"/>
+                                        <h:outputText value="b) miesiąc"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.miesiac1}"/>
+                                        <h:outputText value="c) 3 miesiące"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.miesiac3}"/>
+                                    </p:panelGrid>-->
+                                <p:inputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.okreswypowiedzeniazlecenie}" size="100"/>
+                                </p:column>
+                                <h:outputText value="tryb wypowiedzenia"/>
+                                <p:column>
+                                    <p:panelGrid columns="2" >
+                                        <h:outputText value="a) bez zach. okr. wyp"/><p:selectBooleanCheckbox label="bez zach. okr. wyp"   value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.trybnatychmiastowy}"/>
+                                        <h:outputText value="b) skróc. okr. wyp"/><p:selectBooleanCheckbox label="skróc. okr. wyp"   value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.skroceneiokresuwyp}"/>
+                                    </p:panelGrid>
+                                </p:column>
+<!--                                <h:outputText value="zwolnienie z ob. pracy" />
+                                <p:selectBooleanCheckbox label="zwolnienie" value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.zwolnieniezpracy}"/>-->
                                 <p:panelGrid columns="2">
                                     <p:column style="text-align: center; width: 30px;">
                                         <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rozwiazanieumowyView.dodajnowy()}" update="@(form) akordeon:RozwiazaniaListForm"/>

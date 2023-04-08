@@ -89,6 +89,9 @@ public class Rozwiazanieumowy implements Serializable {
     private boolean miesiac1;
     @Column(name = "miesiac3")
     private boolean miesiac3;
+    @Size(max = 128)
+    @Column(name = "okreswypowiedzeniazlecenie")
+    private String okreswypowiedzeniazlecenie;
     @Size(max = 256)
     @Column(name = "przyczyna")
     private String przyczyna;
@@ -296,6 +299,14 @@ public class Rozwiazanieumowy implements Serializable {
 
     public void setDatadokumentu(String datadokumentu) {
         this.datadokumentu = datadokumentu;
+    }
+
+    public String getOkreswypowiedzeniazlecenie() {
+        return okreswypowiedzeniazlecenie;
+    }
+
+    public void setOkreswypowiedzeniazlecenie(String okreswypowiedzeniazlecenie) {
+        this.okreswypowiedzeniazlecenie = okreswypowiedzeniazlecenie;
     }
 
         

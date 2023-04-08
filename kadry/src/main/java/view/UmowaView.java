@@ -157,7 +157,11 @@ public class UmowaView implements Serializable {
                 rodzajumowy = "1";
             }
             listapraca = umowaFacade.findByAngazPraca(wpisView.getAngaz());
-            listawypowiedzenia = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+            if (wpisView.getUmowa().isPraca()) {
+                listawypowiedzenia = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+            } else {
+                listawypowiedzenia = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
+            }
             listazlecenia = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
             listafunkcja = umowaFacade.findByAngazFunkcja(wpisView.getAngaz());
             if (rodzajumowy.equals("1")) {
