@@ -114,7 +114,7 @@ public class UmowaGrupowoView implements Serializable {
              if (listaumowy.getTarget()==null||listaumowy.getTarget().size()==0) {
                 Msg.msg("w", "Nie ma wybranych pracowników");
             } else {
-                PdfUmowaoZlecenia.drukujwszystkie(selected, wpisView.getFirma(), listaumowy.getTarget(), wynagrodzeniegodzinowe);
+                PdfUmowaoZlecenia.drukujwszystkie(selected, wpisView.getFirma(), listaumowy.getTarget(), wynagrodzeniegodzinowe, wynagrodzeniemiesieczne);
              }
         } else {
             Msg.msg("e", "Nie wybrano umowy");
@@ -126,7 +126,7 @@ public class UmowaGrupowoView implements Serializable {
                 Msg.msg("w", "Nie ma wybranych zleceniobiorców");
             } else {
                 FirmaKadry firmaKadry = wpisView.getFirma();
-                ByteArrayOutputStream drukujmail = PdfUmowaoZlecenia.drukujwszystkie(selected, wpisView.getFirma(), listaumowy.getTarget(), wynagrodzeniegodzinowe);
+                ByteArrayOutputStream drukujmail = PdfUmowaoZlecenia.drukujwszystkie(selected, wpisView.getFirma(), listaumowy.getTarget(), wynagrodzeniegodzinowe, wynagrodzeniemiesieczne);
                 SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
                 String nazwa = firmaKadry.getNip()+"umowyzlecenia.pdf";
                 mail.Mail.mailUmowyZlecenia(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());

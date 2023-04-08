@@ -260,9 +260,9 @@
                     <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.create}" value="zachowaj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm KalendarzmiesiacSaRokForm" 
                                      rendered="#{kalendarzmiesiacView.selected.pasek.id eq null}"/>
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm KalendarzmiesiacSaRokForm"
-                                     rendered="#{kalendarzmiesiacView.selected.pasek.id eq null}"/>
+                                     rendered="#{kalendarzmiesiacView.selected.pasek.id eq null || wpisView.uzer.login eq '2'}"/>
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzmiesiacView.usun}" value="usun" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm KalendarzmiesiacSaRokForm:wykazistniejacychkal"
-                                     rendered="#{kalendarzmiesiacView.selected.pasek.id eq null}">
+                                     rendered="#{kalendarzmiesiacView.selected.pasek.id eq null || wpisView.uzer.login eq '2'}">
                         <p:confirm type="popup" header="Potwierdzenie" message="Usunąć bieżący kalendarz?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:outputPanel>
