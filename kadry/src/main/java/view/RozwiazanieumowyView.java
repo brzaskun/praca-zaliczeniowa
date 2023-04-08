@@ -5,6 +5,7 @@
  */
 package view;
 
+import beanstesty.UrlopBean;
 import comparator.Etatcomparator;
 import comparator.Stanowiskocomparator;
 import comparator.ZmiennaPotraceniacomparator;
@@ -24,6 +25,7 @@ import entity.Dzien;
 import entity.EkwiwalentUrlop;
 import entity.EtatPrac;
 import entity.Nieobecnosc;
+import entity.Nieobecnoscprezentacja;
 import entity.Nieobecnoscswiadectwoschema;
 import entity.Rozwiazanieumowy;
 import entity.SMTPSettings;
@@ -88,6 +90,7 @@ public class RozwiazanieumowyView  implements Serializable {
     @Inject
     private SMTPSettingsFacade sMTPSettingsFacade;
     private String datawystawieniaswiadectwa;
+    private Nieobecnoscprezentacja urlopprezentacja;
     
     
     
@@ -101,9 +104,9 @@ public class RozwiazanieumowyView  implements Serializable {
         lista = new ArrayList<>();
         if (wybranaumowa!=null) {
             if (wybranaumowa.getRozwiazanieumowy()!=null) {
-                selectedlista = wybranaumowa.getRozwiazanieumowy();
                 lista = new ArrayList<>();
                 lista.add(wybranaumowa.getRozwiazanieumowy());
+                selectedlista = wybranaumowa.getRozwiazanieumowy();
                 Msg.msg("Pobrano istniejące rozwiazanie umowy");
             } else {
                 Rozwiazanieumowy pobrane = rozwiazanieumowyFacade.findByUmowa(wybranaumowa);
@@ -114,12 +117,14 @@ public class RozwiazanieumowyView  implements Serializable {
                     selectedlista = pobrane;
                 } else {
                     lista = new ArrayList<>();
+                    rozwiazanieUmowyNowe.setUmowa(wybranaumowa);
                 }
             }
             if (wpisView.getUmowa()!=null && selectedlista!=null) {
                     listanieob  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
                     listanieobecschema = nieobecnoscswiadectwoschemaFacade.findAll();
                     dnidoswiadectwa = naniesnieobecnoscinascheme(listanieob, listanieobecschema, selectedlista, wpisView.getRokWpisu());
+                    urlopprezentacja = UrlopBean.pobierzurlop(wpisView.getAngaz(), wpisView.getRokWpisu(), selectedlista.getDatauplywuokresuwyp(), selectedlista.getDatauplywuokresuwyp());
             }
         } else {
             lista = new ArrayList<>();
@@ -197,7 +202,7 @@ public class RozwiazanieumowyView  implements Serializable {
             }
             swiadectwo.setRozwiazanieumowy(selectedlista);
             EkwiwalentUrlop ekwiwalent = ekwiwalentSkladnikiFacade.findbyUmowa(swiadectwo.getRozwiazanieumowy().getUmowa());
-            PdfSwiadectwo.drukuj(swiadectwo, dnidoswiadectwa, ekwiwalent,wpisView.getAngaz());
+            PdfSwiadectwo.drukuj(swiadectwo, dnidoswiadectwa, ekwiwalent,wpisView.getAngaz(), urlopprezentacja);
         } else {
             Msg.msg("e","Brak wypowiedzenia");
         }
@@ -354,6 +359,14 @@ public class RozwiazanieumowyView  implements Serializable {
 
     public void setDatawystawieniaswiadectwa(String datawystawieniaswiadectwa) {
         this.datawystawieniaswiadectwa = datawystawieniaswiadectwa;
+    }
+
+    public Nieobecnoscprezentacja getUrlopprezentacja() {
+        return urlopprezentacja;
+    }
+
+    public void setUrlopprezentacja(Nieobecnoscprezentacja urlopprezentacja) {
+        this.urlopprezentacja = urlopprezentacja;
     }
 
    

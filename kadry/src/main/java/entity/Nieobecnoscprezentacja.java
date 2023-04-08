@@ -56,6 +56,10 @@ public class Nieobecnoscprezentacja implements Serializable {
     private int doprzeniesienia;
     @Column(name = "doprzeniesieniadni")
     private int doprzeniesieniadni;
+    @Column(name = "doswiadectwagodziny")
+    private int doswiadectwagodziny;
+     @Column(name = "doswiadectwadni")
+    private int doswiadectwadni;
     @Column(name = "wykorzystanierokbiezacy")
     private int wykorzystanierokbiezacy;
     @Column(name = "wykorzystanierokbiezacyekwiwalent")
@@ -106,6 +110,22 @@ public class Nieobecnoscprezentacja implements Serializable {
 
     public void setDoprzeniesieniadni(int doprzeniesieniadni) {
         this.doprzeniesieniadni = doprzeniesieniadni;
+    }
+
+    public int getDoswiadectwagodziny() {
+        return doswiadectwagodziny;
+    }
+
+    public void setDoswiadectwagodziny(int doswiadectwagodziny) {
+        this.doswiadectwagodziny = doswiadectwagodziny;
+    }
+
+    public int getDoswiadectwadni() {
+        return doswiadectwadni;
+    }
+
+    public void setDoswiadectwadni(int doswiadectwadni) {
+        this.doswiadectwadni = doswiadectwadni;
     }
 
   

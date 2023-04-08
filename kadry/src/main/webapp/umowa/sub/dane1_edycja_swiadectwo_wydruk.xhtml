@@ -20,6 +20,16 @@
                         <p:ajax event="change" partialSubmit="true"/>
                     </p:inputText>
                 </p:panelGrid>
+                <p:panelGrid columns="2" style="width: 340px;">
+                             <p:outputLabel value="godziny urlopu tylko z wymiaru roku bieżącego" for="urloplpop1" />
+                             <p:inputNumber id="urloplpop1" value="#{rozwiazanieumowyView.urlopprezentacja.doswiadectwagodziny}"  style="text-align: right;" decimalPlaces="0" size="3">
+                                 <p:ajax event="change" partialSubmit="true"/>
+                             </p:inputNumber>
+                            <p:outputLabel value="dni urlopu tylko z wymiaru roku bieżącego" for="urloplpop1a" />
+                            <p:inputNumber id="urloplpop1a" value="#{rozwiazanieumowyView.urlopprezentacja.doswiadectwadni}" style="text-align: right;"  decimalPlaces="0" size="3">
+                                 <p:ajax event="change" partialSubmit="true"/>
+                             </p:inputNumber>
+                    </p:panelGrid>
                 <p:panel header="Zestawienie danych do świadectwa">
                     <p:commandButton value="druk" styleClass="buttonnorm" actionListener="#{rozwiazanieumowyView.drukujswiadectwo}"/>
                 </p:panel>

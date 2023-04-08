@@ -15,6 +15,7 @@ import entity.EtatPrac;
 import entity.FirmaKadry;
 import entity.Naliczeniepotracenie;
 import entity.Nieobecnosc;
+import entity.Nieobecnoscprezentacja;
 import entity.Pracownik;
 import entity.Rozwiazanieumowy;
 import entity.Skladnikpotracenia;
@@ -39,7 +40,7 @@ import z.Z;
  * @author Osito
  */
 public class PdfSwiadectwo {
-     public static void drukuj(Swiadectwo swiadectwo, List<Swiadectwodni> dnidoswiadectwa, EkwiwalentUrlop ekwiwalentUrlop, Angaz angaz) {
+     public static void drukuj(Swiadectwo swiadectwo, List<Swiadectwodni> dnidoswiadectwa, EkwiwalentUrlop ekwiwalentUrlop, Angaz angaz, Nieobecnoscprezentacja urlopprezentacja) {
         try {
             Rozwiazanieumowy rozwiazanieumowy = swiadectwo.getRozwiazanieumowy();
             Umowa umowa = swiadectwo.getRozwiazanieumowy().getUmowa();
@@ -125,10 +126,16 @@ public class PdfSwiadectwo {
                 text1 = mezczyzna?"wykorzystał":"wykorzystała";
                 String urlop1 = "1) "+text1+" urlop wypoczynkowy w wymiarze: ";
                 int dniwykorzystane = 0;
-                for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKodzbiorczy().equals("U")) {
-                        dniwykorzystane = (int) (dniwykorzystane+s.getDni());
-                        czydodano = true;
+                //usuniete bo teraz bierze urlop tylko z tego roku przemycany w zmiennej urlopprezentacja
+//                for (Swiadectwodni s : dnidoswiadectwa) {
+//                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKodzbiorczy().equals("U")) {
+//                        dniwykorzystane = (int) (dniwykorzystane+s.getDni());
+//                        czydodano = true;
+//                    }
+//                }
+                if (urlopprezentacja!=null) {
+                    if (urlopprezentacja.getDoswiadectwadni()>0) {
+                        dniwykorzystane = urlopprezentacja.getDoswiadectwadni();
                     }
                 }
                 int dniekwiwalentu = 0;

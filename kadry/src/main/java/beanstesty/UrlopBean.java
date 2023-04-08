@@ -35,21 +35,27 @@ public class UrlopBean {
             EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,dataDlaEtatu);
             if (pobierzetat!=null) {
                 List<Kalendarzmiesiac> kalendarze = angaz.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)).collect(Collectors.toList());
-                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
-                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
-                List<Umowa> umowy = angaz.getUmowaList();
+                //wstawilem to tu bo dzieki temu zmodyfikuje dni w kalendarzach i oznacze je jako wykorzystanie urlopu z okresu poprzedniego
                 if (angaz.getRok().equals(rok)) {
                     urlopprezentacja.setBilansotwarciagodziny(angaz.getBourlopgodziny());
                     urlopprezentacja.setBilansotwarciadni(angaz.getBourlopdni());
                 } else if (angaz.getSerialsp()!=null&&rok.equals("2023")) {
                     urlopprezentacja.setBilansotwarciagodziny(angaz.getBourlopgodziny());
                     urlopprezentacja.setBilansotwarciadni(angaz.getBourlopdni());
-                }
+                }//w metodzie nanies dni z kodem uzulepniana jest zmienna urlopprezentacja.Wykorzystanierokbiezacy
+                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
+                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
+                List<Umowa> umowy = angaz.getUmowaList();
+                
                 urlopprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien));
                 int doprzeniesienia = urlopprezentacja.getBilansotwarciagodziny()+urlopprezentacja.getWymiarokresbiezacygodziny()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
                 urlopprezentacja.setDoprzeniesienia(doprzeniesienia);
                 int doprzeniesieniadni = (doprzeniesienia/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setDoprzeniesieniadni(doprzeniesieniadni);
+                int doswiadectwagodziny = (urlopprezentacja.getWykorzystanierokbiezacy()+urlopprezentacja.getWykorzystanierokbiezacyekwiwalent())-urlopprezentacja.getBilansotwarciagodziny();
+                urlopprezentacja.setDoswiadectwagodziny(doswiadectwagodziny);
+                int doswiadectwadni = (doswiadectwagodziny/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
+                urlopprezentacja.setDoswiadectwadni(doswiadectwadni);
             }
             //Msg.msg("Pobrano dane urlopowe");
         }
