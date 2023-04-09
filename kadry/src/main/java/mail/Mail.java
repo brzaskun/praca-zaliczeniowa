@@ -8,11 +8,14 @@ package mail;
  *
  * @author Osito
  */
+import entity.Angaz;
 import entity.FirmaKadry;
 import entity.Pracownik;
 import entity.SMTPSettings;
+import entity.Umowa;
 import error.E;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import javax.activation.DataHandler;
 import javax.inject.Named;
 import javax.mail.Message;
@@ -404,6 +407,68 @@ public class Mail {
                 // Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
+    }
+    
+    public static void mailPrzypomnienieoUmowie(String adres, SMTPSettings settings,SMTPSettings ogolne, String adresBCC, Umowa umowa) {
+        try {
+             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(ogolne, ogolne));
+             message.setSubject("Przypomnienie o wygasających umowach o pracę","UTF-8");
+             message.setFrom(new InternetAddress(SMTPBean.adresFrom(ogolne, ogolne), SMTPBean.nazwaFirmyFrom(ogolne, ogolne)));
+             message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse(adresBCC));
+             // create and fill the first message part
+             MimeBodyPart mbp1 = new MimeBodyPart();
+             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+             mbp1.setContent("Zbliża się termin zakończenia umowy z pracownikiem"
+                     + "<p>"+umowa.getImieNazwisko()+ "</p>"
+                     + "Umowa zawarta do dnia "+umowa.getDatado()+"</p>"
+                     + "<p style=\"color: green;\">Proszę skontaktować się z naszym działem kadr celem jej ewentualnego przedłużenia</p>"
+                     + "<p>Z poważaniem</p>"
+                     + "<br/>"
+                     + "<p>Biuro Rachunkowe Taxman</p>", "text/html; charset=utf-8");
+             // create the Multipart and add its parts to it
+             Multipart mp = new MimeMultipart();
+             mp.addBodyPart(mbp1);
+             // add the Multipart to the message
+             message.setContent(mp);
+             Transport.send(message);
+             
+         } catch (Exception e) {
+             throw new RuntimeException(e);
+        }
+    }
+    
+    public static void mailPrzypomnienieoA1(String adres, SMTPSettings settings,SMTPSettings ogolne, String adresBCC, Angaz angaz) {
+        try {
+             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(ogolne, ogolne));
+             message.setSubject("Przypomnienie o wygasających umowach o pracę","UTF-8");
+             message.setFrom(new InternetAddress(SMTPBean.adresFrom(ogolne, ogolne), SMTPBean.nazwaFirmyFrom(ogolne, ogolne)));
+             message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse(adresBCC));
+             // create and fill the first message part
+             MimeBodyPart mbp1 = new MimeBodyPart();
+             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+             mbp1.setContent("Zbliża się termin zakończenia ważności zaświadczenia A1 dla pracownika"
+                     + "<p>"+angaz.getNazwiskoiImie()+ "</p>"
+                     + "A1 ważne do dnia "+angaz.getDataa1()+"</p>"
+                     + "<p style=\"color: green;\">Proszę skontaktować się z naszym działem kadr celem jej ewentualnego przedłużenia</p>"
+                     + "<p>Z poważaniem</p>"
+                     + "<br/>"
+                     + "<p>Biuro Rachunkowe Taxman</p>", "text/html; charset=utf-8");
+             // create the Multipart and add its parts to it
+             Multipart mp = new MimeMultipart();
+             mp.addBodyPart(mbp1);
+             // add the Multipart to the message
+             message.setContent(mp);
+             Transport.send(message);
+             
+         } catch (Exception e) {
+             throw new RuntimeException(e);
+        }
     }
     
 }

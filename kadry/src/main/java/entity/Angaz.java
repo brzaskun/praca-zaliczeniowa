@@ -143,6 +143,8 @@ public class Angaz implements Serializable {
     private String  databezrobotnyskierowanie;
     @Column(name = "dataa1")
     private String  dataa1;
+    @Column(name = "dataa1mail")
+    private String  dataa1mail;
     
      
 
@@ -347,6 +349,14 @@ public class Angaz implements Serializable {
 
     public void setDatabezrobotnyskierowanie(String databezrobotnyskierowanie) {
         this.databezrobotnyskierowanie = databezrobotnyskierowanie;
+    }
+
+    public String getDataa1mail() {
+        return dataa1mail;
+    }
+
+    public void setDataa1mail(String dataa1mail) {
+        this.dataa1mail = dataa1mail;
     }
     
     
