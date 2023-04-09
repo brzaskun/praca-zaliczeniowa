@@ -71,7 +71,10 @@ public class DraView  implements Serializable {
     private double zus53;
     private double zus;
     private double pit4;
-    private double potracenia;
+    private double potraceniaKomornik;
+    private double potraceniaZaliczki;
+    private double potraceniaPPK;
+    private double potraceniaPozostale;
     private String mcdra;
     private List<Nieobecnosc> listanieobecnosci;
     //nie dupad
@@ -146,7 +149,10 @@ public class DraView  implements Serializable {
             danezus.put("pit4", pit4);
             danezus.put("brutto", brutto);
             danezus.put("netto", netto);
-            danezus.put("potracenia", potracenia);
+            danezus.put("potraceniaKomornik", potraceniaKomornik);
+            danezus.put("potraceniaPPK", potraceniaPPK);
+            danezus.put("potraceniaZaliczki", potraceniaZaliczki);
+            danezus.put("potraceniaPozostale", potraceniaPozostale);
             ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa());
             mailListaDRA(dra.toByteArray());
             Msg.msg("Wydrukowano listę płac");
@@ -181,7 +187,10 @@ public class DraView  implements Serializable {
             danezus.put("pit4", pit4);
             danezus.put("brutto", brutto);
             danezus.put("netto", netto);
-            danezus.put("potracenia", potracenia);
+            danezus.put("potraceniaKomornik", potraceniaKomornik);
+            danezus.put("potraceniaPPK", potraceniaPPK);
+            danezus.put("potraceniaZaliczki", potraceniaZaliczki);
+            danezus.put("potraceniaPozostale", potraceniaPozostale);
             ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa());
              byte[] dra = drastream.toByteArray();
             if (dra != null && dra.length > 0) {
@@ -211,7 +220,10 @@ public class DraView  implements Serializable {
             zus53 = 0.0;
             pit4 = 0.0;
             zus = 0.0;
-            potracenia = 0.0;
+            potraceniaKomornik = 0.0;
+            potraceniaPPK = 0.0;
+            potraceniaZaliczki = 0.0;
+            potraceniaPozostale = 0.0;
             paskiwynagrodzen = new ArrayList<>();
             for (Definicjalistaplac d : listywybrane) {
                 List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByDef(d);
@@ -231,7 +243,10 @@ public class DraView  implements Serializable {
                 pit4 = Z.z(pit4+p.getPodatekdochodowy());
                 brutto = Z.z(brutto+p.getBrutto());
                 netto = Z.z(netto+p.getNetto());
-                potracenia = Z.z(potracenia+p.getPotracenia());
+                potraceniaKomornik = Z.z(potraceniaKomornik+p.getPotraceniaKomornik());
+                potraceniaZaliczki = Z.z(potraceniaKomornik+p.getPotraceniaZaliczki());
+                potraceniaPPK = Z.z(potraceniaKomornik+p.getPotraceniaPPK());
+                potraceniaPozostale = Z.z(p.getPotracenia()-potraceniaKomornik-potraceniaZaliczki-potraceniaPPK);
             }
             paskiwynagrodzen.add(PasekwynagrodzenBean.sumujpaski(paskiwynagrodzen));
             zus = Z.z(zus+zus51+zus52+zus53);
