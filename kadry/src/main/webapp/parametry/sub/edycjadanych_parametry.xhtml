@@ -248,7 +248,7 @@
                                  selectionMode="single" selection="#{slownikpotraceniaView.selectedlista}"
                                  rowKey="#{item12.id}" 
                                  scrollable="true" scrollHeight="700" scrollRows="30" 
-                                 style="width: 830px;"
+                                 style="width: 880px;"
                                  >
 
                         <p:column width="40" style="text-align: center;">
@@ -280,6 +280,18 @@
                                 <h:outputText value="potrąc. komor."/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item12.potraceniekomornicze}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="40">
+                            <f:facet name="header">
+                                <h:outputText value="potrąc. PPK"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item12.potracenieppk}"/>
+                        </p:column>
+                          <p:column style="text-align: center;" width="40">
+                            <f:facet name="header">
+                                <h:outputText value="potrąc. zal."/>
+                            </f:facet>
+                              <p:selectBooleanCheckbox value="#{item12.potraceniezaliczka}"/>
                         </p:column>
                     </p:dataTable>
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{slownikpotraceniaView.zachowaj}" update="@form"/>

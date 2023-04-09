@@ -154,9 +154,9 @@ public class PdfDRA {
             if (rs.getSwiadczeniekodzus()!=null) {
                 table.addCell(ustawfrazeAlign(rs.getSwiadczeniekodzus().getOpis(), "left",7,18f));
             } else {
-                table.addCell(ustawfrazeAlign(rs.getOpis(), "left",7,18f));
+                table.addCell(ustawfrazeAlign(rs.getRodzajnieobecnosci().getOpis(), "left",7,18f));
             }
-            table.addCell(ustawfrazeAlign(rs.getKod(), "center",7,18f));
+            table.addCell(ustawfrazeAlign(rs.getRodzajnieobecnosci().getKod(), "center",7,18f));
             if (rs.getSwiadczeniekodzus()!=null) {
                 table.addCell(ustawfrazeAlign(rs.getSwiadczeniekodzus().getKod(), "center",7,18f));
             } else {
@@ -177,7 +177,8 @@ public class PdfDRA {
 //            danezus.put("zus", zus);
 //            danezus.put("pit4", pit4);
      
-    public static ByteArrayOutputStream drukujListaPodstawowa(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> def, List<Nieobecnosc> listanieobecnosci, String nip, String mc, Map<String,Double> danezus, String nazwafirmy) {
+    public static ByteArrayOutputStream drukujListaPodstawowa(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> def, List<Nieobecnosc> listanieobecnosci, 
+            String nip, String mc, Map<String,Double> danezus, String nazwafirmy) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = nip + "_" + mc + "_" + "DRA.pdf";
@@ -213,7 +214,10 @@ public class PdfDRA {
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "wynagrodzenia netto", f.F.curr(danezus.get("netto")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "ZUS do wpłaty: ", f.F.curr(danezus.get("zus")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "PIT-4 do wpłaty: ", f.F.curr(danezus.get("pit4")), Element.ALIGN_LEFT, 1, 100);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia z listy płac: ", f.F.curr(danezus.get("potracenia")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia komornicze: ", f.F.curr(danezus.get("potraceniaKomornik")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia PPK: ", f.F.curr(danezus.get("potraceniaPPK")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia zaliczki: ", f.F.curr(danezus.get("potraceniaZaliczki")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia pozostałe: ", f.F.curr(danezus.get("potraceniaPozostale")), Element.ALIGN_LEFT, 1, 100);
                 //lista do RSA
                 document.add(Chunk.NEWLINE);
                 document.add(Chunk.NEWLINE);

@@ -68,6 +68,11 @@ public class Rodzajpotracenia implements Serializable {
     private int numer;
     @Column(name ="potraceniekomornicze")
     private boolean potraceniekomornicze;
+    @Column(name ="potracenieppk")
+    private boolean potracenieppk;
+    @Column(name ="potraceniezaliczka")
+    private boolean potraceniezaliczka;
+    
     
     public Rodzajpotracenia() {
     }
@@ -156,6 +161,22 @@ public class Rodzajpotracenia implements Serializable {
 
     public void setPotraceniekomornicze(boolean potraceniekomornicze) {
         this.potraceniekomornicze = potraceniekomornicze;
+    }
+
+    public boolean isPotracenieppk() {
+        return potracenieppk;
+    }
+
+    public void setPotracenieppk(boolean potracenieppk) {
+        this.potracenieppk = potracenieppk;
+    }
+
+    public boolean isPotraceniezaliczka() {
+        return potraceniezaliczka;
+    }
+
+    public void setPotraceniezaliczka(boolean potraceniezaliczka) {
+        this.potraceniezaliczka = potraceniezaliczka;
     }
     
     
