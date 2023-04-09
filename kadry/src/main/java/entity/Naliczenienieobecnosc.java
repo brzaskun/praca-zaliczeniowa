@@ -215,6 +215,13 @@ public class Naliczenienieobecnosc implements Serializable {
         this.procentoddelegowanie = procentoddelegowanie;
     }
     
+    public String getNazwiskoiImie() {
+        return this.pasekwynagrodzen.getNazwiskoImie();
+    }
+    
+    public String getKod() {
+        return this.nieobecnosc.getRodzajnieobecnosci().getKod();
+    }
 
     @Override
     public int hashCode() {

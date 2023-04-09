@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <h:form styleClass="formcentrum">
+        
+        <p:panel style="margin-top: 20px;" header="SOKA-BAU informacje miesięczne" id="pnlPrint1"> 
+
+            <p:commandButton value="Drukuj" type="button" icon="pi pi-print" styleClass="shadow-1 mb-3">
+                <p:printer target="pnlPrint1"/>
+            </p:commandButton>
+            <p:panelGrid columns="4">
+                <h:outputText value="firma" style="color: green;"/>
+                <h:outputText value="#{wpisView.firma.nazwa}" style="color: green;"/>
+                <h:outputText value="okres: #{wpisView.rokWpisu}/#{wpisView.miesiacWpisu}"/>
+            </p:panelGrid>
+             <p:panelGrid columns="1" style="margin-top: 20px">
+                 <p:dataTable id="datalist" value="#{sokaView.lista}" var="items"
+                                 rowIndexVar="index"
+                                 rowKey="#{items.id}" sortBy="#{items.nazwiskoiImie}"
+                                 style="height: 800px; overflow-y: scroll; width: 1000px;"
+                                 emptyMessage="nie pobrano danych"
+                                 >
+                        <p:column width="10">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column width="150" style="text-align: left;">
+                            <h:outputText value="#{items.nazwiskoiImie}"/>
+                        </p:column>
+                        <p:column width="40" headerText="symbol" style="text-align: center;">
+                            <h:outputText value="#{items.kod}"/>
+                        </p:column>
+                        <p:column width="40" headerText="data od" style="text-align: center;">
+                            <h:outputText value="#{items.dataod}"/>
+                        </p:column>
+                        <p:column width="40" headerText="data do" style="text-align: center;">
+                            <h:outputText value="#{items.datado}"/>
+                        </p:column>
+                        <p:column width="40" headerText="liczba dni" style="text-align: center;">
+                            <h:outputText value="#{items.liczbadniurlopu}"/>
+                        </p:column>
+                      <p:column width="40" headerText="liczba godzin" style="text-align: center;">
+                            <h:outputText value="#{items.liczbagodzinurlopu}"/>
+                        </p:column>
+                        <p:column width="40" headerText="stawka" style="text-align: right;">
+                            <bcf:outputwal value="#{items.stawkagodzinowa}"/>
+                        </p:column>
+                        <p:column width="40" headerText="waluta" style="text-align: center;">
+                            <h:outputText value="#{items.waluta}"/>
+                        </p:column>
+                      <p:column width="40" headerText="kwota" style="text-align: right;">
+                            <bcf:outputwal value="#{items.kwotawaluta}"/>
+                        </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+            
+            
+        </p:panel>
+    </h:form><!-- comment -->
+
+</ui:composition>   
+

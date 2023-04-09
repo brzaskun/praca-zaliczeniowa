@@ -7,6 +7,7 @@ package dao;
 
 import entity.Angaz;
 import entity.Definicjalistaplac;
+import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
 import java.io.Serializable;
@@ -99,6 +100,16 @@ public class PasekwynagrodzenFacade extends DAO   implements Serializable {
         List<Pasekwynagrodzen> zwrot = new ArrayList<>();
         try {
             return getEntityManager().createNamedQuery("Pasekwynagrodzen.findByRokMcAngaz").setParameter("rok", rok).setParameter("mc", mc).setParameter("angaz", p).getResultList();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+    }
+    
+     public List<Pasekwynagrodzen> findByRokMcFirma(String rok, String mc, FirmaKadry firma) {
+        List<Pasekwynagrodzen> zwrot = new ArrayList<>();
+        try {
+            zwrot =  getEntityManager().createNamedQuery("Pasekwynagrodzen.findByRokMcFirma").setParameter("rok", rok).setParameter("mc", mc).setParameter("firma", firma).getResultList();
         } catch (Exception e) {
             
         }
