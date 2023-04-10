@@ -61,6 +61,8 @@ public class DraView  implements Serializable {
      @Inject
     private WpisView wpisView;
     private double brutto;
+    private double bruttopraca;
+    private double bruttozlecenia;
     private double netto;
     private double zus51;
     private double zus51pracownik;
@@ -148,6 +150,8 @@ public class DraView  implements Serializable {
             danezus.put("zus", zus);
             danezus.put("pit4", pit4);
             danezus.put("brutto", brutto);
+            danezus.put("bruttopraca", bruttopraca);
+            danezus.put("bruttozlecenia", bruttozlecenia);
             danezus.put("netto", netto);
             danezus.put("potraceniaKomornik", potraceniaKomornik);
             danezus.put("potraceniaPPK", potraceniaPPK);
@@ -186,6 +190,8 @@ public class DraView  implements Serializable {
             danezus.put("zus", zus);
             danezus.put("pit4", pit4);
             danezus.put("brutto", brutto);
+            danezus.put("bruttopraca", bruttopraca);
+            danezus.put("bruttozlecenia", bruttozlecenia);
             danezus.put("netto", netto);
             danezus.put("potraceniaKomornik", potraceniaKomornik);
             danezus.put("potraceniaPPK", potraceniaPPK);
@@ -210,6 +216,8 @@ public class DraView  implements Serializable {
     public void pobierzpaski() {
         if (listywybrane!=null) {
             brutto=0.0;
+            bruttopraca=0.0;
+            bruttozlecenia=0.0;
             netto=0.0;
             zus51 = 0.0;
             zus51pracodawca = 0.0;
@@ -242,6 +250,11 @@ public class DraView  implements Serializable {
                 zus53 = Z.z(zus53+p.getRazem53());
                 pit4 = Z.z(pit4+p.getPodatekdochodowy());
                 brutto = Z.z(brutto+p.getBrutto());
+                if (p.getDefinicjalistaplac().getRodzajlistyplac().getTyp()==1) {
+                    bruttopraca = Z.z(bruttopraca+p.getBrutto());
+                } else {
+                    bruttozlecenia = Z.z(bruttozlecenia+p.getBrutto());
+                }
                 netto = Z.z(netto+p.getNetto());
                 potraceniaKomornik = Z.z(potraceniaKomornik+p.getPotraceniaKomornik());
                 potraceniaZaliczki = Z.z(potraceniaKomornik+p.getPotraceniaZaliczki());
