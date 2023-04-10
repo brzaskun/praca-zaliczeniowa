@@ -153,15 +153,15 @@
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
                                  rowKey="#{item11.id}" emptyMessage="Nie znaleziono takiego składnika"
                                  scrollable="true" scrollHeight="700" scrollRows="30" 
-                                 style="width: 1700px;" >
+                                 style="width: 1550px;" >
 
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="30" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
                             </f:facet>
                             <h:outputText value="#{item11.id}"/>
                         </p:column>
-                        <p:column width="50" style="text-align: center;" sortBy="#{item11.kod}"  sortOrder="asc">
+                        <p:column width="30" style="text-align: center;" sortBy="#{item11.kod}"  sortOrder="asc">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>

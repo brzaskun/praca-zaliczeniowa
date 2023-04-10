@@ -211,6 +211,8 @@ public class PdfDRA {
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "zus 53 razem:", f.F.curr(danezus.get("zus53")), Element.ALIGN_LEFT, 1, 100);
                 document.add(Chunk.NEWLINE);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "wynagrodzenia brutto:", f.F.curr(danezus.get("brutto")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "w tym brutto praca:", f.F.curr(danezus.get("bruttopraca")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "w tym brutto inne:", f.F.curr(danezus.get("bruttozlecenia")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "wynagrodzenia netto", f.F.curr(danezus.get("netto")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "ZUS do wpłaty: ", f.F.curr(danezus.get("zus")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "PIT-4 do wpłaty: ", f.F.curr(danezus.get("pit4")), Element.ALIGN_LEFT, 1, 100);
