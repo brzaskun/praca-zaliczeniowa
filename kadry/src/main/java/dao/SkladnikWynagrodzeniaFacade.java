@@ -56,7 +56,11 @@ public class SkladnikWynagrodzeniaFacade extends DAO  implements Serializable {
     
     public List<Skladnikwynagrodzenia> findByAngaz(Angaz angaz) {
         List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
-        zwrot = getEntityManager().createNamedQuery("Skladnikwynagrodzenia.findByAngaz").setParameter("angaz", angaz).getResultList();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Skladnikwynagrodzenia.findByAngaz").setParameter("angaz", angaz).getResultList();
+        } catch (Exception ed) {
+            
+        }
         return zwrot;
     }
 //    public List<Skladnikwynagrodzenia> findByFirma(FirmaKadry firma) {

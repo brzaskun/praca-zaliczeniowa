@@ -18,24 +18,19 @@
                     <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
                     <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
                     <p:column width="20" selectionMode="single" selectRow="true" style="text-align: center;"/>
-                    <!--                         <p:column>
-                                                <f:facet name="header">
-                                                    <h:outputText value="angaz"/>
-                                                </f:facet>
-                                                 <h:outputText value="#{itemumowa.angaz.pracownik.nazwiskoImie}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
-                                            </p:column>-->            <p:column width="90">
+                    <p:column width="90">
                         <f:facet name="header">
                             <h:outputText value="umowa"/>
                         </f:facet>
                         <h:outputText value="#{itemumowa.slownikszkolazatrhistoria.opis}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
-                    <p:column width="200">
+<!--                    <p:column width="200">
                         <f:facet name="header">
                             <h:outputText value="rodzaj umowy ZUS"/>
                         </f:facet>
                         <h:outputText value="#{itemumowa.umowakodzus.opiswybor}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
-                    </p:column>
-                    <p:column style="text-align: center;">
+                    </p:column>-->
+<p:column style="text-align: center;" width="120">
                         <f:facet name="header">
                             <h:outputText value="numer"/>
                         </f:facet>

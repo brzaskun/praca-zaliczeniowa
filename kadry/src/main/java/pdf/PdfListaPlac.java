@@ -63,6 +63,7 @@ public class PdfListaPlac {
                 otwarcieDokumentu(document, nazwa);
                 List<String> nazwy = new ArrayList<>();
                 nazwy.add(p.getDefinicjalistaplac().getNrkolejny());
+                PdfMain.dodajLinieOpisuBezOdstepu(document, a.getFirma().getNazwa(), Element.ALIGN_CENTER, 3);
                 PdfMain.dodajOpisWstepny(document, "Lista płac", p.getRok(), p.getMc(), p.getDefinicjalistaplac().getFirma().getNip(), nazwy, p.getDatawyplaty());
                 String[] opisy = {"Razem przychód","Podst. wymiaru składek ubezp. społecznych","Ubezp. Emerytalne","Ubezp. rentowe","Ubezp. chorobowe","Razem składki na ub. Społ.","Podst. wymiaru składek ubezp. zdrowotnego",
                     "Koszty uzyskania przychodu","Podstawa opodatkowania","Potrącona zaliczka na podatek dochodowy","Potrącona","Odliczona od podatku","Należna zaliczka na podatek dochodowy","Do wypłaty"};
@@ -137,12 +138,12 @@ public class PdfListaPlac {
         try {
             table.setWidthPercentage(100);
             table.setWidths(new int[]{1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3});
-            table.addCell(ustawfrazeSpanFont(pracownik, 4, 0, 6));
-            table.addCell(ustawfrazeSpanFont(pesel, 2, 0, 6));
-            table.addCell(ustawfrazeSpanFont("firma: " + firma, 6, 0, 6));
-            table.addCell(ustawfrazeSpanFont("nr listy: " + nrkol, 3, 0, 6));
-            table.addCell(ustawfrazeSpanFont("data wypłaty: " + datawyplaty, 2, 0, 6));
-            table.addCell(ustawfrazeSpanFont("za okres: " + rok + "/" + mc, 2, 0, 6));
+            table.addCell(ustawfrazeSpanFont(pracownik, 4, 0, 7));
+            table.addCell(ustawfrazeSpanFont(pesel, 2, 0, 7));
+            table.addCell(ustawfrazeSpanFont("firma: " + firma, 6, 0, 7));
+            table.addCell(ustawfrazeSpanFont("nr listy: " + nrkol, 3, 0, 7));
+            table.addCell(ustawfrazeSpanFont("data wypłaty: " + datawyplaty, 2, 0, 7));
+            table.addCell(ustawfrazeSpanFont("za okres: " + rok + "/" + mc, 2, 0, 7));
             table.addCell(ustawfrazeSpanFont("lp", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Składniki wynagrodzenia", 2, 0, 6));
             table.addCell(ustawfrazeSpanFont("Razem przychód", 0, 2, 6));
@@ -686,7 +687,7 @@ public class PdfListaPlac {
                     break;
                 }
                 if (grupyfirma==null||grupyfirma.isEmpty()) {
-                    sublista(document, nazwa, def, lista, nazwy, datawyplaty, rodzajnieobecnosciFacade);
+                    sublista(document, "", def, lista, nazwy, datawyplaty, rodzajnieobecnosciFacade);
                 } else {
                     Set<String> nazwygrup = new HashSet<>(grupyfirma.stream().map(Grupakadry::getNazwa).collect(Collectors.toList()));
                     int licznik = 0;
@@ -769,6 +770,7 @@ public class PdfListaPlac {
     
     private static void sublista(Document document, String nazwagrupy, Definicjalistaplac def, List<Pasekwynagrodzen> lista, List<String> nazwy, String datawyplaty, RodzajnieobecnosciFacade rodzajnieobecnosciFacade) {
         try {
+            PdfMain.dodajLinieOpisuBezOdstepu(document, def.getFirma().getNazwa(), Element.ALIGN_CENTER, 3);
             PdfMain.dodajOpisWstepny(document, "Lista płac - " + nazwagrupy, def.getRok(), def.getMc(), def.getFirma().getNip(), nazwy, datawyplaty);
             String[] opisy = {"Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. Społ.", "Podst. wymiaru składek ubezp. zdrowotnego",
                 "Koszty uzyskania przychodu", "Podstawa opodatkowania", "Potrącona zaliczka na podatek dochodowy", "Potrącona", "Odliczona od podatku", "Należna zaliczka na podatek dochodowy", "Do wypłaty"};

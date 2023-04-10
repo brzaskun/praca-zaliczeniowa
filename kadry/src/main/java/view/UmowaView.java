@@ -884,6 +884,17 @@ public class UmowaView implements Serializable {
          }
     }
     
+     public void dodajakapitoddelegowanie() {
+         if (selected.getSymbolwalutyoddelegowanie()!=null) {
+             selected.setInnewarunkizatrudnienia(
+                 "Strony postanawiają, że pracodawca zleci w czasie trwania umowy o pracę pracownikowi czasowe wykonywanie pracy na terenie Niemiec. "
+                         + "W czasie oddelegowania do Niemiec pracownikowi przysługuje wynagrodzenie w przeliczeniu na stawkę godzinową w wysokości 12,85 EUR brutto."
+                         + " W związku z podpisaniem przez pracodawcę kontraktu miejscem pracy pracownika w Niemczech będzie niemiecki powiat *********** w landzie ************."    
+             );
+         }
+     }
+     
+     
     public Umowa getSelected() {
         return selected;
     }

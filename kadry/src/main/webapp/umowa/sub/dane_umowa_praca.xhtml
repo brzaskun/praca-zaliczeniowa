@@ -29,12 +29,12 @@
                         </f:facet>
                         <h:outputText value="#{itemumowa.czastrwania}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
-                    <p:column width="350">
+<!--                    <p:column width="350">
                         <f:facet name="header">
                             <h:outputText value="rodzaj umowy ZUS"/>
                         </f:facet>
                         <h:outputText value="#{itemumowa.umowakodzus.opiswybor}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
-                    </p:column>
+                    </p:column>-->
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="numer"/>
@@ -52,6 +52,12 @@
                             <h:outputText value="stanow."/>
                         </f:facet>
                         <h:outputText value="#{itemumowa.stanowisko}"/>
+                    </p:column>
+                    <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
+                        <f:facet name="header">
+                            <h:outputText value="etat"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.etat}"/>
                     </p:column>
                     <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" sortOrder="desc" sortBy="#{itemumowa.dataod}">
                         <f:facet name="header">

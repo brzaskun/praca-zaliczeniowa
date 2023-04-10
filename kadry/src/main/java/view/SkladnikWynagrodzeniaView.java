@@ -11,6 +11,7 @@ import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -41,7 +42,7 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     @PostConstruct
     public void init() {
         if (wpisView.getAngaz()!=null) {
-            lista  = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz());
+            lista  = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz()).stream().filter(p->p.getRodzajwynagrodzenia().isTylkosuperplace()==false).collect(Collectors.toList());
         }
         selected.setAngaz(wpisView.getAngaz());
         listarodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findAktywne();

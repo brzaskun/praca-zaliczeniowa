@@ -23,7 +23,7 @@
                         <p:separator/>
                         <p:separator/>
                         <p:outputLabel value="data zawarcia" for="datazawarcia1" />
-                        <p:inputText id="datazawarcia1" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" styleClass="dataUmowy dataklasa" maxlength="10">
+                        <p:inputText id="datazawarcia1" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" requiredMessage="Wpisz poprawną datę" styleClass="dataUmowy dataklasa" maxlength="10">
                             <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});"  listener="#{umowaView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy) @this"/>
                         </p:inputText>
                         <p:outputLabel value="rodzaj umowy" for="rodzajumowy1" />
@@ -52,11 +52,11 @@
                     </p:panelGrid>
                     <p:panelGrid columns="2">
                         <p:outputLabel value="data od" for="dataod1" />
-                        <p:inputText id="dataod1" value="#{umowaView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy dataklasa" maxlength="10">
+                        <p:inputText id="dataod1" value="#{umowaView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true" requiredMessage="Wpisz poprawną datę" styleClass="dataUmowy dataklasa" maxlength="10">
                             <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
                         </p:inputText>
                         <p:outputLabel value="data do" for="datado1" />
-                        <p:inputText id="datado1" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10" styleClass="dataklasa">
+                        <p:inputText id="datado1" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10" requiredMessage="Wpisz poprawną datę" styleClass="dataklasa">
                             <p:ajax event="change" listener="#{umowaView.sprawdzczyumowajestnaczas}"  onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false"  />
                         </p:inputText>
                         <p:outputLabel value="termin rozpoczecia pracy" for="datarozp1" />
@@ -101,6 +101,7 @@
                                 <f:selectItem itemLabel="EUR" itemValue="EUR"/>
                                 <f:selectItem itemLabel="GBP" itemValue="GBP"/>
                                 <f:selectItem itemLabel="USD" itemValue="USD"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{umowaView.dodajakapitoddelegowanie}" update="akordeon:UmowaCreateForm:dodatkowepraca"/>
                             </p:selectOneMenu>
                         <!--                        <p:outputLabel value="data wprowadzenia do systemu" for="datasystem1" />
                                                 <p:inputText id="datasystem1" value="#{umowaView.selected.datasystem}" title="data wprowadzenia do systemu"  placeholder="____-__-__"  styleClass="dataUmowy"/>-->
