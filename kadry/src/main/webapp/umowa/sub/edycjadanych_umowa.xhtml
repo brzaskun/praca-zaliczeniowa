@@ -87,6 +87,8 @@
                     <p:panelGrid columns="2">
                         <h:outputText value="W przypadku przedłużenia umowy bez zmiany składników" style="color: green;"/>
                         <h:outputText value=" nie wypełniac kwot wynagrodzenia" style="color: green;"/>
+                        <p:outputLabel value="klauzula o minimalnym wynagrodzeniu"/>
+                        <p:selectBooleanCheckbox value="#{umowaView.selected.klauzulaminimalnewyn}"/>
                         <p:outputLabel value="wynagrodzenie miesięczne" />
                         <bcf:innum value="#{umowaView.selected.wynagrodzeniemiesieczne}"/>
                         <p:outputLabel value="wynagrodzenie godzinowe" />

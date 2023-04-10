@@ -212,6 +212,8 @@ public class Umowa implements Serializable {
      @JoinColumn(name = "grupakadry", referencedColumnName = "id")
     @OneToOne
     private Grupakadry grupakadry;
+    @Column(name="klauzulaminimalnewyn")
+    private boolean klauzulaminimalnewyn;
     @Transient
     private Zmiennawynagrodzenia zmiennawynagrodzenia;
     @Transient
@@ -251,6 +253,7 @@ public class Umowa implements Serializable {
         this.etat2 = stara.etat2;
         this.umowakodzus = stara.umowakodzus;
         this.slownikszkolazatrhistoria = stara.slownikszkolazatrhistoria;
+        this.klauzulaminimalnewyn = stara.klauzulaminimalnewyn;
         
    }
     //sluzy do kopiowania umowy przy wystawiamniu umowy dla kilkupracownikow
@@ -278,7 +281,7 @@ public class Umowa implements Serializable {
         this.wynagrodzeniemiesieczne = stara.wynagrodzeniemiesieczne;
         this.wynagrodzeniegodzinowe = stara.wynagrodzeniegodzinowe;
         this.wynagrodzenieoddelegowanie = stara.wynagrodzenieoddelegowanie;
-        
+        this.klauzulaminimalnewyn = stara.klauzulaminimalnewyn;
    }
     
     
@@ -424,6 +427,14 @@ public class Umowa implements Serializable {
 
     public void setWynagrodzenieoddelegowanie(double wynagrodzenieoddelegowanie) {
         this.wynagrodzenieoddelegowanie = wynagrodzenieoddelegowanie;
+    }
+
+    public boolean isKlauzulaminimalnewyn() {
+        return klauzulaminimalnewyn;
+    }
+
+    public void setKlauzulaminimalnewyn(boolean klauzulaminimalnewyn) {
+        this.klauzulaminimalnewyn = klauzulaminimalnewyn;
     }
     
     

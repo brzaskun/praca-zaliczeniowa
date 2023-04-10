@@ -120,7 +120,12 @@ public class PdfUmowaoPrace {
             PdfMain.dodajElementListy(document, "2) Miejsce wykonywania pracy: ", umowa.getMiejscepracy(), fontM);
             PdfMain.dodajElementListy(document, "3) Wymiar czasu pracy: ", umowa.getEtat(), fontM);
             double wynagrodzeniemc = umowa.getWynagrodzeniemiesieczne();
-            if (wynagrodzeniemc!=0.0) {
+            if (umowa.isKlauzulaminimalnewyn()) {
+                String klauzula = "strony umowy uzgadniają, iż wynagrodzenie pracownika będzie równe wynagrodzeniu minimalnemu, "
+                        + "określanemu corocznie na podstawie ustawy z dnia 10 października 2002 r. "
+                        + "o minimalnym wynagrodzeniu za pracę (Dz. U. Nr 200, poz. 1679 z późn. zm.).";
+                 PdfMain.dodajElementListy(document, "4) Wynagrodzenie zasadnicze: ", klauzula, fontM);
+            } else if (wynagrodzeniemc!=0.0) {
                 PdfMain.dodajElementListy(document, "4) Wynagrodzenie zasadnicze: ", umowa.pobierzwynagrodzenieString(wynagrodzeniemc), fontM);
             }
             double wynagrodzeniegodzinowe = umowa.getWynagrodzeniegodzinowe();
