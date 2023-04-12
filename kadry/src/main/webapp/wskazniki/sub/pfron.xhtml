@@ -9,10 +9,10 @@
     >
     <h:form styleClass="formcentrum">
         
-        <p:panel style="margin-top: 20px;" header="PFRON stan zatrudnienia" id="pnlPrint"> 
+        <p:panel style="margin-top: 20px; height: 800px; overflow-y: scroll;" header="PFRON stan zatrudnienia" > 
 
             <p:commandButton value="Drukuj" type="button" icon="pi pi-print" styleClass="shadow-1 mb-3">
-                <p:printer target="pnlPrint"/>
+                <p:printer target="datalistss"/>
             </p:commandButton>
             <p:panelGrid columns="4">
                 <h:outputText value="firma" style="color: green;"/>
@@ -28,10 +28,10 @@
                 <h:outputText value="#{wskaznikPfronView.sredniamiesieczna}" style="color: green;"/>
             </p:panelGrid>
             <p:panelGrid columns="1" style="margin-top: 20px">
-                <p:dataTable id="datalist" value="#{wskaznikPfronView.lista}" var="item"
+                <p:dataTable id="datalistss" value="#{wskaznikPfronView.lista}" var="item"
                                  rowIndexVar="index"
                                  rowKey="#{item.dzien}" sortBy="#{item.dzien}"
-                                 style="height: 800px; overflow-y: scroll; width: 650px;"
+                                 style=" width: 650px;"
                                  emptyMessage="nie pobrano danych"
                                  >
                         <p:column width="10">

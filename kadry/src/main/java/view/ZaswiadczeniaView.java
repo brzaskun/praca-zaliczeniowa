@@ -99,11 +99,11 @@ public class ZaswiadczeniaView  implements Serializable {
             Collections.sort(umowy, new Umowacomparator());
             Umowa pierwsza = umowy.get(umowy.size()-1);
             Umowa ostatnia = umowy.get(0);
-            if (pracownik.getDatazatrudnienia()==null||pracownik.getDatazatrudnienia().equals("")) {
+            //kiedys uzupelnial tylko jak data byla pusta, a przeciez powinien na biezaco
                 pracownik.setDatazatrudnienia(pierwsza.getDataod());
                 pracownik.setDatazwolnienia(ostatnia.getDatado());
                 pracownikFacade.edit(pracownik);
-            }
+            
             rodzajumowy = ostatnia.getUmowakodzus().isPraca()?"umowa o pracę":"umowa zlecenia";
             czastrwania = ostatnia.getCzastrwania();
             dataostatnieumowy = ostatnia.getDataod();

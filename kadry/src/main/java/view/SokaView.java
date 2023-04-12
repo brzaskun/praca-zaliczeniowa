@@ -13,6 +13,7 @@ import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.UmowaFacade;
+import embeddable.Soka;
 import embeddable.StanZatrudnienia;
 import entity.Angaz;
 import entity.Dzien;
@@ -20,6 +21,8 @@ import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Naliczenienieobecnosc;
+import entity.Naliczenieskladnikawynagrodzenia;
+import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.Umowa;
@@ -48,7 +51,7 @@ public class SokaView  implements Serializable {
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
      @Inject
     private UmowaFacade umowaFacade;
-    private List<Naliczenienieobecnosc> lista;
+    private List<Soka> lista;
     private List<Angaz> listaeast2;
     private Angaz selectedeast;
     @Inject
@@ -69,11 +72,59 @@ public class SokaView  implements Serializable {
             List<Naliczenienieobecnosc> naliczenienieobecnoscList = pasek.getNaliczenienieobecnoscList();
             for (Naliczenienieobecnosc nal : naliczenienieobecnoscList) {
                 if (nal.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("Z")||nal.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UD")) {
-                    lista.add(nal);
+                    lista.add(new Soka(nal));
+                }
+            }
+            Kalendarzmiesiac kalendarzmiesiac = pasek.getKalendarzmiesiac();
+            List<Dzien> dzienList = kalendarzmiesiac.getDzienList();
+            List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
+            Naliczenieskladnikawynagrodzenia oddelegowanie = pobierzoddelegowanie(naliczenieskladnikawynagrodzeniaList);
+            Nieobecnosc nieobecnoscaccu = null;
+            String dataod = null;
+            String datado = null;
+            for (Dzien dzien : dzienList) {
+                Nieobecnosc dziennieob = dzien.getNieobecnosc();
+                if (dziennieob!=null&&dziennieob.getRodzajnieobecnosci().getKod().equals("Z")&&nieobecnoscaccu==null) {
+                    nieobecnoscaccu = dziennieob;
+                }
+                if (nieobecnoscaccu!=null&&nieobecnoscaccu.equals(dziennieob)) {
+                    if (dataod==null) {
+                        dataod = dzien.getDatastring();
+                    }
+                    datado = dzien.getDatastring();
+                }
+                if ((dziennieob==null||dziennieob!=null&&!dziennieob.getRodzajnieobecnosci().getKod().equals("Z"))&&nieobecnoscaccu!=null) {
+                    lista.add(new Soka(nieobecnoscaccu, dataod,datado, oddelegowanie));
+                    nieobecnoscaccu = null;
+                    dataod = null;
+                    datado = null;
+                }
+                if (dziennieob!=null&&nieobecnoscaccu!=null&&dzien.getTypdnia()==-1) {
+                    lista.add(new Soka(nieobecnoscaccu, dataod,datado, oddelegowanie));
+                    nieobecnoscaccu = null;
+                    dataod = null;
+                    datado = null;
+                }
+                if (dziennieob!=null&&nieobecnoscaccu!=null&&dzien.getNrdnia()==31) {
+                    lista.add(new Soka(nieobecnoscaccu, dataod,datado, oddelegowanie));
+                    nieobecnoscaccu = null;
+                    dataod = null;
+                    datado = null;
                 }
             }
             
         }
+    }
+
+    
+    private Naliczenieskladnikawynagrodzenia pobierzoddelegowanie(List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList) {
+        Naliczenieskladnikawynagrodzenia zwrot = null;
+        for (Naliczenieskladnikawynagrodzenia skl : naliczenieskladnikawynagrodzeniaList) {
+            if (skl.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getWks_serial()==1064) {
+                zwrot = skl;
+            }
+        }
+        return zwrot;
     }
 
     public void aktywujPracAngaze(FirmaKadry firma) {
@@ -148,15 +199,16 @@ public class SokaView  implements Serializable {
         this.selectedeast = selectedeast;
     }
 
-    public List<Naliczenienieobecnosc> getLista() {
+    public List<Soka> getLista() {
         return lista;
     }
 
-    public void setLista(List<Naliczenienieobecnosc> lista) {
+    public void setLista(List<Soka> lista) {
         this.lista = lista;
     }
 
-   
+    
+  
     
     
     

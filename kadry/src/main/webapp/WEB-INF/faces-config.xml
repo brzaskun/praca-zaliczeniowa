@@ -54,6 +54,10 @@
             <from-outcome>Pracownikdane</from-outcome>
             <to-view-id>/pracownikdane/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+          <navigation-case>
+            <from-outcome>Pracownikhistoria</from-outcome>
+            <to-view-id>/pracownikhistoria/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>Pracownikgrupy</from-outcome>
             <to-view-id>/pracownikgrupy/index.xhtml?faces-redirect=true</to-view-id>

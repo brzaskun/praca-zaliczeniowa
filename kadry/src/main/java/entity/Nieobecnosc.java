@@ -208,7 +208,7 @@ public class Nieobecnosc implements Serializable {
         if (swiadczeniekodzus!=null) {
             return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", swiadczeniekodzus=" + swiadczeniekodzus.getKod() + ", angaz=" + this.getAngaz().getPracownik().getNazwiskoImie() + ", opis=" + opis + ", dnirobocze=" + dniroboczenieobecnosci + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
         } else {
-            return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", angaz=" + this.getAngaz().getPracownik().getNazwiskoImie() + ", opis=" + opis + ", dnirobocze=" + dniroboczenieobecnosci + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
+            return "Nieobecnosc{" + "dataod=" + dataod + ", datado=" + datado + ", angaz=" + this.getAngaz().getPracownik().getNazwiskoImie() + ", kod=" + rodzajnieobecnosci.getKod() + ", dnirobocze=" + dniroboczenieobecnosci + ", importowana=" + importowana + ", pobranaZUS=" + pobranaZUS + ", rokod=" + rokod + ", rokdo=" + rokdo + ", mcod=" + mcod + ", mcdo=" + mcdo + '}';
         }
     }
 

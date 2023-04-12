@@ -9,10 +9,10 @@
     >
     <h:form styleClass="formcentrum">
         
-        <p:panel style="margin-top: 20px;" header="SOKA-BAU informacje miesięczne" id="pnlPrint1"> 
-
+        <p:panel  header="SOKA-BAU informacje miesięczne"/> 
+        <p:outputPanel style="height: 800px;overflow-y: scroll;" id="pnlPrint1" > 
             <p:commandButton value="Drukuj" type="button" icon="pi pi-print" styleClass="shadow-1 mb-3">
-                <p:printer target="pnlPrint1"/>
+                <p:printer target="datalist" />
             </p:commandButton>
             <p:panelGrid columns="4">
                 <h:outputText value="firma" style="color: green;"/>
@@ -22,17 +22,17 @@
              <p:panelGrid columns="1" style="margin-top: 20px">
                  <p:dataTable id="datalist" value="#{sokaView.lista}" var="items"
                                  rowIndexVar="index"
-                                 rowKey="#{items.id}" sortBy="#{items.nazwiskoiImie}"
-                                 style="height: 800px; overflow-y: scroll; width: 1000px;"
+                                 rowKey="#{items.nazwiskoiimie}" sortBy="#{items.nazwiskoiimie}"
+                                 style="width: 800px;"
                                  emptyMessage="nie pobrano danych"
                                  >
-                        <p:column width="10">
-                            <h:outputText value="#{index+1}"/>
+                     <p:column width="150" headerText="nazwisko i imię" style="text-align: left;" groupRow="true">
+                            <h:outputText value="#{items.nazwiskoiimie}"/>
                         </p:column>
-                        <p:column width="150" style="text-align: left;">
-                            <h:outputText value="#{items.nazwiskoiImie}"/>
+                       <p:column width="70" headerText="pesel" style="text-align: center;"  groupRow="true">
+                            <h:outputText value="#{items.pesel}"/>
                         </p:column>
-                        <p:column width="40" headerText="symbol" style="text-align: center;">
+                        <p:column width="40" headerText="kod" style="text-align: center;">
                             <h:outputText value="#{items.kod}"/>
                         </p:column>
                         <p:column width="40" headerText="data od" style="text-align: center;">
@@ -42,25 +42,20 @@
                             <h:outputText value="#{items.datado}"/>
                         </p:column>
                         <p:column width="40" headerText="liczba dni" style="text-align: center;">
-                            <h:outputText value="#{items.liczbadniurlopu}"/>
+                            <h:outputText value="#{items.dni}"/>
                         </p:column>
-                      <p:column width="40" headerText="liczba godzin" style="text-align: center;">
-                            <h:outputText value="#{items.liczbagodzinurlopu}"/>
+                        <p:column width="40" headerText="kwota" style="text-align: right;"  groupRow="true">
+                            <bcf:outputwal value="#{items.kwota}"/>
                         </p:column>
-                        <p:column width="40" headerText="stawka" style="text-align: right;">
-                            <bcf:outputwal value="#{items.stawkagodzinowa}"/>
-                        </p:column>
-                        <p:column width="40" headerText="waluta" style="text-align: center;">
+                        <p:column width="40" headerText="waluta" style="text-align: center;"  groupRow="true">
                             <h:outputText value="#{items.waluta}"/>
                         </p:column>
-                      <p:column width="40" headerText="kwota" style="text-align: right;">
-                            <bcf:outputwal value="#{items.kwotawaluta}"/>
-                        </p:column>
+                      
                 </p:dataTable>
             </p:panelGrid>
             
             
-        </p:panel>
+        </p:outputPanel>
     </h:form><!-- comment -->
 
 </ui:composition>   

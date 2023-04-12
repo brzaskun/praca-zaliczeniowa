@@ -1,14 +1,10 @@
 <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
-    xmlns:bcf="http://brzaskun.com/facelets"
     >
-    <p:panelGrid columns="1" columnClasses="thirty-percent, seventy-percent" style="height: 600px;width: 1800px;">
-        <p:outputPanel style="padding: 10px;">
+   <p:outputPanel style="padding: 10px;">
             <p:panel header="Zestawienie wskaźników"/>
             <p:tabView id="akordeon">
                  <p:tab title="Stan zatrudnienia">
@@ -19,5 +15,4 @@
                 </p:tab>
             </p:tabView>
         </p:outputPanel>
-    </p:panelGrid>
 </ui:composition>
