@@ -12,7 +12,7 @@
                     <f:selectItems value="#{pracownikStazView.listapracownikow}"
                                    var="pracownikItem"
                                    itemValue="#{pracownikItem}" itemLabel="#{pracownikItem.pracownik.nazwiskoImie}"/>
-                    <p:ajax event="change" partialSubmit="true" listener="#{pracownikStazView.pobierzdane}" global="false" update="PracownikCreateForm"/>
+                    <p:ajax event="change" partialSubmit="true" listener="#{pracownikStazView.pobierzdane}" global="false" update="PracownikCreateForm :PracownikCreateForm1"/>
                 </p:selectOneListbox>
             </h:form>
         </p:outputPanel>
@@ -39,14 +39,16 @@
                                      requiredMessage="wprowadź datę do">
                             <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" update="@this"/>
                         </p:inputText>
-                        <p:commandButton value="zapisz do bazy" styleClass="buttonnorm" actionListener="#{pracownikStazView.dodaj()}" global="true" update="PracownikCreateForm:datalist2"/>
+                        <p:commandButton value="zapisz do bazy" styleClass="buttonnorm" actionListener="#{pracownikStazView.dodaj()}" global="true" update="PracownikCreateForm1:datalist2"/>
                     </p:panelGrid>
                 </p:outputPanel>
+            </h:form>
                 <p:outputPanel>
+                    <h:form id="PracownikCreateForm1">
                     <p:dataTable id="datalist2" value="#{pracownikStazView.listastaz}" var="itemStaz" rowIndexVar="yndex1"
                                  selectionMode="single" 
                                  rowKey="#{itemStaz.id}"   sortBy="#{itemStaz.dataod}"
-                                 style="height: 750px; overflow-y: scroll;width: 800px; margin-top: 10px"
+                                 style="height: 750px; overflow-y: scroll;width: 840px; margin-top: 10px"
                                  rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  emptyMessage="Nie pobrano listy"
                                  >
@@ -95,10 +97,12 @@
                             </f:facet>
                             <h:outputText value="#{itemStaz.dni}"/>
                         </p:column>
-                         <p:commandButton icon="pi pi-trash" actionListener="#{pracownikStazView.usun(itemStaz)}" global="true" update="PracownikCreateForm:datalist2"/>
+                        <p:column width="30" style="text-align: center;" >
+                         <p:commandButton icon="pi pi-trash" actionListener="#{pracownikStazView.usun(itemStaz)}" global="true" update="PracownikCreateForm1:datalist2"/>
+                         </p:column>
                     </p:dataTable>
+                        </h:form>
                 </p:outputPanel>
-            </h:form>
         </p:outputPanel>
-    </p:panelGrid>    
+              </p:panelGrid>    
 </ui:composition>
