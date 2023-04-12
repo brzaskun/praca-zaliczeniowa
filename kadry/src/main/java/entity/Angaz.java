@@ -60,7 +60,7 @@ public class Angaz implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @OneToMany(mappedBy = "angaz", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "angaz", cascade = CascadeType.ALL)
     private List<Umowa> umowaList;
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @NotNull
@@ -115,6 +115,8 @@ public class Angaz implements Serializable {
     private String  dataprzypomnieniamailszkolenie;
     @Column(name = "ukryj")
     private boolean ukryj;
+    @OneToMany(mappedBy = "angaz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Staz> stazList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz", orphanRemoval = true)
     private List<EtatPrac> etatList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz", orphanRemoval = true)
@@ -209,6 +211,14 @@ public class Angaz implements Serializable {
 
     public void setBourlopgodziny(int bourlopgodziny) {
         this.bourlopgodziny = bourlopgodziny;
+    }
+
+    public List<Staz> getStazList() {
+        return stazList;
+    }
+
+    public void setStazList(List<Staz> stazList) {
+        this.stazList = stazList;
     }
 
     

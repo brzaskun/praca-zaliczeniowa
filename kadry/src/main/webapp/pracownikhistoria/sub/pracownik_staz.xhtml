@@ -1,0 +1,104 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="width: 1500px;">
+        <p:outputPanel style="height: 200px">
+            <h:form id="AngazCreateForm">
+                <p:selectOneListbox id="pracownik" value="#{pracownikStazView.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 200px;height: 300px;" filter="true" filterMatchMode="contains" scrollHeight="300">
+                    <f:selectItems value="#{pracownikStazView.listapracownikow}"
+                                   var="pracownikItem"
+                                   itemValue="#{pracownikItem}" itemLabel="#{pracownikItem.pracownik.nazwiskoImie}"/>
+                    <p:ajax event="change" partialSubmit="true" listener="#{pracownikStazView.pobierzdane}" global="false" update="PracownikCreateForm"/>
+                </p:selectOneListbox>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel style="height: 200px">
+            <h:form id="PracownikCreateForm">
+                <p:outputPanel>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="rodzaj umowy" for="czasumowy" />
+                        <p:selectOneMenu id="czasumowy" value="#{pracownikStazView.selected.slownikszkolazatrhistoria}" autoWidth="false" style="width: 300px;" required="true" 
+                                         requiredMessage="Wybierz rodzaj umowy"
+                                         converter="#{slownikszkolazatrhistoriaConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{slownikszkolazatrhistoriaView.lista}"
+                                           var="czastrwaniaItem" 
+                                           itemValue="#{czastrwaniaItem}" itemLabel="#{czastrwaniaItem.opis}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="data od" for="dataod" />
+                        <p:inputText id="dataod" value="#{pracownikStazView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true"
+                                     requiredMessage="wprowadź datę od" styleClass="dataUmowy" maxlength="10">
+                            <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" update="@this"/>
+                        </p:inputText>
+                        <p:outputLabel value="data do" for="datado" />
+                        <p:inputText id="datado" value="#{pracownikStazView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10" required="true"
+                                     requiredMessage="wprowadź datę do">
+                            <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" update="@this"/>
+                        </p:inputText>
+                        <p:commandButton value="zapisz do bazy" styleClass="buttonnorm" actionListener="#{pracownikStazView.dodaj()}" global="true" update="PracownikCreateForm:datalist2"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+                <p:outputPanel>
+                    <p:dataTable id="datalist2" value="#{pracownikStazView.listastaz}" var="itemStaz" rowIndexVar="yndex1"
+                                 selectionMode="single" 
+                                 rowKey="#{itemStaz.id}"   sortBy="#{itemStaz.dataod}"
+                                 style="height: 750px; overflow-y: scroll;width: 800px; margin-top: 10px"
+                                 rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                 emptyMessage="Nie pobrano listy"
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="Wprowadzone historyczne umowy "/>
+                        </f:facet>
+                        <p:column width="20" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{yndex1+1}"/>
+                        </p:column>
+                        <p:column width="200" style="text-align: left;" sortBy="#{itemStaz.dataod}" sortOrder="desc">
+                            <f:facet name="header">
+                                <h:outputText value="rodzaj umowy"/>
+                            </f:facet>
+                            <p:inputText value="#{itemStaz.slownikszkolazatrhistoria.opis}" title="opis"  size="40" readonly="true"/>
+                        </p:column>
+                        <p:column width="60" style="text-align: center;" sortBy="#{itemStaz.dataod}" sortOrder="desc">
+                            <f:facet name="header">
+                                <h:outputText value="data od"/>
+                            </f:facet>
+                            <p:inputText value="#{itemStaz.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" size="11" readonly="true"/>
+                        </p:column>
+                        <p:column width="60" style="text-align: center;" sortBy="#{itemStaz.datado}" sortOrder="desc">
+                            <f:facet name="header">
+                                <h:outputText value="data do"/>
+                            </f:facet>
+                            <p:inputText value="#{itemStaz.datado}" title="datac do"  placeholder="____-__-__" maxlength="10" size="11" readonly="true"/>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;" >
+                            <f:facet name="header">
+                                <h:outputText value="lata"/>
+                            </f:facet>
+                            <h:outputText value="#{itemStaz.lata}"/>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;" >
+                            <f:facet name="header">
+                                <h:outputText value="mce"/>
+                            </f:facet>
+                            <h:outputText value="#{itemStaz.miesiace}"/>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;" >
+                            <f:facet name="header">
+                                <h:outputText value="dni"/>
+                            </f:facet>
+                            <h:outputText value="#{itemStaz.dni}"/>
+                        </p:column>
+                         <p:commandButton icon="pi pi-trash" actionListener="#{pracownikStazView.usun(itemStaz)}" global="true" update="PracownikCreateForm:datalist2"/>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </p:outputPanel>
+    </p:panelGrid>    
+</ui:composition>

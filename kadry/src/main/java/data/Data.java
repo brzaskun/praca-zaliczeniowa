@@ -8,6 +8,7 @@ import embeddable.Mce;
 import entity.Dzien;
 import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
+import entity.Staz;
 import error.E;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -141,6 +142,24 @@ public class Data implements Serializable {
             }
         }
         return zwrot;
+    }
+   
+   public static void obliczstaz(String dataod, String datado, Staz staz) {
+        if (dataod!=null && datado!=null) {
+            if (!dataod.equals("") && !datado.equals("")) {
+                try {
+                    LocalDate dataur = LocalDate.parse(dataod);
+                    LocalDate dataumowy = LocalDate.parse(datado);
+                    Period period = Period.between(dataur, dataumowy);
+                    int years = period.getYears();
+                    int months = period.getMonths();
+                    int days = period.getDays();
+                    staz.setLata(years);
+                    staz.setMiesiace(months);
+                    staz.setDni(days);
+                } catch (Exception s) {}
+            }
+        }
     }
    
     public static int obliczwieklata(String datastart, String datanadzien) {
