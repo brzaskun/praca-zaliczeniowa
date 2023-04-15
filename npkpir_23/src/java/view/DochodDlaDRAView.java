@@ -745,9 +745,9 @@ public class DochodDlaDRAView implements Serializable {
             dras.setFp(kwotafp);
             dodajpit4DRA(dras, firmy);
             drasumy.add(dras);
-            System.out.println(dras.getNazwa());
+            //System.out.println(dras.getNazwa());
         });
-        System.out.println("Koniec");
+        //System.out.println("Koniec");
         sumujdra();
         draSumyDAO.editList(drasumy);
         System.out.println("");
