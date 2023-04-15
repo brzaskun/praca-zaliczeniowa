@@ -356,6 +356,9 @@ public class KalendarzmiesiacBean {
         for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals("40")) {
                 double kwota = p.getRodzajwynagrodzenia().getOpispelny().contains("oddelegowanie")?zmiennawynagrodzeniakwotaodelegowanie:zmiennawynagrodzeniakwota;
+                if (p.getRodzajwynagrodzenia().getWks_serial()!=1072) {
+                    zmiennawynagrodzeniakwotaodelegowaniewaluta = 0.0;
+                }
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBZlecenie(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs, kwota, zmiennawynagrodzeniakwotaodelegowaniewaluta);
                 naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(iloscgodzin);
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc() != 0.0) {

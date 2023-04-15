@@ -59,7 +59,7 @@ public class AngazView  implements Serializable {
     private Angaz selectedeast;
     private List<Angaz> lista;
     private List<Angaz> listaeast;
-    private List<Angaz> listaeast2;
+    
     private List<FirmaKadry> listafirm;
     private List<Pracownik> listapracownikow;
     @Inject
@@ -103,17 +103,12 @@ public class AngazView  implements Serializable {
         if (wpisView.getFirma()!=null) {
             lista = angazFacade.findByFirma(wpisView.getFirma());
             pobierzpracownikow();
-            pobierzpracownikow2();
-        }
-         if (wpisView.getAngaz()!=null) {
-            selectedeast = wpisView.getAngaz();
-            selected.setRok(wpisView.getRokWpisu());
-            selected.setMc(wpisView.getMiesiacWpisu());
-        }
+         }
+        
     }
     
      public void aktywujPracAngaze(FirmaKadry firma) {
-        if (firma!=null) {
+        if (firma!=null&&!wpisView.getFirma().equals(firma)) {
             wpisView.setFirma(firma);
             if (firma.getAngazList()==null||firma.getAngazList().isEmpty()) {
                 wpisView.setPracownik(null);
@@ -132,8 +127,9 @@ public class AngazView  implements Serializable {
                     } catch (Exception e){}
                 }
             }
+            pobierzpracownikow();
             pasekwynagrodzenView.init();
-            init();
+            //init();
             updateClassView.updateAdminTab();
             Msg.msg("Aktywowano firmę "+firma.getNazwa());
         }
@@ -154,18 +150,18 @@ public class AngazView  implements Serializable {
                 }
             }
         }
-        if (!zwrot.isEmpty()) {
+        listaeast = zwrot;
+        if (zwrot.isEmpty()) {
             listaeast = zwrot.stream().filter(p->p.getUmowaList()!=null&&!p.getUmowaList().isEmpty()).collect(Collectors.toList());
+        }
+         if (wpisView.getAngaz()!=null) {
+            selectedeast = wpisView.getAngaz();
+            selected.setRok(wpisView.getRokWpisu());
+            selected.setMc(wpisView.getMiesiacWpisu());
         }
     }
     
-    public void pobierzpracownikow2() {
-        if (pokazwszystkich) {
-            listaeast2 = angazFacade.findByFirma(wpisView.getFirma());
-        } else {
-            listaeast2 = angazFacade.findByFirmaAktywni(wpisView.getFirma());
-        }
-    }
+   
 
     public void create() {
         if (selected != null && wpisView.getFirma() != null) {
@@ -438,14 +434,7 @@ public class AngazView  implements Serializable {
         }
     }
     
-    public void findByFirma(FirmaKadry firma) {
-        if (firma!=null) {
-            listaeast = angazFacade.findByFirma(firma);
-            //Msg.msg("Pobrano pracowników firmy");
-        } else {
-            Msg.msg("e", "Błąd nie wybrano firmy");
-        }
-    }
+  
     
     public List<Pracownik> complete(String query) {
         List<Pracownik> results = new ArrayList<>();
@@ -601,14 +590,6 @@ public class AngazView  implements Serializable {
 
     public void setPokazwszystkich(boolean pokazwszystkich) {
         this.pokazwszystkich = pokazwszystkich;
-    }
-
-    public List<Angaz> getListaeast2() {
-        return listaeast2;
-    }
-
-    public void setListaeast2(List<Angaz> listaeast2) {
-        this.listaeast2 = listaeast2;
     }
 
     
