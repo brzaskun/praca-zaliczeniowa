@@ -267,6 +267,7 @@ public class PasekwynagrodzenBean {
         List<Nieobecnosc> urlopoddelegowanie = pobierz(nieobecnosci, "UD");
         List<Nieobecnosc> urlopmatkadziecko = pobierz(nieobecnosci, "MD");
         List<Nieobecnosc> urlopookolicznosciowy = pobierz(nieobecnosci, "O");
+        List<Nieobecnosc> urlopojcowski = pobierz(nieobecnosci, "UO");
         List<Nieobecnosc> urloponazadanie = pobierz(nieobecnosci, "UZ");
         List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci, "X");
         List<Nieobecnosc> nieobecnoscNN = pobierz(nieobecnosci, "NN");
@@ -1629,18 +1630,22 @@ public class PasekwynagrodzenBean {
 
     private static boolean czysatylkozlecenia(Kalendarzmiesiac kalendarz) {
         boolean czysatylkozlecenia = true;
-        FirmaKadry firma = kalendarz.getAngaz().getFirma();
-        if (firma.isOsobafizyczna() == true) {
-            List<Angaz> angazewFirmie = firma.getAngazList();
-            for (Angaz a : angazewFirmie) {
-                Umowa u = a.getAktywnaUmowa();
-                if (u.getUmowakodzus().isPraca()) {
-                    czysatylkozlecenia = false;
-                    break;
+        try {
+            FirmaKadry firma = kalendarz.getAngaz().getFirma();
+            if (firma.isOsobafizyczna() == true) {
+                List<Angaz> angazewFirmie = firma.getAngazList();
+                for (Angaz a : angazewFirmie) {
+                    Umowa u = a.getAktywnaUmowa();
+                    if (u.getUmowakodzus().isPraca()) {
+                        czysatylkozlecenia = false;
+                        break;
+                    }
                 }
+            } else {
+                czysatylkozlecenia = false;
             }
-        } else {
-            czysatylkozlecenia = false;
+        } catch (Exception e){
+            System.out.println(E.e(e));
         }
         return czysatylkozlecenia;
     }

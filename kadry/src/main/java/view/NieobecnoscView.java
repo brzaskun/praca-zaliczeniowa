@@ -41,6 +41,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -255,6 +256,8 @@ public class NieobecnoscView  implements Serializable {
                     selectedCH.setDatado(datadoCH);
                     selectedCH.setRodzajnieobecnosci(nieobecnoscCH);
                     selectedCH.setSwiadczeniekodzus(nieobecnoscCH.getSwiadczeniekodzusList().stream().filter(pr->pr.getKod().equals("313")).findFirst().get());
+                    selectedCH.setDatadodania(new Date());
+                    selectedCH.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                     nieobecnoscFacade.create(selectedCH);
                     lista.add(selectedCH);
                     Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
@@ -427,6 +430,8 @@ public class NieobecnoscView  implements Serializable {
                         LocalDate dodata = LocalDate.parse(selectedzbiorczo.getDatado());
                         double iloscdni = DAYS.between(oddata,dodata);
                         nowa.setDnikalendarzowe(iloscdni+1.0);
+                        nowa.setDatadodania(new Date());
+                        nowa.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                         nieobecnoscFacade.create(nowa);
                         NieobecnosciBean.nanies(nowa, kalendarzmiesiacFacade, nieobecnoscFacade);
                         licznik++;

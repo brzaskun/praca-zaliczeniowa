@@ -473,7 +473,15 @@
                             <f:facet name="header">
                                 <h:outputText value="grupa"/>
                             </f:facet>
-                             <h:outputText value="#{item13roz.kodzbiorczy}"/>
+                             <p:inplace editor="true">
+                                 <f:facet name="output">
+                                     <h:outputText value="#{item13roz.kodzbiorczy}"/>
+                                 </f:facet>
+                                 <f:facet name="input">
+                                     <p:inputText value="#{item13roz.kodzbiorczy}" rendered="#{wpisView.uzer.login eq '2'}" size="3"/>
+                                 </f:facet>
+                                         <p:ajax event="save" listener="#{rodzajenieobecnosciView.edytuj(item13roz)}" />
+                            </p:inplace>
                         </p:column>
                         <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.kolejnosc}" filterBy="#{item13roz.kolejnosc}" filterMatchMode="contains" sortable="true" sortPriority="1">
                             <f:facet name="header">

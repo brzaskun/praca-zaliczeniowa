@@ -211,10 +211,13 @@
                         </p:column>
                         <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
-                                <h:outputText value="przycz."/>
+                                <h:outputText value="data"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.uzasadnienie}"/>
+                            <h:outputText value="#{itemNieob.datadodania}">
+                                <f:convertDateTime locale="pl" />
+                            </h:outputText>
                         </p:column>
+                    
                         <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
                                 <h:outputText value="kraj"/>
