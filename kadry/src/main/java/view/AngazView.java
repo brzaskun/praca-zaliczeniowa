@@ -32,6 +32,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -141,9 +142,17 @@ public class AngazView  implements Serializable {
     public void pobierzpracownikow() {
         List<Angaz> zwrot = new ArrayList<>();
         if (pokazwszystkich) {
-            zwrot = angazFacade.findByFirma(wpisView.getFirma());
+            //tego nie ma juz sensu bo sie pokazuja naprawde archiwalni, teraz bedza ci z umowani i ci bez ale aktywni 15.04.2023 pozdro
+            //zwrot = angazFacade.findByFirma(wpisView.getFirma());
+            zwrot = angazFacade.findByFirmaAktywni(wpisView.getFirma());
         } else {
             zwrot = angazFacade.findByFirmaAktywni(wpisView.getFirma());
+            for (Iterator<Angaz> it = zwrot.iterator(); it.hasNext();) {
+                Angaz angaz = it.next();
+                if (angaz.jestumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu())==false) {
+                    it.remove();
+                }
+            }
         }
         if (!zwrot.isEmpty()) {
             listaeast = zwrot.stream().filter(p->p.getUmowaList()!=null&&!p.getUmowaList().isEmpty()).collect(Collectors.toList());

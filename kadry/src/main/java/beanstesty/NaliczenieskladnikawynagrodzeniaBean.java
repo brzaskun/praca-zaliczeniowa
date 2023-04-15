@@ -51,11 +51,13 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         return 0.0;
     }
 
-    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDBZlecenie(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, List<Dzien> listadni, double kurs, double zmiennawynagrodzeniakwota) {
+    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDBZlecenie(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia,
+            List<Dzien> listadni, double kurs, double zmiennawynagrodzeniakwota,double zmiennawynagrodzeniakwotaodelegowaniewaluta) {
         Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
         zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
         zwrot.setKwotadolistyplac(zmiennawynagrodzeniakwota);
+        zwrot.setKwotadolistyplacwaluta(zmiennawynagrodzeniakwotaodelegowaniewaluta);
         zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
         return zwrot;
     }

@@ -130,21 +130,22 @@ public class RachunekZlecenieView implements Serializable {
                         rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(kwotaPolska);
                         rachunekdoumowyzlecenia.setKwota(Z.z(kwotaPolska));
                     }
-                    double kwotaZagranica = umowabiezaca.getAngaz().pobierzwynagrodzenieKwotaWaluta(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
-                    rachunekdoumowyzlecenia.setWynagrodzeniegodzinoweoddelegowaniewaluta(kwotaZagranica);
+                    double kwotaZagranicaWaluta = umowabiezaca.getAngaz().pobierzwynagrodzenieKwotaWaluta(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
+                    rachunekdoumowyzlecenia.setWynagrodzeniegodzinoweoddelegowaniewaluta(kwotaZagranicaWaluta);
                     Tabelanbp tabelanbp = ustawtabelenbp(rachunekdoumowyzlecenia.getDatawystawienia());
                     rachunekdoumowyzlecenia.setKurswaluty(tabelanbp.getKurssredni());
                     rachunekdoumowyzlecenia.setDatawaluty(tabelanbp.getDatatabeli());
-                    kwotaZagranica = (kwotaZagranica * tabelanbp.getKurssredni());
+                    double kwotaZagranicaPLN = (kwotaZagranicaWaluta * tabelanbp.getKurssredni());
                     rachunekdoumowyzlecenia.setSymbolwaluty(tabelanbp.getWaluta().getSymbolwaluty());
                     double iloscgodzinzkalendarzaZagranica = pobierzgodzinyzkalendarzaZagranica();
                     rachunekdoumowyzlecenia.setIloscgodzinoddelegowanie(iloscgodzinzkalendarzaZagranica);
                     if (umowabiezaca.getAngaz().czywynagrodzeniegodzinowe()) {
-                        rachunekdoumowyzlecenia.setWynagrodzeniegodzinoweoddelegowanie(kwotaZagranica);
+                        rachunekdoumowyzlecenia.setWynagrodzeniegodzinoweoddelegowanie(kwotaZagranicaPLN);
                         rachunekdoumowyzlecenia.setKwotaoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowanie() * iloscgodzinzkalendarzaZagranica));
+                        rachunekdoumowyzlecenia.setKwotaoddelegowaniewaluta(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowaniewaluta()* iloscgodzinzkalendarzaZagranica));
                     } else {
-                        rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(kwotaZagranica);
-                        rachunekdoumowyzlecenia.setKwota(Z.z(kwotaZagranica));
+                        rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(kwotaZagranicaPLN);
+                        rachunekdoumowyzlecenia.setKwota(Z.z(kwotaZagranicaPLN));
                     }
                     rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
                     rachunekdoumowyzlecenia.setProcentkosztowuzyskania(umowabiezaca.getAngaz().getKosztyuzyskaniaprocent());

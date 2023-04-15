@@ -5,26 +5,20 @@
  */
 package view;
 
-import comparator.Dziencomparator;
 import comparator.Pasekwynagrodzencomparator;
 import comparator.Umowacomparator;
 import dao.AngazFacade;
-import dao.KalendarzmiesiacFacade;
-import dao.KalendarzwzorFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.UmowaFacade;
 import embeddable.Soka;
-import embeddable.StanZatrudnienia;
 import entity.Angaz;
 import entity.Dzien;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
-import entity.Kalendarzwzor;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
-import entity.Pracownik;
 import entity.Umowa;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -66,12 +60,12 @@ public class SokaView  implements Serializable {
         sumujpaski(paski);
     }
     
-    private void sumujpaski( List<Pasekwynagrodzen> paski) {
+    private void sumujpaski(List<Pasekwynagrodzen> paski) {
         Collections.sort(paski, new Pasekwynagrodzencomparator());
         for (Pasekwynagrodzen pasek : paski) {
             List<Naliczenienieobecnosc> naliczenienieobecnoscList = pasek.getNaliczenienieobecnoscList();
             for (Naliczenienieobecnosc nal : naliczenienieobecnoscList) {
-                if (nal.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("Z")||nal.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UD")) {
+                if (nal.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("Z") || nal.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UD")) {
                     lista.add(new Soka(nal));
                 }
             }
@@ -82,37 +76,40 @@ public class SokaView  implements Serializable {
             Nieobecnosc nieobecnoscaccu = null;
             String dataod = null;
             String datado = null;
-            for (Dzien dzien : dzienList) {
-                Nieobecnosc dziennieob = dzien.getNieobecnosc();
-                if (dziennieob!=null&&dziennieob.getRodzajnieobecnosci().getKod().equals("Z")&&nieobecnoscaccu==null) {
-                    nieobecnoscaccu = dziennieob;
-                }
-                if (nieobecnoscaccu!=null&&nieobecnoscaccu.equals(dziennieob)) {
-                    if (dataod==null) {
-                        dataod = dzien.getDatastring();
+            if (oddelegowanie != null) {
+                for (Dzien dzien : dzienList) {
+                    Nieobecnosc dziennieob = dzien.getNieobecnosc();
+                    if (dziennieob != null && dziennieob.getRodzajnieobecnosci().getKod().equals("Z") && nieobecnoscaccu == null) {
+                        nieobecnoscaccu = dziennieob;
                     }
-                    datado = dzien.getDatastring();
-                }
-                if ((dziennieob==null||dziennieob!=null&&!dziennieob.getRodzajnieobecnosci().getKod().equals("Z"))&&nieobecnoscaccu!=null) {
-                    lista.add(new Soka(nieobecnoscaccu, dataod,datado, oddelegowanie));
-                    nieobecnoscaccu = null;
-                    dataod = null;
-                    datado = null;
-                }
-                if (dziennieob!=null&&nieobecnoscaccu!=null&&dzien.getTypdnia()==-1) {
-                    lista.add(new Soka(nieobecnoscaccu, dataod,datado, oddelegowanie));
-                    nieobecnoscaccu = null;
-                    dataod = null;
-                    datado = null;
-                }
-                if (dziennieob!=null&&nieobecnoscaccu!=null&&dzien.getNrdnia()==31) {
-                    lista.add(new Soka(nieobecnoscaccu, dataod,datado, oddelegowanie));
-                    nieobecnoscaccu = null;
-                    dataod = null;
-                    datado = null;
+                    if (nieobecnoscaccu != null && nieobecnoscaccu.equals(dziennieob)) {
+                        if (dataod == null) {
+                            dataod = dzien.getDatastring();
+                        }
+                        datado = dzien.getDatastring();
+                    }
+
+                    if ((dziennieob == null || dziennieob != null && !dziennieob.getRodzajnieobecnosci().getKod().equals("Z")) && nieobecnoscaccu != null) {
+                        lista.add(new Soka(nieobecnoscaccu, dataod, datado, oddelegowanie));
+                        nieobecnoscaccu = null;
+                        dataod = null;
+                        datado = null;
+                    }
+                    if (dziennieob != null && nieobecnoscaccu != null && dzien.getTypdnia() == -1) {
+                        lista.add(new Soka(nieobecnoscaccu, dataod, datado, oddelegowanie));
+                        nieobecnoscaccu = null;
+                        dataod = null;
+                        datado = null;
+                    }
+                    if (dziennieob != null && nieobecnoscaccu != null && dzien.getNrdnia() == 31) {
+                        lista.add(new Soka(nieobecnoscaccu, dataod, datado, oddelegowanie));
+                        nieobecnoscaccu = null;
+                        dataod = null;
+                        datado = null;
+                    }
                 }
             }
-            
+
         }
     }
 
@@ -120,7 +117,7 @@ public class SokaView  implements Serializable {
     private Naliczenieskladnikawynagrodzenia pobierzoddelegowanie(List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList) {
         Naliczenieskladnikawynagrodzenia zwrot = null;
         for (Naliczenieskladnikawynagrodzenia skl : naliczenieskladnikawynagrodzeniaList) {
-            if (skl.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getWks_serial()==1064) {
+            if (skl.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getWks_serial()==1064||skl.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getWks_serial()==1072) {
                 zwrot = skl;
             }
         }

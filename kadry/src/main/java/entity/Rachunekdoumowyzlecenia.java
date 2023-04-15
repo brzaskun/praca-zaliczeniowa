@@ -95,6 +95,8 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     private double kwota;
     @Column(name = "kwotaoddelegowanie")
     private double kwotaoddelegowanie;
+    @Column(name = "kwotaoddelegowaniewaluta")
+    private double kwotaoddelegowaniewaluta;
     @Column(name = "kwotasuma")
     private double kwotasuma;
     @Column(name = "koszt")
@@ -377,6 +379,14 @@ public class Rachunekdoumowyzlecenia implements Serializable {
 
     public void setKwotaoddelegowanie(double kwotaoddelegowanie) {
         this.kwotaoddelegowanie = kwotaoddelegowanie;
+    }
+
+    public double getKwotaoddelegowaniewaluta() {
+        return kwotaoddelegowaniewaluta;
+    }
+
+    public void setKwotaoddelegowaniewaluta(double kwotaoddelegowaniewaluta) {
+        this.kwotaoddelegowaniewaluta = kwotaoddelegowaniewaluta;
     }
 
     public double getKwotasuma() {

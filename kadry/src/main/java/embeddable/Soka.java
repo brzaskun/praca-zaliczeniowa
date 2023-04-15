@@ -24,6 +24,7 @@ public class Soka implements Serializable {
      private String dataod;
      private String datado;
      private int dni;
+     private double godziny;
      private double kwota;
      private String waluta;
 
@@ -36,6 +37,7 @@ public class Soka implements Serializable {
         this.dni = (int) nal.getLiczbadniurlopu();
         this.kwota = nal.getKwotawaluta();
         this.waluta = nal.getWaluta();
+        this.godziny = nal.getLiczbagodzinurlopu();
     }
 
     public Soka(Nieobecnosc nieobecnoscaccu, String dataod, String datado, Naliczenieskladnikawynagrodzenia oddelegowanie) {
@@ -47,6 +49,7 @@ public class Soka implements Serializable {
         this.dni = Data.iletodniKalendarzowych(dataod, datado);
         this.kwota = oddelegowanie.getKwotadolistyplacwaluta();
         this.waluta = oddelegowanie.getWaluta();
+        this.godziny = nieobecnoscaccu.getGodzinyroboczenieobecnosc();
     }
 
     public String getNazwiskoiimie() {
@@ -113,6 +116,16 @@ public class Soka implements Serializable {
     public void setWaluta(String waluta) {
         this.waluta = waluta;
     }
+
+    public double getGodziny() {
+        return godziny;
+    }
+
+    public void setGodziny(double godziny) {
+        this.godziny = godziny;
+    }
+    
+    
 
     @Override
     public int hashCode() {

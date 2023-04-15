@@ -81,22 +81,24 @@ public class WskaznikPfronView  implements Serializable {
             double mezczyzni = 0.0;
             for (Kalendarzmiesiac kalendarz : pracownicy) {
                 Dzien dzienpracownika = kalendarz.getDzień(dzien.getNrdnia());
-                if (dzienpracownika.getKod()==null||(dzienpracownika.getKod()!=null&&!dzienpracownika.getKod().equals("WY")&&!dzienpracownika.getKod().equals("UM")&&!dzienpracownika.getKod().equals("UM")&&!dzienpracownika.getKod().equals("UM")&&!dzienpracownika.getKod().equals("UM"))) {
-                    Pracownik pracownik = kalendarz.getPracownik();
-                    double etat1 = (double) dzienpracownika.getEtat1();
-                    double etat2 = (double) dzienpracownika.getEtat2();
-                    double etatdecym = etat1/etat2;
-                    boolean mezczyzna = pracownik.isMezczyzna();
-                    if (mezczyzna) {
-                        osobyrazem = osobyrazem + 1;
-                        mezczyzni = mezczyzni + 1;
-                        etatyrazem = etatyrazem + etatdecym;
-                        etatymezczyzni = etatymezczyzni + etatdecym;
-                    } else {
-                        osobyrazem = osobyrazem + 1;
-                        kobiety = kobiety + 1;
-                        etatyrazem = etatyrazem + etatdecym;
-                        etatykobiety = etatykobiety + etatdecym;
+                if (dzienpracownika!=null) {
+                    if (dzienpracownika.getKod()==null||(dzienpracownika.getKod()!=null&&!dzienpracownika.getKod().equals("WY")&&!dzienpracownika.getKod().equals("UM")&&!dzienpracownika.getKod().equals("UM")&&!dzienpracownika.getKod().equals("UM")&&!dzienpracownika.getKod().equals("UM"))) {
+                        Pracownik pracownik = kalendarz.getPracownik();
+                        double etat1 = (double) dzienpracownika.getEtat1();
+                        double etat2 = (double) dzienpracownika.getEtat2();
+                        double etatdecym = etat1/etat2;
+                        boolean mezczyzna = pracownik.isMezczyzna();
+                        if (mezczyzna) {
+                            osobyrazem = osobyrazem + 1;
+                            mezczyzni = mezczyzni + 1;
+                            etatyrazem = etatyrazem + etatdecym;
+                            etatymezczyzni = etatymezczyzni + etatdecym;
+                        } else {
+                            osobyrazem = osobyrazem + 1;
+                            kobiety = kobiety + 1;
+                            etatyrazem = etatyrazem + etatdecym;
+                            etatykobiety = etatykobiety + etatdecym;
+                        }
                     }
                 }
             }
