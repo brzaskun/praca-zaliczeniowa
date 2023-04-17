@@ -495,7 +495,7 @@ public class NieobecnoscView  implements Serializable {
     public void naniesrodzajnieobecnosci() {
         if (selected.getRodzajnieobecnosci()!=null) {
             swiadczeniekodzusLista = swiadczeniekodzusFacade.findByRodzajnieobecnosciAktiv(selected.getRodzajnieobecnosci());
-            if (selected.getRodzajnieobecnosci().getKod().equals("CH")||selected.getRodzajnieobecnosci().getKod().equals("ZC")||selected.getRodzajnieobecnosci().getKod().equals("CA")) {
+            if (selected.getRodzajnieobecnosci().getKodzbiorczy().equals("CH")) {
                 selected.setZwolnienieprocent(80);
             } else {
                 selected.setZwolnienieprocent(0);

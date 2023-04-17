@@ -246,13 +246,13 @@ public class Pasekwynagrodzen implements Serializable {
     private Integer lis_tyt_serial;
     @Column(name = "lpl_serial")
     private Integer lpl_serial;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
     @Transient
     private int numerator;
@@ -515,7 +515,7 @@ public class Pasekwynagrodzen implements Serializable {
     public String toString() {
         if (definicjalistaplac!=null) {
             return "Pasekwynagrodzen{"+ "nazwisko "+kalendarzmiesiac.getNazwiskoImie() + "brutto=" + brutto + ", kosztyuzyskania=" + kosztyuzyskania + ", netto=" + netto + ", definicjalistaplac=" 
-                    + definicjalistaplac.getId() + ", kalendarzmiesiac=" + kalendarzmiesiac.getId() + ", rok=" + rok + ", mc=" + mc + ", rokwypl=" + rokwypl + ", mcwypl=" + mcwypl + '}';
+                    + definicjalistaplac.getRodzajlistyplac().getNazwa() + ", kalendarzmiesiac=" + kalendarzmiesiac.getRokMc() + ", rok=" + rok + ", mc=" + mc + ", rokwypl=" + rokwypl + ", mcwypl=" + mcwypl + '}';
         } else {
             return "Pasekwynagrodzen{"+ "nazwisko "+kalendarzmiesiac.getNazwiskoImie() + "brutto=" + brutto + ", kosztyuzyskania=" + kosztyuzyskania + ", netto=" + netto +", rok=" + rok + ", mc=" + mc + ", rokwypl=" + rokwypl + ", mcwypl=" + mcwypl + '}';
         }
