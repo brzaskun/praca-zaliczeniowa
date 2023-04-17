@@ -135,6 +135,7 @@ public class Kartawynagrodzen implements Serializable {
     private double kosztpracodawcy;
     @Column(name = "dochodzagranica")
     private double dochodzagranica;
+    
     @Size(max = 4)
     @Column(name = "rok")
     private String rok;
@@ -550,8 +551,8 @@ public class Kartawynagrodzen implements Serializable {
     public void setDochodzagranica(double dochodzagranica) {
         this.dochodzagranica = dochodzagranica;
     }
-    
-    
+
+     
     
     
     @Override
