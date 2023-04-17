@@ -19,6 +19,7 @@ import embeddable.Mce;
 import entity.Angaz;
 import entity.DeklaracjaPIT11Schowek;
 import entity.FirmaKadry;
+import entity.Kalendarzmiesiac;
 import entity.Kartawynagrodzen;
 import entity.PITPola;
 import entity.Pasekwynagrodzen;
