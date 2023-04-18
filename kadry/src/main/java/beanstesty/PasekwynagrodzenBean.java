@@ -378,6 +378,7 @@ public class PasekwynagrodzenBean {
         if (czyodlicoznokwotewolna == false) {
             PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true, odliczaculgepodatkowa);
         }
+        pasek.setNaliczenieskladnikawynagrodzeniaList(new ArrayList<>());
     }
     
     private static void zasilekwypadkowywyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, boolean czyodlicoznokwotewolna,

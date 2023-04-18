@@ -508,7 +508,7 @@ public class NieobecnoscView  implements Serializable {
                 selected.setDietaoddelegowanie(49.0);
                 delegacja = true;
             }
-            if (selected.getRodzajnieobecnosci().getKod().equals("CH")||selected.getRodzajnieobecnosci().getKod().equals("ZC")||selected.getRodzajnieobecnosci().getKod().equals("CA")) {
+            if (selected.getRodzajnieobecnosci().getKodzbiorczy().equals("CH")) {
                 zwolnienie = true;
             }
             if (swiadczeniekodzusLista.size()==1) {
@@ -529,7 +529,7 @@ public class NieobecnoscView  implements Serializable {
                 selectedzbiorczo.setDietaoddelegowanie(49.0);
                 delegacja = true;
             }
-            if (selected.getRodzajnieobecnosci().getKod().equals("CH")||selected.getRodzajnieobecnosci().getKod().equals("ZC")) {
+            if (selected.getRodzajnieobecnosci().getKodzbiorczy().equals("CH")) {
                 zwolnienie = true;
             }
             if (swiadczeniekodzusLista.size()==1) {
@@ -541,7 +541,7 @@ public class NieobecnoscView  implements Serializable {
     
     public void naniesprocent() {
          if (selected.getSwiadczeniekodzus()!=null) {
-            if (selected.getSwiadczeniekodzus().getKod().equals("CH")) {
+            if (selected.getSwiadczeniekodzus().getRodzajnieobecnosci().getKodzbiorczy().equals("CH")) {
                 selected.setZwolnienieprocent(80.0);
             }
         }
