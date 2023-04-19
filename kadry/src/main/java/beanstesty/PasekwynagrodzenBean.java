@@ -304,6 +304,7 @@ public class PasekwynagrodzenBean {
         //odkrecilem 26-02-2023 po przebudowie kompletnej wyliczania zasadniczego, redukcja jest juz na poczatku
         KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
         String umowakodzus = pasek.getKodZus();
+        
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
             PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);
         } else {
@@ -347,6 +348,8 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.pracownikchorobowa(pasek);
         PasekwynagrodzenBean.razemspolecznepracownik(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
+        boolean jestaktywnaumowa = kalendarz.getAngaz().jestumowaAktywna(pasek.getRokwypl(), pasek.getMcwypl());
+        nieodliczackup = !jestaktywnaumowa;
         if (pasek.isDo26lat()) {
             PasekwynagrodzenBean.obliczpodstaweopodatkowania26DB(pasek, stawkipodatkowe, nieodliczackup, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone(), limit26);
             PasekwynagrodzenBean.obliczpodatekwstepnyDB26lat(pasek, stawkipodatkowe, sumapoprzednich, limit26);
@@ -354,7 +357,7 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, nieodliczackup, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
             PasekwynagrodzenBean.obliczpodatekwstepnyDBStandard(pasek, pasek.getPodstawaopodatkowania(), stawkipodatkowe, sumapoprzednich);
         }
-        if (czyodlicoznokwotewolna == false) {
+        if (czyodlicoznokwotewolna == false&&jestaktywnaumowa) {
             PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, false, odliczaculgepodatkowa);
         }
         PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true, umowakodzus);

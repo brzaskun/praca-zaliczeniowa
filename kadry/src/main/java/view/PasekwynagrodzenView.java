@@ -577,10 +577,18 @@ public class PasekwynagrodzenView implements Serializable {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
             }
             List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+            //zmieniam to bo jak to jest to nie mozna wyplacic zaleglych rzeczy zwolnionym praconikom
+//            for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
+//                Kalendarzmiesiac p = it.next();
+//                Umowa umowaAktywna = p.getAngaz().pobierzumowaAktywna(wybranalistaplac.getRok(), wybranalistaplac.getMc());
+//                if (umowaAktywna==null) {
+//                    it.remove();
+//                }
+//            }
             for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                 Kalendarzmiesiac p = it.next();
-                Umowa umowaAktywna = p.getAngaz().pobierzumowaAktywna(wybranalistaplac.getRok(), wybranalistaplac.getMc());
-                if (umowaAktywna==null) {
+                Angaz angazaktywny = p.getAngaz();
+                if (angazaktywny.isUkryj()) {
                     it.remove();
                 }
             }

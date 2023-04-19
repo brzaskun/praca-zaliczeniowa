@@ -145,12 +145,12 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.pracownik.pesel}"/>
                         </p:column>
-                         <p:column width="30" sortBy="#{itemAngaz.pracownik.aktywny}" style="text-align: center;">
+                         <p:column width="30" sortBy="#{itemAngaz.ukryj}" style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="akt."/>
+                                <h:outputText value="nieakt."/>
                             </f:facet>
-                             <p:selectBooleanCheckbox value="#{itemAngaz.pracownik.aktywny}">
-                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.zapisz(itemAngaz.pracownik)}"/>
+                             <p:selectBooleanCheckbox value="#{itemAngaz.ukryj}">
+                                 <p:ajax event="change" partialSubmit="true" global="false" listener="##{angazView.edytuj(itemAngaz)}"/>
                              </p:selectBooleanCheckbox>
                         </p:column>
                         <p:column width="30">
