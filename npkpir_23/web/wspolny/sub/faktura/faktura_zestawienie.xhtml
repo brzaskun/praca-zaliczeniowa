@@ -22,7 +22,8 @@
                         <p:commandButton value="wszyscy" actionListener="#{fakturaZestView.wszyscypodatnicy()}" update="@form, :form1:messages" style="width: 120px;"  rendered="#{WpisView.biuroiszef eq true}"/>
                         <p:outputLabel value="wszystkie lata"/>
                         <p:selectBooleanCheckbox value="#{fakturaZestView.pobierzwszystkielataKlienta}"  rendered="#{WpisView.biuroiszef eq true}">
-                            <p:ajax event="change" partialSubmit="true" />
+                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{fakturaZestView.pobierzwszystkoKlienta()}" 
+                                update="formzestawienie:dokumentyZestawienie akordeon:formzestawienie:panelinfo"/>
                         </p:selectBooleanCheckbox>
                     </p:panelGrid>
                 </p:panelGrid>
