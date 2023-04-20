@@ -14,7 +14,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +46,7 @@ import view.WpisView;
     @NamedQuery(name = "Angaz.findById", query = "SELECT a FROM Angaz a WHERE a.id = :id"),
     @NamedQuery(name = "Angaz.findByFirma", query = "SELECT a FROM Angaz a WHERE a.firma = :firma ORDER BY a.pracownik.nazwisko"),
     @NamedQuery(name = "Angaz.findByFirmaPracownik", query = "SELECT a FROM Angaz a WHERE a.firma = :firma AND a.pracownik = :pracownik"),
-    @NamedQuery(name = "Angaz.findByFirmaAktywni", query = "SELECT a FROM Angaz a WHERE a.firma = :firma AND a.pracownik.aktywny = TRUE ORDER BY a.pracownik.nazwisko"),
+    @NamedQuery(name = "Angaz.findByFirmaAktywni", query = "SELECT a FROM Angaz a WHERE a.firma = :firma AND a.ukryj = FALSE ORDER BY a.pracownik.nazwisko"),
     @NamedQuery(name = "Angaz.findByPeselFirma", query = "SELECT a FROM Angaz a WHERE a.pracownik.pesel = :pesel AND a.firma = :firma"),
     @NamedQuery(name = "Angaz.findPracownikByFirma", query = "SELECT a.pracownik FROM Angaz a WHERE a.firma = :firma")
 })

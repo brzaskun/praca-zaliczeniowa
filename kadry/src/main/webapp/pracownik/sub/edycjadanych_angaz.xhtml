@@ -185,7 +185,7 @@
                         </p:column>
                         <p:column width="30" sortBy="#{itemAngaz.ukryj}" style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="akt."/>
+                                <h:outputText value="ukryj"/>
                             </f:facet>
                              <p:selectBooleanCheckbox value="#{itemAngaz.ukryj}">
                                  <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.edytuj(itemAngaz)}"/>
