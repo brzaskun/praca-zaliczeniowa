@@ -257,8 +257,8 @@ public class DraView  implements Serializable {
                 }
                 netto = Z.z(netto+p.getNetto());
                 potraceniaKomornik = Z.z(potraceniaKomornik+p.getPotraceniaKomornik());
-                potraceniaZaliczki = Z.z(potraceniaKomornik+p.getPotraceniaZaliczki());
-                potraceniaPPK = Z.z(potraceniaKomornik+p.getPotraceniaPPK());
+                potraceniaZaliczki = Z.z(potraceniaZaliczki+p.getPotraceniaZaliczki());
+                potraceniaPPK = Z.z(potraceniaPPK+p.getPotraceniaPPK());
                 potraceniaPozostale = Z.z(p.getPotracenia()-potraceniaKomornik-potraceniaZaliczki-potraceniaPPK);
             }
             paskiwynagrodzen.add(PasekwynagrodzenBean.sumujpaski(paskiwynagrodzen));
