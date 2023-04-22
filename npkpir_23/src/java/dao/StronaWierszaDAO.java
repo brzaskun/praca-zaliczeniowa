@@ -256,7 +256,17 @@ public class StronaWierszaDAO extends DAO implements Serializable {
                 
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
     }
-    
+
+
+        public List<StronaWiersza> findStronaByPodatnikRokKWMetodaKasowa(Podatnik podatnik, String rok, String mcod, String mcdo) {
+            LoadGroup lg = new LoadGroup();
+            lg.addAttribute("wiersz.dokfk");
+        return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokKwMetodaKasowa").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mcod", mcod).setParameter("rok", rok).setParameter("mcdo", mcdo)
+                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
+                .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
+                
+                .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
+    }    
     
     public List<StronaWiersza> findStronaByPodatnikRokWynikBO(Podatnik podatnik, String rok) {
         return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWynikBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();

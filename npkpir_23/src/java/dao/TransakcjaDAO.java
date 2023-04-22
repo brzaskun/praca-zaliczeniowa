@@ -114,6 +114,10 @@ public class TransakcjaDAO  extends DAO implements Serializable {
         return Collections.synchronizedList(sessionFacade.getEntityManager().createNamedQuery("Transakcja.findByPodatnikRokMcRozl").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnikObj", podatnik).getResultList());
     }
     
+    public List<Transakcja> findPodatnikRokKWRozliczajacy(Podatnik podatnik,String rok, String mcod, String mcdo) {
+        return  getEntityManager().createNamedQuery("Transakcja.findByPodatnikRokKwRozl").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mcod", mcod).setParameter("mcdo", mcdo).getResultList();
+    }
+    
     public List<Transakcja> findPodatnikBO(WpisView wpisView) {
         return sessionFacade.findByPodatnikBO(wpisView);
     }

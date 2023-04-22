@@ -41,6 +41,7 @@ import waluty.Z;
     @NamedQuery(name = "Transakcja.findByRozliczajacy", query = "SELECT t FROM Transakcja t WHERE t.rozliczajacy = :rozliczajacy"),
     @NamedQuery(name = "Transakcja.findByKonto", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja.konto = :konto"),
     @NamedQuery(name = "Transakcja.findByPodatnikRok", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja.wiersz.dokfk.rok = :rok AND t.nowaTransakcja.wiersz.dokfk.podatnikObj = :podatnikObj"),
+    @NamedQuery(name = "Transakcja.findByPodatnikRokKwRozl", query = "SELECT t FROM Transakcja t WHERE t.rozliczajacy.wiersz.dokfk.rok = :rok AND t.rozliczajacy.wiersz.dokfk.miesiac >= :mcod AND t.rozliczajacy.wiersz.dokfk.miesiac <= :mcdo AND t.rozliczajacy.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "Transakcja.findByPodatnikRokMcRozl", query = "SELECT t FROM Transakcja t WHERE t.rozliczajacy.wiersz.dokfk.rok = :rok AND t.rozliczajacy.wiersz.dokfk.miesiac = :mc AND t.rozliczajacy.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "Transakcja.findByPodatnikBO", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja.wiersz IS NULL AND t.nowaTransakcja.konto.podatnik = :podatnik"),
     @NamedQuery(name = "Transakcja.findByPodatnikRokRozniceKursowe", query = "SELECT t FROM Transakcja t WHERE t.rozliczajacy.wiersz.dokfk.rok = :rok AND t.rozliczajacy.wiersz.dokfk.miesiac = :mc AND t.rozliczajacy.wiersz.dokfk.podatnikObj = :podatnikObj AND t.roznicekursowe != 0"),
