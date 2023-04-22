@@ -116,7 +116,7 @@
                       sortBy="#{item.miesiac}"
                      selection="#{jpk_VAT2NView.selected}" selectionMode="single" rowKey="#{item.id}"
                      emptyMessage="nie wysłano jeszcze plików jpk">
-            <p:ajax event="rowSelect" global="false" listener="#{jpk_VAT2NView.pokazdeklaracje}" update="form_dialog_jpk_vat"/>
+            <p:ajax event="rowSelect" global="false" listener="#{jpk_VAT2NView.pokazdeklaracje}"/>
             <p:ajax event="rowToggle" global="false"/>
                 <p:column style="width: 20px; text-align: center;">
                     <p:rowToggler/>
