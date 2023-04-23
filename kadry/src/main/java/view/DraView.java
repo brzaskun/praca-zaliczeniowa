@@ -79,7 +79,21 @@ public class DraView  implements Serializable {
     private double potraceniaPozostale;
     private String mcdra;
     private List<Nieobecnosc> listanieobecnosci;
-    //nie dupad
+     private boolean dialogOtwarty;
+    
+    public void open() {
+        dialogOtwarty = true;
+    }
+    public void close() {
+        dialogOtwarty = false;
+    }
+    
+    public void reloadDialog() {
+        boolean zwrot = false;
+        if (dialogOtwarty) {
+            init();
+        }
+    }
     
     public void init() {
         mcdra = wpisView.getMiesiacWpisu();
