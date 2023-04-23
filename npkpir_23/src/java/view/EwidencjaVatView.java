@@ -987,7 +987,7 @@ public class EwidencjaVatView implements Serializable {
             for (Iterator<EVatwpisFK> it = zwrot.iterator(); it.hasNext();) {
                 EVatwpisFK p = it.next();
                 //dodano do kasowej zzvat bo to sa dokumenty z poprzedniego roku recznie wprowadzone przy nowych klientach
-                if (!p.getDokfk().getSeriadokfk().equals("ZZVAT")&&!p.getDokfk().getSeriadokfk().equals("RK")&&p.getDokfk().memorailowo0kasowo1()) {
+                 if (!p.getDokfk().getSeriadokfk().equals("SZVAT")&&!p.getDokfk().getSeriadokfk().equals("ZZVAT")&&!p.getDokfk().getSeriadokfk().equals("RK")&&p.getDokfk().memorailowo0kasowo1()) {
                     it.remove();
                 }
             }
