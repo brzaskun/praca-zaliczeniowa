@@ -5,8 +5,21 @@
  */
 package view;
 
+import beanstesty.OkresBean;
+import comparator.Pasekwynagrodzencomparator;
+import comparator.Z3danecomparator;
+import dao.PasekwynagrodzenFacade;
 import data.Data;
+import embeddable.Okres;
+import embeddable.Z3dane;
+import entity.FirmaKadry;
+import entity.Pasekwynagrodzen;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -24,18 +37,75 @@ public class Z3daneView implements Serializable {
     private WpisView wpisView;
     private String dataod;
     private String datado;
+    @Inject
+    private PasekwynagrodzenFacade pasekwynagrodzenFacade;
+    private List<Z3dane> lista;
     
      @PostConstruct
     public void init() {
-         String[] poprzedniokres = Data.poprzedniOkres(Data.aktualnaData());
-        if (datado==null) {
-            datado = Data.ostatniDzien(poprzedniokres[1], poprzedniokres[0]);
-        }
-        poprzedniokres = Data.poprzedniOkres(poprzedniokres[0], poprzedniokres[1]);
-        poprzedniokres = Data.poprzedniOkres(poprzedniokres[0], poprzedniokres[1]);
+        String[] poprzedniokres = Data.poprzedniOkres(Data.aktualnaData());
+         FirmaKadry firma = wpisView.getFirma();
+         boolean przesuniecie = firma.getDzienlp()!=null;
         if (dataod==null) {
             dataod = Data.pierwszyDzien(poprzedniokres[1], poprzedniokres[0]);
         }
+        if (datado==null) {
+            datado = Data.ostatniDzien(poprzedniokres[1], poprzedniokres[0]);
+        }
+        String dataod2 = Data.dodajmiesiac(dataod, -13);
+        String rokuprzedni = Data.poprzednirok(Data.getRok(dataod));
+        List<Pasekwynagrodzen> paskirokuprzedni = pasekwynagrodzenFacade.findByRokWyplAngaz(rokuprzedni, wpisView.getAngaz());
+        List<Pasekwynagrodzen> paskirokbierzacy = pasekwynagrodzenFacade.findByRokWyplAngaz(Data.getRok(datado), wpisView.getAngaz());
+        List<Pasekwynagrodzen> paski = new ArrayList<>();
+        if (paskirokuprzedni!=null) {
+            paski.addAll(paskirokuprzedni);
+        }
+        if (paskirokbierzacy!=null) {
+            paski.addAll(paskirokbierzacy);
+        }
+        Collections.sort(paski, new Pasekwynagrodzencomparator());
+        List<Okres> okresylista = OkresBean.pobierzokresy(dataod2, datado);
+        Map<Okres, Z3dane> okrespaski = new HashMap<>();
+        if (paski!=null) {
+            for (Okres ok : okresylista) {
+                okrespaski.put(ok, new Z3dane(ok.getRok(), ok.getMc()));
+            }
+            double bruttosuma = 0.0;
+            double nettosuma = 0.0;
+            for (Okres ok : okresylista) {
+                Z3dane wybranyokres = okrespaski.get(ok);
+                for (Pasekwynagrodzen pasek :paski) {
+                    if (pasek.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("WZ")) {
+                        if (przesuniecie==true&&pasek.getOkresWypl().equals(ok.getRokmc())) {
+                            wybranyokres.setStale(pasek.getStale());
+                            wybranyokres.setZmienne(pasek.getZmienne());
+                            wybranyokres.setPremie(pasek.getPremie());
+                            wybranyokres.setGodzinyobowiazku(pasek.getKalendarzmiesiac().getNorma());
+                            wybranyokres.setGodzinyprzepracowane(pasek.getKalendarzmiesiac().getPrzepracowane());
+                        } else if (przesuniecie==false&&pasek.getOkresNalezny().equals(ok.getRokmc())) {
+                            wybranyokres.setStale(pasek.getStale());
+                            wybranyokres.setZmienne(pasek.getZmienne());
+                            wybranyokres.setPremie(pasek.getPremie());
+                            wybranyokres.setGodzinyobowiazku(pasek.getKalendarzmiesiac().getNorma());
+                            wybranyokres.setGodzinyprzepracowane(pasek.getKalendarzmiesiac().getPrzepracowane());
+                        }
+                    }
+                }
+            }
+            lista = new ArrayList<>(okrespaski.values());
+            Collections.sort(lista, new Z3danecomparator());
+        }
     }
+
+    public List<Z3dane> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<Z3dane> lista) {
+        this.lista = lista;
+    }
+    
+    
+    
     
 }

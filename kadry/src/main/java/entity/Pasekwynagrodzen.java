@@ -1477,6 +1477,36 @@ public class Pasekwynagrodzen implements Serializable {
         }
         return zwrot;
     }
+
+    public double getStale() {
+        double zwrot = 0.0;
+        for (Naliczenieskladnikawynagrodzenia nal : this.naliczenieskladnikawynagrodzeniaList) {
+            if (nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isZ31()) {
+                zwrot = zwrot+nal.getKwotadolistyplac();
+            }
+        }
+        return zwrot;
+    }
+
+    public double getZmienne() {
+        double zwrot = 0.0;
+        for (Naliczenieskladnikawynagrodzenia nal : this.naliczenieskladnikawynagrodzeniaList) {
+            if (nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isZ32()) {
+                zwrot = zwrot+nal.getKwotadolistyplac();
+            }
+        }
+        return zwrot;
+    }
+
+    public double getPremie() {
+        double zwrot = 0.0;
+        for (Naliczenieskladnikawynagrodzenia nal : this.naliczenieskladnikawynagrodzeniaList) {
+            if (nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isZ33()) {
+                zwrot = zwrot+nal.getKwotadolistyplac();
+            }
+        }
+        return zwrot;
+    }
    
     
 

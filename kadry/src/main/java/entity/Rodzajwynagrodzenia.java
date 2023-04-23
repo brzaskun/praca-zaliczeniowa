@@ -78,6 +78,12 @@ public class Rodzajwynagrodzenia implements Serializable {
     private  boolean aktywne;
     @Column(name = "tylkosuperplace")
     private  boolean tylkosuperplace;
+    @Column(name = "z31")
+    private  boolean z31;
+    @Column(name = "z32")
+    private  boolean z32;
+    @Column(name = "z33")
+    private  boolean z33;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajwynagrodzenia")
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
     @Column(name = "sredniaurlopowakraj")
@@ -260,6 +266,31 @@ public class Rodzajwynagrodzenia implements Serializable {
     public void setPodstzasilekchorobowy(boolean podstzasilekchorobowy) {
         this.podstzasilekchorobowy = podstzasilekchorobowy;
     }
+
+    public boolean isZ31() {
+        return z31;
+    }
+
+    public void setZ31(boolean z31) {
+        this.z31 = z31;
+    }
+
+    public boolean isZ32() {
+        return z32;
+    }
+
+    public void setZ32(boolean z32) {
+        this.z32 = z32;
+    }
+
+    public boolean isZ33() {
+        return z33;
+    }
+
+    public void setZ33(boolean z33) {
+        this.z33 = z33;
+    }
+    
 
     @XmlTransient
     public List<RodzajlistyplacRodzajwynagrodzenia> getDefinicjalistaplacRodzajwynagrodzeniaList() {

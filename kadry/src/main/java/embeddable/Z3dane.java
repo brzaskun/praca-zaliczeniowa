@@ -6,7 +6,6 @@
 package embeddable;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 
 /**
  *
@@ -22,6 +21,11 @@ public class Z3dane implements Serializable {
     private double premie;
     private double godzinyobowiazku;
     private double godzinyprzepracowane;
+
+    public Z3dane(String rok, String mc) {
+        this.rok = rok;
+        this.mc = mc;
+    }
 
     public String getRok() {
         return rok;
@@ -79,6 +83,9 @@ public class Z3dane implements Serializable {
         this.godzinyprzepracowane = godzinyprzepracowane;
     }
     
+    public String getOkres() {
+        return this.rok+this.mc;
+    }
     
     
 }

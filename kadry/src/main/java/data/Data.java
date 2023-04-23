@@ -908,6 +908,14 @@ public class Data implements Serializable {
         }
         return zwrot;
     }
+
+    public static String poprzednirok(String rok) {
+        String zwrot = rok;
+        if (rok!=null) {
+            zwrot = String.valueOf(Integer.parseInt(rok)-1);
+        }
+        return zwrot;
+    }
     
     
 
