@@ -11,6 +11,8 @@
               resizable="false"  onShow="ustawdialog('dialogdra','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogdra');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{draView.init()}" update="DRACreateForm DRASumaForm DRAListForm" global="false"/>
+        <p:ajax event="close" listener="#{draView.close()}" global="false"/>
+         <p:ajax event="open" listener="#{draView.open()}" global="false"/>
         <p:outputPanel style="height: 120px">
             <h:form  styleClass="formadmin" id="DRACreateForm">
                 <h:panelGroup id="display">

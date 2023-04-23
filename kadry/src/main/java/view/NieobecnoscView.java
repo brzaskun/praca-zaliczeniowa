@@ -113,6 +113,22 @@ public class NieobecnoscView  implements Serializable {
     private int dniwykorzystanewroku;
     private boolean naniesbezposrednio;
     private Nieobecnoscprezentacja urlopprezentacja;
+    private boolean dialogOtwarty;
+    
+    public void open() {
+        dialogOtwarty = true;
+    }
+    public void close() {
+        dialogOtwarty = false;
+    }
+    
+    public void reloadDialog() {
+        boolean zwrot = false;
+        if (dialogOtwarty) {
+            init();
+        }
+    }
+
     
 
     

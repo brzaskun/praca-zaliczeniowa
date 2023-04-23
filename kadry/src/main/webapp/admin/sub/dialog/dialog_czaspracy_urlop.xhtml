@@ -9,7 +9,9 @@
     <p:dialog id="dialgoczaspracyurlop" header="Zestawienie urlopu i nieobecności" widgetVar="dialgoczaspracyurlop"  dynamic="true"
               resizable="false"  onShow="ustawdialog('dialgoczaspracyurlop','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialgoczaspracyurlop');" 
               fitViewport="true">
-<!--        <p:ajax event="open" listener="#{pracownikNieobecnoscView.init()}" update="akordeon:PracownikUrlopForm akordeon:PracownikChorobaForm akordeon:PracownikZasilekForm akordeon:EkwiwalentForm akordeon:PracownikOddelegowanieForm" global="false"/>-->
+        <p:ajax event="open" listener="#{pracownikNieobecnoscView.init()}" update="akordeon:PracownikUrlopForm akordeon:PracownikChorobaForm akordeon:PracownikZasilekForm akordeon:EkwiwalentForm akordeon:PracownikOddelegowanieForm" global="false"/>
+         <p:ajax event="close" listener="#{pracownikNieobecnoscView.close()}" global="false"/>
+         <p:ajax event="open" listener="#{pracownikNieobecnoscView.open()}" global="false"/>
         <p:outputPanel>
             <p:tabView id="akordeon">
                 <p:tab title="wykorzystanie urlopu rok biezacy">

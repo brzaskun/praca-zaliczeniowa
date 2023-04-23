@@ -146,6 +146,21 @@ public class PasekwynagrodzenView implements Serializable {
     private double symulacjanetto;
     private double symulacjatotalcost;
     private Definicjalistaplac definicjadlazasilkow;
+    private boolean dialogOtwarty;
+    
+    public void open() {
+        dialogOtwarty = true;
+    }
+    public void close() {
+        dialogOtwarty = false;
+    }
+    
+    public void reloadDialog() {
+        boolean zwrot = false;
+        if (dialogOtwarty) {
+            init();
+        }
+    }
 
     public PasekwynagrodzenView() {
         listadefinicjalistaplac = new ArrayList<>();

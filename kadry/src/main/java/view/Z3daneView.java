@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -40,8 +39,23 @@ public class Z3daneView implements Serializable {
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     private List<Z3dane> lista;
+    private boolean dialogOtwarty;
     
-     @PostConstruct
+    public void open() {
+        dialogOtwarty = true;
+    }
+    public void close() {
+        dialogOtwarty = false;
+    }
+    
+    public void reloadDialog() {
+        boolean zwrot = false;
+        if (dialogOtwarty) {
+            init();
+        }
+    }
+
+    
     public void init() {
         String[] poprzedniokres = Data.poprzedniOkres(Data.aktualnaData());
          FirmaKadry firma = wpisView.getFirma();
@@ -104,7 +118,7 @@ public class Z3daneView implements Serializable {
     public void setLista(List<Z3dane> lista) {
         this.lista = lista;
     }
-    
+
     
     
     

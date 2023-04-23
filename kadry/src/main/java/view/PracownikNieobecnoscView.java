@@ -11,6 +11,7 @@ import beanstesty.IPaddress;
 import static beanstesty.KalendarzmiesiacBean.pobierzpaski;
 import beanstesty.UrlopBean;
 import comparator.Nieobecnoscwykorzystaniecomparator;
+import dao.AngazFacade;
 import dao.EkwiwalentUrlopFacade;
 import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
@@ -21,6 +22,7 @@ import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
 import dao.WspolczynnikEkwiwalentFacade;
 import data.Data;
+import entity.Angaz;
 import entity.EkwiwalentUrlop;
 import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
@@ -43,9 +45,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -57,7 +58,7 @@ import z.Z;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class PracownikNieobecnoscView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -72,6 +73,8 @@ public class PracownikNieobecnoscView  implements Serializable {
     private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
     @Inject
     private EtatPracFacade etatPracFacade;
+    @Inject
+    private AngazFacade angazFacade;
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     @Inject
@@ -92,8 +95,22 @@ public class PracownikNieobecnoscView  implements Serializable {
     List<Naliczenienieobecnosc> skladnikizmienne;
     private EtatPrac wybranyetat;
     private String wiekdlachoroby;
+     private boolean dialogOtwarty;
     
-    @PostConstruct
+    public void open() {
+        dialogOtwarty = true;
+    }
+    public void close() {
+        dialogOtwarty = false;
+    }
+    
+    public void reloadDialog() {
+        boolean zwrot = false;
+        if (dialogOtwarty) {
+            init();
+        }
+    }
+    
     public void init() {
         try {
             if (wpisView.getPracownik()!=null) {
@@ -101,12 +118,13 @@ public class PracownikNieobecnoscView  implements Serializable {
                 wspolczynnikEkwiwalent = wspolczynnikEkwiwalentFacade.findbyRok(wpisView.getRokWpisu());
                 EkwiwalentUrlop znaleziony = ekwiwalentSkladnikiFacade.findbyUmowa(ekwiwalent.getUmowa());
                 ustawekwiwalent(ekwiwalent, wspolczynnikEkwiwalent.getKwota(), stannadzien);
-                pobierzurlop();
+                Angaz angaz = angazFacade.findById(wpisView.getAngaz());
+                pobierzurlop(angaz);
                 ekwiwalent.setWykorzystany(urlopprezentacja.getWykorzystanierokbiezacy());
-                pobierzchoroba();
-                pobierzzasilek();
-                pobierzoddelegowanie();
-                obliczekwiwalent(ekwiwalent);
+                pobierzchoroba(angaz);
+                pobierzzasilek(angaz);
+                pobierzoddelegowanie(angaz);
+                obliczekwiwalent(ekwiwalent, angaz);
             }
         } catch (Exception e){
             System.out.println("");
@@ -137,48 +155,48 @@ public class PracownikNieobecnoscView  implements Serializable {
       }
     }
     
-    public void pobierzurlop() {
+    public void pobierzurlop(Angaz angaz) {
         if (wpisView.getPracownik()!=null) {
-            urlopprezentacja = UrlopBean.pobierzurlop(wpisView.getAngaz(), wpisView.getRokWpisu(), stannadzien, stannadzien);
+            urlopprezentacja = UrlopBean.pobierzurlop(angaz, wpisView.getRokWpisu(), stannadzien, stannadzien);
         }
     }
-    public void pobierzoddelegowanie() {
+    public void pobierzoddelegowanie(Angaz angaz) {
         if (wpisView.getPracownik()!=null) {
-            oddelegowanieprezentacja = new Nieobecnoscprezentacja(wpisView.getAngaz(), wpisView.getRokWpisu());  
-            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
+            oddelegowanieprezentacja = new Nieobecnoscprezentacja(angaz, wpisView.getRokWpisu());  
+            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, wpisView.getRokWpisu());
             oddelegowanieprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, oddelegowanieprezentacja, "Z"));
-            List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
-            EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
+            List<Umowa> umowy = umowaFacade.findByAngaz(angaz);
+            EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,stannadzien);
             oddelegowanieprezentacja.setWymiarokresbiezacygodziny(UrlopBean.obliczwymiarwgodzinach(umowy, pobierzetat, wpisView.getRokWpisu(), stannadzien));
             oddelegowanieprezentacja.setDoprzeniesienia(oddelegowanieprezentacja.getWymiarokresbiezacygodziny()-oddelegowanieprezentacja.getWykorzystanierokbiezacy()-oddelegowanieprezentacja.getWykorzystanierokbiezacyekwiwalent());
             //Msg.msg("Pobrano oddelegowania");
         }
     }
     
-    public void pobierzchoroba() {
+    public void pobierzchoroba(Angaz angaz) {
         if (wpisView.getPracownik()!=null) {
-            chorobaprezentacja = new Nieobecnoscprezentacja(wpisView.getAngaz(), wpisView.getRokWpisu());  
-            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
+            chorobaprezentacja = new Nieobecnoscprezentacja(angaz, wpisView.getRokWpisu());  
+            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, wpisView.getRokWpisu());
             chorobaprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, chorobaprezentacja, "CH"));
-            List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
-            EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
+            List<Umowa> umowy = umowaFacade.findByAngaz(angaz);
+            EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,stannadzien);
             chorobaprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinachchoroba(umowy, pobierzetat));
             chorobaprezentacja.setDoprzeniesienia(chorobaprezentacja.getWymiarokresbiezacygodziny()-chorobaprezentacja.getWykorzystanierokbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacyekwiwalent());
-            wiekdlachoroby = obliczwiek(wpisView.getAngaz().getPracownik());
+            wiekdlachoroby = obliczwiek(angaz.getPracownik());
             //Msg.msg("Pobrano dane chorobowe");
         }
     }
     
     
     
-     public void pobierzzasilek() {
+     public void pobierzzasilek(Angaz angaz) {
         if (wpisView.getPracownik()!=null) {
-            zasilekprezentacja = new Nieobecnoscprezentacja(wpisView.getAngaz(), wpisView.getRokWpisu());  
-            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
+            zasilekprezentacja = new Nieobecnoscprezentacja(angaz, wpisView.getRokWpisu());  
+            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, wpisView.getRokWpisu());
             zasilekprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, zasilekprezentacja, "ZC"));
             zasilekprezentacja.getNieobecnoscwykorzystanieList().addAll(UrlopBean.naniesdnizkodem(kalendarze, zasilekprezentacja, "W"));
-            List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
-            EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
+            List<Umowa> umowy = umowaFacade.findByAngaz(angaz);
+            EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,stannadzien);
             zasilekprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinachzasilek(umowy, pobierzetat));
             zasilekprezentacja.setDoprzeniesienia(zasilekprezentacja.getWymiarokresbiezacygodziny()-zasilekprezentacja.getWykorzystanierokbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacyekwiwalent());
             //Msg.msg("Pobrano dni zasiłkowe");
@@ -273,7 +291,7 @@ public class PracownikNieobecnoscView  implements Serializable {
         return zwrot;
     }
     
-    public void obliczekwiwalent(EkwiwalentUrlop ekw) {
+    public void obliczekwiwalent(EkwiwalentUrlop ekw, Angaz angaz) {
         if (ekw.getDziennaliczenia() != null) {
             ekw.setKwota(0.0);
             ekw.setAngaz(wpisView.getAngaz());
@@ -287,7 +305,7 @@ public class PracownikNieobecnoscView  implements Serializable {
             String rok = Data.getRok(data);
             String mc = Data.getMc(data);
             List<Skladnikwynagrodzenia> skladniki = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz());
-            pobierzurlop();
+            pobierzurlop(angaz);
             double godzinypoprzednirok = urlopprezentacja.getBilansotwarciagodziny();
             double godzinyekw = urlopprezentacja.getDoprzeniesienia();
             ekw.setZalegly((int)godzinypoprzednirok);

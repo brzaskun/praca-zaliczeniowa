@@ -60,6 +60,8 @@ public class UpdateClassView   implements Serializable {
     @Inject
     private RozwiazanieumowyView rozwiazanieumowyView;
     @Inject
+    private Z3daneView z3daneView;
+    @Inject
     private WpisView wpisView;
 
 
@@ -94,13 +96,17 @@ public class UpdateClassView   implements Serializable {
     
     public void updateAdminTab(){
         kalendarzmiesiacView.init();
-        nieobecnoscView.init();
+        nieobecnoscView.reloadDialog();
         //wywalilem bo jest RequestScoped
-        //pracownikNieobecnoscView.init();
+        //przywrocilem do jest reloadDialoh
+        //request nie dziala
+        pracownikNieobecnoscView.reloadDialog();
         skladnikWynagrodzeniaView.init();
-        pasekwynagrodzenView.init();
+        pasekwynagrodzenView.reloadDialog();
+        draView.reloadDialog();
         zmienneZbiorczoView.init();
         skladnikiZbiorczoView.init();
+        z3daneView.reloadDialog();
         try {
             kartaWynagrodzenView.pobierzdane(wpisView.getAngaz());
             rachunekZlecenieView.init(wpisView.getUmowa());

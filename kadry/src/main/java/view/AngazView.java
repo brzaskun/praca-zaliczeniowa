@@ -128,7 +128,6 @@ public class AngazView  implements Serializable {
                 }
             }
             pobierzpracownikow();
-            pasekwynagrodzenView.init();
             //init();
             updateClassView.updateAdminTab();
             Msg.msg("Aktywowano firmę "+firma.getNazwa());

@@ -15,6 +15,8 @@
               resizable="false"  onShow="ustawdialog('dialogpracownikanieobecnosci','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogpracownikanieobecnosci');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{nieobecnoscView.init()}" update="NieobecnoscCreateForm NieobecnoscListForm" global="false"/>
+        <p:ajax event="close" listener="#{nieobecnoscView.close()}" global="false"/>
+         <p:ajax event="open" listener="#{nieobecnoscView.open()}" global="false"/>
         <p:outputPanel style="height: 180px">
             <p:panelGrid columns="2" columnClasses="eighty-percent twenty-percent" style="width: 1500px;">
                 <h:form  styleClass="formadmin" id="NieobecnoscCreateForm">
