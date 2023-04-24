@@ -327,7 +327,9 @@ public class JPK_VAT2020K2_Bean {
     public static pl.gov.crd.wzor._2021._12._27._11149.JPK.Podmiot1 podmiot1(Podatnik wv, String telefon, String email) {
         pl.gov.crd.wzor._2021._12._27._11149.JPK.Podmiot1 p = new pl.gov.crd.wzor._2021._12._27._11149.JPK.Podmiot1();
         p.setRola(p.getRola());
-        if (wv.getPesel().equals("00000000000")) {
+        if (wv.getFormaPrawna()!=null&&wv.getFormaPrawna().toString().equals("OSOBA_FIZYCZNA")) {
+            p.setOsobaFizyczna(zrobFizyczna(wv, telefon, email));
+        } else if (wv.getPesel().equals("00000000000")) {
             p.setOsobaNiefizyczna(zrobNiefizyczn(wv, telefon, email));
         } else {
             p.setOsobaFizyczna(zrobFizyczna(wv, telefon, email));

@@ -359,7 +359,9 @@ public class JPK_VAT2020M2_Bean {
     public static Podmiot1 podmiot1(Podatnik wv, String telefon, String email) {
         Podmiot1 p = new Podmiot1();
         p.setRola(p.getRola());
-        if (wv.getPesel().equals("00000000000")) {
+        if (wv.getFormaPrawna()!=null&&wv.getFormaPrawna().toString().equals("OSOBA_FIZYCZNA")) {
+            p.setOsobaFizyczna(zrobFizyczna(wv, telefon, email));
+        } else if (wv.getPesel().equals("00000000000")) {
             p.setOsobaNiefizyczna(zrobNiefizyczn(wv, telefon, email));
         } else {
             p.setOsobaFizyczna(zrobFizyczna(wv, telefon, email));
