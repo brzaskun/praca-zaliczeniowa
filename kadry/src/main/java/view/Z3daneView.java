@@ -60,14 +60,10 @@ public class Z3daneView implements Serializable {
         String[] poprzedniokres = Data.poprzedniOkres(Data.aktualnaData());
          FirmaKadry firma = wpisView.getFirma();
          boolean przesuniecie = firma.getDzienlp()!=null;
-        if (dataod==null) {
-            dataod = Data.pierwszyDzien(poprzedniokres[1], poprzedniokres[0]);
-        }
-        if (datado==null) {
-            datado = Data.ostatniDzien(poprzedniokres[1], poprzedniokres[0]);
-        }
-        String dataod2 = Data.dodajmiesiac(dataod, -13);
-        String rokuprzedni = Data.poprzednirok(Data.getRok(dataod));
+        dataod = Data.pierwszyDzien(poprzedniokres[1], poprzedniokres[0]);
+        datado = Data.ostatniDzien(poprzedniokres[1], poprzedniokres[0]);
+        dataod = Data.dodajmiesiac(datado, -13);
+        String rokuprzedni = Data.getRok(dataod);
         List<Pasekwynagrodzen> paskirokuprzedni = pasekwynagrodzenFacade.findByRokWyplAngaz(rokuprzedni, wpisView.getAngaz());
         List<Pasekwynagrodzen> paskirokbierzacy = pasekwynagrodzenFacade.findByRokWyplAngaz(Data.getRok(datado), wpisView.getAngaz());
         List<Pasekwynagrodzen> paski = new ArrayList<>();
@@ -78,7 +74,7 @@ public class Z3daneView implements Serializable {
             paski.addAll(paskirokbierzacy);
         }
         Collections.sort(paski, new Pasekwynagrodzencomparator());
-        List<Okres> okresylista = OkresBean.pobierzokresy(dataod2, datado);
+        List<Okres> okresylista = OkresBean.pobierzokresy(dataod, datado);
         Map<Okres, Z3dane> okrespaski = new HashMap<>();
         if (paski!=null) {
             for (Okres ok : okresylista) {
@@ -86,6 +82,7 @@ public class Z3daneView implements Serializable {
             }
             double bruttosuma = 0.0;
             double nettosuma = 0.0;
+            Z3dane suma = new Z3dane(null, null);
             for (Okres ok : okresylista) {
                 Z3dane wybranyokres = okrespaski.get(ok);
                 for (Pasekwynagrodzen pasek :paski) {
@@ -96,18 +93,21 @@ public class Z3daneView implements Serializable {
                             wybranyokres.setPremie(pasek.getPremie());
                             wybranyokres.setGodzinyobowiazku(pasek.getKalendarzmiesiac().getNorma());
                             wybranyokres.setGodzinyprzepracowane(pasek.getKalendarzmiesiac().getPrzepracowane());
+                            suma.sumuj(pasek.getStale(), pasek.getZmienne(), pasek.getPremie());
                         } else if (przesuniecie==false&&pasek.getOkresNalezny().equals(ok.getRokmc())) {
                             wybranyokres.setStale(pasek.getStale());
                             wybranyokres.setZmienne(pasek.getZmienne());
                             wybranyokres.setPremie(pasek.getPremie());
                             wybranyokres.setGodzinyobowiazku(pasek.getKalendarzmiesiac().getNorma());
                             wybranyokres.setGodzinyprzepracowane(pasek.getKalendarzmiesiac().getPrzepracowane());
+                            suma.sumuj(pasek.getStale(), pasek.getZmienne(), pasek.getPremie());
                         }
                     }
                 }
             }
             lista = new ArrayList<>(okrespaski.values());
             Collections.sort(lista, new Z3danecomparator());
+            lista.add(suma);
         }
     }
 
@@ -117,6 +117,22 @@ public class Z3daneView implements Serializable {
 
     public void setLista(List<Z3dane> lista) {
         this.lista = lista;
+    }
+
+    public String getDataod() {
+        return dataod;
+    }
+
+    public void setDataod(String dataod) {
+        this.dataod = dataod;
+    }
+
+    public String getDatado() {
+        return datado;
+    }
+
+    public void setDatado(String datado) {
+        this.datado = datado;
     }
 
     

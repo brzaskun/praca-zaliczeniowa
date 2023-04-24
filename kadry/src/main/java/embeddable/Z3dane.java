@@ -26,6 +26,12 @@ public class Z3dane implements Serializable {
         this.rok = rok;
         this.mc = mc;
     }
+    
+    public void sumuj(double stale, double zmienne, double premie) {
+        this.stale = this.stale+stale;
+        this.zmienne = this.zmienne+zmienne;
+        this.premie = this.premie+premie;
+    }
 
     public String getRok() {
         return rok;
@@ -86,6 +92,8 @@ public class Z3dane implements Serializable {
     public String getOkres() {
         return this.rok+this.mc;
     }
+
+    
     
     
 }

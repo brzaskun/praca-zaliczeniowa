@@ -15,9 +15,13 @@
          <p:ajax event="open" listener="#{z3daneView.open()}" global="false"/>
         <p:outputPanel>
             <h:form  styleClass="formadmin" id="KartyZ3Form">
-                <p:panelGrid columns="1">
+                <p:panelGrid columns="2">
                     <h:outputText value="pracownik"/>
                     <h:outputText value="#{wpisView.pracownik.nazwiskoImie}"/>
+                    <h:outputText value="data od"/>
+                    <h:outputText value="#{z3daneView.dataod}"/>
+                    <h:outputText value="data do"/>
+                    <h:outputText value="#{z3daneView.datado}"/>
                 </p:panelGrid>
                 <p:commandButton value="Drukuj" type="button" icon="pi pi-print" styleClass="shadow-1 mb-3" style="margin-top: 20px;">
                     <p:printer target="datalist" />
