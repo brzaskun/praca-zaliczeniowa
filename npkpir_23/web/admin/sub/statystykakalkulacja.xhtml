@@ -18,7 +18,7 @@
         <p:commandButton value="pobierz" actionListener="#{statystykaKalkulacjaView.pobierz}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
         <p:commandButton value="drukuj" actionListener="#{statystykaKalkulacjaView.drukuj}" style="width: 120px; margin-left: 20px;"/>
     </p:panelGrid>
-    <p:dataTable value="#{statystykaKalkulacjaView.podatnikroklista}" var="item" id="datatable" style="width: 1250px; padding: 10px;"
+    <p:dataTable value="#{statystykaKalkulacjaView.podatnikroklista}" var="item" id="datatable" style="width: 1350px; padding: 10px;"
                  sortBy="#{item.ranking}" sortOrder="descending" rowIndexVar="index"
                  emptyMessage="Nie pobrano danych">
         <p:column style="width: 20px;">
@@ -27,11 +27,17 @@
             </f:facet>
             <h:outputText value="#{index+1}"/>
         </p:column>
-        <p:column style="width: 300px;" sortBy="#{item.podatnik.printnazwa}">
+        <p:column style="width: 250px;" sortBy="#{item.podatnik.printnazwa}">
             <f:facet name="header">
                 <h:outputText value="podatnik"/>
             </f:facet>
             <h:outputText value="#{item.podatnik.printnazwa}"/>
+        </p:column>
+        <p:column style="width: 100px;" filterBy="#{item.podatnik.ksiegowa.imieNazwisko}" filterMatchMode="contains" sortBy="#{item.podatnik.ksiegowa.imieNazwisko}">
+            <f:facet name="header">
+                <h:outputText value="ksiegowa"/>
+            </f:facet>
+            <h:outputText value="#{item.podatnik.ksiegowa.imieNazwisko}"/>
         </p:column>
         <p:column style="width: 100px;">
             <f:facet name="header">
