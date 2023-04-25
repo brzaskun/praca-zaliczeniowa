@@ -1195,15 +1195,15 @@ public class KalendarzmiesiacBean {
                 mc = popokres[0];
             }
             List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, skladnikwynagrodzenia, kalendarzList);
-            double godzinyfaktyczne = 0.0;
+            double godzinynominalnepracownik = 0.0;
             double dnifaktyczne = 0.0;
             double kwotywyplacone = 0.0;
             double stawkazagodzine = 0.0;
             int liczba = 0;
             for (Naliczenieskladnikawynagrodzenia pa : naliczonyskladnikdosredniej) {
                 if (pa.getKwotadolistyplac() > 0.0 && pa.getGodzinyfaktyczne() > 0.0) {
-                    godzinyfaktyczne = godzinyfaktyczne + pa.getGodzinyfaktyczne();
-                    dnifaktyczne = dnifaktyczne + pa.getDnifaktyczne();
+                    godzinynominalnepracownik = godzinynominalnepracownik + pa.getGodzinynalezne();
+                    dnifaktyczne = dnifaktyczne + pa.getDninalezne();
                     kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
                     liczba++;
                     boolean skladnikstaly = false;
@@ -1221,11 +1221,11 @@ public class KalendarzmiesiacBean {
                     }
                 }
             }
-            if (godzinyfaktyczne != 0.0 && dnifaktyczne != 0.0) {
-                stawkazagodzine = Z.z(kwotywyplacone / godzinyfaktyczne);
+            if (godzinynominalnepracownik != 0.0 && dnifaktyczne != 0.0) {
+                stawkazagodzine = Z.z(kwotywyplacone / godzinynominalnepracownik);
                 sredniadopodstawy = sredniadopodstawy + Z.z(stawkazagodzine * liczbagodzinieobecnosci);
                 naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
-                naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
+                naliczenienieobecnosc.setSumagodzindosredniej(godzinynominalnepracownik);
                 naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
                 naliczenienieobecnosc.setStawkadzienna(Z.z(kwotywyplacone / dnifaktyczne));
                 naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
