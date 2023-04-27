@@ -92,7 +92,9 @@ public class ObslugaPodpisuBean {
                     + "library="+realPath+"\r"+ "slotListIndex=0";
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
             ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
-            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            //pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            pkcs11Provider = Security.getProvider("SunPKCS11");
+            pkcs11Provider.configure(pkcs11config);
             Security.removeProvider(pkcs11Provider.getName());
             Security.addProvider(pkcs11Provider);
         } catch (Exception e) {
@@ -516,7 +518,9 @@ public class ObslugaPodpisuBean {
                     + "library="+realPath+"\r"+ "slotListIndex=0";
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
             ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
-            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            //pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            pkcs11Provider = Security.getProvider("SunPKCS11");
+            pkcs11Provider.configure(pkcs11config);
             //Security.removeProvider(pkcs11Provider.getName());
             KeyStore keyStore = KeyStore.getInstance("PKCS11", pkcs11Provider);
             if (keyStore==null) {

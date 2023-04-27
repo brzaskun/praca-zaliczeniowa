@@ -108,7 +108,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         archiwum = Collections.synchronizedList(new ArrayList<>());
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
         klienci.addAll(pobierzkontrahentow());
-        dodatkowyadresmailowy="recepcja@taxman.biz.pl";
+        dodatkowyadresmailowy="m.januszewska@taxman.biz.pl";
         Collections.sort(klienci, new KlienciNPcomparator());
         podatnicy = podatnikDAO.findAll();
      }
