@@ -114,9 +114,9 @@ public class Main {
                     + "library="+realPath;
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
             ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
-            //pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
-            pkcs11Provider = Security.getProvider("SunPKCS11");
-            pkcs11Provider.configure(pkcs11config);
+            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            //pkcs11Provider = Security.getProvider("SunPKCS11");
+            //pkcs11Provider.configure(pkcs11config);
             Security.addProvider(pkcs11Provider);
         } catch (Exception e) {
             E.e(e);
