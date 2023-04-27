@@ -20,7 +20,9 @@
             </p:panelGrid>
             <p:panelGrid columns="2" style="margin-top: 20px;">
                 <h:outputText value="data zatrudnienia: "/>
-                <h:outputText value="#{wpisView.pracownik.datazatrudnienia}"/>
+                <p:inputText value="#{wpisView.pracownik.datazatrudnienia}">
+                    <p:ajax event="blur" partialSubmit="true" global="false"/>
+                </p:inputText>
                 <h:outputText value="data zwolnienia: "/>
                 <h:outputText value="#{wpisView.pracownik.datazwolnienia}" rendered="#{wpisView.pracownik.datazwolnienia ne null and wpisView.pracownik.datazwolnienia.length() gt 1}"/>
                 <h:outputText value="do nadal" rendered="#{wpisView.pracownik.datazwolnienia eq null or wpisView.pracownik.datazwolnienia.length() eq 0}"/>
