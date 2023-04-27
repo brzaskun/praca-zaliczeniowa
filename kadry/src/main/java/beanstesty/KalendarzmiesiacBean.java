@@ -761,6 +761,11 @@ public class KalendarzmiesiacBean {
             boolean skladnikstaly = false;
             double[] czywaloryzowac = kalendarzdosredniej.chorobaczywaloryzacja();
             boolean waloryzowac = czywaloryzowac[2] == 1;
+            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==false) {
+                waloryzowac = false;
+            }
+            //***********
+            waloryzowac = false;
             double wynagrodzeniemcwyplacone = 0.0;
             double wynagrodzeniemczwaloryzowane = 0.0;
             Pasekwynagrodzen pasek = kalendarzdosredniej.getPasek(definicjabiezaca);
@@ -769,7 +774,11 @@ public class KalendarzmiesiacBean {
             if (kalendarzdosredniej.getPasek(definicjabiezaca).getNaliczenieskladnikawynagrodzeniaList() != null) {
                 for (Naliczenieskladnikawynagrodzenia pa : kalendarzdosredniej.getPasek(definicjabiezaca).getNaliczenieskladnikawynagrodzeniaList()) {
                     //superpłace usunac potem "Wyn. za pracę w Niemczech"
-                    if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia()) || pa.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny().equals("Wyn. za pracę w Niemczech")) {
+                    //if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia()) || pa.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny().equals("Wyn. za pracę w Niemczech")) {
+                    //zmienilem bo dodawalo dwa razy zmienna wynagrodzenie za prace w niemczech
+                    if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().isOddelegowanie()&&pa.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny().equals("Wyn. za pracę w Niemczech")) {
+                         wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + pa.getKwotadolistyplac();
+                    } else if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
                         if (waloryzowac) {
                             wynagrodzeniemczwaloryzowane = wynagrodzeniemczwaloryzowane + pa.getKwotadolistyplac() + pa.getKwotyredukujacesuma();
                         } else {

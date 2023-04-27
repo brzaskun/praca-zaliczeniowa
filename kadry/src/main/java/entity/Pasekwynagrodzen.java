@@ -1439,6 +1439,14 @@ public class Pasekwynagrodzen implements Serializable {
         if (this.limitzuspoza>0.0) {
             zwrot = this.limitzus/razempodstawa;
         }
+        if (this.rokwypl.equals("2022")&&brutto>0.0) {
+            double dzielnik = Z.z(this.brutto-this.bruttozus);
+            if (dzielnik==0.0) {
+                zwrot = 1.0;
+            } else {
+                zwrot = this.bruttozus/dzielnik;
+            }
+        }
         return zwrot;
     }
 
