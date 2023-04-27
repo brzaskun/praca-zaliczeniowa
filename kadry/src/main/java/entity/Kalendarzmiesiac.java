@@ -453,14 +453,14 @@ private static final long serialVersionUID = 1L;
                     zwrot = true;
                     break;
                 }
-                if (d.getKod()!=null&&d.getKod().equals("NN")&&d.getTypdnia()==0) {
-                    zwrot = true;
-                    break;
-                }
-                if (d.getKod()!=null&&d.getKod().equals("NP")&&d.getTypdnia()==0) {
-                    zwrot = true;
-                    break;
-                }
+//                if (d.getKod()!=null&&d.getKod().equals("NN")&&d.getTypdnia()==0) {
+//                    zwrot = true;
+//                    break;
+//                }
+//                if (d.getKod()!=null&&d.getKod().equals("NP")&&d.getTypdnia()==0) {
+//                    zwrot = true;
+//                    break;
+//                }
             }
         }
         return zwrot;
