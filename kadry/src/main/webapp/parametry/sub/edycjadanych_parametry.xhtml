@@ -541,6 +541,25 @@
                                  <p:ajax event="change" partialSubmit="true" listener="#{rodzajenieobecnosciView.edytuj(item13roz)}"/>
                              </p:selectBooleanCheckbox>
                         </p:column>
+                         <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="Z3 kol.1"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item13roz.z31}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="Z3 kol.2"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item13roz.z32}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="Z3 kol.3"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item13roz.z33}"/>
+                        </p:column>
+
                     </p:dataTable>
                 </h:form>
             </p:tab>

@@ -28,7 +28,7 @@
                 </p:commandButton>
                 <p:dataTable id="datalist" value="#{z3daneView.lista}" var="itemkarta"
                              rowKey="#{itemkarta.id}"  rowIndexVar="indexka"
-                             style="height: 450px; overflow-y: scroll;width: 800px; margin-top: 20px;" emptyMessage="Nie pobrano danych"
+                             style="height: 450px; overflow-y: scroll;width: 900px; margin-top: 20px;" emptyMessage="Nie pobrano danych"
                              >
                     <p:column width="20" style="text-align: center;">
                         <f:facet name="header">
@@ -65,6 +65,18 @@
                             <h:outputText value="premie"/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.premie}"/>
+                    </p:column>
+                     <p:column width="40" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="dni nom."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.dniobowiazku}"/>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="dni przep."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.dniprzepracowane}"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">

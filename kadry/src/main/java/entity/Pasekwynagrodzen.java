@@ -1439,7 +1439,7 @@ public class Pasekwynagrodzen implements Serializable {
         if (this.limitzuspoza>0.0) {
             zwrot = this.limitzus/razempodstawa;
         }
-        if (this.rokwypl.equals("2022")&&brutto>0.0) {
+        if (this.rokwypl.equals("2022")&&brutto>5922.0&&this.podstawaskladkizus==5922.0) {
             double dzielnik = Z.z(this.brutto-this.bruttozus);
             if (dzielnik==0.0) {
                 zwrot = 1.0;
@@ -1493,6 +1493,11 @@ public class Pasekwynagrodzen implements Serializable {
                 zwrot = zwrot+nal.getKwotadolistyplac();
             }
         }
+         for (Naliczenienieobecnosc nal : this.naliczenienieobecnoscList) {
+            if (nal.getNieobecnosc().getRodzajnieobecnosci().isZ31()) {
+                zwrot = zwrot+nal.getKwota();
+            }
+        }
         return zwrot;
     }
 
@@ -1503,6 +1508,11 @@ public class Pasekwynagrodzen implements Serializable {
                 zwrot = zwrot+nal.getKwotadolistyplac();
             }
         }
+        for (Naliczenienieobecnosc nal : this.naliczenienieobecnoscList) {
+            if (nal.getNieobecnosc().getRodzajnieobecnosci().isZ32()) {
+                zwrot = zwrot+nal.getKwota();
+            }
+        }
         return zwrot;
     }
 
@@ -1511,6 +1521,11 @@ public class Pasekwynagrodzen implements Serializable {
         for (Naliczenieskladnikawynagrodzenia nal : this.naliczenieskladnikawynagrodzeniaList) {
             if (nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isZ33()) {
                 zwrot = zwrot+nal.getKwotadolistyplac();
+            }
+        }
+        for (Naliczenienieobecnosc nal : this.naliczenienieobecnoscList) {
+            if (nal.getNieobecnosc().getRodzajnieobecnosci().isZ33()) {
+                zwrot = zwrot+nal.getKwota();
             }
         }
         return zwrot;

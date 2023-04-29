@@ -1285,8 +1285,16 @@ public class PasekwynagrodzenBean {
 //                            pasek.setPraczdrowotnedoodliczenia(0.0);
 //                            pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne));
 //                        }
-                        pasek.setPraczdrowotnedoodliczenia(0.0);
-                        pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne));
+// wracamy bo jednak to odliczenie jest dla wszystkich 2904.2023
+                        double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
+                       if (zdrowotne > limitdlazdrowotnej && Z.z(pasek.getKwotawolna()) > 0.0) {
+                            pasek.setPraczdrowotne(limitdlazdrowotnej);
+                            pasek.setPraczdrowotnedoodliczenia(0.0);
+                            pasek.setPraczdrowotnedopotracenia(limitdlazdrowotnej);
+                        } else {
+                            pasek.setPraczdrowotnedoodliczenia(0.0);
+                            pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne));
+                        }
                     } else {
                         pasek.setPraczdrowotnedoodliczenia(0.0);
                         pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotne));

@@ -21,6 +21,8 @@ public class Z3dane implements Serializable {
     private double premie;
     private double godzinyobowiazku;
     private double godzinyprzepracowane;
+    private double dniobowiazku;
+    private double dniprzepracowane;
 
     public Z3dane(String rok, String mc) {
         this.rok = rok;
@@ -91,6 +93,22 @@ public class Z3dane implements Serializable {
     
     public String getOkres() {
         return this.rok+this.mc;
+    }
+
+    public double getDniobowiazku() {
+        return dniobowiazku;
+    }
+
+    public void setDniobowiazku(double dniobowiazku) {
+        this.dniobowiazku = dniobowiazku;
+    }
+
+    public double getDniprzepracowane() {
+        return dniprzepracowane;
+    }
+
+    public void setDniprzepracowane(double dniprzepracowane) {
+        this.dniprzepracowane = dniprzepracowane;
     }
 
     
