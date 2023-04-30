@@ -49,12 +49,17 @@ public class Slownikszkolazatrhistoria implements Serializable {
     private boolean praca0nauka1;
     @Column(name = "dni")
     private int dni;
+    @Column(name = "lata")
+    private int lata;
 
     public Slownikszkolazatrhistoria() {
     }
 
     public Slownikszkolazatrhistoria(Integer id) {
         this.id = id;
+    }
+    public Slownikszkolazatrhistoria(String opis) {
+        this.opis = opis;
     }
 
     public Integer getId() {
@@ -95,6 +100,14 @@ public class Slownikszkolazatrhistoria implements Serializable {
 
     public void setDni(int dni) {
         this.dni = dni;
+    }
+
+    public int getLata() {
+        return lata;
+    }
+
+    public void setLata(int lata) {
+        this.lata = lata;
     }
 
     

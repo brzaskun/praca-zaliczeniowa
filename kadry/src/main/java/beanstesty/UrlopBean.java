@@ -14,6 +14,7 @@ import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnoscprezentacja;
 import entity.Nieobecnoscwykorzystanie;
+import entity.Staz;
 import entity.Umowa;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -47,7 +48,7 @@ public class UrlopBean {
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
                 List<Umowa> umowy = angaz.getUmowaList();
                 
-                urlopprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien));
+                urlopprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz));
                 int doprzeniesienia = urlopprezentacja.getBilansotwarciagodziny()+urlopprezentacja.getWymiarokresbiezacygodziny()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
                 urlopprezentacja.setDoprzeniesienia(doprzeniesienia);
                 int doprzeniesieniadni = (doprzeniesienia/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
@@ -78,7 +79,7 @@ public class UrlopBean {
                     urlopprezentacja.setBilansotwarciagodziny(angaz.getBourlopgodziny());
                     urlopprezentacja.setBilansotwarciadni(angaz.getBourlopdni());
                 }
-                urlopprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien));
+                urlopprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz));
                 int doprzeniesienia = urlopprezentacja.getBilansotwarciagodziny()+urlopprezentacja.getWymiarokresbiezacygodziny()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
                 urlopprezentacja.setDoprzeniesienia(doprzeniesienia);
                 int doprzeniesieniadni = (doprzeniesienia/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
@@ -152,7 +153,33 @@ public class UrlopBean {
         return lista;
     }
      
-     public static int obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat, String rok, String stannadzien) {
+     
+     public static Staz obliczwymiarwStaz(List<Staz> umowy) {
+        Staz suma = new Staz();
+        double sumadniwszystkie = 0;
+        double lataszkola = 0;
+        for (Staz p : umowy) {
+            if (p.getSlownikszkolazatrhistoria() != null) {
+                if (p.getSlownikszkolazatrhistoria().getPraca0nauka1()) {
+                    lataszkola = lataszkola + p.getSlownikszkolazatrhistoria().getLata();
+                } else {
+                    LocalDate dateBefore = LocalDate.parse(p.getDataod());
+                    LocalDate dateAfter = LocalDate.parse(p.getDatado());
+                    if (p.getDatado() != null && Data.czyjestpo(p.getDatado(), p.getDataod())) {
+                        dateAfter = LocalDate.parse(p.getDatado());
+                    }
+                    sumadniwszystkie = sumadniwszystkie + ChronoUnit.DAYS.between(dateBefore, dateAfter);
+                }
+            }
+        }
+        double liczbalat = sumadniwszystkie / 365 + lataszkola;
+        double liczbadni = sumadniwszystkie % 365;
+        suma.setLata((int) liczbalat);
+        suma.setDni((int) liczbadni);
+        return suma;
+    }
+     
+     public static int obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat, String rok, String stannadzien, Angaz angaz) {
         int wymiarwdniach = 20;
         double liczbadni = 0;
         for (Umowa p : umowy) {
@@ -175,8 +202,18 @@ public class UrlopBean {
                 } 
             }
         }
-        if (liczbadni>=3650) {
+        double angazstazlata = angaz.getStazlata();
+        double liczbalatumowy = liczbadni / 365;
+        if (angazstazlata>=10) {
             wymiarwdniach = 26;
+        } else if (angazstazlata+liczbalatumowy>=10){
+            wymiarwdniach = 26;
+        } else {
+            double angazstadni = angazstazlata*365+angaz.getStazdni();
+            double duzasumadni = angazstadni+liczbadni;
+            if (duzasumadni>=3650) {
+                wymiarwdniach = 26;
+            }
         }
         //trzeba pobrad date od, albo poczatek roku albo data pierwszej umowy w roku
             Set<String> napoczetemiesiace = new HashSet<>();
@@ -192,7 +229,7 @@ public class UrlopBean {
                                 if (!rok.equals(rokdataod)) {
                                     dataod = Data.pierwszyDzien(rok, "01");
                                 }
-                                String datado = stannadzien;
+                                String datado = Data.getRok(stannadzien)+"-12-31";
                                 if (p.getDatado() != null && Data.czyjestpo(p.getDatado(), stannadzien)) {
                                     datado = p.getDatado();
                                 }
@@ -205,6 +242,7 @@ public class UrlopBean {
             double nowywymiarwdniach =  Math.ceil(wymiarwdniach);
             double wymiargodzin = (nowywymiarwdniach*8);
             if (etat!=null) {
+                //to musi bo moze byc zatrudnienie nie od pocztaku roku i jest proporcja
                 if (napoczetemiesiace.size()>0) {
                     wymiarwdniach = (int) (Math.ceil(wymiarwdniach/12.0*napoczetemiesiace.size()));
                 }
@@ -213,4 +251,12 @@ public class UrlopBean {
         return (int) wymiargodzin;
         //nie wiem co z tym etatem czy badac
     }
+     
+     public static void main(String[] args) {
+         int dni = 741;
+         int lat = dni / 365;
+         int zostalodni = dni % 365;
+         System.out.println("lat "+lat);
+         System.out.println("zostalo dni "+zostalodni);
+     }
 }

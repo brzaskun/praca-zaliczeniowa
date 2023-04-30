@@ -18,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -47,22 +46,16 @@ public class Staz implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "dataod")
+    @Column(name = "dataod", nullable = true)
     private String dataod;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "datado")
+    @Column(name = "datado", nullable = true)
     private String datado;
     @Column(name = "lata")
-    private Integer lata;
+    private int lata;
     @Column(name = "miesiace")
-    private Integer miesiace;
+    private int miesiace;
     @Column(name = "dni")
-    private Integer dni;
+    private int dni;
     @Column(name = "uwagi")
     private Integer uwagi;
     @NotNull
@@ -113,33 +106,30 @@ public class Staz implements Serializable {
         this.datado = datado;
     }
 
-    public Integer getLata() {
+    public int getLata() {
         return lata;
     }
 
-    public void setLata(Integer lata) {
+    public void setLata(int lata) {
         this.lata = lata;
     }
 
-    public Integer getMiesiace() {
+    public int getMiesiace() {
         return miesiace;
     }
 
-    public void setMiesiace(Integer miesiace) {
+    public void setMiesiace(int miesiace) {
         this.miesiace = miesiace;
     }
 
-    public Integer getDni() {
+    public int getDni() {
         return dni;
     }
 
-    public void setDni(Integer dni) {
+    public void setDni(int dni) {
         this.dni = dni;
     }
 
-    public Integer getUwagi() {
-        return uwagi;
-    }
 
     public void setUwagi(Integer uwagi) {
         this.uwagi = uwagi;

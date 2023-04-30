@@ -5,12 +5,13 @@
  */
 package view;
 
+import beanstesty.UrlopBean;
 import dao.AngazFacade;
 import dao.PracownikFacade;
 import dao.StazFacade;
 import data.Data;
 import entity.Angaz;
-import entity.Pracownik;
+import entity.Slownikszkolazatrhistoria;
 import entity.Staz;
 import java.io.Serializable;
 import java.util.List;
@@ -52,11 +53,13 @@ public class PracownikStazView  implements Serializable {
       public void dodaj() {
       if (selected!=null&&selected.getAngaz()!=null) {
           try {
-            Data.obliczstaz(selected.getDataod(),selected.getDatado(), selected);
+            if (selected.getSlownikszkolazatrhistoria().getLata()>0) {
+                selected.setLata(selected.getSlownikszkolazatrhistoria().getLata());
+            } else {
+                Data.obliczstaz(selected.getDataod(),selected.getDatado(), selected);
+            }
             stazFacade.create(selected);
-            listastaz.add(selected);
-            selected = new Staz();
-            selected.setAngaz(selectedangaz);
+            pobierzdane();
             Msg.msg("Dodano historyczna umowę pracownika");
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie zmieniono danych");
@@ -87,6 +90,15 @@ public class PracownikStazView  implements Serializable {
     public void pobierzdane() {
         if (selectedangaz!=null) {
             listastaz = stazFacade.findByAngaz(selectedangaz);
+            if (!listastaz.isEmpty()) {
+                Staz suma = UrlopBean.obliczwymiarwStaz(listastaz);
+                suma.setId(999);
+                suma.setSlownikszkolazatrhistoria(new Slownikszkolazatrhistoria("podsumowanie"));
+                listastaz.add(suma);
+                selectedangaz.setStazlata(suma.getLata());
+                selectedangaz.setStazdni(suma.getDni());
+                angazFacade.edit(selectedangaz);
+            }
             selected = new Staz();
             selected.setAngaz(selectedangaz);
             //wpisView.setPracownik(selected);
@@ -126,6 +138,6 @@ public class PracownikStazView  implements Serializable {
         this.listastaz = listastaz;
     }
 
-    
+   
     
 }

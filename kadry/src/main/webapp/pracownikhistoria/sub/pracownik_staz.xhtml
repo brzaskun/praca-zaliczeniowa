@@ -27,19 +27,21 @@
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{slownikszkolazatrhistoriaView.lista}"
                                            var="czastrwaniaItem" 
-                                           itemValue="#{czastrwaniaItem}" itemLabel="#{czastrwaniaItem.opis}"/>
+                                           itemValue="#{czastrwaniaItem}" itemLabel="#{czastrwaniaItem.opis} - #{czastrwaniaItem.lata} lat"/>
                         </p:selectOneMenu>
+                        <h:outputText value="Daty są wymagane" style="color: green;"/>
+                        <h:outputText value=" jedynie dla uprzednich umów. Dane dotyczące wykształcenia program wpowadza sam." style="color: green;"/>
                         <p:outputLabel value="data od" for="dataod" />
-                        <p:inputText id="dataod" value="#{pracownikStazView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true"
+                        <p:inputText id="dataod" value="#{pracownikStazView.selected.dataod}" title="data od"  placeholder="____-__-__"  
                                      requiredMessage="wprowadź datę od" styleClass="dataUmowy" maxlength="10">
                             <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" update="@this"/>
                         </p:inputText>
                         <p:outputLabel value="data do" for="datado" />
-                        <p:inputText id="datado" value="#{pracownikStazView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10" required="true"
+                        <p:inputText id="datado" value="#{pracownikStazView.selected.datado}" title="data do"  placeholder="____-__-__"  maxlength="10"
                                      requiredMessage="wprowadź datę do">
                             <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" update="@this"/>
                         </p:inputText>
-                        <p:commandButton value="zapisz do bazy" styleClass="buttonnorm" actionListener="#{pracownikStazView.dodaj()}" global="true" update="PracownikCreateForm1:datalist2"/>
+                        <p:commandButton value="zapisz do bazy" styleClass="buttonnorm" actionListener="#{pracownikStazView.dodaj()}" global="true" update="PracownikCreateForm1:datalist2 PracownikCreateForm"/>
                     </p:panelGrid>
                 </p:outputPanel>
             </h:form>
@@ -47,8 +49,8 @@
                     <h:form id="PracownikCreateForm1">
                     <p:dataTable id="datalist2" value="#{pracownikStazView.listastaz}" var="itemStaz" rowIndexVar="yndex1"
                                  selectionMode="single" 
-                                 rowKey="#{itemStaz.id}"   sortBy="#{itemStaz.dataod}"
-                                 style="height: 750px; overflow-y: scroll;width: 840px; margin-top: 10px"
+                                 rowKey="#{itemStaz.id}"   sortBy="#{itemStaz.id}" sortMode="asc"
+                                 style="height: 850px; overflow-y: scroll;width: 840px; margin-top: 10px"
                                  rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  emptyMessage="Nie pobrano listy"
                                  >
@@ -61,23 +63,24 @@
                             </f:facet>
                             <h:outputText value="#{yndex1+1}"/>
                         </p:column>
-                        <p:column width="200" style="text-align: left;" sortBy="#{itemStaz.dataod}" sortOrder="desc">
+                        <p:column width="200" style="text-align: left;" >
                             <f:facet name="header">
                                 <h:outputText value="rodzaj umowy"/>
                             </f:facet>
-                            <p:inputText value="#{itemStaz.slownikszkolazatrhistoria.opis}" title="opis"  size="40" readonly="true"/>
+                            <p:inputText value="#{itemStaz.slownikszkolazatrhistoria.opis}" title="opis"  size="33" readonly="true" rendered="#{itemStaz.slownikszkolazatrhistoria.opis ne 'podsumowanie'}"/>
+                            <p:inputText value="#{itemStaz.slownikszkolazatrhistoria.opis}" title="opis"  size="33" readonly="true" rendered="#{itemStaz.slownikszkolazatrhistoria.opis eq 'podsumowanie'}"/>
                         </p:column>
-                        <p:column width="60" style="text-align: center;" sortBy="#{itemStaz.dataod}" sortOrder="desc">
+                        <p:column width="60" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>
-                            <p:inputText value="#{itemStaz.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" size="11" readonly="true"/>
+                            <p:inputText value="#{itemStaz.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" size="11" readonly="true" rendered="#{itemStaz.slownikszkolazatrhistoria.opis ne 'podsumowanie'}"/>
                         </p:column>
-                        <p:column width="60" style="text-align: center;" sortBy="#{itemStaz.datado}" sortOrder="desc">
+                        <p:column width="60" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="data do"/>
                             </f:facet>
-                            <p:inputText value="#{itemStaz.datado}" title="datac do"  placeholder="____-__-__" maxlength="10" size="11" readonly="true"/>
+                            <p:inputText value="#{itemStaz.datado}" title="datac do"  placeholder="____-__-__" maxlength="10" size="11" readonly="true"  rendered="#{itemStaz.slownikszkolazatrhistoria.opis ne 'podsumowanie'}"/>
                         </p:column>
                         <p:column width="30" style="text-align: center;" >
                             <f:facet name="header">
