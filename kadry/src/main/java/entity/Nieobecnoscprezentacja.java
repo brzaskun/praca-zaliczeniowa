@@ -52,6 +52,8 @@ public class Nieobecnoscprezentacja implements Serializable {
     private int bilansotwarciadni;
     @Column(name = "wymiarokresbiezacygodziny")
     private int wymiarokresbiezacygodziny;
+    @Column(name = "wymiarokresbiezacydni")
+    private int wymiarokresbiezacydni;
     @Column(name = "doprzeniesienia")
     private int doprzeniesienia;
     @Column(name = "doprzeniesieniadni")
@@ -210,6 +212,14 @@ public class Nieobecnoscprezentacja implements Serializable {
 
     public void setAngaz(Angaz angaz) {
         this.angaz = angaz;
+    }
+
+    public int getWymiarokresbiezacydni() {
+        return wymiarokresbiezacydni;
+    }
+
+    public void setWymiarokresbiezacydni(int wymiarokresbiezacydni) {
+        this.wymiarokresbiezacydni = wymiarokresbiezacydni;
     }
 
    

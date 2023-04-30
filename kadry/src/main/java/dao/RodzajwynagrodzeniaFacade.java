@@ -46,30 +46,30 @@ public class RodzajwynagrodzeniaFacade extends DAO    implements Serializable {
     
   
     public Rodzajwynagrodzenia findZasadniczePraca() {
-        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findByOpispelny").setParameter("opispelny", "Wynagrodzenie zasadnicze").getSingleResult();
+        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findWynagrodzenieById").setParameter("id", 80).getSingleResult();
     }
     
     public Rodzajwynagrodzenia findZasadniczeZlecenie() {
-        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findByOpispelny").setParameter("opispelny", "Umowa zlecenia").getSingleResult();
+        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findWynagrodzenieById").setParameter("id", 87).getSingleResult();
     }
     
     public Rodzajwynagrodzenia findZasadniczeFunkcja() {
-        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findByOpispelny").setParameter("opispelny", "Udział w organach stanowiących osób prawnych").getSingleResult();
+        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findWynagrodzenieById").setParameter("id", 111).getSingleResult();
     }
     
     public Rodzajwynagrodzenia findGodzinowePraca() {
-        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findGodzinowe").setParameter("opispelny", "Wynagrodzenie godzinowe").setParameter("kod", "11").getSingleResult();
+        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findWynagrodzenieById").setParameter("id", 109).getSingleResult();
     }
     
     public Rodzajwynagrodzenia findGodzinoweOddelegowaniePraca() {
-        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findGodzinowe").setParameter("opispelny", "Wynagrodzenie za pracę za granicą").setParameter("kod", "13").getSingleResult();
+        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findWynagrodzenieById").setParameter("id", 156).getSingleResult();
     }
     
     public Rodzajwynagrodzenia findGodzinoweZlecenie() {
-        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findGodzinowe").setParameter("opispelny", "Wynagrodzenie godzinowe").setParameter("kod", "50").getSingleResult();
+        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findWynagrodzenieById").setParameter("id", 87).getSingleResult();
     }
     public Rodzajwynagrodzenia findGodzinoweOddelegowanieZlecenie() {
-        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findGodzinowe").setParameter("opispelny", "Wynagrodzenie godzinowe").setParameter("kod", "50").getSingleResult();
+        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findWynagrodzenieById").setParameter("id", 159).getSingleResult();
     }
     
     public Rodzajwynagrodzenia findNZ() {

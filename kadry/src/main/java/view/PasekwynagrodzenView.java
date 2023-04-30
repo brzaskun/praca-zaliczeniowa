@@ -315,7 +315,7 @@ public class PasekwynagrodzenView implements Serializable {
                     pasekwynagrodzenFacade.edit(p);
                 }
             }
-            Msg.msg("Zachowano listę płac");
+            Msg.msg("Zachowano listę płacaaaChocho");
         }
     }
 
@@ -397,7 +397,7 @@ public class PasekwynagrodzenView implements Serializable {
                     }
                     
                 }
-                Msg.msg("Sporządzono listę płac");
+                Msg.msg("Sporządzono listę płacaaTT");
                 zapisz();
                 if (rachunkilista.size()>0) {
                     rachunekdoumowyzleceniaFacade.editList(rachunkilista);

@@ -93,6 +93,8 @@ public class Z3daneView implements Serializable {
                             wybranyokres.setPremie(pasek.getPremie());
                             wybranyokres.setGodzinyobowiazku(pasek.getKalendarzmiesiac().getNorma());
                             wybranyokres.setGodzinyprzepracowane(pasek.getKalendarzmiesiac().getPrzepracowane());
+                            wybranyokres.setDniobowiazku(pasek.getKalendarzmiesiac().getDniroboczenominalnewmiesiacu());
+                            wybranyokres.setDniprzepracowane(pasek.getKalendarzmiesiac().getDnipracywmiesiacu());
                             suma.sumuj(pasek.getStale(), pasek.getZmienne(), pasek.getPremie());
                         } else if (przesuniecie==false&&pasek.getOkresNalezny().equals(ok.getRokmc())) {
                             wybranyokres.setStale(pasek.getStale());
@@ -100,6 +102,8 @@ public class Z3daneView implements Serializable {
                             wybranyokres.setPremie(pasek.getPremie());
                             wybranyokres.setGodzinyobowiazku(pasek.getKalendarzmiesiac().getNorma());
                             wybranyokres.setGodzinyprzepracowane(pasek.getKalendarzmiesiac().getPrzepracowane());
+                            wybranyokres.setDniobowiazku(pasek.getKalendarzmiesiac().getDniroboczenominalnewmiesiacu());
+                            wybranyokres.setDniprzepracowane(pasek.getKalendarzmiesiac().getDnipracywmiesiacu());
                             suma.sumuj(pasek.getStale(), pasek.getZmienne(), pasek.getPremie());
                         }
                     }

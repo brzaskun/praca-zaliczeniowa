@@ -13,7 +13,7 @@
                 <p:dataTable id="datalist" value="#{umowaView.listafunkcja}" var="itemumowa" widgetVar="dataListumowafunkcja"
                              selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
                              rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
-                             style="height: 220px; overflow-y: scroll; width: 1850px;"
+                             style="height: 220px; overflow-y: scroll; width: 1700px;"
                              >
                     <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
                     <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>

@@ -153,13 +153,13 @@ public class Data implements Serializable {
                     Period period = Period.between(dataur, dataumowy);
                     int years = period.getYears();
                     int months = period.getMonths();
-                    int days = period.getDays();
+                    int days = period.getDays()+1;
                     staz.setLata(years);
                     staz.setMiesiace(months);
                     staz.setDni(days);
                 } catch (Exception s) {}
             }
-        }
+        } 
     }
    
     public static int obliczwieklata(String datastart, String datanadzien) {
