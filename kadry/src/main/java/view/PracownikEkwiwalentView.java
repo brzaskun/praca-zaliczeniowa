@@ -16,10 +16,13 @@ import dao.KalendarzmiesiacFacade;
 import dao.NieobecnoscprezentacjaFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PracownikFacade;
+import dao.RodzajwynagrodzeniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
 import dao.WspolczynnikEkwiwalentFacade;
+import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
+import entity.Angaz;
 import entity.EkwiwalentUrlop;
 import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
@@ -29,6 +32,7 @@ import entity.Nieobecnoscprezentacja;
 import entity.Nieobecnoscwykorzystanie;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
+import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Sredniadlanieobecnosci;
 import entity.Umowa;
@@ -69,11 +73,15 @@ public class PracownikEkwiwalentView  implements Serializable {
     @Inject
     private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
     @Inject
+    private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
+    @Inject
     private EtatPracFacade etatPracFacade;
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     @Inject
     private EkwiwalentUrlopFacade ekwiwalentSkladnikiFacade;
+    @Inject
+    private RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade;
     @Inject
     private WpisView wpisView;
     private Nieobecnoscprezentacja urlopprezentacja;
@@ -211,11 +219,58 @@ public class PracownikEkwiwalentView  implements Serializable {
                 ekwiwalentSkladnikiFacade.remove(znaleziony);
             }
             ekwiwalentSkladnikiFacade.create(ekwiwalent);
+            tworzzmiennaekwiwalent(ekwiwalent);
             Msg.msg("Zachowano wyliczenie ekwiwalentu");
         } else {
             Msg.dPe();
         }
     }
+    
+    private void tworzzmiennaekwiwalent(EkwiwalentUrlop ekwiwalent) {
+        Angaz angaz = ekwiwalent.getAngaz();
+        List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = angaz.getSkladnikwynagrodzeniaList();
+        Skladnikwynagrodzenia ekwiwalentskladnik = null;
+        for (Skladnikwynagrodzenia skl : skladnikwynagrodzeniaList) {
+            if (skl.getRodzajwynagrodzenia().getId()==110) {
+                ekwiwalentskladnik = skl;
+            }
+        }
+        String nazwa = "ekwiwalent umowa "+ekwiwalent.getUmowa().getNrkolejny();
+        if (ekwiwalentskladnik==null) {
+            ekwiwalentskladnik = new Skladnikwynagrodzenia();
+            ekwiwalentskladnik.setAngaz(angaz);
+            Rodzajwynagrodzenia findEkwiwalentUrlop = rodzajwynagrodzeniaFacade.findEkwiwalentUrlop();
+            ekwiwalentskladnik.setRodzajwynagrodzenia(findEkwiwalentUrlop);
+            ekwiwalentSkladnikiFacade.create(ekwiwalentskladnik);
+        } else {
+            Zmiennawynagrodzenia dousuniecia = null;
+            for (Zmiennawynagrodzenia zm : ekwiwalentskladnik.getZmiennawynagrodzeniaList()) {
+                if (zm.getNazwa().equals(nazwa)) {
+                    zmiennaWynagrodzeniaFacade.remove(zm);
+                    dousuniecia = zm;
+                }
+            }
+            if (dousuniecia!=null) {
+                ekwiwalentskladnik.getZmiennawynagrodzeniaList().remove(dousuniecia);
+                ekwiwalentSkladnikiFacade.edit(ekwiwalentskladnik);
+            }
+        }
+        try {
+            Zmiennawynagrodzenia zmienna = new Zmiennawynagrodzenia(ekwiwalentskladnik);
+            zmienna.setAktywna(true);
+            zmienna.setNazwa(nazwa);
+            zmienna.setDataod(ekwiwalent.getDzienwyplaty());
+            zmienna.setDatado(ekwiwalent.getDzienwyplaty());
+            zmienna.setNrkolejnyzmiennej(1);
+            zmienna.setKwota(ekwiwalent.getKwota());
+            zmienna.setNetto0brutto1(true);
+            zmiennaWynagrodzeniaFacade.create(zmienna);
+            Msg.msg("Utworzono zmienna Ekwiwalent za urlop");
+        } catch (Exception e ) {
+            Msg.msg("e","Zapisano już zmienna wypłaty ekwiwalentu. Usuń ją najpierw, aby zapisać nową");
+        }
+    }
+
 
     public void usunekwiwalent() {
         if (ekwiwalent!=null) {
@@ -500,6 +555,7 @@ public class PracownikEkwiwalentView  implements Serializable {
         this.oddelegowanieprezentacja = oddelegowanieprezentacja;
     }
 
+    
       
     
     

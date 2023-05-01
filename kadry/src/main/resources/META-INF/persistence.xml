@@ -20,7 +20,7 @@
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
-<!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
+      <property name="eclipselink.ddl-generation" value="none"/>
       <property name="eclipselink.id-validation" value="NONE"/>
       <property name="eclipselink.cache.type.default" value="NONE"/>
       <property name="eclipselink.cache.size.default" value="5000"/>
@@ -224,7 +224,7 @@
     <shared-cache-mode>ALL</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
-<!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
+       <property name="eclipselink.ddl-generation" value="none"/>
       <property name="eclipselink.id-validation" value="NONE"/>
       <property name="eclipselink.cache.type.default" value="Full"/>
       <property name="eclipselink.cache.size.default" value="5000"/>
@@ -249,7 +249,7 @@
     <shared-cache-mode>ALL</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
-<!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
+       <property name="eclipselink.ddl-generation" value="none"/>
       <property name="eclipselink.id-validation" value="NONE"/>
       <property name="eclipselink.cache.type.default" value="Full"/>
       <property name="eclipselink.cache.size.default" value="5000"/>

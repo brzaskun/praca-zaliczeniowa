@@ -71,6 +71,9 @@ public class EkwiwalentUrlop implements Serializable {
     @Size(max = 255)
     @Column(name = "dziennaliczenia")
     private String dziennaliczenia;
+    @Size(max = 255)
+    @Column(name = "dzienwyplaty")
+    private String dzienwyplaty;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
     private double kwota;
@@ -266,6 +269,16 @@ public class EkwiwalentUrlop implements Serializable {
     public void setWykorzystany(Integer wykorzystany) {
         this.wykorzystany = wykorzystany;
     }
+
+    public String getDzienwyplaty() {
+        return dzienwyplaty;
+    }
+
+    public void setDzienwyplaty(String dzienwyplaty) {
+        this.dzienwyplaty = dzienwyplaty;
+    }
+    
+    
     
     public String getEtat() {
         String zwrot = "brak danych";

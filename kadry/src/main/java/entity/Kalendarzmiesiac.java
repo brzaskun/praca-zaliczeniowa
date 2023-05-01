@@ -416,31 +416,42 @@ private static final long serialVersionUID = 1L;
         return zwrot;
     }
     
-    public double[] chorobaczywaloryzacja() {
-        double[] zwrot = new double[3];
+    public double[] uzupelnienie1norma0pominiecie2() {
+        double[] zwrot = new double[5];
         double godzinyobowiazku = 0;
         double chorobagodziny = 0;
-        double przepracowane = 0;
+        double dniobowiazku = 0;
+        double dnichoroby = 0;
         if (this.dzienList!=null) {
             for (Dzien d : dzienList) {
-                if (d.getPrzepracowano()==0) {
-                    chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe()+d.getZasilek()+d.getUrlopbezplatny();
+                if (d.getNieobecnosc()!=null&&d.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy()) {
+                    chorobagodziny = chorobagodziny+d.getNormagodzin();
+                    dnichoroby++;
+                    
                 }
                 if (d.getTypdnia()==0) {
                     godzinyobowiazku = godzinyobowiazku+d.getNormagodzin();
+                    dniobowiazku++;
                 }
             }
         }
         przepracowane = godzinyobowiazku-chorobagodziny;
         double polowagodzinyobowiazku = godzinyobowiazku/2;
         zwrot[0] = godzinyobowiazku;
-        zwrot[1] = chorobagodziny;
+        zwrot[1] = przepracowane;
+        zwrot[2] = 0;
+        zwrot[3] = dniobowiazku;
+        zwrot[4] = dniobowiazku-dnichoroby;
+                
         //jedynka to trzeba upgradowac
         //przywrocone 29-03-2023 bo bylo od 08-03-2023 odwrotnie i nie waloryzaowl
         if (przepracowane!=godzinyobowiazku) {
-            zwrot[2] = przepracowane>polowagodzinyobowiazku?1:0;
-        } else {
-            zwrot[2] = 0;
+            if (przepracowane>=polowagodzinyobowiazku) {
+                zwrot[2] = 1;
+            } else {
+                zwrot[2] = 2;
+            }
+            
         }
         return zwrot;
     }

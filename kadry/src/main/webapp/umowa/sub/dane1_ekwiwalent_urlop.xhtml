@@ -144,6 +144,12 @@
                             <bcf:outputpl value="#{pracownikEkwiwalentView.ekwiwalent.kwota}"/>
                         </p:panelGrid>
                         <p:panelGrid columns="2" style="width: 360px;">
+                            <h:outputText value="do wypłaty dnia: "/>
+                            <p:inputText value="#{pracownikEkwiwalentView.ekwiwalent.dzienwyplaty}" title="dzień wypłaty"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
+                                <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                            </p:inputText>
+                        </p:panelGrid> 
+                        <p:panelGrid columns="2" style="width: 360px;">
                             <h:outputText value="Ekwiwalent pobrany z bazy danych" style="color: green;" rendered="#{pracownikEkwiwalentView.ekwiwalent.id ne null}"/>
                             <h:outputText value="Zapisz ekwiwalent jesli ma być ujęty na świadectwie" style="color: red;" rendered="#{pracownikEkwiwalentView.ekwiwalent.id eq null}"/>
                         </p:panelGrid>

@@ -753,19 +753,21 @@ public class KalendarzmiesiacBean {
             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
         }
     }
-    
+    //tutaj odbywa sie waloryzacja skladnikow stalych
     public static double sredniaMiesiacLiczony(Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Naliczenienieobecnosc naliczenienieobecnosc, Kalendarzmiesiac kalendarzdosredniej,
        Kalendarzmiesiac kalendarz,Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjabiezaca, int dnirobocze, int dniprzepracowaneIurlop, double godzinyrobocze, double godzinyprzepracowaneIurlop, boolean pominiety) {
          double sredniadopodstawyzmienne = 0.0;
         if (!kalendarzdosredniej.equals(kalendarz)) {
             boolean skladnikstaly = false;
-            double[] czywaloryzowac = kalendarzdosredniej.chorobaczywaloryzacja();
-            boolean waloryzowac = czywaloryzowac[2] == 1;
-            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==false) {
-                waloryzowac = false;
+            double[] czyuzupelnicskladnik = kalendarzdosredniej.uzupelnienie1norma0pominiecie2();
+            boolean waloryzowac = false;
+            //rozpatrujemy waloryzacje tylko skladnikow stalych
+            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true) {
+                waloryzowac = czyuzupelnicskladnik[2] == 1;
+            } else if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==false) {
+                //nie pootrzeba tego bo degfault jest false
+                //waloryzowac = false;
             }
-            //***********
-            waloryzowac = false;
             double wynagrodzeniemcwyplacone = 0.0;
             double wynagrodzeniemczwaloryzowane = 0.0;
             Pasekwynagrodzen pasek = kalendarzdosredniej.getPasek(definicjabiezaca);
@@ -780,7 +782,12 @@ public class KalendarzmiesiacBean {
                          wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + pa.getKwotadolistyplac();
                     } else if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
                         if (waloryzowac) {
-                            wynagrodzeniemczwaloryzowane = wynagrodzeniemczwaloryzowane + pa.getKwotadolistyplac() + pa.getKwotyredukujacesuma();
+                            if (pa.getKwotaumownazacalymc()>0.0) {
+                                wynagrodzeniemczwaloryzowane = wynagrodzeniemczwaloryzowane + pa.getKwotaumownazacalymc();
+                            } else {
+                                //zrobione ze wzgledu na starsze wersje w tym superplace
+                                wynagrodzeniemczwaloryzowane = wynagrodzeniemczwaloryzowane + pa.getKwotadolistyplac() + pa.getKwotyredukujacesuma();
+                            }
                         } else {
                             wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + pa.getKwotadolistyplac();
                         }

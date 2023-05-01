@@ -1486,11 +1486,20 @@ public class Pasekwynagrodzen implements Serializable {
         return zwrot;
     }
 
-    public double getStale() {
+    public double getStale(boolean uzupelniac) {
         double zwrot = 0.0;
         for (Naliczenieskladnikawynagrodzenia nal : this.naliczenieskladnikawynagrodzeniaList) {
             if (nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isZ31()) {
-                zwrot = zwrot+nal.getKwotadolistyplac();
+                if (uzupelniac) {
+                    if (nal.getKwotaumownazacalymc()>0.0) {
+                        zwrot = zwrot+nal.getKwotaumownazacalymc();
+                    } else {
+                        zwrot = zwrot+nal.getKwotadolistyplac()+nal.getKwotyredukujacesuma();
+                    }
+                } else {
+                    zwrot = zwrot+nal.getKwotadolistyplac();
+                }
+                
             }
         }
          for (Naliczenienieobecnosc nal : this.naliczenienieobecnoscList) {
@@ -1516,11 +1525,19 @@ public class Pasekwynagrodzen implements Serializable {
         return zwrot;
     }
 
-    public double getPremie() {
+    public double getPremie(boolean uzupelniac) {
         double zwrot = 0.0;
         for (Naliczenieskladnikawynagrodzenia nal : this.naliczenieskladnikawynagrodzeniaList) {
             if (nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isZ33()) {
-                zwrot = zwrot+nal.getKwotadolistyplac();
+                if (uzupelniac) {
+                    if (nal.getKwotaumownazacalymc()>0.0) {
+                        zwrot = zwrot+nal.getKwotaumownazacalymc();
+                    } else {
+                        zwrot = zwrot+nal.getKwotadolistyplac()+nal.getKwotyredukujacesuma();
+                    }
+                } else {
+                    zwrot = zwrot+nal.getKwotadolistyplac();
+                }
             }
         }
         for (Naliczenienieobecnosc nal : this.naliczenienieobecnoscList) {

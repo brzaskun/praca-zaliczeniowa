@@ -23,6 +23,7 @@ public class Z3dane implements Serializable {
     private double godzinyprzepracowane;
     private double dniobowiazku;
     private double dniprzepracowane;
+    private boolean uzupelniane;
 
     public Z3dane(String rok, String mc) {
         this.rok = rok;
@@ -34,6 +35,7 @@ public class Z3dane implements Serializable {
         this.zmienne = this.zmienne+zmienne;
         this.premie = this.premie+premie;
     }
+    
 
     public String getRok() {
         return rok;
@@ -109,6 +111,14 @@ public class Z3dane implements Serializable {
 
     public void setDniprzepracowane(double dniprzepracowane) {
         this.dniprzepracowane = dniprzepracowane;
+    }
+
+    public boolean isUzupelniane() {
+        return uzupelniane;
+    }
+
+    public void setUzupelniane(boolean uzupelniane) {
+        this.uzupelniane = uzupelniane;
     }
 
     

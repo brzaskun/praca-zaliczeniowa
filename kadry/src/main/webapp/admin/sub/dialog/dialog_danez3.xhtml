@@ -42,11 +42,17 @@
                         </f:facet>
                         <h:outputText value="#{itemkarta.rok}"/>
                     </p:column>
-                    <p:column width="20" style="text-align: center;word-break: true;">
+                    <p:column width="20" style="text-align: center;word-break: break-all;">
                         <f:facet name="header">
                             <h:outputText value="mc"/>
                         </f:facet>
                         <h:outputText value="#{itemkarta.mc}"/>
+                    </p:column>
+                    <p:column width="20" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="uzup."/>
+                        </f:facet>
+                        <h:outputText value="&#x2714;" rendered="#{itemkarta.uzupelniane eq true}" style="color: green;"/>
                     </p:column>
                     <p:column width="40">
                         <f:facet name="header">
