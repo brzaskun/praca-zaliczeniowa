@@ -5,6 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
+    <p:outputPanel style="height: 90%;overflow-y: scroll;width: 1700px">
     <p:panelGrid columns="2" columnClasses="thirty-percent seventy-percent" style="height: 200px;width: 500px;">
         <p:outputPanel style="width: 400px;">
             <h:form id="FirmaCreateForm">
@@ -125,7 +126,7 @@
         </p:outputPanel>
     </p:panelGrid>
     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="width: 1500px;">
-        <p:outputPanel  style="height: 450px;width: 1500px;overflow-y: scroll;">
+        <p:outputPanel  style="width: 1500px;">
             <h:form id="FirmaUzupelnijForm">
                 <p:panel header="nazwa frmy"/>
                  <p:panelGrid columns="2">
@@ -215,10 +216,17 @@
                         </p:selectOneMenu>
                      </p:panelGrid>
                      <p:panelGrid columns="2">
+                        <p:outputLabel value="numer mikrorachuneku US" for="nzbaku1" />
+                        <p:inputText id="nzbaku1" value="#{firmaImportView.selectedlista.bankpodatki}" title="numer mikrorachunku urzad skarbowy" size="32"/>
+                        <p:outputLabel value="numer mikrorachuneku ZUS" for="nzbaku2" />
+                        <p:inputText id="nzbaku2" value="#{firmaImportView.selectedlista.bankzus}" title="numer mikrorachunku ZUS" size="32"/>
+                    </p:panelGrid>
+                     <p:panelGrid columns="2">
                         <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{firmaImportView.edytuj()}" update="FirmaListForm:datalist"/>
                         
                     </p:panelGrid>
                     </h:form>
         </p:outputPanel>
     </p:panelGrid>
+        </p:outputPanel>
 </ui:composition>

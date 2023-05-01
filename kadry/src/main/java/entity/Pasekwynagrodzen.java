@@ -1279,6 +1279,7 @@ public class Pasekwynagrodzen implements Serializable {
                     wiersz.kod = p.getSkladnikwynagrodzenia()!=null?p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod():"";
                     wiersz.nazwa = p.getSkladnikwynagrodzenia()!=null?p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony():"";
                     wiersz.kwota = p.getKwotadolistyplac();
+                    wiersz.kwotazmiennejporedukcji11 = p.getKwotaumownaminred11();
                     wiersz.redukcja = p.getKwotyredukujacesuma();
                     wiersz.dataod = p.getDataod();
                     wiersz.datado = p.getDatado();
@@ -1286,6 +1287,7 @@ public class Pasekwynagrodzen implements Serializable {
                     wiersz.dniprzepracowane = p.getDnifaktyczne();
                     wiersz.godzinyobowiazku = p.getGodzinynalezne();
                     wiersz.godzinyprzepracowane = p.getGodzinyfaktyczne();
+                    wiersz.godzinypoza11 = p.getGodzinypoza11();
                     wiersz.stawkanagodzine = p.getStawkagodzinowa();
                     wiersz.stawkanagodzinewaluta = p.getStawkagodzinowawaluta();
                     wiersz.stawkadzienna = p.getStawkadzienna();
@@ -1562,6 +1564,7 @@ public class Pasekwynagrodzen implements Serializable {
         boolean redukcjaSP;
         boolean potracenie;
         double kwota;
+        double kwotazmiennejporedukcji11;
         double wynagrodzeniezmienna;
         double wynagrodzeniezmiennawaluta;
         double redukcja;
@@ -1569,6 +1572,7 @@ public class Pasekwynagrodzen implements Serializable {
         double dniprzepracowane;
         double godzinyobowiazku;
         double godzinyprzepracowane;
+        double godzinypoza11;
         double stawkanagodzine;
         double stawkanagodzinewaluta;
         double stawkadzienna;
@@ -1613,6 +1617,14 @@ public class Pasekwynagrodzen implements Serializable {
         }
         public void setDatado(String datado) {
             this.datado = datado;
+        }
+
+        public double getGodzinypoza11() {
+            return godzinypoza11;
+        }
+
+        public void setGodzinypoza11(double godzinypoza11) {
+            this.godzinypoza11 = godzinypoza11;
         }
 
         public double getProcentzwolnienia() {
@@ -1766,6 +1778,14 @@ public class Pasekwynagrodzen implements Serializable {
 
         public void setKodzus(String kodzus) {
             this.kodzus = kodzus;
+        }
+
+        public double getKwotazmiennejporedukcji11() {
+            return kwotazmiennejporedukcji11;
+        }
+
+        public void setKwotazmiennejporedukcji11(double kwotazmiennejporedukcji11) {
+            this.kwotazmiennejporedukcji11 = kwotazmiennejporedukcji11;
         }
     
         

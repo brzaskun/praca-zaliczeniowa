@@ -134,6 +134,10 @@ public class FirmaKadry implements Serializable {
     private String domyslnyformatlp;
     @Column(name = "sadpracy")
     private String sadpracy;
+    @Column(name = "bankpodatki")
+    private String bankpodatki;
+    @Column(name = "bankzus")
+    private String bankzus;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "firma")
     private List<Grupakadry> grupaList;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
@@ -350,6 +354,24 @@ public class FirmaKadry implements Serializable {
     public String getDzienlp() {
         return dzienlp;
     }
+
+    public String getBankpodatki() {
+        return bankpodatki;
+    }
+
+    public void setBankpodatki(String bankpodatki) {
+        this.bankpodatki = bankpodatki;
+    }
+
+    public String getBankzus() {
+        return bankzus;
+    }
+
+    public void setBankzus(String bankzus) {
+        this.bankzus = bankzus;
+    }
+    
+    
 
     public String getSadpracy() {
         String zwrot = this.sadpracy;

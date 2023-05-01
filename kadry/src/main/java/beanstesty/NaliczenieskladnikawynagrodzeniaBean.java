@@ -124,12 +124,15 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 double dniredukcji_12 = 0.0;
                 double dniurlopu = 0.0;
                 double dniredukcji_pozaumowa = 0.0;
+                double dnipoza11 = 0.0;
                 double godzinyredukcji_11 = 0.0;
                 double godzinyredukcji_12 = 0.0;
                 double godzinyurlopu = 0.0;
                 double godzinyredukcji_pozaumowa = 0.0;
                 double dnipracyurlopu = 0.0;
                 double godzinypracyurlopu = 0.0;
+                double kwotazmiennejporedukcji11 = 0.0;
+                double godzinypoza11 = 0.0;
                 naliczenieskladnikawynagrodzenia.setWaluta(zmiennawyn.getWaluta());
                 int dzienodzmienna = DataBean.dataod(zmiennawyn.getDataod(), kalendarz.getRok(), kalendarz.getMc());
                 int dziendozmienna = DataBean.datado(zmiennawyn.getDatado(), kalendarz.getRok(), kalendarz.getMc());
@@ -200,25 +203,31 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                         } else if (dniredukcjiIurlopu==0.0 && dniredukcji_11>0.0) {
                             //jest tylko choroba
                             redukcja_11 = redukcja_11 + (kwotazmiennej /30.0*dniredukcji_11);
-                            double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_11);
-                            if (kwotazmiennejporedukcji>0.0&&kalendarz.getDnipracywmiesiacu()>0.0) {
-                                stawkadzienna = Z.z6(kwotazmiennejporedukcji/kalendarz.getDnipracywmiesiacu());
-                                stawkagodzinowa = Z.z6(kwotazmiennejporedukcji/kalendarz.getGodzinypracywmiesiacu());
+                            dnipoza11 = kalendarz.getDniroboczewmiesiacu()-dniredukcji_11;
+                            godzinypoza11 = kalendarz.getGodzinyroboczewmiesiacu()-godzinyredukcji_11;
+                            kwotazmiennejporedukcji11 = (kwotazmiennej-redukcja_11);
+                            if (kwotazmiennejporedukcji11>0.0&&kalendarz.getDnipracywmiesiacu()>0.0) {
+                                stawkadzienna = Z.z6(kwotazmiennejporedukcji11/kalendarz.getDnipracywmiesiacu());
+                                stawkagodzinowa = Z.z6(kwotazmiennejporedukcji11/kalendarz.getGodzinypracywmiesiacu());
                             } else {
                                 stawkadzienna = 0.0;
                                 stawkagodzinowa = 0.0;
                             }
-                            dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji;
+                            dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji11;
                         } else if (dniredukcji_11>0.0 && dniredukcjiIurlopu>0.0)  {
                             redukcja_11 = redukcja_11 + (kwotazmiennej /30.0*dniredukcji_11);
-                            double stawkagodzinowadlaredukcji_12 = kwotazmiennej/kalendarz.getGodzinyroboczewmiesiacu();
+                            dnipoza11 = kalendarz.getDniroboczewmiesiacu()-dniredukcji_11;
+                            kwotazmiennejporedukcji11 = kwotazmiennej-redukcja_11;
+                            godzinypoza11 = kalendarz.getGodzinyroboczewmiesiacu()-godzinyredukcji_11;
+                            //tu bylo kiedys tak ale to jest niepoprawne
+                            //double stawkagodzinowadlaredukcji_12 = kwotazmiennej/kalendarz.getGodzinyroboczewmiesiacu();
+                            double stawkagodzinowadlaredukcji_12 = kwotazmiennejporedukcji11/godzinypoza11;
+                            double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/dnipoza11;
                             redukcja_12 = redukcja_12 + (stawkagodzinowadlaredukcji_12*godzinyredukcji_12);
-                            double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_11-redukcja_12)<0.0?0.0:(kwotazmiennej-redukcja_11-redukcja_12);
-                            double dzielnikdni = dnipracyurlopu+dniredukcji_pozaumowa;
-                            double dzielnikgodziny = godzinypracyurlopu+godzinyredukcji_pozaumowa;
-                            if (dzielnikdni>0.0) {
-                                stawkadzienna = Z.z6(kwotazmiennejporedukcji/dzielnikdni);
-                                stawkagodzinowa = Z.z6(kwotazmiennejporedukcji/dzielnikgodziny);
+                            double kwotazmiennejporedukcji = (kwotazmiennejporedukcji11-redukcja_12)<0.0?0.0:(kwotazmiennejporedukcji11-redukcja_12);
+                            if (stawkadziennedlaredukcji_12>0.0) {
+                                stawkadzienna = Z.z6(stawkadziennedlaredukcji_12);
+                                stawkagodzinowa = Z.z6(stawkagodzinowadlaredukcji_12);
                             } else {
                                 stawkadzienna = 0.0;
                                 stawkagodzinowa = 0.0;
@@ -256,6 +265,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     naliczenieskladnikawynagrodzenia.setStawkadzienna(stawkadzienna);
                     naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(kwotazmiennej);
                     naliczenieskladnikawynagrodzenia.setKwotadolistyplac(Z.z6(dowyplatyzaczasprzepracowany));
+                    naliczenieskladnikawynagrodzenia.setKwotaumownaminred11(Z.z(kwotazmiennejporedukcji11));
                     naliczenieskladnikawynagrodzenia.setDninalezne(kalendarz.getDniroboczewmiesiacu());
                     naliczenieskladnikawynagrodzenia.setDnifaktyczne(kalendarz.getDnipracywmiesiacu());
                     naliczenieskladnikawynagrodzenia.setDnipracyurlopu(dnipracyurlopu);
@@ -264,6 +274,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     naliczenieskladnikawynagrodzenia.setGodzinynalezne(kalendarz.getGodzinyroboczewmiesiacu());
                     naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(kalendarz.getGodzinypracywmiesiacu());
                     naliczenieskladnikawynagrodzenia.setGodzinypracyurlopu(godzinypracyurlopu);
+                    naliczenieskladnikawynagrodzenia.setGodzinypoza11(godzinypoza11);
                     naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                     naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
                     naliczenieskladnikawynagrodzenia.setKwotyredukujacesuma(redukcja);

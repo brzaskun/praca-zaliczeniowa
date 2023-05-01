@@ -276,7 +276,7 @@
             <p:rowExpansion>
                 <p:dataTable id="datalist" value="#{itempasek.getPobierzskladniki(pasekwynagrodzenView.wybranalistaplac)}" var="itempasekszcz"
                              rowIndexVar="indexpasekszcz" emptyMessage="Nie zachowano żadnych składników"
-                             style="height: 200px; overflow-y: scroll;width: 1500px;"
+                             style="height: 200px; overflow-y: scroll;width: 1600px;"
                              >
                     <p:column style="text-align: center;color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};" headerText="lp" width="40">
                         <h:outputText value="#{itempasekszcz.lp}"/>
@@ -287,7 +287,7 @@
                     <p:column headerText="zus" width="25" style="text-align: center;color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
                         <h:outputText value="#{itempasekszcz.kodzus}"/>
                     </p:column>
-                    <p:column headerText="składnik" width="320" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
+                    <p:column headerText="składnik" width="250" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
                         <h:outputText value="#{itempasekszcz.nazwa}"/>
                     </p:column>
                     <p:column headerText="imp.uwagi" width="60" style="text-align: center;color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
@@ -297,16 +297,25 @@
                          <h:outputText value="#{itempasekszcz.procentzwolnienia}%,"  rendered="#{itempasekszcz.procentzwolnienia ne 0.0}"/>
                          <h:outputText value="#{itempasekszcz.uwagi}" rendered="#{itempasekszcz.uwagi ne null}"/>
                     </p:column>
-                    <p:column headerText="godz/norma" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                     <p:column headerText="dni ob." width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                        <h:outputText value="#{itempasekszcz.dniobowiazku}"/>
+                    </p:column>
+                    <p:column headerText="dni pr." width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                        <h:outputText value="#{itempasekszcz.dniprzepracowane}"/>
+                    </p:column>
+                    <p:column headerText="godz norma" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
                         <h:outputText value="#{itempasekszcz.godzinyobowiazku}"/>
                     </p:column>
-                    <p:column headerText="godz/prac" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                    <p:column headerText="godz prac" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
                         <h:outputText value="#{itempasekszcz.godzinyprzepracowane}"/>
                     </p:column>
-                    <p:column headerText="data od" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                    <p:column headerText="godz bez §11" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                        <h:outputText value="#{itempasekszcz.godzinypoza11}"/>
+                    </p:column>
+                    <p:column headerText="data od" width="20" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
                         <h:outputText value="#{itempasekszcz.getDataodShort()}"/>
                     </p:column>
-                    <p:column headerText="data do" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                    <p:column headerText="data do" width="20" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
                         <h:outputText value="#{itempasekszcz.getDatadoShort()}"/>
                     </p:column>
 <!--                    <p:column headerText="dni" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
@@ -326,6 +335,9 @@
                     </p:column>
                     <p:column headerText="pln" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
                         <bcf:outputpl value="#{itempasekszcz.wynagrodzeniezmienna}"/>
+                    </p:column>
+                    <p:column headerText="po red. §11" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
+                        <bcf:outputpl value="#{itempasekszcz.kwotazmiennejporedukcji11}"/>
                     </p:column>
                     <p:column headerText="st/h" width="40"  style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
                         <bcf:outputpl value="#{itempasekszcz.stawkanagodzinewaluta}"/>

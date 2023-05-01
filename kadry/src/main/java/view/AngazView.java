@@ -255,7 +255,8 @@ public class AngazView  implements Serializable {
      }
      
       public void edytuj(Angaz angaz) {
-         if (angaz!=null) {
+        if (angaz!=null) {
+            pozamykajskladniki(angaz);
             angazFacade.edit(angaz);
             Msg.msg("Zapisano zmiany");
         } else {
@@ -589,6 +590,10 @@ public class AngazView  implements Serializable {
 
     public void setPokazwszystkich(boolean pokazwszystkich) {
         this.pokazwszystkich = pokazwszystkich;
+    }
+
+    private void pozamykajskladniki(Angaz angaz) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     

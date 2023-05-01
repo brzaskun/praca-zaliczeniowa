@@ -51,6 +51,10 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     private String datado;
     @Column(name = "kwotaumownazacalymc")
     private double kwotaumownazacalymc;
+    @Column(name = "kwotaumownaminred11")
+    private double kwotaumownaminred11;
+    @Column(name = "godzinypoza11")
+    private double godzinypoza11;
     @Column(name = "kwotyredukujacesuma")
     private double kwotyredukujacesuma;
     @Column(name = "kwotadolistyplac")
@@ -182,6 +186,14 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public void setGodzinypracyurlopu(double godzinypracyurlopu) {
         this.godzinypracyurlopu = godzinypracyurlopu;
+    }
+
+    public double getGodzinypoza11() {
+        return godzinypoza11;
+    }
+
+    public void setGodzinypoza11(double godzinypoza11) {
+        this.godzinypoza11 = godzinypoza11;
     }
 
     
@@ -349,6 +361,14 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public void setStawkagodzinowa(double stawkagodzinowa) {
         this.stawkagodzinowa = stawkagodzinowa;
+    }
+
+    public double getKwotaumownaminred11() {
+        return kwotaumownaminred11;
+    }
+
+    public void setKwotaumownaminred11(double kwotaumownaminred11) {
+        this.kwotaumownaminred11 = kwotaumownaminred11;
     }
 
     
