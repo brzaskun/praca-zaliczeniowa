@@ -300,6 +300,8 @@ public class PasekwynagrodzenBean {
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopmatkadziecko, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych());
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopookolicznosciowy, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych());
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urloponazadanie, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych());
+        //to dodalem, zeby bylo widac godziny i dni i potracenie, chyba
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych());
         //przywrocilem 21-02-2023 po tym jak zmienilem rozliczanie "D"
         //odkrecilem 26-02-2023 po przebudowie kompletnej wyliczania zasadniczego, redukcja jest juz na poczatku
         KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);

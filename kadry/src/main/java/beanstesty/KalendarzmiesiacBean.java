@@ -1389,8 +1389,10 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setLiczbagodzinobowiazku(godzinyroboczewmiesiacu);
                 naliczenienieobecnosc.setLiczbagodzinurlopu(godzinynieobecnoscirobocze);
 
-                double stawkagodzinowa = Z.z4(skladnikistale / godzinyroboczewmiesiacu);
-                naliczenienieobecnosc.setStawkadzienna(stawkagodzinowa);
+                double stawkagodzinowa = Z.z6(naliczenieskladnikawynagrodzenia.getStawkagodzinowa());
+                double stawkadzienna = Z.z4(naliczenieskladnikawynagrodzenia.getStawkadzienna());
+                naliczenienieobecnosc.setStawkagodzinowa(stawkagodzinowa);
+                naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
                 double dowyplatyzaczasnieobecnosci = Z.z(stawkagodzinowa * godzinynieobecnoscirobocze);
                 naliczenienieobecnosc.setKwota(0.0);
                 naliczenienieobecnosc.setKwotazus(0.0);

@@ -250,7 +250,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     if (dnifaktycznieprzepracowane>0) {
                         //stawkadzienna = Z.z6(stawkadzienna / kalendarz.getDnipracywmiesiacu() / liczbazmiennych);
                         //stawkagodzinowa = Z.z6(stawkagodzinowa / kalendarz.getGodzinypracywmiesiacu() / liczbazmiennych);
-                        redukcja = redukcja_11 + redukcja_12;
+                        double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
+                        redukcja = redukcja_11 + redukcja_12+ redukcja_urlop;
                     } else {
                         //jezeli  nie ma ani jednego dnia faktycznie przepracowanego to sie nie nalezy
 //                        stawkadzienna = 0.0;
