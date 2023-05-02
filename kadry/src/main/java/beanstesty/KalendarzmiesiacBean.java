@@ -173,7 +173,7 @@ public class KalendarzmiesiacBean {
             }
         }
         if (nieobecnosc.getKod().equals("CH")) {
-            naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, null, null, 0.0);
+            naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, null, null, 0.0, false);
         } else if (nieobecnosc.getKod().equals("U") || nieobecnosc.getKod().equals("UZ") || nieobecnosc.getKod().equals("O") || nieobecnosc.getKod().equals("MD")) {
             naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
         } else if (nieobecnosc.getKod().equals("X") || nieobecnosc.getKod().equals("NP") || nieobecnosc.getKod().equals("NN")) {
@@ -184,22 +184,22 @@ public class KalendarzmiesiacBean {
     }
 
     static void dodajnieobecnoscDB(Kalendarzmiesiac kalendarz, List<Nieobecnosc> nieobecnosclista, Pasekwynagrodzen pasekwynagrodzen, List<Kalendarzmiesiac> kalendarzList,
-            double kurs, Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow, double limitpodstawyzasilkow) {
+            double kurs, Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow, double limitpodstawyzasilkow, boolean jestoodelegowanie) {
         if (nieobecnosclista != null && !nieobecnosclista.isEmpty()) {
             for (Nieobecnosc nieobecnosc : nieobecnosclista) {
                 String kod = nieobecnosc.getKod();
                 if (kod.equals("ZC")) {
                     //zasilek chorobowy
-                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, definicjadlazasilkow, limitpodstawyzasilkow);
+                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, definicjadlazasilkow, limitpodstawyzasilkow, jestoodelegowanie);
                 } else if (kod.equals("W")) {
                     //zasilek chorobowy
-                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, definicjadlazasilkow, limitpodstawyzasilkow);
+                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, definicjadlazasilkow, limitpodstawyzasilkow, jestoodelegowanie);
                 } else if (kod.equals("CH")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
-                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, null, limitpodstawyzasilkow);
+                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, null, limitpodstawyzasilkow, jestoodelegowanie);
                 } else if (kod.equals("UO")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
-                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, definicjadlazasilkow, limitpodstawyzasilkow);
+                    naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, definicjadlazasilkow, limitpodstawyzasilkow, jestoodelegowanie);
                 } else if (kod.equals("U") || kod.equals("UZ") || kod.equals("O") || kod.equals("MD")) {
                     //urlop wypoczynowy
                     naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
@@ -434,7 +434,7 @@ public class KalendarzmiesiacBean {
         pasekwynagrodzen.setPotracenia(sumazajec);
     }
 
-    static void naliczskladnikiwynagrodzeniazaChorobe(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow, double limitpodstawyzasilkow) {
+    static void naliczskladnikiwynagrodzeniazaChorobe(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow, double limitpodstawyzasilkow, boolean jestoodelegowanie) {
         double liczbagodzinchoroby = 0.0;
         double liczbagodzinobowiazku = 0.0;
         String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
@@ -480,7 +480,7 @@ public class KalendarzmiesiacBean {
                             if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("12")) {
                                 sredniadopodstawypobrana = wyliczsredniachorobaNadgodziny(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow);
                             } else {
-                                sredniadopodstawypobrana = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow);
+                                sredniadopodstawypobrana = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow, jestoodelegowanie);
                             }
                             double sredniadopodstawy = sredniadopodstawypobrana - (sredniadopodstawypobrana * .1371);
                             //trzeba dac te ograniczenie bo podwyzszalo podstawe dla wszystkich wyunagrodzen
@@ -526,7 +526,7 @@ public class KalendarzmiesiacBean {
     }
 
     private static double wyliczsredniachoroba(Kalendarzmiesiac kalendarz, Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Nieobecnosc nieobecnosc, Naliczenienieobecnosc naliczenienieobecnosc,
-            Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow) {
+            Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow, boolean jestoddelegowanie) {
         double zwrot = 0.0;
         List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
         String rok = kalendarz.getRok();
@@ -617,7 +617,8 @@ public class KalendarzmiesiacBean {
                         //jest wiecej przepracowanych miesiaca brany do wyliczania
                         Definicjalistaplac definicjabiezaca = definicjadlazasilkow != null ? definicjadlazasilkow : definicjalistaplac;
                         boolean pominiety = false;
-                        sredniadopodstawyzmienne = sredniadopodstawyzmienne+sredniaMiesiacLiczony(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarzdosredniej, kalendarz, definicjalistaplac, definicjabiezaca, dnirobocze, dniprzepracowaneIurlop, godzinyrobocze, godzinyprzepracowaneIurlop, pominiety);
+                        sredniadopodstawyzmienne = sredniadopodstawyzmienne+sredniaMiesiacLiczony(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarzdosredniej, kalendarz, definicjalistaplac, 
+                                definicjabiezaca, dnirobocze, dniprzepracowaneIurlop, godzinyrobocze, godzinyprzepracowaneIurlop, pominiety, jestoddelegowanie);
                         i++;
                     }
                 }
@@ -755,7 +756,7 @@ public class KalendarzmiesiacBean {
     }
     //tutaj odbywa sie waloryzacja skladnikow stalych
     public static double sredniaMiesiacLiczony(Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Naliczenienieobecnosc naliczenienieobecnosc, Kalendarzmiesiac kalendarzdosredniej,
-       Kalendarzmiesiac kalendarz,Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjabiezaca, int dnirobocze, int dniprzepracowaneIurlop, double godzinyrobocze, double godzinyprzepracowaneIurlop, boolean pominiety) {
+       Kalendarzmiesiac kalendarz,Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjabiezaca, int dnirobocze, int dniprzepracowaneIurlop, double godzinyrobocze, double godzinyprzepracowaneIurlop, boolean pominiety, boolean jestoddelegowanie) {
          double sredniadopodstawyzmienne = 0.0;
         if (!kalendarzdosredniej.equals(kalendarz)) {
             boolean skladnikstaly = false;
@@ -781,7 +782,7 @@ public class KalendarzmiesiacBean {
                     if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().isOddelegowanie()&&pa.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny().equals("Wyn. za pracę w Niemczech")) {
                          wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + pa.getKwotadolistyplac();
                     } else if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
-                        if (waloryzowac) {
+                        if (waloryzowac&&jestoddelegowanie==false) {
                             if (pa.getKwotaumownazacalymc()>0.0) {
                                 wynagrodzeniemczwaloryzowane = wynagrodzeniemczwaloryzowane + pa.getKwotaumownazacalymc();
                             } else {
