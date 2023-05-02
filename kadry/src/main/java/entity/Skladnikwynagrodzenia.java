@@ -88,6 +88,15 @@ public class Skladnikwynagrodzenia implements Serializable {
         this.id = id;
         this.zmiennawynagrodzeniaList = new ArrayList<>();
     }
+    
+    public Skladnikwynagrodzenia(Angaz angaz) {
+        this.angaz = angaz;
+        this.rodzajwynagrodzenia = new Rodzajwynagrodzenia();
+        this.rodzajwynagrodzenia.setId(-1);
+        this.rodzajwynagrodzenia.setOpispelny("dodaj nowy składnik");
+        this.rodzajwynagrodzenia.setOpisskrocony("dodaj nowy skadnik");
+        this.zmiennawynagrodzeniaList = new ArrayList<>();
+    }
 
     public Integer getId() {
         return id;
@@ -156,8 +165,9 @@ public class Skladnikwynagrodzenia implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 41 * hash + Objects.hashCode(this.id);
-        hash = 41 * hash + Objects.hashCode(this.rodzajwynagrodzenia);
+        hash = 71 * hash + Objects.hashCode(this.id);
+        hash = 71 * hash + Objects.hashCode(this.angaz);
+        hash = 71 * hash + Objects.hashCode(this.rodzajwynagrodzenia);
         return hash;
     }
 
@@ -173,17 +183,16 @@ public class Skladnikwynagrodzenia implements Serializable {
             return false;
         }
         final Skladnikwynagrodzenia other = (Skladnikwynagrodzenia) obj;
-        if (this.id!=null&&other.id!=null) {
-            if (!Objects.equals(this.id, other.id)) {
-                return false;
-            }
-        } else {
-            if (!Objects.equals(this.rodzajwynagrodzenia, other.rodzajwynagrodzenia)) {
-                return false;
-            }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
         }
-        return true;
+        if (!Objects.equals(this.angaz, other.angaz)) {
+            return false;
+        }
+        return Objects.equals(this.rodzajwynagrodzenia, other.rodzajwynagrodzenia);
     }
+
+    
 
    
 

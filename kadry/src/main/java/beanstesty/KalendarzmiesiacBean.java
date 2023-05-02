@@ -925,7 +925,7 @@ public class KalendarzmiesiacBean {
                         }
                         boolean pominiety = false;
                         boolean skladnikstaly = false;
-                        double[] czywaloryzowac = kalendarzdosredniej.chorobaczywaloryzacja();
+                        double[] czywaloryzowac = kalendarzdosredniej.uzupelnienie1norma0pominiecie2();
                         boolean waloryzowac = czywaloryzowac[2] == 1;
                         double wynagrodzeniemcwyplacone = 0.0;
                         double wynagrodzeniemczwaloryzowane = 0.0;

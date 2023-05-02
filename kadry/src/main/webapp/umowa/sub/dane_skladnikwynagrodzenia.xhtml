@@ -6,8 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets"
 >
-    <p:panelGrid columns="2" columnClasses="forty-percent">
-        <p:outputPanel style="height: 140px" styleClass="panelzramka">
+    
+<!--        <p:outputPanel style="height: 140px" styleClass="panelzramka">
                 <h:form styleClass="formumowa" id="SkladnikwynagrodzeniaCreateForm">
                     <p:panel header="Dodawanie/edycja składnika wynagrodzenia"/>
                     <h:panelGroup id="display">
@@ -31,14 +31,14 @@
                         <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikwynagrodzeniaCreateDialog.hide()"/>
                     </h:panelGroup>
                 </h:form>
-            </p:outputPanel>
+            </p:outputPanel>-->
             <p:outputPanel>
                 <h:form styleClass="formumowa" id="SkladnikwynagrodzeniaListForm">
-                    <p:panel header="Wykaz składników wynagrodzenia">
+                    <p:panel header="Wykaz składników wynagrodzenia" style="width: 850px;">
                         <p:dataTable id="datalist" value="#{skladnikWynagrodzeniaView.lista}" var="itemskladnikwyn"
                                      selectionMode="single" selection="#{skladnikWynagrodzeniaView.selectedlista}" 
-                                     rowKey="#{itemskladnikwyn.id}" emptyMessage="Brak ustalonych skłądników wynagrodzenia"
-                                     style="height: 200px; overflow-y: scroll;"
+                                     rowKey="#{itemskladnikwyn.hashCode()}" emptyMessage="Brak ustalonych skłądników wynagrodzenia"
+                                     style="height: 240px; overflow-y: scroll;width: 850px;"
                                      >
                             <p:ajax event="rowSelect" listener="#{zmiennaWynagrodzeniaView.init2(skladnikWynagrodzeniaView.selectedlista)}" partialSubmit="true" global="false" update="akordeon:ZmiennawynagrodzeniaListForm:datalist"/>
                             <p:column width="40" style="text-align: center;"  sortBy="#{itemskladnikwyn.id}" sortOrder="descending">
@@ -47,12 +47,30 @@
                                 </f:facet>
                                 <h:outputText value="#{itemskladnikwyn.id}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true?'grey':'initial'};"/>
                             </p:column>
-                            <p:column width="170">
+                            <p:column width="230">
                                 <f:facet name="header">
                                     <h:outputText value="nazwa"/>
                                 </f:facet>
-                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq false and itemskladnikwyn.historyczny eq false}"/>
-                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true}" style="color: grey"/>
+                                <p:inplace  effectSpeed="fast" event="dblclick" editor="true">
+                                    <f:facet name="output">
+                                        <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" 
+                                                      rendered="#{itemskladnikwyn.id ne null and (itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq false and itemskladnikwyn.historyczny eq false)}"/>
+                                        <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" 
+                                                      rendered="#{itemskladnikwyn.id ne null and (itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true)}" style="color: grey"/>
+                                        <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}" 
+                                                      rendered="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny eq 'dodaj nowy składnik' and itemskladnikwyn.id eq null}" style="color: green;"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                         <p:selectOneMenu id="nazwa" value="#{itemskladnikwyn.rodzajwynagrodzenia}" converter="#{rodzajwynagrodzeniaConverter}" filter="true" required="true">
+                                            <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                                            <f:selectItems value="#{skladnikWynagrodzeniaView.listarodzajwynagrodzenia}"
+                                                           var="rodzajwynItem"
+                                                           itemValue="#{rodzajwynItem}" itemLabel="#{rodzajwynItem.kod} #{rodzajwynItem.opisskrocony}"/>
+                                            <p:ajax event="change" partialSubmit="true" global="false"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                    <p:ajax event="save" listener="#{skladnikWynagrodzeniaView.edycja(itemskladnikwyn)}" update="@this akordeon:SkladnikwynagrodzeniaListForm"/>
+                                </p:inplace>
                             </p:column>
                             <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
@@ -109,9 +127,6 @@
                                      <p:ajax event="change" listener="#{skladnikWynagrodzeniaView.edycja(itemskladnikwyn)}" partialSubmit="true" update="akordeon:SkladnikwynagrodzeniaListForm:datalist"/>
                                  </p:selectBooleanCheckbox>
                             </p:column>
-                            <p:column width="20" style="text-align: center;">
-                                <p:commandButton icon="pi pi-pencil"  actionListener="#{skladnikWynagrodzeniaView.wybierzdoedycji(itemskladnikwyn)}" update="north, akordeon:SkladnikwynagrodzeniaListForm,  akordeon:SkladnikwynagrodzeniaCreateForm"/>
-                            </p:column>
                             <p:column style="text-align: center;" width="20">
                                 <p:commandButton icon="pi pi-trash" actionListener="#{skladnikWynagrodzeniaView.usunSkladnikWyn(itemskladnikwyn)}" update="north, @(form)">
                                     <p:confirm type="popup" header="Potwierdzenie" message="Usunąć składnik?" icon="pi pi-exclamation-triangle"/>
@@ -122,5 +137,5 @@
                 </h:form>
             </p:outputPanel>
             
-        </p:panelGrid>
+    
 </ui:composition>

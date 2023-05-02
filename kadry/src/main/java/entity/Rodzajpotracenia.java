@@ -81,6 +81,11 @@ public class Rodzajpotracenia implements Serializable {
         this.id = id;
     }
 
+    public Rodzajpotracenia(int i, String opis) {
+        this.id = i;
+        this.opis = opis;
+    }
+
     public Integer getId() {
         return id;
     }

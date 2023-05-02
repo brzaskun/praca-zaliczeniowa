@@ -12,9 +12,10 @@ import dao.UmowaFacade;
 import entity.Rodzajpotracenia;
 import entity.Skladnikpotracenia;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import kadryiplace.WynPotracenia;
@@ -25,11 +26,9 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class SkladnikPotraceniaView  implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Inject
-    private Skladnikpotracenia selected;
     @Inject
     private Skladnikpotracenia selectedlista;
     private List<Skladnikpotracenia> lista;
@@ -42,30 +41,49 @@ public class SkladnikPotraceniaView  implements Serializable {
     private RodzajpotraceniaFacade rodzajpotraceniaFacade;
     @Inject
     private WpisView wpisView;
-    @Inject
-    private ZmiennaPotraceniaView zmiennaPotraceniaView;
+    
     
     @PostConstruct
     public void init() {
         if (wpisView.getAngaz()!=null) {
             lista  = skladnikPotraceniaFacade.findByPracownik(wpisView.getAngaz().getPracownik());
+            if (lista==null) {
+                lista = new ArrayList<>();
+            } else {
+                selectedlista = lista.get(0);
+            }
+            lista.add(new Skladnikpotracenia(wpisView.getAngaz()));
         }
-        selected.setAngaz(wpisView.getAngaz());
         listapotracen = rodzajpotraceniaFacade.findAll();
 
     }
     
 
-    public void create() {
+    public void create(Skladnikpotracenia selected) {
       if (selected!=null && selected.getAngaz()!=null) {
           try {
             selected.setAngaz(wpisView.getAngaz());
             skladnikPotraceniaFacade.create(selected);
-            lista.add(selected);
-            selected = new Skladnikpotracenia();
+            lista.add(new Skladnikpotracenia(wpisView.getAngaz()));
             Msg.msg("Dodano nowy składnik potrąceń");
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano nowego składnika potrąceń");
+          }
+      } else {
+          Msg.msg("e","Brak wybranej umowy");
+      }
+    }
+    
+     public void edycja(Skladnikpotracenia selected) {
+      if (selected!=null && selected.getAngaz()!=null) {
+          try {
+            if (selected.getId()==null) {
+                create(selected);
+            }
+            skladnikPotraceniaFacade.edit(selected);
+            Msg.msg("Zmieniono składnik potrąceń");
+          } catch (Exception e) {
+              Msg.msg("e", "Błąd - nie zmieniono składnika potrąceń");
           }
       } else {
           Msg.msg("e","Brak wybranej umowy");
@@ -81,13 +99,7 @@ public class SkladnikPotraceniaView  implements Serializable {
             Msg.msg("e","Nie wybrano składnika potrąceń");
         }
     }
-    public Skladnikpotracenia getSelected() {
-        return selected;
-    }
 
-    public void setSelected(Skladnikpotracenia selected) {
-        this.selected = selected;
-    }
 
     public Skladnikpotracenia getSelectedlista() {
         return selectedlista;

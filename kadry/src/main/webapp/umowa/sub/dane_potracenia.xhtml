@@ -6,8 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets"
 >
-    <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
-         <p:outputPanel style="height: 140px" styleClass="panelzramka">
+    
+<!--         <p:outputPanel style="height: 140px" styleClass="panelzramka">
                 <h:form styleClass="formumowa" id="PotraceniaCreateForm">
                     <p:panel header="Dodawanie/edycja składnika potrąceń"/>
                     <h:panelGroup id="display">
@@ -29,17 +29,17 @@
                         <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikwynagrodzeniaCreateDialog.hide()"/>
                     </h:panelGroup>
                 </h:form>
-            </p:outputPanel>
+            </p:outputPanel>-->
             <p:outputPanel>
                 <h:form styleClass="formumowa" id="SkladnikpotraceniaListForm">
-                    <p:panel header="Wykaz składników potrącenia">
+                    <p:panel header="Wykaz składników potrącenia" style="width: 850px;">
                         <p:dataTable id="datalist" value="#{skladnikPotraceniaView.lista}" var="itemskladnikpotracenia"
                                      selectionMode="single" selection="#{skladnikPotraceniaView.selectedlista}"
-                                     rowKey="#{itemskladnikpotracenia.id}" emptyMessage="Brak ustalonych potrąceń"
-                                     style="height: 150px; overflow-y: scroll;"
+                                     rowKey="#{itemskladnikpotracenia.hashCode()}" emptyMessage="Brak ustalonych potrąceń"
+                                     style="height: 200px; overflow-y: scroll;width: 850px;"
                                      >
-                            <p:ajax event="rowSelect" listener="#{zmiennaPotraceniaView.init2(skladnikPotraceniaView.selectedlista)}" partialSubmit="true" global="false" update="akordeon:SkladnikporaceniaListForm"/>
-                            <p:column width="40" style="text-align: center;">
+                            <p:ajax event="rowSelect" listener="#{zmiennaPotraceniaView.init2(skladnikPotraceniaView.selectedlista)}" partialSubmit="true" global="false" update="akordeon:ZmiennaporaceniaListForm"/>
+                            <p:column width="40" style="text-align: center;" sortable="true" sortBy="#{itemskladnikpotracenia.id}" sortOrder="desc">
                                 <f:facet name="header">
                                     <h:outputText value="id"/>
                                 </f:facet>
@@ -49,7 +49,22 @@
                                 <f:facet name="header">
                                     <h:outputText value="nazwa"/>
                                 </f:facet>
-                                <h:outputText value="#{itemskladnikpotracenia.rodzajpotracenia.opis}"/>
+                                <p:inplace  effectSpeed="fast" event="dblclick" editor="true">
+                                    <f:facet name="output">
+                                        <h:outputText value="#{itemskladnikpotracenia.rodzajpotracenia.opis}" rendered="#{itemskladnikpotracenia.id ne null}"/>
+                                        <h:outputText value="#{itemskladnikpotracenia.rodzajpotracenia.opis}" rendered="#{itemskladnikpotracenia.id eq null}" style="color: green;"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                         <p:selectOneMenu id="nazwa" value="#{itemskladnikpotracenia.rodzajpotracenia}" converter="#{slownikpotracenConverter}" filter="true" style="width: 250px;">
+                                            <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                                            <f:selectItems value="#{skladnikPotraceniaView.listapotracen}"
+                                                           var="rodzajpotrItem"
+                                                           itemValue="#{rodzajpotrItem}" itemLabel="#{rodzajpotrItem.opis}"/>
+                                            <p:ajax event="change" partialSubmit="true" global="false" />
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                    <p:ajax event="save" listener="#{skladnikPotraceniaView.edycja(itemskladnikpotracenia)}" update="akordeon:SkladnikpotraceniaListForm"/>
+                                </p:inplace>
                             </p:column>
                             <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
@@ -70,11 +85,11 @@
                             </p:column>
                             
                             <p:column style="text-align: center; width: 30px;">
-                                <p:commandButton icon="pi pi-trash" actionListener="#{skladnikPotraceniaView.usunSkladnikPotr(itemskladnikpotracenia)}" update="north, @(form)"/>
+                                <p:commandButton icon="pi pi-trash" actionListener="#{skladnikPotraceniaView.usunSkladnikPotr(itemskladnikpotracenia)}" update="north, akordeon:SkladnikpotraceniaListForm"/>
                             </p:column>
                         </p:dataTable>
                     </p:panel>
                 </h:form>
             </p:outputPanel>
-        </p:panelGrid>
+    
 </ui:composition>

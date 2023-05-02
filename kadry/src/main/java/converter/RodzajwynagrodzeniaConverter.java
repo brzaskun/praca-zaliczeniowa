@@ -31,6 +31,7 @@ public class RodzajwynagrodzeniaConverter implements javax.faces.convert.Convert
     @PostConstruct
     private void init() {
         lista = rodzajwynagrodzeniaFacade.findAll();
+        lista.add(new Rodzajwynagrodzenia(-1, null, "dodaj nowy składnik", "dodaj nowy składnik"));
     }
     
     @Override
@@ -43,7 +44,7 @@ public class RodzajwynagrodzeniaConverter implements javax.faces.convert.Convert
                 }
             }
         } catch (NumberFormatException exception) {
-            
+            System.out.println("");
         }
         return null;
     }

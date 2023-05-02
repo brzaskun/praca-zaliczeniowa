@@ -10,7 +10,6 @@ import dao.ZmiennaPotraceniaFacade;
 import entity.Skladnikpotracenia;
 import entity.Zmiennapotracenia;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -45,33 +44,30 @@ public class ZmiennaPotraceniaView  implements Serializable {
             listaskladnikipotracenia = skladnikPotraceniaFacade.findByPracownik(wpisView.getAngaz().getPracownik());
             if (listaskladnikipotracenia != null && !listaskladnikipotracenia.isEmpty()) {
                 lista = zmiennaPotraceniaFacade.findBySkladnik(listaskladnikipotracenia.get(0));
-            } else {
-                lista = new ArrayList<>();
-            }
+                lista.add(new Zmiennapotracenia(listaskladnikipotracenia.get(0)));
+            } 
         }
     }
     
     public void init2(Skladnikpotracenia skladnipotracenia) {
-       if (skladnipotracenia!=null) {
+       if (skladnipotracenia!=null&&skladnipotracenia.getId()!=null) {
             lista  = zmiennaPotraceniaFacade.findBySkladnik(skladnipotracenia);
             selected.setSkladnikpotracenia(skladnipotracenia);
+            lista.add(new Zmiennapotracenia(skladnipotracenia));
+       } else {
+           lista = null;
        }
    }
     
 
-    public void create() {
+    public void create(Zmiennapotracenia selected) {
       if (selected!=null && selected.getSkladnikpotracenia()!=null) {
           try {
-            if (selected.getId()!=null) {
+            if (selected.getId()==null) {
                 zmiennaPotraceniaFacade.edit(selected);
-                selected = new Zmiennapotracenia();
+                lista.add(new Zmiennapotracenia(selected.getSkladnikpotracenia()));
                 Msg.msg("Edytowano potrącenie");
-            } else {
-                zmiennaPotraceniaFacade.create(selected);
-                lista.add(selected);
-                selected = new Zmiennapotracenia();
-                Msg.msg("Dodano potrącenie");
-            }
+            } 
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano potrącenia");
           }
@@ -79,6 +75,24 @@ public class ZmiennaPotraceniaView  implements Serializable {
           Msg.msg("e", "Nie wybrano składnika");
       }
     }
+    
+     public void edit(Zmiennapotracenia selected) {
+      if (selected!=null && selected.getSkladnikpotracenia()!=null) {
+          try {
+            if (selected.getId()!=null) {
+                zmiennaPotraceniaFacade.edit(selected);
+                lista.add(selected);
+                Msg.msg("Edytowano potrącenie");
+            }
+          } catch (Exception e) {
+              Msg.msg("e", "Błąd - nie edytowano potrącenia");
+          }
+      } else {
+          Msg.msg("e", "Nie wybrano składnika");
+      }
+    }
+    
+    
     
 //    private void zakonczokrespoprzedni(List<Zmiennapotracenia> lista, Zmiennapotracenia selected) {
 //        try {

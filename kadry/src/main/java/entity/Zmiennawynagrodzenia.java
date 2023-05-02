@@ -122,6 +122,8 @@ public class Zmiennawynagrodzenia implements Serializable {
 
     public Zmiennawynagrodzenia(Skladnikwynagrodzenia skladnikwynagrodzenia) {
         this.skladnikwynagrodzenia = skladnikwynagrodzenia;
+        this.waluta = "PLN";
+        this.netto0brutto1 = true;
     }
     
     

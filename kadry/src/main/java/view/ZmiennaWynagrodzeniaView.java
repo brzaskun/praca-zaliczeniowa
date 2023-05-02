@@ -12,7 +12,6 @@ import data.Data;
 import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -30,8 +29,8 @@ import msg.Msg;
 //musibyc viewscoped bo inaczej to odswieza i nie ma przyporzadkowanej zmiennej wyangrodzeni
 public class ZmiennaWynagrodzeniaView  implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Inject
-    private Zmiennawynagrodzenia selected;
+//    @Inject
+//    private Zmiennawynagrodzenia selected;
     @Inject
     private Zmiennawynagrodzenia selectedlista;
     private List<Zmiennawynagrodzenia> lista;
@@ -42,6 +41,7 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
     private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
     @Inject
     private WpisView wpisView;
+    private Skladnikwynagrodzenia biezacyskladnikwynagrodzenia;
     
     
     @PostConstruct
@@ -50,37 +50,46 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
             listaskladnikiwynagrodzenia = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz());
             if (listaskladnikiwynagrodzenia != null && !listaskladnikiwynagrodzenia.isEmpty()) {
                 lista = zmiennaWynagrodzeniaFacade.findBySkladnik(listaskladnikiwynagrodzenia.get(0));
-            } else {
-                lista = new ArrayList<>();
+                lista.add(new Zmiennawynagrodzenia(listaskladnikiwynagrodzenia.get(0)));
             }
         }
     }
     
     public void init2(Skladnikwynagrodzenia skladnikwynagrodzenia) {
-       if (skladnikwynagrodzenia!=null) {
+       if (skladnikwynagrodzenia!=null&&skladnikwynagrodzenia.getId()!=null) {
+            biezacyskladnikwynagrodzenia = skladnikwynagrodzenia;
             lista  = zmiennaWynagrodzeniaFacade.findBySkladnik(skladnikwynagrodzenia);
-            selected.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+            lista.add(new Zmiennawynagrodzenia(skladnikwynagrodzenia));
+       }  else {
+           lista = null;
        }
    }
     
 
-    public void create() {
+    public void create(Zmiennawynagrodzenia selected) {
       if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
           Skladnikwynagrodzenia skladnikwynagrodzenia = selected.getSkladnikwynagrodzenia();
           try {
-            if (selected.getId()!=null) {
-                zmiennaWynagrodzeniaFacade.edit(selected);
-                selected = new Zmiennawynagrodzenia(skladnikwynagrodzenia);
-                Msg.msg("Udana edycja zmiennej wyn");
-            } else {
                 if (lista!=null && lista.size()>0) {
                     zakonczokrespoprzedni(lista,selected);
                 }
                 zmiennaWynagrodzeniaFacade.create(selected);
-                lista.add(selected);
-                selected = new Zmiennawynagrodzenia();
-                selected.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+                lista.add(new Zmiennawynagrodzenia(skladnikwynagrodzenia));
                 Msg.msg("Dodano zmienną wyn");
+          } catch (Exception e) {
+              Msg.msg("e", "Błąd - nie dodano zmiennej wyn");
+          }
+      } else {
+          Msg.msg("e", "Nie wybrano składnika");
+      }
+    }
+    
+    public void edit(Zmiennawynagrodzenia selected) {
+      if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
+          try {
+            if (selected.getId()!=null) {
+                zmiennaWynagrodzeniaFacade.edit(selected);
+                Msg.msg("Udana edycja zmiennej wyn");
             }
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano zmiennej wyn");
@@ -90,36 +99,36 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
       }
     }
     
-     public void edytuj(Zmiennawynagrodzenia selected) {
-      if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
-          try {
-            zmiennaWynagrodzeniaFacade.edit(selected);
-            Msg.msg("Zmieniono zmienną wyn");
-          } catch (Exception e) {
-              Msg.msg("e", "Błąd edycji zmiennej wyn");
-          }
-      } else {
-          Msg.msg("e", "Nie wybrano składnika");
-      }
-    }
+//     public void edytuj(Zmiennawynagrodzenia selected) {
+//      if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
+//          try {
+//            zmiennaWynagrodzeniaFacade.edit(selected);
+//            Msg.msg("Zmieniono zmienną wyn");
+//          } catch (Exception e) {
+//              Msg.msg("e", "Błąd edycji zmiennej wyn");
+//          }
+//      } else {
+//          Msg.msg("e", "Nie wybrano składnika");
+//      }
+//    }
      
-     public void wybierzdoedycji(Zmiennawynagrodzenia selected) {
-      if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
-          try {
-            this.selected  = selected;
-            Msg.msg("Zmieniono zmienną do edycji");
-          } catch (Exception e) {
-              Msg.msg("e", "Błąd edycji zmiennej wyn");
-          }
-      } else {
-          Msg.msg("e", "Nie wybrano zmiennej wyn");
-      }
-    }
+//     public void wybierzdoedycji(Zmiennawynagrodzenia selected) {
+//      if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
+//          try {
+//            this.selected  = selected;
+//            Msg.msg("Zmieniono zmienną do edycji");
+//          } catch (Exception e) {
+//              Msg.msg("e", "Błąd edycji zmiennej wyn");
+//          }
+//      } else {
+//          Msg.msg("e", "Nie wybrano zmiennej wyn");
+//      }
+//    }
     
     private void zakonczokrespoprzedni(List<Zmiennawynagrodzenia> lista, Zmiennawynagrodzenia selected) {
         try {
             Collections.sort(lista, new ZmiennaWynagrodzeniacomparator());
-            Zmiennawynagrodzenia ostatnia = lista.get(0);
+            Zmiennawynagrodzenia ostatnia = lista.get(1);
             String nowadataod = selected.getDataod();
             String wyliczonadatado = Data.odejmijdni(nowadataod, 1);
             ostatnia.setDatado(wyliczonadatado);
@@ -131,19 +140,13 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
         if (zmienna!=null) {
             zmiennaWynagrodzeniaFacade.remove(zmienna);
             lista.remove(zmienna);
+            Collections.sort(lista, new ZmiennaWynagrodzeniacomparator());
             Msg.msg("Usunięto zmienną");
         } else {
             Msg.msg("e","Nie wybrano zmiennej");
         }
     }
 
-    public Zmiennawynagrodzenia getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Zmiennawynagrodzenia selected) {
-        this.selected = selected;
-    }
 
     public Zmiennawynagrodzenia getSelectedlista() {
         return selectedlista;

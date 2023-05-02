@@ -31,6 +31,7 @@ public class SlownikpotracenConverter implements javax.faces.convert.Converter, 
     @PostConstruct
     private void init() {
         lista = slownikpotraceniaFacade.findAll();
+        lista.add(new Rodzajpotracenia(-1, "dodaj nowy składnik"));
     }
     
     @Override

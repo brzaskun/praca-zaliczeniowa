@@ -6,9 +6,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets"
 >
-    <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
+    
             
-            <p:outputPanel style="height: 140px" styleClass="panelzramka">
+<!--            <p:outputPanel style="height: 140px" styleClass="panelzramka">
                 <h:form styleClass="formumowa" id="ZmiennawynagrodzeniaCreateForm">
                     <p:panel header="Dodawanie/edycja zmiennych"/>
                     <h:panelGroup id="display">
@@ -37,17 +37,18 @@
                         <p:commandButton value="#{bundle.Cancel}"/>
                     </h:panelGroup>
                 </h:form>
-            </p:outputPanel>
+            </p:outputPanel>-->
         <p:outputPanel>
                 <h:form styleClass="formumowa" id="ZmiennawynagrodzeniaListForm">
                     <p:panel header="Wykaz zmiennych składniki wynagrodzenia">
                         <p:dataTable id="datalist" value="#{zmiennaWynagrodzeniaView.lista}" var="itemzmiennawyn"
                                      selectionMode="single" selection="#{zmiennaWynagrodzeniaView.selectedlista}"
                                      rowKey="#{itemzmiennawyn.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
-                                     style="height: 200px; overflow-y: scroll; width: 1000px;" sortMode="single"
+                                     sortMode="single" 
+                                     style="height: 240px; overflow-y: scroll; width: 1000px;"
                                      >
 
-                            <p:column width="40" style="text-align: center;">
+                            <p:column width="40" style="text-align: center;" sortable="true" sortBy="#{itemzmiennawyn.id}" sortOrder="desc">
                                 <f:facet name="header">
                                     <h:outputText value="id"/>
                                 </f:facet>
@@ -57,47 +58,48 @@
                                 <f:facet name="header">
                                     <h:outputText value="nazwa"/>
                                 </f:facet>
-                                <h:outputText value="#{itemzmiennawyn.nazwa}"/>
+                                <p:inputText value="#{itemzmiennawyn.nazwa}"/>
                             </p:column>
-                            <p:column sortBy="#{itemzmiennawyn.dataod}" sortOrder="desc">
+                            <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="data od"/>
                                 </f:facet>
-                                <h:outputText value="#{itemzmiennawyn.dataod}"/>
+                                <p:inputText value="#{itemzmiennawyn.dataod}" size="10" placeholder="____-__-__" maxlength="10">
+                                     <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="data do"/>
                                 </f:facet>
-                                <h:outputText value="#{itemzmiennawyn.datado}"/>
+                                <p:inputText value="#{itemzmiennawyn.datado}" size="10" placeholder="____-__-__" maxlength="10">
+                                     <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
                             </p:column>
 
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="kwota"/>
                                 </f:facet>
-                                <p:inplace  effectSpeed="fast" event="dblclick" editor="true">
-                                    <f:facet name="output">
-                                        <bcf:outputpl value="#{itemzmiennawyn.kwota}"/>
-                                    </f:facet>
-                                    <f:facet name="input">
-                                        <bcf:inputpl  value="#{itemzmiennawyn.kwota}"/>
-                                    </f:facet>
-                                    <p:ajax event="save" listener="#{zmiennaWynagrodzeniaView.edytuj(itemzmiennawyn)}" update="@this"/>
-                                </p:inplace>
-                                
+                                    <bcf:inputpl  value="#{itemzmiennawyn.kwota}"/>
+                               
                             </p:column>
                             <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="wal"/>
                                 </f:facet>
-                                <bcf:outputpl value="#{itemzmiennawyn.waluta}"/>
+<!--                                <bcf:inputpl value="#{itemzmiennawyn.waluta}"/>-->
+                                <p:selectOneMenu id="umowaskladnik" value="#{itemzmiennawyn.waluta}" required="true" style="width: 40px;">
+                                    <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                                    <f:selectItems value="#{waluty.listawalut}"/>
+                                </p:selectOneMenu>
                             </p:column>
                              <p:column width="40" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="brutto"/>
                                 </f:facet>
-                                 <h:outputText value="&#x2714;" rendered="#{itemzmiennawyn.netto0brutto1 eq true}"/>
+                                 <p:selectBooleanCheckbox value="#{itemzmiennawyn.netto0brutto1}"/>
+<!--                                 <h:outputText value="&#x2714;" rendered="#{itemzmiennawyn.netto0brutto1 eq true}"/>-->
                             </p:column>
                             <p:column width="25" style="text-align: center;">
                                 <f:facet name="header">
@@ -118,10 +120,12 @@
                                  <p:selectBooleanCheckbox value="#{itemzmiennawyn.aneks}"/>
                             </p:column>
                             <p:column width="30" style="text-align: center;">
-                                <p:commandButton icon="pi pi-pencil"  actionListener="#{zmiennaWynagrodzeniaView.wybierzdoedycji(itemzmiennawyn)}" update="north, @(form) akordeon:ZmiennawynagrodzeniaCreateForm"/>
+                                <p:commandButton  icon="pi pi-save" actionListener="#{zmiennaWynagrodzeniaView.create(itemzmiennawyn)}" update="akordeon:ZmiennawynagrodzeniaListForm:datalist" rendered="#{itemzmiennawyn.id eq null}"/>
+                                <p:commandButton  icon="pi pi-pencil" actionListener="#{zmiennaWynagrodzeniaView.edit(itemzmiennawyn)}" rendered="#{itemzmiennawyn.id ne null}"/>
+<!--                                <p:commandButton icon="pi pi-pencil"  actionListener="#{zmiennaWynagrodzeniaView.wybierzdoedycji(itemzmiennawyn)}" update="north, @(form) akordeon:ZmiennawynagrodzeniaCreateForm"/>-->
                             </p:column>
                             <p:column width="30" style="text-align: center;">
-                                <p:commandButton icon="pi pi-trash" actionListener="#{zmiennaWynagrodzeniaView.usunZmiennaWyn(itemzmiennawyn)}" update="north @(form)">
+                                <p:commandButton icon="pi pi-trash" actionListener="#{zmiennaWynagrodzeniaView.usunZmiennaWyn(itemzmiennawyn)}" update="akordeon:ZmiennawynagrodzeniaListForm:datalist">
                                     <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną zmienną?" icon="pi pi-exclamation-triangle"/>
                                 </p:commandButton>
                             </p:column>
@@ -129,5 +133,5 @@
                     </p:panel>
                 </h:form>
             </p:outputPanel>
-        </p:panelGrid>
+        
 </ui:composition>

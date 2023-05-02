@@ -77,6 +77,10 @@ public class Zmiennapotracenia implements Serializable {
     public Zmiennapotracenia(int id) {
         this.id = id;
     }
+    
+     public Zmiennapotracenia(Skladnikpotracenia skladnikpotracenia) {
+        this.skladnikpotracenia = skladnikpotracenia;
+    }
 
     public Integer getId() {
         return id;

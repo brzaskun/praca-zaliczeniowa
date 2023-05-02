@@ -10,6 +10,7 @@ import dao.SkladnikWynagrodzeniaFacade;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -43,28 +44,28 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     public void init() {
         if (wpisView.getAngaz()!=null) {
             lista  = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz()).stream().filter(p->p.getRodzajwynagrodzenia().isTylkosuperplace()==false).collect(Collectors.toList());
+            if (lista==null) {
+                lista = new ArrayList<>();
+            } else {
+                selectedlista = lista.get(0);
+            }
+            lista.add(new Skladnikwynagrodzenia(wpisView.getAngaz()));
         }
         selected.setAngaz(wpisView.getAngaz());
         listarodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findAktywne();
+        listarodzajwynagrodzenia.add(new Rodzajwynagrodzenia(-1, null, "dodaj nowy składnik", "dodaj nowy składnik"));
 
     }
     
 
-    public void create() {
+    public void create(Skladnikwynagrodzenia selected) {
       if (selected!=null && wpisView.getAngaz()!=null) {
           try {
-            if (selected.getId()!=null) {
-                skladnikWynagrodzeniaFacade.edit(selected);
-                selected = new Skladnikwynagrodzenia();
-                Msg.msg("Udana edycja składnika wyn");
-            } else {
                 selected.setAngaz(wpisView.getAngaz());
                 skladnikWynagrodzeniaFacade.create(selected);
-                lista.add(selected);
-                selected = new Skladnikwynagrodzenia();
+                lista.add(new Skladnikwynagrodzenia(wpisView.getAngaz()));
                 Msg.msg("Dodano nowy składnik wynagrodzenia");
-            }
-          } catch (Exception e) {
+              } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano nowego składnika wynagrodzenai");
           }
       } else {
@@ -75,7 +76,9 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     public void edycja(Skladnikwynagrodzenia skladnik) {
       if (skladnik!=null && wpisView.getAngaz()!=null) {
           try {
-            if (skladnik.getId()!=null) {
+            if (skladnik.getId()==null) {
+                create(skladnik);
+            } else if (skladnik.getId()!=null) {
                 skladnikWynagrodzeniaFacade.edit(skladnik);
                 Msg.msg("Udana edycja składnika wyn");
             }
