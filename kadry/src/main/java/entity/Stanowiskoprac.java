@@ -19,7 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -45,17 +44,10 @@ public class Stanowiskoprac implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
     @Column(name = "dataod")
     private String dataod;
-    @Size(max = 10)
     @Column(name = "datado")
     private String datado;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 256)
     @Column(name = "opis")
     private String opis;
     @Column(name = "uwagi")
@@ -83,6 +75,10 @@ public class Stanowiskoprac implements Serializable {
         this.dataod = dataod;
         this.datado = datado;
         this.opis = nazwazawodu;
+        this.angaz = angaz;
+    }
+    
+    public Stanowiskoprac(Angaz angaz) {
         this.angaz = angaz;
     }
 
@@ -139,10 +135,7 @@ public class Stanowiskoprac implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 47 * hash + Objects.hashCode(this.id);
-        hash = 47 * hash + Objects.hashCode(this.dataod);
-        hash = 47 * hash + Objects.hashCode(this.datado);
-        hash = 47 * hash + Objects.hashCode(this.angaz);
+        hash = 37 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -158,20 +151,10 @@ public class Stanowiskoprac implements Serializable {
             return false;
         }
         final Stanowiskoprac other = (Stanowiskoprac) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.dataod, other.dataod)) {
-            return false;
-        }
-        if (!Objects.equals(this.datado, other.datado)) {
-            return false;
-        }
-        if (!Objects.equals(this.angaz, other.angaz)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id);
     }
+
+    
 
   
 

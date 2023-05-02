@@ -10,6 +10,7 @@ import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
 import entity.EtatPrac;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -42,31 +43,44 @@ public class EtatView implements Serializable {
         if (wpisView.getAngaz()!=null){
             selected.setAngaz(wpisView.getAngaz());
             lista = etatFacade.findByAngaz(wpisView.getAngaz());
+            if (lista==null) {
+                lista = new ArrayList<>();
+            } else {
+                selectedlista = lista.get(0);
+            }
+            lista.add(new EtatPrac(wpisView.getAngaz()));
         }
     }
     
-    public void create() {
+    public void create(EtatPrac selected) {
       if (selected!=null && wpisView.getUmowa()!=null) {
           if (selected.getId()==null) {
             try {
               selected.setAngaz(wpisView.getAngaz());
               etatFacade.create(selected);
-              lista.add(selected);
+              lista.add(new EtatPrac(wpisView.getAngaz()));
               EtatBean.edytujkalendarz(selected, kalendarzmiesiacFacade);
-              selected = new EtatPrac();
               Msg.msg("Dodano etat");
             } catch (Exception e) {
                 Msg.msg("e", "Błąd - nie dodano etatu");
             }
-          } else {
-              try {
-                etatFacade.edit(selected);
-                EtatBean.edytujkalendarz(selected, kalendarzmiesiacFacade);
-                selected = new EtatPrac();
-                Msg.msg("Edytowano etat");
-              } catch (Exception e) {
-                  Msg.msg("e", "Błąd - nie zmieniono etatu");
-              }
+          } 
+      } else {
+          Msg.msg("e","Brak wybranej umowy");
+      }
+    }
+    
+    public void edit(EtatPrac selected) {
+      if (selected!=null && wpisView.getUmowa()!=null) {
+          if (selected.getId()!=null) {
+            try {
+              selected.setAngaz(wpisView.getAngaz());
+              etatFacade.edit(selected);
+              EtatBean.edytujkalendarz(selected, kalendarzmiesiacFacade);
+              Msg.msg("Edytowano etat");
+            } catch (Exception e) {
+                Msg.msg("e", "Błąd - nie edytowano etatu");
+            }
           }
       } else {
           Msg.msg("e","Brak wybranej umowy");

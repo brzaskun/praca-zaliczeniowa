@@ -8,9 +8,10 @@ package view;
 import dao.StanowiskopracFacade;
 import entity.Stanowiskoprac;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -20,7 +21,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class StanowiskoPracView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -28,6 +29,7 @@ public class StanowiskoPracView implements Serializable {
     @Inject
     private StanowiskopracFacade stanowiskopracFacade;
     private List<Stanowiskoprac> lista;
+    @Inject
     private Stanowiskoprac selectedlista;
     
     @Inject
@@ -38,25 +40,37 @@ public class StanowiskoPracView implements Serializable {
         if (wpisView.getAngaz()!=null) {
             selected.setAngaz(wpisView.getAngaz());
             lista = stanowiskopracFacade.findByAngaz(wpisView.getAngaz());
+            if (lista==null) {
+                lista = new ArrayList<>();
+            } else {
+                selectedlista = lista.get(0);
+            }
+            lista.add(new Stanowiskoprac(wpisView.getAngaz()));
         }
     }
     
-    public void create() {
+    public void create(Stanowiskoprac selected) {
       if (selected!=null && wpisView.getAngaz()!=null) {
           if (selected.getId()==null) {
             try {
               selected.setAngaz(wpisView.getAngaz());
               stanowiskopracFacade.create(selected);
-              lista.add(selected);
-              selected = new Stanowiskoprac();
+              lista.add(new Stanowiskoprac(wpisView.getAngaz()));
               Msg.msg("Dodano stanowisko");
             } catch (Exception e) {
                 Msg.msg("e", "Błąd - nie dodano stanowiska");
             }
-          } else {
+          }
+      } else {
+          Msg.msg("e","Brak wybranej umowy");
+      }
+    }
+    
+     public void edit(Stanowiskoprac selected) {
+      if (selected!=null && wpisView.getAngaz()!=null) {
+          if (selected.getId()!=null) {
               try {
               stanowiskopracFacade.edit(selected);
-              selected = new Stanowiskoprac();
               Msg.msg("Edytowano stanowisko");
             } catch (Exception e) {
                 Msg.msg("e", "Błąd - nie edytowano stanowiska");

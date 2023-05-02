@@ -64,7 +64,7 @@ public class ZmiennaPotraceniaView  implements Serializable {
       if (selected!=null && selected.getSkladnikpotracenia()!=null) {
           try {
             if (selected.getId()==null) {
-                zmiennaPotraceniaFacade.edit(selected);
+                zmiennaPotraceniaFacade.create(selected);
                 lista.add(new Zmiennapotracenia(selected.getSkladnikpotracenia()));
                 Msg.msg("Edytowano potrącenie");
             } 

@@ -19,8 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -48,20 +46,12 @@ public class EtatPrac implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
     @Column(name = "dataod")
     private String dataod;
-    @Size(max = 10)
     @Column(name = "datado")
     private String datado;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "etat1")
     private int etat1;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "etat2")
     private int etat2;
     @JoinColumn(name = "angaz", referencedColumnName = "id")
@@ -73,6 +63,10 @@ public class EtatPrac implements Serializable {
 
     public EtatPrac(Integer id) {
         this.id = id;
+    }
+    
+     public EtatPrac(Angaz angaz) {
+        this.angaz = angaz;
     }
 
     public EtatPrac(Integer id, String dataod, int etat1, int etat2) {

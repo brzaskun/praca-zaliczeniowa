@@ -6,8 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets"
 >
-    <p:panelGrid columns="2">
-        <p:outputPanel style="height: 140px;" styleClass="panelzramka">
+    
+<!--        <p:outputPanel style="height: 140px;" styleClass="panelzramka">
             <h:form styleClass="formumowa" id="StanowiskoCreateForm">
                 <p:panel header="Dodawanie/edycja stanowiska do umowy"/>
                 <h:panelGroup id="display">
@@ -25,42 +25,47 @@
                     <p:commandButton value="#{bundle.Cancel}" onclick="EtatCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
-        </p:outputPanel>
-        <p:outputPanel>
+        </p:outputPanel>-->
+        <p:outputPanel style="width: 850px;">
                 <h:form styleClass="formumowa" id="StanowiskoListForm">
                     <p:panel header="Wykaz historii stanowisk">
                         <p:dataTable id="datalist" value="#{stanowiskoPracView.lista}" var="itemstanow"
                                      selectionMode="single" selection="#{stanowiskoPracView.selectedlista}"
                                      rowKey="#{itemstanow.hashCode()}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
-                                     style="height: 100px; overflow-y: scroll;width: 700px;"
+                                     style="height: 150px; overflow-y: scroll;width: 850px;"
                                      >
 
-                            <p:column width="40" style="text-align: center;">
+                            <p:column width="40" style="text-align: center;" sortable="true" sortBy="#{itemstanow.id}" sortOrder="desc">
                                 <f:facet name="header">
                                     <h:outputText value="id"/>
                                 </f:facet>
                                 <h:outputText value="#{itemstanow.id}"/>
                             </p:column>
+                            <p:column width="350">
+                                <f:facet name="header">
+                                    <h:outputText value="stanowisko"/>
+                                </f:facet>
+                                <p:inputText value="#{itemstanow.opis}" size="40"/>
+                            </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="data od"/>
                                 </f:facet>
-                                <h:outputText value="#{itemstanow.dataod}"/>
+                                <p:inputText value="#{itemstanow.dataod}" size="10" placeholder="____-__-__" maxlength="10">
+                                     <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="data do"/>
                                 </f:facet>
-                                <h:outputText value="#{itemstanow.datado}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="stanowisko"/>
-                                </f:facet>
-                                <h:outputText value="#{itemstanow.opis}"/>
+                                <p:inputText value="#{itemstanow.datado}" size="10" placeholder="____-__-__" maxlength="10">
+                                     <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                                </p:inputText>
                             </p:column>
                             <p:column width="30" style="text-align: center;">
-                                <p:commandButton icon="pi pi-pencil"  actionListener="#{stanowiskoPracView.wybierzdoedycji(itemstanow)}" update="north, akordeon:StanowiskoCreateForm"/>
+                                 <p:commandButton  icon="pi pi-save" actionListener="#{stanowiskoPracView.create(itemstanow)}" update="akordeon:StanowiskoListForm" rendered="#{itemstanow.id eq null}"/>
+                                 <p:commandButton  icon="pi pi-pencil" actionListener="#{stanowiskoPracView.edit(itemstanow)}" rendered="#{itemstanow.id ne null}"/>
                             </p:column>
                             <p:column width="30" style="text-align: center;">
                                 <p:commandButton icon="pi pi-trash" actionListener="#{stanowiskoPracView.usun(itemstanow)}" update="north  akordeon:StanowiskoListForm"/>
@@ -69,5 +74,4 @@
                     </p:panel>
                 </h:form>
             </p:outputPanel>
-        </p:panelGrid>
 </ui:composition>

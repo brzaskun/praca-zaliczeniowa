@@ -44,7 +44,7 @@
                         <p:dataTable id="datalist" value="#{zmiennaWynagrodzeniaView.lista}" var="itemzmiennawyn"
                                      selectionMode="single" selection="#{zmiennaWynagrodzeniaView.selectedlista}"
                                      rowKey="#{itemzmiennawyn.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
-                                     sortMode="single" 
+                                      sortBy="#{itemzmiennawyn.dataod}"
                                      style="height: 240px; overflow-y: scroll; width: 1000px;"
                                      >
 

@@ -63,8 +63,10 @@
                                             <ui:include src="sub/dane_potracenia.xhtml"/>
                                             <ui:include src="sub/dane_zmiennapotracenie.xhtml"/>
                                         </p:panelGrid>
-                                        <ui:include src="sub/dane_stanowisko.xhtml"/>
-                                        <ui:include src="sub/dane_etat.xhtml"/>
+                                        <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
+                                            <ui:include src="sub/dane_stanowisko.xhtml"/>
+                                            <ui:include src="sub/dane_etat.xhtml"/>
+                                        </p:panelGrid>
                                     </p:outputPanel>
                                 </p:tab>
                                 <p:tab title="rozwiązanie">

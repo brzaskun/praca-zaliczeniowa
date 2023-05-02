@@ -35,7 +35,7 @@
                 <h:form styleClass="formumowa" id="ZmiennaporaceniaListForm">
                     <p:panel header="Wykaz zmiennych potrąceń">
                         <p:dataTable id="datalist" value="#{zmiennaPotraceniaView.lista}" var="itemzmiennapotr"
-                                     selectionMode="multiple" selection="#{pracownikView.selectedlista}"
+                                     selectionMode="single" selection="#{pracownikView.selectedlista}" sortBy="#{itemzmiennapotr.dataod}"
                                      rowKey="#{itemzmiennapotr.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
                                      style="height: 200px; overflow-y: scroll;width: 1000px;"
                                      >
