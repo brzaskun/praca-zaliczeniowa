@@ -12,6 +12,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Definicjalistaplac;
+import entity.FirmaKadry;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import error.E;
@@ -178,7 +179,7 @@ public class PdfDRA {
 //            danezus.put("pit4", pit4);
      
     public static ByteArrayOutputStream drukujListaPodstawowa(List<Pasekwynagrodzen> lista, List<Definicjalistaplac> def, List<Nieobecnosc> listanieobecnosci, 
-            String nip, String mc, Map<String,Double> danezus, String nazwafirmy) {
+            String nip, String mc, Map<String,Double> danezus, String nazwafirmy, FirmaKadry firma) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = nip + "_" + mc + "_" + "DRA.pdf";
@@ -220,6 +221,15 @@ public class PdfDRA {
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia PPK: ", f.F.curr(danezus.get("potraceniaPPK")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia zaliczki: ", f.F.curr(danezus.get("potraceniaZaliczki")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia pozostałe: ", f.F.curr(danezus.get("potraceniaPozostale")), Element.ALIGN_LEFT, 1, 100);
+                document.add(Chunk.NEWLINE);
+                if (firma.getBankpodatki()!=null) {
+                    document.add(Chunk.NEWLINE);
+                    PdfMain.dodajLinieOpisuBezOdstepuTab(document, "Rachunek bankowy dla przelewów podatków do wynagrodzeń: ", firma.getBankpodatki(), Element.ALIGN_LEFT, 1, 100);
+                }
+                if (firma.getBankzus()!=null) {
+                    document.add(Chunk.NEWLINE);
+                    PdfMain.dodajLinieOpisuBezOdstepuTab(document, "Rachunek bankowy dla przelewów składek ZUS: ", firma.getBankzus(), Element.ALIGN_LEFT, 1, 100);
+                }
                 //lista do RSA
                 document.add(Chunk.NEWLINE);
                 document.add(Chunk.NEWLINE);

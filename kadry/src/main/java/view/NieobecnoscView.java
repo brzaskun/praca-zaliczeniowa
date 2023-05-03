@@ -245,7 +245,7 @@ public class NieobecnoscView  implements Serializable {
               if (selected.getId()==null&&selected.getRodzajnieobecnosci().getKod().equals("CA")) {
                 double dnizezwolnienia = selected.getDnikalendarzoweOblicz();
                 double dniwyplacone = dniwykorzystanewroku;
-                double limit = 33;
+                double limit = wyliczlimitzewzgledunawiek(wpisView.getPracownik().getDataurodzenia(), selected.getDataod());
                 double dorozliczenia = limit-dniwyplacone;
                 double rozliczono = dorozliczenia-dnizezwolnienia;
                 if (dniwyplacone>=33) {
@@ -413,6 +413,18 @@ public class NieobecnoscView  implements Serializable {
           }
       }
     }
+    
+    private double wyliczlimitzewzgledunawiek(String dataurodzenia, String datawyplaty) {
+        double zwrot =33;
+        if (dataurodzenia!=null&&datawyplaty!=null) {
+            int wiek = Data.obliczwiekChoroba(dataurodzenia, datawyplaty);
+            if (wiek >=50) {
+                zwrot = 14;
+            }
+        }
+        return zwrot;
+    }
+
     
     public void createzbiorczo(FirmaKadry firma) {
       if (listapracownikow.getTarget()!=null) {
@@ -893,6 +905,7 @@ public class NieobecnoscView  implements Serializable {
         this.selectedlista = selectedlista;
     }
 
+    
    
     
 

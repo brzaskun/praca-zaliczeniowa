@@ -85,6 +85,8 @@ public class Rodzajwynagrodzenia implements Serializable {
     private  boolean z32;
     @Column(name = "z33")
     private  boolean z33;
+    @Column(name = "zdrowotna0bezzdrowotnej")
+    private  boolean zdrowotna0bezzdrowotnej;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajwynagrodzenia")
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
     @Column(name = "sredniaurlopowakraj")
@@ -302,6 +304,14 @@ public class Rodzajwynagrodzenia implements Serializable {
 
     public void setZ33(boolean z33) {
         this.z33 = z33;
+    }
+
+    public boolean isZdrowotna0bezzdrowotnej() {
+        return zdrowotna0bezzdrowotnej;
+    }
+
+    public void setZdrowotna0bezzdrowotnej(boolean zdrowotna0bezzdrowotnej) {
+        this.zdrowotna0bezzdrowotnej = zdrowotna0bezzdrowotnej;
     }
     
 

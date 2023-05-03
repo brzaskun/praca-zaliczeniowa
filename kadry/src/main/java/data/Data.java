@@ -126,6 +126,20 @@ public class Data implements Serializable {
         }
     }
    
+   public static int obliczwiekChoroba(String dataurodzenia, String datachoroby) {
+       int zwrot = 0;
+        if (datachoroby!=null&&dataurodzenia!=null) {
+            LocalDate dataur = LocalDate.parse(dataurodzenia);
+            LocalDate dataumowy = LocalDate.parse(datachoroby);
+            Period period = Period.between(dataur, dataumowy);
+            int years = period.getYears();
+            int months = period.getMonths();
+            int days = period.getDays();
+            zwrot = (int) years;
+        }
+        return zwrot;
+    }
+   
    public static String obliczwiekString(String dataurodzenia, String databiezaca) {
        String zwrot = "brak daty";
         if (dataurodzenia!=null && databiezaca!=null) {
