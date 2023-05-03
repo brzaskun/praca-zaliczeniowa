@@ -171,7 +171,7 @@ public class DraView  implements Serializable {
             danezus.put("potraceniaPPK", potraceniaPPK);
             danezus.put("potraceniaZaliczki", potraceniaZaliczki);
             danezus.put("potraceniaPozostale", potraceniaPozostale);
-            ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa());
+            ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa(), wpisView.getFirma());
             mailListaDRA(dra.toByteArray());
             Msg.msg("Wydrukowano listę płac");
         } else {
@@ -211,7 +211,7 @@ public class DraView  implements Serializable {
             danezus.put("potraceniaPPK", potraceniaPPK);
             danezus.put("potraceniaZaliczki", potraceniaZaliczki);
             danezus.put("potraceniaPozostale", potraceniaPozostale);
-            ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa());
+            ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa(), wpisView.getFirma());
              byte[] dra = drastream.toByteArray();
             if (dra != null && dra.length > 0) {
                 SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
