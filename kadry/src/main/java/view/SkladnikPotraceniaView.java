@@ -49,7 +49,7 @@ public class SkladnikPotraceniaView  implements Serializable {
             lista  = skladnikPotraceniaFacade.findByPracownik(wpisView.getAngaz().getPracownik());
             if (lista==null) {
                 lista = new ArrayList<>();
-            } else {
+            }else if (lista.size()>0){
                 selectedlista = lista.get(0);
             }
             lista.add(new Skladnikpotracenia(wpisView.getAngaz()));

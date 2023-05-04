@@ -42,7 +42,7 @@ public class StanowiskoPracView implements Serializable {
             lista = stanowiskopracFacade.findByAngaz(wpisView.getAngaz());
             if (lista==null) {
                 lista = new ArrayList<>();
-            } else {
+            } else if (lista.size()>0){
                 selectedlista = lista.get(0);
             }
             lista.add(new Stanowiskoprac(wpisView.getAngaz()));

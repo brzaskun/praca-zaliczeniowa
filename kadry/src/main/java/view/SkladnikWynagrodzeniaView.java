@@ -46,7 +46,7 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
             lista  = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz()).stream().filter(p->p.getRodzajwynagrodzenia().isTylkosuperplace()==false).collect(Collectors.toList());
             if (lista==null) {
                 lista = new ArrayList<>();
-            } else {
+            } else if (lista.size()>0){
                 selectedlista = lista.get(0);
             }
             lista.add(new Skladnikwynagrodzenia(wpisView.getAngaz()));
