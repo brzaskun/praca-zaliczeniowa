@@ -29,7 +29,7 @@ public class Etatcomparator implements Comparator<EtatPrac> {
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date datao1date = null;
         Date datao2date = null;
-        int zwrot = 1;
+        int zwrot = -1;
         if (datao1!=null&&datao2!=null&&!datao1.equals("")&&!datao2.equals("")) {
             try {
                  datao1date = formatter.parse(datao1);

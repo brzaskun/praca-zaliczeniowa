@@ -26,7 +26,7 @@ public class Stanowiskocomparator implements Comparator<Stanowiskoprac> {
         String datao1 = o1.getDataod();
         String datao2 = o2.getDataod();
         DateFormat formatter;
-        int zwrot = 1;
+        int zwrot = -1;
         if (datao1!=null&&datao2!=null&&!datao1.equals("")&&!datao2.equals("")) {
             formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date datao1date = null;
