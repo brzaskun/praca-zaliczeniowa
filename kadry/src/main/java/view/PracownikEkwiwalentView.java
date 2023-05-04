@@ -30,7 +30,6 @@ import entity.Naliczenienieobecnosc;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnoscprezentacja;
 import entity.Nieobecnoscwykorzystanie;
-import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
@@ -170,8 +169,7 @@ public class PracownikEkwiwalentView  implements Serializable {
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
             chorobaprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, chorobaprezentacja, "CH"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
-            EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
-            chorobaprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinachchoroba(umowy, pobierzetat));
+            chorobaprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinachchoroba(umowy));
             chorobaprezentacja.setDoprzeniesienia(chorobaprezentacja.getWymiarokresbiezacygodziny()-chorobaprezentacja.getWykorzystanierokbiezacy()-chorobaprezentacja.getWykorzystanierokbiezacyekwiwalent());
             wiekdlachoroby = obliczwiek(wpisView.getAngaz().getPracownik());
             //Msg.msg("Pobrano dane chorobowe");
@@ -187,8 +185,7 @@ public class PracownikEkwiwalentView  implements Serializable {
             zasilekprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, zasilekprezentacja, "ZC"));
             zasilekprezentacja.getNieobecnoscwykorzystanieList().addAll(UrlopBean.naniesdnizkodem(kalendarze, zasilekprezentacja, "W"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
-            EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
-            zasilekprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinachzasilek(umowy, pobierzetat));
+            zasilekprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinachzasilek(umowy));
             zasilekprezentacja.setDoprzeniesienia(zasilekprezentacja.getWymiarokresbiezacygodziny()-zasilekprezentacja.getWykorzystanierokbiezacy()-zasilekprezentacja.getWykorzystanierokbiezacyekwiwalent());
             //Msg.msg("Pobrano dni zasiłkowe");
         }
@@ -286,7 +283,7 @@ public class PracownikEkwiwalentView  implements Serializable {
     
     
     
-    private int obliczwymiarwgodzinachchoroba(List<Umowa> umowy, EtatPrac etat) {
+    private int obliczwymiarwgodzinachchoroba(List<Umowa> umowy) {
         int zwrot = 33;
         double liczbadni = 0;
         for (Umowa p : umowy) {
@@ -322,7 +319,7 @@ public class PracownikEkwiwalentView  implements Serializable {
         return zwrota;
     }
     
-    private int obliczwymiarwgodzinachzasilek(List<Umowa> umowy, EtatPrac etat) {
+    private int obliczwymiarwgodzinachzasilek(List<Umowa> umowy) {
         int zwrot = 182;
         double liczbadni = 0;
 //        for (Umowa p : umowy) {
@@ -340,7 +337,7 @@ public class PracownikEkwiwalentView  implements Serializable {
     }
     
     public void obliczekwiwalent(EkwiwalentUrlop ekw) {
-        if (ekw.getDziennaliczenia() != null) {
+        if (ekw.getDziennaliczenia() != null&&wpisView.getAngaz().getEtatList().isEmpty()==false) {
             ekw.setKwota(0.0);
             ekw.setAngaz(wpisView.getAngaz());
             ekw.setUmowa(wpisView.getUmowa());
@@ -411,7 +408,7 @@ public class PracownikEkwiwalentView  implements Serializable {
                                 rok = popokres[1];
                                 mc = popokres[0];
                             }
-                            List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokAngaz(rok, wpisView.getAngaz());
+                            //List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokAngaz(rok, wpisView.getAngaz());
                             List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, p, kalendarzlista);
                             double godzinyfaktyczne = 0.0;
                             double dninalezne = 0.0;
@@ -459,9 +456,13 @@ public class PracownikEkwiwalentView  implements Serializable {
                             }
                       }
                 }
-            } else {
-                //Msg.msg("w","Wykorzystano urlop w całości. NIe ma ekwu");
+                Msg.msg("Pobrano ekwiwalent");
             }
+        } else {
+            skladnikistale = new ArrayList<>();
+            skladnikizmienne = new ArrayList<>();
+            ekwiwalent = new EkwiwalentUrlop();
+            Msg.msg("w","Brak etatu. nie można obliczyć ekwiwalentu");
         }
     }
 

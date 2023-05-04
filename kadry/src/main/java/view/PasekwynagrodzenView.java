@@ -397,7 +397,7 @@ public class PasekwynagrodzenView implements Serializable {
                     }
                     
                 }
-                Msg.msg("Sporządzono listę płacaaTT");
+                Msg.msg("Sporządzono listę płac");
                 zapisz();
                 if (rachunkilista.size()>0) {
                     rachunekdoumowyzleceniaFacade.editList(rachunkilista);
@@ -677,10 +677,13 @@ public class PasekwynagrodzenView implements Serializable {
                             }
                             if (zmienneList != null && zmienneList.size() > 0) {
                                 boolean jestwokresie = false;
+                                System.out.println(kal.getNazwiskoImie());
                                 for (Zmiennawynagrodzenia zmienna : zmienneList) {
-                                    if (DataBean.czyZmiennasieMiesci(zmienna, kal)) {
-                                        jestwokresie = true;
-                                        break;
+                                    if (zmienna.getDataod()!=null) {
+                                        if (DataBean.czyZmiennasieMiesci(zmienna, kal)) {
+                                            jestwokresie = true;
+                                            break;
+                                        }
                                     }
                                 }
                                 if (jestwokresie == false) {

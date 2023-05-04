@@ -54,7 +54,7 @@ public class EtatView implements Serializable {
     
     public void create(EtatPrac selected) {
       if (selected!=null && wpisView.getUmowa()!=null) {
-          if (selected.getId()==null) {
+          if (selected.getId()==null && selected.getDataod() != null && !selected.getDataod().equals("")) {
             try {
               selected.setAngaz(wpisView.getAngaz());
               etatFacade.create(selected);
@@ -64,7 +64,9 @@ public class EtatView implements Serializable {
             } catch (Exception e) {
                 Msg.msg("e", "Błąd - nie dodano etatu");
             }
-          } 
+          }  else {
+                Msg.msg("e", "Brak daty początkowej. Nie można zapisać");
+          }
       } else {
           Msg.msg("e","Brak wybranej umowy");
       }

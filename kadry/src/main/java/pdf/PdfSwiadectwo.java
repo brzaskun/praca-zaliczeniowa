@@ -141,7 +141,7 @@ public class PdfSwiadectwo {
                 int dniekwiwalentu = 0;
                 if (ekwiwalentUrlop!=null&&ekwiwalentUrlop.getKwota()>0.0) {
                     int dnirokpoprzeni = urlopprezentacja.getDoswiadectwadni() <0?urlopprezentacja.getDoswiadectwadni():0;
-                    dniwykorzystane = dnirokpoprzeni+ekwiwalentUrlop.getDni();
+                    dniwykorzystane = dniwykorzystane+dnirokpoprzeni+ekwiwalentUrlop.getDni();
                     dniekwiwalentu = dnirokpoprzeni+dniekwiwalentu+ekwiwalentUrlop.getDni();
                     czydodano = true;
                 }
@@ -183,6 +183,8 @@ public class PdfSwiadectwo {
                 }
                 if (czydodano==false) {
                     urlop3 = urlop3+" nie dotyczy";
+                } else {
+                    urlop3 = urlop3+" dni";
                 }
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop3, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);

@@ -23,6 +23,9 @@
                             
                             
                     </p:panelGrid>
+                    <p:outputPanel>
+                        <h:outputText value="Nowe nieobecności konfigurujemy w parametrach. Zakłądka świad. nieobec."/>
+                    </p:outputPanel>
                     <p:dataTable id="datalist" value="#{rozwiazanieumowyView.dnidoswiadectwa}" var="itemsw"
                                  selectionMode="single" selection="#{rozwiazanieumowyView.selected}" rowIndexVar="itemswin"
                                  rowKey="#{itemsw.id}" emptyMessage="Brak sporządzonych rozwiązań umowy"

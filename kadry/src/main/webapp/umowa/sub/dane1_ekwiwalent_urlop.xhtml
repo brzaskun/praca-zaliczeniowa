@@ -8,7 +8,7 @@
     >
     <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
         <p:outputPanel>
-            <h:form  styleClass="formadmin" id="EkwiwalentForm">
+            <h:form  styleClass="formumowa" id="EkwiwalentForm">
                         <p:panelGrid columns="6" style="width: 700px;">
                             <h:outputText value="naliczenie na dzień"/>
                             <p:inputText value="#{pracownikEkwiwalentView.ekwiwalent.dziennaliczenia}" title="naliczenie na dzien"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
@@ -144,8 +144,8 @@
                             <bcf:outputpl value="#{pracownikEkwiwalentView.ekwiwalent.kwota}"/>
                         </p:panelGrid>
                         <p:panelGrid columns="2" style="width: 360px;">
-                            <h:outputText value="do wypłaty dnia: "/>
-                            <p:inputText value="#{pracownikEkwiwalentView.ekwiwalent.dzienwyplaty}" title="dzień wypłaty"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
+                            <h:outputText value="do rozliczenia w dniu: "/>
+                            <p:inputText value="#{pracownikEkwiwalentView.ekwiwalent.dzienwyplaty}" title="data zmiennej ekwiwalent"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
                                 <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
                             </p:inputText>
                         </p:panelGrid> 

@@ -67,21 +67,25 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
     
 
     public void create(Zmiennawynagrodzenia selected) {
-      if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
-          Skladnikwynagrodzenia skladnikwynagrodzenia = selected.getSkladnikwynagrodzenia();
-          try {
-                if (lista!=null && lista.size()>0) {
-                    zakonczokrespoprzedni(lista,selected);
+        if (selected != null && selected.getSkladnikwynagrodzenia() != null) {
+            Skladnikwynagrodzenia skladnikwynagrodzenia = selected.getSkladnikwynagrodzenia();
+            try {
+                if (selected.getId() == null && selected.getDataod() != null && !selected.getDataod().equals("")) {
+                    if (lista != null && lista.size() > 0) {
+                        zakonczokrespoprzedni(lista, selected);
+                    }
+                    zmiennaWynagrodzeniaFacade.create(selected);
+                    lista.add(new Zmiennawynagrodzenia(skladnikwynagrodzenia));
+                    Msg.msg("Dodano zmienną wyn");
+                } else {
+                    Msg.msg("e", "Brak daty początkowej. Nie można zapisać");
                 }
-                zmiennaWynagrodzeniaFacade.create(selected);
-                lista.add(new Zmiennawynagrodzenia(skladnikwynagrodzenia));
-                Msg.msg("Dodano zmienną wyn");
-          } catch (Exception e) {
-              Msg.msg("e", "Błąd - nie dodano zmiennej wyn");
-          }
-      } else {
-          Msg.msg("e", "Nie wybrano składnika");
-      }
+            } catch (Exception e) {
+                Msg.msg("e", "Błąd - nie dodano zmiennej wyn");
+            }
+        } else {
+            Msg.msg("e", "Nie wybrano składnika");
+        }
     }
     
     public void edit(Zmiennawynagrodzenia selected) {

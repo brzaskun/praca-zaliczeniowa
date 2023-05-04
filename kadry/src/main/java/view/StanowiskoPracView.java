@@ -51,7 +51,7 @@ public class StanowiskoPracView implements Serializable {
     
     public void create(Stanowiskoprac selected) {
       if (selected!=null && wpisView.getAngaz()!=null) {
-          if (selected.getId()==null) {
+          if (selected.getId()==null && selected.getDataod() != null && !selected.getDataod().equals("")) {
             try {
               selected.setAngaz(wpisView.getAngaz());
               stanowiskopracFacade.create(selected);
@@ -60,7 +60,9 @@ public class StanowiskoPracView implements Serializable {
             } catch (Exception e) {
                 Msg.msg("e", "Błąd - nie dodano stanowiska");
             }
-          }
+          } else {
+                    Msg.msg("e", "Brak daty początkowej. Nie można zapisać");
+                }
       } else {
           Msg.msg("e","Brak wybranej umowy");
       }

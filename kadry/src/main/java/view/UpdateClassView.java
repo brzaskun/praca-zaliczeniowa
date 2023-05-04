@@ -32,9 +32,9 @@ public class UpdateClassView   implements Serializable {
     @Inject
     private NieobecnoscView nieobecnoscView;
     @Inject
-    private PracownikNieobecnoscView pracownikUrlopView;
-    @Inject
     private KartaWynagrodzenView kartaWynagrodzenView;
+    @Inject
+    private PracownikEkwiwalentView pracownikEkwiwalentView;
     @Inject
     private UmowaView umowaView;
     @Inject
@@ -79,7 +79,8 @@ public class UpdateClassView   implements Serializable {
         skladnikPotraceniaView.init();
         zmiennaPotraceniaView.init();
         etatView.init();
-        pasekwynagrodzenView.init();
+        pracownikEkwiwalentView.init();
+        //pasekwynagrodzenView.init();
     }
     
     //identyczne z tym powyzej bo nie chce mi sie poprawiac

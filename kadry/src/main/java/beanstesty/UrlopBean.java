@@ -57,6 +57,8 @@ public class UrlopBean {
                 urlopprezentacja.setDoswiadectwagodziny(doswiadectwagodziny);
                 int doswiadectwadni = (doswiadectwagodziny/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setDoswiadectwadni(doswiadectwadni);
+            } else {
+                urlopprezentacja = new Nieobecnoscprezentacja();
             }
             //Msg.msg("Pobrano dane urlopowe");
         }
@@ -179,7 +181,7 @@ public class UrlopBean {
         return suma;
     }
      
-     public static int obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat, String rok, String stannadzien, Angaz angaz) {
+     public static int obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat,String rok, String stannadzien, Angaz angaz) {
         int wymiarwdniach = 20;
         double liczbadni = 0;
         for (Umowa p : umowy) {

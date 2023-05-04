@@ -63,11 +63,13 @@ public class ZmiennaPotraceniaView  implements Serializable {
     public void create(Zmiennapotracenia selected) {
       if (selected!=null && selected.getSkladnikpotracenia()!=null) {
           try {
-            if (selected.getId()==null) {
+            if (selected.getId()==null&&selected.getDataod()!=null&&!selected.getDataod().equals("")) {
                 zmiennaPotraceniaFacade.create(selected);
                 lista.add(new Zmiennapotracenia(selected.getSkladnikpotracenia()));
                 Msg.msg("Edytowano potrącenie");
-            } 
+            } else {
+                Msg.msg("e","Brak daty początkowej. Nie można zapisać");
+            }
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano potrącenia");
           }

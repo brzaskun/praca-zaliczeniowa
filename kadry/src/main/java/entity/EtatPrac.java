@@ -6,7 +6,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -136,42 +135,7 @@ public class EtatPrac implements Serializable {
         return this.etat1+"/"+this.etat2;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        hash = 71 * hash + Objects.hashCode(this.dataod);
-        hash = 71 * hash + Objects.hashCode(this.datado);
-        hash = 71 * hash + Objects.hashCode(this.angaz);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final EtatPrac other = (EtatPrac) obj;
-        if (!Objects.equals(this.dataod, other.dataod)) {
-            return false;
-        }
-        if (!Objects.equals(this.datado, other.datado)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.angaz, other.angaz)) {
-            return false;
-        }
-        return true;
-    }
+   
 
    
 
