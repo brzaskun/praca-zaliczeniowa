@@ -23,13 +23,13 @@ public class Etatcomparator implements Comparator<EtatPrac> {
     //najstarsza jest pierwsza
     @Override
     public int compare(EtatPrac o1, EtatPrac o2) {
+        int zwrot = 1;
         String datao1 = o1.getDataod();
         String datao2 = o2.getDataod();
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date datao1date = null;
         Date datao2date = null;
-        int zwrot = -1;
         if (datao1!=null&&datao2!=null&&!datao1.equals("")&&!datao2.equals("")) {
             try {
                  datao1date = formatter.parse(datao1);
