@@ -23,7 +23,7 @@ public class Stanowiskocomparator implements Comparator<Stanowiskoprac> {
     //najstarsza jest pierwsza
     @Override
     public int compare(Stanowiskoprac o1, Stanowiskoprac o2) {
-        int zwrot = 1;
+        int zwrot = -11;
         String datao1 = o1.getDataod();
         String datao2 = o2.getDataod();
         DateFormat formatter;
