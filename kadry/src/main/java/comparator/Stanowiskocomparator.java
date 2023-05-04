@@ -26,21 +26,24 @@ public class Stanowiskocomparator implements Comparator<Stanowiskoprac> {
         String datao1 = o1.getDataod();
         String datao2 = o2.getDataod();
         DateFormat formatter;
-        formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date datao1date = null;
-        Date datao2date = null;
-        try {
-             datao1date = formatter.parse(datao1);
-        } catch (Exception ex) {
-            E.e(ex);
+        int zwrot = 0;
+        if (datao1!=null&&datao2!=null) {
+            formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date datao1date = null;
+            Date datao2date = null;
+            try {
+                 datao1date = formatter.parse(datao1);
+            } catch (Exception ex) {
+                E.e(ex);
+            }
+            try {
+                datao2date = formatter.parse(datao2);
+            } catch (Exception ex) {
+                E.e(ex);
+            }
+            zwrot =  (datao1date.before(datao2date) ? 1 : (datao1date.equals(datao2date) ? 0 : -1));
         }
-        try {
-            datao2date = formatter.parse(datao2);
-        } catch (Exception ex) {
-            E.e(ex);
-        }
-        
-        return (datao1date.before(datao2date) ? 1 : (datao1date.equals(datao2date) ? 0 : -1));
+        return zwrot;
     }
     
 }
