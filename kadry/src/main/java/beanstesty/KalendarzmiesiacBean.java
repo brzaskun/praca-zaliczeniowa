@@ -630,6 +630,8 @@ public class KalendarzmiesiacBean {
                 if (i > 0) {
                     sredniadopodstawy = Z.z(sredniadopodstawy + (sredniadopodstawyzmienne / i));
                 }
+            } else {
+                sredniadopodstawy = sredniadopodstawyzmienne;
             }
         }
         /**
