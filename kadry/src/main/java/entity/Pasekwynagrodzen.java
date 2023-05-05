@@ -1438,7 +1438,7 @@ public class Pasekwynagrodzen implements Serializable {
     public double obliczproporcjeZusOddelegowani() {
         double zwrot = 1;
         double razempodstawa = this.limitzus + this.limitzuspoza;
-        if (this.limitzuspoza>0.0) {
+        if (this.limitzuspoza>0.0&&razempodstawa>0.0) {
             zwrot = this.limitzus/razempodstawa;
         }
         if (this.rokwypl.equals("2022")&&brutto>5922.0&&this.podstawaskladkizus==5922.0) {

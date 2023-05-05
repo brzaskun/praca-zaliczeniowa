@@ -772,7 +772,10 @@ public class KalendarzmiesiacBean {
             double wynagrodzeniemcwyplacone = 0.0;
             double wynagrodzeniemczwaloryzowane = 0.0;
             Pasekwynagrodzen pasek = kalendarzdosredniej.getPasek(definicjabiezaca);
-            double procentOddelegowanie = pasek.obliczproporcjeZusOddelegowani();
+            double procentOddelegowanie = 1.0;
+            if (pasek.getRokwypl()!=null) {
+                procentOddelegowanie = pasek.obliczproporcjeZusOddelegowani();
+            }
             naliczenienieobecnosc.setProcentoddelegowanie(procentOddelegowanie);
             if (kalendarzdosredniej.getPasek(definicjabiezaca).getNaliczenieskladnikawynagrodzeniaList() != null) {
                 for (Naliczenieskladnikawynagrodzenia pa : kalendarzdosredniej.getPasek(definicjabiezaca).getNaliczenieskladnikawynagrodzeniaList()) {
