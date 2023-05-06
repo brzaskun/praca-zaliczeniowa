@@ -415,6 +415,7 @@ public class PracownikEkwiwalentView  implements Serializable {
                             double stawkazagodzine = 0.0;
                             double kwotywyplacone = 0.0;
                             int liczba = 0;
+                            int dzielnik = 0;
                             double sredniadopodstawy = 0.0;
                             Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
                             naliczenienieobecnosc.setSkladnikwynagrodzenia(p);
@@ -430,17 +431,20 @@ public class PracownikEkwiwalentView  implements Serializable {
                                 liczba++;
                                 boolean skladnikstaly = false;
                                 double stawkazagodzinezm = pa.getKwotadolistyplac()/pa.getGodzinynalezne();
-
-                                Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), 
-                                        skladnikstaly, naliczenienieobecnosc, godzinyekw, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
-                                naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
-                                naliczenienieobecnosc.setSredniazailemcy(liczba);
+                                if (kwotywyplacone>0.0) {
+                                    Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), 
+                                            skladnikstaly, naliczenienieobecnosc, godzinyekw, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
+                                    naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
+                                    naliczenienieobecnosc.setSredniazailemcy(liczba);
+                                    dzielnik = dzielnik+1;
+                                }
                                 if(liczba>3) {
                                     break;
                                 }
                             }
                             if (godzinyfaktyczne!=0.0&&dninalezne!=0.0) {
-                                sredniadopodstawy = Z.z(kwotywyplacone/3);
+                                dzielnik = dzielnik==0?1:dzielnik;
+                                sredniadopodstawy = Z.z(kwotywyplacone/dzielnik);
                                 naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
                                 naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
                                 naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
