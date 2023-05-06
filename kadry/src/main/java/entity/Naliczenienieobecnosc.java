@@ -117,6 +117,8 @@ public class Naliczenienieobecnosc implements Serializable {
     private String waluta;
     @Column(name = "procentoddelegowanie")
     private double procentoddelegowanie;
+    @Column(name = "wyrownaniepodstawy")
+    private boolean wyrownaniepodstawy;
 
     public Naliczenienieobecnosc() {
         this.sredniadlanieobecnosciList = new ArrayList<>();
@@ -158,6 +160,16 @@ public class Naliczenienieobecnosc implements Serializable {
     public void setPodstawadochoroby(double podstawadochoroby) {
         this.podstawadochoroby = podstawadochoroby;
     }
+
+    public boolean isWyrownaniepodstawy() {
+        return wyrownaniepodstawy;
+    }
+
+    public void setWyrownaniepodstawy(boolean wyrownaniepodstawy) {
+        this.wyrownaniepodstawy = wyrownaniepodstawy;
+    }
+
+
 
     public double getLiczbadniobowiazku() {
         return liczbadniobowiazku;

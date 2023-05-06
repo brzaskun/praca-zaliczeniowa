@@ -1333,6 +1333,7 @@ public class Pasekwynagrodzen implements Serializable {
                     wiersz.stawkanagodzine = p.getStawkagodzinowa();
                     wiersz.stawkadzienna = p.getStawkadzienna();
                     wiersz.waluta = p.getWaluta();
+                    wiersz.setWyrownanie(p.isWyrownaniepodstawy());
                     wiersz.procentzwolnienia = p.getNieobecnosc().getZwolnienieprocent();
                     wiersz.wynagrodzeniezmienna = p.getSkladnikistale();
                     wiersz.wynagrodzeniezmiennawaluta = p.getKwotawaluta();
@@ -1577,6 +1578,7 @@ public class Pasekwynagrodzen implements Serializable {
         double stawkanagodzinewaluta;
         double stawkadzienna;
         double procentzwolnienia;
+        boolean wyrownanie;
         String waluta;
         
         public Skladnikwynlista() {
@@ -1621,6 +1623,14 @@ public class Pasekwynagrodzen implements Serializable {
 
         public double getGodzinypoza11() {
             return godzinypoza11;
+        }
+
+        public boolean isWyrownanie() {
+            return wyrownanie;
+        }
+
+        public void setWyrownanie(boolean wyrownanie) {
+            this.wyrownanie = wyrownanie;
         }
 
         public void setGodzinypoza11(double godzinypoza11) {
