@@ -142,10 +142,11 @@ public class RozwiazanieumowyView  implements Serializable {
                 List<Dzien> dni = filter0.stream().flatMap(t->t.getDzienList().stream()).collect(Collectors.toList());
                 List<Dzien> dniwroku = dni.stream().filter(s->s.getKalendarzmiesiac().getRok().equals(rok)).collect(Collectors.toList());
                 List<Dzien> dniroboczelist = dniwroku.stream().filter(t->t.getTypdnia()==0).collect(Collectors.toList());
-                double dnirobocze = p.getRodzajnieobecnosci().isDnikalendarzowe() ? dniwroku.size() : dniroboczelist.size();
+                //nie ma zrobionych zmiennej dnikalendarfzowe
+                //double dnirobocze = p.getRodzajnieobecnosci().isDnikalendarzowe() ? dniwroku.size() : dniroboczelist.size();
                 double godzinyrobocze = dniroboczelist.stream().mapToDouble(f->f.getUrlopPlatny()).sum();
                 swiadectwodni.setNieobecnoscswiadectwoschema(p);
-                swiadectwodni.setDni(dnirobocze);
+                swiadectwodni.setDni(dniwroku.size());
                 swiadectwodni.setGodziny(godzinyrobocze);
                 swiadectwodni.setCzesci(filter0.size());
                 swiadectwodnilista.add(swiadectwodni);
