@@ -353,6 +353,10 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
             naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
             pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+        } else if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getId().equals(164)) {
+            Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+            naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
         }
         return zwrot;
     }

@@ -482,7 +482,8 @@ public class KalendarzmiesiacBean {
                             skladnikistalenetto = sredniadopodstawy;
                         } else {
                             double sredniadopodstawypobrana = 0.0;
-                            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("12")) {
+                            //nadgodziny oddelegowanie
+                            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("12")||naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getId()==164) {
                                 sredniadopodstawypobrana = wyliczsredniachorobaNadgodziny(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow);
                             } else {
                                 sredniadopodstawypobrana = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow, jestoodelegowanie);
@@ -580,8 +581,9 @@ public class KalendarzmiesiacBean {
         String dataetat = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
         EtatPrac pobierzetat = kalendarz.getAngaz().pobierzetat(dataetat);
         for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
-            boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
-            if (kal.getRok().equals(rok) && kal.getMc().equals(mc) && czyjestZarudnienieWtrakcieMca == false) {
+                        //usuwamy to bo nie poslugujemy sie juz d, chyba
+            //boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
+            if (kal.getRok().equals(rok) && kal.getMc().equals(mc)) {
                 String dataetat1 = Data.ostatniDzien(kal.getRok(), kal.getMc());
                 EtatPrac pobierzetat1 = kalendarz.getAngaz().pobierzetat(dataetat1);
                 //pobieramy z uwzglednieniem tego samego etatu
@@ -592,7 +594,10 @@ public class KalendarzmiesiacBean {
                     rok = poprzedniOkres[1];
                 }
             }
-            if (kalendarze.size() == 12 || czyjestZarudnienieWtrakcieMca) {
+            //            if (kalendarze.size() == 12 || czyjestZarudnienieWtrakcieMca) {
+//                break;
+//            }
+            if (kalendarze.size() == 12) {
                 break;
             }
         }
@@ -870,8 +875,9 @@ public class KalendarzmiesiacBean {
         String dataetat = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
         EtatPrac pobierzetat = kalendarz.getAngaz().pobierzetat(dataetat);
         for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
-            boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
-            if (kal.getRok().equals(rok) && kal.getMc().equals(mc) && czyjestZarudnienieWtrakcieMca == false) {
+            //usuwamy to bo nie poslugujemy sie juz d, chyba
+            //boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
+            if (kal.getRok().equals(rok) && kal.getMc().equals(mc)) {
                 String dataetat1 = Data.ostatniDzien(kal.getRok(), kal.getMc());
                 EtatPrac pobierzetat1 = kalendarz.getAngaz().pobierzetat(dataetat1);
                 //pobieramy z uwzglednieniem tego samego etatu
@@ -882,7 +888,10 @@ public class KalendarzmiesiacBean {
                     rok = poprzedniOkres[1];
                 }
             }
-            if (kalendarze.size() == 12 || czyjestZarudnienieWtrakcieMca) {
+//            if (kalendarze.size() == 12 || czyjestZarudnienieWtrakcieMca) {
+//                break;
+//            }
+            if (kalendarze.size() == 12) {
                 break;
             }
         }
