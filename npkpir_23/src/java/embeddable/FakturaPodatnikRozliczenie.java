@@ -42,6 +42,7 @@ import waluty.Z;
     private String walutafaktury;
     private String nrtelefonu;
     private boolean swiezowezwany;
+    private int iloscfaktur;
     
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
@@ -361,6 +362,14 @@ import waluty.Z;
 
     public void setSwiezowezwany(boolean swiezowezwany) {
         this.swiezowezwany = swiezowezwany;
+    }
+
+    public int getIloscfaktur() {
+        return iloscfaktur;
+    }
+
+    public void setIloscfaktur(int iloscfaktur) {
+        this.iloscfaktur = iloscfaktur;
     }
 
     

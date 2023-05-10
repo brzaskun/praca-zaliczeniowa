@@ -28,6 +28,7 @@
                         <p:menuitem value="rozrachunki"  outcome="gfakturaFakturaRozrachunki" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
                         <p:menuitem value="#{mgs.płatności}"  outcome="gfakturaFakturaPlatnosci" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
                         <p:menuitem value="#{mgs.kontrahenci}"  outcome="gfakturaFakturaKontrahenci" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem value="#{mgs.slowniki}"  outcome="GuestFakturaSlownik" icon="ui-icon-circle-arrow-e"/>
                         </p:menu>
                         <p:menu style="width: 200px;" rendered="#{facesContext.externalContext.isUserInRole('GuestFaktura')}">
                             <p:menuitem value="#{mgs.zmianafirmy}"  outcome="GuestFaktura" icon="ui-icon-circle-arrow-e"/>
