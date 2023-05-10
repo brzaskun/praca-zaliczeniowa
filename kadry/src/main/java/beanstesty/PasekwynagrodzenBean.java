@@ -1658,7 +1658,7 @@ public class PasekwynagrodzenBean {
                 List<Angaz> angazewFirmie = firma.getAngazList();
                 for (Angaz a : angazewFirmie) {
                     Umowa u = a.getAktywnaUmowa();
-                    if (u.getUmowakodzus().isPraca()) {
+                    if (u!=null&&u.getUmowakodzus().isPraca()) {
                         czysatylkozlecenia = false;
                         break;
                     }
@@ -1667,6 +1667,7 @@ public class PasekwynagrodzenBean {
                 czysatylkozlecenia = false;
             }
         } catch (Exception e){
+            czysatylkozlecenia = false;
             System.out.println(E.e(e));
         }
         return czysatylkozlecenia;
