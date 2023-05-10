@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Fakturaslownik.findAll", query = "SELECT f FROM Fakturaslownik f"),
     @NamedQuery(name = "Fakturaslownik.findByPodatnik", query = "SELECT f FROM Fakturaslownik f WHERE f.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturaslownik.findByPodatnikOpis", query = "SELECT f.opis FROM Fakturaslownik f WHERE f.podatnik = :podatnik"),
     @NamedQuery(name = "Fakturaslownik.findById", query = "SELECT f FROM Fakturaslownik f WHERE f.id = :id"),
     @NamedQuery(name = "Fakturaslownik.findByOpis", query = "SELECT f FROM Fakturaslownik f WHERE f.opis = :opis")})
 public class Fakturaslownik implements Serializable {

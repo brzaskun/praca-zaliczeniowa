@@ -50,4 +50,8 @@ public class FakturaSlownikDAO extends DAO implements Serializable{
     public List<Fakturaslownik> findByPodatnik(Podatnik podatnik) {
         return getEntityManager().createNamedQuery("Fakturaslownik.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
+    
+    public List<String> findByPodatnikOpis(Podatnik podatnik) {
+        return getEntityManager().createNamedQuery("Fakturaslownik.findByPodatnikOpis").setParameter("podatnik", podatnik).getResultList();
+    }
 }

@@ -27,10 +27,10 @@
                         <p:watermark for="nazwa" value="nazwa towaru lub usługi" />
                         <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
                     </p:inputText>
-                    <p:selectOneMenu value="#{row.nazwa}" converter="#{fakturaslownikConv}" rendered="#{fakturaslownikView.lista ne null}" style="width: 340px;"
-                                     editable="true" filter="true" filterMatchMode="contains">
+                    <p:selectOneMenu value="#{row.nazwa}" endered="#{fakturaslownikView.lista ne null}" style="width: 340px;"
+                                     editable="true" filter="true" filterMatchMode="contains" >
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                        <f:selectItems value="#{fakturaslownikView.lista}" var="loop" itemLabel="#{loop.opis}" itemValue="#{loop}"/>
+                        <f:selectItems value="#{fakturaslownikView.listawybor}" var="loop" itemLabel="#{loop}" itemValue="#{loop}"/>
                         <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
                     </p:selectOneMenu>
                 </p:column>
@@ -87,10 +87,10 @@
                         <p:watermark for="nazwa" value="nazwa towaru lub usługi" />
                         <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
                     </p:inputText>
-                    <p:selectOneMenu value="#{row.nazwa}" converter="#{fakturaslownikConv}" rendered="#{fakturaslownikView.lista ne null}" style="width: 340px;"
+                    <p:selectOneMenu value="#{row.nazwa}" rendered="#{fakturaslownikView.lista ne null}" style="width: 340px;"
                                      editable="true" filter="true" filterMatchMode="contains">
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                        <f:selectItems value="#{fakturaslownikView.lista}" var="loop" itemLabel="#{loop.opis}" itemValue="#{loop}"/>
+                        <f:selectItems value="#{fakturaslownikView.listawybor}" var="loop" itemLabel="#{loop}" itemValue="#{loop}"/>
                         <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
                     </p:selectOneMenu> 
                 </p:column>
@@ -119,8 +119,8 @@
                 <p:column headerText="ilość" width="60" style="text-align: center;">
                     <p:inputText id="ilosck" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosck" value="ilość" /></p:inputText>
                 </p:column>
-                <p:column headerText="cena jedn.brutto" width="90" style="text-align: center;">
-                    <p:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
+                <p:column headerText="cena jedn." width="120" style="text-align: center;">
+                    <p:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku" size="13"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column style="text-align: center;">

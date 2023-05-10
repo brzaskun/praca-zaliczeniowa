@@ -53,8 +53,6 @@ public class FakturaslownikConv implements javax.faces.convert.Converter, Serial
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) {
         if (value == null || value.equals("")) {
             return "";
-        } if (value != null && !value.getClass().getName().equals("entity.Fakturaslownik")) {
-            return value.toString();
         } else {
             return String.valueOf(((Fakturaslownik) value).getId());
         }

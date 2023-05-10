@@ -28,6 +28,7 @@ public class FakturaslownikView  implements Serializable{
     @Inject
     private FakturaSlownikDAO fakturaSlownikDAO;
     private List<Fakturaslownik> lista;
+    private List<String> listawybor;
     @Inject
     private Fakturaslownik selected;
   
@@ -36,6 +37,7 @@ public class FakturaslownikView  implements Serializable{
     @PostConstruct
     private void init() { //E.m(this);
         lista = fakturaSlownikDAO.findByPodatnik(wpisView.getPodatnikObiekt());
+        listawybor = fakturaSlownikDAO.findByPodatnikOpis(wpisView.getPodatnikObiekt());
     }
     
     public void dodaj() {
@@ -79,6 +81,14 @@ public class FakturaslownikView  implements Serializable{
 
     public void setSelected(Fakturaslownik selected) {
         this.selected = selected;
+    }
+
+    public List<String> getListawybor() {
+        return listawybor;
+    }
+
+    public void setListawybor(List<String> listawybor) {
+        this.listawybor = listawybor;
     }
     
     
