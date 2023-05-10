@@ -10,10 +10,9 @@ package viewfk;
 
 import java.io.IOException;
 import java.io.Serializable;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import view.WpisView;
 /**
  *
@@ -37,7 +36,7 @@ public class GuestFKView implements Serializable {
         aktualizuj();
     }
     
-    private void aktualizujGuest(){
+    public void aktualizujGuest(){
         wpisView.naniesDaneDoWpis();
     }
     

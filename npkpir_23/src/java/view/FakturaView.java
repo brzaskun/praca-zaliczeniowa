@@ -857,6 +857,7 @@ public class FakturaView implements Serializable {
         selected.setZaksiegowana(false);
         selected.setWyslana(false);
         selected.setPrzyczynakorekty("Korekta faktury nr "+faktura.getNumerkolejny()+" z dnia "+faktura.getDatawystawienia()+" z powodu: brak wykonanej usługi");
+        rachunek = faktura.isRachunek();
         fakturazwykla = faktura.isFakturaNormalna();
         fakturavatmarza = faktura.isFakturavatmarza();
         fakturaxxl = faktura.isFakturaxxl();

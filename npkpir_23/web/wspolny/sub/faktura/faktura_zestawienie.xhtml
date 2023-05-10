@@ -27,7 +27,7 @@
                         </p:selectBooleanCheckbox>
                     </p:panelGrid>
                 </p:panelGrid>
-                <p:panelGrid columns="1" id="panelinfo" style="margin-left: 20px;">
+                <p:panelGrid columns="1" id="panelinfo" style="margin-left: 20px;"   rendered="#{facesContext.externalContext.remoteUser eq 'szef'}">
                     <p:fragment>
                     <p:autoUpdate/>
                     <p:panel header="Dane dla klienta #{fakturaZestView.szukanyklient.npelna}" style="width: 600px;"/>

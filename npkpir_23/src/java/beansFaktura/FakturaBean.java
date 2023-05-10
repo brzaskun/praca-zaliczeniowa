@@ -60,6 +60,7 @@ public class FakturaBean {
         String[] elementypoprzedniafakt = elementydokumentu(ostatnidokument, separator);
         String numerwstepny ="";
         Faktura istnieje = null;
+        int bezpiecznik = 0;
         do {
             if (mcostatniejfaktury.equals(wpisView.getMiesiacWpisu())) {
                 numerwstepny = generowanie(wzorzec, separator, elementypoprzedniafakt, wpisView, 0);
@@ -71,7 +72,8 @@ public class FakturaBean {
                 elementypoprzedniafakt = elementydokumentu(istnieje, separator);
                 mcostatniejfaktury = istnieje.getMc();
             }
-        } while (istnieje != null);
+            bezpiecznik  = bezpiecznik+1;
+        } while (istnieje != null && bezpiecznik<100);
         return numerwstepny;
     }
     

@@ -62,8 +62,7 @@ public class FakturaOkresowaGenNum {
                 selected.setLp(1);
                 Msg.msg("i", "Generuje nową serie numerów faktury");
             } else {
-                String numer = FakturaBean.uzyjwzorcagenerujnumerFaktura(wpisView.getPodatnikObiekt().getSchematnumeracji(), wpisView, fakturaDAO);
-                selected.setNumerkolejny(numer);
+                String numer = FakturaBean.uzyjwzorcagenerujnumerFaktura(wpisView.getPodatnikObiekt().getSchematnumeracji(), wpisView, fakturaDAO);                selected.setNumerkolejny(numer);
                 Faktura ostatnidokument = fakturaDAO.findOstatniaFakturaByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
                 selected.setLp(ostatnidokument.getLp() + 1);
                 Msg.msg("i", "Generuje kolejny numer faktury");

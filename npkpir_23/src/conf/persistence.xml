@@ -35,6 +35,7 @@
     <class>entity.FakturaDuplikat</class>
     <class>entity.Fakturaelementygraficzne</class>
     <class>entity.FakturaRozrachunki</class>
+    <class>entity.Fakturaslownik</class>
     <class>entity.FakturaStopkaNiemiecka</class>
     <class>entity.FakturaWaloryzacja</class>
     <class>entity.FakturaWalutaKonto</class>

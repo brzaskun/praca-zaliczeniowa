@@ -23,10 +23,16 @@
                 </f:facet>
                 <p:column headerText="nazwa" width="380" style="text-align: center;">
                     <p:inputText id="nazwa" value="#{row.nazwa}" style="width: 360px;"
-                                 styleClass="komorka"  label="text" title="nazwa towaru lub usługi" >
+                                 styleClass="komorka"  label="text" title="nazwa towaru lub usługi" rendered="#{fakturaslownikView.lista eq null}">
                         <p:watermark for="nazwa" value="nazwa towaru lub usługi" />
                         <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
-                    </p:inputText>   
+                    </p:inputText>
+                    <p:selectOneMenu value="#{row.nazwa}" converter="#{fakturaslownikConv}" rendered="#{fakturaslownikView.lista ne null}" style="width: 340px;"
+                                     editable="true" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{fakturaslownikView.lista}" var="loop" itemLabel="#{loop.opis}" itemValue="#{loop}"/>
+                        <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
+                    </p:selectOneMenu>
                 </p:column>
                 <p:column headerText="jedn. miary" width="65" style="text-align: center;">
                     <h:selectOneMenu id="jednmiary" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 60px;"
@@ -35,11 +41,11 @@
                                              $(this).addClass('ui-state-focus');"
                                      onblur="$(this).removeClass('ui-state-focus');
                                              $(this).addClass('ui-state-default');" >
+                        <f:selectItem itemLabel="kpl" itemValue="kpl"/>
                         <f:selectItem itemLabel="szt." itemValue="szt."/>
                         <f:selectItem itemLabel="godz." itemValue="godz."/>
                         <f:selectItem itemLabel="kg" itemValue="kg"/>
                         <f:selectItem itemLabel="km" itemValue="km"/>
-                        <f:selectItem itemLabel="kpl" itemValue="kpl"/>
                         <f:selectItem itemLabel="m-c" itemValue="m-c"/>
                         <f:selectItem itemLabel="osb." itemValue="osb."/>
                         <f:selectItem itemLabel="tona" itemValue="tona"/>
@@ -76,10 +82,17 @@
                     <h:outputText value="po korekcie"/>
                 </f:facet>
                 <p:column headerText="nazwa" width="280">
-                    <p:inputText id="nazwak" value="#{row.nazwa}" style="width: 260px; text-align: left;"
-                                 styleClass="komorkak"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwak" value="nazwa towaru lub usługi" />
-                        <p:ajax global="false" event="focus" />
-                    </p:inputText>   
+                  <p:inputText id="nazwa" value="#{row.nazwa}" style="width: 360px;"
+                                 styleClass="komorka"  label="text" title="nazwa towaru lub usługi" rendered="#{fakturaslownikView.lista eq null}">
+                        <p:watermark for="nazwa" value="nazwa towaru lub usługi" />
+                        <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
+                    </p:inputText>
+                    <p:selectOneMenu value="#{row.nazwa}" converter="#{fakturaslownikConv}" rendered="#{fakturaslownikView.lista ne null}" style="width: 340px;"
+                                     editable="true" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{fakturaslownikView.lista}" var="loop" itemLabel="#{loop.opis}" itemValue="#{loop}"/>
+                        <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
+                    </p:selectOneMenu> 
                 </p:column>
                 <p:column headerText="pkwiu" width="80" style="text-align: center;">
                     <p:inputText id="pkwiuk" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiuk" value="sym.PKWiU" /></p:inputText>    
