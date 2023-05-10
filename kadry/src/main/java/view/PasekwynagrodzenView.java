@@ -333,6 +333,7 @@ public class PasekwynagrodzenView implements Serializable {
                 List<Rachunekdoumowyzlecenia> rachunkilista = new ArrayList<>();
                 for (Iterator<Kalendarzmiesiac>  it = listakalendarzmiesiac.getTarget().iterator();it.hasNext();) {
                     Kalendarzmiesiac kalendarzpracownikaLP = it.next();
+                    kalendarzpracownikaLP = kalendarzmiesiacFacade.findById(kalendarzpracownikaLP.getId());
                     Angaz angaz = kalendarzpracownikaLP.getAngaz();
                     Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaGlobalnaRokMc(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc());
                     kalendarzpracownikaLP.podsumujdnigodziny(kalendarzwzor);

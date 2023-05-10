@@ -22,6 +22,7 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import msg.Msg;
 import z.Z;
 
 /**
@@ -64,7 +65,10 @@ public class NadgodzinyNiemcyView implements Serializable {
                 }
             }
         }
-        Collections.sort(kalendarze, new Kalendarzmiesiaccomparator());
+        if (kalendarze!=null&&kalendarze.size()>0) {
+            kalendarzmiesiacFacade.editList(kalendarze);
+            Collections.sort(kalendarze, new Kalendarzmiesiaccomparator());
+        }
         dataod = Data.dzienpierwszy(wpisView);
         datado = Data.ostatniDzien(wpisView);
     }
@@ -100,6 +104,7 @@ public class NadgodzinyNiemcyView implements Serializable {
             kalendarz.setDelegowanienadgodziny(nadgodziny);
             kalendarz.setDodatekzanadgodzinymc(Z.z(kalendarz.getDodatekzanadgodziny()*nadgodziny));
             kalendarzmiesiacFacade.edit(kalendarz);
+            Msg.msg("Przeliczono nadgodziny "+kalendarz.getNazwiskoImie());
         }
     }
    
