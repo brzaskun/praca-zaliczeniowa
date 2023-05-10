@@ -227,7 +227,7 @@ public class Skladnikwynagrodzenia implements Serializable {
     }
 
     public boolean isOddelegowanie() {
-        return oddelegowanie;
+        return oddelegowanie||this.rodzajwynagrodzenia.isOddelegowanie();
     }
 
     public void setOddelegowanie(boolean oddelegowanie) {

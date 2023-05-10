@@ -356,13 +356,19 @@ public class KalendarzmiesiacBean {
     static boolean naliczskladnikiwynagrodzeniaDBZlecenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs,
             double zmiennawynagrodzeniakwota, double iloscgodzin, double zmiennawynagrodzeniakwotaodelegowanie, double zmiennawynagrodzeniakwotaodelegowaniewaluta) {
         boolean jestoddelegowanie = false;
+        double zmiennawaluta = zmiennawynagrodzeniakwotaodelegowaniewaluta;
+        String waluta = "PLN";
         for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals("40")) {
                 double kwota = p.getRodzajwynagrodzenia().getOpispelny().contains("oddelegowanie") ? zmiennawynagrodzeniakwotaodelegowanie : zmiennawynagrodzeniakwota;
                 if (p.getRodzajwynagrodzenia().getWks_serial() != 1072) {
-                    zmiennawynagrodzeniakwotaodelegowaniewaluta = 0.0;
+                    zmiennawaluta = 0.0;
+                } else {
+                    zmiennawaluta = zmiennawynagrodzeniakwotaodelegowaniewaluta;
+                    waluta = "EUR";
                 }
-                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBZlecenie(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs, kwota, zmiennawynagrodzeniakwotaodelegowaniewaluta);
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBZlecenie(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs, kwota, zmiennawaluta);
+                naliczenieskladnikawynagrodzenia.setWaluta(waluta);
                 naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(iloscgodzin);
                 if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc() != 0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);

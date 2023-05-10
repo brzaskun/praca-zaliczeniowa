@@ -1008,16 +1008,23 @@ public class PasekwynagrodzenBean {
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(pasek.getKalendarzmiesiac().getAngaz(), pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
         //Rachunekdoumowyzlecenia rachunekdoumowyzlecenia =null;
+        double dieta30proc = pasek.getDietaodliczeniepodstawaop();
+        if (pasek.isPrzekroczenieoddelegowanie()) {
+            pasek.setDietaodliczeniepodstawaop(0.0);
+            dieta30proc = 0.0;
+        }
+        double podstawawstepna  = Z.z0(bruttominusspoleczne -  dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne - dieta30proc) : 0.0;
+        pasek.setPodstawaopodatkowania(podstawawstepna);
+        korektaprzychodyopodatkowanezagranicaZlecenie(podstawawstepna,pasek);
+        double nowapodstawapl = pasek.getPodstawaopodatkowania();
         double procentkosztyuzyskania = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
-        double podstawadlakosztow = Z.z(bruttominusspoleczne) > 0.0 ? Z.z(bruttominusspoleczne) : 0.0;
+        double podstawadlakosztow = Z.z(nowapodstawapl) > 0.0 ? Z.z(nowapodstawapl) : 0.0;
         double kosztyuzyskania = Z.z(podstawadlakosztow * 20.0 / 100.0);
         if (pasek.isDo26lat()) {
             kosztyuzyskania = 0.0;
         }
-        double dieta30proc = pasek.getDietaodliczeniepodstawaop();
-        double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc) : 0.0;
+        double podstawa = Z.z0(nowapodstawapl - kosztyuzyskania) > 0.0 ? Z.z0(nowapodstawapl - kosztyuzyskania) : 0.0;
         pasek.setPodstawaopodatkowania(podstawa);
-        korektaprzychodyopodatkowanezagranica(podstawa,pasek);
         if (nierezydent) {
             pasek.setKosztyuzyskania(0.0);
         } else {
@@ -1680,6 +1687,39 @@ public class PasekwynagrodzenBean {
         pasek.setNettowaluta(kwotawwalucie);
         pasek.setSymbolwaluty("EUR");
     }
+    
+    
+    
+    private static void korektaprzychodyopodatkowanezagranicaZlecenie(double podstawa, Pasekwynagrodzen pasek) {
+        try {
+            if (pasek.isPrzekroczenieoddelegowanie()) {
+                List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
+                double zagranicapln = 0.0;
+                double zagranicawaluta = 0.0;
+                for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getWks_serial().equals(1072)) {
+                        zagranicawaluta = zagranicawaluta + p.getKwotadolistyplacwaluta();
+                        zagranicapln = zagranicapln + p.getKwotadolistyplac();
+                    }
+                }
+                List<Naliczenienieobecnosc> naliczenienieobecnoscList = pasek.getNaliczenienieobecnoscList();
+                for (Naliczenienieobecnosc p : naliczenienieobecnoscList) {
+                    if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UD")) {
+                        zagranicawaluta = zagranicawaluta + p.getKwotawaluta();
+                        zagranicapln = zagranicapln + p.getKwota();
+                    }
+                }
+                pasek.setPodstawaopodatkowaniazagranicawaluta(Z.z(zagranicawaluta));
+                pasek.setPodstawaopodatkowaniazagranica(Z.z(zagranicapln));
+                if (pasek.getPodstawaopodatkowania()>0.0) {
+                    double nowapodstawapolska = Z.z0(pasek.getPodstawaopodatkowania()-zagranicapln) > 0.0? Z.z0(pasek.getPodstawaopodatkowania()-zagranicapln) : 0.0;
+                    pasek.setPodstawaopodatkowania(Z.z0(nowapodstawapolska));
+                }
+            }
+        } catch (Exception e){
+            E.e(e);
+        }
+    }
 
     private static void korektaprzychodyopodatkowanezagranica(double podstawa, Pasekwynagrodzen pasek) {
         try {
@@ -1688,7 +1728,7 @@ public class PasekwynagrodzenBean {
                 double zagranicapln = 0.0;
                 double zagranicawaluta = 0.0;
                 for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
-                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")) {
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getWks_serial().equals(1072)) {
                         zagranicawaluta = zagranicawaluta + p.getKwotadolistyplacwaluta();
                         zagranicapln = zagranicapln + p.getKwotadolistyplac();
                     }
