@@ -33,12 +33,13 @@ public class NaliczeniepotracenieBean {
         return naliczeniepotracenie;
     }
 
-    static Naliczeniepotracenie createPotracenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikpotracenia skladnikpotracenia, double wolneodzajecia) {
+    static Naliczeniepotracenie createPotracenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikpotracenia skladnikpotracenia, double wolneodzajeciaustawa) {
         Kalendarzmiesiac kalendarz = pasekwynagrodzen.getKalendarzmiesiac();
         Naliczeniepotracenie zwrot = new Naliczeniepotracenie();
         List<Zmiennapotracenia> zmiennawynagrodzeniaList = skladnikpotracenia.getZmiennapotraceniaList();
         for (Zmiennapotracenia p : zmiennawynagrodzeniaList) {
             double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
+            double wolneodzajecia = wolneodzajeciaustawa;
             if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")) {
                 ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
             }
