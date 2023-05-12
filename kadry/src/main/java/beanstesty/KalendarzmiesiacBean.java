@@ -486,6 +486,7 @@ public class KalendarzmiesiacBean {
                             naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
                             sredniadopodstawy = sredniadopodstawy * procentzazwolnienie;
                             skladnikistalenetto = sredniadopodstawy;
+                            sumadowyrownania = sumadowyrownania + skladnikistalenetto;
                         } else {
                             double sredniadopodstawypobrana = 0.0;
                             //nadgodziny oddelegowanie
