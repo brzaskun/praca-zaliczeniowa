@@ -45,7 +45,9 @@ public class ZmiennaPotraceniaView  implements Serializable {
             if (listaskladnikipotracenia != null && !listaskladnikipotracenia.isEmpty()) {
                 lista = zmiennaPotraceniaFacade.findBySkladnik(listaskladnikipotracenia.get(0));
                 lista.add(new Zmiennapotracenia(listaskladnikipotracenia.get(0)));
-            } 
+            }  else {
+                lista = null;
+            }
         }
     }
     

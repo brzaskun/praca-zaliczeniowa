@@ -89,9 +89,9 @@ public class UpdateClassView   implements Serializable {
         rozwiazanieumowyView.init();
         skladnikWynagrodzeniaView.init();
         zmiennaWynagrodzeniaView.init();
-        zmiennaPotraceniaView.init();
         etatView.init();
         skladnikPotraceniaView.init();
+        zmiennaPotraceniaView.init();
         pasekwynagrodzenView.init();
     }
     
