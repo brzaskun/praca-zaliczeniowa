@@ -49,7 +49,7 @@ public class NaliczeniepotracenieBean {
             int dzienodzmienna = DataBean.dataod(p.getDataod(), kalendarz.getRok(), kalendarz.getMc());
             int dziendozmienna = DataBean.datado(p.getDatado(), kalendarz.getRok(), kalendarz.getMc());
             if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), p.getDataod(), p.getDatado())) {
-                double juzrozliczono = podsumuj(pasekwynagrodzen, skladnikpotracenia);
+                double juzrozliczono = podsumuj(pasekwynagrodzen, skladnikpotracenia, p.getDataod());
                 if (p.getKwotastala()!=0.0) {
                     if (p.getDatado()==null || Data.czyjestprzed(p.getDatado(), pasekwynagrodzen.getRok(), pasekwynagrodzen.getMc())) {
                         if (p.getKwotastala()<pasekwynagrodzen.getNettoprzedpotraceniami()) {
@@ -146,12 +146,14 @@ public class NaliczeniepotracenieBean {
         return zajeciebiezace;
     }
 
-    private static double podsumuj(Pasekwynagrodzen pasekwynagrodzen, Skladnikpotracenia skladnikpotracenia) {
+    private static double podsumuj(Pasekwynagrodzen pasekwynagrodzen, Skladnikpotracenia skladnikpotracenia, String dataod) {
         List<Kalendarzmiesiac> kalendarzmiesiacList = pasekwynagrodzen.getKalendarzmiesiac().getAngaz().getKalendarzmiesiacList();
         List<Naliczeniepotracenie> paskizpotraceniem = pobierzpaski(kalendarzmiesiacList, skladnikpotracenia);
         double suma = 0.0;
         for (Naliczeniepotracenie p : paskizpotraceniem) {
-            suma = suma + p.getKwota();
+            if (Data.czyjestpo(dataod, p.getDataOd())) {
+                suma = suma + p.getKwota();
+            }
         }
         return suma;
     }
