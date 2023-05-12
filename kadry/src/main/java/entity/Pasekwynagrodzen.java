@@ -1441,14 +1441,15 @@ public class Pasekwynagrodzen implements Serializable {
         if (this.bruttozus!=this.podstawaskladkizus&&this.oddelegowaniewaluta>0.0) {
             zwrot = this.podstawaskladkizus/this.bruttozus;
         }
-        if (this.rokwypl.equals("2022")&&brutto>5922.0&&this.podstawaskladkizus==5922.0) {
-            double dzielnik = Z.z(this.brutto-this.bruttozus);
-            if (dzielnik==0.0) {
-                zwrot = 1.0;
-            } else {
-                zwrot = this.bruttozus/dzielnik;
-            }
-        }
+        //usunalem bo wisniewski i byl przyapdek graniczny z 5922 i zadzialalo zle, podwyzszalo podstawe o ten procent, a i tak bniore z 2022 tylko to co jest w skladniku zus
+//        if (this.rokwypl.equals("2022")&&brutto>5922.0&&this.podstawaskladkizus==5922.0) {
+//            double dzielnik = Z.z(this.brutto-this.bruttozus);
+//            if (dzielnik==0.0) {
+//                zwrot = 1.0;
+//            } else {
+//                zwrot = this.bruttozus/dzielnik;
+//            }
+//        }
         return zwrot;
     }
 
