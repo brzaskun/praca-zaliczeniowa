@@ -883,7 +883,7 @@ public class KalendarzmiesiacBean {
         for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
             //usuwamy to bo nie poslugujemy sie juz d, chyba
             //boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
-            if (kal.getRok().equals(rok) && kal.getMc().equals(mc)) {
+            if (!kal.getRok().equals("2022")&&kal.getRok().equals(rok) && kal.getMc().equals(mc)) {
                 String dataetat1 = Data.ostatniDzien(kal.getRok(), kal.getMc());
                 EtatPrac pobierzetat1 = kalendarz.getAngaz().pobierzetat(dataetat1);
                 //pobieramy z uwzglednieniem tego samego etatu
@@ -897,7 +897,7 @@ public class KalendarzmiesiacBean {
 //            if (kalendarze.size() == 12 || czyjestZarudnienieWtrakcieMca) {
 //                break;
 //            }
-            if (kalendarze.size() == 12) {
+            if (kalendarze.size() == 12||kal.getRok().equals("2022")) {
                 break;
             }
         }

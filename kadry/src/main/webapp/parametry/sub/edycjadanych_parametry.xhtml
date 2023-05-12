@@ -191,11 +191,11 @@
                         </p:column>
                         <p:column style="text-align: center;" width="50">
                             <f:facet name="header">
-                                <h:outputText value="tylko SupPłac"/>
+                                <h:outputText value="oddeleg."/>
                             </f:facet>
-                            <p:selectBooleanCheckbox value="#{item11.tylkosuperplace}"/>
-                        </p:column>1
-                        <p:column style="text-align: center;" width="50">
+                            <p:selectBooleanCheckbox value="#{item11.oddelegowanie}"/>
+                        </p:column>
+                        <p:column style="text-align: center;background-color: #BECEFE;" width="50">
                             <f:facet name="header">
                                 <h:outputText value="godzinowe0 miesieczne1"/>
                             </f:facet>
@@ -219,7 +219,7 @@
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item11.podatek0bezpodatek1}"/>
                         </p:column>
-                        <p:column style="text-align: center;" width="50">
+                        <p:column style="text-align: center;background-color: #BECEFE;" width="50">
                             <f:facet name="header">
                                 <h:outputText value="bez ZUS 51"/>
                             </f:facet>
@@ -249,7 +249,7 @@
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item11.sredniaurlopowaoddelegowanie}"/>
                         </p:column>
-                        <p:column style="text-align: center;" width="50">
+                        <p:column style="text-align: center;background-color: #BECEFE;" width="50">
                             <f:facet name="header">
                                 <h:outputText value="Z3 kol.1"/>
                             </f:facet>
@@ -267,7 +267,12 @@
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item11.z33}"/>
                         </p:column>
-
+                        <p:column style="text-align: center;background-color: #BECEFE;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="tylko SupPłac"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.tylkosuperplace}"/>
+                        </p:column>
                     </p:dataTable>
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzjawynagrodzeniaSetView.zachowaj}" update="@form"/>
                 </h:form>

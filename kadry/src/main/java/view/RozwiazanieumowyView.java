@@ -139,14 +139,15 @@ public class RozwiazanieumowyView  implements Serializable {
                 Swiadectwodni swiadectwodni = new Swiadectwodni();
                 swiadectwodni.setSwiadectwo(new Swiadectwo(rozwiazanieumowy));
                 List<Nieobecnosc> filter0 = listanieob.stream().filter(r->r.getRodzajnieobecnosci().equals(p.getRodzajnieobecnosci())).collect(Collectors.toList());
+                //podobno mqa byc z calego zatrudnienia
+                //List<Dzien> dniwroku = dni.stream().filter(s->s.getKalendarzmiesiac().getRok().equals(rok)).collect(Collectors.toList());
                 List<Dzien> dni = filter0.stream().flatMap(t->t.getDzienList().stream()).collect(Collectors.toList());
-                List<Dzien> dniwroku = dni.stream().filter(s->s.getKalendarzmiesiac().getRok().equals(rok)).collect(Collectors.toList());
-                List<Dzien> dniroboczelist = dniwroku.stream().filter(t->t.getTypdnia()==0).collect(Collectors.toList());
+                List<Dzien> dniroboczelist = dni.stream().filter(t->t.getTypdnia()==0).collect(Collectors.toList());
                 //nie ma zrobionych zmiennej dnikalendarfzowe
                 //double dnirobocze = p.getRodzajnieobecnosci().isDnikalendarzowe() ? dniwroku.size() : dniroboczelist.size();
                 double godzinyrobocze = dniroboczelist.stream().mapToDouble(f->f.getUrlopPlatny()).sum();
                 swiadectwodni.setNieobecnoscswiadectwoschema(p);
-                swiadectwodni.setDni(dniwroku.size());
+                swiadectwodni.setDni(dni.size());
                 swiadectwodni.setGodziny(godzinyrobocze);
                 swiadectwodni.setCzesci(filter0.size());
                 swiadectwodnilista.add(swiadectwodni);
