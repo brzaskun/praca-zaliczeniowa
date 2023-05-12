@@ -880,6 +880,7 @@ public class KalendarzmiesiacBean {
         Collections.sort(kalendarzmiesiacList, new KalendarzmiesiacRMcomparator());
         String dataetat = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
         EtatPrac pobierzetat = kalendarz.getAngaz().pobierzetat(dataetat);
+        double i = 0.0;
         for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
             //usuwamy to bo nie poslugujemy sie juz d, chyba
             //boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
@@ -893,6 +894,10 @@ public class KalendarzmiesiacBean {
                     mc = poprzedniOkres[0];
                     rok = poprzedniOkres[1];
                 }
+                i++;
+            } else if (!kal.equals(kalendarz)){
+                //bo Wisniewski i kalendarz. nie bylo 2022 i dzieliml np przez 3 zamiast przez 12;
+                i++;
             }
 //            if (kalendarze.size() == 12 || czyjestZarudnienieWtrakcieMca) {
 //                break;
@@ -919,7 +924,8 @@ public class KalendarzmiesiacBean {
         } else {
             //idziemy dalej jak nie bylo choroby w w okresie krtotszum niz 1 mcy
             if (sredniadopodstawyzmienne == 0.0) {
-                double i = 0.0;
+                //to poszlo wyzej bo Wisniewski nadgodziny i konflikt z superplacami gdzie wszystko bylo w jednym worku
+                //double i = 0.0;
                 for (Iterator<Kalendarzmiesiac> it = kalendarze.iterator(); it.hasNext();) {
                     Kalendarzmiesiac kalendarzdosredniej = it.next();
                     boolean czyjestwiecejniepracy = false;
@@ -1018,7 +1024,8 @@ public class KalendarzmiesiacBean {
                         naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                         double suma = wynagrodzeniemcwyplacone + wynagrodzeniemczwaloryzowane;
                         sredniadopodstawyzmienne = Z.z(sredniadopodstawyzmienne + wynagrodzeniemcwyplacone + wynagrodzeniemczwaloryzowane);
-                        i++;
+                        //to poszlo wyzej bo Wisniewski nadgodziny i konflikt z superplacami gdzie wszystko bylo w jednym worku
+                        //i++;
                     }
                 }
                 naliczenienieobecnosc.setSumakwotdosredniej(sredniadopodstawyzmienne);
