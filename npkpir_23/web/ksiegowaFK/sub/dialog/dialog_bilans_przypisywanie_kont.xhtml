@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogbilansuklad" header="Układ Bilansu - przypisywanie kont - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="bilansuklad" 
-              resizable="false" onShow="ustawdialog('dialogbilansuklad','menubilanse', 1350, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansuklad');"  >
+              resizable="false" onShow="ustawdialog('dialogbilansuklad','menubilanse', 1550, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansuklad');"  >
         <h:form id="formbilansuklad">
             <!--            <p:contextMenu for="dataList">
                             <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":formbilansuklad" onclick="PF('nowekontosyntetyczne').show();"/>
@@ -41,7 +41,7 @@
             <p:panelGrid columns="3" >
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKontaBilans}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
-                                 styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 400px; overflow-y: scroll;"
+                                 styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 600px; overflow-y: scroll;"
                                  emptyMessage="Brak pozycji Bilansu" >
                         <p:ajax event="select" global="false" listener="#{pozycjaBRKontaView.wybranopozycjeBilans()}" update=":formbilansuklad:selected"/>
                         <f:facet name="header">

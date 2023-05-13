@@ -102,7 +102,7 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell" 
-                             style="width: 1280px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             style="width: 1380px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              scrollRows="300" scrollable="true" virtualScroll="true" scrollHeight="550" lazy="true" rows="600" 
                              rowIndexVar="index"
                              >
@@ -119,7 +119,9 @@
                             <p:column colspan="1" headerText="przyp." width="80" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                             <p:column colspan="1" headerText="b/w" width="20"/>
                             <p:column colspan="1" headerText="rozrach." width="50"/>
+                            <p:column colspan="1" headerText="" width="20"/>
                             <p:column colspan="1" headerText="pozycja Wn" width="60"/>
+                            <p:column colspan="1" headerText="" width="20"/>
                             <p:column colspan="1" headerText="pozycja Ma" width="60"/>
                             <p:column colspan="1" headerText="blok" width="40"/>
                             <p:column colspan="1" headerText="słow" width="40"/>
@@ -165,8 +167,14 @@
 <!--                    <p:column headerText="macierz." style="width: 50px;">
                         <h:outputText value="#{loop.macierzyste}" /> 
                     </p:column>-->
+                    <p:column  style="width: 50px; text-align: center;">
+                        <h:outputText value="#{loop.stronaWn != null ? loop.stronaWn : '!'}" style="#{loop.stronaWn == null ? 'color: red' : null}"/> 
+                    </p:column>
                     <p:column  style="width: 100px; text-align: center;">
                         <h:outputText value="#{loop.pozycjaWn != null ? loop.pozycjaWn : '!'}" style="#{loop.pozycjaWn == null ? 'color: red' : null}"/> 
+                    </p:column>
+                    <p:column  style="width: 50px; text-align: center;">
+                        <h:outputText value="#{loop.stronaMa != null ? loop.stronaMa : '!'}" style="#{loop.stronaMa== null ? 'color: red' : null}"/> 
                     </p:column>
                     <p:column  style="width: 100px; text-align: center;">
                         <h:outputText value="#{loop.pozycjaMa != null ? loop.pozycjaMa : '!'}" style="#{loop.pozycjaMa == null ? 'color: red' : null}"/> 
