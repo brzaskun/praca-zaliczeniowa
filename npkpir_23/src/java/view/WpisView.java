@@ -4,6 +4,7 @@
  */
 package view;
 
+import dao.FakturaDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.UzDAO;
@@ -11,6 +12,7 @@ import data.Data;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Roki;
+import entity.Faktura;
 import entity.ParamCzworkiPiatki;
 import entity.ParamVatUE;
 import entity.Podatnik;
@@ -66,6 +68,8 @@ public class WpisView implements Serializable {
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
+    private FakturaDAO fakturaDAO;
+    @Inject
     private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
     private boolean czegosbrakuje;
     private String formaprawna;
@@ -83,6 +87,7 @@ public class WpisView implements Serializable {
     private boolean jpk2020K;
     private boolean jpk2020M2;
     private boolean jpk2020K2;
+    private Podatnik taxman;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -92,6 +97,7 @@ public class WpisView implements Serializable {
     @PostConstruct
     private void init() { //E.m(this);
         ustawMceOdDo();
+        taxman = podatnikDAO.findPodatnikByNIP("8511005008");
         uzer = pobierzWpisBD();
         odjakiegomcdok = "01";
         formaprawna = null;
@@ -291,6 +297,12 @@ public class WpisView implements Serializable {
                 boolean czyrenata = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("renata");
                 if (czyszef || czyrenata) {
                     biuroiszef = true;
+                }
+            } else {
+                String[] poprzedniOkres = Data.poprzedniOkres(miesiacWpisu, rokWpisuSt);
+                List<Faktura> findOkresoweOstatnie = fakturaDAO.findbyKontrahentNipRokMc(podatnikObiekt.getNip(), taxman, poprzedniOkres[1], poprzedniOkres[0]);
+                if (findOkresoweOstatnie==null||findOkresoweOstatnie.isEmpty()) {
+                    biuroiszef = false;
                 }
             }
         } catch (Exception e) {}
