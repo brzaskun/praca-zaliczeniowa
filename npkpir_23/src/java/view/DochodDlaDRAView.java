@@ -26,6 +26,7 @@ import daosuperplace.FirmaFacade;
 import daosuperplace.RokFacade;
 import data.Data;
 import embeddable.Mce;
+import embeddable.Parametr;
 import entity.Dok;
 import entity.DraSumy;
 import entity.Pitpoz;
@@ -125,7 +126,10 @@ public class DochodDlaDRAView implements Serializable {
     private int razempracownicy;
     private int razemzleceniobiorcy;
     private int razeminne;
-
+    private double remanentpoczatkowy;
+    private double remanentkoncowy;
+    private double remannetroznica;
+    
     @PostConstruct
     public void start() {
         rok = "2022";
@@ -343,6 +347,7 @@ public class DochodDlaDRAView implements Serializable {
             if (wierszerok==null) {
                 wierszerok = new ArrayList<>();
             }
+            pobierzremanent(podatnik.getRemanent(), rok);
             Collections.sort(wierszerok, new WierszDRAcomparator());
             Msg.msg("Pobrano i przeliczono dane");
         }
@@ -1069,6 +1074,20 @@ public class DochodDlaDRAView implements Serializable {
         }
     }
     
+    private void pobierzremanent(List<Parametr> remanent, String rok) {
+        int poprzednirok = Integer.parseInt(rok)+1;
+        String rokpoprzeni = String.valueOf(poprzednirok);
+        remanentkoncowy = 0.0;
+        remanentpoczatkowy = 0.0;
+        remannetroznica = 0.0;
+        if (remanent!=null&&!remanent.isEmpty()) {
+            Parametr remanentkon = remanent.stream().filter(p->p.getRokOd().equals(rok)).findFirst().orElse(null);
+            Parametr remanentpocz = remanent.stream().filter(p->p.getRokOd().equals(rokpoprzeni)).findFirst().orElse(null);
+            remanentkoncowy  = remanentkon.getParamentrNumb();
+            remanentpoczatkowy = remanentpocz.getParamentrNumb();
+            remannetroznica = Z.z(remanentkoncowy-remanentpoczatkowy);
+        }
+    }
     
     public static void main(String[] args) {
         String format = String.format(new Locale("pl_PL"),"Taxman - zestawienie kwot ZUS/PIT4 za %,.2f",12544.22);
@@ -1219,6 +1238,32 @@ public class DochodDlaDRAView implements Serializable {
     public void setMcplatnik(String mcplatnik) {
         this.mcplatnik = mcplatnik;
     }
+
+    public double getRemanentpoczatkowy() {
+        return remanentpoczatkowy;
+    }
+
+    public void setRemanentpoczatkowy(double remanentpoczatkowy) {
+        this.remanentpoczatkowy = remanentpoczatkowy;
+    }
+
+    public double getRemanentkoncowy() {
+        return remanentkoncowy;
+    }
+
+    public void setRemanentkoncowy(double remanentkoncowy) {
+        this.remanentkoncowy = remanentkoncowy;
+    }
+
+    public double getRemannetroznica() {
+        return remannetroznica;
+    }
+
+    public void setRemannetroznica(double remannetroznica) {
+        this.remannetroznica = remannetroznica;
+    }
+
+    
 
     
 
