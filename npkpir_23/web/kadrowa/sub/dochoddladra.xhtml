@@ -349,10 +349,10 @@
                                 <p:commandButton id="przeliczbutton1a" value="pobierz" actionListener="#{dochodDlaDRAView.przeliczRok()}"  style="width: 120px;margin-left: 20px;" update="akordeon:formrok"/>
                             </p:panelGrid>
                             <p:dataTable value="#{dochodDlaDRAView.wierszerok}" var="item2" style="width: 1600px;padding: 20px;max-height: 700px;overflow-y: scroll" reflow="true"
-                                         sortBy="#{item2.mc}" id="datalist"
+                                         sortBy="#{item2.rokmc}" id="datalist"
                                              emptyMessage="nie pobrano danych"  rowKey="#{item2.mc}" rowIndexVar="yndex1"
                                              >
-                                    <p:column width="30" exportable="false" sortBy="#{item2.mc}">
+                                <p:column width="30" exportable="false" sortBy="#{item2.rokmc}">
                                         <f:facet name="header">
                                             <h:outputText value="mc"/>
                                         </f:facet>
@@ -455,6 +455,8 @@
                                 </p:dataTable>
                             <p:outputPanel style="padding: 10px;" id="rem">
                                 <p:panelGrid columns="2">
+                                    <h:outputText value="dochód narastająco 2022:"/>
+                                    <bcf:outputpl value="#{dochodDlaDRAView.rokdochod}"/>
                                     <h:outputText value="remanent początkowy:"/>
                                     <bcf:outputpl value="#{dochodDlaDRAView.remanentpoczatkowy}"/>
                                     <h:outputText value="remanent końcowy:"/>

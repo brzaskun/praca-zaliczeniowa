@@ -129,6 +129,7 @@ public class DochodDlaDRAView implements Serializable {
     private double remanentpoczatkowy;
     private double remanentkoncowy;
     private double remannetroznica;
+    private double rokdochod;
     
     @PostConstruct
     public void start() {
@@ -345,13 +346,26 @@ public class DochodDlaDRAView implements Serializable {
         if (podatnik!=null) {
             wierszerok = wierszDRADAO.findByRokPodatnik(rok, podatnik);
             List<WierszDRA> styczen2023 = wierszDRADAO.findByRokMcPodatnik("2023", "01", podatnik);
+            WierszDRA wierszstyczen =null;
+            if (styczen2023!=null&&styczen2023.size()==1) {
+                wierszstyczen = styczen2023.get(0);
+            }
             if (wierszerok==null) {
                 wierszerok = new ArrayList<>();
             } else if (styczen2023!=null) {
                 wierszerok.addAll(styczen2023);
             }
             pobierzremanent(podatnik.getRemanent(), rok);
+            String nazwa = podatnik.getNazwapelna();
+            String udzialowiec = null;
+            double podatnikprocentudzial = Double.valueOf(wierszstyczen.getPodatnikudzial().getUdzial());
+            if (podatnikprocentudzial != 100.0) {
+                udzialowiec = wierszstyczen.getPodatnikudzial().getNazwiskoimie();
+            }
+            double dochod = pobierzdochod(nazwa, udzialowiec, "2022", "12", wierszstyczen);
             Collections.sort(wierszerok, new WierszDRAcomparator());
+            WierszDRA mc122022 = wierszerok.get(11);
+            rokdochod = Z.z(dochod+mc122022.getWynikpodatkowynar());
             Msg.msg("Pobrano i przeliczono dane");
         }
     }
@@ -1264,6 +1278,14 @@ public class DochodDlaDRAView implements Serializable {
 
     public void setRemannetroznica(double remannetroznica) {
         this.remannetroznica = remannetroznica;
+    }
+
+    public double getRokdochod() {
+        return rokdochod;
+    }
+
+    public void setRokdochod(double rokdochod) {
+        this.rokdochod = rokdochod;
     }
 
     

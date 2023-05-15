@@ -189,7 +189,10 @@ public class WierszDRA  implements Serializable{
         this.rok = rok;
     }
 
-
+    public String getRokmc() {
+        return this.rok+this.mc;
+    }
+    
     public double getWynikpodatkowymc() {
         return wynikpodatkowymc;
     }
