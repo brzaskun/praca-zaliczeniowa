@@ -344,7 +344,7 @@ public class DochodDlaDRAView implements Serializable {
      public void pobierzrokByNip() {
         if (podatnik!=null) {
             wierszerok = wierszDRADAO.findByRokPodatnik(rok, podatnik);
-            List<WierszDRA> styczen2023 = wierszDRADAO.findByRokMc("2023", "01");
+            List<WierszDRA> styczen2023 = wierszDRADAO.findByRokMcPodatnik("2023", "01", podatnik);
             if (wierszerok==null) {
                 wierszerok = new ArrayList<>();
             } else if (styczen2023!=null) {

@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "WierszDRA.findAll", query = "SELECT f FROM WierszDRA f"),
     @NamedQuery(name = "WierszDRA.findByRok", query = "SELECT f FROM WierszDRA f WHERE f.rok = :rok"),
     @NamedQuery(name = "WierszDRA.findByRokPodatnik", query = "SELECT f FROM WierszDRA f WHERE f.rok = :rok AND f.podatnikudzial.podatnikObj = :podatnik"),
-    @NamedQuery(name = "WierszDRA.findByRokMc", query = "SELECT f FROM WierszDRA f WHERE f.rok = :rok AND f.mc = :mc")
+    @NamedQuery(name = "WierszDRA.findByRokMc", query = "SELECT f FROM WierszDRA f WHERE f.rok = :rok AND f.mc = :mc"),
+    @NamedQuery(name = "WierszDRA.findByRokMcPodatnik", query = "SELECT f FROM WierszDRA f WHERE f.rok = :rok AND f.mc = :mc  AND f.podatnikudzial.podatnikObj = :podatnik")
 })
 public class WierszDRA  implements Serializable{
     private static final long serialVersionUID = 1L;

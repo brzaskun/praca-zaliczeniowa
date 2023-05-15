@@ -58,6 +58,10 @@ public class WierszDRADAO extends DAO implements Serializable {
         return getEntityManager().createNamedQuery("WierszDRA.findByRokMc").setParameter("rok", rok).setParameter("mc", mc).getResultList();
     }
     
+    public List<WierszDRA> findByRokMcPodatnik(String rok, String mc, Podatnik podatnik){
+        return getEntityManager().createNamedQuery("WierszDRA.findByRokMc").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnik", podatnik).getResultList();
+    }
+    
    
     
     
