@@ -300,13 +300,26 @@ public class WpisView implements Serializable {
                 }
             } else {
                 try {
-                    String[] poprzedniOkres = Data.poprzedniOkres(miesiacWpisu, rokWpisuSt);
-                    List<Faktura> findOkresoweBiezace = fakturaDAO.findbyKontrahentNipRokMc(podatnikObiekt.getNip(), taxman, miesiacWpisu, rokWpisuSt);
-                    List<Faktura> findOkresoweOstatnie = fakturaDAO.findbyKontrahentNipRokMc(podatnikObiekt.getNip(), taxman, poprzedniOkres[1], poprzedniOkres[0]);
+                    String[] nastepnyOkres = Data.nastepnyOkres(miesiacWpisu, rokWpisuSt);
+                    System.out.println("podatnik "+podatnikObiekt.getPrintnazwa());
+                    System.out.println("okres biezacy "+rokWpisuSt+"/"+miesiacWpisu);
+                    System.out.println("okres nastepny "+nastepnyOkres[0]+"/"+nastepnyOkres[1]);
+                    List<Faktura> findOkresoweBiezace = fakturaDAO.findbyKontrahentNipRokMc(podatnikObiekt.getNip(), taxman, rokWpisuSt,miesiacWpisu);
+                    if (findOkresoweBiezace!=null) {
+                        System.out.println("biezacy "+findOkresoweBiezace.size());
+                    }
+                    List<Faktura> findOkresoweOstatnie = fakturaDAO.findbyKontrahentNipRokMc(podatnikObiekt.getNip(), taxman, nastepnyOkres[1], nastepnyOkres[0]);
+                    if (findOkresoweOstatnie!=null) {
+                        System.out.println("nastepny "+findOkresoweOstatnie.size());
+                    }
                     if ((findOkresoweBiezace==null||findOkresoweBiezace.isEmpty())&&(findOkresoweOstatnie==null||findOkresoweOstatnie.isEmpty())) {
                         biuroiszef = false;
+                        System.out.println("blokuje");
                     }
-                } catch (Exception e){}
+                } catch (Exception e){
+                    System.out.println("BŁAD*********************");
+                    System.out.println(E.e(e));
+                }
             }
         } catch (Exception e) {}
     }
