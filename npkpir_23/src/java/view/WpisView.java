@@ -299,11 +299,14 @@ public class WpisView implements Serializable {
                     biuroiszef = true;
                 }
             } else {
-                String[] poprzedniOkres = Data.poprzedniOkres(miesiacWpisu, rokWpisuSt);
-                List<Faktura> findOkresoweOstatnie = fakturaDAO.findbyKontrahentNipRokMc(podatnikObiekt.getNip(), taxman, poprzedniOkres[1], poprzedniOkres[0]);
-                if (findOkresoweOstatnie==null||findOkresoweOstatnie.isEmpty()) {
-                    biuroiszef = false;
-                }
+                try {
+                    String[] poprzedniOkres = Data.poprzedniOkres(miesiacWpisu, rokWpisuSt);
+                    List<Faktura> findOkresoweBiezace = fakturaDAO.findbyKontrahentNipRokMc(podatnikObiekt.getNip(), taxman, miesiacWpisu, rokWpisuSt);
+                    List<Faktura> findOkresoweOstatnie = fakturaDAO.findbyKontrahentNipRokMc(podatnikObiekt.getNip(), taxman, poprzedniOkres[1], poprzedniOkres[0]);
+                    if ((findOkresoweBiezace==null||findOkresoweBiezace.isEmpty())&&(findOkresoweOstatnie==null||findOkresoweOstatnie.isEmpty())) {
+                        biuroiszef = false;
+                    }
+                } catch (Exception e){}
             }
         } catch (Exception e) {}
     }
