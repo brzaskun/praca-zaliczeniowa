@@ -15,7 +15,7 @@
     <p:growl life="3600"  id="msgzus" ><p:autoUpdate/></p:growl>
     <h:form>
         <p:commandButton value="drukuj" actionListener="#{podatnicyView.drukujwszystkich}" style="width: 120px; margin: 10px;"/>
-    <p:dataTable value="#{podatnicyView.podatnicy}" var="podatnik" sortBy="#{podatnik.printnazwa}" rowIndexVar="index" style="width: 1600px;"
+    <p:dataTable value="#{podatnicyView.podatnicy}" var="podatnik" sortBy="#{podatnik.printnazwa}" rowIndexVar="index" style="width: 1640px;"
                  rowKey="#{podatnik.id}" rowSelectMode="add"
                  selection="#{podatnicyView.wybranipodatnicy}">
         <f:facet name="header">
@@ -61,6 +61,11 @@
         </p:column>
         <p:column width="40" headerText="podmiot aktywny" style="text-align: center;">
             <p:selectBooleanCheckbox value="#{podatnik.podmiotaktywny}">
+                <p:ajax event="change" partialSubmit="true" listener="#{podatnicyView.edytuj(podatnik)}"/>
+            </p:selectBooleanCheckbox>
+        </p:column>
+         <p:column width="40" headerText="nie sprawdzaj faktury" style="text-align: center;">
+             <p:selectBooleanCheckbox value="#{podatnik.niesprawdzajfaktury}">
                 <p:ajax event="change" partialSubmit="true" listener="#{podatnicyView.edytuj(podatnik)}"/>
             </p:selectBooleanCheckbox>
         </p:column>

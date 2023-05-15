@@ -351,7 +351,8 @@ public class Podatnik implements Serializable {
     private String wydaniedokumentow;
     @Column(name = "wysylaczestdok")
     private boolean wysylaczestdok;
-    
+    @Column(name = "niesprawdzajfaktury")
+    private boolean niesprawdzajfaktury;
     
     @Transient
     private double cena;
@@ -1236,6 +1237,14 @@ public class Podatnik implements Serializable {
 
     public void setWysylaczestdok(boolean wysylaczestdok) {
         this.wysylaczestdok = wysylaczestdok;
+    }
+
+    public boolean isNiesprawdzajfaktury() {
+        return niesprawdzajfaktury;
+    }
+
+    public void setNiesprawdzajfaktury(boolean niesprawdzajfaktury) {
+        this.niesprawdzajfaktury = niesprawdzajfaktury;
     }
 
     
