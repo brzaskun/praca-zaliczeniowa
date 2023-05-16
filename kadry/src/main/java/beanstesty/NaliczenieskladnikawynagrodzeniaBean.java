@@ -224,19 +224,23 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             //to tez zle dziala bo jak jest np. tylko urlop i 27 dni choroby to nie widzi
                             //double stawkagodzinowadlaredukcji_12 = kwotazmiennejporedukcji11/godzinypoza11;
                             //double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/dnipoza11;
-                            double stawkagodzinowadlaredukcji_12 = kwotazmiennejporedukcji11/godzinypracyurlopu;
-                            double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/dnipracyurlopu;
-                            redukcja_12 = redukcja_12 + (stawkagodzinowadlaredukcji_12*godzinyredukcji_12);
-                            double kwotazmiennejporedukcji = (kwotazmiennejporedukcji11-redukcja_12)<0.0?0.0:(kwotazmiennejporedukcji11-redukcja_12);
-                            if (stawkadziennedlaredukcji_12>0.0) {
-                                stawkadzienna = Z.z6(stawkadziennedlaredukcji_12);
-                                stawkagodzinowa = Z.z6(stawkagodzinowadlaredukcji_12);
+                            if (godzinypracyurlopu>0.0) {
+                                double stawkagodzinowadlaredukcji_12 = kwotazmiennejporedukcji11/godzinypracyurlopu;
+                                double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/dnipracyurlopu;
+                                redukcja_12 = redukcja_12 + (stawkagodzinowadlaredukcji_12*godzinyredukcji_12);
+                                double kwotazmiennejporedukcji = (kwotazmiennejporedukcji11-redukcja_12)<0.0?0.0:(kwotazmiennejporedukcji11-redukcja_12);
+                                if (stawkadziennedlaredukcji_12>0.0) {
+                                    stawkadzienna = Z.z6(stawkadziennedlaredukcji_12);
+                                    stawkagodzinowa = Z.z6(stawkagodzinowadlaredukcji_12);
+                                } else {
+                                    stawkadzienna = 0.0;
+                                    stawkagodzinowa = 0.0;
+                                }
+                                double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
+                                dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji-redukcja_urlop;
                             } else {
-                                stawkadzienna = 0.0;
-                                stawkagodzinowa = 0.0;
+                                dowyplatyzaczasprzepracowany = 0.0;
                             }
-                            double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
-                            dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji-redukcja_urlop;
                         } else {
                             stawkadzienna = Z.z6(kwotazmiennej/kalendarz.getDniroboczewmiesiacu());
                             stawkagodzinowa = Z.z6(kwotazmiennej/kalendarz.getGodzinyroboczewmiesiacu());
