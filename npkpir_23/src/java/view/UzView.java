@@ -7,6 +7,7 @@ package view;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
 import dao.UzDAO;
+import data.Data;
 import entity.Uz;
 import error.E;
 import java.io.Serializable;
@@ -250,6 +251,10 @@ public class UzView implements Serializable {
     public void edytuj(Uz uzer) {
         if (uzer!=null) {
             try {
+                uzer.setRokWpisu(Integer.parseInt(Data.aktualnyRok()));
+                uzer.setMiesiacWpisu(Data.aktualnyMc());
+                uzer.setMiesiacOd(Data.aktualnyMc());
+                uzer.setMiesiacDo(Data.aktualnyMc());
                 uzDAO.edit(uzer);
                 Msg.dP();
             } catch (Exception e) { 
