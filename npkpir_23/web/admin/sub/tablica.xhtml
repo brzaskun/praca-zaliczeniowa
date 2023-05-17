@@ -10,7 +10,7 @@
     <p:outputPanel id="wrapper">
         <p:dataTable  var="wpis" value="#{UzView.listaUzytkownikow}" id="uzytkownicyLista" editable="true"
                        filteredValue="#{UzView.obiektUZjsfselected}"
-                       style="width: 1600px; height: 400px; overflow-y: scroll;"
+                       style="width: 1740px; height: 400px; overflow-y: scroll;"
                       rowKey="#{wpis.login}" selection="#{UzView.selUzytkownik}" > 
             <p:ajax event="rowEdit" global="false" update=":form:messages" listener="#{UzView.zachowajzmiany()}" />
             <p:ajax event="rowSelectRadio"  global="false" update=":form:messages :editUzyt" listener="#{UzView.wybranoUzytkownika}" />
@@ -68,7 +68,7 @@
                     </f:facet>
                 </p:cellEditor>
             </p:column>
-            <p:column id="locale" headerText="locale" filterBy="#{wpis.locale}" filterMatchMode="contains" sortBy="#{wpis.locale}" width="70"
+            <p:column id="locale" headerText="locale" filterBy="#{wpis.locale}" filterMatchMode="contains" sortBy="#{wpis.locale}" width="30"
                       style="text-align: center;">  
                 <f:facet name="header">  
                     <h:outputText value="locale" />  
@@ -108,16 +108,39 @@
                 </f:facet> 
                     <h:outputText value="#{wpis.grupa}" />
             </p:column>
+            <p:column id="fakturanumer"  filterBy="#{wpis.fakturanumeracja}" filterMatchMode="contains" sortBy="#{wpis.fakturanumeracja}" width="70"
+                      style="text-align: center;">  
+                <f:facet name="header">  
+                    <h:outputText value=" faktura numeracja" />  
+                </f:facet> 
+                  <h:outputText value="#{wpis.fakturanumeracja}" />
+            </p:column>
+            <p:column id="fakturagrupa"  filterBy="#{wpis.fakturagrupa}" filterMatchMode="contains" sortBy="#{wpis.fakturagrupa}" width="70"
+                      style="text-align: center;">  
+                <f:facet name="header">  
+                    <h:outputText value="faktura grupa" />  
+                </f:facet> 
+                  <h:outputText value="#{wpis.fakturagrupa}" />
+            </p:column>
+            <p:column id="data"  filterBy="#{wpis.data}" filterMatchMode="contains" sortBy="#{wpis.data}" width="70"
+                      style="text-align: center;">  
+                <f:facet name="header">  
+                    <h:outputText value="data" />  
+                </f:facet> 
+                   <h:outputText value="#{loop.data}">
+                            <f:convertDateTime dateStyle="full" locale="pl"/>
+                    </h:outputText>
+            </p:column>
              <p:column headerText="akt." style="text-align: center;" width="30">
                  <p:selectBooleanCheckbox value="#{wpis.aktywny}">
                      <p:ajax event="change" partialSubmit="true" listener="#{UzView.edytuj(wpis)}"/>
                  </p:selectBooleanCheckbox>
             </p:column>
-            <p:column id="editColumn" headerText="edytuj" style="text-align: center;" width="70">
+            <p:column id="editColumn" headerText="edytuj" style="text-align: center;" width="30">
                 <p:rowEditor />  
             </p:column>
-            <p:column id="deleteColumn" headerText="usuń" style="text-align: center;" width="70">
-                <p:commandButton  action="#{UzView.destroy(wpis)}" value="Usuń"  update="@(form)"/>
+            <p:column id="deleteColumn" headerText="usuń" style="text-align: center;" width="30">
+                <p:commandButton  icon="fa fa-trash" action="#{UzView.destroy(wpis)}"  update="form"/>
             </p:column>
         </p:dataTable>
         

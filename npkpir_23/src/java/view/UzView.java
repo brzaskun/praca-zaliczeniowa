@@ -15,6 +15,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
@@ -92,6 +93,7 @@ public class UzView implements Serializable {
         selUzytkownik.setLogin(selUzytkownik.getLogin().toLowerCase());
         selUzytkownik.setIloscwierszy("12");
         selUzytkownik.setTheme("redmond");
+        selUzytkownik.setData(new Date());
         sformatuj();
         if (validateData()) {
             try {

@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:panel id="editDane" menuTitle="Edytowanie danych użytkownika" header="Edytowanie danych użytkownika" >
-        <p:panelGrid columns="11" >
+        <p:panelGrid columns="10" >
             <h:outputLabel value="imie"/>
             <h:outputLabel value="nazwisko"/>
             <h:outputLabel value="hasło"/>
@@ -17,7 +17,6 @@
             <h:outputLabel value="login główny"/>
             <h:outputLabel value="grupa"/>
             
-            <br/>
             <p:inputText  value="#{UzView.selUzytkownik.imie}"/>
             <p:inputText  value="#{UzView.selUzytkownik.nazw}"/>
             <p:inputText  value="#{UzView.selUzytkownik.haslo}"/>
@@ -48,7 +47,14 @@
                 <f:selectItem itemValue="renata" itemLabel="renata"/>
                 <f:selectItem itemValue="wioletta" itemLabel="wioletta"/>
             </p:selectOneMenu>
-            <p:commandButton action="#{UzView.zachowajzmiany()}" value="Edytuj" update=":form:uzytkownicyLista"/>
+        </p:panelGrid>
+        <p:panelGrid columns="3">
+             <h:outputLabel value="faktura grupa"/>
+            <h:outputLabel value="faktura numeracja"/>
+            <h:outputLabel value=" "/>
+            <p:inputText  value="#{UzView.selUzytkownik.fakturanumeracja}"/>
+            <p:inputText  value="#{UzView.selUzytkownik.fakturagrupa}"/>
+            <p:commandButton action="#{UzView.zachowajzmiany()}" value="Edytuj" update=":form:uzytkownicyLista" style="width: 60px;"/>
         </p:panelGrid>
     </p:panel>
 </ui:composition>   

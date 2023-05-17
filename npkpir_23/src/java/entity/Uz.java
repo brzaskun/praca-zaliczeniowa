@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -111,6 +114,12 @@ public class Uz implements Serializable {
     private String miesiacDo;
     @Column(name = "aktywny")
     private boolean aktywny;
+    @Column(name = "fakturanumeracja")
+    private String fakturanumeracja;
+    @Column(name = "fakturagrupa")
+    private String fakturagrupa;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date data;
     
     public Uz() {
     }
@@ -314,7 +323,32 @@ public class Uz implements Serializable {
     public void setGrupa(String grupa) {
         this.grupa = grupa;
     }
-    
+
+    public String getFakturanumeracja() {
+        return fakturanumeracja;
+    }
+
+    public void setFakturanumeracja(String fakturanumeracja) {
+        this.fakturanumeracja = fakturanumeracja;
+    }
+
+    public String getFakturagrupa() {
+        return fakturagrupa;
+    }
+
+    public void setFakturagrupa(String fakturagrupa) {
+        this.fakturagrupa = fakturagrupa;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+  
     
     @Override
     public int hashCode() {
