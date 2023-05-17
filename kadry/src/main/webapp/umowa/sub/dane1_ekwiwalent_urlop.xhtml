@@ -12,7 +12,7 @@
                         <p:panelGrid columns="6" style="width: 700px;">
                             <h:outputText value="naliczenie na dzień"/>
                             <p:inputText value="#{pracownikEkwiwalentView.ekwiwalent.dziennaliczenia}" title="naliczenie na dzien"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
-                                <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pracownikEkwiwalentView.obliczekwiwalent}" update="akordeon:EkwiwalentForm"/>
+                                <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pracownikEkwiwalentView.przeliczekwiwalent}" update="akordeon:EkwiwalentForm"/>
                             </p:inputText>
                             <h:outputText value="pracownik:"/>
                             <h:outputText value="#{pracownikEkwiwalentView.ekwiwalent.angaz.nazwiskoiImie}"/>

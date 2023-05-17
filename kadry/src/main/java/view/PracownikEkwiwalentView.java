@@ -120,6 +120,11 @@ public class PracownikEkwiwalentView  implements Serializable {
             System.out.println("");
         }
     }
+    
+    public void przeliczekwiwalent() {
+        pobierzurlop();
+        obliczekwiwalent(ekwiwalent);
+    }
 
     private void ustawekwiwalent (EkwiwalentUrlop ekw, double kwotawspolczynnika, String stannadzien) {
         if (ekw!=null) {
