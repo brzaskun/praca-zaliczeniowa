@@ -231,7 +231,7 @@ public class UrlopBean {
                                 if (!rok.equals(rokdataod)) {
                                     dataod = Data.pierwszyDzien(rok, "01");
                                 }
-                                String datado = Data.getRok(stannadzien)+"-12-31";
+                                String datado = stannadzien;
                                 if (p.getDatado() != null && Data.czyjestpo(p.getDatado(), stannadzien)) {
                                     datado = p.getDatado();
                                 }

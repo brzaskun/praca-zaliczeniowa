@@ -178,6 +178,9 @@ public class PdfWypowiedzenie {
             String naglowek = umowa.getUmowakodzus().isPraca()?"ROZWIĄZANIE UMOWY O PRACĘ":"ROZWIĄZANIE UMOWY ZLECENIA";
             PdfMain.dodajLinieOpisuBezOdstepu(document, naglowek, Element.ALIGN_CENTER, 3);
             String osoba = umowa.getUmowakodzus().isPraca()?"przez pracodawcę":"przez zleceniodawcę";
+            if (rozwiazanieumowy.isPracownik()) {
+                osoba = umowa.getUmowakodzus().isPraca()?"przez pracownika":"przez zleceniobiorcę";
+            }
             PdfMain.dodajLinieOpisu(document, osoba, Element.ALIGN_CENTER, 2);
             document.add(Chunk.NEWLINE);
             String osoba1 = umowa.getUmowakodzus().isPraca()?" pracodawcą ":" zleceniodawcą ";
