@@ -330,6 +330,8 @@ public class Faktura implements Serializable {
     private boolean koncowa;
     @Column(name = "bilansowa")
     private boolean bilansowa;
+    @Column(name = "fakturagrupa")
+    private String fakturagrupa;
   
 
     public Faktura() {
@@ -474,6 +476,14 @@ public class Faktura implements Serializable {
 
     public void setWystawcanazwa(String wystawcanazwa) {
         this.wystawcanazwa = wystawcanazwa;
+    }
+
+    public String getFakturagrupa() {
+        return fakturagrupa;
+    }
+
+    public void setFakturagrupa(String fakturagrupa) {
+        this.fakturagrupa = fakturagrupa;
     }
 
     public boolean isBilansowa() {

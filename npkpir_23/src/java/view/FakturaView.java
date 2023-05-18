@@ -613,6 +613,7 @@ public class FakturaView implements Serializable {
         selected.setWystawca(podatnikobiekt);
         selected.setRok(String.valueOf(wpisView.getRokWpisu()));
         selected.setMc(wpisView.getMiesiacWpisu());
+        selected.setFakturagrupa(wpisView.getUzer().getFakturagrupa());
         listakontawwalucie = fakturaWalutaKontoDAO.findByWalutaString(wpisView.getPodatnikObiekt(),selected.getWalutafaktury());
     }
 
@@ -641,6 +642,7 @@ public class FakturaView implements Serializable {
                 selected.setRok(Data.getCzescDaty(selected.getDatawystawienia(), 0));
                 selected.setMc(Data.getCzescDaty(selected.getDatawystawienia(), 1));
             }
+            selected.setFakturagrupa(wpisView.getUzer().getFakturagrupa());
             fakturaDAO.create(selected);
             Klienci kontra = selected.getKontrahent();
             kontra.setAktywnydlafaktrozrachunki(true);
@@ -672,6 +674,7 @@ public class FakturaView implements Serializable {
         selected.setKontrahent_nip(selected.getKontrahent().getNip());
         selected.setRok(Data.getCzescDaty(selected.getDatawystawienia(), 0));
         selected.setMc(Data.getCzescDaty(selected.getDatawystawienia(), 1));
+        selected.setFakturagrupa(wpisView.getUzer().getFakturagrupa());
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
             selected.setPodpis("");
@@ -2077,6 +2080,7 @@ public class FakturaView implements Serializable {
                 String miesiacsprzedazy = datasprzedazy.substring(5, 7);
                 String roksprzedazy = datasprzedazy.substring(0, 4);
                 nowa.setRok(roksprzedazy);
+                nowa.setFakturagrupa(wpisView.getUzer().getFakturagrupa());
                 nowa.setMc(miesiacsprzedazy);
                 nowa.setNrkontabankowego(FakturaBean.pobierznumerkonta(wpisView.getPodatnikObiekt()));
                 FakturaBean.wielekont(nowa, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
