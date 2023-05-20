@@ -53,6 +53,8 @@
                                 <f:selectItem itemLabel="#{mgs.gotówka}" itemValue="gotówka"/>
                                 <f:selectItem itemLabel="karta płatnicza" itemValue="karta płatnicza"/>
                         </p:selectOneMenu>
+                        <h:outputLabel value="zwolnienie z VAT art. 43"/>
+                        <p:selectBooleanCheckbox value="#{WpisView.podatnikObiekt.zwolnienievat43}"/>
                     </p:panelGrid>   
                     <p:panelGrid columns="1">
                         <p:commandButton actionListener="#{fakturaView.edytujdanepodatnika()}" value="edytuj podatnika" update="@form" type="submit"/>

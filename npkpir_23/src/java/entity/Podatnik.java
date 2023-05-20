@@ -355,6 +355,8 @@ public class Podatnik implements Serializable {
     private boolean niesprawdzajfaktury;
     @Column(name = "domyslnametodaplatnosci")
     private String domyslnametodaplatnosci;
+    @Column(name = "zwolnienievat43")
+    private boolean zwolnienievat43;
     @Transient
     private double cena;
 
@@ -1256,6 +1258,14 @@ public class Podatnik implements Serializable {
 
     public void setDomyslnametodaplatnosci(String domyslnametodaplatnosci) {
         this.domyslnametodaplatnosci = domyslnametodaplatnosci;
+    }
+
+    public boolean isZwolnienievat43() {
+        return zwolnienievat43;
+    }
+
+    public void setZwolnienievat43(boolean zwolnienievat43) {
+        this.zwolnienievat43 = zwolnienievat43;
     }
 
     

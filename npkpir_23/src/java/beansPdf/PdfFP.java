@@ -426,7 +426,7 @@ public class PdfFP {
 //                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:poleUwagi") - 5, 400, 15);
 //                        absText(writer, selected.getPoleuwagi(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:poleUwagi"), 8);
                         text = selected.getPoleuwagi();
-                        table = PdfFTablice.wygenerujtabliceUwagi(text,szerokosc, wysokosc, 9);
+                        table = PdfFTablice.wygenerujtabliceUwagi(text,szerokosc, wysokosc, 10);
                         table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:poleUwagi"), wymiaryGora.get("akordeon:formwzor:poleUwagi"), writer.getDirectContent());
                     }
                     break;
@@ -434,7 +434,7 @@ public class PdfFP {
                     //Dane do modulu przewłaszczenie
                     if (PdfFP.czydodatkowyelementjestAktywny("wezwanie do zapłaty", elementydod)) {
                         text = PdfFP.pobierzelementdodatkowy("wezwanie do zapłaty", elementydod);
-                        table = PdfFTablice.wygenerujtabliceDaty(text,szerokosc, wysokosc, 9);
+                        table = PdfFTablice.wygenerujtabliceDaty(text,szerokosc, wysokosc, 10);
                         table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:wezwaniedozapłaty"), wymiaryGora.get("akordeon:formwzor:wezwaniedozapłaty"), writer.getDirectContent());
                     }
                     break;
@@ -470,7 +470,7 @@ public class PdfFP {
                             ttext3[1] = selected.getSwift();
                         }
                     }
-                    table = PdfFTablice.wygenerujtablicePlatnosc(ttext, ttext1,ttext2,ttext3, szerokosc, wysokosc, 8);
+                    table = PdfFTablice.wygenerujtablicePlatnosc(ttext, ttext1,ttext2,ttext3, szerokosc, wysokosc, 10);
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "platnosc");
                     table.writeSelectedRows(0, table.getRows().size(),  wymiarylewy.get("akordeon:formwzor:platnosc"), wymiaryGora.get("akordeon:formwzor:platnosc"), writer.getDirectContent());
                     break;
@@ -486,20 +486,30 @@ public class PdfFP {
                     }
                     ttext = new String[2];
                     ttext1 = new String[2];
-                    if (wynik > 0) {
+                    boolean zaplacono1 = selected.isZaplacona();
+                    if (zaplacono1) {
                         ttext[0] = B.b("dozaplaty")+": ";
-                        ttext[1] = przerobkwote(wynik) + " " + selected.getWalutafaktury();
+                        ttext[1] = "0.00 " + selected.getWalutafaktury();
                     } else {
-                        ttext[0] = B.b("dozwrotu")+": ";
-                        ttext[1] = przerobkwote(wynik) + " " + selected.getWalutafaktury();
+                        if (wynik > 0) {
+                            ttext[0] = B.b("dozaplaty")+": ";
+                            ttext[1] = przerobkwote(wynik) + " " + selected.getWalutafaktury();
+                        } else {
+                            ttext[0] = B.b("dozwrotu")+": ";
+                            ttext[1] = przerobkwote(wynik) + " " + selected.getWalutafaktury();
+                        }
                     }
-                    if (FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage().equals("pl_pl") || FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage().equals("pl")) {
-                        ttext1[0] = B.b("slownie")+": ";
-                        ttext1[1] = Slownie.slownie(String.valueOf(wynik),selected.getWalutafaktury());
-                    } else {
-                        ttext1[0] = B.b("slownie")+": ";
-                        ttext1[1] = SlownieDE.slownie(String.valueOf(wynik),selected.getWalutafaktury());
-                    }
+                     if (zaplacono1) {
+                         
+                     } else {
+                        if (FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage().equals("pl_pl") || FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage().equals("pl")) {
+                            ttext1[0] = B.b("slownie")+": ";
+                            ttext1[1] = Slownie.slownie(String.valueOf(wynik),selected.getWalutafaktury());
+                        } else {
+                            ttext1[0] = B.b("slownie")+": ";
+                            ttext1[1] = SlownieDE.slownie(String.valueOf(wynik),selected.getWalutafaktury());
+                        }
+                     }
                     table = PdfFTablice.wygenerujtabliceDozaplaty(ttext, ttext1, szerokosc, wysokosc, 8);
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "dozaplaty");
                     table.writeSelectedRows(0, table.getRows().size(),  wymiarylewy.get("akordeon:formwzor:dozaplaty"), wymiaryGora.get("akordeon:formwzor:dozaplaty"), writer.getDirectContent());
@@ -799,12 +809,17 @@ public class PdfFP {
                     } else {
                         wynik = Z.z(selected.getNetto() + selected.getVat());
                     }
-                    if (wynik > 0) {
-                        absText(canvas, "Do zapłaty: " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiar, 8);
+                    boolean zaplacono = selected.isZaplacona();
+                    if (zaplacono) {
+                        absText(canvas, "do zapłaty: 0.00" + selected.getWalutafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiar, 8);
                     } else {
-                        absText(canvas, "Do zwrotu: " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiar, 8);
+                        if (wynik > 0) {
+                            absText(canvas, "do zapłaty: " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiar, 8);
+                        } else {
+                            absText(canvas, "do zwrotu: " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiar, 8);
+                        }
+                        absText(canvas, "Słownie: " + Slownie.slownie(String.valueOf(wynik)), (int) (pobrane.getLewy() / dzielnik), wymiar - 20, 8);
                     }
-                    absText(canvas, "Słownie: " + Slownie.slownie(String.valueOf(wynik)), (int) (pobrane.getLewy() / dzielnik), wymiar - 20, 8);
                     break;
                 case "akordeon:formwzor:podpis":
                     //Dane do modulu platnosc
@@ -980,8 +995,10 @@ public class PdfFP {
         if (selected.isReversecharge()) {
             table.addCell(ustawfraze("'reverse charge'/'odwrotne obciążenie - VAT rozlicza nabywca", 11, 0));
         }
-        if (selected.isRachunek()) {
+        if (selected.isRachunek()&&selected.getWystawca().isZwolnienievat43()==false) {
             table.addCell(ustawfraze("Dostawa towarów lub świadczenie usług zwolnionych od podatku VAT na podstawie art. 113 ust. 1 ustawy z dnia 11.03.2004 r. o podatku od towarów i usług", 11, 0));
+        } else if (selected.isRachunek()&&selected.getWystawca().isZwolnienievat43()==true) {
+            table.addCell(ustawfraze("Dostawa towarów lub świadczenie usług zwolnionych od podatku VAT na podstawie art. 43 ustawy z dnia 11.03.2004 r. o podatku od towarów i usług", 11, 0));
         }
         // complete the table
         table.completeRow();
@@ -1111,8 +1128,10 @@ public class PdfFP {
         if (korekta) {
             wierszroznicyvatmarza(selected, table);
         }
-        if (selected.isRachunek()) {
-            table.addCell(ustawfrazeAF("Dostawa towarów lub świadczenie usług zwolnionych od podatku VAT na podstawie art. 113 ust. 1 ustawy z dnia 11.03.2004 r. o podatku od towarów i usług", 11, 0,0,7));
+         if (selected.isRachunek()&&selected.getWystawca().isZwolnienievat43()==false) {
+            table.addCell(ustawfraze("Dostawa towarów lub świadczenie usług zwolnionych od podatku VAT na podstawie art. 113 ust. 1 ustawy z dnia 11.03.2004 r. o podatku od towarów i usług", 11, 0));
+        } else if (selected.isRachunek()&&selected.getWystawca().isZwolnienievat43()==true) {
+            table.addCell(ustawfraze("Dostawa towarów lub świadczenie usług zwolnionych od podatku VAT na podstawie art. 43 ustawy z dnia 11.03.2004 r. o podatku od towarów i usług", 11, 0));
         }
         // complete the table
         table.completeRow();
