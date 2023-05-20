@@ -353,7 +353,8 @@ public class Podatnik implements Serializable {
     private boolean wysylaczestdok;
     @Column(name = "niesprawdzajfaktury")
     private boolean niesprawdzajfaktury;
-    
+    @Column(name = "domyslnametodaplatnosci")
+    private String domyslnametodaplatnosci;
     @Transient
     private double cena;
 
@@ -361,12 +362,14 @@ public class Podatnik implements Serializable {
     public Podatnik() {
         this.podmiotaktywny = true;
         this.jezykmaila = "pl";
+        this.domyslnametodaplatnosci = "przelew";
     }
 
     public Podatnik(String nip) {
         this.nip = nip;
         this.podmiotaktywny = true;
         this.jezykmaila = "pl";
+        this.domyslnametodaplatnosci = "przelew";
     }
     
     public String podatnikDaneWydruk() {
@@ -1245,6 +1248,14 @@ public class Podatnik implements Serializable {
 
     public void setNiesprawdzajfaktury(boolean niesprawdzajfaktury) {
         this.niesprawdzajfaktury = niesprawdzajfaktury;
+    }
+
+    public String getDomyslnametodaplatnosci() {
+        return domyslnametodaplatnosci;
+    }
+
+    public void setDomyslnametodaplatnosci(String domyslnametodaplatnosci) {
+        this.domyslnametodaplatnosci = domyslnametodaplatnosci;
     }
 
     

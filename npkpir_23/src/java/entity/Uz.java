@@ -9,6 +9,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -47,6 +49,10 @@ public class Uz implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "login")
     private String login;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private Integer id;
     @Size(max = 255)
     @Column(name = "haslo")
     private String haslo;
@@ -385,6 +391,14 @@ public class Uz implements Serializable {
 
     public void setAktywny(boolean aktywny) {
         this.aktywny = aktywny;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     

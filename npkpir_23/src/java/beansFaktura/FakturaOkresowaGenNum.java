@@ -59,16 +59,19 @@ public class FakturaOkresowaGenNum {
             schematnumeracji= wpisView.getUzer().getFakturanumeracja();
         }
         if (schematnumeracji != null && !schematnumeracji.equals("")) {
-            boolean istniejafakturyrok = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt()).isEmpty();
-            if (istniejafakturyrok == true) {
+            Faktura ostatnidokument  = fakturaDAO.findOstatniaFakturaByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
+            if (wpisView.getUzer().getFakturagrupa()!=null&&!wpisView.getUzer().getFakturagrupa().isEmpty()) {
+                ostatnidokument = fakturaDAO.findOstatniaFakturaByRokPodatnikGrupa(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt(), wpisView.getUzer().getFakturagrupa());
+            }
+            
+            if (ostatnidokument == null) {
                 String numer = FakturaBean.uzyjwzorcagenerujpierwszynumerFaktura(schematnumeracji, wpisView);
                 selected.setNumerkolejny(numer);
                 selected.setLp(1);
                 Msg.msg("i", "Generuje nową serie numerów faktury");
             } else {
-                String numer = FakturaBean.uzyjwzorcagenerujnumerFaktura(schematnumeracji, wpisView, fakturaDAO);
+                String numer = FakturaBean.uzyjwzorcagenerujnumerFaktura(schematnumeracji, wpisView, fakturaDAO, ostatnidokument);
                 selected.setNumerkolejny(numer);
-                Faktura ostatnidokument = fakturaDAO.findOstatniaFakturaByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
                 selected.setLp(ostatnidokument.getLp() + 1);
                 Msg.msg("i", "Generuje kolejny numer faktury");
             }

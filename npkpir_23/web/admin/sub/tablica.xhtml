@@ -9,15 +9,21 @@
 
     <p:outputPanel id="wrapper">
         <p:dataTable  var="wpis" value="#{UzView.listaUzytkownikow}" id="uzytkownicyLista" editable="true"
-                       filteredValue="#{UzView.obiektUZjsfselected}"
-                       style="width: 1740px; height: 400px; overflow-y: scroll;"
-                      rowKey="#{wpis.login}" selection="#{UzView.selUzytkownik}" > 
+                      filteredValue="#{UzView.obiektUZjsfselected}" sortMode="desc" sortBy="#{wpis.id}"
+                       style="width: 1840px; height: 600px; overflow-y: scroll;"
+                      rowKey="#{wpis.id}" selection="#{UzView.selUzytkownik}" > 
             <p:ajax event="rowEdit" global="false" update=":form:messages" listener="#{UzView.zachowajzmiany()}" />
             <p:ajax event="rowSelectRadio"  global="false" update=":form:messages :editUzyt" listener="#{UzView.wybranoUzytkownika}" />
             <f:facet name="header">  
                 <h:outputText value="Wykaz użytkowników" />  
             </f:facet>
             <p:column selectionMode="single" styleClass="checkwiersza" width="30" style="text-align: center;"/>
+            <p:column filterBy="#{wpis.id}" filterMatchMode="contains" sortBy="#{wpis.id}" >  
+                <f:facet name="header">  
+                    <h:outputText value="" />  
+                </f:facet> 
+                        <h:outputText value="#{wpis.id}" />
+            </p:column>
             <p:column id="idColumn" headerText="id" filterBy="#{wpis.login}" filterMatchMode="contains" sortBy="#{wpis.login}">  
                 <f:facet name="header">  
                     <h:outputText value="login" />  

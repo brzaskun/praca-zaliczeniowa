@@ -313,8 +313,9 @@ public class FakturaView implements Serializable {
 //                    }
 //            }
 //        }
-        for (Faktura fakt : fakturytmp) {
-            if (!fakt.isTylkodlaokresowej()) {
+        if (wpisView.getUzer().getFakturagrupa()!=null&&!wpisView.getUzer().getFakturagrupa().equals("")) {
+            for (Faktura fakt : fakturytmp) {
+            if (!fakt.isTylkodlaokresowej()&&fakt.getFakturagrupa()!=null&&fakt.getFakturagrupa().equals(wpisView.getUzer().getFakturagrupa())) {
                 if (fakt.isProforma()) {
                     fakturypro.add(fakt);
                 } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
@@ -325,6 +326,23 @@ public class FakturaView implements Serializable {
                     faktury.add(fakt);
                 } else if (!pokaztylkoniewyslane) {
                     faktury.add(fakt);
+                }
+            }
+        }
+        } else {
+            for (Faktura fakt : fakturytmp) {
+                if (!fakt.isTylkodlaokresowej()) {
+                    if (fakt.isProforma()) {
+                        fakturypro.add(fakt);
+                    } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
+                        fakturyarchiwum.add(fakt);
+                    } else if (fakt.isRecznaedycja()) {
+                        faktury_edit.add(fakt);
+                    } else if (pokaztylkoniewyslane && fakt.getDatawysylki()==null) {
+                        faktury.add(fakt);
+                    } else if (!pokaztylkoniewyslane) {
+                        faktury.add(fakt);
+                    }
                 }
             }
         }
@@ -488,6 +506,7 @@ public class FakturaView implements Serializable {
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
         selected.setRodzajdokumentu("faktura");
         selected.setRodzajtransakcji("sprzedaż");
+        selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
         zapis0edycja1 = false;
         Msg.msg("i", "Przygotowano wstępnie fakturę. Należy uzupełnić pozostałe elementy.");
     }
@@ -498,6 +517,7 @@ public class FakturaView implements Serializable {
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
         selected.setRodzajdokumentu("faktura VAT marża");
         selected.setRodzajtransakcji("sprzedaż");
+        selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
         zapis0edycja1 = false;
         Msg.msg("i", "Przygotowano wstępnie fakturę VAT marża. Należy uzupełnić pozostałe elementy.");
     }
@@ -509,6 +529,7 @@ public class FakturaView implements Serializable {
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
         selected.setRodzajdokumentu("rachunek baz VAT");
         selected.setRodzajtransakcji("sprzedaż");
+        selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
         zapis0edycja1 = false;
         Msg.msg("i", "Przygotowano wstępnie rachunek baz VAT. Należy uzupełnić pozostałe elementy.");
     }
@@ -520,6 +541,7 @@ public class FakturaView implements Serializable {
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
         selected.setRodzajdokumentu("faktura niemiecka");
         selected.setRodzajtransakcji("sprzedaż");
+        selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
         zapis0edycja1 = false;
         Msg.msg("i", "Przygotowano wstępnie fakturę niemiecką. Należy uzupełnić pozostałe elementy.");
     }
@@ -532,6 +554,7 @@ public class FakturaView implements Serializable {
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setRodzajdokumentu("faktura xxl");
         selected.setRodzajtransakcji("sprzedaż");
+        selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
         zapis0edycja1 = false;
         Msg.msg("i", "Przygotowano wstępnie fakturę XXL. Należy uzupełnić pozostałe elementy.");
     }
@@ -546,6 +569,7 @@ public class FakturaView implements Serializable {
         selected.setPozycjepokorekcie(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setRodzajdokumentu("faktura korekta");
         selected.setRodzajtransakcji("sprzedaż");
+        selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
         zapis0edycja1 = false;
         Msg.msg("i", "Przygotowano wstępnie fakturę. Należy uzupełnić pozostałe elementy.");
     }
@@ -560,6 +584,7 @@ public class FakturaView implements Serializable {
         selected.setPozycjepokorekcie(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setRodzajdokumentu("faktura xxl korekta");
         selected.setRodzajtransakcji("sprzedaż");
+        selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
         zapis0edycja1 = false;
         Msg.msg("i", "Przygotowano wstępnie fakturę XXL korektę. Należy uzupełnić pozostałe elementy.");
     }

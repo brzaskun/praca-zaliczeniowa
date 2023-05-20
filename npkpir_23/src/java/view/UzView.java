@@ -117,6 +117,7 @@ public class UzView implements Serializable {
             nowyUzytkownik.setLoginglowny(nowyUzytkownik);
             nowyUzytkownik.setLocale("pl");
             nowyUzytkownik.setHaslo(haszuj(nowyUzytkownik.getHaslo()));
+            selUzytkownik.setData(new Date());
             uzDAO.create(nowyUzytkownik);
             listaUzytkownikow.add(nowyUzytkownik);
             nowyUzytkownik = new Uz();
@@ -171,6 +172,7 @@ public class UzView implements Serializable {
         try {
             selUzytkownik = uzDAO.findUzByLogin(login);
             selUzytkownik.setHaslo(firstPassword);
+            selUzytkownik.setData(new Date());
         } catch (Exception e) { 
             E.e(e); 
             Msg.msg("e", "Podany login: '" + login + "' nie istnieje", "formlog1:logowanie");

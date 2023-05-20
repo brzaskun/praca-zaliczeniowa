@@ -72,6 +72,7 @@ import waluty.Z;
     @NamedQuery(name = "Faktura.findByKonrahentPodatnik", query = "SELECT DISTINCT f.kontrahent FROM Faktura f WHERE f.wystawca = :podatnik"),
     @NamedQuery(name = "Faktura.findByKonrahentPodatnikRok", query = "SELECT DISTINCT f.kontrahent FROM Faktura f WHERE f.wystawca = :podatnik AND f.rok = :rok "),
     @NamedQuery(name = "Faktura.findOstatniaFakturaByRokPodatnik", query = "SELECT f FROM Faktura f WHERE f.rok = :rok AND f.wystawca = :wystawcanazwa AND f.tylkodlaokresowej = '0' ORDER BY f.lp DESC"),
+    @NamedQuery(name = "Faktura.findOstatniaFakturaByRokPodatnikGrupa", query = "SELECT f FROM Faktura f WHERE f.rok = :rok AND f.fakturagrupa = :grupa  AND f.wystawca = :wystawcanazwa AND f.tylkodlaokresowej = '0' ORDER BY f.lp DESC"),
     @NamedQuery(name = "Faktura.findByDatawystawienia", query = "SELECT f FROM Faktura f WHERE f.datawystawienia = :datawystawienia"),
     @NamedQuery(name = "Faktura.findByDatasprzedazy", query = "SELECT f FROM Faktura f WHERE f.datasprzedazy = :datasprzedazy"),
     @NamedQuery(name = "Faktura.findByMiejscewystawienia", query = "SELECT f FROM Faktura f WHERE f.miejscewystawienia = :miejscewystawienia"),

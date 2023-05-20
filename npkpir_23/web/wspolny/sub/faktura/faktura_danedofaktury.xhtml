@@ -46,6 +46,13 @@
                         <h:outputText value="n - numer kolejny w roku, N - numer kolejny w miesiącu,"/>
                         <h:outputText value=" m - numer miesiąca, r - numer roku, s - dowolny ciąg znaków za wyjątkiem: /"/>
                         <h:outputText value="jako separatora elem. składowych należy użyć symbolu /"/>
+                        <h:outputLabel value=""/>
+                        <h:outputLabel value="domyślna metoda płatności"/>
+                        <p:selectOneMenu value="#{WpisView.podatnikObiekt.domyslnametodaplatnosci}">
+                             <f:selectItem itemLabel="#{mgs.przelew}" itemValue="przelew"/>
+                                <f:selectItem itemLabel="#{mgs.gotówka}" itemValue="gotówka"/>
+                                <f:selectItem itemLabel="karta płatnicza" itemValue="karta płatnicza"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>   
                     <p:panelGrid columns="1">
                         <p:commandButton actionListener="#{fakturaView.edytujdanepodatnika()}" value="edytuj podatnika" update="@form" type="submit"/>

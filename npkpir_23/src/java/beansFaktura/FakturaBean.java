@@ -53,9 +53,8 @@ public class FakturaBean {
         return wygenerowanynumer;
     }
     
-    public static String uzyjwzorcagenerujnumerFaktura(String wzorzec, WpisView wpisView, FakturaDAO faktDAO) {
+    public static String uzyjwzorcagenerujnumerFaktura(String wzorzec, WpisView wpisView, FakturaDAO faktDAO, Faktura ostatnidokument) {
         String separator = znajdzseparator(wzorzec);
-        Faktura ostatnidokument = faktDAO.findOstatniaFakturaByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
         String mcostatniejfaktury = ostatnidokument!=null? ostatnidokument.getMc():wpisView.getMiesiacWpisu();
         String[] elementypoprzedniafakt = elementydokumentu(ostatnidokument, separator);
         String numerwstepny ="";
@@ -90,7 +89,8 @@ public class FakturaBean {
         
     private static String generowanie (String wzorzec, String separator, String[] elementypoprzedniafakt, WpisView wpisView, int nowanumeracjamc) {
         String[] elementywzorca = elementywzorca(wzorzec, separator);
-        String nowynumer = zwieksznumer(elementywzorca, elementypoprzedniafakt, wpisView, separator, nowanumeracjamc);
+        boolean indywidualneoznaczenie = wpisView.getUzer().getFakturanumeracja()!=null&&!wpisView.getUzer().getFakturanumeracja().equals("")?true:false;
+        String nowynumer = zwieksznumer(elementywzorca, elementypoprzedniafakt, wpisView, separator, nowanumeracjamc, indywidualneoznaczenie);
         return trimmnowynumer(nowynumer, separator);
     }
     
@@ -115,7 +115,7 @@ public class FakturaBean {
         return ostatnidokument.getNumerkolejny().split(separator);
     }
     
-    private static String zwieksznumer(String[] elementywzorca, String[] elementypoprzedniafakt, WpisView wpisView, String separator, int nowanumeracjamc) {
+    private static String zwieksznumer(String[] elementywzorca, String[] elementypoprzedniafakt, WpisView wpisView, String separator, int nowanumeracjamc, boolean indywidualneoznaczenie) {
         String nowynumer = "";
         for (int i = 0; i < elementywzorca.length; i++) {
             String typ = elementywzorca[i];
@@ -147,7 +147,15 @@ public class FakturaBean {
                     nowynumer = nowynumer.concat(elementypoprzedniafakt[i]).concat(separator);
                     break;
                 default:
-                    nowynumer = nowynumer.concat(elementypoprzedniafakt[i]).concat(separator);
+                    if (indywidualneoznaczenie) {
+                        nowynumer = nowynumer.concat(elementywzorca[i]).concat(separator);
+                    } else {
+                        if (i<elementypoprzedniafakt.length) {
+                            nowynumer = nowynumer.concat(elementypoprzedniafakt[i]).concat(separator);
+                        } else if (i<elementywzorca.length) {
+                            nowynumer = nowynumer.concat(elementywzorca[i]).concat(separator);
+                        }
+                    }
                     break;
             }
         }
