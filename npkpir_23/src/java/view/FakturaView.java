@@ -313,22 +313,22 @@ public class FakturaView implements Serializable {
 //                    }
 //            }
 //        }
-        if (wpisView.getUzer().getFakturagrupa()!=null&&!wpisView.getUzer().getFakturagrupa().equals("")) {
+        if (wpisView.getUzer().getFakturagrupa() != null && !wpisView.getUzer().getFakturagrupa().equals("") && !wpisView.getUzer().getFakturagrupa().equals("szef")) {
             for (Faktura fakt : fakturytmp) {
-            if (!fakt.isTylkodlaokresowej()&&fakt.getFakturagrupa()!=null&&fakt.getFakturagrupa().equals(wpisView.getUzer().getFakturagrupa())) {
-                if (fakt.isProforma()) {
-                    fakturypro.add(fakt);
-                } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
-                    fakturyarchiwum.add(fakt);
-                } else if (fakt.isRecznaedycja()) {
-                    faktury_edit.add(fakt);
-                } else if (pokaztylkoniewyslane && fakt.getDatawysylki()==null) {
-                    faktury.add(fakt);
-                } else if (!pokaztylkoniewyslane) {
-                    faktury.add(fakt);
+                if (!fakt.isTylkodlaokresowej() && fakt.getFakturagrupa() != null && fakt.getFakturagrupa().equals(wpisView.getUzer().getFakturagrupa())) {
+                    if (fakt.isProforma()) {
+                        fakturypro.add(fakt);
+                    } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
+                        fakturyarchiwum.add(fakt);
+                    } else if (fakt.isRecznaedycja()) {
+                        faktury_edit.add(fakt);
+                    } else if (pokaztylkoniewyslane && fakt.getDatawysylki() == null) {
+                        faktury.add(fakt);
+                    } else if (!pokaztylkoniewyslane) {
+                        faktury.add(fakt);
+                    }
                 }
             }
-        }
         } else {
             for (Faktura fakt : fakturytmp) {
                 if (!fakt.isTylkodlaokresowej()) {
@@ -338,7 +338,7 @@ public class FakturaView implements Serializable {
                         fakturyarchiwum.add(fakt);
                     } else if (fakt.isRecznaedycja()) {
                         faktury_edit.add(fakt);
-                    } else if (pokaztylkoniewyslane && fakt.getDatawysylki()==null) {
+                    } else if (pokaztylkoniewyslane && fakt.getDatawysylki() == null) {
                         faktury.add(fakt);
                     } else if (!pokaztylkoniewyslane) {
                         faktury.add(fakt);
