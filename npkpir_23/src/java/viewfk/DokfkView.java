@@ -350,7 +350,7 @@ public class DokfkView implements Serializable {
         init();
         if (zapisz0edytuj1 == false) {
             resetujDokument();
-        } else if (selected.getRodzajedok()!=null&&selected.getRodzajedok().getSkrotNazwyDok().equals("BO")) {
+        } else if (selected.getRodzajedok()!=null&&(selected.getRodzajedok().getSkrotNazwyDok().equals("BO")||selected.getRodzajedok().getSkrotNazwyDok().equals("BOR"))) {
             sumadokbo = ObslugaWiersza.sumujwierszeBO(selected);
             PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
         }
@@ -1231,7 +1231,7 @@ public class DokfkView implements Serializable {
             selected.setwTrakcieEdycji(false);
             try {
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
-                if (selected.getSeriadokfk().equals("BO")) {
+                if (selected.getSeriadokfk().equals("BO")||selected.getSeriadokfk().equals("BOR")) {
                     selected.przepiszWierszeBO();
                 }
                 selected.setwTrakcieEdycji(false);
@@ -1995,7 +1995,7 @@ public class DokfkView implements Serializable {
                 dokDAOfk.edit(selected);
             }
             Msg.msg("Usunieto wiersz");
-            if (selected.getRodzajedok().getSkrot().equals("BO")) {
+            if (selected.getRodzajedok().getSkrot().equals("BO")||selected.getRodzajedok().getSkrot().equals("BOR")) {
                 if (wybranyWiersz.getWierszBOId()!=0) {
                     WierszBO findById = wierszBODAO.findById(wybranyWiersz.getWierszBOId());
                     if (findById!=null) {
@@ -3408,7 +3408,7 @@ public class DokfkView implements Serializable {
     public void sprawdzwartoscigrupy() {
         try {
             if (wierszzmieniony!=null) {
-                if (wierszzmieniony.getDokfk().getSeriadokfk().equals("BO")) {
+                if (wierszzmieniony.getDokfk().getSeriadokfk().equals("BO")||wierszzmieniony.getDokfk().getSeriadokfk().equals("BOR")) {
                     return;
                 }
                 Wiersz wiersdolnysprawdz = selected.nastepnyWiersz(wierszzmieniony);

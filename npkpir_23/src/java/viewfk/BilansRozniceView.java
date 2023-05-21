@@ -44,14 +44,23 @@ public class BilansRozniceView implements Serializable {
     public void init() { //E.m(this);
         List<WierszBO> wierszeBO = wierszBODAO.listaRokMc(wpisView);
         liczbawierszyBO = wierszeBO.size();
-        List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, "BO");
-        List<StronaWiersza> wierszeDok = pobierzstrony(dokfk);
+        List<Dokfk> dokfkBO = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, "BO");
+        List<Dokfk> dokfkBOR = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, "BOR");
+        List<StronaWiersza> wierszeDok = new ArrayList<>();
+        String jakidokument = "bilans otwarcia - wiersze BO";
+        if (!wpisView.getMiesiacWpisu().equals("01")&&dokfkBOR!=null) {
+            wierszeDok = pobierzstrony(dokfkBOR);
+            jakidokument = "obroty rozpoczęcia - wiersze BOR";
+        } else {
+            wierszeDok = pobierzstrony(dokfkBO);
+        }
+        
         liczbawierszyDok = wierszeDok.size();
-        startmsg = "Rozpoczęto szukanie różnic";
-        stopmsg = "Wystąpił błąd podczas szukania różnic";
+        startmsg = "Rozpoczęto szukanie różnic "+jakidokument;
+        stopmsg = "Wystąpił błąd podczas szukania różnic "+jakidokument;
         wierszeBOroznice = zrobrozniceBO(new ArrayList<>(wierszeBO), new ArrayList<>(wierszeDok));
         wierszeDokroznice = zrobrozniceDok(new ArrayList<>(wierszeBO), new ArrayList<>(wierszeDok));
-        stopmsg = "Zakończono szukanie różnic";
+        stopmsg = "Zakończono szukanie różnic "+jakidokument;
     }
 
     private List<StronaWiersza> pobierzstrony(List<Dokfk> dokfk) {

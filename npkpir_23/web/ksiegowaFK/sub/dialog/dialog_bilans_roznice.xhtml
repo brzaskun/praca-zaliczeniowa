@@ -44,7 +44,7 @@
             <h:outputText value="wszystkie wiersze BO są w dokumencie BO" rendered="#{bilansRozniceView.wierszeBOroznice.size() eq 0}"/>
              <h:outputText value="Te wiersze BO nie zgadzają się/nie ma ich w dokumencie BO" rendered="#{bilansRozniceView.wierszeBOroznice.size() ne 0}"/>
              <p:dataTable value="#{bilansRozniceView.wierszeBOroznice}" var="item"
-                         style="overflow-y: scroll; height: 300px; width: 1000px; padding: 10px; margin-top: 5px;"
+                         style="overflow-y: scroll; height: 300px; width: 1200px; padding: 10px; margin-top: 5px;"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansRozniceView.wierszeBOroznice.size() ne 0}"
                          rowKey="#{item.hashCode()}"
@@ -55,7 +55,7 @@
                     </f:facet>
                     <h:outputText value="#{item.id}"/>
                 </p:column>
-                <p:column width="250" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
+                <p:column width="400" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.konto}"/>
                     </f:facet>
@@ -100,7 +100,7 @@
                         <h:outputText value="nowy"/>
                     </f:facet>
                     <p:commandButton icon="ui-icon-refresh" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.oznaczjakonowy(item)}"
-                                     update="@parent@parent"
+                                     update="@parent:@parent"
                                      />
                 </p:column>
             </p:dataTable>

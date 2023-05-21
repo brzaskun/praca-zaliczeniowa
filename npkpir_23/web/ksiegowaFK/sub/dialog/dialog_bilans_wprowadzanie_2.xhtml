@@ -38,7 +38,7 @@
     </style>
     <p:dialog id="bilanswprowadzanie2" header="Bilans otwarcia/Obroty rozpoczęcia - wprowadzanie sald - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="bilanswprowadzanie2"
               appendTo="@(body)" style="overflow-y: hidden;"
-              resizable="false" onShow="ustawdialog('bilanswprowadzanie2','menubilanse', 1550, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie2');"
+              resizable="false" onShow="ustawdialog('bilanswprowadzanie2','menubilanse', 1700, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie2');"
               maximizable="true">
         <h:form id="formbilanswprowadzanie2_wiersz">
             <p:outputPanel rendered="#{bilansWprowadzanieView.tojestbilanslikwidacyjny}" id="uwaga">
@@ -277,7 +277,7 @@
             </p:contextMenu>
             <p:remoteCommand name="przeliczfilter" actionListener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOselected, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0" global="false"/>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item" binding="#{bilansWprowadzanieView.listaBOdatatable}" widgetVar="tab0prosta"
-                         style="overflow-y: scroll; height: 400px; width: 1300px; padding: 10px; margin-top: 5px;"
+                         style="overflow-y: scroll; height: 400px; width: 1400px; padding: 10px; margin-top: 5px;"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}"
                          id="tab0" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOselected}"
@@ -288,11 +288,17 @@
                 <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOselected, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>
                 <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"/>
-                <p:column width="250" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
+                <p:column width="80" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.konto}"/>
                     </f:facet>
-                    <h:outputText value="#{item.konto.pelnynumer} #{item.konto.nazwapelna}"/>
+                    <h:outputText value="#{item.konto.pelnynumer}"/>
+                </p:column>
+                <p:column width="400" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:outputText value="#{item.konto.nazwapelna}"/>
                 </p:column>
                 <p:column styleClass="kolumnaopis" filterBy="#{item.opis}" filterMatchMode="contains" sortBy="#{item.opis}">
                     <f:facet name="header">
@@ -382,13 +388,19 @@
                 <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="filter" global="false" />
                 <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"/>
-                <p:column width="250" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}" sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
+                <p:column width="70" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}" sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.konto}"/>
                     </f:facet>
-                    <h:outputText value="#{item.konto.pelnynumer} #{item.konto.nazwapelna}"/>
+                    <h:outputText value="#{item.konto.pelnynumer}"/>
                 </p:column>
-                <p:column width="150"  styleClass="kolumnaopis" filterBy="#{item.opis}" filterMatchMode="contains" sortBy="#{item.opis}">
+                <p:column width="400" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}" sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:outputText value="#{item.konto.nazwapelna}"/>
+                </p:column>
+                <p:column width="250"  styleClass="kolumnaopis" filterBy="#{item.opis}" filterMatchMode="contains" sortBy="#{item.opis}">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.opis}"/>
                     </f:facet>

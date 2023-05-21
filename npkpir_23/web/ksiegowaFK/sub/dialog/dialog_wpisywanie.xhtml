@@ -571,11 +571,11 @@
                             </p:inputText>
                         </p:column>
                         <p:column headerText="BO" style="text-align: center; width: 40px;"  
-                                  rendered="#{dokfkView.selected.seriadokfk eq 'BO'}" >
+                                  rendered="#{dokfkView.selected.seriadokfk eq 'BO' or dokfkView.selected.seriadokfk eq 'BOR'}" >
                             <h:outputText value="#{wploop.wierszBOId}"/>
                         </p:column>
                         <p:column headerText="wal" style="text-align: center; width: 40px;"  
-                                  rendered="#{dokfkView.selected.seriadokfk eq 'BO'}" >
+                                  rendered="#{dokfkView.selected.seriadokfk eq 'BO' or dokfkView.selected.seriadokfk eq 'BOR'}" >
                             <h:outputText value="#{wploop.walutaWiersz}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kwota}"  style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
@@ -705,15 +705,15 @@
                     </p:outputPanel> 
                     <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
-                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO'}">
+                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO' or dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BOR'}">
                             <h:outputText value="SaldoWn: "/>
                             <bcf:outputpl id="saldostronywn"  value="#{dokfkView.sumadokbo[0]}" style="width: 100px; margin-left: 10px;"/>
                         </p:column>
-                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO'}">
+                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO' or dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BOR'}">
                             <h:outputText value="SaldoMa: "/>
                             <bcf:outputpl id="saldostronyma"  value="#{dokfkView.sumadokbo[1]}" style="width: 100px; margin-left: 10px;"/>
                         </p:column>
-                            <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO'}">
+                            <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO' or dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BOR'}">
                             <h:outputText value="roznica "/>
                             <bcf:outputpl id="saldostronyma"  value="#{dokfkView.sumadokbo[1]-dokfkView.sumadokbo[0]}" style="width: 100px; margin-left: 10px;"/>
                         </p:column>
