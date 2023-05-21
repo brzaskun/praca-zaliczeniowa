@@ -8,7 +8,8 @@
     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="width: 1500px;">
             <p:outputPanel style="height: 200px">
                 <h:form id="AngazCreateForm">
-                    <p:selectOneListbox id="pracownik" value="#{pracownikDane2View.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 200px;height: 300px;" filter="true" filterMatchMode="contains" scrollHeight="300">
+                    <p:selectOneListbox id="pracownik" value="#{pracownikDane2View.selectedangaz}" required="true" requiredMessage="pracownik"  
+                                        converter="#{angazConverter}" style="width: 200px;" filter="true" filterMatchMode="contains" scrollHeight="600">
                         <f:selectItems value="#{pracownikDane2View.listapracownikow}"
                                        var="pracownikItem"
                                        itemValue="#{pracownikItem}" itemLabel="#{pracownikItem.pracownik.nazwiskoImie}"/>
@@ -124,9 +125,9 @@
                     </p:panelGrid>
                 </p:outputPanel>
                 <p:outputPanel style="margin-top: 50px;">
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikDane2View.edit}" value="#{bundle.Save}" update="@form" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikDane2View.edit}" value="#{bundle.Save}" update="north PracownikCreateForm:wiadomosc" immediate="true"/>
                 </p:outputPanel>
-                <p:outputPanel style="margin-top: 50px;">
+                <p:outputPanel style="margin-top: 50px;" id="wiadomosc">
                     <p:messages showDetail="false"/>
                 </p:outputPanel>
             </h:form>

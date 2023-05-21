@@ -5,9 +5,11 @@
  */
 package view;
 
+import comparator.FirmaKadrycomparator;
 import dao.FirmaKadryFacade;
 import entity.FirmaKadry;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -33,6 +35,7 @@ public class FirmaView  implements Serializable {
     @PostConstruct
     private void init() {
         lista  = firmaKadryFacade.findAll();
+        Collections.sort(lista,new FirmaKadrycomparator());
         if (!wpisView.getUzer().getLogin().equals("mariola")&&!wpisView.getUzer().getLogin().equals("2")) {
             for (Iterator<FirmaKadry> it = lista.iterator();it.hasNext();) {
                 FirmaKadry f = it.next();
