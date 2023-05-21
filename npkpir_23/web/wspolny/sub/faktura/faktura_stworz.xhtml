@@ -148,8 +148,14 @@
                             <h:outputLabel value="fa zaliczkowa: " />
                             <p:selectBooleanCheckbox value="#{fakturaView.selected.zaliczkowa}"/>
                   </p:panelGrid>
+                <p:panelGrid columns="1" >
+                    <h:outputText value="Jeśli klienta nie ma w systemie, proszę wybrać 'nowy klient' i wcisnąć przycisk Tab (ten nad CapsLock). Wyskoczy okienko wpisywania danych." style="color: green;"/>
+                </p:panelGrid>
+                <p:panelGrid columns="1" >
+                    <h:outputText value="NIP wpisujemy tylko dla firm. Jeśli mamy już osobę o danym nazwisku i imieniu w bazie, a nie jest to szukana osoba to też należy wpisać 'nowy klient'" style="color: green;"/>
+                </p:panelGrid>
                 <p:panelGrid columns="4" styleClass="polefaktury" columnClasses="tp tp tp tp" layout="grid">
-                            <h:outputLabel id="danekontrahentaout" value="dane nabywcy: " />
+                            <h:outputLabel id="danekontrahentaout" value="dane nabywcy - NIP lub nazwa lub nazwisko: " />
                             <p:autoComplete id="acForce" value="#{fakturaView.selected.kontrahent}" completeMethod="#{klienciConverterFakturaView.completeKL}" inputStyle="width:400px;"
                                             var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientFaktConv}" title="wpisz nazwę lub NIP nabywcy"
                                             minQueryLength="3" maxResults="10" cache="true" converterMessage="Nieudana konwersja Klient" 
@@ -177,7 +183,7 @@
                                 <f:param name="passedValue" value="#{p}" />
                             </p:autoComplete>
 
-                            <p:commandButton value="aktualizuj z GUS" id="buton1taki" actionListener="#{KlView.znajdzdaneregonAutomat(fakturaView.selected.kontrahent)}" style="width: 140px; margin-left: 100px;" update="akordeon:formstworz:acForce"/>
+                            <p:commandButton value="pobierz z GUS" id="buton1taki" actionListener="#{KlView.znajdzdaneregonAutomat(fakturaView.selected.kontrahent)}" style="width: 140px; margin-left: 100px;" update="akordeon:formstworz:acForce"/>
                 </p:panelGrid>
                 <p:panelGrid columns="4" styleClass="polefaktury" columnClasses="tp tp tp tp" layout="grid" >
                     <h:outputText value="email kontrahenta"/>

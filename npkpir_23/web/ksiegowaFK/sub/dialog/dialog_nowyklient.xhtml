@@ -15,23 +15,19 @@
         <h:form id="formXNowyKlient" >
             <p:panel >
                 <p:focus id="focus" for="polawprowadzania"  />
-                <p:panelGrid id="polawprowadzania" columns="5" >
-                    <h:outputLabel value="nip/przy osobie fizycznej zostawić puste" style="font-weight: 700"/>
-                    <h:outputLabel value="nazwa pełna" style="font-weight: 700"/>
-                    <h:outputLabel value="nazwa skrocona" style="font-weight: 700"/>
+                <p:panelGrid id="polawprowadzania" columns="4"  style="width: 100%;">
+                    <h:outputLabel value="nip/wypełniać tylko gdy klientem jest firma" style="font-weight: 700; color: green;"/>
+                    <h:outputLabel value="nazwa pełna" style="font-weight: 700;width: 300px;"/>
                     <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
                     <h:outputLabel value="miejscowość" style="font-weight: 700"/>
                     <p:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="20" style="width: 200px">
-                        <p:watermark for="nipPole" value="bez -" /> 
+                        <p:watermark for="nipPole" value="NIP firmy - bez myślników." /> 
                         <p:ajax event="keyup" listener="#{KlView.znajdzdaneregon('formXNowyKlient')}" partialSubmit="true" global="false"/>
                     </p:inputText>
-                    <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  title="pełna nazwa kontrahenta" maxlength="55" 
-                                 style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste"
-                                  onblur="kopiujnazwepelna();">
-                        <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 55znakow" /> 
-                    </p:inputText>
-                    <p:inputText id="symbolPole" value="#{KlView.selected.nskrocona}" maxlength="20" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
-                        <p:watermark for="symbolPole" value="hasłowo, np:FORTEX" /> 
+                    <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  title="pełna nazwa kontrahenta / nazwisko i imię" 
+                                 style="width: 350px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste"
+                                  >
+                        <p:watermark for="nazwaPole" value="nazwa kontrahenta  / nazwisko i imię" />
                     </p:inputText>
                     <p:inputText id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="6" style="width: 150px" required="true" 
                                  requiredMessage="Pole kod pocztowy nie może byc puste" />
@@ -44,11 +40,13 @@
                         <p:ajax event="select" partialSubmit="true" global="false"/>
                         <p:ajax event="query" global="false"/>
                     </p:autoComplete>
+                </p:panelGrid>
+                <p:panelGrid id="polawprowadzania2" columns="5"  style="width: 100%;">
                     <h:outputLabel value="ulica" style="font-weight: 700"/>
                     <h:outputLabel value="dom" style="font-weight: 700"/>
                     <h:outputLabel value="lokal" style="font-weight: 700"/>
-                    <h:outputLabel value="kraj*" style="font-weight: 700"/>
-                    <h:outputLabel value="email*" style="font-weight: 700"/>
+                    <h:outputLabel value="kraj" style="font-weight: 700"/>
+                    <h:outputLabel value="email" style="font-weight: 700"/>
 
                     <p:inputText id="ulicaPole" value="#{KlView.selected.ulica}"   style="width: 200px" required="true" requiredMessage="Pole ulica nie może byc puste"
                                  onblur="wykresllokal_wykazklientow_dialog('formXNowyKlient:ulicaPole');">
@@ -59,7 +57,7 @@
                                  >
                     </p:inputText>
                     <p:autoComplete id="krajPole" value="#{KlView.selected.krajnazwa}" completeMethod="#{panstwa.complete}"
-                                    var="p" itemLabel="#{p}" itemValue="#{p}"  required="true" requiredMessage="Wybierz nazwę kraju"
+                                    var="p" itemLabel="#{p}" itemValue="#{p}"  
                                     minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="false" 
                                     effect="clip" autocomplete="true" queryDelay="100" styleClass="wpisywanieklienta"
                                     style="width: 200px" >

@@ -127,17 +127,13 @@ public class KlView implements Serializable {
                 wygenerowanonip = true;
             }
             if (wygenerowanonip) {
-                String formatka = selected.getNskrocona().toUpperCase();
-                selected.setNskrocona(formatka);
-                formatka = selected.getUlica().substring(0, 1).toUpperCase();
+                selected.setNskrocona(selected.getNpelna());
+                if (selected.getKrajnazwa() == null) {
+                    selected.setKrajnazwa("Polska");
+                } 
+                String formatka = selected.getUlica().substring(0, 1).toUpperCase();
                 formatka = formatka.concat(selected.getUlica().substring(1));
                 selected.setUlica(formatka);
-                try {
-                    selected.getKrajnazwa();
-                } catch (Exception e) {
-                    E.e(e);
-                    selected.setKrajnazwa("Polska");
-                }
                 String kraj = selected.getKrajnazwa();
                 String symbol = ps1.getWykazPanstwSX().get(kraj);
                 selected.setKrajkod(symbol);
@@ -167,22 +163,22 @@ public class KlView implements Serializable {
             if (selected.getNip().isEmpty()) {
                 wygenerujnip();
             }
-            String formatka = selected.getNskrocona().toUpperCase();
-            selected.setNskrocona(formatka);
+            selected.setNskrocona(selected.getNpelna());
             if (selected.getKrajnazwa() == null) {
-                Msg.msg("e", "Nie dodano nowego klienta. Nie wprowadzono kraju");
-                return;
-            } else {
-                String kraj = selected.getKrajnazwa();
-                String symbol = ps1.getWykazPanstwSX().get(kraj);
-                selected.setKrajkod(symbol);
-                poszukajDuplikatNip();
-                poszukajDuplikatNazwa();
-                klDAO.create(selected);
-                kl1.add(selected);
-                //planKontCompleteView.init(); to jest zbedne, po co pobierac konta jeszcze raz skoro dodano tylko pozycje do kartoteki klientow a nie kont.
-                Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
+                selected.setKrajnazwa("Polska");
+            } 
+            String kraj = selected.getKrajnazwa();
+            String symbol = ps1.getWykazPanstwSX().get(kraj);
+            selected.setKrajkod(symbol);
+            if (selected.getLokal() == null || selected.getLokal().equals("")) {
+                selected.setLokal("-");
             }
+            poszukajDuplikatNip();
+            poszukajDuplikatNazwa();
+            klDAO.create(selected);
+            kl1.add(selected);
+            //planKontCompleteView.init(); to jest zbedne, po co pobierac konta jeszcze raz skoro dodano tylko pozycje do kartoteki klientow a nie kont.
+            Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
