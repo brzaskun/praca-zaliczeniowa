@@ -41,7 +41,7 @@
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" 
               widgetVar="zestawieniezaksiegowanych" style="overflow-y: hidden;"
               
-              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1740, 580);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
+              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1780, 580);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
@@ -182,7 +182,7 @@
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
-                         style="width: 1660px; height: 450px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
+                         style="width: 100%; height: 450px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
                          rowsPerPageTemplate="50,100,300,500, 1500, 3000" paginatorPosition="top"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="walkingtable" rowSelectMode="add"
                          rows="50" paginator="true"
@@ -251,17 +251,18 @@
                 <p:column  width="30" headerText="spec." sortBy="#{dokfkView.charakterdokumentu(item)}" style="text-align: center; #{dokfkView.charakterdokumentu(item) eq '' ? null : 'color: red;'}">
                     <h:outputText value="#{dokfkView.charakterdokumentu(item)}" style="width: 25px;"/>
                 </p:column>
-                <p:column headerText="ujęto" width="40" style="text-align: center;" sortBy="#{item.dataujecia}">
+                <p:column headerText="ujęto" width="40" style="text-align: center;" sortBy="#{item.dataujecia}" >
                     <h:outputText value="#{item.dataujecia}" style="width: 40px;">
-                        <f:convertDateTime pattern="dd/MM/yy HH:mm:ss" />
+                        <f:convertDateTime pattern="yy/MM/dd HH:mm:ss" />
                     </h:outputText>
                 </p:column>
-                <p:column headerText="b/k" width="40" style="text-align: center;">
-                    <h:outputText value="bufor #{item.wprowadzil}" rendered="#{item.dataksiegowania eq null}" style="width: 40px;"/>
-                    <h:outputText value="#{item.dataksiegowania}" rendered="#{item.dataksiegowania ne null}" style="width: 40px;">
-                        <f:convertDateTime pattern="dd/MM/yy"/>
+                 <p:column headerText="księgi" width="40" style="text-align: center;" sortBy="#{item.dataksiegowania}" >
+                    <h:outputText value="#{item.dataksiegowania}" style="width: 40px;">
+                        <f:convertDateTime pattern="yy/MM/dd HH:mm:ss" />
                     </h:outputText>
-                    <h:outputText value=" #{item.wprowadzil}" rendered="#{item.dataksiegowania ne null}"/>
+                </p:column>
+                <p:column headerText="wprow." width="60" style="text-align: center;">
+                    <h:outputText value=" #{item.wprowadzil}"/>
                 </p:column>
                 <p:column width="20" style="text-align: center;" >
                     <p:commandButton id="drukujbutton" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"

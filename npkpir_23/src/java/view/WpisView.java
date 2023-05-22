@@ -312,7 +312,9 @@ public class WpisView implements Serializable {
 //                    if (findOkresoweOstatnie!=null) {
 //                        System.out.println("nastepny "+findOkresoweOstatnie.size());
 //                    }
-                    if (podatnikObiekt.isNiesprawdzajfaktury()==true) {
+                    String biezacyrok = Data.aktualnyRok();
+                    boolean innyrok = this.rokWpisuSt.equals(biezacyrok)?false:true;
+                    if (podatnikObiekt.isNiesprawdzajfaktury()==true||innyrok) {
                         biuroiszef = true;
                     } else if ((findOkresoweBiezace==null||findOkresoweBiezace.isEmpty())&&(findOkresoweOstatnie==null||findOkresoweOstatnie.isEmpty())) {
                         biuroiszef = false;

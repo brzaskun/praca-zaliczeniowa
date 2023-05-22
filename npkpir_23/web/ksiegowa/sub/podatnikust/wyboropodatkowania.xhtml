@@ -10,20 +10,20 @@
         <h:form id="form1" >
             <h:outputText value="Wybór opodatkowania podatkiem dochodowym" style="font-size: 15px"/>
             <p:focus for="parametrypodatnika"/><br/>
-            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 980px; padding: 10px;" 
+            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 1100px; padding: 10px;" 
                          rowKey="#{loop.id}" selection="#{podatnikView.podatnikOpodatkowanieSelected}" >
                 <f:facet name="header">
                     <h:outputText value="Dane historyczne"/>
                 </f:facet>
                 <p:ajax event="rowSelectRadio" global="false" listener="#{podatnikView.przygotujedycjeopodatkowanie}" update="akordeon:form1"/>
                 <p:column selectionMode="single" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
-                <p:column headerText="od" width="80">
+                <p:column headerText="od" width="90">
                     <h:outputText value="#{loop.datarozpoczecia}" />
                     </p:column>
-                <p:column headerText="do" width="80">
+                <p:column headerText="do" width="90">
                     <h:outputText value="#{loop.datazakonczenia}" />
                     </p:column>
-                 <p:column headerText="symbol roku">
+                <p:column headerText="symbol roku" width="60">
                      <h:outputText value="#{loop.symbolroku}" />
                     </p:column>
                 <p:column headerText="rodzaj opodatkowania" width="150">
@@ -32,7 +32,7 @@
                     <p:column headerText="mies./kwart.">
                         <h:outputText value="#{loop.mc0kw1 eq false ? 'miesięcznie' : 'kwartalnie'}" />
                     </p:column>
-                <p:column headerText="stawka pod." rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O' or WpisView.formaprawna eq 'SPOLKA_KOMANDYTOWA'}">
+                <p:column headerText="stawka pod." rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O' or WpisView.formaprawna eq 'SPOLKA_KOMANDYTOWA'}" width="40">
                         <h:outputText value="#{loop.stawkapodatkuospr}">
                             <f:convertNumber type="percent"/>
                         </h:outputText>

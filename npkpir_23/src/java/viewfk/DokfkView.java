@@ -3708,8 +3708,6 @@ public class DokfkView implements Serializable {
                 for (Dokfk p : wykazZaksiegowanychDokumentow) {
                     if (p.getDataksiegowania() == null) {
                         p.setDataksiegowania(new Date());
-                    } else {
-                        p.setDataksiegowania(null);
                     }
                 }
                 dokDAOfk.editList(wykazZaksiegowanychDokumentow);
