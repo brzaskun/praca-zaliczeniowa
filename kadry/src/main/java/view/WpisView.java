@@ -249,6 +249,7 @@ public class WpisView implements Serializable {
         if (memory!=null) {
             memory.setUmowa(umowa);
             memoryFacade.edit(memory);
+            pobierzMemory();
         } else {
             if (umowa!=null) {
                 memory = createMemory();
@@ -300,6 +301,14 @@ public class WpisView implements Serializable {
             memoryFacade.edit(memory);
         }
         this.okreswpisu = okreswpisu;
+    }
+
+    public Memory getMemory() {
+        return memory;
+    }
+
+    public void setMemory(Memory memory) {
+        this.memory = memory;
     }
     
     

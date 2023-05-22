@@ -593,6 +593,9 @@ public class PasekwynagrodzenView implements Serializable {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
             }
             List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+            if (listakalendarzmiesiac.isEmpty()) {
+                Msg.msg("e","Brak kalendarzy za miesiąc");
+            }
             //zmieniam to bo jak to jest to nie mozna wyplacic zaleglych rzeczy zwolnionym praconikom
 //            for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
 //                Kalendarzmiesiac p = it.next();

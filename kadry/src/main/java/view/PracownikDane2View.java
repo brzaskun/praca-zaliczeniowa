@@ -14,6 +14,7 @@ import embeddable.PanstwaMap;
 import embeddable.TKodUS;
 import entity.Angaz;
 import entity.Pracownik;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -77,6 +78,7 @@ public class PracownikDane2View  implements Serializable {
             wpisView.setPracownik(selected);
             Msg.msg("Uaktualniono dane pracownika");
           } catch (Exception e) {
+              System.out.println(E.e(e));
               Msg.msg("e", "Błąd - nie zmieniono danych");
           }
       }

@@ -686,18 +686,22 @@ public class UmowaView implements Serializable {
     public void usun(Umowa umowa) {
         if (umowa != null) {
             wpisView.setUmowa(null);
-            umowaFacade.remove(umowa);
-            listapraca.remove(umowa);
-            listapraca = umowaFacade.findByAngaz(wpisView.getAngaz());
-            for (Umowa p : listapraca) {
-                p.setAktywna(false);
+            try {
+                umowaFacade.remove(umowa);
+                listapraca.remove(umowa);
+                listapraca = umowaFacade.findByAngaz(wpisView.getAngaz());
+                for (Umowa p : listapraca) {
+                    p.setAktywna(false);
+                }
+                if (listapraca!=null&&listapraca.size()>0) {
+                    Umowa get = listapraca.get(listapraca.size()-1);
+                    get.setAktywna(true);
+                }
+                umowaFacade.editList(listapraca);
+                Msg.msg("Usunięto umowę o pracę");
+            } catch (Exception e) {
+                Msg.msg("e", "Umowa otwarta u kilku użytkowników. Nie można usunąć");
             }
-            if (listapraca!=null&&listapraca.size()>0) {
-                Umowa get = listapraca.get(listapraca.size()-1);
-                get.setAktywna(true);
-            }
-            umowaFacade.editList(listapraca);
-            Msg.msg("Usunięto umowę o pracę");
         } else {
             Msg.msg("e", "Nie wybrano umowy");
         }
