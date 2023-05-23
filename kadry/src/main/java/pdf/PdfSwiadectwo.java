@@ -147,7 +147,9 @@ public class PdfSwiadectwo {
                 }
                 int sumadniurlopu = dniwykorzystane; 
                 if (czydodano==false) {
-                    urlop1 = urlop1+sumadniurlopu+" 0";
+                    // nie mam pojecia po to rto jest
+                    //urlop1 = urlop1+sumadniurlopu+" 0";
+                    urlop1 = urlop1+sumadniurlopu;
                 } else {
                     urlop1 = urlop1+sumadniurlopu;
                 }
