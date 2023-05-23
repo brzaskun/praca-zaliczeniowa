@@ -184,7 +184,7 @@ public class JPKKRView  implements Serializable {
                 JPK.KontoZapis zapis = new JPK.KontoZapis();
                 if (r.isWn()) {
                     zapis.setKodKontaWinien(r.getKonto().getPelnynumer());
-                    if (!r.getSymbolWaluty().equals("PLN")) {
+                    if (!r.getSymbolWalutBOiSW().equals("PLN")) {
                         zapis.setKodWalutyWinien(pobierzwalute(r));
                         zapis.setKwotaWinienWaluta(BigDecimal.valueOf(Z.z(r.getKwotaWaluta())));
                     }
@@ -198,7 +198,7 @@ public class JPKKRView  implements Serializable {
                     zapis.setKwotaMa(BigDecimal.valueOf(0.0));
                 } else {
                     zapis.setKodKontaMa(r.getKonto().getPelnynumer());
-                    if (!r.getSymbolWaluty().equals("PLN")) {
+                    if (!r.getSymbolWalutBOiSW().equals("PLN")) {
                         zapis.setKodWalutyMa(pobierzwalute(r));
                         zapis.setKwotaMaWaluta(BigDecimal.valueOf(Z.z(r.getKwotaWaluta())));
                     }
@@ -218,7 +218,7 @@ public class JPKKRView  implements Serializable {
     }
 
     private CurrCodeType pobierzwalute(StronaWiersza r) {
-        String symbol = r.getSymbolWaluty();
+        String symbol = r.getSymbolWalutBOiSW();
         CurrCodeType zwrot = CurrCodeType.valueOf(symbol);
         return zwrot;
     }
