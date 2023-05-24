@@ -111,7 +111,6 @@ public class Pracownik implements Serializable {
     @Size(max = 45)
     @Column(name = "kraj")
     private String kraj;
-    @Size(max = 10)
     @Column(name = "krajsymbol")
     private String krajsymbol;
     @Size(max = 128)

@@ -115,6 +115,9 @@ public class PracownikDane2View  implements Serializable {
     public void pobierzdane() {
         if (selectedangaz!=null) {
             selected = selectedangaz.getPracownik();
+            if (selected.getKraj()==null) {
+                selected.setKraj("Polska");
+            }
             //wpisView.setPracownik(selected);
             Msg.msg("Pobrano dane pracownika");
         }
