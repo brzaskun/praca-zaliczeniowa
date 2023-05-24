@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import msg.Msg;
 
 /**
  *
@@ -73,6 +74,7 @@ public class Z3daneView implements Serializable {
         }
         if (paskirokbierzacy!=null) {
             paski.addAll(paskirokbierzacy);
+            Msg.msg("Pobrano paski");
         }
         Collections.sort(paski, new Pasekwynagrodzencomparator());
         List<Okres> okresylista = OkresBean.pobierzokresy(dataod, datado);
@@ -87,6 +89,35 @@ public class Z3daneView implements Serializable {
                 boolean uxzupelniac = false;
                 for (Pasekwynagrodzen pasek :paski) {
                     if (pasek.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("WZ")) {
+                        if (przesuniecie==true&&pasek.getOkresWypl().equals(ok.getRokmc())) {
+                            Kalendarzmiesiac kalendarzmiesiac = pasek.getKalendarzmiesiac();
+                            double[] czyuzupelnicskladnik = kalendarzmiesiac.uzupelnienie1norma0pominiecie2();
+                            wybranyokres.setGodzinyobowiazku(czyuzupelnicskladnik[0]);
+                            wybranyokres.setGodzinyprzepracowane(czyuzupelnicskladnik[1]);
+                            wybranyokres.setDniobowiazku(czyuzupelnicskladnik[3]);
+                            wybranyokres.setDniprzepracowane(czyuzupelnicskladnik[4]);
+                            uxzupelniac = czyuzupelnicskladnik[2] == 1;
+                            wybranyokres.setUzupelniane(uxzupelniac);
+                            wybranyokres.setStale(pasek.getStale(uxzupelniac));
+                            wybranyokres.setZmienne(pasek.getZmienne());
+                            wybranyokres.setPremie(pasek.getPremie(uxzupelniac));
+                            wybranyokres.setUzupelniane(uxzupelniac);
+                            suma.sumuj(pasek.getStale(uxzupelniac), pasek.getZmienne(), pasek.getPremie(uxzupelniac));
+                        } else if (przesuniecie==false&&pasek.getOkresNalezny().equals(ok.getRokmc())) {
+                            Kalendarzmiesiac kalendarzmiesiac = pasek.getKalendarzmiesiac();
+                            double[] czyuzupelnicskladnik = kalendarzmiesiac.uzupelnienie1norma0pominiecie2();
+                            wybranyokres.setGodzinyobowiazku(czyuzupelnicskladnik[0]);
+                            wybranyokres.setGodzinyprzepracowane(czyuzupelnicskladnik[1]);
+                            wybranyokres.setDniobowiazku(czyuzupelnicskladnik[3]);
+                            wybranyokres.setDniprzepracowane(czyuzupelnicskladnik[4]);
+                            uxzupelniac = czyuzupelnicskladnik[2] == 1;
+                            wybranyokres.setStale(pasek.getStale(uxzupelniac));
+                            wybranyokres.setZmienne(pasek.getZmienne());
+                            wybranyokres.setPremie(pasek.getPremie(uxzupelniac));
+                            wybranyokres.setUzupelniane(uxzupelniac);
+                            suma.sumuj(pasek.getStale(uxzupelniac), pasek.getZmienne(), pasek.getPremie(uxzupelniac));
+                        }
+                    } else if (pasek.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")) {
                         if (przesuniecie==true&&pasek.getOkresWypl().equals(ok.getRokmc())) {
                             Kalendarzmiesiac kalendarzmiesiac = pasek.getKalendarzmiesiac();
                             double[] czyuzupelnicskladnik = kalendarzmiesiac.uzupelnienie1norma0pominiecie2();
