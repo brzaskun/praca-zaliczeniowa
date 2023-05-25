@@ -64,7 +64,7 @@ public class Z3daneView implements Serializable {
          boolean przesuniecie = firma.getDzienlp()!=null;
         dataod = Data.pierwszyDzien(poprzedniokres[1], poprzedniokres[0]);
         datado = Data.ostatniDzien(poprzedniokres[1], poprzedniokres[0]);
-        dataod = Data.dodajmiesiac(datado, -13);
+        dataod = Data.dodajmiesiac(datado, -11);
         String rokuprzedni = Data.getRok(dataod);
         List<Pasekwynagrodzen> paskirokuprzedni = pasekwynagrodzenFacade.findByRokWyplAngaz(rokuprzedni, wpisView.getAngaz());
         List<Pasekwynagrodzen> paskirokbierzacy = pasekwynagrodzenFacade.findByRokWyplAngaz(Data.getRok(datado), wpisView.getAngaz());
