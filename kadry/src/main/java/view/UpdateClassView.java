@@ -60,6 +60,8 @@ public class UpdateClassView   implements Serializable {
     @Inject
     private RozwiazanieumowyView rozwiazanieumowyView;
     @Inject
+    private StanowiskoPracView stanowiskoPracView;
+    @Inject
     private Z3daneView z3daneView;
     @Inject
     private WpisView wpisView;
@@ -78,6 +80,7 @@ public class UpdateClassView   implements Serializable {
         zmiennaWynagrodzeniaView.init();
         skladnikPotraceniaView.init();
         zmiennaPotraceniaView.init();
+        stanowiskoPracView.init();
         etatView.init();
         pracownikEkwiwalentView.init();
         //pasekwynagrodzenView.init();
