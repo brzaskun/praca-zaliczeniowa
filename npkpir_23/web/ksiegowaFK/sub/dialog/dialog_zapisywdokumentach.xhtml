@@ -13,7 +13,7 @@
         }
     </style>
         <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisywdokumentach" style="overflow-y: hidden;"
-              resizable="false"  onShow="ustawdialog('dialogczwarty','menudokumenty', 1400, 750);" closeOnEscape="true" onHide="resetujdialog('dialogczwarty');" maximizable="true">
+              resizable="false"  onShow="ustawdialog('dialogczwarty','menudokumenty', 1600, 750);" closeOnEscape="true" onHide="resetujdialog('dialogczwarty');" maximizable="true">
         <h:form id="zestawieniezapisownakontach">
             <p:panelGrid columns="7" style="margin-left: 2%;" >
                 <p:column>
@@ -35,16 +35,19 @@
                 <p:commandButton value="nowe konta" actionListener="#{wierszeView.nowewiersze()}" update="zestawieniezapisownakontach:dataList"   style="width: 120px; margin-left: 30px;"/>
             </p:panelGrid>
             <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
-                <p:menuitem value="Pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
+                <p:menuitem value="Edytuj dokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
+                <p:menuitem value="Usuń wybrane" global="false" icon="ui-icon-circle-plus" actionListener="#{dokfkView.usunwybranewiersze()}" update="zestawieniezapisownakontach:dataList"/>
             </p:contextMenu>
-            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1450px; height: 640px; overflow-y: scroll;" 
+            <h:outputText value="Wiersz z dokumentu do edycj wybieramy klikając na jeden wybrany czekbox. Inaczej dokument nie zostanie prawidłowo pobrany" style="color: green;"/>
+            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1550px; height: 600px; overflow-y: scroll;" 
                          widgetVar="dokwpisTable" emptyMessage="Nie pobrano wierszy" styleClass="tabelawierszy"
                          filteredValue="#{wierszeView.wierszefiltered}" 
-                         rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" sortBy="#{loop.dokfk.datadokumentu}"
-                         rowsPerPageTemplate="100,200,300,400" paginatorPosition="top" paginator="#{wierszeView.wiersze.size() gt 100 ? 'true':'false'}" rows="100"
+                         rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wierszezestawienie}" sortBy="#{loop.dokfk.datadokumentu}"
+                         rowsPerPageTemplate="100,200,300,400, 1000" paginatorPosition="top" paginator="#{wierszeView.wiersze.size() gt 100 ? 'true':'false'}" rows="100"
                          >
-                <p:ajax global="false" event="rowSelect" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}" 
-                        update=":formwpisdokument, :zestawieniezapisownakontachpola"/>
+                <p:ajax event="toggleSelect" global="false" partialSubmit="true"/>
+                <p:ajax event="rowSelectCheckbox" global="false"  partialSubmit="true" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}" update=":formwpisdokument, :zestawieniezapisownakontachpola"/>
+                <p:ajax event="rowUnselectCheckbox" global="false"  partialSubmit="true"/>
                 <p:ajax event="filter" global="false" listener="#{wierszeView.sumujwiersze()}" update="zestawieniezapisownakontach_footer"/>
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wierszy w dokumentach " />  
@@ -54,6 +57,7 @@
                  <p:column headerText="#{mgs.numerkolejny}" width="30">
                     <h:outputText value="#{row+1}" />
                 </p:column>
+                 <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
                 <p:column headerText="import" width="30" filterBy="#{loop.dokfk.importowany}" sortBy="#{loop.dokfk.importowany}" style="text-align: center;">
                     <h:outputText value="#{loop.dokfk.importowany ? 'tak':null}" style="color: red"/>
                 </p:column>
@@ -64,10 +68,10 @@
                 <p:column headerText="data dokum" width="40">
                      <h:outputText value="#{loop.dokfk.datadokumentu.substring(2)}" style="#{loop.dokfk.datadokumentu.length() ne 10 ? 'color: red;': null}"/>
                 </p:column>
-                <p:column headerText="id dokumentu" width="90" sortBy="#{loop.dokfkS}" filterBy="#{loop.dokfkS}">
+                <p:column headerText="id dokumentu" width="90" sortBy="#{loop.dokfkS}" filterBy="#{loop.dokfkS}" filterMatchMode="contains">
                      <h:outputText value="#{loop.dokfkS}"/>
                 </p:column>
-                <p:column headerText="nr własny" width="120" sortBy="#{loop.dokfk.numerwlasnydokfk}" filterBy="#{loop.dokfk.numerwlasnydokfk}">
+                 <p:column headerText="nr własny" width="120" sortBy="#{loop.dokfk.numerwlasnydokfk}" filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
                     <h:outputText value="#{loop.dokfk.numerwlasnydokfk}" style="#{loop.dokfk.importowany ? 'color: blue':null}"/>
                 </p:column>
                 <p:column headerText="lp wier." width="30" filterBy="#{loop.idporzadkowy}" style="text-align: center;"

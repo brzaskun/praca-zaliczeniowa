@@ -167,6 +167,7 @@ public class DokfkView implements Serializable {
     //a to jest w dialog_zapisywdokumentach
     @Inject
     private Wiersz wiersz;
+    private List<Wiersz> wierszezestawienie;
     private int wierszDoPodswietlenia;
     //************************************zmienne dla rozrachunkow
 //    @Inject
@@ -2167,11 +2168,30 @@ public class DokfkView implements Serializable {
 
 //samo podswietlanie wiersza jest w javscript on compleyte w menucontext pobiera rzad wiersza z wierszDoPodswietlenia
     public void znajdzDokumentOznaczWierszDoPodswietlenia() {
-        Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wiersz.getDokfk());
-        selected = odnalezionywbazie;
-        int numer = wiersz.getIdporzadkowy() - 1;
-        wierszDoPodswietlenia = numer;
-        setZapisz0edytuj1(true);
+        if (wierszezestawienie!=null&wierszezestawienie.size()==1) {
+            Wiersz wiersz = wierszezestawienie.get(0);
+            Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wiersz.getDokfk());
+            selected = odnalezionywbazie;
+            int numer = wiersz.getIdporzadkowy() - 1;
+            wierszDoPodswietlenia = numer;
+            setZapisz0edytuj1(true);
+        }
+    }
+    
+    @Inject
+    private WierszeView wierszeView;
+     public void usunwybranewiersze() {
+        if (wierszezestawienie!=null&wierszezestawienie.size()>1) {
+            try {
+                wierszDAO.removeList(wierszezestawienie);
+                List<Wiersz> listawierszy = wierszeView.getWiersze();
+                listawierszy.removeAll(wierszezestawienie);
+                Msg.msg("Usunięto wybrane wiersze z dokumentów");
+            } catch (Exception e) {
+                Msg.msg("e","Błąd podczas usuwania wierszy");
+            }
+            
+        }
     }
     
     public void znajdzDokumentOznaczWierszDoPodswietlenia(StronaWiersza stronawiersza) {
@@ -4809,6 +4829,14 @@ public void oznaczjakonkup() {
 
     public void setgUSView(GUSView gUSView) {
         this.gUSView = gUSView;
+    }
+
+    public List<Wiersz> getWierszezestawienie() {
+        return wierszezestawienie;
+    }
+
+    public void setWierszezestawienie(List<Wiersz> wierszezestawienie) {
+        this.wierszezestawienie = wierszezestawienie;
     }
 
     public Cechazapisu getCechazapisudododania() {
