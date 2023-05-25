@@ -550,7 +550,7 @@ public class EwidencjaVatView implements Serializable {
                 vatokres = "miesięczne";
             }
             if (wpisView.getPodatnikObiekt().getMetodakasowa().equals("tak")) {
-                listadokvatprzetworzona = przetworzRozliczeniaJPK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                listadokvatprzetworzona = przetworzRozliczenia(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
             } else {
                 listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), true));
@@ -589,20 +589,6 @@ public class EwidencjaVatView implements Serializable {
         zwrot.addAll(stworzevatwpisRozl(transakcje));
         //konto 149-3
         List<StronaWiersza> wiersze = pobierzEVatRokFKSWKasowa(podatnik, vatokres, rokWpisuSt, miesiacWpisu);
-        zwrot.addAll(stworzevatwpisMK(wiersze));
-        //dokumenty miedzynarodowe == zasada ogolna
-        zwrot.addAll(pobierzEVatRokFKMiedzynarKasowa(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
-        error.E.s("");
-        return zwrot;
-    }
-    
-    private List<EVatwpisSuper> przetworzRozliczeniaJPK(Podatnik podatnik, String vatokres, String rokWpisuSt, String miesiacWpisu) {
-        List<EVatwpisSuper> zwrot = new ArrayList<>();
-        //faktyczne platnosci
-        List<Transakcja> transakcje = pobierzEVatRokFKTransakcjeKasowa(podatnik, vatokres, rokWpisuSt, miesiacWpisu);
-        zwrot.addAll(stworzevatwpisRozl(transakcje));
-        //konto 149-3
-        List<StronaWiersza> wiersze = pobierzEVatRokFKSWKasowaJPK(podatnik, vatokres, rokWpisuSt, miesiacWpisu);
         zwrot.addAll(stworzevatwpisMK(wiersze));
         //dokumenty miedzynarodowe == zasada ogolna
         zwrot.addAll(pobierzEVatRokFKMiedzynarKasowa(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
@@ -951,23 +937,6 @@ public class EwidencjaVatView implements Serializable {
                     Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(mc)));
                     List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                     zwrot = stronaWierszaDAO.findStronaByPodatnikRokKWMetodaKasowa(podatnik, rok, miesiacewkwartale.get(0), miesiacewkwartale.get(2));
-                    break;
-            }
-        } catch (Exception e) { 
-            E.e(e); 
-        }
-        return zwrot;
-    }
-    
-    private List<StronaWiersza>  pobierzEVatRokFKSWKasowaJPK(Podatnik podatnik, String vatokres, String rok, String mc) {
-        List<StronaWiersza>  zwrot = new ArrayList<>();
-        try {
-            switch (vatokres) {
-                case "blad":
-                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
-                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
-                default:
-                    zwrot = stronaWierszaDAO.findStronaByPodatnikRokMetodaKasowa(podatnik, rok, mc);
                     break;
             }
         } catch (Exception e) { 
