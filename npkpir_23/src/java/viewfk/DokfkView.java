@@ -2184,8 +2184,7 @@ public class DokfkView implements Serializable {
         if (wierszezestawienie!=null&wierszezestawienie.size()>1) {
             try {
                 wierszDAO.removeList(wierszezestawienie);
-                List<Wiersz> listawierszy = wierszeView.getWiersze();
-                listawierszy.removeAll(wierszezestawienie);
+                wierszeView.init();
                 Msg.msg("Usunięto wybrane wiersze z dokumentów");
             } catch (Exception e) {
                 Msg.msg("e","Błąd podczas usuwania wierszy");
