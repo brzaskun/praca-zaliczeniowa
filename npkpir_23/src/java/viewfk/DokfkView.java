@@ -2178,20 +2178,7 @@ public class DokfkView implements Serializable {
         }
     }
     
-    @Inject
-    private WierszeView wierszeView;
-     public void usunwybranewiersze() {
-        if (wierszezestawienie!=null&wierszezestawienie.size()>1) {
-            try {
-                wierszDAO.removeList(wierszezestawienie);
-                wierszeView.init();
-                Msg.msg("Usunięto wybrane wiersze z dokumentów");
-            } catch (Exception e) {
-                Msg.msg("e","Błąd podczas usuwania wierszy");
-            }
-            
-        }
-    }
+    
     
     public void znajdzDokumentOznaczWierszDoPodswietlenia(StronaWiersza stronawiersza) {
         if (stronawiersza != null) {

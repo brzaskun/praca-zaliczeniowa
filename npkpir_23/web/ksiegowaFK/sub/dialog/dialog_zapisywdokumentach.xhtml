@@ -36,7 +36,7 @@
             </p:panelGrid>
             <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
                 <p:menuitem value="Edytuj dokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
-                <p:menuitem value="Usuń wybrane" global="false" icon="ui-icon-circle-plus" actionListener="#{dokfkView.usunwybranewiersze()}" update="zestawieniezapisownakontach:dataList"/>
+                <p:menuitem value="Usuń wybrane" global="false" icon="ui-icon-circle-plus" actionListener="#{wierszeView.usunwybranewiersze()}" update="zestawieniezapisownakontach:dataList"  rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:contextMenu>
             <h:outputText value="Wiersz z dokumentu do edycj wybieramy klikając na jeden wybrany czekbox. Inaczej dokument nie zostanie prawidłowo pobrany" style="color: green;"/>
             <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1550px; height: 600px; overflow-y: scroll;" 
@@ -46,7 +46,8 @@
                          rowsPerPageTemplate="100,200,300,400, 1000" paginatorPosition="top" paginator="#{wierszeView.wiersze.size() gt 100 ? 'true':'false'}" rows="100"
                          >
                 <p:ajax event="toggleSelect" global="false" />
-                <p:ajax event="rowSelectCheckbox" global="false" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}" update=":formwpisdokument, :zestawieniezapisownakontachpola"/>
+<!--                <p:ajax event="rowSelectCheckbox" global="false" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}" update=":formwpisdokument, :zestawieniezapisownakontachpola"/>-->
+                <p:ajax event="rowSelectCheckbox" global="false" />
                 <p:ajax event="rowUnselectCheckbox" global="false"  />
                 <p:ajax event="filter" global="false" listener="#{wierszeView.sumujwiersze()}" update="zestawieniezapisownakontach_footer"/>
                 <f:facet name="header">  

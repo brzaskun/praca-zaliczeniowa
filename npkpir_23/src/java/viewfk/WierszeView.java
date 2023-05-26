@@ -267,6 +267,30 @@ public class WierszeView implements Serializable {
                 }
             }
     }
+    
+    
+     public void usunwybranewiersze() {
+        if (wiersze!=null&&wiersze.size()>1) {
+            try {
+                List<Wiersz> dousu = new ArrayList<>();
+                for (Wiersz w : wiersze) {
+                    if (w.getDokfk().getSeriadokfk().equals("BO")) {
+                        if (w.getStronaWn()!=null&&w.getStronaWn().getKonto().getPelnynumer().equals("149-5")) {
+                            dousu.add(w);
+                        } else if (w.getStronaMa()!=null&&w.getStronaMa().getKonto().getPelnynumer().equals("149-5")) {
+                            dousu.add(w);
+                        }
+                    }
+                }
+                wierszeDAO.removeList(dousu);
+                wiersze.removeAll(dousu);
+                Msg.msg("Usunięto wybrane wiersze z dokumentów");
+            } catch (Exception e) {
+                Msg.msg("e","Błąd podczas usuwania wierszy");
+            }
+            
+        }
+    }
 //<editor-fold defaultstate="collapsed" desc="comment">
     
     public double getSumawn() {
