@@ -275,7 +275,7 @@ public class WierszeView implements Serializable {
                 List<Wiersz> dousu = new ArrayList<>();
                 for (Wiersz w : wiersze) {
                     if (w.getDokfk().getSeriadokfk().equals("BO")) {
-                        if (w.getStronaWn()!=null&&w.getStronaWn().getKonto().getPelnynumer().equals("149-5")) {
+                        if (w.getOpisWiersza().contains("WBPOST")||w.getOpisWiersza().contains("WBPAYPAL")) {
                             dousu.add(w);
                         } else if (w.getStronaMa()!=null&&w.getStronaMa().getKonto().getPelnynumer().equals("149-5")) {
                             dousu.add(w);
