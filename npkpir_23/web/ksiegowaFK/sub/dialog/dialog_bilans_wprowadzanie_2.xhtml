@@ -28,7 +28,7 @@
             
         }
         .gridtablicasyntetyczne .ui-datatable-even td{
-            height : 30px !important;
+            height : 25px !important;
             
         }
          .ui-dialog .ui-dialog-content {
@@ -271,13 +271,10 @@
                     <p:ajax event="change" partialSubmit="true" global="false"/>
                 </p:selectBooleanCheckbox>
             </p:panelGrid>
-            <p:contextMenu for="formbilanswprowadzanie2:tab0"  style="width: 200px;">
-                <p:menuitem value="Usuń trwale" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOselected)}" icon="ui-icon-disk" />
-                <p:menuitem value="Usuń z pominięciem dok. BO" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwielebezBO(bilansWprowadzanieView.listaBOselected)}" icon="ui-icon-disk" />
-            </p:contextMenu>
+            <p:panelGrid columns="1" style="width: 100%">
             <p:remoteCommand name="przeliczfilter" actionListener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOselected, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0" global="false"/>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item" binding="#{bilansWprowadzanieView.listaBOdatatable}" widgetVar="tab0prosta"
-                         style="overflow-y: scroll; height: 400px; width: 1400px; padding: 10px; margin-top: 5px;"
+                         style="overflow-y: scroll; height: 400px; width: 1480px !important;  margin-top: 5px;"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}"
                          id="tab0" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOselected}"
@@ -294,13 +291,13 @@
                     </f:facet>
                     <h:outputText value="#{item.konto.pelnynumer}"/>
                 </p:column>
-                <p:column width="400" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
+                <p:column width="300" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
                     <h:outputText value="#{item.konto.nazwapelna}"/>
                 </p:column>
-                <p:column styleClass="kolumnaopis" filterBy="#{item.opis}" filterMatchMode="contains" sortBy="#{item.opis}">
+                <p:column width="200" styleClass="kolumnaopis" filterBy="#{item.opis}" filterMatchMode="contains" sortBy="#{item.opis}">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.opis}"/>
                     </f:facet>
@@ -326,19 +323,19 @@
                     </f:facet>
                     <bcf:outputpl value="#{item.kontostare.saldoWnksiegi}" rendered="#{item.kontostare ne null and item.kontostare.saldoWnksiegi ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
                 </p:column>
-                <p:column sortBy="#{item.nowy0edycja1usun2}" width="80" style="#{item.stylwiersza}" rendered="#{!bilansWprowadzanieView.pokazstarekonta}"  filterBy="#{item.nowy0edycja1usun2}" filterMatchMode="contains" filterStyle="width: 40px;">
+                <p:column sortBy="#{item.nowy0edycja1usun2}" width="90" style="#{item.stylwiersza}" rendered="#{!bilansWprowadzanieView.pokazstarekonta}"  filterBy="#{item.nowy0edycja1usun2}" filterMatchMode="contains" filterStyle="width: 40px;">
                     <f:facet name="header">
                         <h:outputText value="stan"  />
                     </f:facet>
                     <h:outputText value="#{item.nowy0edycja1usun2}"/>
                 </p:column>
-                <p:column style="text-align: center;" sortBy="#{item.kontostare.saldoMaksiegi}" width="90" rendered="#{bilansWprowadzanieView.pokazstarekonta}">
+                <p:column width="90" style="text-align: center;" sortBy="#{item.kontostare.saldoMaksiegi}" rendered="#{bilansWprowadzanieView.pokazstarekonta}">
                     <f:facet name="header">
                         <h:outputText value="Kwota Ma rok pop"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.kontostare.saldoMaksiegi}" rendered="#{item.kontostare ne null and item.kontostare.saldoMaksiegi ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
                 </p:column>
-                <p:column style="text-align: center;" sortBy="#{item.roznicaSald}" width="90" rendered="#{bilansWprowadzanieView.pokazstarekonta}">
+                <p:column width="90" style="text-align: center;" sortBy="#{item.roznicaSald}" rendered="#{bilansWprowadzanieView.pokazstarekonta}">
                     <f:facet name="header">
                         <h:outputText value="różnica sald"/>
                     </f:facet>
@@ -369,14 +366,14 @@
                                      />
                 </p:column>
             </p:dataTable>
-            <p:contextMenu for="formbilanswprowadzanie2:tab1"  style="width: 200px;">
-                <p:menuitem value="Usuń trwale" update="formbilanswprowadzanie2:tab1" 
-                            actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
-                <p:menuitem value="Przywróc zapis" update="formbilanswprowadzanie2:tab1" 
-                            actionListener="#{bilansWprowadzanieView.przywrocwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
+            </p:panelGrid>
+             <p:contextMenu for="formbilanswprowadzanie2:tab0"  style="width: 200px;">
+                <p:menuitem value="Usuń trwale" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOselected)}" icon="ui-icon-disk" />
+                <p:menuitem value="Usuń z pominięciem dok. BO" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwielebezBO(bilansWprowadzanieView.listaBOselected)}" icon="ui-icon-disk" />
             </p:contextMenu>
+            
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item"
-                         style="overflow-y: scroll; height: 400px; width: 1500px; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
+                         style="overflow-y: scroll; height: 400px; width: 98%; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}"
                          id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs1}"
@@ -394,13 +391,13 @@
                     </f:facet>
                     <h:outputText value="#{item.konto.pelnynumer}"/>
                 </p:column>
-                <p:column width="400" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}" sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
+                <p:column width="250" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}" sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
                     <h:outputText value="#{item.konto.nazwapelna}"/>
                 </p:column>
-                <p:column width="250"  styleClass="kolumnaopis" filterBy="#{item.opis}" filterMatchMode="contains" sortBy="#{item.opis}">
+                <p:column width="200"  styleClass="kolumnaopis" filterBy="#{item.opis}" filterMatchMode="contains" sortBy="#{item.opis}">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.opis}"/>
                     </f:facet>
@@ -484,6 +481,12 @@
                                      />
                 </p:column>
             </p:dataTable>
+            <p:contextMenu for="formbilanswprowadzanie2:tab1"  style="width: 200px;">
+                <p:menuitem value="Usuń trwale" update="formbilanswprowadzanie2:tab1" 
+                            actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
+                <p:menuitem value="Przywróc zapis" update="formbilanswprowadzanie2:tab1" 
+                            actionListener="#{bilansWprowadzanieView.przywrocwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
+            </p:contextMenu>
             <p:panelGrid columns="2">
                 <p:column>
                     <p:panelGrid  id="sum0" columns="12" style="margin-top: 10px;margin-left: 10px;">

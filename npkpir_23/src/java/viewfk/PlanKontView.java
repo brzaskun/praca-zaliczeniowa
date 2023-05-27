@@ -41,6 +41,8 @@ import entityfk.UkladBR;
 import entityfk.WierszBO;
 import enumy.Slownik;
 import error.E;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,7 +58,14 @@ import javax.inject.Named;
 import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
 import msg.Msg;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import pdffk.PdfPlanKont;
 import view.WpisView;
 
@@ -480,7 +489,6 @@ public class PlanKontView implements Serializable {
         Podatnik podatnik = ustawpodatnika();
         Konto kontomacierzyste = ustawselected();
         boolean czysasiostry = false;
-        if (kontomacierzyste.isBlokada() == false) {
             czysasiostry = kontomacierzyste.isMapotomkow();
             int wynikdodaniakonta = 1;
             if (czyoddacdowzorca == true) {
@@ -534,9 +542,6 @@ public class PlanKontView implements Serializable {
                 noweKonto = new Konto();
                 Msg.msg("e", "Konto analityczne o takim numerze juz istnieje!", "formX:messages");
             }
-        } else {
-            Msg.msg("w", "Nie można dodawać kont analitycznych. Istnieją zapisy z BO");
-        }
     }
 
     
@@ -2179,7 +2184,110 @@ public class PlanKontView implements Serializable {
 
     
 
-       
+     //IMPORT KONT
+    public void zachowajplik(FileUploadEvent event) {
+        try {
+            UploadedFile uploadedFile = event.getFile();
+            String extension = FilenameUtils.getExtension(uploadedFile.getFileName()).toLowerCase();
+            if (extension.equals("xls")||extension.equals("xlsx")) {
+                String filename = uploadedFile.getFileName();
+                pobraneplikibytes = uploadedFile.getContents();
+                getListafaktur();
+                //plikinterpaper = uploadedFile.getContents();
+                Msg.msg("Sukces. Plik xls " + filename + " został skutecznie załadowany");
+            } else {
+                Msg.msg("e","Niewłaściwy typ pliku");
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
+        }
+    }
+     private byte[] pobraneplikibytes;
+     private List<Konto> kontalista;
 
+    public byte[] getPobraneplikibytes() {
+        return pobraneplikibytes;
+    }
+
+    public void setPobraneplikibytes(byte[] pobraneplikibytes) {
+        this.pobraneplikibytes = pobraneplikibytes;
+    }
+
+    public List<Konto> getKontalista() {
+        return kontalista;
+    }
+
+    public void setKontalista(List<Konto> kontalista) {
+        this.kontalista = kontalista;
+    }
+    
+     
+     public void getListafaktur() {
+         try {
+            kontalista = new ArrayList<>();
+            //List<Konto> obecnyplantkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            InputStream file = new ByteArrayInputStream(pobraneplikibytes);
+             //Create Workbook instance holding reference to .xlsx file
+            Workbook workbook = WorkbookFactory.create(file);
+             //Get first/desired sheet from the workbook
+            Sheet sheet = workbook.getSheetAt(0);
+             //Iterate through each rows one by one
+            Iterator<Row> rowIterator = sheet.iterator();
+            int i =1;
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                if (row.getCell(1).getRowIndex()>1) {
+                    String wartosc = row.getCell(1).getStringCellValue();
+                    if (wartosc.isEmpty()==false) {
+                        if (row.getCell(0)!=null) {
+                            String kontomacierzyste = row.getCell(0).getStringCellValue();
+                            if (!kontomacierzyste.equals("")) {
+                                Konto macierzyste = kontoDAOfk.findKonto(kontomacierzyste, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                                String opiskonta = row.getCell(1).getStringCellValue();
+                                Konto nowekonto = new Konto();
+                                nowekonto.setNazwapelna(opiskonta);
+                                nowekonto.setNazwaskrocona(opiskonta);
+                                nowekonto.setMacierzysty(-999);
+                                if (macierzyste!=null) {
+                                    nowekonto.setKontomacierzyste(macierzyste);
+                                    nowekonto.setMacierzysty(macierzyste.getLp());
+                                    macierzyste.setMapotomkow(true);
+                                    macierzyste.setBlokada(true);
+                                    nowekonto.setPodatnik(wpisView.getPodatnikObiekt());
+                                    nowekonto.setRok(wpisView.getRokWpisu());
+                                    nowekonto.setSyntetycznenumer(macierzyste.getSyntetycznenumer());
+                                    nowekonto.setSyntetyczne("analityczne");
+                                    nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
+                                    nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
+                                    nowekonto.setNrkonta(PlanKontFKBean.oblicznumerkonta(macierzyste, kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                                    nowekonto.setPrzychod0koszt1(macierzyste.isPrzychod0koszt1());
+                                    nowekonto.setMapotomkow(false);
+                                    nowekonto.setLevel(PlanKontFKBean.obliczlevel(macierzyste.getPelnynumer()));
+                                    nowekonto.setPelnynumer(macierzyste.getPelnynumer() + "-" + nowekonto.getNrkonta());
+                                    nowekonto.setWnma0wm1ma2(macierzyste.getWnma0wm1ma2());
+                                } else {
+                                    nowekonto.setPelnynumer(kontomacierzyste+ "-brak");
+                                }
+                                kontalista.add(nowekonto);
+                            }
+                        }
+                        //kontoDAOfk.edit(macierzyste);
+                        //interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
+                        
+                    }
+                    i++;
+                    //dokumenty.add(interpaperXLS);
+                 }
+            }
+            file.close();
+        }
+        catch (Exception e) {
+            E.e(e);
+            Msg.msg("e",E.e(e));
+        }
+    }
+
+   
 }
 

@@ -299,7 +299,7 @@ public class BilansWprowadzanieView implements Serializable {
         try {
             pokazstarekonta = false;
             if (listaBOdatatable != null) {
-                listaBOdatatable.setStyle("overflow-y: scroll; height: 400px; width: 1100px; padding: 10px; margin-top: 5px;");
+                listaBOdatatable.setStyle("overflow-y: scroll; height: 400px; width: 1400px; padding: 10px; margin-top: 5px;");
             }
             listaBO = listazbiorcza.get(nrlisty);
             if (listaBO.size() == 1 && listaBO.get(0).getKonto() == null) {

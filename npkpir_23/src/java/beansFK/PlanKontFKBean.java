@@ -642,7 +642,7 @@ public class PlanKontFKBean {
         return konto.getPodatnik().equals(null);      
     }
     
-    private static int obliczlevel(String macierzyste) {
+    public static int obliczlevel(String macierzyste) {
          int i = 1;
          i += StringUtils.countMatches(macierzyste, "-");
          return i;
@@ -674,7 +674,7 @@ public class PlanKontFKBean {
     
    
     
-    private static String oblicznumerkonta(Konto macierzyste, KontoDAOfk kontoDAOfk, Podatnik podatnik, Integer rok) {
+    public static String oblicznumerkonta(Konto macierzyste, KontoDAOfk kontoDAOfk, Podatnik podatnik, Integer rok) {
         int liczbakont = kontoDAOfk.policzPotomne(podatnik, rok, macierzyste);
         if (liczbakont > 0) {
             return String.valueOf(liczbakont+1);
