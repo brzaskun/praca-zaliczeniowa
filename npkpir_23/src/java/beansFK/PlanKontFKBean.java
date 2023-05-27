@@ -672,6 +672,20 @@ public class PlanKontFKBean {
         }
     }
     
+    public static int przetworzkonto(List<Konto> wykazkont, Konto nowekonto) {
+        Konto konto = znajdzduplikat(wykazkont, nowekonto);
+        if (konto == null) {
+                
+            return 0;
+        } else {
+                konto.setNazwapelna(nowekonto.getNazwapelna());
+                konto.setNazwaskrocona(nowekonto.getNazwaskrocona());
+                konto.setPrzychod0koszt1(nowekonto.isPrzychod0koszt1());
+                
+            return 1;
+        }
+    }
+    
    
     
     public static String oblicznumerkonta(Konto macierzyste, KontoDAOfk kontoDAOfk, Podatnik podatnik, Integer rok) {

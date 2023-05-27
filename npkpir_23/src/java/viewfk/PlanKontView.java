@@ -2226,7 +2226,7 @@ public class PlanKontView implements Serializable {
      public void getListafaktur() {
          try {
             kontalista = new ArrayList<>();
-            //List<Konto> obecnyplantkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            List<Konto> obecnyplantkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             InputStream file = new ByteArrayInputStream(pobraneplikibytes);
              //Create Workbook instance holding reference to .xlsx file
             Workbook workbook = WorkbookFactory.create(file);
@@ -2260,12 +2260,18 @@ public class PlanKontView implements Serializable {
                                     nowekonto.setSyntetyczne("analityczne");
                                     nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
                                     nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
-                                    nowekonto.setNrkonta(PlanKontFKBean.oblicznumerkonta(macierzyste, kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                                    nowekonto.setNrkonta(oblicznumerkonta(macierzyste, obecnyplantkont));
                                     nowekonto.setPrzychod0koszt1(macierzyste.isPrzychod0koszt1());
                                     nowekonto.setMapotomkow(false);
                                     nowekonto.setLevel(PlanKontFKBean.obliczlevel(macierzyste.getPelnynumer()));
                                     nowekonto.setPelnynumer(macierzyste.getPelnynumer() + "-" + nowekonto.getNrkonta());
                                     nowekonto.setWnma0wm1ma2(macierzyste.getWnma0wm1ma2());
+                                    int przetworzkonto = PlanKontFKBean.przetworzkonto(obecnyplantkont, nowekonto);
+                                    if (przetworzkonto==0) {
+                                        obecnyplantkont.add(nowekonto);
+                                    } else {
+                                        
+                                    }
                                 } else {
                                     nowekonto.setPelnynumer(kontomacierzyste+ "-brak");
                                 }
@@ -2286,6 +2292,17 @@ public class PlanKontView implements Serializable {
             E.e(e);
             Msg.msg("e",E.e(e));
         }
+    }
+
+    private String oblicznumerkonta(Konto macierzyste, List<Konto> obecnyplantkont) {
+        int ilosc = 0;
+        for (Konto k : obecnyplantkont) {
+            if (k.getKontomacierzyste()!=null&&k.getKontomacierzyste().equals(macierzyste)) {
+                ilosc = ilosc +1;
+            }
+        }
+        int nowynumer = ilosc+1;
+        return String.valueOf(nowynumer);
     }
 
    
