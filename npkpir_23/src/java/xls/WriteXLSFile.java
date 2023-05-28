@@ -24,7 +24,6 @@ import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import msg.B;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -125,11 +124,47 @@ public class WriteXLSFile {
         return workbook;
     }
     
+    public static Workbook zachowajPlanKontImportXLS(Map<String, List> listy, WpisView wpisView){
+        List plankont = listy.get("plankont");
+        List headersList = headerplankontImport();
+        // Using XSSF for xlsx format, for xls use HSSF
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Plan Kont");
+        insertPrintHeader(sheet, wpisView);
+        int rowIndex = 0;
+        rowIndex = drawATablePKImport(workbook, sheet, rowIndex, headersList, plankont, "Plan Kont", 1, "plankont");
+        workbook.setPrintArea(
+        0, //sheet index
+        0, //start column
+        4, //end column
+        0, //start row
+        rowIndex //end row
+        );
+      //set paper size
+        sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+        sheet.setFitToPage(true);
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String FILE_PATH = realPath+FILE_PATH1;
+        //write this workbook in excel file.
+        try {
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
+            workbook.write(fos);
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return workbook;
+    }
+    
     public static Workbook zachowajPlanKontXLS(Map<String, List> listy, WpisView wpisView){
         List plankont = listy.get("plankont");
-        List headersList = headerplankont();
+        List headersList = headerplankontImport();
         // Using XSSF for xlsx format, for xls use HSSF
-        Workbook workbook = new HSSFWorkbook();
+        Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Plan Kont");
         insertPrintHeader(sheet, wpisView);
         int rowIndex = 0;
@@ -457,6 +492,17 @@ public class WriteXLSFile {
         return headers;
     }
     
+    public static List headerplankontImport() {
+        List headers = new ArrayList();
+        headers.add("lp");
+        headers.add("id");
+        headers.add("poziom");
+        headers.add("syntet.");
+        headers.add("nr konta");
+        headers.add("nazwa konta");
+        return headers;
+    }
+    
     public static List headersusa() {
         List headers = new ArrayList();
         headers.add(B.b("lp"));
@@ -732,6 +778,42 @@ public class WriteXLSFile {
             columnIndex = 0;
             ustawWiersz(workbook, row, columnIndex, st, rowIndex, styletext, styletextcenter, styledouble);
         }
+//        sheet.createRow(rowIndex++);//pusty row
+        if (headers.size()> 3) {
+            rowIndex = summaryRow(startindex, rowIndex, workbook, sheet, typ, nazwasumy, styletext, styleformula);
+        }
+        autoAlign(sheet);
+        return rowIndex;
+    }
+    
+    private static <T> int drawATablePKImport(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<Konto> elements, String tableheader, int typ, String nazwasumy) {
+        int startindex = rowIndex+3;
+        int columnIndex = 0;
+        Row rowTH = sheet.createRow(rowIndex++);
+        CellStyle styleheader = styleHeader(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, (short) 10);
+        createHeaderCell(styleheader, rowTH, (short) 2, tableheader);
+        CellRangeAddress region = new CellRangeAddress( rowIndex-1, rowIndex-1, (short) 2, (short)12);
+        sheet.addMergedRegion(region);
+        CellStyle styletext = styleText(workbook, HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
+        CellStyle styletextcenter = styleText(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
+        CellStyle styleformula = styleFormula(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
+        CellStyle styledouble = styleDouble(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
+        Row rowH = sheet.createRow(rowIndex++);
+        for(Iterator it = headers.iterator(); it.hasNext();){
+            String header = (String) it.next();
+            createHeaderCell(styleheader, rowH, (short) columnIndex++, header);
+        }
+        for(Iterator<Konto> it = elements.iterator(); it.hasNext();){
+            Konto st = (Konto) it.next();
+            Row row = sheet.createRow(rowIndex++);
+            columnIndex = 0;
+            createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));
+            createTextCell(styletext, row, (short) columnIndex++, st.getId().toString());
+            createTextCell(styletext, row, (short) columnIndex++, String.valueOf(st.getLevel()));
+            createTextCell(styletext, row, (short) columnIndex++, st.getSyntetycznenumer());
+            createTextCell(styletext, row, (short) columnIndex++, st.getPelnynumer());
+            createTextCell(styletext, row, (short) columnIndex++, st.getNazwapelna());
+                    }
 //        sheet.createRow(rowIndex++);//pusty row
         if (headers.size()> 3) {
             rowIndex = summaryRow(startindex, rowIndex, workbook, sheet, typ, nazwasumy, styletext, styleformula);

@@ -82,11 +82,11 @@
     <h:form id="formY">
         <p:growl life="3600" />
         <p:dataTable var="wpis" value="#{KlView.kl1}"  id="tabelaKontr" editable="true"
-                 paginator="true" paginatorAlwaysVisible="true" rows="20"
+                 paginator="true" paginatorAlwaysVisible="true" rows="12"
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                 rowsPerPageTemplate="20,28,36,50" filteredValue="#{KlView.klienciFiltered}"
+                 rowsPerPageTemplate="12, 20,28,36,50" filteredValue="#{KlView.klienciFiltered}"
                  rowKey="#{wpis.id}" selection="#{KlView.selectedtabela}" 
-                 emptyMessage="Nie ma klientów" style="margin-left: 2%; max-width: 1200px;">
+                 emptyMessage="Nie ma klientów" style="margin-left: 2%; max-width: 1200px;overflow-y: scroll;">
             <p:ajax event="rowSelectRadio" listener="#{KlView.wybranodoedycji}" update=":formY :formX" global="false"/>
             <p:ajax event="filter" global="false"/>
         <f:facet name="header">  

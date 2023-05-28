@@ -42,6 +42,7 @@ import entityfk.WierszBO;
 import enumy.Slownik;
 import error.E;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,7 +51,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -68,6 +71,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import pdffk.PdfPlanKont;
 import view.WpisView;
+import xls.WriteXLSFile;
 
 /**
  *
@@ -2222,7 +2226,29 @@ public class PlanKontView implements Serializable {
         this.kontalista = kontalista;
     }
     
-     
+
+     public void zachowajPlanKontwXLS() {
+        try {
+            List<Konto> plankont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            Map<String, List> listy = new ConcurrentHashMap<>();
+            listy.put("plankont", plankont);
+            Workbook workbook = WriteXLSFile.zachowajPlanKontImportXLS(listy, wpisView);
+            // Prepare response.
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = facesContext.getExternalContext();
+            externalContext.setResponseContentType("application/vnd.ms-excel");
+            String filename = "plankont"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xlsx";
+            externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+            // Write file to response body.
+            workbook.write(externalContext.getResponseOutputStream());
+            // Inform JSF that response is completed and it thus doesn't have to navigate.
+            facesContext.responseComplete();
+        } catch (IOException ex) {
+            // Logger.getLogger(XLSPlanKontView.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+    }
+    
      public void getListafaktur() {
          try {
             kontalista = new ArrayList<>();

@@ -1,0 +1,95 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+    <h:form id="formimportklientow">
+
+    <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
+            <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
+                <h:outputText value="Akceptowana wersja pliku xls,xlsx" style="font-weight: bold;"/>
+                <p:fileUpload fileUploadListener="#{kontrahentImportView.zachowajplik}" 
+                              mode="advanced" dragDropSupport="true" multiple="false" sequential="true" auto="true"
+                              update="formimportklientow2 formimportklientow" 
+                              invalidSizeMessage="Plik za duży" allowTypes="/(\.|\/)(xls|xlsx)$/" invalidFileMessage="Niewłaściwy format pliku: "
+                              uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                              style="height: 90px;"> 
+                </p:fileUpload>
+                <p:growl life="3600"  id="messages2" showDetail="false"/>
+            </p:panelGrid>
+        <p:messages  id="mes"/>
+    </p:panelGrid>
+    </h:form>
+    <h:form id="formimportklientow2">
+        <p:growl life="3600" />
+        <p:dataTable var="wpis" value="#{kontrahentImportView.lista}"  id="tabelaKontr" editable="true"
+                 paginator="true" paginatorAlwaysVisible="true" rows="10"
+                 paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                 rowsPerPageTemplate="10, 20,28,36,50" 
+                 rowKey="#{wpis.id}" 
+                 emptyMessage="Nie ma klientów" style="margin-left: 2%; max-width: 1200px;">
+            <p:ajax event="filter" global="false"/>
+        <f:facet name="header">  
+            <h:outputText value="Wykaz klientów" />  
+        </f:facet>
+            <p:column id="Column1" headerText="nip" sortBy="#{wpis.nip}"  filterBy="#{wpis.nip}" filterMatchMode="startsWith" filterMaxLength="12" width="100">  
+            <h:outputText value="#{wpis.nip}" />
+        </p:column>
+            <p:column id="Column2" headerText="nazwa pełna" sortBy="#{wpis.npelna}" filterBy="#{wpis.npelna}" filterMatchMode="contains" width="200">  
+             <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.npelna}"/>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.npelna}"/>
+                    </f:facet>  
+                </p:cellEditor>
+        </p:column>
+
+            <p:column id="Column2a" headerText="nazwa skrócona" sortBy="#{wpis.nskrocona}" filterBy="#{wpis.nskrocona}" filterMatchMode="contains" width="100">  
+             <p:cellEditor>  
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.nskrocona}"/>
+                    </f:facet>  
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.nskrocona}"/>
+                    </f:facet>  
+                </p:cellEditor>
+        </p:column>
+            <p:column id="Column3" sortBy="#{wpis.miejscowosc}" filterBy="#{wpis.miejscowosc}" filterMatchMode="contains" width="150">  
+            <f:facet name="header">  
+                <h:outputText value="miejscowość" />  
+            </f:facet> 
+            <h:outputText value="#{wpis.kodpocztowy} #{wpis.miejscowosc}" />
+        </p:column>
+         <p:column id="Column31" sortBy="#{wpis.ulica}" filterBy="#{wpis.ulica}" filterMatchMode="contains" width="150">  
+            <f:facet name="header">  
+                <h:outputText value="ulica" />  
+            </f:facet> 
+            <h:outputText value="#{wpis.ulica} #{wpis.dom}/#{wpis.lokal}" />
+        </p:column>
+        <p:column id="Column4a" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.email}" filterBy="#{wpis.email}" filterMatchMode="contains" width="100">  
+            <f:facet name="header">  
+                <h:outputText value="email" />  
+            </f:facet>
+              <h:outputText value="#{wpis.email}"/>
+        </p:column>
+            <p:column headerText="kraj" sortBy="#{wpis.krajkod}" filterBy="#{wpis.krajkod}" filterMatchMode="contains" width="100">  
+            <f:facet name="header">  
+                <h:outputText value="kraj" />  
+            </f:facet>
+              <h:outputText value="#{wpis.krajkod}"/>
+        </p:column>
+<!--            <p:column id="deleteColumn" headerText="usuń" width="40">
+            <p:commandButton actionListener="#{kontrahentImportView.destroy(wpis)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" update=":formimportklientow2" />
+        </p:column>-->
+
+    </p:dataTable>
+    </h:form>
+        
+</ui:composition>   
+
+
