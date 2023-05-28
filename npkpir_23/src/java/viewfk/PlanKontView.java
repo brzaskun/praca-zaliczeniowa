@@ -2230,6 +2230,7 @@ public class PlanKontView implements Serializable {
      public void zachowajPlanKontwXLS() {
         try {
             List<Konto> plankont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            Collections.sort(plankont, new Kontocomparator());
             Map<String, List> listy = new ConcurrentHashMap<>();
             listy.put("plankont", plankont);
             Workbook workbook = WriteXLSFile.zachowajPlanKontImportXLS(listy, wpisView);

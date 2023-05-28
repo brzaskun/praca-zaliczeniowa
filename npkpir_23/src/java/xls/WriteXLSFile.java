@@ -136,7 +136,7 @@ public class WriteXLSFile {
         workbook.setPrintArea(
         0, //sheet index
         0, //start column
-        4, //end column
+        5, //end column
         0, //start row
         rowIndex //end row
         );
