@@ -310,10 +310,12 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, okresynieskladkowe, Element.ALIGN_LEFT, 2);
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().isNieskladkowy()) {
-                        List<Nieobecnosc> nieobecnoscilista = s.getNieobecnoscilista()!=null?s.getNieobecnoscilista():new ArrayList<>();
-                        for (Nieobecnosc nie : nieobecnoscilista) {
-                            String nieobdetal = s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getOpis() + " w okresie od "+nie.getDataod()+" do "+nie.getDatado()+" dni "+nie.getDnikalendarzowe();
-                            PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, nieobdetal, Element.ALIGN_LEFT, 2);
+                        if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().isNieskladkowy()) {
+                            List<Nieobecnosc> nieobecnoscilista = s.getNieobecnoscilista()!=null?s.getNieobecnoscilista():new ArrayList<>();
+                            for (Nieobecnosc nie : nieobecnoscilista) {
+                                String nieobdetal = s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getOpis() + " w okresie od "+nie.getDataod()+" do "+nie.getDatado()+" dni "+nie.getDnikalendarzowe();
+                                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, nieobdetal, Element.ALIGN_LEFT, 2);
+                            }
                         }
                     }
                 }
