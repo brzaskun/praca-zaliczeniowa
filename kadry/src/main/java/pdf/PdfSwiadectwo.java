@@ -179,16 +179,20 @@ public class PdfSwiadectwo {
                 String urlop3 = "2) korzystał z urlopu bezpłatnego: ";
                  for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("X")) {
-                        urlop3 = urlop3+s.getDni();
-                        czydodano = true;
+                        String urlop3a = "2) korzystał z urlopu bezpłatnego: ";
+                        PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop3a, Element.ALIGN_LEFT, 2);
+                        List<Nieobecnosc> nieobecnoscilista = s.getNieobecnoscilista()!=null?s.getNieobecnoscilista():new ArrayList<>();
+                        for (Nieobecnosc nie : nieobecnoscilista) {
+                            String nieobdetal = s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getOpis() + " w okresie od "+nie.getDataod()+" do "+nie.getDatado()+" dni "+nie.getDnikalendarzowe();
+                            PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, nieobdetal, Element.ALIGN_LEFT, 2);
+                            czydodano = true;
+                        }
                     }
                 }
                 if (czydodano==false) {
                     urlop3 = urlop3+" nie dotyczy";
-                } else {
-                    urlop3 = urlop3+" dni";
+                    PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop3, Element.ALIGN_LEFT, 2);
                 }
-                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop3, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
                 String urlop4a = "3) wykorzystał urlop ojcowski w wymiarze: ";
@@ -310,12 +314,10 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, okresynieskladkowe, Element.ALIGN_LEFT, 2);
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().isNieskladkowy()) {
-                        if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().isNieskladkowy()) {
-                            List<Nieobecnosc> nieobecnoscilista = s.getNieobecnoscilista()!=null?s.getNieobecnoscilista():new ArrayList<>();
-                            for (Nieobecnosc nie : nieobecnoscilista) {
-                                String nieobdetal = s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getOpis() + " w okresie od "+nie.getDataod()+" do "+nie.getDatado()+" dni "+nie.getDnikalendarzowe();
-                                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, nieobdetal, Element.ALIGN_LEFT, 2);
-                            }
+                        List<Nieobecnosc> nieobecnoscilista = s.getNieobecnoscilista()!=null?s.getNieobecnoscilista():new ArrayList<>();
+                        for (Nieobecnosc nie : nieobecnoscilista) {
+                            String nieobdetal = s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getOpis() + " w okresie od "+nie.getDataod()+" do "+nie.getDatado()+" dni "+nie.getDnikalendarzowe();
+                            PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, nieobdetal, Element.ALIGN_LEFT, 2);
                         }
                     }
                 }

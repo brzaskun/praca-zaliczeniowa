@@ -540,7 +540,9 @@
                             <f:facet name="header">
                                 <h:outputText value="nieskład."/>
                             </f:facet>
-                            <h:outputText value="&#x2714;" rendered="#{item13roz.nieskladkowy}" style="color: green;"/>
+                            <p:selectBooleanCheckbox value="#{item13roz.nieskladkowy}">
+                                 <p:ajax event="change" partialSubmit="true" listener="#{rodzajenieobecnosciView.edytuj(item13roz)}"/>
+                             </p:selectBooleanCheckbox>
                         </p:column>
                          <p:column style="text-align: center;">
                             <f:facet name="header">
