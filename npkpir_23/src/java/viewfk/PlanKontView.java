@@ -72,6 +72,7 @@ import org.primefaces.model.UploadedFile;
 import pdffk.PdfPlanKont;
 import view.WpisView;
 import xls.WriteXLSFile;
+import xls.X;
 
 /**
  *
@@ -2264,14 +2265,16 @@ public class PlanKontView implements Serializable {
             int i =1;
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                if (row.getCell(1).getRowIndex()>1) {
-                    String wartosc = row.getCell(1).getStringCellValue();
+                System.out.println(i);
+                if (row.getCell(5)!=null&&row.getCell(5).getRowIndex()>1) {
+                    String wartosc = row.getCell(5).getStringCellValue();
                     if (wartosc.isEmpty()==false) {
-                        if (row.getCell(0)!=null) {
-                            String kontomacierzyste = row.getCell(0).getStringCellValue();
+                        Object cell = X.x(row.getCell(1));
+                        if (cell==null||cell.equals("")) {
+                            String kontomacierzyste = X.xS(row.getCell(4));
                             if (!kontomacierzyste.equals("")) {
                                 Konto macierzyste = kontoDAOfk.findKonto(kontomacierzyste, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-                                String opiskonta = row.getCell(1).getStringCellValue();
+                                String opiskonta = row.getCell(5).getStringCellValue();
                                 Konto nowekonto = new Konto();
                                 nowekonto.setNazwapelna(opiskonta);
                                 nowekonto.setNazwaskrocona(opiskonta);
