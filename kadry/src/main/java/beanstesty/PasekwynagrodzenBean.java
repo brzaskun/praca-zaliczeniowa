@@ -1296,7 +1296,7 @@ public class PasekwynagrodzenBean {
 //                        }
 // wracamy bo jednak to odliczenie jest dla wszystkich 2904.2023
                         double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
-                       if (zdrowotne > limitdlazdrowotnej && Z.z(pasek.getKwotawolna()) > 0.0) {
+                       if (zdrowotne > limitdlazdrowotnej && pasek.isDo26lat()==false && pasek.isEmeryt()==false) {
                             pasek.setPraczdrowotne(limitdlazdrowotnej);
                             pasek.setPraczdrowotnedoodliczenia(0.0);
                             pasek.setPraczdrowotnedopotracenia(limitdlazdrowotnej);
