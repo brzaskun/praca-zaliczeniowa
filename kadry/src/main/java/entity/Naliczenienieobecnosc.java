@@ -258,7 +258,7 @@ public class Naliczenienieobecnosc implements Serializable {
     @Override
     public String toString() {
         String dane = this.skladnikwynagrodzenia.getId()!=null?String.valueOf(this.skladnikwynagrodzenia.getId()):this.skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod();
-        return "Naliczenienieobecnosc{" + "kwota=" + kwota + ", kwotastatystyczna=" + kwotastatystyczna + ", kwotabezzus=" + kwotabezzus + ", kwotazus=" + kwotazus + ", skladnikistale=" + skladnikistale + ", procentzazwolnienie=" + procentzazwolnienie + ", stawkadzienna=" + stawkadzienna + ", stawkadziennaredukcji=" + stawkadziennaredukcji + ", kwotaredukcji=" + kwotaredukcji + ", skladnikwynagrodzenia=" + dane + ", jakiskladnikredukowalny=" + jakiskladnikredukowalny + '}';
+        return "Naliczenienieobecnosc{" + "kwota=" + kwota + ", kod=" + nieobecnosc.getRodzajnieobecnosci().getKod() + ", kwotabezzus=" + kwotabezzus + ", kwotazus=" + kwotazus + ", skladnikistale=" + skladnikistale + ", procentzazwolnienie=" + procentzazwolnienie + ", stawkadzienna=" + stawkadzienna + ", stawkadziennaredukcji=" + stawkadziennaredukcji + ", kwotaredukcji=" + kwotaredukcji + ", skladnikwynagrodzenia=" + dane + ", jakiskladnikredukowalny=" + jakiskladnikredukowalny + '}';
     }
 
    

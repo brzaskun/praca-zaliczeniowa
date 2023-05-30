@@ -848,7 +848,7 @@ public class KalendarzmiesiacBean {
                     }
                 }
             }
-            if (kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList() != null) {
+            if (kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList() != null && waloryzowac==false) {
                 for (Naliczenienieobecnosc r : kalendarzdosredniej.getPasek(definicjabiezaca).getNaliczenienieobecnoscList()) {
                     if (r.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy() == false) {
                         if (r.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
