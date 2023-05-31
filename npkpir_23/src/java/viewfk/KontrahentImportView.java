@@ -127,7 +127,11 @@ public class KontrahentImportView implements Serializable {
      
      public void zapiszKontrahentow() {
          if (lista!=null) {
-             klienciDAO.createList(lista);
+             for (Klienci k : lista) {
+                 try {
+                     klienciDAO.create(k);
+                 } catch (Exception e) {}
+             }
              Msg.msg("Zachowano klientów");
          } else {
              Msg.msg("e","Lista jest pusta");
