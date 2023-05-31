@@ -19,7 +19,10 @@
                                       style="height: 90px;"> 
                         </p:fileUpload>
                         <p:growl life="3600"  id="messages2" showDetail="false"/>
-                        <p:commandButton id="xlsbutton" value="pobierz plan kont" actionListener="#{planKontView.zachowajPlanKontwXLS()}" style=" margin-left: 5px;" global="true" ajax="false"/>
+                         <p:panelGrid columns="2" >
+                            <p:commandButton id="xlsbutton" value="pobierz plan kont" actionListener="#{planKontView.zachowajPlanKontwXLS()}" style=" margin-left: 5px;" global="true" ajax="false"/>
+                            <p:commandButton id="xlsbutton2" value="zapisz nowe konta" actionListener="#{planKontView.zapiszPlanKontwXLS()}" style=" margin-left: 5px;"  update="form_dialog_plankont_imp panelplik:mes" />
+                         </p:panelGrid>
                     </p:panelGrid>
                 <p:messages  id="mes"/>
             </p:panelGrid>
@@ -33,7 +36,7 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell"
-                             style="width: 1450px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             style="width: 1550px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              rowsPerPageTemplate="250,500,500,1000,1500" paginatorPosition="top" paginator="true" rows="250"
                              rowIndexVar="index" sortBy="#{loop.pelnynumer}"
                              >
@@ -45,7 +48,10 @@
                     <p:column  style="width: 50px; text-align: center;">
                         <h:outputText value="#{loop.mapotomkow == true ? '+' : null}" /> 
                     </p:column>
-                    <p:column headerText="mac" style="width: 30px;">
+                    <p:column headerText="id" style="width: 50px;">
+                        <h:outputText value="#{loop.id}" />
+                    </p:column>
+                    <p:column headerText="mac" style="width: 50px;">
                         <h:outputText value="#{loop.macierzysty}" />
                     </p:column>
                     <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}" >
@@ -54,7 +60,7 @@
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
                     </p:column>
-                    <p:column headerText="nazwa pełna" style="width: 300px;">
+                    <p:column headerText="nazwa pełna" style="width: 280px;">
                         <h:outputText id="nazwapelna" value="#{loop.nazwapelna}" /> 
                         <h:outputText value=" id " rendered="#{loop.idslownika gt 0}"/> 
                         <h:outputText value="#{loop.idslownika}" rendered="#{loop.idslownika gt 0}"/> 

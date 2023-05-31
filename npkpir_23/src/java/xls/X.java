@@ -19,43 +19,45 @@ public class X {
     
     public static Object x(Cell cell) {
         Object zwrot = null;
-        CellType celltype = cell.getCellType();
-        switch (celltype) {
-            case BLANK:
-                break;
-            case NUMERIC:
-                zwrot = cell.getNumericCellValue();
-                break;
-            case STRING:
-                zwrot = cell.getStringCellValue();
-                break;
-            default:
-                zwrot = cell.getDateCellValue();
-                break;
+        if (cell!=null) {
+            CellType celltype = cell.getCellType();
+            switch (celltype) {
+                case BLANK:
+                    break;
+                case NUMERIC:
+                    zwrot = cell.getNumericCellValue();
+                    break;
+                case STRING:
+                    zwrot = cell.getStringCellValue();
+                    break;
+                default:
+                    zwrot = cell.getDateCellValue();
+                    break;
+            }
         }
-
         return zwrot;
     }
 
     public static String xS(Cell cell) {
         String zwrot = null;
-        CellType celltype = cell.getCellType();
-        switch (celltype) {
-            case BLANK:
-                break;
-            case NUMERIC:
-                int liczba = (int) cell.getNumericCellValue();
-                zwrot = String.valueOf(liczba);
-                break;
-            case STRING:
-                zwrot = cell.getStringCellValue();
-                break;
-            default:
-                Date data = cell.getDateCellValue();
-                zwrot = Data.data_yyyyMMdd(data);
-                break;
+        if (cell!=null) {
+            CellType celltype = cell.getCellType();
+            switch (celltype) {
+                case BLANK:
+                    break;
+                case NUMERIC:
+                    int liczba = (int) cell.getNumericCellValue();
+                    zwrot = String.valueOf(liczba);
+                    break;
+                case STRING:
+                    zwrot = cell.getStringCellValue();
+                    break;
+                default:
+                    Date data = cell.getDateCellValue();
+                    zwrot = Data.data_yyyyMMdd(data);
+                    break;
+            }
         }
-
         return zwrot;
     }
 }

@@ -2267,8 +2267,8 @@ public class PlanKontView implements Serializable {
                 Row row = rowIterator.next();
                 System.out.println(i);
                 if (row.getCell(5)!=null&&row.getCell(5).getRowIndex()>1) {
-                    String wartosc = row.getCell(5).getStringCellValue();
-                    if (wartosc.isEmpty()==false) {
+                    String nazwapelna = row.getCell(5).getStringCellValue();
+                    if (nazwapelna.isEmpty()==false) {
                         Object cell = X.x(row.getCell(1));
                         if (cell==null||cell.equals("")) {
                             String kontomacierzyste = X.xS(row.getCell(4));
@@ -2284,9 +2284,14 @@ public class PlanKontView implements Serializable {
                                     nowekonto.setMacierzysty(macierzyste.getLp());
                                     macierzyste.setMapotomkow(true);
                                     macierzyste.setBlokada(true);
+                                    nowekonto.setSyntetyczne("analityczne");
                                     nowekonto.setPodatnik(wpisView.getPodatnikObiekt());
                                     nowekonto.setRok(wpisView.getRokWpisu());
-                                    nowekonto.setSyntetycznenumer(macierzyste.getSyntetycznenumer());
+                                    if (macierzyste.getLevel()==0) {
+                                        nowekonto.setSyntetycznenumer(macierzyste.getPelnynumer());
+                                    } else {
+                                        nowekonto.setSyntetycznenumer(macierzyste.getSyntetycznenumer());
+                                    }
                                     nowekonto.setSyntetyczne("analityczne");
                                     nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
                                     nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
@@ -2307,11 +2312,27 @@ public class PlanKontView implements Serializable {
                                 }
                                 kontalista.add(nowekonto);
                             }
+                        } else {
+                            int cellid = Integer.parseInt((String) X.x(row.getCell(1)));
+                            String nazwapelna2 = X.xS(row.getCell(5));
+                            Konto kontoznalezione = null;
+                            for (Konto o : obecnyplantkont) {
+                                try {
+                                    if (o.getId()==cellid||o.getNazwapelna().equals(nazwapelna2)) {
+                                        kontoznalezione = o;
+                                    }
+                                } catch (Exception e){}
+                            }
+                            if(kontoznalezione!=null&&!kontoznalezione.getNazwapelna().equals(nazwapelna2)) {
+                                kontoznalezione.setNazwapelna(nazwapelna2);
+                                kontoznalezione.setNazwaskrocona(nazwapelna2);
+                                kontalista.add(kontoznalezione); 
                         }
+                    }
                         //kontoDAOfk.edit(macierzyste);
                         //interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
                         
-                    }
+                    } 
                     i++;
                     //dokumenty.add(interpaperXLS);
                  }
@@ -2333,6 +2354,19 @@ public class PlanKontView implements Serializable {
         }
         int nowynumer = ilosc+1;
         return String.valueOf(nowynumer);
+    }
+    
+    public void zapiszPlanKontwXLS() {
+        if (kontalista!=null) {
+            for (Konto p : kontalista) {
+                if (p.getId()==null) {
+                    kontoDAOfk.create(p);
+                } else {
+                    kontoDAOfk.edit(p);
+                }
+            }
+            Msg.msg("Zachowano listę kont");
+        }
     }
 
    
