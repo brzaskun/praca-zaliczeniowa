@@ -99,12 +99,15 @@ public class KontrahentImportView implements Serializable {
                         String nipwstepny = row.getCell(8)==null?"":row.getCell(8).getStringCellValue();
                         nipwstepny = nipwstepny.replace("-", "");
                         String nip = kraj+nipwstepny;
+                        if (kraj.equals("PL")) {
+                            nip = nipwstepny;
+                        }
                         nowy.setNip(nip);
                         if (kraj!=null&&!kraj.equals("")) {
                             nowy.setKrajkod(kraj);
                             nowy.setKrajnazwa(PanstwaMap.getWykazPanstwXS().get(kraj));
                         }
-                        if (!nip.equals("") && !niplist.contains(nip)) {
+                        if (!nip.equals("") && !niplist.contains(nip) && nip.length()>3) {
                             lista.add(nowy);
                         } else if (niplist.contains(nip)) {
                             System.out.println("duplikat "+nowy.getNpelna());
@@ -121,6 +124,15 @@ public class KontrahentImportView implements Serializable {
             Msg.msg("e",E.e(e));
         }
     }
+     
+     public void zapiszKontrahentow() {
+         if (lista!=null) {
+             klienciDAO.createList(lista);
+             Msg.msg("Zachowano klientów");
+         } else {
+             Msg.msg("e","Lista jest pusta");
+         }
+     }
  
     public byte[] getPobraneplikibytes() {
         return pobraneplikibytes;
