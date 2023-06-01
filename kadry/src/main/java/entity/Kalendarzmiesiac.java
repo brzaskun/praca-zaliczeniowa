@@ -426,7 +426,9 @@ private static final long serialVersionUID = 1L;
             for (Dzien d : dzienList) {
                 if (d.getNieobecnosc()!=null&&d.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy()) {
                     chorobagodziny = chorobagodziny+d.getNormagodzin();
-                    dnichoroby++;
+                    if (d.getNormagodzin()>0.0) {
+                        dnichoroby++;
+                    }
                     
                 }
                 if (d.getTypdnia()==0) {
@@ -446,7 +448,7 @@ private static final long serialVersionUID = 1L;
         //jedynka to trzeba upgradowac
         //przywrocone 29-03-2023 bo bylo od 08-03-2023 odwrotnie i nie waloryzaowl
         if (przepracowane!=godzinyobowiazku) {
-            if (przepracowane>=polowagodzinyobowiazku) {
+            if (przepracowane>=chorobagodziny) {
                 zwrot[2] = 1;
             } else {
                 zwrot[2] = 2;
