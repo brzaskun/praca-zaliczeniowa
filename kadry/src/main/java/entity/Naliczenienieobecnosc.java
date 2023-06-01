@@ -190,10 +190,15 @@ public class Naliczenienieobecnosc implements Serializable {
     public double getSumakwotdosredniej() {
         return sumakwotdosredniej;
     }
+    public double getSumakwotdosredniejBez51() {
+        return sumakwotdosredniej -sumakwotdosredniej*.1371;
+    }
 
     public void setSumakwotdosredniej(double sumakwotdosredniej) {
         this.sumakwotdosredniej = sumakwotdosredniej;
     }
+    
+    
 
     public double getSumagodzindosredniej() {
         return sumagodzindosredniej;

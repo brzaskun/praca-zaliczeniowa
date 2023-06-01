@@ -204,11 +204,11 @@
                                         <h:outputText value="/"/>
                                         <h:outputText value="#{itempasekpotr.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
                                     </p:column>
-                                    <p:column headerText="data od" width="50" sortBy="#{itempasekpotr.nieobecnosc.dataod}" sortOrder="asc" sortPriority="1">
-                                        <h:outputText value="#{itempasekpotr.nieobecnosc.dataod}"/>
+                                    <p:column headerText="data od" width="40" sortBy="#{itempasekpotr.nieobecnosc.dataod}" sortOrder="asc" sortPriority="1"  style="text-align: center;">
+                                        <h:outputText value="#{itempasekpotr.nieobecnosc.dataod.substring(5,10)}"/>
                                     </p:column>
-                                    <p:column headerText="data do" width="50">
-                                        <h:outputText value="#{itempasekpotr.nieobecnosc.datado}"/>
+                                    <p:column headerText="data do" width="40" style="text-align: center;">
+                                        <h:outputText value="#{itempasekpotr.nieobecnosc.datado.substring(5,10)}"/>
                                     </p:column>
                                     <p:column headerText="dnia kalen." width="40" style="text-align: center;">
                                         <h:outputText value="#{itempasekpotr.nieobecnosc.dnikalendarzowe}"/>
@@ -227,6 +227,9 @@
                                     </p:column>
                                     <p:column headerText="suma kwot do śr." width="50">
                                         <bcf:outputpl value="#{itempasekpotr.sumakwotdosredniej}"/>
+                                    </p:column>
+                                    <p:column headerText="śr. - społ" width="50">
+                                        <bcf:outputpl value="#{itempasekpotr.sumakwotdosredniejBez51}"/>
                                     </p:column>
                                     <p:column headerText="suma godz. do śr." width="40" style="text-align: right;">
                                         <h:outputText value="#{itempasekpotr.sumagodzindosredniej}"/>

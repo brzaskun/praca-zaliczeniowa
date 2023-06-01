@@ -495,7 +495,8 @@ public class KalendarzmiesiacBean {
                             } else {
                                 sredniadopodstawypobrana = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow, jestoodelegowanie);
                             }
-                            double sredniadopodstawy = sredniadopodstawypobrana - (sredniadopodstawypobrana * .1371);
+                            double pomniejszenieospoleczne = sredniadopodstawypobrana * .1371;
+                            double sredniadopodstawy = sredniadopodstawypobrana - pomniejszenieospoleczne;
                             bazadowyrownania = bazadowyrownania + sredniadopodstawypobrana;
                             //hjest srednia z zus bo potemn przeciez potraca zus patrz linijki wyzej
                             naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawypobrana);
@@ -572,42 +573,7 @@ public class KalendarzmiesiacBean {
     private static double wyliczsredniachoroba(Kalendarzmiesiac kalendarz, Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Nieobecnosc nieobecnosc, Naliczenienieobecnosc naliczenienieobecnosc,
             Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow, boolean jestoddelegowanie) {
         double zwrot = 0.0;
-        List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
-        String rok = kalendarz.getRok();
-        String mc = kalendarz.getMc();
-        String[] poprzedniOkres = Data.poprzedniOkres(mc, rok);
-        mc = poprzedniOkres[0];
-        rok = poprzedniOkres[1];
-        List<Kalendarzmiesiac> kalendarzmiesiacList = kalendarz.getAngaz().getKalendarzmiesiacList();
-        int rokI = Integer.valueOf(rok);
-        rokI = rokI-1;
-        final String rokuprzedni = String.valueOf(rokI);
-        final String rokS = rok;
-        kalendarzmiesiacList = kalendarzmiesiacList.stream().filter(p->p.getRok().equals(rokS)||p.getRok().equals(rokuprzedni)).collect(Collectors.toList());
-        Collections.sort(kalendarzmiesiacList, new KalendarzmiesiacRMcomparator());
-        String dataetat = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
-        EtatPrac pobierzetat = kalendarz.getAngaz().pobierzetat(dataetat);
-        for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
-                        //usuwamy to bo nie poslugujemy sie juz d, chyba
-            //boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
-            if (kal.getRok().equals(rok) && kal.getMc().equals(mc)) {
-                String dataetat1 = Data.ostatniDzien(kal.getRok(), kal.getMc());
-                EtatPrac pobierzetat1 = kalendarz.getAngaz().pobierzetat(dataetat1);
-                //pobieramy z uwzglednieniem tego samego etatu
-                if (pobierzetat.equals(pobierzetat1)) {
-                    kalendarze.add(kal);
-                    poprzedniOkres = Data.poprzedniOkres(mc, rok);
-                    mc = poprzedniOkres[0];
-                    rok = poprzedniOkres[1];
-                }
-            }
-            //            if (kalendarze.size() == 12 || czyjestZarudnienieWtrakcieMca) {
-//                break;
-//            }
-            if (kalendarze.size() == 12) {
-                break;
-            }
-        }
+        List<Kalendarzmiesiac> kalendarze = pobierzkalendarzeDoSrednich(kalendarz);
         double dniroboczewmiesiacu = 0.0;
         double godzinyroboczewmiesiacu = 0.0;
         for (Dzien pa : kalendarz.getDzienList()) {
@@ -651,8 +617,8 @@ public class KalendarzmiesiacBean {
                                 godzinyprzepracowaneIurlop = godzinyprzepracowaneIurlop + d.getUrlopPlatny();
                             }
                         }
-                        int polowaroboczych = dnirobocze / 2;
-                        if (dniprzepracowaneIurlop < polowaroboczych) {
+                        double dninieprzepracowane = dnirobocze - dniprzepracowaneIurlop;
+                        if (dninieprzepracowane > dniprzepracowaneIurlop) {
                             czyjestwiecejniepracy = true;
                         }
                     }
@@ -690,6 +656,46 @@ public class KalendarzmiesiacBean {
         }
 
         return sredniadopodstawy;
+    }
+    
+    private static List<Kalendarzmiesiac> pobierzkalendarzeDoSrednich(Kalendarzmiesiac kalendarz) {
+        String rok = kalendarz.getRok();
+        String mc = kalendarz.getMc();
+        String[] poprzedniOkres = Data.poprzedniOkres(mc, rok);
+        mc = poprzedniOkres[0];
+        rok = poprzedniOkres[1];
+        int rokI = Integer.valueOf(rok);
+        rokI = rokI-1;
+        final String rokuprzedni = String.valueOf(rokI);
+        final String rokS = rok;
+        List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
+        String dataetat = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
+        EtatPrac pobierzetat = kalendarz.getAngaz().pobierzetat(dataetat);
+        List<Kalendarzmiesiac> kalendarzmiesiacList = kalendarz.getAngaz().getKalendarzmiesiacList();
+        kalendarzmiesiacList = kalendarzmiesiacList.stream().filter(p->p.getRok().equals(rokS)||p.getRok().equals(rokuprzedni)).collect(Collectors.toList());
+        Collections.sort(kalendarzmiesiacList, new KalendarzmiesiacRMcomparator());
+        for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
+                        //usuwamy to bo nie poslugujemy sie juz d, chyba
+            //boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
+            if (kal.getRok().equals(rok) && kal.getMc().equals(mc)) {
+                String dataetat1 = Data.ostatniDzien(kal.getRok(), kal.getMc());
+                EtatPrac pobierzetat1 = kalendarz.getAngaz().pobierzetat(dataetat1);
+                //pobieramy z uwzglednieniem tego samego etatu
+                if (pobierzetat.equals(pobierzetat1)) {
+                    kalendarze.add(kal);
+                    poprzedniOkres = Data.poprzedniOkres(mc, rok);
+                    mc = poprzedniOkres[0];
+                    rok = poprzedniOkres[1];
+                }
+            }
+            //            if (kalendarze.size() == 12 || czyjestZarudnienieWtrakcieMca) {
+//                break;
+//            }
+            if (kalendarze.size() == 12) {
+                break;
+            }
+        }
+        return kalendarze;
     }
 
     private static double sredniaJedenKalendarz(Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Naliczenienieobecnosc naliczenienieobecnosc, Kalendarzmiesiac kalendarz, double godzinyroboczewmiesiacu) {
