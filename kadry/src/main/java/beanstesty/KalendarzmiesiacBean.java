@@ -748,13 +748,14 @@ public class KalendarzmiesiacBean {
         double sumakwotdosredniej = 0.0;
         double sredniadopodstawyzmienne = 0.0;
         String kontynuacja = "";
+        Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenienieobecnosc.getSkladnikwynagrodzenia();
         for (Kalendarzmiesiac kalendarzdosredniej : kalendarze) {
                 if (!kalendarzdosredniej.equals(kalendarz)) {
                     if (kalendarzdosredniej.czyjestchoroba()) {
                         int ilemcy = Mce.odlegloscMcy(kalendarzdosredniej.getMc(), kalendarzdosredniej.getRok(), kalendarz.getMc(), kalendarz.getRok());
                         if (ilemcy <= 1) {
-                            sumakwotdosredniej = kalendarzdosredniej.pobierzSumeKwotNieobecnosc(nieobecnosc);
-                            sredniadopodstawyzmienne = kalendarzdosredniej.pobierzPodstaweNieobecnosc(nieobecnosc);
+                            sumakwotdosredniej = kalendarzdosredniej.pobierzSumeKwotNieobecnosc(nieobecnosc, skladnikwynagrodzenia);
+                            sredniadopodstawyzmienne = kalendarzdosredniej.pobierzPodstaweNieobecnosc(nieobecnosc, skladnikwynagrodzenia);
                             kontynuacja = kalendarzdosredniej.getRokMc();
                         }
                     }

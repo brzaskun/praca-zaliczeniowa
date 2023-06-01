@@ -197,7 +197,7 @@ public class PasekwynagrodzenView implements Serializable {
                 }
             }
         }
-        listadefinicjalistaplacAnaliza = definicjalistaplacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        listadefinicjalistaplacAnaliza = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
         if (listadefinicjalistaplacAnaliza!=null) {
             Collections.sort(listadefinicjalistaplacAnaliza, new Defnicjalistaplaccomparator());
         }
@@ -239,7 +239,7 @@ public class PasekwynagrodzenView implements Serializable {
             if (listadefinicjalistaplac!=null) {
                 Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
             }
-            listadefinicjalistaplacAnaliza = definicjalistaplacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+            listadefinicjalistaplacAnaliza = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
             if (listadefinicjalistaplac!=null) {
                 Collections.sort(listadefinicjalistaplacAnaliza, new Defnicjalistaplaccomparator());
             }
