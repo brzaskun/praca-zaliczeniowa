@@ -408,11 +408,12 @@ public class PracownikEkwiwalentView  implements Serializable {
                       } else if (!p.getRodzajwynagrodzenia().getWks_serial().equals("1014")) {
                           List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(wpisView.getAngaz());
                             String dzien = wpisView.getAngaz().getFirma().getDzienlp();
-                            if (dzien!=null) {
-                                String[] popokres = Data.poprzedniOkres(mc, rok);
-                                rok = popokres[1];
-                                mc = popokres[0];
-                            }
+                            //jak to bylo to cofal sie o jeden miesiac za daleko. robilem ek2wiwaetn w maju a on zaczylal od marca w dol 02.06.2023
+//                            if (dzien!=null) {
+//                                String[] popokres = Data.poprzedniOkres(mc, rok);
+//                                rok = popokres[1];
+//                                mc = popokres[0];
+//                            }
                             //List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokAngaz(rok, wpisView.getAngaz());
                             List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, p, kalendarzlista);
                             double godzinyfaktyczne = 0.0;

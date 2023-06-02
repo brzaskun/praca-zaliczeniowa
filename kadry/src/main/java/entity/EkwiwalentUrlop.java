@@ -310,7 +310,8 @@ public class EkwiwalentUrlop implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.EkwiwalentUrlop[ id=" + id + " ]";
+        return "EkwiwalentUrlop{" + "angaz=" + angaz.getNazwiskoiImie() + ", dziennaliczenia=" + dziennaliczenia + ", dzienwyplaty=" + dzienwyplaty + ", kwota=" + kwota + ", kwotastale=" + kwotastale + ", kwotazmienne=" + kwotazmienne + ", mc=" + mc + ", rok=" + rok + '}';
     }
-    
+
+   
 }
