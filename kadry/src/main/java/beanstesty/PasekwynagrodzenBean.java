@@ -663,26 +663,25 @@ public class PasekwynagrodzenBean {
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (p.isZus0bezzus1() == false && p.isPodatek0bezpodatek1() == false) {
                 if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
-                    bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie + p.getKwotadolistyplac());
-                    bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotadolistyplacwaluta());
+                    bruttozusoddelegowanie = bruttozusoddelegowanie + p.getKwotadolistyplac();
+                    bruttozusoddelegowaniewaluta = bruttozusoddelegowaniewaluta + p.getKwotadolistyplacwaluta();
                 } else {
-                    bruttozuskraj = Z.z(bruttozuskraj + p.getKwotadolistyplac());
+                    bruttozuskraj = bruttozuskraj + p.getKwotadolistyplac();
                 }
             }
         }
        for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
             
             if (p.getNieobecnosc().getKod().equals("UD")) {
-                bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotawaluta());
+                bruttozusoddelegowaniewaluta = bruttozusoddelegowaniewaluta + p.getKwotawaluta();
                 bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie+ p.getKwotazus());
             } else {
-                bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
+                bruttozuskraj = bruttozuskraj + p.getKwotazus();
             }
         }
-        double bruttobezzus = bruttozuskraj + bruttozusoddelegowanie;
-        pasek.setOddelegowaniepln(bruttozusoddelegowanie);
-        pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
-        pasek.setBruttobezzus(bruttozuskraj + bruttozusoddelegowanie);
+        pasek.setOddelegowaniepln(Z.z(bruttozusoddelegowanie));
+        pasek.setOddelegowaniewaluta(Z.z(bruttozusoddelegowaniewaluta));
+        pasek.setBruttobezzus(Z.z(bruttozuskraj + bruttozusoddelegowanie));
     }
 
     private static void obliczbruttozus(Pasekwynagrodzen pasek) {
@@ -710,10 +709,10 @@ public class PasekwynagrodzenBean {
         }
         pasek.setOddelegowaniepln(Z.z(bruttozusoddelegowanie));
         pasek.setOddelegowaniewaluta(Z.z(bruttozusoddelegowaniewaluta));
-        pasek.setBruttozuskraj(Z.z(bruttozuskraj));
+        pasek.setBruttozuskraj(bruttozuskraj);
         double bruttozus = bruttozuskraj + bruttozusoddelegowanie;
-        pasek.setBruttozus(Z.z(bruttozus));
-        pasek.setBrutto(Z.z(pasek.getBrutto() + bruttozus));
+        pasek.setBruttozus(Z.z6(bruttozus));
+        pasek.setBrutto(Z.z6(pasek.getBrutto() + bruttozus));
     }
 
     private static void obliczbrutto26(Pasekwynagrodzen pasek, double limit26, double sumapoprzednich) {
