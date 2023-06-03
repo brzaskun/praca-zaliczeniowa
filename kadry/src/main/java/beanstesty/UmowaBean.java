@@ -435,6 +435,28 @@ public class UmowaBean {
         }
     }
 
-  
+ public static void oznaczumowyciaglosc(List<Umowa> listapraca) {
+        if (listapraca!=null&&listapraca.size()>1) {
+            Collections.sort(listapraca, new UmowaStareNowecomparator());
+            int biezacagrupa = 1;
+            String datapoprzednia = null;
+            for (Umowa u : listapraca) {
+                if (datapoprzednia==null) {
+                    u.setGrupaumow(biezacagrupa);
+                    datapoprzednia = Data.dodajdzien(u.getDatado(),1);
+                } else {
+                    if (u.getDataod().equals(datapoprzednia)) {
+                        u.setGrupaumow(biezacagrupa);
+                        datapoprzednia = Data.dodajdzien(u.getDatado(),1);
+                    } else {
+                        biezacagrupa = biezacagrupa+1;
+                        u.setGrupaumow(biezacagrupa);
+                        datapoprzednia = Data.dodajdzien(u.getDatado(),1);
+                    }
+                }
+                
+            }
+        }
+    }  
     
 }

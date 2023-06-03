@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Naliczenienieobecnosc.findByProcentzazwolnienie", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.procentzazwolnienie = :procentzazwolnienie"),
     @NamedQuery(name = "Naliczenienieobecnosc.findByStawkadzienna", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.stawkadzienna = :stawkadzienna"),
     @NamedQuery(name = "Naliczenienieobecnosc.findByLiczbagodzinobowiazku", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.liczbagodzinobowiazku = :liczbagodzinobowiazku"),
-    @NamedQuery(name = "Naliczenienieobecnosc.findByLiczbagodzinurlopu", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.liczbagodzinurlopu = :liczbagodzinurlopu"),
+    @NamedQuery(name = "Naliczenienieobecnosc.findByLiczbagodzinurlopu", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.liczbagodzinNieobecnosci = :liczbagodzinnieobecnosci"),
     @NamedQuery(name = "Naliczenienieobecnosc.findByStawkadziennaredukcji", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.stawkadziennaredukcji = :stawkadziennaredukcji")})
 public class Naliczenienieobecnosc implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -80,7 +80,7 @@ public class Naliczenienieobecnosc implements Serializable {
     private double stawkagodzinowa;
     @Column(name = "liczbagodzinobowiazku")
     private double liczbagodzinobowiazku;
-    @Column(name = "liczbagodzinurlopu")
+    @Column(name = "liczbagodzinnieobecnosci")
     private double liczbagodzinNieobecnosci;
      @Column(name = "liczbadniobowiazku")
     private double liczbadniobowiazku;

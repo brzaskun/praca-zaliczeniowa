@@ -68,18 +68,18 @@
                         </f:facet>
                         <h:outputText value="#{itemumowawy.dataod}"/>
                     </p:column>
+                    
                     <p:column style="text-align: center;color: #{itemumowawy.aktywna eq true ? 'green':'initial'}">
                         <f:facet name="header">
                             <h:outputText value="data do"/>
                         </f:facet>
                         <h:outputText value="#{itemumowawy.datado}"/>
                     </p:column>
-
-                    <p:column style="text-align: center;">
+                     <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" width="30">
                         <f:facet name="header">
-                            <h:outputText value="zas. chor. od "/>
+                            <h:outputText value="grupa"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowawy.pierwszydzienzasilku}"/>
+                        <h:outputText value="#{itemumowawy.grupaumow}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">

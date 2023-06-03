@@ -214,6 +214,8 @@ public class Umowa implements Serializable {
     private Grupakadry grupakadry;
     @Column(name="klauzulaminimalnewyn")
     private boolean klauzulaminimalnewyn;
+    @Column(name="grupaumow")
+    private int grupaumow;
     @Transient
     private Zmiennawynagrodzenia zmiennawynagrodzenia;
     @Transient
@@ -829,6 +831,14 @@ public class Umowa implements Serializable {
 
     public void setEkwiwalenskladnikiList(List<EkwiwalentUrlop> ekwiwalenskladnikiList) {
         this.ekwiwalenskladnikiList = ekwiwalenskladnikiList;
+    }
+
+    public int getGrupaumow() {
+        return grupaumow;
+    }
+
+    public void setGrupaumow(int grupaumow) {
+        this.grupaumow = grupaumow;
     }
 
    

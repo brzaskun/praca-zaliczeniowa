@@ -23,8 +23,68 @@
                             
                             
                     </p:panelGrid>
+                    <p:outputPanel style="padding: 10px;">
+                        <h:outputText value="Wybrane są tylko umowy, które zachowują ciągłośc co do dnia"/>
+                        <p:dataTable id="umowalist" value="#{rozwiazanieumowyView.umowykontynuacja}" var="itemumowa" widgetVar="dataListumowa"
+                              emptyMessage="Brak zawartych umów" 
+                             rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
+                             style="height: 150px; overflow-y: scroll; width: 1000px;"
+                             >
+                    <f:facet name="header">
+                            <h:outputText value="Wykaz rozliczanych umów"/>
+                        </f:facet>
+                            <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" sortOrder="desc" sortBy="#{itemumowa.dataod}" width="60">
+                        <f:facet name="header">
+                            <h:outputText value="data od"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.dataod}"/>
+                    </p:column>
+                            <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" width="60">
+                        <f:facet name="header">
+                            <h:outputText value="data do"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.datado}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;" width="180">
+                        <f:facet name="header">
+                            <h:outputText value="stanow."/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.stanowisko}"/>
+                    </p:column>
+                            <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
+                        <f:facet name="header">
+                            <h:outputText value="etat"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.etat}"/>
+                    </p:column>
+
+                    <p:column style="text-align: center;;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
+                        <f:facet name="header">
+                            <h:outputText value="kod ubezpieczenia"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.umowakodzus.kod}"/>
+                    </p:column>
+                    <p:column style="text-align: center;;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" width="120">
+                        <f:facet name="header">
+                            <h:outputText value="czas trwania"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.lataDni}"/>
+                    </p:column>
+                    <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" width="30">
+                        <f:facet name="header">
+                            <h:outputText value="grupa"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.grupaumow}"/>
+                    </p:column>
+                </p:dataTable>
+                    </p:outputPanel>
+                    <p:outputPanel style="padding: 10px;">
+                        <h:outputText value="data rozpoczęcia stosunku pracy #{rozwiazanieumowyView.datagraniczna}" style="color:green;"/>
+                    </p:outputPanel>
+                    
                     <p:outputPanel>
-                        <h:outputText value="Nowe nieobecności konfigurujemy w parametrach. Zakłądka świad. nieobec."/>
+                        <h:outputText value="Nowe nieobecności konfigurujemy w parametrach. Zakładka świad. nieobec. Nieobecności bez przyporządkowania nie pojawią się na świadectwie"/>
                     </p:outputPanel>
                     <p:dataTable id="datalist" value="#{rozwiazanieumowyView.dnidoswiadectwa}" var="itemsw"
                                  selectionMode="single" selection="#{rozwiazanieumowyView.selected}" rowIndexVar="itemswin"

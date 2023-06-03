@@ -84,13 +84,19 @@
                         </f:facet>
                         <h:outputText value="#{itemumowa.angaz.kosztyuzyskaniaprocent}"/>
                     </p:column>-->
-                    <p:column style="text-align: center;;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
+                <p:column style="text-align: center;;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" width="40">
                         <f:facet name="header">
-                            <h:outputText value="kod ubezpieczenia"/>
+                            <h:outputText value="kod ub."/>
                         </f:facet>
                         <h:outputText value="#{itemumowa.umowakodzus.kod}"/>
                     </p:column>
-                    <p:column style="text-align: center;;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" width="120">
+                    <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" width="30">
+                        <f:facet name="header">
+                            <h:outputText value="grupa"/>
+                        </f:facet>
+                        <h:outputText value="#{itemumowa.grupaumow}"/>
+                    </p:column>
+                    <p:column style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" width="120">
                         <f:facet name="header">
                             <h:outputText value="czas trwania"/>
                         </f:facet>

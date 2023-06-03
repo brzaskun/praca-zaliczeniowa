@@ -157,8 +157,10 @@ public class UmowaView implements Serializable {
                 rodzajumowy = "1";
             }
             listapraca = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+            UmowaBean.oznaczumowyciaglosc(listapraca);
             if (wpisView.getUmowa().isPraca()) {
                 listawypowiedzenia = umowaFacade.findByAngazPraca(wpisView.getAngaz());
+                UmowaBean.oznaczumowyciaglosc(listawypowiedzenia);
             } else {
                 listawypowiedzenia = umowaFacade.findByAngazZlecenie(wpisView.getAngaz());
             }
@@ -1079,4 +1081,6 @@ public class UmowaView implements Serializable {
 //            }
 //        }
 //    }
+
+   
 }

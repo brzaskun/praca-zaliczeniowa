@@ -5,6 +5,7 @@
  */
 package view;
 
+import beanstesty.UmowaBean;
 import beanstesty.UrlopBean;
 import comparator.Etatcomparator;
 import comparator.Stanowiskocomparator;
@@ -91,7 +92,8 @@ public class RozwiazanieumowyView  implements Serializable {
     private SMTPSettingsFacade sMTPSettingsFacade;
     private String datawystawieniaswiadectwa;
     private Nieobecnoscprezentacja urlopprezentacja;
-    
+    private List<Umowa> umowykontynuacja;
+    private String datagraniczna = null;
     
     
     @PostConstruct
@@ -121,7 +123,19 @@ public class RozwiazanieumowyView  implements Serializable {
                 }
             }
             if (wpisView.getUmowa()!=null && selectedlista!=null) {
+                    umowykontynuacja = umowaFacade.findByAngaz(wpisView.getAngaz());
+                    UmowaBean.oznaczumowyciaglosc(umowykontynuacja);
+                    int grupaumow = wybranaumowa.getGrupaumow();
+                    if (umowykontynuacja!=null&&umowykontynuacja.size()>1) {
+                        umowykontynuacja = umowykontynuacja.stream().filter(p->p.getGrupaumow()==grupaumow).collect(Collectors.toList());
+                        if (!umowykontynuacja.isEmpty()) {
+                            datagraniczna = umowykontynuacja.get(0).getDataod();
+                        }
+                    }
                     listanieob  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
+                    if (datagraniczna!=null) {
+                        listanieob = listanieob.stream().filter(p->Data.czyjestpo(datagraniczna, p.getDataod())).collect(Collectors.toList());
+                    }
                     listanieobecschema = nieobecnoscswiadectwoschemaFacade.findAll();
                     dnidoswiadectwa = naniesnieobecnoscinascheme(listanieob, listanieobecschema, selectedlista, wpisView.getRokWpisu());
                     urlopprezentacja = UrlopBean.pobierzurlop(wpisView.getAngaz(), wpisView.getRokWpisu(), selectedlista.getDatauplywuokresuwyp(), selectedlista.getDatauplywuokresuwyp());
@@ -204,7 +218,7 @@ public class RozwiazanieumowyView  implements Serializable {
             }
             swiadectwo.setRozwiazanieumowy(selectedlista);
             EkwiwalentUrlop ekwiwalent = ekwiwalentSkladnikiFacade.findbyUmowa(swiadectwo.getRozwiazanieumowy().getUmowa());
-            PdfSwiadectwo.drukuj(swiadectwo, dnidoswiadectwa, ekwiwalent,wpisView.getAngaz(), urlopprezentacja);
+            PdfSwiadectwo.drukuj(swiadectwo, dnidoswiadectwa, ekwiwalent,wpisView.getAngaz(), urlopprezentacja, datagraniczna);
         } else {
             Msg.msg("e","Brak wypowiedzenia");
         }
@@ -371,8 +385,23 @@ public class RozwiazanieumowyView  implements Serializable {
         this.urlopprezentacja = urlopprezentacja;
     }
 
-   
-   
+    public List<Umowa> getUmowykontynuacja() {
+        return umowykontynuacja;
+    }
+
+    public void setUmowykontynuacja(List<Umowa> umowykontynuacja) {
+        this.umowykontynuacja = umowykontynuacja;
+    }
+
+    public String getDatagraniczna() {
+        return datagraniczna;
+    }
+
+    public void setDatagraniczna(String datagraniczna) {
+        this.datagraniczna = datagraniczna;
+    }
+
+    
 
     
     

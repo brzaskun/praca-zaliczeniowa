@@ -9,6 +9,7 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.PdfWriter;
+import data.Data;
 import entity.Angaz;
 import entity.EkwiwalentUrlop;
 import entity.EtatPrac;
@@ -40,7 +41,7 @@ import z.Z;
  * @author Osito
  */
 public class PdfSwiadectwo {
-     public static void drukuj(Swiadectwo swiadectwo, List<Swiadectwodni> dnidoswiadectwa, EkwiwalentUrlop ekwiwalentUrlop, Angaz angaz, Nieobecnoscprezentacja urlopprezentacja) {
+     public static void drukuj(Swiadectwo swiadectwo, List<Swiadectwodni> dnidoswiadectwa, EkwiwalentUrlop ekwiwalentUrlop, Angaz angaz, Nieobecnoscprezentacja urlopprezentacja, String datanawiazaniastosunkupracy) {
         try {
             Rozwiazanieumowy rozwiazanieumowy = swiadectwo.getRozwiazanieumowy();
             Umowa umowa = swiadectwo.getRozwiazanieumowy().getUmowa();
@@ -72,8 +73,10 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, pracownik3, Element.ALIGN_LEFT, 2);
                 List<EtatPrac> etatList = angaz.getEtatList();
                 for (EtatPrac et : etatList) {
-                    String etat = "w okresie od "+et.getDataod()+" do "+et.getDatado()+" w wymiarze etatu: "+et.getEtat();
-                    PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, etat, Element.ALIGN_LEFT, 2);
+                    if (Data.czyjestpo(datanawiazaniastosunkupracy, et.getDataod())) {
+                        String etat = "w okresie od "+et.getDataod()+" do "+et.getDatado()+" w wymiarze etatu: "+et.getEtat();
+                        PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, etat, Element.ALIGN_LEFT, 2);
+                    }
                 }
                 document.add(Chunk.NEWLINE);
                 text1 = mezczyzna?"wykonywał":"wykonywała";
@@ -85,8 +88,10 @@ public class PdfSwiadectwo {
                         PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, stan, Element.ALIGN_LEFT, 2);
                 } else {
                     for (Stanowiskoprac p : stanowiskopracList) {
-                        String stan = "w okresie od "+p.getDataod()+" do "+p.getDatado()+" na stanowisku: "+p.getOpis();
-                        PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, stan, Element.ALIGN_LEFT, 2);
+                        if (Data.czyjestpo(datanawiazaniastosunkupracy, p.getDataod())) {
+                            String stan = "w okresie od "+p.getDataod()+" do "+p.getDatado()+" na stanowisku: "+p.getOpis();
+                            PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, stan, Element.ALIGN_LEFT, 2);
+                        }
                     }
                 }
                 document.add(Chunk.NEWLINE);
