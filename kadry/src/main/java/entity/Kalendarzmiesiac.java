@@ -90,6 +90,10 @@ private static final long serialVersionUID = 1L;
     private List<Dzien> dzienList;
     @Column(name="dnioddelegowania")
     private double dnioddelegowania;
+    @Column(name="dnichorobakalendarzowe")
+    private double dnichorobakalendarzowe;
+    @Column(name="dnizasilekkalendarzowe")
+    private double dnizasilekkalendarzowe;
     @Column(name="norma")
     private double norma;
     @Column(name="przepracowane")
@@ -349,7 +353,7 @@ private static final long serialVersionUID = 1L;
     
     public double[] chorobadnigodz() {
         double[] zwrot = new double[2];
-        double chorobadni = 0;
+        double chorobadnikalendarzowe = 0;
         double chorobagodziny = 0;
         String dataod = null;
         String datado = null;
@@ -363,11 +367,11 @@ private static final long serialVersionUID = 1L;
                     chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe();
                 }
                 if (d.getKod()!=null&&d.getKod().equals("CH") &&d.getNieobecnosc()!=null) {
-                    chorobadni = chorobadni+1;
+                    chorobadnikalendarzowe = chorobadnikalendarzowe+1;
                 }
             }
         }
-        zwrot[0] = chorobadni;
+        zwrot[0] = chorobadnikalendarzowe;
         zwrot[1] = chorobagodziny;
         return zwrot;
     }
@@ -1251,6 +1255,22 @@ private static final long serialVersionUID = 1L;
 
     public void setGodzinyroboczenominalnewmiesiacu(double godzinyroboczenominalnewmiesiacu) {
         this.godzinyroboczenominalnewmiesiacu = godzinyroboczenominalnewmiesiacu;
+    }
+
+    public double getDnichorobakalendarzowe() {
+        return dnichorobakalendarzowe;
+    }
+
+    public void setDnichorobakalendarzowe(double dnichorobakalendarzowe) {
+        this.dnichorobakalendarzowe = dnichorobakalendarzowe;
+    }
+
+    public double getDnizasilekkalendarzowe() {
+        return dnizasilekkalendarzowe;
+    }
+
+    public void setDnizasilekkalendarzowe(double dnizasilekkalendarzowe) {
+        this.dnizasilekkalendarzowe = dnizasilekkalendarzowe;
     }
 
     

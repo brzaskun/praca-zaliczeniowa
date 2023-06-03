@@ -81,11 +81,11 @@ public class Naliczenienieobecnosc implements Serializable {
     @Column(name = "liczbagodzinobowiazku")
     private double liczbagodzinobowiazku;
     @Column(name = "liczbagodzinurlopu")
-    private double liczbagodzinurlopu;
+    private double liczbagodzinNieobecnosci;
      @Column(name = "liczbadniobowiazku")
     private double liczbadniobowiazku;
-    @Column(name = "liczbadniurlopu")
-    private double liczbadniurlopu;
+    @Column(name = "liczbadninieobecnosci")
+    private double liczbadniNieobecnosci;
     @Column(name = "sumakwotdosredniej")
     private double sumakwotdosredniej;
     @Column(name = "sumagodzindosredniej")
@@ -179,12 +179,12 @@ public class Naliczenienieobecnosc implements Serializable {
         this.liczbadniobowiazku = liczbadniobowiazku;
     }
 
-    public double getLiczbadniurlopu() {
-        return liczbadniurlopu;
+    public double getLiczbadniNieobecnosci() {
+        return liczbadniNieobecnosci;
     }
 
-    public void setLiczbadniurlopu(double liczbadniurlopu) {
-        this.liczbadniurlopu = liczbadniurlopu;
+    public void setLiczbadniNieobecnosci(double liczbadniNieobecnosci) {
+        this.liczbadniNieobecnosci = liczbadniNieobecnosci;
     }
 
     public double getSumakwotdosredniej() {
@@ -355,12 +355,12 @@ public class Naliczenienieobecnosc implements Serializable {
         this.liczbagodzinobowiazku = liczbagodzinobowiazku;
     }
 
-    public double getLiczbagodzinurlopu() {
-        return liczbagodzinurlopu;
+    public double getLiczbagodzinNieobecnosci() {
+        return liczbagodzinNieobecnosci;
     }
 
-    public void setLiczbagodzinurlopu(double liczbagodzinurlopu) {
-        this.liczbagodzinurlopu = liczbagodzinurlopu;
+    public void setLiczbagodzinNieobecnosci(double liczbagodzinNieobecnosci) {
+        this.liczbagodzinNieobecnosci = liczbagodzinNieobecnosci;
     }
 
     public double getStawkadziennaredukcji() {

@@ -34,10 +34,10 @@ public class Soka implements Serializable {
         this.kod = nal.getNieobecnosc().getRodzajnieobecnosci().getKod();
         this.dataod = nal.getDataod();
         this.datado = nal.getDatado();
-        this.dni = (int) nal.getLiczbadniurlopu();
+        this.dni = (int) nal.getLiczbadniNieobecnosci();
         this.kwota = nal.getKwotawaluta();
         this.waluta = nal.getWaluta();
-        this.godziny = nal.getLiczbagodzinurlopu();
+        this.godziny = nal.getLiczbagodzinNieobecnosci();
     }
 
     public Soka(Nieobecnosc nieobecnoscaccu, String dataod, String datado, Naliczenieskladnikawynagrodzenia oddelegowanie) {

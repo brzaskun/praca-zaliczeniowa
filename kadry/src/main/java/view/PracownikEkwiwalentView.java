@@ -392,8 +392,8 @@ public class PracownikEkwiwalentView  implements Serializable {
                                 naliczenienieobecnosc.setDataod(data);
                                 naliczenienieobecnosc.setSkladnikwynagrodzenia(p);
                                 naliczenienieobecnosc.setSredniazailemcy(1);
-                                naliczenienieobecnosc.setLiczbadniurlopu(dniekw);
-                                naliczenienieobecnosc.setLiczbagodzinurlopu(godzinyekw);
+                                naliczenienieobecnosc.setLiczbadniNieobecnosci(dniekw);
+                                naliczenienieobecnosc.setLiczbagodzinNieobecnosci(godzinyekw);
                                 double stawkadzienna = kwotastala/wspolczynnikEkwiwalent.getKwota();
                                 naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
                                 double stawkagodzinowa = stawkadzienna/dobowanormaczasupracy;
@@ -428,8 +428,8 @@ public class PracownikEkwiwalentView  implements Serializable {
                             naliczenienieobecnosc.setDatado(data);
                             naliczenienieobecnosc.setDataod(data);
                             naliczenienieobecnosc.setSredniazailemcy(3);
-                            naliczenienieobecnosc.setLiczbadniurlopu(dniekw);
-                            naliczenienieobecnosc.setLiczbagodzinurlopu(godzinyekw);
+                            naliczenienieobecnosc.setLiczbadniNieobecnosci(dniekw);
+                            naliczenienieobecnosc.setLiczbagodzinNieobecnosci(godzinyekw);
                             for (Naliczenieskladnikawynagrodzenia pa : naliczonyskladnikdosredniej) {
                                 godzinyfaktyczne = godzinyfaktyczne+pa.getGodzinyfaktyczne();
                                 dninalezne = dninalezne+pa.getDninalezne();

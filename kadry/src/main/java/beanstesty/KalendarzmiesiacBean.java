@@ -471,9 +471,9 @@ public class KalendarzmiesiacBean {
                         naliczenienieobecnosc.setDataod(dataod);
                         naliczenienieobecnosc.setDatado(datado);
                         naliczenienieobecnosc.setLiczbadniobowiazku(30);
-                        naliczenienieobecnosc.setLiczbadniurlopu(dnikalendarzoweniechoroby);
+                        naliczenienieobecnosc.setLiczbadniNieobecnosci(dnikalendarzoweniechoroby);
                         naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
-                        naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinchoroby);
+                        naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinchoroby);
                         Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia();
                         naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                         naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
@@ -547,9 +547,9 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setWyrownaniepodstawy(true);
                 naliczenienieobecnosc.setJakiskladnikredukowalny(datado);
                 naliczenienieobecnosc.setLiczbadniobowiazku(30);
-                naliczenienieobecnosc.setLiczbadniurlopu(dnikalendarzoweniechoroby);
+                naliczenienieobecnosc.setLiczbadniNieobecnosci(dnikalendarzoweniechoroby);
                 naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
-                naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinchoroby);
+                naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinchoroby);
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
                 naliczenienieobecnosc.setSumakwotdosredniej(minimalnedozasilkow-bazadowyrownania);
@@ -1091,9 +1091,9 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getUwagi());
                 naliczenienieobecnosc.setLiczbadniobowiazku(liczbadniobowiazku);
-                naliczenienieobecnosc.setLiczbadniurlopu(liczbadniurlopu);
+                naliczenienieobecnosc.setLiczbadniNieobecnosci(liczbadniurlopu);
                 naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
-                naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinurlopu);
+                naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinurlopu);
                 double sredniamiesieczna = wyliczsredniagodzinowaStale(kalendarz, naliczenieskladnikawynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc);
                 naliczenienieobecnosc.setSkladnikistale(sredniamiesieczna);
                 double stawkadzienna = naliczenieskladnikawynagrodzenia.getStawkadzienna();
@@ -1119,9 +1119,9 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 naliczenienieobecnosc.setJakiskladnikredukowalny(skladnikwynagrodzenia.getUwagi());
                 naliczenienieobecnosc.setLiczbadniobowiazku(liczbadniobowiazku);
-                naliczenienieobecnosc.setLiczbadniurlopu(liczbadniurlopu);
+                naliczenienieobecnosc.setLiczbadniNieobecnosci(liczbadniurlopu);
                 naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
-                naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinurlopu);
+                naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinurlopu);
                 double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowaZmienne(kalendarz, skladnikwynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc, kalendarzList);
                 naliczenienieobecnosc.setSkladnikistale(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
@@ -1171,9 +1171,9 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setJakiskladnikredukowalny(skladnikwynagrodzenia.getUwagi());
                 naliczenienieobecnosc.setSkladnikistale(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setLiczbadniobowiazku(liczbadniobowiazku);
-                naliczenienieobecnosc.setLiczbadniurlopu(liczbadniurlopu);
+                naliczenienieobecnosc.setLiczbadniNieobecnosci(liczbadniurlopu);
                 naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
-                naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinurlopu);
+                naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinurlopu);
                 naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotaredukcji(0.0);
@@ -1455,11 +1455,11 @@ public class KalendarzmiesiacBean {
                     }
                 }
 //                }
-                naliczenienieobecnosc.setLiczbadniurlopu(dninieobecnoscirobocze);
-                naliczenienieobecnosc.setLiczbagodzinurlopu(godzinynieobecnoscirobocze);
+                naliczenienieobecnosc.setLiczbadniNieobecnosci(dninieobecnoscirobocze);
+                naliczenienieobecnosc.setLiczbagodzinNieobecnosci(godzinynieobecnoscirobocze);
                 naliczenienieobecnosc.setSkladnikistale(skladnikistale);
                 naliczenienieobecnosc.setLiczbagodzinobowiazku(godzinyroboczewmiesiacu);
-                naliczenienieobecnosc.setLiczbagodzinurlopu(godzinynieobecnoscirobocze);
+                naliczenienieobecnosc.setLiczbagodzinNieobecnosci(godzinynieobecnoscirobocze);
 
                 double stawkagodzinowa = Z.z6(naliczenieskladnikawynagrodzenia.getStawkagodzinowa());
                 double stawkadzienna = Z.z4(naliczenieskladnikawynagrodzenia.getStawkadzienna());

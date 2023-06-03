@@ -1327,9 +1327,9 @@ public class Pasekwynagrodzen implements Serializable {
                     wiersz.dataod = p.getDataod();
                     wiersz.datado = p.getDatado();
                     wiersz.dniobowiazku = p.getLiczbadniobowiazku();
-                    wiersz.dniprzepracowane = p.getLiczbadniurlopu();
+                    wiersz.dniprzepracowane = p.getLiczbadniNieobecnosci();
                     wiersz.godzinyobowiazku = p.getLiczbagodzinobowiazku();
-                    wiersz.godzinyprzepracowane = p.getLiczbagodzinurlopu();
+                    wiersz.godzinyprzepracowane = p.getLiczbagodzinNieobecnosci();
                     wiersz.stawkanagodzine = p.getStawkagodzinowa();
                     wiersz.stawkadzienna = p.getStawkadzienna();
                     wiersz.waluta = p.getWaluta();

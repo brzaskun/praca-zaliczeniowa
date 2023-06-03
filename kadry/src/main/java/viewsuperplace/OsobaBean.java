@@ -920,7 +920,7 @@ public class OsobaBean {
             Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
             naliczenienieobecnosc.setNieobecnosc(historiawyszukajnieobecnosci(p, nieobecnoscilista));
             naliczenienieobecnosc.setLiczbadniobowiazku(30);
-            naliczenienieobecnosc.setLiczbadniurlopu(p.getPrzLiczba());
+            naliczenienieobecnosc.setLiczbadniNieobecnosci(p.getPrzLiczba());
             naliczenienieobecnosc.setPodstawadochoroby(p.getPrzPodstawa().doubleValue());
             naliczenienieobecnosc.setStawkadzienna(p.getPrzKwota1().doubleValue());
             naliczenienieobecnosc.setKwota(p.getPrzKwota().doubleValue());
