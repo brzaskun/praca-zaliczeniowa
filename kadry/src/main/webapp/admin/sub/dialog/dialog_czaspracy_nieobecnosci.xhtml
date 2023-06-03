@@ -96,14 +96,19 @@
                                 <h:outputText value="#{wpisView.umowa.dataod}"/>
                                 <h:outputText value="data do:"/>
                                 <h:outputText value="#{wpisView.umowa.datado}"/>
-                                <h:outputText value="stanowisko:"/>
-                                <h:outputText value="#{wpisView.umowa.stanowisko}"/>
-                                <p:outputLabel value="urlopu do wyk. godziny:" />
-                                <h:outputText  value="#{nieobecnoscView.urlopprezentacja.doprzeniesienia}" style="color: green;" rendered="#{nieobecnoscView.urlopprezentacja.doprzeniesienia gt 0}"/>
-                                <h:outputText  value="#{nieobecnoscView.urlopprezentacja.doprzeniesienia}" style="color: red;" rendered="#{nieobecnoscView.urlopprezentacja.doprzeniesienia lt 1}"/>
+                                <p:outputLabel value="wymiar urlopu dni:" />
+                                <h:outputText  value="#{nieobecnoscView.urlopprezentacja.wymiarokresbiezacydni}" style="color: blue;"/>
+                                <p:outputLabel value="urlop z pop. roku dni:" />
+                                <h:outputText  value="#{nieobecnoscView.urlopprezentacja.bilansotwarciadni}" style="color: green;"/>
+                                <p:outputLabel value="wyk. w tym roku dni:" />
+                                <h:outputText  value="#{nieobecnoscView.urlopprezentacja.wykorzystanierokbiezacydni}" style="color: blue;"/>
                                 <p:outputLabel value="urlopu do wyk. dni:" />
                                 <h:outputText  value="#{nieobecnoscView.urlopprezentacja.doprzeniesieniadni}" style="color: green;" rendered="#{nieobecnoscView.urlopprezentacja.doprzeniesieniadni gt 0}"/>
                                 <h:outputText  value="#{nieobecnoscView.urlopprezentacja.doprzeniesieniadni}" style="color: red;" rendered="#{nieobecnoscView.urlopprezentacja.doprzeniesieniadni lt 1}"/>
+                                <p:outputLabel value="urlopu do wyk. godziny:" />
+                                <h:outputText  value="#{nieobecnoscView.urlopprezentacja.doprzeniesienia}" style="color: green;" rendered="#{nieobecnoscView.urlopprezentacja.doprzeniesienia gt 0}"/>
+                                <h:outputText  value="#{nieobecnoscView.urlopprezentacja.doprzeniesienia}" style="color: red;" rendered="#{nieobecnoscView.urlopprezentacja.doprzeniesienia lt 1}"/>
+                                
                             </p:panelGrid>
                         </p:panelGrid>
                         <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.create()}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist @(.urlopnizostalo)"/>

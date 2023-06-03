@@ -146,10 +146,7 @@ public class Angaz implements Serializable {
     private String  dataa1;
     @Column(name = "dataa1mail")
     private String  dataa1mail;
-    @Column(name = "stazlata")
-    private int stazlata;
-    @Column(name = "stazdni")
-    private int stazdni;
+
      
 
     public Angaz() {
@@ -223,22 +220,7 @@ public class Angaz implements Serializable {
         this.stazList = stazList;
     }
 
-    public int getStazlata() {
-        return stazlata;
-    }
-
-    public void setStazlata(int stazlata) {
-        this.stazlata = stazlata;
-    }
-
-    public int getStazdni() {
-        return stazdni;
-    }
-
-    public void setStazdni(int stazdni) {
-        this.stazdni = stazdni;
-    }
-
+   
     
 
 
@@ -458,7 +440,7 @@ public class Angaz implements Serializable {
     
     
     public String getStazurlop() {
-        return this.stazlata+"l. "+this.stazdni+"dn.";
+        return this.pracownik.getStazlata()+"l. "+this.pracownik.getStazdni()+"dn.";
     }
     
      @XmlTransient

@@ -64,6 +64,8 @@ public class Nieobecnoscprezentacja implements Serializable {
     private int doswiadectwadni;
     @Column(name = "wykorzystanierokbiezacy")
     private int wykorzystanierokbiezacy;
+    @Column(name = "wykorzystanierokbiezacydni")
+    private int wykorzystanierokbiezacydni;
     @Column(name = "wykorzystanierokbiezacyekwiwalent")
     private int wykorzystanierokbiezacyekwiwalent;
     @NotNull
@@ -220,6 +222,14 @@ public class Nieobecnoscprezentacja implements Serializable {
 
     public void setWymiarokresbiezacydni(int wymiarokresbiezacydni) {
         this.wymiarokresbiezacydni = wymiarokresbiezacydni;
+    }
+
+    public int getWykorzystanierokbiezacydni() {
+        return wykorzystanierokbiezacydni;
+    }
+
+    public void setWykorzystanierokbiezacydni(int wykorzystanierokbiezacydni) {
+        this.wykorzystanierokbiezacydni = wykorzystanierokbiezacydni;
     }
 
    

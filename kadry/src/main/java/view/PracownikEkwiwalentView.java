@@ -162,7 +162,9 @@ public class PracownikEkwiwalentView  implements Serializable {
             oddelegowanieprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, oddelegowanieprezentacja, "Z"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
-            oddelegowanieprezentacja.setWymiarokresbiezacygodziny(UrlopBean.obliczwymiarwgodzinach(umowy, pobierzetat, wpisView.getRokWpisu(), stannadzien, wpisView.getAngaz()));
+            int[] obliczwymiarwgodzinach = UrlopBean.obliczwymiarwgodzinach(umowy, pobierzetat, wpisView.getRokWpisu(), stannadzien, wpisView.getAngaz());
+            oddelegowanieprezentacja.setWymiarokresbiezacydni(obliczwymiarwgodzinach[0]);
+            oddelegowanieprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinach[1]);
             oddelegowanieprezentacja.setDoprzeniesienia(oddelegowanieprezentacja.getWymiarokresbiezacygodziny()-oddelegowanieprezentacja.getWykorzystanierokbiezacy()-oddelegowanieprezentacja.getWykorzystanierokbiezacyekwiwalent());
             //Msg.msg("Pobrano oddelegowania");
         }

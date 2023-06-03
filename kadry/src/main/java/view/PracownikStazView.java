@@ -11,6 +11,7 @@ import dao.PracownikFacade;
 import dao.StazFacade;
 import data.Data;
 import entity.Angaz;
+import entity.Pracownik;
 import entity.Slownikszkolazatrhistoria;
 import entity.Staz;
 import java.io.Serializable;
@@ -95,9 +96,14 @@ public class PracownikStazView  implements Serializable {
                 suma.setId(999);
                 suma.setSlownikszkolazatrhistoria(new Slownikszkolazatrhistoria("podsumowanie"));
                 listastaz.add(suma);
-                selectedangaz.setStazlata(suma.getLata());
-                selectedangaz.setStazdni(suma.getDni());
-                angazFacade.edit(selectedangaz);
+                Pracownik pracownik = selectedangaz.getPracownik();
+                pracownik.setStazlata(suma.getLata());
+                pracownik.setStazdni(suma.getDni());
+                pracownik.setWymiarurlopu(20);
+                if (suma.getLata()>=10) {
+                    pracownik.setWymiarurlopu(26);
+                }
+                pracownikFacade.edit(pracownik);
             }
             selected = new Staz();
             selected.setAngaz(selectedangaz);
