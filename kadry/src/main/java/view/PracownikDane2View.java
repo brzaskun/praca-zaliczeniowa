@@ -70,7 +70,7 @@ public class PracownikDane2View  implements Serializable {
                 selected.setLokal("-");
             }
             selected.setDatalogowania(Data.aktualnaDataCzas());
-            selected.setModyfikowal(wpisView.getUzer().getSecname());
+            selected.setModyfikowal(wpisView.getUzer().getImieNazwisko());
             if (selected.getPlec()==null||selected.getPlec().isEmpty()) {
                 selected.setPlec(pleczPesel(selected.getPesel()));
             }

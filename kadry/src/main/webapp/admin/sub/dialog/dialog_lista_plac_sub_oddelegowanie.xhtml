@@ -152,7 +152,9 @@
                                             </p:column>-->
                     <p:row>
                         <p:column>
-                            <h:outputText value="#{itempasek.rok}/#{itempasek.mc}"/>
+                            <h:outputText value="#{itempasek.data}" rendered="#{itempasek.data ne null}">
+                                <f:convertDateTime locale="pl"/>
+                            </h:outputText>
                         </p:column>
                         <p:column>
                             <h:outputText value="brutto-zus"/>

@@ -189,7 +189,7 @@ public class PracownikView  implements Serializable {
           try {
             pracownik.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
             pracownik.setDatalogowania(Data.aktualnaDataCzas());
-            pracownik.setModyfikowal(wpisView.getUzer().getLogin());
+            pracownik.setModyfikowal(wpisView.getUzer().getImieNazwisko());
             pracownikFacade.edit(pracownik);
             wpisView.setPracownik(pracownik);
             Msg.msg("Zachowano zmienione dane pracownika");

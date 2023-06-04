@@ -141,7 +141,7 @@ public class PracownikEkwiwalentView  implements Serializable {
             wpisView.getPracownik().setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
             Calendar calendar = Calendar.getInstance();
             wpisView.getPracownik().setDatalogowania(Data.aktualnaDataCzas());
-            wpisView.getPracownik().setModyfikowal(wpisView.getUzer().getSecname());
+            wpisView.getPracownik().setModyfikowal(wpisView.getUzer().getImieNazwisko());
             pracownikFacade.edit(wpisView.getPracownik());
             Msg.msg("Uaktualniono dane");
           } catch (Exception e) {

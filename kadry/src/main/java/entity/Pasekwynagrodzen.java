@@ -8,6 +8,7 @@ package entity;
 import data.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -24,6 +25,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
@@ -270,6 +273,9 @@ public class Pasekwynagrodzen implements Serializable {
     private boolean fpprzekroczeniewiek;
     @Column(name = "fppowrotmacierzynski")
     private boolean fppowrotmacierzynski;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "data")
+    private Date data;
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "ekwiwalentskladniki", referencedColumnName = "id")
 //    private EkwiwalentUrlop ekwiwalentSkladniki;
@@ -477,6 +483,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setPodatekdochodowyzagranicawaluta(double podatekdochodowyzagranicawaluta) {
         this.podatekdochodowyzagranicawaluta = podatekdochodowyzagranicawaluta;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
     }
 
     public double getPodstawaopodatkowaniazagranicawaluta() {

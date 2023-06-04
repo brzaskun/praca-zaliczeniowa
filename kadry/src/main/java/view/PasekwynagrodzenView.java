@@ -59,6 +59,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.faces.context.ExternalContext;
@@ -379,7 +380,8 @@ public class PasekwynagrodzenView implements Serializable {
                                 wynagrodzenieminimalne, czyodlicoznokwotewolna,
                                 kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, kalendarzwzor, definicjadlazasilkow);
                         usunpasekjakzawiera(pasek);
-                        pasek.setSporzadzil(wpisView.getUzer().getLogin());
+                        pasek.setSporzadzil(wpisView.getUzer().getImieNazwisko());
+                        pasek.setData(new Date());
                         //usuwaniezerowych
                         for (Iterator<Naliczenieskladnikawynagrodzenia> ita = pasek.getNaliczenieskladnikawynagrodzeniaList().iterator(); ita.hasNext();) {
                             Naliczenieskladnikawynagrodzenia skl = ita.next();

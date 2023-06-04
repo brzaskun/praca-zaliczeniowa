@@ -71,7 +71,7 @@ public class PracodawcaDaneView  implements Serializable {
             selected.setImie(selected.getImie().trim());
             selected.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
             selected.setDatalogowania(Data.aktualnaDataCzas());
-            selected.setModyfikowal(wpisView.getUzer().getLogin());
+            selected.setModyfikowal(wpisView.getUzer().getImieNazwisko());
             selected.setPlec(pleczPesel(selected.getPesel()));
             pracownikFacade.create(selected);
             listapracownikow.add(selected);
@@ -141,7 +141,7 @@ public class PracodawcaDaneView  implements Serializable {
           try {
             pracownik.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
             pracownik.setDatalogowania(Data.aktualnaDataCzas());
-            pracownik.setModyfikowal(wpisView.getUzer().getLogin());
+            pracownik.setModyfikowal(wpisView.getUzer().getImieNazwisko());
             pracownikFacade.edit(pracownik);
             wpisView.setPracownik(pracownik);
             Msg.msg("Zachowano zmienione dane pracownika");

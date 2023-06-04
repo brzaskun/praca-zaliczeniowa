@@ -57,7 +57,7 @@ public class PracownikDaneView  implements Serializable {
             selected.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
             Calendar calendar = Calendar.getInstance();
             selected.setDatalogowania(Data.aktualnaDataCzas());
-            selected.setModyfikowal(wpisView.getUzer().getSecname());
+            selected.setModyfikowal(wpisView.getUzer().getImieNazwisko());
             pracownikFacade.edit(selected);
             Msg.msg("Uaktualniono dane");
           } catch (Exception e) {
