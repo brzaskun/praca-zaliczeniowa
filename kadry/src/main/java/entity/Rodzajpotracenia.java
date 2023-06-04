@@ -54,6 +54,8 @@ public class Rodzajpotracenia implements Serializable {
     private double limitumowaoprace;
     @Column(name = "limitumowazlecenia")
     private double limitumowazlecenia;
+    @Column(name = "limitzasilki")
+    private double limitzasilki;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajpotracenia")
     private List<Skladnikpotracenia> skladnikpotraceniaList;
     @Column(name = "wpo_serial")
@@ -116,6 +118,14 @@ public class Rodzajpotracenia implements Serializable {
 
     public void setLimitumowazlecenia(double limitumowazlecenia) {
         this.limitumowazlecenia = limitumowazlecenia;
+    }
+
+    public double getLimitzasilki() {
+        return limitzasilki;
+    }
+
+    public void setLimitzasilki(double limitzasilki) {
+        this.limitzasilki = limitzasilki;
     }
 
     public Integer getWpo_serial() {

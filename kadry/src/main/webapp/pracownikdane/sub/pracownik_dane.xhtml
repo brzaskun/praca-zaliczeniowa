@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="width: 1500px;">
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="width: 1300px;">
             <p:outputPanel style="height: 200px">
                 <h:form id="AngazCreateForm">
                     <p:selectOneListbox id="pracownik" value="#{pracownikDane2View.selectedangaz}" required="true" requiredMessage="pracownik"  
@@ -17,7 +17,7 @@
                     </p:selectOneListbox>
                 </h:form>
             </p:outputPanel>
-        <p:outputPanel style="height: 200px">
+        <p:outputPanel style="height: 200px; width: 1100px;">
             <h:form id="PracownikCreateForm">
                 <p:outputPanel>
                     <p:panel header="dane personalne "/>
@@ -40,7 +40,12 @@
                     <p:panel header="adres zamieszkania"/>
                     <p:panelGrid columns="8">
                         <p:outputLabel value="kraj" for="kraj" />
-                        <p:inputText id="kraj" value="#{pracownikDane2View.selected.kraj}" title="kraj" required="true" requiredMessage="Wpisz nazwę kraju"/>
+                        <p:autoComplete id="kraj" value="#{pracownikDane2View.selected.kraj}" completeMethod="#{panstwa.complete}"
+                                var="pa" itemLabel="#{pa}" itemValue="#{pa}" required="true" requiredMessage="Wybierz nazwę kraju"
+                               minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="true" 
+                                effect="clip" autocomplete="true" queryDelay="100" autoHighlight="true" 
+                                style="width: 250px" >
+                        </p:autoComplete>
                         <p:outputLabel value="województwo" for="woj" />
                         <p:inputText id="woj" value="#{pracownikDane2View.selected.wojewodztwo}" title="województwo" required="true" requiredMessage="Wpisz nazwę województwa"/>
                         <p:outputLabel value="powiat" for="pow" />

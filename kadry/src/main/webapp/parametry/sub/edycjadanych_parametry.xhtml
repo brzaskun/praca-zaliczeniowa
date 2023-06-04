@@ -283,7 +283,7 @@
                                  selectionMode="single" selection="#{slownikpotraceniaView.selectedlista}"
                                  rowKey="#{item12.id}" 
                                  scrollable="true" scrollHeight="700" scrollRows="30" 
-                                 style="width: 880px;"
+                                 style="width: 950px;"
                                  >
 
                         <p:column width="40" style="text-align: center;">
@@ -309,6 +309,12 @@
                                 <h:outputText value="limit zlecenia"/>
                             </f:facet>
                             <bcf:inputpl value="#{item12.limitumowazlecenia}"/>
+                        </p:column>
+                         <p:column width="70">
+                            <f:facet name="header">
+                                <h:outputText value="limit zasiłki"/>
+                            </f:facet>
+                             <bcf:inputpl value="#{item12.limitzasilki}"/>
                         </p:column>
                         <p:column style="text-align: center;" width="40">
                             <f:facet name="header">

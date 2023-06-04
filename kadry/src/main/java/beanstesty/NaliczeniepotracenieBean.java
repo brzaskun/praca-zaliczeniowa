@@ -43,6 +43,9 @@ public class NaliczeniepotracenieBean {
             if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")) {
                 ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
             }
+            if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("ZA")) {
+                ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitzasilki();
+            }
             if (p.isMaxustawowy()==false) {
                 wolneodzajecia = 0.0;
                 ilemozna = 100;
