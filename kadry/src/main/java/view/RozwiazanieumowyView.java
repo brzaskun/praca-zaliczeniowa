@@ -226,6 +226,9 @@ public class RozwiazanieumowyView  implements Serializable {
     
     public void drukujwypowiedzenie() {
         if (rozwiazanieUmowyNowe!=null && rozwiazanieUmowyNowe.getUmowa()!=null) {
+            if (rozwiazanieUmowyNowe.getUmowa().getAngaz().getFirma().getReprezentant()==null&&rozwiazanieUmowyNowe.getUmowa().getAngaz().getFirma().getReprezentant().equals("")) {
+                Msg.msg("w","Prosze uzupełnić imię i nazwisko osoby reprezentującej firmę.");
+            }
             String nazwa = rozwiazanieUmowyNowe.getUmowa().getPracownik().getPesel()+"wypowiedzenie.pdf";
             PdfWypowiedzenie.drukuj(rozwiazanieUmowyNowe, nazwa);
         } else {
@@ -235,6 +238,9 @@ public class RozwiazanieumowyView  implements Serializable {
     
      public void drukujwypowiedzenie(Rozwiazanieumowy roz) {
         if (roz!=null && roz.getUmowa()!=null) {
+            if (rozwiazanieUmowyNowe.getUmowa().getAngaz().getFirma().getReprezentant()==null&&rozwiazanieUmowyNowe.getUmowa().getAngaz().getFirma().getReprezentant().equals("")) {
+                Msg.msg("w","Prosze uzupełnić imię i nazwisko osoby reprezentującej firmę.");
+            }
             String nazwa = roz.getUmowa().getPracownik().getPesel()+"wypowiedzenie.pdf";
             PdfWypowiedzenie.drukuj(roz, nazwa);
         } else {

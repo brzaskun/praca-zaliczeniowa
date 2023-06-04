@@ -99,6 +99,8 @@ public class Kartawynagrodzen implements Serializable {
     private double podatekdochodowy;
     @Column(name = "podstawaopodatkowania")
     private double podstawaopodatkowania;
+    @Column(name = "podstawaubezpieczenspolecznych")
+    private double podstawaubezpieczenspolecznych;
     @Column(name = "pracchorobowe")
     private double pracchorobowe;
     @Column(name = "pracemerytalne")
@@ -552,6 +554,14 @@ public class Kartawynagrodzen implements Serializable {
         this.dochodzagranica = dochodzagranica;
     }
 
+    public double getPodstawaubezpieczenspolecznych() {
+        return podstawaubezpieczenspolecznych;
+    }
+
+    public void setPodstawaubezpieczenspolecznych(double podstawaubezpieczenspolecznych) {
+        this.podstawaubezpieczenspolecznych = podstawaubezpieczenspolecznych;
+    }
+
      
     
     
@@ -607,6 +617,7 @@ public class Kartawynagrodzen implements Serializable {
         this.razemspolecznefirma = 0.0;
         this.podatekwstepny = 0.0;
         this.podstawaubezpzdrowotne = 0.0;
+        this.podstawaubezpieczenspolecznych = 0.0;
         this.potracenia = 0.0;
         this.razem53 = 0.0;
         this.kosztpracodawcy = 0.0;
@@ -641,6 +652,7 @@ public class Kartawynagrodzen implements Serializable {
         this.razemspolecznefirma += pasek.getRazemspolecznefirma();
         this.podatekwstepny += pasek.getPodatekwstepny();
         this.podstawaubezpzdrowotne += pasek.getPodstawaubezpzdrowotne();
+        this.podstawaubezpieczenspolecznych += pasek.getPodstawaskladkizus();
         this.potracenia += pasek.getPotracenia();
         this.razem53 += pasek.getRazem53();
         this.kosztpracodawcy += pasek.getKosztpracodawcy();
@@ -680,6 +692,7 @@ public class Kartawynagrodzen implements Serializable {
         this.netto += pasek.getNetto();
         this.podatekdochodowy = Z.z(this.podatekdochodowy+pasek.getPodatekdochodowy());
         this.podstawaopodatkowania += pasek.getPodstawaopodatkowania();
+        this.podstawaubezpieczenspolecznych += pasek.getPodstawaubezpieczenspolecznych();
         this.pracchorobowe += pasek.getPracchorobowe();
         this.pracemerytalne += pasek.getPracemerytalne();
         this.pracrentowe += pasek.getPracrentowe();

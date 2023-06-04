@@ -236,7 +236,9 @@ public class PdfWypowiedzenie {
                 p.add(new Phrase("...................................", fontM));
                 document.add(p);
                 p = new Paragraph();
-                p.add(new Phrase("potwierdzam otrzymanie wypowiedzenia", fontS));
+                if (rozwiazanieumowy.isPracodawca()) {
+                    p.add(new Phrase("potwierdzam otrzymanie wypowiedzenia", fontS));
+                }
                 p.setTabSettings(new TabSettings(300));
                 p.add(Chunk.TABBING);
                 p.add(new Phrase(umowa.getAngaz().getFirma().getReprezentant(), fontM));
@@ -251,8 +253,10 @@ public class PdfWypowiedzenie {
                 Paragraph p = new Paragraph();
                 p.add(new Phrase("...................................", fontM));
                 document.add(p);
-                p = new Paragraph();
-                p.add(new Phrase("potwierdzam otrzymanie wypowiedzenia", fontS));
+                 p = new Paragraph();
+                if (rozwiazanieumowy.isPracodawca()) {
+                    p.add(new Phrase("potwierdzam otrzymanie wypowiedzenia", fontS));
+                }
                 p.setTabSettings(new TabSettings(300));
                 p.add(Chunk.TABBING);
                 p.add(new Phrase(umowa.getAngaz().getFirma().getReprezentant(), fontM));

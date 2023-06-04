@@ -121,7 +121,7 @@ public class PdfKartaWynagrodzen {
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttozus())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttobezzus())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttozus()+rs.getBruttobezzus())), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBruttozus())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaubezpieczenspolecznych())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracemerytalne())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracrentowe())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracchorobowe())), "right",7));
