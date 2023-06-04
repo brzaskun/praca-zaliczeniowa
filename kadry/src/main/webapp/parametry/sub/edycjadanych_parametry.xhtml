@@ -489,7 +489,7 @@
                                  selectionMode="single" selection="#{rodzajenieobecnosciView.selectedlista}"
                                  rowKey="#{item13roz.id}" rowIndexVar="yndexvar" sortBy="#{item13roz.kolejnosc}"
                                  scrollable="true" scrollHeight="700" scrollRows="30" 
-                                 style=" width: 1050px;"
+                                 style=" width: 1100px;"
                                  >
 
                         <p:column width="40" style="text-align: center;">
@@ -536,11 +536,19 @@
                             </f:facet>
                             <h:outputText value="#{item13roz.redukcjawyn}"/>
                         </p:column>
-                        <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.nieskladkowy}" filterBy="#{item13roz.nieskladkowy}" filterMatchMode="contains">
+                        <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.nieskladkowy}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="nieskład."/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item13roz.nieskladkowy}">
+                                 <p:ajax event="change" partialSubmit="true" listener="#{rodzajenieobecnosciView.edytuj(item13roz)}"/>
+                             </p:selectBooleanCheckbox>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.brakuzupelnianiapodtsawyzasilku}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="brak. wal. chor."/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item13roz.brakuzupelnianiapodtsawyzasilku}">
                                  <p:ajax event="change" partialSubmit="true" listener="#{rodzajenieobecnosciView.edytuj(item13roz)}"/>
                              </p:selectBooleanCheckbox>
                         </p:column>

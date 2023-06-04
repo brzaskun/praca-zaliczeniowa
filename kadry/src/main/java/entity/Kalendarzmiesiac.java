@@ -945,7 +945,7 @@ private static final long serialVersionUID = 1L;
         if (nieobecnosc.getDzienList()==null) {
             nieobecnosc.setDzienList(new ArrayList<>());
         }
-        String kod = nieobecnosc.getKod();
+        String kod = nieobecnosc.getRodzajnieobecnosci().getKod();
         String kodzbiorczy = nieobecnosc.getRodzajnieobecnosci().getKodzbiorczy();
         for (int i = dzienod; i <= dziendo; i++) {
             final int j = i;

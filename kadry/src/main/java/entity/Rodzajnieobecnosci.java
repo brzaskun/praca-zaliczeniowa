@@ -66,6 +66,8 @@ public class Rodzajnieobecnosci implements Serializable {
     private Character redukcjawyn;
     @Column(name = "nieskladkowy")
     private boolean nieskladkowy;
+    @Column(name = "brakuzupelnianiapodtsawyzasilku")
+    private boolean brakuzupelnianiapodtsawyzasilku;
     @Column(name = "dnikalendarzowe")
     private boolean dnikalendarzowe;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajnieobecnosci")
@@ -209,6 +211,14 @@ public class Rodzajnieobecnosci implements Serializable {
 
     public void setZ33(boolean z33) {
         this.z33 = z33;
+    }
+
+    public boolean isBrakuzupelnianiapodtsawyzasilku() {
+        return brakuzupelnianiapodtsawyzasilku;
+    }
+
+    public void setBrakuzupelnianiapodtsawyzasilku(boolean brakuzupelnianiapodtsawyzasilku) {
+        this.brakuzupelnianiapodtsawyzasilku = brakuzupelnianiapodtsawyzasilku;
     }
 
      

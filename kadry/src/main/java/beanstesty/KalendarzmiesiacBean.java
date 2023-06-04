@@ -603,6 +603,7 @@ public class KalendarzmiesiacBean {
                     int dniprzepracowaneIurlop = 0;
                     double godzinyrobocze = 0;
                     double godzinyprzepracowaneIurlop = 0;
+                    boolean braknieobecnoscninieusprawiedliwionej = true;
                     if (kalendarzdosredniej.getDzienList() != null) {
                         for (Dzien d : kalendarzdosredniej.getDzienList()) {
                             if (d.getTypdnia() == 0) {
@@ -616,13 +617,18 @@ public class KalendarzmiesiacBean {
                                 dniprzepracowaneIurlop++;
                                 godzinyprzepracowaneIurlop = godzinyprzepracowaneIurlop + d.getUrlopPlatny();
                             }
+                            //uniemozliwiamy waloryzacje za miesiace kiedy byly NN
+                            if (d.getNieobecnosc().getRodzajnieobecnosci().isBrakuzupelnianiapodtsawyzasilku()) {
+                                braknieobecnoscninieusprawiedliwionej = false;
+                            }
                         }
                         double dninieprzepracowane = dnirobocze - dniprzepracowaneIurlop;
                         if (dninieprzepracowane > dniprzepracowaneIurlop) {
                             czyjestwiecejniepracy = true;
                         }
+                        //jezeli mial nieobecnosc nieusprawiedliwiona to nie waloryzujemy
                     }
-                    if (czyjestwiecejniepracy || kalendarzdosredniej.equals(kalendarz)) {
+                    if (braknieobecnoscninieusprawiedliwionej && (czyjestwiecejniepracy || kalendarzdosredniej.equals(kalendarz))) {
                         //jest wiecej nieprzepracowanego wiec robimy tylko statystycznie
                         boolean pominiety = true;
                         sredniaStatystycznaMiesiacpominiety(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarzdosredniej, kalendarz, definicjalistaplac, dnirobocze, dniprzepracowaneIurlop, godzinyrobocze, godzinyprzepracowaneIurlop, pominiety);
