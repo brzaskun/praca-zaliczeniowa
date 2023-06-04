@@ -73,6 +73,7 @@ public class DraView  implements Serializable {
     private double zus53;
     private double zus;
     private double pit4;
+    private double pit4N;
     private double potraceniaKomornik;
     private double potraceniaZaliczki;
     private double potraceniaPPK;
@@ -163,6 +164,7 @@ public class DraView  implements Serializable {
             danezus.put("zus53", zus53);
             danezus.put("zus", zus);
             danezus.put("pit4", pit4);
+            danezus.put("pit4N", pit4N);
             danezus.put("brutto", brutto);
             danezus.put("bruttopraca", bruttopraca);
             danezus.put("bruttozlecenia", bruttozlecenia);
@@ -203,6 +205,7 @@ public class DraView  implements Serializable {
             danezus.put("zus53", zus53);
             danezus.put("zus", zus);
             danezus.put("pit4", pit4);
+            danezus.put("pit4N", pit4N);
             danezus.put("brutto", brutto);
             danezus.put("bruttopraca", bruttopraca);
             danezus.put("bruttozlecenia", bruttozlecenia);
@@ -241,6 +244,7 @@ public class DraView  implements Serializable {
             zusFGSP = 0.0;
             zus53 = 0.0;
             pit4 = 0.0;
+            pit4N = 0.0;
             zus = 0.0;
             potraceniaKomornik = 0.0;
             potraceniaPPK = 0.0;
@@ -263,6 +267,7 @@ public class DraView  implements Serializable {
                 zusFGSP = Z.z(zusFGSP+p.getFgsp());
                 zus53 = Z.z(zus53+p.getRazem53());
                 pit4 = Z.z(pit4+p.getPodatekdochodowy());
+                pit4N = Z.z(pit4N+p.getPodatekdochodowyzagranicawaluta());
                 brutto = Z.z(brutto+p.getBrutto());
                 if (p.getDefinicjalistaplac().getRodzajlistyplac().getTyp()==1) {
                     bruttopraca = Z.z(bruttopraca+p.getBrutto());
