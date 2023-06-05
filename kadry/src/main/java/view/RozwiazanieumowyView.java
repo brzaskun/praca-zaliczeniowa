@@ -131,6 +131,8 @@ public class RozwiazanieumowyView  implements Serializable {
                         if (!umowykontynuacja.isEmpty()) {
                             datagraniczna = umowykontynuacja.get(0).getDataod();
                         }
+                    } else if (umowykontynuacja!=null&&umowykontynuacja.size()==1) {
+                        datagraniczna = umowykontynuacja.get(0).getDataod();
                     }
                     listanieob  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
                     if (datagraniczna!=null) {
