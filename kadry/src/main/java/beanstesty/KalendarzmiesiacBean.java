@@ -618,7 +618,7 @@ public class KalendarzmiesiacBean {
                                 godzinyprzepracowaneIurlop = godzinyprzepracowaneIurlop + d.getUrlopPlatny();
                             }
                             //uniemozliwiamy waloryzacje za miesiace kiedy byly NN
-                            if (d.getNieobecnosc().getRodzajnieobecnosci().isBrakuzupelnianiapodtsawyzasilku()) {
+                            if (d.getNieobecnosc()!=null&&d.getNieobecnosc().getRodzajnieobecnosci().isBrakuzupelnianiapodtsawyzasilku()) {
                                 braknieobecnoscninieusprawiedliwionej = false;
                             }
                         }
