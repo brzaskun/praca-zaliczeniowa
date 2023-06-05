@@ -123,7 +123,7 @@ public class RachunekZlecenieView implements Serializable {
                     double kwotaPolska = umowabiezaca.getAngaz().pobierzwynagrodzenieKwota(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), kalendarz);
                     double iloscgodzinzkalendarzaPolska = pobierzgodzinyzkalendarzaPolska();
                     rachunekdoumowyzlecenia.setIloscgodzin(iloscgodzinzkalendarzaPolska);
-                    if (umowabiezaca.getAngaz().czywynagrodzeniegodzinowe()) {
+                    if (umowabiezaca.getAngaz().czywynagrodzeniegodzinoweRachunek()) {
                         rachunekdoumowyzlecenia.setWynagrodzeniegodzinowe(kwotaPolska);
                         rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe() * iloscgodzinzkalendarzaPolska));
                     } else {
@@ -139,7 +139,7 @@ public class RachunekZlecenieView implements Serializable {
                     rachunekdoumowyzlecenia.setSymbolwaluty(tabelanbp.getWaluta().getSymbolwaluty());
                     double iloscgodzinzkalendarzaZagranica = pobierzgodzinyzkalendarzaZagranica();
                     rachunekdoumowyzlecenia.setIloscgodzinoddelegowanie(iloscgodzinzkalendarzaZagranica);
-                    if (umowabiezaca.getAngaz().czywynagrodzeniegodzinowe()) {
+                    if (umowabiezaca.getAngaz().czywynagrodzeniegodzinoweRachunek()) {
                         rachunekdoumowyzlecenia.setWynagrodzeniegodzinoweoddelegowanie(kwotaZagranicaPLN);
                         rachunekdoumowyzlecenia.setKwotaoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowanie() * iloscgodzinzkalendarzaZagranica));
                         rachunekdoumowyzlecenia.setKwotaoddelegowaniewaluta(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowaniewaluta()* iloscgodzinzkalendarzaZagranica));

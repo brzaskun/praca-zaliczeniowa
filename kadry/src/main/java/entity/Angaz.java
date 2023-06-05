@@ -667,6 +667,18 @@ public class Angaz implements Serializable {
         return zwrot;
     }
     
+    public boolean czywynagrodzeniegodzinoweRachunek() {
+        boolean zwrot = false;
+        if (this.skladnikwynagrodzeniaList!=null) {
+            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
+                if (p.getRodzajwynagrodzenia().getKod().equals("40")) {
+                    zwrot = !p.getRodzajwynagrodzenia().getGodzinowe0miesieczne1();
+                }
+            }
+        }
+        return zwrot;
+    }
+    
     
 
    
