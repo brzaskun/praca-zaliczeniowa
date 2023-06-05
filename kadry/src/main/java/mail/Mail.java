@@ -14,8 +14,8 @@ import entity.Pracownik;
 import entity.SMTPSettings;
 import entity.Umowa;
 import error.E;
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import javax.activation.DataHandler;
 import javax.inject.Named;
 import javax.mail.Message;
@@ -244,7 +244,7 @@ public class Mail {
     }
     
     
-    public static void mailListaPlac(FirmaKadry firma, String rok, String mc, String adres, SMTPSettings settings,SMTPSettings ogolne, byte[] zalacznik, String nazwapliku, String adresBCC)  {
+    public static void mailListaPlac(FirmaKadry firma, String rok, String mc, String adres, SMTPSettings settings,SMTPSettings ogolne, ByteArrayOutputStream listaplac, ByteArrayOutputStream rachunki, String nazwapliku, String adresBCC)  {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
@@ -264,7 +264,13 @@ public class Mail {
             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
             Multipart mp = new MimeMultipart();
             mp.addBodyPart(mbp1);
-            dolaczplik(zalacznik, mp, nazwapliku);
+            byte[] zalacznikLista = listaplac.toByteArray();
+            byte[] zalacznikRachunki = null;
+            dolaczplik(zalacznikLista, mp, nazwapliku);
+            if (rachunki!=null) {
+                zalacznikRachunki = rachunki.toByteArray();
+                dolaczplik(zalacznikRachunki, mp, nazwapliku);
+            }
             message.setContent(mp);
             Transport.send(message);
         } catch (MessagingException e) {
