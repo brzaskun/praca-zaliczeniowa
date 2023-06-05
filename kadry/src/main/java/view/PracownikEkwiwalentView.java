@@ -416,6 +416,12 @@ public class PracownikEkwiwalentView  implements Serializable {
 //                                rok = popokres[1];
 //                                mc = popokres[0];
 //                            }
+//                          przywroilem to 05.06.2023 bo tak mialo byc. Natalia namieszala. nie analizuje
+                            if (dzien!=null) {
+                                String[] popokres = Data.poprzedniOkres(mc, rok);
+                                rok = popokres[1];
+                                mc = popokres[0];
+                            }
                             //List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokAngaz(rok, wpisView.getAngaz());
                             List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, p, kalendarzlista);
                             double godzinyfaktyczne = 0.0;
