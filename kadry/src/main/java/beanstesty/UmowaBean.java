@@ -447,11 +447,19 @@ public class UmowaBean {
                 } else {
                     if (u.getDataod().equals(datapoprzednia)) {
                         u.setGrupaumow(biezacagrupa);
-                        datapoprzednia = Data.dodajdzien(u.getDatado(),1);
+                        if (u.getDatado()!=null) {
+                            datapoprzednia = Data.dodajdzien(u.getDatado(),1);
+                         } else {
+                            break;
+                        }
                     } else {
                         biezacagrupa = biezacagrupa+1;
                         u.setGrupaumow(biezacagrupa);
-                        datapoprzednia = Data.dodajdzien(u.getDatado(),1);
+                        if (u.getDatado()!=null) {
+                            datapoprzednia = Data.dodajdzien(u.getDatado(),1);
+                        } else {
+                            break;
+                        }
                     }
                 }
                 
