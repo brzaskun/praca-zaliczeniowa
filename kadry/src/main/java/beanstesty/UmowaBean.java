@@ -447,7 +447,7 @@ public class UmowaBean {
                 } else {
                     if (u.getDataod().equals(datapoprzednia)) {
                         u.setGrupaumow(biezacagrupa);
-                        if (u.getDatado()!=null) {
+                        if (u.getDatado()!=null&&!u.getDatado().equals("")) {
                             datapoprzednia = Data.dodajdzien(u.getDatado(),1);
                          } else {
                             break;
@@ -455,7 +455,7 @@ public class UmowaBean {
                     } else {
                         biezacagrupa = biezacagrupa+1;
                         u.setGrupaumow(biezacagrupa);
-                        if (u.getDatado()!=null) {
+                        if (u.getDatado()!=null&&!u.getDatado().equals("")) {
                             datapoprzednia = Data.dodajdzien(u.getDatado(),1);
                         } else {
                             break;
