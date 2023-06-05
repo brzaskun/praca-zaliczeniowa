@@ -100,8 +100,9 @@ public class PdfSwiadectwo {
                 document.add(Chunk.NEWLINE);
                 String ustanie = "4. Stosunek pracy ustał w wyniku: ";
                 PdfMain.dodajLinieOpisuBezOdstepu(document, ustanie, Element.ALIGN_LEFT, 2);
-                boolean rozwiazanie = rozwiazanieumowy.isRozwiazanie()||rozwiazanieumowy.isWypowiedzenie();
-                if (rozwiazanie) {
+                boolean rozwiazanie = rozwiazanieumowy.isRozwiazanie();
+                boolean wypowiedzenie = rozwiazanieumowy.isWypowiedzenie();
+                if (wypowiedzenie) {
                     boolean pracownik2 = rozwiazanieumowy.isPracownik();
                     if (pracownik2) {
                         String ustanie1 = "za wypowiedzeniem ze strony pracownika "+rozwiazanieumowy.getPodstawaprawna();
@@ -112,7 +113,7 @@ public class PdfSwiadectwo {
                         String ustanie1 = "za wypowiedzeniem ze strony pracodawcy "+rozwiazanieumowy.getPodstawaprawna();
                         PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, ustanie1, Element.ALIGN_LEFT, 2);
                     }
-                } else {
+                } else if (rozwiazanie){
                     String ustanie1 = rozwiazanieumowy.getPodstawaprawna();
                     PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, ustanie1, Element.ALIGN_LEFT, 2);
                 }
