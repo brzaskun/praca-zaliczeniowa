@@ -205,7 +205,7 @@ public class Pasekwynagrodzen implements Serializable {
     @ManyToOne
     private Definicjalistaplac definicjalistaplac;
     @JoinColumn(name = "kalendarzmiesiac", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Kalendarzmiesiac kalendarzmiesiac;
     @Column(name="rok")
     private String rok;
@@ -1452,8 +1452,10 @@ public class Pasekwynagrodzen implements Serializable {
 
     public double obliczproporcjeZusOddelegowani() {
         double zwrot = 1;
-        if (this.bruttozus!=this.podstawaskladkizus&&this.oddelegowaniewaluta>0.0) {
+        if (this.bruttozus>0.0&&this.bruttozus!=this.podstawaskladkizus&&this.oddelegowaniewaluta>0.0) {
             zwrot = this.podstawaskladkizus/this.bruttozus;
+        } else if (this.bruttozusbezpodatek>0.0&&this.bruttozusbezpodatek!=this.podstawaskladkizus&&this.oddelegowaniewaluta>0.0) {
+            zwrot = this.podstawaskladkizus/this.bruttozusbezpodatek;
         }
         //usunalem bo wisniewski i byl przyapdek graniczny z 5922 i zadzialalo zle, podwyzszalo podstawe o ten procent, a i tak bniore z 2022 tylko to co jest w skladniku zus
 //        if (this.rokwypl.equals("2022")&&brutto>5922.0&&this.podstawaskladkizus==5922.0) {

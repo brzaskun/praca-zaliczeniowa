@@ -688,7 +688,7 @@ public class PasekwynagrodzenView implements Serializable {
                             }
                             if (zmienneList != null && zmienneList.size() > 0) {
                                 boolean jestwokresie = false;
-                                System.out.println(kal.getNazwiskoImie());
+                                //System.out.println(kal.getNazwiskoImie());
                                 for (Zmiennawynagrodzenia zmienna : zmienneList) {
                                     if (zmienna.getDataod()!=null) {
                                         if (DataBean.czyZmiennasieMiesci(zmienna, kal)) {
