@@ -871,9 +871,10 @@ public class KalendarzmiesiacBean {
                     }
                 }
             }
+            double kwotawyplaconapobrana = wynagrodzeniemcwyplacone;
             wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone * procentOddelegowanie;
             Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), wynagrodzeniemcwyplacone, wynagrodzeniemczwaloryzowane, skladnikstaly, naliczenienieobecnosc, pominiety,
-                    godzinyprzepracowaneIurlop, dniprzepracowaneIurlop, godzinyrobocze, dnirobocze);
+                    godzinyprzepracowaneIurlop, dniprzepracowaneIurlop, godzinyrobocze, dnirobocze, procentOddelegowanie, kwotawyplaconapobrana);
             srednia.setWaloryzowane(waloryzowac);
             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
             double suma = wynagrodzeniemcwyplacone + wynagrodzeniemczwaloryzowane;
@@ -1032,9 +1033,10 @@ public class KalendarzmiesiacBean {
                                 }
                             }
                         }
+                        double kwotawyplaconapobrana = wynagrodzeniemcwyplacone;
                         wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone * procentOddelegowanie;
                         Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), wynagrodzeniemcwyplacone, wynagrodzeniemczwaloryzowane, skladnikstaly, naliczenienieobecnosc, pominiety,
-                                godzinyprzepracowanezm, dniprzepracowane, godzinyroboczezm, dnirobocze);
+                                godzinyprzepracowanezm, dniprzepracowane, godzinyroboczezm, dnirobocze, procentOddelegowanie, kwotawyplaconapobrana);
                         srednia.setWaloryzowane(waloryzowac);
                         naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                         double suma = wynagrodzeniemcwyplacone + wynagrodzeniemczwaloryzowane;

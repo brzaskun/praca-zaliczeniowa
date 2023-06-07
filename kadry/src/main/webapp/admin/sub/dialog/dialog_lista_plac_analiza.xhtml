@@ -182,10 +182,11 @@
                             </p:panelGrid>
                         </p:tab>
                         <p:tab title="Składniki nieobecności">
+                            <h:outputText value="W średnich, w poszczegfólnych miesiącach, sumowane są do wyliczenia średniej wynagrodznie zasadnicze (za pracę w kraju i za granicą) plus urlop." style="color:green;"/>
                             <p:panelGrid columns="1" rendered="#{pasekwynagrodzenView.wybranykalendarz.pasekwynagrodzenList ne null}">
                                 <p:dataTable id="datalist2" value="#{pasekwynagrodzenView.listanieobecnoscipracownika}" var="itempasekpotr"
                                              rowIndexVar="indexpasekszcz2" emptyMessage="Nie ma danych"  rowKey="#{itempasekpotr.id}"
-                                             style="height: 400px; overflow-y: scroll;width: 1550px;" 
+                                             style="height: 380px; overflow-y: scroll;width: 1550px;" 
                                              >
                                     <p:column width="20" style="text-align: center;">
                                         <p:rowToggler rendered="#{itempasekpotr.sredniadlanieobecnosciList.size() gt 0}"/>
@@ -255,7 +256,7 @@
                                     <p:rowExpansion>
                                         <p:dataTable id="datalistsrednia" value="#{itempasekpotr.sredniadlanieobecnosciList}" var="itempaseksrednia"
                                                      rowIndexVar="itempaseksredniaid" rowKey="#{itempaseksrednia.id}"
-                                                     style="height: 200px; overflow-y: scroll;width: 1050px;"
+                                                     style="height: 200px; overflow-y: scroll;width: 1200px;"
                                                      >
                                             <p:column style="text-align: center;" headerText="lp" width="40">
                                                 <h:outputText value="#{itempaseksredniaid+1}"/>
@@ -290,7 +291,13 @@
                                             <p:column headerText="kont." width="50" style="text-align: center;">
                                                 <h:outputText value="#{itempaseksrednia.kontynuacja}" />
                                             </p:column>
-                                            <p:column headerText="kwota" width="80">
+                                            <p:column headerText="kwota l.p." width="80">
+                                                <bcf:outputpl value="#{itempaseksrednia.kwotawyplaconapobrana}"/>
+                                            </p:column>
+                                            <p:column headerText="red. oddel." width="40">
+                                                <bcf:outputplprocent value="#{itempaseksrednia.procentoddelegowanie}"/>
+                                            </p:column>
+                                            <p:column headerText="kwot wylicz." width="80">
                                                 <bcf:outputpl value="#{itempaseksrednia.kwotawyplacona}"/>
                                             </p:column>
                                             <p:column headerText="stawka godzin." width="40">

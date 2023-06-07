@@ -83,6 +83,10 @@ public class Sredniadlanieobecnosci implements Serializable {
     private double liczbagodzinnieobecnosci;
     @Column(name = "podstawapoprzedniachoroba")
     private double podstawapoprzedniachoroba;
+    @Column(name = "procentoddelegowanie")
+    private double procentoddelegowanie;
+    @Column(name = "kwotawyplaconapobrana")
+    private double kwotawyplaconapobrana;
     @JoinColumn(name = "naliczenienieobecnosc", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Naliczenienieobecnosc naliczenienieobecnosc;
@@ -115,7 +119,7 @@ public class Sredniadlanieobecnosci implements Serializable {
 
     public Sredniadlanieobecnosci(String rok, String mc, double dnifaktyczne, double godziny, double kwotawyplacona, double stawkagodzinowa, boolean pominiete, boolean waloryzowane, double kwotazwaloryzowana, double godzinazwaloryzowana, double liczbagodzinnieobecnosci,
             double podstawapoprzedniachoroba, Naliczenienieobecnosc naliczenienieobecnosc
-            , double godzinyfaktyczne, double godzinynalezne, double dninalezne) {
+            , double godzinyfaktyczne, double godzinynalezne, double dninalezne, double procentoddelegowanie, double kwotawyplaconapobrana) {
         this.rok = rok;
         this.mc = mc;
         this.kwotawyplacona = kwotawyplacona;
@@ -131,6 +135,8 @@ public class Sredniadlanieobecnosci implements Serializable {
         this.dnifaktyczne = dnifaktyczne;
         this.dninalezne = dninalezne;
         this.godzinynalezne = godzinynalezne;
+        this.procentoddelegowanie = procentoddelegowanie;
+        this.kwotawyplaconapobrana = kwotawyplaconapobrana;
     }
 
     public Sredniadlanieobecnosci(String rok, String mc, double sredniadopodstawy, boolean skladnikstaly, Naliczenienieobecnosc naliczenienieobecnosc, boolean pominiety, double godzinyfaktyczne, double dnifaktyczne,
@@ -148,7 +154,7 @@ public class Sredniadlanieobecnosci implements Serializable {
     }
     
     public Sredniadlanieobecnosci(String rok, String mc, double sredniadopodstawy, double kwotazwaloryzowana, boolean skladnikstaly, Naliczenienieobecnosc naliczenienieobecnosc, boolean pominiety, double godzinyfaktyczne, double dnifaktyczne,
-        double godzinynalezne, double dninalezne) {
+        double godzinynalezne, double dninalezne, double procentoddelegowanie, double kwotawyplaconapobrana) {
         this.rok = rok;
         this.mc = mc;
         this.kwotawyplacona = sredniadopodstawy;
@@ -161,6 +167,8 @@ public class Sredniadlanieobecnosci implements Serializable {
         this.godzinyfaktyczne = godzinyfaktyczne;
         this.godzinynalezne = godzinynalezne;
         this.stawkagodzinowa = (sredniadopodstawy+kwotazwaloryzowana)/this.godzinynalezne;
+        this.procentoddelegowanie = procentoddelegowanie;
+        this.kwotawyplaconapobrana = kwotawyplaconapobrana;
     }
 
     
@@ -174,6 +182,22 @@ public class Sredniadlanieobecnosci implements Serializable {
 
     public String getRok() {
         return rok;
+    }
+
+    public double getProcentoddelegowanie() {
+        return procentoddelegowanie;
+    }
+
+    public void setProcentoddelegowanie(double procentoddelegowanie) {
+        this.procentoddelegowanie = procentoddelegowanie;
+    }
+
+    public double getKwotawyplaconapobrana() {
+        return kwotawyplaconapobrana;
+    }
+
+    public void setKwotawyplaconapobrana(double kwotawyplaconapobrana) {
+        this.kwotawyplaconapobrana = kwotawyplaconapobrana;
     }
 
     public void setRok(String rok) {
