@@ -6,8 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogwaluty" header="Zestawienie używanych w programie walut" widgetVar="waluty"  
-              resizable="false"  onShow="ustawdialog('dialogwaluty','menukartoteki',650,550);" closeOnEscape="true" onHide="resetujdialog('dialogwaluty');" >
-        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false"/>
+              resizable="false"  onShow="ustawdialog('dialogwaluty','menukartoteki',700,650);" closeOnEscape="true" onHide="resetujdialog('dialogwaluty');" >
+        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false" update="wprowadzonewaluty"/>
         <h:form id="wprowadzonewaluty">
             <p:growl life="3600"  ><p:autoUpdate/></p:growl>
             <style>
@@ -22,9 +22,9 @@
                 <h:outputText value="data końcowa WYMAGANA!"/>
                 <p:inputText value="#{walutyKursRecznieView.datadotabela}" placeholder="rrrr-mm-dd" maxlength="10" size="10"/>
             </p:panelGrid>
-            <p:dataTable id="dataTablewaluty" var="wpis" value="#{walutyViewFK.pobraneRodzajeWalut}" editable="true" emptyMessage="Nie ma wprowadzonych walut"
-                         scrollable="true" scrollHeight="300" scrollRows="10" style="width: 630px;" resizableColumns="true">
-                <p:column headerText="skrót waluty" style="text-align: center; height: 25px;">
+            <p:dataTable id="dataTablewaluty" var="wpis" value="#{walutyViewFK.pobraneRodzajeWalut}" emptyMessage="Nie ma wprowadzonych walut"
+                         scrollable="true" scrollHeight="400" scrollRows="10" style="width: 650px;">
+                <p:column headerText="skrót waluty" style="text-align: center; height: 25px;" sortBy="#{wpis.symbolwaluty}">
                     <h:outputText value="#{wpis.symbolwaluty}" />
                 </p:column>
                 <p:column headerText="nazwa waluty" style="width: 180px;">

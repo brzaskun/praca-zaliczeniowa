@@ -15,13 +15,15 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.xml.parsers.ParserConfigurationException;
-import msg.Msg;import org.joda.time.DateTime;
+import msg.Msg;
+import org.joda.time.DateTime;
 import org.xml.sax.SAXException;
-import view.WpisView;import waluty.WalutyNBP;
+import view.WpisView;
+import waluty.WalutyNBP;
 
 /**
  *
@@ -47,9 +49,7 @@ public class WalutyKursRecznieView implements Serializable{
         try {
             ////E.m(this);
             List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
-            if (datadotabela==null || datadotabela==null) {
-                Msg.msg("e","Nie wpisano dat od do");
-            } else {
+            if (dataodtabela!=null && dataodtabela.length()==10 && datadotabela!=null && datadotabela.length()==10) { 
                 try {
                     wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(dataodtabela, datadotabela, w));
                 } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
@@ -58,6 +58,8 @@ public class WalutyKursRecznieView implements Serializable{
                 Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
                 zachowajwiersze(wierszepobranezNBP);
                 walutyViewFK.init();
+            } else {
+                Msg.msg("e","Nie wpisano dat od do");
             }
         } catch (Exception e) {
             E.e(e);

@@ -187,6 +187,7 @@ public class InterpaperImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("Amazon taxraport csv","csv","",10));
         zwrot.add(new ImportowanyPlik("Bud-Instal epp","epp","",11));
         zwrot.add(new ImportowanyPlik("AGLP xls","xls","",12));
+        zwrot.add(new ImportowanyPlik("Domeguru xls","xls","",13));
         return zwrot;
     }
     
@@ -289,6 +290,9 @@ public class InterpaperImportView implements Serializable {
                     break;
                 case 12:
                     pobranefaktury = ReadXLSAGLPFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
+                    break;
+                case 13:
+                    pobranefaktury = ReadXLSDomeguruFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
                     break;
             }
             sumujnadole(pobranefaktury);
@@ -1431,6 +1435,9 @@ public class InterpaperImportView implements Serializable {
                 break;
             case 12:
                 zwrot.add("zakup");
+                break;
+            case 13:
+                zwrot.add("sprzedaż");
                 break;
         }
         return zwrot;
