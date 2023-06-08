@@ -224,6 +224,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             //to tez zle dziala bo jak jest np. tylko urlop i 27 dni choroby to nie widzi
                             //double stawkagodzinowadlaredukcji_12 = kwotazmiennejporedukcji11/godzinypoza11;
                             //double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/dnipoza11;
+                            //jak cos nie dziala to przemyslec potrzebe oznaczania §12
                             if (godzinypracyurlopu>0.0) {
                                 double stawkagodzinowadlaredukcji_12 = kwotazmiennejporedukcji11/godzinypracyurlopu;
                                 double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/dnipracyurlopu;
