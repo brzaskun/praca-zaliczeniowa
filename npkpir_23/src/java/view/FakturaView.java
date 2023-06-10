@@ -1342,8 +1342,12 @@ public class FakturaView implements Serializable {
 
     public void zaakceptuj(List<Faktura> lista)  {
         if (lista != null)
+        if (faktury==null) {
+            faktury = new ArrayList<>();
+        }
         for (Faktura p : lista) {
             p.setRecznaedycja(false);
+            faktury.add(p);
         }
         fakturaDAO.editList(lista);
         Msg.msg("Zaakceptowano zbiorczo faktury");

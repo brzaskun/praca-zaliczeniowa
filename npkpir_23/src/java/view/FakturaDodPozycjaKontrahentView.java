@@ -142,6 +142,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             try {
                 selected.setRok(rok);
                 selected.setMc(mc);
+                selected.getKontrahent().setNazwapodatnika(selected.getKontrahent().getNpelna());
                 fakturaDodPozycjaKontrahentDAO.create(selected);
                 lista_2.add(selected);
                 lista_2_filter = null;
@@ -240,26 +241,33 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                    if (lista_2==null) {
                        lista_2 = new ArrayList<>();
                    }
+                   boolean czydodac = false;
                    for (FakturaDodPozycjaKontrahent p : lista_tmp) {
                        FakturaDodPozycjaKontrahent r = new FakturaDodPozycjaKontrahent(p, rok, mc);
-                       dodajpozycje(r,lista_2, lista_3);
+                       czydodac = dodajpozycje(r,lista_2, lista_3);
                        Podatnik pod = podatnikDAO.findPodatnikByNIP(r.getKontrahent().getNip());
                         if (pod != null) {
                             r.getKontrahent().setNazwapodatnika(pod.getPrintnazwa().replace("\"", ""));
                         }
-                        lista_tmpnowe.add(r);
+                        //poto zeby nie nanosil uzupelnien ponownie na pozycje juz istniejace, to je rezetowalo
+                        if (czydodac) {
+                            lista_tmpnowe.add(r);
+                        }
                    }
-                   uzupelnijofakture(lista_tmpnowe);
-                   uzupelnijodanezDRA(lista_tmpnowe);
-                   uzupelnijodanezDRAmcpop(lista_tmpnowe);
-                   lista_2 = new ArrayList<>();
-                    lista_2.addAll(lista_tmpnowe.stream().filter(p->p.isBrakfakturydoedycji()==false).collect(Collectors.toList()));
-                    lista_3 = new ArrayList<>();
-                    lista_3.addAll(lista_tmpnowe.stream().filter(p->p.isBrakfakturydoedycji()==true).collect(Collectors.toList()));
-                   if (pokazujtylkopuste) {
-                       lista_2 = lista_2.stream().filter(p->p.getIlosc()==0).collect(Collectors.toList());
+                   if (!lista_tmpnowe.isEmpty()) {
+                        uzupelnijofakture(lista_tmpnowe);
+                        uzupelnijodanezDRA(lista_tmpnowe);
+                        uzupelnijodanezDRAmcpop(lista_tmpnowe);
+                         lista_2.addAll(lista_tmpnowe.stream().filter(p->p.isBrakfakturydoedycji()==false).collect(Collectors.toList()));
+                         lista_3 = new ArrayList<>();
+                         lista_3.addAll(lista_tmpnowe.stream().filter(p->p.isBrakfakturydoedycji()==true).collect(Collectors.toList()));
+                        if (pokazujtylkopuste) {
+                            lista_2 = lista_2.stream().filter(p->p.getIlosc()==0).collect(Collectors.toList());
+                        }
+                        Msg.msg("Pobrano stałe pozycje "+lista_tmpnowe.size());
+                   } else {
+                         Msg.msg("Nie ma nowych permanentnych z poprzednich m-cy;");
                    }
-                   Msg.msg("Pobrano stałe pozycje");
                }
            }
         } else {
@@ -267,7 +275,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         }
     }
     
-    private void dodajpozycje(FakturaDodPozycjaKontrahent r, List<FakturaDodPozycjaKontrahent> lista_2, List<FakturaDodPozycjaKontrahent> lista_3) {
+    private boolean dodajpozycje(FakturaDodPozycjaKontrahent r, List<FakturaDodPozycjaKontrahent> lista_2, List<FakturaDodPozycjaKontrahent> lista_3) {
         boolean dodac = true;
         for (FakturaDodPozycjaKontrahent p : lista_2) {
             if (r.getKontrahent().equals(p.getKontrahent())&&r.getFakturaDodatkowaPozycja().equals(p.getFakturaDodatkowaPozycja())) {
@@ -281,9 +289,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                 break;
             }
         }
-        if (dodac) {
-            lista_2.add(r);
-        }
+        return dodac;
     }
     
     
