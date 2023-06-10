@@ -60,4 +60,23 @@ public class X {
         }
         return zwrot;
     }
+    
+     public static String xDG(Cell cell) {
+        String zwrot = null;
+        if (cell!=null) {
+            CellType celltype = cell.getCellType();
+            switch (celltype) {
+                case BLANK:
+                    break;
+                case STRING:
+                    zwrot = cell.getStringCellValue();
+                    break;
+                default:
+                    Date data = cell.getDateCellValue();
+                    zwrot = Data.data_yyyyMMdd(data);
+                    break;
+            }
+        }
+        return zwrot;
+    }
 }

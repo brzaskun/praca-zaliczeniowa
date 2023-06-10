@@ -48,48 +48,48 @@ public class ReadXLSDomeguruFile {
     
     private static String filename = "c://temp//faktury2.xlsx";
     
-    public static List<InterpaperXLS> getListafaktur(byte[] plikinterpaper, String mc) {
-        List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
-         try {
-            InputStream file = new ByteArrayInputStream(plikinterpaper);
-             //Create Workbook instance holding reference to .xlsx file
-            Workbook workbook = WorkbookFactory.create(file);
-             //Get first/desired sheet from the workbook
-            Sheet sheet = workbook.getSheetAt(0);
-             //Iterate through each rows one by one
-            Iterator<Row> rowIterator = sheet.iterator();
-            int i =1;
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
-                try {
-                    String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(4).getDateCellValue()));
-                    if (mc.equals(mcdok)) {
-                        InterpaperXLS interpaperXLS = new InterpaperXLS();
-                        interpaperXLS.setNr(i++);
-                        interpaperXLS.setNrfaktury(row.getCell(1).getStringCellValue());
-                        interpaperXLS.setDatawystawienia(row.getCell(7).getDateCellValue());
-                        interpaperXLS.setDatasprzedaży(row.getCell(8).getDateCellValue());
-                        interpaperXLS.setDataobvat(row.getCell(8).getDateCellValue());
-                        interpaperXLS.setKontrahent(row.getCell(10).getStringCellValue());
-                        interpaperXLS.setNip(row.getCell(11)!=null && row.getCell(11).getStringCellValue().length()==10?row.getCell(12).getStringCellValue():row.getCell(13).getStringCellValue());
-                        interpaperXLS.setWalutaplatnosci(row.getCell(28).getStringCellValue());
-                        interpaperXLS.setBruttowaluta(row.getCell(8).getNumericCellValue());
-                        interpaperXLS.setSaldofaktury(row.getCell(8).getNumericCellValue());
-                        interpaperXLS.setNettowaluta(row.getCell(8).getNumericCellValue());
-                        interpaperXLS.setVatwaluta(row.getCell(8).getNumericCellValue()-row.getCell(7).getNumericCellValue());
-                        listafaktur.add(interpaperXLS);
-                    }
-                } catch (Exception e){
-                    error.E.s("");
-                }
-            }
-            file.close();
-        }
-        catch (Exception e) {
-            E.e(e);
-        }
-        return listafaktur;
-    }
+//    public static List<InterpaperXLS> getListafaktur(byte[] plikinterpaper, String mc) {
+//        List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
+//         try {
+//            InputStream file = new ByteArrayInputStream(plikinterpaper);
+//             //Create Workbook instance holding reference to .xlsx file
+//            Workbook workbook = WorkbookFactory.create(file);
+//             //Get first/desired sheet from the workbook
+//            Sheet sheet = workbook.getSheetAt(0);
+//             //Iterate through each rows one by one
+//            Iterator<Row> rowIterator = sheet.iterator();
+//            int i =1;
+//            while (rowIterator.hasNext()) {
+//                Row row = rowIterator.next();
+//                try {
+//                    String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(8).getDateCellValue()));
+//                    if (mc.equals(mcdok)) {
+//                        InterpaperXLS interpaperXLS = new InterpaperXLS();
+//                        interpaperXLS.setNr(i++);
+//                        interpaperXLS.setNrfaktury(row.getCell(1).getStringCellValue());
+//                        interpaperXLS.setDatawystawienia(row.getCell(7).getDateCellValue());
+//                        interpaperXLS.setDatasprzedaży(row.getCell(8).getDateCellValue());
+//                        interpaperXLS.setDataobvat(row.getCell(8).getDateCellValue());
+//                        interpaperXLS.setKontrahent(row.getCell(10).getStringCellValue());
+//                        interpaperXLS.setNip(row.getCell(11)!=null && row.getCell(11).getStringCellValue().length()==10?row.getCell(12).getStringCellValue():row.getCell(13).getStringCellValue());
+//                        interpaperXLS.setWalutaplatnosci(row.getCell(28).getStringCellValue());
+//                        interpaperXLS.setBruttowaluta(row.getCell(21).getNumericCellValue());
+//                        interpaperXLS.setSaldofaktury(row.getCell(21).getNumericCellValue());
+//                        interpaperXLS.setNettowaluta(row.getCell(19).getNumericCellValue());
+//                        interpaperXLS.setVatwaluta(row.getCell(20).getNumericCellValue());
+//                        listafaktur.add(interpaperXLS);
+//                    }
+//                } catch (Exception e){
+//                    System.out.println(E.e(e));
+//                }
+//            }
+//            file.close();
+//        }
+//        catch (Exception e) {
+//            E.e(e);
+//        }
+//        return listafaktur;
+//    }
     
      public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String mc) {
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
@@ -116,19 +116,19 @@ public class ReadXLSDomeguruFile {
                                listafaktur.add(interpaperXLS);
                             }
                         } else {
-//                            String mcdok = Data.getMc(Data.zmienkolejnosc(row.getCell(2).getStringCellValue()));
-//                            if (mc.equals(mcdok)) {
-//                                if (rodzajdok.equals("sprzedaż")) {
-//                                    uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
-//                                }
-//                                if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
-//                                    interpaperXLS.setNr(i++);
-//                                    listafaktur.add(interpaperXLS);
-//                                }
-//                            }
+                            String mcdok = Data.getMc(Data.zmienkolejnosc(xls.X.xDG(row.getCell(8))));
+                            if (mc.equals(mcdok)) {
+                                if (rodzajdok.equals("sprzedaż")) {
+                                    uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
+                                }
+                                if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
+                                    interpaperXLS.setNr(i++);
+                                    listafaktur.add(interpaperXLS);
+                                }
+                            }
                         }
                     } catch (Exception e){
-                        E.e(e);
+                        System.out.println(E.e(e));
                     }
             }
             file.close();
@@ -181,28 +181,32 @@ public class ReadXLSDomeguruFile {
    
     private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
         if (row.getCell(0).getRowIndex()>0) {
-            interpaperXLS.setNrfaktury(row.getCell(1).getStringCellValue());
-            interpaperXLS.setDatawystawienia(Data.stringToDate(row.getCell(2).getStringCellValue()));
-            interpaperXLS.setDatasprzedaży(Data.stringToDate(row.getCell(3).getStringCellValue()));
-            interpaperXLS.setDataobvat(Data.stringToDate(row.getCell(3).getStringCellValue()));
-            String kontr = row.getCell(6).getStringCellValue();
-            interpaperXLS.setKontrahent(kontr);
-            interpaperXLS.setKlientnazwa(kontr);
-            String kraj = row.getCell(8).getStringCellValue();
-            if (kraj.equals("Germany")) {
-                kraj = "Niemcy";
-            }
-            interpaperXLS.setKlientpaństwo(kraj);
-            String nip = row.getCell(7)!=null? row.getCell(7).getStringCellValue().replace("-", "").replaceAll("\\s+","").trim():null;
-            interpaperXLS.setNip(nip);
-            interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
-            interpaperXLS.setWalutaplatnosci(row.getCell(23).getStringCellValue());
-            interpaperXLS.setNettowaluta(row.getCell(20).getNumericCellValue());
-            interpaperXLS.setVatwaluta(row.getCell(14).getNumericCellValue());
-            interpaperXLS.setBruttowaluta(row.getCell(22).getNumericCellValue());
-//            interpaperXLS.setNettoPLN(row.getCell(4).getNumericCellValue());
-//            interpaperXLS.setNettoPLNvat(row.getCell(4).getNumericCellValue());
-//            interpaperXLS.setVatPLN(row.getCell(6).getNumericCellValue());
+                interpaperXLS.setNrfaktury(row.getCell(1).getStringCellValue());
+                interpaperXLS.setDatawystawienia(Data.stringToDate(Data.zmienkolejnosc(xls.X.xDG(row.getCell(7)))));
+                interpaperXLS.setDatasprzedaży(Data.stringToDate(Data.zmienkolejnosc(xls.X.xDG(row.getCell(8)))));
+                interpaperXLS.setDataobvat(Data.stringToDate(Data.zmienkolejnosc(xls.X.xDG(row.getCell(8)))));
+                String kontr = row.getCell(10).getStringCellValue();
+                interpaperXLS.setKontrahent(kontr);
+                interpaperXLS.setKlientnazwa(kontr);
+                String krajsymbol = row.getCell(15).getStringCellValue();
+                String kraj = PanstwaMap.getWykazPanstwXS().get(krajsymbol);
+                interpaperXLS.setKlientpaństwo(kraj);
+                interpaperXLS.setKlientpaństwosymbol(krajsymbol);
+                String kod = row.getCell(13)!=null?row.getCell(13).getStringCellValue():"";
+                interpaperXLS.setKlientkod(kod);
+                String miasto = row.getCell(14)!=null?row.getCell(14).getStringCellValue():"";
+                interpaperXLS.setKlientmiasto(miasto);
+                String ulica = row.getCell(12)!=null?row.getCell(12).getStringCellValue():"";
+                interpaperXLS.setKlientulica(ulica);
+                Double stawkavat = row.getCell(41)!=null?row.getCell(41).getNumericCellValue():0.0;
+                interpaperXLS.setPobranastawkavat(stawkavat);
+                interpaperXLS.setNip(row.getCell(11)!=null?row.getCell(11).getStringCellValue():null);
+                interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
+                interpaperXLS.setWalutaplatnosci(row.getCell(28).getStringCellValue());
+                interpaperXLS.setBruttowaluta(Double.valueOf(row.getCell(21).getStringCellValue()));
+                interpaperXLS.setSaldofaktury(Double.valueOf(row.getCell(21).getStringCellValue()));
+                interpaperXLS.setNettowaluta(Double.valueOf(row.getCell(19).getStringCellValue()));
+                interpaperXLS.setVatwaluta(Double.valueOf(row.getCell(20).getStringCellValue()));
             }
         }
 

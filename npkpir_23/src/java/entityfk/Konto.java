@@ -531,6 +531,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public String getNazwaskrocona() {
         return nazwaskrocona;
     }
+    
+    public String getNazwaskroconaprzetworzona() {
+        String zwrot = this.nazwaskrocona;
+        if (this.nazwaskrocona.equals(this.nazwapelna)) {
+            zwrot = null;
+        }
+        return zwrot;
+    }
 
     public void setNazwaskrocona(String nazwaskrocona) {
         this.nazwaskrocona = nazwaskrocona;

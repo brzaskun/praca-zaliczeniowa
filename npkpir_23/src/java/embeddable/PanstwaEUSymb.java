@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
 
@@ -52,6 +52,10 @@ static{
     wykazPanstwUE.add("HU");
     wykazPanstwUE.add("GB");
     wykazPanstwUE.add("IT");
+    //irlandia półpnocna
+    wykazPanstwUE.add("XI");
+    //portoryko
+    wykazPanstwUE.add("PR");
     
 }
 

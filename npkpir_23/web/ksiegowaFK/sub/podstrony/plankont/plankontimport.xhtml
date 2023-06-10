@@ -36,7 +36,7 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell"
-                             style="width: 1550px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             style="width: 1650px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              rowsPerPageTemplate="250,500,500,1000,1500" paginatorPosition="top" paginator="true" rows="250"
                              rowIndexVar="index" sortBy="#{loop.pelnynumer}"
                              >
@@ -64,6 +64,9 @@
                         <h:outputText id="nazwapelna" value="#{loop.nazwapelna}" /> 
                         <h:outputText value=" id " rendered="#{loop.idslownika gt 0}"/> 
                         <h:outputText value="#{loop.idslownika}" rendered="#{loop.idslownika gt 0}"/> 
+                    </p:column>
+                     <p:column headerText="skrót" style="width: 100px;">
+                         <h:outputText id="nazwaskr" value="#{loop.nazwaskrocona}" /> 
                     </p:column>
                     <p:column headerText="dzieci" style="width: 60px; text-align: center;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
                         <h:outputText value="#{loop.mapotomkow eq true ? 't' : null}"/> 

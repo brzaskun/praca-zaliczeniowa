@@ -263,6 +263,7 @@ static{
     wykazPanstwS.add("CV");
     wykazPanstwS.add("ZW");
     wykazPanstwS.add("AE");
+    wykazPanstwS.add("XI");
 
 
 }

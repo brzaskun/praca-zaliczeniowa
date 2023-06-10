@@ -49,7 +49,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -188,6 +190,7 @@ public class InterpaperImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("Bud-Instal epp","epp","",11));
         zwrot.add(new ImportowanyPlik("AGLP xls","xls","",12));
         zwrot.add(new ImportowanyPlik("Domeguru xls","xls","",13));
+        zwrot.add(new ImportowanyPlik("Szyszko Logistics csv","csv","",14));
         return zwrot;
     }
     
@@ -294,6 +297,13 @@ public class InterpaperImportView implements Serializable {
                 case 13:
                     pobranefaktury = ReadXLSDomeguruFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
                     break;
+                case 14:
+                    Object[] zwrot5 = SzyszkoFile.getListafaktur(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu());
+                    pobranefaktury = (List<InterpaperXLS>) zwrot5[0];
+                    przerwanyimport = (List<InterpaperXLS>) zwrot5[1];
+                    importyzbrakami = (List<InterpaperXLS>) zwrot5[2];
+                    innyokres = (List<InterpaperXLS>) zwrot5[3];
+                    break;
             }
             sumujnadole(pobranefaktury);
             if (jakipobor!=null) {
@@ -340,7 +350,7 @@ public class InterpaperImportView implements Serializable {
                 generujbutton.setRendered(true);
                 kontobutton.setRendered(true);
             }else {
-                if (jakipobor.equals("fiz")) {
+                if (jakipobor==null||jakipobor.equals("fiz")) {
                     drkujfizbutton.setRendered(true);
                 } else {
                     drkujfizbutton.setRendered(true);
@@ -429,7 +439,7 @@ public class InterpaperImportView implements Serializable {
             List<Klienci> k = klienciDAO.findAll();
             int ile = 0;
             if (wybranyrodzajimportu.getLp()==7&&jakipobor.equals("fiz")) {
-                List tabelazbiorcza = sumujpozycje();
+                List tabelazbiorcza = sumujpozycje(pobranefaktury);
                 List tabelarachsp = new ArrayList();
                 List tabelaszue = new ArrayList();
                for (Object p : tabelazbiorcza) {
@@ -444,10 +454,11 @@ public class InterpaperImportView implements Serializable {
                }
                Konto kontorozrachunkowe = kontoDAO.findKonto("203-3-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+               //to byl chuba ZORIN
                HashMap<String,Konto> listakont = pobierzmapekont1();
                int kolejny = 0;
                Konto kontovat = kontoDAO.findKonto("223", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-               for (Object p : tabelarachsp) {
+               for (Object listarachunkow : tabelarachsp) {
                    try {
                         String nrfaktury = null;
                         Dokfk duplikat = null;
@@ -457,7 +468,7 @@ public class InterpaperImportView implements Serializable {
                             duplikat = dokDAOfk.findDokfkSzcz("RACHSP", wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt(), nrfaktury, klient);
                         } while (duplikat!=null);
                         String rodzajdk = "RACHSP";
-                        Object[] r = ((List) p).toArray();
+                        Object[] r = ((List) listarachunkow).toArray();
                         InterpaperXLS interpaperXLS = new InterpaperXLS(r, wpisView, klient, nrfaktury);
                         String opis = "pobrane z xml vat lokalny "+r[0]+" w "+r[1];
                         Konto kontonetto = listakont.get((String)r[0]);
@@ -504,7 +515,22 @@ public class InterpaperImportView implements Serializable {
                 //tu generujemy dokumenty dla firm
                 Konto kontovatzagr = kontoDAO.findKonto("223", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 Konto kontovatpol = kontoDAO.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-                if (selected !=null && selected.size()>0) {
+                if (wpisView.getPodatnikObiekt().getNip().equals("9552538274")) {
+                    Konto kontozaliczki2062 = kontoDAO.findKonto("206-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                    List<Konto> kontazaliczkowepotomne = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontozaliczki2062);
+                    Map<String,Konto> mapakrajkontoRozrachunki = kontazaliczkowepotomne.stream().collect(Collectors.toMap(Konto::getNazwaskrocona, Function.identity()));
+                    Konto kontozaliczki844 = kontoDAO.findKonto("844", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                    List<Konto> kontazaliczkoweNettopotomne = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontozaliczki844);
+                    Map<String,Konto> mapakrajkontoNetto = kontazaliczkoweNettopotomne.stream().collect(Collectors.toMap(Konto::getNazwaskrocona, Function.identity()));
+                    for (InterpaperXLS p : selected) {
+                        if (p.getNip()!=null) {
+                            ile += generowanieDokumentuDomeguru(p, k, kontovatzagr, kontovatpol, mapakrajkontoRozrachunki, mapakrajkontoNetto);
+                            break;
+                        }
+                    }
+                    Msg.msg("Zaksięgowano "+ile+" dokumentów Domeguru");
+                    
+                } else if (selected !=null && selected.size()>0) {
                     for (InterpaperXLS p : selected) {
                         if (p.getNip()!=null) {
                             ile += generowanieDokumentu(p, k, kontovatzagr, kontovatpol);
@@ -532,7 +558,7 @@ public class InterpaperImportView implements Serializable {
         }
     }
     
-    private List sumujpozycje() {
+    private List sumujpozycje(List<InterpaperXLS> pobranefaktury) {
         Set<String> waluty = pobierzwaluty(pobranefaktury);
             Set<String> kraje = pobierzkraje(pobranefaktury);
             List tabelazbiorcza = new ArrayList<>();
@@ -624,8 +650,10 @@ public class InterpaperImportView implements Serializable {
             if (this.rodzajdok.contains("sprzedaż")) {
                 if (wybranyrodzajimportu.getLp()==1) {
                     rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
-                } else {
-                    if (Z.z(interpaperXLS.getVatPLN())==0.0) {
+                } else if (wpisView.getPodatnikObiekt().getNip().equals("8522677786")) {
+                    rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
+                }else {
+                    if (Z.z(interpaperXLS.getVatPLN())==0.0&&interpaperXLS.getVatwaluta()==0.0) {
                         rodzajdk = polska0unia1zagranica2==2 ? "EXP" : "WDT";
                     } else {
                         rodzajdk = "SZ";
@@ -651,6 +679,63 @@ public class InterpaperImportView implements Serializable {
                 dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "zakup towarów/usług/koszty", true, kontovatzagr, kontovatpol);
             }
             
+            try {
+                if (dokument!=null) {
+                    dokument.setImportowany(true);
+                    try {
+                        dokDAOfk.create(dokument);
+                    } catch (Exception ex) {
+                        Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu "+dokument.getNumerwlasnydokfk());
+                    }
+                    interpaperXLS.setSymbolzaksiegowanego(dokument.getDokfkSN());
+                    ile = 1;
+                }
+            } catch (Exception e) {
+                ile = 0;
+                Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu "+rodzajdok);
+            }
+        } catch (Exception e) {
+            ile = 0;
+            E.e(e);
+            Msg.msg("e","Błąd przy generowaniu dokumentu "+interpaperXLS.getNrfaktury());
+        }
+        return ile;
+    }
+     
+     public int generowanieDokumentuDomeguru(InterpaperXLS interpaperXLS, List<Klienci> k, Konto kontovatzagr, Konto kontovatpol, Map<String, Konto> mapakont206, Map<String, Konto> mapakont844) {
+        int ile = 0;
+        try {
+            int polska0unia1zagranica2 = 0;
+            if (interpaperXLS.getKlient().getKrajnazwa()!=null && !interpaperXLS.getKlient().getKrajkod().equals("PL")) {
+                polska0unia1zagranica2 = 2;
+                if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod())) {
+                    if (interpaperXLS.getVatPLN()!=0.0) {
+                        polska0unia1zagranica2 = 0;
+                    } else if (interpaperXLS.getKlient().getKrajkod().equals("GB")){
+                        polska0unia1zagranica2 = 2;
+                    }  else {
+                        polska0unia1zagranica2 = 1;
+                    }
+                }
+            }
+            String rodzajdk = "ZZ";
+            Dokfk dokument = null;
+            if (wybranyrodzajimportu.getLp()==1&&this.rodzajdok.contains("sprzedaż")) {
+                rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
+            } else if (this.rodzajdok.contains("sprzedaż")) {
+                if (wybranyrodzajimportu.getLp()==1) {
+                    if (Z.z(interpaperXLS.getVatwaluta())==0.0) {
+                        rodzajdk = polska0unia1zagranica2==2 ? "EXP" : "WDT";
+                    } else {
+                        rodzajdk = "SZ";
+                    }
+                    if (interpaperXLS.getNrfaktury().contains("ZAL")) {
+                        Konto rozrachunek = mapakont206.get(interpaperXLS.getKlientpaństwosymbol());
+                        Konto kontonetto = null;
+                        dokument = stworznowydokumentDomeguruZaliczka(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "przychody ze sprzedaży", true, kontovatzagr, kontovatpol, kontonetto, rozrachunek);
+                    } 
+                } 
+            }
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
@@ -700,6 +785,39 @@ public class InterpaperImportView implements Serializable {
             interpaperXLS.setJuzzaksiegowany(true);
         } else {
             ustawwiersze(nd, interpaperXLS, kontovat);
+            nd.setImportowany(true);
+            nd.setWprowadzil(wpisView.getUzer().getLogin());
+            nd.przeliczKwotyWierszaDoSumyDokumentu();
+        }
+        return nd;
+    }
+      
+      private Dokfk stworznowydokumentDomeguruZaliczka(int numerkolejny, InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> k, String opis, boolean nieprzeliczajwalut, Konto kontovatzagr, Konto kontovatpol, Konto kontonetto, Konto rozrachunek) {
+        Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
+        nd.setNieprzeliczaj(nieprzeliczajwalut);
+        ustawrodzajedok(nd, rodzajdok);
+        ustawdaty(nd, interpaperXLS);
+        nd.setKontr(interpaperXLS.getKlient());
+        ustawnumerwlasny(nd, interpaperXLS);
+        nd.setOpisdokfk(opis);
+        nd.setPodatnikObj(wpisView.getPodatnikObiekt());
+        ustawtabelenbp(nd, interpaperXLS);
+        przewalutuj(nd, interpaperXLS);
+        Konto kontovat = kontovatzagr;
+        if (nd.getRodzajedok().getKategoriadokumentu()==1||nd.getRodzajedok().getKategoriadokumentu()==2) {
+            if (interpaperXLS.getKlientpaństwo().equals("Polska")) {
+                podepnijEwidencjeVat(nd, interpaperXLS);
+                kontovat = kontovatpol;
+            } else {
+                System.out.println("");
+            }
+        }
+        Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
+        if (juzjest!=null || nd.getKontr()==null) {
+            nd = null;
+            interpaperXLS.setJuzzaksiegowany(true);
+        } else {
+            ustawwierszeDomeguruZaliczka(nd, interpaperXLS, kontovat, kontonetto, rozrachunek);
             nd.setImportowany(true);
             nd.setWprowadzil(wpisView.getUzer().getLogin());
             nd.przeliczKwotyWierszaDoSumyDokumentu();
@@ -886,6 +1004,21 @@ public class InterpaperImportView implements Serializable {
         }
     }
     
+    private void ustawwierszeDomeguruZaliczka(Dokfk nd, InterpaperXLS interpaperXLS, Konto kontovat, Konto kontonetto, Konto rozrachunek) {
+        nd.setListawierszy(new ArrayList<Wiersz>());
+        if (rodzajdok.contains("sprzedaż")) {
+            nd.getListawierszy().add(przygotujwierszNettoDomeguruZaliczka(interpaperXLS, nd, kontonetto, rozrachunek));
+            if (interpaperXLS.getVatwaluta() != 0) {
+                nd.getListawierszy().add(przygotujwierszVat(interpaperXLS, nd, kontovat));
+            }
+        } else {
+            nd.getListawierszy().add(przygotujwierszNettoK(interpaperXLS, nd));
+            if (interpaperXLS.getVatwaluta() != 0) {
+                nd.getListawierszy().add(przygotujwierszVatK(interpaperXLS, nd));
+            }
+        }
+    }
+    
     private void ustawwierszeZorin(Dokfk nd, InterpaperXLS interpaperXLS, Konto kontorozrachunkowe, Konto kontonetto, Konto kontovat) {
         nd.setListawierszy(new ArrayList<Wiersz>());
         if (rodzajdok.contains("sprzedaż")) {
@@ -915,6 +1048,31 @@ public class InterpaperImportView implements Serializable {
         strma.setKwotaPLN(Z.z(nettopln));
         strma.setKonto(kontodlanetto!=null?kontodlanetto:kontonetto);
         strwn.setKonto(pobierzkontoWn(nd, interpaperXLS, nd.getKontr()));
+        w.setStronaWn(strwn);
+        w.setStronaMa(strma);
+        return w;
+    }
+    
+    private Wiersz przygotujwierszNettoDomeguruZaliczka(InterpaperXLS interpaperXLS, Dokfk nd, Konto kontonetto, Konto rozrachunek) {
+        Wiersz w = new Wiersz(1, nd, 0);
+        uzupelnijwiersz(w, nd, 0);
+        String opiswiersza = nd.getOpisdokfk(); 
+        w.setOpisWiersza(opiswiersza);
+        StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getBruttowaluta(), null);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getNettowaluta(), null);
+        double kurs = nd.getTabelanbp().getKurssredniPrzelicznik();
+        double nettopln = interpaperXLS.getNettoPLNvat()!=0.0 ? interpaperXLS.getNettoPLNvat():interpaperXLS.getNettoPLN(kurs);
+        double vatpln = interpaperXLS.getVatPLN()!=0.0 ? interpaperXLS.getVatPLN():interpaperXLS.getVatPLN(kurs);
+        strwn.setKwotaPLN(Z.z(nettopln+vatpln));
+        strma.setKwotaPLN(Z.z(nettopln));
+        if (kontonetto!=null) {
+             strma.setKonto(kontonetto!=null?kontonetto:kontodlanetto);
+        } 
+        if (rozrachunek !=null) {
+            strma.setKonto(rozrachunek);   
+        } else {
+            strwn.setKonto(pobierzkontoWn(nd, interpaperXLS, nd.getKontr()));
+        }
         w.setStronaWn(strwn);
         w.setStronaMa(strma);
         return w;
@@ -1437,6 +1595,7 @@ public class InterpaperImportView implements Serializable {
                 zwrot.add("zakup");
                 break;
             case 13:
+            case 14:
                 zwrot.add("sprzedaż");
                 break;
         }

@@ -1143,6 +1143,16 @@ public class Dokfk extends DokSuper implements Serializable {
         return new double[]{Z.z(netto),Z.z(nettowaluta)};
     }
     
+    public double[] pobierzwartosciVATwaluta() {
+        double netto = 0.0;
+        double vat = 0.0;
+        for (EVatwpisFK p : ewidencjaVAT) {
+            netto += p.getNettowwalucie();
+            vat += p.getVatwwalucie();
+        }
+        return new double[]{Z.z(netto),Z.z(vat)};
+    }
+    
     public boolean isDwarejestry() {
         boolean zwrot = false;
         if (!this.getRodzajedok().isTylkovatnalezny() && this.getRodzajedok().getSkrot().equals("WNT") || this.getRodzajedok().getSkrot().equals("IU") || this.getRodzajedok().getSkrot().equals("RVC")) {

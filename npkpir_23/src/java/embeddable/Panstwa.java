@@ -285,6 +285,8 @@ wykazPanstw.add("Zapasy i zaopatrzenie statków w ramach handlu wewnątrzwspóln
 wykazPanstw.add("Zielony Przylądek");
 wykazPanstw.add("Zimbabwe");
 wykazPanstw.add("Zjedn.Emiraty Arabskie");
+wykazPanstw.add("Irlandia Północna");
+wykazPanstw.add("Portoryko");
 
 }
 

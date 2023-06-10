@@ -2275,9 +2275,10 @@ public class PlanKontView implements Serializable {
                             if (!kontomacierzyste.equals("")) {
                                 Konto macierzyste = kontoDAOfk.findKonto(kontomacierzyste, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                                 String opiskonta = row.getCell(5).getStringCellValue();
+                                String nazwaskrocona = row.getCell(6)!=null?row.getCell(6).getStringCellValue():opiskonta;
                                 Konto nowekonto = new Konto();
                                 nowekonto.setNazwapelna(opiskonta);
-                                nowekonto.setNazwaskrocona(opiskonta);
+                                nowekonto.setNazwaskrocona(nazwaskrocona);
                                 nowekonto.setMacierzysty(-999);
                                 if (macierzyste!=null) {
                                     nowekonto.setKontomacierzyste(macierzyste);

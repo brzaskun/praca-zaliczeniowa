@@ -33,6 +33,7 @@ public class InterpaperXLS implements Serializable {
     private Klienci klient;
     private String klientnazwa;
     private String klientpaństwo;
+    private String klientpaństwosymbol;
     private String klientkod;
     private String klientmiasto;
     private String klientulica;
@@ -368,6 +369,14 @@ public class InterpaperXLS implements Serializable {
 
     public void setKlientpaństwo(String klientpaństwo) {
         this.klientpaństwo = klientpaństwo;
+    }
+
+    public String getKlientpaństwosymbol() {
+        return klientpaństwosymbol;
+    }
+
+    public void setKlientpaństwosymbol(String klientpaństwosymbol) {
+        this.klientpaństwosymbol = klientpaństwosymbol;
     }
 
     public String getNipkrajzorin() {

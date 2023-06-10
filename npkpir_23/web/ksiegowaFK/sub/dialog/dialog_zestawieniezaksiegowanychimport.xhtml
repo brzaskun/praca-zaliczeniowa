@@ -16,7 +16,7 @@
     </style>
    
     <p:dialog id="zestawieniezaksiegowanychimport" header="Zestawienie zaimportowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zestawieniezaksiegowanychimport" 
-              resizable="false"  onShow="ustawdialog('zestawieniezaksiegowanychimport','menudokumenty');doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('zestawieniezaksiegowanychimport');" >
+              resizable="false"  onShow="ustawdialog('zestawieniezaksiegowanychimport','menudokumenty','1370','700');doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('zestawieniezaksiegowanychimport');" >
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":zestawieniedokumentowimport"/>
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
@@ -75,7 +75,7 @@
 
             <p:dataTable id="dataListImport" value="#{dokfkView.wykazZaksiegowanychDokumentowimport}" var="item" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
                          selection="#{dokfkView.selectedlistimport}" rowKey="#{item.id}" selectionMode="multiple" 
-                         style="width: 1250px; height: 580px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValueimport}"
+                         style="height: 580px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValueimport}"
                          emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane walkingtable"
                          sortBy="#{item.id}" rowSelectMode="add"
                          rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{dokfkView.wykazZaksiegowanychDokumentowimport.size() gt 150 ? 'true':'false'}" rows="150">
@@ -98,6 +98,16 @@
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.opisdokfk}"/>
+                </p:column>
+                <p:column headerText="#{mgs.netto}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.pobierzwartosciVATwaluta()[0]}" filterBy="#{item.pobierzwartosciVATwaluta()[0]}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.pobierzwartosciVATwaluta()[0]}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                 </p:column>
+                <p:column headerText="#{mgs.vat}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.pobierzwartosciVATwaluta()[1]}" filterBy="#{item.pobierzwartosciVATwaluta()[1]}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.pobierzwartosciVATwaluta()[1]}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
