@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -42,6 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Uz.findByNazw", query = "SELECT u FROM Uz u WHERE u.nazwisko = :nazwisko"),
     @NamedQuery(name = "Uz.findByPesel", query = "SELECT u FROM Uz u WHERE u.pesel = :pesel"),
     @NamedQuery(name = "Uz.findByUprawnienia", query = "SELECT u FROM Uz u WHERE u.uprawnienia = :uprawnienia"),
+    @NamedQuery(name = "Uz.findByUprawnieniaNazwa", query = "SELECT u FROM Uz u WHERE u.uprawnienia.nazwa = :uprawnienia"),
     @NamedQuery(name = "Uz.findByUzUprawnienia", query = "SELECT u.login FROM Uz u WHERE u.uprawnienia = :uprawnienia")
 })
 public class Uz implements Serializable {
@@ -101,6 +103,71 @@ public class Uz implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Transient
+    
+    
+    
+    private int m1;
+    @Transient
+    
+    
+    
+    private int m2;
+    @Transient
+    
+    
+    
+    private int m3;
+    @Transient
+    
+    
+    
+    private int m4;
+    @Transient
+    
+    
+    
+    private int m5;
+    @Transient
+    
+    
+    
+    private int m6;
+    @Transient
+    
+    
+    
+    private int m7;
+    @Transient
+    
+    
+    
+    private int m8;
+    @Transient
+    
+    
+    
+    private int m9;
+    @Transient
+    
+    
+    
+    private int m10;
+    @Transient
+    
+    
+    
+    private int m11;
+    @Transient
+    
+    
+    
+    private int m12;
+    @Transient
+    
+    
+    
+    private int m13;
 
     private static final long serialVersionUID = 1L;
 
@@ -338,6 +405,110 @@ public class Uz implements Serializable {
 
     public void setSecname(String secname) {
         this.secname = secname;
+    }
+
+    public int getM1() {
+        return m1;
+    }
+
+    public void setM1(int m1) {
+        this.m1 = m1;
+    }
+
+    public int getM2() {
+        return m2;
+    }
+
+    public void setM2(int m2) {
+        this.m2 = m2;
+    }
+
+    public int getM3() {
+        return m3;
+    }
+
+    public void setM3(int m3) {
+        this.m3 = m3;
+    }
+
+    public int getM4() {
+        return m4;
+    }
+
+    public void setM4(int m4) {
+        this.m4 = m4;
+    }
+
+    public int getM5() {
+        return m5;
+    }
+
+    public void setM5(int m5) {
+        this.m5 = m5;
+    }
+
+    public int getM6() {
+        return m6;
+    }
+
+    public void setM6(int m6) {
+        this.m6 = m6;
+    }
+
+    public int getM7() {
+        return m7;
+    }
+
+    public void setM7(int m7) {
+        this.m7 = m7;
+    }
+
+    public int getM8() {
+        return m8;
+    }
+
+    public void setM8(int m8) {
+        this.m8 = m8;
+    }
+
+    public int getM9() {
+        return m9;
+    }
+
+    public void setM9(int m9) {
+        this.m9 = m9;
+    }
+
+    public int getM10() {
+        return m10;
+    }
+
+    public void setM10(int m10) {
+        this.m10 = m10;
+    }
+
+    public int getM11() {
+        return m11;
+    }
+
+    public void setM11(int m11) {
+        this.m11 = m11;
+    }
+
+    public int getM12() {
+        return m12;
+    }
+
+    public void setM12(int m12) {
+        this.m12 = m12;
+    }
+
+    public int getM13() {
+        return m13;
+    }
+
+    public void setM13(int m13) {
+        this.m13 = m13;
     }
 
     

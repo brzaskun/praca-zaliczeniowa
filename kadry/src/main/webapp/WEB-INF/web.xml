@@ -120,6 +120,7 @@
             <url-pattern>/portalpracownik/*</url-pattern>
             <url-pattern>/portalpracodawca/*</url-pattern>
             <url-pattern>/statystyka/*</url-pattern>
+            <url-pattern>/info/*</url-pattern>
             <url-pattern>/wydruki/*</url-pattern>
             <url-pattern>/wskazniki/*</url-pattern>
             <url-pattern>/pit/*</url-pattern>

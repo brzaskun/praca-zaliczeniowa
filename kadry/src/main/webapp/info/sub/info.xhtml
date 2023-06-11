@@ -1,0 +1,59 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    >
+    <h:form>
+        <p:outputPanel style="padding: 20px;">
+            <p:dataTable id="dokumentyOkresowe" value="#{infoView.uzytkownicy}" var="wpis"  rowIndexVar="row" 
+                         rowKey="#{wpis.id}" style="width: 1100px;height: 500px; overflow-y: scroll;" widgetVar="okresTable" 
+                         >
+            <p:column headerText="01" width="120" sortBy="#{wpis.nazwisko}">  
+                <h:outputText value="#{wpis.imieNazwisko}" />
+            </p:column>
+                <p:column headerText="01" width="20" sortBy="#{wpis.m1}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m1}" />
+            </p:column>
+            <p:column headerText="02" width="20" sortBy="#{wpis.m2}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m2}"/>
+            </p:column>
+            <p:column headerText="03" width="20" sortBy="#{wpis.m3}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m3}"/>
+            </p:column>
+            <p:column headerText="04" width="20" sortBy="#{wpis.m4}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m4}"/>
+            </p:column>
+            <p:column headerText="05" width="20" sortBy="#{wpis.m5}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m5}"/>
+            </p:column>
+            <p:column headerText="06" width="20" sortBy="#{wpis.m6}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m6}"/>
+            </p:column>
+            <p:column headerText="07" width="20" sortBy="#{wpis.m7}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m7}"/>
+            </p:column>
+            <p:column headerText="08" width="20" sortBy="#{wpis.m8}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m8}"/>
+            </p:column>
+            <p:column headerText="09" width="20" sortBy="#{wpis.m9}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m9}"/>
+            </p:column>
+            <p:column headerText="10" width="20" sortBy="#{wpis.m10}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m10}"/>
+            </p:column>
+            <p:column headerText="11" width="20" sortBy="#{wpis.m11}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m11}"/>
+            </p:column>
+            <p:column headerText="12" width="20"  sortBy="#{wpis.m12}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m12}"/>
+            </p:column>
+            <p:column headerText="razem" width="30"  sortBy="#{wpis.m13}" style="text-align: center;">  
+                <h:outputText value="#{wpis.m13}"/>
+            </p:column>
+            </p:dataTable>
+        </p:outputPanel>
+    </h:form>
+</ui:composition>

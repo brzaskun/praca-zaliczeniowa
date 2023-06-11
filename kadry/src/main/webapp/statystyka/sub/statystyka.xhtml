@@ -75,7 +75,7 @@
         <p:timeline id="timeline" value="#{statystykaView.umowy}"
             editable="true" eventMargin="10" eventMarginAxis="0" 
             start="#{statystykaView.start}" end="#{statystykaView.end}"
-            stackEvents="false" widgetVar="timelineWdgt">
+            stackEvents="false" widgetVar="timelineWdgt" maxHeight="400" verticalScroll="true">
             <f:facet name="menu">
                 <p:commandButton type="button" icon="pi pi-chevron-left" styleClass="p-ml-2" onclick="PF('timelineWdgt').move(-0.3);" />
                 <p:commandButton type="button" icon="pi pi-chevron-right" styleClass="p-ml-2" onclick="PF('timelineWdgt').move(0.3);" />
@@ -93,7 +93,7 @@
         <p:timeline id="timeline1" value="#{statystykaView.nieobecnosci}"
             editable="true" eventMargin="10" eventMarginAxis="0"
             start="#{statystykaView.start}" end="#{statystykaView.end}"
-            stackEvents="false" widgetVar="timelineWdgt1">
+            stackEvents="false" widgetVar="timelineWdgt1" maxHeight="400" verticalScroll="true">
             <f:facet name="menu">
                 <p:commandButton type="button" icon="pi pi-chevron-left" styleClass="p-ml-2" onclick="PF('timelineWdgt1').move(-0.3);" />
                 <p:commandButton type="button" icon="pi pi-chevron-right" styleClass="p-ml-2" onclick="PF('timelineWdgt1').move(0.3);" />

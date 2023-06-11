@@ -77,23 +77,25 @@ public class StatystykaView implements Serializable {
         for (Pracownik pracownik : pracownicy) {
             List<Nieobecnosc> nieob = pracownik.getNieobecnosci();
             for (Nieobecnosc nieobecnosc : nieob) {
-                LocalDate start = LocalDate.parse(nieobecnosc.getDataod());
-                LocalDate end = LocalDate.parse(nieobecnosc.getDatado()!=null&&!nieobecnosc.getDatado().equals("")?nieobecnosc.getDatado():"2025-12-31");
-                end = end.plusDays(1l);
-                // create an event with content, start / end dates, editable flag, group name and custom style class
-                String opis = nieobecnosc.getKodzwolnienia()!=null?nieobecnosc.getKodzwolnienia():"";
-                String data = nieobecnosc.getOpis()+" "+opis;
-                String stylklasa = nieobecnosc.getKodzwolnienia()!=null&&nieobecnosc.getKodzwolnienia().equals("U")?"available":"maybe";
-                TimelineEvent event = TimelineEvent.builder()
-                        .data(data)
-                        .startDate(start)
-                        .endDate(end)
-                        .editable(true)
-                        .group(pracownik.getNazwiskoImie())
-                        .styleClass(stylklasa)
-                        .build();
+                if (!nieobecnosc.getRodzajnieobecnosci().getKod().equals("Z")) {
+                    LocalDate start = LocalDate.parse(nieobecnosc.getDataod());
+                    LocalDate end = LocalDate.parse(nieobecnosc.getDatado()!=null&&!nieobecnosc.getDatado().equals("")?nieobecnosc.getDatado():"2025-12-31");
+                    end = end.plusDays(1l);
+                    // create an event with content, start / end dates, editable flag, group name and custom style class
+                    String opis = nieobecnosc.getRodzajnieobecnosci().getOpis()!=null?nieobecnosc.getRodzajnieobecnosci().getOpis():"";
+                    String data = nieobecnosc.getRodzajnieobecnosci().getKod()+" "+opis;
+                    String stylklasa = nieobecnosc.getRodzajnieobecnosci().getKod()!=null&&nieobecnosc.getRodzajnieobecnosci().getKod().equals("U")?"available":"maybe";
+                    TimelineEvent event = TimelineEvent.builder()
+                            .data(data)
+                            .startDate(start)
+                            .endDate(end)
+                            .editable(true)
+                            .group(pracownik.getNazwiskoImie())
+                            .styleClass(stylklasa)
+                            .build();
 
-                nieobecnosci.add(event);
+                    nieobecnosci.add(event);
+                }
             }
         }
     }

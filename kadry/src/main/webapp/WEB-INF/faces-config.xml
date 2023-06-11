@@ -99,6 +99,10 @@
             <to-view-id>/statystyka/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>Info</from-outcome>
+            <to-view-id>/info/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>wydruki</from-outcome>
             <to-view-id>/wydruki/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

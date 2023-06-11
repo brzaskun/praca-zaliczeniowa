@@ -55,7 +55,7 @@ public class UzFacade extends DAO {
      }
     
     public List<Uz> findByUprawnienia(String uprawnienia) {
-        return Collections.synchronizedList(getEntityManager().createNamedQuery("Uz.findByUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList());
+        return Collections.synchronizedList(getEntityManager().createNamedQuery("Uz.findByUprawnieniaNazwa").setParameter("uprawnienia", uprawnienia).getResultList());
     }
    
      
