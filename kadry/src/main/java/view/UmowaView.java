@@ -245,7 +245,7 @@ public class UmowaView implements Serializable {
                 createkolejna(listapraca);
             } else {
                selected.setAngaz(wpisView.getAngaz());
-                Umowa umowa = beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade);
+                Umowa umowa = beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade, wpisView.getUzer().getImieNazwisko());
                 listapraca.add(umowa);
                 wpisView.setUmowa(umowa);
             }
@@ -277,7 +277,7 @@ public class UmowaView implements Serializable {
                 createkolejna(listazlecenia);
             } else {
                 selected.setAngaz(wpisView.getAngaz());
-                Umowa umowa = beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade);
+                Umowa umowa = beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade, wpisView.getUzer().getImieNazwisko());
                 listapraca.add(umowa);
                 wpisView.setUmowa(umowa);
             }
@@ -296,7 +296,7 @@ public class UmowaView implements Serializable {
                  if (i<2) {
                     Umowa jednorazowa = serialclone.SerialClone.clone(selected);
                     jednorazowa.setAngaz(angaz);
-                    Umowa umowa = beanstesty.UmowaBean.createpierwsza(jednorazowa, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade);
+                    Umowa umowa = beanstesty.UmowaBean.createpierwsza(jednorazowa, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade, wpisView.getUzer().getImieNazwisko());
                     i++;
                  }
              }
@@ -309,7 +309,7 @@ public class UmowaView implements Serializable {
                 createkolejna(listazlecenia);
             } else {
                 selected.setAngaz(wpisView.getAngaz());
-                Umowa umowa = beanstesty.UmowaBean.createpierwszaFunkcja(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade);
+                Umowa umowa = beanstesty.UmowaBean.createpierwszaFunkcja(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, wpisView.getUzer().getImieNazwisko());
                 listapraca.add(umowa);
                 wpisView.setUmowa(umowa);
             }
@@ -461,6 +461,8 @@ public class UmowaView implements Serializable {
     public void edytujumowe(Umowa umowa) {
         try {
             if (umowa.getId() != null) {
+                umowa.setDatadodania(new Date());
+                umowa.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                 umowaFacade.edit(umowa);
                 Msg.msg("Naniesiono zmiany");
             }
@@ -501,6 +503,8 @@ public class UmowaView implements Serializable {
                 }
                 selected.setDatasystem(new Date());
                 selected.setLiczdourlopu(true);
+                selected.setDatadodania(new Date());
+                selected.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                 umowaFacade.edit(selected);
                 String dataostatniejumowy = null;
                 if (listapraca != null && !listapraca.isEmpty()) {
@@ -761,6 +765,8 @@ public class UmowaView implements Serializable {
     
     public void edytujzapisz(Umowa umowa) {
         if (umowa != null) {
+            umowa.setDatadodania(new Date());
+            umowa.setUtworzyl(wpisView.getUzer().getImieNazwisko());
             umowaFacade.edit(umowa);
             Msg.msg("Naniesiono zmiany");
         } else {

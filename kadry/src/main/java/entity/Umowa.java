@@ -220,7 +220,11 @@ public class Umowa implements Serializable {
     private Zmiennawynagrodzenia zmiennawynagrodzenia;
     @Transient
     private  boolean netto0brutto1;
-    
+     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "datadodania")
+    private Date datadodania;
+    @Column(name = "utworzyl")
+    private String utworzyl;
    
 
     public Umowa() {
@@ -437,6 +441,22 @@ public class Umowa implements Serializable {
 
     public void setKlauzulaminimalnewyn(boolean klauzulaminimalnewyn) {
         this.klauzulaminimalnewyn = klauzulaminimalnewyn;
+    }
+
+    public Date getDatadodania() {
+        return datadodania;
+    }
+
+    public void setDatadodania(Date datadodania) {
+        this.datadodania = datadodania;
+    }
+
+    public String getUtworzyl() {
+        return utworzyl;
+    }
+
+    public void setUtworzyl(String utworzyl) {
+        this.utworzyl = utworzyl;
     }
     
     

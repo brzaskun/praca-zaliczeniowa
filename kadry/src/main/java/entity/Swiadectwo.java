@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -48,6 +51,11 @@ public class Swiadectwo implements Serializable {
     private Rozwiazanieumowy rozwiazanieumowy;
     @Column(name="infouzupelniajace")
     private String infouzupelniajace;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "datadodania")
+    private Date datadodania;
+    @Column(name = "utworzyl")
+    private String utworzyl;
 
     public Swiadectwo() {
     }
@@ -95,6 +103,22 @@ public class Swiadectwo implements Serializable {
 
     public void setInfouzupelniajace(String infouzupelniajace) {
         this.infouzupelniajace = infouzupelniajace;
+    }
+
+    public Date getDatadodania() {
+        return datadodania;
+    }
+
+    public void setDatadodania(Date datadodania) {
+        this.datadodania = datadodania;
+    }
+
+    public String getUtworzyl() {
+        return utworzyl;
+    }
+
+    public void setUtworzyl(String utworzyl) {
+        this.utworzyl = utworzyl;
     }
 
    

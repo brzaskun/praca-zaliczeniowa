@@ -200,7 +200,7 @@ public class UmowaBean {
 
     
     public static Umowa createpierwsza(Umowa selected, UmowaFacade umowaFacade, EtatPracFacade etatFacade, StanowiskopracFacade stanowiskopracFacade, 
-            RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade, KalendarzmiesiacFacade kalendarzmiesiacFacade) {
+            RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade, KalendarzmiesiacFacade kalendarzmiesiacFacade, String utworzyl) {
         if (selected != null && selected.getAngaz() != null) {
             Angaz angaz = selected.getAngaz();
             try {
@@ -216,6 +216,8 @@ public class UmowaBean {
                 selected.setDatasystem(new Date());
                 String dataostatniejumowy = null;
                 selected.setLicznikumow(1);
+                selected.setDatadodania(new Date());
+                selected.setUtworzyl(utworzyl);
                 umowaFacade.create(selected);
                 
                 if (selected.getUmowakodzus().isPraca() && selected.getEtat1() != null && selected.getEtat2() != null) {
@@ -260,7 +262,7 @@ public class UmowaBean {
     }
     
     public static Umowa createpierwszaZlecenie(Umowa selected, UmowaFacade umowaFacade, EtatPracFacade etatFacade, StanowiskopracFacade stanowiskopracFacade, 
-            RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade, KalendarzmiesiacFacade kalendarzmiesiacFacade) {
+            RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade, KalendarzmiesiacFacade kalendarzmiesiacFacade, String utworzyl) {
         if (selected != null && selected.getAngaz() != null) {
             Angaz angaz = selected.getAngaz();
             try {
@@ -276,6 +278,8 @@ public class UmowaBean {
                 selected.setDatasystem(new Date());
                 String dataostatniejumowy = null;
                 selected.setLicznikumow(1);
+                selected.setDatadodania(new Date());
+                selected.setUtworzyl(utworzyl);
                 umowaFacade.create(selected);
                 
                 if (selected.getUmowakodzus().isPraca() && selected.getEtat1() != null && selected.getEtat2() != null) {
@@ -319,7 +323,8 @@ public class UmowaBean {
         return selected;
     }
     
-    public static Umowa createpierwszaFunkcja(Umowa selected, UmowaFacade umowaFacade, EtatPracFacade etatFacade, StanowiskopracFacade stanowiskopracFacade, RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade, SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade) {
+    public static Umowa createpierwszaFunkcja(Umowa selected, UmowaFacade umowaFacade, EtatPracFacade etatFacade, StanowiskopracFacade stanowiskopracFacade, RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade, 
+            SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade, ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade, String utworzyl) {
         if (selected != null && selected.getAngaz() != null) {
             Angaz angaz = selected.getAngaz();
             try {
@@ -335,6 +340,8 @@ public class UmowaBean {
                 selected.setDatasystem(new Date());
                 String dataostatniejumowy = null;
                 selected.setLicznikumow(1);
+                selected.setDatadodania(new Date());
+                selected.setUtworzyl(utworzyl);
                 umowaFacade.create(selected);
                 
                 if (selected.getWynagrodzeniemiesieczne() != 0.0) {

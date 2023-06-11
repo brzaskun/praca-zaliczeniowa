@@ -141,7 +141,7 @@ public class UmowaGrupowoView implements Serializable {
              List<Angaz> target = listaumowy.getTarget();
                 for (Angaz angaz : target) {
                     selected.setAngaz(angaz);
-                    beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade);
+                    beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade, wpisView.getUzer().getImieNazwisko());
                 }
                 Msg.msg("Zapisano umowy zlecenia do bazy");
          }

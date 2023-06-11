@@ -74,6 +74,8 @@ public class PracownikDane2View  implements Serializable {
             if (selected.getPlec()==null||selected.getPlec().isEmpty()) {
                 selected.setPlec(pleczPesel(selected.getPesel()));
             }
+            selected.setDatalogowania(Data.aktualnaDataCzas());
+            selected.setModyfikowal(wpisView.getUzer().getImieNazwisko());
             pracownikFacade.edit(selected);
             wpisView.setPracownik(selected);
             Msg.msg("Uaktualniono dane pracownika");
