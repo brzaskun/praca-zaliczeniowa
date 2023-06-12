@@ -76,4 +76,12 @@ public class SkladnikWynagrodzeniaFacade extends DAO  implements Serializable {
         } catch (Exception e){}
         return zwrot;
     }
+    
+     public Skladnikwynagrodzenia findById(int id) {
+        Skladnikwynagrodzenia zwrot = null;
+        try {
+            zwrot =  (Skladnikwynagrodzenia) getEntityManager().createNamedQuery("Skladnikwynagrodzenia.findById").setParameter("id", id).getSingleResult();
+        } catch (Exception e){}
+        return zwrot;
+    }
 }

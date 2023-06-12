@@ -167,6 +167,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                                 }
                                 godzinypracyurlopu = godzinypracyurlopu + s.getNormagodzin();
                             }
+
                        } else if (s.getKod()!=null&&s.getKod().equals("D")) {
                            dniredukcji_12 = dniredukcji_12+1;
                            godzinyredukcji_12 = godzinyredukcji_12+s.getNormagodzin();
@@ -226,8 +227,12 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             //double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/dnipoza11;
                             //jak cos nie dziala to przemyslec potrzebe oznaczania §12
                             if (godzinypracyurlopu>0.0) {
-                                double stawkagodzinowadlaredukcji_12 = kwotazmiennejporedukcji11/godzinypracyurlopu;
-                                double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/dnipracyurlopu;
+                                //bylo tak ale zawodzilo jak bylo zwolnienie pracownika
+                                //double stawkagodzinowadlaredukcji_12 = kwotazmiennejporedukcji11/godzinypracyurlopu;
+                                //double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/dnipracyurlopu;
+                                //zmienilem 13062023 na
+                                double stawkagodzinowadlaredukcji_12 = kwotazmiennejporedukcji11/(godzinypracyurlopu+godzinyredukcji_pozaumowa);
+                                double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/(dnipracyurlopu+dniredukcji_pozaumowa);
                                 redukcja_12 = redukcja_12 + (stawkagodzinowadlaredukcji_12*godzinyredukcji_12);
                                 double kwotazmiennejporedukcji = (kwotazmiennejporedukcji11-redukcja_12)<0.0?0.0:(kwotazmiennejporedukcji11-redukcja_12);
                                 if (stawkadziennedlaredukcji_12>0.0) {

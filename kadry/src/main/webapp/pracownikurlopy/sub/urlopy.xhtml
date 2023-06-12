@@ -14,7 +14,7 @@
                  <p:panel header="Wykaz nierozliczonych urlopów dla pracowników w firmie #{wpisView.firma.nazwa} z momentem wprowadzenia do programu">
                     <p:dataTable id="datalist" value="#{zalegleUrlopyView.lista}" var="itemAngaz"
                                  selectionMode="single" selection="#{zalegleUrlopyView.selectedlista}"
-                                 rowKey="#{itemAngaz.id}"  sortBy="#{itemAngaz.pracownik.nazwisko}"
+                                 rowKey="#{itemAngaz.id}" 
                                 style="height: 500px; overflow-y: scroll;"
                                 emptyMessage="Nie ma angażów w firmie"
                                  >
