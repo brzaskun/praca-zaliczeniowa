@@ -88,12 +88,12 @@
                                                      onfocus="PF('dokTableFaktury').clearFilters();PF('dokTableFaktury').unselectAllRows();"></p:inputText>-->
                 </f:facet>
                 <p:ajax event="filter" global="false" />
-<!--                <p:ajax event="filter" global="false"  oncomplete="przeliczfiltersporzadzone()"/>-->
-<!--                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybral)}" update="akordeon:formsporzadzone:dokumentyLista :akordeon:formsporzadzone:panelsum confirmDialog" global="false"/>
+                <p:ajax event="filter" global="false"  oncomplete="przeliczfiltersporzadzone()"/>
+                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybral)}" update="akordeon:formsporzadzone:dokumentyLista :akordeon:formsporzadzone:panelsum confirmDialog" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybral)}" update="akordeon:formsporzadzone:dokumentyLista :akordeon:formsporzadzone:panelsum confirmDialog" global="false"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybral)}" update="akordeon:formsporzadzone:dokumentyLista :akordeon:formsporzadzone:panelsum confirmDialog" global="false"/>      
                 <p:ajax event="rowSelect" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybral)}" update="akordeon:formsporzadzone:dokumentyLista :akordeon:formsporzadzone:panelsum  confirmDialog" global="false"/>      
-                <p:ajax event="rowUnselect" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybral)}"  update="akordeon:formsporzadzone:dokumentyLista :akordeon:formsporzadzone:panelsum  confirmDialog" global="false"/>      -->
+                <p:ajax event="rowUnselect" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybral)}"  update="akordeon:formsporzadzone:dokumentyLista :akordeon:formsporzadzone:panelsum  confirmDialog" global="false"/>      
                 <p:column selectionMode="multiple"  width="30" style="text-align: center;" />
                 <p:column width="20">
                     <p:rowToggler />
