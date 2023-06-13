@@ -256,7 +256,7 @@
                                     <p:rowExpansion>
                                         <p:dataTable id="datalistsrednia" value="#{itempasekpotr.sredniadlanieobecnosciList}" var="itempaseksrednia"
                                                      rowIndexVar="itempaseksredniaid" rowKey="#{itempaseksrednia.id}"
-                                                     style="height: 200px; overflow-y: scroll;width: 1200px;"
+                                                     style="height: 200px; overflow-y: scroll;width: 1220px;"
                                                      >
                                             <p:column style="text-align: center;" headerText="lp" width="40">
                                                 <h:outputText value="#{itempaseksredniaid+1}"/>
@@ -282,7 +282,7 @@
                                             <p:column headerText="pom." width="40" style="text-align: center;">
                                                 <h:outputText value="&#x2714;"  rendered="#{itempaseksrednia.pominiete}" styleClass="ww"/>
                                             </p:column>
-                                            <p:column headerText="wal." width="40" style="text-align: center;">
+                                            <p:column headerText="uzup." width="40" style="text-align: center;">
                                                 <h:outputText value="&#x2714;"  rendered="#{itempaseksrednia.waloryzowane}" styleClass="ww"/>
                                             </p:column>
                                             <p:column headerText="stałe" width="40" style="text-align: center;">

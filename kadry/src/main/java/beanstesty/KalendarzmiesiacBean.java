@@ -825,13 +825,16 @@ public class KalendarzmiesiacBean {
         if (!kalendarzdosredniej.equals(kalendarz)) {
             boolean skladnikstaly = false;
             double[] czyuzupelnicskladnik = kalendarzdosredniej.uzupelnienie1norma0pominiecie2();
-            boolean waloryzowac = false;
+            boolean uzupelniac = false;
             //rozpatrujemy waloryzacje tylko skladnikow stalych
-            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true) {
-                waloryzowac = czyuzupelnicskladnik[2] == 1;
-            } else if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==false) {
-                //nie pootrzeba tego bo degfault jest false
-                //waloryzowac = false;
+            //trzeba zrobic ten warunek bo potem patrzy tylko mna to i umieszcza na tabelce anlaizy ze uzupelnia ale kwotya jest zero
+            if (jestoddelegowanie==false) {
+                if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true) {
+                    uzupelniac = czyuzupelnicskladnik[2] == 1;
+                } else if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==false) {
+                    //nie pootrzeba tego bo degfault jest false
+                    //waloryzowac = false;
+                }
             }
             double wynagrodzeniemcwyplacone = 0.0;
             double wynagrodzeniemczwaloryzowane = 0.0;
@@ -849,7 +852,7 @@ public class KalendarzmiesiacBean {
                     if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().isOddelegowanie()&&pa.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny().equals("Wyn. za pracę w Niemczech")) {
                          wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + pa.getKwotadolistyplac();
                     } else if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
-                        if (waloryzowac&&jestoddelegowanie==false) {
+                        if (uzupelniac&&jestoddelegowanie==false) {
                             if (pa.getKwotaumownazacalymc()>0.0) {
                                 wynagrodzeniemczwaloryzowane = wynagrodzeniemczwaloryzowane + pa.getKwotaumownazacalymc();
                             } else {
@@ -862,7 +865,7 @@ public class KalendarzmiesiacBean {
                     }
                 }
             }
-            if (kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList() != null && waloryzowac==false) {
+            if (kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList() != null && uzupelniac==false) {
                 for (Naliczenienieobecnosc r : kalendarzdosredniej.getPasek(definicjabiezaca).getNaliczenienieobecnoscList()) {
                     if (r.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy() == false) {
                         if (r.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
@@ -875,7 +878,7 @@ public class KalendarzmiesiacBean {
             wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone * procentOddelegowanie;
             Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), wynagrodzeniemcwyplacone, wynagrodzeniemczwaloryzowane, skladnikstaly, naliczenienieobecnosc, pominiety,
                     godzinyprzepracowaneIurlop, dniprzepracowaneIurlop, godzinyrobocze, dnirobocze, procentOddelegowanie, kwotawyplaconapobrana);
-            srednia.setWaloryzowane(waloryzowac);
+            srednia.setWaloryzowane(uzupelniac);
             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
             double suma = wynagrodzeniemcwyplacone + wynagrodzeniemczwaloryzowane;
             sredniadopodstawyzmienne = Z.z(sredniadopodstawyzmienne + wynagrodzeniemcwyplacone + wynagrodzeniemczwaloryzowane);
