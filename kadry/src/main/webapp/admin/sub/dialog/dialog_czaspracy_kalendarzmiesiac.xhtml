@@ -124,7 +124,7 @@
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.typdniaString}" style="color: #{itemkalendarz.typdniaCol}"/>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" rendered="#{kalendarzmiesiacView.selected.pasek.id eq null}">
                             <f:facet name="header">
                                 <h:outputText value="norma godzin"/>
                             </f:facet>
@@ -138,6 +138,13 @@
                                 </f:facet>
                             </p:cellEditor>
                             
+                            
+                        </p:column>
+                        <p:column style="text-align: center;" rendered="#{kalendarzmiesiacView.selected.pasek.id ne null}">
+                            <f:facet name="header">
+                                <h:outputText value="norma godzin"/>
+                            </f:facet>
+                            <h:outputText value="#{itemkalendarz.normagodzin}" style="#{itemkalendarz.normagodzin eq 0 ? 'color: gray':''}"/>
                             
                         </p:column>
                         <p:column width="30" style="text-align: center;">

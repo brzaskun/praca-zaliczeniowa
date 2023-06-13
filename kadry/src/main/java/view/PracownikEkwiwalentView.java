@@ -382,12 +382,10 @@ public class PracownikEkwiwalentView  implements Serializable {
                         }
                     }
                 }
-                double dobowanormaczasupracy = (8.0 * (((double) wybranyetat.getEtat1()) / ((double) wybranyetat.getEtat2())));
-                double dniekw = Z.z(godzinyekw / dobowanormaczasupracy);
+                double dobowanormaczasupracy = (8.0*(((double)wybranyetat.getEtat1())/((double)wybranyetat.getEtat2())));
+                double dniekw = Z.z(godzinyekw/dobowanormaczasupracy);
                 for (Skladnikwynagrodzenia p : skladniki) {
-                    //omijamy dodany ekwiwalent za urlop
-                    if (p.getRodzajwynagrodzenia().getWks_serial()!=1014) {
-                        if (p.getRodzajwynagrodzenia().getStale0zmienne1() == false) {
+                      if (p.getRodzajwynagrodzenia().getStale0zmienne1()==false&&p.getRodzajwynagrodzenia().getWks_serial()!=1014) {
                             for (Zmiennawynagrodzenia r : p.getZmiennawynagrodzeniaList()) {
                                 if (DataBean.czysiemiesci(pierwszydzienmiesiaca, ostatnidzienmiesiaca, r.getDataod(), r.getDatado())) {
                                     double kwotastala = r.getKwota();
@@ -398,16 +396,18 @@ public class PracownikEkwiwalentView  implements Serializable {
                                     naliczenienieobecnosc.setSredniazailemcy(1);
                                     naliczenienieobecnosc.setLiczbadniNieobecnosci(dniekw);
                                     naliczenienieobecnosc.setLiczbagodzinNieobecnosci(godzinyekw);
-                                    double stawkadzienna = kwotastala / wspolczynnikEkwiwalent.getKwota();
+                                double stawkadzienna = kwotastala/wspolczynnikEkwiwalent.getKwota();
                                     naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
-                                    double stawkagodzinowa = stawkadzienna / dobowanormaczasupracy;
-                                    double kwotaekwu = Z.z(stawkagodzinowa * godzinyekw);
+                                double stawkagodzinowa = stawkadzienna/dobowanormaczasupracy;
+                                double kwotaekwu = Z.z(stawkagodzinowa*godzinyekw);
                                     naliczenienieobecnosc.setStawkagodzinowa(stawkagodzinowa);
                                     naliczenienieobecnosc.setKwota(kwotaekwu);
                                     ekw.setKwotastale(kwotaekwu);
-                                    ekw.setKwota(ekw.getKwota() + kwotaekwu);
+                                ekw.setKwota(ekw.getKwota()+kwotaekwu);
                                     skladnikistale.add(naliczenienieobecnosc);
-                                } else {
+                             }
+                        }
+                      } else if (p.getRodzajwynagrodzenia().getWks_serial()!=1014) {
                                     List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(wpisView.getAngaz());
                                     String dzien = wpisView.getAngaz().getFirma().getDzienlp();
                                     //jak to bylo to cofal sie o jeden miesiac za daleko. robilem ek2wiwaetn w maju a on zaczylal od marca w dol 02.06.2023
@@ -417,7 +417,7 @@ public class PracownikEkwiwalentView  implements Serializable {
                                     //                                mc = popokres[0];
                                     //                            }
                                     //                          przywroilem to 05.06.2023 bo tak mialo byc. Natalia namieszala. nie analizuje
-                                    if (dzien != null) {
+                            if (dzien!=null) {
                                         String[] popokres = Data.poprzedniOkres(mc, rok);
                                         rok = popokres[1];
                                         mc = popokres[0];
@@ -439,51 +439,48 @@ public class PracownikEkwiwalentView  implements Serializable {
                                     naliczenienieobecnosc.setLiczbadniNieobecnosci(dniekw);
                                     naliczenienieobecnosc.setLiczbagodzinNieobecnosci(godzinyekw);
                                     for (Naliczenieskladnikawynagrodzenia pa : naliczonyskladnikdosredniej) {
-                                        godzinyfaktyczne = godzinyfaktyczne + pa.getGodzinyfaktyczne();
-                                        dninalezne = dninalezne + pa.getDninalezne();
+                                godzinyfaktyczne = godzinyfaktyczne+pa.getGodzinyfaktyczne();
+                                dninalezne = dninalezne+pa.getDninalezne();
                                         kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
                                         liczba++;
                                         boolean skladnikstaly = false;
-                                        double stawkazagodzinezm = pa.getKwotadolistyplac() / pa.getGodzinynalezne();
-                                        if (kwotywyplacone > 0.0) {
+                                double stawkazagodzinezm = pa.getKwotadolistyplac()/pa.getGodzinynalezne();
+                                if (kwotywyplacone>0.0) {
                                             Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(),
                                                     skladnikstaly, naliczenienieobecnosc, godzinyekw, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
                                             naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                                             naliczenienieobecnosc.setSredniazailemcy(liczba);
-                                            dzielnik = dzielnik + 1;
+                                    dzielnik = dzielnik+1;
                                         }
-                                        if (liczba > 3) {
+                                if(liczba>3) {
                                             break;
                                         }
                                     }
-                                    if (godzinyfaktyczne != 0.0 && dninalezne != 0.0) {
-                                        dzielnik = dzielnik == 0 ? 1 : dzielnik;
-                                        sredniadopodstawy = Z.z(kwotywyplacone / dzielnik);
+                            if (godzinyfaktyczne!=0.0&&dninalezne!=0.0) {
+                                dzielnik = dzielnik==0?1:dzielnik;
+                                sredniadopodstawy = Z.z(kwotywyplacone/dzielnik);
                                         naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
                                         naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
                                         naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
-                                        double stawkadzienna = sredniadopodstawy / wspolczynnikEkwiwalent.getKwota();
+                                double stawkadzienna = sredniadopodstawy/wspolczynnikEkwiwalent.getKwota();
                                         naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
-                                        stawkazagodzine = Z.z6(stawkadzienna / dobowanormaczasupracy);
+                                stawkazagodzine = Z.z6(stawkadzienna/dobowanormaczasupracy);
                                         naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
-                                        double kwotaekwu = stawkazagodzine * godzinyekw;
+                                double kwotaekwu = stawkazagodzine*godzinyekw;
                                         naliczenienieobecnosc.setKwota(kwotaekwu);
                                         ekw.setKwotazmienne(kwotaekwu);
-                                        ekw.setKwota(ekw.getKwota() + kwotaekwu);
+                                ekw.setKwota(ekw.getKwota()+kwotaekwu);
                                         skladnikizmienne.add(naliczenienieobecnosc);
                                     }
                                 }
                             }
+                Msg.msg("Pobrano ekwiwalent");
                         }
-                    }
-                }
-            }
-            Msg.msg("Pobrano ekwiwalent");
         } else {
             skladnikistale = new ArrayList<>();
             skladnikizmienne = new ArrayList<>();
             ekwiwalent = new EkwiwalentUrlop();
-            Msg.msg("w", "Brak etatu. nie można obliczyć ekwiwalentu");
+            Msg.msg("w","Brak etatu. nie można obliczyć ekwiwalentu");
         }
     }
 
