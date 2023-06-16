@@ -727,7 +727,7 @@ public class InterpaperImportView implements Serializable {
             String rodzajdk = "ZZ";
             Dokfk dokument = null;
             if (wybranyrodzajimportu.getLp()==1&&this.rodzajdok.contains("sprzedaż")) {
-                rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
+                rodzajdk = polska0unia1zagranica2==0 ? "RACHSP" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
             } else if (this.rodzajdok.contains("sprzedaż")) {
                 if (wybranyrodzajimportu.getLp()==13) {
                     if (Z.z(interpaperXLS.getVatwaluta())==0.0) {
