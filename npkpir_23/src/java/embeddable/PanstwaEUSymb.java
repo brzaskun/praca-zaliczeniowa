@@ -54,8 +54,6 @@ static{
     wykazPanstwUE.add("IT");
     //irlandia półpnocna
     wykazPanstwUE.add("XI");
-    //portoryko
-    wykazPanstwUE.add("PR");
     
 }
 

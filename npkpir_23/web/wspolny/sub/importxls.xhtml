@@ -39,7 +39,7 @@
                             <p:ajax global="false" event="blur"  partialSubmit="true"/>
                             <p:ajax global="false" event="change"  partialSubmit="true" listener="#{interpaperImportView.grid2pokaz}" update="panelprzyciskow akordeon5:form_importinterpaper"/>
                         </p:selectOneMenu>
-                    <h:outputText value="filt faktur" style="margin-left: 20px;"/>
+                    <h:outputText value="filtr faktur" style="margin-left: 20px;"/>
                     <p:selectOneMenu  value="#{interpaperImportView.jakipobor}" 
                                          style="width: 200px; margin-left: 10px;" >
                             <f:selectItem itemLabel="wybierz" itemValue=""/>
@@ -94,7 +94,7 @@
                 <p:panelGrid columns="1">
             <p:dataTable id="dataListImport" value="#{interpaperImportView.pobranefaktury}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
                          selection="#{interpaperImportView.selected}" rowKey="#{itemimp.nr}"  
-                         style="width: 1420px; height: 480px; overflow-y: scroll; margin-top: 15px;margin-bottom: 15px;" filteredValue="#{interpaperImportView.pobranefakturyfilter}"
+                         style="width: 1500px; height: 480px; overflow-y: scroll; margin-top: 15px;margin-bottom: 15px;" filteredValue="#{interpaperImportView.pobranefakturyfilter}"
                          emptyMessage="Brak importowanych dokumentów/Sprawdź kolumny w dokumencie xls" styleClass="gridZaksiegowane"
                          sortBy="#{itemimp.nr}"  rows="150"
                          rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{interpaperImportView.pobranefaktury.size() gt 150 ? 'true':'false'}" 
@@ -122,7 +122,7 @@
                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="nr fakt." styleClass="zaksiegowanewaski" width="70" sortBy="#{itemimp.nrfaktury}" filterBy="#{itemimp.nrfaktury}"  filterMatchMode="contains" >
+                <p:column headerText="nr fakt." styleClass="zaksiegowanewaski" width="110" sortBy="#{itemimp.nrfaktury}" filterBy="#{itemimp.nrfaktury}"  filterMatchMode="contains" >
                     <h:outputText value="#{itemimp.nrfaktury}" rendered="#{itemimp.symbolzaksiegowanego  eq null and itemimp.juzzaksiegowany eq false}"/>
                     <h:outputText value="#{itemimp.nrfaktury}" rendered="#{itemimp.juzzaksiegowany ne false}" style="color: red;"/>
                     <h:outputText value="#{itemimp.symbolzaksiegowanego}" rendered="#{itemimp.symbolzaksiegowanego  ne null}"/>
@@ -139,6 +139,9 @@
                 <p:column headerText="nazwafk" width="140" sortBy="#{itemimp.klient.npelna}" filterBy="#{itemimp.klient.npelna}"  filterMatchMode="contains"  >
                     <h:outputText value="#{itemimp.klient.npelna}" rendered="#{itemimp.klient ne null}"/>
                     <h:outputText value="nowy" rendered="#{itemimp.klient eq null}" style="color: green;"/>
+                </p:column>
+                  <p:column headerText="id" width="60" sortBy="#{itemimp.klient.id}" filterBy="#{itemimp.klient.id}" >
+                      <h:outputText value="#{itemimp.klient.id}" rendered="#{itemimp.klient.id ne null}"/>
                 </p:column>
                 <p:column headerText="brutto" styleClass="zaksiegowanewaski" width="70" sortBy="#{itemimp.bruttowaluta}" filterBy="#{itemimp.bruttowaluta}" filterMatchMode="contains" >
                     <h:outputText value="#{itemimp.bruttowaluta}" style="float: right;">

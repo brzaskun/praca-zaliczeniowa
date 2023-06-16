@@ -215,7 +215,7 @@ public class ReadXLSDomeguruFile {
 //           error.E.s("");
 //       }
         String nip = null;
-        if (interpaperXLS.getNip()!=null) {
+        if (interpaperXLS.getNip()!=null&&!interpaperXLS.getNip().equals("")) {
             nip = interpaperXLS.getNip().trim();
         }
         if (nip!=null&&nip.startsWith("PL")) {
@@ -241,6 +241,16 @@ public class ReadXLSDomeguruFile {
                 }
             }
             if (klient==null && interpaperXLS.getKontrahent().toLowerCase().trim().length()>3 && nip!=null && nip.length()>6) {
+                for (Klienci p : k) {
+                    if (p.getNpelna().toLowerCase().contains(interpaperXLS.getKontrahent().toLowerCase().trim()) || (p.getNskrocona()!=null && p.getNskrocona().toLowerCase().contains(interpaperXLS.getKontrahent().toLowerCase().trim()))) {
+                        klient = p;
+                        znalezieni.put(interpaperXLS.getKontrahent(), p);
+                        break;
+                    }
+                }
+            }
+            //szukamy po nazwie kontrahentow jednorazowych zagranicznych osoby fizyczne Domeguryu 16-06-2023
+             if (klient==null && interpaperXLS.getKontrahent().toLowerCase().trim().length()>3 && nip==null && !interpaperXLS.getKlientpaństwosymbol().equals("PL")) {
                 for (Klienci p : k) {
                     if (p.getNpelna().toLowerCase().contains(interpaperXLS.getKontrahent().toLowerCase().trim()) || (p.getNskrocona()!=null && p.getNskrocona().toLowerCase().contains(interpaperXLS.getKontrahent().toLowerCase().trim()))) {
                         klient = p;

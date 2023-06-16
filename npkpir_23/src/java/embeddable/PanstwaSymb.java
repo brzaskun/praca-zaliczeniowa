@@ -264,6 +264,7 @@ static{
     wykazPanstwS.add("ZW");
     wykazPanstwS.add("AE");
     wykazPanstwS.add("XI");
+    wykazPanstwS.add("PR");
 
 
 }
