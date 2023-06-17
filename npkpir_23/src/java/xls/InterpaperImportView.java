@@ -868,6 +868,8 @@ public class InterpaperImportView implements Serializable {
                 kontovat = kontovatpol;
             } else if (interpaperXLS.getVatwaluta()>0.0){
                 podepnijEwidencjeVat(nd, interpaperXLS);
+            } else if (nd.getRodzajedok().getSkrot().equals("EXP")||nd.getRodzajedok().getSkrot().equals("WDT")){
+                podepnijEwidencjeVat(nd, interpaperXLS);
             }
         }
         Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);

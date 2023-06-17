@@ -806,7 +806,13 @@ public class SessionFacade<T> implements Serializable {
     
     
     public KontopozycjaZapis fintKontoPozycjaZapisByKonto(Konto konto, UkladBR ukladBR) {
-        return (KontopozycjaZapis)  getEntityManager().createNamedQuery("KontopozycjaZapis.findByKontoId").setParameter("kontoId", konto).setParameter("ukladBR", ukladBR).getSingleResult();
+        KontopozycjaZapis zwrot = null;
+        try {
+            zwrot = (KontopozycjaZapis)  getEntityManager().createNamedQuery("KontopozycjaZapis.findByKontoId").setParameter("kontoId", konto).setParameter("ukladBR", ukladBR).getSingleResult();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
     }
 
     

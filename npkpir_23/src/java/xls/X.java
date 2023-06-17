@@ -38,7 +38,7 @@ public class X {
         return zwrot;
     }
 
-    public static String xS(Cell cell) {
+    public static String xString(Cell cell) {
         String zwrot = null;
         if (cell!=null) {
             CellType celltype = cell.getCellType();
@@ -61,7 +61,7 @@ public class X {
         return zwrot;
     }
     
-     public static String xDG(Cell cell) {
+     public static String xData(Cell cell) {
         String zwrot = null;
         if (cell!=null) {
             CellType celltype = cell.getCellType();
@@ -69,11 +69,31 @@ public class X {
                 case BLANK:
                     break;
                 case STRING:
-                    zwrot = cell.getStringCellValue();
+                    zwrot = Data.zmienkolejnosc(cell.getStringCellValue());
                     break;
                 default:
                     Date data = cell.getDateCellValue();
                     zwrot = Data.data_yyyyMMdd(data);
+                    break;
+            }
+        }
+        return zwrot;
+    }
+     
+     public static double xKwota(Cell cell) {
+        double zwrot = -1;
+        if (cell!=null) {
+            CellType celltype = cell.getCellType();
+            switch (celltype) {
+                case BLANK:
+                    break;
+                case STRING:
+                    String pobrane = cell.getStringCellValue();
+                    pobrane = pobrane.replace(",", ".");
+                    zwrot = Double.valueOf(pobrane);
+                    break;
+                default:
+                    zwrot = (int) cell.getNumericCellValue();
                     break;
             }
         }

@@ -39,6 +39,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import view.WpisView;
+import waluty.Z;
 /**
  *
  * @author Osito
@@ -116,7 +117,7 @@ public class ReadXLSDomeguruFile {
                                listafaktur.add(interpaperXLS);
                             }
                         } else {
-                            String mcdok = Data.getMc(Data.zmienkolejnosc(xls.X.xDG(row.getCell(8))));
+                            String mcdok = Data.getMc(Data.zmienkolejnosc(xls.X.xData(row.getCell(8))));
                             if (mc.equals(mcdok)) {
                                 if (rodzajdok.equals("sprzedaż")) {
                                     uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
@@ -182,9 +183,9 @@ public class ReadXLSDomeguruFile {
     private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
         if (row.getCell(0).getRowIndex()>0) {
                 interpaperXLS.setNrfaktury(row.getCell(1).getStringCellValue());
-                interpaperXLS.setDatawystawienia(Data.stringToDate(Data.zmienkolejnosc(xls.X.xDG(row.getCell(7)))));
-                interpaperXLS.setDatasprzedaży(Data.stringToDate(Data.zmienkolejnosc(xls.X.xDG(row.getCell(8)))));
-                interpaperXLS.setDataobvat(Data.stringToDate(Data.zmienkolejnosc(xls.X.xDG(row.getCell(8)))));
+                interpaperXLS.setDatawystawienia(Data.stringToDate(Data.zmienkolejnosc(xls.X.xData(row.getCell(7)))));
+                interpaperXLS.setDatasprzedaży(Data.stringToDate(Data.zmienkolejnosc(xls.X.xData(row.getCell(8)))));
+                interpaperXLS.setDataobvat(Data.stringToDate(Data.zmienkolejnosc(xls.X.xData(row.getCell(8)))));
                 String kontr = row.getCell(10).getStringCellValue();
                 interpaperXLS.setKontrahent(kontr);
                 interpaperXLS.setKlientnazwa(kontr);
@@ -198,15 +199,17 @@ public class ReadXLSDomeguruFile {
                 interpaperXLS.setKlientmiasto(miasto);
                 String ulica = row.getCell(12)!=null?row.getCell(12).getStringCellValue():"";
                 interpaperXLS.setKlientulica(ulica);
-                Double stawkavat = row.getCell(41)!=null?row.getCell(41).getNumericCellValue():0.0;
-                interpaperXLS.setPobranastawkavat(stawkavat);
-                interpaperXLS.setNip(row.getCell(11)!=null?row.getCell(11).getStringCellValue():null);
+                interpaperXLS.setNip(X.xString(row.getCell(11)));
                 interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
                 interpaperXLS.setWalutaplatnosci(row.getCell(28).getStringCellValue());
-                interpaperXLS.setBruttowaluta(Double.valueOf(row.getCell(21).getStringCellValue()));
-                interpaperXLS.setSaldofaktury(Double.valueOf(row.getCell(21).getStringCellValue()));
-                interpaperXLS.setNettowaluta(Double.valueOf(row.getCell(19).getStringCellValue()));
-                interpaperXLS.setVatwaluta(Double.valueOf(row.getCell(20).getStringCellValue()));
+                interpaperXLS.setBruttowaluta(X.xKwota(row.getCell(21)));
+                interpaperXLS.setSaldofaktury(X.xKwota(row.getCell(21)));
+                interpaperXLS.setNettowaluta(X.xKwota(row.getCell(19)));
+                interpaperXLS.setVatwaluta(X.xKwota(row.getCell(20)));
+                if (interpaperXLS.getVatwaluta()!=0.0) {
+                    double stawkavat = Z.z(interpaperXLS.getVatwaluta()/interpaperXLS.getNettowaluta());
+                    interpaperXLS.setPobranastawkavat(stawkavat*100.0);
+                }
             }
         }
 

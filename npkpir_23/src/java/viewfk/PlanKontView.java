@@ -2271,7 +2271,7 @@ public class PlanKontView implements Serializable {
                     if (nazwapelna.isEmpty()==false) {
                         Object cell = X.x(row.getCell(1));
                         if (cell==null||cell.equals("")) {
-                            String kontomacierzyste = X.xS(row.getCell(4));
+                            String kontomacierzyste = X.xString(row.getCell(4));
                             if (!kontomacierzyste.equals("")) {
                                 Konto macierzyste = kontoDAOfk.findKonto(kontomacierzyste, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                                 String opiskonta = row.getCell(5).getStringCellValue();
@@ -2315,7 +2315,7 @@ public class PlanKontView implements Serializable {
                             }
                         } else {
                             int cellid = Integer.parseInt((String) X.x(row.getCell(1)));
-                            String nazwapelna2 = X.xS(row.getCell(5));
+                            String nazwapelna2 = X.xString(row.getCell(5));
                             Konto kontoznalezione = null;
                             for (Konto o : obecnyplantkont) {
                                 try {
