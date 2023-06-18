@@ -217,20 +217,24 @@ private static final long serialVersionUID = 1L;
         if (this.pasekwynagrodzenList!=null&&this.pasekwynagrodzenList.size()>0) {
             zwrot= pobierznieobecnosc(this.pasekwynagrodzenList);
         }
-        List<UbezpZusrca> listarca = ubezpZusrcaDAO.findByPesel(this.getPesel());
-        if (listarca!=null) {
-            for (UbezpZusrca z : listarca) {
-                for (Sredniadlanieobecnosci srednia : zwrot) {
-                    Zusrca zusrca = z.getIdDokNad();
-                    if (zusrca.getI12okrrozl().equals(srednia.getMcrokwyplaty())) {
-                        srednia.setPodstawarca(Z.z(z.getIiiB5Podwymch().doubleValue()));
+        if (zwrot!=null) {
+            List<UbezpZusrca> listarca = ubezpZusrcaDAO.findByPesel(this.getPesel());
+            if (listarca!=null) {
+                for (UbezpZusrca z : listarca) {
+                    for (Sredniadlanieobecnosci srednia : zwrot) {
+                        Zusrca zusrca = z.getIdDokNad();
+                        if (zusrca.getI12okrrozl().equals(srednia.getMcrokwyplaty())) {
+                            srednia.setPodstawarca(Z.z(z.getIiiB5Podwymch().doubleValue()));
+                        }
                     }
                 }
             }
-        }
-        if (zwrot!=null&&zwrot.size()==12) {
-            Sredniadlanieobecnosci razem = sumujsrednia(zwrot);
-            zwrot.add(razem);
+            if (zwrot!=null&&zwrot.size()==12) {
+                Sredniadlanieobecnosci razem = sumujsrednia(zwrot);
+                zwrot.add(razem);
+            }
+        } else {
+            zwrot = new ArrayList<>();
         }
         return zwrot;
     }
