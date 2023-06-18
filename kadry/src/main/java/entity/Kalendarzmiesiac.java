@@ -228,6 +228,10 @@ private static final long serialVersionUID = 1L;
                 }
             }
         }
+        if (zwrot!=null&&zwrot.size()==12) {
+            Sredniadlanieobecnosci razem = sumujsrednia(zwrot);
+            zwrot.add(razem);
+        }
         return zwrot;
     }
     
@@ -251,10 +255,6 @@ private static final long serialVersionUID = 1L;
                     break;
                 }
             }
-        }
-        if (zwrot!=null&&zwrot.size()==12) {
-            Sredniadlanieobecnosci razem = sumujsrednia(zwrot);
-            zwrot.add(razem);
         }
         return zwrot;
     }
