@@ -42,6 +42,7 @@ import org.joda.time.DateTime;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import waluty.Z;
+import xls.X;
 
 /**
  *
@@ -108,6 +109,7 @@ public class ImportMatacz2View  implements Serializable {
     
     public void getListafaktur() {
          try {
+            dokumenty = new ArrayList<>();
             InputStream file = new ByteArrayInputStream(pobraneplikibytes);
              //Create Workbook instance holding reference to .xlsx file
             Workbook workbook = WorkbookFactory.create(file);
@@ -121,7 +123,7 @@ public class ImportMatacz2View  implements Serializable {
                 if (row.getCell(0).getRowIndex()>1) {
                     String text = row.getCell(1).getStringCellValue();
                     String nrfakt = text.substring(8);
-                    String data = row.getCell(7).getStringCellValue();
+                    String data = X.xData(row.getCell(7));
                     InterpaperXLS interpaperXLS = new InterpaperXLS();
                     interpaperXLS.setNrfaktury(nrfakt);
                     interpaperXLS.setDatawystawienia(Data.stringToDate(data));
