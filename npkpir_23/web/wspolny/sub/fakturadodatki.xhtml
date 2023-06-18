@@ -60,7 +60,7 @@
                     <p:selectBooleanCheckbox id="boxczywszystkie" value="#{fakturaDodPozycjaKontrahentView.pokazujtylkopuste}" >
                         <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="akordeon:listapozycji:lista akordeon:form3 akordeon:listapozycji2:lista"/>
                     </p:selectBooleanCheckbox>
-                    <h:outputText value="Generowanie, nie duplikuje wpisów. Aby dodana pozycja została pobrana następnym razem, podatnik musi mieć oznaczoną okresową fakturę jako ręczna do edycji" style="color:green"/>
+                    <h:outputText value="Generowanie, nie duplikuje wpisów. Aby dodana pozycja została pobrana następnym razem, podatnik musi mieć oznaczoną okresową fakturę jako ręczna do edycji. Kopiowanie do przodu w menu" style="color:green"/>
                 </p:panelGrid>
                 <p:growl life="3600" showDetail="true"><p:autoUpdate/></p:growl>
                 <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1630px;" widgetVar="tabelazwynikami"
@@ -142,6 +142,7 @@
                 </p:dataTable>
                 <p:contextMenu for="akordeon:listapozycji:lista" style="width: 250px;">
                     <p:menuitem value="zeruj rozl." update="akordeon:listapozycji:lista" actionListener="#{fakturaDodPozycjaKontrahentView.zeruj}" icon="ui-icon-document" />
+                    <p:menuitem value="kopiuj mc. nast." update="akordeon:listapozycji:lista" actionListener="#{fakturaDodPozycjaKontrahentView.kopiuj}" icon="ui-icon-document" />
                 </p:contextMenu>
             </h:form>
             <h:form>
@@ -231,9 +232,6 @@
                         <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaDodPozycjaKontrahentView.usun(zapis1)}" update="@form" rendered="#{zapis1.rozliczone eq false}"/>
                     </p:column>
                 </p:dataTable>
-                <p:contextMenu for="akordeon:listapozycji:lista" style="width: 250px;">
-                    <p:menuitem value="zeruj rozl." update="akordeon:listapozycji:lista" actionListener="#{fakturaDodPozycjaKontrahentView.zeruj}" icon="ui-icon-document" />
-                </p:contextMenu>
             </h:form>
             <h:form>
                 <p:panelGrid columns="3">

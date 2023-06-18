@@ -145,6 +145,11 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                 selected.getKontrahent().setNazwapodatnika(selected.getKontrahent().getNpelna());
                 fakturaDodPozycjaKontrahentDAO.create(selected);
                 lista_2.add(selected);
+                List<FakturaDodPozycjaKontrahent> lista_tmpnowe = new ArrayList<>();
+                lista_tmpnowe.add(selected);
+                uzupelnijofakture(lista_tmpnowe);
+                uzupelnijodanezDRA(lista_tmpnowe);
+                uzupelnijodanezDRAmcpop(lista_tmpnowe);
                 lista_2_filter = null;
                 lista_2_selected = null;
                 selected = new FakturaDodPozycjaKontrahent();
@@ -183,6 +188,24 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             }
         } else {
             Msg.msg("e","Nie wybrano pozycji. Nie można usunąć");
+        }
+    }
+    
+    public void kopiuj() {
+        if (lista_2_selected!=null && lista_2_selected.size()==1) {
+            try {
+                FakturaDodPozycjaKontrahent sel = lista_2_selected.get(0);
+                String rok1 = sel.getRok();
+                String mc1 = sel.getMc();
+                String[] nastepnyOkres = Data.nastepnyOkres(mc1, rok1);
+                FakturaDodPozycjaKontrahent nowe = new FakturaDodPozycjaKontrahent(sel, nastepnyOkres[1], nastepnyOkres[0]);
+                fakturaDodPozycjaKontrahentDAO.create(nowe);
+                Msg.msg("Skopiowano pozycję do przodu");
+            } catch (Exception e) {
+                Msg.msg("e","Błąd przy kopiowaniu pozycji");
+            }
+        } else {
+            Msg.msg("e","Nie wybrano pozycji. Nie można skopiować");
         }
     }
     
