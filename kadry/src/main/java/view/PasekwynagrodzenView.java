@@ -30,6 +30,7 @@ import dao.SwiadczeniekodzusFacade;
 import dao.TabelanbpFacade;
 import dao.WynagrodzeniahistoryczneFacade;
 import dao.WynagrodzenieminimalneFacade;
+import daoplatnik.UbezpZusrcaDAO;
 import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
@@ -129,6 +130,8 @@ public class PasekwynagrodzenView implements Serializable {
     private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;
     @Inject
     private FirmaKadryFacade firmaKadryFacade;
+    @Inject
+    private UbezpZusrcaDAO zusrcaDAO;
     @Inject
     private WpisView wpisView;
     private Rodzajlistyplac rodzajlistyplac;
@@ -1024,6 +1027,14 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void setListadefinicjalistaplacAnaliza(List<Definicjalistaplac> listadefinicjalistaplacAnaliza) {
         this.listadefinicjalistaplacAnaliza = listadefinicjalistaplacAnaliza;
+    }
+
+    public UbezpZusrcaDAO getZusrcaDAO() {
+        return zusrcaDAO;
+    }
+
+    public void setZusrcaDAO(UbezpZusrcaDAO zusrcaDAO) {
+        this.zusrcaDAO = zusrcaDAO;
     }
 
 }

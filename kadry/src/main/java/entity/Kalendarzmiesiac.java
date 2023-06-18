@@ -8,7 +8,10 @@ package entity;
 import beanstesty.DataBean;
 import comparator.Dziencomparator;
 import dao.RodzajnieobecnosciFacade;
+import daoplatnik.UbezpZusrcaDAO;
 import data.Data;
+import entityplatnik.UbezpZusrca;
+import entityplatnik.Zusrca;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +40,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import z.Z;
 
 /**
  *
@@ -206,7 +210,97 @@ private static final long serialVersionUID = 1L;
         }
         return dzien.getDatastring();
     }
-      
+    
+    
+    public List<Sredniadlanieobecnosci> sumujsredniedlazasilku(UbezpZusrcaDAO ubezpZusrcaDAO) {
+        List<Sredniadlanieobecnosci> zwrot = new ArrayList<>();
+        if (this.pasekwynagrodzenList!=null&&this.pasekwynagrodzenList.size()>0) {
+            zwrot= pobierznieobecnosc(this.pasekwynagrodzenList);
+        }
+        List<UbezpZusrca> listarca = ubezpZusrcaDAO.findByPesel(this.getPesel());
+        if (listarca!=null) {
+            for (UbezpZusrca z : listarca) {
+                for (Sredniadlanieobecnosci srednia : zwrot) {
+                    Zusrca zusrca = z.getIdDokNad();
+                    if (zusrca.getI12okrrozl().equals(srednia.getMcrokwyplaty())) {
+                        srednia.setPodstawarca(Z.z(z.getIiiB5Podwymch().doubleValue()));
+                    }
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    private List<Sredniadlanieobecnosci> pobierznieobecnosc(List<Pasekwynagrodzen> pasekwynagrodzenList) {
+        List<Sredniadlanieobecnosci> zwrot = null;
+        if (pasekwynagrodzenList!=null) {
+            
+            for (Pasekwynagrodzen pasek : pasekwynagrodzenList) {
+                if (pasek.getNaliczenienieobecnoscList()!=null) {
+                    Nieobecnosc wybrananieobecnosc = null;
+                    for (Naliczenienieobecnosc nieobecnosc : pasek.getNaliczenienieobecnoscList()) {
+                        if (zwrot==null&&nieobecnosc.getNieobecnosc().getRodzajnieobecnosci().getKodzbiorczy().equals("CH")) {
+                            zwrot = zrobnowe(nieobecnosc.getSredniadlanieobecnosciList());
+                            wybrananieobecnosc = nieobecnosc.getNieobecnosc();
+                        } else if (wybrananieobecnosc==nieobecnosc.getNieobecnosc()) {
+                            dodajinnesumy(zwrot, nieobecnosc.getSredniadlanieobecnosciList());
+                        }
+                    }
+                }
+                if (zwrot!=null) {
+                    break;
+                }
+            }
+        }
+        if (zwrot!=null&&zwrot.size()==12) {
+            Sredniadlanieobecnosci razem = sumujsrednia(zwrot);
+            zwrot.add(razem);
+        }
+        return zwrot;
+    }
+    
+    private List<Sredniadlanieobecnosci> zrobnowe(List<Sredniadlanieobecnosci> sredniadlanieobecnosciList) {
+        List<Sredniadlanieobecnosci> zwrot = new ArrayList<>();
+        if (sredniadlanieobecnosciList!=null) {
+            for (Sredniadlanieobecnosci stara : sredniadlanieobecnosciList) {
+                zwrot.add(new Sredniadlanieobecnosci(stara));
+            }
+        }
+        return zwrot;
+    }
+    
+    private void dodajinnesumy(List<Sredniadlanieobecnosci> zwrot, List<Sredniadlanieobecnosci> lista) {
+        for (Sredniadlanieobecnosci srednia : lista) {
+            for (Sredniadlanieobecnosci sredniasuma : zwrot) {
+                if (srednia.getRokMc().equals(sredniasuma.getRokMc())) {
+                    sredniasuma.setKwotawyplaconapobrana(srednia.getKwotawyplaconapobrana()+sredniasuma.getKwotawyplaconapobrana());
+                    sredniasuma.setKwotawyplacona(srednia.getKwotawyplacona()+sredniasuma.getKwotawyplacona());
+                    sredniasuma.setKwotazwaloryzowana(srednia.getKwotazwaloryzowana()+sredniasuma.getKwotazwaloryzowana());
+                    sredniasuma.setStawkagodzinowa(srednia.getStawkagodzinowa()+sredniasuma.getStawkagodzinowa());
+                    sredniasuma.setPodstawarca(srednia.getPodstawarca()+sredniasuma.getPodstawarca());
+                }
+            }
+        }
+    }
+
+    private Sredniadlanieobecnosci sumujsrednia(List<Sredniadlanieobecnosci> lista) {
+        Sredniadlanieobecnosci zwrot = new Sredniadlanieobecnosci();
+        if (lista!=null) {
+            for (Sredniadlanieobecnosci srednia : lista) {
+                zwrot.setRok("razem");
+                zwrot.setNaliczenienieobecnosc(srednia.getNaliczenienieobecnosc());
+                zwrot.setKwotawyplaconapobrana(srednia.getKwotawyplaconapobrana()+zwrot.getKwotawyplaconapobrana());
+                zwrot.setKwotawyplacona(srednia.getKwotawyplacona()+zwrot.getKwotawyplacona());
+                zwrot.setKwotazwaloryzowana(srednia.getKwotazwaloryzowana()+zwrot.getKwotazwaloryzowana());
+                zwrot.setStawkagodzinowa(srednia.getStawkagodzinowa()+zwrot.getStawkagodzinowa());
+                zwrot.setPodstawarca(srednia.getPodstawarca()+zwrot.getPodstawarca());
+            }
+        }
+        return zwrot;
+    }
+
+    
+    
     public Integer getId() {
         return id;
     }
@@ -1272,6 +1366,12 @@ private static final long serialVersionUID = 1L;
     public void setDnizasilekkalendarzowe(double dnizasilekkalendarzowe) {
         this.dnizasilekkalendarzowe = dnizasilekkalendarzowe;
     }
+
+    
+
+    
+    
+    
 
     
 

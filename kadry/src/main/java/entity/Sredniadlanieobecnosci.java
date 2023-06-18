@@ -5,6 +5,7 @@
  */
 package entity;
 
+import data.Data;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import z.Z;
 
 /**
  *
@@ -56,6 +58,9 @@ public class Sredniadlanieobecnosci implements Serializable {
     @Size(max = 2)
     @Column(name = "mc")
     private String mc;
+    @Size(max = 2)
+    @Column(name = "mcrokwyplaty")
+    private String mcrokwyplaty;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "dninalezne")
     private double dninalezne;
@@ -92,6 +97,8 @@ public class Sredniadlanieobecnosci implements Serializable {
     private Naliczenienieobecnosc naliczenienieobecnosc;
     @Column(name = "kontynuacja")
     private String kontynuacja;
+    @Column(name = "podstawarca")
+    private double podstawarca;
 
     public Sredniadlanieobecnosci() {
     }
@@ -169,6 +176,37 @@ public class Sredniadlanieobecnosci implements Serializable {
         this.stawkagodzinowa = (sredniadopodstawy+kwotazwaloryzowana)/this.godzinynalezne;
         this.procentoddelegowanie = procentoddelegowanie;
         this.kwotawyplaconapobrana = kwotawyplaconapobrana;
+    }
+     public Sredniadlanieobecnosci(Sredniadlanieobecnosci old) {
+        this.mcrokwyplaty = old.mc+old.rok;
+        if (!old.naliczenienieobecnosc.getPasekwynagrodzen().getMcwypl().equals(old.naliczenienieobecnosc.getPasekwynagrodzen().getMc())) {
+            if (old.mc!=null) {
+                String[] nastepnyOkres = Data.nastepnyOkres(old.mc, old.rok);
+                this.mcrokwyplaty = nastepnyOkres[0]+nastepnyOkres[1];
+            }
+        }
+        this.rok = old.rok;
+        this.mc = old.mc;
+        this.kwotawyplacona = old.kwotawyplacona;
+        this.kwotazwaloryzowana = old.kwotazwaloryzowana;
+        this.skladnikstaly = old.skladnikstaly;
+        this.naliczenienieobecnosc = old.naliczenienieobecnosc;
+        this.pominiete = old.pominiete;
+        this.dnifaktyczne = old.dnifaktyczne;
+        this.dninalezne = old.dninalezne;
+        this.godzinyfaktyczne = old.godzinyfaktyczne;
+        this.godzinynalezne = old.godzinynalezne;
+        this.stawkagodzinowa = old.stawkagodzinowa;
+        this.procentoddelegowanie = old.procentoddelegowanie;
+        this.kwotawyplaconapobrana = old.kwotawyplaconapobrana;
+    }
+
+    public double getKwotawyplaconaminuszus() {
+        return Z.z(this.kwotawyplacona-this.kwotawyplacona*.1371);
+    }
+    
+    public double getKwotawyplaconaminuszusProcent() {
+        return Z.z(Z.z(this.kwotawyplacona-this.kwotawyplacona*.1371)*(this.naliczenienieobecnosc.getNieobecnosc().getZwolnienieprocent()/100.0));
     }
 
     
@@ -334,6 +372,22 @@ public class Sredniadlanieobecnosci implements Serializable {
 
     public void setKontynuacja(String kontynuacja) {
         this.kontynuacja = kontynuacja;
+    }
+
+    public double getPodstawarca() {
+        return podstawarca;
+    }
+
+    public void setPodstawarca(double podstawarca) {
+        this.podstawarca = podstawarca;
+    }
+
+    public String getMcrokwyplaty() {
+        return mcrokwyplaty;
+    }
+
+    public void setMcrokwyplaty(String mcrokwyplaty) {
+        this.mcrokwyplaty = mcrokwyplaty;
     }
 
     

@@ -317,6 +317,69 @@
                                 </p:dataTable>
                             </p:panelGrid>
                         </p:tab>
+                        <p:tab title="Suma średnich do podstawy zasiłku">
+                            <p:outputPanel>
+                                <p:dataTable id="datalistsredniasuma" value="#{pasekwynagrodzenView.wybranykalendarz.sumujsredniedlazasilku(pasekwynagrodzenView.zusrcaDAO)}" var="itempaseksredniasuma"
+                                                     rowIndexVar="itempaseksredniasumaid" rowKey="#{itempaseksredniasuma.id}"
+                                                     style="width: 1380px;"
+                                                     >
+                                            <p:column style="text-align: center;" headerText="lp" width="40">
+                                                <h:outputText value="#{itempaseksredniasumaid+1}"/>
+                                            </p:column>
+                                            <p:column headerText="rok" width="40" style="text-align: center;"  sortBy="#{itempaseksredniasuma.rok}" sortOrder="desc" sortPriority="0">
+                                                <h:outputText value="#{itempaseksredniasuma.rok}" style="#{itempaseksredniasuma.rok eq 'razem'?'color: green':null}"/>
+                                            </p:column>
+                                            <p:column headerText="mc" width="40" style="text-align: center;" sortBy="#{itempaseksredniasuma.mc}" sortOrder="desc" sortPriority="1">
+                                                <h:outputText value="#{itempaseksredniasuma.mc}"/>
+                                            </p:column>
+                                            <p:column headerText="dni ob." width="30" style="text-align: center;">
+                                                <h:outputText value="#{itempaseksredniasuma.dninalezne}" rendered="#{itempaseksredniasuma.rok ne 'razem'}"/>
+                                            </p:column>
+                                            <p:column headerText="dni pr." width="30" style="text-align: center;">
+                                                <h:outputText value="#{itempaseksredniasuma.dnifaktyczne}" rendered="#{itempaseksredniasuma.rok ne 'razem'}"/>
+                                            </p:column>
+                                            <p:column headerText="god. ob." width="30" style="text-align: center;">
+                                                <h:outputText value="#{itempaseksredniasuma.godzinynalezne}" rendered="#{itempaseksredniasuma.rok ne 'razem'}"/>
+                                            </p:column>
+                                            <p:column headerText="god. pr." width="30" style="text-align: center;">
+                                                <h:outputText value="#{itempaseksredniasuma.godzinyfaktyczne}" rendered="#{itempaseksredniasuma.rok ne 'razem'}"/>
+                                            </p:column>
+                                            <p:column headerText="pom." width="40" style="text-align: center;">
+                                                <h:outputText value="&#x2714;"  rendered="#{itempaseksredniasuma.pominiete}" styleClass="ww"/>
+                                            </p:column>
+                                            <p:column headerText="uzup." width="40" style="text-align: center;">
+                                                <h:outputText value="&#x2714;"  rendered="#{itempaseksredniasuma.waloryzowane}" styleClass="ww"/>
+                                            </p:column>
+                                            <p:column headerText="stałe" width="40" style="text-align: center;">
+                                                <h:outputText value="&#x2714;"  rendered="#{itempaseksredniasuma.skladnikstaly}" styleClass="ww"/>
+                                            </p:column>
+                                            <p:column headerText="kont." width="50" style="text-align: center;">
+                                                <h:outputText value="#{itempaseksredniasuma.kontynuacja}" />
+                                            </p:column>
+                                            <p:column headerText="kwota l.p." width="80">
+                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotawyplaconapobrana}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':null}"/>
+                                            </p:column>
+                                            <p:column headerText="red. oddel." width="40">
+                                                <bcf:outputplprocent value="#{itempaseksredniasuma.procentoddelegowanie}" rendered="#{itempaseksredniasuma.rok ne 'razem'}"/>
+                                            </p:column>
+                                            <p:column headerText="wyl. RCA" width="80">
+                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotawyplacona}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':null}"/>
+                                            </p:column>
+                                            <p:column headerText="pobr. RCA" width="80">
+                                                <bcf:outputpl value="#{itempaseksredniasuma.podstawarca}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':null}"/>
+                                            </p:column>
+                                            <p:column headerText="śr. min. społ." width="80">
+                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotawyplaconaminuszus}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':null}"/>
+                                            </p:column>
+                                            <p:column headerText="procent" width="80">
+                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotawyplaconaminuszusProcent}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':null}"/>
+                                            </p:column>
+                                            <p:column headerText="kwota zwaloryz." width="50">
+                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotazwaloryzowana}" rendered="#{itempaseksredniasuma.rok ne 'razem'}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                            </p:outputPanel>
+                        </p:tab>
                     </p:tabView>
                 </p:panel>
             </h:form>
