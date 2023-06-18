@@ -75,6 +75,16 @@ public class DokDAOfk extends DAO implements Serializable {
            return null;
        }
     }
+    
+     public List<Dokfk> findDokRokMC(String rok, String mc){
+        List<Dokfk> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Dokfk.findByRokMc").setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        } catch (Exception e) {
+        }
+        return zwrot;
+    }
+
   
     
     public List findDokfkPodatnikRokMcVAT(WpisView wpisView) {

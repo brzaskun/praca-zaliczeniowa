@@ -413,6 +413,7 @@ public class KontaVatFKView implements Serializable {
         ustawdaty(nd);
         ustawkontrahenta(nd);
         ustawnumerwlasny(nd);
+        nd.setWprowadzil(wpisView.getUzer().getLogin());
         nd.setOpisdokfk("przeksięgowanie VAT za: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt());
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         ustawrodzajedok(nd);
@@ -427,6 +428,7 @@ public class KontaVatFKView implements Serializable {
         ustawdaty(nd);
         ustawkontrahenta(nd);
         ustawnumerwlasny(nd, numerwlasny);
+        nd.setWprowadzil(wpisView.getUzer().getLogin());
         nd.setOpisdokfk("przeksięgowanie VAT za: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt());
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         ustawrodzajedok(nd);

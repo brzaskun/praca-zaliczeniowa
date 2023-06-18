@@ -11,6 +11,7 @@ import entity.Klienci;
 import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -233,6 +234,14 @@ public class DokDAO extends DAO implements Serializable {
         Dok zwrot = null;
         try {
             zwrot = (Dok) getEntityManager().createNamedQuery("Dok.findByRMPT").setParameter("typdokumentu", typdokumentu).setParameter("podatnik", podatnik).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();
+        } catch (Exception e) {
+        }
+        return zwrot;
+    }
+    public List<Dok> findDokRokMC(String rok, String mc){
+        List<Dok> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Dok.findByRokMc").setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
         } catch (Exception e) {
         }
         return zwrot;

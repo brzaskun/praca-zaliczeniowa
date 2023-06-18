@@ -7,14 +7,24 @@ package view;
 
 import comparator.Podatnikcomparator;
 import comparator.Uzcomparator;
+import dao.DokDAO;
+import dao.DokDAOfk;
 import dao.PodatnikDAO;
 import dao.UzDAO;
+import data.Data;
+import entity.Dok;
 import entity.Podatnik;
 import entity.Uz;
+import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -38,6 +48,12 @@ public class PodatnikKsiegowaShortView implements Serializable{
     private PodatnikDAO podatnikDAO;
     @Inject
     private UzDAO uzDAO;
+    @Inject
+    private DokDAO dokDAO;
+    @Inject
+    private DokDAOfk dokDAOfk;
+    private String rok;
+    private String mc;
     
     @PostConstruct
     public void init() { //E.m(this);
@@ -48,6 +64,11 @@ public class PodatnikKsiegowaShortView implements Serializable{
         listakadrowych = uzDAO.findByUprawnienia("HumanResources");
         Collections.sort(listaksiegowych, new Uzcomparator());
         Collections.sort(listakadrowych, new Uzcomparator());
+        rok = Data.aktualnyRok();
+        mc = Data.aktualnyMc();
+        String[] okrespoprzedni = Data.poprzedniOkres(mc, rok);
+        rok = okrespoprzedni[1];
+        mc  = okrespoprzedni[0];
     }
     
     public void init2() { //E.m(this);
@@ -89,6 +110,46 @@ public class PodatnikKsiegowaShortView implements Serializable{
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd, nie naniesiono zmian.");
+        }
+    }
+    
+    public void aktualizuj() {
+        if (listaksiegowych!=null&&rok!=null&&mc!=null) {
+            Map<String, Uz> loginksiegowa = listaksiegowych.stream().collect(Collectors.toMap(Uz::getLogin, Function.identity()));
+            List<Dok> dokumentypkpir = dokDAO.findDokRokMC(rok, mc);
+            if (dokumentypkpir!=null) {
+                //p->p.getWprowadzil() to jest login z Uz
+                Map<Podatnik, String> firmaksiegowa = dokumentypkpir.stream().collect(Collectors.toMap(Dok::getPodatnik, Dok::getWprowadzil,(existing, replacement) -> existing));
+                firmaksiegowa.forEach((k, v) -> {
+                    System.out.println("Ksiegowa: " + v + ", podatnik: " + k.getPrintnazwa());
+                    Uz ksiegowa = loginksiegowa.get(v);
+                    if (ksiegowa!=null) {
+                        k.setKsiegowa(ksiegowa);
+                    }
+                });
+                Set<Podatnik> keySet = firmaksiegowa.keySet();
+                podatnikDAO.editList(new ArrayList(keySet));
+                Msg.msg("Zaktualizowano powiązania uproszczona");
+            }
+            List<Dokfk> dokumentyfk = dokDAOfk.findDokRokMC(rok, mc);
+            if (dokumentypkpir!=null) {
+                //p->p.getWprowadzil() to jest login z Uz
+                Map<Podatnik, String> firmaksiegowa = dokumentyfk.stream().collect(Collectors.toMap(Dokfk::getPodatnikObj, Dokfk::getWprowadzil,(existing, replacement) -> existing));
+                firmaksiegowa.forEach((k, v) -> {
+                    System.out.println("Ksiegowa: " + v + ", podatnik: " + k.getPrintnazwa());
+                    Uz ksiegowa = loginksiegowa.get(v);
+                    if (ksiegowa!=null) {
+                        k.setKsiegowa(ksiegowa);
+                    }
+                });
+                Set<Podatnik> keySet = firmaksiegowa.keySet();
+                podatnikDAO.editList(new ArrayList(keySet));
+                Msg.msg("Zaktualizowano powiązania pełna");
+                wybrany = null;
+                init2();
+            }
+        } else {
+            Msg.msg("e","Błąd. Brak księgowych lub rok, mc");
         }
     }
     
@@ -138,6 +199,22 @@ public class PodatnikKsiegowaShortView implements Serializable{
 
     public void setListapodatnikowfiltered(List<Podatnik> listapodatnikowfiltered) {
         this.listapodatnikowfiltered = listapodatnikowfiltered;
+    }
+
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
     }
 
     
