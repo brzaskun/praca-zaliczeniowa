@@ -29,17 +29,20 @@
         </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel style="padding: 10px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}">
-        <p:dataTable value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 900px" rowIndexVar="indx">
+        <p:dataTable value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 1050px" rowIndexVar="indx">
             <p:column  width="30">
                 <h:outputText value="#{indx+1}"/>
             </p:column>
             <p:column headerText="ksiegowa" width="100">
                 <h:outputText value="#{it.login}"/>
             </p:column>
-            <p:column headerText="suma fakt" width="40">
+             <p:column headerText="nazw. i imię" width="150">
+                <h:outputText value="#{it.login}"/>
+            </p:column>
+            <p:column headerText="suma fakt" width="40" sortBy="#{it.sumafaktur}">
                 <bcf:outputpl value="#{it.sumafaktur}"/>
             </p:column>
-            <p:column headerText="liczba pod." width="40">
+            <p:column headerText="liczba pod." width="40" sortBy="#{it.liczbapodatnikow}">
                 <bcf:outputpl0 value="#{it.liczbapodatnikow}"/>
             </p:column>
             <p:column headerText="wynagrodzenie" width="90">
