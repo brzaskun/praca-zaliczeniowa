@@ -403,6 +403,8 @@ public class SymulacjaWynikuView implements Serializable {
         double przychodyPodatkowe = Z.z(sumuj(listakontaprzychody, "przychody",1));
         double kosztyPodatkowe = Z.z(sumuj(listakontakoszty, "koszty",1));
         double wynikPodatkowyWstepny = Z.z(przychodyPodatkowe - kosztyPodatkowe);
+        //takbylo i dublowal przychody miesiac nastepny
+        //double wynikpodatkowy = Z.z(wynikfinansowy +wynikPodatkowyWstepny + nkup + kupmn_mc + kupmn_mc_pop + npup + pmn_mc + pmn_mc_pop);
         double wynikpodatkowy = Z.z(wynikfinansowy +wynikPodatkowyWstepny + nkup + kupmn_mc + kupmn_mc_pop + npup + pmn_mc + pmn_mc_pop);
         double udzial = 1;
         String kto = B.b("wszyscy");
@@ -508,6 +510,7 @@ public class SymulacjaWynikuView implements Serializable {
         kupmn_mc = CechazapisuBean.sumujcecha(zapisycechakoszt, "KUPMN", wpisView.getMiesiacWpisu());
         kupmn_mc_pop = 0.0;
             zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "KUPMN", wpisView.getMiesiacUprzedni());
+            //;UWAGA TU JEST TEN MINUS :)
             kupmn_mc_pop = -CechazapisuBean.sumujcecha(zapisycechakoszt, "KUPMN", wpisView.getMiesiacUprzedni());
             for (StronaWiersza stw : zapisycechakoszt) {
                 for (Cechazapisu s : stw.getCechazapisuLista()) {
@@ -530,7 +533,8 @@ public class SymulacjaWynikuView implements Serializable {
         pmn_mc = CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacWpisu());
         pmn_mc_pop = 0.0;
         zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "PMN", wpisView.getMiesiacUprzedni());
-        pmn_mc_pop = CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacUprzedni());
+        //tu tez wstawilem ten minus 19.06.2023
+        pmn_mc_pop = -CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacUprzedni());
         for (StronaWiersza stw : zapisycechaprzychod) {
             for (Cechazapisu s : stw.getCechazapisuLista()) {
                 zapisyZCechaP.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw, "popmc"));
