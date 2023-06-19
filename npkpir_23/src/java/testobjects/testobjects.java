@@ -1170,8 +1170,13 @@ public static List[] getKontoZapisy3(List<StronaWiersza> wiersze) {
        List<WierszDokfk> w = new ArrayList<WierszDokfk>();
        for (Dokfk p : wiersze) {
            String kontrahent = p.getKontr().getNpelna()+" "+p.getKontr().getNip();
-           WierszDokfk r = new WierszDokfk(p.getLp(), p.getDatadokumentu(), p.getDataoperacji(), p.toString2(), kontrahent, p.getNumerwlasnydokfk(), p.getOpisdokfk(), p.getWartoscdokumentu(), p.getWalutadokumentu().getSymbolwaluty());
-           w.add(r);
+           try {
+            String walutadok = p.getWalutadokumentu()!=null?p.getWalutadokumentu().getSymbolwaluty():"błąd waluty";
+            WierszDokfk r = new WierszDokfk(p.getLp(), p.getDatadokumentu(), p.getDataoperacji(), p.toString2(), kontrahent, p.getNumerwlasnydokfk(), p.getOpisdokfk(), p.getWartoscdokumentu(), walutadok);
+            w.add(r);
+           } catch (Exception e) {
+               System.out.println("Brak w dokumencie "+p.getNumerwlasnydokfk());
+           }
        }
        return w;
    }

@@ -11,19 +11,19 @@ import com.itextpdf.text.pdf.PdfWriter;
 import dao.UzDAO;
 import entity.Uz;
 import entityfk.Dokfk;
+import error.E;
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;
-import javax.inject.Inject;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.B;
 import msg.Msg;
+import org.primefaces.PrimeFaces;
 import static pdffk.PdfMain.*;
 import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
-
+import view.WpisView;
 /**
  *
  * @author Osito
@@ -80,7 +80,11 @@ public class PdfZaksiegowaneView implements Serializable {
             finalizacjaDokumentuQR(document, Plik.getKatalog()+nazwa+".pdf");
             String f = "wydrukZaksiegowaneLista('"+wpisView.getPodatnikObiekt().getNip()+"');";
             PrimeFaces.current().executeScript(f);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Błąd podczas wydruku zaksięgowanych dokumentów");
+            Msg.msg("e",E.e(e));
+        }
     }
 
     public WpisView getWpisView() {
