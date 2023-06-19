@@ -731,9 +731,9 @@ public class InterpaperImportView implements Serializable {
             } else if (this.rodzajdok.contains("sprzedaż")) {
                 if (wybranyrodzajimportu.getLp()==13) {
                     if (Z.z(interpaperXLS.getVatwaluta())==0.0) {
-                        rodzajdk = polska0unia1zagranica2==2 ? "EXP" : "WDT";
+                        rodzajdk = polska0unia1zagranica2==2 ? "EXP" : "RACHSP";
                     } else {
-                        rodzajdk = "SZ";
+                        rodzajdk = "RACHSP";
                     }
                     if (interpaperXLS.getNrfaktury().contains("ZAL")) {
                         String nazwaskrocona = interpaperXLS.getKlientpaństwosymbol();
@@ -746,6 +746,7 @@ public class InterpaperImportView implements Serializable {
                         if (interpaperXLS.getNip()==null||interpaperXLS.getNip().equals("")) {
                             Klienci klient = interpaperXLS.getKlient();
                             klient.setNip(wygenerujnip(klienciDAO));
+                            kontonetto = mapakont844.get(nazwaskroconaOF);
                         } else if (interpaperXLS.getNip().startsWith("XX")) {
                             kontonetto = mapakont844.get(nazwaskroconaOF);
                         }
