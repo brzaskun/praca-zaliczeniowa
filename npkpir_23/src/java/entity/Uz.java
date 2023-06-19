@@ -6,6 +6,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -126,6 +128,12 @@ public class Uz implements Serializable {
     private String fakturagrupa;
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
+    @Transient
+    private List<Podatnik> przyporzadkowanipodatnicy;
+    @Transient
+    private double dokpkpir;
+    @Transient
+    private double wierszefk;
     
     public Uz() {
     }
@@ -399,6 +407,30 @@ public class Uz implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public List<Podatnik> getPrzyporzadkowanipodatnicy() {
+        return przyporzadkowanipodatnicy;
+    }
+
+    public void setPrzyporzadkowanipodatnicy(List<Podatnik> przyporzadkowanipodatnicy) {
+        this.przyporzadkowanipodatnicy = przyporzadkowanipodatnicy;
+    }
+
+    public double getDokpkpir() {
+        return dokpkpir;
+    }
+
+    public void setDokpkpir(double dokpkpir) {
+        this.dokpkpir = dokpkpir;
+    }
+
+    public double getWierszefk() {
+        return wierszefk;
+    }
+
+    public void setWierszefk(double wierszefk) {
+        this.wierszefk = wierszefk;
     }
 
     

@@ -246,6 +246,15 @@ public class DokDAO extends DAO implements Serializable {
         }
         return zwrot;
     }
+    
+    public List<Dok> findDokRok(String rok){
+        List<Dok> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Dok.findByPkpirR").setParameter("pkpirR", rok).getResultList();
+        } catch (Exception e) {
+        }
+        return zwrot;
+    }
 
     public void destroyStornoDok(String rok, String mc, Podatnik podatnik) {
         Dok wynik = null;

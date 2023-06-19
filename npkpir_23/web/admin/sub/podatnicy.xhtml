@@ -29,7 +29,10 @@
         </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel style="padding: 10px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}">
-        <p:dataTable value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 1050px" rowIndexVar="indx">
+        <p:dataTable value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 1100px" rowIndexVar="indx">
+             <p:column style="height: 19px; text-align: center;" width="20">
+                    <p:rowToggler rendered="#{it.przyporzadkowanipodatnicy.size() gt 0 }"/>
+            </p:column>
             <p:column  width="30">
                 <h:outputText value="#{indx+1}"/>
             </p:column>
@@ -37,16 +40,22 @@
                 <h:outputText value="#{it.login}"/>
             </p:column>
              <p:column headerText="nazw. i imię" width="150">
-                <h:outputText value="#{it.login}"/>
+                 <h:outputText value="#{it.imieNazwisko}"/>
             </p:column>
-            <p:column headerText="suma fakt" width="40" sortBy="#{it.sumafaktur}">
+            <p:column headerText="suma fakt" width="70" sortBy="#{it.sumafaktur}">
                 <bcf:outputpl value="#{it.sumafaktur}"/>
             </p:column>
             <p:column headerText="liczba pod." width="40" sortBy="#{it.liczbapodatnikow}">
                 <bcf:outputpl0 value="#{it.liczbapodatnikow}"/>
             </p:column>
+            <p:column headerText="dok pkpir" width="40" sortBy="#{it.dokpkpir}">
+                <bcf:outputpl0 value="#{it.dokpkpir}"/>
+            </p:column>
+            <p:column headerText="wiersze fk" width="40" sortBy="#{it.wierszefk}">
+                <bcf:outputpl0 value="#{it.wierszefk}"/>
+            </p:column>
             <p:column headerText="wynagrodzenie" width="90">
-                <p:inputNumber value="#{it.wynagrodzenieobecne}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" style="width: 120px;">
+                <p:inputNumber value="#{it.wynagrodzenieobecne}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" style="width: 90px;" size="12">
                     <p:ajax event="change" listener="#{podatnikKsiegowaView.przeliczdane(it)}" partialSubmit="true" update="@parent:@parent" global="false"/>
                 </p:inputNumber>
             </p:column>
@@ -58,9 +67,28 @@
             <p:column headerText="wynagrodzenie proc" width="90">
                 <bcf:outputpl value="#{it.wynagrodzenieprocentowe}"/>
             </p:column>
+            <p:rowExpansion>
+                <p:dataTable value="#{it.przyporzadkowanipodatnicy}" var="ita" style="width: 650px" rowIndexVar="indxa">
+                    <p:column width="20">
+                        <h:outputText value="#{indxa+1}"/>
+                    </p:column>
+                    <p:column headerText="nazwa podatnika" width="300" sortBy="#{ita.printnazwa}">
+                        <h:outputText value="#{ita.printnazwa}"/>
+                    </p:column>
+                    <p:column headerText="faktury" sortBy="#{ita.cena}">
+                        <bcf:outputpl value="#{ita.cena}"/>
+                    </p:column>
+                    <p:column headerText="liczba dok." width="50" sortBy="#{ita.liczbadok}">
+                        <bcf:outputpl0 value="#{ita.liczbadok}"/>
+                    </p:column>
+                    <p:column headerText="liczba wierszy" width="50" sortBy="#{ita.liczbawierszy}">
+                        <bcf:outputpl0 value="#{ita.liczbawierszy}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:rowExpansion>
         </p:dataTable>
     </p:outputPanel>
-    <p:outputPanel>
+<!--    <p:outputPanel>
         <p:commandButton value="zapisz podatnicy" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaView.zapisz}"/>
         <p:dataTable value="#{podatnikKsiegowaView.listapodatnikow}" var="item" style="width: 800px;" rowIndexVar="index" 
                      filteredValue="#{podatnikKsiegowaView.listapodatnikowfilter}" sortBy="#{item.ksiegowa.grupa}"
@@ -97,5 +125,5 @@
                 </p:column>
             </p:summaryRow>
         </p:dataTable>
-    </p:outputPanel>
+    </p:outputPanel>-->
 </ui:composition>   

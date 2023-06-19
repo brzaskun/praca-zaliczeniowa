@@ -359,6 +359,10 @@ public class Podatnik implements Serializable {
     private boolean zwolnienievat43;
     @Transient
     private double cena;
+    @Transient
+    private double liczbadok;
+    @Transient
+    private double liczbawierszy;
 
     
     public Podatnik() {
@@ -1042,6 +1046,24 @@ public class Podatnik implements Serializable {
     public void setZatrudniapracownikow(boolean zatrudniapracownikow) {
         this.zatrudniapracownikow = zatrudniapracownikow;
     }
+
+    public double getLiczbadok() {
+        return liczbadok;
+    }
+
+    public void setLiczbadok(double liczbadok) {
+        this.liczbadok = liczbadok;
+    }
+
+    public double getLiczbawierszy() {
+        return liczbawierszy;
+    }
+
+    public void setLiczbawierszy(double liczbawierszy) {
+        this.liczbawierszy = liczbawierszy;
+    }
+
+    
     
     @XmlTransient
     public List<MiejsceKosztow> getMiejsceKosztowList() {

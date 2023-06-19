@@ -7,12 +7,16 @@ package view;
 
 import comparator.Podatnikcomparator;
 import comparator.Uzcomparator;
+import dao.DokDAO;
 import dao.FakturaDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
+import dao.WierszDAO;
+import entity.Dok;
 import entity.Faktura;
 import entity.Podatnik;
 import entity.Uz;
+import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -42,6 +46,10 @@ public class PodatnikKsiegowaView implements Serializable{
     @Inject
     private UzDAO uzDAO;
     @Inject
+    private DokDAO dokDAO;
+    @Inject
+    private WierszDAO wierszDAO;
+    @Inject
     private FakturaDAO fakturaDAO;
     private String rok;
     private boolean bezzerowych;
@@ -56,13 +64,13 @@ public class PodatnikKsiegowaView implements Serializable{
         listaksiegowychwybor = new ArrayList<>(listaksiegowych);
         Podatnik wystawca = podatnikDAO.findPodatnikByNIP("8511005008");
         Collections.sort(listaksiegowych, new Uzcomparator());
-        List<Faktura> okresowe = fakturaDAO.findFakturyByRokPodatnik(rok, wystawca);
+        List<Faktura> fakturyWystawione = fakturaDAO.findFakturyByRokPodatnik(rok, wystawca);
         for (Podatnik p : listapodatnikow) {
             if (p.isPodmiotaktywny()) {
                 if (p.getNip().equals("9552524929")) {
                     error.E.s("");
                 }
-                List<Faktura> fakt = okresowe.stream().filter(r->r.getKontrahent().getNip().equals(p.getNip())).collect(Collectors.toList());
+                List<Faktura> fakt = fakturyWystawione.stream().filter(r->r.getKontrahent().getNip().equals(p.getNip())).collect(Collectors.toList());
                 double suma = 0.0;
                 if (!fakt.isEmpty()) {
                     for (Faktura s: fakt) {
@@ -80,17 +88,44 @@ public class PodatnikKsiegowaView implements Serializable{
                }
             }
         }
+        List<Dok> pkpir = dokDAO.findDokRok(rok);
+        List<Wiersz> fk = wierszDAO.findWierszeRok(rok);
+        for (Iterator<Podatnik> it=listapodatnikow.iterator(); it.hasNext();) {
+           Podatnik p = it.next();
+           if (p.getCena() == 0) {
+               p.setPodmiotaktywny(false);
+           } else {
+               List<Dok> znalezionedok = pkpir.stream().filter(pd->pd.getPodatnik().equals(p)).collect(Collectors.toList());
+               if (znalezionedok!=null&&znalezionedok.isEmpty()==false) {
+                    p.setLiczbadok(znalezionedok.size());
+               } else {
+                   List<Wiersz> znalezionewiersze = fk.stream().filter(pd->pd.getDokfk().getPodatnikObj().equals(p)).collect(Collectors.toList());
+                   if (znalezionewiersze!=null&&znalezionewiersze.isEmpty()==false) {
+                        p.setLiczbawierszy(znalezionewiersze.size());
+                   }
+               }
+           }
+        }
+        podatnikDAO.editList(listapodatnikow);
         List<Uz> dousuniecia = new ArrayList<>();
         for (Uz r: listaksiegowych) {
             double suma = 0.0;
+            double dokpkpir = 0.0;
+            double wiersze = 0.0;
             int liczba = 0;
+            r.setPrzyporzadkowanipodatnicy(new ArrayList<>());
             for (Iterator<Podatnik> it=listapodatnikow.iterator(); it.hasNext();) {
                 Podatnik p = it.next();
                 if (p.getKsiegowa()!=null && p.getKsiegowa().equals(r)) {
                     suma += p.getCena();
+                    dokpkpir += p.getLiczbadok();
+                    wiersze += p.getLiczbawierszy();
+                    r.getPrzyporzadkowanipodatnicy().add(p);
                     liczba++;
                 }
             }
+            r.setDokpkpir(dokpkpir);
+            r.setWierszefk(wiersze);
             r.setSumafaktur(suma);
             r.setLiczbapodatnikow(liczba);
             if (Z.z(suma)==0.0) {
