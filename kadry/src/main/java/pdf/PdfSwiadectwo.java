@@ -102,6 +102,7 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepu(document, ustanie, Element.ALIGN_LEFT, 2);
                 boolean rozwiazanie = rozwiazanieumowy.isRozwiazanie();
                 boolean wypowiedzenie = rozwiazanieumowy.isWypowiedzenie();
+                boolean porozumieniestron = rozwiazanieumowy.isPorozumienie();
                 if (wypowiedzenie) {
                     boolean pracownik2 = rozwiazanieumowy.isPracownik();
                     if (pracownik2) {
@@ -114,6 +115,9 @@ public class PdfSwiadectwo {
                         PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, ustanie1, Element.ALIGN_LEFT, 2);
                     }
                 } else if (rozwiazanie){
+                    String ustanie1 = rozwiazanieumowy.getPodstawaprawna();
+                    PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, ustanie1, Element.ALIGN_LEFT, 2);
+                } else if (porozumieniestron){
                     String ustanie1 = rozwiazanieumowy.getPodstawaprawna();
                     PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, ustanie1, Element.ALIGN_LEFT, 2);
                 }
