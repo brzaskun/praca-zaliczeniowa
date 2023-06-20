@@ -57,7 +57,7 @@
                             <p:panelGrid columns="2" >
                             <h:outputLabel for="datawyplatypole" value="data wypłaty"/>
                             <p:inputText id="datawyplatypole" value="#{pasekwynagrodzenView.datawyplaty}" title="data wypłaty"  placeholder="____-__-__"  required="true" styleClass="dataUmowy" maxlength="10" >
-                                <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.ustawtabelenbp()}" update="KursDataLPForm:kurspole KursDataLPForm:kurspoledata"/>
+                                <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.ustawtabelenbp(pasekwynagrodzenView.datawyplaty)}" update="KursDataLPForm:kurspole KursDataLPForm:kurspoledata"/>
                             </p:inputText>
                             <h:outputLabel for="kurspole" value="kurs przelicz."/>
                             <p:inputNumber value="#{pasekwynagrodzenView.kursdlalisty}" id="kurspole" decimalPlaces="4" style="text-align: right;">
@@ -88,9 +88,9 @@
                                         showSourceControls="true" showTargetControls="true"
                                         />
                             <p:panelGrid columns="5" >
-                            <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.przelicz()}" value="oblicz" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm2:wybranypracownik" />
+                            <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.przelicz()}" value="oblicz" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm2:wybranypracownik RachunekZleceniaForm" />
                             <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.mailListaPlac}" value="mail" update="PasekwynagrodzenListForm KursDataLPForm" />
-                            <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.usun()}" value="usuń" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm2" rendered="#{pasekwynagrodzenView.lista ne null and pasekwynagrodzenView.lista.size() gt 0 and pasekwynagrodzenView.lista.get(0).datawysylki eq null}"/>
+                            <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.usun()}" value="usuń" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm2 RachunekZleceniaForm" rendered="#{pasekwynagrodzenView.lista ne null and pasekwynagrodzenView.lista.size() gt 0 and pasekwynagrodzenView.lista.get(0).datawysylki eq null}"/>
                             <p:commandButton styleClass="buttonnorm2" actionListener="#{pasekwynagrodzenView.usun()}" value="usuń" update="PasekwynagrodzenListForm DefinicjalistaplacCreateForm2" rendered="#{pasekwynagrodzenView.lista ne null and pasekwynagrodzenView.lista.size() gt 0 and pasekwynagrodzenView.lista.get(0).datawysylki ne null}">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Lista juz wysłana. Usunąć?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>

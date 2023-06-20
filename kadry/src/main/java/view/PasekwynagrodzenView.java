@@ -598,6 +598,7 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void pobierzkalendarzezamc() {
         Definicjalistaplac wybranalistaplac = this.wybranalistaplac;
+        
         if (wybranalistaplac != null) {
             if (rodzajlistyplac == null) {
                 rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
@@ -801,7 +802,7 @@ public class PasekwynagrodzenView implements Serializable {
         }
     }
     
-    public void ustawtabelenbp() {
+    public void ustawtabelenbp(String datawyplaty) {
             if (datawyplaty!=null && datawyplaty.length()==10) {
                 String data = datawyplaty;
                 boolean znaleziono = false;
@@ -828,7 +829,7 @@ public class PasekwynagrodzenView implements Serializable {
             String[] nastepnyOkres = Data.nastepnyOkres(mc,rok);
             zwrot = nastepnyOkres[1] + "-" + nastepnyOkres[0] + "-"+firma.getDzienlp();
         }
-        ustawtabelenbp();
+        ustawtabelenbp(zwrot);
         return zwrot;
     }
     
