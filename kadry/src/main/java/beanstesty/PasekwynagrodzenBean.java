@@ -1616,9 +1616,11 @@ public class PasekwynagrodzenBean {
         Rachunekdoumowyzlecenia zwrot = null;
         try {
             Umowa umowa = angaz.pobierzumowaZlecenia(rok, mc);
-            List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList = umowa.getRachunekdoumowyzleceniaList();
-            if (rachunekdoumowyzleceniaList != null) {
-                zwrot = rachunekdoumowyzleceniaList.stream().filter(pa -> pa.getMc().equals(mc) && pa.getRok().equals(rok)).findAny().get();
+            if (umowa!=null) {
+                List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList = umowa.getRachunekdoumowyzleceniaList();
+                if (rachunekdoumowyzleceniaList != null) {
+                    zwrot = rachunekdoumowyzleceniaList.stream().filter(pa -> pa.getMc().equals(mc) && pa.getRok().equals(rok)).findAny().get();
+                }
             }
         } catch (Exception e) {
         }
