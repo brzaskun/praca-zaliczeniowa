@@ -265,6 +265,7 @@
                 <p:menuitem value="Drukuj" update=":form1:messages" actionListener="#{fakturaView.pdffaktura_edit()}" icon="ui-icon-print" />
                 <p:menuitem value="Faktura okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa(fakturaView.faktury_edit_select)}"/>
                 <p:menuitem value="Zaakceptuj" update=":form1:messages :akordeon:formsporzadzone:dokumentyLista :akordeon:formsporzadzone_edit:dokumentyLista_edit" actionListener="#{fakturaView.zaakceptuj(fakturaView.faktury_edit_select)}" icon="ui-icon-locked" />
+                <p:menuitem value="Usuń wszystkie" update=":form1:messages :akordeon:formsporzadzone_edit:dokumentyLista_edit" actionListener="#{fakturaView.usunwszystkie()}" icon="ui-icon-locked" />
             </p:contextMenu>
         </h:form>
     </p:tab>

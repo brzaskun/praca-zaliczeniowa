@@ -75,7 +75,7 @@
                     <p:column width="20">  
                         <h:outputText value="#{iindex+1}" style="color: #{zapis.ilosc==0? 'green':'initial'}" />
                     </p:column>
-                    <p:column headerText="nazwa" width="400" filterBy="#{zapis.kontrahent.nazwapodatnika}" filterMatchMode="contains">  
+                    <p:column headerText="nazwa" width="400" filterBy="#{zapis.kontrahent.nazwapodatnika}" filterMatchMode="contains" sortBy="#{zapis.kontrahent.nazwapodatnika}">  
                         <h:outputText value="#{zapis.kontrahent.nazwapodatnika}" style="color: #{zapis.ilosc==0? 'green':'initial'}"/>
                     </p:column>
                     <p:column headerText="pozycja" width="250" filterBy="#{zapis.fakturaDodatkowaPozycja.nazwa}" filterMatchMode="contains">  
@@ -141,7 +141,7 @@
                     </p:column>
                 </p:dataTable>
                 <p:contextMenu for="akordeon:listapozycji:lista" style="width: 250px;">
-                    <p:menuitem value="zeruj rozl." update="akordeon:listapozycji:lista" actionListener="#{fakturaDodPozycjaKontrahentView.zeruj}" icon="ui-icon-document" />
+                    <p:menuitem value="zeruj info o wyst.fakt" update="akordeon:listapozycji:lista" actionListener="#{fakturaDodPozycjaKontrahentView.zeruj}" icon="ui-icon-document" />
                     <p:menuitem value="kopiuj mc. nast." update="akordeon:listapozycji:lista" actionListener="#{fakturaDodPozycjaKontrahentView.kopiuj}" icon="ui-icon-document" />
                 </p:contextMenu>
             </h:form>

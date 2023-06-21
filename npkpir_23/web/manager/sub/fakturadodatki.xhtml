@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
 
-    <p:tabView id="akordeon">
+<!--    <p:tabView id="akordeon">
         <p:tab title="pozycje fakturowane">
             <h:form id="form2">
                 <p:growl life="3600" showDetail="true"/>
@@ -97,7 +97,7 @@
                          <p:inputNumber value="#{zapis.iloscdraP}" decimalPlaces="0" size="3" readonly="true">
                         </p:inputNumber>
                     </p:column>
-                    <p:column headerText="rozl" width="50" style="text-align: center;" filterBy="#{zapis.rozliczone}">  
+                    <p:column headerText="rozl." width="50" style="text-align: center;" filterBy="#{zapis.rozliczone}">  
                         <h:outputText value="#{zapis.rozliczone eq true ? 'tak':null}" />
                         <f:facet name="filter">
                             <p:selectOneMenu onchange="PF('tabelazwynikami').filter()" style="width: 30px;" autoWidth="false">
@@ -141,7 +141,7 @@
                     </p:column>
                 </p:dataTable>
                 <p:contextMenu for="akordeon:listapozycji:lista" style="width: 250px;">
-                    <p:menuitem value="zeruj rozl.bbb" update="akordeon:listapozycji:lista" actionListener="#{fakturaDodPozycjaKontrahentView.zeruj}" icon="ui-icon-document" />
+                    <p:menuitem value="zeruj info o wyst.fakt" update="akordeon:listapozycji:lista" actionListener="#{fakturaDodPozycjaKontrahentView.zeruj}" icon="ui-icon-document" />
                     <p:menuitem value="kopiuj mc. nast." update="akordeon:listapozycji:lista" actionListener="#{fakturaDodPozycjaKontrahentView.kopiuj}" icon="ui-icon-document" />
                 </p:contextMenu>
             </h:form>
@@ -286,6 +286,6 @@
                 </p:outputPanel>
             </h:form>
         </p:tab>
-    </p:tabView>
+    </p:tabView>-->
 </ui:composition>
 

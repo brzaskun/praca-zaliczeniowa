@@ -260,6 +260,7 @@ public class FakturaView implements Serializable {
                 for (FakturaDodPozycjaKontrahent r : lista) {
                     if (r.getKontrahent().equals(odbiorca) && r.isDowygenerowania() == true && r.getDatafaktury() == null) {
                         p.setSapracownicy(true);
+                        break;
                     }
                 }
             }
@@ -1337,6 +1338,21 @@ public class FakturaView implements Serializable {
                 }
             }
             Msg.msg("i", "Dokumenty odksięgowane");
+        }
+    }
+    
+    
+    public void usunwszystkie()  {
+        if (faktury_edit_select!=null) {
+            try {
+                fakturaDAO.removeList(faktury_edit_select);
+                faktury_edit.remove(faktury_edit_select);
+                faktury_edit_select = null;
+                faktury_edit_filter = null;
+                Msg.msg("Usunięto wybrane faktury");
+            } catch (Exception e){
+                Msg.msg("e","Błąd podczas usuwania faktur");
+            }
         }
     }
 
@@ -3253,6 +3269,7 @@ public class FakturaView implements Serializable {
                 for (Integer s : numery) {
                     FakturaDodPozycjaKontrahent findById = fakturaDodPozycjaKontrahentDAO.findById(s);
                     findById.setRozliczone(false);
+                    findById.setDatafaktury(null);
                     fakturaDodPozycjaKontrahentDAO.edit(findById);
                     
                 }

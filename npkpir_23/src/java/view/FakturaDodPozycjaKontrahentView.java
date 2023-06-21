@@ -177,11 +177,14 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     }
     
     public void zeruj() {
-        if (lista_2_selected!=null && lista_2_selected.size()==1) {
+        if (lista_2_selected!=null && lista_2_selected.size()>0) {
             try {
-                FakturaDodPozycjaKontrahent sel = lista_2_selected.get(0);
-                sel.setRozliczone(false);
-                fakturaDodPozycjaKontrahentDAO.edit(sel);
+                for (FakturaDodPozycjaKontrahent falt : lista_2_selected) {
+                    FakturaDodPozycjaKontrahent sel = falt;
+                    sel.setRozliczone(false);
+                    sel.setDatafaktury(null);
+                    fakturaDodPozycjaKontrahentDAO.edit(sel);
+                }
                 Msg.msg("Wyzerowano pozycję");
             } catch (Exception e) {
                 Msg.msg("e","Nieudane zerowanie pozycji");
