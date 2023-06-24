@@ -155,7 +155,7 @@ public class NaliczeniepotracenieBean {
         List<Naliczeniepotracenie> paskizpotraceniem = pobierzpaski(kalendarzmiesiacList, skladnikpotracenia);
         double suma = 0.0;
         for (Naliczeniepotracenie p : paskizpotraceniem) {
-            if (Data.czyjestpo(dataod, p.getDataOd())) {
+            if (Data.czyjestpoTerminData(dataod, p.getDataOd())) {
                 suma = suma + p.getKwota();
             }
         }

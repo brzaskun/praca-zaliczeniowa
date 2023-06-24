@@ -112,7 +112,7 @@ public class Data implements Serializable {
        return ostatniDzien(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
     }
     
-   public static void obliczwiek(String dataurodzenia, Pasekwynagrodzen pasek) {
+   public static void obliczwiekNaniesnapasek(String dataurodzenia, Pasekwynagrodzen pasek) {
         if (pasek!=null&&dataurodzenia!=null) {
             LocalDate dataur = LocalDate.parse(dataurodzenia);
             LocalDate dataumowy = LocalDate.parse(pasek.getDatawyplaty());
@@ -444,11 +444,11 @@ public class Data implements Serializable {
     }
     
      public static boolean czyjestpomiedzy (String termingraniczny1, String badanadata, String termingraniczny2) {
-        return czyjestpo(termingraniczny1, badanadata) && czyjestprzed(termingraniczny2, badanadata);
+        return czyjestpoTerminData(termingraniczny1, badanadata) && czyjestprzed(termingraniczny2, badanadata);
     }
     
     //chodzi o to czy okres data jest po jakiesc dacie
-    public static boolean czyjestpo(String termingraniczny, String badanadata) {
+    public static boolean czyjestpoTerminData(String termingraniczny, String badanadata) {
         boolean zwrot = false;
         if (termingraniczny == null || termingraniczny.equals("")) {
             zwrot = false;
@@ -770,7 +770,7 @@ public class Data implements Serializable {
         try {
             String termin = "2019-12-29";
             String dzis = "2019-12-29";
-            boolean zwrot = czyjestpo(termin, dzis);
+            boolean zwrot = czyjestpoTerminData(termin, dzis);
             if (zwrot) {
                 error.E.s("TRUE");
             } else {
@@ -1002,7 +1002,7 @@ LocalDate date = LocalDate.parse(dateString, formatter);
 //        try {
 //            String termin = "2019-12-29";
 //            String dzis = "2019-12-28";
-//            boolean zwrot = czyjestpo(termin, dzis);
+//            boolean zwrot = czyjestpoTerminData(termin, dzis);
 //            if (zwrot) {
 //                error.E.s("TRUE");
 //            } else {

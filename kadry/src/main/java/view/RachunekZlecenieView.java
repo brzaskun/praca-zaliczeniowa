@@ -24,6 +24,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import viewsuperplace.OsobaBean;
 import z.Z;
 
 /**
@@ -248,6 +249,11 @@ public class RachunekZlecenieView implements Serializable {
 
     public void przeliczrachunek(Rachunekdoumowyzlecenia rachunekdoumowyzlecenia) {
         if (rachunekdoumowyzlecenia != null) {
+            String datakonca26lat = OsobaBean.obliczdata26(rachunekdoumowyzlecenia.getUmowa().getPracownik().getDataurodzenia());
+            boolean po26roku = Data.czyjestpoTerminData(datakonca26lat, rachunekdoumowyzlecenia.getDatawystawienia());
+            rachunekdoumowyzlecenia.setDo26lat(!po26roku);
+            rachunekdoumowyzlecenia.setSpoleczne(po26roku);
+            rachunekdoumowyzlecenia.setZdrowotna(po26roku);
             if (rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne() > 0.0) {
                 rachunekdoumowyzlecenia.setKwota(rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne());
                 rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));

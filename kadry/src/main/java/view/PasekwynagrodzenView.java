@@ -353,18 +353,7 @@ public class PasekwynagrodzenView implements Serializable {
                     String rokwyplaty = Data.getRok(datawyplaty);
                     String mcwyplaty = Data.getMc(datawyplaty);
                     double sumabruttopoprzednich = PasekwynagrodzenBean.sumabruttopodstawaopodpopmce(pasekwynagrodzenFacade, rokwyplaty, mcwyplaty,  angaz, stawkipodatkowe.get(1).getKwotawolnaod());
-                    List<Wynagrodzenieminimalne> wynagrodzenielist = wynagrodzenieminimalneFacade.findByRok(kalendarzpracownikaLP.getRok());
-                    Wynagrodzenieminimalne wynagrodzenieminimalne = null;
-                    if (wynagrodzenielist!=null&&wynagrodzenielist.size()==1) {
-                        wynagrodzenieminimalne = wynagrodzenielist.get(0);
-                    } else if (wynagrodzenielist!=null&&wynagrodzenielist.size()>1){
-                        for (Wynagrodzenieminimalne w : wynagrodzenielist) {
-                            if (Data.czyjestpomiedzy(w.getDataod(), w.getDatado(), kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc())) {
-                                wynagrodzenieminimalne = w;
-                                break;
-                            }
-                        }
-                    }
+                    Wynagrodzenieminimalne wynagrodzenieminimalne = pobierzwynagrodzenieminimalne(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc());
                     //zeby nei odoliczyc kwoty wolnej dwa razy
                     boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc(), angaz, pasekwynagrodzenFacade);
                     double limitzus = 0.0;
@@ -416,6 +405,23 @@ public class PasekwynagrodzenView implements Serializable {
             Msg.msg("e", "Nie wybrano listy lub pracownika");
         }
     }
+    
+    private Wynagrodzenieminimalne pobierzwynagrodzenieminimalne(String rok, String mc) {
+        Wynagrodzenieminimalne wynagrodzenieminimalne = null;
+        List<Wynagrodzenieminimalne> wynagrodzenielist = wynagrodzenieminimalneFacade.findByRok(rok);
+        if (wynagrodzenielist!=null&&wynagrodzenielist.size()==1) {
+            wynagrodzenieminimalne = wynagrodzenielist.get(0);
+        } else if (wynagrodzenielist!=null&&wynagrodzenielist.size()>1){
+            for (Wynagrodzenieminimalne w : wynagrodzenielist) {
+                if (Data.czyjestpomiedzy(w.getDataod(), w.getDatado(), rok, mc)) {
+                    wynagrodzenieminimalne = w;
+                    break;
+                }
+            }
+        }
+        return wynagrodzenieminimalne;
+    }
+    
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
 

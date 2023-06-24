@@ -136,7 +136,7 @@ public class RozwiazanieumowyView  implements Serializable {
                     }
                     listanieob  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
                     if (datagraniczna!=null) {
-                        listanieob = listanieob.stream().filter(p->Data.czyjestpo(datagraniczna, p.getDataod())).collect(Collectors.toList());
+                        listanieob = listanieob.stream().filter(p->Data.czyjestpoTerminData(datagraniczna, p.getDataod())).collect(Collectors.toList());
                     }
                     listanieobecschema = nieobecnoscswiadectwoschemaFacade.findAll();
                     dnidoswiadectwa = naniesnieobecnoscinascheme(listanieob, listanieobecschema, selectedlista, wpisView.getRokWpisu());

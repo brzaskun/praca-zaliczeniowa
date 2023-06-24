@@ -447,7 +447,7 @@ public class KalendarzmiesiacBean {
         String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
         String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(kalendarz);
         if (DataBean.czysiemiesci(pierwszydzienmiesiaca, ostatnidzienmiesiaca, nieobecnosc.getDataod(), nieobecnosc.getDatado())) {
-            String dataod = Data.czyjestpo(pierwszydzienmiesiaca, nieobecnosc.getDataod()) ? nieobecnosc.getDataod() : pierwszydzienmiesiaca;
+            String dataod = Data.czyjestpoTerminData(pierwszydzienmiesiaca, nieobecnosc.getDataod()) ? nieobecnosc.getDataod() : pierwszydzienmiesiaca;
             String datado = Data.czyjestprzed(ostatnidzienmiesiaca, nieobecnosc.getDatado()) ? nieobecnosc.getDatado() : ostatnidzienmiesiaca;
             int dzienod = Data.getDzienI(dataod);
             int dziendo = Data.getDzienI(datado);
@@ -1075,7 +1075,7 @@ public class KalendarzmiesiacBean {
         double liczbagodzinobowiazku = 0.0;
         String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
         String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(kalendarz);
-        String dataod = Data.czyjestpo(pierwszydzienmiesiaca, nieobecnosc.getDataod()) ? nieobecnosc.getDataod() : pierwszydzienmiesiaca;
+        String dataod = Data.czyjestpoTerminData(pierwszydzienmiesiaca, nieobecnosc.getDataod()) ? nieobecnosc.getDataod() : pierwszydzienmiesiaca;
         String datado = Data.czyjestprzed(ostatnidzienmiesiaca, nieobecnosc.getDatado()) ? nieobecnosc.getDatado() : ostatnidzienmiesiaca;
         int dzienod = Data.getDzienI(dataod);
         int dziendo = Data.getDzienI(datado);
@@ -1154,7 +1154,7 @@ public class KalendarzmiesiacBean {
         double liczbagodzinobowiazku = 0.0;
         String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
         String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(kalendarz);
-        String dataod = Data.czyjestpo(pierwszydzienmiesiaca, nieobecnosc.getDataod()) ? nieobecnosc.getDataod() : pierwszydzienmiesiaca;
+        String dataod = Data.czyjestpoTerminData(pierwszydzienmiesiaca, nieobecnosc.getDataod()) ? nieobecnosc.getDataod() : pierwszydzienmiesiaca;
         String datado = Data.czyjestprzed(ostatnidzienmiesiaca, nieobecnosc.getDatado()) ? nieobecnosc.getDatado() : ostatnidzienmiesiaca;
         int dzienod = Data.getDzienI(dataod);
         int dziendo = Data.getDzienI(datado);
@@ -1420,7 +1420,7 @@ public class KalendarzmiesiacBean {
         double dniroboczewmiesiacu = 0.0;
         String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
         String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(kalendarz);
-        String dataod = Data.czyjestpo(pierwszydzienmiesiaca, nieobecnosc.getDataod()) ? nieobecnosc.getDataod() : pierwszydzienmiesiaca;
+        String dataod = Data.czyjestpoTerminData(pierwszydzienmiesiaca, nieobecnosc.getDataod()) ? nieobecnosc.getDataod() : pierwszydzienmiesiaca;
         String datado = Data.czyjestprzed(ostatnidzienmiesiaca, nieobecnosc.getDatado()) ? nieobecnosc.getDatado() : ostatnidzienmiesiaca;
         int dzienod = Data.getDzienI(dataod);
         int dziendo = Data.getDzienI(datado);

@@ -460,7 +460,7 @@ private static final long serialVersionUID = 1L;
                 if (d.getWynagrodzeniezachorobe()>0.0 &&d.getNieobecnosc()!=null) {
                     String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(this);
                     String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(this);
-                    dataod = Data.czyjestpo(pierwszydzienmiesiaca, d.getNieobecnosc().getDataod())?d.getNieobecnosc().getDataod():pierwszydzienmiesiaca;
+                    dataod = Data.czyjestpoTerminData(pierwszydzienmiesiaca, d.getNieobecnosc().getDataod())?d.getNieobecnosc().getDataod():pierwszydzienmiesiaca;
                     datado = Data.czyjestprzed(ostatnidzienmiesiaca, d.getNieobecnosc().getDatado())?d.getNieobecnosc().getDatado():ostatnidzienmiesiaca;
                     chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe();
                 }
@@ -485,7 +485,7 @@ private static final long serialVersionUID = 1L;
                 if (d.getMacierzynski()>0.0) {
                     String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(this);
                     String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(this);
-                    dataod = Data.czyjestpo(pierwszydzienmiesiaca, d.getNieobecnosc().getDataod())?d.getNieobecnosc().getDataod():pierwszydzienmiesiaca;
+                    dataod = Data.czyjestpoTerminData(pierwszydzienmiesiaca, d.getNieobecnosc().getDataod())?d.getNieobecnosc().getDataod():pierwszydzienmiesiaca;
                     datado = Data.czyjestprzed(ostatnidzienmiesiaca, d.getNieobecnosc().getDatado())?d.getNieobecnosc().getDatado():ostatnidzienmiesiaca;
                     chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe();
                     zwrot[0] = Data.iletodniKalendarzowych(dataod, datado);
@@ -507,7 +507,7 @@ private static final long serialVersionUID = 1L;
                 if (d.getWychowawczy()>0.0) {
                     String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(this);
                     String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(this);
-                    dataod = Data.czyjestpo(pierwszydzienmiesiaca, d.getNieobecnosc().getDataod())?d.getNieobecnosc().getDataod():pierwszydzienmiesiaca;
+                    dataod = Data.czyjestpoTerminData(pierwszydzienmiesiaca, d.getNieobecnosc().getDataod())?d.getNieobecnosc().getDataod():pierwszydzienmiesiaca;
                     datado = Data.czyjestprzed(ostatnidzienmiesiaca, d.getNieobecnosc().getDatado())?d.getNieobecnosc().getDatado():ostatnidzienmiesiaca;
                     chorobagodziny = chorobagodziny+d.getWynagrodzeniezachorobe();
                     zwrot[0] = Data.iletodniKalendarzowych(dataod, datado);

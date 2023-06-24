@@ -947,7 +947,7 @@ public class OsobaBean {
         for (Nieobecnosc n : nieobecnoscilista) {
             String przerwaod = Data.data_yyyyMMddNull(p.getPrzDataOd());
             String przerwado = Data.data_yyyyMMddNull(p.getPrzDataDo());
-            boolean czyjestpo = Data.czyjestpo(n.getDataod(), przerwaod);
+            boolean czyjestpo = Data.czyjestpoTerminData(n.getDataod(), przerwaod);
             boolean czyjestprzed = Data.czyjestprzed(n.getDatado(), przerwado);
             if (czyjestpo && czyjestprzed) {
                 zwrot = n;

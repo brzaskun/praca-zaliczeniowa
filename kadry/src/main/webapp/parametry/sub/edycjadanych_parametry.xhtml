@@ -495,7 +495,7 @@
                                  selectionMode="single" selection="#{rodzajenieobecnosciView.selectedlista}"
                                  rowKey="#{item13roz.id}" rowIndexVar="yndexvar" sortBy="#{item13roz.kolejnosc}"
                                  scrollable="true" scrollHeight="700" scrollRows="30" 
-                                 style=" width: 1100px;"
+                                 style=" width: 1300px;"
                                  >
 
                         <p:column width="40" style="text-align: center;">
@@ -541,6 +541,14 @@
                                 <h:outputText value="red. wyn."/>
                             </f:facet>
                             <h:outputText value="#{item13roz.redukcjawyn}"/>
+                        </p:column>
+                         <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.nieplatny}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="nieplatny"/>
+                            </f:facet>
+                             <p:selectBooleanCheckbox value="#{item13roz.nieplatny}">
+                                 <p:ajax event="change" partialSubmit="true" listener="#{rodzajenieobecnosciView.edytuj(item13roz)}"/>
+                             </p:selectBooleanCheckbox>
                         </p:column>
                         <p:column width="50" style="text-align: center;"  sortOrder="asc" sortBy="#{item13roz.nieskladkowy}" filterMatchMode="contains">
                             <f:facet name="header">
@@ -592,7 +600,14 @@
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item13roz.z33}"/>
                         </p:column>
-
+                        <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="procent"/>
+                            </f:facet>
+                            <p:inputText value="#{item13roz.procent}" size="5">
+                                <p:ajax event="change" partialSubmit="true" listener="#{rodzajenieobecnosciView.edytuj(item13roz)}"/>
+                            </p:inputText>
+                        </p:column>
                     </p:dataTable>
                      <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzajenieobecnosciView.zachowaj}" update="@form"/>
                 </h:form>

@@ -230,7 +230,7 @@ public class KartaWynagrodzenView  implements Serializable {
             List<Angaz> angazzpaskow = new ArrayList<>();
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
                 Pasekwynagrodzen pasek = it.next();
-                Data.obliczwiek(dataurodzenia, pasek);
+                Data.obliczwiekNaniesnapasek(dataurodzenia, pasek);
                 lata = pasek.getLata();
                 if (lata==64||lata==65) {
                     System.out.println("");

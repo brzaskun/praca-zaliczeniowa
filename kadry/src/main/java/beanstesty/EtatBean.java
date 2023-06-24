@@ -84,7 +84,7 @@ public class EtatBean {
                     String datagranicznaod = p.getDataod();
                     String datagranicznado = p.getDataod()==null||p.getDatado().equals("")? null : p.getDatado();
                     if (datagranicznado==null) {
-                        if (Data.czyjestpo(datagranicznaod, data)) {
+                        if (Data.czyjestpoTerminData(datagranicznaod, data)) {
                             zwrot = p;
                         }
                     } else {

@@ -96,7 +96,7 @@ public class UmowaReminder {
                 if (umowa.getDatado()!=null&&!umowa.getDatado().equals("")) {
                     boolean czyjestpomiedzy = Data.czyjestpomiedzy(umowa.getDataod(), databiezaca, umowa.getDatado());
                     boolean czymailniezostalwyslany = umowa.getDataprzypomnieniamail()==null||umowa.getDataprzypomnieniamail().equals("");
-                    boolean czymineladataalarmu = Data.czyjestpo(umowa.getDataprzypomnienia(), databiezaca);
+                    boolean czymineladataalarmu = Data.czyjestpoTerminData(umowa.getDataprzypomnienia(), databiezaca);
                     if (czyjestpomiedzy&&czymailniezostalwyslany&&czymineladataalarmu) {
                         listaumowy.add(umowa);
                         break;
@@ -131,7 +131,7 @@ public class UmowaReminder {
                 LocalDate today = LocalDate.parse(data) ;
                 LocalDate tomorrow = today.minusDays(21) ;
                 String dataprzypomnienia = tomorrow.toString();
-                boolean czymineladataalarmu = Data.czyjestpo(dataprzypomnienia, databiezaca);
+                boolean czymineladataalarmu = Data.czyjestpoTerminData(dataprzypomnienia, databiezaca);
                 if (czymailniezostalwyslany&&czymineladataalarmu) {
                     listaangaze.add(angaz);
                     break;

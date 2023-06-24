@@ -718,7 +718,7 @@ public class Angaz implements Serializable {
         if (etatList1!=null) {
             for (EtatPrac p : etatList1) {
                 String datagraniczna = p.getDataod();
-                if (Data.czyjestpo(datagraniczna, data)) {
+                if (Data.czyjestpoTerminData(datagraniczna, data)) {
                     zwrot = p;
                 }
             }

@@ -172,7 +172,7 @@ public class UrlopBean {
                 } else {
                     LocalDate dateBefore = LocalDate.parse(p.getDataod());
                     LocalDate dateAfter = LocalDate.parse(p.getDatado());
-                    if (p.getDatado() != null && Data.czyjestpo(p.getDatado(), p.getDataod())) {
+                    if (p.getDatado() != null && Data.czyjestpoTerminData(p.getDatado(), p.getDataod())) {
                         dateAfter = LocalDate.parse(p.getDatado());
                     }
                     sumadniwszystkie = sumadniwszystkie + ChronoUnit.DAYS.between(dateBefore, dateAfter);
@@ -197,7 +197,7 @@ public class UrlopBean {
                     } else {
                         LocalDate dateBefore =  LocalDate.parse(p.getDataod());
                         LocalDate dateAfter = LocalDate.parse(stannadzien);
-                        if (p.getDatado()!=null && Data.czyjestpo(p.getDatado(), stannadzien)) {
+                        if (p.getDatado()!=null && Data.czyjestpoTerminData(p.getDatado(), stannadzien)) {
                             dateAfter = LocalDate.parse(p.getDatado());
                         }
                         long daysBetween =  ChronoUnit.DAYS.between(dateBefore, dateAfter);
@@ -237,7 +237,7 @@ public class UrlopBean {
                                     dataod = Data.pierwszyDzien(rok, "01");
                                 }
                                 String datado = stannadzien;
-                                if (p.getDatado() != null && Data.czyjestpo(p.getDatado(), stannadzien)) {
+                                if (p.getDatado() != null && Data.czyjestpoTerminData(p.getDatado(), stannadzien)) {
                                     datado = p.getDatado();
                                 }
                                 napoczetemiesiace.addAll(Mce.zakresmiesiecy(Data.getMc(dataod), Data.getMc(datado)));

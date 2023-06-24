@@ -67,9 +67,9 @@ public class PasekwynagrodzenBean {
         String datawyplaty = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
         pasek.setDatawyplaty(datawyplaty);
         pasek.setRok(kalendarz.getRok());
-//        obliczwiek(kalendarz, pasek);
+//        obliczwiekNaniesnapasek(kalendarz, pasek);
 //        String datakonca26lat = OsobaBean.obliczdata26(kalendarz.getDataUrodzenia());
-//        boolean po26roku = Data.czyjestpo(datakonca26lat, kalendarz.getRok(), kalendarz.getMc());
+//        boolean po26roku = Data.czyjestpoTerminData(datakonca26lat, kalendarz.getRok(), kalendarz.getMc());
 //        if (po26roku==false) {
 //            pasek.setDo26lat(true);
 //        } else {
@@ -136,9 +136,9 @@ public class PasekwynagrodzenBean {
         }
         pasek.setKalendarzmiesiac(kalendarz);
         pasek.setDatawyplaty(datawyplaty);
-        Data.obliczwiek(kalendarz.getDataUrodzenia(), pasek);
+        Data.obliczwiekNaniesnapasek(kalendarz.getDataUrodzenia(), pasek);
         String datakonca26lat = OsobaBean.obliczdata26(kalendarz.getDataUrodzenia());
-        boolean po26roku = Data.czyjestpo(datakonca26lat, kalendarz.getRok(), kalendarz.getMc());
+        boolean po26roku = Data.czyjestpoTerminData(datakonca26lat, datawyplaty);
         boolean student = kalendarz.getAngaz().isStudent();
         if (pasek.isPraca() == true && po26roku == false) {
             pasek.setDo26lat(true);
@@ -1770,7 +1770,7 @@ public class PasekwynagrodzenBean {
             if (datakoncazwolnienia!=null) {
                 String datapowrotu = Data.dodajdzien(datakoncazwolnienia, 1);
                 String data36mcy = Data.dodajmiesiac(datapowrotu, 36);
-                jestpowrot = Data.czyjestpo(datawyplaty, data36mcy);
+                jestpowrot = Data.czyjestpoTerminData(datawyplaty, data36mcy);
             }
         }
         return jestpowrot;

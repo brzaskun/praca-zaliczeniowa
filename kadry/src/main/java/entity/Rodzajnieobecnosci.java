@@ -66,6 +66,8 @@ public class Rodzajnieobecnosci implements Serializable {
     private Character redukcjawyn;
     @Column(name = "nieskladkowy")
     private boolean nieskladkowy;
+    @Column(name = "nieplatny")
+    private boolean nieplatny;
     @Column(name = "brakuzupelnianiapodtsawyzasilku")
     private boolean brakuzupelnianiapodtsawyzasilku;
     @Column(name = "dnikalendarzowe")
@@ -84,6 +86,8 @@ public class Rodzajnieobecnosci implements Serializable {
     private  boolean z32;
     @Column(name = "z33")
     private  boolean z33;
+    @Column(name = "procent")
+    private  double procent;
 
     public Rodzajnieobecnosci() {
     }
@@ -219,6 +223,22 @@ public class Rodzajnieobecnosci implements Serializable {
 
     public void setBrakuzupelnianiapodtsawyzasilku(boolean brakuzupelnianiapodtsawyzasilku) {
         this.brakuzupelnianiapodtsawyzasilku = brakuzupelnianiapodtsawyzasilku;
+    }
+
+    public double getProcent() {
+        return procent;
+    }
+
+    public void setProcent(double procent) {
+        this.procent = procent;
+    }
+
+    public boolean isNieplatny() {
+        return nieplatny;
+    }
+
+    public void setNieplatny(boolean nieplatny) {
+        this.nieplatny = nieplatny;
     }
 
      

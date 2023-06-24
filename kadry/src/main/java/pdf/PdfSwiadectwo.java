@@ -73,7 +73,7 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, pracownik3, Element.ALIGN_LEFT, 2);
                 List<EtatPrac> etatList = angaz.getEtatList();
                 for (EtatPrac et : etatList) {
-                    if (Data.czyjestpo(datanawiazaniastosunkupracy, et.getDataod())) {
+                    if (Data.czyjestpoTerminData(datanawiazaniastosunkupracy, et.getDataod())) {
                         String etat = "w okresie od "+et.getDataod()+" do "+et.getDatado()+" w wymiarze etatu: "+et.getEtat();
                         PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, etat, Element.ALIGN_LEFT, 2);
                     }
@@ -88,7 +88,7 @@ public class PdfSwiadectwo {
                         PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, stan, Element.ALIGN_LEFT, 2);
                 } else {
                     for (Stanowiskoprac p : stanowiskopracList) {
-                        if (Data.czyjestpo(datanawiazaniastosunkupracy, p.getDataod())) {
+                        if (Data.czyjestpoTerminData(datanawiazaniastosunkupracy, p.getDataod())) {
                             String stan = "w okresie od "+p.getDataod()+" do "+p.getDatado()+" na stanowisku: "+p.getOpis();
                             PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, stan, Element.ALIGN_LEFT, 2);
                         }

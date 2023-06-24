@@ -127,12 +127,16 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     private Umowa umowa;
     @Column(name="importowany")
     private boolean importowany;
+    @Column(name="nieplatny")
+    private boolean nieplatny;
     @Column(name="statusstudenta")
     private boolean statusstudenta;
     @Column(name="odliczackwotewolna")
     private boolean odliczackwotewolna;
     @Column(name="innytytulminim")
     private boolean innytytulminim;
+    @Column(name="do26lat")
+    private boolean do26lat;
 
     public Rachunekdoumowyzlecenia() {
     }
@@ -435,6 +439,14 @@ public class Rachunekdoumowyzlecenia implements Serializable {
 
     public void setInnytytulminim(boolean innytytulminim) {
         this.innytytulminim = innytytulminim;
+    }
+
+    public boolean isDo26lat() {
+        return do26lat;
+    }
+
+    public void setDo26lat(boolean do26lat) {
+        this.do26lat = do26lat;
     }
 
     

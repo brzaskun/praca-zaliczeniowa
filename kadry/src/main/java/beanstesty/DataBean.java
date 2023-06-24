@@ -23,8 +23,8 @@ public class DataBean {
         }
         boolean zaczynasieprzedpoczatkiem = Data.czyjestprzed(pierwszydzienmiesiaca, zmiennadataod);
         boolean konczysieprzedpoczatkiem = Data.czyjestprzed(pierwszydzienmiesiaca, zmiennadatado);
-        boolean zaczynasiepokoncu = Data.czyjestpo(ostatnidzienmiesiaca, zmiennadataod);
-        boolean konczysiepokoncu = Data.czyjestpo(ostatnidzienmiesiaca, zmiennadatado);
+        boolean zaczynasiepokoncu = Data.czyjestpoTerminData(ostatnidzienmiesiaca, zmiennadataod);
+        boolean konczysiepokoncu = Data.czyjestpoTerminData(ostatnidzienmiesiaca, zmiennadatado);
         if (zmiennadatado==null) {
             konczysieprzedpoczatkiem = false;
             konczysiepokoncu = true;
@@ -64,13 +64,13 @@ public static boolean czysiemiescidzien(String databadana, String datagranicznao
     boolean zwrot = false;
     //czy data poczatkowa zmiennej jest starsza od daty koncowej kalendarza
     if (datagranicznado==null||datagranicznado.equals("")) {
-        boolean czyjestpopoczatku = Data.czyjestpo(datagranicznaod, databadana);
+        boolean czyjestpopoczatku = Data.czyjestpoTerminData(datagranicznaod, databadana);
         if (czyjestpopoczatku) {
             zwrot = true;
         }
     } else {
         boolean czyjestprzedkoncem = Data.czyjestprzed(datagranicznado, databadana);
-        boolean czyjestpopoczatku = Data.czyjestpo(datagranicznaod, databadana);
+        boolean czyjestpopoczatku = Data.czyjestpoTerminData(datagranicznaod, databadana);
         if (czyjestprzedkoncem&&czyjestpopoczatku) {
             zwrot = true;
         }
