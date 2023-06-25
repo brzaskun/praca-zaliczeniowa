@@ -13,7 +13,7 @@
                 <p:dataTable id="datalist" value="#{umowaView.listazlecenia}" var="itemumowa" widgetVar="dataListumowazlecenie"
                              selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
                              rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
-                             style="height: 220px; overflow-y: scroll; width: 1750px;"
+                             style="height: 220px; overflow-y: scroll; width: 1800px;"
                              >
                     <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
                     <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
@@ -138,6 +138,13 @@
                             <h:outputText value="edy."/>
                         </f:facet>
                         <p:commandButton icon="pi pi-pencil" actionListener="#{umowaView.edytuj(itemumowa)}" update="north @(.formumowa)  akordeon:UmowaListFormZlecenie"/>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;">
+                         <f:facet name="header">
+                            <h:outputText value="przed."/>
+                        </f:facet>
+                        <p:commandButton icon="pi pi-copy" actionListener="#{umowaView.przedluz(itemumowa)}" update="north akordeon akordeon:UmowaCreateForm">
+                        </p:commandButton>
                     </p:column>
 <!--                    <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north akordeon:UmowaListFormZlecenie @(form)"/>

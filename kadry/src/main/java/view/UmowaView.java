@@ -842,10 +842,11 @@ public class UmowaView implements Serializable {
         }
     }
 
-    public void przedluz() {
+    public void przedluz(Umowa umowa) {
         if (selectedlista != null) {
-            tabView = 1;
-            selected = new Umowa(selectedlista);
+            tabView = 2;
+            selected = new Umowa(umowa);
+            ustawumowe();
             Msg.msg("Przygotowano dane");
         } else {
             Msg.msg("e", "Nie wybrano umowy");
