@@ -123,8 +123,8 @@
                         <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.edytujkwadraciki}"/>
                     </p:selectBooleanCheckbox>
                     <p:outputLabel value="naliczać podatek:"/>
-                    <h:outputText value="podatek zryczałtowany - nierezydent" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.angaz.nierezydent eq true}"/>
-                    <h:outputText value="podatek wg skali" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.angaz.nierezydent eq false}"/>
+                    <h:outputText value="podatek zryczałtowany - nierezydent" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.pracownik.nierezydent eq true}"/>
+                    <h:outputText value="podatek wg skali" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.pracownik.nierezydent eq false}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2">
                     <p:commandButton value="zaksięguj" actionListener="#{rachunekZlecenieView.zaksieguj()}" update="RachunekZleceniaForm" styleClass="buttonnorm" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>

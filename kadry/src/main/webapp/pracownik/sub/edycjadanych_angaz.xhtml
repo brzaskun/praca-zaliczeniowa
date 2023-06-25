@@ -244,8 +244,9 @@
                         <p:selectBooleanCheckbox id="ulga" value="#{angazView.selectedlista.odliczaculgepodatkowa}"/>
                         <p:outputLabel value="status studenta" for="student" />
                         <p:selectBooleanCheckbox id="student" value="#{angazView.selectedlista.student}"/>
-                        <p:outputLabel value="nierezydent" for="nierezydent" />
-                        <p:selectBooleanCheckbox id="nierezydent" value="#{angazView.selectedlista.nierezydent}"/>
+                        <h:outputText value="czy to nierezydent" />
+                        <h:outputText value="tę informację uzupełniamy na poziomie pracownika"/>
+<!--                        <p:selectBooleanCheckbox id="nierezydent" value="{angazView.selectedlista.nierezydent}"/>-->
                     </p:panelGrid>
                 </p:outputPanel>
                 <p:commandButton value="zapisz" actionListener="#{angazView.zapiszangaz()}" styleClass="buttonnorm" update="@form"/>

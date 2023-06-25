@@ -1026,6 +1026,9 @@ public class PasekwynagrodzenBean {
         if (pasek.isDo26lat()) {
             kosztyuzyskania = 0.0;
         }
+        if (pasek.isNierezydent()) {
+            kosztyuzyskania = 0.0;
+        }
         double podstawa = Z.z0(nowapodstawapl - kosztyuzyskania) > 0.0 ? Z.z0(nowapodstawapl - kosztyuzyskania) : 0.0;
         pasek.setPodstawaopodatkowania(podstawa);
         if (nierezydent) {

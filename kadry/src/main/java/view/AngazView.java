@@ -477,6 +477,9 @@ public class AngazView  implements Serializable {
                     selectedlista.setOdliczaculgepodatkowa(false);
                 }
                 pracownikFacade.edit(selectedlista);
+                if (selectedlista.equals(wpisView.getAngaz())) {
+                    wpisView.setAngaz(selectedlista);
+                }
                 Msg.msg("Zaktualizowano danepracownika");
             }
         } else {
