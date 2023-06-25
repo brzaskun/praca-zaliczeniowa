@@ -65,6 +65,8 @@ public class UpdateClassView   implements Serializable {
     private Z3daneView z3daneView;
     @Inject
     private WpisView wpisView;
+    @Inject
+    private ZaswiadczeniaView zaswiadczeniaView;
 
 
     public void updateRok(){
@@ -111,6 +113,7 @@ public class UpdateClassView   implements Serializable {
         zmienneZbiorczoView.init();
         skladnikiZbiorczoView.init();
         z3daneView.reloadDialog();
+        zaswiadczeniaView.init();
         try {
             kartaWynagrodzenView.pobierzdane(wpisView.getAngaz());
             rachunekZlecenieView.init(wpisView.getUmowa());

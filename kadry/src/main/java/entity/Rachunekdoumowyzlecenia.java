@@ -127,8 +127,6 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     private Umowa umowa;
     @Column(name="importowany")
     private boolean importowany;
-    @Column(name="nieplatny")
-    private boolean nieplatny;
     @Column(name="statusstudenta")
     private boolean statusstudenta;
     @Column(name="odliczackwotewolna")

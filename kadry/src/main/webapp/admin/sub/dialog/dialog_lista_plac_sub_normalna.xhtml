@@ -248,7 +248,7 @@
             <p:rowExpansion>
                 <p:dataTable id="datalist1" value="#{itempasek.getPobierzskladniki(pasekwynagrodzenView.wybranalistaplac)}" var="itempasekszcz"
                              rowIndexVar="indexpasekszcz"  emptyMessage="Nie zachowano żadnych składników"
-                             style="height: 200px; overflow-y: scroll;width: 1550px;"
+                             style="height: 200px; overflow-y: scroll;width: 100%"
                              >
                     <p:column style="text-align: center;color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};" headerText="lp" width="40">
                         <h:outputText value="#{itempasekszcz.lp}"/>
@@ -296,6 +296,9 @@
                     </p:column>
                     <p:column headerText="pln" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
                         <bcf:outputpl value="#{itempasekszcz.wynagrodzeniezmienna}"/>
+                    </p:column>
+                    <p:column headerText="%" width="40" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
+                        <bcf:outputpl value="#{itempasekszcz.procentredukcja}"/>
                     </p:column>
                      <p:column headerText="po red. §11" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
                         <bcf:outputpl value="#{itempasekszcz.kwotazmiennejporedukcji11}"/>

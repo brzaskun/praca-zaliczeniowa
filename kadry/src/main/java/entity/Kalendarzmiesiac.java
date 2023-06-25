@@ -1059,12 +1059,12 @@ private static final long serialVersionUID = 1L;
                     dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);
                     nieobecnosc.setNaniesiona(true);
-                } else if (kod.equals("U")||kod.equals("UD")||kod.equals("O")||kod.equals("UZ")) {
+                } else if (kod.equals("U")||kod.equals("UD")||kod.equals("O")||kod.equals("UZ")||kod.equals("NS")) {
                     dzienaktualny.setUrlopPlatny(dzienaktualny.getNormagodzin());
                     dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);
                     nieobecnosc.setNaniesiona(true);
-                } else if (kod.equals("X")||kod.equals("NP")||kod.equals("NN")) {
+                } else if (nieobecnosc.getRodzajnieobecnosci().isNieplatny()) {
                     dzienaktualny.setUrlopbezplatny(dzienaktualny.getNormagodzin());
                     dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);

@@ -339,6 +339,9 @@
                     <p:column headerText="pln" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
                         <bcf:outputpl value="#{itempasekszcz.wynagrodzeniezmienna}"/>
                     </p:column>
+                    <p:column headerText="%" width="40" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
+                        <bcf:outputpl value="#{itempasekszcz.procentredukcja}"/>
+                    </p:column>
                     <p:column headerText="po red. §11" width="60" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};">
                         <bcf:outputpl value="#{itempasekszcz.kwotazmiennejporedukcji11}"/>
                     </p:column>

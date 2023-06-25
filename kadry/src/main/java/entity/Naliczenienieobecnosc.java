@@ -115,6 +115,8 @@ public class Naliczenienieobecnosc implements Serializable {
     private String datado;
     @Column(name = "waluta")
     private String waluta;
+    @Column(name = "redukcjaprocent")
+    private double redukcjaprocent;
     @Column(name = "procentoddelegowanie")
     private double procentoddelegowanie;
     @Column(name = "wyrownaniepodstawy")
@@ -167,6 +169,14 @@ public class Naliczenienieobecnosc implements Serializable {
 
     public void setWyrownaniepodstawy(boolean wyrownaniepodstawy) {
         this.wyrownaniepodstawy = wyrownaniepodstawy;
+    }
+
+    public double getRedukcjaprocent() {
+        return redukcjaprocent;
+    }
+
+    public void setRedukcjaprocent(double redukcjaprocent) {
+        this.redukcjaprocent = redukcjaprocent;
     }
 
 

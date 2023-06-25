@@ -1352,6 +1352,7 @@ public class Pasekwynagrodzen implements Serializable {
                     wiersz.procentzwolnienia = p.getNieobecnosc().getZwolnienieprocent();
                     wiersz.wynagrodzeniezmienna = p.getSkladnikistale();
                     wiersz.wynagrodzeniezmiennawaluta = p.getKwotawaluta();
+                    wiersz.procentredukcja = p.getRedukcjaprocent();
                     zwrot.add(wiersz);
                 }
             }
@@ -1586,6 +1587,7 @@ public class Pasekwynagrodzen implements Serializable {
         double wynagrodzeniezmienna;
         double wynagrodzeniezmiennawaluta;
         double redukcja;
+        double procentredukcja;
         double dniobowiazku;
         double dniprzepracowane;
         double godzinyobowiazku;
@@ -1813,6 +1815,14 @@ public class Pasekwynagrodzen implements Serializable {
 
         public void setKwotazmiennejporedukcji11(double kwotazmiennejporedukcji11) {
             this.kwotazmiennejporedukcji11 = kwotazmiennejporedukcji11;
+        }
+
+        public double getProcentredukcja() {
+            return procentredukcja;
+        }
+
+        public void setProcentredukcja(double procentredukcja) {
+            this.procentredukcja = procentredukcja;
         }
     
         

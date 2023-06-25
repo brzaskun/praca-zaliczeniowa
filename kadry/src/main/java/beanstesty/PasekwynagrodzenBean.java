@@ -266,6 +266,7 @@ public class PasekwynagrodzenBean {
         //nie wiem po co on tu jest
         //List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci, "ZC");
         List<Nieobecnosc> urlop = pobierz(nieobecnosci, "U");
+        List<Nieobecnosc> urlopsilawyzsza = pobierz(nieobecnosci, "NS");
         List<Nieobecnosc> urlopoddelegowanie = pobierz(nieobecnosci, "UD");
         List<Nieobecnosc> urlopmatkadziecko = pobierz(nieobecnosci, "MD");
         List<Nieobecnosc> urlopookolicznosciowy = pobierz(nieobecnosci, "O");
@@ -274,6 +275,7 @@ public class PasekwynagrodzenBean {
         List<Nieobecnosc> urlopbezplatny = pobierz(nieobecnosci, "X");
         List<Nieobecnosc> nieobecnoscNN = pobierz(nieobecnosci, "NN");
         List<Nieobecnosc> nieobecnoscNP = pobierz(nieobecnosci, "NP");
+        List<Nieobecnosc> opiekabaezplatna = pobierz(nieobecnosci, "UP");
         List<Nieobecnosc> oddelegowanie = pobierz(nieobecnosci, "Z");
         //piecdziesiatki
         KalendarzmiesiacBean.nalicznadgodzinyDB(kalendarz, pasek, false);
@@ -291,10 +293,12 @@ public class PasekwynagrodzenBean {
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs, definicjalistaplac);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, nieobecnoscNN, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, opiekabaezplatna, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, nieobecnoscNP, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, oddelegowanie, pasek);
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopsilawyzsza, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopoddelegowanie, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopmatkadziecko, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopookolicznosciowy, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());

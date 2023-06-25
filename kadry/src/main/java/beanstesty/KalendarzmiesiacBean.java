@@ -176,7 +176,7 @@ public class KalendarzmiesiacBean {
             naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, null, null, 0.0, 0.0,false);
         } else if (nieobecnosc.getKod().equals("U") || nieobecnosc.getKod().equals("UZ") || nieobecnosc.getKod().equals("O") || nieobecnosc.getKod().equals("MD")) {
             naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
-        } else if (nieobecnosc.getKod().equals("X") || nieobecnosc.getKod().equals("NP") || nieobecnosc.getKod().equals("NN")) {
+        } else if (nieobecnosc.getRodzajnieobecnosci().isNieplatny()) {
             naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "X");
         } else if (nieobecnosc.getKod().equals("D")) {
             naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "D");
@@ -200,13 +200,13 @@ public class KalendarzmiesiacBean {
                 } else if (kod.equals("UO")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
                     naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, definicjadlazasilkow, limitpodstawyzasilkow, minimalnedozasilkow, jestoodelegowanie);
-                } else if (kod.equals("U") || kod.equals("UZ") || kod.equals("O") || kod.equals("MD")) {
+                } else if (kod.equals("U") || kod.equals("UZ") || kod.equals("O") || kod.equals("MD") || kod.equals("NS")) {
                     //urlop wypoczynowy
                     naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
                 } else if (kod.equals("UD")) {
                     //urlop wypoczynowy
                     naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(kalendarz, nieobecnosc, pasekwynagrodzen, kurs);
-                } else if (kod.equals("X") || kod.equals("NP") || kod.equals("NN")) {
+                } else if (nieobecnosc.getRodzajnieobecnosci().isNieplatny()) {
                     //urlopo bezpłatny
                     naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, kod);
                 } else if (kod.equals("D")) {
@@ -1096,6 +1096,12 @@ public class KalendarzmiesiacBean {
                 liczbagodzinobowiazku = naliczenieskladnikawynagrodzenia.getGodzinynalezne();
                 double skladnikistale = 0.0;
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
+                double redukcjaprocent = nieobecnosc.getRodzajnieobecnosci().getProcent();
+                double mnoznik = 1.0;
+                if (redukcjaprocent>0.0) {
+                    mnoznik = Z.z(redukcjaprocent/100.0);
+                }
+                naliczenienieobecnosc.setRedukcjaprocent(redukcjaprocent);
                 naliczenienieobecnosc.setDataod(dataod);
                 naliczenienieobecnosc.setDatado(datado);
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
@@ -1108,8 +1114,8 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinurlopu);
                 double sredniamiesieczna = wyliczsredniagodzinowaStale(kalendarz, naliczenieskladnikawynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc);
                 naliczenienieobecnosc.setSkladnikistale(sredniamiesieczna);
-                double stawkadzienna = naliczenieskladnikawynagrodzenia.getStawkadzienna();
-                double stawkagodzinowa = naliczenieskladnikawynagrodzenia.getStawkagodzinowa();
+                double stawkadzienna = naliczenieskladnikawynagrodzenia.getStawkadzienna()*mnoznik;
+                double stawkagodzinowa = naliczenieskladnikawynagrodzenia.getStawkagodzinowa()*mnoznik;
                 //zliwkidowalem zaokragklenia bo dawid mial roznice grosza 2023-02-01
                 naliczenienieobecnosc.setStawkagodzinowa(stawkagodzinowa);
                 naliczenienieobecnosc.setStawkadzienna(stawkadzienna);
