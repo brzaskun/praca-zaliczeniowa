@@ -299,6 +299,9 @@ public class KalendarzmiesiacBean {
                 if (p.getRodzajwynagrodzenia().getKod().equals("11") && p.isOddelegowanie() == false) {
                     List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs, wynagrodzenieminimalne, kalendarzwzor);
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().addAll(naliczenieskladnikawynagrodzenia);
+                } else if (p.getRodzajwynagrodzenia().getKod().equals("11") && p.getRodzajwynagrodzenia().getGodzinowe0miesieczne1() ==false && p.isOddelegowanie() == false) {
+                    List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(kalendarz, pasekwynagrodzen, p, kurs, wynagrodzenieminimalne, kalendarzwzor);
+                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().addAll(naliczenieskladnikawynagrodzenia);
                 } else if (p.getRodzajwynagrodzenia().getKod().equals("11") && p.isOddelegowanie() == true) {
                     List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBOddelegowanie(kalendarz, pasekwynagrodzen, p, kurs);
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().addAll(naliczenieskladnikawynagrodzenia);
