@@ -94,6 +94,8 @@ public class RozwiazanieumowyView  implements Serializable {
     private Nieobecnoscprezentacja urlopprezentacja;
     private List<Umowa> umowykontynuacja;
     private String datagraniczna = null;
+    @Inject
+    private UpdateClassView updateClassView;
     
     
     @PostConstruct
@@ -195,16 +197,24 @@ public class RozwiazanieumowyView  implements Serializable {
             umowaFacade.edit(wybranaumowa);
             Angaz angaz = angazFacade.findById(wpisView.getAngaz());
             zamknijskladniki(angaz, rozwiazanieUmowyNowe.getDatauplywuokresuwyp());
+            angazFacade.edit(angaz);
+            wpisView.setAngaz(angaz);
+            updateClassView.updateRozwiazanieSkladniki();
             Msg.msg("Dodano nowe wypowiedzenie");
             if (wybranaumowa!=null && rozwiazanieUmowyNowe!=null) {
                 listanieob  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
                 listanieobecschema = nieobecnoscswiadectwoschemaFacade.findAll();
                 dnidoswiadectwa = naniesnieobecnoscinascheme(listanieob, listanieobecschema, rozwiazanieUmowyNowe, wpisView.getRokWpisu());
+                
             }
         } else if (rozwiazanieUmowyNowe.getId()!=null) {
+            Angaz angaz = angazFacade.findById(wpisView.getAngaz());
             rozwiazanieUmowyNowe.setData(new Date());
-            zamknijskladniki(wpisView.getAngaz(), rozwiazanieUmowyNowe.getDatauplywuokresuwyp());
             rozwiazanieumowyFacade.edit(rozwiazanieUmowyNowe);
+            zamknijskladniki(angaz, rozwiazanieUmowyNowe.getDatauplywuokresuwyp());
+            angazFacade.edit(angaz);
+            wpisView.setAngaz(angaz);
+            updateClassView.updateRozwiazanieSkladniki();
             Msg.msg("Edytowano wypowiedzenie");
         } else {
             Msg.msg("e","Umowa ma już wygenerowane wypowiedzenie.");   

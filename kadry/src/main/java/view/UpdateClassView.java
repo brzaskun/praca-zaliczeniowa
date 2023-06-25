@@ -75,6 +75,17 @@ public class UpdateClassView   implements Serializable {
     }
     
     
+    public void updateRozwiazanieSkladniki(){
+        skladnikWynagrodzeniaView.init();
+        zmiennaWynagrodzeniaView.init();
+        skladnikPotraceniaView.init();
+        zmiennaPotraceniaView.init();
+        stanowiskoPracView.init();
+        etatView.init();
+        pracownikEkwiwalentView.init();
+        //pasekwynagrodzenView.init();
+    }
+    
     public void updateUmowaRozwiazanei(){
         umowaView.init();
         rozwiazanieumowyView.init();
