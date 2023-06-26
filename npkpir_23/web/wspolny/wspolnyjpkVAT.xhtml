@@ -21,6 +21,7 @@
             <p:commandButton value="podgląd jpk" actionListener="#{jpk_VAT2NView.przygotujXMLPodglad()}" update="@form" style="width: 120px;" rendered="#{!jpk_VAT2NView.pkpir0ksiegi1}"/>
             <p:commandButton value="pobierz jpkfk" actionListener="#{jpk_VAT2NView.przygotujXMLFKDL()}" update="@form" style="width: 120px;" rendered="#{jpk_VAT2NView.pkpir0ksiegi1}"/>
             <p:commandButton value="pobierz jpk" actionListener="#{jpk_VAT2NView.przygotujXMLDL()}" update="@form" style="width: 120px;" rendered="#{!jpk_VAT2NView.pkpir0ksiegi1}"/>
+            <p:commandButton value="pozycje jpk" actionListener="#{jpk_VAT2NView.przygotujXMLFKDL()}" style="width: 120px;" onclick="PF('dialog_jpk_vat_pozycje').show();"  rendered="#{jpk_VAT2NView.pkpir0ksiegi1}"/>
             <p:dataTable id="tabeladekalracje" value="#{jpk_VAT2NView.deklaracjadlajpk.schemawierszsumarycznylista}" var="wiersz" rendered="#{jpk_VAT2NView.deklaracjadlajpk ne null}" style="width: 700px; margin-left: 100px;">
                 <p:column width="350" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                     <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
@@ -47,7 +48,7 @@
             </p:selectOneMenu>
             </p:outputPanel>
         </p:panelGrid>
-        <p:panelGrid columns="5" rendered="#{WpisView.podatnikObiekt.nip eq '5263158333'}">
+        <p:panelGrid columns="6" rendered="#{WpisView.podatnikObiekt.nip eq '5263158333'}">
             <p:commandButton value="wyślij jpk" actionListener="#{jpk_VAT2NView.przygotujXMLDedra()}" update="@form" style="width: 120px;" rendered="#{!jpk_VAT2NView.nowa0korekta1}"/>
             <p:commandButton value="wyślij korekta" actionListener="#{jpk_VAT2NView.przygotujXMLDedra()}" update="@form" style="width: 120px;" rendered="#{jpk_VAT2NView.nowa0korekta1}"/>
             <p:commandButton value="podgląd jpk" actionListener="#{jpk_VAT2NView.przygotujXMLPodgladDedra()}" update="@form" style="width: 120px;" />
