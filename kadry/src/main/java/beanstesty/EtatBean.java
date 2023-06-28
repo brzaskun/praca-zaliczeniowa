@@ -30,38 +30,47 @@ public class EtatBean {
                 List<Dzien> dzienList = k.getDzienList();
                 for (Dzien d : dzienList) {
                     boolean czysiemiesci = DataBean.czysiemiescidzien(d.getDatastring(), selected.getDataod(), selected.getDatado());
-                    if (czysiemiesci) {
+                    String datado = selected.getDatado()!=null&&selected.getDatado().length()==10?selected.getDatado():k.getOstatniDzien();
+                    boolean pozaumowapoczatekmiesiaca = d.getKod()!=null&&d.getKod().equals("D")&&DataBean.czysiemiescidzien(d.getDatastring(), Data.pierwszyDzien(selected.getDataod()), datado);
+                    boolean pozaumowakoniecmiesiaca = d.getKod()!=null&&d.getKod().equals("D")&&DataBean.czysiemiescidzien(d.getDatastring(), selected.getDataod(), datado);
+                    if (czysiemiesci||pozaumowapoczatekmiesiaca||pozaumowakoniecmiesiaca) {
                         if (selected!=null) {
                             d.setEtat1(selected.getEtat1());
                             d.setEtat2(selected.getEtat2());
                             double nowanorma = Z.z(d.getNormagodzinwzorcowa()*d.getEtat1()/d.getEtat2());
                             d.setNormagodzin(nowanorma);
                             if(d.getPrzepracowano()>0 && d.getPrzepracowano()!=nowanorma) {
-                                d.setPrzepracowano(Z.z(d.getNormagodzin()));
+                                d.setPrzepracowano(nowanorma);
+                            }
+                            if (d.getWynagrodzeniezachorobe()>0 && d.getWynagrodzeniezachorobe()!=nowanorma) {
+                                d.setWynagrodzeniezachorobe(nowanorma);
+                            }
+                            if (d.getZasilek()>0 && d.getZasilek()!=nowanorma) {
+                                d.setZasilek(nowanorma);
                             }
                             if (d.getOpiekadziecko()>0 && d.getOpiekadziecko()!=nowanorma) {
-                                d.setOpiekadziecko(d.getOpiekadziecko()*d.getEtat1()/d.getEtat2());
+                                d.setOpiekadziecko(nowanorma);
                             }
                             if (d.getUrlopPlatny()>0 && d.getUrlopPlatny()!=nowanorma) {
-                                d.setUrlopPlatny(d.getUrlopPlatny()*d.getEtat1()/d.getEtat2());
+                                d.setUrlopPlatny(nowanorma);
                             }
                             if (d.getUrlopbezplatny()>0 && d.getUrlopbezplatny()!=nowanorma) {
-                                d.setUrlopbezplatny(d.getUrlopbezplatny()*d.getEtat1()/d.getEtat2());
+                                d.setUrlopbezplatny(nowanorma);
                             }
                             if (d.getPoranocna()>0 && d.getPoranocna()!=nowanorma) {
-                                d.setPoranocna(d.getPoranocna()*d.getEtat1()/d.getEtat2());
+                                d.setPoranocna(nowanorma);
                             }
                             if (d.getOpiekadziecko()>0 && d.getOpiekadziecko()!=nowanorma) {
-                                d.setOpiekadziecko(d.getOpiekadziecko()*d.getEtat1()/d.getEtat2());
+                                d.setOpiekadziecko(nowanorma);
                             }
                             if (d.getPoranocna()>0 && d.getPoranocna()!=nowanorma) {
-                                d.setPoranocna(d.getPoranocna()*d.getEtat1()/d.getEtat2());
+                                d.setPoranocna(nowanorma);
                             }
                             if (d.getMacierzynski()>0 && d.getMacierzynski()!=nowanorma) {
-                                d.setMacierzynski(d.getMacierzynski()*d.getEtat1()/d.getEtat2());
+                                d.setMacierzynski(nowanorma);
                             }
                             if (d.getWychowawczy()>0 && d.getWychowawczy()!=nowanorma) {
-                                d.setWychowawczy(d.getWychowawczy()*d.getEtat1()/d.getEtat2());
+                                d.setWychowawczy(nowanorma);
                             }
                         }
                     }

@@ -35,7 +35,7 @@
                                 <p:inputText value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.przyczyna}" size="200"/>
                                 <h:outputText value="sposob wypowiedzenia: "/>
                                 <p:selectOneListbox id="pracownik" value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.sposobwypowiedzenia}" required="true" requiredMessage="Wybierz sposób rozwiązania"  
-                                                     style="width: 500px;" filter="true" filterMatchMode="contains" scrollHeight="130">
+                                                     style="width: 500px;" filter="true" filterMatchMode="contains" scrollHeight="110">
                                      <f:selectItems value="#{wypowiedzenieSposob.getWypowiedzenieSposob()}"
                                                    var="pracownikItem"
                                                    itemValue="#{pracownikItem}" itemLabel="#{pracownikItem}"/>
@@ -43,7 +43,7 @@
                                 </p:selectOneListbox>
                                 <h:outputText value="podstawa prawna: "/>
                                  <p:selectOneListbox id="podstawa" value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.podstawaprawna}" required="true" requiredMessage="Wybierz sposób rozwiązania"  
-                                                     style="width: 1200px;" filter="true" filterMatchMode="contains" scrollHeight="130">
+                                                     style="width: 1200px;" filter="true" filterMatchMode="contains" scrollHeight="110">
                                      <f:selectItems value="#{wypowiedzeniePodstawa.getWypowiedzeniePodstawa()}"
                                                    var="pracownikItem"
                                                    itemValue="#{pracownikItem}" itemLabel="#{pracownikItem}"/>
@@ -55,6 +55,7 @@
                                         <h:outputText value="a) wypowiedzenie"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.wypowiedzenie}" label="wypowiedzenie"/>
                                         <h:outputText value="b) rozwiązanie"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.rozwiazanie}" label="rozwiązanie"/>
                                         <h:outputText value="c) porozumienie stron"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.porozumienie}" label="porozumienie"/>
+                                        <h:outputText value="c) uplyw czasu zawarcia"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.porozumienie}" label="czaszawarcia"/>
                                     </p:panelGrid>
                                 </p:column>
                                 <h:outputText value="inicjator wypowiedzenia"/>
@@ -138,6 +139,7 @@
                                         <h:outputText value="a) wypowiedzenie"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.wypowiedzenie}" label="wypowiedzenie"/>
                                         <h:outputText value="b) rozwiązanie"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.rozwiazanie}" label="rozwiązanie"/>
                                         <h:outputText value="c) porozumienie stron"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.porozumienie}" label="porozumienie"/>
+                                        <h:outputText value="c) upływ czasu na jaki została zawarta"/><p:selectBooleanCheckbox value="#{rozwiazanieumowyView.rozwiazanieUmowyNowe.uplywczasuzawarcia}" label="uplywczasu"/>
                                     </p:panelGrid>
                                 </p:column>
                                 <h:outputText value="inicjator wypowiedzenia"/>

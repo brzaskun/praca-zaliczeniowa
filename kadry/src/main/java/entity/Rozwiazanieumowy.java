@@ -79,6 +79,8 @@ public class Rozwiazanieumowy implements Serializable {
     private boolean rozwiazanie;
     @Column(name = "porozumienie")
     private boolean porozumienie;
+    @Column(name = "uplywczasuzawarcia")
+    private boolean uplywczasuzawarcia;
     @Column(name = "pracownik")
     private boolean pracownik;
     @Column(name = "pracodawca")
@@ -307,6 +309,14 @@ public class Rozwiazanieumowy implements Serializable {
 
     public void setOkreswypowiedzeniazlecenie(String okreswypowiedzeniazlecenie) {
         this.okreswypowiedzeniazlecenie = okreswypowiedzeniazlecenie;
+    }
+
+    public boolean isUplywczasuzawarcia() {
+        return uplywczasuzawarcia;
+    }
+
+    public void setUplywczasuzawarcia(boolean uplywczasuzawarcia) {
+        this.uplywczasuzawarcia = uplywczasuzawarcia;
     }
 
         

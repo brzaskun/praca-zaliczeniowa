@@ -27,6 +27,7 @@
             </h:form>
         </p:outputPanel>-->
         <p:outputPanel>
+            <p:panelGrid columns="2">
                 <h:form styleClass="formumowa" id="EtatListForm">
                     <p:panel header="Wykaz historii etatów"  rendered="#{umowaView.rodzajumowy eq '1'}">
                         <p:dataTable id="datalist" value="#{etatView.lista}" var="itemetat"
@@ -79,5 +80,7 @@
                         </p:dataTable>
                     </p:panel>
                 </h:form>
+                <h:outputText value="Zmiana etatu zmienia ilość godzin objętą nieobecnością w kalendarzu" style="color: green;"/>
+                </p:panelGrid>
             </p:outputPanel>
 </ui:composition>

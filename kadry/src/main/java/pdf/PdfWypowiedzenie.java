@@ -226,7 +226,7 @@ public class PdfWypowiedzenie {
             } else if (rozwiazanieumowy.isPorozumienie()) {
                     String wypowiadam = "Proponuję rozwiązac wyżej wymienioną umowę za porozumieniem stron z dniem "+rozwiazanieumowy.getDatawypowiedzenia();
                     PdfMain.dodajLinieOpisu(document, wypowiadam, Element.ALIGN_JUSTIFIED, 1);
-                } 
+            } 
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
