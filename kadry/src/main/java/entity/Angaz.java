@@ -601,7 +601,7 @@ public class Angaz implements Serializable {
         double zwrot = 0.0;
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                if (p.getRodzajwynagrodzenia().getKod().equals("40")) {
+                if (p.getRodzajwynagrodzenia().getKod().equals("40")||p.getRodzajwynagrodzenia().getKod().equals("NZ")) {
                     zwrot = zwrot + pobierzkwoteKwota(p.getZmiennawynagrodzeniaList(), rok, mc, kalendarz);
                 }
             }
@@ -671,7 +671,7 @@ public class Angaz implements Serializable {
         boolean zwrot = false;
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                if (p.getRodzajwynagrodzenia().getKod().equals("40")) {
+                if (p.getRodzajwynagrodzenia().getKod().equals("40")||p.getRodzajwynagrodzenia().getKod().equals("NZ")) {
                     zwrot = !p.getRodzajwynagrodzenia().getGodzinowe0miesieczne1();
                 }
             }
