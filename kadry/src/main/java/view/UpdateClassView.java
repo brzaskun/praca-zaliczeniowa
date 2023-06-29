@@ -67,13 +67,22 @@ public class UpdateClassView   implements Serializable {
     private WpisView wpisView;
     @Inject
     private ZaswiadczeniaView zaswiadczeniaView;
-
+    @Inject
+    private WypadkowefirmaView wypadkowefirmaView;
+    @Inject
+    private KalendarzGlobalnyView kalendarzGlobalnyView;
+    
 
     public void updateRok(){
         kalendarzmiesiacView.init();
         nieobecnoscView.init();
     }
     
+    public void updateKalendarz(){
+        kalendarzwzorView.init();
+        kalendarzGlobalnyView.init();
+        wypadkowefirmaView.init();
+    }
     
     public void updateRozwiazanieSkladniki(){
         skladnikWynagrodzeniaView.init();

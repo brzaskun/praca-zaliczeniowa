@@ -63,7 +63,8 @@ public class HistoriaView  implements Serializable {
     @Inject
     private UmowaFacade umowaFacade;
     private Angaz selectedangaz;
-  
+    @Inject
+    private UpdateClassView updateClassView;
     @Inject
     private WpisView wpisView;
     private List<Firma> firmysuperplace;
@@ -207,6 +208,7 @@ public class HistoriaView  implements Serializable {
                 wpisView.setUmowa(null);
             }
             init();
+            updateClassView.updateKalendarz();
             Msg.msg("Aktywowano firmę "+firma.getNazwa());
         }
     }
