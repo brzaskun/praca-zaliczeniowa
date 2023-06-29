@@ -1082,19 +1082,34 @@ public class KalendarzmiesiacBean {
         String datado = Data.czyjestprzed(ostatnidzienmiesiaca, nieobecnosc.getDatado()) ? nieobecnosc.getDatado() : ostatnidzienmiesiaca;
         int dzienod = Data.getDzienI(dataod);
         int dziendo = Data.getDzienI(datado);
+        //musiala byc zmiana bo jak byla zmiana stawki w tyrakcie mca to duplikowal urlopy 29.06.2023
         for (Dzien p : kalendarz.getDzienList()) {
             if (p.getTypdnia() == 0 && (p.getNormagodzin() != 0.0 || p.getKod().equals("D"))) {
                 liczbadniobowiazku = liczbadniobowiazku + 1;
                 liczbagodzinobowiazku = liczbagodzinobowiazku + p.getNormagodzin();
             }
-            if (p.getTypdnia() == 0 && p.getNrdnia() >= dzienod && p.getNrdnia() <= dziendo) {
-                liczbadniurlopu = liczbadniurlopu + 1;
-                liczbagodzinurlopu = liczbagodzinurlopu + p.getUrlopPlatny() + p.getOpiekadziecko();
-            }
+//            if (p.getTypdnia() == 0 && p.getNrdnia() >= dzienod && p.getNrdnia() <= dziendo) {
+//                liczbadniurlopu = liczbadniurlopu + 1;
+//                liczbagodzinurlopu = liczbagodzinurlopu + p.getUrlopPlatny() + p.getOpiekadziecko();
+//            }
         }
         for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
             if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1() && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1() == false
                     && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSredniaurlopowakraj() == true) {
+                String dataodS = naliczenieskladnikawynagrodzenia.getDataod();
+                String datadoS = naliczenieskladnikawynagrodzenia.getDatado();
+                int dzienodS = Data.getDzienI(dataodS);
+                int dziendoS = Data.getDzienI(datadoS);
+                liczbadniurlopu = 0.0;
+                liczbagodzinurlopu = 0.0;
+                for (Dzien p : kalendarz.getDzienList()) {
+                    if (p.getTypdnia() == 0 && p.getNrdnia() >= dzienod && p.getNrdnia() <= dziendo) {
+                        if (p.getNrdnia() >= dzienodS && p.getNrdnia() <= dziendoS) {
+                            liczbadniurlopu = liczbadniurlopu + 1;
+                            liczbagodzinurlopu = liczbagodzinurlopu + p.getUrlopPlatny() + p.getOpiekadziecko();
+                        }
+                    }
+                }
                 //bierzemy globalne nalezne godziny
                 liczbagodzinobowiazku = naliczenieskladnikawynagrodzenia.getGodzinynalezne();
                 double skladnikistale = 0.0;
@@ -1127,7 +1142,10 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotaredukcji(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
-                pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
+                //dodane j.w. zmiana stawki w trakcie mca ja nie pasowalo to pokazywal zero na szaro na liscie co jest niepotrzebne
+                if (liczbadniurlopu>0) {
+                    pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
+                }
             }
         }
         List<Skladnikwynagrodzenia> listaskladnikowzmiennych = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();

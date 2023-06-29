@@ -321,13 +321,15 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     for (Dzien s : kalendarz.getDzienList()) {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
                         if (s.getKod() != null && s.getKod().equals("Z")) {
-                            if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                            //kiedys patrzylismy czy dzien byl roboczy, ale sa rone kalendarze polski i niemiecki, aby zachowac zgodnosc godzin wymiar i nanosic godizny w swieta
+                            //program sprawdza czy przepracowane 29.06.2023
+                            if (s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                                 dniroboczeprzepracowanezm++;
                                 dniroboczeprzepracowane++;
                                 godzinyobecnoscirobocze = godzinyobecnoscirobocze + s.getPrzepracowano();
                                 godzinyobecnosciroboczezm = godzinyobecnosciroboczezm + s.getPrzepracowano();
                             }
-                            if (s.getTypdnia() == 0 && s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                            if (s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                                 dniroboczeprzepracowanestat++;
                                 godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getPrzepracowano();
                             }
