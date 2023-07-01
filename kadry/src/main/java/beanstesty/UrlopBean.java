@@ -50,6 +50,7 @@ public class UrlopBean {
                 int[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz);
                 urlopprezentacja.setWymiarokresbiezacydni(obliczwymiarwgodzinach[0]);
                 urlopprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinach[1]);
+                urlopprezentacja.setWymiargeneralnydni(obliczwymiarwgodzinach[2]);
                 int wykorzystanierokbierzacydni  = (urlopprezentacja.getWykorzystanierokbiezacy()/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setWykorzystanierokbiezacydni(wykorzystanierokbierzacydni);
                 int doprzeniesienia = urlopprezentacja.getBilansotwarciagodziny()+urlopprezentacja.getWymiarokresbiezacygodziny()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
@@ -247,6 +248,7 @@ public class UrlopBean {
                 }
             }
             double nowywymiarwdniach =  Math.ceil(wymiarwdniach);
+            double wymiargeneralny = nowywymiarwdniach;
             double wymiargodzin = (nowywymiarwdniach*8);
             if (etat!=null) {
                 //to musi bo moze byc zatrudnienie nie od pocztaku roku i jest proporcja
@@ -255,7 +257,7 @@ public class UrlopBean {
                 }
                 wymiargodzin = (wymiarwdniach*8*etat.getEtat1()/etat.getEtat2());
             }
-        int[] zwrot = new int[]{(int)wymiarwdniach,(int)wymiargodzin};
+        int[] zwrot = new int[]{(int)wymiarwdniach,(int)wymiargodzin, (int)wymiargeneralny};
         return zwrot;
         //nie wiem co z tym etatem czy badac
     }

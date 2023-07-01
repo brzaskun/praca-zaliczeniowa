@@ -54,6 +54,8 @@ public class Nieobecnoscprezentacja implements Serializable {
     private int wymiarokresbiezacygodziny;
     @Column(name = "wymiarokresbiezacydni")
     private int wymiarokresbiezacydni;
+    @Column(name = "wymiargeneralnydni")
+    private int wymiargeneralnydni;
     @Column(name = "doprzeniesienia")
     private int doprzeniesienia;
     @Column(name = "doprzeniesieniadni")
@@ -130,6 +132,14 @@ public class Nieobecnoscprezentacja implements Serializable {
 
     public void setDoswiadectwadni(int doswiadectwadni) {
         this.doswiadectwadni = doswiadectwadni;
+    }
+
+    public int getWymiargeneralnydni() {
+        return wymiargeneralnydni;
+    }
+
+    public void setWymiargeneralnydni(int wymiargeneralnydni) {
+        this.wymiargeneralnydni = wymiargeneralnydni;
     }
 
   

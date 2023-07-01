@@ -5,6 +5,7 @@
  */
 package view;
 
+import beanstesty.UrlopBean;
 import comparator.Angazcomparator;
 import dao.AngazFacade;
 import dao.KalendarzmiesiacFacade;
@@ -14,11 +15,14 @@ import entity.Dzien;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
+import entity.Nieobecnoscprezentacja;
+import entity.Pracownik;
 import entity.SMTPSettings;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -52,6 +56,20 @@ public class UrlopyZestawienieView  implements Serializable {
     private void init() {
         listaurlopow = angazFacade.findByFirmaAktywni(wpisView.getFirma());
         if (listaurlopow!=null) {
+            for (Iterator<Angaz> it = listaurlopow.iterator(); it.hasNext();) {
+                Angaz angaz = it.next();
+                boolean jestumowaAktywna = angaz.jestumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                if (jestumowaAktywna==false) {
+                    it.remove();
+                } else {
+                    String stannadzien = data.Data.ostatniDzien(wpisView.getRokWpisu(),"12");
+                    String dataDlaEtatu = data.Data.ostatniDzien(wpisView.getRokWpisu(),wpisView.getMiesiacWpisu());
+                    Nieobecnoscprezentacja urlopprezentacja = UrlopBean.pobierzurlop(angaz, wpisView.getRokWpisu(), stannadzien, dataDlaEtatu);
+                    Pracownik pracownik = angaz.getPracownik();
+                    pracownik.setWymiarurlopu(urlopprezentacja.getWymiargeneralnydni());
+                    angazFacade.edit(angaz);
+                }
+            }
             Collections.sort(listaurlopow, new Angazcomparator());
             sumujUrlopy(listaurlopow);
         }
@@ -64,6 +82,7 @@ public class UrlopyZestawienieView  implements Serializable {
                 kalendarzmiesiacs = kalendarzmiesiacs.stream().filter(p -> p.getRok().equals(wpisView.getRokWpisu())).collect(Collectors.toList());
             }
             int sumadnirok = 0;
+            angaz.setM0(angaz.getBourlopdni());
             for (Kalendarzmiesiac kal : kalendarzmiesiacs) {
                 int sumadni = 0;
                 String mc = kal.getMc();
@@ -87,6 +106,8 @@ public class UrlopyZestawienieView  implements Serializable {
                 }
             }
             angaz.setM13(sumadnirok);
+            int wymiar = angaz.getPracownik().getWymiarurlopu();
+            angaz.setM14(wymiar - sumadnirok + angaz.getM0());
         }
     }
     

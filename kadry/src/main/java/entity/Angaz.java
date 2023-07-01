@@ -148,6 +148,8 @@ public class Angaz implements Serializable {
     @Column(name = "dataa1mail")
     private String  dataa1mail;
     @Transient
+    private int m0;
+    @Transient
     private int m1;
     @Transient
     private int m2;
@@ -173,6 +175,8 @@ public class Angaz implements Serializable {
     private int m12;
     @Transient
     private int m13;
+    @Transient
+    private int m14;
 
      
 
@@ -465,6 +469,14 @@ public class Angaz implements Serializable {
         this.dataa1 = dataa1;
     }
 
+    public int getM0() {
+        return m0;
+    }
+
+    public void setM0(int m0) {
+        this.m0 = m0;
+    }
+
     public int getM1() {
         return m1;
     }
@@ -567,6 +579,14 @@ public class Angaz implements Serializable {
 
     public void setM13(int m13) {
         this.m13 = m13;
+    }
+
+    public int getM14() {
+        return m14;
+    }
+
+    public void setM14(int m14) {
+        this.m14 = m14;
     }
     
     

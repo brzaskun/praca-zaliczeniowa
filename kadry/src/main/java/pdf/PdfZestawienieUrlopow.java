@@ -88,12 +88,14 @@ public class PdfZestawienieUrlopow {
     }
     
     private static PdfPTable generujTabele() {
-        PdfPTable table = new PdfPTable(15);
+        PdfPTable table = new PdfPTable(19);
         try {
-            table.setWidthPercentage(75);
-            table.setWidths(new int[]{1, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
+            table.setWidthPercentage(95);
+            table.setWidths(new int[]{1, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6});
             table.addCell(ustawfrazeAlign("lp", "center",8));
             table.addCell(ustawfrazeAlign("nazwisko i imię", "left",8));
+            table.addCell(ustawfrazeAlign("wym.", "center",8));
+            table.addCell(ustawfrazeAlign("r.p.", "center",8));
             table.addCell(ustawfrazeAlign("1", "center",8));
             table.addCell(ustawfrazeAlign("2", "center",8));
             table.addCell(ustawfrazeAlign("3", "center",8));
@@ -106,7 +108,9 @@ public class PdfZestawienieUrlopow {
             table.addCell(ustawfrazeAlign("10", "center",8));
             table.addCell(ustawfrazeAlign("11", "center",8));
             table.addCell(ustawfrazeAlign("12", "center",8));
-            table.addCell(ustawfrazeAlign("raz", "center",8));
+            table.addCell(ustawfrazeAlign("wyk.", "center",8));
+            table.addCell(ustawfrazeAlign("zos.", "center",8));
+            table.addCell(ustawfrazeAlign("nazwisko i imię", "left",8));
             table.setHeaderRows(1);
         } catch (DocumentException ex) {
         }
@@ -118,6 +122,8 @@ public class PdfZestawienieUrlopow {
         for (Angaz rs : lista) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "center",8,15f));
             table.addCell(ustawfrazeAlign(rs.getNazwiskoiImie(), "left",8,15f));
+            table.addCell(ustawfrazeAlignColor(rs.getPracownik().getWymiarurlopu(), "center",8,robcolor(rs.getPracownik().getWymiarurlopu())));
+            table.addCell(ustawfrazeAlignColor(rs.getM0(), "center",8,robcolor(rs.getM0())));
             table.addCell(ustawfrazeAlignColor(rs.getM1(), "center",8,robcolor(rs.getM1())));
             table.addCell(ustawfrazeAlignColor(rs.getM2(), "center",8,robcolor(rs.getM2())));
             table.addCell(ustawfrazeAlignColor(rs.getM3(), "center",8,robcolor(rs.getM3())));
@@ -131,6 +137,8 @@ public class PdfZestawienieUrlopow {
             table.addCell(ustawfrazeAlignColor(rs.getM11(), "center",8,robcolor(rs.getM11())));
             table.addCell(ustawfrazeAlignColor(rs.getM12(), "center",8,robcolor(rs.getM12())));
             table.addCell(ustawfrazeAlignColor(rs.getM13(), "center",8,robcolor(rs.getM13())));
+            table.addCell(ustawfrazeAlignColor(rs.getM14(), "center",8,"black"));
+            table.addCell(ustawfrazeAlign(rs.getNazwiskoiImie(), "left",8,15f));
         }
     }
     

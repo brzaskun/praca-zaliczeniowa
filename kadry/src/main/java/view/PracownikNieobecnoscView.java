@@ -159,6 +159,8 @@ public class PracownikNieobecnoscView  implements Serializable {
         if (wpisView.getPracownik()!=null) {
             String datado = Data.getRok(stannadzien)+"-12-31";
             urlopprezentacja = UrlopBean.pobierzurlop(angaz, wpisView.getRokWpisu(), datado, datado);
+            angaz.getPracownik().setWymiarurlopu(urlopprezentacja.getWymiarokresbiezacydni());
+            angazFacade.edit(angaz);
         }
     }
     public void pobierzoddelegowanie(Angaz angaz) {

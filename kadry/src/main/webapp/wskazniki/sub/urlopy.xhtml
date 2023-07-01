@@ -9,71 +9,83 @@
     >
     <h:form styleClass="formcentrum">
         
-        <p:panel  header="Urlopy zestawienie roczne"/> 
+        <p:panel  header="Urlopy zestawienie roczne. Stan na #{wpisView.rokWpisu}/#{wpisView.miesiacWpisu}. Tylko pracownicy z aktywną umową"/> 
         <p:outputPanel style="height: 800px;overflow-y: scroll;" id="pnlPrint1" > 
             <p:panelGrid columns="2">
             <p:commandButton value="Drukuj" styleClass="buttonnorm" icon="pi pi-print" actionListener="#{urlopyZestawienieView.drukuj()}">
 <!--                <p:printer target="datalist" />-->
             </p:commandButton>
-             <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{urlopyZestawienieView.mail()}" global="true">
-                            <p:confirm type="popup" header="Potwierdzenie" message="Wysłać zexstawienie do firmy?" icon="pi pi-exclamation-triangle"/>
+                <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{urlopyZestawienieView.mail()}" global="true" style="margin-left: 10px;">
+                            <p:confirm type="popup" header="Potwierdzenie" message="Wysłać zestawienie do firmy?" icon="pi pi-exclamation-triangle"/>
             </p:commandButton>
                 </p:panelGrid>
-            <p:panelGrid columns="4">
+            <p:panelGrid columns="3">
                 <h:outputText value="firma" style="color: green;"/>
                 <h:outputText value="#{wpisView.firma.nazwa}" style="color: green;"/>
                 <h:outputText value="rok #{wpisView.rokWpisu}"/>
+                <h:outputText value="Dane o wymiarze brane są z profilu pracownika. Program przy każdorazowym sporządzaniu tabeli aktualizuje dane. Brak dni może oznaczać brak etatu w danych pracownika"/>
             </p:panelGrid>
              <p:panelGrid columns="1" style="margin-top: 20px">
                  <p:dataTable id="datalist" value="#{urlopyZestawienieView.listaurlopow}" var="items"
                                  rowIndexVar="index"
                                  rowKey="#{items.nazwiskoiImie}" sortBy="#{items.nazwiskoiImie}"
-                                 style="width: 1140px;"
+                                 style="width: 1360px;"
                                  emptyMessage="nie pobrano danych"
                                  >
                      <p:column width="200" headerText="nazwisko i imię" style="text-align: left;" groupRow="true">
                             <h:outputText value="#{items.nazwiskoiImie}"/>
                         </p:column>
-                        <p:column width="40" headerText="01" style="text-align: center;">
+                        <p:column width="30" headerText="wymiar" style="text-align: center;">
+                            <h:outputText value="#{items.pracownik.wymiarurlopu}" style="color: #{items.pracownik.wymiarurlopu gt 0?'green':'gray'}"/>
+                        </p:column>
+                        <p:column width="30" headerText="rok. pop." style="text-align: center;">
+                            <h:outputText value="#{items.bourlopdni}" style="color: #{items.bourlopdni gt 0 ?'green':'gray'}"/>
+                        </p:column>
+                        <p:column width="30" headerText="01" style="text-align: center;">
                             <h:outputText value="#{items.m1}" style="color: #{items.m1 gt 0 ?'green':'gray'}"/>
                         </p:column>
-                        <p:column width="40" headerText="02" style="text-align: center;">
+                        <p:column width="30" headerText="02" style="text-align: center;">
                             <h:outputText value="#{items.m2}" style="color: #{items.m2 gt 0 ?'green':'gray'}"/>
                         </p:column>
-                     <p:column width="40" headerText="03" style="text-align: center;">
+                     <p:column width="30" headerText="03" style="text-align: center;">
                             <h:outputText value="#{items.m3}" style="color: #{items.m3 gt 0 ?'green':'gray'}"/>
                         </p:column>
-                     <p:column width="40" headerText="04" style="text-align: center;">
+                     <p:column width="30" headerText="04" style="text-align: center;">
                             <h:outputText value="#{items.m4}" style="color: #{items.m4 gt 0 ?'green':'gray'}"/>
                         </p:column>
-                     <p:column width="40" headerText="05" style="text-align: center;">
+                     <p:column width="30" headerText="05" style="text-align: center;">
                             <h:outputText value="#{items.m5}" style="color: #{items.m5 gt 0 ?'green':'gray'}"/>
                         </p:column>
-                     <p:column width="40" headerText="06" style="text-align: center;">
+                     <p:column width="30" headerText="06" style="text-align: center;">
                             <h:outputText value="#{items.m6}" style="color: #{items.m6 gt 0 ?'green':'gray'}"/>
                         </p:column>
-                     <p:column width="40" headerText="07" style="text-align: center;">
+                     <p:column width="30" headerText="07" style="text-align: center;">
                             <h:outputText value="#{items.m7}" style="color: #{items.m7 gt 0 ?'green':'gray'}"/>
                      </p:column>
-                     <p:column width="40" headerText="08" style="text-align: center;">
+                     <p:column width="30" headerText="08" style="text-align: center;">
                             <h:outputText value="#{items.m8}" style="color: #{items.m8 gt 0 ?'green':'gray'}"/>
                      </p:column>
-                     <p:column width="40" headerText="09" style="text-align: center;">
+                     <p:column width="30" headerText="09" style="text-align: center;">
                             <h:outputText value="#{items.m9}" style="color: #{items.m9 gt 0 ?'green':'gray'}"/>
                      </p:column>
-                     <p:column width="40" headerText="10" style="text-align: center;">
+                     <p:column width="30" headerText="10" style="text-align: center;">
                             <h:outputText value="#{items.m10}" style="color: #{items.m10 gt 0 ?'green':'gray'}"/>
                      </p:column>
-                     <p:column width="40" headerText="11" style="text-align: center;">
+                     <p:column width="30" headerText="11" style="text-align: center;">
                             <h:outputText value="#{items.m11}" style="color: #{items.m11 gt 0 ?'green':'gray'}"/>
                      </p:column>
-                     <p:column width="40" headerText="12" style="text-align: center;">
+                     <p:column width="30" headerText="12" style="text-align: center;">
                             <h:outputText value="#{items.m12}" style="color: #{items.m12 gt 0 ?'green':'gray'}"/>
                      </p:column>
-                     <p:column width="40" headerText="" style="text-align: center;">
+                     <p:column width="30" headerText="wyk." style="text-align: center;">
                          <h:outputText value="#{items.m13}" style="color: blue;"/>
                      </p:column>
-                      
+                      <p:column width="30" headerText="zost." style="text-align: center;">
+                         <h:outputText value="#{items.m14}" style="color: blue;"/>
+                     </p:column>
+                     <p:column width="200" headerText="nazwisko i imię" style="text-align: left;" groupRow="true">
+                            <h:outputText value="#{items.nazwiskoiImie}"/>
+                        </p:column>
                 </p:dataTable>
             </p:panelGrid>
             

@@ -165,6 +165,11 @@ public class NieobecnoscView  implements Serializable {
         String stannadzien = data.Data.ostatniDzien(wpisView.getRokWpisu(),"12");
         String dataDlaEtatu = data.Data.ostatniDzien(wpisView.getRokWpisu(),wpisView.getMiesiacWpisu());
         urlopprezentacja = UrlopBean.pobierzurlop(angaznowy, wpisView.getRokWpisu(), stannadzien, dataDlaEtatu);
+        Pracownik pracownik = angaznowy.getPracownik();
+        pracownik.setWymiarurlopu(urlopprezentacja.getWymiargeneralnydni());
+        angazFacade.edit(angaznowy);
+        wpisView.setAngaz(angaznowy);
+        wpisView.setPracownik(pracownik);
         //Collections.sort(listaabsencji, new Nieobecnoscikodzuscomparator());
     }
     
