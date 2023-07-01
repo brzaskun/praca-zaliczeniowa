@@ -54,9 +54,9 @@ public class DraView  implements Serializable {
     private DefinicjalistaplacFacade definicjalistaplacFacade;
      @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
-     @Inject
+    @Inject
     private NieobecnoscFacade nieobecnoscFacade;
-     @Inject
+    @Inject
     private SMTPSettingsFacade sMTPSettingsFacade;
      @Inject
     private WpisView wpisView;
