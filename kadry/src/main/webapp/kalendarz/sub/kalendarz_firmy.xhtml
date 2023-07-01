@@ -59,7 +59,7 @@
                 <p:panel header="Dni kalendarza wzorcowego">
                     <p:dataTable id="datalist" value="#{kalendarzwzorView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"  sortMode="single"
-                                 style="height: 450px; width: 600px; overflow-y: scroll;"
+                                 style="height: 450px; width: 650px; overflow-y: scroll;"
                                  emptyMessage="Brak zapisów"
                                  >
 
@@ -84,7 +84,7 @@
                         </p:column>
                         <p:column sortBy="#{itemkalendarz.datastring}" sortOrder="asc">
                             <f:facet name="header">
-                                <h:outputText value="typ dnia"/>
+                                <h:outputText value="opis dnia"/>
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.typdniaString}" style="color: #{itemkalendarz.typdniaCol}"/>
                         </p:column>
@@ -93,6 +93,12 @@
                                 <h:outputText value="typ dnia"/>
                             </f:facet>
                             <p:inputText value="#{itemkalendarz.typdnia}" size="6"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="roboczy oddel."/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{itemkalendarz.roboczyoddelegowanie}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">

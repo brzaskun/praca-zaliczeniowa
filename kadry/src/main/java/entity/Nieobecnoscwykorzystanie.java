@@ -193,7 +193,9 @@ public class Nieobecnoscwykorzystanie implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Nieobecnoscwykorzystanie[ id=" + id + " ]";
+        return "Nieobecnoscwykorzystanie{"+ ", kod=" + kod  + " dni=" + dni + ", godziny=" + godziny + ", mc=" + mc + ", data=" + data + ", etat1=" + etat1 + ", etat2=" + etat2 + ", opis=" + opis + '}';
     }
+
+   
     
 }

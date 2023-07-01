@@ -280,7 +280,11 @@ public class FirmaKadry implements Serializable {
     }
 
     public String getReprezentant() {
-        return reprezentant;
+        String zwrot = reprezentant;
+        if (zwrot==null) {
+            zwrot ="nie wprowadzono reprezentanta";
+        }
+        return zwrot;
     }
 
     public void setReprezentant(String reprezentant) {

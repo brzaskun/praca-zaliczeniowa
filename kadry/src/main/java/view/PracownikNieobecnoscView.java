@@ -318,21 +318,22 @@ public class PracownikNieobecnoscView  implements Serializable {
             ekw.setRok(rok);
             ekw.setMc(mc);
             ekw.setData(new Date());
-            if (godzinyekw>0) {
-                List<EtatPrac> etatlist = etatPracFacade.findByAngaz(wpisView.getAngaz());
-                wybranyetat = etatlist.get(0);
-                ekw.setEtat1(wybranyetat.getEtat1());
-                ekw.setEtat2(wybranyetat.getEtat2());
-                if (etatlist.size()>1) {
-                    for (EtatPrac e : etatlist) {
-                        if (DataBean.czysiemiesci(data, data, e.getDataod(), e.getDatado())) {
-                            wybranyetat = e;
-                            ekw.setEtat1(e.getEtat1());
-                            ekw.setEtat2(e.getEtat2());
-                            break;
-                        }
+            List<EtatPrac> etatlist = etatPracFacade.findByAngaz(wpisView.getAngaz());
+            wybranyetat = etatlist.get(0);
+            ekw.setEtat1(wybranyetat.getEtat1());
+            ekw.setEtat2(wybranyetat.getEtat2());
+            if (etatlist.size()>1) {
+                for (EtatPrac e : etatlist) {
+                    if (DataBean.czysiemiesci(data, data, e.getDataod(), e.getDatado())) {
+                        wybranyetat = e;
+                        ekw.setEtat1(e.getEtat1());
+                        ekw.setEtat2(e.getEtat2());
+                        break;
                     }
                 }
+            }
+            if (godzinyekw>0) {
+               
                 double dobowanormaczasupracy = (8.0*(((double)wybranyetat.getEtat1())/((double)wybranyetat.getEtat2())));
                 double dniekw = Z.z(godzinyekw/dobowanormaczasupracy);
                 for (Skladnikwynagrodzenia p : skladniki) {

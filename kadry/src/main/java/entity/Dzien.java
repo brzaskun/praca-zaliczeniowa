@@ -71,6 +71,8 @@ public class Dzien implements Serializable {
     //4ekwiwalentzaswieto
     @Column(name = "typdnia")
     private int typdnia;
+    @Column(name = "roboczyoddelegowanie")
+    private boolean roboczyoddelegowanie;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "normagodzin")
     private double normagodzin;
@@ -326,6 +328,14 @@ public class Dzien implements Serializable {
 
     public void setNrdnia(int nrdnia) {
         this.nrdnia = nrdnia;
+    }
+
+    public boolean isRoboczyoddelegowanie() {
+        return roboczyoddelegowanie;
+    }
+
+    public void setRoboczyoddelegowanie(boolean roboczyoddelegowanie) {
+        this.roboczyoddelegowanie = roboczyoddelegowanie;
     }
 
     public String getDatastring() {
