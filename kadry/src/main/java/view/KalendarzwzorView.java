@@ -204,8 +204,8 @@ public class KalendarzwzorView  implements Serializable {
         if (wpisView.getFirma()!=null && wpisView.getRokWpisu()!=null) {
             FirmaKadry firma = wpisView.getFirma();
             List<Kalendarzmiesiac> kalendarzepracownikow = kalendarzmiesiacFacade.findByFirmaRokMc(firma, selected.getRok(), selected.getMc());
+            Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firma, selected.getRok(), selected.getMc());
             for (Kalendarzmiesiac kal: kalendarzepracownikow) {
-                Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firma, selected.getRok(), selected.getMc());
                 kal.edytujdnizglobalnego(znaleziono);
                 dzienFacade.editList(kal.getDzienList());
                 kalendarzmiesiacFacade.edit(kal);

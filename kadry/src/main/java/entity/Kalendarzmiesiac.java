@@ -182,11 +182,13 @@ private static final long serialVersionUID = 1L;
         List<Dzien> dzienListwzor = kalendarzwzor.getDzienList();
         Collections.sort(dzienListwzor, new Dziencomparator());
         List<Dzien> dzienList = this.getDzienList();
-        Collections.sort(dzienList, new Dziencomparator());
-        for (int i = 0; i < dzienListwzor.size(); i++) {
-            Dzien dzien = dzienList.get(i);
-            Dzien dzienwzor = dzienListwzor.get(i);
-            dzien.nanieswzor(dzienwzor);
+        if (dzienList!=null&&dzienList.size()>0 && dzienList.size()==dzienListwzor.size()) {
+            Collections.sort(dzienList, new Dziencomparator());
+            for (int i = 0; i < dzienListwzor.size(); i++) {
+                Dzien dzien = dzienList.get(i);
+                Dzien dzienwzor = dzienListwzor.get(i);
+                dzien.nanieswzor(dzienwzor);
+            }
         }
     }
     
@@ -1095,9 +1097,15 @@ private static final long serialVersionUID = 1L;
                             dzienaktualny.setKod(kod);
                             nieobecnosc.setNaniesiona(true);
                         }
+                        if (dzienaktualny.isRoboczyoddelegowanie()&&dzienaktualny.getNormagodzinoddelegowanie()>0.0) {
+                            dzienaktualny.setPrzepracowano(dzienaktualny.getNormagodzinoddelegowanie());
+                        }
                     } else {
                         dzienaktualny.setKod(kod);
                         nieobecnosc.setNaniesiona(true);
+                        if (dzienaktualny.isRoboczyoddelegowanie()&&dzienaktualny.getNormagodzinoddelegowanie()>0.0) {
+                            dzienaktualny.setPrzepracowano(dzienaktualny.getNormagodzinoddelegowanie());
+                        }
                     }
                 } else if (kod.equals("D")) {
                     dzienaktualny.setKod(kod);

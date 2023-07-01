@@ -73,6 +73,8 @@ public class Dzien implements Serializable {
     private int typdnia;
     @Column(name = "roboczyoddelegowanie")
     private boolean roboczyoddelegowanie;
+    @Column(name = "normagodzinoddelegowanie")
+    private double normagodzinoddelegowanie;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "normagodzin")
     private double normagodzin;
@@ -370,6 +372,14 @@ public class Dzien implements Serializable {
         this.etat2 = etat2;
     }
 
+    public double getNormagodzinoddelegowanie() {
+        return normagodzinoddelegowanie;
+    }
+
+    public void setNormagodzinoddelegowanie(double normagodzinoddelegowanie) {
+        this.normagodzinoddelegowanie = normagodzinoddelegowanie;
+    }
+
 
     
 
@@ -575,6 +585,10 @@ public class Dzien implements Serializable {
         this.typdnia = dzienwzor.typdnia;
         this.normagodzin = dzienwzor.normagodzin;
         this.przepracowano = dzienwzor.normagodzin;
+        if (dzienwzor.roboczyoddelegowanie) {
+            this.roboczyoddelegowanie = dzienwzor.roboczyoddelegowanie;
+            this.normagodzinoddelegowanie = dzienwzor.normagodzinoddelegowanie;
+        }
         if (dzienwzor.getKod()!=null&&!dzienwzor.getKod().equals("")) {
             this.kod = dzienwzor.kod;
         }

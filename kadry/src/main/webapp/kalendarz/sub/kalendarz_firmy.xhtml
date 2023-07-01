@@ -59,7 +59,7 @@
                 <p:panel header="Dni kalendarza wzorcowego">
                     <p:dataTable id="datalist" value="#{kalendarzwzorView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"  sortMode="single"
-                                 style="height: 450px; width: 650px; overflow-y: scroll;"
+                                 style="height: 450px; width: 630px; overflow-y: scroll;"
                                  emptyMessage="Brak zapisów"
                                  >
 
@@ -76,7 +76,7 @@
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.nrdnia}"/>
                         </p:column>
-                        <p:column width="60" style="text-align: center;"  sortBy="#{itemkalendarz.datastring}" sortOrder="asc">
+                        <p:column width="70" style="text-align: center;"  sortBy="#{itemkalendarz.datastring}" sortOrder="asc">
                             <f:facet name="header">
                                 <h:outputText value="nr kolejny w roku"/>
                             </f:facet>
@@ -96,22 +96,23 @@
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="roboczy oddel."/>
-                            </f:facet>
-                            <p:selectBooleanCheckbox value="#{itemkalendarz.roboczyoddelegowanie}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
                                 <h:outputText value="norma godzin"/>
                             </f:facet>
                             <p:inputText value="#{itemkalendarz.normagodzin}" size="4" />
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="kod"/>
+                                <h:outputText value="roboczy oddel."/>
                             </f:facet>
-                            <h:inputText size="3"  value="#{itemkalendarz.kod}"/>
+                            <p:selectBooleanCheckbox value="#{itemkalendarz.roboczyoddelegowanie}"/>
                         </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="norma oddeleg."/>
+                            </f:facet>
+                            <p:inputText value="#{itemkalendarz.normagodzinoddelegowanie}" size="4" />
+                        </p:column>
+                       
 <!--                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="przepracowano}"/>
@@ -169,8 +170,6 @@
                     <h:outputText value="2 niedziela"/>
                     <h:outputText value="3 swieto"/>
                     <h:outputText value="4 ekwiwalent"/>
-                    <h:outputText value=""/>
-                    <h:outputText value="kod 777 oddelegowanie"/>
                     </p:panelGrid>
                 </p:outputPanel>
             </p:panelGrid>
