@@ -11,9 +11,14 @@
         
         <p:panel  header="Urlopy zestawienie roczne"/> 
         <p:outputPanel style="height: 800px;overflow-y: scroll;" id="pnlPrint1" > 
-            <p:commandButton value="Drukuj" type="button" icon="pi pi-print" styleClass="shadow-1 mb-3">
-                <p:printer target="datalist" />
+            <p:panelGrid columns="2">
+            <p:commandButton value="Drukuj" styleClass="buttonnorm" icon="pi pi-print" actionListener="#{urlopyZestawienieView.drukuj()}">
+<!--                <p:printer target="datalist" />-->
             </p:commandButton>
+             <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{urlopyZestawienieView.mail()}" global="true">
+                            <p:confirm type="popup" header="Potwierdzenie" message="Wysłać zexstawienie do firmy?" icon="pi pi-exclamation-triangle"/>
+            </p:commandButton>
+                </p:panelGrid>
             <p:panelGrid columns="4">
                 <h:outputText value="firma" style="color: green;"/>
                 <h:outputText value="#{wpisView.firma.nazwa}" style="color: green;"/>

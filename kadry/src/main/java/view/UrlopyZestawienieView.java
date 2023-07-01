@@ -8,11 +8,14 @@ package view;
 import comparator.Angazcomparator;
 import dao.AngazFacade;
 import dao.KalendarzmiesiacFacade;
+import dao.SMTPSettingsFacade;
 import entity.Angaz;
 import entity.Dzien;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
+import entity.SMTPSettings;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -22,6 +25,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import msg.Msg;
+import pdf.PdfZestawienieUrlopow;
 
 /**
  *
@@ -37,6 +42,8 @@ public class UrlopyZestawienieView  implements Serializable {
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     private List<Angaz> listaurlopow;
     private List<Angaz> listaeast2;
+    @Inject
+    private SMTPSettingsFacade sMTPSettingsFacade;
     @Inject
     private AngazFacade angazFacade;
 
@@ -82,6 +89,25 @@ public class UrlopyZestawienieView  implements Serializable {
             angaz.setM13(sumadnirok);
         }
     }
+    
+    public void drukuj() {
+        if (listaurlopow!=null&&listaurlopow.size()>0) {
+            PdfZestawienieUrlopow.drukuj(listaurlopow, wpisView.getFirma(), wpisView.getRokWpisu());
+        }
+    }
+    
+     public void mail() {
+         ByteArrayOutputStream dra =  PdfZestawienieUrlopow.drukujmail(listaurlopow, wpisView.getFirma(), wpisView.getRokWpisu());
+        if (dra != null) {
+            SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+            String nazwa = wpisView.getFirma().getNip() + "urlopyZest" + wpisView.getRokWpisu() + ".pdf";
+            mail.Mail.mailUrlopy(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), "info@taxman.biz.pl", null, findSprawaByDef, dra.toByteArray(), nazwa, wpisView.getUzer().getEmail());
+            Msg.msg("Wysłano listę płac do pracodawcy");
+        } else {
+            Msg.msg("e", "Błąd dwysyki DRA");
+        }
+    }
+    
     
     public void aktywujPracAngaze(FirmaKadry firma) {
         if (firma!=null) {
