@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <h:form styleClass="formcentrum">
+        
+        <p:panel  header="Urlopy zestawienie roczne"/> 
+        <p:outputPanel style="height: 800px;overflow-y: scroll;" id="pnlPrint1" > 
+            <p:commandButton value="Drukuj" type="button" icon="pi pi-print" styleClass="shadow-1 mb-3">
+                <p:printer target="datalist" />
+            </p:commandButton>
+            <p:panelGrid columns="4">
+                <h:outputText value="firma" style="color: green;"/>
+                <h:outputText value="#{wpisView.firma.nazwa}" style="color: green;"/>
+                <h:outputText value="rok #{wpisView.rokWpisu}"/>
+            </p:panelGrid>
+             <p:panelGrid columns="1" style="margin-top: 20px">
+                 <p:dataTable id="datalist" value="#{urlopyZestawienieView.listaurlopow}" var="items"
+                                 rowIndexVar="index"
+                                 rowKey="#{items.nazwiskoiImie}" sortBy="#{items.nazwiskoiImie}"
+                                 style="width: 1140px;"
+                                 emptyMessage="nie pobrano danych"
+                                 >
+                     <p:column width="200" headerText="nazwisko i imię" style="text-align: left;" groupRow="true">
+                            <h:outputText value="#{items.nazwiskoiImie}"/>
+                        </p:column>
+                        <p:column width="40" headerText="01" style="text-align: center;">
+                            <h:outputText value="#{items.m1}" style="color: #{items.m1 gt 0 ?'green':'gray'}"/>
+                        </p:column>
+                        <p:column width="40" headerText="02" style="text-align: center;">
+                            <h:outputText value="#{items.m2}" style="color: #{items.m2 gt 0 ?'green':'gray'}"/>
+                        </p:column>
+                     <p:column width="40" headerText="03" style="text-align: center;">
+                            <h:outputText value="#{items.m3}" style="color: #{items.m3 gt 0 ?'green':'gray'}"/>
+                        </p:column>
+                     <p:column width="40" headerText="04" style="text-align: center;">
+                            <h:outputText value="#{items.m4}" style="color: #{items.m4 gt 0 ?'green':'gray'}"/>
+                        </p:column>
+                     <p:column width="40" headerText="05" style="text-align: center;">
+                            <h:outputText value="#{items.m5}" style="color: #{items.m5 gt 0 ?'green':'gray'}"/>
+                        </p:column>
+                     <p:column width="40" headerText="06" style="text-align: center;">
+                            <h:outputText value="#{items.m6}" style="color: #{items.m6 gt 0 ?'green':'gray'}"/>
+                        </p:column>
+                     <p:column width="40" headerText="07" style="text-align: center;">
+                            <h:outputText value="#{items.m7}" style="color: #{items.m7 gt 0 ?'green':'gray'}"/>
+                     </p:column>
+                     <p:column width="40" headerText="08" style="text-align: center;">
+                            <h:outputText value="#{items.m8}" style="color: #{items.m8 gt 0 ?'green':'gray'}"/>
+                     </p:column>
+                     <p:column width="40" headerText="09" style="text-align: center;">
+                            <h:outputText value="#{items.m9}" style="color: #{items.m9 gt 0 ?'green':'gray'}"/>
+                     </p:column>
+                     <p:column width="40" headerText="10" style="text-align: center;">
+                            <h:outputText value="#{items.m10}" style="color: #{items.m10 gt 0 ?'green':'gray'}"/>
+                     </p:column>
+                     <p:column width="40" headerText="11" style="text-align: center;">
+                            <h:outputText value="#{items.m11}" style="color: #{items.m11 gt 0 ?'green':'gray'}"/>
+                     </p:column>
+                     <p:column width="40" headerText="12" style="text-align: center;">
+                            <h:outputText value="#{items.m12}" style="color: #{items.m12 gt 0 ?'green':'gray'}"/>
+                     </p:column>
+                     <p:column width="40" headerText="" style="text-align: center;">
+                         <h:outputText value="#{items.m13}" style="color: blue;"/>
+                     </p:column>
+                      
+                </p:dataTable>
+            </p:panelGrid>
+            
+            
+        </p:outputPanel>
+    </h:form><!-- comment -->
+
+</ui:composition>   
+

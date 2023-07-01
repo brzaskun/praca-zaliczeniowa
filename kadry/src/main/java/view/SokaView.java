@@ -126,26 +126,7 @@ public class SokaView  implements Serializable {
 
     public void aktywujPracAngaze(FirmaKadry firma) {
         if (firma!=null) {
-            wpisView.setFirma(firma);
-            if (firma.getAngazList()==null||firma.getAngazList().isEmpty()) {
-                wpisView.setPracownik(null);
-                wpisView.setAngaz(null);
-                wpisView.setUmowa(null);
-            } else {
-                Angaz angaz = firma.getAngazList().get(0);
-                wpisView.setPracownik(angaz.getPracownik());
-                wpisView.setAngaz(angaz);
-                List<Umowa> umowy = angaz.getUmowaList();
-                if (umowy!=null && umowy.size()==1) {
-                    wpisView.setUmowa(umowy.get(0));
-                } else if (umowy!=null) {
-                    try {
-                        wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
-                    } catch (Exception e){}
-                }
-            }
-            init();
-            Msg.msg("Aktywowano firmę "+firma.getNazwa());
+           init();
         }
     }
     

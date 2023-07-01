@@ -17,6 +17,7 @@
                              >
                     <p:ajax event="rowSelect" listener="#{wskaznikPfronView.aktywujPracAngaze(firmaView.selectedeast)}" partialSubmit="true" global="false" />
                     <p:ajax event="rowSelect" listener="#{sokaView.aktywujPracAngaze(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north,@(.formcentrum),@(.formumowaprac)"/>
+                    <p:ajax event="rowSelect" listener="#{urlopyZestawienieView.aktywujPracAngaze(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north,@(.formcentrum),@(.formumowaprac)"/>
                     <p:column sortBy="#{item1.nazwa}" sortOrder="asc" filterBy="#{item1.nazwa}" filterMatchMode="contains">
                         <h:outputText value="#{item1.nazwa}"/>
                     </p:column>
