@@ -332,6 +332,7 @@ public class NieobecnoscView  implements Serializable {
                     selectedCH.setDatado(datadoCH);
                     selectedCH.setRodzajnieobecnosci(nieobecnoscCH);
                     selectedCH.setSwiadczeniekodzus(nieobecnoscCH.getSwiadczeniekodzusList().stream().filter(pr->pr.getKod().equals("331")).findFirst().get());
+                    selectedCH.setDatadodania(new Date());
                     nieobecnoscFacade.create(selectedCH);
                     lista.add(selectedCH);
                     Angaz angaznowy = angazFacade.findById(wpisView.getAngaz());
@@ -376,6 +377,7 @@ public class NieobecnoscView  implements Serializable {
                   LocalDate dodata = LocalDate.parse(selected.getDatado());
                   double iloscdni = DAYS.between(oddata,dodata);
                   selected.setDnikalendarzowe(iloscdni+1.0);
+                  selected.setDatadodania(new Date());
                   nieobecnoscFacade.create(selected);
                   lista.add(selected);
                   String stannadzien = data.Data.ostatniDzien(wpisView);
@@ -394,6 +396,7 @@ public class NieobecnoscView  implements Serializable {
                   LocalDate dodata = LocalDate.parse(selected.getDatado());
                   double iloscdni = DAYS.between(oddata,dodata);
                   selected.setDnikalendarzowe(iloscdni+1.0);
+                  selected.setDatadodania(new Date());
                   nieobecnoscFacade.edit(selected);
                   wygenerowano = true;
                   Msg.msg("Edytowano nieobecność");

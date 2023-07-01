@@ -76,6 +76,12 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
             entity.setOpiekadziecko(Z.z(entity.getOpiekadziecko()+p.getOpiekadziecko()));
             entity.setMacierzynski(Z.z(entity.getMacierzynski()+p.getMacierzynski()));
             entity.setWychowawczy(Z.z(entity.getWychowawczy()+p.getWychowawczy()));
+            if (p.getNormagodzinoddelegowanie()==0) {
+                p.setRoboczyoddelegowanie(false);
+            } else if (p.getNormagodzinoddelegowanie()>0) {
+                p.setRoboczyoddelegowanie(true);
+            }
+            
             //ten kod jest w wiekszosci pusty dlatego trzeba zrobic dwa rozwiazania
             if (p.getKod()!=null&&p.getKod().equals("Z")) {
                 entity.setDnioddelegowania(Z.z(entity.getDnioddelegowania()+1));

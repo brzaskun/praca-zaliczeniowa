@@ -236,7 +236,14 @@
                             <f:facet name="header">
                                 <h:outputText value="norma oddel."/>
                             </f:facet>
-                            <h:outputText value="#{itemkalendarz.normagodzinoddelegowanie}" rendered="#{itemkalendarz.normagodzinoddelegowanie gt 0}"/>
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{itemkalendarz.normagodzinoddelegowanie}" style="#{itemkalendarz.normagodzinoddelegowanie eq 0 ? 'color: gray':''}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{itemkalendarz.normagodzinoddelegowanie}"/>
+                                </f:facet>
+                            </p:cellEditor>
                             
                         </p:column>
                     <p:column style="text-align: center;" width="70">
