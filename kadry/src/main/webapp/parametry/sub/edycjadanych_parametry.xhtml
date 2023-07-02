@@ -1033,6 +1033,21 @@
                     </p:dataTable>`
                 </h:form>
             </p:tab>
+             <p:tab title="Zmiana hasła">
+                <h:form id="Haslo">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="nowe hasło:"/>
+                        <p:inputText value="#{hasloView.}"/>
+                        <p:outputLabel value="mc od"/>
+                        <p:inputText value="#{swiadectwoschemaView.selected.mc}"/>
+                        <p:outputLabel value="nazwa schemy"/>
+                        <p:inputText value="#{swiadectwoschemaView.selected.nazwaschemy}"/>
+                        <p:panelGrid columns="1">
+                            <p:commandButton value="zmień" styleClass="buttonnorm" actionListener="#{swiadectwoschemaView.dodajrok()}" update="akordeon:Swiadectwo" />
+                        </p:panelGrid>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
         </p:tabView>
     </p:outputPanel>
 </ui:composition>
