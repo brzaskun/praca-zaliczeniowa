@@ -18,6 +18,7 @@ import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -143,6 +144,8 @@ public class ZmienneZbiorczoView implements Serializable {
              for (ZmiennaZbiorcze p : pracownikzmienna) {
                 if (p.getZmienna().getKwota()>0.0) {
                     try {
+                        p.getZmienna().setDatadodania(new Date());
+                        p.getZmienna().setUtworzyl(wpisView.getUzer().getImieNazwisko());
                         zmiennaWynagrodzeniaFacade.create(p.getZmienna());
                         if (p.getOstatniazmienna()!=null) {
                             zmiennaWynagrodzeniaFacade.edit(p.getOstatniazmienna());

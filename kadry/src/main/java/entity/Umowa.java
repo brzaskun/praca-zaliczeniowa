@@ -220,7 +220,7 @@ public class Umowa implements Serializable {
     private Zmiennawynagrodzenia zmiennawynagrodzenia;
     @Transient
     private  boolean netto0brutto1;
-     @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "datadodania")
     private Date datadodania;
     @Column(name = "utworzyl")
@@ -290,6 +290,21 @@ public class Umowa implements Serializable {
         this.klauzulaminimalnewyn = stara.klauzulaminimalnewyn;
    }
     
+    public String getRokSt() {
+        String zwrot = "";
+        if (this.datadodania!=null) {
+            zwrot = Data.getRok(Data.data_yyyyMMdd(this.datadodania));
+        }
+        return zwrot;
+    }
+    
+    public String getMcSt() {
+        String zwrot = "";
+        if (this.datadodania!=null) {
+            zwrot = Data.getMc(Data.data_yyyyMMdd(this.datadodania));
+        }
+        return zwrot;
+    }
     
     public Integer getId() {
         return id;

@@ -401,6 +401,8 @@ public class UmowaBean {
             zmiennawynagrodzenia.setDatado(umowa.getDatado());
         }
         try {
+            zmiennawynagrodzenia.setDatadodania(new Date());
+            zmiennawynagrodzenia.setUtworzyl(umowa.getUtworzyl());
             zmiennaWynagrodzeniaFacade.create(zmiennawynagrodzenia);
         } catch (Exception e) {
         }

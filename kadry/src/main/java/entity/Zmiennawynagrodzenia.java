@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
@@ -84,6 +87,11 @@ public class Zmiennawynagrodzenia implements Serializable {
     private  int nrkolejnyzmiennej;
     @Transient
     private double nowakwota;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "datadodania")
+    private Date datadodania;
+    @Column(name = "utworzyl")
+    private String utworzyl;
 
 
     public Zmiennawynagrodzenia() {
@@ -178,6 +186,22 @@ public class Zmiennawynagrodzenia implements Serializable {
     @Override
     public String toString() {
         return "Zmiennawynagrodzenia{" + "datado=" + datado + ", dataod=" + dataod + ", nazwa=" + nazwa + ", waluta=" + waluta + ", netto0brutto1=" + netto0brutto1 + ", skladnikwynagrodzenia=" + skladnikwynagrodzenia.getRodzajwynagrodzenia().getOpisskrocony() + ", kwota=" + kwota + ", aktywna=" + aktywna + '}';
+    }
+
+    public Date getDatadodania() {
+        return datadodania;
+    }
+
+    public void setDatadodania(Date datadodania) {
+        this.datadodania = datadodania;
+    }
+
+    public String getUtworzyl() {
+        return utworzyl;
+    }
+
+    public void setUtworzyl(String utworzyl) {
+        this.utworzyl = utworzyl;
     }
 
   

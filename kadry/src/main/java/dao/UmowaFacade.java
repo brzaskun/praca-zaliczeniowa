@@ -54,6 +54,7 @@ public class UmowaFacade extends DAO  implements Serializable {
         return zwrot;
     }
     
+
     public Umowa findPracownikAktywna(Pracownik pracownik) {
         Umowa zwrot = null;
         try {

@@ -22,6 +22,7 @@ import entity.Zmiennawynagrodzenia;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -236,6 +237,8 @@ public class PracownikAneksyView  implements Serializable {
                     nowazmienna.setAktywna(true);
                     nowazmienna.setAneks(true);
                     nowazmienna.setNetto0brutto1(p.isNetto0brutto1());
+                    nowazmienna.setDatadodania(new Date());
+                    nowazmienna.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                     zmiennaWynagrodzeniaFacade.create(nowazmienna);
                     zmienna.setAktywna(false);
                     zmienna.setDatado(Data.odejmijdni(odkiedyzmiana,1));

@@ -10,6 +10,7 @@ import dao.ZmiennaPotraceniaFacade;
 import entity.Skladnikpotracenia;
 import entity.Zmiennapotracenia;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -66,6 +67,8 @@ public class ZmiennaPotraceniaView  implements Serializable {
       if (selected!=null && selected.getSkladnikpotracenia()!=null) {
           try {
             if (selected.getId()==null&&selected.getDataod()!=null&&!selected.getDataod().equals("")) {
+                selected.setDatadodania(new Date());
+                selected.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                 zmiennaPotraceniaFacade.create(selected);
                 lista.add(new Zmiennapotracenia(selected.getSkladnikpotracenia()));
                 Msg.msg("Edytowano potrącenie");
@@ -84,6 +87,8 @@ public class ZmiennaPotraceniaView  implements Serializable {
       if (selected!=null && selected.getSkladnikpotracenia()!=null) {
           try {
             if (selected.getId()!=null) {
+                selected.setDatadodania(new Date());
+                selected.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                 zmiennaPotraceniaFacade.edit(selected);
                 lista.add(selected);
                 Msg.msg("Edytowano potrącenie");

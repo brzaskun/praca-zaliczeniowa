@@ -5,6 +5,7 @@
  */
 package entity;
 
+import data.Data;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -49,7 +50,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rozwiazanieumowy.findByTrybnatychmiastowy", query = "SELECT r FROM Rozwiazanieumowy r WHERE r.trybnatychmiastowy = :trybnatychmiastowy"),
     @NamedQuery(name = "Rozwiazanieumowy.findByZwolnieniezpracy", query = "SELECT r FROM Rozwiazanieumowy r WHERE r.zwolnieniezpracy = :zwolnieniezpracy"),
     @NamedQuery(name = "Rozwiazanieumowy.findBySkroceneiokresuwyp", query = "SELECT r FROM Rozwiazanieumowy r WHERE r.skroceneiokresuwyp = :skroceneiokresuwyp"),
-    @NamedQuery(name = "Rozwiazanieumowy.findByData", query = "SELECT r FROM Rozwiazanieumowy r WHERE r.data = :data"),
+    @NamedQuery(name = "Rozwiazanieumowy.findByData", query = "SELECT r FROM Rozwiazanieumowy r WHERE r.datadodania = :data"),
     @NamedQuery(name = "Rozwiazanieumowy.findByPracownikotrzymal", query = "SELECT r FROM Rozwiazanieumowy r WHERE r.pracownikotrzymal = :pracownikotrzymal")})
 public class Rozwiazanieumowy implements Serializable {
 
@@ -105,14 +106,16 @@ public class Rozwiazanieumowy implements Serializable {
     private boolean zwolnieniezpracy;
     @Column(name = "skroceneiokresuwyp")
     private boolean skroceneiokresuwyp;
-    @Column(name = "data")
+    @Column(name = "datadodania")
     @Temporal(TemporalType.DATE)
-    private Date data;
+    private Date datadodania;
     @Size(max = 10)
     @Column(name = "pracownikotrzymal")
     private String pracownikotrzymal;
     @Column(name = "sposobwypowiedzenia")
     private String sposobwypowiedzenia;
+    @Column(name = "utworzyl")
+    private String utworzyl;
 
 
     public Rozwiazanieumowy() {
@@ -125,6 +128,22 @@ public class Rozwiazanieumowy implements Serializable {
     public Rozwiazanieumowy(Integer id, Umowa umowa) {
         this.id = id;
         this.umowa = umowa;
+    }
+    
+     public String getRokSt() {
+        String zwrot = "";
+        if (this.datadodania!=null) {
+            zwrot = Data.getRok(Data.data_yyyyMMdd(this.datadodania));
+        }
+        return zwrot;
+    }
+    
+    public String getMcSt() {
+        String zwrot = "";
+        if (this.datadodania!=null) {
+            zwrot = Data.getMc(Data.data_yyyyMMdd(this.datadodania));
+        }
+        return zwrot;
     }
 
     public Integer getId() {
@@ -141,6 +160,18 @@ public class Rozwiazanieumowy implements Serializable {
 
     public void setUmowa(Umowa umowa) {
         this.umowa = umowa;
+    }
+
+    public String getUtworzyl() {
+        String zwrot = "brak";
+        if (this.utworzyl!=null) {
+            zwrot = this.utworzyl;
+        }
+        return zwrot;
+    }
+
+    public void setUtworzyl(String utworzyl) {
+        this.utworzyl = utworzyl;
     }
 
     public Slownikwypowiedzenieumowy getSlownikwypowiedzenieumowy() {
@@ -263,12 +294,12 @@ public class Rozwiazanieumowy implements Serializable {
         this.skroceneiokresuwyp = skroceneiokresuwyp;
     }
 
-    public Date getData() {
-        return data;
+    public Date getDatadodania() {
+        return datadodania;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDatadodania(Date datadodania) {
+        this.datadodania = datadodania;
     }
 
     public String getPracownikotrzymal() {

@@ -268,6 +268,8 @@ public class PracownikEkwiwalentView  implements Serializable {
             zmienna.setNrkolejnyzmiennej(1);
             zmienna.setKwota(ekwiwalent.getKwota());
             zmienna.setNetto0brutto1(true);
+            zmienna.setDatadodania(new Date());
+            zmienna.setUtworzyl(wpisView.getUzer().getImieNazwisko());
             zmiennaWynagrodzeniaFacade.create(zmienna);
             Msg.msg("Utworzono zmienna Ekwiwalent za urlop");
         } catch (Exception e ) {

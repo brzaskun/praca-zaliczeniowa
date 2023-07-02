@@ -362,7 +362,8 @@ public class UmowaView implements Serializable {
                         }
                     }
                 }
-                
+                selected.setDatadodania(new Date());
+                selected.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                 umowaFacade.create(selected);
                 for (Umowa p : listaumowa) {
                     p.setAktywna(false);

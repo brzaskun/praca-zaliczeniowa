@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -69,6 +72,11 @@ public class Zmiennapotracenia implements Serializable {
     private  boolean aktywna;
      @Column(name = "maxustawowy")
     private  boolean maxustawowy;
+     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "datadodania")
+    private Date datadodania;
+    @Column(name = "utworzyl")
+    private String utworzyl;
 
 
     public Zmiennapotracenia() {
@@ -81,6 +89,23 @@ public class Zmiennapotracenia implements Serializable {
      public Zmiennapotracenia(Skladnikpotracenia skladnikpotracenia) {
         this.skladnikpotracenia = skladnikpotracenia;
     }
+
+    public Date getDatadodania() {
+        return datadodania;
+    }
+
+    public void setDatadodania(Date datadodania) {
+        this.datadodania = datadodania;
+    }
+
+    public String getUtworzyl() {
+        return utworzyl;
+    }
+
+    public void setUtworzyl(String utworzyl) {
+        this.utworzyl = utworzyl;
+    }
+     
 
     public Integer getId() {
         return id;

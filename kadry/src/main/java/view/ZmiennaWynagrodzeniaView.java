@@ -13,6 +13,7 @@ import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -74,6 +75,8 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
                     if (lista != null && lista.size() > 0) {
                         zakonczokrespoprzedni(lista, selected);
                     }
+                    selected.setDatadodania(new Date());
+                    selected.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                     zmiennaWynagrodzeniaFacade.create(selected);
                     lista.add(new Zmiennawynagrodzenia(skladnikwynagrodzenia));
                     Msg.msg("Dodano zmienną wyn");

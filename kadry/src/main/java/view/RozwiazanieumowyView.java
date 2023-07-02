@@ -190,7 +190,8 @@ public class RozwiazanieumowyView  implements Serializable {
     
     public void dodajnowy() {
         if (wybranaumowa!=null && wybranaumowa.getRozwiazanieumowy()==null) {
-            rozwiazanieUmowyNowe.setData(new Date());
+            rozwiazanieUmowyNowe.setDatadodania(new Date());
+            rozwiazanieUmowyNowe.setUtworzyl(wpisView.getUzer().getImieNazwisko());
             rozwiazanieumowyFacade.create(rozwiazanieUmowyNowe);
             lista.add(rozwiazanieUmowyNowe);
             wybranaumowa.setRozwiazanieumowy(rozwiazanieUmowyNowe);
@@ -209,7 +210,8 @@ public class RozwiazanieumowyView  implements Serializable {
             }
         } else if (rozwiazanieUmowyNowe.getId()!=null) {
             Angaz angaz = angazFacade.findById(wpisView.getAngaz());
-            rozwiazanieUmowyNowe.setData(new Date());
+            rozwiazanieUmowyNowe.setDatadodania(new Date());
+            rozwiazanieUmowyNowe.setUtworzyl(wpisView.getUzer().getImieNazwisko());
             rozwiazanieumowyFacade.edit(rozwiazanieUmowyNowe);
             zamknijskladniki(angaz, rozwiazanieUmowyNowe.getDatauplywuokresuwyp());
             angazFacade.edit(angaz);
