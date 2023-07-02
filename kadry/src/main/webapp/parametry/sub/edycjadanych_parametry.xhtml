@@ -1035,16 +1035,18 @@
             </p:tab>
              <p:tab title="Zmiana hasła">
                 <h:form id="Haslo">
+                    <p:outputPanel style="padding: 10px;">
+                        <h:outputText value="Wprowadź nowe hasło. Hasło powinno mnieć przynajmniej 8 znaków" style="color: green;"/>
+                    </p:outputPanel>
                     <p:panelGrid columns="2">
                         <p:outputLabel value="nowe hasło:"/>
-                        <p:inputText value="#{hasloView.}"/>
-                        <p:outputLabel value="mc od"/>
-                        <p:inputText value="#{swiadectwoschemaView.selected.mc}"/>
-                        <p:outputLabel value="nazwa schemy"/>
-                        <p:inputText value="#{swiadectwoschemaView.selected.nazwaschemy}"/>
+                        <p:inputText value="#{hasloView.nowehaslo}"/>
+                        <p:outputLabel value="powtórz hasło"/>
+                        <p:inputText value="#{hasloView.nowehaslo2}"/>
                         <p:panelGrid columns="1">
-                            <p:commandButton value="zmień" styleClass="buttonnorm" actionListener="#{swiadectwoschemaView.dodajrok()}" update="akordeon:Swiadectwo" />
+                            <p:commandButton value="zmień" styleClass="buttonnorm" actionListener="#{hasloView.zmianaHaslaUz()}" update="akordeon:Haslo" />
                         </p:panelGrid>
+                        <p:messages />
                     </p:panelGrid>
                 </h:form>
             </p:tab>

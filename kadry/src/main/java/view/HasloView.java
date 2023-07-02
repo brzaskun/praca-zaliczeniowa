@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import mail.Mail;
 import msg.Msg;
 
 /**
@@ -37,24 +36,24 @@ public class HasloView implements Serializable {
     
      public void zmianaHaslaUz() {
         if (nowehaslo2.equals(nowehaslo)) {
-            if (!"".equals(nowehaslo) && nowehaslo.length()<6) {
-                Msg.msg("e", "Minimalna długość hasła to 6 znaków. Krótkie hasło nie może zostać zaakceptowane. Dane nie zostały zmienione");
+            if (!"".equals(nowehaslo) && nowehaslo.length()<8) {
+                Msg.msg("e", "Minimalna długość hasła to 8 znaków. Krótkie hasło nie może zostać zaakceptowane. Hasło nie zostało zmienione");
             } else {
                 try {
                     Uz uzer = wpisView.getUzer();
                     uzer.setHaslo(haszuj(nowehaslo));
                     uzFacade.edit(uzer);
                     wpisView.setUzer(uzer);
-                    Msg.msg("Udana zmiana hasła/adresu email");
+                    Msg.msg("Udana zmiana hasła");
                     nowehaslo = null;
                     nowehaslo2 = null;
                 } catch (Exception e) { 
                     E.e(e); 
-                    Msg.msg("e", "Wystąpił błąd. Nastąpiła nieudana zmiana hasła/adresu email.");
+                    Msg.msg("e", "Wystąpił błąd. Nastąpiła nieudana zmiana hasła.");
                 }
             }
         } else {
-            Msg.msg("Dane nie zostały zmienione.");
+            Msg.msg("e","Podane hasła nie są identyczne");
         }
     }
      public String haszuj(String password)  {
@@ -74,6 +73,22 @@ public class HasloView implements Serializable {
           }
           return zwrot;
      }
+
+    public String getNowehaslo() {
+        return nowehaslo;
+    }
+
+    public void setNowehaslo(String nowehaslo) {
+        this.nowehaslo = nowehaslo;
+    }
+
+    public String getNowehaslo2() {
+        return nowehaslo2;
+    }
+
+    public void setNowehaslo2(String nowehaslo2) {
+        this.nowehaslo2 = nowehaslo2;
+    }
      
      
 }
