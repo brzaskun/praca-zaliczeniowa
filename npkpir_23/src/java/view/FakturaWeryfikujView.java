@@ -42,7 +42,7 @@ public class FakturaWeryfikujView implements Serializable {
         List<Klienci> p = new ArrayList<>();
         for (Podatnik po : podatnicy) {
             Klienci findKlientByNip = klienciDAO.findKlientByNip(po.getNip());
-            if (findKlientByNip!=null) {
+            if (findKlientByNip!=null&&po.isPodmiotaktywny()) {
                 p.add(findKlientByNip);
             }
         }

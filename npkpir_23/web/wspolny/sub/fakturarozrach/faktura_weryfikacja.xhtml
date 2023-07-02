@@ -28,8 +28,8 @@
                 <p:column headerText="nip" width="100">
                     <h:outputText value="#{imem.nip}"/>
                 </p:column>
-                <p:column>
-                     <p:commandButton value="+-" actionListener="#{fakturaWeryfikujView.aktywacjakontrahenta(imem)}" update="@parent:@parent" global="false"/>
+                <p:column headerText="dezaktywuj">
+                     <p:commandButton value="-" actionListener="#{fakturaWeryfikujView.aktywacjakontrahenta(imem)}" update="@parent:@parent" global="false"/>
                 </p:column>
             </p:dataTable>
         </h:form>
