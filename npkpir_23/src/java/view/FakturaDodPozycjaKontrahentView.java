@@ -238,11 +238,11 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         sumawybranych = 0.0;
         for (FakturaDodPozycjaKontrahent p : lista) {
             if (p.getKwotaindywid()!=0.0) {
-                sumawybranych = Z.z(sumawybranych+p.getKwotaindywid()*p.getIlosc());
+                sumawybranych = Z.z(sumawybranych+p.getKwotaindywid()*p.getIloscdra());
             } else {
-                sumawybranych = Z.z(sumawybranych+p.getFakturaDodatkowaPozycja().getKwota()*p.getIlosc());
+                sumawybranych = Z.z(sumawybranych+p.getFakturaDodatkowaPozycja().getKwota()*p.getIloscdra());
             }
-            sumawybranych2 = sumawybranych2+p.getIlosc();
+            sumawybranych2 = sumawybranych2+p.getIloscdra();
         }
         Msg.msg("Podsumowano");
     }

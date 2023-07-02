@@ -12,6 +12,7 @@ import dao.FakturaDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
 import dao.WierszDAO;
+import embeddable.Pozycjenafakturzebazadanych;
 import entity.Dok;
 import entity.Faktura;
 import entity.Podatnik;
@@ -54,6 +55,8 @@ public class PodatnikKsiegowaView implements Serializable{
     private String rok;
     private boolean bezzerowych;
     private boolean edycja;
+    private double razemksiegowosc;
+    private double razemkadry;
     
 
     public void init() { //E.m(this);
@@ -72,18 +75,38 @@ public class PodatnikKsiegowaView implements Serializable{
                 }
                 List<Faktura> fakt = fakturyWystawione.stream().filter(r->r.getKontrahent().getNip().equals(p.getNip())).collect(Collectors.toList());
                 double suma = 0.0;
+                double sumakadry = 0.0;
                 if (!fakt.isEmpty()) {
                     for (Faktura s: fakt) {
-                        suma += s.getNetto();
+                        if (s.getPrzyczynakorekty()==null) {
+                            for (Pozycjenafakturzebazadanych poz : s.getPozycjenafakturze()) {
+
+                                if (poz.getJednostka().equals("osb.")) {
+                                    sumakadry = sumakadry + poz.getNetto();
+                                } else {
+                                    suma = suma + poz.getNetto();
+                                }
+                            }
+                        } else {
+                            for (Pozycjenafakturzebazadanych poz : s.getPozycjepokorekcie()) {
+
+                                if (poz.getJednostka().equals("osb.")) {
+                                    sumakadry = sumakadry - poz.getNetto();
+                                } else {
+                                    suma = suma - poz.getNetto();
+                                }
+                            }
+                        }
                     }
                 }
                 p.setCena(Z.z(suma));
+                p.setCenakadry(Z.z(sumakadry));
             }
         }
         if (bezzerowych) {
             for (Iterator<Podatnik> it=listapodatnikow.iterator(); it.hasNext();) {
                 Podatnik p = it.next();
-               if (p.getCena() == 0) {
+               if (p.getCena() == 0&&p.getCenakadry()==0.0) {
                    it.remove();
                }
             }
@@ -92,7 +115,7 @@ public class PodatnikKsiegowaView implements Serializable{
         List<Wiersz> fk = wierszDAO.findWierszeRok(rok);
         for (Iterator<Podatnik> it=listapodatnikow.iterator(); it.hasNext();) {
            Podatnik p = it.next();
-           if (p.getCena() == 0) {
+           if (p.getCena() == 0&&p.isNiesprawdzajfaktury()==false) {
                p.setPodmiotaktywny(false);
            } else {
                List<Dok> znalezionedok = pkpir.stream().filter(pd->pd.getPodatnik().equals(p)).collect(Collectors.toList());
@@ -108,8 +131,11 @@ public class PodatnikKsiegowaView implements Serializable{
         }
         podatnikDAO.editList(listapodatnikow);
         List<Uz> dousuniecia = new ArrayList<>();
+        razemksiegowosc = 0.0;
+        razemkadry = 0.0;
         for (Uz r: listaksiegowych) {
             double suma = 0.0;
+            double sumakadry = 0.0;
             double dokpkpir = 0.0;
             double wiersze = 0.0;
             int liczba = 0;
@@ -118,6 +144,7 @@ public class PodatnikKsiegowaView implements Serializable{
                 Podatnik p = it.next();
                 if (p.getKsiegowa()!=null && p.getKsiegowa().equals(r)) {
                     suma += p.getCena();
+                    sumakadry += p.getCenakadry();
                     dokpkpir += p.getLiczbadok();
                     wiersze += p.getLiczbawierszy();
                     r.getPrzyporzadkowanipodatnicy().add(p);
@@ -127,6 +154,9 @@ public class PodatnikKsiegowaView implements Serializable{
             r.setDokpkpir(dokpkpir);
             r.setWierszefk(wiersze);
             r.setSumafaktur(suma);
+            razemksiegowosc = razemksiegowosc + suma;
+            r.setSumafakturkadry(sumakadry);
+            razemkadry = razemkadry + sumakadry;
             r.setLiczbapodatnikow(liczba);
             if (Z.z(suma)==0.0) {
                 dousuniecia.add(r);
@@ -205,6 +235,24 @@ public class PodatnikKsiegowaView implements Serializable{
         }
         return zwrot;
     }
+
+    public double getRazemksiegowosc() {
+        return razemksiegowosc;
+    }
+
+    public void setRazemksiegowosc(double razemksiegowosc) {
+        this.razemksiegowosc = razemksiegowosc;
+    }
+
+    public double getRazemkadry() {
+        return razemkadry;
+    }
+
+    public void setRazemkadry(double razemkadry) {
+        this.razemkadry = razemkadry;
+    }
+    
+    
     
     public List<Podatnik> getListapodatnikow() {
         return listapodatnikow;

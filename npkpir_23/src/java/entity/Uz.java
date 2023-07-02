@@ -98,6 +98,8 @@ public class Uz implements Serializable {
     private String nrtelefonu;
     @Column(name = "sumafaktur")
     private double sumafaktur;
+    @Column(name = "sumafakturkadry")
+    private double sumafakturkadry;
     @Column(name = "liczbapodatnikow")
     private int liczbapodatnikow;
     @Column(name = "wynagrodzenieobecne")
@@ -361,6 +363,16 @@ public class Uz implements Serializable {
     public void setData(Date data) {
         this.data = data;
     }
+
+    public double getSumafakturkadry() {
+        return sumafakturkadry;
+    }
+
+    public void setSumafakturkadry(double sumafakturkadry) {
+        this.sumafakturkadry = sumafakturkadry;
+    }
+    
+    
 
   
     

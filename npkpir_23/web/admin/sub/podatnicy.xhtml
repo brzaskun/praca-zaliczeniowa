@@ -23,9 +23,13 @@
         </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel style="padding: 10px;">
-        <p:panelGrid columns="2">
+        <p:panelGrid columns="6">
             <p:commandButton value="przeliczaj" actionListener="#{podatnikKsiegowaView.init()}" update="@form" style="width: 120px;"/>
             <p:commandButton value="zachowaj" actionListener="#{podatnikKsiegowaView.zachowaj}" update="@form" style="margin-left: 50px;width: 120px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}"/>
+            <h:outputText value="księgowość:"/>
+            <bcf:outputpl value="#{podatnikKsiegowaView.razemksiegowosc}"/>
+            <h:outputText value="kadry:"/>
+            <bcf:outputpl value="#{podatnikKsiegowaView.razemkadry}"/>
         </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel style="padding: 10px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}">
@@ -42,8 +46,11 @@
              <p:column headerText="nazw. i imię" width="150">
                  <h:outputText value="#{it.imieNazwisko}"/>
             </p:column>
-            <p:column headerText="suma fakt" width="70" sortBy="#{it.sumafaktur}">
+            <p:column headerText="suma fakt. księg." width="70" sortBy="#{it.sumafaktur}">
                 <bcf:outputpl value="#{it.sumafaktur}"/>
+            </p:column>
+            <p:column headerText="suma fakt. kadry" width="70" sortBy="#{it.sumafakturkadry}">
+                <bcf:outputpl value="#{it.sumafakturkadry}"/>
             </p:column>
             <p:column headerText="liczba pod." width="40" sortBy="#{it.liczbapodatnikow}">
                 <bcf:outputpl0 value="#{it.liczbapodatnikow}"/>
@@ -77,6 +84,9 @@
                     </p:column>
                     <p:column headerText="faktury" sortBy="#{ita.cena}">
                         <bcf:outputpl value="#{ita.cena}"/>
+                    </p:column>
+                    <p:column headerText="faktury" sortBy="#{ita.cena}">
+                        <bcf:outputpl value="#{ita.cenakadry}"/>
                     </p:column>
                     <p:column headerText="liczba dok." width="50" sortBy="#{ita.liczbadok}">
                         <bcf:outputpl0 value="#{ita.liczbadok}"/>

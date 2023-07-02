@@ -360,9 +360,15 @@ public class Podatnik implements Serializable {
     @Transient
     private double cena;
     @Transient
+    private double cenakadry;
+    @Transient
     private double liczbadok;
     @Transient
     private double liczbawierszy;
+    @Transient
+    private double liczbadokimport;
+    @Transient
+    private double liczbawierszyimport;
 
     
     public Podatnik() {
@@ -468,6 +474,15 @@ public class Podatnik implements Serializable {
         this.cena = cena;
     }
 
+    public double getCenakadry() {
+        return cenakadry;
+    }
+
+    public void setCenakadry(double cenakadry) {
+        this.cenakadry = cenakadry;
+    }
+
+    
     public String getKartacert() {
         return kartacert;
     }
@@ -671,6 +686,22 @@ public class Podatnik implements Serializable {
 
     public void setFirmafk(int firmafk) {
         this.firmafk = firmafk;
+    }
+
+    public double getLiczbadokimport() {
+        return liczbadokimport;
+    }
+
+    public void setLiczbadokimport(double liczbadokimport) {
+        this.liczbadokimport = liczbadokimport;
+    }
+
+    public double getLiczbawierszyimport() {
+        return liczbawierszyimport;
+    }
+
+    public void setLiczbawierszyimport(double liczbawierszyimport) {
+        this.liczbawierszyimport = liczbawierszyimport;
     }
 
    
