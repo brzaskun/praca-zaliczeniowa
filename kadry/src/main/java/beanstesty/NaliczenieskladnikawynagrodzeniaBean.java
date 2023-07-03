@@ -393,7 +393,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
                     for (Dzien s : kalendarz.getDzienList()) {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
-                        if (s.getKod() == null) {
+                        if (s.getKod() == null || s.getKod().equals("")) {
                             if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                                 dniroboczeprzepracowanezm++;
                                 dniroboczeprzepracowane++;

@@ -1151,23 +1151,44 @@ public class KalendarzmiesiacBean {
         List<Skladnikwynagrodzenia> listaskladnikowzmiennych = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
         for (Skladnikwynagrodzenia skladnikwynagrodzenia : listaskladnikowzmiennych) {
             if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1() == true && skladnikwynagrodzenia.getRodzajwynagrodzenia().isSredniaurlopowakraj() == true) {
-                Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
-                naliczenienieobecnosc.setDataod(dataod);
-                naliczenienieobecnosc.setDatado(datado);
-                naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
-                naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-                naliczenienieobecnosc.setJakiskladnikredukowalny(skladnikwynagrodzenia.getUwagi());
-                naliczenienieobecnosc.setLiczbadniobowiazku(liczbadniobowiazku);
-                naliczenienieobecnosc.setLiczbadniNieobecnosci(liczbadniurlopu);
-                naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
-                naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinurlopu);
-                double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowaZmienne(kalendarz, skladnikwynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc, kalendarzList);
-                naliczenienieobecnosc.setSkladnikistale(dowyplatyzaczasnieobecnosci);
-                naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
-                naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
-                naliczenienieobecnosc.setKwotaredukcji(0.0);
-                naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
-                pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
+                for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
+                     if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
+                        int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+                        int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
+                        liczbadniurlopu = 0.0;
+                        liczbagodzinurlopu = 0.0;
+                        for (Dzien p : kalendarz.getDzienList()) {
+                            if (p.getTypdnia() == 0 && p.getNrdnia() >= dzienod && p.getNrdnia() <= dziendo) {
+                                if (p.getNrdnia() >= dzienodzmienna && p.getNrdnia() <= dziendozmienna) {
+                                    liczbadniurlopu = liczbadniurlopu + 1;
+                                    liczbagodzinurlopu = liczbagodzinurlopu + p.getUrlopPlatny() + p.getOpiekadziecko();
+                                }
+                            }
+                        }
+                        
+                        Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
+                        naliczenienieobecnosc.setDataod(dataod);
+                        naliczenienieobecnosc.setDatado(datado);
+                        naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
+                        naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+                        naliczenienieobecnosc.setJakiskladnikredukowalny(skladnikwynagrodzenia.getUwagi());
+                        naliczenienieobecnosc.setLiczbadniobowiazku(liczbadniobowiazku);
+                        naliczenienieobecnosc.setLiczbadniNieobecnosci(liczbadniurlopu);
+                        naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
+                        naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinurlopu);
+                        naliczenienieobecnosc.setStawkagodzinowa(r.getKwota());
+                        double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowaZmienne(kalendarz, skladnikwynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc, kalendarzList);
+                        if (dowyplatyzaczasnieobecnosci==0.0) {
+                            dowyplatyzaczasnieobecnosci = liczbagodzinurlopu*r.getKwota();
+                        }
+                        naliczenienieobecnosc.setSkladnikistale(dowyplatyzaczasnieobecnosci);
+                        naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
+                        naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
+                        naliczenienieobecnosc.setKwotaredukcji(0.0);
+                        naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
+                        pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
+                     }
+                }
             }
             //p.setKwotadolistyplac(p.getKwotadolistyplac()-dowyplatyzaczasnieobecnosci);
             //p.setKwotyredukujacesuma(p.getKwotaumownazacalymc()-p.getKwotadolistyplac());
