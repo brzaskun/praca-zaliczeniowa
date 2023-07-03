@@ -262,34 +262,36 @@ public class NieobecnosciBean {
                 nieobecnosc.setDniroboczenieobecnosci(0.0);
                 nieobecnosc.setGodzinyroboczenieobecnosc(0.0);
                 for (Kalendarzmiesiac kal : kalendarze) {
-                    boolean pierwszymc = false;
-                    boolean ostatnimc = false;
                     String rokkalendarza = kal.getRok();
-                    String mckalendarza = kal.getMc();
-                    if (rokkalendarza.equals(rokod)) {
-                        if (mckalendarza.equals(mcod)) {
-                            start = true;
-                            pierwszymc = true;
+                    if (rokkalendarza.equals(rokod)||rokkalendarza.equals(rokdo)) {
+                        boolean pierwszymc = false;
+                        boolean ostatnimc = false;
+                        String mckalendarza = kal.getMc();
+                        if (rokkalendarza.equals(rokod)) {
+                            if (mckalendarza.equals(mcod)) {
+                                start = true;
+                                pierwszymc = true;
+                            }
                         }
-                    }
-                    if (rokkalendarza.equals(rokdo)) {
-                        if (mckalendarza.equals(mcdo)) {
-                            stop = true;
-                            ostatnimc = true;
+                        if (rokkalendarza.equals(rokdo)) {
+                            if (mckalendarza.equals(mcdo)) {
+                                stop = true;
+                                ostatnimc = true;
+                            }
                         }
+                        if (start) {
+                            //tu zmieniłem 2023-02-04 nieobecnosci nanoszenie dni i dodalem godziny
+                             int[] dnigodziny = kal.naniesnieobecnosc(nieobecnosc, pierwszymc, ostatnimc);
+                             nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dnigodziny[0]);
+                             nieobecnosc.setGodzinyroboczenieobecnosc(nieobecnosc.getGodzinyroboczenieobecnosc()+dnigodziny[1]);
+                             nieobecnoscFacade.edit(nieobecnosc);
+                             kalendarzmiesiacFacade.edit(kal);
+                             czynaniesiono = nieobecnosc.isNaniesiona();
+                         }
+                         if (stop) {
+                             break;
+                         }
                     }
-                    if (start) {
-                        //tu zmieniłem 2023-02-04 nieobecnosci nanoszenie dni i dodalem godziny
-                         int[] dnigodziny = kal.naniesnieobecnosc(nieobecnosc, pierwszymc, ostatnimc);
-                         nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dnigodziny[0]);
-                         nieobecnosc.setGodzinyroboczenieobecnosc(nieobecnosc.getGodzinyroboczenieobecnosc()+dnigodziny[1]);
-                         nieobecnoscFacade.edit(nieobecnosc);
-                         kalendarzmiesiacFacade.edit(kal);
-                         czynaniesiono = nieobecnosc.isNaniesiona();
-                     }
-                     if (stop) {
-                         break;
-                     }
                 }
             } catch (Exception e) {
                 E.e(e);
