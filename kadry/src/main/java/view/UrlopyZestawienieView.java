@@ -66,7 +66,11 @@ public class UrlopyZestawienieView  implements Serializable {
                     String dataDlaEtatu = data.Data.ostatniDzien(wpisView.getRokWpisu(),wpisView.getMiesiacWpisu());
                     Nieobecnoscprezentacja urlopprezentacja = UrlopBean.pobierzurlop(angaz, wpisView.getRokWpisu(), stannadzien, dataDlaEtatu);
                     Pracownik pracownik = angaz.getPracownik();
-                    pracownik.setWymiarurlopu(urlopprezentacja.getWymiargeneralnydni());
+                    if(angaz.getRok().equals(wpisView.getRokWpisu())) {
+                        pracownik.setWymiarurlopu(urlopprezentacja.getWymiarokresbiezacydni());
+                    } else {
+                        pracownik.setWymiarurlopu(urlopprezentacja.getWymiargeneralnydni());
+                    }
                     angazFacade.edit(angaz);
                 }
             }
@@ -90,8 +94,10 @@ public class UrlopyZestawienieView  implements Serializable {
                 for (Dzien dzien : kal.getDzienList()) {
                     Nieobecnosc dziennieob = dzien.getNieobecnosc();
                     if (dziennieob != null && (dziennieob.getRodzajnieobecnosci().getKod().equals("U") ||dziennieob.getRodzajnieobecnosci().getKod().equals("UD"))) {
-                        sumadni = sumadni+1;
-                        sumadnirok = sumadnirok+1;
+                        if (dzien.getTypdnia()==0) {
+                            sumadni = sumadni+1;
+                            sumadnirok = sumadnirok+1;
+                        }
                     }
                 }
                 if (sumadni>0) {
