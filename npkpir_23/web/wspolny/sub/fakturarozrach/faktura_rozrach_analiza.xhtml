@@ -117,6 +117,7 @@
                          rowIndexVar="row" editable="true" styleClass="compact" rowSelectMode="add"
                          rowStyleClass="#{item.mc mod 2 eq 0 ? 'parzyste':null}"
                          >
+                <p:ajax event="filter" global="false"/>
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEditAnaliza}" />
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaRozrachunkiAnalizaView.sumawartosci}" update=":akordeon:fakturaanaliza:polesumy" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaRozrachunkiAnalizaView.sumawartosci}" update=":akordeon:fakturaanaliza:polesumy" global="false"/>

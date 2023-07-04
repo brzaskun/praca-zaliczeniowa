@@ -9,6 +9,7 @@ import beansFaktura.FakturaBean;
 import beansMail.SMTPBean;
 import comparator.FakturaPodatnikRozliczeniecomparator;
 import comparator.KlienciNPcomparator;
+import comparator.UzNazwiskocomparator;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
@@ -17,6 +18,7 @@ import dao.KlienciDAO;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
 import dao.TabelanbpDAO;
+import dao.UzDAO;
 import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
@@ -26,6 +28,7 @@ import entity.FakturaRozrachunki;
 import entity.Fakturadodelementy;
 import entity.Klienci;
 import entity.Podatnik;
+import entity.Uz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,6 +71,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private List<FakturaPodatnikRozliczenie> archiwum;
     private List<FakturaPodatnikRozliczenie> saldanierozliczone;
     private List<FakturaPodatnikRozliczenie> saldanierozliczoneselected;
+    private List<FakturaPodatnikRozliczenie> saldanierozliczonefiltered;
     private double sumasaldnierozliczonych;
     private List<FakturaPodatnikRozliczenie> selectedrozliczenia;
     @Inject
@@ -96,6 +100,10 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private String dodatkowyadresmailowy;
     List<Podatnik> podatnicy;
     private double razemwybrane;
+     private List<Uz> listaksiegowych;
+    @Inject
+    private UzDAO uzDAO;
+    private Uz wybranyksiegowy;
     
     public FakturaRozrachunkiAnalizaView() {
         
@@ -111,7 +119,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         dodatkowyadresmailowy="m.januszewska@taxman.biz.pl";
         Collections.sort(klienci, new KlienciNPcomparator());
         podatnicy = podatnikDAO.findAll();
-     }
+        listaksiegowych = uzDAO.findByUprawnienia("Bookkeeper");
+        listaksiegowych.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
+        Collections.sort(listaksiegowych, new UzNazwiskocomparator());}
     
     public void pobierzwszystkoKlienta() {
         selectedrozliczenia = null;
@@ -359,6 +369,23 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     public void zestawieniezbiorcze() {
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
+        if (wybranyksiegowy!=null) {
+            for (Iterator<Klienci> itk = klienci.iterator();itk.hasNext();) {
+                Klienci k = itk.next();
+                for (Iterator<Podatnik> it = podatnicy.iterator();it.hasNext();) {
+                    Podatnik pod = it.next();
+                    if (k.getNip().equals(pod.getNip())) {
+                        if (pod.getKsiegowa()!=null&&!pod.getKsiegowa().equals(wybranyksiegowy)) {
+                            itk.remove();
+                        } else if (pod.getKsiegowa()==null) {
+                            itk.remove();
+                        }
+                        it.remove();
+                        break;
+                    }
+                }
+            }
+        }
         for (Klienci k : klienci) {
             for (Iterator<Podatnik> it = podatnicy.iterator();it.hasNext();) {
                 Podatnik pod = it.next();
@@ -994,6 +1021,30 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
 
     public void setPobierzdwalata(boolean pobierzdwalata) {
         this.pobierzdwalata = pobierzdwalata;
+    }
+
+    public List<FakturaPodatnikRozliczenie> getSaldanierozliczonefiltered() {
+        return saldanierozliczonefiltered;
+    }
+
+    public void setSaldanierozliczonefiltered(List<FakturaPodatnikRozliczenie> saldanierozliczonefiltered) {
+        this.saldanierozliczonefiltered = saldanierozliczonefiltered;
+    }
+
+    public Uz getWybranyksiegowy() {
+        return wybranyksiegowy;
+    }
+
+    public void setWybranyksiegowy(Uz wybranyksiegowy) {
+        this.wybranyksiegowy = wybranyksiegowy;
+    }
+
+    public List<Uz> getListaksiegowych() {
+        return listaksiegowych;
+    }
+
+    public void setListaksiegowych(List<Uz> listaksiegowych) {
+        this.listaksiegowych = listaksiegowych;
     }
 
     

@@ -235,6 +235,10 @@ public class Uz implements Serializable {
     public String getImieNazwisko() {
         return this.getImie()+" "+this.getNazw();
     }
+    
+    public String getNazwiskoImie() {
+        return this.getNazw()+" "+this.getImie();
+    }
 
     public String getNrtelefonu() {
         return nrtelefonu;

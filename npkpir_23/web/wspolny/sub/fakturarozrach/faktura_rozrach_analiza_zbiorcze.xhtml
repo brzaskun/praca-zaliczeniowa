@@ -39,12 +39,19 @@
                 <h:outputText value="suma"/>
                 <bcf:outputpl value="#{fakturaRozrachunkiAnalizaView.sumasaldnierozliczonych}"/>
             </p:panelGrid>
-                <h:outputText value="saldo w kolorze niebieskim oznacza telefon lub wysłane upomnienie"/>
+                <h:outputText value="księgowy"/>
+                 <p:selectOneMenu value="#{fakturaRozrachunkiAnalizaView.wybranyksiegowy}" style="width: 300px;margin-left: 10px;" converter="#{uzConv}">
+                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                     <f:selectItems value="#{fakturaRozrachunkiAnalizaView.listaksiegowych}" var="loop" itemLabel="#{loop.nazwiskoImie}-#{loop.uprawnienia}" itemValue="#{loop}"/>
+                     <p:ajax event="change" partialSubmit="true"/>
+                </p:selectOneMenu>
+                <h:outputText value="saldo w kolorze niebieskim oznacza telefon lub wysłane upomnienie" style="margin-left: 20px;"/>
             <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 1400px; margin-top: 20px;"
                          emptyMessage="nie znaleziono żadnych księgowań" rowKey="#{item.lp}" sortBy="#{item.saldo}" sortOrder="descending"
                          selection="#{fakturaRozrachunkiAnalizaView.saldanierozliczoneselected}" rowSelectMode="add"
-                         
+                         filteredValue="#{fakturaRozrachunkiAnalizaView.saldanierozliczonefiltered}"
                          >
+                <p:ajax event="filter" global="false"/>
                 <p:ajax event="toggleSelect" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
                 <p:ajax event="rowSelectCheckbox" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
