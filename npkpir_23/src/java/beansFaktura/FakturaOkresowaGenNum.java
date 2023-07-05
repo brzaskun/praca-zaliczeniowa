@@ -63,7 +63,6 @@ public class FakturaOkresowaGenNum {
             if (wpisView.getUzer().getFakturagrupa()!=null&&!wpisView.getUzer().getFakturagrupa().isEmpty()) {
                 ostatnidokument = fakturaDAO.findOstatniaFakturaByRokPodatnikGrupa(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt(), wpisView.getUzer().getFakturagrupa());
             }
-            
             if (ostatnidokument == null) {
                 String numer = FakturaBean.uzyjwzorcagenerujpierwszynumerFaktura(schematnumeracji, wpisView);
                 selected.setNumerkolejny(numer);
@@ -94,9 +93,13 @@ public class FakturaOkresowaGenNum {
                 String nowynumer = null;
                 do {
                     nowypoczateknumeru = zwiekszNumer(nowypoczateknumeru);
+                    String nazwaddo = selected.getKontrahent().getNskrocona()!=null?selected.getKontrahent().getNskrocona().replace("\"", "").replaceAll("\\s+","") :selected.getKontrahent().getNpelna().replace("\"", "").replaceAll("\\s+","");
+                    int dlugoscnazwy = nazwaddo.length();
+                    String nazwadofaktury = dlugoscnazwy > 4 ? nazwaddo.substring(0, 4) : nazwaddo;
+                    String numer = nowypoczateknumeru+"/" + wpisView.getRokWpisu().toString() + "/" + nazwadofaktury;
                     String nyp = selected.getKontrahent().getNip();
                     String nip = nyp!=null?nyp.substring(nyp.length()-3, nyp.length()-1):"";
-                    nowynumer = generujNumer(nowypoczateknumeru, elementy, nip);
+                    nowynumer = numer+nip;
                     selected.setNumerkolejny(nowynumer);
                 } while (czynumerjestnaliscie(nowynumer, numerypobranych));
                 Msg.msg("i", "Generuje kolejny numer faktury");

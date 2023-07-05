@@ -372,9 +372,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         if (wybranyksiegowy!=null) {
             for (Iterator<Klienci> itk = klienci.iterator();itk.hasNext();) {
                 Klienci k = itk.next();
+                boolean niemapodatnika = true;
                 for (Iterator<Podatnik> it = podatnicy.iterator();it.hasNext();) {
                     Podatnik pod = it.next();
                     if (k.getNip().equals(pod.getNip())) {
+                        niemapodatnika = false;
                         if (pod.getKsiegowa()!=null&&!pod.getKsiegowa().equals(wybranyksiegowy)) {
                             itk.remove();
                         } else if (pod.getKsiegowa()==null) {
@@ -383,6 +385,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         it.remove();
                         break;
                     }
+                }
+                if (niemapodatnika) {
+                    itk.remove();
                 }
             }
         }
