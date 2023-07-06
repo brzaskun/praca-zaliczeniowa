@@ -36,6 +36,7 @@ import waluty.Z;
     private Date datatelefon;
     private String ostatniaplatnoscdata;
     private double ostatniaplatnosckwota;
+    private double iloscfakturbezplatnosci;
     private boolean przeniesionosaldo;
     private String color;
     private String color2;
@@ -209,6 +210,14 @@ import waluty.Z;
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public double getIloscfakturbezplatnosci() {
+        return iloscfakturbezplatnosci;
+    }
+
+    public void setIloscfakturbezplatnosci(double iloscfakturbezplatnosci) {
+        this.iloscfakturbezplatnosci = iloscfakturbezplatnosci;
     }
 
     public double getKwota() {

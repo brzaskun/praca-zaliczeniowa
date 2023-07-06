@@ -121,6 +121,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         podatnicy = podatnikDAO.findAll();
         listaksiegowych = uzDAO.findByUprawnienia("Bookkeeper");
         listaksiegowych.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
+        listaksiegowych.addAll(uzDAO.findByUprawnienia("Administrator"));
         Collections.sort(listaksiegowych, new UzNazwiskocomparator());}
     
     public void pobierzwszystkoKlienta() {
@@ -278,9 +279,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private void obliczsaldo(List<FakturaPodatnikRozliczenie> nowepozycje) {
         double saldo = 0.0;
         double saldopln = 0.0;
+        int iloscfakturbezplatnosci = 0;
         for (FakturaPodatnikRozliczenie p : nowepozycje) {
             try {
                 if (p.isFaktura0rozliczenie1()) {
+                    iloscfakturbezplatnosci --;
                     if (p.getRozliczenie().getKurs() != 0.0) {
                         saldo -= p.getKwotapln();
                         saldopln -= p.getKwotapln();
@@ -290,6 +293,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     }
                     
                 } else {
+                    iloscfakturbezplatnosci ++;
                     if (p.getFaktura() != null && p.getFaktura().getWalutafaktury() != null && p.getFaktura().getWalutafaktury().equals("PLN")) {
                         saldo += p.getKwota();
                         saldopln += p.getKwota();
@@ -306,6 +310,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 }
                 p.setSaldo(saldo);
                 p.setSaldopln(saldopln);
+                p.setIloscfakturbezplatnosci(iloscfakturbezplatnosci);
             } catch (Exception e) {
                 E.e(e);
             }
@@ -367,6 +372,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     public void zestawieniezbiorcze() {
+        klienci.addAll(pobierzkontrahentow());
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
         if (wybranyksiegowy!=null) {
@@ -386,7 +392,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         break;
                     }
                 }
-                if (niemapodatnika) {
+                if (niemapodatnika&&wybranyksiegowy.getUprawnienia().equals("Administrator")==false) {;
                     itk.remove();
                 }
             }

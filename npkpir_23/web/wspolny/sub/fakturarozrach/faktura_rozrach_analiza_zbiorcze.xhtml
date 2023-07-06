@@ -119,11 +119,17 @@
                     </f:facet>
                     <h:outputText value="#{item.ostatniaplatnoscdata}"/>
                 </p:column>-->
-                <p:column width="80" sortBy="#{item.ostatniaplatnosckwota}" sortable="true">
+<!--                <p:column width="80" sortBy="#{item.ostatniaplatnosckwota}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="kwota wpł"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.ostatniaplatnosckwota}"/>
+                </p:column>-->
+                <p:column width="40" sortBy="#{item.iloscfakturbezplatnosci}" sortable="true" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="ilość zaleg"/>
+                    </f:facet>
+                    <bcf:outputpl0 value="#{item.iloscfakturbezplatnosci}" rendered="#{item.iloscfakturbezplatnosci gt 1}"/>
                 </p:column>
                 <p:column width="30" sortBy="#{item.swiezowezwany}" sortable="true" style="text-align: center;">
                     <f:facet name="header">
