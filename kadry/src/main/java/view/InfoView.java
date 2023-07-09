@@ -51,58 +51,60 @@ public class InfoView implements Serializable {
         for (Uz u : uzytkownicyPaski) {
             int suma = 0;
             for (String mc : Mce.getMceListS()) {
-                List<Pasekwynagrodzen> paskimc = paski.stream().filter(p->p.getMc().equals(mc)&&(p.getSporzadzil().equals(u.getLogin())||p.getSporzadzil().equals(u.getImieNazwisko()))).collect(Collectors.toList());
-                int paskimcilosc = paskimc.size();
-                switch (mc){
-                    case "01":
-                        u.setM1(paskimcilosc);
-                        suma = suma + paskimcilosc;
-                        break;
-                    case "02":
-                        u.setM2(paskimcilosc);
-                        suma = suma + paskimcilosc;
-                        break;
-                    case "03":
-                        u.setM3(paskimcilosc);
-                        suma = suma + paskimcilosc;
-                        break;
-                    case "04":
-                        u.setM4(paskimcilosc);
-                        suma = suma + paskimcilosc;
-                        break;
-                    case "05":
-                        u.setM5(paskimcilosc);
-                        suma = suma + paskimcilosc;
-                        break;
-                     case "06":
-                        u.setM6(paskimcilosc);
-                        suma = suma + paskimcilosc;
-                        break;
-                     case "07":
-                        u.setM7(paskimcilosc);
-                        suma = suma + paskimcilosc;
-                        break;
-                     case "08":
-                        u.setM8(paskimcilosc);
-                        suma = suma + paskimcilosc;
-                        break;
-                     case "09":
-                        u.setM9(paskimcilosc);
-                        suma = suma + paskimcilosc;
-                        break;
-                     case "10":
-                        u.setM10(paskimcilosc);
-                        suma = suma + paskimcilosc;
-                        break;
-                     case "11":
-                        u.setM11(paskimcilosc);
-                        suma = suma + paskimcilosc;
-                        break;
-                    case "12":
-                        u.setM12(paskimcilosc);
-                        suma = suma + paskimcilosc;
-                        break;
-                }
+                try {
+                    List<Pasekwynagrodzen> paskimc = paski.stream().filter(p->p.getMc().equals(mc)&&(p.getSporzadzil().equals(u.getLogin())||p.getSporzadzil().equals(u.getImieNazwisko()))).collect(Collectors.toList());
+                    int paskimcilosc = paskimc.size();
+                    switch (mc){
+                        case "01":
+                            u.setM1(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                        case "02":
+                            u.setM2(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                        case "03":
+                            u.setM3(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                        case "04":
+                            u.setM4(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                        case "05":
+                            u.setM5(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                         case "06":
+                            u.setM6(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                         case "07":
+                            u.setM7(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                         case "08":
+                            u.setM8(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                         case "09":
+                            u.setM9(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                         case "10":
+                            u.setM10(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                         case "11":
+                            u.setM11(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                        case "12":
+                            u.setM12(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                    }
+                } catch (Exception e) {}
             }
             u.setM13(suma);
         }
