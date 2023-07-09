@@ -160,5 +160,54 @@
              </p:outputPanel>
                 </h:form>
          </p:tab>
+         <p:tab title="Firma - opis usługi">
+             <h:form>
+             <p:outputPanel style="padding: 10px;">
+                 <p:panelGrid columns="2">
+                     <h:outputText value="opis usługi"/>
+                     <p:inputText value="#{fakturaopisuslugiView.selected.opis}" size="50"/>
+                     <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{fakturaopisuslugiView.dodaj}" update="@form"/>
+                </p:panelGrid>
+                 <p:dataTable id="datalist" value="#{fakturaopisuslugiView.lista}" var="item111"
+                                 selectionMode="single"
+                                 rowKey="#{item111.id}" rowIndexVar="indexumowa" 
+                                 scrollable="true" scrollHeight="400" scrollRows="30" 
+                                 style="width: 500px;"
+                                 emptyMessage="Nie pobrano elementów"
+                                 >
+                    <p:ajax event="filter" partialSubmit="true" global="false" />
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value="#{indexumowa+1}"/>
+                        </p:column>
+                     <p:column width="300" style="text-align: left;" sortBy="#{item111.opis}" sortOrder="asc"
+                               filterBy="#{item111.opis}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="opis"/>
+                            </f:facet>
+                           
+                                <p:inplace editor="true">
+                                 <f:facet name="output">
+                                      <h:outputText value="#{item111.opis}"/>
+                                 </f:facet>
+                                 <f:facet name="input">
+                                     <p:inputText value="#{item111.opis}" />
+                                 </f:facet>
+                                         <p:ajax event="save" listener="#{fakturaopisuslugiView.edytuj(item111)}" />
+                            </p:inplace>
+                      </p:column>
+                      
+                     <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <p:commandButton icon="pi pi-trash" actionListener="#{fakturaopisuslugiView.usun(item111)}" update="@parent:@parent"/>
+                        </p:column>
+                 </p:dataTable>
+             </p:outputPanel>
+                </h:form>
+         </p:tab>
      </p:tabView>
 </ui:composition>
