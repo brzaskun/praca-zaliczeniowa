@@ -94,4 +94,15 @@ public class KomornikView  implements Serializable {
    
     
     
+
+        
+       
+
+   
+    
+    
+
+   
+    
+    
 }

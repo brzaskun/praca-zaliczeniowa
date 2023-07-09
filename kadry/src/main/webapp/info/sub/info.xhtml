@@ -6,106 +6,159 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets"
     >
-    <h:form>
-        <p:outputPanel style="padding: 20px;">
-            <p:panel header="Statystyka lista płac" style="width: 1100px; padding: 10px;"/>
-            <p:dataTable id="dokumentyOkresowe" value="#{infoView.uzytkownicyPaski}" var="wpis"  rowIndexVar="row" 
-                         rowKey="#{wpis.id}" style="width: 1100px;height: 300px; overflow-y: scroll;" widgetVar="okresTable" 
-                         >
-            <p:column headerText="01" width="120" sortBy="#{wpis.nazwisko}">  
-                <h:outputText value="#{wpis.imieNazwisko}" />
-            </p:column>
-                <p:column headerText="01" width="20" sortBy="#{wpis.m1}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m1}" />
-            </p:column>
-            <p:column headerText="02" width="20" sortBy="#{wpis.m2}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m2}"/>
-            </p:column>
-            <p:column headerText="03" width="20" sortBy="#{wpis.m3}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m3}"/>
-            </p:column>
-            <p:column headerText="04" width="20" sortBy="#{wpis.m4}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m4}"/>
-            </p:column>
-            <p:column headerText="05" width="20" sortBy="#{wpis.m5}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m5}"/>
-            </p:column>
-            <p:column headerText="06" width="20" sortBy="#{wpis.m6}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m6}"/>
-            </p:column>
-            <p:column headerText="07" width="20" sortBy="#{wpis.m7}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m7}"/>
-            </p:column>
-            <p:column headerText="08" width="20" sortBy="#{wpis.m8}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m8}"/>
-            </p:column>
-            <p:column headerText="09" width="20" sortBy="#{wpis.m9}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m9}"/>
-            </p:column>
-            <p:column headerText="10" width="20" sortBy="#{wpis.m10}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m10}"/>
-            </p:column>
-            <p:column headerText="11" width="20" sortBy="#{wpis.m11}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m11}"/>
-            </p:column>
-            <p:column headerText="12" width="20"  sortBy="#{wpis.m12}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m12}"/>
-            </p:column>
-            <p:column headerText="razem" width="30"  sortBy="#{wpis.m13}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m13}"/>
-            </p:column>
-            </p:dataTable>
-        </p:outputPanel>
-    </h:form>
-     <h:form>
-        <p:outputPanel style="padding: 20px;">
-            <p:panel header="Statystyka umowy/wypowiedzenia" style="width: 1100px; padding: 10px;"/>
-            <p:dataTable id="dokumentyOkresowe" value="#{infoView.uzytkownicyUmowy}" var="wpis"  rowIndexVar="row" 
-                         rowKey="#{wpis.id}" style="width: 1100px;height: 300px; overflow-y: scroll;" widgetVar="okresTable" 
-                         >
-            <p:column headerText="01" width="120" sortBy="#{wpis.nazwisko}">  
-                <h:outputText value="#{wpis.imieNazwisko}" />
-            </p:column>
-                <p:column headerText="01" width="20" sortBy="#{wpis.m1}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m1}" />
-            </p:column>
-            <p:column headerText="02" width="20" sortBy="#{wpis.m2}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m2}"/>
-            </p:column>
-            <p:column headerText="03" width="20" sortBy="#{wpis.m3}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m3}"/>
-            </p:column>
-            <p:column headerText="04" width="20" sortBy="#{wpis.m4}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m4}"/>
-            </p:column>
-            <p:column headerText="05" width="20" sortBy="#{wpis.m5}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m5}"/>
-            </p:column>
-            <p:column headerText="06" width="20" sortBy="#{wpis.m6}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m6}"/>
-            </p:column>
-            <p:column headerText="07" width="20" sortBy="#{wpis.m7}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m7}"/>
-            </p:column>
-            <p:column headerText="08" width="20" sortBy="#{wpis.m8}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m8}"/>
-            </p:column>
-            <p:column headerText="09" width="20" sortBy="#{wpis.m9}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m9}"/>
-            </p:column>
-            <p:column headerText="10" width="20" sortBy="#{wpis.m10}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m10}"/>
-            </p:column>
-            <p:column headerText="11" width="20" sortBy="#{wpis.m11}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m11}"/>
-            </p:column>
-            <p:column headerText="12" width="20"  sortBy="#{wpis.m12}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m12}"/>
-            </p:column>
-            <p:column headerText="razem" width="30"  sortBy="#{wpis.m13}" style="text-align: center;">  
-                <h:outputText value="#{wpis.m13}"/>
-            </p:column>
-            </p:dataTable>
-        </p:outputPanel>
-    </h:form>
+     <p:tabView id="akordeon">
+         <p:tab title="Zestawienia ilościowe">
+        <h:form>
+            <p:outputPanel style="padding: 20px;">
+                <p:panel header="Statystyka lista płac" style="width: 1100px; padding: 10px;"/>
+                <p:dataTable id="dokumentyOkresowe" value="#{infoView.uzytkownicyPaski}" var="wpis"  rowIndexVar="row" 
+                             rowKey="#{wpis.id}" style="width: 1100px;height: 300px; overflow-y: scroll;" widgetVar="okresTable" 
+                             >
+                <p:column headerText="01" width="120" sortBy="#{wpis.nazwisko}">  
+                    <h:outputText value="#{wpis.imieNazwisko}" />
+                </p:column>
+                    <p:column headerText="01" width="20" sortBy="#{wpis.m1}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m1}" />
+                </p:column>
+                <p:column headerText="02" width="20" sortBy="#{wpis.m2}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m2}"/>
+                </p:column>
+                <p:column headerText="03" width="20" sortBy="#{wpis.m3}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m3}"/>
+                </p:column>
+                <p:column headerText="04" width="20" sortBy="#{wpis.m4}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m4}"/>
+                </p:column>
+                <p:column headerText="05" width="20" sortBy="#{wpis.m5}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m5}"/>
+                </p:column>
+                <p:column headerText="06" width="20" sortBy="#{wpis.m6}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m6}"/>
+                </p:column>
+                <p:column headerText="07" width="20" sortBy="#{wpis.m7}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m7}"/>
+                </p:column>
+                <p:column headerText="08" width="20" sortBy="#{wpis.m8}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m8}"/>
+                </p:column>
+                <p:column headerText="09" width="20" sortBy="#{wpis.m9}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m9}"/>
+                </p:column>
+                <p:column headerText="10" width="20" sortBy="#{wpis.m10}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m10}"/>
+                </p:column>
+                <p:column headerText="11" width="20" sortBy="#{wpis.m11}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m11}"/>
+                </p:column>
+                <p:column headerText="12" width="20"  sortBy="#{wpis.m12}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m12}"/>
+                </p:column>
+                <p:column headerText="razem" width="30"  sortBy="#{wpis.m13}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m13}"/>
+                </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+        </h:form>
+         <h:form>
+            <p:outputPanel style="padding: 20px;">
+                <p:panel header="Statystyka umowy/wypowiedzenia" style="width: 1100px; padding: 10px;"/>
+                <p:dataTable id="dokumentyOkresowe" value="#{infoView.uzytkownicyUmowy}" var="wpis"  rowIndexVar="row" 
+                             rowKey="#{wpis.id}" style="width: 1100px;height: 300px; overflow-y: scroll;" widgetVar="okresTable" 
+                             >
+                <p:column headerText="01" width="120" sortBy="#{wpis.nazwisko}">  
+                    <h:outputText value="#{wpis.imieNazwisko}" />
+                </p:column>
+                    <p:column headerText="01" width="20" sortBy="#{wpis.m1}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m1}" />
+                </p:column>
+                <p:column headerText="02" width="20" sortBy="#{wpis.m2}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m2}"/>
+                </p:column>
+                <p:column headerText="03" width="20" sortBy="#{wpis.m3}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m3}"/>
+                </p:column>
+                <p:column headerText="04" width="20" sortBy="#{wpis.m4}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m4}"/>
+                </p:column>
+                <p:column headerText="05" width="20" sortBy="#{wpis.m5}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m5}"/>
+                </p:column>
+                <p:column headerText="06" width="20" sortBy="#{wpis.m6}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m6}"/>
+                </p:column>
+                <p:column headerText="07" width="20" sortBy="#{wpis.m7}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m7}"/>
+                </p:column>
+                <p:column headerText="08" width="20" sortBy="#{wpis.m8}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m8}"/>
+                </p:column>
+                <p:column headerText="09" width="20" sortBy="#{wpis.m9}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m9}"/>
+                </p:column>
+                <p:column headerText="10" width="20" sortBy="#{wpis.m10}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m10}"/>
+                </p:column>
+                <p:column headerText="11" width="20" sortBy="#{wpis.m11}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m11}"/>
+                </p:column>
+                <p:column headerText="12" width="20"  sortBy="#{wpis.m12}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m12}"/>
+                </p:column>
+                <p:column headerText="razem" width="30"  sortBy="#{wpis.m13}" style="text-align: center;">  
+                    <h:outputText value="#{wpis.m13}"/>
+                </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+        </h:form>
+         </p:tab>
+         <p:tab title="Opis usługi">
+             <h:form>
+             <p:outputPanel style="padding: 10px;">
+                 <p:panelGrid columns="2">
+                     <h:outputText value="opis usługi"/>
+                     <p:inputText value="#{fakturaopisuslugiView.selected.opis}" size="50"/>
+                     <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{fakturaopisuslugiView.dodaj}" update="@form"/>
+                </p:panelGrid>
+                 <p:dataTable id="datalist" value="#{fakturaopisuslugiView.lista}" var="item111"
+                                 selectionMode="single"
+                                 rowKey="#{item111.id}" rowIndexVar="indexumowa" 
+                                 scrollable="true" scrollHeight="400" scrollRows="30" 
+                                 style="width: 500px;"
+                                 emptyMessage="Nie pobrano elementów"
+                                 >
+                    <p:ajax event="filter" partialSubmit="true" global="false" />
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value="#{indexumowa+1}"/>
+                        </p:column>
+                     <p:column width="300" style="text-align: left;" sortBy="#{item111.opis}" sortOrder="asc"
+                               filterBy="#{item111.opis}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="opis"/>
+                            </f:facet>
+                           
+                                <p:inplace editor="true">
+                                 <f:facet name="output">
+                                      <h:outputText value="#{item111.opis}"/>
+                                 </f:facet>
+                                 <f:facet name="input">
+                                     <p:inputText value="#{item111.opis}" />
+                                 </f:facet>
+                                         <p:ajax event="save" listener="#{fakturaopisuslugiView.edytuj(item111)}" />
+                            </p:inplace>
+                      </p:column>
+                      
+                     <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <p:commandButton icon="pi pi-trash" actionListener="#{fakturaopisuslugiView.usun(item111)}" update="@parent:@parent"/>
+                        </p:column>
+                 </p:dataTable>
+             </p:outputPanel>
+                </h:form>
+         </p:tab>
+     </p:tabView>
 </ui:composition>
