@@ -5,9 +5,14 @@
  */
 package view;
 
+import dao.FakturaopisuslugiFacade;
+import dao.FirmaKadryFacade;
 import dao.KadryfakturapozycjaFacade;
+import dao.WalutyFacade;
 import entity.Fakturaopisuslugi;
+import entity.FirmaKadry;
 import entity.Kadryfakturapozycja;
+import entity.Waluty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +38,16 @@ public class KadryfakturapozycjaView  implements Serializable {
     private KadryfakturapozycjaFacade kadryfakturapozycjaFacade;
     @Inject
     private Kadryfakturapozycja selected;
+    @Inject
+    private WalutyFacade walutyFacade;
+    private List<FirmaKadry> listafirm;
+    private List<Fakturaopisuslugi> listauslug;
+    private List<Waluty> listawaluty;
+    
+    @Inject
+    private FirmaKadryFacade firmaKadryFacade;
+     @Inject
+    private FakturaopisuslugiFacade fakturaopisuslugiFacade;
     
     @PostConstruct
     public void init() {
@@ -40,36 +55,41 @@ public class KadryfakturapozycjaView  implements Serializable {
         if (lista ==null) {
             lista = new ArrayList<>();
         }
+        listafirm = firmaKadryFacade.findAll();
+        listauslug = fakturaopisuslugiFacade.findAll();
+        listawaluty = walutyFacade.findAll();
+        selected.setWaluta(listawaluty.stream().filter(p->p.getSymbolwaluty().equals("PLN")).findFirst().get());
     }
 
     public void dodaj() {
         if (selected.getFirmakadry()!=null) {
             try {
+                selected.setUz(wpisView.getUzer());
                 kadryfakturapozycjaFacade.create(selected);
                 lista.add(selected);
                 selected = new Kadryfakturapozycja();
-                Msg.msg("Wprowadzono nowy opis");
+                Msg.msg("Wprowadzono nową pozycję");
             } catch (Exception e) {
-                Msg.msg("e","Taki opis już istnieje");
+                Msg.msg("e","Taka pozycja już istnieje");
             }
         } else {
-            Msg.msg("e","Brak wprowadzonej nazwy usługi");
+            Msg.msg("e","Wystąpił błąd");
         }
     }
     
-     public void usun(Fakturaopisuslugi selected) {
+     public void usun(Kadryfakturapozycja selected) {
         if (selected!=null) {
             kadryfakturapozycjaFacade.remove(selected);
             lista.remove(selected);
-            Msg.msg("Usunięto opis");
+            Msg.msg("Usunięto pozycję");
             
         }
      }
      
-     public void edytuj(Fakturaopisuslugi selected) {
-        if (selected!=null&&selected.getOpis().length()>0) {
+     public void edytuj(Kadryfakturapozycja selected) {
+        if (selected!=null&&selected.getCena()!=0) {
             kadryfakturapozycjaFacade.edit(selected);
-            Msg.msg("Zmieniono opis");
+            Msg.msg("Zmieniono pozycję");
             
         }
      }
@@ -88,6 +108,30 @@ public class KadryfakturapozycjaView  implements Serializable {
 
     public void setSelected(Kadryfakturapozycja selected) {
         this.selected = selected;
+    }
+
+    public List<FirmaKadry> getListafirm() {
+        return listafirm;
+    }
+
+    public void setListafirm(List<FirmaKadry> listafirm) {
+        this.listafirm = listafirm;
+    }
+
+    public List<Fakturaopisuslugi> getListauslug() {
+        return listauslug;
+    }
+
+    public void setListauslug(List<Fakturaopisuslugi> listauslug) {
+        this.listauslug = listauslug;
+    }
+
+    public List<Waluty> getListawaluty() {
+        return listawaluty;
+    }
+
+    public void setListawaluty(List<Waluty> listawaluty) {
+        this.listawaluty = listawaluty;
     }
     
 

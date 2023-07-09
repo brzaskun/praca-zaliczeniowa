@@ -41,7 +41,7 @@ public class Kadryfakturapozycja implements Serializable {
     private Integer id;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "cena")
-    private Double cena;
+    private double cena;
     @JoinColumn(name = "opisuslugi", referencedColumnName = "id")
     @OneToOne(optional = false)
     private Fakturaopisuslugi opisuslugi;
@@ -70,11 +70,11 @@ public class Kadryfakturapozycja implements Serializable {
         this.id = id;
     }
 
-    public Double getCena() {
+    public double getCena() {
         return cena;
     }
 
-    public void setCena(Double cena) {
+    public void setCena(double cena) {
         this.cena = cena;
     }
 

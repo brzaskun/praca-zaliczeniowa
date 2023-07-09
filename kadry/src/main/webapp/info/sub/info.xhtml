@@ -154,7 +154,9 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="pi pi-trash" actionListener="#{fakturaopisuslugiView.usun(item111)}" update="@parent:@parent"/>
+                         <p:commandButton icon="pi pi-trash" actionListener="#{fakturaopisuslugiView.usun(item111)}" update="@parent:@parent">
+                            <p:confirm type="popup" header="Potwierdzenie" message="Usunąć pozycję?" icon="pi pi-exclamation-triangle"/>
+                         </p:commandButton>
                         </p:column>
                  </p:dataTable>
              </p:outputPanel>
@@ -164,15 +166,38 @@
              <h:form>
              <p:outputPanel style="padding: 10px;">
                  <p:panelGrid columns="2">
-                     <h:outputText value="opis usługi"/>
-                     <p:inputText value="#{fakturaopisuslugiView.selected.opis}" size="50"/>
-                     <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{fakturaopisuslugiView.dodaj}" update="@form"/>
+                     <h:outputText value="firma"/>
+                     <p:selectOneMenu id="firma" value="#{kadryfakturapozycjaView.selected.firmakadry}" required="true" requiredMessage="Wybierz firmę" converter="#{firmaKadryConverter}" styleClass="datalistadef">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{kadryfakturapozycjaView.listafirm}"
+                                           var="firmalistaItem"
+                                           itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwa}"/>
+                        </p:selectOneMenu>
+                     <h:outputText value="usługa"/>
+                     <p:selectOneMenu id="usluga" value="#{kadryfakturapozycjaView.selected.opisuslugi}" required="true" requiredMessage="Wybierz usługę" converter="#{fakturaopisuslugiConverter}" styleClass="datalistadef">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{kadryfakturapozycjaView.listauslug}"
+                                           var="firmalistaItem1"
+                                           itemValue="#{firmalistaItem1}" itemLabel="#{firmalistaItem1.opis}"/>
+                        </p:selectOneMenu>
+                     </p:panelGrid>
+                     <p:panelGrid columns="2">
+                     <h:outputText value="cena"/>
+                     <bcf:inputpl value="#{kadryfakturapozycjaView.selected.cena}" />
+                     <h:outputText value="waluta"/>
+                     <p:selectOneMenu id="waluta" value="#{kadryfakturapozycjaView.selected.waluta}" required="true" requiredMessage="Wybierz firmę" converter="#{walutaConverter}" styleClass="datalistadef">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{kadryfakturapozycjaView.listawaluty}"
+                                           var="firmalistaItem2"
+                                           itemValue="#{firmalistaItem2}" itemLabel="#{firmalistaItem2.symbolwaluty}"/>
+                        </p:selectOneMenu>
+                     <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{kadryfakturapozycjaView.dodaj}" update="@form"/>
                 </p:panelGrid>
-                 <p:dataTable id="datalist" value="#{fakturaopisuslugiView.lista}" var="item111"
+                 <p:dataTable id="datalist" value="#{kadryfakturapozycjaView.lista}" var="item111"
                                  selectionMode="single"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" 
                                  scrollable="true" scrollHeight="400" scrollRows="30" 
-                                 style="width: 500px;"
+                                 style="width: 1000px;"
                                  emptyMessage="Nie pobrano elementów"
                                  >
                     <p:ajax event="filter" partialSubmit="true" global="false" />
@@ -182,28 +207,49 @@
                             </f:facet>
                             <h:outputText value="#{indexumowa+1}"/>
                         </p:column>
-                     <p:column width="300" style="text-align: left;" sortBy="#{item111.opis}" sortOrder="asc"
-                               filterBy="#{item111.opis}" filterMatchMode="contains">
+                     <p:column width="300" style="text-align: left;" sortBy="#{item111.firmakadry.nazwa}" sortOrder="asc"
+                               filterBy="#{item111.firmakadry.nazwa}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="firma"/>
+                            </f:facet>
+                            <h:outputText value="#{item111.firmakadry.nazwa}"/>
+                      </p:column>
+                    <p:column width="200" style="text-align: left;" sortBy="#{item111.opisuslugi.opis}" sortOrder="asc"
+                               filterBy="#{item111.opisuslugi.opis}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="opis"/>
                             </f:facet>
-                           
-                                <p:inplace editor="true">
+                            <h:outputText value="#{item111.opisuslugi.opis}"/>
+                      </p:column>
+                    <p:column width="70" style="text-align: left;" sortBy="#{item111.cena}" sortOrder="asc"
+                              filterBy="#{item111.cena}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="cena"/>
+                            </f:facet>
+                            <p:inplace editor="true">
                                  <f:facet name="output">
-                                      <h:outputText value="#{item111.opis}"/>
+                                      <bcf:outputpl value="#{item111.cena}"/>
                                  </f:facet>
                                  <f:facet name="input">
-                                     <p:inputText value="#{item111.opis}" />
+                                     <bcf:inputpl value="#{item111.cena}" />
                                  </f:facet>
-                                         <p:ajax event="save" listener="#{fakturaopisuslugiView.edytuj(item111)}" />
+                                         <p:ajax event="save" listener="#{kadryfakturapozycjaView.edytuj(item111)}" />
                             </p:inplace>
                       </p:column>
-                      
+                    <p:column width="40" style="text-align: center;" sortBy="#{item111.waluta.symbolwaluty}" sortOrder="asc"
+                               filterBy="#{item111.waluta.symbolwaluty}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value="#{item111.waluta.symbolwaluty}"/>
+                      </p:column>
                      <p:column width="30" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <p:commandButton icon="pi pi-trash" actionListener="#{fakturaopisuslugiView.usun(item111)}" update="@parent:@parent"/>
+                         <p:commandButton icon="pi pi-trash" actionListener="#{kadryfakturapozycjaView.usun(item111)}" update="@parent:@parent">
+                             <p:confirm type="popup" header="Potwierdzenie" message="Usunąć pozycję?" icon="pi pi-exclamation-triangle"/>
+                         </p:commandButton>
                         </p:column>
                  </p:dataTable>
              </p:outputPanel>
