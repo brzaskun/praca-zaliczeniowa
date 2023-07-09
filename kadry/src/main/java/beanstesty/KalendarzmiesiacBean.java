@@ -690,6 +690,11 @@ public class KalendarzmiesiacBean {
             if (kal.getRok().equals(rok) && kal.getMc().equals(mc)) {
                 String dataetat1 = Data.ostatniDzien(kal.getRok(), kal.getMc());
                 EtatPrac pobierzetat1 = kalendarz.getAngaz().pobierzetat(dataetat1);
+                if (pobierzetat==null) {
+                    System.out.println("KalendarzmiesiacBean");
+                    System.out.println("private static List<Kalendarzmiesiac> pobierzkalendarzeDoSrednich(Kalendarzmiesiac kalendarz) {");
+                    System.out.println("Brak etatu u pracownika!!!");
+                }
                 //pobieramy z uwzglednieniem tego samego etatu
                 if (pobierzetat.equals(pobierzetat1)) {
                     kalendarze.add(kal);

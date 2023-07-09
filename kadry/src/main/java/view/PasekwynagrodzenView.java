@@ -34,6 +34,7 @@ import daoplatnik.UbezpZusrcaDAO;
 import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
+import entity.EtatPrac;
 import entity.FirmaKadry;
 import entity.Grupakadry;
 import entity.Kalendarzmiesiac;
@@ -387,7 +388,7 @@ public class PasekwynagrodzenView implements Serializable {
                             rachunekdoumowyzlecenia.setPasekwynagrodzen(pasek);
                         }
                     } catch (Exception e) {
-                        E.e(e);
+                        System.out.println(E.e(e));
                         Msg.msg("e","Błąd podczas wyliczania "+angaz.getNazwiskoiImie()+" "+E.e(e));
                     }
                     
@@ -686,6 +687,7 @@ public class PasekwynagrodzenView implements Serializable {
                     Kalendarzmiesiac kal = it.next();
                     Pasekwynagrodzen pasek = kal.getPasek(wybranalistaplac);
                     if (kal.getAngaz().getAktywnaUmowa() != null) {
+                        List<EtatPrac> etatList = kal.getAngaz().getEtatList();
                         if (kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie() || kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja()) {
                             it.remove();
                         } else {
@@ -709,6 +711,9 @@ public class PasekwynagrodzenView implements Serializable {
                                 }
                                 if (jestwokresie == false) {
                                     it.remove();
+                                } else  if (etatList==null||etatList.isEmpty()) {
+                                    it.remove();
+                                    Msg.msg("e","Brak etatu dla "+kal.getNazwiskoImie());
                                 }
                             }
                         }

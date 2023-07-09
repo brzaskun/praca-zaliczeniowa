@@ -50,7 +50,7 @@ public class Loging implements Serializable {
         try {
             invalidatesession();
             uzytkownik = "2";
-            haslo = "12";
+            haslo = "12345678";
             //uzytkownik ="pagum.pawel.gumulak@gmail.com";
             //haslo = "6452575972";
         } catch (Exception e) {
