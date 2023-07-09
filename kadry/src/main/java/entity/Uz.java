@@ -7,8 +7,10 @@ package entity;
 import data.Data;
 import java.io.Serializable;
 import java.security.MessageDigest;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -103,6 +106,8 @@ public class Uz implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "uz")
+    private List<Kadryfakturapozycja> kadryfakturapozycjaList;
     @Transient
     
     
