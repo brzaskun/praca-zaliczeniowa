@@ -231,7 +231,7 @@ private static final long serialVersionUID = 1L;
                     }
                 }
             }
-            if (zwrot!=null&&zwrot.size()==12) {
+            if (zwrot!=null&&zwrot.size()>0) {
                 Sredniadlanieobecnosci razem = sumujsrednia(zwrot);
                 zwrot.add(razem);
             }

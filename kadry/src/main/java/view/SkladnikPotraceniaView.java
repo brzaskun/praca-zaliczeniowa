@@ -46,7 +46,9 @@ public class SkladnikPotraceniaView  implements Serializable {
     @PostConstruct
     public void init() {
         if (wpisView.getAngaz()!=null) {
-            lista  = skladnikPotraceniaFacade.findByPracownik(wpisView.getAngaz().getPracownik());
+            //bylo findBypracownik, ale to doprowadzalo do idiotyzmow, pokjazywal w danej firmie potracenia przyporzadkowane do innego angazu
+            //trzeba to bedzie zrobic inaczej
+            lista  = skladnikPotraceniaFacade.findByAngaz(wpisView.getAngaz());
             if (lista==null) {
                 lista = new ArrayList<>();
             }else if (lista.size()>0){
