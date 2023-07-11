@@ -1247,10 +1247,11 @@ private static final long serialVersionUID = 1L;
 
     
 
-    public double pobierzPodstaweNieobecnosc(Nieobecnosc nieobecnosc, Skladnikwynagrodzenia skladnikwynagrodzenia) {
+    public double pobierzPodstaweNieobecnosc(Nieobecnosc nieobecnosc, Skladnikwynagrodzenia skladnikwynagrodzenia, Definicjalistaplac definicjabiezaca) {
         double kwota = 0.0;
-        if (this.getPasek()!=null) {
-            for (Naliczenienieobecnosc p : this.getPasek().getNaliczenienieobecnoscList()) {
+        Pasekwynagrodzen pasek = this.getPasek(definicjabiezaca);
+        if (pasek!=null) {
+            for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
                 if (p.getSkladnikwynagrodzenia().equals(skladnikwynagrodzenia)) {
                     if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("CH")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("ZC")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("W")) {
                         kwota = p.getPodstawadochoroby();
@@ -1261,10 +1262,11 @@ private static final long serialVersionUID = 1L;
         return kwota;
     }
     
-    public double pobierzSumeKwotNieobecnosc(Nieobecnosc nieobecnosc, Skladnikwynagrodzenia skladnikwynagrodzenia) {
+    public double pobierzSumeKwotNieobecnosc(Nieobecnosc nieobecnosc, Skladnikwynagrodzenia skladnikwynagrodzenia, Definicjalistaplac definicjabiezaca) {
         double kwota = 0.0;
-        if (this.getPasek()!=null) {
-            for (Naliczenienieobecnosc p : this.getPasek().getNaliczenienieobecnoscList()) {
+        Pasekwynagrodzen pasek = this.getPasek(definicjabiezaca);
+        if (pasek!=null) {
+            for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
                 if (p.getSkladnikwynagrodzenia().equals(skladnikwynagrodzenia)) {
                     if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("CH")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("ZC")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("W")) {
                         kwota = p.getSumakwotdosredniej();

@@ -596,7 +596,7 @@ public class KalendarzmiesiacBean {
         } else {
             sredniadopodstawyzmienne = 0.0;
             //kontynuacja zwolnienia jest ciaglosc trzeba pobrac poprzednia zmienna
-            sredniadopodstawyzmienne = sredniaKontynuacja(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarz, kalendarze, nieobecnosc);
+            sredniadopodstawyzmienne = sredniaKontynuacja(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarz, kalendarze, nieobecnosc, definicjalistaplac);
             //idziemy dalej jak nie bylo choroby w w okresie krtotszum niz 1 mcy
             if (sredniadopodstawyzmienne == 0.0) {
                 double i = 0.0;
@@ -765,7 +765,8 @@ public class KalendarzmiesiacBean {
         return sredniadopodstawy;
     }
     
-    private static double sredniaKontynuacja(Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Naliczenienieobecnosc naliczenienieobecnosc, Kalendarzmiesiac kalendarz,List<Kalendarzmiesiac> kalendarze, Nieobecnosc nieobecnosc) {
+    private static double sredniaKontynuacja(Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Naliczenienieobecnosc naliczenienieobecnosc, Kalendarzmiesiac kalendarz,List<Kalendarzmiesiac> kalendarze, Nieobecnosc nieobecnosc,
+    Definicjalistaplac definicjabiezaca) {
         double sredniadopodstawy = 0.0;
         double sumakwotdosredniej = 0.0;
         double sredniadopodstawyzmienne = 0.0;
@@ -776,8 +777,8 @@ public class KalendarzmiesiacBean {
                     if (kalendarzdosredniej.czyjestchoroba()) {
                         int ilemcy = Mce.odlegloscMcy(kalendarzdosredniej.getMc(), kalendarzdosredniej.getRok(), kalendarz.getMc(), kalendarz.getRok());
                         if (ilemcy <= 1) {
-                            sumakwotdosredniej = kalendarzdosredniej.pobierzSumeKwotNieobecnosc(nieobecnosc, skladnikwynagrodzenia);
-                            sredniadopodstawyzmienne = kalendarzdosredniej.pobierzPodstaweNieobecnosc(nieobecnosc, skladnikwynagrodzenia);
+                            sumakwotdosredniej = kalendarzdosredniej.pobierzSumeKwotNieobecnosc(nieobecnosc, skladnikwynagrodzenia, definicjabiezaca);
+                            sredniadopodstawyzmienne = kalendarzdosredniej.pobierzPodstaweNieobecnosc(nieobecnosc, skladnikwynagrodzenia, definicjabiezaca);
                             kontynuacja = kalendarzdosredniej.getRokMc();
                         }
                     }
