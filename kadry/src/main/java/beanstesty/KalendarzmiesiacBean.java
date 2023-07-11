@@ -607,7 +607,8 @@ public class KalendarzmiesiacBean {
                     int dniprzepracowaneIurlop = 0;
                     double godzinyrobocze = 0;
                     double godzinyprzepracowaneIurlop = 0;
-                    boolean braknieobecnoscninieusprawiedliwionej = true;
+                    boolean jestnieobecnoscnieusprawiedliwiona = false;
+                    boolean rozpoczeciepracy = kalendarzdosredniej.czyjestZarudnienieWtrakcieMca();
                     if (kalendarzdosredniej.getDzienList() != null) {
                         for (Dzien d : kalendarzdosredniej.getDzienList()) {
                             if (d.getTypdnia() == 0) {
@@ -623,7 +624,7 @@ public class KalendarzmiesiacBean {
                             }
                             //uniemozliwiamy waloryzacje za miesiace kiedy byly NN
                             if (d.getNieobecnosc()!=null&&d.getNieobecnosc().getRodzajnieobecnosci().isBrakuzupelnianiapodtsawyzasilku()) {
-                                braknieobecnoscninieusprawiedliwionej = false;
+                                jestnieobecnoscnieusprawiedliwiona = true;
                             }
                         }
                         double dninieprzepracowane = dnirobocze - dniprzepracowaneIurlop;
@@ -632,15 +633,19 @@ public class KalendarzmiesiacBean {
                         }
                         //jezeli mial nieobecnosc nieusprawiedliwiona to nie waloryzujemy
                     }
-                    if (braknieobecnoscninieusprawiedliwionej && (czyjestwiecejniepracy || kalendarzdosredniej.equals(kalendarz))) {
+                    boolean pominiety = false;
+                    Definicjalistaplac definicjabiezaca = definicjadlazasilkow != null ? definicjadlazasilkow : definicjalistaplac;
+                    if (jestnieobecnoscnieusprawiedliwiona || czyjestwiecejniepracy || kalendarzdosredniej.equals(kalendarz)||rozpoczeciepracy) {
                         //jest wiecej nieprzepracowanego wiec robimy tylko statystycznie
-                        boolean pominiety = true;
-                        sredniaStatystycznaMiesiacpominiety(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarzdosredniej, kalendarz, definicjalistaplac, dnirobocze, dniprzepracowaneIurlop, godzinyrobocze, godzinyprzepracowaneIurlop, pominiety);
+                        pominiety = true;
+                        //sredniaStatystycznaMiesiacpominiety(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarzdosredniej, kalendarz, definicjalistaplac, dnirobocze, dniprzepracowaneIurlop, godzinyrobocze, godzinyprzepracowaneIurlop, pominiety);
+                        //11072023 rtamta srednia dawala niepelne informacje w analizie
+                        sredniaMiesiacLiczony(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarzdosredniej, kalendarz, definicjalistaplac, 
+                                definicjabiezaca, dnirobocze, dniprzepracowaneIurlop, godzinyrobocze, godzinyprzepracowaneIurlop, pominiety, jestoddelegowanie);
                         it.remove();
                     } else {
                         //jest wiecej przepracowanych miesiaca brany do wyliczania
-                        Definicjalistaplac definicjabiezaca = definicjadlazasilkow != null ? definicjadlazasilkow : definicjalistaplac;
-                        boolean pominiety = false;
+                        pominiety = false;
                         sredniadopodstawyzmienne = sredniadopodstawyzmienne+sredniaMiesiacLiczony(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarzdosredniej, kalendarz, definicjalistaplac, 
                                 definicjabiezaca, dnirobocze, dniprzepracowaneIurlop, godzinyrobocze, godzinyprzepracowaneIurlop, pominiety, jestoddelegowanie);
                         i++;
@@ -687,7 +692,9 @@ public class KalendarzmiesiacBean {
         for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
                         //usuwamy to bo nie poslugujemy sie juz d, chyba
             //boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
-            if (kal.getRok().equals(rok) && kal.getMc().equals(mc)) {
+            //PRZYWRACAMY 11072023 bi nie ma innej metody
+            
+            if (kal.getRok().equals(rok) && kal.getMc().equals(mc) && kal.getPasekwynagrodzenList()!=null&& kal.getPasekwynagrodzenList().size()>0) {
                 String dataetat1 = Data.ostatniDzien(kal.getRok(), kal.getMc());
                 EtatPrac pobierzetat1 = kalendarz.getAngaz().pobierzetat(dataetat1);
                 if (pobierzetat==null) {
@@ -800,32 +807,32 @@ public class KalendarzmiesiacBean {
         return sredniadopodstawy;
     }
     
-    public static void sredniaStatystycznaMiesiacpominiety(Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Naliczenienieobecnosc naliczenienieobecnosc, Kalendarzmiesiac kalendarzdosredniej,
-       Kalendarzmiesiac kalendarz,Definicjalistaplac definicjalistaplac, int dnirobocze, int dniprzepracowaneIurlop, double godzinyrobocze, double godzinyprzepracowaneIurlop, boolean pominiety) {
-       boolean skladnikstaly = false;
-        if (!kalendarzdosredniej.equals(kalendarz)) {
-            double wynagrodzeniemcwyplacone = 0.0;
-            if (kalendarzdosredniej.getPasek(definicjalistaplac).getNaliczenieskladnikawynagrodzeniaList() != null) {
-                for (Naliczenieskladnikawynagrodzenia pa : kalendarzdosredniej.getPasek(definicjalistaplac).getNaliczenieskladnikawynagrodzeniaList()) {
-                    if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
-                        wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + pa.getKwotadolistyplac();
-                    }
-                }
-            }
-            if (kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList() != null) {
-                for (Naliczenienieobecnosc r : kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList()) {
-                    if (r.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy() == false) {
-                        if (r.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
-                            wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + r.getKwota();
-                        }
-                    }
-                }
-            }
-            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), wynagrodzeniemcwyplacone, skladnikstaly, 
-                    naliczenienieobecnosc, pominiety, godzinyprzepracowaneIurlop, dniprzepracowaneIurlop, godzinyrobocze, dnirobocze);
-            naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
-        }
-    }
+//    public static void sredniaStatystycznaMiesiacpominiety(Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Naliczenienieobecnosc naliczenienieobecnosc, Kalendarzmiesiac kalendarzdosredniej,
+//       Kalendarzmiesiac kalendarz,Definicjalistaplac definicjalistaplac, int dnirobocze, int dniprzepracowaneIurlop, double godzinyrobocze, double godzinyprzepracowaneIurlop, boolean pominiety) {
+//       boolean skladnikstaly = false;
+//        if (!kalendarzdosredniej.equals(kalendarz)) {
+//            double wynagrodzeniemcwyplacone = 0.0;
+//            if (kalendarzdosredniej.getPasek(definicjalistaplac).getNaliczenieskladnikawynagrodzeniaList() != null) {
+//                for (Naliczenieskladnikawynagrodzenia pa : kalendarzdosredniej.getPasek(definicjalistaplac).getNaliczenieskladnikawynagrodzeniaList()) {
+//                    if (pa.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
+//                        wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + pa.getKwotadolistyplac();
+//                    }
+//                }
+//            }
+//            if (kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList() != null) {
+//                for (Naliczenienieobecnosc r : kalendarzdosredniej.getPasek().getNaliczenienieobecnoscList()) {
+//                    if (r.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy() == false) {
+//                        if (r.getSkladnikwynagrodzenia().equals(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia())) {
+//                            wynagrodzeniemcwyplacone = wynagrodzeniemcwyplacone + r.getKwota();
+//                        }
+//                    }
+//                }
+//            }
+//            Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarzdosredniej.getRok(), kalendarzdosredniej.getMc(), wynagrodzeniemcwyplacone, skladnikstaly, 
+//                    naliczenienieobecnosc, pominiety, godzinyprzepracowaneIurlop, dniprzepracowaneIurlop, godzinyrobocze, dnirobocze);
+//            naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
+//        }
+//    }
     //tutaj odbywa sie waloryzacja skladnikow stalych
     public static double sredniaMiesiacLiczony(Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Naliczenienieobecnosc naliczenienieobecnosc, Kalendarzmiesiac kalendarzdosredniej,
        Kalendarzmiesiac kalendarz,Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjabiezaca, int dnirobocze, int dniprzepracowaneIurlop, double godzinyrobocze, double godzinyprzepracowaneIurlop, boolean pominiety, boolean jestoddelegowanie) {

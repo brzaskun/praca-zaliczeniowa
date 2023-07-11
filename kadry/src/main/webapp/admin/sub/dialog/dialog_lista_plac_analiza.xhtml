@@ -357,27 +357,30 @@
                                                 <h:outputText value="#{itempaseksredniasuma.kontynuacja}" />
                                             </p:column>
                                             <p:column headerText="kwota l.p." width="80">
-                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotawyplaconapobrana}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':null}"/>
+                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotawyplaconapobrana}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':itempaseksredniasuma.pominiete eq true?'color: gray':null}"/>
                                             </p:column>
                                             <p:column headerText="red. oddel." width="40">
                                                 <bcf:outputplprocent value="#{itempaseksredniasuma.procentoddelegowanie}" rendered="#{itempaseksredniasuma.rok ne 'razem'}"/>
                                             </p:column>
                                             <p:column headerText="wyl. RCA" width="80">
-                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotawyplacona}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':null}"/>
+                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotawyplacona}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':itempaseksredniasuma.pominiete eq true?'color: gray':null}"/>
                                             </p:column>
                                             <p:column headerText="pobr. RCA" width="80">
-                                                <bcf:outputpl value="#{itempaseksredniasuma.podstawarca}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':null}"/>
+                                                <bcf:outputpl value="#{itempaseksredniasuma.podstawarca}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':itempaseksredniasuma.pominiete eq true?'color: gray':null}"/>
                                             </p:column>
                                             <p:column headerText="śr. min. społ." width="80">
-                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotawyplaconaminuszus}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':null}"/>
+                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotawyplaconaminuszus}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':itempaseksredniasuma.pominiete eq true?'color: gray':null}"/>
                                             </p:column>
                                             <p:column headerText="procent" width="80">
-                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotawyplaconaminuszusProcent}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':null}"/>
+                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotawyplaconaminuszusProcent}" stylePlus="#{itempaseksredniasuma.rok eq 'razem'?'color: green':itempaseksredniasuma.pominiete eq true?'color: gray':null}"/>
                                             </p:column>
                                             <p:column headerText="kwota zwaloryz." width="50">
-                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotazwaloryzowana}" rendered="#{itempaseksredniasuma.rok ne 'razem'}"/>
+                                                <bcf:outputpl value="#{itempaseksredniasuma.kwotazwaloryzowana}" rendered="#{itempaseksredniasuma.rok ne 'razem'}" stylePlus="#{itempaseksredniasuma.pominiete eq true?'color: gray':null}"/>
                                             </p:column>
                                         </p:dataTable>
+                                <p:outputPanel style="padding: 10px;">
+                                        <h:outputText value="sumy nie zawierają kwot z miesiąców pominiętych" style="color: green"/>
+                                </p:outputPanel>
                             </p:outputPanel>
                         </p:tab>
                     </p:tabView>

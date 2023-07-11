@@ -291,15 +291,17 @@ private static final long serialVersionUID = 1L;
 
     private Sredniadlanieobecnosci sumujsrednia(List<Sredniadlanieobecnosci> lista) {
         Sredniadlanieobecnosci zwrot = new Sredniadlanieobecnosci();
+        zwrot.setRok("razem");
         if (lista!=null) {
             for (Sredniadlanieobecnosci srednia : lista) {
-                zwrot.setRok("razem");
-                zwrot.setNaliczenienieobecnosc(srednia.getNaliczenienieobecnosc());
-                zwrot.setKwotawyplaconapobrana(srednia.getKwotawyplaconapobrana()+zwrot.getKwotawyplaconapobrana());
-                zwrot.setKwotawyplacona(srednia.getKwotawyplacona()+zwrot.getKwotawyplacona());
-                zwrot.setKwotazwaloryzowana(srednia.getKwotazwaloryzowana()+zwrot.getKwotazwaloryzowana());
-                zwrot.setStawkagodzinowa(srednia.getStawkagodzinowa()+zwrot.getStawkagodzinowa());
-                zwrot.setPodstawarca(srednia.getPodstawarca()+zwrot.getPodstawarca());
+                if (srednia.isPominiete()==false) {
+                    zwrot.setNaliczenienieobecnosc(srednia.getNaliczenienieobecnosc());
+                    zwrot.setKwotawyplaconapobrana(srednia.getKwotawyplaconapobrana()+zwrot.getKwotawyplaconapobrana());
+                    zwrot.setKwotawyplacona(srednia.getKwotawyplacona()+zwrot.getKwotawyplacona());
+                    zwrot.setKwotazwaloryzowana(srednia.getKwotazwaloryzowana()+zwrot.getKwotazwaloryzowana());
+                    zwrot.setStawkagodzinowa(srednia.getStawkagodzinowa()+zwrot.getStawkagodzinowa());
+                    zwrot.setPodstawarca(srednia.getPodstawarca()+zwrot.getPodstawarca());
+                }
             }
         }
         return zwrot;
@@ -566,7 +568,7 @@ private static final long serialVersionUID = 1L;
         boolean zwrot = false;
         if (this.dzienList!=null) {
             for (Dzien d : dzienList) {
-                if (d.getKod()!=null&&d.getKod().equals("D")&&d.getTypdnia()==0) {
+                if (d.getKod()!=null&&d.getKod().equals("D")) {
                     zwrot = true;
                     break;
                 }
