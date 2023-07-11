@@ -250,7 +250,7 @@ public class Pasekwynagrodzen implements Serializable {
     private Integer lis_tyt_serial;
     @Column(name = "lpl_serial")
     private Integer lpl_serial;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Naliczeniepotracenie> naliczeniepotracenieList;

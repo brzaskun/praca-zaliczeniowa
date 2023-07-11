@@ -556,6 +556,8 @@ public class PasekwynagrodzenView implements Serializable {
                             rachunekdoumowyzleceniaFacade.edit(rach);
                             it.remove();
                         }
+                        p.setRachunekdoumowyzleceniaList(null);
+                        pasekwynagrodzenFacade.edit(p);
                     }
                      pasekwynagrodzenFacade.remove(p);
                 }
@@ -581,6 +583,8 @@ public class PasekwynagrodzenView implements Serializable {
                             rachunekdoumowyzleceniaFacade.edit(rach);
                             it.remove();
                         }
+                        p.setRachunekdoumowyzleceniaList(null);
+                        pasekwynagrodzenFacade.edit(p);
                     }   
                 }
                 pasekwynagrodzenFacade.remove(p);
