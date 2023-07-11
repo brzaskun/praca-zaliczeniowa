@@ -96,40 +96,42 @@ public class ZaswiadczeniaView  implements Serializable {
         Pracownik pracownik = wpisView.getPracownik();
         List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
         if (umowy !=null&&umowy.size()>0) {
-            Collections.sort(umowy, new Umowacomparator());
-            Umowa pierwsza = umowy.get(umowy.size()-1);
-            Umowa ostatnia = umowy.get(0);
-            //kiedys uzupelnial tylko jak data byla pusta, a przeciez powinien na biezaco
-                pracownik.setDatazatrudnienia(pierwsza.getDataod());
-                pracownik.setDatazwolnienia(ostatnia.getDatado());
-                pracownikFacade.edit(pracownik);
-            
-            rodzajumowy = ostatnia.getUmowakodzus().isPraca()?"umowa o pracę":"umowa zlecenia";
-            czastrwania = ostatnia.getCzastrwania();
-            dataostatnieumowy = ostatnia.getDataod();
-            List<EtatPrac> etatList = wpisView.getAngaz().getEtatList();
-            if (etatList!=null&&etatList.size()==1) {
-                EtatPrac etata = etatList.get(0);
-                etat = etata.getEtat();
-            } else if (etatList!=null&&etatList.size()>1) {
-                Collections.sort(etatList, new Etatcomparator());
-                EtatPrac etata = etatList.get(0);
-                etat = etata.getEtat();
-            }
-            List<Stanowiskoprac> stanowiskopracList = wpisView.getAngaz().getStanowiskopracList();
-            if (stanowiskopracList!=null&&stanowiskopracList.size()==1) {
-                Stanowiskoprac stano = stanowiskopracList.get(0);
-                stanowisko = stano.getOpis();
-            } else if (stanowiskopracList!=null&&stanowiskopracList.size()>1) {
-                Collections.sort(stanowiskopracList, new Stanowiskocomparator());
-                Stanowiskoprac stano = stanowiskopracList.get(0);
-                stanowisko = stano.getOpis();
-            }
-            Object[] pdane = pobierzkarty(dataod, datado);
-            bruttosrednia = (double) pdane[0];
-            nettosrednia = (double) pdane[1];
-            czyjestkomornik = (boolean) pdane[3];
-            paskiwynagrodzen = (List<Pasekwynagrodzen>) pdane[2];
+            try {
+                Collections.sort(umowy, new Umowacomparator());
+                Umowa pierwsza = umowy.get(umowy.size()-1);
+                Umowa ostatnia = umowy.get(0);
+                //kiedys uzupelnial tylko jak data byla pusta, a przeciez powinien na biezaco
+                    pracownik.setDatazatrudnienia(pierwsza.getDataod());
+                    pracownik.setDatazwolnienia(ostatnia.getDatado());
+                    pracownikFacade.edit(pracownik);
+
+                rodzajumowy = ostatnia.getUmowakodzus().isPraca()?"umowa o pracę":"umowa zlecenia";
+                czastrwania = ostatnia.getCzastrwania();
+                dataostatnieumowy = ostatnia.getDataod();
+                List<EtatPrac> etatList = wpisView.getAngaz().getEtatList();
+                if (etatList!=null&&etatList.size()==1) {
+                    EtatPrac etata = etatList.get(0);
+                    etat = etata.getEtat();
+                } else if (etatList!=null&&etatList.size()>1) {
+                    Collections.sort(etatList, new Etatcomparator());
+                    EtatPrac etata = etatList.get(0);
+                    etat = etata.getEtat();
+                }
+                List<Stanowiskoprac> stanowiskopracList = wpisView.getAngaz().getStanowiskopracList();
+                if (stanowiskopracList!=null&&stanowiskopracList.size()==1) {
+                    Stanowiskoprac stano = stanowiskopracList.get(0);
+                    stanowisko = stano.getOpis();
+                } else if (stanowiskopracList!=null&&stanowiskopracList.size()>1) {
+                    Collections.sort(stanowiskopracList, new Stanowiskocomparator());
+                    Stanowiskoprac stano = stanowiskopracList.get(0);
+                    stanowisko = stano.getOpis();
+                }
+                Object[] pdane = pobierzkarty(dataod, datado);
+                bruttosrednia = (double) pdane[0];
+                nettosrednia = (double) pdane[1];
+                czyjestkomornik = (boolean) pdane[3];
+                paskiwynagrodzen = (List<Pasekwynagrodzen>) pdane[2];
+            } catch (Exception e) {}
         }
     }
     
