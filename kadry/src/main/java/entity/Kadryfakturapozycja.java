@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -54,6 +57,9 @@ public class Kadryfakturapozycja implements Serializable {
     @JoinColumn(name = "waluta", referencedColumnName = "idwaluty")
     @ManyToOne(optional = false)
     private Waluty waluta;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "datadodania")
+    private Date datadodania;
 
     public Kadryfakturapozycja() {
     }
@@ -108,6 +114,14 @@ public class Kadryfakturapozycja implements Serializable {
 
     public void setWaluta(Waluty waluta) {
         this.waluta = waluta;
+    }
+
+    public Date getDatadodania() {
+        return datadodania;
+    }
+
+    public void setDatadodania(Date datadodania) {
+        this.datadodania = datadodania;
     }
 
     @Override

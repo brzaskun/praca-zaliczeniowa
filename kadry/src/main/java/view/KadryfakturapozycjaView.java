@@ -15,6 +15,7 @@ import entity.Kadryfakturapozycja;
 import entity.Waluty;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -65,6 +66,7 @@ public class KadryfakturapozycjaView  implements Serializable {
         if (selected.getFirmakadry()!=null) {
             try {
                 selected.setUz(wpisView.getUzer());
+                selected.setDatadodania(new Date());
                 kadryfakturapozycjaFacade.create(selected);
                 lista.add(selected);
                 selected = new Kadryfakturapozycja();
@@ -88,6 +90,7 @@ public class KadryfakturapozycjaView  implements Serializable {
      
      public void edytuj(Kadryfakturapozycja selected) {
         if (selected!=null&&selected.getCena()!=0) {
+            selected.setDatadodania(new Date());
             kadryfakturapozycjaFacade.edit(selected);
             Msg.msg("Zmieniono pozycję");
             
