@@ -89,7 +89,7 @@
                     <p:dataTable id="datalist" value="#{rozwiazanieumowyView.dnidoswiadectwa}" var="itemsw"
                                  selectionMode="single" selection="#{rozwiazanieumowyView.selected}" rowIndexVar="itemswin"
                                  rowKey="#{itemsw.id}" emptyMessage="Brak sporządzonych rozwiązań umowy"
-                                 style="width: 950px;height: 550px; overflow-y: scroll;margin-top: 20px;"
+                                 style="width: 990px;height: 550px; overflow-y: scroll;margin-top: 20px;"
                                  >
                         <p:ajax event="rowSelect" partialSubmit="true" global="false" />
                         <p:column width="20" style="text-align: center;">
@@ -127,9 +127,15 @@
                         </p:column>
                         <p:column width="40">
                             <f:facet name="header">
-                                <h:outputText value="dni"/>
+                                <h:outputText value="dni kalendarz."/>
                             </f:facet>
-                            <h:outputText value="#{itemsw.dni}"/>
+                            <h:outputText value="#{itemsw.dnikalendarzowe}"/>
+                        </p:column>
+                        <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value="dni robocze"/>
+                            </f:facet>
+                            <h:outputText value="#{itemsw.dnirobocze}"/>
                         </p:column>
                         <p:column width="40">
                             <f:facet name="header">

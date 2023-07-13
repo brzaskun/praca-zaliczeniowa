@@ -227,7 +227,7 @@ public class UrlopBean {
             Set<String> napoczetemiesiace = new HashSet<>();
             String dataod = data.Data.pierwszyDzien(rok, "01");
             for (Umowa p : umowy) {
-                if (p.isLiczdourlopu()) {
+                if (p.isLiczdourlopu() && p.isPraca()) {
                     if (p.getSlownikszkolazatrhistoria() != null) {
                         if (p.getSlownikszkolazatrhistoria().getPraca0nauka1() == false) {
                             boolean czyumowaztegoroku = p.czynalezydoroku(rok);

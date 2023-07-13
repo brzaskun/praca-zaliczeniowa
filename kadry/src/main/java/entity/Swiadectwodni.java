@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Swiadectwodni.findById", query = "SELECT s FROM Swiadectwodni s WHERE s.id = :id"),
     @NamedQuery(name = "Swiadectwodni.findBySwiadectwo", query = "SELECT s FROM Swiadectwodni s WHERE s.swiadectwo = :swiadectwo"),
     @NamedQuery(name = "Swiadectwodni.findByNieobecnoscswiadectwoschema", query = "SELECT s FROM Swiadectwodni s WHERE s.nieobecnoscswiadectwoschema = :nieobecnoscswiadectwoschema"),
-    @NamedQuery(name = "Swiadectwodni.findByDni", query = "SELECT s FROM Swiadectwodni s WHERE s.dni = :dni"),
+    @NamedQuery(name = "Swiadectwodni.findByDni", query = "SELECT s FROM Swiadectwodni s WHERE s.dnikalendarzowe = :dnikalendarzowe"),
     @NamedQuery(name = "Swiadectwodni.findByGodziny", query = "SELECT s FROM Swiadectwodni s WHERE s.godziny = :godziny")})
 public class Swiadectwodni implements Serializable {
 
@@ -50,8 +50,10 @@ public class Swiadectwodni implements Serializable {
     @JoinColumn(name = "nieobecnoscswiadectwoschema", referencedColumnName = "id")
     private Nieobecnoscswiadectwoschema nieobecnoscswiadectwoschema;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "dni", precision = 22, scale = 0)
-    private double dni;
+    @Column(name = "dnikalendarzowe", precision = 22, scale = 0)
+    private double dnikalendarzowe;
+    @Column(name = "dnirobocze", precision = 22, scale = 0)
+    private double dnirobocze;
     @Column(name = "godziny", precision = 22, scale = 0)
     private double godziny;
     @Column(name = "czesci")
@@ -95,12 +97,20 @@ public class Swiadectwodni implements Serializable {
         this.nieobecnoscswiadectwoschema = nieobecnoscswiadectwoschema;
     }
 
-    public double getDni() {
-        return dni;
+    public double getDnikalendarzowe() {
+        return dnikalendarzowe;
     }
 
-    public void setDni(double dni) {
-        this.dni = dni;
+    public void setDnikalendarzowe(double dnikalendarzowe) {
+        this.dnikalendarzowe = dnikalendarzowe;
+    }
+
+    public double getDnirobocze() {
+        return dnirobocze;
+    }
+
+    public void setDnirobocze(double dnirobocze) {
+        this.dnirobocze = dnirobocze;
     }
 
     public double getGodziny() {
@@ -150,7 +160,7 @@ public class Swiadectwodni implements Serializable {
 
     @Override
     public String toString() {
-        return "Swiadectwodni{" + "nieobecnoscswiadectwoschema=" + nieobecnoscswiadectwoschema.getRodzajnieobecnosci().getKod() + ", dni=" + dni + ", godziny=" + godziny + ", czesci=" + czesci + '}';
+        return "Swiadectwodni{" + "nieobecnoscswiadectwoschema=" + nieobecnoscswiadectwoschema.getRodzajnieobecnosci().getKod() + ", dni=" + dnikalendarzowe + ", godziny=" + godziny + ", czesci=" + czesci + '}';
     }
 
    

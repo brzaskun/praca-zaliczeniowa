@@ -180,7 +180,7 @@ public class PdfSwiadectwo {
                 String urlop2 = "w tym urlop wypoczynkowy wykorzystany na podstawie art. 167 2 Kodeksu pracy w roku kalendarzowym, w którym ustał stosunek pracy: ";
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("UZ")) {
-                        urlop2 = urlop2+s.getDni();
+                        urlop2 = urlop2+s.getDnirobocze();
                         czydodano = true;
                     }
                 }
@@ -214,7 +214,7 @@ public class PdfSwiadectwo {
                 String urlop4c = " częsciach";
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("J")) {
-                        urlop4a = urlop4a+s.getDni();
+                        urlop4a = urlop4a+s.getDnikalendarzowe();
                         urlop4b = urlop4b+s.getCzesci();
                         urlop4a = urlop4a+urlop4b+urlop4c;
                         czydodano = true;
@@ -235,7 +235,7 @@ public class PdfSwiadectwo {
                 String urlop5g = " częsciach.";
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKodzbiorczy().equals("R")) {
-                        urlop5b = urlop5b+s.getDni();
+                        urlop5b = urlop5b+s.getDnikalendarzowe();
                         urlop5c = okresy(s);
                         urlop5d = urlop5d+s.getCzesci();
                         czydodano = true;
@@ -259,7 +259,7 @@ public class PdfSwiadectwo {
                 String urlop6e = " częsciach ";
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("WY")) {
-                        urlop6b = urlop6b+s.getDni();
+                        urlop6b = urlop6b+s.getDnikalendarzowe();
                         urlop6c = okresy(s);
                         urlop6d = urlop6d+s.getCzesci();
                         urlop6a = urlop6a+urlop6b+urlop6c+urlop6d+urlop6e;//uzupelnic
@@ -278,7 +278,7 @@ public class PdfSwiadectwo {
                 String opieka = "7) wykorzystał zwolnienie od pracy przewidziane w art. 188 Kodeksu pracy ";
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("MD")) {
-                        opieka = opieka+s.getDni();
+                        opieka = opieka+s.getDnikalendarzowe();
                         czydodano = true;
                     }
                 }
@@ -292,7 +292,7 @@ public class PdfSwiadectwo {
                 double chorobadni = 0;
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("CH")) {
-                        chorobadni = chorobadni+s.getDni();
+                        chorobadni = chorobadni+s.getDnikalendarzowe();
                         czydodano = true;
                     }
                 }
@@ -309,7 +309,7 @@ public class PdfSwiadectwo {
                 String wojsko = "10) odbył służbę wojskową w okresie:  ";
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("SW")) {
-                        wojsko = wojsko+s.getDni()+" dni";
+                        wojsko = wojsko+s.getDnikalendarzowe()+" dni";
                         czydodano = true;
                     }
                 }
@@ -341,11 +341,11 @@ public class PdfSwiadectwo {
                 List<Skladnikpotracenia> skladnikpotraceniaList = angaz.getSkladnikpotraceniaList();
                 czydodano = false;
                 for (Skladnikpotracenia skl : skladnikpotraceniaList) {
-                    if (skl.getRodzajpotracenia().getOpis().contains("Tytuł wykonawczy")&&skl.isRozliczony()==false) {
+                    if (skl.getRodzajpotracenia().isPotraceniekomornicze()&&skl.isRozliczony()==false) {
                         double pozostalo = pozostalo(skl);
                         if (pozostalo>0.0) {
                             String poz = F.curr(pozostalo);
-                            String opis = skl.getRodzajpotracenia().getOpis()+" od: "+skl.getDataOd()+" kwota: "+poz;
+                            String opis = skl.getRodzajpotracenia().getOpis()+" od: "+skl.getDataOd()+" kwota potrącona: "+poz;
                             PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, opis, Element.ALIGN_LEFT, 2);
                             czydodano = true;
                         }
@@ -401,6 +401,9 @@ public class PdfSwiadectwo {
         for (Naliczeniepotracenie s : naliczeniepotracenieList) {
             zwrot = zwrot + s.getKwota();
         }
-        return Z.z(kwota-zwrot);
+        if (kwota>0) {
+            zwrot = Z.z(kwota-zwrot);
+        }
+        return Z.z(zwrot);
     }
 }

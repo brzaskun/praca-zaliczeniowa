@@ -165,7 +165,8 @@ public class RozwiazanieumowyView  implements Serializable {
                 //double dnirobocze = p.getRodzajnieobecnosci().isDnikalendarzowe() ? dniwroku.size() : dniroboczelist.size();
                 double godzinyrobocze = dniroboczelist.stream().mapToDouble(f->f.getUrlopPlatny()).sum();
                 swiadectwodni.setNieobecnoscswiadectwoschema(p);
-                swiadectwodni.setDni(dni.size());
+                swiadectwodni.setDnikalendarzowe(dni.size());
+                swiadectwodni.setDnirobocze(dniroboczelist.size());
                 swiadectwodni.setGodziny(godzinyrobocze);
                 swiadectwodni.setCzesci(filter0.size());
                 swiadectwodnilista.add(swiadectwodni);
