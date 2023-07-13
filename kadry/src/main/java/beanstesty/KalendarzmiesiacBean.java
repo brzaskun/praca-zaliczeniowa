@@ -911,14 +911,16 @@ public class KalendarzmiesiacBean {
         String[] poprzedniOkres = Data.poprzedniOkres(mc, rok);
         mc = poprzedniOkres[0];
         rok = poprzedniOkres[1];
-        List<Kalendarzmiesiac> kalendarzmiesiacList = kalendarz.getAngaz().getKalendarzmiesiacList();
+        //List<Kalendarzmiesiac> kalendarzmiesiacList = kalendarz.getAngaz().getKalendarzmiesiacList();
+        List<Kalendarzmiesiac> kalendarzmiesiacList = pobierzkalendarzeDoSrednich(kalendarz);
         Collections.sort(kalendarzmiesiacList, new KalendarzmiesiacRMcomparator());
         String dataetat = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
         EtatPrac pobierzetat = kalendarz.getAngaz().pobierzetat(dataetat);
         double i = 0.0;
         for (Kalendarzmiesiac kal : kalendarzmiesiacList) {
             //usuwamy to bo nie poslugujemy sie juz d, chyba
-            //boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
+            //przywracam do d jest aktualne 14072023
+            boolean czyjestZarudnienieWtrakcieMca = kal.czyjestZarudnienieWtrakcieMca();
             if (!kal.getRok().equals("2022")&&kal.getRok().equals(rok) && kal.getMc().equals(mc)) {
                 String dataetat1 = Data.ostatniDzien(kal.getRok(), kal.getMc());
                 EtatPrac pobierzetat1 = kalendarz.getAngaz().pobierzetat(dataetat1);
@@ -934,12 +936,13 @@ public class KalendarzmiesiacBean {
                 //bo Wisniewski i kalendarz. nie bylo 2022 i dzieliml np przez 3 zamiast przez 12;
                 i++;
             }
-//            if (kalendarze.size() == 12 || czyjestZarudnienieWtrakcieMca) {
-//                break;
-//            }
-            if (kalendarze.size() == 12||kal.getRok().equals("2022")) {
+            if (kalendarze.size() == 12 || czyjestZarudnienieWtrakcieMca) {
                 break;
             }
+            //to wyrzucam bo dzieli za malo
+//            if (kalendarze.size() == 12||kal.getRok().equals("2022")) {
+//                break;
+//            }
         }
         double dniroboczewmiesiacu = 0.0;
         double godzinyroboczewmiesiacu = 0.0;
@@ -1592,6 +1595,13 @@ public class KalendarzmiesiacBean {
         nadliczbowe = kalendarz.getDelegowanienadgodziny();
         double nadgodziny = kalendarz.getDodatekzanadgodzinymc();
         if (nadliczbowe > 0.0) {
+            //usuwa dodane fikcyjnie skladnik nadgodziny dodany dla chorobowego
+            for (Iterator<Naliczenieskladnikawynagrodzenia> it = pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().iterator();it.hasNext(); ) {
+                Naliczenieskladnikawynagrodzenia skl = it.next();
+                if (skl.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getId().equals(164)) {
+                    it.remove();
+                }
+            }
             Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
             Skladnikwynagrodzenia skladniknadgodzinydelegowanie = pobierzskladnikWksserial(kalendarz, 1071);
             if (skladniknadgodzinydelegowanie != null) {
