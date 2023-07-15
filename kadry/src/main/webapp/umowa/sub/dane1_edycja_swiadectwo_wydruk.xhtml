@@ -9,9 +9,8 @@
     <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
         <p:outputPanel>
             <h:form styleClass="formumowa" id="SwiadectwoWydrukForm">
-                <h:outputText value="wybrane wypowiedzenie"/>
                 <p:panelGrid columns="2">
-                    <h:outputText value="#{rozwiazanieumowyView.selectedlista.datadokumentu}" rendered="#{rozwiazanieumowyView.selectedlista ne null}"/>
+                    <h:outputText value="wybrane wypowiedzenie: #{rozwiazanieumowyView.selectedlista.datadokumentu}" rendered="#{rozwiazanieumowyView.selectedlista ne null}"/>
                     <h:outputText value="nie wybrano rozwiązania umowy" rendered="#{rozwiazanieumowyView.selectedlista eq null}" style="color: red;"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2">
@@ -30,9 +29,9 @@
                                  <p:ajax event="change" partialSubmit="true"/>
                              </p:inputNumber>
                     </p:panelGrid>
-                <p:panel header="Zestawienie danych do świadectwa">
-                    <p:commandButton value="druk" styleClass="buttonnorm" actionListener="#{rozwiazanieumowyView.drukujswiadectwo}"/>
-                </p:panel>
+                <p:outputPanel>
+                    <p:commandButton value="druk" styleClass="buttonnorm" actionListener="#{rozwiazanieumowyView.drukujswiadectwo}"  rendered="#{rozwiazanieumowyView.selectedlista ne null}"/>
+                </p:outputPanel>
             </h:form>
         </p:outputPanel>
     </p:panelGrid>

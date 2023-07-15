@@ -345,7 +345,7 @@ public class PdfSwiadectwo {
                         double pozostalo = pozostalo(skl);
                         if (pozostalo>0.0) {
                             String poz = F.curr(pozostalo);
-                            String opis = skl.getRodzajpotracenia().getOpis()+" od: "+skl.getDataOd()+" kwota potrącona: "+poz;
+                            String opis = skl.getRodzajpotracenia().getOpis()+" komornik: "+skl.getKomornik()+" nr sprawy: "+skl.getNrsprawy()+" kwota potrącona: "+poz;
                             PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, opis, Element.ALIGN_LEFT, 2);
                             czydodano = true;
                         }

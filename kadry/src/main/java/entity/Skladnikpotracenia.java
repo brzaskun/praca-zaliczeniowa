@@ -64,6 +64,10 @@ public class Skladnikpotracenia implements Serializable {
     private Angaz angaz;
     @Column(name = "rozliczony")
     private boolean rozliczony;
+    @Column(name = "nrsprawy")
+    private String nrsprawy;
+    @Column(name = "komornik")
+    private String komornik;
 
 
     public Skladnikpotracenia() {
@@ -224,4 +228,22 @@ public class Skladnikpotracenia implements Serializable {
         }
         return zwrot;
     }
+
+    public String getNrsprawy() {
+        return nrsprawy;
+    }
+
+    public void setNrsprawy(String nrsprawy) {
+        this.nrsprawy = nrsprawy;
+    }
+
+    public String getKomornik() {
+        return komornik;
+    }
+
+    public void setKomornik(String komornik) {
+        this.komornik = komornik;
+    }
+    
+    
 }

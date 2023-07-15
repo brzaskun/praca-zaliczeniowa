@@ -32,11 +32,11 @@
             </p:outputPanel>-->
             <p:outputPanel>
                 <h:form styleClass="formumowa" id="SkladnikpotraceniaListForm">
-                    <p:panel header="Wykaz składników potrącenia" style="width: 850px;">
+                    <p:panel header="Wykaz składników potrącenia" style="width: 900px;">
                         <p:dataTable id="datalist" value="#{skladnikPotraceniaView.lista}" var="itemskladnikpotracenia"
                                      selectionMode="single" selection="#{skladnikPotraceniaView.selectedlista}"
                                      rowKey="#{itemskladnikpotracenia.hashCode()}" emptyMessage="Brak ustalonych potrąceń"
-                                     style="height: 200px; overflow-y: scroll;width: 850px;"
+                                     style="height: 200px; overflow-y: scroll;width: 900px;"
                                      >
                             <p:ajax event="rowSelect" listener="#{zmiennaPotraceniaView.init2(skladnikPotraceniaView.selectedlista)}" partialSubmit="true" global="false" update="akordeon:ZmiennaporaceniaListForm"/>
                             <p:column width="40" style="text-align: center;" sortable="true" sortBy="#{itemskladnikpotracenia.id}" sortOrder="desc">
@@ -66,6 +66,24 @@
                                     <p:ajax event="save" listener="#{skladnikPotraceniaView.edycja(itemskladnikpotracenia)}" update="akordeon:SkladnikpotraceniaListForm"/>
                                 </p:inplace>
                             </p:column>
+                             <p:column width="80">
+                                <f:facet name="header">
+                                    <h:outputText value="nr sprawy"/>
+                                </f:facet>
+                                 <p:inputText value="#{itemskladnikpotracenia.nrsprawy}" rendered="#{itemskladnikpotracenia.id eq null}"/>
+                                <p:inputText value="#{itemskladnikpotracenia.nrsprawy}" rendered="#{itemskladnikpotracenia.id ne null}">
+                                        <p:ajax event="change" listener="#{skladnikPotraceniaView.edycja(itemskladnikpotracenia)}"/>
+                                    </p:inputText>
+                            </p:column>
+                            <p:column width="130">
+                                <f:facet name="header">
+                                    <h:outputText value="komornik"/>
+                                </f:facet>
+                                <p:inputText value="#{itemskladnikpotracenia.komornik}" rendered="#{itemskladnikpotracenia.id eq null}"/>
+                                <p:inputText value="#{itemskladnikpotracenia.komornik}"  rendered="#{itemskladnikpotracenia.id ne null}">
+                                        <p:ajax event="change" listener="#{skladnikPotraceniaView.edycja(itemskladnikpotracenia)}"/>
+                                    </p:inputText>
+                            </p:column>
                             <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="limit um. o pracę"/>
@@ -83,7 +101,6 @@
                                     <h:outputText value="#{itemskladnikpotracenia.rodzajpotracenia.limitumowazlecenia}" />
                                 </f:facet>
                             </p:column>
-                            
                             <p:column style="text-align: center; width: 30px;">
                                 <p:commandButton icon="pi pi-trash" actionListener="#{skladnikPotraceniaView.usunSkladnikPotr(itemskladnikpotracenia)}" update="north, akordeon:SkladnikpotraceniaListForm"/>
                             </p:column>

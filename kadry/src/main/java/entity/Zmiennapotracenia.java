@@ -212,5 +212,7 @@ public class Zmiennapotracenia implements Serializable {
     public void setAktywna(boolean aktywna) {
         this.aktywna = aktywna;
     }
+
+   
     
 }

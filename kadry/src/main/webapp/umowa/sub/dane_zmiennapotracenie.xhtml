@@ -50,9 +50,9 @@
                                 <f:facet name="header">
                                     <h:outputText value="nazwa"/>
                                 </f:facet>
-                                <p:inputText value="#{itemzmiennapotr.nazwa}"/>
+                                <p:inputText value="#{itemzmiennapotr.nazwa}" size="30"/>
                             </p:column>
-                            <p:column>
+                            <p:column width="60">
                                 <f:facet name="header">
                                     <h:outputText value="data od"/>
                                 </f:facet>
@@ -60,7 +60,7 @@
                                      <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
                                 </p:inputText>
                             </p:column>
-                            <p:column>
+                            <p:column width="60">
                                 <f:facet name="header">
                                     <h:outputText value="data do"/>
                                 </f:facet>
@@ -68,19 +68,19 @@
                                      <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
                                 </p:inputText>
                             </p:column>
-                            <p:column>
+                            <p:column width="60">
                                 <f:facet name="header">
                                     <h:outputText value="kwota stała"/>
                                 </f:facet>
                                 <bcf:inputpl value="#{itemzmiennapotr.kwotastala}"/>
                             </p:column>
-                            <p:column>
+                            <p:column width="60">
                                 <f:facet name="header">
                                     <h:outputText value="suma zajęcia"/>
                                 </f:facet>
                                 <bcf:inputpl value="#{itemzmiennapotr.kwotakomornicza}"/>
                             </p:column>
-                            <p:column>
+                            <p:column width="60">
                                 <f:facet name="header">
                                     <h:outputText value="rozliczono"/>
                                 </f:facet>
@@ -92,13 +92,13 @@
                                 </f:facet>
                                 <p:selectBooleanCheckbox value="#{itemzmiennapotr.maxustawowy}"/>
                             </p:column>
-                            <p:column width="30" style="text-align: center;">
+                            <p:column width="20" style="text-align: center;">
                                   <p:column width="30" style="text-align: center;">
                                     <p:commandButton  icon="pi pi-save" actionListener="#{zmiennaPotraceniaView.create(itemzmiennapotr)}" update="akordeon:ZmiennaporaceniaListForm" rendered="#{itemzmiennapotr.id eq null}"/>
                                     <p:commandButton  icon="pi pi-pencil" actionListener="#{zmiennaPotraceniaView.edit(itemzmiennapotr)}" rendered="#{itemzmiennapotr.id ne null}"/>
                                 </p:column>
                             </p:column>
-                            <p:column style="text-align: center;">
+                            <p:column style="text-align: center;" width="20">
                                 <p:commandButton icon="pi pi-trash" actionListener="#{zmiennaPotraceniaView.usunZmiennaPotr(itemzmiennapotr)}" update="north @(form)"/>
                             </p:column>
                         </p:dataTable>
