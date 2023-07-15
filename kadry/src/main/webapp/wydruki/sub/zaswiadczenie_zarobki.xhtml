@@ -73,14 +73,15 @@
                     <p:dataTable id="datalist" value="#{zaswiadczeniaView.paskiwynagrodzen}" var="itemdra"
                                  rowIndexVar="indexdra"
                                  rowKey="#{itemdra.kalendarzmiesiac.hashCode()}" sortBy="#{itemdra.kalendarzmiesiac.angaz.pracownik.nazwiskoImie}"
-                                 style="height: 400px; overflow-y: scroll; width: 1400px;"
+                                 style="height: 400px; overflow-y: scroll; width: 1500px;"
                                  emptyMessage="nie pobrano danych"
                                  >
                         <p:column width="10">
                             <h:outputText value="#{indexdra+1}"/>
                         </p:column>
-                        <p:column width="150" headerText="nazwisko i imie">
-                            <h:outputText value="#{itemdra.nazwiskoImie}"/>
+                        <p:column width="40" headerText="okres">
+                            <h:outputText value="#{itemdra.okresNalezny}" rendered="#{itemdra.definicjalistaplac ne null}"/>
+                            <h:outputText value="razem" rendered="#{itemdra.definicjalistaplac eq null}" style="color: green;"/>
                         </p:column>
                         <p:column width="70" headerText="lista" style="text-align: center;">
                             <h:outputText value="#{itemdra.definicjalistaplac.nrkolejny}"/>
@@ -124,10 +125,16 @@
                         <p:column headerText="podatek zagr,">
                             <bcf:outputpl value="#{itemdra.podatekdochodowyzagranica}"/>
                         </p:column>
-                        <p:column headerText="potrácenia">
-                            <bcf:outputpl value="#{itemdra.potracenia}"/>
+                        <p:column headerText="kwota netto">
+                            <bcf:outputpl value="#{itemdra.nettoprzedpotraceniami}"/>
                         </p:column>
-                        <p:column headerText="netto">
+                        <p:column headerText="komornik">
+                            <bcf:outputpl value="#{itemdra.potraceniaKomornik}"/>
+                        </p:column>
+                        <p:column headerText="inne potrąc.">
+                            <bcf:outputpl value="#{itemdra.potraceniaInne}"/>
+                        </p:column>
+                        <p:column headerText="do wypł.">
                             <bcf:outputpl value="#{itemdra.netto}"/>
                         </p:column>
                     </p:dataTable>

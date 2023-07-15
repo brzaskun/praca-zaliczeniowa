@@ -196,16 +196,9 @@ public class PdfListaPlac {
         PdfPTable table = new PdfPTable(19);
         try {
             table.setWidthPercentage(100);
-            table.setWidths(new int[]{1, 6, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3});
-            table.addCell(ustawfrazeSpanFont("lista skrócona", 4, 0, 6));
-            table.addCell(ustawfrazeSpanFont("", 2, 0, 6));
-            table.addCell(ustawfrazeSpanFont("firma: " + firma, 6, 0, 6));
-            table.addCell(ustawfrazeSpanFont("", 3, 0, 6));
-            table.addCell(ustawfrazeSpanFont("", 2, 0, 6));
-            table.addCell(ustawfrazeSpanFont("", 2, 0, 6));
-
+            table.setWidths(new int[]{1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3});
             table.addCell(ustawfrazeSpanFont("lp", 0, 2, 6));
-            table.addCell(ustawfrazeSpanFont("Dane pracownika", 3, 0, 6));
+            table.addCell(ustawfrazeSpanFont("okr. rozl.", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Wynagrodzenie brutto", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Podst. wymiaru składek ubezp. społecznych", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Składki ZUS pracownik", 3, 0, 6));
@@ -217,12 +210,12 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeSpanFont("Ubezpieczenie zdrowotne", 0, 0, 6));
             table.addCell(ustawfrazeSpanFont("Kwota wolna", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Należna zaliczka na podatek dochodowy", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Kwota netto", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Komornik", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Inne potrącenia", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Do wypłaty", 0, 2, 6));
             
-            table.addCell(ustawfrazeAlign("Nazwisko i imię", "center",6));
-            table.addCell(ustawfrazeAlign("Pesel", "center",6));
-            table.addCell(ustawfrazeAlign("okr rozl", "center",6));
+            
             table.addCell(ustawfrazeAlign("Ubezp. Emerytalne", "center",6));
             table.addCell(ustawfrazeAlign("Ubezp. rentowe", "center",6));
             table.addCell(ustawfrazeAlign("Ubezp. chorobowe", "center",6));
@@ -247,7 +240,7 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign("17", "center",6));
             table.addCell(ustawfrazeAlign("18", "center",6));
             table.addCell(ustawfrazeAlign("19", "center",6));
-            table.setHeaderRows(4);
+            table.setHeaderRows(3);
         } catch (DocumentException ex) {
         }
         return table;
@@ -281,9 +274,11 @@ public class PdfListaPlac {
     
     public static void dodajwierszMini(Pasekwynagrodzen rs,PdfPTable table, int i) {
         table.addCell(ustawfrazeAlign(String.valueOf(i), "center",7,18f));
-        table.addCell(ustawfrazeAlign(rs.getPracownik().getNazwiskoImie(), "left",7));
-        table.addCell(ustawfrazeAlign(rs.getPracownik().getPesel(), "left",7));
-        table.addCell(ustawfrazeAlign(rs.getRok()+"/"+rs.getMc(), "left",7));
+        if (rs.getDefinicjalistaplac()!=null) {
+            table.addCell(ustawfrazeAlign(rs.getRok()+"/"+rs.getMc(), "left",7));
+        } else {
+            table.addCell(ustawfrazeAlign("RAZEM", "left",7));
+        }
         table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getBrutto())), "right",7));
         table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaskladkizus())), "right",7));
         table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPracemerytalne())), "right",7));
@@ -298,7 +293,9 @@ public class PdfListaPlac {
         //table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedoodliczenia())), "right",7));
         table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKwotawolna())), "right",7));
         table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy()+rs.getPodatekdochodowyzagranica())), "right",7));
-        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPotracenia())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getNettoprzedpotraceniami())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPotraceniaKomornik())), "right",7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPotraceniaInne())), "right",7));
         table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getNetto())), "right",7));
     }
     

@@ -6,6 +6,7 @@
 package view;
 
 import beanstesty.OkresBean;
+import beanstesty.PasekwynagrodzenBean;
 import comparator.Etatcomparator;
 import comparator.Pasekwynagrodzencomparator;
 import comparator.Stanowiskocomparator;
@@ -69,7 +70,8 @@ public class ZaswiadczeniaView  implements Serializable {
     private boolean mcwyplaty;
     private boolean zarobki;
     private String rodzajumowy;
-    private String dataostatnieumowy;
+    private String datarozpoczeciaostatnieumowy;
+    private String datazakonczeniaostatnieumowy;
     private String czastrwania;
     private String stanowisko;
     private String etat;
@@ -107,7 +109,8 @@ public class ZaswiadczeniaView  implements Serializable {
 
                 rodzajumowy = ostatnia.getUmowakodzus().isPraca()?"umowa o pracę":"umowa zlecenia";
                 czastrwania = ostatnia.getCzastrwania();
-                dataostatnieumowy = ostatnia.getDataod();
+                datarozpoczeciaostatnieumowy = ostatnia.getDataod();
+                datazakonczeniaostatnieumowy = ostatnia.getDatado();
                 List<EtatPrac> etatList = wpisView.getAngaz().getEtatList();
                 if (etatList!=null&&etatList.size()==1) {
                     EtatPrac etata = etatList.get(0);
@@ -131,6 +134,10 @@ public class ZaswiadczeniaView  implements Serializable {
                 nettosrednia = (double) pdane[1];
                 czyjestkomornik = (boolean) pdane[3];
                 paskiwynagrodzen = (List<Pasekwynagrodzen>) pdane[2];
+                if (paskiwynagrodzen!=null&&paskiwynagrodzen.size()>1) {
+                    Pasekwynagrodzen suma = PasekwynagrodzenBean.sumujpaski(paskiwynagrodzen);
+                    paskiwynagrodzen.add(suma);
+                }
             } catch (Exception e) {}
         }
     }
@@ -181,14 +188,15 @@ public class ZaswiadczeniaView  implements Serializable {
         if (wpisView.getPracownik()!=null) {
             Collections.sort(paskiwynagrodzen, new Pasekwynagrodzencomparator());
             ByteArrayOutputStream dra = PdfZaswiadczenieZarobki.drukujMini(wpisView.getFirma(), paskiwynagrodzen, wpisView.getPracownik(), dataod, datado, zatrudnienie,
-                    zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, dataostatnieumowy);
+                    zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy);
         } else {
             Msg.msg("e","Błąd drukowania zaświadczenia.");
         }
     }
     
       public void mail() {
-        ByteArrayOutputStream dra = PdfZaswiadczenieZarobki.drukuj(wpisView.getFirma(), paskiwynagrodzen, wpisView.getPracownik(), dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, dataostatnieumowy);
+        ByteArrayOutputStream dra = PdfZaswiadczenieZarobki.drukuj(wpisView.getFirma(), paskiwynagrodzen, wpisView.getPracownik(), dataod, datado, 
+                zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy);
         if (dra != null && dra.size() > 0) {
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
              String nazwa = wpisView.getPracownik().getPesel() + "_zaswiadczenie_zarobki.pdf";

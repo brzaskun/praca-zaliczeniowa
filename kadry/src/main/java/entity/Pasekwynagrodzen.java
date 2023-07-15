@@ -178,6 +178,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double podstawaubezpzdrowotne;
     @Column(name = "potracenia")
     private double potracenia;
+    @Column(name = "komornik")
+    private double komornik;
     @Column(name = "razem53")
     private double razem53;
     @Column(name = "kosztpracodawcy")
@@ -442,6 +444,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setWolneodzajecia(double wolneodzajecia) {
         this.wolneodzajecia = wolneodzajecia;
+    }
+
+    public double getKomornik() {
+        return komornik;
+    }
+
+    public void setKomornik(double komornik) {
+        this.komornik = komornik;
     }
 
     
@@ -1471,6 +1481,18 @@ public class Pasekwynagrodzen implements Serializable {
         return zwrot;
     }
 
+     public double getPotraceniaInne() {
+        double zwrot = 0.0;
+        if (this.naliczeniepotracenieList!=null) {
+            for (Naliczeniepotracenie pot : this.naliczeniepotracenieList) {
+                if (pot.getSkladnikpotracenia().getRodzajpotracenia().isPotraceniekomornicze()==false) {
+                    zwrot = zwrot +pot.getKwota();
+                }
+            }
+        }
+        return zwrot;
+    }
+    
     public double getPotraceniaKomornik() {
         double zwrot = 0.0;
         if (this.naliczeniepotracenieList!=null) {

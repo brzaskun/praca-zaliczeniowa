@@ -37,7 +37,7 @@ public class PdfZaswiadczenieZarobki {
    
 
     public static ByteArrayOutputStream drukuj(FirmaKadry firma, List<Pasekwynagrodzen> paskiwynagrodzen, Pracownik pracownik, String dataod, String datado, 
-            boolean zatrudnienie, boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String dataostatnieumowy) {
+            boolean zatrudnienie, boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String datarozpoczeciaostatnieumowy, String datazakonczeniaostatnieumowy) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = pracownik.getPesel() + "_zaswiadczenie.pdf";
@@ -46,7 +46,7 @@ public class PdfZaswiadczenieZarobki {
                 PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, dataostatnieumowy);
+                dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy);
                 if (zarobki) {
                     drukujPasek(paskiwynagrodzen, document);
                 }
@@ -65,7 +65,7 @@ public class PdfZaswiadczenieZarobki {
     }
     
     public static ByteArrayOutputStream drukujMini(FirmaKadry firma, List<Pasekwynagrodzen> paskiwynagrodzen, Pracownik pracownik, String dataod, String datado, 
-            boolean zatrudnienie, boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String dataostatnieumowy) {
+            boolean zatrudnienie, boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String datarozpoczeciaostatnieumowy, String datazakonczeniaostatnieumowy) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = pracownik.getPesel() + "_zaswiadczenie.pdf";
@@ -74,9 +74,9 @@ public class PdfZaswiadczenieZarobki {
                 PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, dataostatnieumowy);
+                dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy);
                 if (zarobki) {
-                    drukujPasekMini(paskiwynagrodzen, document, firma);
+                    drukujPasekMini(paskiwynagrodzen, document, firma, pracownik.getNazwiskoImie(), pracownik.getPesel());
                 }
                 finalizacjaDokumentuQR(document, nazwa);
                 Plik.zapiszBufferdoPlik(nazwa, out);
@@ -109,12 +109,13 @@ public class PdfZaswiadczenieZarobki {
         }
     }
      
-     public static void drukujPasekMini(List<Pasekwynagrodzen> paski,Document document, FirmaKadry firma) {
+     public static void drukujPasekMini(List<Pasekwynagrodzen> paski,Document document, FirmaKadry firma, String nazwiskoiimie, String pesel) {
         try {
             if (document != null) {
                 document.setPageSize(PageSize.A4.rotate());
                 document.newPage();
                 PdfMain.dodajLinieOpisu(document, "Załącznik do zaświadczenia o zarobkach z dnia "+Data.aktualnaData(), Element.ALIGN_CENTER, 3);
+                PdfMain.dodajLinieOpisu(document, "Pracownik: "+nazwiskoiimie+", Pesel: "+pesel, Element.ALIGN_CENTER, 3);
                 PdfListaPlac.dodajtabeleglownaMini(paski, document, firma);
             } else {
                 Msg.msg("w", "Nie ma Paska do wydruku");
@@ -125,13 +126,14 @@ public class PdfZaswiadczenieZarobki {
     }
     
     private static void dodajtresc(FirmaKadry firma, Document document, List<Pasekwynagrodzen> paskiwynagrodzen, Pracownik pracownik, String dataod, String datado, boolean zatrudnienie, 
-            boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String dataostatnieumowy) {
+            boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String datarozpoczeciaostatnieumowy, String datazakonczeniaostatnieumowy) {
         try {
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, 11);
             Font fontM = new Font(helvetica, 9);
             Font fontS = new Font(helvetica, 6);
-            Paragraph paragraph = new Paragraph(new Phrase(firma.getMiasto()+", dnia "+Data.aktualnaData(), fontM));
+            String datawystawienia = Data.aktualnaData();
+            Paragraph paragraph = new Paragraph(new Phrase(firma.getMiasto()+", dnia "+datawystawienia, fontM));
             paragraph.setAlignment(Element.ALIGN_RIGHT);
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
@@ -160,24 +162,42 @@ public class PdfZaswiadczenieZarobki {
             document.add(paragraph);
             paragraph = new Paragraph(new Phrase("Pesel "+pracownik.getPesel(), fontM));
             document.add(paragraph);
+            boolean czyustalozatrudnienie = Data.czyjestpoTerminData(datazakonczeniaostatnieumowy, datawystawienia);
             if (pracownik.getPlec().equals("K")) {
                 paragraph = new Paragraph(new Phrase("zamieszkała w "+pracownik.getAdres(), fontM));
                 document.add(paragraph);
                 document.add(Chunk.NEWLINE);
-                paragraph = new Paragraph(new Phrase("Jest zatrudniona od dnia "+pracownik.getDatazatrudnienia(), fontM));
+                if (czyustalozatrudnienie) {
+                    paragraph = new Paragraph(new Phrase("Była zatrudniona od dnia "+pracownik.getDatazatrudnienia(), fontM));
+                } else {
+                    paragraph = new Paragraph(new Phrase("Jest zatrudniona od dnia "+pracownik.getDatazatrudnienia(), fontM));
+                }
             } else {
                 paragraph = new Paragraph(new Phrase("zamieszkały w "+pracownik.getAdres(), fontM));
                 document.add(paragraph);
                 document.add(Chunk.NEWLINE);
-                paragraph = new Paragraph(new Phrase("Jest zatrudniony od dnia "+pracownik.getDatazatrudnienia(), fontM));
+                if (czyustalozatrudnienie) {
+                    paragraph = new Paragraph(new Phrase("Był zatrudniony od dnia "+pracownik.getDatazatrudnienia(), fontM));
+                } else {
+                    paragraph = new Paragraph(new Phrase("Jest zatrudniony od dnia "+pracownik.getDatazatrudnienia(), fontM));
+                }
             }
             document.add(paragraph);
             if (zatrudnienie) {
-                PdfMain.dodajElementListy(document, "1) Rodzaj umowy: ", rodzajumowy, fontM);
-                PdfMain.dodajElementListy(document, "2) Data rozpoczęcia bieżącej umowy: ", dataostatnieumowy, fontM);
-                PdfMain.dodajElementListy(document, "3) Umowa na okres: ", czastrwania, fontM);
-                PdfMain.dodajElementListy(document, "4) Stanowisko: ", stanowisko, fontM);
-                PdfMain.dodajElementListy(document, "5) Wymiar czasu pracy: ", etat, fontM);
+                if (datazakonczeniaostatnieumowy==null||czyustalozatrudnienie==false) {
+                    PdfMain.dodajElementListy(document, "1) Rodzaj umowy: ", rodzajumowy, fontM);
+                    PdfMain.dodajElementListy(document, "2) Data rozpoczęcia bieżącej umowy: ", datarozpoczeciaostatnieumowy, fontM);
+                    PdfMain.dodajElementListy(document, "3) Umowa na okres: ", czastrwania, fontM);
+                    PdfMain.dodajElementListy(document, "4) Stanowisko: ", stanowisko, fontM);
+                    PdfMain.dodajElementListy(document, "5) Wymiar czasu pracy: ", etat, fontM);
+                } else {
+                    PdfMain.dodajElementListy(document, "1) Rodzaj umowy: ", rodzajumowy, fontM);
+                    PdfMain.dodajElementListy(document, "2) Data rozpoczęcia bieżącej umowy: ", datarozpoczeciaostatnieumowy, fontM);
+                    PdfMain.dodajElementListy(document, "3) Data zakończenia bieżącej umowy: ", datazakonczeniaostatnieumowy, fontM);
+                    PdfMain.dodajElementListy(document, "4) Umowa na okres: ", czastrwania, fontM);
+                    PdfMain.dodajElementListy(document, "5) Stanowisko: ", stanowisko, fontM);
+                    PdfMain.dodajElementListy(document, "6) Wymiar czasu pracy: ", etat, fontM);
+                }
             }
             if (zarobki) {
                 PdfMain.dodajElementListy(document, "Wynagrodzenie za okres ", "od "+dataod+" do "+datado, fontM);
@@ -186,11 +206,19 @@ public class PdfZaswiadczenieZarobki {
             }
             if (zarobki&&czyjestkomornik==false) {
                 Paragraph p = new Paragraph();
-                p.add(new Phrase("Wynagrodzenie powyższe nie jest obciążone z tytułu wyroków sądowych lub innych tytułów", fontM));
+                p.add(new Phrase("Wynagrodzenie powyższe nie jest obciążone z tytułu wyroków sądowych lub innych tytułów.", fontM));
+                document.add(p);
+            } else {
+                Paragraph p = new Paragraph();
+                p.add(new Phrase("Wynagrodzenie powyższe jest obciążone z egzekucją komorniczą.", fontM));
                 document.add(p);
             }
             Paragraph p = new Paragraph();
-            p.add(new Phrase("Wyżej wymieniony zatrudniony nie znajduje się w okresie wypowiedzenia ani w okresie próbnym.", fontM));
+            if (czyustalozatrudnienie) {
+                p.add(new Phrase("Stosunek pracy został zakończony dnia "+datazakonczeniaostatnieumowy, fontM));
+            } else {
+                p.add(new Phrase("Wyżej wymieniony zatrudniony nie znajduje się w okresie wypowiedzenia ani w okresie próbnym.", fontM));
+            }
             document.add(p);
             p = new Paragraph();
             p.add(new Phrase("Zakład nie znajduje się w okresie likwidacji.", fontM));
