@@ -72,19 +72,19 @@
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.bruttobezpodatku}" stylePlus="#{itemkarta.bruttobezpodatku eq 0 ? 'color:silver':null}"/>
                     </p:column>
-                     <p:column width="60">
+                     <p:column width="55">
                         <f:facet name="header">
                             <h:outputText value="podst. społ."/>
                         </f:facet>
                          <bcf:outputpl value="#{itemkarta.podstawaubezpieczenspolecznych}" stylePlus="#{itemkarta.podstawaubezpieczenspolecznych eq 0 ? 'color:silver':null}"/>
                     </p:column>
-                    <p:column width="60">
+                    <p:column width="55">
                         <f:facet name="header">
                             <h:outputText value="ubezp. społ."/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.razemspolecznepracownik}" stylePlus="#{itemkarta.razemspolecznepracownik eq 0 ? 'color:silver':null}"/>
                     </p:column>
-                      <p:column width="60">
+                      <p:column width="55">
                         <f:facet name="header">
                             <h:outputText value="ubezp. społ. firma"/>
                         </f:facet>
@@ -96,25 +96,37 @@
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.podstawaopodatkowania}" stylePlus="#{itemkarta.podstawaopodatkowania eq 0 ? 'color:silver':null}"/>
                     </p:column>
-                    <p:column width="60">
+                    <p:column width="30">
                         <f:facet name="header">
                             <h:outputText value="koszty uzysk."/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.kosztyuzyskania}" stylePlus="#{itemkarta.kosztyuzyskania eq 0 ? 'color:silver':null}"/>
                     </p:column>
-                    <p:column width="60">
+                    <p:column width="55">
                         <f:facet name="header">
                             <h:outputText value="zdrowotne"/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.praczdrowotne}" stylePlus="#{itemkarta.praczdrowotne eq 0 ? 'color:silver':null}"/>
                     </p:column>
-                    <p:column width="60">
+                    <p:column width="45">
+                        <f:facet name="header">
+                            <h:outputText value="komornik"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.komornik}" stylePlus="#{itemkarta.komornik eq 0 ? 'color:silver':null}"/>
+                    </p:column>
+                    <p:column width="45">
+                        <f:facet name="header">
+                            <h:outputText value="inne potr."/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.potraceniainne}" stylePlus="#{itemkarta.potraceniainne eq 0 ? 'color:silver':null}"/>
+                    </p:column>
+<!--                    <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="zdrowotne odlicz."/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.praczdrowotnedoodliczenia}" stylePlus="#{itemkarta.praczdrowotnedoodliczenia eq 0 ? 'color:silver':null}"  rendered="#{itempasek.rokI lt 2022}"/>
-                    </p:column>
-                    <p:column width="60">
+                    </p:column>-->
+                    <p:column width="55">
                         <f:facet name="header">
                             <h:outputText value="podatek"/>
                         </f:facet>
@@ -122,7 +134,7 @@
                     </p:column>
                     <p:column width="60">
                         <f:facet name="header">
-                            <h:outputText value="wyn. netto"/>
+                            <h:outputText value="do wypł."/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.netto}" stylePlus="#{itemkarta.netto eq 0 ? 'color:silver':null}"/>
                     </p:column>
@@ -324,7 +336,7 @@
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
-            <p:commandButton value="drukuj" style="width: 120px;" actionListener="#{kartaWynagrodzenView.drukuj}"/>
+            <p:commandButton value="drukuj" style="width: 120px;" actionListener="#{kartaWynagrodzenView.drukuj()}"/>
             <p:commandButton value="PIT-11" style="width: 120px;" actionListener="#{kartaWynagrodzenView.pit11}"/>
             <p:commandButton value="druk szer." type="button" icon="pi pi-print" styleClass="shadow-1 mb-3">
                 <p:printer target="KartyWynangrodzenListForm:datalist" />

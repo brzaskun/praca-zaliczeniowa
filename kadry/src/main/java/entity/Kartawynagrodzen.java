@@ -131,6 +131,10 @@ public class Kartawynagrodzen implements Serializable {
     private double podstawaubezpzdrowotne;
     @Column(name = "potracenia")
     private double potracenia;
+    @Column(name = "komornik")
+    private double komornik;
+    @Column(name = "potraceniainne")
+    private double potraceniainne;
     @Column(name = "razem53")
     private double razem53;
     @Column(name = "kosztpracodawcy")
@@ -562,6 +566,22 @@ public class Kartawynagrodzen implements Serializable {
         this.podstawaubezpieczenspolecznych = podstawaubezpieczenspolecznych;
     }
 
+    public double getKomornik() {
+        return komornik;
+    }
+
+    public void setKomornik(double komornik) {
+        this.komornik = komornik;
+    }
+
+    public double getPotraceniainne() {
+        return potraceniainne;
+    }
+
+    public void setPotraceniainne(double potraceniainne) {
+        this.potraceniainne = potraceniainne;
+    }
+
      
     
     
@@ -654,6 +674,8 @@ public class Kartawynagrodzen implements Serializable {
         this.podstawaubezpzdrowotne += pasek.getPodstawaubezpzdrowotne();
         this.podstawaubezpieczenspolecznych += pasek.getPodstawaskladkizus();
         this.potracenia += pasek.getPotracenia();
+        this.komornik += pasek.getPotraceniaKomornik();
+        this.potraceniainne += pasek.getPotraceniaInne();
         this.razem53 += pasek.getRazem53();
         this.kosztpracodawcy += pasek.getKosztpracodawcy();
         //this.mc!=null musi byc bo uzywamy tego tez do pit-11
@@ -683,33 +705,35 @@ public class Kartawynagrodzen implements Serializable {
         
     }
     
-     public void dodajkarta(Kartawynagrodzen pasek) {
-        this.bruttobezzus = Z.z(this.bruttobezzus+pasek.getBruttobezzus());
-        this.bruttobezpodatku = Z.z(this.bruttobezpodatku+pasek.getBruttobezpodatku());
-        this.bruttozus = Z.z(this.bruttozus+pasek.getBruttozus());
-        this.kosztyuzyskania = Z.z(this.kosztyuzyskania+pasek.getKosztyuzyskania());
-        this.kwotawolna += pasek.getKwotawolna();
-        this.netto += pasek.getNetto();
-        this.podatekdochodowy = Z.z(this.podatekdochodowy+pasek.getPodatekdochodowy());
-        this.podstawaopodatkowania += pasek.getPodstawaopodatkowania();
-        this.podstawaubezpieczenspolecznych += pasek.getPodstawaubezpieczenspolecznych();
-        this.pracchorobowe += pasek.getPracchorobowe();
-        this.pracemerytalne += pasek.getPracemerytalne();
-        this.pracrentowe += pasek.getPracrentowe();
-        this.razemspolecznepracownik = Z.z(this.razemspolecznepracownik+pasek.getRazemspolecznepracownik());
-        this.praczdrowotne += pasek.getPraczdrowotne();
-        this.praczdrowotnedoodliczenia += pasek.getPraczdrowotnedoodliczenia();
-        this.praczdrowotnedopotracenia = Z.z(this.praczdrowotnedopotracenia+pasek.getPraczdrowotnedopotracenia());
-        this.praczdrowotnepomniejszone += pasek.getPraczdrowotnepomniejszone();
-        this.emerytalne += pasek.getEmerytalne();
-        this.rentowe += pasek.getRentowe();
-        this.wypadkowe += pasek.getWypadkowe();
-        this.razemspolecznefirma += pasek.getRazemspolecznefirma();
-        this.podatekwstepny += pasek.getPodatekwstepny();
-        this.podstawaubezpzdrowotne += pasek.getPodstawaubezpzdrowotne();
-        this.potracenia += pasek.getPotracenia();
-        this.razem53 += pasek.getRazem53();
-        this.dochodzagranica += pasek.getDochodzagranica();
+     public void dodajkarta(Kartawynagrodzen kartawynagrodzen) {
+        this.bruttobezzus = Z.z(this.bruttobezzus+kartawynagrodzen.getBruttobezzus());
+        this.bruttobezpodatku = Z.z(this.bruttobezpodatku+kartawynagrodzen.getBruttobezpodatku());
+        this.bruttozus = Z.z(this.bruttozus+kartawynagrodzen.getBruttozus());
+        this.kosztyuzyskania = Z.z(this.kosztyuzyskania+kartawynagrodzen.getKosztyuzyskania());
+        this.kwotawolna += kartawynagrodzen.getKwotawolna();
+        this.netto += kartawynagrodzen.getNetto();
+        this.podatekdochodowy = Z.z(this.podatekdochodowy+kartawynagrodzen.getPodatekdochodowy());
+        this.podstawaopodatkowania += kartawynagrodzen.getPodstawaopodatkowania();
+        this.podstawaubezpieczenspolecznych += kartawynagrodzen.getPodstawaubezpieczenspolecznych();
+        this.pracchorobowe += kartawynagrodzen.getPracchorobowe();
+        this.pracemerytalne += kartawynagrodzen.getPracemerytalne();
+        this.pracrentowe += kartawynagrodzen.getPracrentowe();
+        this.razemspolecznepracownik = Z.z(this.razemspolecznepracownik+kartawynagrodzen.getRazemspolecznepracownik());
+        this.praczdrowotne += kartawynagrodzen.getPraczdrowotne();
+        this.praczdrowotnedoodliczenia += kartawynagrodzen.getPraczdrowotnedoodliczenia();
+        this.praczdrowotnedopotracenia = Z.z(this.praczdrowotnedopotracenia+kartawynagrodzen.getPraczdrowotnedopotracenia());
+        this.praczdrowotnepomniejszone += kartawynagrodzen.getPraczdrowotnepomniejszone();
+        this.emerytalne += kartawynagrodzen.getEmerytalne();
+        this.rentowe += kartawynagrodzen.getRentowe();
+        this.wypadkowe += kartawynagrodzen.getWypadkowe();
+        this.razemspolecznefirma += kartawynagrodzen.getRazemspolecznefirma();
+        this.podatekwstepny += kartawynagrodzen.getPodatekwstepny();
+        this.podstawaubezpzdrowotne += kartawynagrodzen.getPodstawaubezpzdrowotne();
+        this.potracenia += kartawynagrodzen.getPotracenia();
+        this.komornik += kartawynagrodzen.getKomornik();
+        this.potraceniainne += kartawynagrodzen.getPotraceniainne();
+        this.razem53 += kartawynagrodzen.getRazem53();
+        this.dochodzagranica += kartawynagrodzen.getDochodzagranica();
              //this.mc!=null musi byc bo uzywamy tego tez do pit-11
      
      }

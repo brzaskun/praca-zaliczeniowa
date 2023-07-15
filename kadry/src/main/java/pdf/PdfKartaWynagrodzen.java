@@ -63,13 +63,13 @@ public class PdfKartaWynagrodzen {
     }
     
     private static PdfPTable generujTabele(String firma, String pracownik, String pesel, String rok) {
-        PdfPTable table = new PdfPTable(17);
+        PdfPTable table = new PdfPTable(18);
         try {
             table.setWidthPercentage(95);
-            table.setWidths(new int[]{1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,3,3});
+            table.setWidths(new int[]{1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,3,3, 3});
             table.addCell(ustawfraze(pracownik, 4, 0));
             table.addCell(ustawfraze(pesel, 2, 0));
-            table.addCell(ustawfraze("firma: " + firma, 8, 0));
+            table.addCell(ustawfraze("firma: " + firma, 9, 0));
             table.addCell(ustawfraze("za okres: " + rok, 3, 0));
             table.addCell(ustawfraze("lp", 0, 2));
             table.addCell(ustawfraze("Składniki wynagrodzenia", 2, 0));
@@ -79,6 +79,7 @@ public class PdfKartaWynagrodzen {
             table.addCell(ustawfraze("Podst. wymiaru składek ubezp. zdrowotnego", 0, 2));
             table.addCell(ustawfraze("Koszty uzyskania przychodu", 0, 2));
             table.addCell(ustawfraze("Podstawa opodatkowania", 0, 2));
+            table.addCell(ustawfraze("Potrącenia kom. i inne", 0, 2));
             table.addCell(ustawfraze("Potrącona zaliczka na podatek dochodowy", 0, 2));
             table.addCell(ustawfraze("Ubezpieczenie zdrowotne", 2, 0));
             table.addCell(ustawfraze("Należna zaliczka na podatek dochodowy", 0, 2));
@@ -108,6 +109,7 @@ public class PdfKartaWynagrodzen {
             table.addCell(ustawfrazeAlign("15", "center",6));
             table.addCell(ustawfrazeAlign("16", "center",6));
             table.addCell(ustawfrazeAlign("17", "center",6));
+            table.addCell(ustawfrazeAlign("18", "center",6));
             table.setHeaderRows(4);
         } catch (DocumentException ex) {
         }
@@ -130,6 +132,7 @@ public class PdfKartaWynagrodzen {
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getKosztyuzyskania())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaopodatkowania())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekwstepny())), "right",7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPotracenia())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotne())), "right",7));
             if (rs.getRok()!=null&&Integer.parseInt(rs.getRok())<2022) {
                 table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedoodliczenia())), "right",7));
