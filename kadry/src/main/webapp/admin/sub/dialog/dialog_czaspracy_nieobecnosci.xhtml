@@ -127,9 +127,13 @@
         </p:outputPanel>
         <p:outputPanel styleClass="itemNieob">
             <h:form  styleClass="formadmin" id="NieobecnoscListForm">
-                <p:panelGrid columns="8" style="width: 75%">
-                    <p:outputLabel value="pokaż wszystkie lata"/>
+                <p:panelGrid columns="10" style="width: 75%">
+                    <p:outputLabel value="wszystkie lata"/>
                     <p:selectBooleanCheckbox value="#{nieobecnoscView.pokazcalyrok}">
+                        <p:ajax event="change" listener="#{nieobecnoscView.init()}" partialSubmit="true" update=":NieobecnoscListForm:datalist"/>
+                    </p:selectBooleanCheckbox>
+                    <p:outputLabel value="bez oddeleg."/>
+                    <p:selectBooleanCheckbox value="#{nieobecnoscView.bezoddelegowania}">
                         <p:ajax event="change" listener="#{nieobecnoscView.init()}" partialSubmit="true" update=":NieobecnoscListForm:datalist"/>
                     </p:selectBooleanCheckbox>
                     <h:outputText value="wynagrodzenie za czas choroby płatne od dnia: " style="margin-left: 20px;"/>

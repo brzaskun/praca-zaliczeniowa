@@ -107,6 +107,7 @@ public class NieobecnoscView  implements Serializable {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/zuszla.wsdl")
     private zuszla.WsdlPlatnikRaportyZla wsdlPlatnikRaportyZla;
     private  boolean pokazcalyrok;
+    private boolean bezoddelegowania;
     private org.primefaces.model.DualListModel<Pracownik> listapracownikow;
     private boolean delegacja;
     private boolean zwolnienie;
@@ -149,6 +150,9 @@ public class NieobecnoscView  implements Serializable {
             selected.setAngaz(wpisView.getAngaz());
             if (pokazcalyrok==false) {
                 lista = lista.stream().filter(p->p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())).collect(Collectors.toList());
+            }
+            if (bezoddelegowania) {
+                lista = lista.stream().filter(p->p.getKod().equals("Z")==false).collect(Collectors.toList());
             }
         }
         listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());
@@ -911,6 +915,14 @@ public class NieobecnoscView  implements Serializable {
 
     public void setSelectedlista(List<Nieobecnosc> selectedlista) {
         this.selectedlista = selectedlista;
+    }
+
+    public boolean isBezoddelegowania() {
+        return bezoddelegowania;
+    }
+
+    public void setBezoddelegowania(boolean bezoddelegowania) {
+        this.bezoddelegowania = bezoddelegowania;
     }
 
     

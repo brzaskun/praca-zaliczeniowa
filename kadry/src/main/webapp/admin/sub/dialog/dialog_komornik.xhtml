@@ -81,6 +81,11 @@
                           <bcf:outputpl value="#{itempotraceniepoz.pasekwynagrodzen.definicjalistaplac.rodzajlistyplac.nazwa}"/>
                         </p:column>
                     </p:dataTable>
+                  <p:outputPanel style="padding: 10px;">
+                    <p:commandButton value="drukuj" type="button" icon="pi pi-print" styleClass="shadow-1 mb-3">
+                      <p:printer target="KomornikListForm:datalist" />
+                    </p:commandButton>
+                  </p:outputPanel>
             </h:form>
         </p:outputPanel>
 <!--        <p:outputPanel>
