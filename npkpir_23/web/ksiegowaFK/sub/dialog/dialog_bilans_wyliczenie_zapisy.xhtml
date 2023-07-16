@@ -42,7 +42,7 @@
                         <p:ajax event="change" listener="#{pozycjaBRView.odswiezbilans()}" update="formprzegladbilanszapisy" />
                         <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
-                    <h:outputText value="wydruki z nr kont są dostępne w okienku 'przeglądaj Bilans'"/>
+                    <h:outputText value="Wydruki z nr kont - w okienku 'przeglądaj Bilans'. Uwaga: BO do sald brane są z wierszy BO"/>
 <!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />
