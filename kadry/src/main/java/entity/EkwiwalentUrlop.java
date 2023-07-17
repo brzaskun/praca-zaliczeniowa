@@ -209,6 +209,13 @@ public class EkwiwalentUrlop implements Serializable {
     public Integer getBiezacy() {
         return biezacy;
     }
+    
+    public Integer getRazembiezacyzalegly() {
+        int z = zalegly;
+        int b = biezacy;
+        return z+b;
+    }
+    
 
     public void setBiezacy(Integer biezacy) {
         this.biezacy = biezacy;

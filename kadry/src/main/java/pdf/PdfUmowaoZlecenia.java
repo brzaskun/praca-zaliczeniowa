@@ -155,7 +155,7 @@ public class PdfUmowaoZlecenia {
                 String par4 = "Z tytułu wykonania zleconej pracy Zleceniobiorca otrzyma wynagrodzenie w wysokości: "+umowa.pobierzwynagrodzenieString(wynagrodzeniegodzinowe)+" za godzinę";
                 PdfMain.dodajLinieOpisuSpacing(document, par4, Element.ALIGN_JUSTIFIED, 1, 10);
             } else if (wynagrodzeniestale > 0.0) {
-                String par4 = "Z tytułu wykonania zleconej pracy Zleceniobiorca otrzyma wynagrodzenie w wysokości: "+umowa.pobierzwynagrodzenieString(wynagrodzeniegodzinowe);
+                String par4 = "Z tytułu wykonania zleconej pracy Zleceniobiorca otrzyma wynagrodzenie w wysokości: "+umowa.pobierzwynagrodzenieString(wynagrodzeniestale)+" miesięcznie";
                 PdfMain.dodajLinieOpisuSpacing(document, par4, Element.ALIGN_JUSTIFIED, 1, 10);
             }
 

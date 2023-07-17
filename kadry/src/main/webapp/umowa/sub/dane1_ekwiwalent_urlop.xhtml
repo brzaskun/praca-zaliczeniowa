@@ -9,7 +9,7 @@
     <p:panelGrid columns="2" columnClasses="fifty-percent fifty-percent">
         <p:outputPanel>
             <h:form  styleClass="formumowa" id="EkwiwalentForm">
-                        <p:panelGrid columns="6" style="width: 700px;">
+                        <p:panelGrid columns="8" style="width: 1200px;">
                             <h:outputText value="naliczenie na dzień"/>
                             <p:inputText value="#{pracownikEkwiwalentView.ekwiwalent.dziennaliczenia}" title="naliczenie na dzien"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę naliczenia">
                                 <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pracownikEkwiwalentView.przeliczekwiwalent}" update="akordeon:EkwiwalentForm"/>
@@ -18,25 +18,30 @@
                             <h:outputText value="#{pracownikEkwiwalentView.ekwiwalent.angaz.nazwiskoiImie}"/>
                             <h:outputText value="umowa:"/>
                             <h:outputText value="#{pracownikEkwiwalentView.ekwiwalent.umowa.nrkolejny}"/>
-                        </p:panelGrid>
-                        <p:panelGrid columns="2">
                             <h:outputText value="współczynnik dla ekwawalentu "/>
                             <bcf:outputpl value="#{pracownikEkwiwalentView.ekwiwalent.wspolczynnik}"/>
-                            <p:outputLabel value="niewykorzystany rok poprzedni godz." for="urloplpop" />
+                        </p:panelGrid>
+                        <p:panelGrid columns="2">
+                            
+                            <p:outputLabel value="niewykorzystany rok poprzedni dni" for="urloplpop" />
                             <h:outputText id="urloplpop" value="#{pracownikEkwiwalentView.ekwiwalent.zalegly}" />
-                            <p:outputLabel value="wymiar na dzień naliczenia godz." for="urloplp1e" />
+                            <p:outputLabel value="wymiar na dzień naliczenia dni" for="urloplp1e" />
                             <h:outputText id="urloplp1e" value="#{pracownikEkwiwalentView.ekwiwalent.biezacy}" />
-                            <p:outputLabel value="wykorzystane godziny urlopu rok bież." for="urloplp1eaa" />
-                            <h:outputText id="urloplp1eaa" value="#{pracownikEkwiwalentView.urlopprezentacja.wykorzystanierokbiezacy}" />
+                            <p:outputLabel value="razem" for="urloplp1e1" style="color: green"/>
+                            <h:outputText id="urloplp1e1" value="#{pracownikEkwiwalentView.ekwiwalent.razembiezacyzalegly}"  style="color: green"/>
+<!--                            <p:outputLabel value="wykorzystane godziny urlopu rok bież." for="urloplp1eaa" />
+                            <h:outputText id="urloplp1eaa" value="#{pracownikEkwiwalentView.urlopprezentacja.wykorzystanierokbiezacy}" />-->
                             <p:outputLabel value="wykorzystane dni urlopu rok bież." for="urloplp1ea" />
                             <h:outputText id="urloplp1ea" value="#{pracownikEkwiwalentView.urlopprezentacja.wykorzystanierokbiezacydni}" />
-                            <p:outputLabel value="suma do wypł. rok bież+poprzedni godziny" for="urloplpop1" />
-                            <h:outputText id="urloplpop1" value="#{pracownikEkwiwalentView.ekwiwalent.godziny}" />
-                            <p:outputLabel value="suma do wypł. rok bież+poprzedni dni" for="urloplpop3" />
-                            <h:outputText id="urloplpop3" value="#{pracownikEkwiwalentView.ekwiwalent.dni}" />
+<!--                            <p:outputLabel value="suma do wypł. rok bież+poprzedni godziny" for="urloplpop1" />
+                            <h:outputText id="urloplpop1" value="#{pracownikEkwiwalentView.ekwiwalent.godziny}" />-->
+                            <p:outputLabel value="ekwiwalent za dni" for="urloplpop3"  style="color: blue"/>
+                            <h:outputText id="urloplpop3" value="#{pracownikEkwiwalentView.ekwiwalent.dni}"  style="color: blue"/>
                             <h:outputText value="etat "/>
                             <h:outputText value="#{pracownikEkwiwalentView.ekwiwalent.getEtat()}"/>
-                            <h:outputText value="ekwiwalent składniki stałe "/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" style="margin-top: 20px;width: 360px;">
+                                <h:outputText value="ekwiwalent składniki stałe"/>
                             <bcf:outputpl value="#{pracownikEkwiwalentView.ekwiwalent.kwotastale}"/>
                         </p:panelGrid>
                         <p:panelGrid columns="1">

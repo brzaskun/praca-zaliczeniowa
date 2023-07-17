@@ -360,10 +360,10 @@ public class PracownikEkwiwalentView  implements Serializable {
             String mc = Data.getMc(data);
             List<Skladnikwynagrodzenia> skladniki = skladnikWynagrodzeniaFacade.findByAngaz(wpisView.getAngaz());
             pobierzurlop();
-            double godzinypoprzednirok = urlopprezentacja.getBilansotwarciagodziny();
+            double dnipoprzednirok = urlopprezentacja.getBilansotwarciadni();
             double godzinyekw = urlopprezentacja.getDoprzeniesienia();
-            ekw.setZalegly((int) godzinypoprzednirok);
-            ekw.setBiezacy((int) urlopprezentacja.getWymiarokresbiezacygodziny());
+            ekw.setZalegly((int) dnipoprzednirok);
+            ekw.setBiezacy((int) urlopprezentacja.getWymiarokresbiezacydni());
             ekw.setGodziny((int) godzinyekw);
             ekw.setDni(urlopprezentacja.getDoprzeniesieniadni());
             ekw.setRok(rok);
