@@ -122,7 +122,7 @@ public class PdfUmowaoPrace {
             double wynagrodzeniemc = umowa.getWynagrodzeniemiesieczne();
             if (umowa.isKlauzulaminimalnewyn()) {
                 String klauzula = "strony umowy uzgadniają, iż wynagrodzenie pracownika będzie równe wynagrodzeniu minimalnemu, "
-                        + "określanemu corocznie na podstawie ustawy z dnia 10 października 2002 r. "
+                        + "określanemu na podstawie ustawy z dnia 10 października 2002 r. "
                         + "o minimalnym wynagrodzeniu za pracę (Dz. U. Nr 200, poz. 1679 z późn. zm.).";
                  PdfMain.dodajElementListy(document, "4) Wynagrodzenie zasadnicze: ", klauzula, fontM);
             } else if (wynagrodzeniemc!=0.0) {
