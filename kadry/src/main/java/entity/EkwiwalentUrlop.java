@@ -88,7 +88,7 @@ public class EkwiwalentUrlop implements Serializable {
     @Column(name = "rok")
     private String rok;
     @Column(name = "dni")
-    private Integer dni;
+    private int dni;
     @Size(max = 45)
     @Column(name = "godziny")
     private int godziny;
@@ -100,15 +100,15 @@ public class EkwiwalentUrlop implements Serializable {
     @Column(name = "wspolczynnik")
     private double wspolczynnik;
     @Column(name = "zalegly")
-    private Integer zalegly;
+    private int zalegly;
     @Column(name = "biezacy")
-    private Integer biezacy;
+    private int biezacy;
     @Column(name = "etat1")
     private Integer etat1;
     @Column(name = "etat2")
     private Integer etat2;
     @Column(name = "wykorzystany")
-    private Integer wykorzystany;
+    private int wykorzystany;
 
     public EkwiwalentUrlop() {
     }
@@ -157,7 +157,7 @@ public class EkwiwalentUrlop implements Serializable {
         this.rok = rok;
     }
 
-    public Integer getDni() {
+    public int getDni() {
         return dni;
     }
 
@@ -198,7 +198,7 @@ public class EkwiwalentUrlop implements Serializable {
         this.wspolczynnik = wspolczynnik;
     }
 
-    public Integer getZalegly() {
+    public int getZalegly() {
         return zalegly;
     }
 
@@ -206,11 +206,11 @@ public class EkwiwalentUrlop implements Serializable {
         this.zalegly = zalegly;
     }
 
-    public Integer getBiezacy() {
+    public int getBiezacy() {
         return biezacy;
     }
     
-    public Integer getRazembiezacyzalegly() {
+    public int getRazembiezacyzalegly() {
         int z = zalegly;
         int b = biezacy;
         return z+b;
@@ -269,7 +269,7 @@ public class EkwiwalentUrlop implements Serializable {
         this.angaz = angaz;
     }
 
-    public Integer getWykorzystany() {
+    public int getWykorzystany() {
         return wykorzystany;
     }
 
