@@ -907,11 +907,9 @@ public class Angaz implements Serializable {
         boolean zwrot = false;
         List<Umowa> umowaList1 = this.umowaList;
         for (Umowa z : umowaList1) {
-            if (z.isAktywna()) {
-                if (z.czynalezydookresu(rok,mc)) {
-                    zwrot = true;
-                    break;
-                }
+            if (z.czynalezydookresu(rok,mc)) {
+                zwrot = true;
+                break;
             }
         }
         return zwrot;
