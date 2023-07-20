@@ -238,7 +238,7 @@ public class UmowaView implements Serializable {
 
     public void create() {
         if (selected != null && wpisView.getAngaz() != null) {
-            if (selected.getWynagrodzeniemiesieczne()==0.0 && selected.getWynagrodzeniegodzinowe()==0.0) {
+            if ((listapraca==null||listapraca.size()==0)&&selected.getWynagrodzeniemiesieczne()==0.0 && selected.getWynagrodzeniegodzinowe()==0.0) {
                 Msg.msg("e","Nie wprowadzono wynagrodzenia, nie można wygenerować umowy");
             } else {
             if (listapraca != null && listapraca.size()>0) {
