@@ -115,7 +115,7 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column id="deleteColumn" headerText="usuń"  style="width: 40px; text-align: center;">
+                <p:column id="deleteColumn" headerText="wycofaj"  style="width: 40px; text-align: center;">
                     <p:commandButton actionListener="#{sTRTabView.destroy(wpis)}" onclick="PF('confirmation').show()" id="delete" 
                                       icon="ui-icon ui-icon-trash" type="submit" >
                         <p:ajax event="click" global="false"/>
@@ -152,6 +152,9 @@
                     </p:column>
                 </p:rowExpansion>
             </p:dataTable>
+            <p:outputPanel style="padding: 10px;">
+                <h:outputText value="Uwaga! Wycofanie środka nie usuwa go z ewidencji całkowicie. Aby usunąc środek trwały w celu usunięcia dokumentu OT trzeba go najpierw wycofać z tej tabeli, a potem odnaleźć i usunąć z tabeli 'sprzedane'" style="color:green;"/>
+            </p:outputPanel>
         </h:form>
     </p:tab>
 </ui:composition>   
