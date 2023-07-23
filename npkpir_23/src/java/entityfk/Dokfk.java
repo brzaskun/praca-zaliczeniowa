@@ -1002,10 +1002,14 @@ public class Dokfk extends DokSuper implements Serializable {
                 if (!p.isNieduplikuj()) {
                     if (p.getNetto() != 0.0 || p.getVat() != 0.0) {
                         if (p.getInnyokres() == 0) {
-                            p.setMcEw(this.getMiesiac());
-                            p.setRokEw(this.getRok());
-                            this.setVatR(this.getRok());
-                            this.setVatM(this.getMiesiac());
+                            //tak bylo, ale to powodowalo, ze nie mozba bylo rozdzielic okresow cit vat dla kwartalnikow w specjalnych przypadkach 23.07.2023
+//                            p.setMcEw(this.getMiesiac());
+//                            p.setRokEw(this.getRok());
+//                            this.setVatR(this.getRok());
+//                            this.setVatM(this.getMiesiac());
+//                          nowe ustawienie                    
+                            p.setMcEw(this.getVatR());
+                            p.setRokEw(this.getVatM());
                         } else if (sprawdzjakiokresvat.equals("kwartalne")) {
                             String[] nowyokres = Kwartaly.zwiekszkwartal(this.getRok(), this.getMiesiac(), p.getInnyokres());
                             p.setRokEw(nowyokres[0]);
