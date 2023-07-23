@@ -23,7 +23,7 @@ public class ZmiennaWynagrodzeniacomparator implements Comparator<Zmiennawynagro
     //najstarsza jest pierwsza
     @Override
     public int compare(Zmiennawynagrodzenia o1, Zmiennawynagrodzenia o2) {
-        int zwrot = 0;
+        int zwrot = -1;
         String datao1 = o1.getDataod();
         String datao2 = o2.getDataod();
         DateFormat formatter;
@@ -47,7 +47,6 @@ public class ZmiennaWynagrodzeniacomparator implements Comparator<Zmiennawynagro
                 E.e(ex);
             }
         }
-        
         return zwrot;
     }
     

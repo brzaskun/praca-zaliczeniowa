@@ -52,6 +52,7 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
             if (listaskladnikiwynagrodzenia != null && !listaskladnikiwynagrodzenia.isEmpty()) {
                 lista = zmiennaWynagrodzeniaFacade.findBySkladnik(listaskladnikiwynagrodzenia.get(0));
                 lista.add(new Zmiennawynagrodzenia(listaskladnikiwynagrodzenia.get(0)));
+                Collections.sort(lista, new ZmiennaWynagrodzeniacomparator());
             }
         }
     }
@@ -61,6 +62,7 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
             biezacyskladnikwynagrodzenia = skladnikwynagrodzenia;
             lista  = zmiennaWynagrodzeniaFacade.findBySkladnik(skladnikwynagrodzenia);
             lista.add(new Zmiennawynagrodzenia(skladnikwynagrodzenia));
+            Collections.sort(lista, new ZmiennaWynagrodzeniacomparator());
        }  else {
            lista = null;
        }

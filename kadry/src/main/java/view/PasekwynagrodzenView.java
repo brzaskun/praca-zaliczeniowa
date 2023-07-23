@@ -192,7 +192,11 @@ public class PasekwynagrodzenView implements Serializable {
         if (rodzajlistyplac == null) {
             rodzajlistyplac = rodzajlistyplacFacade.findUmowaoPrace();
         }
-        listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), rodzajlistyplac);
+        listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokUprzedni(), rodzajlistyplac);
+        if (listadefinicjalistaplac==null) {
+            listadefinicjalistaplac = new ArrayList<>();
+        }
+        listadefinicjalistaplac.addAll(definicjalistaplacFacade.findByFirmaRokRodzaj(wpisView.getFirma(), wpisView.getRokWpisu(), rodzajlistyplac));
         if (listadefinicjalistaplac!=null) {
             Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
             for (Definicjalistaplac def : listadefinicjalistaplac) {
@@ -208,8 +212,8 @@ public class PasekwynagrodzenView implements Serializable {
         }
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
         try {
-            wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
-            wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
+            wybranalistaplac = listadefinicjalistaplac.stream().filter(p -> p.getRok().equals(wpisView.getRokWpisu()) && p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
+            wybranalistaplac2 = listadefinicjalistaplac.stream().filter(p -> p.getRok().equals(wpisView.getRokWpisu()) && p.getMc().equals(wpisView.getMiesiacWpisu())).findFirst().get();
             datawyplaty = zrobdatawyplaty(wpisView.getMiesiacWpisu(), wpisView.getRokWpisu(), wpisView.getFirma());
             listakalendarzmiesiacdoanalizy2 = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac2.getFirma(), wybranalistaplac2.getRok(), wybranalistaplac2.getMc());
             pobierzkalendarzezamc();

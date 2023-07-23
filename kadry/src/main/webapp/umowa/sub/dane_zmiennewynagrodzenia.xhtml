@@ -43,12 +43,11 @@
                     <p:panel header="Wykaz zmiennych składniki wynagrodzenia">
                         <p:dataTable id="datalist" value="#{zmiennaWynagrodzeniaView.lista}" var="itemzmiennawyn"
                                      selectionMode="single" selection="#{zmiennaWynagrodzeniaView.selectedlista}"
-                                     rowKey="#{itemzmiennawyn.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
-                                      sortBy="#{itemzmiennawyn.dataod}"
-                                     style="height: 240px; overflow-y: scroll; width: 1000px;"
+                                     rowKey="#{itemzmiennawyn.hashCode()}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
+                                     style="height: 240px; overflow-y: scroll; width: 950px;"
                                      >
 
-                            <p:column width="40" style="text-align: center;" sortable="true" sortBy="#{itemzmiennawyn.id}" sortOrder="desc">
+                            <p:column width="40" style="text-align: center;" >
                                 <f:facet name="header">
                                     <h:outputText value="id"/>
                                 </f:facet>
@@ -60,7 +59,7 @@
                                 </f:facet>
                                 <p:inputText value="#{itemzmiennawyn.nazwa}"/>
                             </p:column>
-                            <p:column >
+                            <p:column sortBy="#{itemzmiennawyn.dataod}" >
                                 <f:facet name="header">
                                     <h:outputText value="data od"/>
                                 </f:facet>

@@ -20,11 +20,18 @@ public class Defnicjalistaplaccomparator implements Comparator<Definicjalistapla
 
     @Override
     public int compare(Definicjalistaplac o1, Definicjalistaplac o2) {
-        String datao1 = o1.getMc();
-        String datao2 = o2.getMc();
+        int zwrot = 0;
         Collator collator = Collator.getInstance(new Locale("pl", "PL"));
         collator.setStrength(Collator.PRIMARY);
-        return collator.compare(datao1, datao2);
+        String roko1 = o1.getRok();
+        String roko2 = o2.getRok();
+        zwrot = collator.compare(roko1, roko2);
+        if (zwrot==0) {
+            String datao1 = o1.getMc();
+            String datao2 = o2.getMc();
+            zwrot = collator.compare(datao1, datao2);
+        }
+        return zwrot;
     }
     
 }
