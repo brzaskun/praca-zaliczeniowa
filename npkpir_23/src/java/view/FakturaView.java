@@ -641,6 +641,14 @@ public class FakturaView implements Serializable {
         selected.setMc(wpisView.getMiesiacWpisu());
         selected.setFakturagrupa(wpisView.getUzer().getFakturagrupa());
         listakontawwalucie = fakturaWalutaKontoDAO.findByWalutaString(wpisView.getPodatnikObiekt(),selected.getWalutafaktury());
+        List<FakturaWalutaKonto> listakontawwalucieObject = fakturaWalutaKontoDAO.findByWaluta(wpisView.getPodatnikObiekt(),selected.getWalutafaktury());
+        if (listakontawwalucieObject.size()>1) {
+            FakturaWalutaKonto konto = listakontawwalucieObject.get(0);
+            selected.setNrkontabankowego(konto.getIban());
+            if (konto.getSwift()!=null) {
+                selected.setSwift(konto.getSwift());
+            }
+        }
     }
 
     public void dodaj() {

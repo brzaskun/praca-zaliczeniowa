@@ -131,6 +131,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             if (po.getNip().equals(szukanyklient.getNip())) {
                 szukanyklient.setTelefon(po.getTelefonkontaktowy());
                 szukanyklient.setKsiegowa(po.getKsiegowa());
+                szukanyklient.setAktywny(po.isPodmiotaktywny());
                 szukanyklient.setPolecajacy(po.getPolecajacy());
                 break;
             }
@@ -203,6 +204,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     if (po.getNip().equals(k.getNip())) {
                         k.setNazwapodatnika(po.getPrintnazwa());
                         k.setTelefon(po.getTelefonkontaktowy());
+                        k.setAktywny(po.isPodmiotaktywny());
                         k.setKsiegowa(po.getKsiegowa());
                         k.setPolecajacy(po.getPolecajacy());
                         break;
@@ -473,6 +475,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 szukanyklient.setNazwapodatnika(po.getPrintnazwa());
                 szukanyklient.setTelefon(po.getTelefonkontaktowy());
                 szukanyklient.setKsiegowa(po.getKsiegowa());
+                szukanyklient.setAktywny(po.isPodmiotaktywny());
                 szukanyklient.setPolecajacy(po.getPolecajacy());
                 break;
             }
@@ -946,6 +949,18 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
 
+    public void dezaktywujpodatnika() {
+        if (szukanyklient!=null) {
+            Podatnik podatnik = podatnikDAO.findPodatnikByNIP(szukanyklient.getNip());
+            podatnik.setPodmiotaktywny(!podatnik.isPodmiotaktywny());
+            podatnikDAO.edit(podatnik);
+            szukanyklient.setAktywny(podatnik.isPodmiotaktywny());
+            Msg.msg("Zmieniono aktywacje podatnika");
+        } else {
+            Msg.msg("e","Nie pobrano podatnika");
+        }
+    }
+    
 
     public void korygujnazero() {
         if (selectedrozliczenia != null) {

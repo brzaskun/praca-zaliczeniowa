@@ -49,16 +49,21 @@
                 }
             </style>
                 <p:panelGrid style="margin-top: 10px;" columns="3" id="polesumy">
-                    <p:panelGrid columns="1" style="width: 250px;margin-top: 10px;" id="mailklientapanel">
-                    <p:column width="250">
+                    <p:panelGrid columns="1" style="width: 350px;margin-top: 10px;" id="mailklientapanel">
+                    <p:column width="350">
                         <h:outputText value="ksiegowa: "/>
                         <h:outputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.ksiegowa.imieNazwisko}" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.ksiegowa ne null}"/>
                     </p:column>
-                    <p:column width="250">
+                    <p:column width="350">
                         <h:outputText value="polecający: "/>
                         <h:outputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.polecajacy}" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.polecajacy ne null}"/>
                     </p:column>
-                    <p:column width="250">
+                   <p:column width="350">
+                        <h:outputText value="podmiot aktywny: "/>
+                        <h:outputText value="tak" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.aktywny eq true}"/>
+                        <h:outputText value="nie" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.aktywny eq false}" style="color: red;"/>
+                    </p:column>
+                    <p:column width="350">
                         <h:outputText value="mail: "/>
                         <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" emptyLabel="brak maila" >
                             <f:facet name="output">
@@ -71,7 +76,7 @@
                             </f:facet>
                         </p:inplace>
                     </p:column>
-                    <p:column width="250">
+                    <p:column width="350">
                         <h:outputText value="telefon: "/>
                         <p:inplace editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" emptyLabel="brak maila" >
                             <f:facet name="output">
@@ -109,6 +114,10 @@
                         <p:column width="35" style="text-align: center;">
                             <p:commandButton value="korekta" actionListener="#{fakturaRozrachunkiAnalizaView.korygujnazero()}" 
                                                 update="akordeon:fakturaanaliza:tablicaanaliza" />
+                       </p:column>
+                        <p:column width="35" style="text-align: center;">
+                            <p:commandButton value="dezktywuj pod." actionListener="#{fakturaRozrachunkiAnalizaView.dezaktywujpodatnika()}"  update="akordeon:fakturaanaliza:mailklientapanel"
+                                                 />
                        </p:column>
                     </p:panelGrid>
             </p:panelGrid>

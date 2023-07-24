@@ -271,7 +271,7 @@ public class FakturaBean {
         if (konta != null) {
             for (FakturaWalutaKonto p : konta) {
                 if (p.getWaluta().getSymbolwaluty().equals(waluta)) {
-                   selected.setNrkontabankowego(p.getNrkonta());
+                   selected.setNrkontabankowego(p.getIban());
                    selected.setSwift(p.getSwift());
                    try {
                         FakturaStopkaNiemiecka fakturaStopkaNiemiecka = fakturaStopkaNiemieckaDAO.findByPodatnik(podatnik);

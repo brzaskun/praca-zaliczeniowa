@@ -161,7 +161,7 @@ public class ImportCSVView  implements Serializable {
             String[] poprzedniOkres = Data.poprzedniOkres(mc, rok);
             tabelenbp.addAll(tabelanbpDAO.findByRokMc(poprzedniOkres[1],poprzedniOkres[0]));
             Collections.sort(tabelenbp, new Tabelanbpcomparator());
-            stream.parallel().forEach(row -> {
+            stream.forEach(row -> {
                 String serial = row.get("TRANSACTION_EVENT_ID");
                 String rodzajtransakcji = row.get("TRANSACTION_TYPE");
                 String data = row.get("TAX_CALCULATION_DATE");

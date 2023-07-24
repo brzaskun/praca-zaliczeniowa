@@ -27,7 +27,7 @@ public class Bilans {
         DoubleAccumulator obrotyma = new DoubleAccumulator(Double::sum, 0.d);
         DoubleAccumulator obrotywnwaluta = new DoubleAccumulator(Double::sum, 0.d);
         DoubleAccumulator obrotymawaluta = new DoubleAccumulator(Double::sum, 0.d);
-        strony.parallelStream().forEach(p -> {
+        strony.forEach(p -> {
             if (p.isWn()) {
                 obrotywn.accumulate(Z.z(p.getKwotaPLN()));
                 if (!p.getSkrotSymbolWalutBOiSW().equals("PLN")) {

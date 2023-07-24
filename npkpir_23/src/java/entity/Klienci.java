@@ -97,6 +97,8 @@ public class Klienci extends KlienciSuper implements Serializable {
     private Uz ksiegowa;
     @Transient
     private String polecajacy;
+    @Transient
+    private boolean aktywny;
     
     
 
@@ -387,6 +389,16 @@ public class Klienci extends KlienciSuper implements Serializable {
     public void setPolecajacy(String polecajacy) {
         this.polecajacy = polecajacy;
     }
+
+
+    public boolean isAktywny() {
+        return aktywny;
+    }
+
+    public void setAktywny(boolean aktywny) {
+        this.aktywny = aktywny;
+    }
+
     
     
     
