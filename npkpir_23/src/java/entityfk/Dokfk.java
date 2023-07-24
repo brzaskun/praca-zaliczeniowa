@@ -1008,8 +1008,8 @@ public class Dokfk extends DokSuper implements Serializable {
 //                            this.setVatR(this.getRok());
 //                            this.setVatM(this.getMiesiac());
 //                          nowe ustawienie                    
-                            p.setMcEw(this.getVatR());
-                            p.setRokEw(this.getVatM());
+                            p.setMcEw(this.getVatM());
+                            p.setRokEw(this.getVatR());
                         } else if (sprawdzjakiokresvat.equals("kwartalne")) {
                             String[] nowyokres = Kwartaly.zwiekszkwartal(this.getRok(), this.getMiesiac(), p.getInnyokres());
                             p.setRokEw(nowyokres[0]);
