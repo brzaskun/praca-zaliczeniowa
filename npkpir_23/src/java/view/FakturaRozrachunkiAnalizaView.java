@@ -291,6 +291,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         saldo -= p.getKwota();
                         saldopln -= p.getKwota();
                     }
+                    iloscfakturbezplatnosci = 0;
                     
                 } else {
                     iloscfakturbezplatnosci ++;
