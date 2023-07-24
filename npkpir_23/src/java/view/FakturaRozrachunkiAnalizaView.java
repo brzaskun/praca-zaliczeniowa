@@ -372,6 +372,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     public void zestawieniezbiorcze() {
+        klienci = new ArrayList<>();
         klienci.addAll(pobierzkontrahentow());
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
