@@ -45,90 +45,7 @@
                 <h:outputText value="Generowanie bilansu likwidacyjnego na dzień #{WpisView.podatnikObiekt.dataotwarcialikwidacji}" style="color: red;"/>
             </p:outputPanel>
             <p:focus for="formbilanswprowadzanie2_wiersz"/>
-<!--            <p:panelGrid rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}" style="height: 50px;">
-                <f:facet name="header">
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="#{mgs.konto}"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{mgs.opis}"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="kwota Wn"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="kwota Ma"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="zapisz"/>
-                        </p:column>
-                    </p:row>
-                </f:facet>
-                <p:row>
-                    <p:column width="250">
-                        <p:autoComplete value="#{bilansWprowadzanieView.selected.konto}" completeMethod="#{planKontBOView.completeBO}" id="konto"
-                                        var="pka" itemLabel="#{pka.pelnynumer} #{pka.nazwapelna}" itemValue="#{pka}" autocomplete="true" scrollHeight="250"
-                                        minQueryLength="1" converter="#{kontoConv}" styleClass="kontobo" maxResults="50"
-                                        converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 280px;"
-                                        >to teraz powoduje blad
-                            <f:facet name="itemtip">
-                                                            działa tylko na pierwszej zakładce :(
-                                    <h:outputText value="#{pka.kontomacierzyste.pelnynumer} #{pka.kontomacierzyste.nazwapelna}"/>
-                            </f:facet>
-                            <p:ajax event="itemSelect" global="false" partialSubmit="true"/>
-                            <p:ajax event="query" global="false"/>
-                        </p:autoComplete>
-                    </p:column>
-                    <p:column width="210" rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}">
-                        <p:inputText value="#{bilansWprowadzanieView.selected.opis}" style="width: 200px;"  id="opis" 
-                                          >
-                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
-                            <p:ajax event="blur" partialSubmit="true" global="false" />
-                        </p:inputText>
-                    </p:column>
-                     <p:column width="210" rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}">
-                        <p:selectOneMenu value="#{bilansWprowadzanieView.selected.opis}" style="width: 200px;"  id="opis2"
-                                         editable="true" >
-                            <f:selectItem itemLabel="obroty Wn" itemValue="obroty Wn"/>
-                            <f:selectItem itemLabel="obroty Ma" itemValue="obroty Ma"/>
-                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
-                            <p:ajax event="blur" partialSubmit="true" global="false" />
-                        </p:selectOneMenu>
-                    </p:column>
-                    <p:column style="text-align: center;">
-                        <p:inputNumber value="#{bilansWprowadzanieView.selected.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
-                                        style="width: 70px;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
-                            <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(bilansWprowadzanieView.selected, bilansWprowadzanieView.selected.kwotaWn, 'Wn')}" />
-                        </p:inputNumber>
-                    </p:column>
-                    <p:column style="text-align: center;">
-                        <p:inputNumber  value="#{bilansWprowadzanieView.selected.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
-                                         style="width: 70px;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
-                            <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(bilansWprowadzanieView.selected, bilansWprowadzanieView.selected.kwotaMa, 'Ma')}" />
-                        </p:inputNumber>
-                    </p:column>
-                    <p:column style="text-align: center;" width="40">
-                        <p:commandButton icon="fa fa-save" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz()}"
-                                         update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz"
-                                         />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="miesiąc wprowadzania" style="color:red;" rendered="#{bilansWprowadzanieView.tojestbilanslikwidacyjny}"/>
-                        <h:outputText value="miesiąc wprowadzania" rendered="#{!bilansWprowadzanieView.tojestbilanslikwidacyjny}"/>
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{bilansWprowadzanieView.miesiacWpisu}" style="color:red;" rendered="#{bilansWprowadzanieView.tojestbilanslikwidacyjny}"/>
-                        <p:selectOneMenu value="#{bilansWprowadzanieView.miesiacWpisu}"  rendered="#{!bilansWprowadzanieView.tojestbilanslikwidacyjny}">
-                            <p:ajax event="change" listener="#{bilansWprowadzanieView.init2()}" 
-                                    update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz formbilanswprowadzanie3" />
-                            <f:selectItems value="#{mce.mceList}"/>
-                        </p:selectOneMenu>
-                    </p:column>
-                </p:row>
-            </p:panelGrid>-->
-<!--            <p:panelGrid rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}"  style="height: 50px;">-->
-            <p:panelGrid style="height: 50px;">
+             <p:panelGrid  style="height: 50px;">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -174,7 +91,7 @@
                      <p:column width="210" rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}">
                         <p:inputText value="#{bilansWprowadzanieView.selected.opis}" style="width: 200px;"  id="opis3" 
                                           >
-                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
+                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto2"/>
                             <p:ajax event="blur" partialSubmit="true" global="false" />
                         </p:inputText>
                     </p:column>
@@ -183,7 +100,7 @@
                                          editable="true" required="true" requiredMessage="wpisz opis">
                             <f:selectItem itemLabel="obroty Wn" itemValue="obroty Wn"/>
                             <f:selectItem itemLabel="obroty Ma" itemValue="obroty Ma"/>
-                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
+                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto2"/>
                             <p:ajax event="blur" partialSubmit="true" global="false" />
                         </p:selectOneMenu>
                     </p:column>
@@ -272,111 +189,10 @@
                     <p:ajax event="change" partialSubmit="true" global="false"/>
                 </p:selectBooleanCheckbox>
             </p:panelGrid>
-            <p:panelGrid columns="1" style="width: 100%">
-            <p:remoteCommand name="przeliczfilter" actionListener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOselected, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0" global="false"/>
-            <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item" binding="#{bilansWprowadzanieView.listaBOdatatable}" widgetVar="tab0prosta"
-                         style="overflow-y: scroll; height: 400px; width: 1480px !important;  margin-top: 5px;"
-                         styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
-                         rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}"
-                         id="tab0" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOselected}"
-                         filteredValue="#{bilansWprowadzanieView.listaBOFiltered}" 
-                         >
-                <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOselected, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
-                <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
-                <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOselected, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
-                <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>
-                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"/>
-                <p:column width="80" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
-                    <f:facet name="header">
-                        <h:outputText value="#{mgs.konto}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.konto.pelnynumer}"/>
-                </p:column>
-                <p:column width="300" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieView.filterByKonto}"  sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
-                    <f:facet name="header">
-                        <h:outputText value=""/>
-                    </f:facet>
-                    <h:outputText value="#{item.konto.nazwapelna}"/>
-                </p:column>
-                <p:column width="200" styleClass="kolumnaopis" filterBy="#{item.opis}" filterMatchMode="contains" sortBy="#{item.opis}">
-                    <f:facet name="header">
-                        <h:outputText value="#{mgs.opis}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.opis.length() lt 40 ? item.opis : item.opis.substring(0,39)}" style="#{item.roznicowy ? 'color:red;':null}" />
-                </p:column>
-                <p:column style="text-align: center;" sortBy="#{item.kwotaWn}" width="90">
-                    <f:facet name="header">
-                        <h:outputText value="Kwota Wn"/>
-                    </f:facet>
-                    <bcf:outputpl value="#{item.kwotaWn}" rendered="#{item.kwotaWn ne 0.0 and bilansWprowadzanieView.nraktualnejlisty ne 9}"/>
-                    <bcf:outputpl value="#{item.kwotaWnPLN}" rendered="#{item.kwotaWnPLN ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
-                </p:column>
-                <p:column style="text-align: center;" sortBy="#{item.kwotaMa}" width="90">
-                    <f:facet name="header">
-                        <h:outputText value="Kwota Ma"/>
-                    </f:facet>
-                    <bcf:outputpl value="#{item.kwotaMa}" rendered="#{item.kwotaMa ne 0.0 and bilansWprowadzanieView.nraktualnejlisty ne 9}"/>
-                    <bcf:outputpl value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
-                </p:column>
-                <p:column style="text-align: center;" sortBy="#{item.kontostare.saldoWnksiegi}" width="90" rendered="#{bilansWprowadzanieView.pokazstarekonta}">
-                    <f:facet name="header">
-                        <h:outputText value="Kwota Wn rok pop"/>
-                    </f:facet>
-                    <bcf:outputpl value="#{item.kontostare.saldoWnksiegi}" rendered="#{item.kontostare ne null and item.kontostare.saldoWnksiegi ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
-                </p:column>
-                <p:column sortBy="#{item.nowy0edycja1usun2}" width="90" style="#{item.stylwiersza}" rendered="#{!bilansWprowadzanieView.pokazstarekonta}"  filterBy="#{item.nowy0edycja1usun2}" filterMatchMode="contains" filterStyle="width: 40px;">
-                    <f:facet name="header">
-                        <h:outputText value="stan"  />
-                    </f:facet>
-                    <h:outputText value="#{item.nowy0edycja1usun2}"/>
-                </p:column>
-                <p:column width="90" style="text-align: center;" sortBy="#{item.kontostare.saldoMaksiegi}" rendered="#{bilansWprowadzanieView.pokazstarekonta}">
-                    <f:facet name="header">
-                        <h:outputText value="Kwota Ma rok pop"/>
-                    </f:facet>
-                    <bcf:outputpl value="#{item.kontostare.saldoMaksiegi}" rendered="#{item.kontostare ne null and item.kontostare.saldoMaksiegi ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
-                </p:column>
-                <p:column width="90" style="text-align: center;" sortBy="#{item.roznicaSald}" rendered="#{bilansWprowadzanieView.pokazstarekonta}">
-                    <f:facet name="header">
-                        <h:outputText value="różnica sald"/>
-                    </f:facet>
-                    <bcf:outputpl value="#{item.roznicaSald}" style="color: red;" rendered="#{item.kontostare ne null and item.roznicaSald ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
-                </p:column>
-                <p:column style="text-align: left;" sortBy="#{item.dataK}" width="90">
-                    <f:facet name="header">
-                        <h:outputText value="data"/>
-                    </f:facet>
-                     <h:outputText value="#{item.dataK}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                    </h:outputText>
-                </p:column>
-                <p:column style="text-align: center;" width="40">
-                    <f:facet name="header">
-                        <h:outputText value="usuń tym."/>
-                    </f:facet>
-                    <p:commandButton icon="fa fa-trash" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwierszN(item)}"
-                                     update="formbilanswprowadzanie2"
-                                     />
-                </p:column>
-                <p:column style="text-align: center;" width="40">
-                    <f:facet name="header">
-                        <h:outputText value="edycja"/>
-                    </f:facet>
-                    <p:commandButton icon="ui-icon-circle-plus" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.edycjawiersza(item)}"
-                                     update="formbilanswprowadzanie2_wiersz"
-                                     />
-                </p:column>
-            </p:dataTable>
-            </p:panelGrid>
-             <p:contextMenu for="formbilanswprowadzanie2:tab0"  style="width: 200px;">
-                <p:menuitem value="Usuń trwale" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOselected)}" icon="ui-icon-disk" />
-                <p:menuitem value="Usuń z pominięciem dok. BO" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwielebezBO(bilansWprowadzanieView.listaBOselected)}" icon="ui-icon-disk" />
-            </p:contextMenu>
             
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item"
                          style="overflow-y: scroll; height: 400px; width: 98%; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
-                         rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}"
                          id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs1}"
                          filteredValue="#{bilansWprowadzanieView.listaBOFiltered}"  rowSelectMode="add"
                          rowsPerPageTemplate="100,200,300,400" paginatorPosition="top" paginator="#{bilansWprowadzanieView.listaBO.size() gt 150 ? 'true':'false'}" rows="100"
