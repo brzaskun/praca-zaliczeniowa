@@ -317,7 +317,8 @@ public class BilansWprowadzanieView implements Serializable {
     
     public void pobierzlistaS() {
         pokazstarekonta = true;
-        listaBOdatatable.setStyle("overflow-y: scroll; height: 400px; width: 1280px; padding: 10px; margin-top: 5px;");
+        //usunieto bo mozna waltuy na wszystkich kontahc w wierszu bo
+        //listaBOdatatable.setStyle("overflow-y: scroll; height: 400px; width: 1280px; padding: 10px; margin-top: 5px;");
         List<WierszBO> listawstepna = Collections.synchronizedList(new ArrayList<>());
         for (List<WierszBO> l : listazbiorcza.values()) {
             listawstepna.addAll(l);
@@ -359,7 +360,7 @@ public class BilansWprowadzanieView implements Serializable {
         nraktualnejlisty = 9;
         if (listaBOFiltered != null) {
             listaBOFiltered = null;
-            PrimeFaces.current().executeScript("try{PF('tab0prosta').clearFilters()}catch(e){}");
+            //PrimeFaces.current().executeScript("try{PF('tab0prosta').clearFilters()}catch(e){}");
             PrimeFaces.current().executeScript("try{PF('tab0zlozona').clearFilters()}catch(e){}");
         }
     }
