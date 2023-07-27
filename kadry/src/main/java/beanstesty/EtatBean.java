@@ -5,12 +5,14 @@
  */
 package beanstesty;
 
+import comparator.KalendarzmiesiacRMNormalcomparator;
 import dao.KalendarzmiesiacFacade;
 import data.Data;
 import entity.Angaz;
 import entity.Dzien;
 import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
+import java.util.Collections;
 import java.util.List;
 import z.Z;
 
@@ -23,6 +25,7 @@ public class EtatBean {
     
     public static void edytujkalendarz(EtatPrac selected, KalendarzmiesiacFacade kalendarzmiesiacFacade) {
         List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByAngaz(selected.getAngaz());
+        Collections.sort(kalendarze, new KalendarzmiesiacRMNormalcomparator());
         for (Kalendarzmiesiac k : kalendarze) {
             boolean czyjestpo = Data.czyjestpo(selected.getDataod(), k.getRok(), k.getMc());
             boolean czyjestprzed = Data.czyjestprzed(selected.getDatado(), k.getRok(), k.getMc());
@@ -37,7 +40,7 @@ public class EtatBean {
                         if (selected!=null) {
                             d.setEtat1(selected.getEtat1());
                             d.setEtat2(selected.getEtat2());
-                            double nowanorma = Z.z(d.getNormagodzinwzorcowa()*d.getEtat1()/d.getEtat2());
+                            double nowanorma = Z.z(d.getNormagodzinwzorcowa()*selected.getEtat1()/selected.getEtat2());
                             d.setNormagodzin(nowanorma);
                             if(d.getPrzepracowano()>0 && d.getPrzepracowano()!=nowanorma) {
                                 d.setPrzepracowano(nowanorma);
