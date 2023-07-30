@@ -111,7 +111,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         boolean wynagrodzeniekrajowegodzinowe = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("11") && skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==false;
         boolean wynagrodzeniekierowca = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13") && skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true;
         if (wynagrodzeniekrajowemiesieczne || wynagrodzeniekierowca) {
-            for (Zmiennawynagrodzenia zmiennawyn : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
+            //tu usredniamy zmienna w przypadku zmiany angazu
+            Zmiennawynagrodzenia zmiennawyn = KalendarzmiesiacBean.usrednijZmienna(skladnikwynagrodzenia, kalendarz);
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
                 double kwotazmiennej = 0.0;
                 double stawkadzienna = 0.0;
@@ -299,7 +300,6 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia()!=null) {
                    zwrot.add(naliczenieskladnikawynagrodzenia);
                 }
-            }
         } else if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13")) {
             String datastart = ustaldateod(kalendarz);
             String dataend = kalendarz.getOstatniDzien();

@@ -206,7 +206,11 @@ public class Sredniadlanieobecnosci implements Serializable {
     }
     
     public double getKwotawyplaconaminuszusProcent() {
-        return Z.z(Z.z(this.kwotawyplacona-this.kwotawyplacona*.1371)*(this.naliczenienieobecnosc.getNieobecnosc().getZwolnienieprocent()/100.0));
+        double zwrot = 0.0;
+        if (this.naliczenienieobecnosc!=null) {
+            zwrot = Z.z(Z.z(this.kwotawyplacona-this.kwotawyplacona*.1371)*(this.naliczenienieobecnosc.getNieobecnosc().getZwolnienieprocent()/100.0));
+        }
+        return zwrot;
     }
 
     

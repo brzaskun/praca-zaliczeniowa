@@ -320,6 +320,7 @@
                         <p:tab title="Suma średnich do podstawy zasiłku">
                             <p:outputPanel>
                                 <p:dataTable id="datalistsredniasuma" value="#{pasekwynagrodzenView.wybranykalendarz.sumujsredniedlazasilku(pasekwynagrodzenView.zusrcaDAO)}" var="itempaseksredniasuma"
+                                             emptyMessage="Nie ma listy średnich. Sprawdzić czy nie jest to przypadkiem kontynuacja zwolnienia"
                                                      rowIndexVar="itempaseksredniasumaid" rowKey="#{itempaseksredniasuma.id}"
                                                      style="width: 1380px;"
                                                      >
@@ -378,8 +379,8 @@
                                                 <bcf:outputpl value="#{itempaseksredniasuma.kwotazwaloryzowana}" rendered="#{itempaseksredniasuma.rok ne 'razem'}" stylePlus="#{itempaseksredniasuma.pominiete eq true?'color: gray':null}"/>
                                             </p:column>
                                         </p:dataTable>
-                                <p:outputPanel style="padding: 10px;">
-                                        <h:outputText value="sumy nie zawierają kwot z miesiąców pominiętych" style="color: green"/>
+                                <p:outputPanel style="padding: 10px;margin-top: 10px;">
+                                        <h:outputText value="Uwaga. Sumy nie zawierają kwot z miesiąców pominiętych" style="color: green"/>
                                 </p:outputPanel>
                             </p:outputPanel>
                         </p:tab>
