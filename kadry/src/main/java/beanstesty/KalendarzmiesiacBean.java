@@ -580,7 +580,7 @@ public class KalendarzmiesiacBean {
     private static double wyliczsredniachoroba(Kalendarzmiesiac kalendarz, Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Nieobecnosc nieobecnosc, Naliczenienieobecnosc naliczenienieobecnosc,
             Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow, boolean jestoddelegowanie) {
         double zwrot = 0.0;
-        List<Kalendarzmiesiac> kalendarze = pobierzkalendarzeDoSrednich(kalendarz);
+        List<Kalendarzmiesiac> kalendarze = pobierzkalendarzeDoSrednich(kalendarz, nieobecnosc);
         double dniroboczewmiesiacu = 0.0;
         double godzinyroboczewmiesiacu = 0.0;
         for (Dzien pa : kalendarz.getDzienList()) {
@@ -589,19 +589,36 @@ public class KalendarzmiesiacBean {
                 godzinyroboczewmiesiacu = godzinyroboczewmiesiacu + pa.getNormagodzin();
             }
         }
-
+        //kontynuacja zwolnienia jest ciaglosc trzeba pobrac poprzednia zmienna
+        double sredniadopodstawykontynuacja = sredniaKontynuacja(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarz, kalendarze, nieobecnosc, definicjalistaplac);
         double sredniadopodstawyzmienne = 0.0;
         double sredniadopodstawy = 0.0;
-        if (kalendarze.size() == 1) {
+        for (Iterator<Kalendarzmiesiac> it = kalendarze.iterator(); it.hasNext();) {
+            Kalendarzmiesiac kal = it.next();
+            if (kal.getGodzinypracywmiesiacu()==0) {
+                it.remove();
+            }
+        }
+        if (kalendarze.size() == 0&&sredniadopodstawykontynuacja==0.0) {
             //wyliczenie dla skladnika stalego ze zmiennymi
+            String rok = kalendarz.getRok();
+            String mc = kalendarz.getMc();
+            String[] poprzedniOkres = Data.poprzedniOkres(mc, rok);
+            mc = poprzedniOkres[0];
+            rok = poprzedniOkres[1];
+            int rokI = Integer.valueOf(rok);
+            rokI = rokI-1;
+            final String rokuprzedni = String.valueOf(rokI);
+            final String rokS = rok;
+            List<Kalendarzmiesiac> kalendarzmiesiacList = kalendarz.getAngaz().getKalendarzmiesiacList();
+            List<Kalendarzmiesiac> kalendarzmiesiacListfilter = kalendarzmiesiacList.stream().filter(p->p.getRok().equals(rokS)||p.getRok().equals(rokuprzedni)).collect(Collectors.toList());
+            kalendarze = kalendarzmiesiacList.stream().filter(p->p.getRok().equals(kalendarz.getRok())&&p.getMc().equals(kalendarz.getMc())).collect(Collectors.toList());
             sredniadopodstawy = sredniaJedenKalendarz(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarz, godzinyroboczewmiesiacu);
 
         } else {
             sredniadopodstawyzmienne = 0.0;
-            //kontynuacja zwolnienia jest ciaglosc trzeba pobrac poprzednia zmienna
-            sredniadopodstawyzmienne = sredniaKontynuacja(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarz, kalendarze, nieobecnosc, definicjalistaplac);
             //idziemy dalej jak nie bylo choroby w w okresie krtotszum niz 1 mcy
-            if (sredniadopodstawyzmienne == 0.0) {
+            if (sredniadopodstawykontynuacja == 0.0) {
                 double i = 0.0;
                 for (Iterator<Kalendarzmiesiac> it = kalendarze.iterator(); it.hasNext();) {
                     Kalendarzmiesiac kalendarzdosredniej = it.next();
@@ -663,7 +680,7 @@ public class KalendarzmiesiacBean {
                     sredniadopodstawy = Z.z(sredniadopodstawy + (sredniadopodstawyzmienne / i));
                 }
             } else {
-                sredniadopodstawy = sredniadopodstawyzmienne;
+                sredniadopodstawy = sredniadopodstawykontynuacja;
             }
         }
         /**
@@ -676,7 +693,7 @@ public class KalendarzmiesiacBean {
         return sredniadopodstawy;
     }
     
-    private static List<Kalendarzmiesiac> pobierzkalendarzeDoSrednich(Kalendarzmiesiac kalendarz) {
+    private static List<Kalendarzmiesiac> pobierzkalendarzeDoSrednich(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc) {
         String rok = kalendarz.getRok();
         String mc = kalendarz.getMc();
         String[] poprzedniOkres = Data.poprzedniOkres(mc, rok);
@@ -687,7 +704,10 @@ public class KalendarzmiesiacBean {
         final String rokuprzedni = String.valueOf(rokI);
         final String rokS = rok;
         List<Kalendarzmiesiac> kalendarze = new ArrayList<>();
-        String dataetat = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
+        //tak bylo, ale byl problem jak byla zmiana etatu w miesiacu
+        //String dataetat = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
+        //zmiana na to 28.07.2023
+        String dataetat = nieobecnosc.getDataod();
         EtatPrac pobierzetat = kalendarz.getAngaz().pobierzetat(dataetat);
         List<Kalendarzmiesiac> kalendarzmiesiacList = kalendarz.getAngaz().getKalendarzmiesiacList();
         List<Kalendarzmiesiac> kalendarzmiesiacListfilter = kalendarzmiesiacList.stream().filter(p->p.getRok().equals(rokS)||p.getRok().equals(rokuprzedni)).collect(Collectors.toList());
@@ -721,19 +741,58 @@ public class KalendarzmiesiacBean {
             }
         }
         //potrzebujemy bo jak sa nowe firmy z historia to nie moze byc kalendarz kompletnie pusty
-        if (kalendarze.isEmpty()) {
-            kalendarze = kalendarzmiesiacList.stream().filter(p->p.getRok().equals(kalendarz.getRok())&&p.getMc().equals(kalendarz.getMc())).collect(Collectors.toList());
-        }
+        //to nie dzial adobrze 27.07.2023
+        //przenioslem to rzad wyzej 29.07.2023
+//        if (kalendarze.isEmpty()) {
+//            kalendarze = kalendarzmiesiacList.stream().filter(p->p.getRok().equals(kalendarz.getRok())&&p.getMc().equals(kalendarz.getMc())).collect(Collectors.toList());
+//        }
         return kalendarze;
     }
-
+    
+    
+    public static Zmiennawynagrodzenia usrednijZmienna(Skladnikwynagrodzenia skladnikwynagrodzenia, Kalendarzmiesiac kalendarz) {
+        Zmiennawynagrodzenia zwrot = new Zmiennawynagrodzenia();
+        String waluta = "PLN";
+        double dniroboczewmiesiacu = 0.0;
+        for (Dzien pa : kalendarz.getDzienList()) {
+            if (pa.getTypdnia() == 0) {
+                dniroboczewmiesiacu = dniroboczewmiesiacu + 1;
+            }
+        }
+        double skladnikistale = 0.0;
+        double sredniadopodstawystale = 0.0;
+        List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
+        for (Zmiennawynagrodzenia r : zmiennawynagrodzeniaList) {
+                double dniroboczezm = 0.0;
+                int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+                int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
+                if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
+                    skladnikistale = r.getKwota();
+                    for (Dzien s : kalendarz.getDzienList()) {
+                        //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
+                        if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                            dniroboczezm = dniroboczezm + 1;
+                        }
+                    }
+                }
+                double stawkadziennazm=  Z.z4(skladnikistale / dniroboczewmiesiacu);
+                sredniadopodstawystale = sredniadopodstawystale + Z.z(stawkadziennazm * dniroboczezm);
+                zwrot.setWaluta(waluta);
+            }
+         zwrot.setKwota(sredniadopodstawystale);
+         zwrot.setWaluta(waluta);
+         zwrot.setDataod(zmiennawynagrodzeniaList.get(0).getDataod());
+         zwrot.setDatado(zmiennawynagrodzeniaList.get(zmiennawynagrodzeniaList.size()-1).getDatado());
+         return zwrot;
+    }
+    
     private static double sredniaJedenKalendarz(Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia, Naliczenienieobecnosc naliczenienieobecnosc, Kalendarzmiesiac kalendarz, double godzinyroboczewmiesiacu) {
         double sredniadopodstawy = 0.0;
         if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1() && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1() == false) {
-            double skladnikistale = 0.0;
-            double dniroboczeprzepracowanestat = 0.0;
-            double godzinyobecnoscirobocze = 0.0;
-            double sredniadopodstawystale = 0.0;
+        double skladnikistale = 0.0;
+        double dniroboczeprzepracowanestat = 0.0;
+        double godzinyobecnoscirobocze = 0.0;
+        double sredniadopodstawystale = 0.0;
             for (Zmiennawynagrodzenia r : naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getZmiennawynagrodzeniaList()) {
                 double dniroboczeprzepracowanezm = 0.0;
                 double godzinyobecnosciroboczezm = 0.0;
@@ -959,7 +1018,7 @@ public class KalendarzmiesiacBean {
         mc = poprzedniOkres[0];
         rok = poprzedniOkres[1];
         //List<Kalendarzmiesiac> kalendarzmiesiacList = kalendarz.getAngaz().getKalendarzmiesiacList();
-        List<Kalendarzmiesiac> kalendarzmiesiacList = pobierzkalendarzeDoSrednich(kalendarz);
+        List<Kalendarzmiesiac> kalendarzmiesiacList = pobierzkalendarzeDoSrednich(kalendarz, nieobecnosc);
         Collections.sort(kalendarzmiesiacList, new KalendarzmiesiacRMcomparator());
         String dataetat = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
         EtatPrac pobierzetat = kalendarz.getAngaz().pobierzetat(dataetat);
@@ -1192,9 +1251,15 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setLiczbadniobowiazku(liczbadniobowiazku);
                 naliczenienieobecnosc.setLiczbadniNieobecnosci(liczbadniurlopu);
                 naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
+                if (naliczenieskladnikawynagrodzenia.getGodzinypoza11()>0) {
+                    naliczenienieobecnosc.setLiczbagodzinobowiazku(naliczenieskladnikawynagrodzenia.getGodzinypoza11());
+                }
                 naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinurlopu);
                 double sredniamiesieczna = wyliczsredniagodzinowaStale(kalendarz, naliczenieskladnikawynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc);
                 naliczenienieobecnosc.setSkladnikistale(sredniamiesieczna);
+                if (naliczenieskladnikawynagrodzenia.getGodzinypoza11()>0) {
+                    naliczenienieobecnosc.setSkladnikistale(naliczenieskladnikawynagrodzenia.getKwotaumownaminred11());
+                }
                 double stawkadzienna = naliczenieskladnikawynagrodzenia.getStawkadzienna()*mnoznik;
                 double stawkagodzinowa = naliczenieskladnikawynagrodzenia.getStawkagodzinowa()*mnoznik;
                 //zliwkidowalem zaokragklenia bo dawid mial roznice grosza 2023-02-01
