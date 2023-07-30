@@ -44,7 +44,8 @@ public class ZmiennaPotraceniaView  implements Serializable {
         if (wpisView.getAngaz() != null) {
             listaskladnikipotracenia = skladnikPotraceniaFacade.findByAngaz(wpisView.getAngaz());
             if (listaskladnikipotracenia != null && !listaskladnikipotracenia.isEmpty()) {
-                lista = zmiennaPotraceniaFacade.findBySkladnik(listaskladnikipotracenia.get(0));
+                Skladnikpotracenia skladnik = listaskladnikipotracenia.get(0);
+                lista = zmiennaPotraceniaFacade.findBySkladnik(skladnik);
                 lista.add(new Zmiennapotracenia(listaskladnikipotracenia.get(0)));
             }  else {
                 lista = null;

@@ -206,7 +206,11 @@ public class PasekwynagrodzenView implements Serializable {
                 }
             }
         }
-        listadefinicjalistaplacAnaliza = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+        listadefinicjalistaplacAnaliza = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokUprzedni());
+        if (listadefinicjalistaplacAnaliza==null) {
+            listadefinicjalistaplacAnaliza = new ArrayList<>();
+        }
+        listadefinicjalistaplacAnaliza.addAll(definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu()));
         if (listadefinicjalistaplacAnaliza!=null) {
             Collections.sort(listadefinicjalistaplacAnaliza, new Defnicjalistaplaccomparator());
         }
