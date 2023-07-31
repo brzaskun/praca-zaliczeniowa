@@ -7,6 +7,7 @@ package beanstesty;
 
 import comparator.KalendarzmiesiacLastcomparator;
 import comparator.KalendarzmiesiacRMcomparator;
+import comparator.ZmiennaWynagrodzeniacomparator;
 import data.Data;
 import embeddable.Mce;
 import entity.Definicjalistaplac;
@@ -762,6 +763,7 @@ public class KalendarzmiesiacBean {
         double skladnikistale = 0.0;
         double sredniadopodstawystale = 0.0;
         List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
+        Collections.sort(zmiennawynagrodzeniaList, new ZmiennaWynagrodzeniacomparator());
         for (Zmiennawynagrodzenia r : zmiennawynagrodzeniaList) {
                 double dniroboczezm = 0.0;
                 int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
@@ -774,15 +776,17 @@ public class KalendarzmiesiacBean {
                             dniroboczezm = dniroboczezm + 1;
                         }
                     }
+                     double stawkadziennazm=  Z.z4(skladnikistale / dniroboczewmiesiacu);
+                    sredniadopodstawystale = sredniadopodstawystale + Z.z(stawkadziennazm * dniroboczezm);
+                    zwrot.setWaluta(waluta);
+                } else {
+                    break;
                 }
-                double stawkadziennazm=  Z.z4(skladnikistale / dniroboczewmiesiacu);
-                sredniadopodstawystale = sredniadopodstawystale + Z.z(stawkadziennazm * dniroboczezm);
-                zwrot.setWaluta(waluta);
             }
          zwrot.setKwota(sredniadopodstawystale);
          zwrot.setWaluta(waluta);
-         zwrot.setDataod(zmiennawynagrodzeniaList.get(0).getDataod());
-         zwrot.setDatado(zmiennawynagrodzeniaList.get(zmiennawynagrodzeniaList.size()-1).getDatado());
+         zwrot.setDataod(Data.pierwszyDzien(kalendarz.getRok(), kalendarz.getMc()));
+         zwrot.setDatado(Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc()));
          return zwrot;
     }
     
