@@ -779,9 +779,7 @@ public class KalendarzmiesiacBean {
                      double stawkadziennazm=  Z.z4(skladnikistale / dniroboczewmiesiacu);
                     sredniadopodstawystale = sredniadopodstawystale + Z.z(stawkadziennazm * dniroboczezm);
                     zwrot.setWaluta(waluta);
-                } else {
-                    break;
-                }
+                } 
             }
          zwrot.setKwota(sredniadopodstawystale);
          zwrot.setWaluta(waluta);
