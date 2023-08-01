@@ -253,11 +253,12 @@ public class RozwiazanieumowyView  implements Serializable {
     
      public void drukujwypowiedzenie(Rozwiazanieumowy roz) {
         if (roz!=null && roz.getUmowa()!=null) {
-            if (rozwiazanieUmowyNowe.getUmowa().getAngaz().getFirma().getReprezentant()==null&&rozwiazanieUmowyNowe.getUmowa().getAngaz().getFirma().getReprezentant().equals("")) {
+            if (roz.getUmowa().getAngaz().getFirma().getReprezentant()==null||roz.getUmowa().getAngaz().getFirma().getReprezentant().equals("")) {
                 Msg.msg("w","Prosze uzupełnić imię i nazwisko osoby reprezentującej firmę.");
+            } else {
+                String nazwa = roz.getUmowa().getPracownik().getPesel()+"wypowiedzenie.pdf";
+                PdfWypowiedzenie.drukuj(roz, nazwa);
             }
-            String nazwa = roz.getUmowa().getPracownik().getPesel()+"wypowiedzenie.pdf";
-            PdfWypowiedzenie.drukuj(roz, nazwa);
         } else {
             Msg.msg("e","Nie wybrano wypowiedzenia do wydruku");
         }
