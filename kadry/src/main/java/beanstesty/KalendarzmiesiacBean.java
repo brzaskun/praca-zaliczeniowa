@@ -594,12 +594,13 @@ public class KalendarzmiesiacBean {
         double sredniadopodstawykontynuacja = sredniaKontynuacja(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarz, kalendarze, nieobecnosc, definicjalistaplac);
         double sredniadopodstawyzmienne = 0.0;
         double sredniadopodstawy = 0.0;
-        for (Iterator<Kalendarzmiesiac> it = kalendarze.iterator(); it.hasNext();) {
-            Kalendarzmiesiac kal = it.next();
-            if (kal.getGodzinypracywmiesiacu()==0) {
-                it.remove();
-            }
-        }
+        //to psuje pobieranie kalendarzy u niektorych zaciagneitych z syperplac bo nie ma tych godzin 01082023
+//        for (Iterator<Kalendarzmiesiac> it = kalendarze.iterator(); it.hasNext();) {
+//            Kalendarzmiesiac kal = it.next();
+//            if (kal.getGodzinypracywmiesiacu()==0) {
+//                it.remove();
+//            }
+//        }
         if (kalendarze.size() == 0&&sredniadopodstawykontynuacja==0.0) {
             //wyliczenie dla skladnika stalego ze zmiennymi
             String rok = kalendarz.getRok();
