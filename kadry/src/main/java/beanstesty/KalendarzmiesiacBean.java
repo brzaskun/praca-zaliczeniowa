@@ -1492,15 +1492,18 @@ public class KalendarzmiesiacBean {
                 mc = popokres[0];
             }
             List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, skladnikwynagrodzenia, kalendarzList);
-            double godzinynominalnepracownik = 0.0;
+            double godzinyfaktyczne = 0.0;
             double dnifaktyczne = 0.0;
             double kwotywyplacone = 0.0;
             double stawkazagodzine = 0.0;
             int liczba = 0;
             for (Naliczenieskladnikawynagrodzenia pa : naliczonyskladnikdosredniej) {
                 if (pa.getKwotadolistyplac() > 0.0 && pa.getGodzinyfaktyczne() > 0.0) {
-                    godzinynominalnepracownik = godzinynominalnepracownik + pa.getGodzinynalezne();
-                    dnifaktyczne = dnifaktyczne + pa.getDninalezne();
+                    //od 17.04 so 02.082023 byly godziny nominalne. wyszlo przy domeguru ze powinny byc faktyczne
+                    //tak powiedzla Mariola
+                    //godzinynomionalne = godzinyfaktyczne + pa.getGodzinyNominalne();
+                    godzinyfaktyczne = godzinyfaktyczne + pa.getGodzinyfaktyczne();
+                    dnifaktyczne = dnifaktyczne + pa.getDnifaktyczne();
                     kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
                     liczba++;
                     boolean skladnikstaly = false;
@@ -1508,7 +1511,7 @@ public class KalendarzmiesiacBean {
                     //                if (pa.getGodzinyfaktyczne()==0.0) {
                     //                    pa.setGodzinyfaktyczne(liczbagodzinobowiazku);
                     //                }
-                    double stawkazagodzinezm = Z.z(pa.getKwotadolistyplac() / pa.getGodzinynalezne());
+                    double stawkazagodzinezm = Z.z(pa.getKwotadolistyplac() / pa.getGodzinyfaktyczne());
                     double sredniadopodstazm = Z.z(stawkazagodzinezm * liczbagodzinieobecnosci);
                     Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), skladnikstaly, naliczenienieobecnosc, liczbagodzinieobecnosci, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
                     naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
@@ -1518,11 +1521,11 @@ public class KalendarzmiesiacBean {
                     }
                 }
             }
-            if (godzinynominalnepracownik != 0.0 && dnifaktyczne != 0.0) {
-                stawkazagodzine = Z.z(kwotywyplacone / godzinynominalnepracownik);
+            if (godzinyfaktyczne != 0.0 && dnifaktyczne != 0.0) {
+                stawkazagodzine = Z.z(kwotywyplacone / godzinyfaktyczne);
                 sredniadopodstawy = sredniadopodstawy + Z.z(stawkazagodzine * liczbagodzinieobecnosci);
                 naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
-                naliczenienieobecnosc.setSumagodzindosredniej(godzinynominalnepracownik);
+                naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
                 naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
                 naliczenienieobecnosc.setStawkadzienna(Z.z(kwotywyplacone / dnifaktyczne));
                 naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
