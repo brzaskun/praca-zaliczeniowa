@@ -1508,7 +1508,7 @@ public class KalendarzmiesiacBean {
                     //                if (pa.getGodzinyfaktyczne()==0.0) {
                     //                    pa.setGodzinyfaktyczne(liczbagodzinobowiazku);
                     //                }
-                    double stawkazagodzinezm = Z.z(pa.getKwotadolistyplac() / pa.getGodzinyfaktyczne());
+                    double stawkazagodzinezm = Z.z(pa.getKwotadolistyplac() / pa.getGodzinynalezne());
                     double sredniadopodstazm = Z.z(stawkazagodzinezm * liczbagodzinieobecnosci);
                     Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), skladnikstaly, naliczenienieobecnosc, liczbagodzinieobecnosci, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
                     naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
