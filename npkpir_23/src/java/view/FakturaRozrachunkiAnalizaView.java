@@ -486,6 +486,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
         selectOneUI.setValue(szukanyklient);
         aktywnytab = 3;
+        selectedrozliczenia = null;
     }
     
     public void usunfakture(FakturaPodatnikRozliczenie fakturaPodatnikRozliczenie) {

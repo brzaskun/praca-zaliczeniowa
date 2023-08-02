@@ -49,7 +49,7 @@
             <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 1400px; margin-top: 20px;"
                          emptyMessage="nie znaleziono żadnych księgowań" rowKey="#{item.lp}" sortBy="#{item.saldo}" sortOrder="descending"
                          selection="#{fakturaRozrachunkiAnalizaView.saldanierozliczoneselected}" rowSelectMode="add"
-                         filteredValue="#{fakturaRozrachunkiAnalizaView.saldanierozliczonefiltered}"
+                         filteredValue="#{fakturaRozrachunkiAnalizaView.saldanierozliczonefiltered}" widgetVar="tablicaanalizasolo"
                          >
                 <p:ajax event="filter" global="false"/>
                 <p:ajax event="toggleSelect" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
@@ -145,11 +145,11 @@
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-eye" actionListener="#{fakturaRozrachunkiAnalizaView.pobierzszczegoly(item)}" 
-                                     update="akordeon"/>
+                                     update="akordeon akordeon:fakturaanaliza:tablicaanaliza" />
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-magic" actionListener="#{fakturaRozrachunkiAnalizaView.korygujsaldo(item)}" 
-                                     update="@form"/>
+                                     update="@form" />
                 </p:column>
                 <p:column width="40" style="text-align: center;" headerText="bo">
                     <p:commandButton icon="fa fa-plus" actionListener="#{fakturaRozrachunkiAnalizaView.zaksiegujjakoBO(item)}" 
