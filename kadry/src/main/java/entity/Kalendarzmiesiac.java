@@ -269,7 +269,9 @@ private static final long serialVersionUID = 1L;
         List<Sredniadlanieobecnosci> zwrot = new ArrayList<>();
         if (sredniadlanieobecnosciList!=null) {
             for (Sredniadlanieobecnosci stara : sredniadlanieobecnosciList) {
-                zwrot.add(new Sredniadlanieobecnosci(stara));
+                if (stara.getKontynuacja()==null) {
+                    zwrot.add(new Sredniadlanieobecnosci(stara));
+                }
             }
         }
         return zwrot;
@@ -744,7 +746,18 @@ private static final long serialVersionUID = 1L;
    }
    
   
-   
+   private Pasekwynagrodzen getPasekWZ() {
+         Pasekwynagrodzen zwrot = new Pasekwynagrodzen();
+         if (this.pasekwynagrodzenList!=null && this.pasekwynagrodzenList.size()>0) {
+           for (Pasekwynagrodzen p : this.pasekwynagrodzenList) {
+               if (p.getDefinicjalistaplac().getRodzajlistyplac().getTyt_serial()==1) {
+                    zwrot = p;
+                    break;
+               }
+           }
+         }
+        return zwrot;
+    }
 
    
    public List<Naliczenienieobecnosc> skladnikinieobecnosclista(Definicjalistaplac wybranalistaplac2) {
@@ -1250,6 +1263,9 @@ private static final long serialVersionUID = 1L;
     public double pobierzPodstaweNieobecnosc(Nieobecnosc nieobecnosc, Skladnikwynagrodzenia skladnikwynagrodzenia, Definicjalistaplac definicjabiezaca) {
         double kwota = 0.0;
         Pasekwynagrodzen pasek = this.getPasek(definicjabiezaca);
+        if ((pasek==null||pasek.getId()==null)&&definicjabiezaca.getRodzajlistyplac().getTyt_serial()==1006) {
+            pasek = this.getPasekWZ();
+        }
         if (pasek!=null) {
             for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
                 if (p.getSkladnikwynagrodzenia().equals(skladnikwynagrodzenia)) {
@@ -1265,6 +1281,9 @@ private static final long serialVersionUID = 1L;
     public double pobierzSumeKwotNieobecnosc(Nieobecnosc nieobecnosc, Skladnikwynagrodzenia skladnikwynagrodzenia, Definicjalistaplac definicjabiezaca) {
         double kwota = 0.0;
         Pasekwynagrodzen pasek = this.getPasek(definicjabiezaca);
+        if ((pasek==null||pasek.getId()==null)&&definicjabiezaca.getRodzajlistyplac().getTyt_serial()==1006) {
+            pasek = this.getPasekWZ();
+        }
         if (pasek!=null) {
             for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
                 if (p.getSkladnikwynagrodzenia().equals(skladnikwynagrodzenia)) {
@@ -1382,6 +1401,8 @@ private static final long serialVersionUID = 1L;
     public void setDnizasilekkalendarzowe(double dnizasilekkalendarzowe) {
         this.dnizasilekkalendarzowe = dnizasilekkalendarzowe;
     }
+
+    
 
     
 
