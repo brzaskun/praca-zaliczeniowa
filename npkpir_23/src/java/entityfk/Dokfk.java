@@ -735,7 +735,8 @@ public class Dokfk extends DokSuper implements Serializable {
 
     @Override
     public String toString() {
-        return "Dokfk{" + "seriadokfk=" + seriadokfk + ", nrkolejnywserii=" + nrkolejnywserii + ", rok=" + rok + ", podatnikObj=" + podatnikObj + ", datawystawienia=" + datawystawienia + '}';
+        String rodz = rodzajedok==null?"NULL":rodzajedok.getSkrotNazwyDok();
+        return "Dokfk{" + seriadokfk + ", nr=" + nrkolejnywserii + ", rok=" + rok+ ", mc=" + miesiac + ", podatnikObj=" + kontr.getNpelna() + ", data=" + datawystawienia +", rodzak=" + rodz + '}';
     }
     
 
