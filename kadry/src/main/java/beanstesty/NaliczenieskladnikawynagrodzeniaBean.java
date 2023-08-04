@@ -151,7 +151,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     List<Dzien> biezacedni = kalendarz.getDzienList();
                     Collections.sort(biezacedni, new Dziencomparator());
                     for (Dzien s : biezacedni) {
-                        if (s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                        if (s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna && (s.getNieobecnosc()!=null&&s.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("D")==false)) {
                             if (s.getNieobecnosc()!=null && s.getNieobecnosc().isRozliczanapar11()) {
                                 dniredukcji_11 = dniredukcji_11+1;
                                 godzinyredukcji_11 = godzinyredukcji_11+s.getNormagodzin();
@@ -177,7 +177,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                               dniredukcji_pozaumowa = dniredukcji_pozaumowa+1;
                            }
                            godzinyredukcji_pozaumowa = godzinyredukcji_pozaumowa+s.getNormagodzin();
-                       } else if (s.getTypdnia()!=-1){
+                       } else 
+                        if (s.getTypdnia()!=-1){
                            dniredukcji_12 = dniredukcji_12+1;
                            godzinyredukcji_12 = godzinyredukcji_12+s.getNormagodzin();
                            if (s.getNormagodzin()>0.0) {
@@ -197,9 +198,10 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji;
                         } else if (dniredukcji_11==0.0 && dniredukcjiIurlopu>0.0) {
                             //jest tylko urlop badz koniec umowy
+                            //redukcja_12 = redukcja_12 + (kwotazmiennej /kalendarz.getGodzinyroboczewmiesiacu()*godzinyredukcji_12); tak bylo ale byly problemy jak byl koniec umowy
                             redukcja_12 = redukcja_12 + (kwotazmiennej /kalendarz.getGodzinyroboczewmiesiacu()*godzinyredukcji_12);
-                            stawkadzienna = Z.z6(kwotazmiennej/kalendarz.getDniroboczewmiesiacu());
-                            stawkagodzinowa = Z.z6(kwotazmiennej/kalendarz.getGodzinyroboczewmiesiacu());
+                            stawkadzienna = Z.z6(kwotazmiennej/(kalendarz.getDniroboczewmiesiacu()-dniredukcji_pozaumowa));
+                            stawkagodzinowa = Z.z6(kwotazmiennej/(kalendarz.getGodzinyroboczewmiesiacu()-godzinyredukcji_pozaumowa));
                             redukcja_12 = redukcja_12 + stawkagodzinowa*godzinyurlopu;
                             double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_12);
                             dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji;
