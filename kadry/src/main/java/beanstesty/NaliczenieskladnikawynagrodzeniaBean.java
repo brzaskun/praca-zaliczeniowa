@@ -151,7 +151,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     List<Dzien> biezacedni = kalendarz.getDzienList();
                     Collections.sort(biezacedni, new Dziencomparator());
                     for (Dzien s : biezacedni) {
-                        if (s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna && (s.getNieobecnosc()!=null&&s.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("D")==false)) {
+                        if (s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna && (s.getNieobecnosc()==null||(s.getNieobecnosc()!=null&&s.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("D")==false))) {
                             if (s.getNieobecnosc()!=null && s.getNieobecnosc().isRozliczanapar11()) {
                                 dniredukcji_11 = dniredukcji_11+1;
                                 godzinyredukcji_11 = godzinyredukcji_11+s.getNormagodzin();
