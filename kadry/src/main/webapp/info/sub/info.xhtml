@@ -9,6 +9,11 @@
     <p:tabView id="akordeon">
         <p:tab title="Zestawienia ilościowe">
             <h:form>
+                
+                <p:outputPanel style="padding: 20px;">
+                    <h:outputText value="ilosc faktur"/>
+                    <h:outputText value="#{fakturyKsiegowoscView.iloscfaktur}"/>
+                </p:outputPanel>
                 <p:outputPanel style="padding: 20px;">
                     <p:panel header="Statystyka lista płac" style="width: 1100px; padding: 10px;"/>
                     <p:dataTable id="dokumentyOkresowe" value="#{infoView.uzytkownicyPaski}" var="wpis"  rowIndexVar="row" 

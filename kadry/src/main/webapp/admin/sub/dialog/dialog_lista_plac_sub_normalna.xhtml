@@ -247,7 +247,7 @@
             </p:column>
             <p:rowExpansion>
                 <p:dataTable id="datalist1" value="#{itempasek.getPobierzskladniki(pasekwynagrodzenView.wybranalistaplac)}" var="itempasekszcz"
-                             rowIndexVar="indexpasekszcz"  emptyMessage="Nie zachowano żadnych składników"
+                             rowIndexVar="indexpasekszcz"  emptyMessage="Nie zachowano żadnych składników" 
                              style="height: 200px; overflow-y: scroll;width: 100%"
                              >
                     <p:column style="text-align: center;color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};" headerText="lp" width="40">
@@ -282,10 +282,10 @@
                     <p:column headerText="godz prac" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
                         <h:outputText value="#{itempasekszcz.godzinyprzepracowane}"/>
                     </p:column>
-                    <p:column headerText="godz bez §11" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                    <p:column headerText="godz bez §11" width="30" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;" >
                         <h:outputText value="#{itempasekszcz.godzinypoza11}"/>
                     </p:column>
-                    <p:column headerText="data od" width="20" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">
+                    <p:column headerText="data od" width="20" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;" sortBy="#{itempasekszcz.getDataodShort()}" sortOrder="ascending" sortPriority="1" sortable="true">
                         <h:outputText value="#{itempasekszcz.getDataodShort()}"/>
                     </p:column>
                     <p:column headerText="data do" width="20" style="color: #{itempasekszcz.kwota eq 0.0?'grey':'initial'};text-align: center;">

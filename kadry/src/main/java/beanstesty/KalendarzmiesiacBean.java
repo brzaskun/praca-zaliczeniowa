@@ -455,11 +455,16 @@ public class KalendarzmiesiacBean {
             String datado = Data.czyjestprzed(ostatnidzienmiesiaca, nieobecnosc.getDatado()) ? nieobecnosc.getDatado() : ostatnidzienmiesiaca;
             int dzienod = Data.getDzienI(dataod);
             int dziendo = Data.getDzienI(datado);
+            double godzinypozazatrudnieniem = 0;
             for (Dzien p : kalendarz.getDzienList()) {
                 if (p.getTypdnia() == 0 && p.getNrdnia() >= dzienod && p.getNrdnia() <= dziendo) {
                     liczbagodzinchoroby = liczbagodzinchoroby + p.getWynagrodzeniezachorobe() + p.getZasilek();
                 }
+                if (p.getNieobecnosc()!=null&&p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("D")) {
+                    godzinypozazatrudnieniem = godzinypozazatrudnieniem+p.getNormagodzin();
+                }
             }
+            double wymiarproporcja = kalendarz.getGodzinyroboczewmiesiacu()-godzinypozazatrudnieniem;
             double dnikalendarzoweniechoroby = Data.iletodniKalendarzowych(dataod, datado);
             boolean recznapodstawajedenskladnik = nieobecnosc.getSredniazmiennerecznie() > 0.0 ? true : false;
             double sumadowyrownania = 0.0;
@@ -540,6 +545,7 @@ public class KalendarzmiesiacBean {
                 }
             }
             double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
+            limitpodstawyzasilkow = (limitpodstawyzasilkow/kalendarz.getGodzinyroboczewmiesiacu())*wymiarproporcja;
             limitpodstawyzasilkow = limitpodstawyzasilkow * procentzazwolnienie;
             //trzeba dac te ograniczenie bo podwyzszalo podstawe dla wszystkich wyunagrodzen
             if (Z.z(sumadowyrownania) < limitpodstawyzasilkow) {
@@ -761,6 +767,8 @@ public class KalendarzmiesiacBean {
                 dniroboczewmiesiacu = dniroboczewmiesiacu + 1;
             }
         }
+        String dataod = Data.pierwszyDzien(kalendarz.getRok(), kalendarz.getMc());
+        String datado = Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc());
         double skladnikistale = 0.0;
         double sredniadopodstawystale = 0.0;
         List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
@@ -770,6 +778,12 @@ public class KalendarzmiesiacBean {
                 int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
                 int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
                 if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
+                     if (Data.czyjestpo(dataod, r.getDataod())) {
+                        dataod = r.getDataod();
+                    }
+                    if (Data.czyjestprzed(datado, r.getDatado())) {
+                        datado = r.getDatado();
+                    }
                     skladnikistale = r.getKwota();
                     for (Dzien s : kalendarz.getDzienList()) {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
@@ -784,8 +798,8 @@ public class KalendarzmiesiacBean {
             }
          zwrot.setKwota(sredniadopodstawystale);
          zwrot.setWaluta(waluta);
-         zwrot.setDataod(Data.pierwszyDzien(kalendarz.getRok(), kalendarz.getMc()));
-         zwrot.setDatado(Data.ostatniDzien(kalendarz.getRok(), kalendarz.getMc()));
+         zwrot.setDataod(dataod);
+         zwrot.setDatado(datado);
          return zwrot;
     }
     

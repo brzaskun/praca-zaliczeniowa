@@ -782,6 +782,25 @@ public class PasekwynagrodzenBean {
         pasek.setBrutto(Z.z(pasek.getBrutto() + bruttobezspolecznych));
     }
 
+      private static void obliczbruttobezzus(Pasekwynagrodzen pasek) {
+        double bruttobezzus = 0.0;
+        for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+            if (p.isZus0bezzus1() == true && p.isPodatek0bezpodatek1() == false) {
+                bruttobezzus = Z.z(bruttobezzus + p.getKwotadolistyplac());
+            }
+        }
+        for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
+            if (p.getNieobecnosc().getSwiadczeniekodzus() == null) {
+                bruttobezzus = Z.z(bruttobezzus + p.getKwotabezzus());
+            } else if (p.getNieobecnosc().getSwiadczeniekodzus() != null && (p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')
+                    || p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B')) && !p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()) {
+                bruttobezzus = Z.z(bruttobezzus + p.getKwotabezzus());
+            }
+        }
+        pasek.setBruttobezzus(bruttobezzus);
+        pasek.setBrutto(Z.z(pasek.getBrutto() + bruttobezzus));
+    }
+    
     private static void obliczbruttobezzusKod0511(Pasekwynagrodzen pasek) {
         double bruttobezzus = pasek.getBruttobezzus();
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
@@ -801,24 +820,7 @@ public class PasekwynagrodzenBean {
         pasek.setBrutto(Z.z(pasek.getBrutto() + bruttobezzus));
     }
 
-    private static void obliczbruttobezzus(Pasekwynagrodzen pasek) {
-        double bruttobezzus = 0.0;
-        for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isZus0bezzus1() == true && p.isPodatek0bezpodatek1() == false) {
-                bruttobezzus = Z.z(bruttobezzus + p.getKwotadolistyplac());
-            }
-        }
-        for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            if (p.getNieobecnosc().getSwiadczeniekodzus() == null) {
-                bruttobezzus = Z.z(bruttobezzus + p.getKwotabezzus());
-            } else if (p.getNieobecnosc().getSwiadczeniekodzus() != null && (p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('P')
-                    || p.getNieobecnosc().getSwiadczeniekodzus().getZrodlofinansowania().equals('B')) && !p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()) {
-                bruttobezzus = Z.z(bruttobezzus + p.getKwotabezzus());
-            }
-        }
-        pasek.setBruttobezzus(bruttobezzus);
-        pasek.setBrutto(Z.z(pasek.getBrutto() + bruttobezzus));
-    }
+  
 
     private static void obliczbruttobezzusbezpodatek(Pasekwynagrodzen pasek) {
         double bruttobezzusbezpodatek = 0.0;

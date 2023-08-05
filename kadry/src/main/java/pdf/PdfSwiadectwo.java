@@ -80,7 +80,11 @@ public class PdfSwiadectwo {
                 }
                 document.add(Chunk.NEWLINE);
                 text1 = mezczyzna?"wykonywał":"wykonywała";
-                String stanowisko = "2. W okresie zatrudnienia pracownik "+text1+" pracę";
+                String stanowiskotmp = "2. W okresie zatrudnienia pracownik "+text1+" pracę tymczasową na rzecz: - nie dotyczy";
+                PdfMain.dodajLinieOpisuBezOdstepu(document, stanowiskotmp, Element.ALIGN_LEFT, 2);
+                document.add(Chunk.NEWLINE);
+                text1 = mezczyzna?"wykonywał":"wykonywała";
+                String stanowisko = "3. W okresie zatrudnienia pracownik "+text1+" pracę";
                 PdfMain.dodajLinieOpisuBezOdstepu(document, stanowisko, Element.ALIGN_LEFT, 2);
                 List<Stanowiskoprac> stanowiskopracList = angaz.getStanowiskopracList();
                 if (stanowiskopracList==null||stanowiskopracList.size()==0) {
@@ -94,9 +98,6 @@ public class PdfSwiadectwo {
                         }
                     }
                 }
-                document.add(Chunk.NEWLINE);
-                String tym = "3. W okresie zatrudnienia pracownik "+text1+" pracę tymczasową na rzecz - nie dotyczy";
-                PdfMain.dodajLinieOpisuBezOdstepu(document, tym, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
                 String ustanie = "4. Stosunek pracy ustał w wyniku: ";
                 PdfMain.dodajLinieOpisuBezOdstepu(document, ustanie, Element.ALIGN_LEFT, 2);

@@ -478,6 +478,17 @@ public class Data implements Serializable {
         return zwrot;
     }
     
+   //chodzi o to czy okres MC, ROK jest po jakiesc dacie
+    public static boolean czyjestpo(String termingraniczny, String badanadata) {
+        boolean zwrot = false;
+        if (termingraniczny == null || termingraniczny.equals("")) {
+            zwrot = false;
+        } else {
+            zwrot = czydatasiezawiera(termingraniczny, badanadata, true);
+        }
+        return zwrot;
+    }
+    
     //chodzi o to czy okres MC, ROK jest po jakiesc dacie
     public static boolean czyjestpo(String termingraniczny, String rokbadanegookresu, String mcbadanegookresu) {
         boolean zwrot = false;
