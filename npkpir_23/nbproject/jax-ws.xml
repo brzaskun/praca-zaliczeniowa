@@ -97,6 +97,9 @@
         </wsimport-option>
       </wsimport-options>
     </service>
+    <service name="FakturaWS">
+      <implementation-class>webservicefaktura.FakturaWS</implementation-class>
+    </service>
   </services>
   <clients>
     <client name="dokumenty">
