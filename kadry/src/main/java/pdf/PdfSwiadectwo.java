@@ -136,10 +136,15 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepu(document, skr, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
                 boolean czydodano = false;
-                String urlop = "6. W okresie zatrudnienia pracownik: ";
-                PdfMain.dodajLinieOpisuBezOdstepu(document, urlop, Element.ALIGN_LEFT, 2);
+                String punkt6 = "6. W okresie zatrudnienia pracownik: ";
+                PdfMain.dodajLinieOpisuBezOdstepu(document, punkt6, Element.ALIGN_LEFT, 2);
                 text1 = mezczyzna?"wykorzystał":"wykorzystała";
-                String urlop1 = "1) "+text1+" urlop wypoczynkowy w wymiarze: ";
+                String zwolnienie148 = "1) "+text1+" zwolnienie od pracy przewidziane w art. 148(1) §1 Kodeksu pracu: 0";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, zwolnienie148, Element.ALIGN_LEFT, 2);
+                document.add(Chunk.NEWLINE);
+                czydodano = false;
+                text1 = mezczyzna?"wykorzystał":"wykorzystała";
+                String urlop1 = "2) "+text1+" urlop wypoczynkowy w wymiarze: ";
                 int dniwykorzystane = 0;
                 //usuniete bo teraz bierze urlop tylko z tego roku przemycany w zmiennej urlopprezentacja
 //                for (Swiadectwodni s : dnidoswiadectwa) {
@@ -191,7 +196,12 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop2, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
-                String urlop3 = "2) korzystał z urlopu bezpłatnego: ";
+                text1 = mezczyzna?"wykorzystał":"wykorzystała";
+                String urlopopiekunczy = "3) "+text1+" urlop opiekuńczy w wymiarze: 0";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlopopiekunczy, Element.ALIGN_LEFT, 2);
+                document.add(Chunk.NEWLINE);
+                czydodano = false;
+                String urlop3 = "4) korzystał z urlopu bezpłatnego: ";
                  for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("X")) {
                         //jak to bylo to byla zdublowana tresc punktu drugiego
@@ -211,7 +221,7 @@ public class PdfSwiadectwo {
                 }
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
-                String urlop4a = "3) wykorzystał urlop ojcowski w wymiarze: ";
+                String urlop4a = "5) wykorzystał urlop ojcowski w wymiarze: ";
                 String urlop4b = " w ";
                 String urlop4c = " częsciach";
                 for (Swiadectwodni s : dnidoswiadectwa) {
@@ -228,7 +238,7 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop4a, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
-                String urlop5a = "4) wykorzystał urlop rodzicielski udzielony na podstawie: ";
+                String urlop5a = "6) wykorzystał urlop rodzicielski udzielony na podstawie: ";
                 String urlop5b = " w wymiarze ";
                 String urlop5c = " w okresie (okresach) ";
                 String urlop5d = " w ";
@@ -254,7 +264,7 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop5a, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
-                String urlop6a = "5) wykorzystał urlop wychowawczy udzielony na podstawie: ";
+                String urlop6a = "7) wykorzystał urlop wychowawczy udzielony na podstawie: ";
                 String urlop6b = " w wymiarze ";
                 String urlop6c = " w okresie (okresach) ";
                 String urlop6d = " w ";
@@ -274,10 +284,10 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop6a, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
-                String ochrona = "6) korzystał z ochrony stosunku pracy, o której mowa w art. 186 8 § 1 pkt 2 Kodeksu pracy, w okresie (okresach) ";
+                String ochrona = "8) korzystał z ochrony stosunku pracy, o której mowa w art. 186 8 § 1 pkt 2 Kodeksu pracy, w okresie (okresach) ";
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, ochrona, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
-                String opieka = "7) wykorzystał zwolnienie od pracy przewidziane w art. 188 Kodeksu pracy ";
+                String opieka = "9) wykorzystał zwolnienie od pracy przewidziane w art. 188 Kodeksu pracy ";
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("MD")) {
                         opieka = opieka+s.getDnikalendarzowe();
@@ -290,7 +300,11 @@ public class PdfSwiadectwo {
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, opieka, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
-                String choroba = "8) był niezdolny do pracy przez okres:  ";
+                String pracazdalna = "10) wykonywał pracę zdalną przewidzianą w art. 188 Kodeksu pracy : nie";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, pracazdalna, Element.ALIGN_LEFT, 2);
+                czydodano = false;
+                document.add(Chunk.NEWLINE);
+                String choroba = "11) był niezdolny do pracy przez okres:  ";
                 double chorobadni = 0;
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("CH")) {
@@ -305,10 +319,12 @@ public class PdfSwiadectwo {
                 }
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, choroba, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
-                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, "9) ", Element.ALIGN_LEFT, 2);
-                document.add(Chunk.NEWLINE);
                 czydodano = false;
-                String wojsko = "10) odbył służbę wojskową w okresie:  ";
+                 String punkt12 = "12) nie";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, punkt12, Element.ALIGN_LEFT, 2);
+                czydodano = false;
+                document.add(Chunk.NEWLINE);
+                String wojsko = "13) odbył służbę wojskową w okresie:  ";
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("SW")) {
                         wojsko = wojsko+s.getDnikalendarzowe()+" dni";
@@ -320,13 +336,14 @@ public class PdfSwiadectwo {
                 }
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, wojsko, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
-                String szczegolne = "11) wykonywał pracę w szczególnych warunkach lub w szczególnym charakterze";
+                String szczegolne = "14) wykonywał pracę w szczególnych warunkach lub w szczególnym charakterze";
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, szczegolne, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
-                String dodurlop = "12) wykorzystał dodatkowy urlop albo inne uprawnienia lub świadczenia przewidziane przepisami prawa pracy:  ";
+                String dodurlop = "15) wykorzystał dodatkowy urlop albo inne uprawnienia lub świadczenia przewidziane przepisami prawa pracy:  ";
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, dodurlop, Element.ALIGN_LEFT, 2);
                 document.add(Chunk.NEWLINE);
-                String okresynieskladkowe = "13) okresy nieskładkowe:  ";
+               
+                String okresynieskladkowe = "16) okresy nieskładkowe:  ";
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, okresynieskladkowe, Element.ALIGN_LEFT, 2);
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().isNieskladkowy()) {

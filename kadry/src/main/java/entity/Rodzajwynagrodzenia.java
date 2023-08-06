@@ -73,6 +73,8 @@ public class Rodzajwynagrodzenia implements Serializable {
     //jest zus 0 bo to reguła, a z reguły boolean jest false
     @Column(name = "zus0bezzus1")
     private  boolean zus0bezzus1;
+    @Column(name = "spoleczna0bezspolecznej1")
+    private  boolean spoleczna0bezspolecznej1;
     @Column(name = "podatek0bezpodatek1")
     private  boolean podatek0bezpodatek1;
     @Column(name = "aktywne")
@@ -235,6 +237,15 @@ public class Rodzajwynagrodzenia implements Serializable {
     public void setZus0bezzus1( boolean zus0bezzus1) {
         this.zus0bezzus1 = zus0bezzus1;
     }
+
+    public boolean isSpoleczna0bezspolecznej1() {
+        return spoleczna0bezspolecznej1;
+    }
+
+    public void setSpoleczna0bezspolecznej1(boolean spoleczna0bezspolecznej1) {
+        this.spoleczna0bezspolecznej1 = spoleczna0bezspolecznej1;
+    }
+    
 
     public boolean isPodatek0bezpodatek1() {
         return podatek0bezpodatek1;

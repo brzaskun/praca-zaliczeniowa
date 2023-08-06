@@ -116,6 +116,10 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
+    
+    public boolean isSpoleczna0bezspolecznej1() {
+        return this.skladnikwynagrodzenia.getRodzajwynagrodzenia().isSpoleczna0bezspolecznej1();
+    }
 
     public  boolean isZus0bezzus1() {
         return this.skladnikwynagrodzenia.getRodzajwynagrodzenia().isZus0bezzus1();

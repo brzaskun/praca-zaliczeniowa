@@ -196,7 +196,7 @@ public class Swiadczeniekodzus implements Serializable {
         this.podatek = podatek;
     }
 
-    public boolean getSpoleczne() {
+    public boolean isSpoleczne() {
         return spoleczne;
     }
 

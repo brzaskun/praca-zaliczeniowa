@@ -148,6 +148,7 @@
                         <p:selectBooleanCheckbox id="znacznik1" value="#{rodzjawynagrodzeniaSetView.pokazwszytskieskladniki}">
                             <p:ajax event="change" listener="#{rodzjawynagrodzeniaSetView.init()}" partialSubmit="true" update="RodzajwynagrodzeniaForm"/>
                         </p:selectBooleanCheckbox>
+                        <h:outputText value="Uwaga. Kolumna zus0bezzus1 dotyczy składników całkowicie nieozusowanych. Jeśli brak ozusowania tylko jednym typem składki prosze wybrać kolumnę 'bez ZUS 51' lub 'bez ZUS 52'" style="color: green;"/>
                     </p:outputPanel>
                     <p:dataTable id="datalistr" value="#{rodzjawynagrodzeniaSetView.lista}" var="item11"
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
@@ -223,7 +224,7 @@
                             <f:facet name="header">
                                 <h:outputText value="bez ZUS 51"/>
                             </f:facet>
-                            <p:selectBooleanCheckbox value="#{item11.zus0bezzus1}"/>
+                            <p:selectBooleanCheckbox value="#{item11.spoleczna0bezspolecznej1}"/>
                         </p:column>
                         <p:column style="text-align: center;" width="50">
                             <f:facet name="header">

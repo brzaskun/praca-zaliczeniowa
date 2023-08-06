@@ -884,6 +884,7 @@ private static final long serialVersionUID = 1L;
         return zwrot;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public String getNazwiskoImie() {
         return this.getAngaz().getPracownik().getNazwiskoImie();
     }
@@ -903,11 +904,11 @@ private static final long serialVersionUID = 1L;
     public String getImie() {
         return this.getAngaz().getPracownik().getImie();
     }
-
+    
     public double getDnioddelegowania() {
         return dnioddelegowania;
     }
-
+    
     public void setDnioddelegowania(double dnioddelegowania) {
         this.dnioddelegowania = dnioddelegowania;
     }
@@ -915,130 +916,131 @@ private static final long serialVersionUID = 1L;
     public double getNorma() {
         return norma;
     }
-
+    
     public void setNorma(double norma) {
         this.norma = norma;
     }
-
+    
     public double getPrzepracowane() {
         return przepracowane;
     }
-
+    
     public void setPrzepracowane(double przepracowane) {
         this.przepracowane = przepracowane;
     }
-
+    
     public double getUrlop() {
         return urlop;
     }
-
+    
     public void setUrlop(double urlop) {
         this.urlop = urlop;
     }
-
+    
     public double getUrlopbezplatny() {
         return urlopbezplatny;
     }
-
+    
     public void setUrlopbezplatny(double urlopbezplatny) {
         this.urlopbezplatny = urlopbezplatny;
     }
-
+    
     public double getChoroba() {
         return choroba;
     }
-
+    
     public void setChoroba(double choroba) {
         this.choroba = choroba;
     }
-
+    
     public double getZasilek() {
         return zasilek;
     }
-
+    
     public void setZasilek(double zasilek) {
         this.zasilek = zasilek;
     }
-
+    
     public double getPiecdziesiatka() {
         return piecdziesiatka;
     }
-
+    
     public void setPiecdziesiatka(double piecdziesiatka) {
         this.piecdziesiatka = piecdziesiatka;
     }
-
+    
     public double getSetka() {
         return setka;
     }
-
+    
     public void setSetka(double setka) {
         this.setka = setka;
     }
-
+    
     public double getPoranocna() {
         return poranocna;
     }
-
+    
     public void setPoranocna(double poranocna) {
         this.poranocna = poranocna;
     }
-
+    
     public double getOpiekadziecko() {
         return opiekadziecko;
     }
-
+    
     public void setOpiekadziecko(double opiekadziecko) {
         this.opiekadziecko = opiekadziecko;
     }
-
+    
     public double getMacierzynski() {
         return macierzynski;
     }
-
+    
     public void setMacierzynski(double macierzynski) {
         this.macierzynski = macierzynski;
     }
-
+    
     public double getWychowawczy() {
         return wychowawczy;
     }
-
+    
     public void setWychowawczy(double wychowawczy) {
         this.wychowawczy = wychowawczy;
     }
-
+    
     public double getDniroboczewmiesiacu() {
         return dniroboczewmiesiacu;
     }
-
+    
     public void setDniroboczewmiesiacu(double dniroboczewmiesiacu) {
         this.dniroboczewmiesiacu = dniroboczewmiesiacu;
     }
-
+    
     public double getGodzinyroboczewmiesiacu() {
         return godzinyroboczewmiesiacu;
     }
-
+    
     public void setGodzinyroboczewmiesiacu(double godzinyroboczewmiesiacu) {
         this.godzinyroboczewmiesiacu = godzinyroboczewmiesiacu;
     }
-
+    
     public double getDnipracywmiesiacu() {
         return dnipracywmiesiacu;
     }
-
+    
     public void setDnipracywmiesiacu(double dnipracywmiesiacu) {
         this.dnipracywmiesiacu = dnipracywmiesiacu;
     }
-
+    
     public double getGodzinypracywmiesiacu() {
         return godzinypracywmiesiacu;
     }
-
+    
     public void setGodzinypracywmiesiacu(double godzinypracywmiesiacu) {
         this.godzinypracywmiesiacu = godzinypracywmiesiacu;
     }
+//</editor-fold>
 
     
     
