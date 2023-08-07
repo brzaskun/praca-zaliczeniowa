@@ -40,10 +40,14 @@
                 <bcf:outputpl value="#{zaswiadczeniaView.bruttosrednia}"/>
                 <h:outputText value="średnie wynagrodzenie netto"/>
                 <bcf:outputpl value="#{zaswiadczeniaView.nettosrednia}"/>
-                <h:outputText value="zajęcia komornicze"/>
-                <h:outputText value="Istnieją zajęcia komornicze" rendered="#{zaswiadczeniaView.czyjestkomornik eq true}" style="color:red;"/>
-<!--                <h:outputText value="Wynagrodzenie powyższe nie jest obciążone z tytuły wyroków sądowych lub innych tytułów." rendered="#{zaswiadczeniaView.czyjestkomornik eq false}"/>-->
-                <h:outputText value="Brak zajęć komorniczych." rendered="#{zaswiadczeniaView.czyjestkomornik eq false}"/>
+                <h:outputText value="tytuł komorniczy"/>
+                <h:outputText value="jest tytuł komorniczy - zajęcie" rendered="#{zaswiadczeniaView.czyjesttytulkomorniczy eq true}"  style="color:red;"/>
+                <h:outputText value="brak" rendered="#{zaswiadczeniaView.czyjesttytulkomorniczy eq false}"/>
+                <h:outputText value="potrącenia komornicze"/>
+                <h:outputText value="potrącono z wynagrodzenia zajęcia komornicze" rendered="#{zaswiadczeniaView.czysapotraceniakomornicze eq true}" style="color:red;"/>
+<!--                <h:outputText value="Wynagrodzenie powyższe nie jest obciążone z tytuły wyroków sądowych lub innych tytułów." rendered="#{zaswiadczeniaView.czysapotraceniakomornicze eq false}"/>-->
+                <h:outputText value="brak potrąceń komorniczych z wynagrodzeń" rendered="#{zaswiadczeniaView.czysapotraceniakomornicze eq false}"/>
+                
             </p:panelGrid>
             <p:panelGrid columns="2" style="margin-top: 20px;">
                 <h:outputText value="zaświadczenie okres od "/>

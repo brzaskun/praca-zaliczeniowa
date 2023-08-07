@@ -24,8 +24,10 @@ import entity.FirmaKadry;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.SMTPSettings;
+import entity.Skladnikpotracenia;
 import entity.Stanowiskoprac;
 import entity.Umowa;
+import entity.Zmiennapotracenia;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -77,7 +79,8 @@ public class ZaswiadczeniaView  implements Serializable {
     private String etat;
     private double bruttosrednia;
     private double nettosrednia;
-    private boolean czyjestkomornik;
+    private boolean czysapotraceniakomornicze;
+    private boolean czyjesttytulkomorniczy;
     private List<Pasekwynagrodzen> paskiwynagrodzen;
     
     
@@ -132,7 +135,10 @@ public class ZaswiadczeniaView  implements Serializable {
                 Object[] pdane = pobierzkarty(dataod, datado);
                 bruttosrednia = (double) pdane[0];
                 nettosrednia = (double) pdane[1];
-                czyjestkomornik = (boolean) pdane[3];
+                czysapotraceniakomornicze = (boolean) pdane[3];
+                if (czysapotraceniakomornicze==false) {
+                    czyjesttytulkomorniczy = sprawdzczyjesttytul(wpisView.getAngaz(), dataod, datado);
+                }
                 paskiwynagrodzen = (List<Pasekwynagrodzen>) pdane[2];
                 if (paskiwynagrodzen!=null&&paskiwynagrodzen.size()>1) {
                     Pasekwynagrodzen suma = PasekwynagrodzenBean.sumujpaski(paskiwynagrodzen);
@@ -140,6 +146,25 @@ public class ZaswiadczeniaView  implements Serializable {
                 }
             } catch (Exception e) {}
         }
+    }
+    
+    private boolean sprawdzczyjesttytul(Angaz angaz,String dataod, String datado) {
+        boolean zwrot = false;
+        List<Skladnikpotracenia> skladnikpotraceniaList = angaz.getSkladnikpotraceniaList();
+        if (skladnikpotraceniaList!=null&&skladnikpotraceniaList.size()>0) {
+            for (Skladnikpotracenia p : skladnikpotraceniaList) {
+                List<Zmiennapotracenia> zmiennapotraceniaList = p.getZmiennapotraceniaList();
+                if (zmiennapotraceniaList!=null) {
+                    for (Zmiennapotracenia z : zmiennapotraceniaList) {
+                        if (z.getDatado()==null||Data.czyjestpomiedzy(dataod,z.getDatado(),datado)) {
+                            zwrot = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return zwrot;
     }
     
     private Object[] pobierzkarty(String dataod, String datado) {
@@ -188,7 +213,7 @@ public class ZaswiadczeniaView  implements Serializable {
         if (wpisView.getPracownik()!=null) {
             Collections.sort(paskiwynagrodzen, new Pasekwynagrodzencomparator());
             ByteArrayOutputStream dra = PdfZaswiadczenieZarobki.drukujMini(wpisView.getFirma(), paskiwynagrodzen, wpisView.getPracownik(), dataod, datado, zatrudnienie,
-                    zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy);
+                    zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czysapotraceniakomornicze, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy, czyjesttytulkomorniczy);
         } else {
             Msg.msg("e","Błąd drukowania zaświadczenia.");
         }
@@ -196,7 +221,7 @@ public class ZaswiadczeniaView  implements Serializable {
     
       public void mail() {
         ByteArrayOutputStream dra = PdfZaswiadczenieZarobki.drukuj(wpisView.getFirma(), paskiwynagrodzen, wpisView.getPracownik(), dataod, datado, 
-                zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy);
+                zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czysapotraceniakomornicze, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy, czyjesttytulkomorniczy);
         if (dra != null && dra.size() > 0) {
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
              String nazwa = wpisView.getPracownik().getPesel() + "_zaswiadczenie_zarobki.pdf";
@@ -364,14 +389,23 @@ public class ZaswiadczeniaView  implements Serializable {
         this.nettosrednia = nettosrednia;
     }
 
-    public boolean isCzyjestkomornik() {
-        return czyjestkomornik;
+    public boolean isCzysapotraceniakomornicze() {
+        return czysapotraceniakomornicze;
     }
 
-    public void setCzyjestkomornik(boolean czyjestkomornik) {
-        this.czyjestkomornik = czyjestkomornik;
+    public void setCzysapotraceniakomornicze(boolean czysapotraceniakomornicze) {
+        this.czysapotraceniakomornicze = czysapotraceniakomornicze;
     }
 
+    public boolean isCzyjesttytulkomorniczy() {
+        return czyjesttytulkomorniczy;
+    }
+
+    public void setCzyjesttytulkomorniczy(boolean czyjesttytulkomorniczy) {
+        this.czyjesttytulkomorniczy = czyjesttytulkomorniczy;
+    }
+
+    
     public List<Pasekwynagrodzen> getPaskiwynagrodzen() {
         return paskiwynagrodzen;
     }
@@ -387,6 +421,8 @@ public class ZaswiadczeniaView  implements Serializable {
     public void setMcwyplaty(boolean mcwyplaty) {
         this.mcwyplaty = mcwyplaty;
     }
+
+    
 
     
 }

@@ -37,7 +37,7 @@ public class PdfZaswiadczenieZarobki {
    
 
     public static ByteArrayOutputStream drukuj(FirmaKadry firma, List<Pasekwynagrodzen> paskiwynagrodzen, Pracownik pracownik, String dataod, String datado, 
-            boolean zatrudnienie, boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String datarozpoczeciaostatnieumowy, String datazakonczeniaostatnieumowy) {
+            boolean zatrudnienie, boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String datarozpoczeciaostatnieumowy, String datazakonczeniaostatnieumowy, boolean czyjesttytulkomorniczy) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = pracownik.getPesel() + "_zaswiadczenie.pdf";
@@ -46,7 +46,7 @@ public class PdfZaswiadczenieZarobki {
                 PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy);
+                dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy, czyjesttytulkomorniczy);
                 if (zarobki) {
                     drukujPasek(paskiwynagrodzen, document);
                 }
@@ -65,7 +65,8 @@ public class PdfZaswiadczenieZarobki {
     }
     
     public static ByteArrayOutputStream drukujMini(FirmaKadry firma, List<Pasekwynagrodzen> paskiwynagrodzen, Pracownik pracownik, String dataod, String datado, 
-            boolean zatrudnienie, boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String datarozpoczeciaostatnieumowy, String datazakonczeniaostatnieumowy) {
+            boolean zatrudnienie, boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String datarozpoczeciaostatnieumowy, String datazakonczeniaostatnieumowy, 
+            boolean czyjesttytulkomorniczy) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = pracownik.getPesel() + "_zaswiadczenie.pdf";
@@ -74,7 +75,7 @@ public class PdfZaswiadczenieZarobki {
                 PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy);
+                dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy, czyjesttytulkomorniczy);
                 if (zarobki) {
                     drukujPasekMini(paskiwynagrodzen, document, firma, pracownik.getNazwiskoImie(), pracownik.getPesel());
                 }
@@ -126,7 +127,7 @@ public class PdfZaswiadczenieZarobki {
     }
     
     private static void dodajtresc(FirmaKadry firma, Document document, List<Pasekwynagrodzen> paskiwynagrodzen, Pracownik pracownik, String dataod, String datado, boolean zatrudnienie, 
-            boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String datarozpoczeciaostatnieumowy, String datazakonczeniaostatnieumowy) {
+            boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String datarozpoczeciaostatnieumowy, String datazakonczeniaostatnieumowy, boolean czyjesttytulkomorniczy) {
         try {
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, 11);
@@ -204,7 +205,7 @@ public class PdfZaswiadczenieZarobki {
                 PdfMain.dodajElementListy(document, "1) Średnie miesięczne wynagrodzenie brutto: ", f.F.curr(bruttosrednia), fontM);
                 PdfMain.dodajElementListy(document, "2) Średnie miesięczne wynagrodzenie netto: ", f.F.curr(nettosrednia), fontM);
             }
-            if (zarobki&&czyjestkomornik==false) {
+            if (zarobki&&czyjestkomornik==false&&czyjesttytulkomorniczy==false) {
                 Paragraph p = new Paragraph();
                 p.add(new Phrase("Wynagrodzenie powyższe nie jest obciążone z tytułu wyroków sądowych lub innych tytułów.", fontM));
                 document.add(p);
