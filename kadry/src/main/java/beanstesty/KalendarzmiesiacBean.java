@@ -897,7 +897,7 @@ public class KalendarzmiesiacBean {
         Skladnikwynagrodzenia skladnikwynagrodzenia = naliczenienieobecnosc.getSkladnikwynagrodzenia();
         for (Kalendarzmiesiac kalendarzdosredniej : kalendarze) {
                 if (!kalendarzdosredniej.equals(kalendarz)) {
-                    if (kalendarzdosredniej.czyjestchoroba()) {
+                    if (kalendarzdosredniej.czyjestchoroba()||kalendarzdosredniej.czyjestzasilek()) {
                         int ilemcy = Mce.odlegloscMcy(kalendarzdosredniej.getMc(), kalendarzdosredniej.getRok(), kalendarz.getMc(), kalendarz.getRok());
                         if (ilemcy <= 1) {
                             sumakwotdosredniej = kalendarzdosredniej.pobierzSumeKwotNieobecnosc(nieobecnosc, skladnikwynagrodzenia, definicjabiezaca);
