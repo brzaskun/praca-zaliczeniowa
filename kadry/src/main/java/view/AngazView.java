@@ -182,16 +182,20 @@ public class AngazView  implements Serializable {
                     lista.add(selected);
                     wpisView.setAngaz(selected);
                     wpisView.setUmowa(null);
-                    UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
-                    Uz uzer = new Uz(selected, uprawnienia);
-                    uzFacade.create(uzer);
                     generujKalendarzNowyAngaz(selected);
                     Msg.msg("Stworzono kalendarz dla angażu");
                     selected = new Angaz();
                     Msg.msg("Dodano nowy angaż");
                     //nie moze tu byc bo nie ma umowy
                     //generujkalendarze();
-                    Msg.msg("Dodano nowego użytkownika");
+                    try {
+                        UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
+                        Uz uzer = new Uz(selected, uprawnienia);
+                        uzFacade.create(uzer);
+                        Msg.msg("Dodano nowego użytkownika");
+                    }  catch (Exception e){
+                    
+                    }
                 } catch (Exception e){
                     Msg.msg("e", "Taki angaż już istnieje");
                 }
