@@ -133,6 +133,33 @@ public class AngazView  implements Serializable {
             Msg.msg("Aktywowano firmę "+firma.getNazwa());
         }
     }
+     
+      public void aktywujPracAngazeTylko(FirmaKadry firma) {
+        if (firma!=null&&!wpisView.getFirma().equals(firma)) {
+            wpisView.setFirma(firma);
+            if (firma.getAngazList()==null||firma.getAngazList().isEmpty()) {
+                wpisView.setPracownik(null);
+                wpisView.setAngaz(null);
+                wpisView.setUmowa(null);
+            } else {
+                Angaz angaz = firma.getAngazList().get(0);
+                wpisView.setPracownik(angaz.getPracownik());
+                wpisView.setAngaz(angaz);
+                List<Umowa> umowy = angaz.getUmowaList();
+                if (umowy!=null && umowy.size()==1) {
+                    wpisView.setUmowa(umowy.get(0));
+                } else if (umowy!=null) {
+                    try {
+                        wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
+                    } catch (Exception e){}
+                }
+            }
+            pobierzpracownikow();
+            //init();
+            //updateClassView.updateAdminTab();
+            Msg.msg("Aktywowano firmę "+firma.getNazwa());
+        }
+    }
     
     public void pobierzpracownikow() {
         List<Angaz> zwrot = new ArrayList<>();
@@ -149,6 +176,7 @@ public class AngazView  implements Serializable {
                 }
             }
         }
+        lista = zwrot;
         listaeast = zwrot;
         if (zwrot.isEmpty()) {
             listaeast = zwrot.stream().filter(p->p.getUmowaList()!=null&&!p.getUmowaList().isEmpty()).collect(Collectors.toList());

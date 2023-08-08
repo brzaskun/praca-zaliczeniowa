@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -76,6 +78,8 @@ public class Nieobecnoscprezentacja implements Serializable {
     private Angaz angaz;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "urlopprezentacja")
     private List<Nieobecnoscwykorzystanie> nieobecnoscwykorzystanieList;
+    @Transient
+    private Set<String> listamiesiecy;
 
    
 
@@ -100,6 +104,15 @@ public class Nieobecnoscprezentacja implements Serializable {
         this.id = id;
     }
 
+    public Set<String> getListamiesiecy() {
+        return listamiesiecy;
+    }
+
+    public void setListamiesiecy(Set<String> listamiesiecy) {
+        this.listamiesiecy = listamiesiecy;
+    }
+
+   
    
 
     public String getRok() {

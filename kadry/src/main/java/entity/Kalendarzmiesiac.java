@@ -639,6 +639,23 @@ private static final long serialVersionUID = 1L;
         return zwrot;
     }
     
+    public boolean czyjesttrzydziescidnibezplatnego() {
+        boolean zwrot = false;
+        int licznikdni = 0;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getNieobecnosc()!=null&&d.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("X")) {
+                    licznikdni = licznikdni+1;
+                    if (licznikdni==30) {
+                        zwrot=true;
+                        break;
+                    }
+                }
+            }
+        }
+        return zwrot;
+    }
+    
      public double[] urlopbezplatnydnigodz() {
         double[] zwrot = new double[2];
         double urlopdni = 0;
@@ -1403,6 +1420,8 @@ private static final long serialVersionUID = 1L;
     public void setDnizasilekkalendarzowe(double dnizasilekkalendarzowe) {
         this.dnizasilekkalendarzowe = dnizasilekkalendarzowe;
     }
+
+    
 
     
 

@@ -162,9 +162,9 @@ public class PracownikEkwiwalentView  implements Serializable {
             oddelegowanieprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, oddelegowanieprezentacja, "Z"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
             EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
-            int[] obliczwymiarwgodzinach = UrlopBean.obliczwymiarwgodzinach(umowy, pobierzetat, wpisView.getRokWpisu(), stannadzien, wpisView.getAngaz());
-            oddelegowanieprezentacja.setWymiarokresbiezacydni(obliczwymiarwgodzinach[0]);
-            oddelegowanieprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinach[1]);
+            Object[] obliczwymiarwgodzinach = UrlopBean.obliczwymiarwgodzinach(umowy, pobierzetat, wpisView.getRokWpisu(), stannadzien, wpisView.getAngaz(), kalendarze);
+            oddelegowanieprezentacja.setWymiarokresbiezacydni((int) obliczwymiarwgodzinach[0]);
+            oddelegowanieprezentacja.setWymiarokresbiezacygodziny((int) obliczwymiarwgodzinach[1]);
             oddelegowanieprezentacja.setDoprzeniesienia(oddelegowanieprezentacja.getWymiarokresbiezacygodziny()-oddelegowanieprezentacja.getWykorzystanierokbiezacy()-oddelegowanieprezentacja.getWykorzystanierokbiezacyekwiwalent());
             //Msg.msg("Pobrano oddelegowania");
         }
@@ -387,6 +387,13 @@ public class PracownikEkwiwalentView  implements Serializable {
                 
                 double dobowanormaczasupracy = (8.0*(((double)wybranyetat.getEtat1())/((double)wybranyetat.getEtat2())));
                 double dniekw = Z.z(godzinyekw/dobowanormaczasupracy);
+                //kiedys to bylo tam gdzie zmienne, ale wtedy cofao sie z okrfesem o kilka miesiecy, bylo kilka skladnikow i dla kazdego robil te funkcje co jest bez sensu 08082023
+                String dzien = wpisView.getAngaz().getFirma().getDzienlp();
+                if (dzien!=null) {
+                    String[] popokres = Data.poprzedniOkres(mc, rok);
+                    rok = popokres[1];
+                    mc = popokres[0];
+                }
                 for (Skladnikwynagrodzenia p : skladniki) {
                       if (p.getRodzajwynagrodzenia().getStale0zmienne1()==false&&p.getRodzajwynagrodzenia().getWks_serial()!=1014) {
                             for (Zmiennawynagrodzenia r : p.getZmiennawynagrodzeniaList()) {
@@ -412,7 +419,7 @@ public class PracownikEkwiwalentView  implements Serializable {
                         }
                       } else if (p.getRodzajwynagrodzenia().getWks_serial()!=1014) {
                                     List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(wpisView.getAngaz());
-                                    String dzien = wpisView.getAngaz().getFirma().getDzienlp();
+                                   
                                     //jak to bylo to cofal sie o jeden miesiac za daleko. robilem ek2wiwaetn w maju a on zaczylal od marca w dol 02.06.2023
                                     //                            if (dzien!=null) {
                                     //                                String[] popokres = Data.poprzedniOkres(mc, rok);
@@ -420,11 +427,6 @@ public class PracownikEkwiwalentView  implements Serializable {
                                     //                                mc = popokres[0];
                                     //                            }
                                     //                          przywroilem to 05.06.2023 bo tak mialo byc. Natalia namieszala. nie analizuje
-                            if (dzien!=null) {
-                                        String[] popokres = Data.poprzedniOkres(mc, rok);
-                                        rok = popokres[1];
-                                        mc = popokres[0];
-                                    }
                                     //List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokAngaz(rok, wpisView.getAngaz());
                                     List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, p, kalendarzlista);
                                     double godzinyfaktyczne = 0.0;

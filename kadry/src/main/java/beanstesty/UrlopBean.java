@@ -47,10 +47,11 @@ public class UrlopBean {
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
                 List<Umowa> umowy = angaz.getUmowaList();
-                int[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz);
-                urlopprezentacja.setWymiarokresbiezacydni(obliczwymiarwgodzinach[0]);
-                urlopprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinach[1]);
-                urlopprezentacja.setWymiargeneralnydni(obliczwymiarwgodzinach[2]);
+                Object[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz, kalendarze);
+                urlopprezentacja.setWymiarokresbiezacydni((int) obliczwymiarwgodzinach[0]);
+                urlopprezentacja.setWymiarokresbiezacygodziny((int) obliczwymiarwgodzinach[1]);
+                urlopprezentacja.setWymiargeneralnydni((int) obliczwymiarwgodzinach[2]);
+                urlopprezentacja.setListamiesiecy((Set<String>) obliczwymiarwgodzinach[3]);
                 int wykorzystanierokbierzacydni  = (urlopprezentacja.getWykorzystanierokbiezacy()/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setWykorzystanierokbiezacydni(wykorzystanierokbierzacydni);
                 int doprzeniesienia = urlopprezentacja.getBilansotwarciagodziny()+urlopprezentacja.getWymiarokresbiezacygodziny()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
@@ -69,34 +70,34 @@ public class UrlopBean {
         return urlopprezentacja;
     }
      
-     public static Nieobecnoscprezentacja pobierzurlopRokBiezacy(Angaz angaz, String rok, String stannadzien, String dataDlaEtatu) {
-         Nieobecnoscprezentacja urlopprezentacja = new Nieobecnoscprezentacja(angaz, rok);
-        if (angaz!=null) {
-            EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,dataDlaEtatu);
-            if (pobierzetat!=null) {
-                List<Kalendarzmiesiac> kalendarze = angaz.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)).collect(Collectors.toList());
-                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
-                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
-                List<Umowa> umowy = angaz.getUmowaList();
-                if (angaz.getRok().equals(rok)) {
-                    urlopprezentacja.setBilansotwarciagodziny(angaz.getBourlopgodziny());
-                    urlopprezentacja.setBilansotwarciadni(angaz.getBourlopdni());
-                } else if (angaz.getSerialsp()!=null&&rok.equals("2023")) {
-                    urlopprezentacja.setBilansotwarciagodziny(angaz.getBourlopgodziny());
-                    urlopprezentacja.setBilansotwarciadni(angaz.getBourlopdni());
-                }
-                int[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz);
-                urlopprezentacja.setWymiarokresbiezacydni(obliczwymiarwgodzinach[0]);
-                urlopprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinach[1]);
-                int doprzeniesienia = urlopprezentacja.getBilansotwarciagodziny()+urlopprezentacja.getWymiarokresbiezacygodziny()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
-                urlopprezentacja.setDoprzeniesienia(doprzeniesienia);
-                int doprzeniesieniadni = (doprzeniesienia/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
-                urlopprezentacja.setDoprzeniesieniadni(doprzeniesieniadni);
-            }
-            //Msg.msg("Pobrano dane urlopowe");
-        }
-        return urlopprezentacja;
-    }
+//     public static Nieobecnoscprezentacja pobierzurlopRokBiezacy(Angaz angaz, String rok, String stannadzien, String dataDlaEtatu) {
+//         Nieobecnoscprezentacja urlopprezentacja = new Nieobecnoscprezentacja(angaz, rok);
+//        if (angaz!=null) {
+//            EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,dataDlaEtatu);
+//            if (pobierzetat!=null) {
+//                List<Kalendarzmiesiac> kalendarze = angaz.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)).collect(Collectors.toList());
+//                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
+//                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
+//                List<Umowa> umowy = angaz.getUmowaList();
+//                if (angaz.getRok().equals(rok)) {
+//                    urlopprezentacja.setBilansotwarciagodziny(angaz.getBourlopgodziny());
+//                    urlopprezentacja.setBilansotwarciadni(angaz.getBourlopdni());
+//                } else if (angaz.getSerialsp()!=null&&rok.equals("2023")) {
+//                    urlopprezentacja.setBilansotwarciagodziny(angaz.getBourlopgodziny());
+//                    urlopprezentacja.setBilansotwarciadni(angaz.getBourlopdni());
+//                }
+//                int[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz);
+//                urlopprezentacja.setWymiarokresbiezacydni(obliczwymiarwgodzinach[0]);
+//                urlopprezentacja.setWymiarokresbiezacygodziny(obliczwymiarwgodzinach[1]);
+//                int doprzeniesienia = urlopprezentacja.getBilansotwarciagodziny()+urlopprezentacja.getWymiarokresbiezacygodziny()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
+//                urlopprezentacja.setDoprzeniesienia(doprzeniesienia);
+//                int doprzeniesieniadni = (doprzeniesienia/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
+//                urlopprezentacja.setDoprzeniesieniadni(doprzeniesieniadni);
+//            }
+//            //Msg.msg("Pobrano dane urlopowe");
+//        }
+//        return urlopprezentacja;
+//    }
      
      public static List<Nieobecnoscwykorzystanie> naniesdnizkodem(List<Kalendarzmiesiac> kalendarze, Nieobecnoscprezentacja urlopprezentacja, String kod) {
         List<Nieobecnoscwykorzystanie> lista = new ArrayList<>();
@@ -187,7 +188,7 @@ public class UrlopBean {
         return suma;
     }
      
-     public static int[] obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat,String rok, String stannadzien, Angaz angaz) {
+     public static Object[] obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat,String rok, String stannadzien, Angaz angaz, List<Kalendarzmiesiac> kalendarze) {
         int wymiarwdniach = 20;
         double liczbadni = 0;
         for (Umowa p : umowy) {
@@ -247,21 +248,35 @@ public class UrlopBean {
                     }
                 }
             }
+            Set<String> napoczetemiesiacepokorekcie = korygujnapiczetemiesiaceobezplatny(napoczetemiesiace, kalendarze);
             double nowywymiarwdniach =  Math.ceil(wymiarwdniach);
             double wymiargeneralny = nowywymiarwdniach;
             double wymiargodzin = (nowywymiarwdniach*8);
             if (etat!=null) {
                 //to musi bo moze byc zatrudnienie nie od pocztaku roku i jest proporcja
-                if (napoczetemiesiace.size()>0) {
-                    wymiarwdniach = (int) (Math.ceil(wymiarwdniach/12.0*napoczetemiesiace.size()));
+                if (napoczetemiesiacepokorekcie.size()>0) {
+                    wymiarwdniach = (int) (Math.ceil(wymiarwdniach/12.0*napoczetemiesiacepokorekcie.size()));
                 }
                 wymiargodzin = (wymiarwdniach*8*etat.getEtat1()/etat.getEtat2());
             }
-        int[] zwrot = new int[]{(int)wymiarwdniach,(int)wymiargodzin, (int)wymiargeneralny};
+        Object[] zwrot = new Object[]{(int)wymiarwdniach,(int)wymiargodzin, (int)wymiargeneralny, napoczetemiesiacepokorekcie};
         return zwrot;
         //nie wiem co z tym etatem czy badac
     }
-     
+     private static Set<String> korygujnapiczetemiesiaceobezplatny(Set<String> napoczetemiesiace, List<Kalendarzmiesiac> kalendarze) {
+        Set<String> zwrot = new HashSet<>();
+        if (napoczetemiesiace!=null&&kalendarze!=null) {
+            for (Kalendarzmiesiac kal : kalendarze) {
+                if (napoczetemiesiace.contains(kal.getMc())) {
+                    boolean jets30dnibezplatnego = kal.czyjesttrzydziescidnibezplatnego();
+                    if (jets30dnibezplatnego==false) {
+                        zwrot.add(kal.getMc());
+                    }
+                }
+            }
+        }
+        return zwrot;
+    }
      public static void main(String[] args) {
          int dni = 741;
          int lat = dni / 365;
@@ -269,4 +284,6 @@ public class UrlopBean {
          System.out.println("lat "+lat);
          System.out.println("zostalo dni "+zostalodni);
      }
+
+    
 }
