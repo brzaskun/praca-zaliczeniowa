@@ -1057,7 +1057,35 @@ public class KalendarzmiesiacBean {
                 i++;
             } else if (!kal.equals(kalendarz)){
                 //bo Wisniewski i kalendarz. nie bylo 2022 i dzieliml np przez 3 zamiast przez 12;
-                i++;
+                int dnirobocze = 0;
+                int dniprzepracowane = 0;
+                double godzinyrobocze = 0;
+                double godzinyprzepracowane = 0;
+                int dninieobecnosci = 0;
+                double godzinynieobecnosci = 0;
+                if (kal.getDzienList() != null) {
+                    //sprawdzamy czy go pominac w liczeniu sredniej bo ten nieszczesny 2022 dodano 09.08.2023
+                        for (Dzien d : kal.getDzienList()) {
+                            if (d.getTypdnia() == 0) {
+                                dnirobocze++;
+                                godzinyrobocze = godzinyrobocze + d.getNormagodzin();
+                            }
+                            if (d.getPrzepracowano() > 0) {
+                                dniprzepracowane++;
+                                godzinyprzepracowane = godzinyprzepracowane + d.getNormagodzin();
+                            } else {
+                                dninieobecnosci++;
+                                godzinynieobecnosci = godzinynieobecnosci + d.getNormagodzin();
+                            }
+                        }
+                        int polowaroboczych = dnirobocze / 2;
+                        if (dniprzepracowane < polowaroboczych) {
+                            
+                        } else {
+                            i++;
+                        }
+                    }
+                
             }
             if (kalendarze.size() == 12 || czyjestZarudnienieWtrakcieMca) {
                 break;
@@ -1097,25 +1125,25 @@ public class KalendarzmiesiacBean {
                     int dninieobecnosci = 0;
                     double godzinynieobecnosci = 0;
                     boolean zatrudnieniewtraciemiesiaca = false;
-                    if (kalendarzdosredniej.getDzienList() != null) {
-                        for (Dzien d : kalendarzdosredniej.getDzienList()) {
-                            if (d.getTypdnia() == 0) {
-                                dnirobocze++;
-                                godzinyrobocze = godzinyrobocze + d.getNormagodzin();
-                            }
-                            if (d.getPrzepracowano() > 0) {
-                                dniprzepracowane++;
-                                godzinyprzepracowane = godzinyprzepracowane + d.getNormagodzin();
-                            } else {
-                                dninieobecnosci++;
-                                godzinynieobecnosci = godzinynieobecnosci + d.getNormagodzin();
-                            }
-                        }
-                        int polowaroboczych = dnirobocze / 2;
-                        if (dniprzepracowane < polowaroboczych) {
-                            czyjestwiecejniepracy = true;
-                        }
-                    }
+//                    if (kalendarzdosredniej.getDzienList() != null) {
+//                        for (Dzien d : kalendarzdosredniej.getDzienList()) {
+//                            if (d.getTypdnia() == 0) {
+//                                dnirobocze++;
+//                                godzinyrobocze = godzinyrobocze + d.getNormagodzin();
+//                            }
+//                            if (d.getPrzepracowano() > 0) {
+//                                dniprzepracowane++;
+//                                godzinyprzepracowane = godzinyprzepracowane + d.getNormagodzin();
+//                            } else {
+//                                dninieobecnosci++;
+//                                godzinynieobecnosci = godzinynieobecnosci + d.getNormagodzin();
+//                            }
+//                        }
+//                        int polowaroboczych = dnirobocze / 2;
+//                        if (dniprzepracowane < polowaroboczych) {
+//                            czyjestwiecejniepracy = true;
+//                        }
+//                    }
 
                     if (!kalendarzdosredniej.equals(kalendarz)) {
                         dnirobocze = 0;
@@ -1186,6 +1214,10 @@ public class KalendarzmiesiacBean {
                         naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
                         double suma = wynagrodzeniemcwyplacone + wynagrodzeniemczwaloryzowane;
                         sredniadopodstawyzmienne = Z.z(sredniadopodstawyzmienne + wynagrodzeniemcwyplacone + wynagrodzeniemczwaloryzowane);
+                        //dodane 09.08.2023 bo dzielilo za pominiete kalendarze.
+                        if (pominiety==true) {
+                            i--;
+                        }
                         //to poszlo wyzej bo Wisniewski nadgodziny i konflikt z superplacami gdzie wszystko bylo w jednym worku
                         //i++;
                     }

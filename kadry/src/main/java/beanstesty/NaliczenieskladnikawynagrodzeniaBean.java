@@ -207,7 +207,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             //to jues zbedne bo zmienna jest juz zredukowana o refukcje
                             //redukcja_12 = redukcja_12 + (kwotazmiennej /kalendarz.getGodzinyroboczewmiesiacu()*godzinyredukcji_12);
                             stawkadzienna = Z.z6(kwotazmiennej/wymiardzien);
-                            stawkagodzinowa = Z.z6(kwotazmiennej/wymiargodzina);
+                            stawkagodzinowa = wymiargodzina>0 ? Z.z6(kwotazmiennej/wymiargodzina):0.0;
                             redukcja_12 = redukcja_12 + stawkagodzinowa*godzinyurlopu;
                             double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_12);
                             dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji;
