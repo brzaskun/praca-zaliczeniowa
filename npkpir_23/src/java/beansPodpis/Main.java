@@ -44,7 +44,7 @@ public class Main {
     private static final String SIGNED      = "D:/deklsigned.xml";
     private static final String DOCUMENT    = "D:/dekl.xml";
     
-    private static String DRIVER = "resources\\podpis\\cryptoCertum3PKCS.dll";
+    private static String DRIVER = "resources\\podpis\\cryptoCertum3PKCS64.dll";
     private static String PROVIDERNAME = "SmartCardn";
     private static String HASLO = "marlena1";
     private static X509Certificate CERT;

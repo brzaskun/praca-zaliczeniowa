@@ -34,7 +34,7 @@ import javax.servlet.ServletContext;
 public class ObslugaPodpisuBean {
     
 //    static String PLIK = "james.xml";
-    static String DRIVER = "resources\\\\podpis\\\\cryptoCertum3PKCS.dll";
+    static String DRIVER = "resources\\\\podpis\\\\cryptoCertum3PKCS64.dll";
     static Map<Integer, String> odpowiedz;
 //  
     public static boolean moznapodpisacError(String innehaslo, String innypesel) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
@@ -513,7 +513,7 @@ public class ObslugaPodpisuBean {
     public static void main(String[] args) {
         Provider pkcs11Provider = null;
         try {
-            String realPath = "d:\\cryptoCertum3PKCS.dll";
+            String realPath = "d:\\cryptoCertum3PKCS64.dll";
             String pkcs11config = "name=SmartCardn"+"\r"
                     + "library="+realPath+"\r"+ "slotListIndex=0";
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");

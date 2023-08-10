@@ -408,7 +408,7 @@ public class BankImportView implements Serializable {
                             break;
                     }
                     if (zwrot.size()==5) {
-                        Msg.msg("e", "Nie pobrano wszystkich plików. Wystąpił błąd");
+                        Msg.msg("e", "Nie pobrano wszystkich wierszy. Wystąpił błąd");
                         break;
                     } else {
                         if (naglowek==null) {
