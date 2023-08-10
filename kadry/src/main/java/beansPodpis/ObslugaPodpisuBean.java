@@ -34,7 +34,7 @@ import javax.servlet.ServletContext;
 public class ObslugaPodpisuBean {
     
 //    static String PLIK = "james.xml";
-    static String DRIVER = "resources\\\\podpis\\\\cryptoCertum3PKCS.dll";
+    static String DRIVER = "resources\\\\podpis\\\\cryptoCertum3PKCS64.dll";
     static Map<Integer, String> odpowiedz;
 //  
 
@@ -95,7 +95,7 @@ public class ObslugaPodpisuBean {
         Provider pkcs11Provider = null;
         try {
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            String realPath = ctx.getRealPath("/")+"resources\\podpis\\cryptoCertum3PKCS.dll";
+            String realPath = ctx.getRealPath("/")+"resources\\podpis\\cryptoCertum3PKCS64.dll";
             //String realPath = "C:\\Windows\\System32\\cryptoCertum3PKCS.dll";
             String pkcs11config = "name=SmartCardn"+"\r"
                     + "library="+realPath+"\r"+ "slotListIndex=0";
