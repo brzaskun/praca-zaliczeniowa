@@ -50,6 +50,7 @@ public class ImportiPKOBP_XLS implements Serializable {
         List<Row> records = new ArrayList<>();
         ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
         String mcod = null;
+        int i = 0;
         try {
             InputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane!=null) {
@@ -74,7 +75,6 @@ public class ImportiPKOBP_XLS implements Serializable {
                             Logger.getLogger(BankImportView.class.getName()).log(Level.SEVERE, null, ex);
                         }
                 }
-            int i = 0;
             int rozmiar = records.size();
             if (rozmiar > 2) {
                 Row lrow = records.get(1);
@@ -86,8 +86,8 @@ public class ImportiPKOBP_XLS implements Serializable {
                 pn.setWyciagwaluta(prow.getCell(4).getStringCellValue());
                 pn.setWyciagobrotywn(sumujobroty(records,0));
                 pn.setWyciagobrotyma(sumujobroty(records,1));
-                pn.setWyciagbo(prow.getCell(5).getNumericCellValue()-prow.getCell(3).getNumericCellValue());
-                pn.setWyciagbz(lrow.getCell(5).getNumericCellValue()-lrow.getCell(3).getNumericCellValue());
+                pn.setWyciagbo(xls.X.xKwota(prow.getCell(5))-xls.X.xKwota(prow.getCell(3)));
+                pn.setWyciagbz(xls.X.xKwota(lrow.getCell(5))-xls.X.xKwota(lrow.getCell(3)));
                 pn.setWyciagdatado(Data.zmienkolejnosc(lrow.getCell(0).getStringCellValue()));
                 for (Iterator<Row> it = new ReverseIterator<>(records).iterator(); it.hasNext();) {
                     Row baza = it.next();
@@ -123,7 +123,7 @@ public class ImportiPKOBP_XLS implements Serializable {
                             String adresnadawcy = baza.getCell(8)!=null? WordUtils.capitalizeFully(baza.getCell(7).getStringCellValue()):null;
                             String adresodbiorcy = baza.getCell(11)!=null? WordUtils.capitalizeFully(baza.getCell(11).getStringCellValue()):null;
                             x.setKontrahentaadres(adresnadawcy!=null&&!adresnadawcy.equals("")? adresnadawcy:adresodbiorcy);
-                            double kwota = baza.getCell(3).getNumericCellValue();
+                            double kwota = xls.X.xKwota(baza.getCell(3));
                             x.setWnma(kwota > 0.0 ? "Wn" : "Ma");
                             kwota = Math.abs(kwota);
                             x.setKwota(kwota);
@@ -140,7 +140,7 @@ public class ImportiPKOBP_XLS implements Serializable {
             }
             }
         } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd przy pobieraniu danych.");
+            Msg.msg("e", "Wystąpił błąd. Wiersz "+i);
             Msg.msg("e", "Sprawdź czy w pliku nie występuję znak ; w niedozwolonych miejscach");
         }
         zwrot.add(pn);
@@ -160,11 +160,11 @@ public class ImportiPKOBP_XLS implements Serializable {
             if (j==rozmiar) {
 
             } else {
-                double kwota = p.getCell(3).getNumericCellValue();
+                double kwota = xls.X.xKwota(p.getCell(3));
                 if (i==0 && kwota > 0.0) {
-                    zwrot = zwrot + p.getCell(3).getNumericCellValue();
+                    zwrot = zwrot + xls.X.xKwota(p.getCell(3));
                 } else if (i==1 && kwota < 0.0){
-                    zwrot = zwrot - p.getCell(3).getNumericCellValue();
+                    zwrot = zwrot - xls.X.xKwota(p.getCell(3));
                 }
             }
             j++;

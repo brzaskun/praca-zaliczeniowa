@@ -40,6 +40,7 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
         List<Row> records = new ArrayList<>();
         ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
         String mcod = null;
+        int i = 0;
         try {
             InputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane!=null) {
@@ -64,7 +65,6 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
                             Logger.getLogger(BankImportView.class.getName()).log(Level.SEVERE, null, ex);
                         }
                 }
-            int i = 0;
             int rozmiar = records.size();
             if (rozmiar > 2) {
                 Row lrow = records.get(1);
@@ -76,8 +76,8 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
                 pn.setWyciagwaluta((String) X.x(prow.getCell(5)));
                 pn.setWyciagobrotywn(sumujobroty(records,0));
                 pn.setWyciagobrotyma(sumujobroty(records,1));
-                pn.setWyciagbo(prow.getCell(6).getNumericCellValue()-prow.getCell(4).getNumericCellValue());
-                pn.setWyciagbz(lrow.getCell(6).getNumericCellValue()-lrow.getCell(4).getNumericCellValue());
+                pn.setWyciagbo(xls.X.xKwota(prow.getCell(6))-xls.X.xKwota(prow.getCell(4)));
+                pn.setWyciagbz(xls.X.xKwota(lrow.getCell(6))-xls.X.xKwota(lrow.getCell(4)));
                 pn.setWyciagdatado(Data.zmienkolejnosc(lrow.getCell(0).getStringCellValue()));
                 for (Iterator<Row> it = new ReverseIterator<>(records).iterator(); it.hasNext();) {
                     Row baza = it.next();
@@ -119,7 +119,7 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
             }
             }
         } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd przy pobieraniu danych.");
+            Msg.msg("e", "Wystąpił błąd. Wiersz "+i);
             Msg.msg("e", "Sprawdź czy w pliku nie występuję znak ; w niedozwolonych miejscach");
         }
         zwrot.add(pn);
@@ -152,11 +152,11 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
             if (j==rozmiar) {
 
             } else {
-                double kwota = p.getCell(4).getNumericCellValue();
+                double kwota = xls.X.xKwota(p.getCell(4));
                 if (i==0 && kwota > 0.0) {
-                    zwrot = zwrot + p.getCell(4).getNumericCellValue();
+                    zwrot = zwrot + xls.X.xKwota(p.getCell(4));
                 } else if (i==1 && kwota < 0.0){
-                    zwrot = zwrot - p.getCell(4).getNumericCellValue();
+                    zwrot = zwrot - xls.X.xKwota(p.getCell(4));
                 }
             }
             j++;
