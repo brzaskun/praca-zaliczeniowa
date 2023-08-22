@@ -421,7 +421,7 @@ public class AngazView  implements Serializable {
         }
     }
     
-    public void usun(Angaz angaz) {
+    public void usunAngaz(Angaz angaz) {
         if (angaz != null) {
             //if (wpisView.getAngaz() != null && wpisView.getAngaz().equals(angaz)) {
                 wpisView.setAngaz(null);
