@@ -1,7 +1,6 @@
 package beansPodpis;
 
 import error.E;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -15,8 +14,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -42,9 +39,11 @@ import xades4j.utils.DOMHelper;
 public class Main {
 
     private static final String SIGNED      = "D:/deklsigned.xml";
-    private static final String DOCUMENT    = "D:/dekl.xml";
+    private static final String DOCUMENT    = "D:/dekl2020.xml";
     
-    private static String DRIVER = "resources\\podpis\\cryptoCertum3PKCS64.dll";
+    //private static String DRIVER = "resources\\podpis\\cryptoCertum3PKCS64.dll";
+    private static String DRIVER = "d:\\cryptoCertum3PKCS.dll";
+    private static String PROVIDERCONFIG = "d:\\pkcsconfig.txt";
     private static String PROVIDERNAME = "SmartCardn";
     private static String HASLO = "marlena1";
     private static X509Certificate CERT;
@@ -72,10 +71,9 @@ public class Main {
         Element elem = doc.getDocumentElement();
         DOMHelper.useIdAsXmlId(elem);
         List<X509Certificate> list = Collections.synchronizedList(new ArrayList<>());
-        KeyingDataProvider
-        kdp;
-        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        String realPath = ctx.getRealPath("/")+DRIVER;
+        KeyingDataProvider  kdp;
+        //ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = DRIVER;
         kdp = new PKCS11KeyStoreKeyingDataProvider(
                 realPath,
                 PROVIDERNAME, null,
@@ -94,7 +92,7 @@ public class Main {
                 .withTransform(new EnvelopedSignatureTransform());
         SignedDataObjects dataObjs = new SignedDataObjects().withSignedDataObject(obj);
 
-        XadesSigner signer = new XadesBesSigningProfile(kdp).newSigner();
+            XadesSigner signer = new XadesBesSigningProfile(kdp).newSigner();
         signer.sign(dataObjs, elem);
 
         TransformerFactory tFactory = TransformerFactory.newInstance();
@@ -102,22 +100,24 @@ public class Main {
         DOMSource source = new DOMSource(doc);        
         StreamResult result = new StreamResult(new File(SIGNED));
         transformer.transform(source, result);
+        System.out.println("zakonczono podpisywanie");
     }
 
     
     private static Provider jestDriver() {
         Provider pkcs11Provider = null;
         try {
-            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            String realPath = ctx.getRealPath("/")+DRIVER;
+            //ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = DRIVER;
             String pkcs11config = "name=SmartCardn"+"\r"
                     + "library="+realPath;
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
-            ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
-            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
-            //pkcs11Provider = Security.getProvider("SunPKCS11");
-            //pkcs11Provider.configure(pkcs11config);
+            //ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
+            //pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            pkcs11Provider = Security.getProvider("SunPKCS11");
+            pkcs11Provider = pkcs11Provider.configure(PROVIDERCONFIG);
             Security.addProvider(pkcs11Provider);
+            System.out.println("jest driver");
         } catch (Exception e) {
             E.e(e);
         }
@@ -130,6 +130,7 @@ public class Main {
             char [] pin = haslo.toCharArray();
             keyStore = KeyStore.getInstance("PKCS11");
             keyStore.load(null, pin);
+            System.out.println("jest karta");
         }   catch (KeyStoreException | NoSuchAlgorithmException | CertificateException ex) {
             E.e(ex);
         } catch (Exception ex) {

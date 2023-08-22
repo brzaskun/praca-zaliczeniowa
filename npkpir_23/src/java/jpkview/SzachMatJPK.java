@@ -96,6 +96,7 @@ public class SzachMatJPK {
                     wiadomosc[0] = wiadomoscblad[0];
                     wiadomosc[1] = wiadomoscblad[1];
                 }
+                    System.out.println("Koniec");
             } else {
                 wiadomosc[0] = "e";
                 wiadomosc[1] = "Nie odnaleziono pliku z JPK, nie można bylo go wysłać";

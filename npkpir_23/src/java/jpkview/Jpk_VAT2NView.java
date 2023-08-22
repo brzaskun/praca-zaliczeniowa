@@ -489,6 +489,7 @@ public class Jpk_VAT2NView implements Serializable {
         try {
             boolean moznapodpisac = ObslugaPodpisuBean.moznapodpisacError(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
             if (moznapodpisac) {
+                System.out.println("podpis");
                 String[] wiadomosc = SzachMatJPK.wysylka(podatnik, wpisView, upo);
                 if (!wiadomosc[0].equals("e")) {
                     wiadomosc = zachowajUPO(upo);

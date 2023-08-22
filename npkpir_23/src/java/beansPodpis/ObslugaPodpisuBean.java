@@ -35,6 +35,7 @@ public class ObslugaPodpisuBean {
     
 //    static String PLIK = "james.xml";
     static String DRIVER = "resources\\\\podpis\\\\cryptoCertum3PKCS64.dll";
+    private static String PROVIDERCONFIG = "d:\\pkcsconfig.txt";
     static Map<Integer, String> odpowiedz;
 //  
     public static boolean moznapodpisacError(String innehaslo, String innypesel) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
@@ -92,9 +93,8 @@ public class ObslugaPodpisuBean {
                     + "library="+realPath+"\r"+ "slotListIndex=0";
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
             ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
-            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
-            //pkcs11Provider = Security.getProvider("SunPKCS11");
-            //pkcs11Provider.configure(pkcs11config);
+            pkcs11Provider = Security.getProvider("SunPKCS11");
+            pkcs11Provider = pkcs11Provider.configure(PROVIDERCONFIG);
             Security.removeProvider(pkcs11Provider.getName());
             Security.addProvider(pkcs11Provider);
         } catch (Exception e) {
@@ -518,9 +518,9 @@ public class ObslugaPodpisuBean {
                     + "library="+realPath+"\r"+ "slotListIndex=0";
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
             ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
-            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
-            //pkcs11Provider = Security.getProvider("SunPKCS11");
-            //pkcs11Provider.configure(pkcs11config);
+            //pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            pkcs11Provider = Security.getProvider("SunPKCS11");
+            pkcs11Provider.configure(pkcs11config);
             //Security.removeProvider(pkcs11Provider.getName());
             KeyStore keyStore = KeyStore.getInstance("PKCS11", pkcs11Provider);
             if (keyStore==null) {

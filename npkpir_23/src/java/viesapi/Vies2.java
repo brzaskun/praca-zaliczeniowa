@@ -8,7 +8,6 @@ package viesapi;
 import eu.europa.ec.taxud.vies.services.checkvat.CheckVatPortType;
 import eu.europa.ec.taxud.vies.services.checkvat.CheckVatService;
 import javax.jws.WebService;
-import javax.xml.soap.SOAPFault;
 import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.SOAPFaultException;
@@ -30,10 +29,10 @@ public class Vies2 {
             checkVatPort.checkVat(countryCode, vatNumber, requestDate, valid, name, address);
         }
         catch (SOAPFaultException ex) {
-            SOAPFault fault = ex.getFault();
-            String faultKey = fault.getFaultString();
-            String faultMessage = "vies.fault." + faultKey;
-            throw new ViesVatServiceException(faultKey, countryCode + "-" + vatNumber + ": " + faultMessage);
+//            SOAPFault fault = ex.getFault();
+//            String faultKey = fault.getFaultString();
+            String faultMessage = "vies.fault." + "uzupełnij kod";
+            throw new ViesVatServiceException("uzupełnij kod", countryCode + "-" + vatNumber + ": " + faultMessage);
         }
         catch (WebServiceException ex) {
             //LOG.error("{}-{} lookup failed", countryCode, vatNumber, ex);
@@ -90,11 +89,11 @@ public class Vies2 {
         try {
             checkVatPort.checkVatApprox(countryCode, vatNumber, traderName, traderCompanyType, traderStreet, traderPostcode, traderCity, requesterCountryCode, requesterVatNumber, requestDate, valid, traderAddress, traderNameMatch, traderCompanyTypeMatch, traderStreetMatch, traderPostcodeMatch, traderCityMatch, requestIdentifier);
         }   catch (SOAPFaultException ex) {
-            SOAPFault fault = ex.getFault();
-            String faultKey = fault.getFaultString();
+//            SOAPFault fault = ex.getFault();
+//            String faultKey = fault.getFaultString();
             //String faultMessage = "vies.fault." + faultKey;
             res.setValid(false);
-            res.setUwagi(faultKey);
+            res.setUwagi("uzupełnij kod");
         }  catch (WebServiceException ex) {
             //LOG.error("{}-{} lookup failed", countryCode, vatNumber, ex);
             res.setValid(false);

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11149/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7K (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-08-22T08:19:54.760Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3216</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>7</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>5991009937</NIP>
+            <PelnaNazwa>UNISYSTEM PHU sp. z o.o.</PelnaNazwa>
+            <Email>info@taxman.biz.pl</Email>
+            <Telefon>605586176</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551477292</NrKontrahenta>
+            <NazwaKontrahenta>EW INVEST Eryk Wiśniewski</NazwaKontrahenta>
+            <DowodSprzedazy>65/07/23</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-04</DataSprzedazy>
+            <K_19>3175.16</K_19>
+            <K_20>730.28</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551477292</NrKontrahenta>
+            <NazwaKontrahenta>EW INVEST Eryk Wiśniewski</NazwaKontrahenta>
+            <DowodSprzedazy>66/07/23</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-13</DataSprzedazy>
+            <K_19>3184.57</K_19>
+            <K_20>732.44</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551477292</NrKontrahenta>
+            <NazwaKontrahenta>EW INVEST Eryk Wiśniewski</NazwaKontrahenta>
+            <DowodSprzedazy>67/07/23</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-14</DataSprzedazy>
+            <K_19>2127.24</K_19>
+            <K_20>489.25</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551477292</NrKontrahenta>
+            <NazwaKontrahenta>EW INVEST Eryk Wiśniewski</NazwaKontrahenta>
+            <DowodSprzedazy>68/07/23</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-26</DataSprzedazy>
+            <K_19>3181.08</K_19>
+            <K_20>731.65</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551477292</NrKontrahenta>
+            <NazwaKontrahenta>EW INVEST Eryk Wiśniewski</NazwaKontrahenta>
+            <DowodSprzedazy>69/07/23</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-28</DataSprzedazy>
+            <K_19>3152.29</K_19>
+            <K_20>725.01</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>192772045</NrKontrahenta>
+            <NazwaKontrahenta>AE Projektmenahgement und Dienstleistungs GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>2023.056</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <K_23>5236.58</K_23>
+            <K_24>1204.41</K_24>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>6</LiczbaWierszySprzedazy>
+            <PodatekNalezny>4613.04</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522618625</NrDostawcy>
+            <NazwaDostawcy>MAGO MROZOWSKI Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>588/2023</DowodZakupu>
+            <DataZakupu>2023-07-01</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1287.40</K_42>
+            <K_43>296.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>6/2023/PRZE93</DowodZakupu>
+            <DataZakupu>2023-07-06</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>2200.00</K_42>
+            <K_43>506.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>7/2023/PRZE93</DowodZakupu>
+            <DataZakupu>2023-07-10</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>2200.00</K_42>
+            <K_43>506.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>192772045</NrDostawcy>
+            <NazwaDostawcy>AE Projektmenahgement und Dienstleistungs GmbH</NazwaDostawcy>
+            <DowodZakupu>2023.056</DowodZakupu>
+            <DataZakupu>2023-07-31</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>5236.58</K_42>
+            <K_43>1204.41</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>4</LiczbaWierszyZakupow>
+            <PodatekNaliczony>2512.51</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>
