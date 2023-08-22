@@ -4,20 +4,19 @@
  */
 package view;
 
-import dao.DeklaracjevatDAO;
 import dao.DokDAO;
 import dao.PodatnikDAO;
+import dao.UPODAO;
 import embeddable.Mce;
-import entity.Deklaracjevat;
+import entity.UPO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
@@ -31,7 +30,7 @@ private static final long serialVersionUID = 1L;
     @Inject
     private DokDAO dokDAO;
     @Inject
-    private DeklaracjevatDAO deklaracjevatDAO;
+    private UPODAO upodao;
     @Inject
     PodatnikDAO podatnikDAO;
     @Inject
@@ -63,14 +62,22 @@ private static final long serialVersionUID = 1L;
             mcdzisiejszy = Mce.getNumberToMiesiac().get(c.get(c.MONTH));
         }
         try {
-            String sporzadzil = wpisView.getUzer().getImie()+" "+wpisView.getUzer().getNazw();
-            List<Deklaracjevat> deklaracje = deklaracjevatDAO.findDeklaracjewysylka(rokdzisiejszy, mcdzisiejszy);
-            for (Deklaracjevat p : deklaracje) {
-                if(p.getIdentyfikator().isEmpty() && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
-                    deklaracjeniewyslane.add(p.getPodatnik());
-                }
-                if(p.getStatus().startsWith("3") && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
-                    deklaracjeniebezupo.add(p.getPodatnik());
+//            List<Deklaracjevat> deklaracje = deklaracjevatDAO.findDeklaracjewysylka(rokdzisiejszy, mcdzisiejszy);
+//            for (Deklaracjevat p : deklaracje) {
+//                if(p.getIdentyfikator().isEmpty() && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
+//                    deklaracjeniewyslane.add(p.getPodatnik());
+//                }
+//                if(p.getStatus().startsWith("3") && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
+//                    deklaracjeniebezupo.add(p.get);
+//                }
+//            }
+            List<UPO> deklaracje = upodao.findUPORokMc(rokdzisiejszy, mcdzisiejszy);
+            for (UPO p : deklaracje) {
+//                if(p.getIdentyfikator().isEmpty() && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
+//                    deklaracjeniewyslane.add(p.getPodatnik());
+//                }
+                if(p.getCode()!=200 && p.getWprowadzil().equals(wpisView.getUzer())){
+                    deklaracjeniebezupo.add(p.getPodatnik().getPrintnazwa());
                 }
             }
         } catch (Exception e) {}
