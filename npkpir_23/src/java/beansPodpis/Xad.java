@@ -105,7 +105,7 @@ public class Xad {
             String X509IssuerName = signingCertificate.getIssuerX500Principal().getName();
             String X509SerialNumber = signingCertificate.getSerialNumber().toString();
             //to znajduje sue w Signed Properties
-            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(signingCertificate.getEncoded());
             String hasz = DatatypeConverter.printBase64Binary(hash);
             PrivateKey privkey = (PrivateKey) keyStore.getKey(alias, haslo.toCharArray());
@@ -119,7 +119,7 @@ public class Xad {
             CanonicalizationMethod canonicalizationMethod = xmlSigFactory.newCanonicalizationMethod(
 		CanonicalizationMethod.INCLUSIVE, (C14NMethodParameterSpec) null);
             try {
-                Reference refdok = xmlSigFactory.newReference("", xmlSigFactory.newDigestMethod(DigestMethod.SHA1, null),
+                Reference refdok = xmlSigFactory.newReference("", xmlSigFactory.newDigestMethod(DigestMethod.SHA256, null),
                 transforms(xmlSigFactory), "#Dokument-0", null);
                 ref.add(refdok);
 //                ref.add(xmlSigFactory.newReference("", xmlSigFactory.newDigestMethod(DigestMethod.SHA1, null),
@@ -128,7 +128,7 @@ public class Xad {
                 signedInfo = xmlSigFactory.newSignedInfo(
                         xmlSigFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE,
                                 (C14NMethodParameterSpec) null),
-                        xmlSigFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, null),
+                        xmlSigFactory.newSignatureMethod(SignatureMethod.RSA_SHA256, null),
                         ref);
             } catch (NoSuchAlgorithmException ex) {
                 ex.printStackTrace();
