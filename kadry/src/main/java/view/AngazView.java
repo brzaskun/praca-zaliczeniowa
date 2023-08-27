@@ -176,7 +176,9 @@ public class AngazView  implements Serializable {
                 }
             }
         }
-        lista = zwrot;
+        // TO NIE bo nie widac ukrytych tam gdzie je sie ukrywa 27.08.2023
+        //lista = zwrot;
+        lista= angazFacade.findByFirma(wpisView.getFirma());
         listaeast = zwrot;
         if (zwrot.isEmpty()) {
             listaeast = zwrot.stream().filter(p->p.getUmowaList()!=null&&!p.getUmowaList().isEmpty()).collect(Collectors.toList());

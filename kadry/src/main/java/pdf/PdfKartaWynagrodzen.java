@@ -79,8 +79,8 @@ public class PdfKartaWynagrodzen {
             table.addCell(ustawfraze("Podst. wymiaru składek ubezp. zdrowotnego", 0, 2));
             table.addCell(ustawfraze("Koszty uzyskania przychodu", 0, 2));
             table.addCell(ustawfraze("Podstawa opodatkowania", 0, 2));
-            table.addCell(ustawfraze("Potrącenia kom. i inne", 0, 2));
             table.addCell(ustawfraze("Potrącona zaliczka na podatek dochodowy", 0, 2));
+            table.addCell(ustawfraze("Potrącenia kom. i inne", 0, 2));
             table.addCell(ustawfraze("Ubezpieczenie zdrowotne", 2, 0));
             table.addCell(ustawfraze("Należna zaliczka na podatek dochodowy", 0, 2));
             table.addCell(ustawfraze("Do wypłaty", 0, 2));

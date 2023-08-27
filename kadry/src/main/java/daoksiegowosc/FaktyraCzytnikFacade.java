@@ -5,10 +5,7 @@
  */
 package daoksiegowosc;
 
-import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 /**
@@ -17,28 +14,28 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class FaktyraCzytnikFacade extends DAO2   {
+public class FaktyraCzytnikFacade   {
 
-    @PersistenceContext(unitName = "npkpir_22PU")
-    private EntityManager em;
-    
-    @PreDestroy
-    private void preDestroy() {
-        em.clear();
-        em.close();
-        em.getEntityManagerFactory().close();
-        em = null;
-        
-    }
-
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-
-    public FaktyraCzytnikFacade() {
-        super(Object.class);
-        super.em = em;
-    }
+//    @PersistenceContext(unitName = "npkpir_22PU")
+//    private EntityManager em;
+//    
+//    @PreDestroy
+//    private void preDestroy() {
+//        em.clear();
+//        em.close();
+//        em.getEntityManagerFactory().close();
+//        em = null;
+//        
+//    }
+//
+//    protected EntityManager getEntityManager() {
+//        return em;
+//    }
+//
+//    public FaktyraCzytnikFacade() {
+//        super(Object.class);
+//        super.em = em;
+//    }
 
   
 }
