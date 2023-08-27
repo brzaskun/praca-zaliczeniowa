@@ -62,7 +62,9 @@ public class KsiegaBean {
         }
         if (dokumentyZaMc != null) {
             for (Dok tmpx : dokumentyZaMc) {
-                tmpx.setNrWpkpir(numerkolejny++);
+                if (tmpx.getRodzajedok().isTylkojpk()==false) {
+                    tmpx.setNrWpkpir(numerkolejny++);
+                }
             }
         }
         return dokumentyZaMc;

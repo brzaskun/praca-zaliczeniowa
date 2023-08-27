@@ -73,6 +73,9 @@
                         <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
+                <p:outputPanel>
+                    <h:outputText value="w przypadku krótkiej listy sprawdzić oznaczenia faktur okresowych w miesiącu poprzedzającym bieżący" style="padding: 5px;"/>
+                </p:outputPanel>
                 <p:dataTable value="#{adminMailView.klientList}" var="loop" rowIndexVar="index" style="width: 800px;" id="adresy"  sortBy="#{loop.npelna}" rowKey="#{loop.id}" rendered="#{!adminMailView.tylkododatkowe}">
                     <f:facet name="header">
                         <h:outputText value="Wykaz adresatów"/>

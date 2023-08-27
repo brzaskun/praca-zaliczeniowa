@@ -148,6 +148,7 @@ public class Rodzajedok implements Serializable {
         this.tylkovatnalezny = rodzajedok.isTylkovatnalezny();
         this.tylkovat = rodzajedok.isTylkovat();
         this.tylkojpk = rodzajedok.isTylkojpk();
+        this.tylkopodatkowo = rodzajedok.isTylkopodatkowo();
     }
 
     
