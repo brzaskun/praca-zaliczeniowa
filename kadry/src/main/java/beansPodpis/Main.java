@@ -1,7 +1,6 @@
 package beansPodpis;
 
 import error.E;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -47,6 +46,7 @@ public class Main {
     private static String DRIVER = "resources\\podpis\\cryptoCertum3PKCS64.dll";
     private static String PROVIDERNAME = "SmartCardn";
     private static String HASLO = "marlena1";
+    private static String PROVIDERCONFIG = "d:\\pkcsconfig.txt";
     private static X509Certificate CERT;
 
     public static void main(String[] args) throws Exception {
@@ -113,8 +113,10 @@ public class Main {
             String pkcs11config = "name=SmartCardn"+"\r"
                     + "library="+realPath;
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
-            ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
-            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            //ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
+            //pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            pkcs11Provider = Security.getProvider("SunPKCS11");
+            pkcs11Provider = pkcs11Provider.configure(PROVIDERCONFIG);
             Security.addProvider(pkcs11Provider);
         } catch (Exception e) {
             E.e(e);

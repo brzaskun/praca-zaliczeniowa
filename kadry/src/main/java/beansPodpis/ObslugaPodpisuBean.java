@@ -6,7 +6,6 @@
 package beansPodpis;
 
 import error.E;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -35,6 +34,7 @@ public class ObslugaPodpisuBean {
     
 //    static String PLIK = "james.xml";
     static String DRIVER = "resources\\\\podpis\\\\cryptoCertum3PKCS64.dll";
+    private static String PROVIDERCONFIG = "d:\\pkcsconfig.txt";
     static Map<Integer, String> odpowiedz;
 //  
 
@@ -100,8 +100,10 @@ public class ObslugaPodpisuBean {
             String pkcs11config = "name=SmartCardn"+"\r"
                     + "library="+realPath+"\r"+ "slotListIndex=0";
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
-            ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
-            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            //ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
+            //pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            pkcs11Provider = Security.getProvider("SunPKCS11");
+            pkcs11Provider = pkcs11Provider.configure(PROVIDERCONFIG);
             Security.removeProvider(pkcs11Provider.getName());
             Security.addProvider(pkcs11Provider);
         } catch (Exception e) {
@@ -524,8 +526,10 @@ public class ObslugaPodpisuBean {
             String pkcs11config = "name=SmartCardn"+"\r"
                     + "library="+realPath+"\r"+ "slotListIndex=0";
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
-            ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
-            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+             //ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
+            //pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            pkcs11Provider = Security.getProvider("SunPKCS11");
+            pkcs11Provider = pkcs11Provider.configure(PROVIDERCONFIG);
             //Security.removeProvider(pkcs11Provider.getName());
             KeyStore keyStore = KeyStore.getInstance("PKCS11", pkcs11Provider);
             if (keyStore==null) {
