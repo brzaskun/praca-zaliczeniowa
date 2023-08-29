@@ -100,7 +100,7 @@
                                 rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                 emptyMessage="Nie ma angażów w firmie"
                                  >
-                        <p:ajax event="rowSelect" listener="#{angazView.aktywuj}" partialSubmit="true" global="false" update="north Angazeditform"/>
+                        <p:ajax event="rowSelect" partialSubmit="true" global="false" update="north Angazeditform"/>
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>

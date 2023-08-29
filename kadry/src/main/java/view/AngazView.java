@@ -324,33 +324,40 @@ public class AngazView  implements Serializable {
 //        }
 //    }
    
-   public void aktywuj() {
-        if (selectedlista!=null) {
-            wpisView.setAngaz(selectedlista);
-            wpisView.setPracownik(selectedlista.getPracownik());
-            List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
-            if (umowy!=null && umowy.size()==1) {
-                wpisView.setUmowa(umowy.get(0));
-            } else if (umowy!=null&&!umowy.isEmpty()) {
-                Umowa umowaaktywna = null;
-                Optional badanie  = umowy.stream().filter(p->p.isAktywna()).findFirst();
-                if (badanie.isPresent()) {
-                    umowaaktywna = (Umowa) badanie.get();
-                }
-                if (umowaaktywna==null) {
-                    Collections.sort(umowy, new Umowacomparator());
-                    umowaaktywna = umowy.get(0);
-                    umowaaktywna.setAktywna(true);
-                    umowaFacade.edit(umowaaktywna);
-                }
-                wpisView.setUmowa(umowaaktywna);
-            } else {
-                wpisView.setUmowa(null);
-            }
-            updateClassView.updateUmowa();
-            Msg.msg("Aktywowano pracownika");
-        }
-    }
+      
+      
+      //nie wiem po co to bylo - usunalem 28.08.2023
+//      edycjadanych_angaz.xhtml
+//  103:  <p:ajax event="rowSelect" listener="#{angazView.aktywuj}" partialSubmit="true" global="false" update="north Angazeditform"/>
+
+      
+//   public void aktywuj() {
+//        if (selectedlista!=null) {
+//            wpisView.setAngaz(selectedlista);
+//            wpisView.setPracownik(selectedlista.getPracownik());
+//            List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
+//            if (umowy!=null && umowy.size()==1) {
+//                wpisView.setUmowa(umowy.get(0));
+//            } else if (umowy!=null&&!umowy.isEmpty()) {
+//                Umowa umowaaktywna = null;
+//                Optional badanie  = umowy.stream().filter(p->p.isAktywna()).findFirst();
+//                if (badanie.isPresent()) {
+//                    umowaaktywna = (Umowa) badanie.get();
+//                }
+//                if (umowaaktywna==null) {
+//                    Collections.sort(umowy, new Umowacomparator());
+//                    umowaaktywna = umowy.get(0);
+//                    umowaaktywna.setAktywna(true);
+//                    umowaFacade.edit(umowaaktywna);
+//                }
+//                wpisView.setUmowa(umowaaktywna);
+//            } else {
+//                wpisView.setUmowa(null);
+//            }
+//            updateClassView.updateUmowa();
+//            Msg.msg("Aktywowano pracownika");
+//        }
+//    }
     
     
    public void aktywuj(Angaz angaz) {

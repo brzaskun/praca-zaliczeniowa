@@ -1338,7 +1338,7 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setLiczbadniNieobecnosci(liczbadniurlopu);
                 naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
                 naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinurlopu);
-                double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowaZmienne(kalendarz, skladnikwynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc, kalendarzList);
+                double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowaZmienneNadgodziny(kalendarz, skladnikwynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc, kalendarzList);
                 naliczenienieobecnosc.setSkladnikistale(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
@@ -1572,6 +1572,59 @@ public class KalendarzmiesiacBean {
                 sredniadopodstawy = sredniadopodstawy + Z.z(stawkazagodzine * liczbagodzinieobecnosci);
                 naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
                 naliczenienieobecnosc.setSumagodzindosredniej(godzinyfaktyczne);
+                naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
+                naliczenienieobecnosc.setStawkadzienna(Z.z(kwotywyplacone / dnifaktyczne));
+                naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
+            }
+        }
+        return sredniadopodstawy;
+    }
+    
+    //dodane 29.08.2023 bo wyliczsredniagodzinowaZmienne zawyzala stawke przy nadgodzinach u kadrzynskieho
+    private static double wyliczsredniagodzinowaZmienneNadgodziny(Kalendarzmiesiac kalendarz, Skladnikwynagrodzenia skladnikwynagrodzenia, double liczbagodzinieobecnosci,
+            double liczbagodzinobowiazku, Naliczenienieobecnosc naliczenienieobecnosc, List<Kalendarzmiesiac> kalendarzList) {
+        double sredniadopodstawy = 0.0;
+        if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1() == true) {
+            String rok = kalendarz.getRok();
+            String mc = kalendarz.getMc();
+            String dzien = kalendarz.getAngaz().getFirma().getDzienlp();
+            if (dzien != null) {
+                String[] popokres = Data.poprzedniOkres(mc, rok);
+                rok = popokres[1];
+                mc = popokres[0];
+            }
+            List<Naliczenieskladnikawynagrodzenia> naliczonyskladnikdosredniej = pobierzpaski(rok, mc, skladnikwynagrodzenia, kalendarzList);
+            double godzinynominalnepracownik = 0.0;
+            double dnifaktyczne = 0.0;
+            double kwotywyplacone = 0.0;
+            double stawkazagodzine = 0.0;
+            int liczba = 0;
+            for (Naliczenieskladnikawynagrodzenia pa : naliczonyskladnikdosredniej) {
+                if (pa.getKwotadolistyplac() > 0.0 && pa.getGodzinyfaktyczne() > 0.0) {
+                    godzinynominalnepracownik = godzinynominalnepracownik + pa.getGodzinynalezne();
+                    dnifaktyczne = dnifaktyczne + pa.getDninalezne();
+                    kwotywyplacone = kwotywyplacone + pa.getKwotadolistyplac();
+                    liczba++;
+                    boolean skladnikstaly = false;
+                    //                //tylko dla Toczek po inporcvie usunac!!!!!!!!!!!!!!!!!!!!!
+                    //                if (pa.getGodzinyfaktyczne()==0.0) {
+                    //                    pa.setGodzinyfaktyczne(liczbagodzinobowiazku);
+                    //                }
+                    double stawkazagodzinezm = Z.z(pa.getKwotadolistyplac() / pa.getGodzinyfaktyczne());
+                    double sredniadopodstazm = Z.z(stawkazagodzinezm * liczbagodzinieobecnosci);
+                    Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(pa.getPasekwynagrodzen().getRok(), pa.getPasekwynagrodzen().getMc(), pa.getKwotadolistyplac(), skladnikstaly, naliczenienieobecnosc, liczbagodzinieobecnosci, pa.getGodzinyfaktyczne(), pa.getDnifaktyczne(), pa.getGodzinynalezne(), pa.getDninalezne(), stawkazagodzinezm);
+                    naliczenienieobecnosc.getSredniadlanieobecnosciList().add(srednia);
+                    naliczenienieobecnosc.setSredniazailemcy(liczba);
+                    if (liczba > 3) {
+                        break;
+                    }
+                }
+            }
+            if (godzinynominalnepracownik != 0.0 && dnifaktyczne != 0.0) {
+                stawkazagodzine = Z.z(kwotywyplacone / godzinynominalnepracownik);
+                sredniadopodstawy = sredniadopodstawy + Z.z(stawkazagodzine * liczbagodzinieobecnosci);
+                naliczenienieobecnosc.setSumakwotdosredniej(kwotywyplacone);
+                naliczenienieobecnosc.setSumagodzindosredniej(godzinynominalnepracownik);
                 naliczenienieobecnosc.setSkladnikizmiennesrednia(sredniadopodstawy);
                 naliczenienieobecnosc.setStawkadzienna(Z.z(kwotywyplacone / dnifaktyczne));
                 naliczenienieobecnosc.setStawkagodzinowa(stawkazagodzine);
