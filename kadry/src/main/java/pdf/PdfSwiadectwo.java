@@ -223,11 +223,11 @@ public class PdfSwiadectwo {
                 czydodano = false;
                 String urlop4a = "5) wykorzystał urlop ojcowski w wymiarze: ";
                 String urlop4b = " w ";
-                String urlop4c = " częsciach";
                 for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("J")) {
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("UO")) {
                         urlop4a = urlop4a+s.getDnikalendarzowe();
                         urlop4b = urlop4b+s.getCzesci();
+                        String urlop4c = s.getCzesci()==1? " częsci":" częsciach";
                         urlop4a = urlop4a+urlop4b+urlop4c;
                         czydodano = true;
                     }

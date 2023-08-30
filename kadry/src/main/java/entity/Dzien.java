@@ -5,6 +5,7 @@
  */
 package entity;
 
+import data.Data;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -342,6 +343,10 @@ public class Dzien implements Serializable {
 
     public String getDatastring() {
         return datastring;
+    }
+    
+    public String getRok() {
+        return Data.getRok(datastring);
     }
 
     public void setDatastring(String datastring) {
