@@ -136,3 +136,4 @@
     <target name="wsimport-client-generate" depends="wsimport-client-dokumenty, wsimport-client-testdok"/>
     <target name="wsimport-service-generate" depends="wsimport-service-GUS, wsimport-service-NIPVATcheck, wsimport-service-Vies2, wsimport-init"/>
 </project>
+<!--kok-->
