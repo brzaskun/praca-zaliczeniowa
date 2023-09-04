@@ -196,11 +196,18 @@ public class KalendarzmiesiacView  implements Serializable {
                     kal.setMc(mc);
                     kal.setAngaz(wpisView.getAngaz());
                     Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), mc);
-                    if (kalmiesiac==null) {
+                    if (kalmiesiac==null||kalmiesiac.getDzienList().isEmpty()) {
+                        if (kalmiesiac.getId()!=null&&kalmiesiac.getDzienList().isEmpty()) {
+                            kal = kalmiesiac;
+                        }
                         Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getAngaz().getFirma(), kal.getRok(), mc);
                         if (znaleziono!=null) {
                             kal.ganerujdnizwzrocowego(znaleziono, dzienod, wpisView.getAngaz().getEtatList());
-                            kalendarzmiesiacFacade.create(kal);
+                            if (kal.getId()==null) {
+                                kalendarzmiesiacFacade.create(kal);
+                            } else {
+                                kalendarzmiesiacFacade.edit(kal);
+                            }
                             dzienod = null;
                             kalendarze.add(kal);
                         } else {

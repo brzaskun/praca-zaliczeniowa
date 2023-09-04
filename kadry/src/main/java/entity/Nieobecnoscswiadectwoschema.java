@@ -132,7 +132,9 @@ public class Nieobecnoscswiadectwoschema implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Nieobecnoscswiadectwoschema[ id=" + id + " ]";
+        return "Nieobecnoscswiadectwoschema{" + "swiadectwoschema=" + swiadectwoschema.getNazwaschemy() + ", rodzajnieobecnosci=" + rodzajnieobecnosci.getKod() + '}';
     }
+
+    
     
 }
