@@ -15,7 +15,7 @@ import javax.xml.ws.soap.SOAPFaultException;
  *
  * @author Osito
  */
-@WebService(serviceName = "checkVatService", portName = "checkVatPort", endpointInterface = "eu.europa.ec.taxud.vies.services.checkvat.CheckVatPortType", targetNamespace = "urn:ec.europa.eu:taxud:vies:services:checkVat", wsdlLocation = "WEB-INF/wsdl/Vies2/checkVATService.wsdl")
+@WebService(serviceName = "checkVatService", portName = "checkVatPort", endpointInterface = "eu.europa.ec.taxud.vies.services.checkvat.CheckVatPortType", targetNamespace = "urn:ec.europa.eu:taxud:vies:services:checkVat", wsdlLocation = "WEB-INF/wsdl/checkVATService.wsdl")
 public class Vies2 {
     
 
