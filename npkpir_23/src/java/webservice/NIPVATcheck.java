@@ -11,7 +11,8 @@ import pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.
 
 /**
  *
- * @author Osito
+ * @author Ositopopo
+ * de
  */
 @WebService(serviceName = "WeryfikacjaVAT", portName = "BasicHttpBinding_WeryfikacjaVAT", endpointInterface = "pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.WeryfikacjaVAT", targetNamespace = "http://www.mf.gov.pl/uslugiBiznesowe/uslugiDomenowe/AP/WeryfikacjaVAT/2018/03/01", wsdlLocation = "WEB-INF/wsdl/wsdlnipvat.wsdl")
 @Stateless
