@@ -42,6 +42,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.ws.Holder;
+import javax.xml.ws.WebServiceRef;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import org.w3c.dom.Document;
@@ -75,11 +76,11 @@ public class beanektest  implements Serializable {
         }
     }
 
-//    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/testdok.wsdl")
-//    private testservice.GateService service_1;
-//
-//    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/dokumenty.wsdl")
-//    private GateService service;
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/testdok.wsdl")
+    private https.bramka_e_deklaracje_mf_gov.GateService service_1;
+
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/dokumenty.wsdl")
+    private https.bramka_e_deklaracje_mf_gov.GateService service;
     private byte[] dok;
     private final String lang;
     private final String signT;
@@ -162,18 +163,18 @@ public class beanektest  implements Serializable {
     }
 
     private void requestUPO(java.lang.String refId, java.lang.String language, javax.xml.ws.Holder<java.lang.String> upo, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
-//        service.GateServicePortType port = service.getGateServiceSOAP12Port();
-//        try {
-//            port.requestUPO(refId, language, upo, status, statusOpis);
-//        } catch (Exception e) {
-//            Msg.msg("e", "Wystąpił błąd serwera ministerstwa. Serwer nie odpowiada", "formX:msg");
-//        }
+        https.bramka_e_deklaracje_mf_gov.GateServicePortType port = service.getGateServiceSOAP12Port();
+        try {
+            port.requestUPO(refId, language, upo, status, statusOpis);
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd serwera ministerstwa. Serwer nie odpowiada", "formX:msg");
+        }
 
     }
 
     private void sendUnsignDocument(byte[] document, java.lang.String language, java.lang.String signatureType, javax.xml.ws.Holder<java.lang.String> refId, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
-//        service.GateServicePortType port = service.getGateServiceSOAP12Port();
-//        port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
+        https.bramka_e_deklaracje_mf_gov.GateServicePortType port = service.getGateServiceSOAP12Port();
+        port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
     }
 
     public void rob(String wysylanaDeklaracja) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
@@ -267,25 +268,25 @@ public class beanektest  implements Serializable {
 
     private void requestUPO_Test(java.lang.String refId, java.lang.String language, javax.xml.ws.Holder<java.lang.String> upo, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
 //        testservice.GateServicePortType port = service_1.getGateServiceSOAP12Port();
-//        service.GateServicePortType port = service.getGateServiceSOAP12Port();
-//        try {
-//            port.requestUPO(refId, language, upo, status, statusOpis);
-//        } catch (Exception e) {
-//            Msg.msg("e", "Wystąpił błąd serwera ministerstwa. Serwer nie odpowiada", "formX:msg");
-//        }
+        https.bramka_e_deklaracje_mf_gov.GateServicePortType port = service.getGateServiceSOAP12Port();
+        try {
+            port.requestUPO(refId, language, upo, status, statusOpis);
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd serwera ministerstwa. Serwer nie odpowiada", "formX:msg");
+        }
     }
 
     private void sendUnsignDocument_Test(byte[] document, java.lang.String language, java.lang.String signatureType, javax.xml.ws.Holder<java.lang.String> refId, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
-//        testservice.GateServicePortType port = service_1.getGateServiceSOAP12Port();
-//        port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
+        https.bramka_e_deklaracje_mf_gov.GateServicePortType port = service_1.getGateServiceSOAP12Port();
+        port.sendUnsignDocument(document, language, signatureType, refId, status, statusOpis);
     }
     
     
     
     private void sendSignDocument_Test(byte[] document, javax.xml.ws.Holder<java.lang.String> refId, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
 //        testservice.GateServicePortType port = service_1.getGateServiceSOAP12Port();
-//        service.GateServicePortType port2 = service.getGateServiceSOAP12Port();
-//        port2.sendDocument(document, refId, status, statusOpis);
+        https.bramka_e_deklaracje_mf_gov.GateServicePortType port2 = service.getGateServiceSOAP12Port();
+        port2.sendDocument(document, refId, status, statusOpis);
     }
 
     public void robtest() throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {

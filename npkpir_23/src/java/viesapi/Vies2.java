@@ -5,6 +5,8 @@
  */
 package viesapi;
 
+import eu.europa.ec.taxud.vies.services.checkvat.CheckVatPortType;
+import eu.europa.ec.taxud.vies.services.checkvat.CheckVatService;
 import javax.jws.WebService;
 import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceException;
@@ -15,31 +17,32 @@ import javax.xml.ws.soap.SOAPFaultException;
  *
  * @author Osito
  */
-@WebService(serviceName = "checkVatService", portName = "checkVatPort", endpointInterface = "eu.europa.ec.taxud.vies.services.checkvat.CheckVatPortType", targetNamespace = "urn:ec.europa.eu:taxud:vies:services:checkVat", wsdlLocation = "WEB-INF/wsdl/checkVATService.wsdl")
+@WebService(serviceName = "checkVatService", portName = "checkVatPort", endpointInterface = "eu.europa.ec.taxud.vies.services.checkvat.CheckVatPortType", 
+        targetNamespace = "urn:ec.europa.eu:taxud:vies:services:checkVat", wsdlLocation = "WEB-INF/wsdl/checkVATService.wsdl")
 public class Vies2 {
     
 
    public static ViesVatRegistration  checkVat(javax.xml.ws.Holder<java.lang.String> countryCode, javax.xml.ws.Holder<java.lang.String> vatNumber, 
            javax.xml.ws.Holder<javax.xml.datatype.XMLGregorianCalendar> requestDate, javax.xml.ws.Holder<Boolean> valid, javax.xml.ws.Holder<java.lang.String> name, javax.xml.ws.Holder<java.lang.String> address) throws ViesVatServiceException {
-//        CheckVatService chs = new CheckVatService();
-//        CheckVatPortType checkVatPort = chs.getCheckVatPort();
-//        try {
-//            checkVatPort.checkVat(countryCode, vatNumber, requestDate, valid, name, address);
-//        }
-//        catch (SOAPFaultException ex) {
-////            SOAPFault fault = ex.getFault();
-////            String faultKey = fault.getFaultString();
-//            String faultMessage = "vies.fault." + "uzupełnij kod";
-//            throw new ViesVatServiceException("uzupełnij kod", countryCode + "-" + vatNumber + ": " + faultMessage);
-//        }
-//        catch (WebServiceException ex) {
-//            //LOG.error("{}-{} lookup failed", countryCode, vatNumber, ex);
-//            throw new ViesVatServiceException("WebServiceException", countryCode + "-" + vatNumber + ": " + ex.getMessage());
-//        }
-//
-//        if (!valid.value) {
-//            return null;
-//        }
+        CheckVatService chs = new CheckVatService();
+        CheckVatPortType checkVatPort = chs.getCheckVatPort();
+        try {
+            checkVatPort.checkVat(countryCode, vatNumber, requestDate, valid, name, address);
+        }
+        catch (SOAPFaultException ex) {
+//            SOAPFault fault = ex.getFault();
+//            String faultKey = fault.getFaultString();
+            String faultMessage = "vies.fault." + "uzupełnij kod";
+            throw new ViesVatServiceException("uzupełnij kod", countryCode + "-" + vatNumber + ": " + faultMessage);
+        }
+        catch (WebServiceException ex) {
+            //LOG.error("{}-{} lookup failed", countryCode, vatNumber, ex);
+            throw new ViesVatServiceException("WebServiceException", countryCode + "-" + vatNumber + ": " + ex.getMessage());
+        }
+
+        if (!valid.value) {
+            return null;
+        }
         ViesVatRegistration res = new ViesVatRegistration();
         res.setValid(true);
         res.setCountry(countryCode.value);
@@ -52,11 +55,11 @@ public class Vies2 {
     }
 
     public static void checkVatApprox(javax.xml.ws.Holder<java.lang.String> countryCode, javax.xml.ws.Holder<java.lang.String> vatNumber, javax.xml.ws.Holder<java.lang.String> traderName, javax.xml.ws.Holder<java.lang.String> traderCompanyType, javax.xml.ws.Holder<java.lang.String> traderStreet, javax.xml.ws.Holder<java.lang.String> traderPostcode, javax.xml.ws.Holder<java.lang.String> traderCity, java.lang.String requesterCountryCode, java.lang.String requesterVatNumber, javax.xml.ws.Holder<javax.xml.datatype.XMLGregorianCalendar> requestDate, javax.xml.ws.Holder<Boolean> valid, javax.xml.ws.Holder<java.lang.String> traderAddress, javax.xml.ws.Holder<java.lang.String> traderNameMatch, javax.xml.ws.Holder<java.lang.String> traderCompanyTypeMatch, javax.xml.ws.Holder<java.lang.String> traderStreetMatch, javax.xml.ws.Holder<java.lang.String> traderPostcodeMatch, javax.xml.ws.Holder<java.lang.String> traderCityMatch, javax.xml.ws.Holder<java.lang.String> requestIdentifier) {
-//        CheckVatService chs = new CheckVatService();
-//        CheckVatPortType checkVatPort = chs.getCheckVatPort();
+        CheckVatService chs = new CheckVatService();
+        CheckVatPortType checkVatPort = chs.getCheckVatPort();
         countryCode = new Holder<>("PL");
         vatNumber = new Holder<>("8511005008");
-//        checkVatPort.checkVatApprox(countryCode, vatNumber, traderName, traderCompanyType, traderStreet, traderPostcode, traderCity, requesterCountryCode, requesterVatNumber, requestDate, valid, traderAddress, traderNameMatch, traderCompanyTypeMatch, traderStreetMatch, traderPostcodeMatch, traderCityMatch, requestIdentifier);
+        checkVatPort.checkVatApprox(countryCode, vatNumber, traderName, traderCompanyType, traderStreet, traderPostcode, traderCity, requesterCountryCode, requesterVatNumber, requestDate, valid, traderAddress, traderNameMatch, traderCompanyTypeMatch, traderStreetMatch, traderPostcodeMatch, traderCityMatch, requestIdentifier);
     }
     
     
@@ -79,13 +82,13 @@ public class Vies2 {
         javax.xml.ws.Holder<java.lang.String> traderPostcodeMatch = new Holder<>();
         javax.xml.ws.Holder<java.lang.String> traderCityMatch = new Holder<>();
         javax.xml.ws.Holder<java.lang.String> requestIdentifier = new Holder<>();
-//        CheckVatService chs = new CheckVatService();
-//        CheckVatPortType checkVatPort = chs.getCheckVatPort();
+        CheckVatService chs = new CheckVatService();
+        CheckVatPortType checkVatPort = chs.getCheckVatPort();
         ViesVatRegistration res = new ViesVatRegistration();
         res.setCountry(countryCode.value);
         res.setVatNumber(vatNumber.value);
         try {
-//            checkVatPort.checkVatApprox(countryCode, vatNumber, traderName, traderCompanyType, traderStreet, traderPostcode, traderCity, requesterCountryCode, requesterVatNumber, requestDate, valid, traderAddress, traderNameMatch, traderCompanyTypeMatch, traderStreetMatch, traderPostcodeMatch, traderCityMatch, requestIdentifier);
+            checkVatPort.checkVatApprox(countryCode, vatNumber, traderName, traderCompanyType, traderStreet, traderPostcode, traderCity, requesterCountryCode, requesterVatNumber, requestDate, valid, traderAddress, traderNameMatch, traderCompanyTypeMatch, traderStreetMatch, traderPostcodeMatch, traderCityMatch, requestIdentifier);
         }   catch (SOAPFaultException ex) {
 //            SOAPFault fault = ex.getFault();
 //            String faultKey = fault.getFaultString();
