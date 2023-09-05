@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Osito
  */
-@WebService(serviceName = "UslugaBIRzewnPubl", portName = "e3", endpointInterface = "org.tempuri.IUslugaBIRzewnPubl", targetNamespace = "http://tempuri.org/", wsdlLocation = "WEB-INF/wsdl/UslugaBIRzewnPubl1.wsdl")
+@WebService(serviceName = "UslugaBIRzewnPubl", portName = "e3", endpointInterface = "org.tempuri.IUslugaBIRzewnPubl", targetNamespace = "http://tempuri.org/", wsdlLocation = "WEB-INF/wsdl/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl.wsdl")
 public class GUS {
 
     public java.lang.String pobierzCaptcha() {
