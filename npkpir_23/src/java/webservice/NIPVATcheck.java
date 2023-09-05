@@ -7,9 +7,6 @@ package webservice;
 
 import javax.ejb.Stateless;
 import javax.jws.WebService;
-import pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TKodWeryfikacjiVAT;
-import pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT;
-import pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.WeryfikacjaVAT_Service;
 
 /**
  *
@@ -19,19 +16,19 @@ import pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.
 @Stateless
 public class NIPVATcheck {
 
-    public static pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT sprawdzNIP(java.lang.String nip) {
-        WeryfikacjaVAT_Service w = new WeryfikacjaVAT_Service();
-        TWynikWeryfikacjiVAT sprawdzNIP = new TWynikWeryfikacjiVAT();
-        sprawdzNIP.setKod(TKodWeryfikacjiVAT.I);
-        try {
-            sprawdzNIP  = w.getBasicHttpBindingWeryfikacjaVAT().sprawdzNIP(nip);
-        } catch (Exception e){}
-        return sprawdzNIP;
-    }
-    
-    public static void main(String[] args) {
-        TWynikWeryfikacjiVAT sprawdzNIP = NIPVATcheck.sprawdzNIP("6751661857");
-        error.E.s("wynik "+sprawdzNIP.getKomunikat());
-        error.E.s("symbol "+sprawdzNIP.getKod().value());
-    }
+//    public static pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT sprawdzNIP(java.lang.String nip) {
+//        WeryfikacjaVAT_Service w = new WeryfikacjaVAT_Service();
+//        TWynikWeryfikacjiVAT sprawdzNIP = new TWynikWeryfikacjiVAT();
+//        sprawdzNIP.setKod(TKodWeryfikacjiVAT.I);
+//        try {
+//            sprawdzNIP  = w.getBasicHttpBindingWeryfikacjaVAT().sprawdzNIP(nip);
+//        } catch (Exception e){}
+//        return sprawdzNIP;
+//    }
+//    
+//    public static void main(String[] args) {
+//        TWynikWeryfikacjiVAT sprawdzNIP = NIPVATcheck.sprawdzNIP("6751661857");
+//        error.E.s("wynik "+sprawdzNIP.getKomunikat());
+//        error.E.s("symbol "+sprawdzNIP.getKod().value());
+ //   }
 }
