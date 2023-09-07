@@ -73,9 +73,12 @@ public class PitWysylkaView  implements Serializable {
         try {
             pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracjeobject = (pl.gov.crd.wzor._2021._04._02._10568.Deklaracja) ObjectBean.convertFromBytes(wysylanaDeklaracja.getDeklaracja());
             String deklaracja = PIT4R_12Bean.marszajuldoStringxml(deklaracjeobject);
+            System.out.println("zaczynam podpis");
             deklaracjapodpisana = Xad.podpisz(deklaracja);
+            System.out.println("udany podpis");
             wysylanaDeklaracja.setDeklaracjapodpisana((byte[]) deklaracjapodpisana[0]);
             wysylanaDeklaracja.setDeklaracjapodpisanastring((String) deklaracjapodpisana[1]);
+            System.out.println("wyslana "+wysylanaDeklaracja.getDeklaracjapodpisanastring());
         } catch (Exception e) {
             E.e(e);
         }
@@ -190,8 +193,8 @@ public class PitWysylkaView  implements Serializable {
     private int sendSignDocument(byte[] dok, javax.xml.ws.Holder<java.lang.String> id, javax.xml.ws.Holder<Integer> stat, javax.xml.ws.Holder<java.lang.String> opis) {
         int zwrot = 0;
         try {
-            https.bramka_e_deklaracje_mf_gov.GateServicePortType port2 = testservice.getGateServiceSOAP12Port();
-            port2.sendDocument(dok, id, stat, opis);
+            //https.bramka_e_deklaracje_mf_gov.GateServicePortType port2 = testservice.getGateServiceSOAP12Port();
+            //port2.sendDocument(dok, id, stat, opis);
         } catch (Exception e) {
             E.e(e);
             zwrot = 1;
@@ -203,8 +206,8 @@ public class PitWysylkaView  implements Serializable {
     private int sendUnsignDocument(byte[] document, java.lang.String language, java.lang.String signT, javax.xml.ws.Holder<java.lang.String> id, javax.xml.ws.Holder<Integer> stat, javax.xml.ws.Holder<java.lang.String> opis) {
         int zwrot = 0;
         try {
-            https.bramka_e_deklaracje_mf_gov.GateServicePortType port = testservice.getGateServiceSOAP12Port();
-            port.sendUnsignDocument(document, language, signT, id, stat, opis);
+            //https.bramka_e_deklaracje_mf_gov.GateServicePortType port = testservice.getGateServiceSOAP12Port();
+            //port.sendUnsignDocument(document, language, signT, id, stat, opis);
         } catch (Exception e) {
             E.e(e);
             zwrot = 1;

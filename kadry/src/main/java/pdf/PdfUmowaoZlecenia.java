@@ -194,10 +194,10 @@ public class PdfUmowaoZlecenia {
             p.add(new Phrase(umowa.getAngaz().getFirma().getReprezentant(), fontM));
             document.add(p);
             p = new Paragraph();
-            p.add(new Phrase("(data i podpis pracownika)", fontS));
+            p.add(new Phrase("(data i podpis zleceniobiorcy)", fontS));
             p.setTabSettings(new TabSettings(250));
             p.add(Chunk.TABBING);
-            p.add(new Phrase("(podpis pracodawcy lub osoby reprezentującej pracodawcę)", fontS));
+            p.add(new Phrase("(podpis zleceniodawcy lub osoby reprezentującej)", fontS));
             document.add(p);
         } catch (Exception ex) {
             E.e(ex);
@@ -416,10 +416,10 @@ public class PdfUmowaoZlecenia {
                 p.add(new Phrase(umowa.getAngaz().getFirma().getReprezentant(), fontM));
                 document.add(p);
                 p = new Paragraph();
-                p.add(new Phrase("(data i podpis pracownika)", fontS));
+                p.add(new Phrase("(data i podpis zleceniobiorcy)", fontS));
                 p.setTabSettings(new TabSettings(300));
                 p.add(Chunk.TABBING);
-                p.add(new Phrase("(podpis pracodawcy lub osoby rep. pracodawcę)", fontS));
+                p.add(new Phrase("(podpis zleceniodawcy lub osoby reprez.)", fontS));
                 document.add(p);
             } else {
                 Paragraph p = new Paragraph();

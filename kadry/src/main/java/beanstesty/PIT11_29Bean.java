@@ -48,18 +48,18 @@ public class PIT11_29Bean {
                 zwrot[0] = sciezka;
                 zwrot[1] = "ok";
                 zwrot[2] = deklaracja;
-                Msg.msg("zrob walidacje");
-                if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
-                    zwrot[0] = sciezka;
-                    zwrot[1] = "ok";
-                    zwrot[2] = deklaracja;
-                    Msg.msg("Walidacja JPK pomyślna");
-                } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
-                    zwrot[0] = sciezka;
-                    zwrot[1] = null;
-                    zwrot[2] = null;
-                    Msg.msg("e", (String) walidacja[1]);
-                }
+//                Msg.msg("zrob walidacje");
+//                if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
+//                    zwrot[0] = sciezka;
+//                    zwrot[1] = "ok";
+//                    zwrot[2] = deklaracja;
+//                    Msg.msg("Walidacja JPK pomyślna");
+//                } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
+//                    zwrot[0] = sciezka;
+//                    zwrot[1] = null;
+//                    zwrot[2] = null;
+//                    Msg.msg("e", (String) walidacja[1]);
+//                }
             Msg.msg("Wygenerowano plik JPK");
         } catch(Exception e) {
             Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
