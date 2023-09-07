@@ -253,10 +253,11 @@
                             <h:outputText value="#{itemkalendarz.datastring}" style="color: #{itemkalendarz.typdniaCol}"/>
                         </p:column>
                     </p:dataTable>
-                    <p:panelGrid columns="12" style="width: 580px;align-content: center; margin-top: 10px;">
+                    <p:panelGrid columns="13" style="width: 580px;align-content: center; margin-top: 10px;">
                         <h:outputText value="norma godzin"/>
                         <h:outputText value="godz. przeprac."/>
                         <h:outputText value="dni oddeleg." style="color: #006775"/>
+                        <h:outputText value="godz. oddeleg." style="color: #006775"/>
                         <h:outputText value="urlop płatny"/>
                         <h:outputText value="urlop bezpłat."/>
                         <h:outputText value="opieka nad dziec." style="color: #006775"/>
@@ -269,6 +270,7 @@
                         <h:outputText value="#{kalendarzmiesiacView.selected.norma}"/>
                         <h:outputText value="#{kalendarzmiesiacView.selected.przepracowane}"/>
                         <h:outputText value="#{kalendarzmiesiacView.selected.dnioddelegowania}" style="color: #006775"/>
+                        <h:outputText value="#{kalendarzmiesiacView.selected.godzinydelegowaniewymiar}" style="color: #006775"/>
                          <h:outputText value="#{kalendarzmiesiacView.selected.urlop}"/>
                          <h:outputText value="#{kalendarzmiesiacView.selected.urlopbezplatny}"/>
                          <h:outputText value="#{kalendarzmiesiacView.selected.opiekadziecko}" style="color: #006775"/>
