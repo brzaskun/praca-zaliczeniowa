@@ -21,6 +21,7 @@ import entity.Podmiot;
 import entityplatnik.UbezpZusrca;
 import entityplatnik.Zusdra;
 import entityplatnik.Zusrca;
+import error.E;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Schedule;
@@ -67,7 +68,11 @@ public class DraPlatnikTimer {
         if (miesiaceGranica!=null) {
             for (String mie : miesiaceGranica) {
                 String mc = mie;
-                podsumujDRA(rok, mc, firmy, podatnicy, podmioty);
+                try {
+                    podsumujDRA(rok, mc, firmy, podatnicy, podmioty);
+                } catch (Exception e) {
+                    System.out.println(E.e(e));
+                }
             }
         }
     }
