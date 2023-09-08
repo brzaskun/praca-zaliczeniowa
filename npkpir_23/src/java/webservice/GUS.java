@@ -28,7 +28,8 @@ import org.tempuri.UslugaBIRzewnPubl;
  *
  * @author Osito
  */
-@WebService(serviceName = "UslugaBIRzewnPubl", portName = "e3", endpointInterface = "org.tempuri.IUslugaBIRzewnPubl", targetNamespace = "http://tempuri.org/", wsdlLocation = "WEB-INF/wsdl/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl.wsdl")
+@WebService(serviceName = "UslugaBIRzewnPubl", portName = "e3", endpointInterface = "org.tempuri.IUslugaBIRzewnPubl", targetNamespace = "http://tempuri.org/", 
+        wsdlLocation = "WEB-INF/wsdl/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl.wsdl")
 public class GUS {
 
     public java.lang.String pobierzCaptcha() {
@@ -84,7 +85,7 @@ public class GUS {
         UslugaBIRzewnPubl service = new UslugaBIRzewnPubl();
             IUslugaBIRzewnPubl e3 = service.getE3(new AddressingFeature());
             String login = e3.zaloguj("e19dbcf03de941479bad");
-        WSBindingProvider bp = (WSBindingProvider) e3;
+            WSBindingProvider bp = (WSBindingProvider) e3;
             Map<String, Object> req_ctx = ((BindingProvider)e3).getRequestContext();
             Map<String, List<String>> headers = new HashMap<String, List<String>>();
             headers.put("sid", Collections.singletonList(login));

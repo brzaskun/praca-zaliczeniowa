@@ -12,9 +12,9 @@
         }
     </style>
     <p:dialog id="dialog_sprawy" header="Sprawy do załatwienia/przejrzenia" widgetVar="dialog_sprawy" 
-              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1260, 520);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
+              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1460, 840);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
         <h:form id="form_dialog_sprawy">
-            <p:dataTable value="#{sprawaView.sprawyOdebrane}" var="item3" style="width: 1240px; overflow-y: scroll; height: 240px;"
+            <p:dataTable value="#{sprawaView.sprawyOdebrane}" var="item3" style="width: 1440px; overflow-y: scroll; height: 410px;"
                          widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index1" 
                          sortBy="#{item3.datasporzadzenia}" sortOrder="descending"
                          >
@@ -80,7 +80,7 @@
              </p:dataTable>
         </h:form>
         <h:form id="form_dialog_sprawy_nadane">
-            <p:dataTable value="#{sprawaView.sprawyNadane}" var="item3" style="width: 1240px; overflow-y: scroll; height: 240px;"
+            <p:dataTable value="#{sprawaView.sprawyNadane}" var="item3" style="width: 1440px; overflow-y: scroll; height: 410px;"
                          widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index1" 
                          sortBy="#{item3.datasporzadzenia}" sortOrder="descending" 
                          >
