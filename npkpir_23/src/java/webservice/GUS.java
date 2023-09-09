@@ -83,6 +83,8 @@ public class GUS {
     //https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc
     //ma byc
     //https://Wyszukiwarkaregon.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc
+    //kotek
+    
     public Map<String, String> pobierz(String nip) {
         Map<String, String> zwrot = new ConcurrentHashMap<>();
         try {
