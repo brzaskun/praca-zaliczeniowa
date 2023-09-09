@@ -79,6 +79,10 @@ public class GUS {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
     
+     //Wazne. przy zmianie plikow WDSL uwaga na adres w plikach. jest
+    //https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc
+    //ma byc
+    //https://Wyszukiwarkaregon.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc
     public Map<String, String> pobierz(String nip) {
         Map<String, String> zwrot = new ConcurrentHashMap<>();
         try {
