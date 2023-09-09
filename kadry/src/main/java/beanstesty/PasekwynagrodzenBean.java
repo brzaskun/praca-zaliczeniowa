@@ -948,6 +948,10 @@ public class PasekwynagrodzenBean {
             kosztyuzyskania = pierwszyprog.getKuppodwyzszone();
             pasek.setProcentkosztow(120);
         }
+        if (pasek.getAngaz().getKosztyuzyskaniaprocent()==0.0) {
+            pasek.setProcentkosztow(0.0);
+            kosztyuzyskania = 0.0;
+        }
         //pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent()==100?pierwszyprog.getKup():pierwszyprog.getKuppodwyzszone();
         if (nieodliczackup) {
             kosztyuzyskania = 0.0;
