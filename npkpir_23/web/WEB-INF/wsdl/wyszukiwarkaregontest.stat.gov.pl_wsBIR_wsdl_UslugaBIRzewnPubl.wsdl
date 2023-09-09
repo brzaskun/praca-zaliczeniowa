@@ -124,9 +124,9 @@
   
   <wsdl:service name="UslugaBIRzewnPubl">
   <wsdl:port name="e3" binding="tns:e3">
-  <soap12:address location="https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc" /> 
+  <soap12:address location="https://wyszukiwarkaregon.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc" /> 
   <wsa10:EndpointReference>
-  <wsa10:Address>https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc</wsa10:Address> 
+  <wsa10:Address>https://wyszukiwarkaregon.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc</wsa10:Address> 
   </wsa10:EndpointReference>
   </wsdl:port>
 
