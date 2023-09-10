@@ -12,12 +12,16 @@
         }
     </style>
     <p:dialog id="dialog_sprawy" header="Sprawy do załatwienia/przejrzenia" widgetVar="dialog_sprawy" 
-              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1460, 840);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
+              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1660, 840);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
         <h:form id="form_dialog_sprawy">
-            <p:dataTable value="#{sprawaView.sprawyOdebrane}" var="item3" style="width: 1440px; overflow-y: scroll; height: 410px;"
+            <p:growl ><p:autoUpdate/></p:growl>
+            <p:dataTable value="#{sprawaView.sprawyOdebrane}" var="item3" style="width: 1640px; overflow-y: scroll; height: 410px;"
                          widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index1" 
-                         sortBy="#{item3.datasporzadzenia}" sortOrder="descending"
+                         sortBy="#{item3.datasporzadzenia}" sortOrder="descending" 
                          >
+                <f:facet name="header">
+                    <h:outputText value="Lista spraw otrzymanych do załatwienia"/>
+                </f:facet>
                 <p:column width="30" style="text-align: center;">
                     <h:outputText value="#{index1+1}"/>
                 </p:column>
@@ -33,11 +37,11 @@
                     <f:facet name="header">
                         <h:outputText value="klient"/>
                     </f:facet>
-                    <h:outputText value="#{item3.klient.nazwapelna.toLowerCase()}"/>
+                    <h:outputText value="#{item3.klient.printnazwa}"/>
                 </p:column>
-                <p:column filterBy="#{item3.tresc}" filterMatchMode="contains" filterStyle="display: none;">
+                <p:column filterBy="#{item3.tresc}" filterMatchMode="contains" filterStyle="display: none;" >
                     <f:facet name="header">
-                        <h:outputText value="treść" style="width: 200px;"/>
+                        <h:outputText value="treść" style="width: 180px;"/>
                     </f:facet>
                     <h:outputText value="#{item3.tresc}"/>
                 </p:column>
@@ -47,13 +51,13 @@
                     </f:facet>
                     <h:outputText value="#{item3.waznosc}"/>
                 </p:column>
-                <p:column width="100" style="text-align: center;">
+                <p:column width="100" style="text-align: left;">
                     <f:facet name="header">
-                        <h:outputText value="nadawca"/>
+                        <h:outputText value="zlecił"/>
                     </f:facet>
-                    <h:outputText value="#{item3.nadawca.login}"/>
+                    <h:outputText value="#{item3.nadawca.nazwiskoImie}"/>
                 </p:column>
-                <p:column width="100" style="text-align: center;">
+                <p:column width="40" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="urząd"/>
                     </f:facet>
@@ -66,6 +70,15 @@
                     <h:outputText value="#{item3.termindo}">
                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                     </h:outputText>
+                </p:column>
+                <p:column width="35" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="dni"/>
+                    </f:facet>
+                    <p:panelGrid columns="1">
+                        <h:outputText value="#{item3.zostaloDni}" rendered="#{item3.zostaloDni gt 0 or item3.zostaloDni eq 0}" style="color: red;"/>
+                        <h:outputText value="#{item3.zostaloDni}" rendered="#{item3.zostaloDni lt 0}" style="color: green;"/>
+                    </p:panelGrid>
                 </p:column>
                 <p:column width="160" style="text-align: center;">
                     <f:facet name="header">
@@ -80,10 +93,13 @@
              </p:dataTable>
         </h:form>
         <h:form id="form_dialog_sprawy_nadane">
-            <p:dataTable value="#{sprawaView.sprawyNadane}" var="item3" style="width: 1440px; overflow-y: scroll; height: 410px;"
+            <p:dataTable value="#{sprawaView.sprawyNadane}" var="item3" style="width: 1640px; overflow-y: scroll; height: 410px;"
                          widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index1" 
                          sortBy="#{item3.datasporzadzenia}" sortOrder="descending" 
                          >
+                <f:facet name="header">
+                    <h:outputText value="Lista spraw, które przekazałem"/>
+                </f:facet>
                 <p:column width="30" style="text-align: center;">
                     <h:outputText value="#{index1+1}"/>
                 </p:column>
@@ -99,7 +115,7 @@
                     <f:facet name="header">
                         <h:outputText value="klient"/>
                     </f:facet>
-                    <h:outputText value="#{item3.klient.nazwapelna.toLowerCase()}"/>
+                    <h:outputText value="#{item3.klient.printnazwa}"/>
                 </p:column>
                 <p:column width="250" filterBy="#{item3.tresc}" filterMatchMode="contains" filterStyle="display: none;">
                     <f:facet name="header">
@@ -113,13 +129,13 @@
                     </f:facet>
                     <h:outputText value="#{item3.waznosc}"/>
                 </p:column>
-                <p:column width="100" style="text-align: center;">
+                <p:column width="100" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="odbiorca"/>
                     </f:facet>
-                    <h:outputText value="#{item3.odbiorca.login}"/>
+                    <h:outputText value="#{item3.odbiorca.nazwiskoImie}"/>
                 </p:column>
-                <p:column width="100" style="text-align: center;">
+                <p:column width="30" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="urząd"/>
                     </f:facet>
@@ -135,13 +151,29 @@
                 </p:column>
                 <p:column width="100" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="oznaczono"/>
+                        <h:outputText value="stan"/>
                     </f:facet>
                     <p:panelGrid columns="1">
                         <h:outputText value="#{item3.status}"/>
+                    </p:panelGrid>
+                </p:column>
+                <p:column width="100" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="data"/>
+                    </f:facet>
+                    <p:panelGrid columns="1">
                         <h:outputText value="#{item3.datastatusu}">
                             <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
                         </h:outputText>
+                    </p:panelGrid>
+                </p:column>
+                <p:column width="35" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="dni"/>
+                    </f:facet>
+                    <p:panelGrid columns="1">
+                        <h:outputText value="#{item3.zostaloDni}" rendered="#{item3.zostaloDni gt 0 or item3.zostaloDni eq 0}" style="color: red;"/>
+                        <h:outputText value="#{item3.zostaloDni}" rendered="#{item3.zostaloDni lt 0}" style="color: green;"/>
                     </p:panelGrid>
                 </p:column>
                 <p:column width="30" headerText="usuń" style="text-align: center;">

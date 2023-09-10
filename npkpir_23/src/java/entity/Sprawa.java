@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -52,14 +53,14 @@ public class Sprawa  implements Serializable {
     @Column(name = "tresc", nullable = false, length = 65535)
     private String tresc;
     @NotNull
-    @JoinColumn(name = "nadawca",referencedColumnName = "login")
+    @JoinColumn(name = "nadawca",referencedColumnName = "id")
     @ManyToOne
     private Uz nadawca;
-    @JoinColumn(name = "odbiorca",referencedColumnName = "login", nullable = true)
+    @JoinColumn(name = "odbiorca",referencedColumnName = "id", nullable = true)
     @ManyToOne
     private Uz odbiorca;
     @ManyToOne
-    @JoinColumn(name = "podid", referencedColumnName = "nip", nullable = true)
+    @JoinColumn(name = "podid", referencedColumnName = "id", nullable = true)
     private Podatnik klient;
     @Size(min = 1, max = 100)
     @Column(name = "organ", nullable = true, length = 100)
@@ -111,7 +112,14 @@ public class Sprawa  implements Serializable {
         return "Sprawy{" + "datasporzadzenia=" + datasporzadzenia + ", tresc=" + tresc + ", nadawca=" + nadawca.getLogin() + ", odbiorca=" + odbiorca.getLogin() + ", klient=" + klient.getNazwapelna() + ", organ=" + organ + ", waznosc=" + waznosc + ", termindo=" + termindo + ", status=" + status + ", datastatusu=" + datastatusu + '}';
     }
     
-    
+    public int getZostaloDni() {
+        int zwrot = 0;
+        if (this.termindo!=null) {
+            Duration obliczenie = Duration.between(this.termindo.toInstant(), new Date().toInstant());
+            zwrot = (int) obliczenie.toDays();
+        }
+        return zwrot;
+    }
     
     public int getId() {
         return id;

@@ -6,7 +6,6 @@
 package view;
 
 import comparator.Podatnikcomparator;
-import comparator.Uzcomparator;
 import dao.PodatnikDAO;
 import dao.SprawaDAO;
 import dao.UzDAO;
@@ -17,9 +16,13 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -48,6 +51,7 @@ public class SprawaView  implements Serializable{
     private List<Uz> odbiorcy;
     private List<Podatnik> klienci;
     private static final List<String> status;
+    private int noweoedbrane;
     
     static {
         status = Collections.synchronizedList(new ArrayList<>());
@@ -55,37 +59,56 @@ public class SprawaView  implements Serializable{
         status.add("załatwiana");
         status.add("gotowa");
         status.add("musi czekać");
+        status.add("czekamy na klienta");
     }
     
     
     @PostConstruct
     private void init() { //E.m(this);
-        Uz login = wpisView.getUzer().getLoginglowny() != null ? wpisView.getUzer().getLoginglowny() : wpisView.getUzer();
-        sprawyOdebrane = sprawaDAO.findSprawaByOdbiorca(login);
+        List<Sprawa> wszystkiesprawy = sprawaDAO.findAll();
+        sprawyOdebrane = wszystkiesprawy.stream().filter(p->p.getOdbiorca().getNazwiskoImie().equals(wpisView.getUzer().getNazwiskoImie())).collect(Collectors.toList());
         for (Iterator<Sprawa> it = sprawyOdebrane.iterator();it.hasNext();) {
             Sprawa p = it.next();
             if (p.getStatus().equals("gotowa")) {
                 it.remove();
             }
         }
-        sprawyNadane = sprawaDAO.findSprawaByNadawca(login);
+        sprawyNadane = wszystkiesprawy.stream().filter(p->p.getNadawca().getNazwiskoImie().equals(wpisView.getUzer().getNazwiskoImie())).collect(Collectors.toList());
         for (Iterator<Sprawa> it = sprawyNadane.iterator();it.hasNext();) {
             Sprawa p = it.next();
             if (p.isUsunieta()) {
                 it.remove();
             }
         }
-        odbiorcy = uzDAO.findAll();
+        List<Sprawa> noweodebranelista = sprawyOdebrane.stream().filter(p->p.getStatus().equals("wysłana")).collect(Collectors.toList());
+        noweoedbrane = noweodebranelista.size();
+        List<Uz> odbiorcyPKPiR = uzDAO.findByUprawnienia("Bookkeeper");
+        List<Uz> odbiorcyFK = uzDAO.findByUprawnienia("BookkeeperFK");
+        odbiorcy = new ArrayList<>();
+        if (odbiorcyPKPiR.isEmpty()==false){
+            odbiorcy.addAll(odbiorcyPKPiR);
+        }
+        if (odbiorcyFK.isEmpty()==false){
+            odbiorcy.addAll(odbiorcyFK);
+        }
+        Set<String> nazwiskoiimie = new HashSet<>();
         for(Iterator<Uz> it = odbiorcy.iterator(); it.hasNext();) {
             Uz s = it.next();
             if (s.getLoginglowny() != null) {
                 it.remove();
             } else if (s.getUprawnienia().equals("Guest")||s.getUprawnienia().equals("GuestFK")||s.getUprawnienia().equals("GuestFKBook")||s.getUprawnienia().equals("GuestFaktura")||s.getUprawnienia().equals("Multiuser")||s.getUprawnienia().equals("MultiuserBook")||s.getUprawnienia().equals("Dedra")) {
                 it.remove();
+            } else if (nazwiskoiimie.contains(s.getNazwiskoImie())){
+                it.remove();
+            } else if (s.getNazwiskoImie().equals("Testowy Jan")){
+                it.remove();
+            }else {
+                nazwiskoiimie.add(s.getNazwiskoImie());
             }
+            
         }
-        Collections.sort(odbiorcy, new Uzcomparator());
-        klienci = podatnikDAO.findAll();
+        odbiorcy = odbiorcy.stream().sorted(Comparator.comparing(Uz::getNazwiskoImie)).collect(Collectors.toList());
+        klienci = podatnikDAO.findAktywny();
         Collections.sort(klienci, new Podatnikcomparator());
     }
     
@@ -100,7 +123,7 @@ public class SprawaView  implements Serializable{
             Msg.msg("Dodano sprawę");
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("Nie udało się dodać sprawę");
+            Msg.msg("Nie udało się dodać sprawy");
         }
     }
     
@@ -111,8 +134,9 @@ public class SprawaView  implements Serializable{
     }
     
     public void niepokazuj(Sprawa sprawa) {
+        System.out.println("ukrywamaaaa2222");
         sprawaDAO.edit(sprawa);
-        Msg.msg("Ukryto załatwioną sprawę");
+        Msg.msg("Oznaczono sprawę");
     }
     
     public WpisView getWpisView() {
@@ -165,6 +189,14 @@ public class SprawaView  implements Serializable{
 
     public List<String> getStatus() {
         return status;
+    }
+
+    public int getNoweoedbrane() {
+        return noweoedbrane;
+    }
+
+    public void setNoweoedbrane(int noweoedbrane) {
+        this.noweoedbrane = noweoedbrane;
     }
     
     
