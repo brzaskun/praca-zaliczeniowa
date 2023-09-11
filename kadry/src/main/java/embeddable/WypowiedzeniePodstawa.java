@@ -30,7 +30,7 @@ public class WypowiedzeniePodstawa implements Serializable {
         wypowiedzeniePodstawa.add("art. 30 § 1 p. 2 K.p. przez pracodawcę - przez oświadczenie pracodawcy z zachowaniem okresu wypowiedzenia (rozwiązanie umowy o pracę za wypowiedzeniem)");
         wypowiedzeniePodstawa.add("art. 30 § 1 p. 3 K.p. - przez pracownika - przez oświadczenie pracownika bez zachowania okresu wypowiedzenia (rozwiązanie umowy o pracę bez wypowiedzenia)");
         wypowiedzeniePodstawa.add("art. 30 § 1 p. 3 K.p. - przez pracodawcę - przez oświadczenie pracodawcy bez  zachowania okresu wypowiedzenia (rozwiązanie umowy o pracę bez wypowiedzenia)");
-        wypowiedzeniePodstawa.add("art. 30 § 1 p. 4 K.p. - z upływem czau, na który była zawarta");
+        wypowiedzeniePodstawa.add("art. 30 § 1 p. 4 K.p. - z upływem czasu, na który była zawarta");
         wypowiedzeniePodstawa.add("art. 30 § 1 p. 5 K.p. - z dniem ukończenia pracy, dla której wykoniania była zawarta");
         wypowiedzeniePodstawa.add("art. 55 § 1 i § 1(1) K.p. przez pracownika z winy pracodawcy - bez wypowiedzenia, rozwiązanie z winy pracodawcy");
         wypowiedzeniePodstawa.add("art. 52 §1 K.p. przez pracodawcę z winy pracownika - bez wypowiedzenia, rozwiązanie z winy pracownika");
