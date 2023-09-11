@@ -7,76 +7,90 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <p:dialog id="dialog_nowasprawa" header="Sprawy do załatwienia" widgetVar="dialog_nowasprawa"
-              resizable="false" onShow="ustawdialogWindow('dialog_nowasprawa', 1400, 190);"
+              resizable="false" onShow="ustawdialogWindow('dialog_nowasprawa', 1500, 190);"
               closeOnEscape="true" onHide="resetujdialog('dialog_nowasprawa');"  >
-              <h:form id="form_dialog_nowasprawa">
-                  <p:growl ><p:autoUpdate/></p:growl>
-                  <p:panelGrid style="padding: 10px;">
-                      <f:facet name="header">
-                          <p:row>
-                              <p:column>
-                                  <h:outputText value="odbiorca"/>
-                              </p:column>
-                              <p:column>
-                                  <h:outputText value="treść"/>
-                              </p:column>
-                              <p:column>
-                                  <h:outputText value="klient (opc)"/>
-                              </p:column>
-                              <p:column>
-                                    <h:outputText value="organ (opc)"/>
-                              </p:column>
-                              <p:column>
-                                    <h:outputText value="ważność"/>
-                              </p:column>
-                              <p:column>
-                                    <h:outputText value="termin"/>
-                              </p:column>
-                          </p:row>
-                      </f:facet>
-                      <p:row>
-                          <p:column width="100">
-                              <p:selectOneMenu value="#{sprawaView.nowa.odbiorca}" converter="#{uzConv}">
-                                  <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                                  <f:selectItems value="#{sprawaView.odbiorcy}" var="item1" itemLabel="#{item1.nazwiskoImie}" itemValue="#{item1}"/>
-                              </p:selectOneMenu>
-                          </p:column>
-                          <p:column>
-                              <p:inputTextarea value="#{sprawaView.nowa.tresc}" rows="3" cols="65"/>
-                          </p:column>
-                          <p:column>
-                              <p:selectOneMenu value="#{sprawaView.nowa.klient}" style="width: 150px;" converter="#{podatConv}">
-                                  <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                                  <f:selectItems value="#{sprawaView.klienci}" var="item2" itemLabel="#{item2.printnazwa}" itemValue="#{item2}"/>
-                              </p:selectOneMenu>
-                          </p:column>
-                          <p:column>
-                              <p:selectOneMenu value="#{sprawaView.nowa.organ}">
-                                  <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                                  <f:selectItem itemLabel="US" itemValue="US"/>
-                                  <f:selectItem itemLabel="ZachUs" itemValue="ZachUs"/>
-                                  <f:selectItem itemLabel="ZUS" itemValue="ZUS"/>
-                                  <f:selectItem itemLabel="Finanzamt" itemValue="ZUS"/>
-                                  <f:selectItem itemLabel="SOKA" itemValue="ZUS"/>
-                                  <f:selectItem itemLabel="Urząd Miasta" itemValue="US"/>
-                              </p:selectOneMenu>
-                          </p:column>
-                          <p:column>
-                              <p:selectOneMenu value="#{sprawaView.nowa.waznosc}">
-                                  <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                                  <f:selectItem itemLabel="na wczoraj" itemValue="na wczoraj"/>
-                                  <f:selectItem itemLabel="klient prosił" itemValue="istotne"/>
-                                  <f:selectItem itemLabel="do zrobienia" itemValue="do zrobienia"/>
-                                  <f:selectItem itemLabel="nie spieszy się" itemValue="nie spieszy się"/>
-                              </p:selectOneMenu>
-                          </p:column>
-                          <p:column>
-                              <p:calendar value="#{sprawaView.nowa.termindo}" mask="true" pattern="yyyy-MM-dd"/>
-                          </p:column>
-                      </p:row>
-                  </p:panelGrid>
-                  <p:commandButton value="dodaj sprawę" actionListener="#{sprawaView.dodaj()}" global="false" update="@form"
-                                   style="width: 120px; margin-top: 7px; margin-right: 20px; float: right;"/>
+        <h:form id="form_dialog_nowasprawa">
+            <p:growl ><p:autoUpdate/></p:growl>
+            <p:panelGrid style="padding: 10px;">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="odbiorca"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="treść"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="klient (opc)"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="organ (opc)"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="ważność"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="termin"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="kwota"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="fakt"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column width="100">
+                        <p:selectOneMenu value="#{sprawaView.nowa.odbiorca}" converter="#{uzConv}">
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{sprawaView.odbiorcy}" var="item1" itemLabel="#{item1.nazwiskoImie}" itemValue="#{item1}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:inputTextarea value="#{sprawaView.nowa.tresc}" rows="3" cols="65"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu value="#{sprawaView.nowa.klient}" style="width: 150px;" converter="#{podatConv}">
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{sprawaView.klienci}" var="item2" itemLabel="#{item2.printnazwa}" itemValue="#{item2}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu value="#{sprawaView.nowa.organ}">
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="US" itemValue="US"/>
+                            <f:selectItem itemLabel="ZachUs" itemValue="ZachUs"/>
+                            <f:selectItem itemLabel="ZUS" itemValue="ZUS"/>
+                            <f:selectItem itemLabel="Finanzamt" itemValue="ZUS"/>
+                            <f:selectItem itemLabel="SOKA" itemValue="ZUS"/>
+                            <f:selectItem itemLabel="Urząd Miasta" itemValue="US"/>
+                            <f:selectItem itemLabel="Bank" itemValue="US"/>
+                            <f:selectItem itemLabel="Leasing" itemValue="US"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu value="#{sprawaView.nowa.waznosc}">
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="na wczoraj" itemValue="na wczoraj"/>
+                            <f:selectItem itemLabel="klient prosił" itemValue="istotne"/>
+                            <f:selectItem itemLabel="do zrobienia" itemValue="do zrobienia"/>
+                            <f:selectItem itemLabel="nie spieszy się" itemValue="nie spieszy się"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:calendar value="#{sprawaView.nowa.termindo}" mask="true" pattern="yyyy-MM-dd"/>
+                    </p:column>
+                    <p:column width="75" style="text-align: center;">
+                        <p:inputNumber value="#{sprawaView.nowa.wartoscumowiona}"  size="8"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;">
+                        <p:selectBooleanCheckbox value="#{sprawaView.nowa.wystawionofakture}"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:commandButton value="dodaj sprawę" actionListener="#{sprawaView.dodaj()}" global="false" update="@form form_dialog_sprawy form_dialog_sprawy_nadane"
+                             style="width: 120px; margin-top: 7px; margin-right: 20px; float: right;"/>
         </h:form>
     </p:dialog>
 </ui:composition>  

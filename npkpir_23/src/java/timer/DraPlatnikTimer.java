@@ -251,7 +251,7 @@ public class DraPlatnikTimer {
     private DraSumy pobierzdrasumy(Integer idDokument) {
         DraSumy zwrot = new DraSumy();
         try {
-            if (idDokument!=null) {
+            if (idDokument!=null&&draSumyDAO!=null) {
                 zwrot = draSumyDAO.findByIddokument(idDokument);
             }
         } catch (Exception e){

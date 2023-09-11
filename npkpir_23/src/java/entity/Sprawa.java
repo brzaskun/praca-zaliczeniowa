@@ -81,6 +81,12 @@ public class Sprawa  implements Serializable {
     private Date datastatusu;
     @Column(name = "usunieta")
     private boolean usunieta;
+    @Column(name = "iloscgodzin")
+    private int iloscgodzin;
+    @Column(name = "wartoscumowiona")
+    private int wartoscumowiona;
+    @Column(name = "wystawionofakture")
+    private boolean wystawionofakture;
 
     @Override
     public int hashCode() {
@@ -215,6 +221,30 @@ public class Sprawa  implements Serializable {
 
     public void setUsunieta(boolean usunieta) {
         this.usunieta = usunieta;
+    }
+
+    public int getIloscgodzin() {
+        return iloscgodzin;
+    }
+
+    public void setIloscgodzin(int iloscgodzin) {
+        this.iloscgodzin = iloscgodzin;
+    }
+
+    public int getWartoscumowiona() {
+        return wartoscumowiona;
+    }
+
+    public void setWartoscumowiona(int wartoscumowiona) {
+        this.wartoscumowiona = wartoscumowiona;
+    }
+
+    public boolean isWystawionofakture() {
+        return wystawionofakture;
+    }
+
+    public void setWystawionofakture(boolean wystawionofakture) {
+        this.wystawionofakture = wystawionofakture;
     }
     
     

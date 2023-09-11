@@ -119,6 +119,7 @@ public class SprawaView  implements Serializable{
             nowa.setNadawca(login);
             nowa.setStatus("wysłana");
             sprawaDAO.create(nowa);
+            sprawyNadane.add(nowa);
             nowa = new Sprawa();
             Msg.msg("Dodano sprawę");
         } catch (Exception e) {
@@ -130,7 +131,7 @@ public class SprawaView  implements Serializable{
     public void nanies(Sprawa sprawa) {
         sprawa.setDatastatusu(new Date());
         sprawaDAO.edit(sprawa);
-        Msg.msg("Odnotowano zmianę statusu");
+        Msg.msg("Odnotowano zmianę sprawy");
     }
     
     public void niepokazuj(Sprawa sprawa) {

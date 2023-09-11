@@ -5,19 +5,20 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:bcf="http://brzaskun.com/facelets">
     <style>
         .ui-datatable-data tr {
             height: 20px;
         }
     </style>
     <p:dialog id="dialog_sprawy" header="Sprawy do załatwienia/przejrzenia" widgetVar="dialog_sprawy" 
-              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1660, 840);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
+              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1860, 840);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
         <h:form id="form_dialog_sprawy">
             <p:growl ><p:autoUpdate/></p:growl>
-            <p:dataTable value="#{sprawaView.sprawyOdebrane}" var="item3" style="width: 1640px; overflow-y: scroll; height: 410px;"
+            <p:dataTable value="#{sprawaView.sprawyOdebrane}" var="item3" style="width: 1840px; overflow-y: scroll; height: 410px;"
                          widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index1" 
-                         sortBy="#{item3.datasporzadzenia}" sortOrder="descending" 
+                         sortBy="#{item3.termindo}" sortOrder="ascending" 
                          >
                 <f:facet name="header">
                     <h:outputText value="Lista spraw otrzymanych do załatwienia"/>
@@ -71,7 +72,7 @@
                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="35" style="text-align: center;">
+                <p:column width="35" style="text-align: center;" sortBy="#{item3.zostaloDni}" >
                     <f:facet name="header">
                         <h:outputText value="dni"/>
                     </f:facet>
@@ -79,6 +80,30 @@
                         <h:outputText value="#{item3.zostaloDni}" rendered="#{item3.zostaloDni gt 0 or item3.zostaloDni eq 0}" style="color: red;"/>
                         <h:outputText value="#{item3.zostaloDni}" rendered="#{item3.zostaloDni lt 0}" style="color: green;"/>
                     </p:panelGrid>
+                </p:column>
+                 <p:column width="40" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="godz."/>
+                    </f:facet>
+                     <p:inputNumber value="#{item3.iloscgodzin}"  size="5"  maxlength="3" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right">
+                         <p:ajax event="change" partialSubmit="true" listener="#{sprawaView.nanies(item3)}"/>
+                     </p:inputNumber>
+                </p:column>
+                <p:column width="75" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="kwota"/>
+                    </f:facet>
+                    <p:inputNumber value="#{item3.wartoscumowiona}"  size="8"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right">
+                         <p:ajax event="change" partialSubmit="true" listener="#{sprawaView.nanies(item3)}"/>
+                     </p:inputNumber>
+                </p:column>
+                 <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="fakt."/>
+                    </f:facet>
+                     <p:selectBooleanCheckbox value="#{item3.wystawionofakture}">
+                         <p:ajax event="change" partialSubmit="true" listener="#{sprawaView.nanies(item3)}"/>
+                     </p:selectBooleanCheckbox>
                 </p:column>
                 <p:column width="160" style="text-align: center;">
                     <f:facet name="header">
@@ -93,21 +118,21 @@
              </p:dataTable>
         </h:form>
         <h:form id="form_dialog_sprawy_nadane">
-            <p:dataTable value="#{sprawaView.sprawyNadane}" var="item3" style="width: 1640px; overflow-y: scroll; height: 410px;"
-                         widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index1" 
-                         sortBy="#{item3.datasporzadzenia}" sortOrder="descending" 
+            <p:dataTable value="#{sprawaView.sprawyNadane}" var="item4" style="width: 1840px; overflow-y: scroll; height: 410px;"
+                         widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index2" 
+                         sortBy="#{item4.termindo}" sortOrder="ascending" 
                          >
                 <f:facet name="header">
                     <h:outputText value="Lista spraw, które przekazałem"/>
                 </f:facet>
                 <p:column width="30" style="text-align: center;">
-                    <h:outputText value="#{index1+1}"/>
+                    <h:outputText value="#{index2+1}"/>
                 </p:column>
                 <p:column width="80" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="Data nadania"/>
                     </f:facet>
-                    <h:outputText value="#{item3.datasporzadzenia}">
+                    <h:outputText value="#{item4.datasporzadzenia}">
                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                     </h:outputText>
                 </p:column>
@@ -115,37 +140,37 @@
                     <f:facet name="header">
                         <h:outputText value="klient"/>
                     </f:facet>
-                    <h:outputText value="#{item3.klient.printnazwa}"/>
+                    <h:outputText value="#{item4.klient.printnazwa}"/>
                 </p:column>
-                <p:column width="250" filterBy="#{item3.tresc}" filterMatchMode="contains" filterStyle="display: none;">
+                <p:column width="250" filterBy="#{item4.tresc}" filterMatchMode="contains" filterStyle="display: none;">
                     <f:facet name="header">
                         <h:outputText value="treść" style="width: 250px;"/>
                     </f:facet>
-                    <h:outputText value="#{item3.tresc}"/>
+                    <h:outputText value="#{item4.tresc}"/>
                 </p:column>
                 <p:column width="80">
                     <f:facet name="header">
                         <h:outputText value="ważność"/>
                     </f:facet>
-                    <h:outputText value="#{item3.waznosc}"/>
+                    <h:outputText value="#{item4.waznosc}"/>
                 </p:column>
                 <p:column width="100" style="text-align: left;">
                     <f:facet name="header">
                         <h:outputText value="odbiorca"/>
                     </f:facet>
-                    <h:outputText value="#{item3.odbiorca.nazwiskoImie}"/>
+                    <h:outputText value="#{item4.odbiorca.nazwiskoImie}"/>
                 </p:column>
                 <p:column width="30" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="urząd"/>
                     </f:facet>
-                    <h:outputText value="#{item3.organ}"/>
+                    <h:outputText value="#{item4.organ}"/>
                 </p:column>
                 <p:column width="100" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="termin"/>
                     </f:facet>
-                    <h:outputText value="#{item3.termindo}">
+                    <h:outputText value="#{item4.termindo}">
                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                     </h:outputText>
                 </p:column>
@@ -154,7 +179,7 @@
                         <h:outputText value="stan"/>
                     </f:facet>
                     <p:panelGrid columns="1">
-                        <h:outputText value="#{item3.status}"/>
+                        <h:outputText value="#{item4.status}"/>
                     </p:panelGrid>
                 </p:column>
                 <p:column width="100" style="text-align: center;">
@@ -162,23 +187,45 @@
                         <h:outputText value="data"/>
                     </f:facet>
                     <p:panelGrid columns="1">
-                        <h:outputText value="#{item3.datastatusu}">
+                        <h:outputText value="#{item4.datastatusu}">
                             <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
                         </h:outputText>
                     </p:panelGrid>
                 </p:column>
-                <p:column width="35" style="text-align: center;">
+                <p:column width="35" style="text-align: center;" sortBy="#{item4.zostaloDni}">
                     <f:facet name="header">
                         <h:outputText value="dni"/>
                     </f:facet>
                     <p:panelGrid columns="1">
-                        <h:outputText value="#{item3.zostaloDni}" rendered="#{item3.zostaloDni gt 0 or item3.zostaloDni eq 0}" style="color: red;"/>
-                        <h:outputText value="#{item3.zostaloDni}" rendered="#{item3.zostaloDni lt 0}" style="color: green;"/>
+                        <h:outputText value="#{item4.zostaloDni}" rendered="#{item4.zostaloDni gt 0 or item4.zostaloDni eq 0}" style="color: red;"/>
+                        <h:outputText value="#{item4.zostaloDni}" rendered="#{item4.zostaloDni lt 0}" style="color: green;"/>
                     </p:panelGrid>
                 </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="godz."/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item4.iloscgodzin}"/>
+                </p:column>
+                <p:column width="75" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="kwota"/>
+                    </f:facet>
+                    <p:inputNumber value="#{item4.wartoscumowiona}"  size="8"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right">
+                         <p:ajax event="change" partialSubmit="true" listener="#{sprawaView.nanies(item4)}"/>
+                     </p:inputNumber>
+                </p:column>
+                <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="fakt."/>
+                    </f:facet>
+                     <p:selectBooleanCheckbox value="#{item4.wystawionofakture}">
+                         <p:ajax event="change" partialSubmit="true" listener="#{sprawaView.nanies(item4)}"/>
+                     </p:selectBooleanCheckbox>
+                </p:column>
                 <p:column width="30" headerText="usuń" style="text-align: center;">
-                    <p:selectBooleanCheckbox value="#{item3.usunieta}" rendered="#{item3.status eq 'gotowa'}">
-                        <p:ajax event="change" partialSubmit="true" listener="#{sprawaView.niepokazuj(item3)}" global="false"/>
+                    <p:selectBooleanCheckbox value="#{item4.usunieta}" rendered="#{item4.status eq 'gotowa'}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{sprawaView.niepokazuj(item4)}" global="false"/>
                     </p:selectBooleanCheckbox>
                 </p:column>
             </p:dataTable>
