@@ -58,7 +58,8 @@ public class DraPlatnikTimer {
     @Inject
     private RokFacade rokFacade;
     
-    @Schedule(dayOfWeek = "1-5", hour = "*", persistent = false)
+    
+//    @Schedule(dayOfWeek = "1-5", hour = "*", persistent = false)
     public void autozus() {
         List<String> miesiaceGranica = Mce.getMiesiaceGranica(Data.aktualnyMc());
         String rok = Data.aktualnyRok();
@@ -72,11 +73,12 @@ public class DraPlatnikTimer {
                     podsumujDRA(rok, mc, firmy, podatnicy, podmioty);
                 } catch (Exception e) {
                     System.out.println(E.e(e));
+                    //wadzil
                 }
             }
         }
     }
-    
+    //nowe
     
      public void podsumujDRA(String rok, String mc, List<kadryiplace.Firma> firmy, List<Podatnik> podatnicy, List<Podmiot> podmioty) {
         if (mc==null) {
@@ -248,8 +250,14 @@ public class DraPlatnikTimer {
 
     private DraSumy pobierzdrasumy(Integer idDokument) {
         DraSumy zwrot = new DraSumy();
-        if (idDokument!=null) {
-            zwrot = draSumyDAO.findByIddokument(idDokument);
+        try {
+            if (idDokument!=null) {
+                zwrot = draSumyDAO.findByIddokument(idDokument);
+            }
+        } catch (Exception e){
+            System.out.println("pobierzdrasumy blad");
+            System.out.println(E.e(e));
+                   
         }
         return zwrot;
     }

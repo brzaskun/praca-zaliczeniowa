@@ -10,23 +10,6 @@
                 JAX-WS WSGEN SECTION
                 ===================
             -->
-    <target name="wsgen-init" depends="init, -do-compile">
-        <mkdir dir="${build.generated.sources.dir}/jax-ws/resources/"/>
-        <mkdir dir="${build.classes.dir}"/>
-        <mkdir dir="${build.classes.dir}/META-INF"/>
-        <property name="j2ee.platform.wsgen.classpath" value="${libs.jaxws21.classpath}"/>
-        <taskdef name="wsgen" classname="com.sun.tools.ws.ant.WsGen">
-            <classpath path="${java.home}/../lib/tools.jar:${build.classes.dir}:${j2ee.platform.wsgen.classpath}:${javac.classpath}"/>
-        </taskdef>
-    </target>
-    <target name="wsgen-FakturaWS" depends="wsgen-init">
-        <copy todir="${build.classes.dir}/META-INF">
-            <fileset dir="${webinf.dir}" includes="wsit-webservicefaktura.FakturaWS.xml"/>
-        </copy>
-        <wsgen sourcedestdir="${build.generated.sources.dir}/jax-ws" resourcedestdir="${build.generated.sources.dir}/jax-ws/resources/" destdir="${build.generated.sources.dir}/jax-ws" verbose="true" keep="true" genwsdl="true" sei="webservicefaktura.FakturaWS" xendorsed="true">
-            <classpath path="${java.home}/../lib/tools.jar:${build.classes.dir}:${j2ee.platform.wsgen.classpath}:${javac.classpath}"/>
-        </wsgen>
-    </target>
     <!--
                 ===================
                 JAX-WS WSIMPORT SECTION
@@ -34,7 +17,6 @@
             -->
     <target name="wsimport-init" depends="init">
         <fail if="${wsimport.bad.version}" message="WsImport ant task defined in the classpath ${j2ee.platform.wsimport.classpath} has a serious bug. See http://wiki.netbeans.org/MetroIssue for details."/>
-        <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
         <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
         <property name="j2ee.platform.wsimport.classpath" value="${libs.jaxws21.classpath}"/>
         <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
@@ -44,9 +26,25 @@
             <isset property="conf.dir"/>
         </condition>
     </target>
+    <target name="wsimport-client-checkVATService" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/checkVATService"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/checkVATService" destdir="${build.generated.dir}/jax-wsCache/checkVATService" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/checkVATService/wsdl/checkVATService.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/checkVATService.wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/checkVATService/wsdl/checkVATService.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/checkVATService"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/checkVATService">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-checkVATService" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/eu:taxud:vies:services:checkvat/europa/ec"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/checkVATService"/>
+    </target>
     <target name="wsimport-client-dokumenty" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/dokumenty"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/dokumenty" destdir="${build.generated.dir}/jax-wsCache/dokumenty" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/dokumenty/wsdl/dokumenty.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" wsdlLocation="file:/C:/uslugi/dokumenty.wsdl" xnocompile="true" xendorsed="true" package="service">
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/dokumenty" destdir="${build.generated.dir}/jax-wsCache/dokumenty" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/dokumenty/wsdl/dokumenty.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/dokumenty.wsdl" xnocompile="true" xendorsed="true">
             <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/dokumenty/wsdl/dokumenty.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/dokumenty"/>
         </wsimport>
@@ -57,12 +55,44 @@
         </copy>
     </target>
     <target name="wsimport-client-clean-dokumenty" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/service"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/pl/gov/mf/e-deklaracje/bramka"/>
         <delete dir="${build.generated.dir}/jax-wsCache/dokumenty"/>
+    </target>
+    <target name="wsimport-client-wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl" destdir="${build.generated.dir}/jax-wsCache/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl/wsdl/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl.wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl/wsdl/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/org/tempuri"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl"/>
+    </target>
+    <target name="wsimport-client-wsdlnipvat" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/wsdlnipvat"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/wsdlnipvat" destdir="${build.generated.dir}/jax-wsCache/wsdlnipvat" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/wsdlnipvat/wsdl/wsdlnipvat.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wsdlnipvat.wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/wsdlnipvat/wsdl/wsdlnipvat.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/wsdlnipvat"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/wsdlnipvat">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-wsdlnipvat" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/pl/gov/mf/uslugibiznesowe/uslugidomenowe/ap/weryfikacjavat/2018/03/01"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/wsdlnipvat"/>
     </target>
     <target name="wsimport-client-testdok" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/testdok"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/testdok" destdir="${build.generated.dir}/jax-wsCache/testdok" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/testdok/wsdl/testdok.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" wsdlLocation="file:/C:/uslugi/test/testdok.wsdl" xnocompile="true" xendorsed="true" package="testservice">
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/testdok" destdir="${build.generated.dir}/jax-wsCache/testdok" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/testdok/wsdl/testdok.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/testdok.wsdl" xnocompile="true" xendorsed="true">
             <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/testdok/wsdl/testdok.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/testdok"/>
         </wsimport>
@@ -73,67 +103,8 @@
         </copy>
     </target>
     <target name="wsimport-client-clean-testdok" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/testservice"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/pl/gov/mf/e-deklaracje/bramka"/>
         <delete dir="${build.generated.dir}/jax-wsCache/testdok"/>
     </target>
-    <target name="wsimport-service-GUS" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/service/GUS"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/service/GUS" destdir="${build.generated.dir}/jax-wsCache/service/GUS" wsdl="${basedir}/${conf-dir}xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl1.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" xnocompile="true" xendorsed="true">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl1.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/service/GUS"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/service/GUS">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy todir="${build.web.dir}/WEB-INF/wsdl/GUS">
-            <fileset dir="${basedir}/${conf-dir}xml-resources/web-services/GUS/wsdl/"/>
-        </copy>
-    </target>
-    <target name="wsimport-service-clean-GUS" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/org/tempuri"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/service/GUS"/>
-    </target>
-    <target name="wsimport-service-NIPVATcheck" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck" destdir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck" wsdl="${basedir}/${conf-dir}xml-resources/web-services/NIPVATcheck/wsdl/wsdlnipvat.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" xnocompile="true" xendorsed="true">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-services/NIPVATcheck/wsdl/wsdlnipvat.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy todir="${build.web.dir}/WEB-INF/wsdl/NIPVATcheck">
-            <fileset dir="${basedir}/${conf-dir}xml-resources/web-services/NIPVATcheck/wsdl/"/>
-        </copy>
-    </target>
-    <target name="wsimport-service-clean-NIPVATcheck" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/pl/gov/mf/uslugibiznesowe/uslugidomenowe/ap/weryfikacjavat/_2018/_03/_01"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck"/>
-    </target>
-    <target name="wsimport-service-Vies2" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/service/Vies2"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/service/Vies2" destdir="${build.generated.dir}/jax-wsCache/service/Vies2" wsdl="${basedir}/${conf-dir}xml-resources/web-services/Vies2/wsdl/checkVATService.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" xnocompile="true" xendorsed="true">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-services/Vies2/wsdl/checkVATService.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/service/Vies2"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/service/Vies2">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy todir="${build.web.dir}/WEB-INF/wsdl/Vies2">
-            <fileset dir="${basedir}/${conf-dir}xml-resources/web-services/Vies2/wsdl/"/>
-        </copy>
-    </target>
-    <target name="wsimport-service-clean-Vies2" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/eu/europa/ec/taxud/vies/services/checkvat"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/service/Vies2"/>
-    </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-dokumenty, wsimport-client-testdok"/>
-    <target name="wsimport-service-generate" depends="wsimport-service-GUS, wsimport-service-NIPVATcheck, wsimport-service-Vies2, wsimport-init"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-checkVATService, wsimport-client-dokumenty, wsimport-client-wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl, wsimport-client-wsdlnipvat, wsimport-client-testdok"/>
 </project>
-<!--kok-->

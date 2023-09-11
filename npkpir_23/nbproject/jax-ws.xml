@@ -1,79 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
-  <services>
-    <service name="GUS">
-      <implementation-class>webservice.GUS</implementation-class>
-      <wsdl-url>file:/C:/Regon/UslugaBIRzewnPubl1.wsdl</wsdl-url>
-      <local-wsdl-file>UslugaBIRzewnPubl1.wsdl</local-wsdl-file>
-      <service-name>UslugaBIRzewnPubl</service-name>
-      <port-name>e3</port-name>
-      <package-name>org.tempuri</package-name>
-      <catalog-file>catalog.xml</catalog-file>
-      <use-provider>false</use-provider>
-      <wsimport-options>
-        <wsimport-option>
-          <wsimport-option-name>extension</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>verbose</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>fork</wsimport-option-name>
-          <wsimport-option-value>false</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xnocompile</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xendorsed</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-      </wsimport-options>
-    </service>
-    <service name="NIPVATcheck">
-      <implementation-class>webservice.NIPVATcheck</implementation-class>
-      <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wsdlnipvat.wsdl</wsdl-url>
-      <local-wsdl-file>wsdlnipvat.wsdl</local-wsdl-file>
-      <service-name>WeryfikacjaVAT</service-name>
-      <port-name>BasicHttpBinding_WeryfikacjaVAT</port-name>
-      <package-name>pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01</package-name>
-      <catalog-file>catalog.xml</catalog-file>
-      <use-provider>false</use-provider>
-      <wsimport-options>
-        <wsimport-option>
-          <wsimport-option-name>extension</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>verbose</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>fork</wsimport-option-name>
-          <wsimport-option-value>false</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xnocompile</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xendorsed</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-      </wsimport-options>
-    </service>
-    <service name="Vies2">
-      <implementation-class>viesapi.Vies2</implementation-class>
+  <services/>
+  <clients>
+    <client name="checkVATService">
       <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/checkVATService.wsdl</wsdl-url>
       <local-wsdl-file>checkVATService.wsdl</local-wsdl-file>
-      <service-name>checkVatService</service-name>
-      <port-name>checkVatPort</port-name>
-      <package-name>eu.europa.ec.taxud.vies.services.checkvat</package-name>
+      <package-name>eu:taxud:vies:services:checkvat.europa.ec</package-name>
       <catalog-file>catalog.xml</catalog-file>
-      <use-provider>false</use-provider>
       <wsimport-options>
         <wsimport-option>
           <wsimport-option-name>extension</wsimport-option-name>
@@ -88,6 +21,10 @@
           <wsimport-option-value>false</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
+          <wsimport-option-name>wsdlLocation</wsimport-option-name>
+          <wsimport-option-value>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/checkVATService.wsdl</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
           <wsimport-option-value>true</wsimport-option-value>
         </wsimport-option>
@@ -96,16 +33,11 @@
           <wsimport-option-value>true</wsimport-option-value>
         </wsimport-option>
       </wsimport-options>
-    </service>
-    <service name="FakturaWS">
-      <implementation-class>webservicefaktura.FakturaWS</implementation-class>
-    </service>
-  </services>
-  <clients>
+    </client>
     <client name="dokumenty">
-      <wsdl-url>file:/C:/uslugi/dokumenty.wsdl</wsdl-url>
+      <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/dokumenty.wsdl</wsdl-url>
       <local-wsdl-file>dokumenty.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">service</package-name>
+      <package-name>pl.gov.mf.e-deklaracje.bramka</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
         <wsimport-option>
@@ -117,8 +49,12 @@
           <wsimport-option-value>true</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
+          <wsimport-option-name>fork</wsimport-option-name>
+          <wsimport-option-value>false</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>file:/C:/uslugi/dokumenty.wsdl</wsimport-option-value>
+          <wsimport-option-value>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/dokumenty.wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
@@ -128,16 +64,77 @@
           <wsimport-option-name>xendorsed</wsimport-option-name>
           <wsimport-option-value>true</wsimport-option-value>
         </wsimport-option>
+      </wsimport-options>
+    </client>
+    <client name="wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl">
+      <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl.wsdl</wsdl-url>
+      <local-wsdl-file>wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl.wsdl</local-wsdl-file>
+      <package-name>org.tempuri</package-name>
+      <catalog-file>catalog.xml</catalog-file>
+      <wsimport-options>
         <wsimport-option>
-          <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>service</wsimport-option-value>
+          <wsimport-option-name>extension</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>verbose</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>fork</wsimport-option-name>
+          <wsimport-option-value>false</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>wsdlLocation</wsimport-option-name>
+          <wsimport-option-value>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl.wsdl</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xnocompile</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xendorsed</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
         </wsimport-option>
       </wsimport-options>
     </client>
+    <client name="wsdlnipvat">
+      <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wsdlnipvat.wsdl</wsdl-url>
+      <local-wsdl-file>wsdlnipvat.wsdl</local-wsdl-file>
+      <package-name>pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat.2018.03.01</package-name>
+      <catalog-file>catalog.xml</catalog-file>
+      <wsimport-options>
+        <wsimport-option>
+          <wsimport-option-name>extension</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>verbose</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>fork</wsimport-option-name>
+          <wsimport-option-value>false</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>wsdlLocation</wsimport-option-name>
+          <wsimport-option-value>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wsdlnipvat.wsdl</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xnocompile</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xendorsed</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+      </wsimport-options>
+    </client>
+
     <client name="testdok">
-      <wsdl-url>file:/C:/uslugi/test/testdok.wsdl</wsdl-url>
+      <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/testdok.wsdl</wsdl-url>
       <local-wsdl-file>testdok.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">testservice</package-name>
+      <package-name>pl.gov.mf.e-deklaracje.bramka</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
         <wsimport-option>
@@ -149,8 +146,12 @@
           <wsimport-option-value>true</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
+          <wsimport-option-name>fork</wsimport-option-name>
+          <wsimport-option-value>false</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>file:/C:/uslugi/test/testdok.wsdl</wsimport-option-value>
+          <wsimport-option-value>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/testdok.wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
@@ -160,13 +161,8 @@
           <wsimport-option-name>xendorsed</wsimport-option-name>
           <wsimport-option-value>true</wsimport-option-value>
         </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>testservice</wsimport-option-value>
-        </wsimport-option>
       </wsimport-options>
     </client>
+   
   </clients>
-  <jsr109>true</jsr109>
 </jax-ws>
-<!--oko-->

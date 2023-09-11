@@ -199,6 +199,7 @@ public class MailPodatnik {
 
                 } catch (MessagingException e) {
                     System.out.println("blad wysylki wiadomosci sprawdznowych()");
+                    System.out.println("blad wysylki wiadomosci sprawdznowych()");
                 } 
             });
         }

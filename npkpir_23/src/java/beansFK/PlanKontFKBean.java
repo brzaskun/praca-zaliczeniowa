@@ -816,6 +816,9 @@ public class PlanKontFKBean {
             String[] pola = nrmacierzystego.split("-");
             String koncowka = pola[pola.length-1];
             int indexkoncowy = nrmacierzystego.length()-koncowka.length()-1;
+            if (indexkoncowy<0) {
+                indexkoncowy = 0;
+            }
             nrmacierzystego = nrmacierzystego.substring(0, indexkoncowy);
         }
         return nrmacierzystego;
