@@ -59,7 +59,7 @@ public class DraPlatnikTimer {
     private RokFacade rokFacade;
     
     
-    @Schedule(dayOfWeek = "1-5", hour = "21", persistent = false)
+    @Schedule(dayOfWeek = "1-5", hour = "23", minute = "59", persistent = false)
     public void autozus() {
         List<String> miesiaceGranica = Mce.getMiesiaceGranica(Data.aktualnyMc());
         String rok = Data.aktualnyRok();
@@ -84,8 +84,12 @@ public class DraPlatnikTimer {
         if (mc==null) {
             mc = Data.poprzedniMc();
         }
-        List<DraSumy> bazadanych = draSumyDAO.zwrocRokMc(rok, mc);
-         podsumujDRAF(mc, rok, bazadanych, firmy, podatnicy, podmioty);
+        if (draSumyDAO!=null) {
+            try {
+                List<DraSumy> bazadanych = draSumyDAO.zwrocRokMc(rok, mc);
+                podsumujDRAF(mc, rok, bazadanych, firmy, podatnicy, podmioty);
+            } catch (Exception e){}
+        }
      }
      
       public void podsumujDRAF(String mc, String rok, List<DraSumy> bazadanych, List<kadryiplace.Firma> firmy, List<Podatnik> podatnicy, List<Podmiot> podmioty) {
@@ -145,8 +149,10 @@ public class DraPlatnikTimer {
                 for (Zusrca rca : zusrca) {
                     if (rca.getI12okrrozl().equals(z.getI22okresdeklar()) && rca.getIdPlatnik()==z.getIdPlatnik()) {
                         dras.setZusrca(rca);
-                        List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(rca);
-                        dras.setUbezpZusrcaList(zalezne);
+                        try {
+                            List<UbezpZusrca> zalezne = ubezpZusrcaDAO.findByIdDokNad(rca);
+                            dras.setUbezpZusrcaList(zalezne);
+                        } catch (Exception e){}
                         break;
                     }
                 }
@@ -255,8 +261,8 @@ public class DraPlatnikTimer {
                 zwrot = draSumyDAO.findByIddokument(idDokument);
             }
         } catch (Exception e){
-            System.out.println("pobierzdrasumy blad");
-            System.out.println(E.e(e));
+            System.out.println("pobierzdrasumy blad id "+idDokument);
+            //System.out.println(E.e(e));
                    
         }
         return zwrot;
