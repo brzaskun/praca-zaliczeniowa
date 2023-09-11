@@ -27,7 +27,7 @@ public class RejestrLogowanTimer implements Serializable{
     
     //usuwa blokade ip po 24 godzinach
     
-    @Schedule(hour="14", persistent=false)
+    @Schedule(hour="20", persistent=false)
     public void zmienstatuswiadomosci() {
         List<Rejestrlogowan> lista = rejestrlogowanDAO.findAll();
         for (Rejestrlogowan p : lista) {

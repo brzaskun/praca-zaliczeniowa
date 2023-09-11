@@ -122,7 +122,7 @@ public class MailPodatnik {
         
     }
     
-     @Schedule(dayOfWeek="1,3,5", hour = "10", persistent = false)
+     @Schedule(dayOfWeek="1,3,5", hour = "7", persistent = false)
     public void sprawdznowych() {
         List<Podatnik> podatniki = podatnikDAO.findNowi();
         SMTPSettings ogolne = sMTPSettingsDAO.findSprawaByDef();

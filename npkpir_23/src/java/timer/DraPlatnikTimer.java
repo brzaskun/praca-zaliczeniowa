@@ -59,7 +59,7 @@ public class DraPlatnikTimer {
     private RokFacade rokFacade;
     
     
-//    @Schedule(dayOfWeek = "1-5", hour = "*", persistent = false)
+    @Schedule(dayOfWeek = "1-5", hour = "21", persistent = false)
     public void autozus() {
         List<String> miesiaceGranica = Mce.getMiesiaceGranica(Data.aktualnyMc());
         String rok = Data.aktualnyRok();

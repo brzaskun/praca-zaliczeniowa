@@ -27,7 +27,7 @@ public class NapiszDoAdminaTimer implements Serializable{
     
     //usuwa dawne zrobione statusy
     
-    @Schedule(dayOfWeek="1-5", hour = "10", persistent = false)
+    @Schedule(dayOfWeek="1-5", hour = "5", persistent = false)
     public void zmienstatuswiadomosci() {
         List<Pismoadmin> lista = pismoadminDAO.findAll();
         DateTime dzisiaj = new DateTime();
