@@ -20,8 +20,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -91,6 +89,7 @@ public class JPKCheck {
                 error.E.s("wywolanie check jpk");
             }
         } catch (UnknownHostException ex) {
+            System.out.println("Blad  public void test() {");
             // Logger.getLogger(JPKCheck.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

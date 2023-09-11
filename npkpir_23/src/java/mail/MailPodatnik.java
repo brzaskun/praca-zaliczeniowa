@@ -198,7 +198,7 @@ public class MailPodatnik {
                     Transport.send(message);
 
                 } catch (MessagingException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("blad wysylki wiadomosci sprawdznowych()");
                 } 
             });
         }
