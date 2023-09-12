@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<InitUpload xmlns="http://e-dokumenty.mf.gov.pl">
+    <DocumentType>JPK</DocumentType>
+    <Version>01.02.01.20160617</Version>
+    <EncryptionKey algorithm="RSA" mode="ECB" padding="PKCS#1" encoding="Base64">pFPF4yjfjMgDdqrIxwhJdJZL0qTF7cQcBCb3byjoUngTnSygz5QhqroSu3I4lYPTWCGmZ4ax459Fh4+hKhzmsU7LDUvvmcccK1ohItMxsqr1+yQU/qDJSMuwO8iLaKzHlujeC8X3rsu4WyimO36CQNI6aAlCiV1CGXi523Hnc5Ro22egj3f8uTJ3vS/5cIP7iwf5Bk+8BB5cYD4prAfnt16HTIj6sY2PLtf5we394l23DEV44nbuPBJdGn9M4qGYSXCS2kZYFH5SEJxpnwYFZnZisMMHWDDkZdCVNyxWTWc4XiQ2oZY7DEFA/0FsLeEdqB+KuZ7LGqd9s/kIHzIkHA==</EncryptionKey>
+    <DocumentList>
+        <Document>
+            <FormCode systemCode="JPK_V7M (2)" schemaVersion="1-0E">JPK_VAT</FormCode>
+            <FileName>jpk8521011364mcrok062023.xml</FileName>
+            <ContentLength>228408</ContentLength>
+            <HashValue algorithm="SHA-256" encoding="Base64">buOJgjt8HabC7TLrybnTwXvIDy1XgXctKhPQah6bOVg=</HashValue>
+            <FileSignatureList filesNumber="1">
+                <Packaging>
+                    <SplitZip type="split" mode="zip"/>
+                </Packaging>
+                <Encryption>
+                    <AES size="256" block="16" mode="CBC" padding="PKCS#7">
+                        <IV bytes="16" encoding="Base64">a2lqaHlndHJmZGN2YnNnZQ==</IV>
+                    </AES>
+                </Encryption>
+                <FileSignature>
+                    <OrdinalNumber>1</OrdinalNumber>
+                    <FileName>jpk8521011364mcrok062023.xml.zip.aes</FileName>
+                    <ContentLength>19888</ContentLength>
+                    <HashValue algorithm="MD5" encoding="Base64">GgLtOU02jT8mmxkBG+93Sw==</HashValue>
+                </FileSignature>
+            </FileSignatureList>
+        </Document>
+    </DocumentList>
+</InitUpload>

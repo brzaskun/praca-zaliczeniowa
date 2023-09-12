@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-12T10:37:26.238Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>8</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>8511042647</ns2:NIP>
+            <ns2:ImiePierwsze>Artur</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Schoen</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1967-09-20</ns2:DataUrodzenia>
+            <Email>d.andrzejak@taxman.biz.pl</Email>
+            <Telefon>532434441</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_17>39352</P_17>
+            <P_18>3148</P_18>
+            <P_19>4450</P_19>
+            <P_20>1024</P_20>
+            <P_35>0</P_35>
+            <P_37>43802</P_37>
+            <P_38>4172</P_38>
+            <P_39>1816</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>15897</P_42>
+            <P_43>3581</P_43>
+            <P_48>5397</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>1225</P_53>
+            <P_54>1225</P_54>
+            <P_57>1</P_57>
+            <P_59>1</P_59>
+            <P_60>1225</P_60>
+            <P_61>PPE za 08/23</P_61>
+            <P_62>0</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8510107445</NrKontrahenta>
+            <NazwaKontrahenta>"POLCARGO INTERNATIONAL" sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>MPP FMPP/01/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-04</DataWystawienia>
+            <DataSprzedazy>2023-08-04</DataSprzedazy>
+            <K_19>2300.00</K_19>
+            <K_20>529.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512486429</NrKontrahenta>
+            <NazwaKontrahenta>WSPÓLNOTA MIESZKANIOWA PRZY UL.JAROWITA 9,9A,9B,10 W Szczecinie</NazwaKontrahenta>
+            <DowodSprzedazy>MPP FMPP/02/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-22</DataWystawienia>
+            <DataSprzedazy>2023-08-22</DataSprzedazy>
+            <K_17>39351.85</K_17>
+            <K_18>3148.15</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8510107445</NrKontrahenta>
+            <NazwaKontrahenta>"POLCARGO INTERNATIONAL" sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>MPP FMPP/03/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-22</DataWystawienia>
+            <DataSprzedazy>2023-08-22</DataSprzedazy>
+            <K_19>2150.00</K_19>
+            <K_20>494.5</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>3</LiczbaWierszySprzedazy>
+            <PodatekNalezny>4171.65</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 9030K2/0219/23</DowodZakupu>
+            <DataZakupu>2023-07-24</DataZakupu>
+            <DataWplywu>2023-07-24</DataWplywu>
+            <K_42>236.43</K_42>
+            <K_43>54.38</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>178623/1043</DowodZakupu>
+            <DataZakupu>2023-07-28</DataZakupu>
+            <DataWplywu>2023-07-28</DataWplywu>
+            <K_42>38.37</K_42>
+            <K_43>8.83</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522676982</NrDostawcy>
+            <NazwaDostawcy>AQUA TEAM GRUPA SBS PIOTR TOBOLSKI SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>6394/CENTRAL/2023</DowodZakupu>
+            <DataZakupu>2023-08-01</DataZakupu>
+            <DataWplywu>2023-08-01</DataWplywu>
+            <K_42>338.60</K_42>
+            <K_43>77.88</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1132568413</NrDostawcy>
+            <NazwaDostawcy>BRICOMAN POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2023/007/55310</DowodZakupu>
+            <DataZakupu>2023-08-01</DataZakupu>
+            <DataWplywu>2023-08-01</DataWplywu>
+            <K_42>16.95</K_42>
+            <K_43>3.9</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7790001083</NrDostawcy>
+            <NazwaDostawcy>CIRCLE K POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>00448623070928100</DowodZakupu>
+            <DataZakupu>2023-08-04</DataZakupu>
+            <DataWplywu>2023-08-04</DataWplywu>
+            <K_42>235.23</K_42>
+            <K_43>54.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522676982</NrDostawcy>
+            <NazwaDostawcy>AQUA TEAM GRUPA SBS PIOTR TOBOLSKI SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>6506/CENTRAL/2023</DowodZakupu>
+            <DataZakupu>2023-08-07</DataZakupu>
+            <DataWplywu>2023-08-07</DataWplywu>
+            <K_42>1538.63</K_42>
+            <K_43>353.88</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522676982</NrDostawcy>
+            <NazwaDostawcy>AQUA TEAM GRUPA SBS PIOTR TOBOLSKI SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>6555/CENTRAL/2023</DowodZakupu>
+            <DataZakupu>2023-08-08</DataZakupu>
+            <DataWplywu>2023-08-08</DataWplywu>
+            <K_42>1693.66</K_42>
+            <K_43>389.54</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513022264</NrDostawcy>
+            <NazwaDostawcy>Secura Rafał Worotnicki</NazwaDostawcy>
+            <DowodZakupu>FV/352/2023</DowodZakupu>
+            <DataZakupu>2023-08-08</DataZakupu>
+            <DataWplywu>2023-08-08</DataWplywu>
+            <K_42>500.00</K_42>
+            <K_43>40.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1231495522</NrDostawcy>
+            <NazwaDostawcy>HYPEROIL sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>341893/0603</DowodZakupu>
+            <DataZakupu>2023-08-09</DataZakupu>
+            <DataWplywu>2023-08-09</DataWplywu>
+            <K_42>150.32</K_42>
+            <K_43>34.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522676982</NrDostawcy>
+            <NazwaDostawcy>AQUA TEAM GRUPA SBS PIOTR TOBOLSKI SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>6632/CENTRAL/2023</DowodZakupu>
+            <DataZakupu>2023-08-11</DataZakupu>
+            <DataWplywu>2023-08-11</DataWplywu>
+            <K_42>491.80</K_42>
+            <K_43>113.11</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522676982</NrDostawcy>
+            <NazwaDostawcy>AQUA TEAM GRUPA SBS PIOTR TOBOLSKI SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>6719/CENTRAL/2023</DowodZakupu>
+            <DataZakupu>2023-08-16</DataZakupu>
+            <DataWplywu>2023-08-16</DataWplywu>
+            <K_42>347.45</K_42>
+            <K_43>79.91</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522676982</NrDostawcy>
+            <NazwaDostawcy>AQUA TEAM GRUPA SBS PIOTR TOBOLSKI SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>1063/CENTRAL/2023</DowodZakupu>
+            <DataZakupu>2023-08-16</DataZakupu>
+            <DataWplywu>2023-08-16</DataWplywu>
+            <K_42>-250.90</K_42>
+            <K_43>-57.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513199198</NrDostawcy>
+            <NazwaDostawcy>PHU JAR-POL Adrian Rogaczewski</NazwaDostawcy>
+            <DowodZakupu>1/FA/2023/01820</DowodZakupu>
+            <DataZakupu>2023-08-16</DataZakupu>
+            <DataWplywu>2023-08-16</DataWplywu>
+            <K_42>97.56</K_42>
+            <K_43>22.44</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1132568413</NrDostawcy>
+            <NazwaDostawcy>BRICOMAN POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2023/007/60875</DowodZakupu>
+            <DataZakupu>2023-08-21</DataZakupu>
+            <DataWplywu>2023-08-21</DataWplywu>
+            <K_42>2264.23</K_42>
+            <K_43>520.77</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1132568413</NrDostawcy>
+            <NazwaDostawcy>BRICOMAN POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2023/007/60877</DowodZakupu>
+            <DataZakupu>2023-08-21</DataZakupu>
+            <DataWplywu>2023-08-21</DataWplywu>
+            <K_42>2649.59</K_42>
+            <K_43>609.41</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1231495522</NrDostawcy>
+            <NazwaDostawcy>HYPEROIL sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>197056/0472</DowodZakupu>
+            <DataZakupu>2023-08-21</DataZakupu>
+            <DataWplywu>2023-08-21</DataWplywu>
+            <K_42>192.78</K_42>
+            <K_43>44.34</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513189886</NrDostawcy>
+            <NazwaDostawcy>KRYSTIAN sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FA/1312/08/2023/T</DowodZakupu>
+            <DataZakupu>2023-08-23</DataZakupu>
+            <DataWplywu>2023-08-23</DataWplywu>
+            <K_42>90.65</K_42>
+            <K_43>20.85</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8512740158</NrDostawcy>
+            <NazwaDostawcy>Megalux Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>3471/MG/2023</DowodZakupu>
+            <DataZakupu>2023-08-23</DataZakupu>
+            <DataWplywu>2023-08-23</DataWplywu>
+            <K_42>34.15</K_42>
+            <K_43>7.85</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>413589/0964</DowodZakupu>
+            <DataZakupu>2023-08-23</DataZakupu>
+            <DataWplywu>2023-08-23</DataWplywu>
+            <K_42>61.70</K_42>
+            <K_43>14.19</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1132568413</NrDostawcy>
+            <NazwaDostawcy>BRICOMAN POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2023/007/62418</DowodZakupu>
+            <DataZakupu>2023-08-25</DataZakupu>
+            <DataWplywu>2023-08-25</DataWplywu>
+            <K_42>1698.62</K_42>
+            <K_43>390.68</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1132568413</NrDostawcy>
+            <NazwaDostawcy>BRICOMAN POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2023/007/62430</DowodZakupu>
+            <DataZakupu>2023-08-25</DataZakupu>
+            <DataWplywu>2023-08-25</DataWplywu>
+            <K_42>63.40</K_42>
+            <K_43>14.58</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7790001083</NrDostawcy>
+            <NazwaDostawcy>CIRCLE K POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>00488223070928100</DowodZakupu>
+            <DataZakupu>2023-08-25</DataZakupu>
+            <DataWplywu>2023-08-25</DataWplywu>
+            <K_42>224.76</K_42>
+            <K_43>51.69</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>309495/1025</DowodZakupu>
+            <DataZakupu>2023-08-25</DataZakupu>
+            <DataWplywu>2023-08-25</DataWplywu>
+            <K_42>47.87</K_42>
+            <K_43>11.01</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261040567</NrDostawcy>
+            <NazwaDostawcy>T mobile Polska SA</NazwaDostawcy>
+            <DowodZakupu>525137830823</DowodZakupu>
+            <DataZakupu>2023-08-28</DataZakupu>
+            <DataWplywu>2023-08-28</DataWplywu>
+            <K_42>117.01</K_42>
+            <K_43>26.91</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>329265/1030</DowodZakupu>
+            <DataZakupu>2023-08-28</DataZakupu>
+            <DataWplywu>2023-08-28</DataWplywu>
+            <K_42>153.32</K_42>
+            <K_43>35.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522676982</NrDostawcy>
+            <NazwaDostawcy>AQUA TEAM GRUPA SBS PIOTR TOBOLSKI SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>7101/CENTRAL/2023</DowodZakupu>
+            <DataZakupu>2023-08-29</DataZakupu>
+            <DataWplywu>2023-08-29</DataWplywu>
+            <K_42>412.36</K_42>
+            <K_43>94.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513189886</NrDostawcy>
+            <NazwaDostawcy>KRYSTIAN sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FA/1738/08/2023/T</DowodZakupu>
+            <DataZakupu>2023-08-29</DataZakupu>
+            <DataWplywu>2023-08-29</DataWplywu>
+            <K_42>108.63</K_42>
+            <K_43>24.98</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1132568413</NrDostawcy>
+            <NazwaDostawcy>BRICOMAN POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2023/007/63483</DowodZakupu>
+            <DataZakupu>2023-08-29</DataZakupu>
+            <DataWplywu>2023-08-29</DataWplywu>
+            <K_42>287.80</K_42>
+            <K_43>66.19</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7820069744</NrDostawcy>
+            <NazwaDostawcy>"SANPOL" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1042006850</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>220.96</K_42>
+            <K_43>50.82</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7820069744</NrDostawcy>
+            <NazwaDostawcy>"SANPOL" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1042006851</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>597.79</K_42>
+            <K_43>137.49</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2023-23-015766</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>528.46</K_42>
+            <K_43>121.55</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2023-23-015757</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>1062.02</K_42>
+            <K_43>244.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2023-23-015764</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>-528.46</K_42>
+            <K_43>-121.55</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1231495522</NrDostawcy>
+            <NazwaDostawcy>HYPEROIL sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>398684/0393</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>175.63</K_42>
+            <K_43>40.39</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>34</LiczbaWierszyZakupow>
+            <PodatekNaliczony>3581.35</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

@@ -1007,11 +1007,7 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("WniosekVATZDEntity.findByPodatnikRokMcFK").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnik", podatnik).getResultList());
     }
 
-    public void ukladBRustawnieaktywneUkladBR() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    
 
     public List<KontopozycjaZapis> findKontaPozycjaZapisPodatnikRok(Podatnik podatnik, String rok) {
         return  getEntityManager().createNamedQuery("KontopozycjaZapis.findByPodatnikRok").setParameter("rok", rok).setParameter("podatnik", podatnik).getResultList();

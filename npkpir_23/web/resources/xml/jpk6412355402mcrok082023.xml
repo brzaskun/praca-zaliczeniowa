@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-12T09:51:41.543Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3207</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>8</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>6412355402</ns2:NIP>
+            <ns2:ImiePierwsze>Marek </ns2:ImiePierwsze>
+            <ns2:Nazwisko>Pokora </ns2:Nazwisko>
+            <ns2:DataUrodzenia>1986-04-10</ns2:DataUrodzenia>
+            <Email>d.andrzejak@taxman.biz.pl</Email>
+            <Telefon>532434441</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_19>20000</P_19>
+            <P_20>4600</P_20>
+            <P_35>0</P_35>
+            <P_37>20000</P_37>
+            <P_38>4600</P_38>
+            <P_39>945</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>4780</P_42>
+            <P_43>658</P_43>
+            <P_48>1603</P_48>
+            <P_49>0</P_49>
+            <P_51>2997</P_51>
+            <P_52>0</P_52>
+            <P_53>0</P_53>
+            <P_62>0</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8571533722</NrKontrahenta>
+            <NazwaKontrahenta>Maciej Marcin Jasiński</NazwaKontrahenta>
+            <DowodSprzedazy>8/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-16</DataWystawienia>
+            <DataSprzedazy>2023-08-16</DataSprzedazy>
+            <K_19>20000.00</K_19>
+            <K_20>4600.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>1</LiczbaWierszySprzedazy>
+            <PodatekNalezny>4600.00</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822188447</NrDostawcy>
+            <NazwaDostawcy>"PERUGIA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>609545</DowodZakupu>
+            <DataZakupu>2023-07-27</DataZakupu>
+            <DataWplywu>2023-07-27</DataWplywu>
+            <K_42>138.21</K_42>
+            <K_43>31.79</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 7329K2/4624/23</DowodZakupu>
+            <DataZakupu>2023-08-01</DataZakupu>
+            <DataWplywu>2023-08-01</DataWplywu>
+            <K_42>148.01</K_42>
+            <K_43>17.02</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7671714049</NrDostawcy>
+            <NazwaDostawcy>ME M02 sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>W3/0173</DowodZakupu>
+            <DataZakupu>2023-08-04</DataZakupu>
+            <DataWplywu>2023-08-04</DataWplywu>
+            <K_42>235.76</K_42>
+            <K_43>54.22</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5270011878</NrDostawcy>
+            <NazwaDostawcy>ANWIM S.A.</NazwaDostawcy>
+            <DowodZakupu>FVF/183/265/8/2023</DowodZakupu>
+            <DataZakupu>2023-08-07</DataZakupu>
+            <DataWplywu>2023-08-07</DataWplywu>
+            <K_42>222.67</K_42>
+            <K_43>25.61</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5270011878</NrDostawcy>
+            <NazwaDostawcy>ANWIM S.A.</NazwaDostawcy>
+            <DowodZakupu>FVF/183/264/8/2023</DowodZakupu>
+            <DataZakupu>2023-08-07</DataZakupu>
+            <DataWplywu>2023-08-07</DataWplywu>
+            <K_42>324.00</K_42>
+            <K_43>37.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>8/2023/MPSE</DowodZakupu>
+            <DataZakupu>2023-08-07</DataZakupu>
+            <DataWplywu>2023-08-07</DataWplywu>
+            <K_42>340.00</K_42>
+            <K_43>78.2</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261040567</NrDostawcy>
+            <NazwaDostawcy>T mobile Polska SA</NazwaDostawcy>
+            <DowodZakupu>506553630823</DowodZakupu>
+            <DataZakupu>2023-08-09</DataZakupu>
+            <DataWplywu>2023-08-09</DataWplywu>
+            <K_42>190.56</K_42>
+            <K_43>43.83</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>379125/1370</DowodZakupu>
+            <DataZakupu>2023-08-11</DataZakupu>
+            <DataWplywu>2023-08-11</DataWplywu>
+            <K_42>82.65</K_42>
+            <K_43>9.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252211130</NrDostawcy>
+            <NazwaDostawcy>PSA FINANCE POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>AL23080085</DowodZakupu>
+            <DataZakupu>2023-08-11</DataZakupu>
+            <DataWplywu>2023-08-11</DataWplywu>
+            <K_42>1530.80</K_42>
+            <K_43>176.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5270011878</NrDostawcy>
+            <NazwaDostawcy>ANWIM S.A.</NazwaDostawcy>
+            <DowodZakupu>FVF/183/576/8/2023</DowodZakupu>
+            <DataZakupu>2023-08-14</DataZakupu>
+            <DataWplywu>2023-08-14</DataWplywu>
+            <K_42>268.44</K_42>
+            <K_43>30.87</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5270011878</NrDostawcy>
+            <NazwaDostawcy>ANWIM S.A.</NazwaDostawcy>
+            <DowodZakupu>FVF/183/588/8/2023</DowodZakupu>
+            <DataZakupu>2023-08-14</DataZakupu>
+            <DataWplywu>2023-08-14</DataWplywu>
+            <K_42>306.46</K_42>
+            <K_43>35.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 10567K1/1099/23</DowodZakupu>
+            <DataZakupu>2023-08-15</DataZakupu>
+            <DataWplywu>2023-08-15</DataWplywu>
+            <K_42>202.00</K_42>
+            <K_43>23.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>I23470B02005001</DowodZakupu>
+            <DataZakupu>2023-08-18</DataZakupu>
+            <DataWplywu>2023-08-18</DataWplywu>
+            <K_42>162.63</K_42>
+            <K_43>18.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>I23470B01004594</DowodZakupu>
+            <DataZakupu>2023-08-18</DataZakupu>
+            <DataWplywu>2023-08-18</DataWplywu>
+            <K_42>102.33</K_42>
+            <K_43>11.77</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5170420494</NrDostawcy>
+            <NazwaDostawcy>ASAHI DOROTA DZIOPAK, ARKADIUSZ PODOLEC S.C.</NazwaDostawcy>
+            <DowodZakupu>FS/14263/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-22</DataZakupu>
+            <DataWplywu>2023-08-22</DataWplywu>
+            <K_42>36.83</K_42>
+            <K_43>8.47</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5270011878</NrDostawcy>
+            <NazwaDostawcy>ANWIM S.A.</NazwaDostawcy>
+            <DowodZakupu>FVF/183/1152/8/2023</DowodZakupu>
+            <DataZakupu>2023-08-25</DataZakupu>
+            <DataWplywu>2023-08-25</DataWplywu>
+            <K_42>243.42</K_42>
+            <K_43>27.99</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5270011878</NrDostawcy>
+            <NazwaDostawcy>ANWIM S.A.</NazwaDostawcy>
+            <DowodZakupu>FVF/183/1276/8/2023</DowodZakupu>
+            <DataZakupu>2023-08-28</DataZakupu>
+            <DataWplywu>2023-08-28</DataWplywu>
+            <K_42>245.14</K_42>
+            <K_43>28.19</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>17</LiczbaWierszyZakupow>
+            <PodatekNaliczony>657.93</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

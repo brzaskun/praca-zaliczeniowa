@@ -303,7 +303,7 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
 
     @Override
     public void setLp(int lp) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.lp = lp;
     }
 
 

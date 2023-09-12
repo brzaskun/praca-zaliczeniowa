@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-12T08:32:42.195Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3206</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>8</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>8571934935</ns2:NIP>
+            <ns2:ImiePierwsze>SZYMON</ns2:ImiePierwsze>
+            <ns2:Nazwisko>DOMOŃ</ns2:Nazwisko>
+            <ns2:DataUrodzenia>2000-03-13</ns2:DataUrodzenia>
+            <Email>d.andrzejak@taxman.biz.pl</Email>
+            <Telefon>532434441</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_11>14236</P_11>
+            <P_19>9200</P_19>
+            <P_20>2116</P_20>
+            <P_35>0</P_35>
+            <P_37>23436</P_37>
+            <P_38>2116</P_38>
+            <P_39>1802</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>9694</P_42>
+            <P_43>2230</P_43>
+            <P_48>4032</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>1916</P_53>
+            <P_54>1253</P_54>
+            <P_57>1</P_57>
+            <P_59>1</P_59>
+            <P_60>1253</P_60>
+            <P_61>PPE za 08/23</P_61>
+            <P_62>663</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9860239774</NrKontrahenta>
+            <NazwaKontrahenta>Krzysztof Domoń - F.h.u "elektryczek"</NazwaKontrahenta>
+            <DowodSprzedazy>01/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-31</DataSprzedazy>
+            <K_19>9200.00</K_19>
+            <K_20>2116.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>7831864304</NrKontrahenta>
+            <NazwaKontrahenta>TMO BAU sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>02/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-31</DataSprzedazy>
+            <K_11>14236.27</K_11>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>2</LiczbaWierszySprzedazy>
+            <PodatekNalezny>2116.00</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6570081085</NrDostawcy>
+            <NazwaDostawcy>MISTAMA Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FA/144379/2023</DowodZakupu>
+            <DataZakupu>2023-08-20</DataZakupu>
+            <DataWplywu>2023-08-20</DataWplywu>
+            <K_42>389.42</K_42>
+            <K_43>89.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009959</NrDostawcy>
+            <NazwaDostawcy>CASTORAMA POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>804651/004607/23</DowodZakupu>
+            <DataZakupu>2023-08-27</DataZakupu>
+            <DataWplywu>2023-08-27</DataWplywu>
+            <K_42>198.72</K_42>
+            <K_43>45.71</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9860239774</NrDostawcy>
+            <NazwaDostawcy>Krzysztof Domoń - F.h.u "elektryczek"</NazwaDostawcy>
+            <DowodZakupu>01/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>9106.00</K_42>
+            <K_43>2094.38</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>3</LiczbaWierszyZakupow>
+            <PodatekNaliczony>2229.66</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

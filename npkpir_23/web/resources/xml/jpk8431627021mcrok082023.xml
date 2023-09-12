@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-12T06:35:05.019Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>2204</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>8</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8431627021</NIP>
+            <PelnaNazwa>FORTEFIBER SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ</PelnaNazwa>
+            <Email>zanetagrzegorczyk1@gmail.com</Email>
+            <Telefon>532434443</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_11>340597</P_11>
+            <P_29>3136</P_29>
+            <P_30>721</P_30>
+            <P_35>0</P_35>
+            <P_37>343733</P_37>
+            <P_38>721</P_38>
+            <P_39>0</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>75405</P_42>
+            <P_43>17343</P_43>
+            <P_48>17343</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>16622</P_53>
+            <P_62>16622</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>813182233</NrKontrahenta>
+            <NazwaKontrahenta>Sedo GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>#3916857</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-21</DataSprzedazy>
+            <K_29>3136.34</K_29>
+            <K_30>721.36</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>135087643</NrKontrahenta>
+            <NazwaKontrahenta>Elektrotechnik Werner Stuhr GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>1/08/2023/FF</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-25</DataSprzedazy>
+            <K_11>313110.00</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>135087643</NrKontrahenta>
+            <NazwaKontrahenta>Elektrotechnik Werner Stuhr GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>2/08/2023/FF</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-25</DataSprzedazy>
+            <K_11>18396.82</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>135087643</NrKontrahenta>
+            <NazwaKontrahenta>Elektrotechnik Werner Stuhr GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>3/08/2023/FF</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-25</DataSprzedazy>
+            <K_11>9090.25</K_11>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>4</LiczbaWierszySprzedazy>
+            <PodatekNalezny>721.36</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5881034495</NrDostawcy>
+            <NazwaDostawcy>PTHU Cezary Mazur</NazwaDostawcy>
+            <DowodZakupu>6/FOF/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-04</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>15000.00</K_42>
+            <K_43>3450.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5881034495</NrDostawcy>
+            <NazwaDostawcy>PTHU Cezary Mazur</NazwaDostawcy>
+            <DowodZakupu>7/FOF/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-07</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>20000.00</K_42>
+            <K_43>4600.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512120077</NrDostawcy>
+            <NazwaDostawcy>"P4 sp. z o.o."</NazwaDostawcy>
+            <DowodZakupu>F/40254322/08/23</DowodZakupu>
+            <DataZakupu>2023-08-08</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>170.00</K_42>
+            <K_43>39.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252792026</NrDostawcy>
+            <NazwaDostawcy>ENGELBERT STRAUSS sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>R274070</DowodZakupu>
+            <DataZakupu>2023-08-11</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>4093.80</K_42>
+            <K_43>941.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5881034495</NrDostawcy>
+            <NazwaDostawcy>PTHU Cezary Mazur</NazwaDostawcy>
+            <DowodZakupu>8/FOF/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-16</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>12000.00</K_42>
+            <K_43>2760.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>7/2023/FORT02</DowodZakupu>
+            <DataZakupu>2023-08-24</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>4483.40</K_42>
+            <K_43>1031.18</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5922027837</NrDostawcy>
+            <NazwaDostawcy>BECETECH Bartosz Ciesielski</NazwaDostawcy>
+            <DowodZakupu>FS 1029/2023</DowodZakupu>
+            <DataZakupu>2023-08-28</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>11053.00</K_42>
+            <K_43>2542.19</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5922027837</NrDostawcy>
+            <NazwaDostawcy>BECETECH Bartosz Ciesielski</NazwaDostawcy>
+            <DowodZakupu>FS 1048/2023</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>5468.00</K_42>
+            <K_43>1257.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>813182233</NrDostawcy>
+            <NazwaDostawcy>Sedo GmbH</NazwaDostawcy>
+            <DowodZakupu>#3916857</DowodZakupu>
+            <DataZakupu>2023-08-21</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>3136.34</K_42>
+            <K_43>721.36</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>9</LiczbaWierszyZakupow>
+            <PodatekNaliczony>17343.04</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

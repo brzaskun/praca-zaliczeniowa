@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-12T11:24:17.152Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3216</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>8</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>8510102732</ns2:NIP>
+            <ns2:ImiePierwsze>Alicja</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Głowacka</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1954-01-27</ns2:DataUrodzenia>
+            <Email>b.matczak@taxman.biz.pl</Email>
+            <Telefon>502262432</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_19>38627</P_19>
+            <P_20>8884</P_20>
+            <P_35>0</P_35>
+            <P_37>38627</P_37>
+            <P_38>8884</P_38>
+            <P_39>13089</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>156789</P_42>
+            <P_43>36017</P_43>
+            <P_48>49106</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>40222</P_53>
+            <P_62>40222</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8542228620</NrKontrahenta>
+            <NazwaKontrahenta>Powiat Stargardzki</NazwaKontrahenta>
+            <DowodSprzedazy>00036/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-02</DataWystawienia>
+            <DataSprzedazy>2023-08-02</DataSprzedazy>
+            <K_19>230.00</K_19>
+            <K_20>52.9</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8510307457</NrKontrahenta>
+            <NazwaKontrahenta>FOSFAN S.A.</NazwaKontrahenta>
+            <DowodSprzedazy>00037/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-07</DataWystawienia>
+            <DataSprzedazy>2023-08-07</DataSprzedazy>
+            <K_19>4000.00</K_19>
+            <K_20>920.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8520006757</NrKontrahenta>
+            <NazwaKontrahenta>Pomorski Uniwersytet Medyczny</NazwaKontrahenta>
+            <DowodSprzedazy>00038/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-09</DataWystawienia>
+            <DataSprzedazy>2023-08-09</DataSprzedazy>
+            <K_19>650.00</K_19>
+            <K_20>149.5</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8542228620</NrKontrahenta>
+            <NazwaKontrahenta>Powiat Stargardzki</NazwaKontrahenta>
+            <DowodSprzedazy>00039/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-09</DataWystawienia>
+            <DataSprzedazy>2023-08-09</DataSprzedazy>
+            <K_19>26050.10</K_19>
+            <K_20>5991.52</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522640895</NrKontrahenta>
+            <NazwaKontrahenta>INSCOM sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>00040/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-11</DataWystawienia>
+            <DataSprzedazy>2023-08-11</DataSprzedazy>
+            <K_19>100.40</K_19>
+            <K_20>23.09</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6282263617</NrKontrahenta>
+            <NazwaKontrahenta>VIDEOFONIKA sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>00041/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-16</DataWystawienia>
+            <DataSprzedazy>2023-08-16</DataSprzedazy>
+            <K_19>2800.00</K_19>
+            <K_20>644.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>7811705011</NrKontrahenta>
+            <NazwaKontrahenta>Link Sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>00042/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-29</DataWystawienia>
+            <DataSprzedazy>2023-08-29</DataSprzedazy>
+            <K_19>4796.61</K_19>
+            <K_20>1103.22</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>7</LiczbaWierszySprzedazy>
+            <PodatekNalezny>8884.23</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522625861</NrDostawcy>
+            <NazwaDostawcy>COMA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>02/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-01</DataZakupu>
+            <DataWplywu>2023-08-01</DataWplywu>
+            <K_42>2400.00</K_42>
+            <K_43>552.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5832762734</NrDostawcy>
+            <NazwaDostawcy>EET EUROPARTS sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>4012036</DowodZakupu>
+            <DataZakupu>2023-08-01</DataZakupu>
+            <DataWplywu>2023-08-01</DataWplywu>
+            <K_42>-3340.56</K_42>
+            <K_43>-768.33</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8520410903</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO USŁUGOWO - HANDLOWE "ŚRUBEX" SPÓŁKA JAWNA JAROSŁAW PARASZKIEWICZ, Anna Hryniewicz</NazwaDostawcy>
+            <DowodZakupu>2623/2023</DowodZakupu>
+            <DataZakupu>2023-08-01</DataZakupu>
+            <DataWplywu>2023-08-01</DataWplywu>
+            <K_42>91.72</K_42>
+            <K_43>21.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 4796K2/0973/23</DowodZakupu>
+            <DataZakupu>2023-08-02</DataZakupu>
+            <DataWplywu>2023-08-02</DataWplywu>
+            <K_42>232.46</K_42>
+            <K_43>53.47</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522160965</NrDostawcy>
+            <NazwaDostawcy>BEST ELEKTRO Jarosław Byliński</NazwaDostawcy>
+            <DowodZakupu>1054/2023</DowodZakupu>
+            <DataZakupu>2023-08-04</DataZakupu>
+            <DataWplywu>2023-08-04</DataWplywu>
+            <K_42>56.91</K_42>
+            <K_43>13.09</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262461791</NrDostawcy>
+            <NazwaDostawcy>UPC Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>000154378340/OPR/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-05</DataZakupu>
+            <DataWplywu>2023-08-05</DataWplywu>
+            <K_42>56.50</K_42>
+            <K_43>12.99</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1132568413</NrDostawcy>
+            <NazwaDostawcy>BRICOMAN POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>#2023/007/56946</DowodZakupu>
+            <DataZakupu>2023-08-07</DataZakupu>
+            <DataWplywu>2023-08-07</DataWplywu>
+            <K_42>8.78</K_42>
+            <K_43>2.02</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5222498486</NrDostawcy>
+            <NazwaDostawcy>SUPREMA POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>44/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-07</DataZakupu>
+            <DataWplywu>2023-08-07</DataWplywu>
+            <K_42>9470.00</K_42>
+            <K_43>2178.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522640895</NrDostawcy>
+            <NazwaDostawcy>INSCOM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>14/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-08</DataZakupu>
+            <DataWplywu>2023-08-08</DataWplywu>
+            <K_42>5421.96</K_42>
+            <K_43>1247.05</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7891098701</NrDostawcy>
+            <NazwaDostawcy>NOWTECH Rafał Nowak</NazwaDostawcy>
+            <DowodZakupu>15/8/2023</DowodZakupu>
+            <DataZakupu>2023-08-08</DataZakupu>
+            <DataWplywu>2023-08-08</DataWplywu>
+            <K_42>34.92</K_42>
+            <K_43>8.03</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6372063537</NrDostawcy>
+            <NazwaDostawcy>LAURIUS Kamil Nowakowski</NazwaDostawcy>
+            <DowodZakupu>FV-46/23</DowodZakupu>
+            <DataZakupu>2023-08-08</DataZakupu>
+            <DataWplywu>2023-08-08</DataWplywu>
+            <K_42>40.51</K_42>
+            <K_43>9.32</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522457381</NrDostawcy>
+            <NazwaDostawcy>EPA Systemy Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FS-23/08/76</DowodZakupu>
+            <DataZakupu>2023-08-08</DataZakupu>
+            <DataWplywu>2023-08-08</DataWplywu>
+            <K_42>23874.00</K_42>
+            <K_43>5491.02</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1132568413</NrDostawcy>
+            <NazwaDostawcy>BRICOMAN POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>#2023/007/58669</DowodZakupu>
+            <DataZakupu>2023-08-11</DataZakupu>
+            <DataWplywu>2023-08-11</DataWplywu>
+            <K_42>50.81</K_42>
+            <K_43>11.69</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7772817437</NrDostawcy>
+            <NazwaDostawcy>SLX Sp.z o.o.</NazwaDostawcy>
+            <DowodZakupu>FS 44/POZ/2023</DowodZakupu>
+            <DataZakupu>2023-08-14</DataZakupu>
+            <DataWplywu>2023-08-14</DataWplywu>
+            <K_42>23536.25</K_42>
+            <K_43>5413.34</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 8995K1/0973/23</DowodZakupu>
+            <DataZakupu>2023-08-14</DataZakupu>
+            <DataWplywu>2023-08-14</DataWplywu>
+            <K_42>151.88</K_42>
+            <K_43>17.47</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512417713</NrDostawcy>
+            <NazwaDostawcy>DHL PARCEL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1104728526</DowodZakupu>
+            <DataZakupu>2023-08-15</DataZakupu>
+            <DataWplywu>2023-08-15</DataWplywu>
+            <K_42>83.77</K_42>
+            <K_43>19.27</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>F0052478901/008/23</DowodZakupu>
+            <DataZakupu>2023-08-19</DataZakupu>
+            <DataWplywu>2023-08-19</DataWplywu>
+            <K_42>60.84</K_42>
+            <K_43>13.99</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8951628481</NrDostawcy>
+            <NazwaDostawcy>"AB S.A."</NazwaDostawcy>
+            <DowodZakupu>02256126</DowodZakupu>
+            <DataZakupu>2023-08-21</DataZakupu>
+            <DataWplywu>2023-08-21</DataWplywu>
+            <K_42>7246.00</K_42>
+            <K_43>1666.58</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8951628481</NrDostawcy>
+            <NazwaDostawcy>"AB S.A."</NazwaDostawcy>
+            <DowodZakupu>O2256078</DowodZakupu>
+            <DataZakupu>2023-08-21</DataZakupu>
+            <DataWplywu>2023-08-21</DataWplywu>
+            <K_42>2011.38</K_42>
+            <K_43>462.62</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8943205582</NrDostawcy>
+            <NazwaDostawcy>MONACOR GMBH</NazwaDostawcy>
+            <DowodZakupu>FS/23/08/0287</DowodZakupu>
+            <DataZakupu>2023-08-21</DataZakupu>
+            <DataWplywu>2023-08-21</DataWplywu>
+            <K_42>16865.96</K_42>
+            <K_43>3879.17</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260202855</NrDostawcy>
+            <NazwaDostawcy>Konsbud Audio Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>(S)FS-768/23/BPART</DowodZakupu>
+            <DataZakupu>2023-08-22</DataZakupu>
+            <DataWplywu>2023-08-22</DataWplywu>
+            <K_42>10489.00</K_42>
+            <K_43>2412.47</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252123199</NrDostawcy>
+            <NazwaDostawcy>INTER ALNET Adam Albiński</NazwaDostawcy>
+            <DowodZakupu>FA/62/08/2023/P</DowodZakupu>
+            <DataZakupu>2023-08-23</DataZakupu>
+            <DataWplywu>2023-08-23</DataWplywu>
+            <K_42>41500.00</K_42>
+            <K_43>9545.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512417713</NrDostawcy>
+            <NazwaDostawcy>DHL PARCEL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1104741147</DowodZakupu>
+            <DataZakupu>2023-08-23</DataZakupu>
+            <DataWplywu>2023-08-23</DataWplywu>
+            <K_42>42.21</K_42>
+            <K_43>9.71</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8521254285</NrDostawcy>
+            <NazwaDostawcy>OPTIMA USŁUGI REKLAMOWE TOMASZ NOWICKI</NazwaDostawcy>
+            <DowodZakupu>1299/2023</DowodZakupu>
+            <DataZakupu>2023-08-23</DataZakupu>
+            <DataWplywu>2023-08-23</DataWplywu>
+            <K_42>2000.00</K_42>
+            <K_43>460.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>8/2023/AV-S73</DowodZakupu>
+            <DataZakupu>2023-08-24</DataZakupu>
+            <DataWplywu>2023-08-24</DataWplywu>
+            <K_42>708.00</K_42>
+            <K_43>162.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552562539</NrDostawcy>
+            <NazwaDostawcy>NET-LINE Spółka Cywilna Emilian Gulczyński, Marek Dudek, Tomasz Dudek</NazwaDostawcy>
+            <DowodZakupu>NS/2023/1943</DowodZakupu>
+            <DataZakupu>2023-08-25</DataZakupu>
+            <DataWplywu>2023-08-25</DataWplywu>
+            <K_42>1999.21</K_42>
+            <K_43>459.82</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>23080466073887</DowodZakupu>
+            <DataZakupu>2023-08-26</DataZakupu>
+            <DataWplywu>2023-08-26</DataWplywu>
+            <K_42>169.99</K_42>
+            <K_43>39.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7772817437</NrDostawcy>
+            <NazwaDostawcy>SLX Sp.z o.o.</NazwaDostawcy>
+            <DowodZakupu>FS 1/AVS/2023</DowodZakupu>
+            <DataZakupu>2023-08-29</DataZakupu>
+            <DataWplywu>2023-08-29</DataWplywu>
+            <K_42>3364.46</K_42>
+            <K_43>773.83</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 5272K2/0973/23</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>236.67</K_42>
+            <K_43>27.22</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8520404601</NrDostawcy>
+            <NazwaDostawcy>PPH WIZFON 4 DOROTA JASICZEK, GRZEGORZ JASICZEK Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>FA/504/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>232.92</K_42>
+            <K_43>53.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8520410903</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO USŁUGOWO - HANDLOWE "ŚRUBEX" SPÓŁKA JAWNA JAROSŁAW PARASZKIEWICZ, Anna Hryniewicz</NazwaDostawcy>
+            <DowodZakupu>2943/2023</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>132.16</K_42>
+            <K_43>30.4</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522457381</NrDostawcy>
+            <NazwaDostawcy>EPA Systemy Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FS-23/08/389</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>2815.00</K_42>
+            <K_43>647.45</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7132881219</NrDostawcy>
+            <NazwaDostawcy>"EDBAK" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>230108231</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>1992.00</K_42>
+            <K_43>458.16</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8951628481</NrDostawcy>
+            <NazwaDostawcy>"AB S.A."</NazwaDostawcy>
+            <DowodZakupu>O2257600</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>2753.62</K_42>
+            <K_43>633.33</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>34</LiczbaWierszyZakupow>
+            <PodatekNaliczony>36016.89</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

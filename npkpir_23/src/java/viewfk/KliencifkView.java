@@ -100,7 +100,7 @@ public class KliencifkView implements Serializable {
             //Msg.msg("pobieraniekontaFKWpis");
             if (selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 5) {
                 wybranyklient = selected.getKontr();
-                if (wybranyklient!=null && !wybranyklient.getNpelna().equals("nowy klient")) {
+                if (wybranyklient!=null && !wybranyklient.getNpelna().equals("nowy klient") && wybranyklient.getNip() !=null && wpisView.getPodatnikObiekt() != null) {
                     int wynik = pobieraniekontaFK();
                     if (wynik == 1 && !wybranyklient.getNip().equals(wpisView.getPodatnikObiekt().getNip())) {
                         makonto0niemakonta1 = true;

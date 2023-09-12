@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-12T11:34:16.617Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>7</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>8792611113</ns2:NIP>
+            <ns2:ImiePierwsze>Adrianna</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Kurek</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1991-11-28</ns2:DataUrodzenia>
+            <Email>b.matczak@taxman.biz.pl</Email>
+            <Telefon>502262432</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_21>477198</P_21>
+            <P_25>372379</P_25>
+            <P_26>29790</P_26>
+            <P_35>0</P_35>
+            <P_37>849577</P_37>
+            <P_38>29790</P_38>
+            <P_39>0</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>389190</P_42>
+            <P_43>30232</P_43>
+            <P_48>30232</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>442</P_53>
+            <P_62>442</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>120980351</NrKontrahenta>
+            <NazwaKontrahenta>Servoprax Gmbh</NazwaKontrahenta>
+            <DowodSprzedazy>FV/14/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-11</DataWystawienia>
+            <DataSprzedazy>2023-07-11</DataSprzedazy>
+            <K_21>477198.27</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IN</KodKrajuNadaniaTIN>
+            <NrKontrahenta>20bhr111365</NrKontrahenta>
+            <NazwaKontrahenta>Mahaveer Lifecare</NazwaKontrahenta>
+            <DowodSprzedazy>23PL42101A000DYLR1</DowodSprzedazy>
+            <DataWystawienia>2023-07-11</DataWystawienia>
+            <DataSprzedazy>2023-07-11</DataSprzedazy>
+            <I_42>1</I_42>
+            <K_25>372379.00</K_25>
+            <K_26>29790.0</K_26>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>2</LiczbaWierszySprzedazy>
+            <PodatekNalezny>29790.00</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5272698282</NrDostawcy>
+            <NazwaDostawcy>LEASELINK sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>28021/7/2023UL</DowodZakupu>
+            <DataZakupu>2023-07-03</DataZakupu>
+            <DataWplywu>2023-07-03</DataWplywu>
+            <K_42>176.31</K_42>
+            <K_43>40.55</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>7/2023/A&amp;MA11</DowodZakupu>
+            <DataZakupu>2023-07-06</DataZakupu>
+            <DataWplywu>2023-07-06</DataWplywu>
+            <K_42>750.00</K_42>
+            <K_43>172.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5222349705</NrDostawcy>
+            <NazwaDostawcy>CARGO - PARTNER SPEDYCJA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>CPPZ651400/2023</DowodZakupu>
+            <DataZakupu>2023-07-10</DataZakupu>
+            <DataWplywu>2023-07-10</DataWplywu>
+            <K_42>14894.79</K_42>
+            <K_43>46.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 7474K1/0633/23</DowodZakupu>
+            <DataZakupu>2023-07-12</DataZakupu>
+            <DataWplywu>2023-07-12</DataWplywu>
+            <K_42>390.24</K_42>
+            <K_43>44.88</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220103934</NrDostawcy>
+            <NazwaDostawcy>PKP CARGO CONNECT sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>114690/23/00242</DowodZakupu>
+            <DataZakupu>2023-07-19</DataZakupu>
+            <DataWplywu>2023-07-19</DataWplywu>
+            <K_42>600.00</K_42>
+            <K_43>138.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>IN</KodKrajuNadaniaTIN>
+            <NrDostawcy>20bhr111365</NrDostawcy>
+            <NazwaDostawcy>Mahaveer Lifecare</NazwaDostawcy>
+            <DowodZakupu>23PL42101A000DYLR1</DowodZakupu>
+            <DataZakupu>2023-07-11</DataZakupu>
+            <DataWplywu>2023-07-11</DataWplywu>
+            <K_42>372379.00</K_42>
+            <K_43>29790.0</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>6</LiczbaWierszyZakupow>
+            <PodatekNaliczony>30231.93</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

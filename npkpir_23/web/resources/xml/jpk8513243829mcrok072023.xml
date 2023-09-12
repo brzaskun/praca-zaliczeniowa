@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-12T12:43:19.269Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>7</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8513243829</NIP>
+            <PelnaNazwa>MFW sp. z o.o. sp.k.</PelnaNazwa>
+            <Email>m.januszewska@taxman.biz.pl</Email>
+            <Telefon>532434442</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_11>167263</P_11>
+            <P_29>1444</P_29>
+            <P_30>332</P_30>
+            <P_35>0</P_35>
+            <P_37>168707</P_37>
+            <P_38>332</P_38>
+            <P_39>0</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>24949</P_42>
+            <P_43>5052</P_43>
+            <P_48>5052</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>4720</P_53>
+            <P_54>1762</P_54>
+            <P_57>1</P_57>
+            <P_59>1</P_59>
+            <P_60>1762</P_60>
+            <P_61>CIT za II kwartał 2023: 1720 + odsetki 42,00</P_61>
+            <P_62>2958</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298145243</NrKontrahenta>
+            <NazwaKontrahenta>D.D.R.</NazwaKontrahenta>
+            <DowodSprzedazy>2300533</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-12</DataSprzedazy>
+            <K_29>1443.84</K_29>
+            <K_30>332.08</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000005178</NrKontrahenta>
+            <NazwaKontrahenta>Kita Sonnenblume gGmbH</NazwaKontrahenta>
+            <DowodSprzedazy>10/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-21</DataSprzedazy>
+            <K_11>7754.53</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000005178</NrKontrahenta>
+            <NazwaKontrahenta>Kita Sonnenblume gGmbH</NazwaKontrahenta>
+            <DowodSprzedazy>11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-21</DataSprzedazy>
+            <K_11>23697.92</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000005178</NrKontrahenta>
+            <NazwaKontrahenta>Kita Sonnenblume gGmbH</NazwaKontrahenta>
+            <DowodSprzedazy>12/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-21</DataSprzedazy>
+            <K_11>20509.24</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000005178</NrKontrahenta>
+            <NazwaKontrahenta>Kita Sonnenblume gGmbH</NazwaKontrahenta>
+            <DowodSprzedazy>13/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-21</DataSprzedazy>
+            <K_11>46018.68</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000005178</NrKontrahenta>
+            <NazwaKontrahenta>Kita Sonnenblume gGmbH</NazwaKontrahenta>
+            <DowodSprzedazy>14/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-21</DataSprzedazy>
+            <K_11>26886.60</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000005178</NrKontrahenta>
+            <NazwaKontrahenta>Kita Sonnenblume gGmbH</NazwaKontrahenta>
+            <DowodSprzedazy>15/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-21</DataSprzedazy>
+            <K_11>11631.79</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000005178</NrKontrahenta>
+            <NazwaKontrahenta>Kita Sonnenblume gGmbH</NazwaKontrahenta>
+            <DowodSprzedazy>16/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-21</DataSprzedazy>
+            <K_11>30763.87</K_11>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>8</LiczbaWierszySprzedazy>
+            <PodatekNalezny>332.08</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6932180647</NrDostawcy>
+            <NazwaDostawcy>VOLTAIC LOGISTIC sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>00024223075179300</DowodZakupu>
+            <DataZakupu>2023-06-30</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>162.60</K_42>
+            <K_43>18.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>2760K2/0154/23</DowodZakupu>
+            <DataZakupu>2023-07-02</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>186.98</K_42>
+            <K_43>21.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5213110063</NrDostawcy>
+            <NazwaDostawcy>BNP PARIBAS LEASING SERVICES sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>10008/07/2023/RL/LS</DowodZakupu>
+            <DataZakupu>2023-07-03</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1596.40</K_42>
+            <K_43>183.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252591664	</NrDostawcy>
+            <NazwaDostawcy>DLH GLOBAL SPÓŁKA AKCYJNA</NazwaDostawcy>
+            <DowodZakupu>FV600010/07/23</DowodZakupu>
+            <DataZakupu>2023-07-05</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>11153.40</K_42>
+            <K_43>2565.28</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>8/2023/MFWs82</DowodZakupu>
+            <DataZakupu>2023-07-06</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1250.00</K_42>
+            <K_43>287.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>1998K1/4023/23</DowodZakupu>
+            <DataZakupu>2023-07-09</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>300.83</K_42>
+            <K_43>34.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261040567</NrDostawcy>
+            <NazwaDostawcy>T mobile Polska SA</NazwaDostawcy>
+            <DowodZakupu>513812330723</DowodZakupu>
+            <DataZakupu>2023-07-13</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>45.00</K_42>
+            <K_43>10.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>11824K2/1281/23</DowodZakupu>
+            <DataZakupu>2023-07-13</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>313.39</K_42>
+            <K_43>36.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>9/2023/MFWs82</DowodZakupu>
+            <DataZakupu>2023-07-14</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1250.00</K_42>
+            <K_43>287.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009959</NrDostawcy>
+            <NazwaDostawcy>CASTORAMA POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>801454/006987/23</DowodZakupu>
+            <DataZakupu>2023-07-15</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>39.83</K_42>
+            <K_43>9.16</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>11940K2/1281/23</DowodZakupu>
+            <DataZakupu>2023-07-15</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>138.24</K_42>
+            <K_43>15.9</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1132485058</NrDostawcy>
+            <NazwaDostawcy>MEDIA MARKT POLSKA SP. Z O.O. SZCZECIN SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>41051868</DowodZakupu>
+            <DataZakupu>2023-07-22</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>6569.33</K_42>
+            <K_43>1177.67</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552413963</NrDostawcy>
+            <NazwaDostawcy>DNHS PARK Sp. z o.o. sp.kom.</NazwaDostawcy>
+            <DowodZakupu>8768K1/7677/23</DowodZakupu>
+            <DataZakupu>2023-07-24</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>168.72</K_42>
+            <K_43>19.4</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522597857</NrDostawcy>
+            <NazwaDostawcy>Autoteam Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>32407</DowodZakupu>
+            <DataZakupu>2023-07-25</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>79.67</K_42>
+            <K_43>9.16</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009959</NrDostawcy>
+            <NazwaDostawcy>CASTORAMA POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>801452/006935/23</DowodZakupu>
+            <DataZakupu>2023-07-25</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>120.33</K_42>
+            <K_43>13.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552000238</NrDostawcy>
+            <NazwaDostawcy>SZCZECIŃSKI PARK NAUKOWO-TECHNOLOGICZNY SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>FV/N/WB/198/07/2023</DowodZakupu>
+            <DataZakupu>2023-07-31</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>130.00</K_42>
+            <K_43>29.9</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>298145243</NrDostawcy>
+            <NazwaDostawcy>D.D.R.</NazwaDostawcy>
+            <DowodZakupu>2300533</DowodZakupu>
+            <DataZakupu>2023-07-12</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1443.84</K_42>
+            <K_43>332.08</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>17</LiczbaWierszyZakupow>
+            <PodatekNaliczony>5052.16</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

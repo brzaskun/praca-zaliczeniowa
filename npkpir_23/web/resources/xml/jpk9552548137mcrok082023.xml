@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-11T14:49:42.400Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3217</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>8</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>9552548137</NIP>
+            <PelnaNazwa>POLSYSTEM sp. z o.o.</PelnaNazwa>
+            <Email>info@taxman.biz.pl</Email>
+            <Telefon>605586176</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_19>5650</P_19>
+            <P_20>1300</P_20>
+            <P_21>43460</P_21>
+            <P_35>0</P_35>
+            <P_37>49110</P_37>
+            <P_38>1300</P_38>
+            <P_39>0</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>76964</P_42>
+            <P_43>17601</P_43>
+            <P_48>17601</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>16301</P_53>
+            <P_54>16301</P_54>
+            <P_57>1</P_57>
+            <P_62>0</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513174011</NrKontrahenta>
+            <NazwaKontrahenta>KAMARO S.C. KATARZYNA ADAMCZYK, Marcin Mądry</NazwaKontrahenta>
+            <DowodSprzedazy>FV 1/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-04</DataSprzedazy>
+            <K_19>400.00</K_19>
+            <K_20>92.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>BE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0899204054</NrKontrahenta>
+            <NazwaKontrahenta>Concept XXL</NazwaKontrahenta>
+            <DowodSprzedazy>FK 2/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-16</DataSprzedazy>
+            <K_21>14936.35</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>BE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0475677013</NrKontrahenta>
+            <NazwaKontrahenta>Hafel SPRL Chassis Leopold </NazwaKontrahenta>
+            <DowodSprzedazy>FV 3/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-16</DataSprzedazy>
+            <K_21>7980.54</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>BE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0475677013</NrKontrahenta>
+            <NazwaKontrahenta>Hafel SPRL Chassis Leopold </NazwaKontrahenta>
+            <DowodSprzedazy>FV 4/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-16</DataSprzedazy>
+            <K_21>20543.58</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8520603022</NrKontrahenta>
+            <NazwaKontrahenta>Tomaszewicz</NazwaKontrahenta>
+            <DowodSprzedazy>FZ 2/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-29</DataSprzedazy>
+            <K_19>5250.00</K_19>
+            <K_20>1207.5</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>5</LiczbaWierszySprzedazy>
+            <PodatekNalezny>1299.50</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>7/20231313/pols1313</DowodZakupu>
+            <DataZakupu>2023-07-04</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>1200.00</K_42>
+            <K_43>276.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>8/2023/pols13</DowodZakupu>
+            <DataZakupu>2023-07-06</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>1200.00</K_42>
+            <K_43>276.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5470242884</NrDostawcy>
+            <NazwaDostawcy>ALUPROF S.A.</NazwaDostawcy>
+            <DowodZakupu>7k2/843588/12</DowodZakupu>
+            <DataZakupu>2023-08-01</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>109.88</K_42>
+            <K_43>25.27</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522340897</NrDostawcy>
+            <NazwaDostawcy>DJ - SC Maciej Jakubowski</NazwaDostawcy>
+            <DowodZakupu>2296/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-01</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>307.67</K_42>
+            <K_43>70.76</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522340897</NrDostawcy>
+            <NazwaDostawcy>DJ - SC Maciej Jakubowski</NazwaDostawcy>
+            <DowodZakupu>2319/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-02</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>154.00</K_42>
+            <K_43>35.42</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8520002630</NrDostawcy>
+            <NazwaDostawcy>WIGA s.c.</NazwaDostawcy>
+            <DowodZakupu>734/mag/2023</DowodZakupu>
+            <DataZakupu>2023-08-03</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>46.00</K_42>
+            <K_43>10.58</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9550009459</NrDostawcy>
+            <NazwaDostawcy>Piramida Stanisław Sobczyk</NazwaDostawcy>
+            <DowodZakupu>27/e/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-03</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>9.39</K_42>
+            <K_43>2.16</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1180018449</NrDostawcy>
+            <NazwaDostawcy>REYNAERS ALUMINIUM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>vk 11852</DowodZakupu>
+            <DataZakupu>2023-08-04</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>602.55</K_42>
+            <K_43>138.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>9/2023/pols13</DowodZakupu>
+            <DataZakupu>2023-08-07</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>1200.00</K_42>
+            <K_43>276.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1180018449</NrDostawcy>
+            <NazwaDostawcy>REYNAERS ALUMINIUM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>vk 12038</DowodZakupu>
+            <DataZakupu>2023-08-08</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>280.92</K_42>
+            <K_43>64.61</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522493141</NrDostawcy>
+            <NazwaDostawcy>Inter-ax Grzegorz Jachimowicz, Józef Jachimowicz S.C.</NazwaDostawcy>
+            <DowodZakupu>88/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-09</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>152.08</K_42>
+            <K_43>34.98</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8531509350</NrDostawcy>
+            <NazwaDostawcy>PGF Zachód Spółka z ograniczoną odpowiedzialnością Spółka komandytowa  Stacja pa</NazwaDostawcy>
+            <DowodZakupu>4835k2/7347/23</DowodZakupu>
+            <DataZakupu>2023-08-09</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>313.11</K_42>
+            <K_43>36.01</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513144257</NrDostawcy>
+            <NazwaDostawcy>HARNAŚ Natalia Mazur</NazwaDostawcy>
+            <DowodZakupu>05/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-10</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>975.61</K_42>
+            <K_43>224.39</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1180018449</NrDostawcy>
+            <NazwaDostawcy>REYNAERS ALUMINIUM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>vk 12200</DowodZakupu>
+            <DataZakupu>2023-08-11</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>169.82</K_42>
+            <K_43>39.06</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1180018449</NrDostawcy>
+            <NazwaDostawcy>REYNAERS ALUMINIUM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>vk 12199</DowodZakupu>
+            <DataZakupu>2023-08-11</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>90.60</K_42>
+            <K_43>20.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1180018449</NrDostawcy>
+            <NazwaDostawcy>REYNAERS ALUMINIUM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>vk 12280</DowodZakupu>
+            <DataZakupu>2023-08-14</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>109.06</K_42>
+            <K_43>25.08</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262361871</NrDostawcy>
+            <NazwaDostawcy>DKV Euro Service GmbH +Co.KG</NazwaDostawcy>
+            <DowodZakupu>23/3458663/995</DowodZakupu>
+            <DataZakupu>2023-08-15</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>130.99</K_42>
+            <K_43>15.06</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5941511215</NrDostawcy>
+            <NazwaDostawcy>Paluch Michał</NazwaDostawcy>
+            <DowodZakupu>2309/2023</DowodZakupu>
+            <DataZakupu>2023-08-16</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>89.43</K_42>
+            <K_43>20.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1180018449</NrDostawcy>
+            <NazwaDostawcy>REYNAERS ALUMINIUM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>vk 12514</DowodZakupu>
+            <DataZakupu>2023-08-18</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>40715.88</K_42>
+            <K_43>9364.65</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552375145</NrDostawcy>
+            <NazwaDostawcy>COLOR SYSTEM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>6/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-18</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>1771.00</K_42>
+            <K_43>407.33</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9231689207</NrDostawcy>
+            <NazwaDostawcy>Hit Transport Międzynarodowy i Spedycja Hubert zawaryński Tomasz Zieliński</NazwaDostawcy>
+            <DowodZakupu>25/s/0/8/2023/sz/s03</DowodZakupu>
+            <DataZakupu>2023-08-21</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>2794.74</K_42>
+            <K_43>642.79</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552180588</NrDostawcy>
+            <NazwaDostawcy>BOUFEN sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>114/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-22</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>48.78</K_42>
+            <K_43>11.22</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552180588</NrDostawcy>
+            <NazwaDostawcy>BOUFEN sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>122/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-23</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>24.39</K_42>
+            <K_43>5.61</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7282856045</NrDostawcy>
+            <NazwaDostawcy>PDK INVESTMENT PROSTA S.A.</NazwaDostawcy>
+            <DowodZakupu>27/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-29</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>374.88</K_42>
+            <K_43>86.22</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1180018449</NrDostawcy>
+            <NazwaDostawcy>REYNAERS ALUMINIUM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>vk 13151</DowodZakupu>
+            <DataZakupu>2023-08-29</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>4063.82</K_42>
+            <K_43>934.68</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552147527</NrDostawcy>
+            <NazwaDostawcy>SPEC-GLAS sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>401/8/2023</DowodZakupu>
+            <DataZakupu>2023-08-30</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>82.22</K_42>
+            <K_43>18.91</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552147527</NrDostawcy>
+            <NazwaDostawcy>SPEC-GLAS sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>360/8/2023</DowodZakupu>
+            <DataZakupu>2023-08-30</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>10880.14</K_42>
+            <K_43>2502.43</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1180018449</NrDostawcy>
+            <NazwaDostawcy>REYNAERS ALUMINIUM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>vk 13470</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>1166.47</K_42>
+            <K_43>268.29</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1180018449</NrDostawcy>
+            <NazwaDostawcy>REYNAERS ALUMINIUM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>vk 13446</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>67.37</K_42>
+            <K_43>15.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1180018449</NrDostawcy>
+            <NazwaDostawcy>REYNAERS ALUMINIUM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>vk 13406</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>1816.45</K_42>
+            <K_43>417.78</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7282856045</NrDostawcy>
+            <NazwaDostawcy>PDK INVESTMENT PROSTA S.A.</NazwaDostawcy>
+            <DowodZakupu>32/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>5239.52</K_42>
+            <K_43>1205.09</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522489955</NrDostawcy>
+            <NazwaDostawcy>BM OKUCIA s.c.</NazwaDostawcy>
+            <DowodZakupu>23118/2023</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>641.45</K_42>
+            <K_43>147.53</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1180018449</NrDostawcy>
+            <NazwaDostawcy>REYNAERS ALUMINIUM sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>VK 13420</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>-300.00</K_42>
+            <K_43>-69.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262361871</NrDostawcy>
+            <NazwaDostawcy>DKV Euro Service GmbH +Co.KG</NazwaDostawcy>
+            <DowodZakupu>23/3477003/995</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>436.25</K_42>
+            <K_43>50.17</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>34</LiczbaWierszyZakupow>
+            <PodatekNaliczony>17600.58</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>
