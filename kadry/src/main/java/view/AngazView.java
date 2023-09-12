@@ -637,7 +637,8 @@ public class AngazView  implements Serializable {
     }
 
     private void pozamykajskladniki(Angaz angaz) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println("brak funkcji kadry private void pozamykajskladniki(Angaz angaz) {");
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     
