@@ -183,7 +183,7 @@ public class KsiegaBean {
                 dk.setKolumna14(dk.getKolumna13());
                 try {
                     podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
-                } catch (Exception e) { E.e(e); 
+                } catch (Exception e) { 
                 }
             }
     }
