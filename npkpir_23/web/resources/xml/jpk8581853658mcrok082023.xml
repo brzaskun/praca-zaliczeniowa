@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11149/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7K (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-13T09:52:33.075Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3207</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>8</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8581853658</NIP>
+            <PelnaNazwa>HYDROCAN SPÓŁKA Z O.O.</PelnaNazwa>
+            <Email>zanetagrzegorczyk1@gmail.com</Email>
+            <Telefon>532434443</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581854497</NrKontrahenta>
+            <NazwaKontrahenta>MANICO FHH Sp. z o.o. kom.</NazwaKontrahenta>
+            <DowodSprzedazy>1/MT/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-03</DataSprzedazy>
+            <K_19>1635.00</K_19>
+            <K_20>376.05</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8510205573</NrKontrahenta>
+            <NazwaKontrahenta>Grupa Azoty Z.Ch. Police SA </NazwaKontrahenta>
+            <DowodSprzedazy>2/MT/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-07</DataSprzedazy>
+            <K_19>28200.00</K_19>
+            <K_20>6486.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8510205573</NrKontrahenta>
+            <NazwaKontrahenta>Grupa Azoty Z.Ch. Police SA </NazwaKontrahenta>
+            <DowodSprzedazy>3/MT/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-07</DataSprzedazy>
+            <K_19>10420.00</K_19>
+            <K_20>2396.6</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551114862</NrKontrahenta>
+            <NazwaKontrahenta>BIURO INZYNIERSKO-HANDLOWE WOD-KAN Zbigniew Jaworowski</NazwaKontrahenta>
+            <DowodSprzedazy>4/MT/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-17</DataSprzedazy>
+            <K_19>11960.00</K_19>
+            <K_20>2750.8</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551114862</NrKontrahenta>
+            <NazwaKontrahenta>BIURO INZYNIERSKO-HANDLOWE WOD-KAN Zbigniew Jaworowski</NazwaKontrahenta>
+            <DowodSprzedazy>5/MT/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-18</DataSprzedazy>
+            <K_19>48000.00</K_19>
+            <K_20>11040.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>5</LiczbaWierszySprzedazy>
+            <PodatekNalezny>23049.45</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9141409500</NrDostawcy>
+            <NazwaDostawcy>Funke Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2023000138089</DowodZakupu>
+            <DataZakupu>2023-08-03</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>1551.40</K_42>
+            <K_43>356.82</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>5/MT/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-04</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>37300.00</K_42>
+            <K_43>8579.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>4/MT/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-04</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>11600.00</K_42>
+            <K_43>2668.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>8/2023/HYDR65</DowodZakupu>
+            <DataZakupu>2023-08-07</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>400.00</K_42>
+            <K_43>92.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9551215215</NrDostawcy>
+            <NazwaDostawcy>WEKTOR Grzegorz Mysiakowski</NazwaDostawcy>
+            <DowodZakupu>26/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-07</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <DokumentZakupu>MK</DokumentZakupu>
+            <K_42>250.00</K_42>
+            <K_43>57.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>2/MG/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-16</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>46700.00</K_42>
+            <K_43>10741.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9551215215</NrDostawcy>
+            <NazwaDostawcy>WEKTOR Grzegorz Mysiakowski</NazwaDostawcy>
+            <DowodZakupu>58/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-18</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <DokumentZakupu>MK</DokumentZakupu>
+            <K_42>250.00</K_42>
+            <K_43>57.5</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>7</LiczbaWierszyZakupow>
+            <PodatekNaliczony>22551.82</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

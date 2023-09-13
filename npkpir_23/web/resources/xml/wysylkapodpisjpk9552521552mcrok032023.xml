@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><InitUpload xmlns="http://e-dokumenty.mf.gov.pl">
+    <DocumentType>JPK</DocumentType>
+    <Version>01.02.01.20160617</Version>
+    <EncryptionKey algorithm="RSA" encoding="Base64" mode="ECB" padding="PKCS#1">mkeqNhd/1tedjM+SojaYSrLG9nEV7U5uRLEYeMui+WwFYvhA1MK+5qN/FLNY0ldlzJInST+EmmwlNMfTzyi83KuIFQZFbnYtpruz/i8hkOIfBDNWAosDMTK5AE1S931lrTse7LIjvfJueDhU9G7uw6XSdfQQxXaGOX7641Jo4SIf91WkUUVhW/etrHlzA+qC0dpi4qp7Y6h9ITV+zDnWg2T6Axk5b/iRdmByIO5ZhgaUtCSQnAFF86BiF7WOLS0PB08+kD0EA3WVL7vd+S/Fig9RwrzaJBLkiRNYyhkmL0kfO5xOJojV2oSL+WT9gmB0pgOiNExcROUxnIEcI3U78w==</EncryptionKey>
+    <DocumentList>
+        <Document>
+            <FormCode schemaVersion="1-0E" systemCode="JPK_V7M (2)">JPK_VAT</FormCode>
+            <FileName>jpk9552521552mcrok032023.xml</FileName>
+            <ContentLength>398814</ContentLength>
+            <HashValue algorithm="SHA-256" encoding="Base64">A7B+m13xaipRzOEJvNJljWErwu2a+c4c9ZMcNtNXg58=</HashValue>
+            <FileSignatureList filesNumber="1">
+                <Packaging>
+                    <SplitZip mode="zip" type="split"/>
+                </Packaging>
+                <Encryption>
+                    <AES block="16" mode="CBC" padding="PKCS#7" size="256">
+                        <IV bytes="16" encoding="Base64">a2lqaHlndHJmZGN2YnNnZQ==</IV>
+                    </AES>
+                </Encryption>
+                <FileSignature>
+                    <OrdinalNumber>1</OrdinalNumber>
+                    <FileName>jpk9552521552mcrok032023.xml.zip.aes</FileName>
+                    <ContentLength>24736</ContentLength>
+                    <HashValue algorithm="MD5" encoding="Base64">oLhNxUcAsA+XwqTjeJo4bg==</HashValue>
+                </FileSignature>
+            </FileSignatureList>
+        </Document>
+    </DocumentList>
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#" Id="Signature"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><Reference Type="#Dokument-0" URI=""><Transforms><Transform Algorithm="http://www.w3.org/TR/1999/REC-xpath-19991116"><XPath xmlns:ds="http://www.w3.org/2000/09/xmldsig#">/Deklaracja</XPath></Transform></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><DigestValue>47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=</DigestValue></Reference></SignedInfo><SignatureValue Id="SignatureValueId">Qg59NR32fynom7QSqa/fPIB9RlwHEJ3DzvnDxjEBdTRm37os9UTETPzaEt++aHcJAMJNgCVjTKOd&#13;
+6/1znJqi7DAqT32K9hJcpbxxLvb29naLwb8I4U2+iWySusPTaH3KoPtSbWAb7XB2qp+kdeFErxPH&#13;
+a533//p47a4RAemehDrbQoGwbPA3egvhLp12tMoPuf3SCT95HNrpqgpGxTPu9huCWt8vPeOknlhL&#13;
+jImNr712uCuUrWGn2lwaAFhuhCA4YATNGHutr6LecMPA6GrsZnUTJFzE8Xm5JaGLOXP9uMbTMVL+&#13;
+Lw5cknS+K849fqxeIiPW6gM3OLnU/0bvLbkVJLm/PW3h8CJ8JYVB4OHJA6n9ici5PB3LRYC/6pwK&#13;
+yAlwhty75mQ5s9WY+Puexorg0xYoEwOOJKINpPsttG5FJWVcuhuzDtGtIdq+jA6vP2JVinBMp2i4&#13;
+VAhPITc6t5PaCdLTpLLHy3XdalcoXM0d5B9ZCsOqq/i5FNx/yi/yZzcx</SignatureValue><KeyInfo><X509Data><X509SubjectName>C=PL,2.5.4.5=#1311504e4f504c2d3730303532383039383130,2.5.4.4=#0c0947727a656c637a796b,2.5.4.42=#0c0d47727a65676f727a204164616d,CN=Grzegorz Adam Grzelczyk</X509SubjectName><X509SubjectName>2.5.4.97=#0c10564154504c2d35313730333539343538,CN=Certum QCA 2017,O=Asseco Data Systems S.A.,C=PL</X509SubjectName><X509Certificate>MIIHEjCCBPqgAwIBAgIQZ7RLElcxr9Nh70Siv+v9FTANBgkqhkiG9w0BAQsFADBlMQswCQYDVQQG&#13;
+EwJQTDEhMB8GA1UECgwYQXNzZWNvIERhdGEgU3lzdGVtcyBTLkEuMRgwFgYDVQQDDA9DZXJ0dW0g&#13;
+UUNBIDIwMTcxGTAXBgNVBGEMEFZBVFBMLTUxNzAzNTk0NTgwHhcNMjMwODEwMTIzODE1WhcNMjYw&#13;
+ODA5MTIzODE1WjB3MSAwHgYDVQQDDBdHcnplZ29yeiBBZGFtIEdyemVsY3p5azEWMBQGA1UEKgwN&#13;
+R3J6ZWdvcnogQWRhbTESMBAGA1UEBAwJR3J6ZWxjenlrMRowGAYDVQQFExFQTk9QTC03MDA1Mjgw&#13;
+OTgxMDELMAkGA1UEBhMCUEwwggGiMA0GCSqGSIb3DQEBAQUAA4IBjwAwggGKAoIBgQC6+SXmMgam&#13;
+Ay1OdIyxvKl/p1oSq2bYiya+1LeqkHEfZrsPW2hvX+JPGG6xWXyJkNj3ZZwZw1AnCSWUBVe5htSJ&#13;
+nQceFPmZIJ27Voj2mqI727qQnbY53jOpSOi6bBa7uBhhPDvtPa/88iy3p3IHx068AynQfDOmT1XG&#13;
+OLRRBtKD7q/kO3vE72jEaqnWQdm3RjJJCnFFFWqlrfBfkjTs/qE09ral7Yd55R8IbHErFxRVyBPX&#13;
+E49zxgqyBix/HlG0jXt9U0+Do23WR5OPBUMCUXa1uskgs2nWR3936l4cdCZwoll7/RhXHIfJYAFE&#13;
+/VY5NW6JxMofNizEKzpTRwOcm6du8q4oOYqsdTdUZnjrpWRvNqt+06F7SKWUYSDZs+4IKls4FXFO&#13;
+7WFKuRBfu3T/LZ4Ad3alzmhvrKtLwWx2FlqHc3on1XnbSY8KOjylwRabnmp82vLd4s2j2QC+EyN/&#13;
+mgD4xtFii/lF6sX2HCakbhP+7vTPuyLke41EohtMJgBe93cCAwEAAaOCAiowggImMAwGA1UdEwEB&#13;
+/wQCMAAwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL3FjYS5jcmwuY2VydHVtLnBsL3FjYV8yMDE3&#13;
+LmNybDByBggrBgEFBQcBAQRmMGQwLAYIKwYBBQUHMAGGIGh0dHA6Ly9xY2EtMjAxNy5xb2NzcC1j&#13;
+ZXJ0dW0uY29tMDQGCCsGAQUFBzAChihodHRwOi8vcmVwb3NpdG9yeS5jZXJ0dW0ucGwvcWNhXzIw&#13;
+MTcuY2VyMB8GA1UdIwQYMBaAFCfx2E5gUGi2Yf5oGyhsbeQLcwlNMB0GA1UdDgQWBBQPs/iW1gRs&#13;
+ojOn0mqx0Tgf/ezg1DAOBgNVHQ8BAf8EBAMCBsAwVQYDVR0gBE4wTDAJBgcEAIvsQAECMD8GDCqE&#13;
+aAGG9ncCBAEMATAvMC0GCCsGAQUFBwIBFiFodHRwOi8vd3d3LmNlcnR1bS5wbC9yZXBvenl0b3Jp&#13;
+dW0wgcIGCCsGAQUFBwEDBIG1MIGyMAgGBgQAjkYBATAIBgYEAI5GAQQwgYYGBgQAjkYBBTB8MDwW&#13;
+Nmh0dHBzOi8vcmVwb3NpdG9yeS5jZXJ0dW0ucGwvUERTL0NlcnR1bV9RQ0EtUERTX0VOLnBkZhMC&#13;
+ZW4wPBY2aHR0cHM6Ly9yZXBvc2l0b3J5LmNlcnR1bS5wbC9QRFMvQ2VydHVtX1FDQS1QRFNfUEwu&#13;
+cGRmEwJwbDATBgYEAI5GAQYwCQYHBACORgEGATANBgkqhkiG9w0BAQsFAAOCAgEAUFVDEmzEfMua&#13;
+351LU+Py9LE5K1MOGoxrglwZsQ2mumwXb1EA5TrafXJYqDwbd1/bPR9M2cw3SE1AJPiuqSRrdR+4&#13;
+/pmCPfj2F3L2VvYOYjJSbb5atFRq1UijZehRJzM6e/OELLU+uzB6zre18/EP6jojwCZ5eyieI1n4&#13;
+3EbcPZI3pZy6rrpoMmaaTDie9uHyjM+/S9Mk3xTWP8r1thOhOfEpjoDY7aGVEJozSN7+B6f8YI4o&#13;
+D4sPZ5dLCZHM36ac5+WmKH47XlNPxqCu2GRHa1s3xLMZXOW6osMGmhZT2Z3avPVoHzWEY4hqsdJ0&#13;
+WqbHRWBRrFyMyQcaIJ9UCDpuPVIca84AHN82hwPqG4S7EZVnKhWb5bjaAv1v7vKNecVRMWs88Wtd&#13;
+jo4UD3mRn46FzJ1Y7187qafwlp2Qk5n3iVOFm7cuXq1kpwMBBdBkufRR5ruDhozj/CpmMYjyizHi&#13;
+T1PuucPh4/WXoSraHbMv10SVQJn8mmnldkGsONFKIR2vQ8lAFlAAUkIitOr6j6CTUJUyRWxdIvvq&#13;
+6Ydg2gvy4LGzxPzqSHuiEKLR2ZGlaWpaENuku5idYfA1jjo0gyvf8TrGtNxqcP8N7H9BLCMFVDqB&#13;
+B1eZ9RQ7z0GSnX0UUe7B4vqE/kxkeGSXUVKw/YAA6EpuiI5MX8D+dYqKal981eo=</X509Certificate></X509Data></KeyInfo><Object Encoding="UTF-8" Id="idObject"><ds:QualifyingProperties xmlns:ds="http://uri.etsi.org/01903/v1.3.2#" Target="Signature" xmlns="http://www.w3.org/2000/09/xmldsig#"><ds:SignedProperties Id="SignedProperties"><ds:SignedSignatureProperties><ds:SigningCertificate><ds:Cert><ds:IssuerSerial><ds:X509IssuerName>2.5.4.97=#0c10564154504c2d35313730333539343538,CN=Certum QCA 2017,O=Asseco Data Systems S.A.,C=PL</ds:X509IssuerName><ds:X509SerialNumber>137846619634195066547340063431925169429</ds:X509SerialNumber></ds:IssuerSerial><ds:CertDigest><ds:DigestMethod Algoritm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>MjJcuabIeEZMBOzH8S9ILvwV42gCqi8ig9T8mLsIm7g=</ds:DigestValue></ds:CertDigest></ds:Cert></ds:SigningCertificate></ds:SignedSignatureProperties></ds:SignedProperties></ds:QualifyingProperties></Object></Signature></InitUpload>
