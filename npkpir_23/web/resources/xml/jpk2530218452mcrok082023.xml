@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-13T06:10:04.836Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3204</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>8</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>2530218452</ns2:NIP>
+            <ns2:ImiePierwsze>Wojciech</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Stawicki </ns2:Nazwisko>
+            <ns2:DataUrodzenia>1986-08-29</ns2:DataUrodzenia>
+            <Email>m.janowska@taxman.biz.pl</Email>
+            <Telefon>507700791</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <NrKontrahenta>0000010335</NrKontrahenta>
+            <NazwaKontrahenta>Kamila Zdzikot</NazwaKontrahenta>
+            <DowodSprzedazy>1/8/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-01</DataWystawienia>
+            <DataSprzedazy>2023-08-01</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_17>175.00</K_17>
+            <K_18>14.0</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6711733208</NrKontrahenta>
+            <NazwaKontrahenta>FRĄCZCZAK Adam Af9</NazwaKontrahenta>
+            <DowodSprzedazy>2/8/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-03</DataWystawienia>
+            <DataSprzedazy>2023-08-03</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_17>777.78</K_17>
+            <K_18>62.22</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <NrKontrahenta>0000011332</NrKontrahenta>
+            <NazwaKontrahenta>Anna Bartosik </NazwaKontrahenta>
+            <DowodSprzedazy>3/8/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-29</DataWystawienia>
+            <DataSprzedazy>2023-08-29</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_17>140.74</K_17>
+            <K_18>11.26</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>2530218452</NrKontrahenta>
+            <NazwaKontrahenta>"HIGH KICK"  Wojciech Stawicki</NazwaKontrahenta>
+            <DowodSprzedazy>RF 1/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_17>23391.76</K_17>
+            <K_18>1871.34</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>2530218452</NrKontrahenta>
+            <NazwaKontrahenta>"HIGH KICK"  Wojciech Stawicki</NazwaKontrahenta>
+            <DowodSprzedazy>RF 1/08/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-31</DataWystawienia>
+            <DataSprzedazy>2023-08-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_19>9674.37</K_19>
+            <K_20>2225.08</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>2</LiczbaWierszySprzedazy>
+            <PodatekNalezny>4096.42</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8510107787</NrDostawcy>
+            <NazwaDostawcy>Woj.zakład doskonalenia zawodowego</NazwaDostawcy>
+            <DowodZakupu>A/0924/2023</DowodZakupu>
+            <DataZakupu>2023-08-01</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>308.34</K_42>
+            <K_43>24.67</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8133611149</NrDostawcy>
+            <NazwaDostawcy>Centru Rozliczeń Elektronicznych SA</NazwaDostawcy>
+            <DowodZakupu>FW-731871/2023/OBX</DowodZakupu>
+            <DataZakupu>2023-08-01</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>36.00</K_42>
+            <K_43>8.28</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>F0082942267/008/23</DowodZakupu>
+            <DataZakupu>2023-08-01</DataZakupu>
+            <DataWplywu>2023-08-01</DataWplywu>
+            <K_42>110.03</K_42>
+            <K_43>25.31</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6372205055</NrDostawcy>
+            <NazwaDostawcy>PAVI SORTE sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>D60/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-03</DataZakupu>
+            <DataWplywu>2023-08-03</DataWplywu>
+            <K_42>3576.90</K_42>
+            <K_43>822.69</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7671714055</NrDostawcy>
+            <NazwaDostawcy>ME M03 sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>S479/230804850903</DowodZakupu>
+            <DataZakupu>2023-08-04</DataZakupu>
+            <DataWplywu>2023-08-04</DataWplywu>
+            <K_42>146.33</K_42>
+            <K_43>33.66</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6812049560</NrDostawcy>
+            <NazwaDostawcy>METALNET Maciej Budzowski</NazwaDostawcy>
+            <DowodZakupu>184/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-04</DataZakupu>
+            <DataWplywu>2023-08-04</DataWplywu>
+            <K_42>36.60</K_42>
+            <K_43>8.42</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009959</NrDostawcy>
+            <NazwaDostawcy>CASTORAMA POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>4181/8014/2023</DowodZakupu>
+            <DataZakupu>2023-08-04</DataZakupu>
+            <DataWplywu>2023-08-04</DataWplywu>
+            <K_42>-203.25</K_42>
+            <K_43>-46.75</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1132568413</NrDostawcy>
+            <NazwaDostawcy>BRICOMAN POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>#2023/007/56592</DowodZakupu>
+            <DataZakupu>2023-08-04</DataZakupu>
+            <DataWplywu>2023-08-04</DataWplywu>
+            <K_42>365.67</K_42>
+            <K_43>84.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>23080431725728</DowodZakupu>
+            <DataZakupu>2023-08-06</DataZakupu>
+            <DataWplywu>2023-08-06</DataWplywu>
+            <K_42>170.22</K_42>
+            <K_43>39.15</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8510107787</NrDostawcy>
+            <NazwaDostawcy>Woj.zakład doskonalenia zawodowego</NazwaDostawcy>
+            <DowodZakupu>A/0967/2023</DowodZakupu>
+            <DataZakupu>2023-08-07</DataZakupu>
+            <DataWplywu>2023-08-07</DataWplywu>
+            <K_42>9228.46</K_42>
+            <K_43>2122.55</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7792269944</NrDostawcy>
+            <NazwaDostawcy>DOMINIK Gawron "garda"</NazwaDostawcy>
+            <DowodZakupu>3/8/2023</DowodZakupu>
+            <DataZakupu>2023-08-07</DataZakupu>
+            <DataWplywu>2023-08-07</DataWplywu>
+            <K_42>1157.72</K_42>
+            <K_43>266.28</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6621691593</NrDostawcy>
+            <NazwaDostawcy>ANETA Lizura Wodanet</NazwaDostawcy>
+            <DowodZakupu>366/8/B/2023/PP</DowodZakupu>
+            <DataZakupu>2023-08-08</DataZakupu>
+            <DataWplywu>2023-08-08</DataWplywu>
+            <K_42>37.76</K_42>
+            <K_43>8.68</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>2220687945</NrDostawcy>
+            <NazwaDostawcy>F.H.U. FITNESS-NET Aleksandra Dreinert</NazwaDostawcy>
+            <DowodZakupu>892/2023</DowodZakupu>
+            <DataZakupu>2023-08-08</DataZakupu>
+            <DataWplywu>2023-08-08</DataWplywu>
+            <K_42>4507.46</K_42>
+            <K_43>1036.71</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8510107787</NrDostawcy>
+            <NazwaDostawcy>Woj.zakład doskonalenia zawodowego</NazwaDostawcy>
+            <DowodZakupu>A/1037/2023</DowodZakupu>
+            <DataZakupu>2023-08-09</DataZakupu>
+            <DataWplywu>2023-08-09</DataWplywu>
+            <K_42>498.96</K_42>
+            <K_43>114.76</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7120165701</NrDostawcy>
+            <NazwaDostawcy>HYDRO-GAZ ZALESZCZYK SP.J.</NazwaDostawcy>
+            <DowodZakupu>F/004189/23</DowodZakupu>
+            <DataZakupu>2023-08-14</DataZakupu>
+            <DataWplywu>2023-08-14</DataWplywu>
+            <K_42>38.58</K_42>
+            <K_43>8.87</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5342508684</NrDostawcy>
+            <NazwaDostawcy>FORB POLAND sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FV/142/PL/2308</DowodZakupu>
+            <DataZakupu>2023-08-14</DataZakupu>
+            <DataWplywu>2023-08-14</DataWplywu>
+            <K_42>152.03</K_42>
+            <K_43>34.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7812033252</NrDostawcy>
+            <NazwaDostawcy>E-VERTO sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>10575/MAG/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-15</DataZakupu>
+            <DataWplywu>2023-08-15</DataWplywu>
+            <K_42>53.24</K_42>
+            <K_43>12.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 8810K1/0633/23</DowodZakupu>
+            <DataZakupu>2023-08-17</DataZakupu>
+            <DataWplywu>2023-08-17</DataWplywu>
+            <K_42>81.30</K_42>
+            <K_43>9.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822131157</NrDostawcy>
+            <NazwaDostawcy>Pepco Poland Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FVS2300122320219</DowodZakupu>
+            <DataZakupu>2023-08-23</DataZakupu>
+            <DataWplywu>2023-08-23</DataWplywu>
+            <K_42>48.78</K_42>
+            <K_43>11.22</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7792537830</NrDostawcy>
+            <NazwaDostawcy>SPEC KABLE sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>10135/WMG/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-23</DataZakupu>
+            <DataWplywu>2023-08-23</DataWplywu>
+            <K_42>73.17</K_42>
+            <K_43>16.83</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 10090K1/4638/23</DowodZakupu>
+            <DataZakupu>2023-08-24</DataZakupu>
+            <DataWplywu>2023-08-24</DataWplywu>
+            <K_42>162.65</K_42>
+            <K_43>18.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>8/2023/HIGH45</DowodZakupu>
+            <DataZakupu>2023-08-24</DataZakupu>
+            <DataWplywu>2023-08-24</DataWplywu>
+            <K_42>420.00</K_42>
+            <K_43>96.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7671714055</NrDostawcy>
+            <NazwaDostawcy>ME M03 sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>S479/230825163703</DowodZakupu>
+            <DataZakupu>2023-08-25</DataZakupu>
+            <DataWplywu>2023-08-25</DataWplywu>
+            <K_42>37.39</K_42>
+            <K_43>8.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522598704</NrDostawcy>
+            <NazwaDostawcy>GAMA S.C.  M. PAWLAK, G. SOBIECH, D. Sobiech</NazwaDostawcy>
+            <DowodZakupu>1186/2023</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>34.66</K_42>
+            <K_43>7.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6770066541</NrDostawcy>
+            <NazwaDostawcy>Eden Spring Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>31/12952011</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>15.00</K_42>
+            <K_43>3.45</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8510107787</NrDostawcy>
+            <NazwaDostawcy>Woj.zakład doskonalenia zawodowego</NazwaDostawcy>
+            <DowodZakupu>A/1048/2023</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>274.08</K_42>
+            <K_43>21.93</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 9445K1/0633/23</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>81.67</K_42>
+            <K_43>9.39</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9292044002</NrDostawcy>
+            <NazwaDostawcy>GGSPORTS sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1345/GGS/08/2023</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>1284.31</K_42>
+            <K_43>295.39</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8520014018</NrDostawcy>
+            <NazwaDostawcy>"REMONDIS SZCZECIN" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>4152213874</DowodZakupu>
+            <DataZakupu>2023-08-31</DataZakupu>
+            <DataWplywu>2023-08-31</DataWplywu>
+            <K_42>286.00</K_42>
+            <K_43>22.88</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>29</LiczbaWierszyZakupow>
+            <PodatekNaliczony>5126.90</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

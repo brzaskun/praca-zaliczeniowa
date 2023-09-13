@@ -170,7 +170,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
         if (listabrakiKontaAnalityczne.size() > 0) {
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+            Msg.msg("w", b.toString(), b.toString());
         }
         if (listaRozniceWnMa.size() > 0) {
             main = "Występują różnice w stronach Wn i Ma w PLN w " + listaRozniceWnMa.size() + " dokumentach: ";
@@ -191,7 +191,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                 }
             }
             dokDAOfk.editList(listaRozniceWnMa);
-            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+            Msg.msg("w", b.toString(), b.toString());
         }
         if (listabraki.size() > 0) {
             main = "Występują braki w kolumnie pln w " + listabraki.size() + " dokumentach: ";
@@ -210,58 +210,58 @@ public class DokfkWeryfikacjaView implements Serializable {
             }
             czysto = false;
             dokDAOfk.editList(listabraki);
-            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+            Msg.msg("w", b.toString(), b.toString());
         }
         if (listabrakiewidvat.size() > 0) {
             main = "Brak ewidencji vat w fakturach w " + listabrakiewidvat.size() + " dokumentach: ";
             b = pobierzbledy(listabrakiewidvat, main, listaZaksiegowanychDokumentow);
             czysto = false;
-            Msg.msg("e", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+            Msg.msg("e", b.toString(), b.toString());
         }
         if (listabrakiPozycji.size() > 0) {
             main = "Konta w dokumencie nie maja przyporzadkowania do Pozycji w " + listaRozniceWnMa.size() + " dokumentach: ";
             b = pobierzbledy(listabrakiPozycji, main, listaZaksiegowanychDokumentow);
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+            Msg.msg("w", b.toString(), b.toString());
         }
         if (listabrakkontrahenta.size() > 0) {
             main = "Brakuje kontrahenta w " + listabrakkontrahenta.size() + " dokumentach: ";
             b = pobierzbledy(listabrakkontrahenta, main, listaZaksiegowanychDokumentow);
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+            Msg.msg("w", b.toString(), b.toString());
         }
         if (listabrakiKonto.size() > 0) {
             main = "Brakuje numeru konta w " + listabrakiKonto.size() + " dokumentach: ";
             b = pobierzbledy(listabrakiKonto, main, listaZaksiegowanychDokumentow);
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+            Msg.msg("w", b.toString(), b.toString());
         }
         if (listabrakivat.size() > 0) {
             main = "Niezgodność między miesiącem ewidencji vat a typem konta vat w " + listabrakivat.size() + " dokumentach: ";
             b = pobierzbledy(listabrakivat, main, listaZaksiegowanychDokumentow);
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+            Msg.msg("w", b.toString(), b.toString());
         }
         if (listabrakidaty.size() > 0) {
             main = "Złe daty w następujących w " + listabrakivat.size() + " dokumentach: ";
             b = pobierzbledy(listabrakidaty, main, listaZaksiegowanychDokumentow);
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+            Msg.msg("w", b.toString(), b.toString());
         }
         if (listapustaewidencja.size() > 0) {
             main = "Puste ewidencje vat w " + listapustaewidencja.size() + " dokumentach: ";
             b = pobierzbledy(listapustaewidencja, main, listaZaksiegowanychDokumentow);
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+            Msg.msg("w", b.toString(), b.toString());
         }
          if (listaniezgodnoscvatkonto.size() > 0) {
             main = "VAT z ewidencji vat niezgodny z kontem w " + listaniezgodnoscvatkonto.size() + " dokumentach: ";
             b = pobierzbledy(listaniezgodnoscvatkonto, main, listaZaksiegowanychDokumentow);
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+            Msg.msg("w", b.toString(), b.toString());
         }
         if (czysto) {
-            Msg.msg("i", "Nie stwierdzono błędów w dokumentach z listy", "zestawieniedokumentow:wiadomoscsprawdzenie");
+            Msg.msg("i", "Nie stwierdzono błędów w dokumentach z listy");
         }
     }
     
