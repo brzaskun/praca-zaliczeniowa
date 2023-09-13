@@ -438,7 +438,7 @@
                         <h:outputText value="tylko ewidencja vat z podatkiem należnym" style="color: blue;" rendered="#{dokfkView.selected.rodzajedok.tylkovatnalezny}"/>
                         <p:dataTable id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
                                      style="margin-top: 0px;" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 || dokfkView.selected.rodzajedok.kategoriadokumentu == 2}"
-                                     styleClass="gridvat">
+                                     styleClass="gridvat" rowIndexVar="rowindex">
 <!--                            <p:column headerText="" width="5">
                                 <h:outputText value="#{item.lp+1}" styleClass="lpwierszavat"/>
                             </p:column>-->
@@ -479,7 +479,7 @@
                                                  onblur="$(this).removeClass('ui-state-focus');" style="width: 45px; height: 20px;">
                                     <f:selectItem itemLabel="op" itemValue="sprz.op"/>
                                     <f:selectItem itemLabel="op.izw." itemValue="sprzed.op.izw."/>
-                                    <p:ajax global="false" event="focus" listener="#{dokfkView.dolaczWierszeZKwotami(item)}" partialSubmit="true"/>
+                                    <p:ajax global="false" event="focus" listener="#{dokfkView.dolaczWierszeZKwotami(item, rowindex)}" partialSubmit="true"/>
                                 </h:selectOneMenu>
                             </p:column>
                             <p:column style="width: 25px; text-align: center;" rendered="#{!item.nieduplikuj}">

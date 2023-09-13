@@ -92,7 +92,7 @@
                                 <f:validateLength minimum="1" maximum="50"/>
                             </p:inputText>
 
-                            <p:autoComplete id="opis" value="#{vatKorektaView.vatKorektaDok.opisDokumnetu}" completeMethod="#{Opis.complete}"
+                            <p:autoComplete id="opis" value="#{vatKorektaView.vatKorektaDok.opisDokumnetu}" completeMethod="#{opis.complete}"
                                             var="p" itemLabel="#{p}" itemValue="#{p}"  title="wpisz opis faktury"
                                             minQueryLength="2" maxResults="10" maxlength="40"
                                             effect="clip" autocomplete="true"  queryDelay="1" style="width: 250px;">

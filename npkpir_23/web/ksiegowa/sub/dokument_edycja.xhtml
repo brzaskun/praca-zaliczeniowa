@@ -186,7 +186,7 @@
                         </p:inputText>
                     </p:column>
                     <p:column>
-                        <p:autoComplete id="opis" value="#{DokumentView.selDokument.opis}" completeMethod="#{Opis.complete}"
+                        <p:autoComplete id="opis" value="#{DokumentView.selDokument.opis}" completeMethod="#{opis.complete}"
                                         var="p" itemLabel="#{p}" itemValue="#{p}"  title="wpisz opis faktury"
                                         minQueryLength="2" maxResults="10" maxlength="40"
                                         effect="clip" autocomplete="true"  queryDelay="1" style="width: 200px;">
@@ -197,7 +197,7 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:commandButton id="dodajopis" value="ok" actionListener="#{Opis.dodajOpis}" style="display: none;"/>
+            <p:commandButton id="dodajopis" value="ok" actionListener="#{opis.dodajOpis}" style="display: none;"/>
             <!--        <span id="log"></span>-->
             <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
             <p:panelGrid columns="2" style="width: 855px;" columnClasses="forty-percent, sixty-percent">

@@ -164,13 +164,13 @@ public class ObrotyView implements Serializable{
       public void aktualizujObrotyX(ActionEvent e) {
         aktualizujGuest();
         PrimeFaces.current().ajax().update("formX:dokumentyLista");
-        PrimeFaces.current().ajax().update("westKsiegowa:westKsiegowaWidok");
+        //PrimeFaces.current().ajax().update("westKsiegowa:westKsiegowaWidok");
     }
       
     public void aktualizujObroty(AjaxBehaviorEvent e) {
         aktualizuj();
         PrimeFaces.current().ajax().update("formX:dokumentyLista");
-        PrimeFaces.current().ajax().update("westKsiegowa:westKsiegowaWidok");
+        //PrimeFaces.current().ajax().update("westKsiegowa:westKsiegowaWidok");
     }
     private void aktualizuj(){
         wpisView.naniesDaneDoWpis();

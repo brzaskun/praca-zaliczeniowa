@@ -835,7 +835,7 @@ public class DokfkView implements Serializable {
         }
     }
 
-    public void dolaczWierszeZKwotami(EVatwpisFK evatwpis) {
+    public void dolaczWierszeZKwotami(EVatwpisFK evatwpis, int rowindex) {
         boolean niesumuj = evatwpis.isNieduplikuj() && evatwpis.getEwidencja().getNazwa().equals("zakup");
         if (!selected.iswTrakcieEdycji() && !niesumuj && !selected.getRodzajedok().isTylkovat() && !selected.getRodzajedok().isTylkojpk()){
             Rodzajedok rodzajdok = selected.getRodzajedok();
@@ -857,9 +857,9 @@ public class DokfkView implements Serializable {
                     rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
                 }
             } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 1) {
-                rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView, nkup);
+                rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView, nkup, rowindex);
             } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 2) {
-                rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView);
+                rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView, rowindex);
             }
             selected.setZablokujzmianewaluty(true);
             PrimeFaces.current().ajax().update("formwpisdokument:panelwalutowywybor");
@@ -890,7 +890,7 @@ public class DokfkView implements Serializable {
             String update = "formwpisdokument:dataList";
             PrimeFaces.current().ajax().update(update);
             ewidencjaVatRK = new EVatwpisFK();
-            selected.przeliczKwotyWierszaDoSumyDokumentu();
+            selected.przeliczKwotyWierszaDoSumyDokumentuJawna();
             PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
             Msg.msg("Zachowano zapis w ewidencji VAT");
         } catch (Exception e) {
@@ -994,14 +994,16 @@ public class DokfkView implements Serializable {
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         int lp = evatwpis.getLp();
         evatwpis.setSprawdzony(0);
-        String update = form + ":tablicavat:" + lp + ":netto";
-        PrimeFaces.current().ajax().update(update);
-        update = form + ":tablicavat:" + lp + ":vat";
-        PrimeFaces.current().ajax().update(update);
-        update = form + ":tablicavat:" + lp + ":brutto";
-        PrimeFaces.current().ajax().update(update);
-        String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":vat_input').select();";
-        PrimeFaces.current().executeScript(activate);
+        try {
+            String update = form + ":tablicavat:" + lp + ":netto";
+            PrimeFaces.current().ajax().update(update);
+            update = form + ":tablicavat:" + lp + ":vat";
+            PrimeFaces.current().ajax().update(update);
+            update = form + ":tablicavat:" + lp + ":brutto";
+            PrimeFaces.current().ajax().update(update);
+            String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":vat_input').select();";
+            PrimeFaces.current().executeScript(activate);
+        } catch (Exception e){}
     }
 
     public void updatevat(EVatwpisFK evatwpis, String form) {
@@ -1176,7 +1178,7 @@ public class DokfkView implements Serializable {
                     //dodaje roznice kursowa w dokumencie
                     oznaczdokumentRozKurs(selected);
                     //nanieswierszeRRK(selected);
-                    selected.przeliczKwotyWierszaDoSumyDokumentu();
+                    selected.przeliczKwotyWierszaDoSumyDokumentuJawna();
                 } else {
                     selected.getListawierszy().remove(0);
                 }
@@ -1247,7 +1249,7 @@ public class DokfkView implements Serializable {
                     //dodaje roznice kursowa w dokumencie
                     oznaczdokumentRozKurs(selected);
                     //nanieswierszeRRK(selected);
-                    selected.przeliczKwotyWierszaDoSumyDokumentu();
+                    selected.przeliczKwotyWierszaDoSumyDokumentuJawna();
                 } else {
                     if (selected.getListawierszy().size()==1) {
                         selected.getListawierszy().remove(0);
@@ -1913,7 +1915,7 @@ public class DokfkView implements Serializable {
         try {
             if (flag != 1) {
                 Wiersz wierszNastepny = selected.nastepnyWiersz(wybranyWiersz);
-                if (wybranyWiersz.getLpmacierzystego() == 0 && wierszNastepny.getLpmacierzystego() != 0) {
+                if (wierszNastepny!=null&&wybranyWiersz.getLpmacierzystego() == 0 && wierszNastepny.getLpmacierzystego() != 0) {
                     Msg.msg("e", "Jest to wiersz zawierający kwotę rozliczona w dalszych wierszach. Nie można go usunąć");
                     flag = 1;
                 }
@@ -1980,10 +1982,12 @@ public class DokfkView implements Serializable {
                     this.wierszzmieniony = poprzedni;
                     break;
             }
-            for (Iterator<EVatwpisFK> it = selected.getEwidencjaVAT().iterator(); it.hasNext();) {
-                EVatwpisFK p = it.next();
-                if (p.getWiersz() == wybranyWiersz) {
-                    it.remove();
+            if (selected.getEwidencjaVAT()!=null&&selected.getEwidencjaVAT().size()>0){
+                for (Iterator<EVatwpisFK> it = selected.getEwidencjaVAT().iterator(); it.hasNext();) {
+                    EVatwpisFK p = it.next();
+                    if (p.getWiersz() == wybranyWiersz) {
+                        it.remove();
+                    }
                 }
             }
             int liczbawierszyWDokumencie = selected.getListawierszy().size();
@@ -3466,7 +3470,7 @@ public class DokfkView implements Serializable {
                                 ObslugaWiersza.wygenerujWierszRoznicowy(wierszzmieniony, false, nrgr, selected, tabelanbpDAO);
                                 PrimeFaces.current().ajax().update("formwpisdokument:dataList");
                             }
-                            selected.przeliczKwotyWierszaDoSumyDokumentu();
+                            selected.przeliczKwotyWierszaDoSumyDokumentuJawna();
                         }
                         rozliczsaldoWBRK(wierszpodstawowy.getIdporzadkowy() - 1);
                         wierszzmieniony=null;
