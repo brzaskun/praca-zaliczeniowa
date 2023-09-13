@@ -161,31 +161,32 @@ public class KsiegaBean {
 
     public static void rozliczkolumnysumaryczne(DokKsiega dk, DokKsiega podsumowanie) {
         if (dk.getKolumna7() != null && dk.getKolumna8() != null) {
-                dk.setKolumna9(dk.getKolumna7() + dk.getKolumna8());
+            dk.setKolumna9(dk.getKolumna7() + dk.getKolumna8());
+            podsumowanie.setKolumna9(podsumowanie.getKolumna9() + dk.getKolumna9());
+        } else if (dk.getKolumna7() != null) {
+            dk.setKolumna9(dk.getKolumna7());
+            podsumowanie.setKolumna9(podsumowanie.getKolumna9() + dk.getKolumna9());
+        } else if (dk.getKolumna8() != null){
+            dk.setKolumna9(dk.getKolumna8());
+            try {
                 podsumowanie.setKolumna9(podsumowanie.getKolumna9() + dk.getKolumna9());
-            } else if (dk.getKolumna7() != null) {
-                dk.setKolumna9(dk.getKolumna7());
-                podsumowanie.setKolumna9(podsumowanie.getKolumna9() + dk.getKolumna9());
-            } else {
-                dk.setKolumna9(dk.getKolumna8());
-                try {
-                    podsumowanie.setKolumna9(podsumowanie.getKolumna9() + dk.getKolumna9());
-                } catch (Exception e) { E.e(e); 
-                }
+            } catch (Exception e) {
+                E.e(e);
             }
-            if (dk.getKolumna12() != null && dk.getKolumna13() != null) {
-                dk.setKolumna14(dk.getKolumna12() + dk.getKolumna13());
+        }
+        if (dk.getKolumna12() != null && dk.getKolumna13() != null) {
+            dk.setKolumna14(dk.getKolumna12() + dk.getKolumna13());
+            podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
+        } else if (dk.getKolumna12() != null) {
+            dk.setKolumna14(dk.getKolumna12());
+            podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
+        } else  if (dk.getKolumna13() != null) {
+            dk.setKolumna14(dk.getKolumna13());
+            try {
                 podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
-            } else if (dk.getKolumna12() != null) {
-                dk.setKolumna14(dk.getKolumna12());
-                podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
-            } else {
-                dk.setKolumna14(dk.getKolumna13());
-                try {
-                    podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
-                } catch (Exception e) { 
-                }
+            } catch (Exception e) {
             }
+        }
     }
 
     public static Sumypkpir zachowajsumypkpir(WpisView wpisView, DokKsiega podsumowanie) {
