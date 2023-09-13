@@ -961,11 +961,11 @@ public class Podatnik implements Serializable {
     public void setOpisypkpir(List opisypkpir) {
         this.opisypkpir = opisypkpir;
     }
-    
-      
+
     public List<Udzialy> getUdzialy() {
-        throw new UnsupportedOperationException("Metyoda pusta"); //To change body of generated methods, choose Tools | Templates.
+        return udzialy;
     }
+    
     
     public void setUdzialy(List<Udzialy> udzialy) {
         this.udzialy = udzialy;

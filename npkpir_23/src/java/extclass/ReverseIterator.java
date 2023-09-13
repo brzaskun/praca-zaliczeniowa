@@ -36,9 +36,6 @@ public class ReverseIterator<T> implements Iterator<T>, Iterable<T> {
         return list.get(position--);
     }
 
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
+    
 
 }
