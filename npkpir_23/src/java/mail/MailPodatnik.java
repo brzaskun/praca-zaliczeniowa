@@ -122,85 +122,87 @@ public class MailPodatnik {
         
     }
     
-     @Schedule(dayOfWeek="1,3,5", hour = "7", persistent = false)
+    @Schedule(dayOfWeek="6", hour = "7", persistent = false)
     public void sprawdznowych() {
         List<Podatnik> podatniki = podatnikDAO.findNowi();
         SMTPSettings ogolne = sMTPSettingsDAO.findSprawaByDef();
         if (podatniki!=null) {
             podatniki.stream().forEach(p -> {
-                List<String> braki = zrobbraki(p);
                 try {
-                    String data = Data.data_yyyyMMdd(p.getDatawprowadzenia());
-                    MailSetUp mailSetUp = new MailSetUp();
-                    MimeMessage message = mailSetUp.logintoUZAktywny(uzDAO, ogolne);
-                    if (p.getKsiegowa()==null&p.getKadrowa()==null) {
-                        try {
-                            List<Uz> lista = uzDAO.findByUprawnieniaAktywny("Bookkeeper");
-                            lista.addAll(uzDAO.findByUprawnieniaAktywny("BookkeeperFK"));
-                            lista.addAll(uzDAO.findByUprawnieniaAktywny("HumanResources"));
-                            String adresy = lista.stream().filter(pa-> pa.getEmail()!=null).map(r->r.getEmail()).collect(Collectors.joining(","));
-                            //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("info@taxman.biz.pl"));
-                            message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(adresy));
-                        } catch (MessagingException ex) {
-                            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                     } else if (p.getKsiegowa()==null) {
-                         try {
-                            List<Uz> lista = uzDAO.findByUprawnieniaAktywny("Bookkeeper");
-                            lista.addAll(uzDAO.findByUprawnieniaAktywny("BookkeeperFK"));
-                            String adresy = lista.stream().filter(pa-> pa.getEmail()!=null).map(r->r.getEmail()).collect(Collectors.joining(","));
-                            adresy = adresy+","+p.getKadrowa().getEmail();
-                            //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("info@taxman.biz.pl"));
-                            message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(adresy));
-                        } catch (MessagingException ex) {
-                            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                     } else if (p.getKadrowa()==null) {
-                         try {
-                            List<Uz> lista = uzDAO.findByUprawnieniaAktywny("HumanResources");
-                            String adresy = lista.stream().filter(pa-> pa.getEmail()!=null).map(r->r.getEmail()).collect(Collectors.joining(","));
-                            adresy = adresy+","+p.getKsiegowa().getEmail();
-                            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("info@taxman.biz.pl"));
-                            message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(adresy));
-                        } catch (MessagingException ex) {
-                            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                     } else {
-                         try {
-                            String adresy = "";
-                            adresy = adresy+","+p.getKsiegowa().getEmail();
-                            adresy = adresy+","+p.getKadrowa().getEmail();
-                            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("info@taxman.biz.pl"));
-                            message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(adresy));
-                        } catch (MessagingException ex) {
-                            
-                        }
-                            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    message.setSubject("Taxman - informacja o brakach u nowego klienta","UTF-8");
-                    // create and fill the first message part
-                    MimeBodyPart mbp1 = new MimeBodyPart();
-                    mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
-                    mbp1.setContent("Dzień dobry "
-                            + "<p>"+"Informuję, że dnia "+data+" przyjeliśmy nowego klienta </p>"
-                            + "<p>o nazwie:</p>"
-                            + "<p style=\"color: green;\">"+p.getPrintnazwa()+" </p>"
-                            + "<p>Do tej pory nie załatwiono następujących spraw związanych z podatnikiem</p>"
-                            + zamienbrakinaparagraf(braki)
-                            + "<br/>"
-                            + "<p>Administrator Programu</p>", "text/html; charset=utf-8");
-                    // create the Multipart and add its parts to it
-                    Multipart mp = new MimeMultipart();
-                    mp.addBodyPart(mbp1);
+                    List<String> braki = zrobbraki(p);
+                    try {
+                        String data = Data.data_yyyyMMdd(p.getDatawprowadzenia());
+                        MailSetUp mailSetUp = new MailSetUp();
+                        MimeMessage message = mailSetUp.logintoUZAktywny(uzDAO, ogolne);
+                        if (p.getKsiegowa()==null&p.getKadrowa()==null) {
+                            try {
+                                List<Uz> lista = uzDAO.findByUprawnieniaAktywny("Bookkeeper");
+                                lista.addAll(uzDAO.findByUprawnieniaAktywny("BookkeeperFK"));
+                                lista.addAll(uzDAO.findByUprawnieniaAktywny("HumanResources"));
+                                String adresy = lista.stream().filter(pa-> pa.getEmail()!=null).map(r->r.getEmail()).collect(Collectors.joining(","));
+                                //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("info@taxman.biz.pl"));
+                                message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(adresy));
+                            } catch (MessagingException ex) {
+                                // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                         } else if (p.getKsiegowa()==null) {
+                             try {
+                                List<Uz> lista = uzDAO.findByUprawnieniaAktywny("Bookkeeper");
+                                lista.addAll(uzDAO.findByUprawnieniaAktywny("BookkeeperFK"));
+                                String adresy = lista.stream().filter(pa-> pa.getEmail()!=null).map(r->r.getEmail()).collect(Collectors.joining(","));
+                                adresy = adresy+","+p.getKadrowa().getEmail();
+                                //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("info@taxman.biz.pl"));
+                                message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(adresy));
+                            } catch (MessagingException ex) {
+                                // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                         } else if (p.getKadrowa()==null) {
+                             try {
+                                List<Uz> lista = uzDAO.findByUprawnieniaAktywny("HumanResources");
+                                String adresy = lista.stream().filter(pa-> pa.getEmail()!=null).map(r->r.getEmail()).collect(Collectors.joining(","));
+                                adresy = adresy+","+p.getKsiegowa().getEmail();
+                                message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("info@taxman.biz.pl"));
+                                message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(adresy));
+                            } catch (MessagingException ex) {
+                                // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                         } else {
+                             try {
+                                String adresy = "";
+                                adresy = adresy+","+p.getKsiegowa().getEmail();
+                                adresy = adresy+","+p.getKadrowa().getEmail();
+                                message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("info@taxman.biz.pl"));
+                                message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(adresy));
+                            } catch (MessagingException ex) {
 
-                    // add the Multipart to the message
-                    message.setContent(mp);
-                    Transport.send(message);
+                            }
+                                // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        message.setSubject("Taxman - informacja o brakach u nowego klienta","UTF-8");
+                        // create and fill the first message part
+                        MimeBodyPart mbp1 = new MimeBodyPart();
+                        mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+                        mbp1.setContent("Dzień dobry "
+                                + "<p>"+"Informuję, że dnia "+data+" przyjeliśmy nowego klienta </p>"
+                                + "<p>o nazwie:</p>"
+                                + "<p style=\"color: green;\">"+p.getPrintnazwa()+" </p>"
+                                + "<p>Do tej pory nie załatwiono następujących spraw związanych z podatnikiem</p>"
+                                + zamienbrakinaparagraf(braki)
+                                + "<br/>"
+                                + "<p>Administrator Programu</p>", "text/html; charset=utf-8");
+                        // create the Multipart and add its parts to it
+                        Multipart mp = new MimeMultipart();
+                        mp.addBodyPart(mbp1);
 
-                } catch (MessagingException e) {
-                    System.out.println("blad wysylki wiadomosci sprawdznowych()");
-                    System.out.println("blad wysylki wiadomosci sprawdznowych()");
-                } 
+                        // add the Multipart to the message
+                        message.setContent(mp);
+                        Transport.send(message);
+
+                    } catch (MessagingException e) {
+                        System.out.println("blad wysylki wiadomosci sprawdznowych()");
+                        System.out.println("blad wysylki wiadomosci sprawdznowych()");
+                    } 
+                } catch (Exception e){}
             });
         }
     }
