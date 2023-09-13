@@ -877,7 +877,9 @@ public class Dokfk extends DokSuper implements Serializable {
         for (Wiersz p : this.listawierszy) {
             dodajKwotyWierszaDoSumyDokumentu(p);
         }
-        PrimeFaces.current().ajax().update("formwpisdokument:panelzkwotamidok");
+        try {
+            PrimeFaces.current().ajax().update("formwpisdokument:panelzkwotamidok");
+        } catch (Exception e) {}
     }
 
 //    public void uzupelnijwierszeodane() {

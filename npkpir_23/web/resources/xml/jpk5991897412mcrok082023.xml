@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-13T08:42:19.896Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3216</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>8</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>5991897412</ns2:NIP>
+            <ns2:ImiePierwsze>Mateusz</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Amerski </ns2:Nazwisko>
+            <ns2:DataUrodzenia>1973-12-24</ns2:DataUrodzenia>
+            <Email>ms@taxman.biz.pl</Email>
+            <Telefon>502733788</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_10>10282</P_10>
+            <P_19>2300</P_19>
+            <P_20>529</P_20>
+            <P_35>0</P_35>
+            <P_37>12582</P_37>
+            <P_38>529</P_38>
+            <P_39>28781</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>0</P_42>
+            <P_43>0</P_43>
+            <P_48>28781</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>28252</P_53>
+            <P_62>28252</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000011468</NrKontrahenta>
+            <NazwaKontrahenta>Joseph Abiola</NazwaKontrahenta>
+            <DowodSprzedazy>34/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-04</DataWystawienia>
+            <DataSprzedazy>2023-08-01</DataSprzedazy>
+            <K_10>2147.51</K_10>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000008250</NrKontrahenta>
+            <NazwaKontrahenta>Izabela Kalinowska</NazwaKontrahenta>
+            <DowodSprzedazy>35/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-04</DataWystawienia>
+            <DataSprzedazy>2023-08-01</DataSprzedazy>
+            <K_10>1900.00</K_10>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513274356</NrKontrahenta>
+            <NazwaKontrahenta>LAAITHAI  sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>36/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-04</DataWystawienia>
+            <DataSprzedazy>2023-08-01</DataSprzedazy>
+            <K_10>3934.80</K_10>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000009428</NrKontrahenta>
+            <NazwaKontrahenta>Oksana Standyk</NazwaKontrahenta>
+            <DowodSprzedazy>37/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-04</DataWystawienia>
+            <DataSprzedazy>2023-08-01</DataSprzedazy>
+            <K_10>2300.00</K_10>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8471506335</NrKontrahenta>
+            <NazwaKontrahenta>BEVELIN Ewelina Bugajska</NazwaKontrahenta>
+            <DowodSprzedazy>38/2023</DowodSprzedazy>
+            <DataWystawienia>2023-08-04</DataWystawienia>
+            <DataSprzedazy>2023-08-01</DataSprzedazy>
+            <K_19>2300.00</K_19>
+            <K_20>529.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>5</LiczbaWierszySprzedazy>
+            <PodatekNalezny>529.00</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>0</LiczbaWierszyZakupow>
+            <PodatekNaliczony>0</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>
