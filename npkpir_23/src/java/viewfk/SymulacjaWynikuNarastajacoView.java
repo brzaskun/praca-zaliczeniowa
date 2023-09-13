@@ -562,11 +562,12 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                     r.setDywidendadowyplaty(s.getPodatekdochodowy());
                 }
                 try {
-                    wynikFKRokMcDAO.edit(r);
-                } catch (Exception e) {
                     WynikFKRokMc znalezione = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(r);
-                    wynikFKRokMcDAO.remove(znalezione);
-                    wynikFKRokMcDAO.edit(r);
+                    if (znalezione!=null) {
+                        wynikFKRokMcDAO.remove(znalezione);
+                    }
+                    wynikFKRokMcDAO.create(r);
+                } catch (Exception e) {
                 }
             }
         }

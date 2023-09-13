@@ -71,7 +71,12 @@ public class WynikFKRokMcDAO extends DAO implements Serializable {
     }
 
     public WynikFKRokMc findWynikFKPodatnikRokUdzialowiec(WynikFKRokMc wynikFKRokMc) {
-        return sessionFacade.findWynikFKRokMcUdzialowiec(wynikFKRokMc);
+        WynikFKRokMc zwrot = null;
+        try {
+            zwrot = sessionFacade.findWynikFKRokMcUdzialowiec(wynikFKRokMc);
+        } catch (Exception e) {
+        }
+        return zwrot;
     }
     
     public WynikFKRokMc findWynikFKPodatnikRokUdzialowiec(Podatnik podatnik, String rok, String mc, String udzialowiec) {
