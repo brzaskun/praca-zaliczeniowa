@@ -642,13 +642,13 @@ public class DokfkWeryfikacjaView implements Serializable {
     private double podsumujkwotynakontach1(List<Wiersz> listawierszy) {
         double suma = 0.0;
         for (Wiersz t : listawierszy) {
-            if (t.getKontoWn().getZwyklerozrachszczegolne().equals("vat")) {
+            if (t.getKontoWn()!=null&&t.getKontoWn().getZwyklerozrachszczegolne().equals("vat")) {
                 if (t.getKontoWn().getPelnynumer().equals("221-2") || t.getKontoWn().getPelnynumer().equals("221-4")) {
                     suma += t.getKwotaWnPLN();
                 }
             }
-            if (t.getKontoMa().getZwyklerozrachszczegolne().equals("vat")) {
-                if (t.getKontoWn().getPelnynumer().equals("221-2") || t.getKontoWn().getPelnynumer().equals("221-4")) {
+            if (t.getKontoMa()!=null&&t.getKontoMa().getZwyklerozrachszczegolne().equals("vat")) {
+                if (t.getKontoMa().getPelnynumer().equals("221-2") || t.getKontoMa().getPelnynumer().equals("221-4")) {
                     suma += t.getKwotaMaPLN();
                 }
             }
