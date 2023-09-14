@@ -949,7 +949,7 @@ public class DokfkView implements Serializable {
         return kontonetto;
     }
 
-    public void updatenettowal(EVatwpisFK evatwpis, String form) {
+    public void updatenettowal(EVatwpisFK evatwpis, String form, int rowindex) {
         Waluty w = selected.getWalutadokumentu();
         double kurs = selected.getTabelanbp().getKurssredni();
         double przelicznik = selected.getTabelanbp().getWaluta().getPrzelicznik();
@@ -971,19 +971,18 @@ public class DokfkView implements Serializable {
             evatwpis.setVatwwalucie(Z.z(evatwpis.getVat()/kurs*przelicznik));
         }
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
-        int lp = evatwpis.getLp();
         evatwpis.setSprawdzony(0);
-        String update = form + ":tablicavat:" + lp + ":netto";
+        String update = form + ":tablicavat:" + rowindex + ":netto";
         PrimeFaces.current().ajax().update(update);
-        update = form + ":tablicavat:" + lp + ":vat";
+        update = form + ":tablicavat:" + rowindex + ":vat";
         PrimeFaces.current().ajax().update(update);
-        update = form + ":tablicavat:" + lp + ":brutto";
+        update = form + ":tablicavat:" + rowindex + ":brutto";
         PrimeFaces.current().ajax().update(update);
-        String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":vat_input').select();";
+        String activate = "document.getElementById('" + form + ":tablicavat:" + rowindex + ":vat_input').select();";
         PrimeFaces.current().executeScript(activate);
     }
     
-    public void updatenetto(EVatwpisFK evatwpis, String form) {
+    public void updatenetto(EVatwpisFK evatwpis, String form, int rowindex) {
         String rodzajdok = selected.getRodzajedok().getSkrot();
         double stawkavat = DokFKVATBean.pobierzstawke(evatwpis);
         if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("RVCS") || rodzajdok.contains("EXP") || rodzajdok.contains("sprzedaż zw")) {
@@ -992,22 +991,20 @@ public class DokfkView implements Serializable {
             evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));
         }
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
-        int lp = evatwpis.getLp();
         evatwpis.setSprawdzony(0);
         try {
-            String update = form + ":tablicavat:" + lp + ":netto";
+            String update = form + ":tablicavat:" + rowindex + ":netto";
             PrimeFaces.current().ajax().update(update);
-            update = form + ":tablicavat:" + lp + ":vat";
+            update = form + ":tablicavat:" + rowindex + ":vat";
             PrimeFaces.current().ajax().update(update);
-            update = form + ":tablicavat:" + lp + ":brutto";
+            update = form + ":tablicavat:" + rowindex + ":brutto";
             PrimeFaces.current().ajax().update(update);
-            String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":vat_input').select();";
+            String activate = "document.getElementById('" + form + ":tablicavat:" + rowindex + ":vat_input').select();";
             PrimeFaces.current().executeScript(activate);
         } catch (Exception e){}
     }
 
-    public void updatevat(EVatwpisFK evatwpis, String form) {
-        int lp = evatwpis.getLp();
+    public void updatevat(EVatwpisFK evatwpis, String form, int rowindex) {
         Waluty w = selected.getWalutadokumentu();
         if (!w.getSymbolwaluty().equals("PLN")) {
             double kurs = selected.getTabelanbp().getKurssredniPrzelicznik();
@@ -1015,26 +1012,25 @@ public class DokfkView implements Serializable {
         }
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         evatwpis.setSprawdzony(0);
-        String update = form + ":tablicavat:" + lp + ":brutto";
+        String update = form + ":tablicavat:" + rowindex + ":brutto";
         PrimeFaces.current().ajax().update(update);
-        String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":brutto_input').select();";
+        String activate = "document.getElementById('" + form + ":tablicavat:" + rowindex + ":brutto_input').select();";
         PrimeFaces.current().executeScript(activate);
     }
     
     
-    public void updatebrutto(EVatwpisFK evatwpis, String form) {
+    public void updatebrutto(EVatwpisFK evatwpis, String form, int rowindex) {
         if (evatwpis.getNetto()==0.0) {
             evatwpis.setNetto(Z.z(evatwpis.getBrutto() - evatwpis.getVat()));
             ustawvatodbrutto(evatwpis, selected);
-            int lp = evatwpis.getLp();
             evatwpis.setSprawdzony(0);
-            String update = form + ":tablicavat:" + lp + ":netto";
+            String update = form + ":tablicavat:" + rowindex + ":netto";
             PrimeFaces.current().ajax().update(update);
-            update = form + ":tablicavat:" + lp + ":vat";
+            update = form + ":tablicavat:" + rowindex + ":vat";
             PrimeFaces.current().ajax().update(update);
-            update = form + ":tablicavat:" + lp + ":brutto";
+            update = form + ":tablicavat:" + rowindex + ":brutto";
             PrimeFaces.current().ajax().update(update);
-            String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":vat_input').select();";
+            String activate = "document.getElementById('" + form + ":tablicavat:" + rowindex + ":vat_input').select();";
             PrimeFaces.current().executeScript(activate);
         }
     }

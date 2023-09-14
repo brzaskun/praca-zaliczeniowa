@@ -21,6 +21,7 @@ public class Dokfkcomparator implements Comparator<Dokfk> {
 
     @Override
     public int compare(Dokfk o1, Dokfk o2) {
+        int zwrot = 0;
         try {
             String datao1 = ((Dokfk) o1).getDatadokumentu();
             String datao2 = ((Dokfk) o2).getDatadokumentu();
@@ -28,20 +29,21 @@ public class Dokfkcomparator implements Comparator<Dokfk> {
             formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date datao1date = null;
             Date datao2date = null;
-        
-            datao1date = formatter.parse(datao1);
-            datao2date = formatter.parse(datao2);
-            if (datao1date.before(datao2date)) {
-                return -1;
-            } else if (datao1date.after(datao2date)) {
-                return 1;
-            } else {
-                return porownajseriedok(((Dokfk) o1),((Dokfk) o2));
+            if (datao1!=null&&datao1.length()==10 && datao2!=null&&datao2.length()==10) {
+                datao1date = formatter.parse(datao1);
+                datao2date = formatter.parse(datao2);
+                if (datao1date.before(datao2date)) {
+                    zwrot = -1;
+                } else if (datao1date.after(datao2date)) {
+                    zwrot =  1;
+                } else {
+                    zwrot = porownajseriedok(((Dokfk) o1),((Dokfk) o2));
+                }
             }
         } catch (Exception e) {
             E.e(e);
-            return 0;
         }
+        return zwrot;
     }
     
     private static int porownajseriedok(Dokfk o1, Dokfk o2) {

@@ -198,18 +198,22 @@ public class NieobecnoscView  implements Serializable {
         if (lista!=null&&lista.size()>0) {
             String dataod = selected.getDataod();
             String datado = selected.getDatado();
-            for (Nieobecnosc p : lista) {
-                if (selected.getKod()!=null&&!selected.getKod().equals("UD")) {
-                    if (selected.getId()==null || (selected.getId()!=null&&!selected.getId().equals(p.getId()))) {
-                        boolean jestwsrodkuod = Data.czydatasiezawieranieobecnosc(dataod, p.getDataod(), p.getDatado());
-                        boolean jestwsrodkudo = Data.czydatasiezawieranieobecnosc(datado, p.getDataod(), p.getDatado());
-                        if (jestwsrodkuod||jestwsrodkudo) {
-                            Msg.msg("e","Daty nieobecności pokrywają się z inną już wprowadzoną nieobecnością");
-                            selected.setDataod(null);
-                            selected.setDatado(null);
-                            break;
+            if (selected.getDataod()!=null&&selected.getDatado()!=null) {
+                for (Nieobecnosc p : lista) {
+                    try {
+                        if (selected.getKod()!=null&&!selected.getKod().equals("UD")) {
+                            if (selected.getId()==null || (selected.getId()!=null&&!selected.getId().equals(p.getId()))) {
+                                boolean jestwsrodkuod = Data.czydatasiezawieranieobecnosc(dataod, p.getDataod(), p.getDatado());
+                                boolean jestwsrodkudo = Data.czydatasiezawieranieobecnosc(datado, p.getDataod(), p.getDatado());
+                                if (jestwsrodkuod||jestwsrodkudo) {
+                                    Msg.msg("e","Daty nieobecności pokrywają się z inną już wprowadzoną nieobecnością");
+                                    selected.setDataod(null);
+                                    selected.setDatado(null);
+                                    break;
+                                }
+                            }
                         }
-                    }
+                    } catch (Exception e){}
                 }
             }
         }
