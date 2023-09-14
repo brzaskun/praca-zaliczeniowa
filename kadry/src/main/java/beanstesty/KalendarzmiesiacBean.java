@@ -1103,12 +1103,15 @@ public class KalendarzmiesiacBean {
                 godzinyroboczewmiesiacu = godzinyroboczewmiesiacu + pa.getNormagodzin();
             }
         }
+         //kontynuacja zwolnienia jest ciaglosc trzeba pobrac poprzednia zmienna
+        double sredniadopodstawykontynuacja = sredniaKontynuacja(naliczenieskladnikawynagrodzenia, naliczenienieobecnosc, kalendarz, kalendarze, nieobecnosc, definicjalistaplac);
         double sredniadopodstawystale = 0.0;
         double sredniadopodstawyzmienne = 0.0;
         double sredniadopodstawy = 0.0;
         double godzinyobecnoscirobocze = 0.0;
-        if (kalendarze.size() == 1) {
+        if (sredniadopodstawykontynuacja != 0.0)  {
             //wyliczenie dla skladnika stalego ze zmiennymi
+            sredniadopodstawy = sredniadopodstawykontynuacja;
 
         } else {
             //idziemy dalej jak nie bylo choroby w w okresie krtotszum niz 1 mcy
