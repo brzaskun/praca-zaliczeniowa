@@ -1019,19 +1019,18 @@ public class DokfkView implements Serializable {
     }
     
     
-    public void updatebrutto(EVatwpisFK evatwpis, String form) {
+    public void updatebrutto(EVatwpisFK evatwpis, String form, int rowindex) {
         if (evatwpis.getNetto()==0.0) {
             evatwpis.setNetto(Z.z(evatwpis.getBrutto() - evatwpis.getVat()));
             ustawvatodbrutto(evatwpis, selected);
-            int lp = evatwpis.getLp();
             evatwpis.setSprawdzony(0);
-            String update = form + ":tablicavat:" + lp + ":netto";
+            String update = form + ":tablicavat:" + rowindex + ":netto";
             PrimeFaces.current().ajax().update(update);
-            update = form + ":tablicavat:" + lp + ":vat";
+            update = form + ":tablicavat:" + rowindex + ":vat";
             PrimeFaces.current().ajax().update(update);
-            update = form + ":tablicavat:" + lp + ":brutto";
+            update = form + ":tablicavat:" + rowindex + ":brutto";
             PrimeFaces.current().ajax().update(update);
-            String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":vat_input').select();";
+            String activate = "document.getElementById('" + form + ":tablicavat:" + rowindex + ":vat_input').select();";
             PrimeFaces.current().executeScript(activate);
         }
     }

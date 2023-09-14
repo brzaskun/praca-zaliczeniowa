@@ -262,7 +262,7 @@ public class beanJPKwysylka {
             }
             zwrot = pobierzWynikPolaczenia(conn);
         } catch (Exception e) {
-            E.e(e);
+            System.out.println(E.e(e));
         }
         return zwrot;
     }
@@ -320,7 +320,7 @@ public class beanJPKwysylka {
             zwrot[0] = in;
             zwrot[1] = (Integer) conn.getResponseCode();
         } catch (Exception e) {
-            E.e(e);
+            System.out.println(E.e(e));
         }
         return zwrot;
     }
