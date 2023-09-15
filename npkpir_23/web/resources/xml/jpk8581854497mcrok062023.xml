@@ -1,0 +1,1122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-14T13:51:45.918Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <KodUrzedu>3207</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>6</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8581854497</NIP>
+            <PelnaNazwa>MANICO FHH SP. Z O.O. SP.K.</PelnaNazwa>
+            <Email>w.daniluk@taxman.biz.pl</Email>
+            <Telefon>539034444</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_19>466100</P_19>
+            <P_20>107203</P_20>
+            <P_29>89</P_29>
+            <P_30>20</P_30>
+            <P_35>0</P_35>
+            <P_37>466189</P_37>
+            <P_38>107223</P_38>
+            <P_39>0</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>428159</P_42>
+            <P_43>98477</P_43>
+            <P_48>98477</P_48>
+            <P_49>0</P_49>
+            <P_51>8746</P_51>
+            <P_52>0</P_52>
+            <P_53>0</P_53>
+            <P_62>0</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512459792</NrKontrahenta>
+            <NazwaKontrahenta>WASTE Daniel Jaworski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 1/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-01</DataWystawienia>
+            <DataSprzedazy>2023-06-01</DataSprzedazy>
+            <K_19>2847.00</K_19>
+            <K_20>654.81</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552564627</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO USŁUG HYDROTECHNICZNYCH RUSIECKI ADAM RUSIECKI sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 2/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-02</DataWystawienia>
+            <DataSprzedazy>2023-06-02</DataSprzedazy>
+            <K_19>2552.76</K_19>
+            <K_20>587.13</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581852883</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO PRODUKCYJNO-HANDLOWO-USŁUGOWE KONKRET sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 3/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-02</DataWystawienia>
+            <DataSprzedazy>2023-06-02</DataSprzedazy>
+            <K_19>15147.68</K_19>
+            <K_20>3483.97</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8520500641</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO BUDOWLANE CIROKO sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 4/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-02</DataWystawienia>
+            <DataSprzedazy>2023-06-02</DataSprzedazy>
+            <K_19>7098.53</K_19>
+            <K_20>1632.66</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512459792</NrKontrahenta>
+            <NazwaKontrahenta>WASTE Daniel Jaworski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 5/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-02</DataWystawienia>
+            <DataSprzedazy>2023-06-02</DataSprzedazy>
+            <K_19>5660.00</K_19>
+            <K_20>1301.8</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552564627</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO USŁUG HYDROTECHNICZNYCH RUSIECKI ADAM RUSIECKI sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 1/MG/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-05</DataWystawienia>
+            <DataSprzedazy>2023-06-05</DataSprzedazy>
+            <K_19>1639.33</K_19>
+            <K_20>377.05</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581852883</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO PRODUKCYJNO-HANDLOWO-USŁUGOWE KONKRET sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>KFS 1/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-30</DataWystawienia>
+            <DataSprzedazy>2023-06-05</DataSprzedazy>
+            <K_19>-928.25</K_19>
+            <K_20>-213.5</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552564627</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO USŁUG HYDROTECHNICZNYCH RUSIECKI ADAM RUSIECKI sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>KFS 2/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-30</DataWystawienia>
+            <DataSprzedazy>2023-06-05</DataSprzedazy>
+            <K_19>-6584.74</K_19>
+            <K_20>-1514.49</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512459792</NrKontrahenta>
+            <NazwaKontrahenta>WASTE Daniel Jaworski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 6/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-06</DataWystawienia>
+            <DataSprzedazy>2023-06-06</DataSprzedazy>
+            <K_19>2544.00</K_19>
+            <K_20>585.12</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>10</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513167407</NrKontrahenta>
+            <NazwaKontrahenta>ZRIB D.Y.K.O.W.S.K.I. Sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 7/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-07</DataWystawienia>
+            <DataSprzedazy>2023-06-07</DataSprzedazy>
+            <K_19>18262.59</K_19>
+            <K_20>4200.4</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>11</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512459792</NrKontrahenta>
+            <NazwaKontrahenta>WASTE Daniel Jaworski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 8/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-12</DataWystawienia>
+            <DataSprzedazy>2023-06-12</DataSprzedazy>
+            <K_19>2379.00</K_19>
+            <K_20>547.17</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>12</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581852883</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO PRODUKCYJNO-HANDLOWO-USŁUGOWE KONKRET sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 9/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-12</DataWystawienia>
+            <DataSprzedazy>2023-06-12</DataSprzedazy>
+            <K_19>14615.00</K_19>
+            <K_20>3361.45</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>13</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552564627</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO USŁUG HYDROTECHNICZNYCH RUSIECKI ADAM RUSIECKI sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 9/1/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-12</DataWystawienia>
+            <DataSprzedazy>2023-06-12</DataSprzedazy>
+            <K_19>6584.74</K_19>
+            <K_20>1514.49</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>14</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8982070979</NrKontrahenta>
+            <NazwaKontrahenta>TECHFLOOR sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 10/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-13</DataWystawienia>
+            <DataSprzedazy>2023-06-13</DataSprzedazy>
+            <K_19>50260.81</K_19>
+            <K_20>11559.99</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>15</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552564627</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO USŁUG HYDROTECHNICZNYCH RUSIECKI ADAM RUSIECKI sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 11/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-13</DataWystawienia>
+            <DataSprzedazy>2023-06-13</DataSprzedazy>
+            <K_19>817.18</K_19>
+            <K_20>187.95</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>16</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552564627</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO USŁUG HYDROTECHNICZNYCH RUSIECKI ADAM RUSIECKI sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 12/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-14</DataWystawienia>
+            <DataSprzedazy>2023-06-14</DataSprzedazy>
+            <K_19>1445.00</K_19>
+            <K_20>332.35</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>17</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5990004694</NrKontrahenta>
+            <NazwaKontrahenta>M&amp;K Zakład Sieci Sanitarnych Sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 13/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-14</DataWystawienia>
+            <DataSprzedazy>2023-06-14</DataSprzedazy>
+            <K_19>16137.00</K_19>
+            <K_20>3711.51</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>18</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5990004694</NrKontrahenta>
+            <NazwaKontrahenta>M&amp;K Zakład Sieci Sanitarnych Sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 14/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-15</DataWystawienia>
+            <DataSprzedazy>2023-06-15</DataSprzedazy>
+            <K_19>4140.00</K_19>
+            <K_20>952.2</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>19</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5821580857</NrKontrahenta>
+            <NazwaKontrahenta>TERAGRO Piotr Mościbrocki</NazwaKontrahenta>
+            <DowodSprzedazy>FS 15/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-15</DataWystawienia>
+            <DataSprzedazy>2023-06-15</DataSprzedazy>
+            <K_19>4987.14</K_19>
+            <K_20>1147.04</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>20</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581852883</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO PRODUKCYJNO-HANDLOWO-USŁUGOWE KONKRET sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 16/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-15</DataWystawienia>
+            <DataSprzedazy>2023-06-15</DataSprzedazy>
+            <K_19>11604.00</K_19>
+            <K_20>2668.92</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>21</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581852883</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO PRODUKCYJNO-HANDLOWO-USŁUGOWE KONKRET sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 17/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-16</DataWystawienia>
+            <DataSprzedazy>2023-06-16</DataSprzedazy>
+            <K_19>10430.00</K_19>
+            <K_20>2398.9</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>22</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8561771880</NrKontrahenta>
+            <NazwaKontrahenta>MiR Sp. z o o.o. kom</NazwaKontrahenta>
+            <DowodSprzedazy>FS 18/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-19</DataWystawienia>
+            <DataSprzedazy>2023-06-19</DataSprzedazy>
+            <K_19>21075.99</K_19>
+            <K_20>4847.48</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>23</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581852883</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO PRODUKCYJNO-HANDLOWO-USŁUGOWE KONKRET sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 19/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-19</DataWystawienia>
+            <DataSprzedazy>2023-06-19</DataSprzedazy>
+            <K_19>10244.50</K_19>
+            <K_20>2356.24</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>24</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8542408813</NrKontrahenta>
+            <NazwaKontrahenta>STANLED I sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 20/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-20</DataWystawienia>
+            <DataSprzedazy>2023-06-20</DataSprzedazy>
+            <K_19>4486.08</K_19>
+            <K_20>1031.8</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>25</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5971641922</NrKontrahenta>
+            <NazwaKontrahenta>EKOSYSTEM FHU Paweł Mroziński</NazwaKontrahenta>
+            <DowodSprzedazy>FS 21/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-20</DataWystawienia>
+            <DataSprzedazy>2023-06-20</DataSprzedazy>
+            <K_19>4198.00</K_19>
+            <K_20>965.54</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>26</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512459792</NrKontrahenta>
+            <NazwaKontrahenta>WASTE Daniel Jaworski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 22/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-21</DataWystawienia>
+            <DataSprzedazy>2023-06-21</DataSprzedazy>
+            <K_19>1232.20</K_19>
+            <K_20>283.41</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>27</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581099552</NrKontrahenta>
+            <NazwaKontrahenta>MANICO Mariusz Niełacny</NazwaKontrahenta>
+            <DowodSprzedazy>FS 23/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-23</DataWystawienia>
+            <DataSprzedazy>2023-06-23</DataSprzedazy>
+            <TP>1</TP>
+            <K_19>940.10</K_19>
+            <K_20>216.22</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>28</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5990004694</NrKontrahenta>
+            <NazwaKontrahenta>M&amp;K Zakład Sieci Sanitarnych Sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 24/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-23</DataWystawienia>
+            <DataSprzedazy>2023-06-23</DataSprzedazy>
+            <K_19>16137.00</K_19>
+            <K_20>3711.51</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>29</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8212645183</NrKontrahenta>
+            <NazwaKontrahenta>POLIMEX BUDOWNICTWO sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 25/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-23</DataWystawienia>
+            <DataSprzedazy>2023-06-23</DataSprzedazy>
+            <K_19>87206.00</K_19>
+            <K_20>20057.38</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>30</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512459792</NrKontrahenta>
+            <NazwaKontrahenta>WASTE Daniel Jaworski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 26/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-23</DataWystawienia>
+            <DataSprzedazy>2023-06-23</DataSprzedazy>
+            <K_19>13136.00</K_19>
+            <K_20>3021.28</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>31</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5821580857</NrKontrahenta>
+            <NazwaKontrahenta>TERAGRO Piotr Mościbrocki</NazwaKontrahenta>
+            <DowodSprzedazy>FS 27/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-23</DataWystawienia>
+            <DataSprzedazy>2023-06-23</DataSprzedazy>
+            <K_19>4881.00</K_19>
+            <K_20>1122.63</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>32</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6364992H</NrKontrahenta>
+            <NazwaKontrahenta>Adobe Systems Software Ireland Ltd</NazwaKontrahenta>
+            <DowodSprzedazy>IEE2023006869147</DowodSprzedazy>
+            <DataWystawienia>2023-06-30</DataWystawienia>
+            <DataSprzedazy>2023-06-26</DataSprzedazy>
+            <K_29>88.69</K_29>
+            <K_30>20.4</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>33</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581099552</NrKontrahenta>
+            <NazwaKontrahenta>MANICO Mariusz Niełacny</NazwaKontrahenta>
+            <DowodSprzedazy>FS 2/MG/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-26</DataWystawienia>
+            <DataSprzedazy>2023-06-26</DataSprzedazy>
+            <TP>1</TP>
+            <K_19>292.80</K_19>
+            <K_20>67.34</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>34</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581099552</NrKontrahenta>
+            <NazwaKontrahenta>MANICO Mariusz Niełacny</NazwaKontrahenta>
+            <DowodSprzedazy>FS 3/MG/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-26</DataWystawienia>
+            <DataSprzedazy>2023-06-26</DataSprzedazy>
+            <TP>1</TP>
+            <K_19>1620.30</K_19>
+            <K_20>372.67</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>35</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581099552</NrKontrahenta>
+            <NazwaKontrahenta>MANICO Mariusz Niełacny</NazwaKontrahenta>
+            <DowodSprzedazy>FS 28/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-26</DataWystawienia>
+            <DataSprzedazy>2023-06-26</DataSprzedazy>
+            <TP>1</TP>
+            <K_19>22493.20</K_19>
+            <K_20>5173.44</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>36</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581852883</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO PRODUKCYJNO-HANDLOWO-USŁUGOWE KONKRET sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 29/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-26</DataWystawienia>
+            <DataSprzedazy>2023-06-26</DataSprzedazy>
+            <K_19>34133.80</K_19>
+            <K_20>7850.77</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>37</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8561771880</NrKontrahenta>
+            <NazwaKontrahenta>MiR Sp. z o o.o. kom</NazwaKontrahenta>
+            <DowodSprzedazy>FS 30/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-26</DataWystawienia>
+            <DataSprzedazy>2023-06-26</DataSprzedazy>
+            <K_19>36558.96</K_19>
+            <K_20>8408.56</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>38</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581099552</NrKontrahenta>
+            <NazwaKontrahenta>MANICO Mariusz Niełacny</NazwaKontrahenta>
+            <DowodSprzedazy>FS 31/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-27</DataWystawienia>
+            <DataSprzedazy>2023-06-27</DataSprzedazy>
+            <TP>1</TP>
+            <K_19>2400.00</K_19>
+            <K_20>552.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>39</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581099552</NrKontrahenta>
+            <NazwaKontrahenta>MANICO Mariusz Niełacny</NazwaKontrahenta>
+            <DowodSprzedazy>FS 32/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-27</DataWystawienia>
+            <DataSprzedazy>2023-06-27</DataSprzedazy>
+            <TP>1</TP>
+            <K_19>290.00</K_19>
+            <K_20>66.7</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>40</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552564627</NrKontrahenta>
+            <NazwaKontrahenta>PRZEDSIĘBIORSTWO USŁUG HYDROTECHNICZNYCH RUSIECKI ADAM RUSIECKI sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 33/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-27</DataWystawienia>
+            <DataSprzedazy>2023-06-27</DataSprzedazy>
+            <K_19>2832.40</K_19>
+            <K_20>651.45</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>41</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581876872</NrKontrahenta>
+            <NazwaKontrahenta>BRUKEXPERT sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 34/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-28</DataWystawienia>
+            <DataSprzedazy>2023-06-28</DataSprzedazy>
+            <K_19>402.20</K_19>
+            <K_20>92.51</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>42</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581876872</NrKontrahenta>
+            <NazwaKontrahenta>BRUKEXPERT sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 35/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-28</DataWystawienia>
+            <DataSprzedazy>2023-06-28</DataSprzedazy>
+            <K_19>4765.44</K_19>
+            <K_20>1096.05</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>43</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512459792</NrKontrahenta>
+            <NazwaKontrahenta>WASTE Daniel Jaworski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 36/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-29</DataWystawienia>
+            <DataSprzedazy>2023-06-29</DataSprzedazy>
+            <K_19>5743.00</K_19>
+            <K_20>1320.89</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>44</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581099552</NrKontrahenta>
+            <NazwaKontrahenta>MANICO Mariusz Niełacny</NazwaKontrahenta>
+            <DowodSprzedazy>FS 37/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-30</DataWystawienia>
+            <DataSprzedazy>2023-06-30</DataSprzedazy>
+            <TP>1</TP>
+            <K_19>8023.00</K_19>
+            <K_20>1845.29</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>45</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8561771880</NrKontrahenta>
+            <NazwaKontrahenta>MiR Sp. z o o.o. kom</NazwaKontrahenta>
+            <DowodSprzedazy>FS 38/MT/06/2023</DowodSprzedazy>
+            <DataWystawienia>2023-06-30</DataWystawienia>
+            <DataSprzedazy>2023-06-30</DataSprzedazy>
+            <K_19>11369.70</K_19>
+            <K_20>2615.03</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>45</LiczbaWierszySprzedazy>
+            <PodatekNalezny>107223.51</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>23050333315426</DowodZakupu>
+            <DataZakupu>2023-06-01</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>199.24</K_42>
+            <K_43>45.83</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522353084</NrDostawcy>
+            <NazwaDostawcy>EZKa Sp. Jaw</NazwaDostawcy>
+            <DowodZakupu>165/2023</DowodZakupu>
+            <DataZakupu>2023-06-01</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>2350.87</K_42>
+            <K_43>540.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>1/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-01</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>2685.40</K_42>
+            <K_43>617.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5871000833</NrDostawcy>
+            <NazwaDostawcy>PIPELIFE POLSKA</NazwaDostawcy>
+            <DowodZakupu>525934821</DowodZakupu>
+            <DataZakupu>2023-06-02</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>2425.08</K_42>
+            <K_43>557.77</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>2/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-02</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>14462.00</K_42>
+            <K_43>3326.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>4/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-02</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>6714.00</K_42>
+            <K_43>1544.22</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>5/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-02</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>5344.80</K_42>
+            <K_43>1229.3</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9551215215</NrDostawcy>
+            <NazwaDostawcy>WEKTOR Grzegorz Mysiakowski</NazwaDostawcy>
+            <DowodZakupu>14/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-05</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <DokumentZakupu>MK</DokumentZakupu>
+            <K_42>250.00</K_42>
+            <K_43>57.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>6/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-05</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>670.00</K_42>
+            <K_43>154.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5871000833</NrDostawcy>
+            <NazwaDostawcy>PIPELIFE POLSKA</NazwaDostawcy>
+            <DowodZakupu>526124750</DowodZakupu>
+            <DataZakupu>2023-06-05</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>-835.41</K_42>
+            <K_43>-192.14</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>7/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-06</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>2365.10</K_42>
+            <K_43>543.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6961876386</NrDostawcy>
+            <NazwaDostawcy>KACZMAREK MALEWO SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>FV/0492/06/23</DowodZakupu>
+            <DataZakupu>2023-06-07</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>17350.00</K_42>
+            <K_43>3990.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>6/20234949/MANI4949</DowodZakupu>
+            <DataZakupu>2023-06-12</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>2500.00</K_42>
+            <K_43>575.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>9/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-12</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>2258.00</K_42>
+            <K_43>519.34</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>10/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-12</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>13990.00</K_42>
+            <K_43>3217.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>11/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-13</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>42688.34</K_42>
+            <K_43>9818.32</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>12/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-13</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>731.50</K_42>
+            <K_43>168.25</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>13/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-14</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>1000.00</K_42>
+            <K_43>230.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>14/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-14</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>15675.00</K_42>
+            <K_43>3605.25</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>F0049515107/006/23</DowodZakupu>
+            <DataZakupu>2023-06-14</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>71.03</K_42>
+            <K_43>16.34</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>15/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-15</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>3967.00</K_42>
+            <K_43>912.41</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>16/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-15</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>4706.94</K_42>
+            <K_43>1082.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581853658</NrDostawcy>
+            <NazwaDostawcy>HYDROCAN Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-15</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>10978.00</K_42>
+            <K_43>2524.94</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>17/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-16</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>10014.00</K_42>
+            <K_43>2303.22</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>18/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-19</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>9726.00</K_42>
+            <K_43>2236.98</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6961876386</NrDostawcy>
+            <NazwaDostawcy>KACZMAREK MALEWO SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>FV/1133/06/23</DowodZakupu>
+            <DataZakupu>2023-06-19</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>19890.54</K_42>
+            <K_43>4574.82</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>19/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-20</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>4023.30</K_42>
+            <K_43>925.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581853658</NrDostawcy>
+            <NazwaDostawcy>HYDROCAN Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>3/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-20</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>3598.00</K_42>
+            <K_43>827.54</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>20/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-21</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>1119.00</K_42>
+            <K_43>257.37</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581853658</NrDostawcy>
+            <NazwaDostawcy>HYDROCAN Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-21</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>-1940.00</K_42>
+            <K_43>-446.2</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1231163091</NrDostawcy>
+            <NazwaDostawcy>Plasson Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FA/3707/2023</DowodZakupu>
+            <DataZakupu>2023-06-23</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>892.81</K_42>
+            <K_43>205.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>21/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-23</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>15675.00</K_42>
+            <K_43>3605.25</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>22/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-23</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>74206.00</K_42>
+            <K_43>17067.38</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>23/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-23</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>12515.00</K_42>
+            <K_43>2878.45</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>35</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>24/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-23</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>4060.30</K_42>
+            <K_43>933.87</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>36</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6961876386</NrDostawcy>
+            <NazwaDostawcy>KACZMAREK MALEWO SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>FV/1777/06/23</DowodZakupu>
+            <DataZakupu>2023-06-26</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>21593.52</K_42>
+            <K_43>4966.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>37</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6961876386</NrDostawcy>
+            <NazwaDostawcy>KACZMAREK MALEWO SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>FV/1784/06/23</DowodZakupu>
+            <DataZakupu>2023-06-26</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>19200.00</K_42>
+            <K_43>4416.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>38</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6961876386</NrDostawcy>
+            <NazwaDostawcy>KACZMAREK MALEWO SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>FV/1785/06/23</DowodZakupu>
+            <DataZakupu>2023-06-26</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>15527.28</K_42>
+            <K_43>3571.27</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>39</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7773028808</NrDostawcy>
+            <NazwaDostawcy>NORSON Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>(S)FS-00000742/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-27</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>1990.00</K_42>
+            <K_43>457.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>40</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8790255298</NrDostawcy>
+            <NazwaDostawcy>Zakład Przetwórstwa Tworzyw Sztucznych Długołęcki Janus</NazwaDostawcy>
+            <DowodZakupu>2533/23</DowodZakupu>
+            <DataZakupu>2023-06-27</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>255.00</K_42>
+            <K_43>58.65</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>41</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>31/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-27</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>1814.30</K_42>
+            <K_43>417.29</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>42</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5871000833</NrDostawcy>
+            <NazwaDostawcy>PIPELIFE POLSKA</NazwaDostawcy>
+            <DowodZakupu>526124952</DowodZakupu>
+            <DataZakupu>2023-06-28</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>341.80</K_42>
+            <K_43>78.61</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>43</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5871000833</NrDostawcy>
+            <NazwaDostawcy>PIPELIFE POLSKA</NazwaDostawcy>
+            <DowodZakupu>526124953</DowodZakupu>
+            <DataZakupu>2023-06-28</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>4498.25</K_42>
+            <K_43>1034.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>44</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002860</NrDostawcy>
+            <NazwaDostawcy>Makro Cash and Carry polska SA</NazwaDostawcy>
+            <DowodZakupu>3/179031</DowodZakupu>
+            <DataZakupu>2023-06-28</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>226.77</K_42>
+            <K_43>52.16</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>45</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6961876386</NrDostawcy>
+            <NazwaDostawcy>KACZMAREK MALEWO SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>FV/1783/06/23</DowodZakupu>
+            <DataZakupu>2023-06-29</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>32363.37</K_42>
+            <K_43>7443.58</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>46</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581099552</NrDostawcy>
+            <NazwaDostawcy>MANICO Mariusz Niełacny</NazwaDostawcy>
+            <DowodZakupu>33/MT/06/2023</DowodZakupu>
+            <DataZakupu>2023-06-29</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>5371.50</K_42>
+            <K_43>1235.45</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>47</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6850010620</NrDostawcy>
+            <NazwaDostawcy>Fabryka Armatur JAFAR SA</NazwaDostawcy>
+            <DowodZakupu>SKR2306/0748</DowodZakupu>
+            <DataZakupu>2023-06-30</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>7261.15</K_42>
+            <K_43>1670.06</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>48</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6961876386</NrDostawcy>
+            <NazwaDostawcy>KACZMAREK MALEWO SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>FV/2492/06/23</DowodZakupu>
+            <DataZakupu>2023-06-30</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>10800.00</K_42>
+            <K_43>2484.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>49</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5272177123</NrDostawcy>
+            <NazwaDostawcy>Euler Hermes Collections Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>10876/AB/2023</DowodZakupu>
+            <DataZakupu>2023-06-30</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>150.00</K_42>
+            <K_43>34.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>50</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522353084</NrDostawcy>
+            <NazwaDostawcy>EZKa Sp. Jaw</NazwaDostawcy>
+            <DowodZakupu>184/2023</DowodZakupu>
+            <DataZakupu>2023-06-30</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>350.94</K_42>
+            <K_43>80.72</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>51</LpZakupu>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrDostawcy>6364992H</NrDostawcy>
+            <NazwaDostawcy>Adobe Systems Software Ireland Ltd</NazwaDostawcy>
+            <DowodZakupu>IEE2023006869147</DowodZakupu>
+            <DataZakupu>2023-06-26</DataZakupu>
+            <DataWplywu>2023-06-30</DataWplywu>
+            <K_42>88.69</K_42>
+            <K_43>20.4</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>51</LiczbaWierszyZakupow>
+            <PodatekNaliczony>98476.69</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

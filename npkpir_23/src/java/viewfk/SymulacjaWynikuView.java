@@ -587,7 +587,9 @@ public class SymulacjaWynikuView implements Serializable {
     //        wynikFKRokMc.setListakoszty(listakontakoszty);
             try {
                 WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMcFirma(wynikFKRokMc);
-                wynikFKRokMcDAO.remove(pobrany);
+                if (pobrany!=null) {
+                    wynikFKRokMcDAO.remove(pobrany);
+                }
             } catch (Exception e) {  
                 E.e(e);
             }

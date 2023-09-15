@@ -258,13 +258,13 @@ public class DokFKVATBean {
                             StronaWiersza wnDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaWn();
                             StronaWiersza wnDokumenuBiezacego = wierszDokumentuBiezacego.getStronaWn();
                             if (wnDokumenuBiezacego.getKonto()!=null&&!wnDokumenuBiezacego.getKonto().getPelnynumer().startsWith("221")) {//nie ruszamy konta vat zakupowego
-                                if (wnDokumentuPoprzedniego != null && !wnDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat") && !selected.getRodzajedok().isTylkovatnalezny()) {
+                                if (wierszDokumentuBiezacego !=null && wnDokumentuPoprzedniego != null && !wnDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat") && !selected.getRodzajedok().isTylkovatnalezny()) {
                                     if (wnDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
                                         wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
                                     }
                                 }
                             } else {
-                                if (wnDokumentuPoprzedniego != null && !wnDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat") && !selected.getRodzajedok().isTylkovatnalezny()) {
+                                if (wierszDokumentuBiezacego!=null && wnDokumentuPoprzedniego != null && !wnDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat") && !selected.getRodzajedok().isTylkovatnalezny()) {
                                     if (wnDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
                                         wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
                                     }
@@ -272,7 +272,7 @@ public class DokFKVATBean {
                             }
                             StronaWiersza maDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaMa();
                             StronaWiersza maDokumenuBiezacego = wierszDokumentuBiezacego.getStronaMa();
-                            if (maDokumentuPoprzedniego != null && !maDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat")) {
+                            if (maDokumenuBiezacego!=null && maDokumentuPoprzedniego != null && !maDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat")) {
                                 if (maDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
                                     maDokumenuBiezacego.setKonto(maDokumentuPoprzedniego.getKonto());
                                 }

@@ -1,0 +1,1001 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-09-14T13:40:06.504Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>7</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8522658889</NIP>
+            <PelnaNazwa>DRUGA ŻONA sp. z o.o.</PelnaNazwa>
+            <Email>m.janowska@taxman.biz.pl</Email>
+            <Telefon>507700791</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_15>1371</P_15>
+            <P_16>69</P_16>
+            <P_17>108030</P_17>
+            <P_18>8642</P_18>
+            <P_19>9708</P_19>
+            <P_20>2233</P_20>
+            <P_35>0</P_35>
+            <P_37>119109</P_37>
+            <P_38>10944</P_38>
+            <P_39>2140</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>68729</P_42>
+            <P_43>9089</P_43>
+            <P_48>11229</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>285</P_53>
+            <P_62>285</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522658889</NrKontrahenta>
+            <NazwaKontrahenta>DRUGA ŻONA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>RF 1/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_15>1197.17</K_15>
+            <K_16>59.83</K_16>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522658889</NrKontrahenta>
+            <NazwaKontrahenta>DRUGA ŻONA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>RF 1/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_19>8948.33</K_19>
+            <K_20>2058.13</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522658889</NrKontrahenta>
+            <NazwaKontrahenta>DRUGA ŻONA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>RF 1/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_17>102371.03</K_17>
+            <K_18>8189.71</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522658889</NrKontrahenta>
+            <NazwaKontrahenta>DRUGA ŻONA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>2/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_17>5659.24</K_17>
+            <K_18>452.74</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522658889</NrKontrahenta>
+            <NazwaKontrahenta>DRUGA ŻONA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>2/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_15>174.00</K_15>
+            <K_16>8.7</K_16>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522658889</NrKontrahenta>
+            <NazwaKontrahenta>DRUGA ŻONA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>2/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_19>759.29</K_19>
+            <K_20>174.64</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>6</LiczbaWierszySprzedazy>
+            <PodatekNalezny>10943.75</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>23050294286094</DowodZakupu>
+            <DataZakupu>2023-05-06</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>279.30</K_42>
+            <K_43>64.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8133611149</NrDostawcy>
+            <NazwaDostawcy>Centru Rozliczeń Elektronicznych SA</NazwaDostawcy>
+            <DowodZakupu>FW-571784/2023/OBX</DowodZakupu>
+            <DataZakupu>2023-05-31</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>48.00</K_42>
+            <K_43>11.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>23060338143924</DowodZakupu>
+            <DataZakupu>2023-06-06</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>259.17</K_42>
+            <K_43>59.61</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8133611149</NrDostawcy>
+            <NazwaDostawcy>Centru Rozliczeń Elektronicznych SA</NazwaDostawcy>
+            <DowodZakupu>FW-663658/2023/OBX</DowodZakupu>
+            <DataZakupu>2023-06-30</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>48.00</K_42>
+            <K_43>11.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8521842102</NrDostawcy>
+            <NazwaDostawcy>"BDS" S.C. SAKOWICZ Dariusz,sakowicz Bożena</NazwaDostawcy>
+            <DowodZakupu>47/07/2023</DowodZakupu>
+            <DataZakupu>2023-07-01</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>6695.79</K_42>
+            <K_43>1540.03</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 7044K1/0633/23</DowodZakupu>
+            <DataZakupu>2023-07-01</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>360.94</K_42>
+            <K_43>83.02</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7792433421</NrDostawcy>
+            <NazwaDostawcy>GRUPA OLX sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2024/1101232357</DowodZakupu>
+            <DataZakupu>2023-07-02</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>73.09</K_42>
+            <K_43>16.81</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9551926235</NrDostawcy>
+            <NazwaDostawcy>Michalczyk Maciej</NazwaDostawcy>
+            <DowodZakupu>3/07/2023/WY</DowodZakupu>
+            <DataZakupu>2023-07-03</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>4351.28</K_42>
+            <K_43>1000.79</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002860</NrDostawcy>
+            <NazwaDostawcy>Makro Cash and Carry polska SA</NazwaDostawcy>
+            <DowodZakupu>0/0(010)0002/184067</DowodZakupu>
+            <DataZakupu>2023-07-03</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>880.36</K_42>
+            <K_43>46.15</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552394071</NrDostawcy>
+            <NazwaDostawcy>TEDMARK sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FVS/5997/2023/B2B</DowodZakupu>
+            <DataZakupu>2023-07-03</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>286.96</K_42>
+            <K_43>66.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002860</NrDostawcy>
+            <NazwaDostawcy>Makro Cash and Carry polska SA</NazwaDostawcy>
+            <DowodZakupu>0/0(010)0048/184161</DowodZakupu>
+            <DataZakupu>2023-07-03</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1724.96</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9551926235</NrDostawcy>
+            <NazwaDostawcy>Michalczyk Maciej</NazwaDostawcy>
+            <DowodZakupu>3/07/2023/M</DowodZakupu>
+            <DataZakupu>2023-07-04</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1604.70</K_42>
+            <K_43>128.38</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5213828837</NrDostawcy>
+            <NazwaDostawcy>CHAUDARY FOOD TRADERS sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>F/0044/07/23/MG_P</DowodZakupu>
+            <DataZakupu>2023-07-05</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>3607.75</K_42>
+            <K_43>145.03</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>023-016-0000351084</DowodZakupu>
+            <DataZakupu>2023-07-05</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>175.51</K_42>
+            <K_43>40.37</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5242106963</NrDostawcy>
+            <NazwaDostawcy>Coca-Cola HBC Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>763330029</DowodZakupu>
+            <DataZakupu>2023-07-05</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>412.12</K_42>
+            <K_43>94.79</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5921987110</NrDostawcy>
+            <NazwaDostawcy>Farutex sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FV/SZ/23/07-00905</DowodZakupu>
+            <DataZakupu>2023-07-05</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>2174.11</K_42>
+            <K_43>27.74</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5921987110</NrDostawcy>
+            <NazwaDostawcy>Farutex sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FK/SZ23/07-0031</DowodZakupu>
+            <DataZakupu>2023-07-05</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>-342.00</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552394071</NrDostawcy>
+            <NazwaDostawcy>TEDMARK sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FVS/6547/2023/TED</DowodZakupu>
+            <DataZakupu>2023-07-06</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>880.16</K_42>
+            <K_43>202.44</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>7/2023/DRUG88</DowodZakupu>
+            <DataZakupu>2023-07-06</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1200.00</K_42>
+            <K_43>276.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>23070381198574</DowodZakupu>
+            <DataZakupu>2023-07-06</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>242.22</K_42>
+            <K_43>55.71</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>023-016-0000301640</DowodZakupu>
+            <DataZakupu>2023-07-07</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>241.25</K_42>
+            <K_43>55.49</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5921987110</NrDostawcy>
+            <NazwaDostawcy>Farutex sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FV/SZ/23/07-01440</DowodZakupu>
+            <DataZakupu>2023-07-07</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>550.66</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002860</NrDostawcy>
+            <NazwaDostawcy>Makro Cash and Carry polska SA</NazwaDostawcy>
+            <DowodZakupu>0/0(010)0048/189143</DowodZakupu>
+            <DataZakupu>2023-07-08</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1185.38</K_42>
+            <K_43>35.52</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522353138</NrDostawcy>
+            <NazwaDostawcy>ARMPOL Tigran Mehrabyan</NazwaDostawcy>
+            <DowodZakupu>13046</DowodZakupu>
+            <DataZakupu>2023-07-10</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>87.50</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8992367273</NrDostawcy>
+            <NazwaDostawcy>Kaufland Polska Markety Sp. z o.o. Sp. K.</NazwaDostawcy>
+            <DowodZakupu>FV/4-104-409/20230710/7163</DowodZakupu>
+            <DataZakupu>2023-07-10</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>101.01</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552394071</NrDostawcy>
+            <NazwaDostawcy>TEDMARK sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FVS/6363/2023/B2B</DowodZakupu>
+            <DataZakupu>2023-07-11</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>285.28</K_42>
+            <K_43>65.61</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5213828837</NrDostawcy>
+            <NazwaDostawcy>CHAUDARY FOOD TRADERS sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>F/0111/07/23/MG_P</DowodZakupu>
+            <DataZakupu>2023-07-11</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1189.12</K_42>
+            <K_43>68.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>023-016-0000072685</DowodZakupu>
+            <DataZakupu>2023-07-12</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>292.52</K_42>
+            <K_43>67.28</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5921987110</NrDostawcy>
+            <NazwaDostawcy>Farutex sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FV/SZ/23/07-02577</DowodZakupu>
+            <DataZakupu>2023-07-12</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>2279.06</K_42>
+            <K_43>28.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811011998</NrDostawcy>
+            <NazwaDostawcy>Transgourmet Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>133193214611</DowodZakupu>
+            <DataZakupu>2023-07-12</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>341.56</K_42>
+            <K_43>78.56</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8521021463</NrDostawcy>
+            <NazwaDostawcy>Netto Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>651477</DowodZakupu>
+            <DataZakupu>2023-07-13</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>76.62</K_42>
+            <K_43>5.82</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002860</NrDostawcy>
+            <NazwaDostawcy>Makro Cash and Carry polska SA</NazwaDostawcy>
+            <DowodZakupu>0/0(010)0048/194112</DowodZakupu>
+            <DataZakupu>2023-07-13</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1435.82</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5921987110</NrDostawcy>
+            <NazwaDostawcy>Farutex sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FK/SZ23/07-0145</DowodZakupu>
+            <DataZakupu>2023-07-13</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>-70.80</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552394071</NrDostawcy>
+            <NazwaDostawcy>TEDMARK sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FVS/6680/2023/TED</DowodZakupu>
+            <DataZakupu>2023-07-13</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1051.23</K_42>
+            <K_43>241.78</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>35</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7791011327</NrDostawcy>
+            <NazwaDostawcy>JERONIMO MARTINS POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>3885230714576003</DowodZakupu>
+            <DataZakupu>2023-07-14</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>29.61</K_42>
+            <K_43>2.37</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>36</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7792433421</NrDostawcy>
+            <NazwaDostawcy>GRUPA OLX sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2024/1101385871</DowodZakupu>
+            <DataZakupu>2023-07-14</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>97.48</K_42>
+            <K_43>22.42</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>37</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8521021463</NrDostawcy>
+            <NazwaDostawcy>Netto Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>351723</DowodZakupu>
+            <DataZakupu>2023-07-15</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>32.24</K_42>
+            <K_43>3.98</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>38</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002860</NrDostawcy>
+            <NazwaDostawcy>Makro Cash and Carry polska SA</NazwaDostawcy>
+            <DowodZakupu>0/09010)0048/196088</DowodZakupu>
+            <DataZakupu>2023-07-15</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>832.13</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>39</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8992367273</NrDostawcy>
+            <NazwaDostawcy>Kaufland Polska Markety Sp. z o.o. Sp. K.</NazwaDostawcy>
+            <DowodZakupu>FV/2-105-36704/20230717/7163</DowodZakupu>
+            <DataZakupu>2023-07-17</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>61.72</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>40</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>023-016-0000323685</DowodZakupu>
+            <DataZakupu>2023-07-17</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>292.52</K_42>
+            <K_43>67.28</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>41</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522353138</NrDostawcy>
+            <NazwaDostawcy>ARMPOL Tigran Mehrabyan</NazwaDostawcy>
+            <DowodZakupu>12955</DowodZakupu>
+            <DataZakupu>2023-07-17</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>101.00</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>42</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811011998</NrDostawcy>
+            <NazwaDostawcy>Transgourmet Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>133198214801</DowodZakupu>
+            <DataZakupu>2023-07-17</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>670.56</K_42>
+            <K_43>120.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>43</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002860</NrDostawcy>
+            <NazwaDostawcy>Makro Cash and Carry polska SA</NazwaDostawcy>
+            <DowodZakupu>0/0(010)0048/199197</DowodZakupu>
+            <DataZakupu>2023-07-18</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1851.37</K_42>
+            <K_43>17.4</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>44</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552394071</NrDostawcy>
+            <NazwaDostawcy>TEDMARK sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FVS/6784/2023/TED</DowodZakupu>
+            <DataZakupu>2023-07-18</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>3751.83</K_42>
+            <K_43>862.92</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>45</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552394071</NrDostawcy>
+            <NazwaDostawcy>TEDMARK sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FVS/6668/2023/B2B</DowodZakupu>
+            <DataZakupu>2023-07-19</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>105.90</K_42>
+            <K_43>24.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>46</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552394071</NrDostawcy>
+            <NazwaDostawcy>TEDMARK sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FVS/6652/2023/B2B</DowodZakupu>
+            <DataZakupu>2023-07-19</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>616.69</K_42>
+            <K_43>141.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>47</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5921987110</NrDostawcy>
+            <NazwaDostawcy>Farutex sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FV/SZ/23/07-04372</DowodZakupu>
+            <DataZakupu>2023-07-19</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>2012.89</K_42>
+            <K_43>24.9</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>48</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811011998</NrDostawcy>
+            <NazwaDostawcy>Transgourmet Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>133200211011</DowodZakupu>
+            <DataZakupu>2023-07-19</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>492.93</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>49</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811011998</NrDostawcy>
+            <NazwaDostawcy>Transgourmet Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>133200200165</DowodZakupu>
+            <DataZakupu>2023-07-19</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>-279.98</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>50</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5213828837</NrDostawcy>
+            <NazwaDostawcy>CHAUDARY FOOD TRADERS sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>F/0211/07/23/MG_P</DowodZakupu>
+            <DataZakupu>2023-07-20</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>5081.08</K_42>
+            <K_43>225.54</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>51</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5242106963</NrDostawcy>
+            <NazwaDostawcy>Coca-Cola HBC Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>7633205088</DowodZakupu>
+            <DataZakupu>2023-07-20</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>334.80</K_42>
+            <K_43>77.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>52</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002860</NrDostawcy>
+            <NazwaDostawcy>Makro Cash and Carry polska SA</NazwaDostawcy>
+            <DowodZakupu>0/0(010)0004/201079</DowodZakupu>
+            <DataZakupu>2023-07-20</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>2848.61</K_42>
+            <K_43>655.18</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>53</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>023-016-0000304869</DowodZakupu>
+            <DataZakupu>2023-07-21</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>292.52</K_42>
+            <K_43>67.28</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>54</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552562350</NrDostawcy>
+            <NazwaDostawcy>Woltatu Wiktoria Wierzbicka</NazwaDostawcy>
+            <DowodZakupu>2023/07/3</DowodZakupu>
+            <DataZakupu>2023-07-21</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>4500.00</K_42>
+            <K_43>1035.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>55</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002860</NrDostawcy>
+            <NazwaDostawcy>Makro Cash and Carry polska SA</NazwaDostawcy>
+            <DowodZakupu>0/0(010)0048/203173</DowodZakupu>
+            <DataZakupu>2023-07-22</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1201.73</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>56</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8521021463</NrDostawcy>
+            <NazwaDostawcy>Netto Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>355592</DowodZakupu>
+            <DataZakupu>2023-07-22</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>139.15</K_42>
+            <K_43>0.78</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>57</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252138640</NrDostawcy>
+            <NazwaDostawcy>POLSKI GAZ S.A.</NazwaDostawcy>
+            <DowodZakupu>F282/E66206</DowodZakupu>
+            <DataZakupu>2023-07-24</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>243.90</K_42>
+            <K_43>56.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>58</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8992367273</NrDostawcy>
+            <NazwaDostawcy>Kaufland Polska Markety Sp. z o.o. Sp. K.</NazwaDostawcy>
+            <DowodZakupu>FV/4-110-5505/20230724/7163</DowodZakupu>
+            <DataZakupu>2023-07-24</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>152.15</K_42>
+            <K_43>1.91</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>59</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552394071</NrDostawcy>
+            <NazwaDostawcy>TEDMARK sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FVS/6852/2023/B2B</DowodZakupu>
+            <DataZakupu>2023-07-24</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>958.50</K_42>
+            <K_43>220.46</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>60</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8691999624</NrDostawcy>
+            <NazwaDostawcy>NEOMEDIA  sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>6222/MAG/07/2023</DowodZakupu>
+            <DataZakupu>2023-07-25</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>47.60</K_42>
+            <K_43>10.95</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>61</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7842433393</NrDostawcy>
+            <NazwaDostawcy>ALTOM sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FS/23/33630</DowodZakupu>
+            <DataZakupu>2023-07-25</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>388.20</K_42>
+            <K_43>89.29</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>62</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6263051133</NrDostawcy>
+            <NazwaDostawcy>Wiktor Pierzchała</NazwaDostawcy>
+            <DowodZakupu>FV 159/7/2023</DowodZakupu>
+            <DataZakupu>2023-07-25</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>30.90</K_42>
+            <K_43>7.11</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>63</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6263051133</NrDostawcy>
+            <NazwaDostawcy>Wiktor Pierzchała</NazwaDostawcy>
+            <DowodZakupu>FV 171/7/2023</DowodZakupu>
+            <DataZakupu>2023-07-26</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>154.46</K_42>
+            <K_43>35.53</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>64</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5921987110</NrDostawcy>
+            <NazwaDostawcy>Farutex sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FV/SZ/23/07-06213</DowodZakupu>
+            <DataZakupu>2023-07-26</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>2513.28</K_42>
+            <K_43>37.93</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>65</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002860</NrDostawcy>
+            <NazwaDostawcy>Makro Cash and Carry polska SA</NazwaDostawcy>
+            <DowodZakupu>0/0(010)0048/208177</DowodZakupu>
+            <DataZakupu>2023-07-27</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1697.37</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>66</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6692296668</NrDostawcy>
+            <NazwaDostawcy>DAJAR sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>BF0018923/23</DowodZakupu>
+            <DataZakupu>2023-07-27</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>421.14</K_42>
+            <K_43>96.86</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>67</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7681001084</NrDostawcy>
+            <NazwaDostawcy>"LEMAR" -  Przedsiębiorstwo Produkcyjno Handlowo Usługowe  Mazur Leszek</NazwaDostawcy>
+            <DowodZakupu>F/006885/23</DowodZakupu>
+            <DataZakupu>2023-07-27</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>28.33</K_42>
+            <K_43>6.52</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>68</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7792433421</NrDostawcy>
+            <NazwaDostawcy>GRUPA OLX sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2024/1101566521</DowodZakupu>
+            <DataZakupu>2023-07-28</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>47.89</K_42>
+            <K_43>11.01</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>69</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522467497</NrDostawcy>
+            <NazwaDostawcy>Vertigo Studio</NazwaDostawcy>
+            <DowodZakupu>FV 786/2023</DowodZakupu>
+            <DataZakupu>2023-07-28</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>1149.40</K_42>
+            <K_43>264.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>70</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252138640</NrDostawcy>
+            <NazwaDostawcy>POLSKI GAZ S.A.</NazwaDostawcy>
+            <DowodZakupu>F296/E66206</DowodZakupu>
+            <DataZakupu>2023-07-28</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>243.90</K_42>
+            <K_43>56.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>71</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8992367273</NrDostawcy>
+            <NazwaDostawcy>Kaufland Polska Markety Sp. z o.o. Sp. K.</NazwaDostawcy>
+            <DowodZakupu>FV/2-315-39953/20230729/7163</DowodZakupu>
+            <DataZakupu>2023-07-29</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>142.96</K_42>
+            <K_43>0.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>72</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6152007726</NrDostawcy>
+            <NazwaDostawcy>STO2 Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>R-2330-9793896-214315056-2702878</DowodZakupu>
+            <DataZakupu>2023-07-30</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>147.32</K_42>
+            <K_43>33.88</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>73</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6292253796</NrDostawcy>
+            <NazwaDostawcy>ŁUKASZ Cieślik Perfekt_shop</NazwaDostawcy>
+            <DowodZakupu>F/003004/23</DowodZakupu>
+            <DataZakupu>2023-07-30</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>241.43</K_42>
+            <K_43>55.53</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>74</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>4990410436</NrDostawcy>
+            <NazwaDostawcy>Zbytki i Zabytki Krzysztof Taraskiewicz</NazwaDostawcy>
+            <DowodZakupu>66/7/2023</DowodZakupu>
+            <DataZakupu>2023-07-31</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>24.71</K_42>
+            <K_43>5.68</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>75</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>023-016-0000327003</DowodZakupu>
+            <DataZakupu>2023-07-31</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>234.02</K_42>
+            <K_43>53.82</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>76</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5240100815</NrDostawcy>
+            <NazwaDostawcy>CENTER-PLUS Sławomir Lech</NazwaDostawcy>
+            <DowodZakupu>FS-11938/23/INT</DowodZakupu>
+            <DataZakupu>2023-07-31</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>152.20</K_42>
+            <K_43>35.01</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>77</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7271966385</NrDostawcy>
+            <NazwaDostawcy>AN-TOLO Andrzej Wroński</NazwaDostawcy>
+            <DowodZakupu>2172/07/2023</DowodZakupu>
+            <DataZakupu>2023-07-31</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>165.85</K_42>
+            <K_43>38.14</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>78</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5213711621</NrDostawcy>
+            <NazwaDostawcy>KKS sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FS 2142/MAG/2023</DowodZakupu>
+            <DataZakupu>2023-07-31</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>420.33</K_42>
+            <K_43>96.67</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>79</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8133611149</NrDostawcy>
+            <NazwaDostawcy>Centru Rozliczeń Elektronicznych SA</NazwaDostawcy>
+            <DowodZakupu>FW-772581/2023/OBX</DowodZakupu>
+            <DataZakupu>2023-07-31</DataZakupu>
+            <DataWplywu>2023-07-31</DataWplywu>
+            <K_42>48.00</K_42>
+            <K_43>11.04</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>79</LiczbaWierszyZakupow>
+            <PodatekNaliczony>9089.31</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

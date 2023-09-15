@@ -170,7 +170,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
         if (listabrakiKontaAnalityczne.size() > 0) {
             czysto = false;
-            Msg.msg("w", b.toString(), b.toString());
+            Msg.msg("w", b.toString());
         }
         if (listaRozniceWnMa.size() > 0) {
             main = "Występują różnice w stronach Wn i Ma w PLN w " + listaRozniceWnMa.size() + " dokumentach: ";
@@ -191,7 +191,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                 }
             }
             dokDAOfk.editList(listaRozniceWnMa);
-            Msg.msg("w", b.toString(), b.toString());
+            Msg.msg("w", b.toString());
         }
         if (listabraki.size() > 0) {
             main = "Występują braki w kolumnie pln w " + listabraki.size() + " dokumentach: ";
