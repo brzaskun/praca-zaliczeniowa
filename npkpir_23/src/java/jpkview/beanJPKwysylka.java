@@ -84,30 +84,35 @@ public class beanJPKwysylka {
         wiadomosc[1] = "Rozpoczęcie autoryzacji do serwisu";
         String referenceNumber = null;
         Object[] in = autoryzacja(plikxml, URL_STEP1);
-        int responseCode = (int) in[1];
-        if (responseCode == 200) {
-            wiadomosc[0] = "i";
-            wiadomosc[1] = "Udane połączenie z serwisem";
-            wynik = true;
-            JSONTokener js = new JSONTokener((Reader) in[0]);
-            jo = new JSONObject(js);
-            referenceNumber = jo.getString("ReferenceNumber");
+        if (in==null||in[1]==null) {
+            wiadomosc[0] = "e";
+            wiadomosc[1] = "Nie próba komunikacji z serwerem ministerstwa";
         } else {
-            JSONTokener js = new JSONTokener((Reader) in[0]);
-            jo = new JSONObject(js);
-            try {
-                String errors = (String) jo.getJSONArray("Errors").get(0);
-                String nieudane = jo.getString("Message");
-                error.E.s("nieudana wysylka: " + nieudane);
-                wiadomosc[0] = "e";
-                wiadomosc[1] = "Błąd połączenia z serwisem " + nieudane;
-            } catch (Exception e1) {
-            }
-            try {
-                String nieudane = jo.getString("Message");
-                wiadomosc[0] = "e";
-                wiadomosc[1] = "Błąd wysyłki. " + nieudane;
-            } catch (Exception e1) {
+            int responseCode = (int) in[1];
+            if (responseCode == 200) {
+                wiadomosc[0] = "i";
+                wiadomosc[1] = "Udane połączenie z serwisem";
+                wynik = true;
+                JSONTokener js = new JSONTokener((Reader) in[0]);
+                jo = new JSONObject(js);
+                referenceNumber = jo.getString("ReferenceNumber");
+            } else {
+                JSONTokener js = new JSONTokener((Reader) in[0]);
+                jo = new JSONObject(js);
+                try {
+                    String errors = (String) jo.getJSONArray("Errors").get(0);
+                    String nieudane = jo.getString("Message");
+                    error.E.s("nieudana wysylka: " + nieudane);
+                    wiadomosc[0] = "e";
+                    wiadomosc[1] = "Błąd połączenia z serwisem " + nieudane;
+                } catch (Exception e1) {
+                }
+                try {
+                    String nieudane = jo.getString("Message");
+                    wiadomosc[0] = "e";
+                    wiadomosc[1] = "Błąd wysyłki. " + nieudane;
+                } catch (Exception e1) {
+                }
             }
         }
         zwrot[0] = jo;
