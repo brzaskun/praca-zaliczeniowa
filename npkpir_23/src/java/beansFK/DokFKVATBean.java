@@ -255,28 +255,32 @@ public class DokFKVATBean {
                         Wiersz wierszDokumentuPoprzedniego = poprzedniDokument.getListawierszy().get(i);
                         Wiersz wierszDokumentuBiezacego = selected.getListawierszy().get(i);
                         if (wierszDokumentuPoprzedniego != null && wierszDokumentuBiezacego != null) {
-                            StronaWiersza wnDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaWn();
-                            StronaWiersza wnDokumenuBiezacego = wierszDokumentuBiezacego.getStronaWn();
-                            if (wnDokumenuBiezacego.getKonto()!=null&&!wnDokumenuBiezacego.getKonto().getPelnynumer().startsWith("221")) {//nie ruszamy konta vat zakupowego
-                                if (wierszDokumentuBiezacego !=null && wnDokumentuPoprzedniego != null && !wnDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat") && !selected.getRodzajedok().isTylkovatnalezny()) {
-                                    if (wnDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
-                                        wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
+                            try {
+                                StronaWiersza wnDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaWn();
+                                StronaWiersza wnDokumenuBiezacego = wierszDokumentuBiezacego.getStronaWn();
+                                if (wnDokumenuBiezacego.getKonto()!=null&&!wnDokumenuBiezacego.getKonto().getPelnynumer().startsWith("221")) {//nie ruszamy konta vat zakupowego
+                                    if (wnDokumenuBiezacego !=null && wnDokumentuPoprzedniego != null && !wnDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat") && !selected.getRodzajedok().isTylkovatnalezny()) {
+                                        if (wnDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
+                                            wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
+                                        }
+                                    }
+                                } else {
+                                    if (wnDokumenuBiezacego!=null && wnDokumentuPoprzedniego != null && !wnDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat") && !selected.getRodzajedok().isTylkovatnalezny()) {
+                                        if (wnDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
+                                            wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
+                                        }
                                     }
                                 }
-                            } else {
-                                if (wierszDokumentuBiezacego!=null && wnDokumentuPoprzedniego != null && !wnDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat") && !selected.getRodzajedok().isTylkovatnalezny()) {
-                                    if (wnDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
-                                        wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
+                            } catch (Exception e){}
+                            try {
+                                StronaWiersza maDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaMa();
+                                StronaWiersza maDokumenuBiezacego = wierszDokumentuBiezacego.getStronaMa();
+                                if (maDokumenuBiezacego!=null && maDokumentuPoprzedniego != null && !maDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat")) {
+                                    if (maDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
+                                        maDokumenuBiezacego.setKonto(maDokumentuPoprzedniego.getKonto());
                                     }
                                 }
-                            }
-                            StronaWiersza maDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaMa();
-                            StronaWiersza maDokumenuBiezacego = wierszDokumentuBiezacego.getStronaMa();
-                            if (maDokumenuBiezacego!=null && maDokumentuPoprzedniego != null && !maDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat")) {
-                                if (maDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
-                                    maDokumenuBiezacego.setKonto(maDokumentuPoprzedniego.getKonto());
-                                }
-                            }
+                            } catch (Exception e){}
                         }
                     } catch (Exception e){
                         System.out.println("Blad public static void pobierzkontaZpoprzedniegoDokumentu(Dokfk poprzedniDokument, Dokfk selected) ");
