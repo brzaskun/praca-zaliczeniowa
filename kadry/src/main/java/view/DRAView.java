@@ -41,7 +41,7 @@ import z.Z;
  */
 @Named
 @ViewScoped
-public class DRAView1  implements Serializable {
+public class DRAView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Pasekwynagrodzen selected;
