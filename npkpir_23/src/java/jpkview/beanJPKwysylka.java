@@ -24,8 +24,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -75,7 +73,7 @@ public class beanJPKwysylka {
         return zwrot;
     }
 
-    public static Object[] etap1(String plikxml) {
+   public static Object[] etap1(String plikxml) {
         Object[] zwrot = new Object[5];
         JSONObject jo = null;
         boolean wynik = false;
@@ -84,35 +82,36 @@ public class beanJPKwysylka {
         wiadomosc[1] = "Rozpoczęcie autoryzacji do serwisu";
         String referenceNumber = null;
         Object[] in = autoryzacja(plikxml, URL_STEP1);
-        if (in==null||in[1]==null) {
+        int responseCode = (int) in[1];
+        if (responseCode == 200) {
+            wiadomosc[0] = "i";
+            wiadomosc[1] = "Udane połączenie z serwisem";
+            wynik = true;
+            JSONTokener js = new JSONTokener((Reader) in[0]);
+            jo = new JSONObject(js);
+            referenceNumber = jo.getString("ReferenceNumber");
+        }  else if (responseCode == 400) {
             wiadomosc[0] = "e";
-            wiadomosc[1] = "Nie próba komunikacji z serwerem ministerstwa";
+            wiadomosc[1] = "Połączono z serwerem. Błąd wywołania usługi. Przerywam zadanie.";
+        }   else if (responseCode == 999) {
+            wiadomosc[0] = "e";
+            wiadomosc[1] = "Plik jpk nie zachowany do wysyłki. Przerywam zadanie.";
         } else {
-            int responseCode = (int) in[1];
-            if (responseCode == 200) {
-                wiadomosc[0] = "i";
-                wiadomosc[1] = "Udane połączenie z serwisem";
-                wynik = true;
-                JSONTokener js = new JSONTokener((Reader) in[0]);
-                jo = new JSONObject(js);
-                referenceNumber = jo.getString("ReferenceNumber");
-            } else {
-                JSONTokener js = new JSONTokener((Reader) in[0]);
-                jo = new JSONObject(js);
-                try {
-                    String errors = (String) jo.getJSONArray("Errors").get(0);
-                    String nieudane = jo.getString("Message");
-                    error.E.s("nieudana wysylka: " + nieudane);
-                    wiadomosc[0] = "e";
-                    wiadomosc[1] = "Błąd połączenia z serwisem " + nieudane;
-                } catch (Exception e1) {
-                }
-                try {
-                    String nieudane = jo.getString("Message");
-                    wiadomosc[0] = "e";
-                    wiadomosc[1] = "Błąd wysyłki. " + nieudane;
-                } catch (Exception e1) {
-                }
+            JSONTokener js = new JSONTokener((Reader) in[0]);
+            jo = new JSONObject(js);
+            try {
+                String errors = (String) jo.getJSONArray("Errors").get(0);
+                String nieudane = jo.getString("Message");
+                error.E.s("nieudana wysylka: " + nieudane);
+                wiadomosc[0] = "e";
+                wiadomosc[1] = "Błąd połączenia z serwisem " + nieudane;
+            } catch (Exception e1) {
+            }
+            try {
+                String nieudane = jo.getString("Message");
+                wiadomosc[0] = "e";
+                wiadomosc[1] = "Błąd wysyłki. " + nieudane;
+            } catch (Exception e1) {
             }
         }
         zwrot[0] = jo;
