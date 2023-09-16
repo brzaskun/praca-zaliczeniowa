@@ -28,7 +28,7 @@ public class UpdateClassView   implements Serializable {
     @Inject
     private PasekwynagrodzenView pasekwynagrodzenView;
     @Inject
-    private DraView draView;
+    private DRAView draView;
     @Inject
     private NieobecnoscView nieobecnoscView;
     @Inject
