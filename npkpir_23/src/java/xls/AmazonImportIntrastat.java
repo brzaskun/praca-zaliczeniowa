@@ -36,7 +36,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 import pl.gov.mf.xsd.intrastat.ist.IST;
 import pl.gov.mf.xsd.intrastat.ist.ObjectFactory;
 import view.WpisView;
@@ -66,7 +66,7 @@ public class AmazonImportIntrastat implements Serializable {
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
              try {
-            InputStream is = uploadedFile.getInputstream();
+            InputStream is = uploadedFile.getInputStream();
             Workbook workbook = WorkbookFactory.create(is);
             Sheet sheet = workbook.getSheet("Template");
             Iterator<Row> rowIterator = sheet.iterator();

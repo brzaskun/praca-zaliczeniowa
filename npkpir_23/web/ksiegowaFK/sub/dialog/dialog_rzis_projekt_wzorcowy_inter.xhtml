@@ -11,7 +11,7 @@
             <p:panelGrid columns="7" >
                 <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{pozycjaBRWzorcowyView.zachowajInt(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":form_dialog_rzis_projekt_wzorcowy_inter:dataList" style="float: left; margin-left: 100px; width: 120px;" />
                 <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSRZiSView.zachowajRZiSwXLS(pozycjaBRWzorcowyView.rootProjektRZiS)}" style=" margin-left: 5px;" global="false" ajax="false"/>
-                <p:fileUpload fileUploadListener="#{pozycjaBRWzorcowyView.pobierzdanezplikur}" 
+                <p:fileUpload listener="#{pozycjaBRWzorcowyView.pobierzdanezplikur}" 
                                       validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" 
                                       fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
                                       uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 

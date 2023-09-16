@@ -24,7 +24,7 @@
             <p:growl life="3600"  id="messages1"/>
             <p:panelGrid columns="2" >
                 <p:panelGrid columns="1" style="width: 900px;">
-                    <p:fileUpload fileUploadListener="#{amazonImportIntrastat.importujsprzedaz}" 
+                    <p:fileUpload listener="#{amazonImportIntrastat.importujsprzedaz}" 
                                   mode="advanced" dragDropSupport="true" fileLimit="1"
                                   update="messages1 importtabelaintrastat" auto="true"
                                   validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"

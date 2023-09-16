@@ -11,7 +11,7 @@
         <h:form id="form_dialogweryfikujsprawozdaniel">
             <p:panelGrid columns="1" style="margin-top: 20px;">
                 <h:outputText value="plik ze sprawozdaniem finansowym w formacie xml" style="font-weight: bold;"/>
-                <p:fileUpload fileUploadListener="#{weryfikujSprawozdanieView.zachowajplik}" 
+                <p:fileUpload listener="#{weryfikujSprawozdanieView.zachowajplik}" 
                               mode="advanced" dragDropSupport="true" fileLimit="3"
                               update="@form form_dialogweryfikujsprawozdanie" sizeLimit="6000000"   auto="true"
                               validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"

@@ -24,7 +24,7 @@
             <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
                     <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
                         <h:outputText value="Akceptowana wersja pliku Mirdaj csv" style="font-weight: bold;"/>
-                        <p:fileUpload fileUploadListener="#{importMirdajCSVView.zachowajplik}" 
+                        <p:fileUpload listener="#{importMirdajCSVView.zachowajplik}" 
                                       mode="advanced" dragDropSupport="true" multiple="true" sequential="true" auto="true"
                                       update="messages2 panelprzyciskowjpkonly importjpkonlytabela" 
                                       invalidSizeMessage="Plik za duży" allowTypes="/(\.|\/)(csv|xls|xml|xlsx)$/" invalidFileMessage="Niewłaściwy format pliku: "

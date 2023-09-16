@@ -8,7 +8,7 @@
     
         <p:panel header="Wczytaj plik XML zawierający zapisy VAT" rendered="#{eVatDedraView.wiersze.size() eq 0}" style="width: 1250px;"/>
         <h:form id="form_dialog_ewvat_dedra" >
-            <p:fileUpload fileUploadListener="#{eVatDedraView.zachowajZaladowanyPlik}" update="form_dialog_ewvat_dedra form_dialog_ewvat_dedra_tabela:tabela"
+            <p:fileUpload  listener="#{eVatDedraView.zachowajZaladowanyPlik}" update="form_dialog_ewvat_dedra form_dialog_ewvat_dedra_tabela:tabela"
                           mode="advanced" fileLimit="1" auto="true" 
                           sizeLimit="400000"   
                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"

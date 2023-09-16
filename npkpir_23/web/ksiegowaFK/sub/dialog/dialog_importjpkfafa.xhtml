@@ -47,7 +47,7 @@
                     <p:ajax event="itemSelect" partialSubmit="true" />
                 </p:selectOneMenu>
             </p:panelGrid>
-            <p:fileUpload fileUploadListener="#{importFakturyView.importujsprzedazfk}" 
+            <p:fileUpload listener="#{importFakturyView.importujsprzedazfk}" 
                           mode="advanced" dragDropSupport="true" fileLimit="1"
                           update="importtabelafafa" sizeLimit="2000000"  auto="true"
                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"

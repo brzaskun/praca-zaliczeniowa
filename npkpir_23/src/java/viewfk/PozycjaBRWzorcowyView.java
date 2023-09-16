@@ -36,7 +36,7 @@ import javax.inject.Inject;
 import msg.Msg;import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.TreeNode;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 import view.WpisView;import xls.ReadCSVInterpaperFile;
 
 /**
@@ -276,7 +276,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("xlsx")) {
-                byte[] contents = uploadedFile.getContents();
+                byte[] contents = uploadedFile.getContent();
                 ReadCSVInterpaperFile.updateRZiSInter(pozycjaRZiSDAO, wpisView, contents);
                 pobierzuklad("r", rootProjektRZiS, "");
             }
@@ -292,7 +292,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("xlsx")) {
-                byte[] contents = uploadedFile.getContents();
+                byte[] contents = uploadedFile.getContent();
                 ReadCSVInterpaperFile.updateBilansInter(pozycjaBilansDAO, wpisView, contents);
                 pobierzuklad("b", rootProjektRZiS, "aktywa");
             }
