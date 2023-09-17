@@ -7,6 +7,7 @@ package view;
 
 import comparator.Podatnikcomparator;
 import dao.PodatnikDAO;
+import dao.SMTPSettingsDAO;
 import dao.SprawaDAO;
 import dao.UzDAO;
 import entity.Podatnik;
@@ -27,6 +28,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import mail.MailAdmin;
 import msg.Msg;
 /**
  *
@@ -44,6 +46,8 @@ public class SprawaView  implements Serializable{
     private UzDAO uzDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private SMTPSettingsDAO sMTPSettingsDAO;
     @Inject
     private Sprawa nowa;
     private List<Sprawa> sprawyOdebrane;
@@ -120,6 +124,7 @@ public class SprawaView  implements Serializable{
             nowa.setStatus("wysłana");
             sprawaDAO.create(nowa);
             sprawyNadane.add(nowa);
+            MailAdmin.dodanosprawe(nowa,sMTPSettingsDAO.findSprawaByDef());
             nowa = new Sprawa();
             Msg.msg("Dodano sprawę");
         } catch (Exception e) {

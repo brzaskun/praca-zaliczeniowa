@@ -7,6 +7,7 @@ package mail;
 import data.Data;
 import entity.Pismoadmin;
 import entity.SMTPSettings;
+import entity.Sprawa;
 import entity.Uz;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -108,6 +109,34 @@ public class MailAdmin implements Serializable {
                      + "<p style=\"color: green;\">"+ip+"</p>"
                      + "<p>Z poważaniem</p>"
                      + "<br/>"
+                     + "<p>Serwer Programu</p>", "text/html; charset=utf-8");
+             // create the Multipart and add its parts to it
+             Multipart mp = new MimeMultipart();
+             mp.addBodyPart(mbp1);
+             // add the Multipart to the message
+             message.setContent(mp);
+             Transport.send(message);
+             
+         } catch (MessagingException e) {
+             throw new RuntimeException(e);
+        } 
+        
+    }
+     
+      public static void dodanosprawe(Sprawa sprawa, SMTPSettings ogolne) {
+        try {
+             MailSetUp mailSetUp = new MailSetUp();
+             MimeMessage message = mailSetUp.logintoMailAdmin(sprawa.getOdbiorca().getEmail(), null, ogolne);
+             message.setSubject("Dodano nową sprawę do załatwienia","UTF-8");
+             // create and fill the first message part
+             MimeBodyPart mbp1 = new MimeBodyPart();
+             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+             mbp1.setContent("Dodano nową sprawę do załatwienia"
+                     + "<p>Termin załatwienia "+Data.data_yyyyMMdd(sprawa.getTermindo())+"</p>"
+                     + "<p>Zostało dni  "+sprawa.getZostaloDni()+"</p>"
+                     + "<p style=\"color: green;\">"+sprawa.getTresc()+"</p>"
+                     + "<br/>"
+                    + "<p>W panelu spraw można oznaczyć sprawę i zostawić komentarz</p>"
                      + "<p>Serwer Programu</p>", "text/html; charset=utf-8");
              // create the Multipart and add its parts to it
              Multipart mp = new MimeMultipart();
