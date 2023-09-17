@@ -13,10 +13,10 @@
         }
     </style>
     <p:dialog id="dialog_sprawy" header="Sprawy do załatwienia/przejrzenia" widgetVar="dialog_sprawy" 
-              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1860, 840);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
+              resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 2010, 840);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');" fitViewport="true" >
         <h:form id="form_dialog_sprawy">
             <p:growl ><p:autoUpdate/></p:growl>
-            <p:dataTable value="#{sprawaView.sprawyOdebrane}" var="item3" style="width: 1840px; overflow-y: scroll; height: 410px;"
+            <p:dataTable value="#{sprawaView.sprawyOdebrane}" var="item3" style="width: 2000px; overflow-y: scroll; height: 400px;"
                          widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index1" 
                          sortBy="#{item3.termindo}" sortOrder="ascending" 
                          >
@@ -45,6 +45,14 @@
                         <h:outputText value="treść" style="width: 180px;"/>
                     </f:facet>
                     <h:outputText value="#{item3.tresc}"/>
+                </p:column>
+                <p:column filterBy="#{item3.tresc}" filterMatchMode="contains" filterStyle="display: none;" >
+                    <f:facet name="header">
+                        <h:outputText value="mój komentarz dla nadawcy" style="width: 130px;"/>
+                    </f:facet>
+                    <p:inputTextarea value="#{item3.komentarz}" rows="3" cols="50">
+                        <p:ajax event="blur" partialSubmit="true" listener="#{sprawaView.nanies(item3)}" />
+                    </p:inputTextarea>
                 </p:column>
                 <p:column width="80">
                     <f:facet name="header">
@@ -118,7 +126,7 @@
              </p:dataTable>
         </h:form>
         <h:form id="form_dialog_sprawy_nadane">
-            <p:dataTable value="#{sprawaView.sprawyNadane}" var="item4" style="width: 1840px; overflow-y: scroll; height: 410px;"
+            <p:dataTable value="#{sprawaView.sprawyNadane}" var="item4" style="width: 2000px; overflow-y: scroll; height: 400px;"
                          widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index2" 
                          sortBy="#{item4.termindo}" sortOrder="ascending" 
                          >
@@ -144,9 +152,15 @@
                 </p:column>
                 <p:column width="250" filterBy="#{item4.tresc}" filterMatchMode="contains" filterStyle="display: none;">
                     <f:facet name="header">
-                        <h:outputText value="treść" style="width: 250px;"/>
+                        <h:outputText value="treść" style="width: 180px;"/>
                     </f:facet>
                     <h:outputText value="#{item4.tresc}"/>
+                </p:column>
+                <p:column width="160" filterBy="#{item3.komentarz}" filterMatchMode="contains" filterStyle="display: none;" >
+                    <f:facet name="header">
+                        <h:outputText value="komentarz od odbiorcy" style="width: 150px;"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.komentarz}"/>
                 </p:column>
                 <p:column width="80">
                     <f:facet name="header">
@@ -166,7 +180,7 @@
                     </f:facet>
                     <h:outputText value="#{item4.organ}"/>
                 </p:column>
-                <p:column width="100" style="text-align: center;">
+                <p:column width="80" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="termin"/>
                     </f:facet>
@@ -182,9 +196,9 @@
                         <h:outputText value="#{item4.status}"/>
                     </p:panelGrid>
                 </p:column>
-                <p:column width="100" style="text-align: center;">
+                <p:column width="80" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="data"/>
+                        <h:outputText value="data odczytu"/>
                     </f:facet>
                     <p:panelGrid columns="1">
                         <h:outputText value="#{item4.datastatusu}">

@@ -52,6 +52,11 @@ public class Sprawa  implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "tresc", nullable = false, length = 65535)
     private String tresc;
+    @Basic(optional = true)
+    @Lob
+    @Size(min = 1, max = 65535)
+    @Column(name = "komentarz", nullable = true, length = 65535)
+    private String komentarz;
     @NotNull
     @JoinColumn(name = "nadawca",referencedColumnName = "id")
     @ManyToOne
@@ -245,6 +250,14 @@ public class Sprawa  implements Serializable {
 
     public void setWystawionofakture(boolean wystawionofakture) {
         this.wystawionofakture = wystawionofakture;
+    }
+
+    public String getKomentarz() {
+        return komentarz;
+    }
+
+    public void setKomentarz(String komentarz) {
+        this.komentarz = komentarz;
     }
     
     
