@@ -10,36 +10,36 @@
     <p:dialog id="dialogdra" header="Wyliczanie DRA" widgetVar="dialogdra"  dynamic="true"
               resizable="false"  onShow="ustawdialog('dialogdra','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogdra');" 
               fitViewport="true">
-        <p:ajax event="open" listener="#{draView.init()}" update="DRACreateForm DRASumaForm DRAListForm" global="false"/>
-        <p:ajax event="close" listener="#{draView.close()}" global="false"/>
-         <p:ajax event="open" listener="#{draView.open()}" global="false"/>
+        <p:ajax event="open" listener="#{draNView.init()}" update="DRACreateForm DRASumaForm DRAListForm" global="false"/>
+        <p:ajax event="close" listener="#{draNView.close()}" global="false"/>
+         <p:ajax event="open" listener="#{draNView.open()}" global="false"/>
         <p:outputPanel style="height: 120px">
             <h:form  styleClass="formadmin" id="DRACreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2">
-                        <p:panelGrid columns="2" rendered="#{draView.listadefinicjalistaplac ne null}">
+                        <p:panelGrid columns="2" rendered="#{draNView.listadefinicjalistaplac ne null}">
                             <p:outputLabel value="okres rozliczeniowy" for="okresdra" />
-                            <p:selectOneMenu id="okresdra" value="#{draView.mcdra}" required="true" requiredMessage="Wybierz miesiąc" >
+                            <p:selectOneMenu id="okresdra" value="#{draNView.mcdra}" required="true" requiredMessage="Wybierz miesiąc" >
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{mce.mceList}" 
                                                var="dramcItem"
                                                itemValue="#{dramcItem}" itemLabel="#{dramcItem}"/>
-                                <p:ajax event="change" partialSubmit="true" global="true" listener="#{draView.pobierzlisty}" update="DRAListForm DRASumaForm DRACreateForm:wybranalista"/>
+                                <p:ajax event="change" partialSubmit="true" global="true" listener="#{draNView.pobierzlisty}" update="DRAListForm DRASumaForm DRACreateForm:wybranalista"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
-                        <p:panelGrid columns="2" rendered="#{draView.listadefinicjalistaplac ne null}">
+                        <p:panelGrid columns="2" rendered="#{draNView.listadefinicjalistaplac ne null}">
                             <p:outputLabel value="wybrana lista płac" for="wybranalista" />
-                            <p:selectManyCheckbox id="wybranalista" value="#{draView.listywybrane}" layout="grid" columns="3" styleClass="grid-checkbox"
-                                                  requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" rendered="#{draView.listadefinicjalistaplac ne null}" >
+                            <p:selectManyCheckbox id="wybranalista" value="#{draNView.listywybrane}" layout="grid" columns="3" styleClass="grid-checkbox"
+                                                  requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" rendered="#{draNView.listadefinicjalistaplac ne null}" >
                                 <!--                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>-->
-                                <f:selectItems value="#{draView.listadefinicjalistaplac}" 
+                                <f:selectItems value="#{draNView.listadefinicjalistaplac}" 
                                                var="dralistaItem"
                                                itemValue="#{dralistaItem}" itemLabel="#{dralistaItem.opis} #{dralistaItem.nrkolejny}"/>
-                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{draView.pobierzpaski}" update="DRAListForm DRASumaForm"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{draNView.pobierzpaski}" update="DRAListForm DRASumaForm"/>
                             </p:selectManyCheckbox>
                         </p:panelGrid>
-                        <p:commandButton styleClass="buttonnorm2" actionListener="#{draView.drukujliste}" value="druk lista"/>
-                        <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{draView.mailListaDRAFirma()}" global="true">
+                        <p:commandButton styleClass="buttonnorm2" actionListener="#{draNView.drukujliste}" value="druk lista"/>
+                        <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{draNView.mailListaDRAFirma()}" global="true">
                             <p:confirm type="popup" header="Potwierdzenie" message="Wysłać DRA do firmy?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:panelGrid>
@@ -54,20 +54,20 @@
                     <p:outputLabel value="ZUS 53" style="width: 80px;"/>
                     <p:outputLabel value="razem ZUS" style="width: 80px;"/>
                     <p:outputLabel value="PIT4" style="width: 80px;"/>
-                    <bcf:outputpl value="#{draView.zus51}"/>
-                    <bcf:outputpl value="#{draView.zus52}"/>
-                    <bcf:outputpl value="#{draView.zus53}"/>
-                    <bcf:outputpl value="#{draView.zus}"/>
-                    <bcf:outputpl value="#{draView.pit4}"/>
+                    <bcf:outputpl value="#{draNView.zus51}"/>
+                    <bcf:outputpl value="#{draNView.zus52}"/>
+                    <bcf:outputpl value="#{draNView.zus53}"/>
+                    <bcf:outputpl value="#{draNView.zus}"/>
+                    <bcf:outputpl value="#{draNView.pit4}"/>
                     <p:outputLabel value="ZUS 51 pracownik" style="width: 80px;"/>
                     <p:outputLabel value="ZUS 51 pracodawca" style="width: 80px;"/>
                     <p:outputLabel value="ZUS 53 FP" style="width: 80px;"/>
                     <p:outputLabel value="ZUS 53 FGŚP" style="width: 80px;"/>
                     <p:outputLabel value=" " style="width: 80px;"/>
-                    <bcf:outputpl value="#{draView.zus51pracownik}"/>
-                    <bcf:outputpl value="#{draView.zus51pracodawca}"/>
-                    <bcf:outputpl value="#{draView.zusFP}"/>
-                    <bcf:outputpl value="#{draView.zusFGSP}"/>
+                    <bcf:outputpl value="#{draNView.zus51pracownik}"/>
+                    <bcf:outputpl value="#{draNView.zus51pracodawca}"/>
+                    <bcf:outputpl value="#{draNView.zusFP}"/>
+                    <bcf:outputpl value="#{draNView.zusFGSP}"/>
                     <p:outputLabel value=" "/>
                 </p:panelGrid>
             </h:form>
@@ -75,8 +75,8 @@
         <p:outputPanel>
             <h:form  styleClass="formadmin" id="DRAListForm">
                 <p:panel header="paski wynagrodzeń">
-                    <p:dataTable id="datalist" value="#{draView.paskiwynagrodzen}" var="itemdra"
-                                 selectionMode="single" selection="#{draView.selectedlista}" rowIndexVar="indexdra"
+                    <p:dataTable id="datalist" value="#{draNView.paskiwynagrodzen}" var="itemdra"
+                                 selectionMode="single" selection="#{draNView.selectedlista}" rowIndexVar="indexdra"
                                  rowKey="#{itemdra.kalendarzmiesiac.hashCode()}" sortBy="#{itemdra.kalendarzmiesiac.angaz.pracownik.nazwiskoImie}"
                                  style="height: 500px; overflow-y: scroll;"
                                  emptyMessage="nie pobrano danych"
