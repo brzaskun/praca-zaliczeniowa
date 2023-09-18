@@ -11,6 +11,7 @@ import dao.DokumentyFacade;
 import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
+import data.Data;
 import entity.Angaz;
 import entity.FirmaKadry;
 import entity.SMTPSettings;
@@ -20,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -51,6 +53,7 @@ public class PracownikUmowyView  implements Serializable {
     private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
     private List<Umowa> listaumowy;
     private List<Umowa> listaumowyfiltered;
+    private boolean pokazbiezace;
     
     @PostConstruct
     public void init() {
@@ -71,6 +74,12 @@ public class PracownikUmowyView  implements Serializable {
                     listaumowy.add(wybrana);
                 }
             }
+            dodajskladniki();
+        }
+    }
+    
+    private void dodajskladniki() {
+        if (listaumowy!=null) {
             for (Umowa u : listaumowy) {
                 Skladnikwynagrodzenia zwrot = null;
                 List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList1 = u.getAngaz().getSkladnikwynagrodzeniaList();
@@ -88,6 +97,31 @@ public class PracownikUmowyView  implements Serializable {
             }
         }
     }
+    
+    public void pobierzbiezace() {
+        if (pokazbiezace) {
+            if (wpisView.getFirma() != null) {
+                List<Angaz> angaze = angazFacade.findByFirma(wpisView.getFirma());
+                listaumowy = new ArrayList<>();
+                for (Angaz a : angaze) {
+                    Comparator<Umowa> comparator = Comparator.comparing( Umowa::getDataod);
+                    List<Umowa> umowy = a.getUmowaList();
+                     // Get Min or Max Object
+                    Umowa wybrana = umowy.stream().max(comparator).get();
+                    String dataokresu = Data.ostatniDzien(wpisView);
+                    if (wybrana.getDatado()==null||Data.czyjestpo(dataokresu, wybrana.getDatado())) {
+                        listaumowy.add(wybrana);
+                    }
+                }
+                dodajskladniki();
+            }
+        } else {
+            init();
+        }
+
+    }
+    
+    
     public void aktywujPracUmowy(FirmaKadry firma) {
         if (firma!=null) {
             wpisView.setFirma(firma);
@@ -159,6 +193,14 @@ public class PracownikUmowyView  implements Serializable {
 
     public void setListaumowyfiltered(List<Umowa> listaumowyfiltered) {
         this.listaumowyfiltered = listaumowyfiltered;
+    }
+
+    public boolean isPokazbiezace() {
+        return pokazbiezace;
+    }
+
+    public void setPokazbiezace(boolean pokazbiezace) {
+        this.pokazbiezace = pokazbiezace;
     }
 
 
