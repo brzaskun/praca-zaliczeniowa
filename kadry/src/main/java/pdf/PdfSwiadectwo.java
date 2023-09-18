@@ -361,9 +361,9 @@ public class PdfSwiadectwo {
                 czydodano = false;
                 for (Skladnikpotracenia skl : skladnikpotraceniaList) {
                     if (skl.getRodzajpotracenia().isPotraceniekomornicze()&&skl.isRozliczony()==false) {
-                        double pozostalo = pozostalo(skl);
-                        if (pozostalo>0.0) {
-                            String poz = F.curr(pozostalo);
+                        double potracono = potracono(skl);
+                        if (potracono>0.0) {
+                            String poz = F.curr(potracono);
                             String opis = skl.getRodzajpotracenia().getOpis()+" komornik: "+skl.getKomornik()+" nr sprawy: "+skl.getNrsprawy()+" kwota potrącona: "+poz;
                             PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, opis, Element.ALIGN_LEFT, 2);
                             czydodano = true;
@@ -413,16 +413,26 @@ public class PdfSwiadectwo {
          return zwrot;
     }
 
-    private static double pozostalo(Skladnikpotracenia skl) {
-        double kwota = skl.getKwotakomornicza();
+    private static double potracono(Skladnikpotracenia skl) {
         double zwrot = 0.0;
         List<Naliczeniepotracenie> naliczeniepotracenieList = skl.getNaliczeniepotracenieList();
         for (Naliczeniepotracenie s : naliczeniepotracenieList) {
             zwrot = zwrot + s.getKwota();
         }
-        if (kwota>0) {
-            zwrot = Z.z(kwota-zwrot);
-        }
         return Z.z(zwrot);
     }
+    
+    //zmeiniono 18.09.2023 bo maja byc kwoty potracone
+//    private static double pozostalo(Skladnikpotracenia skl) {
+//        double kwota = skl.getKwotakomornicza();
+//        double zwrot = 0.0;
+//        List<Naliczeniepotracenie> naliczeniepotracenieList = skl.getNaliczeniepotracenieList();
+//        for (Naliczeniepotracenie s : naliczeniepotracenieList) {
+//            zwrot = zwrot + s.getKwota();
+//        }
+//        if (kwota>0) {
+//            zwrot = Z.z(kwota-zwrot);
+//        }
+//        return Z.z(zwrot);
+//    }
 }
