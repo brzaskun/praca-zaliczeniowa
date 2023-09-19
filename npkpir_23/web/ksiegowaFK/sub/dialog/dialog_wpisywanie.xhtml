@@ -454,7 +454,7 @@
                                 </p:inputNumber>
                             </p:column>
                             <p:column headerText="#{mgs.netto}" width="80">
-                                <p:inputNumber  id="netto" value="#{item.netto}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                <p:inputNumber  id="netto" value="#{item.netto}" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                                 symbolPosition="s" decimalSeparator=","  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument', rowindex)}" partialSubmit="true"/>
 <!--                                    <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz(event);"/>-->

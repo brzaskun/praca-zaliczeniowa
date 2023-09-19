@@ -22,6 +22,7 @@ import error.E;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -904,5 +905,16 @@ public class WpisView implements Serializable {
         } catch (Exception e){}
     }
   
-
+// main method
+    public static void main(String[] args)
+    {
+        // declaring object of Locale
+        Locale locale;
+  
+        // calling the getDefault method
+        locale = Locale.getDefault();
+  
+        // printing the locale
+        System.out.println(locale);
+    }
   }
