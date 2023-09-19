@@ -632,7 +632,7 @@
                                             readonly="#{wploop.stronaMa.typStronaWiersza ne 0}" symbol="&#160;"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
                                 <p:ajax global="false" event="change" partialSubmit="true"  />
-                                <p:ajax global="false" event="blur" partialSubmit="true"  onstart="skopiujKwoteZeStronaWn(#{wploop.idporzadkowy-1}, 'Wn');"/>
+                                <p:ajax global="false" event="blur" partialSubmit="true" listener="#{dokfkView.skopiujKwoteWndoMa(wploop)}"/>
                             </p:inputNumber> 
                         </p:column>
                         <p:column headerText="kwota PLN" style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
