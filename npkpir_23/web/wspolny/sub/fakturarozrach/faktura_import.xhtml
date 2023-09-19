@@ -69,7 +69,7 @@
                 <h:outputText value="konto"/><h:outputText value="#{bankImportKsiazkaView.naglowek.wyciagkonto}" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto ne '11111'}"/>
                 <h:outputText value="Pobrano historię zapisów a nie wyciąg. Informacja o saldach jest niedostępna" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto eq '11111'}" style="color:red;font-weight: bold;"/>
                 <h:outputText value="wprowadź saldo początkowe" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto eq '11111'}" style="font-weight: bold"/><p:inputNumber value="#{bankImportKsiazkaView.naglowek.wyciagbo}" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto eq '11111'}" decimalPlaces="2"
-                                                                                                                                                                        inputStyle="text-align: right;" symbolPosition="s" decimalSeparator="."  >
+                                                                                                                                                                        inputStyle="text-align: right;" symbolPosition="s" decimalSeparator=","  >
                     <p:ajax event="blur" partialSubmit="true"/>
                 </p:inputNumber>
                 <h:outputText value="saldo początkowe" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto ne '11111'}"/><bcf:outputpl value="#{bankImportKsiazkaView.naglowek.wyciagbo}" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto ne '11111'}"/>
@@ -117,7 +117,7 @@
                     <h:outputText value="#{itemimp.waluta}"/>
                 </p:column>
                 <p:column headerText="kurs" styleClass="zaksiegowanewaski" width="80" style="text-align: center;"  sortBy="#{itemimp.kurs}" filterBy="#{itemimp.kurs}" filterMatchMode="contains" >
-                    <p:inputNumber value="#{itemimp.kurs}" symbol=" zł" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="4" minValue="-10000000" size="9">
+                    <p:inputNumber value="#{itemimp.kurs}" symbol=" zł" style="text-align: right;" symbolPosition="s" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="4" minValue="-10000000" size="9">
                         <p:ajax event="blur" partialSubmit="true" global="false"/>
                     </p:inputNumber>
                 </p:column>

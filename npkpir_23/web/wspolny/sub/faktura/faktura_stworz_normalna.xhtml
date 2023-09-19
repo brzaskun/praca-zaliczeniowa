@@ -76,7 +76,7 @@
                 </p:column>
                 <p:column headerText="#{fakturaView.selected.liczodwartoscibrutto ? 'cena jedn.brutto' : 'cena jedn.netto'}" width="140" style="text-align: center;">
                     <p:inputNumber id="cena" value="#{row.cena}" required="true" styleClass="kwotarozrachunku" size="13"
-                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="."  
+                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator=","  
                                     thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="stawka VAT" width="70" style="text-align: center;">
@@ -97,7 +97,7 @@
                 </p:column>
                 <p:column headerText="VAT" width="140" style="text-align: center;" rendered="#{fakturaView.selected.id ne null}">
                      <p:inputNumber id="VAT" value="#{row.podatekkwota}" required="true" styleClass="kwotarozrachunku" size="13"
-                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="."  
+                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator=","  
                                     thousandSeparator="&#160;" inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column style="text-align: center;">
@@ -153,7 +153,7 @@
                 </p:column>
                 <p:column headerText="#{fakturaView.selected.liczodwartoscibrutto ? 'cena jedn.brutto' : 'cena jedn.netto'}" width="140" style="text-align: center;">
                     <p:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku" size="13" 
-                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="."  
+                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator=","  
                                     thousandSeparator="&#160;" inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="stawka VAT" width="70">
@@ -174,7 +174,7 @@
                 </p:column>
                 <p:column headerText="VAT" width="140" style="text-align: center;"  rendered="#{fakturaView.selected.id ne null}">
                      <p:inputNumber id="VATK" value="#{row.podatekkwota}" required="true" styleClass="kwotarozrachunku" size="13" 
-                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." 
+                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="," 
                                     thousandSeparator="&#160;" inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column style="text-align: center;">
