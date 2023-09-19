@@ -454,7 +454,7 @@
                                 </p:inputNumber>
                             </p:column>
                             <p:column headerText="#{mgs.netto}" width="80">
-                                <p:inputNumber  id="netto" value="#{item.netto}" required="true" requiredMessage="Brak kwoty - uzupełnij"
+                                <p:inputNumber  id="netto" value="#{item.netto}" required="true" requiredMessage="Brak kwoty - uzupełnij" symbol="&#160;"
                                                 symbolPosition="s" decimalSeparator=","  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument', rowindex)}" partialSubmit="true"/>
 <!--                                    <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz(event);"/>-->
@@ -584,7 +584,7 @@
                                             rendered="#{wploop.stronaWn != null}" onfocus="kalkulator_pobierzwiersz(this);"
                                             symbolPosition="s" decimalSeparator=","  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="12" 
                                             decimalPlaces="2" minValue="-10000000" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}"
-                                            readonly="#{wploop.stronaWn.typStronaWiersza ne 0}"
+                                            readonly="#{wploop.stronaWn.typStronaWiersza ne 0}" symbol="&#160;"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
                                 <p:ajax global="false" event="blur" onstart="skopiujKwoteZWierszaWyzej(#{wploop.idporzadkowy-1}, 'Wn');"  partialSubmit="true"/>
                             </p:inputNumber>
@@ -629,7 +629,7 @@
                             <p:inputNumber   id="ma" value="#{wploop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                             rendered="#{wploop.stronaMa != null}" onfocus="kalkulator_pobierzwiersz(this);"
                                             symbolPosition="s" decimalSeparator=","  thousandSeparator="&#160;"  inputStyle="text-align: right;" size="12" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
-                                            readonly="#{wploop.stronaMa.typStronaWiersza ne 0}"
+                                            readonly="#{wploop.stronaMa.typStronaWiersza ne 0}" symbol="&#160;"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
                                 <p:ajax global="false" event="change" partialSubmit="true"  />
                                 <p:ajax global="false" event="blur" partialSubmit="true"  onstart="skopiujKwoteZeStronaWn(#{wploop.idporzadkowy-1}, 'Wn');"/>
