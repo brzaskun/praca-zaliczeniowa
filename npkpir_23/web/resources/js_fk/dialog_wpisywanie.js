@@ -683,8 +683,8 @@ var skopiujKwoteZWierszaWyzej = function (idwiersza) {
       if (idwiersza > 0) {
           var idpoprzedni = idwiersza-1;
           var kwotawierszwyzej = r("formwpisdokument:dataList:"+idpoprzedni+":wn_input").val();
-          biezacastronawiersza.val(kwotawierszwyzej.trim());
-          biezacastronawierszaH.val(kwotawierszwyzej);
+          biezacastronawiersza.val(kwotawierszwyzej);
+          biezacastronawierszaH.val(zrobFloat(kwotawierszwyzej));
       }
   }
 };
@@ -695,8 +695,8 @@ var skopiujKwoteZeStronaWn = function (idwiersza) {
   var biezacakwota = biezacastronawiersza.val();
   if (biezacakwota.trim() === "0,00")  {
           var kwotawierszWn = r("formwpisdokument:dataList:"+idwiersza+":wn_input").val();
-          biezacastronawiersza.val(kwotawierszWn.trim());
-          biezacastronawierszaH.val(kwotawierszWn.trim());
+          biezacastronawiersza.val(kwotawierszWn);
+          biezacastronawierszaH.val(zrobFloat(kwotawierszWn));
   }
 };
 
