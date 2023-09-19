@@ -293,8 +293,8 @@ var setToOther = function(wiersz, font, color) {
 
 var uzupelnijpustepole = function(numerwiersza) {
     var adres = "rozrachunki:dataList:" + numerwiersza;
-    r(adres + ":kwotarozliczenia_input").val("0,00");
-    r(adres + ":kwotarozliczenia_hinput").val(0,0);
+    r(adres + ":kwotarozliczenia_input").val("0.00");
+    r(adres + ":kwotarozliczenia_hinput").val(0.0);
     r(adres + ":kwotarozliczenia").change();
 };
 
@@ -337,7 +337,7 @@ var pobierzkurs = function(numerwiersza) {
     }
     kurs = zrobFloat(kurs);
     if (isNaN(kurs)) {
-        kurs = 0,0;
+        kurs = 0.0;
     } 
     return kurs;
 };

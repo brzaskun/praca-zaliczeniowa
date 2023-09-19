@@ -166,7 +166,7 @@ var aktywujPierwszePoleNowegoWierszaVAT = function(event, wiersz){
         var nextlp = parseInt(lp)+1;
         var nextwiersz = "formwpisdokument:tablicavat:"+nextlp+":netto_input";
         var tresc = document.getElementById(nextwiersz).value;
-        if (tresc === "0,00 zł") {
+        if (tresc === "0.00 zł") {
             $(document.getElementById(nextwiersz)).focus();
             $(document.getElementById(nextwiersz)).select();
             event.preventDefault();
@@ -679,7 +679,7 @@ var skopiujKwoteZWierszaWyzej = function (idwiersza) {
   var biezacastronawiersza = r("formwpisdokument:dataList:"+idwiersza+":wn_input");
   var biezacastronawierszaH = r("formwpisdokument:dataList:"+idwiersza+":wn_hinput");
   var biezacakwota = biezacastronawiersza.val();
-  if (biezacakwota === "0,00") {
+  if (biezacakwota === "0.00") {
       if (idwiersza > 0) {
           var idpoprzedni = idwiersza-1;
           var kwotawierszwyzej = r("formwpisdokument:dataList:"+idpoprzedni+":wn_input").val();
@@ -693,7 +693,7 @@ var skopiujKwoteZeStronaWn = function (idwiersza) {
   var biezacastronawiersza = r("formwpisdokument:dataList:"+idwiersza+":ma_input");
   var biezacastronawierszaH = r("formwpisdokument:dataList:"+idwiersza+":ma_hinput");
   var biezacakwota = biezacastronawiersza.val();
-  if (biezacakwota === "0,00") {
+  if (biezacakwota === "0.00") {
           var kwotawierszWn = r("formwpisdokument:dataList:"+idwiersza+":wn_input").val();
           biezacastronawiersza.val(kwotawierszWn);
           biezacastronawierszaH.val(zrobFloat(kwotawierszWn));
