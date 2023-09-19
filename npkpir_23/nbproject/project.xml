@@ -57,12 +57,11 @@
                     <file>${file.reference.commons-compress-1.20.jar}</file>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.commons-fileupload-1.3.jar}</file>
+                    <file>${file.reference.commons-csv-1.10.0.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.commons-csv-1.10.0.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
+                    <file>${file.reference.commons-fileupload-1.3.3.jar}</file>
                 </library>
                 <library dirs="200">
                     <file>${file.reference.commons-io-2.4.jar}</file>
@@ -186,28 +185,20 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.poi-4.1.0.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.poi-excelant-4.1.0.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.poi-ooxml-4.1.0.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
+                    <file>${file.reference.poi-4.1.2.jar}</file>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.poi-ooxml-schemas-4.1.0.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
+                    <file>${file.reference.poi-ooxml-4.1.2.jar}</file>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.poi-scratchpad-4.1.0.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
+                    <file>${file.reference.poi-scratchpad-4.1.2.jar}</file>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.primefaces-7.0.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
+                    <file>${file.reference.poi-ooxml-schemas-4.1.2.jar}</file>
                 </library>
                 <library dirs="200">
                     <file>${file.reference.primefaces-extensions-3.0.0.jar}</file>
@@ -218,10 +209,14 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.rome-0.9.jar}</file>
+                    <file>${file.reference.primefaces-7.0.jar-1}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.sam-1.0.9.jar}</file>
+                    <file>${file.reference.rome-1.9.0.jar}</file>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.sam-1.0.10.jar}</file>
                 </library>
                 <library dirs="200">
                     <file>${file.reference.slf4j-api-1.7.7.jar}</file>
@@ -270,6 +265,12 @@
                 <library dirs="200">
                     <file>${file.reference.commons-compress-1.24.0.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.owasp-java-html-sanitizer-20190503.1.jar}</file>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.guava-28.0-jre.jar}</file>
                 </library>
             </web-module-libraries>
             <web-module-additional-libraries/>
