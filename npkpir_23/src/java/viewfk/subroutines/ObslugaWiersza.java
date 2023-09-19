@@ -36,7 +36,7 @@ public class ObslugaWiersza {
     
     //sluzy do sprawdzenia czy wprowadzono wszystkie kwoty
     public static String sprawdzSumyWierszy(Dokfk dokfk) {
-        if (dokfk.getSeriadokfk().equals("BO")) {
+        if (dokfk.getSeriadokfk().equals("BO")||dokfk.getSeriadokfk().equals("BOR")) {
             return null;
         }
         if (dokfk.getRodzajedok().isTylkovat() || dokfk.getRodzajedok().isTylkojpk()) {
