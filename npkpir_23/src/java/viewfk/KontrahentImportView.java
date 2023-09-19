@@ -26,7 +26,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 import view.WpisView;
 
 /**
@@ -52,9 +52,9 @@ public class KontrahentImportView implements Serializable {
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName()).toLowerCase();
             if (extension.equals("xls")||extension.equals("xlsx")) {
                 String filename = uploadedFile.getFileName();
-                pobraneplikibytes = uploadedFile.getContent();
+                pobraneplikibytes = uploadedFile.getContents();
                 getListafaktur();
-                //plikinterpaper = uploadedFile.getContent();
+                //plikinterpaper = uploadedFile.getContents();
                 Msg.msg("Sukces. Plik xls " + filename + " został skutecznie załadowany");
             } else {
                 Msg.msg("e","Niewłaściwy typ pliku");

@@ -30,7 +30,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 import waluty.Z;
 
 /**
@@ -77,9 +77,9 @@ public class ImportMirdajCSVView  implements Serializable {
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName()).toLowerCase();
             if (extension.equals("csv")) {
                 String filename = uploadedFile.getFileName();
-                pobraneplikibytes = uploadedFile.getContent();
+                pobraneplikibytes = uploadedFile.getContents();
                 getListafaktur();
-                //plikinterpaper = uploadedFile.getContent();
+                //plikinterpaper = uploadedFile.getContents();
                 Msg.msg("Sukces. Plik csv " + filename + " został skutecznie załadowany");
             } else {
                 Msg.msg("e","Niewłaściwy typ pliku");

@@ -26,7 +26,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 import pl.com.cdn.optima.offline.ROOT;
 import view.WpisView;
 
@@ -51,7 +51,7 @@ public class ImportRaportZorinView implements Serializable {
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("csv")||extension.equals("xls")||extension.equals("xlsx")||extension.equals("xml")) {
                 String filename = uploadedFile.getFileName();
-                pobranyplik = uploadedFile.getContent();
+                pobranyplik = uploadedFile.getContents();
                 PrimeFaces.current().ajax().update("panelplik");
             } else {
                 Msg.msg("e","Niewłaściwy typ pliku");

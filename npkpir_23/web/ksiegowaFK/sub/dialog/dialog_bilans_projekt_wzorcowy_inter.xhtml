@@ -15,7 +15,7 @@
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRWzorcowyView.zwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_wzorcowy_inter:dataList" style="float: left;" />-->
                 <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{pozycjaBRWzorcowyView.zachowajInt(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_wzorcowy_inter:dataList" style="float: left; margin-left: 100px; width: 120px;" />
                 <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSBilansView.zachowajBilanswXLS(pozycjaBRWzorcowyView.rootProjektRZiS)}" style=" margin-left: 5px;" global="false" ajax="false"/>
-                <p:fileUpload listener="#{pozycjaBRWzorcowyView.pobierzdanezpliku}" 
+                <p:fileUpload fileUploadListener="#{pozycjaBRWzorcowyView.pobierzdanezpliku}" 
                                       validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" 
                                       fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
                                       uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 

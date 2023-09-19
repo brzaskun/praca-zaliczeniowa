@@ -46,7 +46,7 @@ import jpkfa.CurrCodeType;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
- import org.primefaces.model.file.UploadedFile;
+ import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
 import pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty;
 import waluty.Z;
@@ -131,10 +131,10 @@ public class ImportFakturyView  implements Serializable {
             vat= 0.0;
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
-            jpkfa.JPK jpk = pobierzJPK(uploadedFile.getInputStream());
-            jpkfa2.JPK jpkfa2 = pobierzJPK2(uploadedFile.getInputStream());
-            jpkfa3.JPK jpkfa3 = pobierzJPK3(uploadedFile.getInputStream());
-            pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK jpkfa4 = pobierzJPK4(uploadedFile.getInputStream());
+            jpkfa.JPK jpk = pobierzJPK(uploadedFile.getInputstream());
+            jpkfa2.JPK jpkfa2 = pobierzJPK2(uploadedFile.getInputstream());
+            jpkfa3.JPK jpkfa3 = pobierzJPK3(uploadedFile.getInputstream());
+            pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK jpkfa4 = pobierzJPK4(uploadedFile.getInputstream());
             if (jpk != null) {
                 if (deklaracjaniemiecka) {
                     dokumenty = stworzdokumentyde(jpk);
@@ -207,7 +207,7 @@ public class ImportFakturyView  implements Serializable {
             vat= 0.0;
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
-            InputStream inputstream = uploadedFile.getInputStream();
+            InputStream inputstream = uploadedFile.getInputstream();
             pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK jpkfa4 = pobierzJPK4(inputstream);
             if (jpkfa4 != null) {
                 if (wybierzdlajpk) {
@@ -224,7 +224,7 @@ public class ImportFakturyView  implements Serializable {
                     Msg.msg("e", "Brak dokumentów w pliku jpk wg zadanych kruteriów");
                 }
             }
-            inputstream = uploadedFile.getInputStream();
+            inputstream = uploadedFile.getInputstream();
             jpkfa3.JPK jpkfa3 = pobierzJPK3(inputstream);
             if (jpkfa3 != null) {
                 if (wybierzdlajpk) {
@@ -241,7 +241,7 @@ public class ImportFakturyView  implements Serializable {
                     Msg.msg("e", "Brak dokumentów w pliku jpk wg zadanych kruteriów");
                 }
             }
-            inputstream = uploadedFile.getInputStream();
+            inputstream = uploadedFile.getInputstream();
             jpkfa2.JPK jpkfa2 = pobierzJPK2(inputstream);
             if (jpkfa2 != null) {
                 if (wybierzdlajpk) {

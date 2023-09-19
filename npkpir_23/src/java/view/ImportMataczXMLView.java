@@ -42,7 +42,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.joda.time.DateTime;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 import waluty.Z;
 
 /**
@@ -93,9 +93,9 @@ public class ImportMataczXMLView  implements Serializable {
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName()).toLowerCase();
             if (extension.equals("xml")) {
                 String filename = uploadedFile.getFileName();
-                pobraneplikibytes = uploadedFile.getContent();
+                pobraneplikibytes = uploadedFile.getContents();
                 getListafaktur();
-                //plikinterpaper = uploadedFile.getContent();
+                //plikinterpaper = uploadedFile.getContents();
                 Msg.msg("Sukces. Plik xml " + filename + " został skutecznie załadowany");
             } else {
                 Msg.msg("e","Niewłaściwy typ pliku");

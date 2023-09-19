@@ -21,7 +21,7 @@
                          <h:outputText value="import dokumentów z pliku JSON AMAZON"/>
                         <h:form>
                             
-                            <p:fileUpload listener="#{importCisView.importujsprzedaz}" 
+                            <p:fileUpload fileUploadListener="#{importCisView.importujsprzedaz}" 
                                           mode="advanced" dragDropSupport="true" fileLimit="1" auto="true"
                                           update="messages1 importtabela" sizeLimit="4000000"  
                                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
