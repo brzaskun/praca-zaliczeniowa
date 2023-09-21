@@ -15,6 +15,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -23,7 +24,10 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -45,7 +49,14 @@ public class beanJPKwysylka {
 //    private static final String nazwapliku = "G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes";
 
     public static void main(String[] args) {
-        wysylkadoMF("G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes", "enveloped.xades", new UPO());
+        try {
+            //wysylkadoMF("G:\\Dropbox\\JPKFILE\\JPK-VAT-TEST-0001.xml.zip.aes", "enveloped.xades", new UPO());
+            String filename = " C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\resources\\xml\\wysylkapodpisjpk8512729872mcrok08202.xml";
+            Path filePath = Path.of(filename);
+            String daneautoryzujace = Files.readString(filePath);
+        } catch (IOException ex) {
+            Logger.getLogger(beanJPKwysylka.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static Object[] wysylkadoMF(String aesfilename, String plikxml, UPO upo) {
@@ -74,6 +85,11 @@ public class beanJPKwysylka {
     }
 
    public static Object[] etap1(String plikxml) {
+       if (plikxml!=null) {
+           System.out.println("NAZWA JPK "+plikxml);
+       } else {
+           System.out.println("PUSTY PLIK Z NAZWĄ JPK");
+       }
         Object[] zwrot = new Object[5];
         JSONObject jo = null;
         boolean wynik = false;
@@ -249,11 +265,20 @@ public class beanJPKwysylka {
     private static Object[] autoryzacja(String filename, String URL_autoryzacja) {
         Object[] zwrot = new Object[2];
         try {
-            String daneautoryzujace = new String(Files.readAllBytes(Paths.get(filename)));
+            //java 8
+            //String daneautoryzujace = new String(Files.readAllBytes(Paths.get(filename)));
+            System.out.println("******************** 261");
+            Path filePath = Path.of(filename);
+            String daneautoryzujace = Files.readString(filePath);
+            System.out.println("******************** 264");
             byte[] postData = daneautoryzujace.getBytes(StandardCharsets.UTF_8);
+            System.out.println("******************** 266");
             int postDataLength = postData.length;
+            System.out.println("******************** 268");
             URL url = new URL(URL_autoryzacja);
+            System.out.println("******************** 270");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            System.out.println("******************** 272");
             conn.setDoOutput(true);
             conn.setInstanceFollowRedirects(false);
             conn.setRequestMethod("POST");
@@ -262,10 +287,12 @@ public class beanJPKwysylka {
             conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
             conn.setUseCaches(false);
             try (DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {
+                System.out.println("******************** 276");
                 wr.write(postData);
             }
             zwrot = pobierzWynikPolaczenia(conn);
         } catch (Exception e) {
+            zwrot[1] = 999;
             System.out.println(E.e(e));
         }
         return zwrot;
@@ -328,4 +355,6 @@ public class beanJPKwysylka {
         }
         return zwrot;
     }
+    
+    
 }

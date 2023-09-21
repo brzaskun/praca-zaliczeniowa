@@ -260,15 +260,17 @@ public class Xad {
     }
 
     public static Document loadXML(String deklaracja) {
+        Document zwrot = null;
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); 
             dbf.setNamespaceAware(true); 
             DocumentBuilder builder = dbf.newDocumentBuilder();
-            return builder.parse(IOUtils.toInputStream(deklaracja, "UTF-8"));
+            zwrot = builder.parse(IOUtils.toInputStream(deklaracja, "UTF-8"));
         } catch (Exception ex) {
+            System.out.println(ex);
             // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return zwrot;
     }
 
     public static void saveXML(Document document, String plikxmlnazwapodpis) {
@@ -284,7 +286,9 @@ public class Xad {
             transformer.transform(domSource, streamResult);
         } catch (TransformerConfigurationException ex) {
             // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Blad pierwszy zapisu pliku na dysky Xad.java saveXML");
         } catch (TransformerException ex) {
+            System.out.println("Blad drugi zapisu pliku na dysky Xad.java saveXML");
             // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

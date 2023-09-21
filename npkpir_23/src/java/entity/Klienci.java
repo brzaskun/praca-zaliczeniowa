@@ -421,7 +421,11 @@ public class Klienci extends KlienciSuper implements Serializable {
 //    }
     
     public String getNazwabezCudzy() {
-        return this.getNpelna().replace("\"", "");
+        String nazwa = "brak nazwy klienta";
+        if (this.getNpelna()!=null) {
+            nazwa = this.getNpelna().replace("\"", "");
+        }
+        return nazwa;
     }
     
     public String getAdres() {
