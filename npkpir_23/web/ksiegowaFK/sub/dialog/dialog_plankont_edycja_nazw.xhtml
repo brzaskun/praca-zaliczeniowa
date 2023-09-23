@@ -6,31 +6,31 @@
 
     xmlns:f="http://java.sun.com/jsf/core">
 
-    <p:dialog header="Zmień parametry konta: #{planKontView.selectednodekonto.pelnynumer} #{planKontView.selectednodekonto.nazwaskrocona}" 
+    <p:dialog header="Zmień parametry konta: #{planKontView.selectednodekontoZmiana.pelnynumer} #{planKontView.selectednodekontoZmiana.nazwaskrocona}" 
               widgetVar="dialogedycjanazwkonta" resizable="false" id="dialogedycjanazwkonta">  
         <h:form id="formedycjanazw">  
             <p:focus for="dkp">
                 <p:panelGrid id="dkp" columns="2" style="width: 400px;">
                     <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
-                    <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.selectednodekonto.nazwapelna}" 
+                    <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.selectednodekontoZmiana.nazwapelna}" 
                                      title="Nazwapelna" required="true" requiredMessage="Nazwa pelna jest wymagana"/>
                     <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
-                    <p:inputText id="nazwaskrocona" value="#{planKontView.selectednodekonto.nazwaskrocona}" style="width: 230px;"
+                    <p:inputText id="nazwaskrocona" value="#{planKontView.selectednodekontoZmiana.nazwaskrocona}" style="width: 230px;"
                                  title="Nazwaskrocona" required="true" requiredMessage="Nazwa skrocona jest wymagana"/>
                     <h:outputLabel value="Bilansowe/wynikowe:" for="bilansowewynikowe" />
-                    <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.selectednodekonto.bilansowewynikowe}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
+                    <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.selectednodekontoZmiana.bilansowewynikowe}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
                         <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                     </p:selectOneMenu>
                     <h:outputLabel value="Zwykle/rozrach/szczegolne:" for="zwyklerozrachszczegolne" />
-                    <p:selectOneMenu id="zwyklerozrachszczegolne" value="#{planKontView.selectednodekonto.zwyklerozrachszczegolne}" required="true" requiredMessage="The Zwyklerozrachszczegolne field is required." style="width: 170px;">
+                    <p:selectOneMenu id="zwyklerozrachszczegolne" value="#{planKontView.selectednodekontoZmiana.zwyklerozrachszczegolne}" required="true" requiredMessage="The Zwyklerozrachszczegolne field is required." style="width: 170px;">
                         <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
                         <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
                         <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
                         <f:selectItem itemLabel="#{mgs.VAT}" itemValue="vat"/>
                     </p:selectOneMenu>
                     <h:outputText value="rodzaj pozycji"/>
-                    <p:selectOneMenu  value="#{planKontView.selectednodekonto.syntetykaanalityka}" style="width: 170px;">
+                    <p:selectOneMenu  value="#{planKontView.selectednodekontoZmiana.syntetykaanalityka}" style="width: 170px;">
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                         <f:selectItem itemLabel="analityka" itemValue="analityka"/>
                         <f:selectItem itemLabel="syntetyczne" itemValue="syntetyczne"/>

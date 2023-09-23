@@ -15,10 +15,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import view.PodatnikView;
 import view.WpisView;
@@ -145,7 +145,7 @@ public class ZamknijKsiegiView  implements Serializable {
         PlanKontView planKontView = (PlanKontView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null, "planKontView");
         podstawowy = pobierzpodstawowy(listarokuprzedni);
         planKontView.setWybranyuklad(podstawowy);
-        planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt(), rok);
+        planKontView.porzadkowanieKontPodatnikaNowe(wpisView.getPodatnikObiekt(), rok);
         sprawdzczysanieprzyporzadkowane(planKontView.getWykazkont());
         Msg.msg("Udane aktualizowanie/tworzenie układu za "+rok);
     }

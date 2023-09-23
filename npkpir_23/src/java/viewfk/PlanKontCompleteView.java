@@ -163,7 +163,8 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
                     if (kpo.getSyntetykaanalityka().equals("analityka")) {
                         Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
                     } else {
-                        PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", wybranyuklad);
+                        PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, "syntetyka");
+                        kontoDAOfk.edit(noweKonto);
                     }
                 } catch (Exception e) {
                     E.e(e);

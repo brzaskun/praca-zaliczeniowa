@@ -25,10 +25,11 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView;
+import javax.inject.Named;
+import msg.Msg;
+import view.WpisView;
 /**
  *
  * @author Osito
@@ -169,7 +170,7 @@ public class UkladBRView implements Serializable {
             pozycjaBRKontaView.init();
             pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("r");
             pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("b");
-            planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            planKontView.porzadkowanieKontPodatnikaNowe(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             PozycjaRZiSFKBean.zmianaukladu("bilansowe", ukladBR, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             PozycjaRZiSFKBean.zmianaukladu("wynikowe", ukladBR, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             Msg.msg("i", "Skopiowano przyporządkowanie kont z układu wzorcowego");
@@ -188,7 +189,7 @@ public class UkladBRView implements Serializable {
             ukladBRDAO.create(ukladBR);
             PlanKontFKKopiujBean.implementujRZiS(pozycjaRZiSDAO, wybranyukladwzorcowy, podatnik.getNazwapelna(), rok, wybranyukladwzorcowy.getUklad());
             PlanKontFKKopiujBean.implementujBilans(pozycjaBilansDAO, wybranyukladwzorcowy, podatnik.getNazwapelna(), rok, wybranyukladwzorcowy.getUklad());
-            planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            planKontView.porzadkowanieKontPodatnikaNowe(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             PozycjaRZiSFKBean.zmianaukladu("bilansowe", ukladBR, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             PozycjaRZiSFKBean.zmianaukladu("wynikowe", ukladBR, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             Msg.msg("i", "Zaimplementowano układ wzorcowy jako nowy układ podatnika");

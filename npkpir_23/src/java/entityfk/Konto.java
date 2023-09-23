@@ -1088,5 +1088,17 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.setStronaMa(numer);
         this.setSyntetykaanalityka(wynikoweszczegolne);
     }
+
+    public KontopozycjaZapis pobierzKontoPozycja(UkladBR ukladBR) {
+        KontopozycjaZapis nowa = new KontopozycjaZapis();
+        nowa.setPozycjaWn(this.getPozycjaWn());
+        nowa.setPozycjaMa(this.getPozycjaMa());
+        nowa.setStronaWn(this.getStronaWn());
+        nowa.setStronaMa(this.getStronaMa());
+        nowa.setSyntetykaanalityka(this.getSyntetykaanalityka());
+        nowa.setWynik0bilans1(this.isWynik0bilans1());
+        nowa.setUkladBR(ukladBR);
+        return nowa;
+    }
     
 }

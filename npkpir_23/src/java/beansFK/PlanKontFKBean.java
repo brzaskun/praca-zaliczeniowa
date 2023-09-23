@@ -330,20 +330,68 @@ public class PlanKontFKBean {
             if (macierzyste != null) {
                 kontopozycjamacierzysta = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBR);
                 if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("zwykle")) {
-                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBR);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "syntetyka");
                 } else if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("rozrachunkowe/vat")) {
-                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "rozrachunkowe/vat", ukladBR);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "rozrachunkowe/vat");
                 } else if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("szczególne")) {
-                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "szczególne", ukladBR);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "szczególne");
                 } else if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("analityka")) {
-                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "zwykle", ukladBR);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "zwykle");
                 } else if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("wynikowe")) {
-                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "wynikowe", ukladBR);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "wynikowe");
                 }
             } else {
                 kontopozycjamacierzysta = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
                 if (kontopozycjamacierzysta != null) {
-                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kontopozycjamacierzysta.getSyntetykaanalityka(), ukladBR);
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontopozycjamacierzysta.getSyntetykaanalityka());
+                }
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return kontopozycjamacierzysta;
+    }
+     
+     //porzadkujemy konta wiec syntetyczne musza miec przyporzadkowanie wiec nie ma sensu brac z zapisanych pozycji 23092023
+     public static KontopozycjaZapis naniesprzyporzadkowanieNowe(Konto noweKonto, List<Konto> wykazkont, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
+        KontopozycjaZapis kontopozycjamacierzysta = null;
+        try {
+            Konto macierzyste = noweKonto.getKontomacierzyste();
+            if (macierzyste != null) {
+                kontopozycjamacierzysta = macierzyste.pobierzKontoPozycja(ukladBR);
+                switch (kontopozycjamacierzysta.getSyntetykaanalityka()) {
+                    case "zwykle":
+                        kontopozycjamacierzysta.setSyntetykaanalityka("syntetyka");
+                        break;
+                    case "rozrachunkowe/vat":
+                        kontopozycjamacierzysta.setSyntetykaanalityka("rozrachunkowe/vat");
+                        break;
+                    case "szczególne":
+                        kontopozycjamacierzysta.setSyntetykaanalityka("analityka");
+                        break;
+                    case "analityka":
+                        kontopozycjamacierzysta.setSyntetykaanalityka("zwykle");
+                        break;
+                    case "wynikowe":
+                        kontopozycjamacierzysta.setSyntetykaanalityka("wynikowe");
+                        break;
+                }
+                naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO,"syntetyka");
+                if (kontopozycjamacierzysta.getSyntetykaanalityka().equals("zwykle")) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "syntetyka");
+                } else if (kontopozycjamacierzysta.getSyntetykaanalityka().equals("rozrachunkowe/vat")) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "rozrachunkowe/vat");
+                } else if (kontopozycjamacierzysta.getSyntetykaanalityka().equals("szczególne")) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "szczególne");
+                } else if (kontopozycjamacierzysta.getSyntetykaanalityka().equals("analityka")) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "zwykle");
+                } else if (kontopozycjamacierzysta.getSyntetykaanalityka().equals("wynikowe")) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "wynikowe");
+                }
+            } else {
+                kontopozycjamacierzysta = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
+                if (kontopozycjamacierzysta != null) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontopozycjamacierzysta.getSyntetykaanalityka());
                 }
             }
         } catch (Exception e) {
@@ -587,7 +635,7 @@ public class PlanKontFKBean {
                     if (kpo.getSyntetykaanalityka().equals("analityka")) {
                         Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
                     } else {
-                        PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, nowekonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBR);
+                        PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, nowekonto, kontopozycjaZapisDAO, "syntetyka");
                     }
                 } catch (Exception e) {
                     E.e(e);
@@ -735,41 +783,37 @@ public class PlanKontFKBean {
     }
 
     
-    public static void naniesPrzyporzadkowaniePojedynczeKonto(KontopozycjaZapis kpo, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, String wersja, UkladBR ukladBR) {
+    public static void naniesPrzyporzadkowaniePojedynczeKonto(KontopozycjaZapis kpo, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, String syntetykaanalityka) {
         try {
-            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
+            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto, kpo.getUkladBR());
+            noweKonto.naniesPozycje(kpo);
             if (kp == null) {
                 kp = new KontopozycjaZapis();
                 kp.setPozycjaWn(kpo.getPozycjaWn());
                 kp.setPozycjaMa(kpo.getPozycjaMa());
                 kp.setStronaWn(kpo.getStronaWn());
                 kp.setStronaMa(kpo.getStronaMa());
-                kp.setSyntetykaanalityka(wersja);
+                kp.setSyntetykaanalityka(syntetykaanalityka);
                 kp.setKontoID(noweKonto);
-                kp.setUkladBR(ukladBR);
+                kp.setUkladBR(kpo.getUkladBR());
                 kp.setWynik0bilans1(kpo.isWynik0bilans1());
                 kontopozycjaZapisDAO.create(kp);
-                noweKonto.naniesPozycje(kpo);
-                kontoDAOfk.edit(noweKonto);
+                //wywalam to bo to oczywste 23092023
+                //kontoDAOfk.edit(noweKonto);
             } else {
                 kp.setPozycjaWn(kpo.getPozycjaWn());
                 kp.setPozycjaMa(kpo.getPozycjaMa());
                 kp.setStronaWn(kpo.getStronaWn());
                 kp.setStronaMa(kpo.getStronaMa());
-                kp.setSyntetykaanalityka(wersja);
-                kp.setUkladBR(ukladBR);
+                kp.setSyntetykaanalityka(syntetykaanalityka);
+                kp.setUkladBR(kpo.getUkladBR());
                 kp.setWynik0bilans1(kpo.isWynik0bilans1());
                 kontopozycjaZapisDAO.edit(kp);
-                noweKonto.naniesPozycje(kpo);
-                kontoDAOfk.edit(noweKonto);
+                //wywalam to bo to oczywste 23092023 za czesto zapis i dlugo trwa
+                //kontoDAOfk.edit(noweKonto);
             }
         } catch (Exception e) {
-            E.e(e);
-            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
-            if (kp != null) {
-                noweKonto.naniesPozycje(kp);
-                kontoDAOfk.edit(noweKonto);
-            }
+            System.out.println(E.e(e));
         }
         
     }

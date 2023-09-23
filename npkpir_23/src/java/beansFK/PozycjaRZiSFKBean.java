@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import msg.Msg;
 import view.WpisView;
 import waluty.Z;
@@ -401,11 +402,23 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    
+    public static void przyporzadkujpotkomkowZwykleNowe(Konto macierzyste, List<Konto> listakont) {
+        List<Konto> potomki = listakont.stream().filter(p->p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(macierzyste)).collect(Collectors.toList());
+        if (potomki != null) {
+            for (Konto potomne : potomki) {
+                potomne.kopiujPozycje(macierzyste);
+                potomne.setSyntetykaanalityka("syntetyka");
+                List<Konto> subpotomki = listakont.stream().filter(p->p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(potomne)).collect(Collectors.toList());
+                if (subpotomki.isEmpty()==false) {
+                    potomne.setMapotomkow(true);
+                    przyporzadkujpotkomkowZwykleNowe(potomne, listakont);
+                }
+            }
+        }
+    }
     
     public static void przyporzadkujpotkomkowRozrachunkowe(Konto konto, KontoDAOfk kontoDAO,  Podatnik podatnik, String wnma) {
-        List<Konto> potomki = null;
-        potomki = kontoDAO.findKontaPotomneByPodatnik(podatnik, konto);
+        List<Konto> potomki = kontoDAO.findKontaPotomneByPodatnik(podatnik, konto);
         if (potomki != null) {
             for (Konto p : potomki) {
                 try {
@@ -434,7 +447,8 @@ public class PozycjaRZiSFKBean {
          kontoDAO.edit(konto);
          return zwrot;
     }
-
+    
+    
     public static void sumujObrotyNaKontach(List<StronaWiersza> zapisy, List<Konto> plankont) {
         for (StronaWiersza p : zapisy) {
             //pobiermay dane z poszczegolnego konta

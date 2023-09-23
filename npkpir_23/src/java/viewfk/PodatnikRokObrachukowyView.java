@@ -17,10 +17,11 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJBException;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView;
+import javax.inject.Named;
+import msg.Msg;
+import view.WpisView;
 /**
  *
  * @author Osito
@@ -87,7 +88,7 @@ public class PodatnikRokObrachukowyView implements Serializable {
                     macierzyste = PlanKontFKKopiujBean.skopiujlevel(kontoDAOfk,podatnikzrodlowy, podatnikdocelowy, plankontzrodlowy, macierzyste, biezacylevel, rokdocelowy, true);
                 }
                 planKontView.init();
-                planKontView.porzadkowanieKontPodatnika(podatnikdocelowy, rokdocelowy);
+                planKontView.porzadkowanieKontPodatnikaNowe(podatnikdocelowy, rokdocelowy);
                 Msg.msg("Skopiowano plan kont z firmy do firmy");
                 zwrot = 0;
             }

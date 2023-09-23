@@ -9,8 +9,15 @@
     <style>
        
     </style>
+<!--    //STARY NIE UZYWAC DOBRY JEST W KATALOGU PLANKONT-->
+<!--    //STARY NIE UZYWAC DOBRY JEST W KATALOGU PLANKONT-->
+<!--    //STARY NIE UZYWAC DOBRY JEST W KATALOGU PLANKONT-->
+<!--    //STARY NIE UZYWAC DOBRY JEST W KATALOGU PLANKONT--><!--    //STARY NIE UZYWAC DOBRY JEST W KATALOGU PLANKONT-->
+<!--    //STARY NIE UZYWAC DOBRY JEST W KATALOGU PLANKONT-->
+
+
     <p:outputPanel deferredMode="true">
-    <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikObiekt.nazwapelnaPDF} rok #{WpisView.rokWpisuSt}" widgetVar="dialogplankont"
+    <p:dialog id="dialogpierwszy" header="Plan kont firmy dialogplankont #{WpisView.podatnikObiekt.nazwapelnaPDF} rok #{WpisView.rokWpisuSt}" widgetVar="dialogplankont"
               resizable="false" 
               onShow="ustawdialog('dialogpierwszy','menuustawienia', 1330, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form_dialog_plankont">
@@ -21,7 +28,7 @@
                 <p:menuitem id="noweanalityczne" value="Nowe analityczne" icon="ui-icon-circle-plus" onclick="PF('nowekontoanalityczne').show();" global="false"/>
                 <p:menuitem id="noweslownik1" value="Dołącz słownik" icon="ui-icon-circle-plus" onclick="PF('nowekontoslownik').show();"  global="false"/>
                 <p:menuitem id="usunslownik" value="Usuń cały słownik" icon="ui-icon-circle-plus" onclick="PF('usunkontoslownik').show();"  global="false"/>
-                <p:menuitem id="noweedycjanazwy" value="Edycja konta" icon="ui-icon-circle-plus" onclick="PF('dialogedycjanazwkonta').show();"  global="false"/>
+<!--                <p:menuitem id="noweedycjanazwy" value="Edycja konta" icon="ui-icon-circle-plus" onclick="PF('dialogedycjanazwkonta').show();"  global="false"/>-->
                 <p:menuitem  value="Oznacz jako kosztowe" icon="ui-icon-circle-plus" actionListener="#{planKontView.oznaczkontoJakoKosztowe()}" update="form_dialog_plankont:dataList"/>
                 <p:menuitem  value="Oznacz jako przychodowe" icon="ui-icon-circle-plus" actionListener="#{planKontView.oznaczkontoJakoPrzychodowe()}" update="form_dialog_plankont:dataList"/>
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun('K')}" icon="ui-icon-trash" update="form_dialog_plankont:dataList"/>
@@ -202,6 +209,9 @@
                                 </h:selectOneMenu>
                             </f:facet>
                         </p:cellEditor>-->
+                    </p:column>
+                    <p:column style="width: 40px; text-align: center;">
+                        <p:commandButton icon="pi pi-pencil" actionListener="#{planKontView.selectednodekonto(loop)}" update="@parent" onclick="PF('dialogedycjanazwkonta').show();"/>
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>

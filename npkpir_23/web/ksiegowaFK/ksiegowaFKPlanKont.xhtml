@@ -31,21 +31,21 @@
                                 <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm2').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
                             </h:form>
                         </p:confirmDialog> 
-                        <p:confirmDialog id="confirmDialog3" message="Rozpoczynam porządkowanie kont. Usuwanie niewłaściwych oznaczeń."  
-                                         header="Porządkowanie kont" severity="alert" widgetVar="confirm3" width="500" appendTo="@(body)"
+                        <p:confirmDialog id="confirmDialog3" message="Rozpoczynam porządkowanie wszystkich kont. Usuwanie niewłaściwych oznaczeń."  
+                                         header="Porządkowanie wszystkich kont" severity="alert" widgetVar="confirm3" width="500" appendTo="@(body)"
                                          >
                             <h:form>
                                 <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm3').hide();"
-                                                 actionListener="#{planKontView.porzadkowanieKontPodatnika(WpisView.podatnikObiekt, WpisView.rokWpisuSt)}"
+                                                 actionListener="#{planKontView.porzadkowanieKontPodatnikaNowe(WpisView.podatnikObiekt, WpisView.rokWpisuSt)}"
                                                  style="float: left; width: 120px; margin-left: 2%;" update="form_dialog_plankont:dataList">
                                 </p:commandButton>
                                 <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm3').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
                             </h:form>
                         </p:confirmDialog> 
-                         <p:confirmDialog id="confirmDialog5" message="Rozpoczynam porządkowanie wybranego konta."  
+                        <p:confirmDialog id="confirmDialog5" message="Rozpoczynam porządkowanie wybranego konta. #{planKontView.selectednodekonto.pelnynumer}"  
                                          header="Porządkowanie pojedynczego konta" severity="alert" widgetVar="confirm5" width="500" appendTo="@(body)"
                                          >
-                            <h:form>
+                            <h:form id="formporzadkowaniekonta">
                                 <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm5').hide();"
                                                  actionListener="#{planKontView.porzadkowanieWybranegoKontaPodatnika()}"
                                                  style="float: left; width: 120px; margin-left: 2%;" update="form_dialog_plankont:dataList">
