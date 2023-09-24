@@ -6,15 +6,17 @@
 
     xmlns:f="http://java.sun.com/jsf/core">
 
-    <p:dialog header="Zmień parametry konta: #{planKontView.selectednodekontoZmiana.pelnynumer} #{planKontView.selectednodekontoZmiana.nazwaskrocona}" 
+    <p:dialog header="Zmień parametry konta" 
               widgetVar="dialogedycjanazwkonta" resizable="false" id="dialogedycjanazwkonta">  
         <h:form id="formedycjanazw">  
             <p:focus for="dkp">
                 <p:panelGrid id="dkp" columns="2" style="width: 400px;">
-                    <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
+                    <h:outputLabel value="Numer konta:" for="numer" />
+                    <h:outputText value="#{planKontView.selectednodekontoZmiana.pelnynumer}" id="numer"/>
+                    <h:outputLabel value="Nazwa pelna:" for="nazwapelna" />
                     <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.selectednodekontoZmiana.nazwapelna}" 
                                      title="Nazwapelna" required="true" requiredMessage="Nazwa pelna jest wymagana"/>
-                    <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
+                    <h:outputLabel value="Nazwa skrocona:" for="nazwaskrocona" />
                     <p:inputText id="nazwaskrocona" value="#{planKontView.selectednodekontoZmiana.nazwaskrocona}" style="width: 230px;"
                                  title="Nazwaskrocona" required="true" requiredMessage="Nazwa skrocona jest wymagana"/>
                     <h:outputLabel value="Bilansowe/wynikowe:" for="bilansowewynikowe" />
@@ -37,6 +39,7 @@
                         <f:selectItem itemLabel="rozrachunkowe/vat" itemValue="rozrachunkowe/vat"/>
                         <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
                         <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
+                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                     </p:selectOneMenu>
                     <h:outputText value="usuń przyporządkowanie"/>
                     <p:selectBooleanCheckbox value="#{planKontView.usunprzyporzadkowanie}"/>

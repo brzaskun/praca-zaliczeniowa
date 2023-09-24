@@ -331,6 +331,8 @@ public class PlanKontFKBean {
                 kontopozycjamacierzysta = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBR);
                 if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("zwykle")) {
                     naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "syntetyka");
+                } else if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("syntetyka")) {
+                    naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "syntetyka");
                 } else if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("rozrachunkowe/vat")) {
                     naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "rozrachunkowe/vat");
                 } else if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("szczególne")) {
@@ -360,6 +362,9 @@ public class PlanKontFKBean {
             if (macierzyste != null) {
                 kontopozycjamacierzysta = macierzyste.pobierzKontoPozycja(ukladBR);
                 switch (kontopozycjamacierzysta.getSyntetykaanalityka()) {
+                    case "syntetyka":
+                        kontopozycjamacierzysta.setSyntetykaanalityka("syntetyka");
+                        break;
                     case "zwykle":
                         kontopozycjamacierzysta.setSyntetykaanalityka("syntetyka");
                         break;
@@ -447,6 +452,7 @@ public class PlanKontFKBean {
                     for (UkladBR ukladBR : listaukladow) {
                         try {
                             naniesprzyporzadkowanie(nowekonto, kontoDAO, kontopozycjaZapisDAO, ukladBR);
+                            kontoDAO.edit(nowekonto);
                         } catch (Exception e) {
                             E.e(e);
                         }
@@ -800,6 +806,7 @@ public class PlanKontFKBean {
                 kontopozycjaZapisDAO.create(kp);
                 //wywalam to bo to oczywste 23092023
                 //kontoDAOfk.edit(noweKonto);
+                //nie moge wywalic bo to jest takze do dodawania w 
             } else {
                 kp.setPozycjaWn(kpo.getPozycjaWn());
                 kp.setPozycjaMa(kpo.getPozycjaMa());

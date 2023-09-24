@@ -27,7 +27,7 @@
                 <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontadoWzorcowychZAnalitykom()}" icon="ui-icon-tag" update="form_dialog_plankont:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":form_dialog_plankont"/>
                 <p:menuitem value="Blokada wszystkie" actionListener="#{planKontView.obslugaBlokadyKontaWszystkie()}" icon="ui-icon-locked" update=":form_dialog_plankont"/>
-                <p:menuitem value="Porządkuj wybrane konto" onclick="PF('confirm5').show();"  global="false" icon="ui-icon-tag" 
+                <p:menuitem value="Porządkuj wybrane konto" onclick="PF('confirm5').show();"  global="true" icon="ui-icon-tag" 
                             />
                 <p:menuitem value="Porządkuj konta" onclick="PF('confirm3').show();" global="false" icon="ui-icon-tag" 
                             />
@@ -93,7 +93,9 @@
                         <f:selectItems value="#{planKontView.listaukladow}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" update="form_dialog_plankont:dataList" partialSubmit="true" listener="#{planKontView.zmienuklad()}"/>
                     </p:selectOneMenu>
-                   <p:commandButton value="nanieś pozycje" actionListener="#{planKontView.naniespozycjeNakontaZbazy}" update="form_dialog_plankont:dataList"/>
+                   <p:commandButton value="nanieś pozycje" actionListener="#{planKontView.naniespozycjeNakontaZbazy}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                   <p:commandButton value="miotełka - przekierowanie" actionListener="#{planKontView.porzadkujCzterySiedem}"
+                                    onclick="document.body.style.cursor = 'wait'" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
             </p:panelGrid>
             <p:panelGrid columns="10">
                 <p:commandButton value="0" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,0)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
@@ -105,7 +107,7 @@
                 <p:commandButton value="7" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,7)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
                 <p:commandButton value="8" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,8)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
                 <p:commandButton value="S" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,9)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
-                <h:outputText value="Uwaga! Nie można dodawać kont analit. do zablokowanych kont syntet. 'Opcja bez przyporządkowanych' działa  tylko na przycisku S"/>
+                <h:outputText value="Uwaga! Nie można dodawać kont analit. do zablokowanych kont syntet."/>
                 </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
@@ -116,7 +118,7 @@
                              styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell"
                              style="width: 1600px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              rowsPerPageTemplate="250,500,500,1000,1500" paginatorPosition="top" paginator="true" rows="250"
-                             rowIndexVar="index"
+                             rowIndexVar="index" 
                              >
                     <p:ajax event="filter" global="false"/>
                     <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" 
@@ -144,7 +146,7 @@
                     <p:column headerText="dzieci" style="width: 60px; text-align: center;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
                         <h:outputText value="#{loop.mapotomkow eq true ? 't' : null}"/> 
                     </p:column>
-                    <p:column headerText="przyp." style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+                    <p:column headerText="syntetyka analityka" style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
                         <h:outputText value="#{loop.syntetykaanalityka}"/> 
                     </p:column>
                     <p:column headerText="nazw skróc."  style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser ne '4'}">
@@ -153,7 +155,7 @@
                     <p:column headerText="b/w" style="width: 20px; text-align: center;">
                         <h:outputText value="#{loop.bilansowewynikowe eq 'bilansowe' ? 'B' : 'R'}" /> 
                     </p:column>
-                    <p:column headerText="rozrach" style="width: 70px; text-align: center;">
+                    <p:column headerText="zwykle rozrach szczegolne" style="width: 70px; text-align: center;">
                         <h:outputText value="#{loop.zwyklerozrachszczegolne.length() gt 4 ? loop.zwyklerozrachszczegolne.substring(0,4) : loop.zwyklerozrachszczegolne}" style="text-align: center;"/>
                     </p:column>
 <!--                    <p:column headerText="poziom" style="width: 50px; text-align: center;">

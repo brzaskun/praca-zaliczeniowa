@@ -102,10 +102,10 @@ public class UkladBRBean {
                     if (p.getUklad().contains("Podstawowy")) {
                        p.setAktualny(true);
                        wybrany = p;
+                       ukladBRDAO.edit(p);
                     }
                 }
             }
-            ukladBRDAO.editList(listaukladow);
         }
         return wybrany;
     }

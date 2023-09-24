@@ -133,19 +133,20 @@ public class KliencifkView implements Serializable {
     }
 
     public int pobieraniekontaFK() {
+        int zwrot = -1;
         if (wybranyklient instanceof Klienci && !wybranyklient.getNpelna().equals("nowy klient") && !wybranyklient.getNpelna().equals("dodaj klienta automatycznie")) {
             try {
                 klientMaKonto = pobierzklientafk(wybranyklient.getNip());
                 //klientMaKonto = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
                 if (klientMaKonto != null) {
-                    return 0;
+                    zwrot = 0;
                 } else {
                     klientBezKonta = new Kliencifk();
                     klientBezKonta.setNazwa(wybranyklient.getNpelna());
                     klientBezKonta.setNip(wybranyklient.getNip());
                     klientBezKonta.setPodatnik(wpisView.getPodatnikObiekt());
                     klientBezKonta.setNrkonta(pobierznastepnynumer());
-                    return 1;
+                    zwrot = 1;
                 }
             } catch (Exception e) {
                 E.e(e);
@@ -153,7 +154,7 @@ public class KliencifkView implements Serializable {
         } else if (wybranyklient instanceof Klienci && wybranyklient.getNpelna().equals("nowy klient")) {
             klientBezKonta = new Kliencifk();
         }
-        return -1;
+        return zwrot;
     }
     
     private Kliencifk pobierzklientafk(String nip) {
