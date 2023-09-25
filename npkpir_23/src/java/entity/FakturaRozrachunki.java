@@ -99,6 +99,9 @@ public class FakturaRozrachunki implements Serializable {
     private String iban;
     @Column(name = "kwotaidentyfikujaca")
     private double kwotaidentyfikujaca;
+    @Column(name = "rozrachunekarchiwalny")
+    private boolean rozrachunekarchiwalny;
+    
 
     public FakturaRozrachunki() {
     }
@@ -159,6 +162,14 @@ public class FakturaRozrachunki implements Serializable {
     
     public void setLp(Integer lp) {
         this.lp = lp;
+    }
+
+    public boolean isRozrachunekarchiwalny() {
+        return rozrachunekarchiwalny;
+    }
+
+    public void setRozrachunekarchiwalny(boolean rozrachunekarchiwalny) {
+        this.rozrachunekarchiwalny = rozrachunekarchiwalny;
     }
 
     public String getIban() {

@@ -104,6 +104,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     @Inject
     private UzDAO uzDAO;
     private Uz wybranyksiegowy;
+    private boolean pokazarchiwalne;
     
     public FakturaRozrachunkiAnalizaView() {
         
@@ -124,6 +125,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         listaksiegowych.addAll(uzDAO.findByUprawnienia("Administrator"));
         Collections.sort(listaksiegowych, new UzNazwiskocomparator());}
     
+    
     public void pobierzwszystkoKlienta() {
         selectedrozliczenia = null;
         String mc = wpisView.getMiesiacWpisu();
@@ -141,6 +143,10 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
         nowepozycje = pobierzelementy(mc, false, szukanyklient);
         archiwum = pobierzelementy(mc, true, szukanyklient);
+        if (pokazarchiwalne==false) {
+            nowepozycje = nowepozycje.stream().filter(p->p.isArchiwalny()==false).collect(Collectors.toList());
+            archiwum = archiwum.stream().filter(p->p.isArchiwalny()==false).collect(Collectors.toList());
+        }
         sortujsumuj(nowepozycje);
         sortujsumuj(archiwum);
         Msg.msg("Pobrano dane kontrahenta");
@@ -1074,6 +1080,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
 
     public void setListaksiegowych(List<Uz> listaksiegowych) {
         this.listaksiegowych = listaksiegowych;
+    }
+
+    public boolean isPokazarchiwalne() {
+        return pokazarchiwalne;
+    }
+
+    public void setPokazarchiwalne(boolean pokazarchiwalne) {
+        this.pokazarchiwalne = pokazarchiwalne;
     }
 
     

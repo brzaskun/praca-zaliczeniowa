@@ -333,6 +333,8 @@ public class Faktura implements Serializable {
     private boolean bilansowa;
     @Column(name = "fakturagrupa")
     private String fakturagrupa;
+    @Column(name = "rozrachunekarchiwalny")
+    private boolean rozrachunekarchiwalny;
   
 
     public Faktura() {
@@ -477,6 +479,14 @@ public class Faktura implements Serializable {
 
     public void setWystawcanazwa(String wystawcanazwa) {
         this.wystawcanazwa = wystawcanazwa;
+    }
+
+    public boolean isRozrachunekarchiwalny() {
+        return rozrachunekarchiwalny;
+    }
+
+    public void setRozrachunekarchiwalny(boolean rozrachunekarchiwalny) {
+        this.rozrachunekarchiwalny = rozrachunekarchiwalny;
     }
 
     public String getFakturagrupa() {

@@ -16,7 +16,9 @@ import waluty.Z;
 /**
  *
  * @author Osito
- */public class FakturaPodatnikRozliczenie implements Serializable{
+ * 
+ */
+public class FakturaPodatnikRozliczenie implements Serializable{
     private static final long serialVersionUID = 1L;
     
     private int lp;
@@ -44,6 +46,7 @@ import waluty.Z;
     private String nrtelefonu;
     private boolean swiezowezwany;
     private int iloscfaktur;
+    private boolean archiwalny;
     
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
@@ -63,6 +66,7 @@ import waluty.Z;
         } else {
             this.walutafaktury = "PLN";
         }
+        this.archiwalny = p.isRozrachunekarchiwalny();
     }
 
     public FakturaPodatnikRozliczenie(Faktura r) {
@@ -87,6 +91,7 @@ import waluty.Z;
         this.datatelefon = r.getDatatelefon();
         this.przeniesionosaldo = r.isPrzeniesionosaldo();
         this.walutafaktury = r.getWalutafaktury();
+        this.archiwalny = r.isRozrachunekarchiwalny();
     }
 
     @Override
@@ -379,6 +384,16 @@ import waluty.Z;
 
     public void setIloscfaktur(int iloscfaktur) {
         this.iloscfaktur = iloscfaktur;
+    }
+
+    public boolean isArchiwalny() {
+        return archiwalny;
+    }
+
+  
+
+    public void setArchiwalny(boolean archiwalny) {
+        this.archiwalny = archiwalny;
     }
 
     
