@@ -90,7 +90,7 @@
                 <p:panelGrid columns="1" rendered="false" binding="#{bankImportKsiazkaView.grid3}" style="height: 580px;">
             <p:dataTable id="dataListImportall" value="#{bankImportKsiazkaView.pobranefaktury}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimportall" 
                          selection="#{bankImportKsiazkaView.selected}" rowKey="#{itemimp.nr}"  
-                         style="width: 1600px; height: 540px; overflow-y: scroll; margin-top: 15px;margin-bottom: 5px;" filteredValue="#{bankImportKsiazkaView.pobranefakturyfilter}"
+                         style="width: 1650px; height: 540px; overflow-y: scroll; margin-top: 15px;margin-bottom: 5px;" filteredValue="#{bankImportKsiazkaView.pobranefakturyfilter}"
                          emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane"
                          sortBy="#{itemimp.nr}"  >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
@@ -132,12 +132,12 @@
                     <h:outputText value="#{itemimp.kontrahent}" rendered="#{itemimp.kontrahent ne 'NOTPROVIDED'}"/>
                     <h:outputText value="prowizja" rendered="#{itemimp.kontrahent eq 'NOTPROVIDED'}"/>
                 </p:column>
-                <p:column headerText="klient" width="180" >
+                <p:column headerText="klient" width="210" >
                     <p:autoComplete value="#{itemimp.klient}" completeMethod="#{fakturaRozrachunkiView.completeKL}"
                                         var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
                                         maxResults="20" maxlength="20" converterMessage="Nieudana konwersja Klient" 
                                         cache="true"  queryDelay="10" 
-                                        styleClass="wpisywaniekontrfk" style="width: 185px;" inputStyle="width: 180px;"
+                                        styleClass="wpisywaniekontrfk" style="width: 210px;" inputStyle="width: 200px;"
                                         >
                             <p:ajax event="query" global="false"/>
                             <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
@@ -162,8 +162,8 @@
                 <p:column headerText="nr trans" width="90" sortBy="#{itemimp.nrtransakji}" filterBy="#{itemimp.nrtransakji}" filterMatchMode="contains">
                     <h:outputText value="#{itemimp.nrtransakji}"/>
                 </p:column>
-                 <p:column headerText="zak." width="30">
-                     <h:outputText value="&#x2713" rendered="#{itemimp.juzzaksiegowany}" style="color:green;"/>
+                <p:column headerText="zak." width="30" style="text-align: center;">
+                     <h:outputText value="&#x2713;" rendered="#{itemimp.juzzaksiegowany}" style="color:green;"/>
                 </p:column>
                 <p:column width="40" >
                     <p:commandButton icon="fa fa-trash" actionListener="#{bankImportKsiazkaView.usun(itemimp)}" update="@form"/>

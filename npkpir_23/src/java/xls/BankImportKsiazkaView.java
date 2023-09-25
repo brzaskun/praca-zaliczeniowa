@@ -289,6 +289,7 @@ public class BankImportKsiazkaView implements Serializable {
             Waluty walutadokumentu = walutyDAOfk.findWalutaBySymbolWaluty(naglowek.getWyciagwaluta());
             for (ImportBankWiersz r : pobranefaktury) {
                 if (!r.isJuzzaksiegowany() && r.getKlient()!=null) {
+                    r.setJuzzaksiegowany(true);
                     int zwrot = generowanieDokumentu(r, walutadokumentu);
                     if (zwrot==0) {
                         ile++;
