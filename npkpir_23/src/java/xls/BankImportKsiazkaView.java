@@ -142,6 +142,8 @@ public class BankImportKsiazkaView implements Serializable {
                 grid1.setRendered(true);
                 grid2.setRendered(false);
                 rodzajdok = null;
+                pobranefaktury = null;
+                naglowek = null;
                 if (pobraneplikibytes!=null && pobraneplikibytes.size()==1) {
                     Msg.msg("Sukces. Wyciąg bankowy " + filename + " został skutecznie załadowany");
                 } else {
