@@ -105,23 +105,25 @@ public class DraNView  implements Serializable {
     public void pobierzlisty() {
         if (mcdra != null) {
             listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), mcdra);
-            for (Iterator<Definicjalistaplac> it = listadefinicjalistaplac.iterator(); it.hasNext();) {
-                Definicjalistaplac d = it.next();
-                if (d.getPasekwynagrodzenList() == null ||d.getPasekwynagrodzenList().isEmpty()) {
-                    it.remove();
+            if (listadefinicjalistaplac.isEmpty()==false) {
+                for (Iterator<Definicjalistaplac> it = listadefinicjalistaplac.iterator(); it.hasNext();) {
+                    Definicjalistaplac d = it.next();
+                    if (d.getPasekwynagrodzenList() == null ||d.getPasekwynagrodzenList().isEmpty()) {
+                        it.remove();
+                    }
                 }
-            }
-            Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
-            listywybrane = listadefinicjalistaplac;
-            Msg.msg("Pobrano listy płac");
-            pobierzpaski();
-            List<Angaz> angazelista = pobierzangaze(paskiwynagrodzen);
-            listanieobecnosci = new ArrayList<>();
-            if (angazelista!=null) {
-                for (Angaz angaz : angazelista) {
-                    List<Nieobecnosc> nieobecnoscilista = nieobecnoscFacade.findByAngaz(angaz);
-                    if (nieobecnoscilista!=null&&nieobecnoscilista.size()>0) {
-                        listanieobecnosci.addAll(pobierznieobecnosci(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), nieobecnoscilista));
+                Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
+                listywybrane = listadefinicjalistaplac;
+                Msg.msg("Pobrano listy płac");
+                pobierzpaski();
+                List<Angaz> angazelista = pobierzangaze(paskiwynagrodzen);
+                listanieobecnosci = new ArrayList<>();
+                if (angazelista!=null) {
+                    for (Angaz angaz : angazelista) {
+                        List<Nieobecnosc> nieobecnoscilista = nieobecnoscFacade.findByAngaz(angaz);
+                        if (nieobecnoscilista!=null&&nieobecnoscilista.size()>0) {
+                            listanieobecnosci.addAll(pobierznieobecnosci(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), nieobecnoscilista));
+                        }
                     }
                 }
             }
@@ -154,28 +156,32 @@ public class DraNView  implements Serializable {
     
     public void drukujliste () {
         if (paskiwynagrodzen!=null && paskiwynagrodzen.size()>0) {
-            Map<String,Double> danezus = new HashMap<>();
-            danezus.put("zus51", zus51);
-            danezus.put("zus51pracownik", zus51pracownik);
-            danezus.put("zus51pracodawca", zus51pracodawca);
-            danezus.put("zus52", zus52);
-            danezus.put("zusFP", zusFP);
-            danezus.put("zusFGSP", zusFGSP);
-            danezus.put("zus53", zus53);
-            danezus.put("zus", zus);
-            danezus.put("pit4", pit4);
-            danezus.put("pit4N", pit4N);
-            danezus.put("brutto", brutto);
-            danezus.put("bruttopraca", bruttopraca);
-            danezus.put("bruttozlecenia", bruttozlecenia);
-            danezus.put("netto", netto);
-            danezus.put("potraceniaKomornik", potraceniaKomornik);
-            danezus.put("potraceniaPPK", potraceniaPPK);
-            danezus.put("potraceniaZaliczki", potraceniaZaliczki);
-            danezus.put("potraceniaPozostale", potraceniaPozostale);
-            ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa(), wpisView.getFirma());
-            mailListaDRA(dra.toByteArray());
-            Msg.msg("Wydrukowano listę płac");
+            try {
+                Map<String,Double> danezus = new HashMap<>();
+                danezus.put("zus51", zus51);
+                danezus.put("zus51pracownik", zus51pracownik);
+                danezus.put("zus51pracodawca", zus51pracodawca);
+                danezus.put("zus52", zus52);
+                danezus.put("zusFP", zusFP);
+                danezus.put("zusFGSP", zusFGSP);
+                danezus.put("zus53", zus53);
+                danezus.put("zus", zus);
+                danezus.put("pit4", pit4);
+                danezus.put("pit4N", pit4N);
+                danezus.put("brutto", brutto);
+                danezus.put("bruttopraca", bruttopraca);
+                danezus.put("bruttozlecenia", bruttozlecenia);
+                danezus.put("netto", netto);
+                danezus.put("potraceniaKomornik", potraceniaKomornik);
+                danezus.put("potraceniaPPK", potraceniaPPK);
+                danezus.put("potraceniaZaliczki", potraceniaZaliczki);
+                danezus.put("potraceniaPozostale", potraceniaPozostale);
+                ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa(), wpisView.getFirma());
+                mailListaDRA(dra.toByteArray());
+                Msg.msg("Wydrukowano listę płac");
+            } catch (Exception e) {
+                Msg.msg("e","Błąd drukowania listy");
+            }
         } else {
             Msg.msg("e","Błąd drukowania. Brak pasków");
         }
@@ -195,36 +201,38 @@ public class DraNView  implements Serializable {
     
      public void mailListaDRAFirma() {
          if (paskiwynagrodzen!=null && paskiwynagrodzen.size()>0) {
-            Map<String,Double> danezus = new HashMap<>();
-            danezus.put("zus51", zus51);
-            danezus.put("zus51pracownik", zus51pracownik);
-            danezus.put("zus51pracodawca", zus51pracodawca);
-            danezus.put("zus52", zus52);
-            danezus.put("zusFP", zusFP);
-            danezus.put("zusFGSP", zusFGSP);
-            danezus.put("zus53", zus53);
-            danezus.put("zus", zus);
-            danezus.put("pit4", pit4);
-            danezus.put("pit4N", pit4N);
-            danezus.put("brutto", brutto);
-            danezus.put("bruttopraca", bruttopraca);
-            danezus.put("bruttozlecenia", bruttozlecenia);
-            danezus.put("netto", netto);
-            danezus.put("potraceniaKomornik", potraceniaKomornik);
-            danezus.put("potraceniaPPK", potraceniaPPK);
-            danezus.put("potraceniaZaliczki", potraceniaZaliczki);
-            danezus.put("potraceniaPozostale", potraceniaPozostale);
-            ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa(), wpisView.getFirma());
-             byte[] dra = drastream.toByteArray();
-            if (dra != null && dra.length > 0) {
-                SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
-                String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
-                mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, dra, nazwa, wpisView.getUzer().getEmail());
-                Msg.msg("Wysłano listę płac do pracodawcy");
-            } else {
-                Msg.msg("e", "Błąd dwysyki DRA");
-            }
-            Msg.msg("Wydrukowano listę płac");
+            try {
+                Map<String,Double> danezus = new HashMap<>();
+                danezus.put("zus51", zus51);
+                danezus.put("zus51pracownik", zus51pracownik);
+                danezus.put("zus51pracodawca", zus51pracodawca);
+                danezus.put("zus52", zus52);
+                danezus.put("zusFP", zusFP);
+                danezus.put("zusFGSP", zusFGSP);
+                danezus.put("zus53", zus53);
+                danezus.put("zus", zus);
+                danezus.put("pit4", pit4);
+                danezus.put("pit4N", pit4N);
+                danezus.put("brutto", brutto);
+                danezus.put("bruttopraca", bruttopraca);
+                danezus.put("bruttozlecenia", bruttozlecenia);
+                danezus.put("netto", netto);
+                danezus.put("potraceniaKomornik", potraceniaKomornik);
+                danezus.put("potraceniaPPK", potraceniaPPK);
+                danezus.put("potraceniaZaliczki", potraceniaZaliczki);
+                danezus.put("potraceniaPozostale", potraceniaPozostale);
+                ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa(), wpisView.getFirma());
+                 byte[] dra = drastream.toByteArray();
+                if (dra != null && dra.length > 0) {
+                    SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                    String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
+                    mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, dra, nazwa, wpisView.getUzer().getEmail());
+                    Msg.msg("Wysłano listę płac do pracodawcy");
+                } else {
+                    Msg.msg("e", "Błąd dwysyki DRA");
+                }
+                Msg.msg("Wydrukowano listę płac");
+            } catch (Exception e){}
         } else {
             Msg.msg("e","Błąd drukowania. Brak pasków");
         }
@@ -251,38 +259,42 @@ public class DraNView  implements Serializable {
             potraceniaZaliczki = 0.0;
             potraceniaPozostale = 0.0;
             paskiwynagrodzen = new ArrayList<>();
-            for (Definicjalistaplac d : listywybrane) {
-                List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByDef(d);
-                if (paski!=null) {
-                    paskiwynagrodzen.addAll(paski);
+            if (listywybrane.isEmpty()==false) {
+                for (Definicjalistaplac d : listywybrane) {
+                    List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByDef(d);
+                    if (paski!=null) {
+                        paskiwynagrodzen.addAll(paski);
+                    }
+                }
+                if (paskiwynagrodzen.isEmpty()==false) {
+                    Collections.sort(paskiwynagrodzen, new PasekwynagrodzenNazwiskacomparator());
+                    for (Pasekwynagrodzen p : paskiwynagrodzen) {
+                        zus51pracownik = Z.z(zus51pracownik+p.getRazemspolecznepracownik());
+                        zus51pracodawca = Z.z(zus51pracodawca+p.getRazemspolecznefirma());
+                        zus51 = Z.z(zus51+p.getRazemspolecznepracownik()+p.getRazemspolecznefirma());
+                        zus52 = Z.z(zus52+p.getPraczdrowotne());
+                        zusFP = Z.z(zusFP+p.getFp());
+                        zusFGSP = Z.z(zusFGSP+p.getFgsp());
+                        zus53 = Z.z(zus53+p.getRazem53());
+                        pit4 = Z.z(pit4+p.getPodatekdochodowy());
+                        pit4N = Z.z(pit4N+p.getPodatekdochodowyzagranicawaluta());
+                        brutto = Z.z(brutto+p.getBrutto());
+                        if (p.getDefinicjalistaplac().getRodzajlistyplac().getTyp()==1) {
+                            bruttopraca = Z.z(bruttopraca+p.getBrutto());
+                        } else {
+                            bruttozlecenia = Z.z(bruttozlecenia+p.getBrutto());
+                        }
+                        netto = Z.z(netto+p.getNetto());
+                        potraceniaKomornik = Z.z(potraceniaKomornik+p.getPotraceniaKomornik());
+                        potraceniaZaliczki = Z.z(potraceniaZaliczki+p.getPotraceniaZaliczki());
+                        potraceniaPPK = Z.z(potraceniaPPK+p.getPotraceniaPPK());
+                        potraceniaPozostale = Z.z(p.getPotracenia()-potraceniaKomornik-potraceniaZaliczki-potraceniaPPK);
+                    }
+                    paskiwynagrodzen.add(PasekwynagrodzenBean.sumujpaski(paskiwynagrodzen));
+                    zus = Z.z(zus+zus51+zus52+zus53);
+                    Msg.msg("Pobrano paski do DRA");
                 }
             }
-            Collections.sort(paskiwynagrodzen, new PasekwynagrodzenNazwiskacomparator());
-            for (Pasekwynagrodzen p : paskiwynagrodzen) {
-                zus51pracownik = Z.z(zus51pracownik+p.getRazemspolecznepracownik());
-                zus51pracodawca = Z.z(zus51pracodawca+p.getRazemspolecznefirma());
-                zus51 = Z.z(zus51+p.getRazemspolecznepracownik()+p.getRazemspolecznefirma());
-                zus52 = Z.z(zus52+p.getPraczdrowotne());
-                zusFP = Z.z(zusFP+p.getFp());
-                zusFGSP = Z.z(zusFGSP+p.getFgsp());
-                zus53 = Z.z(zus53+p.getRazem53());
-                pit4 = Z.z(pit4+p.getPodatekdochodowy());
-                pit4N = Z.z(pit4N+p.getPodatekdochodowyzagranicawaluta());
-                brutto = Z.z(brutto+p.getBrutto());
-                if (p.getDefinicjalistaplac().getRodzajlistyplac().getTyp()==1) {
-                    bruttopraca = Z.z(bruttopraca+p.getBrutto());
-                } else {
-                    bruttozlecenia = Z.z(bruttozlecenia+p.getBrutto());
-                }
-                netto = Z.z(netto+p.getNetto());
-                potraceniaKomornik = Z.z(potraceniaKomornik+p.getPotraceniaKomornik());
-                potraceniaZaliczki = Z.z(potraceniaZaliczki+p.getPotraceniaZaliczki());
-                potraceniaPPK = Z.z(potraceniaPPK+p.getPotraceniaPPK());
-                potraceniaPozostale = Z.z(p.getPotracenia()-potraceniaKomornik-potraceniaZaliczki-potraceniaPPK);
-            }
-            paskiwynagrodzen.add(PasekwynagrodzenBean.sumujpaski(paskiwynagrodzen));
-            zus = Z.z(zus+zus51+zus52+zus53);
-            Msg.msg("Pobrano paski do DRA");
         } else {
             Msg.msg("e","Błąd pobierania pasków");
         }
