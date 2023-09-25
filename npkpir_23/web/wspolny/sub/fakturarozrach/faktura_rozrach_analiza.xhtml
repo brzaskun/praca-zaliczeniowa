@@ -116,8 +116,12 @@
                             <p:commandButton value="korekta" actionListener="#{fakturaRozrachunkiAnalizaView.korygujnazero()}" 
                                                 update="akordeon:fakturaanaliza:tablicaanaliza" />
                        </p:column>
-                        <p:column width="35" style="text-align: center;">
+                       <p:column width="35" style="text-align: center;">
                             <p:commandButton value="dezktywuj pod." actionListener="#{fakturaRozrachunkiAnalizaView.dezaktywujpodatnika()}"  update="akordeon:fakturaanaliza:mailklientapanel"
+                                                 />
+                       </p:column>
+                        <p:column width="35" style="text-align: center;">
+                            <p:commandButton value="archiwizuj" actionListener="#{fakturaRozrachunkiAnalizaView.archiwizujdok()}"  update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"
                                                  />
                        </p:column>
                          <h:outputLabel value="pokaż archiwalne"/>
@@ -232,7 +236,7 @@
                 </p:column>
                 <p:column width="40" headerText="arch" style="text-align: center;">
                     <p:selectBooleanCheckbox value="#{item.archiwalny}" >
-                        <p:ajax event="change" listener="#{fakturaRozrachunkiView.nanieszmianaarchiwalny(item)}" partialSubmit="true" global="false"/>
+                        <p:ajax event="change" listener="#{fakturaRozrachunkiAnalizaView.nanieszmianaarchiwalny(item)}" partialSubmit="true" global="false"/>
                     </p:selectBooleanCheckbox>
                 </p:column>
                 <p:column width="40" style="text-align: center;">

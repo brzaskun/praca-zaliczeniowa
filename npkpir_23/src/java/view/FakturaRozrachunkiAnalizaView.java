@@ -351,6 +351,36 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
     
+    public void archiwizujdok() {
+        if (selectedrozliczenia.isEmpty()==false) {
+            selectedrozliczenia.stream().forEach(p->{
+                p.setArchiwalny(true);
+                nanieszmianaarchiwalny(p);
+            });
+            selectedrozliczenia = null;
+            Msg.msg("Zarchiwizowano wybrane pozycje");
+        }
+    }
+    
+     public void nanieszmianaarchiwalny(FakturaPodatnikRozliczenie item) {
+        if (item !=null) {
+            Faktura faktura = item.getFaktura();
+            if (faktura!=null) {
+                faktura.setRozrachunekarchiwalny(item.isArchiwalny());
+                fakturaDAO.edit(faktura);
+            }
+            FakturaRozrachunki rozliczenie = item.getRozliczenie();
+            if (rozliczenie!=null) {
+                rozliczenie.setRozrachunekarchiwalny(item.isArchiwalny());
+                fakturaRozrachunkiDAO. edit(rozliczenie);
+            }
+            //Msg.msg("Naniesiono zmianę");
+        } else {
+            Msg.msg("e","Nie wybrano pozycji");
+        }
+    }
+    
+    
     private List<FakturaPodatnikRozliczenie> stworztabele(List<FakturaRozrachunki> platnosci, List<Faktura> faktury, boolean nowe0archiwum1) {
         List<FakturaPodatnikRozliczenie> l = Collections.synchronizedList(new ArrayList<>());
         FakturaPodatnikRozliczenie ostatniaplatnosc = null;
@@ -383,6 +413,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     public void zestawieniezbiorcze() {
         klienci = new ArrayList<>();
         klienci.addAll(pobierzkontrahentow());
+        Collections.sort(klienci, new KlienciNPcomparator());
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
         if (wybranyksiegowy!=null) {

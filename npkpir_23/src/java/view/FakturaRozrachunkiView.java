@@ -11,7 +11,6 @@ import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
-import entity.Faktura;
 import entity.FakturaRozrachunki;
 import entity.Klienci;
 import error.E;
@@ -255,23 +254,7 @@ public class FakturaRozrachunkiView  implements Serializable {
         }
     }
     
-    public void nanieszmianaarchiwalny(FakturaPodatnikRozliczenie item) {
-        if (item !=null) {
-            Faktura faktura = item.getFaktura();
-            if (faktura!=null) {
-                faktura.setRozrachunekarchiwalny(item.isArchiwalny());
-                fakturaDAO.edit(faktura);
-            }
-            FakturaRozrachunki rozliczenie = item.getRozliczenie();
-            if (rozliczenie!=null) {
-                rozliczenie.setRozrachunekarchiwalny(item.isArchiwalny());
-                fakturaRozrachunkiDAO. edit(rozliczenie);
-            }
-            Msg.msg("Naniesiono zmianę");
-        } else {
-            Msg.msg("e","Nie wybrano pozycji");
-        }
-    }
+   
     
 //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Klienci> getKlienci() {
