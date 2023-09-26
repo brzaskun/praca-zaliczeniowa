@@ -111,7 +111,7 @@
                                          update=":akordeon:fakturaanaliza:tablicaanaliza"/>
                 </p:column>-->
                 </p:panelGrid>
-                    <p:panelGrid columns="4">
+                    <p:panelGrid columns="5">
                         <p:column width="35" style="text-align: center;">
                             <p:commandButton value="korekta" actionListener="#{fakturaRozrachunkiAnalizaView.korygujnazero()}" 
                                                 update="akordeon:fakturaanaliza:tablicaanaliza" />
@@ -121,11 +121,11 @@
                                                  />
                        </p:column>
                         <p:column width="35" style="text-align: center;">
-                            <p:commandButton value="archiwizuj" actionListener="#{fakturaRozrachunkiAnalizaView.archiwizujdok()}"  update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"
+                            <p:commandButton value="archiwizuj" actionListener="#{fakturaRozrachunkiAnalizaView.archiwizujdok()}"  update=":akordeon:fakturaanaliza:tablicaanaliza"
                                                  />
                        </p:column>
-                         <h:outputLabel value="pokaż archiwalne"/>
-                     <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.pokazarchiwalne}" >
+                        <h:outputLabel value="pokaż archiwalne" style="margin-left: 200px;"/>
+                     <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.pokazarchiwalne}">
                          <p:ajax event="change" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" 
                                  update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel" partialSubmit="true"/>
                     </p:selectBooleanCheckbox>

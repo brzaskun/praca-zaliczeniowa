@@ -358,6 +358,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 nanieszmianaarchiwalny(p);
             });
             selectedrozliczenia = null;
+            pobierzwszystkoKlienta();
             Msg.msg("Zarchiwizowano wybrane pozycje");
         }
     }
