@@ -19,6 +19,9 @@
         <p:outputPanel>
             <h:form  styleClass="formadmin" id="ListaRachunekZleceniaForm">
                 <p:panel header="Rachunki do umów zleceń za rok #{wpisView.rokWpisu}"/>
+                <p:outputPanel style="padding: 10px;">
+                    <h:outputText value="pracownik: #{wpisView.pracownik.nazwiskoImie}"/>
+                </p:outputPanel>
                 <p:dataTable id="datalist" value="#{rachunkidoZlecenListaView.rachunekdoumowyzlecenialist}" var="itemrachunek"
                              rowKey="#{itemrachunek.id}" sortBy="#{itemrachunek.mc}" rowIndexVar="indexkb"
                              style="height: 450px; overflow-y: scroll;"
@@ -48,11 +51,23 @@
                         </f:facet>
                         <h:outputText value="#{itemrachunek.datawystawienia}"/>
                     </p:column>
+                     <p:column width="60" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="data wypłaty"/>
+                        </f:facet>
+                         <h:outputText value="#{itemrachunek.pasekwynagrodzen.datawyplaty}"/>
+                    </p:column>
+                     <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="za oddel."/>
+                        </f:facet>
+                         <bcf:outputpl value="#{itemrachunek.kwotaoddelegowaniewaluta} #{itemrachunek.symbolwaluty}"/>
+                    </p:column>
                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="brutto."/>
                         </f:facet>
-                        <bcf:outputpl value="#{itemrachunek.kwota}"/>
+                        <bcf:outputpl value="#{itemrachunek.kwotasuma}"/>
                     </p:column>
                     <p:column width="60">
                         <f:facet name="header">
@@ -64,32 +79,45 @@
                         <f:facet name="header">
                             <h:outputText value="społeczne"/>
                         </f:facet>
-                        <p:selectBooleanCheckbox value="#{itemrachunek.spoleczne}" disabled="true" styleClass="czekpole"/>
+                        <p:selectBooleanCheckbox value="#{itemrachunek.spoleczne}" styleClass="czekpole"/>
                     </p:column>
                     <p:column width="50" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="chorobowa"/>
                         </f:facet>
-                        <p:selectBooleanCheckbox value="#{itemrachunek.chorobowa}" disabled="true" styleClass="czekpole"/>
+                        <p:selectBooleanCheckbox value="#{itemrachunek.chorobowa}" styleClass="czekpole"/>
                     </p:column>
                     <p:column width="50" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="zdrowotna"/>
                         </f:facet>
-                        <p:selectBooleanCheckbox value="#{itemrachunek.zdrowotna}" disabled="true" styleClass="czekpole"/>
+                        <p:selectBooleanCheckbox value="#{itemrachunek.zdrowotna}" styleClass="czekpole"/>
                     </p:column>
                     <p:column width="50" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="podatek"/>
                         </f:facet>
-                        <p:selectBooleanCheckbox value="#{itemrachunek.podatek}"  disabled="true" styleClass="czekpole"/>
+                        <p:selectBooleanCheckbox value="#{itemrachunek.podatek}"  styleClass="czekpole"/>
                     </p:column>
-                     <p:column width="50" style="text-align: center;">
+                     <p:column width="30" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="rozliczony"/>
                         </f:facet>
-                         <h:outputText value="&#x2714;" rendered="#{itemrachunek.pasekwynagrodzen ne null}"/>
+                         <h:outputText value="&#x2714;" rendered="#{itemrachunek.pasekwynagrodzen ne null}" />
                     </p:column>
+                    <p:column width="50" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="netto"/>
+                        </f:facet>
+                         <bcf:outputpl value="#{itemrachunek.pasekwynagrodzen.netto}"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <p:commandButton icon="pi pi-print" actionListener="#{rachunkidoZlecenListaView.drukuj(itemrachunek)}"/>
+                    </p:column>
+                     
                 </p:dataTable>
             </h:form>
         </p:outputPanel>

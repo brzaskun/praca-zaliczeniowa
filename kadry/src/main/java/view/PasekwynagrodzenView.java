@@ -504,7 +504,7 @@ public class PasekwynagrodzenView implements Serializable {
             Msg.msg("Wydrukowano listę płac");
             if (wybranalistaplac.getRodzajlistyplac().getSymbol().equals("UZ")) {
                 String nazwa = wpisView.getFirma().getNip()+"rachunekzlecenie.pdf";
-                PdfRachunekZlecenie.drukuj(lista, wybranalistaplac, nazwa);
+                PdfRachunekZlecenie.drukuj(lista, nazwa);
             }
         } else {
             Msg.msg("e", "Błąd drukowania. Brak pasków");
@@ -518,7 +518,7 @@ public class PasekwynagrodzenView implements Serializable {
             Msg.msg("Wydrukowano listę płac");
             if (wybranalistaplac.getRodzajlistyplac().getSymbol().equals("UZ")) {
                 String nazwa = wpisView.getFirma().getNip()+"rachunekzlecenie.pdf";
-                PdfRachunekZlecenie.drukuj(lista, wybranalistaplac, nazwa);
+                PdfRachunekZlecenie.drukuj(lista, nazwa);
             }
         } else {
             Msg.msg("e", "Błąd drukowania. Brak pasków");
@@ -534,7 +534,7 @@ public class PasekwynagrodzenView implements Serializable {
             ByteArrayOutputStream drukujrachunki = null;
             if (wybranalistaplac.getRodzajlistyplac().getSymbol().equals("UZ")) {
                 String nazwa = wpisView.getFirma().getNip()+"rachunekzlecenie.pdf";
-                drukujrachunki = PdfRachunekZlecenie.drukuj(lista, wybranalistaplac, nazwa);
+                drukujrachunki = PdfRachunekZlecenie.drukuj(lista, nazwa);
             }
             Pasekwynagrodzen pasek = lista.get(0);
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();

@@ -6,13 +6,16 @@
 package view;
 
 import dao.RachunekdoumowyzleceniaFacade;
+import entity.Pasekwynagrodzen;
 import entity.Rachunekdoumowyzlecenia;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import pdf.PdfRachunekZlecenie;
 
 /**
  *
@@ -41,15 +44,27 @@ public class RachunkidoZlecenListaView  implements Serializable {
         }
     }
     
-  
-    public void drukuj() {
-//        if (kartawynagrodzenlist!=null && kartawynagrodzenlist.size()>0) {
-//            PdfKartaWynagrodzen.drukuj(kartawynagrodzenlist, wpisView.getAngaz(), wpisView.getRokWpisu());
-//            Msg.msg("Wydrukowano kartę wynagrodzeń");
-//        } else {
-//            Msg.msg("e","Błąd drukowania. Brak karty wynagrodze");
-//        }
+    public void drukuj(Rachunekdoumowyzlecenia rach) {
+        if (rach != null) {
+            String nazwa = wpisView.getPracownik().getPesel()+"rachunekzlecenie.pdf";
+            PdfRachunekZlecenie.drukujJeden(rach.getPasekwynagrodzen(),nazwa);
+        } else {
+            Msg.msg("e", "Błąd drukowania. Brak paska");
+        }
     }
+    
+     public void drukuj() {
+        if (rachunekdoumowyzlecenialist.isEmpty() == false) {
+            String nazwa = wpisView.getPracownik().getPesel()+"rachunekizlecenie.pdf";
+            List<Pasekwynagrodzen> paski = rachunekdoumowyzlecenialist.stream().map(Rachunekdoumowyzlecenia::getPasekwynagrodzen).collect(Collectors.toList());
+            PdfRachunekZlecenie.drukuj(paski,nazwa);
+        } else {
+            Msg.msg("e", "Błąd drukowania. Brak pasków");
+        }
+    }
+    
+  
+   
 
     public List<Rachunekdoumowyzlecenia> getRachunekdoumowyzlecenialist() {
         return rachunekdoumowyzlecenialist;

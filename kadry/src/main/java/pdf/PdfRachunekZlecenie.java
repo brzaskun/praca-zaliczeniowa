@@ -17,7 +17,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import data.Data;
 import entity.Angaz;
-import entity.Definicjalistaplac;
 import entity.FirmaKadry;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczenieskladnikawynagrodzenia;
@@ -43,7 +42,30 @@ import plik.Plik;
  * @author Osito
  */
 public class PdfRachunekZlecenie {
-    public static ByteArrayOutputStream drukuj(List<Pasekwynagrodzen> lista, Definicjalistaplac def, String nazwa) {
+    
+    public static ByteArrayOutputStream drukujJeden(Pasekwynagrodzen pasek, String nazwa) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            if (pasek != null) {
+                Document document = PdfMain.inicjacjaA4Portrait(80,60);
+                PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
+                naglowekStopkaP(writer);
+                otwarcieDokumentu(document, nazwa);
+                dodajtresc(pasek, document);
+                finalizacjaDokumentuQR(document,nazwa);
+                Plik.zapiszBufferdoPlik(nazwa, out);
+                String f = "pokazwydruk('"+nazwa+"');";
+                PrimeFaces.current().executeScript(f);
+            } else {
+                Msg.msg("w", "Nie ma Paska do wydruku");
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return out;
+    }
+    
+    public static ByteArrayOutputStream drukuj(List<Pasekwynagrodzen> lista, String nazwa) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             if (lista != null) {
