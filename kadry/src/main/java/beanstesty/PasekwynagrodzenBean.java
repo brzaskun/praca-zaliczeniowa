@@ -734,15 +734,20 @@ public class PasekwynagrodzenBean {
             }
         }
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            bruttozuskraj = bruttozuskraj + p.getKwotazus();
-            bruttozusoddelegowaniewaluta = bruttozusoddelegowaniewaluta + p.getKwotawaluta();
+            
+            if (p.getNieobecnosc().getKod().equals("UD")) {
+                bruttozusoddelegowaniewaluta = bruttozusoddelegowaniewaluta + p.getKwotawaluta();
+                bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie+ p.getKwotazus());
+            } else {
+                bruttozuskraj = bruttozuskraj + p.getKwotazus();
+            }
         }
         double sumaprzejsciowa = bruttozuskraj + bruttozusoddelegowanie;
         double nowasumaprzychodow = sumapoprzednich + sumaprzejsciowa;
         double roznicapowyzejlimitu = nowasumaprzychodow - limit26;
         if (roznicapowyzejlimitu > 0.0) {
             double bezpodatku = sumaprzejsciowa - roznicapowyzejlimitu;
-            pasek.setBruttozusbezpodatek(bezpodatku);
+             pasek.setBruttozusbezpodatek(bezpodatku);
             pasek.setBruttozus(roznicapowyzejlimitu);
         } else {
             pasek.setBruttozusbezpodatek(sumaprzejsciowa);
@@ -979,8 +984,9 @@ public class PasekwynagrodzenBean {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         double spoleczne = pasek.getRazemspolecznepracownik();
-        double procentspoleczny = spoleczne / pasek.getPodstawaskladkizus();
+        double procentspoleczny = pasek.getPodstawaskladkizus()/pasek.getBrutto();
         double udzialwspolecznychdoodliczenia = spoleczne * procentspoleczny;
+        double polskiespoleczne = spoleczne-udzialwspolecznychdoodliczenia;
         double kwotanadwyzki = pasek.getBruttozus();
         double kosztyuzyskania = pierwszyprog.getKup();
         if (podwyzszonekoszty) {
@@ -1006,8 +1012,10 @@ public class PasekwynagrodzenBean {
         pasek.setKosztyuzyskaniahipotetyczne(kosztyuzyskania);
         pasek.setPodstawaopodatkowaniahipotetyczna(podstawa);
         //kosztyuzyskania = 0.0;
-        podstawa = Z.z0(kwotanadwyzki - kosztyuzyskania - udzialwspolecznychdoodliczenia - ulgadlaklasysredniej) > 0.0 ? Z.z0(kwotanadwyzki - kosztyuzyskania - ulgadlaklasysredniej) : 0.0;
+        podstawa = Z.z0(kwotanadwyzki - kosztyuzyskania - polskiespoleczne - ulgadlaklasysredniej) > 0.0 ? Z.z0(kwotanadwyzki - kosztyuzyskania - polskiespoleczne  - ulgadlaklasysredniej) : 0.0;
         pasek.setPodstawaopodatkowania(podstawa);
+        pasek.setPodstawaprzedkorektaozagranice(podstawa);
+        pasek.setSpoleczneudzialpolska(polskiespoleczne);
         korektaprzychodyopodatkowanezagranica(podstawa,pasek);
         pasek.setKosztyuzyskania(kosztyuzyskania);
     }

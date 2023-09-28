@@ -279,6 +279,10 @@ public class Pasekwynagrodzen implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "data")
     private Date data;
+    @Column(name = "podstawaprzedkorektaozagranice")
+    private double podstawaprzedkorektaozagranice;
+    @Column(name = "spoleczneudzialpolska")
+    private double spoleczneudzialpolska;
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "ekwiwalentskladniki", referencedColumnName = "id")
 //    private EkwiwalentUrlop ekwiwalentSkladniki;
@@ -941,6 +945,22 @@ public class Pasekwynagrodzen implements Serializable {
 
     public double getPracemerytalne() {
         return pracemerytalne;
+    }
+
+    public double getPodstawaprzedkorektaozagranice() {
+        return podstawaprzedkorektaozagranice;
+    }
+
+    public void setPodstawaprzedkorektaozagranice(double podstawaprzedkorektaozagranice) {
+        this.podstawaprzedkorektaozagranice = podstawaprzedkorektaozagranice;
+    }
+
+    public double getSpoleczneudzialpolska() {
+        return spoleczneudzialpolska;
+    }
+
+    public void setSpoleczneudzialpolska(double spoleczneudzialpolska) {
+        this.spoleczneudzialpolska = spoleczneudzialpolska;
     }
 
     public void setPracemerytalne(double pracemerytalne) {

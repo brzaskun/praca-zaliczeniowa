@@ -54,6 +54,9 @@
                             <h:outputText value="razem brutto"/>
                         </p:column>
                         <p:column>
+                            <h:outputText value="przekrocz. 26 lat" rendered="#{itempasek.do26lat eq true}" style="color: blue;"/>
+                        </p:column>
+                        <p:column>
                             <h:outputText value="dieta"/>
                         </p:column>
                         <p:column>
@@ -77,8 +80,11 @@
                         <p:column>
                             <h:outputText value="razem społ. prac."/>
                         </p:column>
+                         <p:column>
+                            <h:outputText value="społ. zagr."/>
+                        </p:column>
                         <p:column width="20" style="text-align: center;">
-                            <h:outputText value="is26lat" rendered="#{itempasek.do26lat eq true}" style="color:blue"/>
+                            <h:outputText value="do 26lat" rendered="#{itempasek.do26lat eq true}" style="color:blue"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -109,6 +115,9 @@
                         <p:column>
                             <bcf:outputpl value="#{itempasek.brutto}"/>
                         </p:column>
+                         <p:column>
+                             <bcf:outputpl value="#{itempasek.bruttozus}" rendered="#{itempasek.do26lat eq true}"/>
+                        </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.dieta}"/>
                         </p:column>
@@ -132,6 +141,9 @@
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.razemspolecznepracownik}"/>
+                        </p:column>
+                         <p:column>
+                             <bcf:outputpl value="#{itempasek.spoleczneudzialpolska}"/>
                         </p:column>
                         <p:column width="20" style="text-align: center;">
                             <p:commandButton icon="pi pi-print" actionListener="#{pasekwynagrodzenView.drukuj(itempasek)}" global="false"/>
@@ -167,7 +179,9 @@
                         </p:column>
 <!--                         <p:column>
                             <h:outputText value="ulga dla kl.sr"/>
-                        </p:column>-->
+                        </p:column>-->            <p:column>
+                            <h:outputText value="podstawa przed kor."/>
+                        </p:column>
                         <p:column>
                             <h:outputText value="podstawa opodatk."/>
                         </p:column>
@@ -228,7 +242,9 @@
                         </p:column>
 <!--                         <p:column>
                             <bcf:outputpl value="#{itempasek.ulgadlaklasysredniejSuma}"/>
-                        </p:column>-->
+                        </p:column>-->            <p:column>
+                            <bcf:outputpl value="#{itempasek.podstawaprzedkorektaozagranice}"/>
+                        </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.podstawaopodatkowania}"/>
                         </p:column>
