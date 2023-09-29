@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -99,6 +100,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     private boolean laczlata;
     private String bilansnadzien;
     private String bilansoddnia;
+    private String kontabilansowebezprzyporzadkowania;
     
     @Inject
     private WpisView wpisView;
@@ -200,6 +202,10 @@ public class PozycjaBRZestawienieView implements Serializable {
         rootProjektRZiS.getChildren().clear();
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         List<StronaWiersza> zapisyRokPop = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), "12");
+         List<Konto> pustekonta = kontoDAO.findKontaWynikowePodatnikaBezPotomkowPuste(wpisView);
+        if (pustekonta.isEmpty()==false) {
+            kontabilansowebezprzyporzadkowania = pustekonta.stream().map(Konto::getPelnynumer).collect(Collectors.toList()).toString();
+        }
         try {
             PozycjaRZiSFKBean.ustawRootaRokPop(rootProjektRZiS, pozycje, zapisy, zapisyRokPop);
             level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
@@ -805,6 +811,14 @@ public class PozycjaBRZestawienieView implements Serializable {
     
     public void drukujRZiSBO() {
         PdfRZiS.drukujRZiSBO(rootProjektRZiS, wpisView, bilansnadzien, bilansoddnia);
+    }
+
+    public String getKontabilansowebezprzyporzadkowania() {
+        return kontabilansowebezprzyporzadkowania;
+    }
+
+    public void setKontabilansowebezprzyporzadkowania(String kontabilansowebezprzyporzadkowania) {
+        this.kontabilansowebezprzyporzadkowania = kontabilansowebezprzyporzadkowania;
     }
 
     public boolean isLaczlata() {

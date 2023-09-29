@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -100,6 +101,7 @@ public class PozycjaBRView implements Serializable {
     private String bilansnadzien;
     private String bilansoddnia;
     private String opisdodatkowy;
+    private String kontabilansowebezprzyporzadkowania;
     
     
     @Inject
@@ -346,6 +348,10 @@ public class PozycjaBRView implements Serializable {
             List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
             try {
                 List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaKwotaBezPotomkow(wpisView);
+                List<Konto> pustekonta = plankont.stream().filter(p->p.getPozycjaWn()==null||p.getPozycjaMa()==null).collect(Collectors.toList());
+                if (pustekonta.isEmpty()==false) {
+                    kontabilansowebezprzyporzadkowania = pustekonta.stream().map(Konto::getPelnynumer).collect(Collectors.toList()).toString();
+                }
     //            for (Konto p : plankont) {
     //                if (p.getPelnynumer().equals("220-2")) {
     //                    error.E.s("");
@@ -470,6 +476,10 @@ public class PozycjaBRView implements Serializable {
         try {
             List<Konto> plankontBO = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
+            List<Konto> pustekonta = kontoDAO.findByPodatnikBilansoweBezPotomkowPuste(wpisView);
+            if (pustekonta.isEmpty()==false) {
+                kontabilansowebezprzyporzadkowania = pustekonta.stream().map(Konto::getPelnynumer).collect(Collectors.toList()).toString();
+            }
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankontBO);
             zapisy = StronaWierszaBean.pobraniezapisowbilansowe(stronaWierszaDAO, wpisView);
             Konto kontowyniku = PlanKontFKBean.findKonto860(plankont);
@@ -1008,6 +1018,14 @@ public class PozycjaBRView implements Serializable {
 
     public void setOpisdodatkowy(String opisdodatkowy) {
         this.opisdodatkowy = opisdodatkowy;
+    }
+
+    public String getKontabilansowebezprzyporzadkowania() {
+        return kontabilansowebezprzyporzadkowania;
+    }
+
+    public void setKontabilansowebezprzyporzadkowania(String kontabilansowebezprzyporzadkowania) {
+        this.kontabilansowebezprzyporzadkowania = kontabilansowebezprzyporzadkowania;
     }
 
     public List<PozycjaRZiSBilans> getPozycje() {

@@ -89,6 +89,10 @@
                         
                     </p:treeTable>
                 </p:column>
+                <p:column>
+                    <h:outputText value="konta bez przyporządkowania: #{pozycjaBRZestawienieView.kontabilansowebezprzyporzadkowania}" rendered="#{pozycjaBRZestawienieView.kontabilansowebezprzyporzadkowania ne null}"
+                              style="color:red;margin-top: 10px;"/>
+                </p:column>
                 
             </p:panelGrid>
         </h:form>

@@ -1334,7 +1334,7 @@ public class KontoZapisFKView implements Serializable{
                 if (!wybranekonto.equals(kontodoprzeksiegowania) && wybranekonto.isMapotomkow() == true && wybranekonto.getIdslownika() == kontodoprzeksiegowania.getIdslownika()) {
                     przeksiegujslownikowe();
                 } else {
-                    List<StronaWiersza> lista = kontozapisyfiltered!=null&&kontozapisyfiltered.size()>0?kontozapisyfiltered:wybranezapisydosumowania;
+                    List<StronaWiersza> lista = wybranezapisydosumowania!=null&&wybranezapisydosumowania.size()>0?wybranezapisydosumowania:kontozapisyfiltered;
                     przeksiegujanalityke(lista);
                     Msg.msg("w", "Konto żrółowe/docelowe ma analitykę. Być może trzeba ją usunąć");
                 }

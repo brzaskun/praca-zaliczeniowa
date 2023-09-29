@@ -685,6 +685,39 @@ public class StronaWiersza implements Serializable {
     public double getKwota() {
         return kwota;
     }
+    
+    public double getKwotaWn() {
+        double zwrot = 0.0;
+        if (this.wnma.equals("Wn")) {
+            zwrot = this.kwota;
+        }
+        return zwrot;
+    }
+    
+    public double getKwotaWnPLN() {
+        double zwrot = 0.0;
+        if (this.wnma.equals("Wn")) {
+            zwrot = this.kwotaPLN;
+        }
+        return zwrot;
+    }
+    
+    public double getKwotaMa() {
+        double zwrot = 0.0;
+        if (this.wnma.equals("Ma")) {
+            zwrot = this.kwota;
+        }
+        return zwrot;
+    }
+    
+    public double getKwotaMaPLN() {
+        double zwrot = 0.0;
+        if (this.wnma.equals("Ma")) {
+            zwrot = this.kwotaPLN;
+        }
+        return zwrot;
+    }
+    
 
     public double getKwotaR() {
         return Math.abs(kwota);

@@ -402,6 +402,10 @@ public class KontoDAOfk extends DAO implements Serializable {
     public List<Konto> findKontaBilansowePodatnikaBezPotomkow(WpisView wpisView) {
         return getEntityManager().createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
+    
+    public List<Konto> findByPodatnikBilansoweBezPotomkowPuste(WpisView wpisView) {
+        return getEntityManager().createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkowPuste").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    }
 
     public List<Konto> findKontaBilansowePodatnikaBezPotomkowRokPoprzedni(WpisView wpisView) {
         return getEntityManager().createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokUprzedni()).getResultList();
@@ -418,6 +422,10 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaWynikowePodatnikaBezPotomkow(WpisView wpisView) {
         return getEntityManager().createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    }
+    
+     public List<Konto> findKontaWynikowePodatnikaBezPotomkowPuste(WpisView wpisView) {
+        return getEntityManager().createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkowPuste").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
     
 

@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialogbilansporownanie" header="Bilans za okres rozliczeniowy wyliczenie z porównaniem - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogbilansporownanie" 
-              resizable="false" onShow="ustawdialog('dialogbilansporownanie','menubilanse', 1450, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansporownanie');"  >
+              resizable="false" onShow="ustawdialog('dialogbilansporownanie','menubilanse', 1450, 800);" closeOnEscape="true" onHide="resetujdialog('dialogbilansporownanie');"  >
         <h:form id="form_dialogbilansporownanie">
 <!--            <p:contextMenu for="dataList">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
@@ -153,6 +153,11 @@
             <p:panel style="width: 300px;" >
             <h:outputText value="Różnica sum bilansowych"/>
             <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa-pozycjaBRView.sumabilansowapasywa}"/>
+            </p:panel>
+            <p:panel>
+                <h:outputText value="konta bez przyporządkowania: #{pozycjaBRView.kontabilansowebezprzyporzadkowania}" rendered="#{pozycjaBRView.kontabilansowebezprzyporzadkowania ne null}"
+                              style="color:red;margin-top: 10px;"/>
+    
             </p:panel>
         </h:form>
     </p:dialog>
