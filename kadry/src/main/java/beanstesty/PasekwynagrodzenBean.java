@@ -983,10 +983,10 @@ public class PasekwynagrodzenBean {
     private static void obliczpodstaweopodatkowania26DB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nieodliczackup, boolean podwyzszonekoszty, double limit26) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
-        double spoleczne = pasek.getRazemspolecznepracownik();
-        double procentspoleczny = pasek.getPodstawaskladkizus()/pasek.getBrutto();
-        double udzialwspolecznychdoodliczenia = spoleczne * procentspoleczny;
-        double polskiespoleczne = spoleczne-udzialwspolecznychdoodliczenia;
+        double udzialpodtsawyzuswbrutto = pasek.getPodstawaskladkizus()/pasek.getBrutto();
+        double przekroczenieminusoddelegowanie = pasek.getBruttozus()-pasek.getOddelegowaniepln();
+        double przekrocznieozusowane = przekroczenieminusoddelegowanie*udzialpodtsawyzuswbrutto;
+        double polskiespoleczne = przekrocznieozusowane*.1371;
         double kwotanadwyzki = pasek.getBruttozus();
         double kosztyuzyskania = pierwszyprog.getKup();
         if (podwyzszonekoszty) {
