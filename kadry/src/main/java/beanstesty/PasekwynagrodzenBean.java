@@ -983,9 +983,11 @@ public class PasekwynagrodzenBean {
     private static void obliczpodstaweopodatkowania26DB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nieodliczackup, boolean podwyzszonekoszty, double limit26) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
         double bruttominusspoleczne = pasek.getBruttominusspoleczne();
-        double udzialpodtsawyzuswbrutto = pasek.getPodstawaskladkizus()/pasek.getBrutto();
-        double przekroczenieminusoddelegowanie = pasek.getBruttozus()-pasek.getOddelegowaniepln();
-        double przekrocznieozusowane = przekroczenieminusoddelegowanie*udzialpodtsawyzuswbrutto;
+        double udzialpodtsawyzuswbrutto = pasek.getBrutto()>0.0?pasek.getPodstawaskladkizus()/pasek.getBrutto():0.0;
+        //tak bylo ale przeciez wyedty skladki od dochodu polskiego ktory nie jest przekroczony przezucamy do niemiec a tak nei powinno byc
+        //double przekroczenieminusoddelegowanie = pasek.getBruttozus()-pasek.getOddelegowaniepln();
+        double bruttominusniemcy = pasek.getBrutto()-pasek.getOddelegowaniepln();
+        double przekrocznieozusowane = bruttominusniemcy*udzialpodtsawyzuswbrutto;
         double polskiespoleczne = przekrocznieozusowane*.1371;
         double kwotanadwyzki = pasek.getBruttozus();
         double kosztyuzyskania = pierwszyprog.getKup();
@@ -1013,6 +1015,8 @@ public class PasekwynagrodzenBean {
         pasek.setPodstawaopodatkowaniahipotetyczna(podstawa);
         //kosztyuzyskania = 0.0;
         podstawa = Z.z0(kwotanadwyzki - kosztyuzyskania - polskiespoleczne - ulgadlaklasysredniej) > 0.0 ? Z.z0(kwotanadwyzki - kosztyuzyskania - polskiespoleczne  - ulgadlaklasysredniej) : 0.0;
+        //nie odejmujemy od podstaway calekj kwoty oddelegoanie tylko robimy proporckje w stosunku do wynagrodzenia bo w przekroczeniu tez jest proporcja
+        //double procentoddelegowaniebrutto = pasek.getOddelegowaniepln()/pasek.getBrutto();
         pasek.setPodstawaopodatkowania(podstawa);
         pasek.setPodstawaprzedkorektaozagranice(podstawa);
         pasek.setSpoleczneudzialpolska(polskiespoleczne);
