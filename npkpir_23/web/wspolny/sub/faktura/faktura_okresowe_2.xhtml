@@ -9,7 +9,7 @@
       
         <h:form id="formokresowe2">
            
-            <p:panelGrid id="panelsumokresowe" rendered="#{WpisView.biuroiszef eq true}">
+            <p:panelGrid id="panelsumokresowe">
                 <f:facet name="header">
                     <p:row>
                     <p:column>
@@ -41,7 +41,7 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:panelGrid columns="9"  rendered="#{WpisView.biuroiszef eq true}">
+            <p:panelGrid columns="9" >
 <!--                <h:outputText value="Procent waloryzacji 100=100%"/>
                 <p:inputNumber  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}"  decimalPlaces="2"  inputStyle="text-align: right;" symbol=" %" symbolPosition="s" decimalSeparator="."  maxValue="100">
                     <p:ajax event="blur" partialSubmit="true" global="false"/>
@@ -71,7 +71,7 @@
                 </p:inputNumber>
             </p:panelGrid>
             
-            <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"  rendered="#{WpisView.biuroiszef eq true}"
+            <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}" 
                          selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1650px;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
                          rowSelectMode="add"
                          rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" paginator="true" rows="40"
