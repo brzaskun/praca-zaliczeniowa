@@ -156,7 +156,12 @@ public class KlienciDAO extends DAO implements Serializable {
 
 
     public Klienci findKlientByNazwa(String nazwapelna) {
+        try {
             return (Klienci)  getEntityManager().createNamedQuery("Klienci.findByNpelna").setParameter("npelna", nazwapelna).getSingleResult();
+        } catch (Exception e) { 
+            E.e(e); 
+            return null;
+        }
     }
     
     public Klienci findKlientByNip(String nip) {
