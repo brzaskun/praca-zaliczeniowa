@@ -194,16 +194,20 @@ public class PlanKontView implements Serializable {
         try {
             List<KontopozycjaZapis> zapisane = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, "wynikowe");
             zapisane.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, "bilansowe"));
-            for(Konto p : wykazkont) {
-                for (KontopozycjaZapis r : zapisane) {
-                    if (r.getKontoID().equals(p)) {
-                        p.naniesPozycje(r);
-                        break;
+            if (zapisane.isEmpty()) {
+                  Msg.msg("e","Brak zapisanych pozycji w bazie. Nie można przyporządkować kont");
+            } else {
+                for(Konto p : wykazkont) {
+                    for (KontopozycjaZapis r : zapisane) {
+                        if (r.getKontoID().equals(p)) {
+                            p.naniesPozycje(r);
+                            break;
+                        }
                     }
                 }
+                kontoDAOfk.editList(wykazkont);
+                Msg.msg("Przyporzadkowano konta");
             }
-            kontoDAOfk.editList(wykazkont);
-            Msg.msg("Udało się");
         } catch (Exception e) {
             Msg.dPe();
         }
@@ -1074,19 +1078,23 @@ public class PlanKontView implements Serializable {
             List<Konto> kontaczteryisiedem = wykazkont.stream().filter(p->(p.getPelnynumer().startsWith("4")||p.getPelnynumer().startsWith("7"))).collect(Collectors.toList());
             if (kontaczteryisiedem.isEmpty()==false) {
                 kontaczteryisiedem.forEach(pa->{
-                    List<Konto> potomne = wykazkont.stream().filter(p->p.isWynik0bilans1()==false&&p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(pa)).collect(Collectors.toList());
-                    List<Konto> potomne2 = wykazkont.stream().filter(p->p.isWynik0bilans1()==false&&p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(pa)&&p.getPozycjaWn().equals(pa.getPozycjaWn())&&p.getPozycjaMa().equals(pa.getPozycjaMa())).collect(Collectors.toList());
-                    if (potomne.isEmpty()==false&&potomne.equals(potomne2)) {
-                        selectednodekontoZmiana = pa;
-                        if (pa.getKontomacierzyste()==null) {
-                            selectednodekontoZmiana.setSyntetykaanalityka("wynikowe");
-                        } else {
-                            selectednodekontoZmiana.setSyntetykaanalityka("syntetyczne");
+                    try {
+                        List<Konto> potomne = wykazkont.stream().filter(p->p.isWynik0bilans1()==false&&p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(pa)).collect(Collectors.toList());
+                        List<Konto> potomne2 = wykazkont.stream().filter(p->p.isWynik0bilans1()==false&&p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(pa)&&p.getPozycjaWn().equals(pa.getPozycjaWn())&&p.getPozycjaMa().equals(pa.getPozycjaMa())).collect(Collectors.toList());
+                        if (potomne.isEmpty()==false&&potomne2.isEmpty()==false&&potomne.equals(potomne2)) {
+                            selectednodekontoZmiana = pa;
+                            if (pa.getKontomacierzyste()==null) {
+                                selectednodekontoZmiana.setSyntetykaanalityka("wynikowe");
+                            } else {
+                                selectednodekontoZmiana.setSyntetykaanalityka("syntetyczne");
+                            }
+                            zmiananazwykonta();
+                        } else if (potomne.isEmpty()) {
+                            pa.setSyntetykaanalityka("wynikowe");
+                            kontoDAOfk.edit(pa);
                         }
-                        zmiananazwykonta();
-                    } else if (potomne.isEmpty()) {
-                        pa.setSyntetykaanalityka("wynikowe");
-                        kontoDAOfk.edit(pa);
+                    } catch (Exception e) {
+                        System.out.println("Błąd  konto "+pa.getPelnynumer());
                     }
                 });
                 
@@ -1096,7 +1104,7 @@ public class PlanKontView implements Serializable {
                 kontabilanowe.forEach(pa->{
                     List<Konto> potomne = wykazkont.stream().filter(p->p.isWynik0bilans1()&&p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(pa)&&(p.getSyntetykaanalityka().equals("analityka")||p.getSyntetykaanalityka().equals("zwykłe"))).collect(Collectors.toList());
                     List<Konto> potomne2 = wykazkont.stream().filter(p->p.isWynik0bilans1()&&p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(pa)&&p.getPozycjaWn().equals(pa.getPozycjaWn())&&p.getPozycjaMa().equals(pa.getPozycjaMa())).collect(Collectors.toList());
-                    if (potomne.equals(potomne2)) {
+                     if (potomne.isEmpty()==false&&potomne2.isEmpty()==false&&potomne.equals(potomne2)) {
                         pa.setSyntetykaanalityka("zwykłe");
                         potomne.forEach(po-> {
                            po.setSyntetykaanalityka("syntetyczne");
@@ -1122,17 +1130,22 @@ public class PlanKontView implements Serializable {
              List<Konto> kontapotomneBezPrzyp = wykazkont.stream().filter(p->p.getKontomacierzyste()==null).collect(Collectors.toList());
              if (kontapotomneBezPrzyp.isEmpty()==false) {
                 for (Konto pi : kontapotomneBezPrzyp) {
-                    List<Konto> potomne = wykazkont.stream().filter(p->p.isWynik0bilans1()&&p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(pi)&&(p.getSyntetykaanalityka()==null||p.getSyntetykaanalityka().equals("syntetyka")==false)).collect(Collectors.toList());
-                    List<Konto> potomne2 = wykazkont.stream().filter(p->p.isWynik0bilans1()&&p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(pi)&&p.getPozycjaWn().equals(pi.getPozycjaWn())&&p.getPozycjaMa().equals(pi.getPozycjaMa())).collect(Collectors.toList());
-                    if (potomne.equals(potomne2)) {
-                        potomne.forEach(po-> {
-                            try {
-                                selectednodekonto = po;
-                                porzadkowanieWybranegoKontaPodatnika();
-                            } catch (Exception e) {
-                                E.e(e);
-                            }
-                        });
+                    try {
+                        List<Konto> potomne = wykazkont.stream().filter(p->p.isWynik0bilans1()&&p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(pi)&&(p.getSyntetykaanalityka()==null||p.getSyntetykaanalityka().equals("syntetyka")==false)).collect(Collectors.toList());
+                        List<Konto> potomne2 = wykazkont.stream().filter(p->p.isWynik0bilans1()&&p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(pi)&&p.getPozycjaWn().equals(pi.getPozycjaWn())&&p.getPozycjaMa().equals(pi.getPozycjaMa())).collect(Collectors.toList());
+                        if (potomne.isEmpty()==false&&potomne2.isEmpty()==false&&potomne.equals(potomne2)) {
+                            potomne.forEach(po-> {
+                                try {
+                                    selectednodekonto = po;
+                                    porzadkowanieWybranegoKontaPodatnika();
+                                } catch (Exception e) {
+                                    E.e(e);
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        E.e(e);
+                        System.out.println("Błąd  konto "+pi.getPelnynumer());
                     }
                 }
              }
