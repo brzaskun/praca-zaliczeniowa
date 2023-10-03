@@ -174,9 +174,10 @@ public class PlanKontView implements Serializable {
 //            infozebrakslownikowych = "";
 //        }
 //</editor-fold>
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        //wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         wykazkontZapas = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        Collections.sort(wykazkont, new Kontocomparator());
+        Collections.sort(wykazkontZapas, new Kontocomparator());
+        wykazkont = wykazkontZapas.stream().collect(Collectors.toList());
         //wykazkontlazy = new LazyKontoDataModel(wykazkont);
         //root = rootInit(wykazkont);
         listaukladowwzorcowy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
@@ -359,15 +360,15 @@ public class PlanKontView implements Serializable {
                 }
             }
         } else if (bezprzyporzadkowania==true) {
-            wykazkontL = kontoDAOfk.findWszystkieKontaPodatnikaBezPrzyporzadkowania(podatnik, wpisView.getRokWpisuSt());
+            wykazkontL = wykazkontZapas.stream().filter(p->p.getPozycjaWn()==null||p.getPozycjaWn()==null).collect(Collectors.toList());
         } else if (bezslownikowych == true && tylkosyntetyka == true) {
-            wykazkontL = kontoDAOfk.findKontazLevelu(podatnik, wpisView.getRokWpisu(), 0);
+            wykazkontL = wykazkontZapas.stream().filter(p->p.getLevel()==0&&p.isSlownikowe()==false).collect(Collectors.toList());
         } else if (bezslownikowych == true) {
-            wykazkontL = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(podatnik, wpisView.getRokWpisuSt());
+            wykazkontL = wykazkontZapas.stream().filter(p->p.isSlownikowe()==false).collect(Collectors.toList());
         } else if (tylkosyntetyka == true) {
-            wykazkontL = kontoDAOfk.findKontazLevelu(podatnik, wpisView.getRokWpisu(), 0);
+            wykazkontL = wykazkontZapas.stream().filter(p->p.getLevel()==0).collect(Collectors.toList());
         } else {
-            wykazkontL = kontoDAOfk.findWszystkieKontaPodatnika(podatnik, wpisView.getRokWpisuSt());
+            wykazkontL = wykazkontZapas.stream().collect(Collectors.toList());
         }
         if (kontadowyswietlenia.equals("bilansowe")) {
             for (Iterator it = wykazkontL.iterator(); it.hasNext();) {
@@ -2100,6 +2101,16 @@ public class PlanKontView implements Serializable {
         this.wykazkont = wykazkont;
     }
 
+    public List<Konto> getWykazkontZapas() {
+        return wykazkontZapas;
+    }
+
+    public void setWykazkontZapas(List<Konto> wykazkontZapas) {
+        this.wykazkontZapas = wykazkontZapas;
+    }
+
+    
+    
     public Konto getSelected() {
         return selected;
     }

@@ -119,7 +119,7 @@ public class DrukujsprawozdaniefinansoweView  implements Serializable {
             dokfkView.odswiezzaksiegowane();
             dokfkView.setWybranakategoriadok("wszystkie");;
             pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.getWykazZaksiegowanychDokumentow(), dokfkView.getSelectedlist(), dokfkView.getFilteredValue());
-            PdfPlanKont.drukujPlanKont(planKontView.getWykazkont(), wpisView);
+            PdfPlanKont.drukujPlanKont(planKontView.getWykazkontZapas(), wpisView);
             Msg.msg("Wydrukowano sprawozdanie finansowe");
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd podczas drukowania sprawozdanie finansowego "+E.e(e));

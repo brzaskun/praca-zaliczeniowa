@@ -146,7 +146,7 @@ public class ZamknijKsiegiView  implements Serializable {
         podstawowy = pobierzpodstawowy(listarokuprzedni);
         planKontView.setWybranyuklad(podstawowy);
         planKontView.porzadkowanieKontPodatnikaNowe(wpisView.getPodatnikObiekt(), rok);
-        sprawdzczysanieprzyporzadkowane(planKontView.getWykazkont());
+        sprawdzczysanieprzyporzadkowane(planKontView.getWykazkontZapas());
         Msg.msg("Udane aktualizowanie/tworzenie układu za "+rok);
     }
     
