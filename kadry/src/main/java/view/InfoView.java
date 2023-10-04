@@ -177,7 +177,7 @@ public class InfoView implements Serializable {
             u.setM13(suma);
         }
         klienciPaski = firmaKadryFacade.findAll();
-        for (FirmaKadry u : klienciPaski) {
+        klienciPaski.parallelStream().forEach(u->{
             int suma = 0;
             for (String mc : Mce.getMceListS()) {
                 try {
@@ -236,7 +236,7 @@ public class InfoView implements Serializable {
                 } catch (Exception e) {}
             }
             u.setM13(suma);
-        }
+        });
         System.out.println("");
     }
 
