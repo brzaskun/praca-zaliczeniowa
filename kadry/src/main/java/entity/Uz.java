@@ -109,69 +109,30 @@ public class Uz implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "uz")
     private List<Kadryfakturapozycja> kadryfakturapozycjaList;
     @Transient
-    
-    
-    
     private int m1;
     @Transient
-    
-    
-    
     private int m2;
     @Transient
-    
-    
-    
     private int m3;
     @Transient
-    
-    
-    
     private int m4;
     @Transient
-    
-    
-    
     private int m5;
     @Transient
-    
-    
-    
     private int m6;
     @Transient
-    
-    
-    
     private int m7;
     @Transient
-    
-    
-    
     private int m8;
     @Transient
-    
-    
-    
     private int m9;
     @Transient
-    
-    
-    
     private int m10;
     @Transient
-    
-    
-    
     private int m11;
     @Transient
-    
-    
-    
     private int m12;
     @Transient
-    
-    
-    
     private int m13;
 
     private static final long serialVersionUID = 1L;

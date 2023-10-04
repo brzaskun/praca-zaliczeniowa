@@ -5,11 +5,13 @@
  */
 package view;
 
+import dao.FirmaKadryFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.RozwiazanieumowyFacade;
 import dao.UmowaFacade;
 import dao.UzFacade;
 import embeddable.Mce;
+import entity.FirmaKadry;
 import entity.Pasekwynagrodzen;
 import entity.Rozwiazanieumowy;
 import entity.Umowa;
@@ -39,8 +41,11 @@ public class InfoView implements Serializable {
     @Inject
     private UmowaFacade umowaFacade;
     @Inject
+    private FirmaKadryFacade firmaKadryFacade;
+    @Inject
     private RozwiazanieumowyFacade rozwiazanieumowyFacade;
     private List<Uz> uzytkownicyPaski;
+    private List<FirmaKadry> klienciPaski;
     private List<Uz> uzytkownicyUmowy;
     
     @PostConstruct
@@ -171,6 +176,67 @@ public class InfoView implements Serializable {
             }
             u.setM13(suma);
         }
+        klienciPaski = firmaKadryFacade.findAll();
+        for (FirmaKadry u : klienciPaski) {
+            int suma = 0;
+            for (String mc : Mce.getMceListS()) {
+                try {
+                    List<Pasekwynagrodzen> paskimc = paski.stream().filter(p->p.getMc().equals(mc)&&(p.getAngaz().getFirma().equals(u))).collect(Collectors.toList());
+                    int paskimcilosc = paskimc.size();
+                    switch (mc){
+                        case "01":
+                            u.setM1(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                        case "02":
+                            u.setM2(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                        case "03":
+                            u.setM3(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                        case "04":
+                            u.setM4(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                        case "05":
+                            u.setM5(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                         case "06":
+                            u.setM6(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                         case "07":
+                            u.setM7(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                         case "08":
+                            u.setM8(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                         case "09":
+                            u.setM9(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                         case "10":
+                            u.setM10(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                         case "11":
+                            u.setM11(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                        case "12":
+                            u.setM12(paskimcilosc);
+                            suma = suma + paskimcilosc;
+                            break;
+                    }
+                } catch (Exception e) {}
+            }
+            u.setM13(suma);
+        }
         System.out.println("");
     }
 
@@ -188,6 +254,14 @@ public class InfoView implements Serializable {
 
     public void setUzytkownicyUmowy(List<Uz> uzytkownicyUmowy) {
         this.uzytkownicyUmowy = uzytkownicyUmowy;
+    }
+
+    public List<FirmaKadry> getKlienciPaski() {
+        return klienciPaski;
+    }
+
+    public void setKlienciPaski(List<FirmaKadry> klienciPaski) {
+        this.klienciPaski = klienciPaski;
     }
     
     

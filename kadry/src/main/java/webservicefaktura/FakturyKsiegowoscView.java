@@ -29,9 +29,9 @@ public class FakturyKsiegowoscView implements Serializable {
     
     @PostConstruct
     private void init() {
-        FakturaWS fakturaWSPort = fakturaWS_Service.getFakturaWSPort();
-        String hello = fakturaWSPort.hello("8511005008");
-        System.out.println("pobrano "+hello);
+//        FakturaWS fakturaWSPort = fakturaWS_Service.getFakturaWSPort();
+//        String hello = fakturaWSPort.hello("8511005008");
+//        System.out.println("pobrano "+hello);
     }
 
     public int getIloscfaktur() {
