@@ -1106,6 +1106,7 @@ public class PlanKontView implements Serializable {
                     List<Konto> potomne = wykazkont.stream().filter(p->p.isWynik0bilans1()&&p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(pa)&&(p.getSyntetykaanalityka().equals("analityka")||p.getSyntetykaanalityka().equals("zwykłe"))).collect(Collectors.toList());
                     List<Konto> potomne2 = wykazkont.stream().filter(p->p.isWynik0bilans1()&&p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(pa)&&p.getPozycjaWn().equals(pa.getPozycjaWn())&&p.getPozycjaMa().equals(pa.getPozycjaMa())).collect(Collectors.toList());
                      if (potomne.isEmpty()==false&&potomne2.isEmpty()==false&&potomne.equals(potomne2)) {
+                        pa.setMapotomkow(true);
                         pa.setSyntetykaanalityka("zwykłe");
                         potomne.forEach(po-> {
                            po.setSyntetykaanalityka("syntetyczne");
@@ -1661,6 +1662,9 @@ public class PlanKontView implements Serializable {
                     kontopozycjaZapisDAO.remove(kp);
                 }
                 selectednodekontoL.czyscPozycje();
+            }
+            if (kontapotomne.isEmpty()==false) {
+                selectednodekontoL.setMapotomkow(true);
             }
             kontoDAOfk.edit(selectednodekontoL);
             usunprzyporzadkowanie = false;
