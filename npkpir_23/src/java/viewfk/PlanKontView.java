@@ -1164,6 +1164,10 @@ public class PlanKontView implements Serializable {
             if (!wykazPorzadkowanychKont.isEmpty()) {
                 //tutaj nanosi czy ma potomkow
                 List<Konto> kontapotomne = wykazkont.stream().filter(p->p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(selectednodekonto)).collect(Collectors.toList());
+                if (kontapotomne.isEmpty()==false) {
+                    selectednodekonto.setMapotomkow(true);
+                    kontoDAOfk.edit(selectednodekonto);
+                }
                 List<Konto> kontapotomnePorzadek = new ArrayList<>();
                 for (Konto p : kontapotomne) {
                     if (p.getPozycjaWn()==null||p.getPozycjaMa()==null) {

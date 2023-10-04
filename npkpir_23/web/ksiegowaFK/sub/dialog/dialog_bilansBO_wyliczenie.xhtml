@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialog_bilansBO_wyliczenie" header="Bilans otwarcia roku z kontami #{WpisView.rokWpisuSt} - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialog_bilansBO_wyliczenie" 
-              resizable="false" onShow="ustawdialog('dialog_bilansBO_wyliczenie','menubilanse', 1450, 750);" closeOnEscape="true" 
+              resizable="false" onShow="ustawdialog('dialog_bilansBO_wyliczenie','menubilanse', 1550, 750);" closeOnEscape="true" 
               onHide="resetujdialog('dialog_bilansBO_wyliczenie');"  >
         <h:form id="formdialog_bilansBO_wyliczenie">
 <!--            <p:contextMenu for="dataList">
@@ -61,7 +61,7 @@
                 <p:column>
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
-                             scrollable="true"  style="width: 700px; max-height: 600px;">
+                             scrollable="true"  style="width: 750px; max-height: 600px;">
                     <p:ajax event="select" global="false"/>
                     <f:facet name="header">
                         <h:outputText value="aktywa:  "/>
@@ -79,8 +79,8 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                    <p:column style="width: 200px;">
-                        <p:dataGrid value="#{loop.przyporzadkowanekonta}" var="poz" columns="5" rows="5" rendered="#{loop.przyporzadkowanekonta.size() gt 0}">
+                    <p:column style="width: 250px; word-break: break-all; line-break: loose;">
+                        <p:dataGrid value="#{loop.przyporzadkowanekonta}" var="poz" columns="4" rows="5" rendered="#{loop.przyporzadkowanekonta.size() gt 0}">
                             #{poz.pelnynumer}
                         </p:dataGrid>
                         
@@ -90,7 +90,7 @@
                 <p:column>
                 <p:treeTable id="dataList2" value="#{pozycjaBRView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}" 
-                             scrollable="true" style="width: 700px; max-height: 600px;">
+                             scrollable="true" style="width: 750px; max-height: 600px;">
                     <f:facet name="header">
                         <h:outputText value="pasywa: "/>
                         <h:outputText value="#{pozycjaBRView.sumabilansowapasywa}">
@@ -107,8 +107,8 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                    <p:column style="width: 200px;">
-                        <p:dataGrid value="#{loop.przyporzadkowanekonta}" var="poz" columns="5" rows="5" rendered="#{loop.przyporzadkowanekonta.size() gt 0}">
+                     <p:column style="width: 250px; word-break: break-all; line-break: loose;">
+                        <p:dataGrid value="#{loop.przyporzadkowanekonta}" var="poz" columns="4" rows="5" rendered="#{loop.przyporzadkowanekonta.size() gt 0}">
                             #{poz.pelnynumer}
                         </p:dataGrid>
                     </p:column>
