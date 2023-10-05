@@ -272,7 +272,7 @@
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Wn PLN" width="50" sortBy="#{loop.kwotaWnPLN}"   filterBy="#{loop.kwotaWnPLN}" filterMatchMode="contains"
+                        <p:column headerText="Wn PLN" width="50" sortBy="#{loop.kwotaPLN}"   filterBy="#{loop.kwotaWnPLN}" filterMatchMode="contains"
                                   rendered="#{kontoZapisFKView.pokaztransakcje eq false}" filterStyle="width:60px;">
                             <h:outputText id="kwotawnwierszPLN" value="#{loop.wnma eq 'Wn' ? loop.kwotaWnPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
@@ -287,7 +287,7 @@
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma PLN" width="50" sortBy="#{loop.kwotaMaPLN}"  filterBy="#{loop.kwotaMaPLN}" filterMatchMode="contains"
+                        <p:column headerText="Ma PLN" width="50" sortBy="#{loop.kwotaPLN}"  filterBy="#{loop.kwotaMaPLN}" filterMatchMode="contains"
                                   rendered="#{kontoZapisFKView.pokaztransakcje eq false}"  filterStyle="width:60px;">
                             <h:outputText id="kwotamawierszPLN" value="#{loop.wnma eq 'Ma' ? loop.kwotaMaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
