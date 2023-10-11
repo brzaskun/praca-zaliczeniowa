@@ -1160,9 +1160,7 @@ public class PlanKontView implements Serializable {
     public void porzadkowanieWybranegoKontaPodatnika() {
         if (selectednodekonto!=null) {
             Podatnik podatnik = selectednodekonto.getPodatnik();
-            List<Konto> wykazPorzadkowanychKont = wykazkont;
-            //wykazkontf.add(selectednodekonto);
-            if (!wykazPorzadkowanychKont.isEmpty()) {
+            if (!wykazkont.isEmpty()) {
                 //tutaj nanosi czy ma potomkow
                 List<Konto> kontapotomne = wykazkont.stream().filter(p->p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(selectednodekonto)).collect(Collectors.toList());
                 if (kontapotomne.isEmpty()==false) {
@@ -1179,7 +1177,13 @@ public class PlanKontView implements Serializable {
                 }
                 List<KontopozycjaZapis> zapisane = kontopozycjaZapisDAO.findByUklad(wybranyuklad);
                 if (zapisane.isEmpty()==false) {
-                    kontopozycjaZapisDAO.removeList(zapisane);
+                    zapisane.stream().forEach(p->{
+                        for (Konto pa : kontapotomne) {
+                            if (pa.equals(p)) {
+                                kontopozycjaZapisDAO.remove(p);
+                            }
+                        }
+                    });
                 }
                 List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
                 for (Konto p : kontapotomnePorzadek) {

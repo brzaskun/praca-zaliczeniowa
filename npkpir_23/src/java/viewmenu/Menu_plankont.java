@@ -6,8 +6,8 @@
 package viewmenu;
 
 import java.io.Serializable;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
 /**
  *
@@ -26,6 +26,7 @@ public class Menu_plankont implements Serializable{
     private boolean file6;
     private boolean file7;
     private boolean file8;
+    private boolean file9;
     private String file1style;
     private String file2style;
     private String file3style;
@@ -34,6 +35,7 @@ public class Menu_plankont implements Serializable{
     private String file6style;
     private String file7style;
     private String file8style;
+    private String file9style;
     private final String ADRES = "/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true";
     private final String ALERT = "color: red;font-weight: 900;";
 
@@ -97,6 +99,12 @@ public class Menu_plankont implements Serializable{
         file8style = ALERT;
         return ADRES;
     }
+     public String ufile9(boolean war) {
+        reset();
+        file9 = war;
+        file9style = ALERT;
+        return ADRES;
+    }
     
     private void reset() {
         file1 = false;
@@ -107,6 +115,7 @@ public class Menu_plankont implements Serializable{
         file6 = false;
         file7 = false;
         file8 = false;
+        file9 = false;
         file1style = "";
         file2style = "";
         file3style = "";
@@ -115,6 +124,7 @@ public class Menu_plankont implements Serializable{
         file6style = "";
         file7style = "";
         file8style = "";
+        file9style = "";
     }
     
     public boolean isFile1() {
@@ -181,6 +191,14 @@ public class Menu_plankont implements Serializable{
         this.file8 = file8;
     }
 
+    public boolean isFile9() {
+        return file9;
+    }
+
+    public void setFile9(boolean file9) {
+        this.file9 = file9;
+    }
+
     public String getFile1style() {
         return file1style;
     }
@@ -243,6 +261,14 @@ public class Menu_plankont implements Serializable{
 
     public void setFile8style(String file8style) {
         this.file8style = file8style;
+    }
+
+    public String getFile9style() {
+        return file9style;
+    }
+
+    public void setFile9style(String file9style) {
+        this.file9style = file9style;
     }
     
     
