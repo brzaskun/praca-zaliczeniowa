@@ -30,6 +30,7 @@ import entity.VatUe;
 import entityfk.Dokfk;
 import entityfk.Waluty;
 import error.E;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -108,6 +110,18 @@ public class VatUeFKView implements Serializable {
         inicjacjabyla = false;
     }
 
+    
+    public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
+        aktualizuj();
+        inicjacjabyla = false;
+        init();
+        init2();
+        Msg.msg("i","Udana zamiana mieiąca");
+    }
+    
+    private void aktualizuj(){
+         wpisView.naniesDaneDoWpis();
+    }
     public void init() { //E.m(this);
             if (inicjacjabyla==false) {
             klienciWDTWNT = Collections.synchronizedList(new ArrayList<>());
