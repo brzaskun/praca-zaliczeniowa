@@ -296,6 +296,7 @@ public class KalendarzmiesiacBean {
     static void naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor) {
         List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
         if (skladnikwynagrodzeniaList.isEmpty()==false) {
+            skladnikwynagrodzeniaList = skladnikwynagrodzeniaList.stream().filter(p->p.getRodzajwynagrodzenia().isSpecjalny()==false).collect(Collectors.toList());
             for (Skladnikwynagrodzenia p : skladnikwynagrodzeniaList) {
                 //trzeba usunac tylkospuerplace==true
                 if (p.getRodzajwynagrodzenia().isAktywne()) {

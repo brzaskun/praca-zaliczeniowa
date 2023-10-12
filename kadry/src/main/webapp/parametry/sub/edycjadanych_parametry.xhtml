@@ -154,7 +154,7 @@
                                  selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
                                  rowKey="#{item11.id}" emptyMessage="Nie znaleziono takiego składnika"
                                  scrollable="true" scrollHeight="700" scrollRows="30" 
-                                 style="width: 1700px;" >
+                                 style="width: 1750px;" >
 
                         <p:column width="30" style="text-align: center;">
                             <f:facet name="header">
@@ -189,6 +189,12 @@
                                 <h:outputText value="składnik aktywny"/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item11.aktywne}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="specjalny"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.specjalny}"/>
                         </p:column>
                         <p:column style="text-align: center;" width="50">
                             <f:facet name="header">
