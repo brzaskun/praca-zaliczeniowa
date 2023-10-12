@@ -1175,16 +1175,17 @@ public class PlanKontView implements Serializable {
                         kontapotomnePorzadek.add(p);
                     }
                 }
-                List<KontopozycjaZapis> zapisane = kontopozycjaZapisDAO.findByUklad(wybranyuklad);
-                if (zapisane.isEmpty()==false) {
-                    zapisane.stream().forEach(p->{
-                        for (Konto pa : kontapotomne) {
-                            if (pa.equals(p)) {
-                                kontopozycjaZapisDAO.remove(p);
-                            }
-                        }
-                    });
-                }
+                //nie musi byc tego bo przeciez porzadkujemy te gdzie nie ma kontozapis
+//                List<KontopozycjaZapis> zapisane = kontopozycjaZapisDAO.findByUklad(wybranyuklad);
+//                if (zapisane.isEmpty()==false) {
+//                    zapisane.stream().forEach(p->{
+//                        for (Konto pa : kontapotomne) {
+//                            if (pa.equals(p)) {
+//                                kontopozycjaZapisDAO.remove(p);
+//                            }
+//                        }
+//                    });
+//                }
                 List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
                 for (Konto p : kontapotomnePorzadek) {
                     try {
