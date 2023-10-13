@@ -339,17 +339,14 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                                 godzinyobecnoscirobocze = godzinyobecnoscirobocze + s.getPrzepracowano();
                                 godzinyobecnosciroboczezm = godzinyobecnosciroboczezm + s.getPrzepracowano();
                             }
-                        }
                         if (s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                                 dniroboczeprzepracowanestat++;
                                 godzinyobecnosciroboczestat = godzinyobecnosciroboczestat + s.getPrzepracowano();
                         }
                     }
-                    double stawkagodzinowawalutazm = r.getKwota()/godzinyobecnosciroboczestat;
-                    double stawkagodzinowazm = stawkagodzinowawalutazm * kurs;
-                    if (r.getWaluta().equals("PLN")) {
-                        stawkagodzinowazm = stawkagodzinowawalutazm;
                     }
+                    double stawkagodzinowawalutazm = r.getKwota();
+                    double stawkagodzinowazm = stawkagodzinowawalutazm * kurs;
                     stawkagodzinowa = stawkagodzinowa + stawkagodzinowazm;
                     stawkagodzinowawaluta = stawkagodzinowawaluta + stawkagodzinowawalutazm;
                     dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany + Z.z(stawkagodzinowazm * godzinyobecnosciroboczezm);
