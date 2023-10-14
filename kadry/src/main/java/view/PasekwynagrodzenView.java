@@ -667,6 +667,20 @@ public class PasekwynagrodzenView implements Serializable {
                     }
                 }
             }
+            if (rodzajlistyplac.getSymbol().equals("UD")) {
+                listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+            }
+            Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
+            if (rodzajlistyplac.getSymbol().equals("UD")) {
+                for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
+                    Kalendarzmiesiac p = it.next();
+                    Angaz angaz = p.getAngaz();
+                    Rachunekdoumowyzlecenia znaleziony = PasekwynagrodzenBean.pobierzRachunekdzielo(angaz, wybranalistaplac.getRok(), wybranalistaplac.getMc());
+                    if (znaleziony == null) {
+                        it.remove();
+                    }
+                }
+            }
             if (rodzajlistyplac.getSymbol().equals("OS")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
@@ -702,7 +716,7 @@ public class PasekwynagrodzenView implements Serializable {
                     Pasekwynagrodzen pasek = kal.getPasek(wybranalistaplac);
                     if (kal.getAngaz().getAktywnaUmowa() != null) {
                         List<EtatPrac> etatList = kal.getAngaz().getEtatList();
-                        if (kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie() || kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja()) {
+                        if (kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie() ||kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isDzielo() || kal.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja()) {
                             it.remove();
                         } else {
                             List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = kal.getAngaz().getSkladnikwynagrodzeniaList();

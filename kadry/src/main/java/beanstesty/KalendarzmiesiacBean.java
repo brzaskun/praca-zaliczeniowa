@@ -369,7 +369,7 @@ public class KalendarzmiesiacBean {
         double zmiennawaluta = zmiennawynagrodzeniakwotaodelegowaniewaluta;
         String waluta = "PLN";
         for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
-            if (p.getRodzajwynagrodzenia().getKod().equals("40")) {
+            if (p.getRodzajwynagrodzenia().getKod().equals("40")||p.getRodzajwynagrodzenia().getKod().equals("50")) {
                 double kwota = p.getRodzajwynagrodzenia().getOpispelny().contains("oddelegowanie") ? zmiennawynagrodzeniakwotaodelegowanie : zmiennawynagrodzeniakwota;
                 if (p.getRodzajwynagrodzenia().getWks_serial() != 1072) {
                     zmiennawaluta = 0.0;
