@@ -83,7 +83,7 @@ public class RachunekZlecenieView implements Serializable {
 
     public Rachunekdoumowyzlecenia robrachunek(Umowa umowabiezaca) {
         Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = null;
-        if (umowabiezaca != null && umowabiezaca.getUmowakodzus().isZlecenie()) {
+        if (umowabiezaca != null && (umowabiezaca.getUmowakodzus().isZlecenie()||umowabiezaca.getUmowakodzus().isDzielo())) {
             this.umowabiezaca = umowabiezaca;
             umowabiezaca = umowaFacade.findById(umowabiezaca.getId());
             String datado = umowabiezaca.getDatado();
@@ -149,8 +149,9 @@ public class RachunekZlecenieView implements Serializable {
                         rachunekdoumowyzlecenia.setKwota(Z.z(kwotaZagranicaPLN));
                     }
                     rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
-                    rachunekdoumowyzlecenia.setProcentkosztowuzyskania(umowabiezaca.getAngaz().getKosztyuzyskaniaprocent());
-                    rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwotasuma() * umowabiezaca.getAngaz().getKosztyuzyskaniaprocent() * 0.2 / 100.0));
+                    double koszty = umowabiezaca.getAngaz().getKosztyuzyskaniaprocent()==100?20:50;
+                    rachunekdoumowyzlecenia.setProcentkosztowuzyskania(koszty);
+                    rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwotasuma() * koszty / 100.0));
                 } else {
                     Msg.msg("e","Brak kalendarza");
                 }
@@ -159,6 +160,12 @@ public class RachunekZlecenieView implements Serializable {
             }
         }
         return rachunekdoumowyzlecenia;
+    }
+    
+    public void przeliczkoszty() {
+        double koszty = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
+        rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwotasuma() * koszty / 100.0));
+        Msg.msg("Przeliczonp koszty");
     }
     
     public void ustawtabelenbpRachZbiorcze() {

@@ -694,7 +694,7 @@ public class Angaz implements Serializable {
         String zwrot = "";
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                if (p.getRodzajwynagrodzenia().getKod().equals("40")) {
+                if (p.getRodzajwynagrodzenia().getKod().equals("40")||p.getRodzajwynagrodzenia().getKod().equals("50")) {
                     zwrot = zwrot+p.getRodzajwynagrodzenia().getOpispelny()+" ";
                     zwrot = zwrot+pobierzkwoteString(p.getZmiennawynagrodzeniaList(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                 }

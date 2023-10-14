@@ -13,7 +13,7 @@
         };
     </script>
 
-    <p:dialog id="dialograchunekzlecenia" header="Wystawianie rachunku do umowy zlecenia" widgetVar="dialograchunekzlecenia"  
+    <p:dialog id="dialograchunekzlecenia" header="Wystawianie rachunku do umowy zlecenia/o dzieło" widgetVar="dialograchunekzlecenia"  
               resizable="false"  onShow="ustawdialog('dialograchunekzlecenia','centertile',1650,800);zmienwyglad()" closeOnEscape="true" onHide="resetujdialog('dialograchunekzlecenia');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{rachunekZlecenieView.init(wpisView.umowa)}" update="RachunekZleceniaForm" global="false"/>
@@ -21,8 +21,8 @@
                 <p:outputPanel rendered="#{wpisView.umowa.umowakodzus.praca}">
                     <h:outputText value="Bieżąca umowa to umowa o pracę. Nie można wygenerować rachunku" style="color: green;"/>
                 </p:outputPanel>
-                <p:outputPanel rendered="#{wpisView.umowa.umowakodzus.zlecenie}">
-                <p:panel header="Miesięczne rozliczenie umowy zlecenia nr #{rachunekZlecenieView.umowabiezaca.nrkolejny}" style="width: 700px;"/>
+                <p:outputPanel rendered="#{wpisView.umowa.umowakodzus.zlecenie or wpisView.umowa.umowakodzus.dzielo}">
+                <p:panel header="Miesięczne rozliczenie umowy zlecenia/o dzieło nr #{wpisView.umowa.nrkolejny}" style="width: 700px;"/>
                 <h:outputText value="Przygotowano nowy rachunek do zatwierdzenia" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
                 <h:outputText value="Pobrano uprzednio przygotowany rachunek.  Brak listy płac." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}" style="color: blue;"/>
                 <h:outputText value="Pobrano uprzednio przygotowany rachunek. Rachunek rozliczono w liście płac" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"  style="color: red;"/>
@@ -69,7 +69,7 @@
                     <p:outputLabel value="wynagrodzenie godzinowe Oddelegowanie PLN:"/>
                     <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.wynagrodzeniegodzinoweoddelegowanie}"/>
                 </p:panelGrid>
-                <p:panelGrid columns="2" style="margin-top: 10px;" id="panelkwoty">
+                <p:panelGrid columns="4" style="margin-top: 10px;" id="panelkwoty">
                     <p:outputLabel value="ilośc godzin wg kalendarza Polska:"/>
                     <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.iloscgodzin}" decimalSeparator=","   inputStyle="text-align: right;" decimalPlaces="2">
                         <p:ajax event="change" partialSubmit="true" listener="#{rachunekZlecenieView.przeliczrachunekdomyslny()}" update="RachunekZleceniaForm:panelkwoty, RachunekZleceniaForm:panelkwoszty"/>
@@ -90,8 +90,12 @@
                      <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.kwotasuma}" id="lolo2321"  decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 10px;" id="panelkwoszty">
-                <p:outputLabel value="koszt uzyskania procent:"/>
-                    <bcf:outputplprocent value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.procentkosztowuzyskaniaDisplay}"/>
+                <p:outputLabel value="koszt uzyskania procent: "/>
+                <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.procentkosztowuzyskania}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" style="width: 90px;" size="6">
+                    <p:ajax event="change" partialSubmit="true" global="false" listener="#{rachunekZlecenieView.przeliczkoszty}" update="@parent:@parent"/>
+                </p:inputNumber >
+                 <p:outputLabel value="koszt uzyskania kwota: "/>
+                 <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.koszt}" id="kwotakoszty"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 10px;">
                     <p:outputLabel value="osoba do 26 roku życia:"/>

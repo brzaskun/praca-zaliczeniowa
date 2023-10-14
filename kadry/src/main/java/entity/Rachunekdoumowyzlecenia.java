@@ -288,7 +288,7 @@ public class Rachunekdoumowyzlecenia implements Serializable {
     }
     
     public double getProcentkosztowuzyskaniaDisplay() {
-        return Z.z(20/100.0);
+        return 20;
     }
 
     public void setProcentkosztowuzyskania(double procentkosztowuzyskania) {
