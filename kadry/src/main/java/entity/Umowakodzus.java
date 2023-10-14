@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Umowakodzus.findAll", query = "SELECT u FROM Umowakodzus u"),
     @NamedQuery(name = "Umowakodzus.findById", query = "SELECT u FROM Umowakodzus u WHERE u.id = :id"),
     @NamedQuery(name = "Umowakodzus.findByAktywne", query = "SELECT u FROM Umowakodzus u WHERE u.aktywny = TRUE AND (u.praca = TRUE OR u.zlecenie = TRUE) ORDER BY u.kod"),
-    @NamedQuery(name = "Umowakodzus.findByAktywneZlecenie", query = "SELECT u FROM Umowakodzus u WHERE u.aktywny = TRUE AND  u.zlecenie = TRUE ORDER BY u.kod"),
+    @NamedQuery(name = "Umowakodzus.findByAktywneZlecenie", query = "SELECT u FROM Umowakodzus u WHERE u.aktywny = TRUE AND  (u.zlecenie = TRUE OR u.dzielo = TRUE) ORDER BY u.kod"),
     @NamedQuery(name = "Umowakodzus.findByAktywneFunkcja", query = "SELECT u FROM Umowakodzus u WHERE u.aktywny = TRUE AND  u.funkcja = TRUE ORDER BY u.kod"),
     @NamedQuery(name = "Umowakodzus.findByAktywnePraca", query = "SELECT u FROM Umowakodzus u WHERE u.aktywny = TRUE AND  u.praca = TRUE ORDER BY u.kod"),
     @NamedQuery(name = "Umowakodzus.findByKod", query = "SELECT u FROM Umowakodzus u WHERE u.kod = :kod"),
@@ -66,6 +66,8 @@ public class Umowakodzus implements Serializable {
     private boolean praca;
     @Column(name = "zlecenie")
     private boolean zlecenie;
+    @Column(name = "dzielo")
+    private boolean dzielo;
     @Column(name = "funkcja")
     private boolean funkcja;
     @Column(name = "aktywny")
@@ -146,7 +148,17 @@ public class Umowakodzus implements Serializable {
         this.aktywny = aktywny;
     }
 
+    public boolean isDzielo() {
+        return dzielo;
+    }
 
+    public void setDzielo(boolean dzielo) {
+        this.dzielo = dzielo;
+    }
+
+
+    
+    
     @XmlTransient
     public List<Umowa> getUmowaList() {
         return umowaList;
@@ -196,5 +208,6 @@ public class Umowakodzus implements Serializable {
     public void setOpis(String opis) {
         this.opis = opis;
     }
+    
     
 }

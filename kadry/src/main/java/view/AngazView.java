@@ -236,13 +236,13 @@ public class AngazView  implements Serializable {
     }
     
     
-     public Kalendarzmiesiac generujKalendarzNowyAngaz(Angaz selected) {
+     public Kalendarzmiesiac generujKalendarzNowyAngaz(Angaz nowyangaz) {
         Kalendarzmiesiac kal = null;
-        if (selected != null && selected.getPracownik() != null) {
-            String rok = selected.getRok();
+        if (nowyangaz != null && nowyangaz.getPracownik() != null) {
+            String rok = nowyangaz.getRok();
             Integer rokI = Integer.parseInt(rok);
             Integer rokToday = Integer.parseInt(Data.getRok(Data.aktualnaData()));
-            Integer mcod = Integer.parseInt(selected.getMc());
+            Integer mcod = Integer.parseInt(nowyangaz.getMc());
             for (int rokgen = rokI;rokgen<=rokToday;rokgen++) {
                 for (String mc : Mce.getMceListS()) {
                     String rokbiezacy = String.valueOf(rokgen);
@@ -253,7 +253,7 @@ public class AngazView  implements Serializable {
                         if (znaleziono != null) {
                             kal.setRok(rokbiezacy);
                             kal.setMc(mc);
-                            kal.setAngaz(selected);
+                            kal.setAngaz(nowyangaz);
                             kal.ganerujdnizwzrocowego(znaleziono, null);
                             kalendarzmiesiacFacade.create(kal);
                         } else {

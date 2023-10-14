@@ -77,14 +77,15 @@
                      <p:outputPanel>
                         <p:outputLabel for="znacznik1" value="pokaż wszystkie składniki "/><!-- comment -->
                         <p:selectBooleanCheckbox id="znacznik1" value="#{rodzjaumowySetView.pokazwszytskieskladniki}">
-                            <p:ajax event="change" listener="#{rodzjaumowySetView.init()}" partialSubmit="true" update="RodzajUmowyForm"/>
+                            <p:ajax event="change" listener="#{rodzjaumowySetView.init()}" partialSubmit="true" update="akordeon:RodzajUmowyForm" onsuccess="PF('tabelaumowy').clearFilters()"/>
                         </p:selectBooleanCheckbox>
                     </p:outputPanel>
-                    <p:dataTable id="datalist" value="#{rodzjaumowySetView.lista}" var="item111"
+                    <p:dataTable id="datalist" value="#{rodzjaumowySetView.lista}" var="item111" widgetVar="tabelaumowy"
                                  selectionMode="single" selection="#{rodzjaumowySetView.selectedlista}"
+                                 filteredValue="#{rodzjaumowySetView.filtered}"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" 
                                  scrollable="true" scrollHeight="700" scrollRows="30" 
-                                 style="width: 1820px;"
+                                 style="width: 1860px;"
                                  emptyMessage="Nie pobrano elementów"
                                  >
 
@@ -101,37 +102,43 @@
                             </f:facet>
                             <h:outputText value="#{item111.kod}"/>
                         </p:column>
-                        <p:column width="730" filterBy="#{item111.opis}" filterMatchMode="contains">
+                        <p:column width="710" filterBy="#{item111.opis}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="opis"/>
                             </f:facet>
                             <h:outputText value="#{item111.opis}"/>
                         </p:column>
-                        <p:column width="400" filterBy="#{item111.opiswlasny}" filterMatchMode="contains">
+                        <p:column width="350" filterBy="#{item111.opiswlasny}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="opis własny/skrócony"/>
                             </f:facet>
                             <p:inputText value="#{item111.opiswlasny}" size="50" maxlength="125"/>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="umowa o pracę"/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item111.praca}"/>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="umowa zlecenia"/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item111.zlecenie}"/>
                         </p:column>
-                        <p:column style="text-align: center;">
+                         <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="umowa o dzieło"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item111.dzielo}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="pełnienie funkcji"/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item111.funkcja}"/>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="aktywny"/>
                             </f:facet>

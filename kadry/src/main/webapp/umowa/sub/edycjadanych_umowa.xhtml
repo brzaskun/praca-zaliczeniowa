@@ -40,7 +40,7 @@
                         <p:inputText id="nrumowy1" value="#{umowaView.selected.nrkolejny}" title="data od" style="width: 200px;"/>
                         <p:outputLabel value="czas trwania" for="czasumowy1" />
                         <p:selectOneMenu id="czasumowy1" value="#{umowaView.selected.slownikszkolazatrhistoria}" autoWidth="false" style="width: 300px;" required="true" 
-                                         converter="#{slownikszkolazatrhistoriaConverter}">
+                                         converter="#{slownikszkolazatrhistoriaConverter}" validatorMessage="Wybierz czas trwania umowy">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{slownikszkolazatrhistoriaView.listapraca}"
                                            var="czastrwaniaItem" 

@@ -9,7 +9,7 @@
     >
     <p:outputPanel style="margin-top: 10px;">
         <h:form styleClass="formumowa" id="UmowaListFormZlecenie">
-            <p:panel header="Wykaz umów zleceń / Gdy jest pusta sprawdź w parametrach przyporządkowanie kodu do umowy">
+            <p:panel header="Wykaz umów zleceń i o dzieło / Gdy jest pusta sprawdź w parametrach przyporządkowanie kodu do umowy">
                 <p:dataTable id="datalist" value="#{umowaView.listazlecenia}" var="itemumowa" widgetVar="dataListumowazlecenie"
                              selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
                              rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
@@ -35,6 +35,18 @@
                             <h:outputText value="numer"/>
                         </f:facet>
                         <h:outputText value="#{itemumowa.nrkolejny}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="zlecenie"/>
+                        </f:facet>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.umowakodzus.zlecenie eq true}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="dzieło"/>
+                        </f:facet>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.umowakodzus.dzielo eq true}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">

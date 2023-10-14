@@ -165,7 +165,7 @@
                     <p:row>
                         <p:column>
                             <h:outputText value="#{itempasek.data}" rendered="#{itempasek.data ne null}">
-                                <f:convertDateTime locale="pl"/>
+                                <f:convertDateTime locale="pl" type="date" pattern="yyyy-MM-dd"/>
                             </h:outputText>
                         </p:column>
                         <p:column>

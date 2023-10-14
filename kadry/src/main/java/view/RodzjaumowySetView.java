@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -21,25 +21,28 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class RodzjaumowySetView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private UmowakodzusFacade umowakodzusFacade;
     private Umowakodzus selectedlista;
+    private List<Umowakodzus> filtered;
     private List<Umowakodzus> lista;
     private boolean pokazwszytskieskladniki;
     
     @PostConstruct
     public void init() {
         lista = umowakodzusFacade.findAll();
+        filtered = null;
         if (pokazwszytskieskladniki==false) {
             lista = lista.stream().filter(p->p.isAktywny()).collect(Collectors.toList());
         }
     }
 
     public void zachowaj() {
-        umowakodzusFacade.editList(lista);
+        umowakodzusFacade.editList(f.l.l(lista, filtered, null));
+        filtered = null;
         Msg.msg("Zmiany zachowane");
     }
     
@@ -67,6 +70,14 @@ public class RodzjaumowySetView  implements Serializable {
 
     public void setPokazwszytskieskladniki(boolean pokazwszytskieskladniki) {
         this.pokazwszytskieskladniki = pokazwszytskieskladniki;
+    }
+
+    public List<Umowakodzus> getFiltered() {
+        return filtered;
+    }
+
+    public void setFiltered(List<Umowakodzus> filtered) {
+        this.filtered = filtered;
     }
     
     

@@ -337,12 +337,13 @@ public class KalendarzmiesiacBean {
                     } else if (p.getRodzajwynagrodzenia().getKod().equals("12")) {
 
                     } else {
-                        Msg.msg("w", "Nie ma formuly naliczenia skladnika wynagrodzzenia " + p.getRodzajwynagrodzenia().getOpisskrocony());
+                        Msg.msg("w", "Nie ma formuły naliczenia składnika wynagrodzenia " + p.getRodzajwynagrodzenia().getOpisskrocony());
                         System.out.println("Nie ma formuly naliczenia skladnika wynagrodzzenia " + p.getRodzajwynagrodzenia().getOpisskrocony());
                     }
                 }
             }
-            Msg.msg("e", "Brak zdefiniowanych składnikó wynagrodzenia");
+        } else {
+            Msg.msg("e", "Brak zdefiniowanych składników wynagrodzenia");
         }
     }
 

@@ -225,6 +225,13 @@ public class UmowaBean {
                     etatFacade.create(etat);
                     EtatBean.edytujkalendarz(etat, kalendarzmiesiacFacade);
                 }
+                if (selected.getUmowakodzus().isZlecenie() || selected.getUmowakodzus().isDzielo()) {
+                    selected.setEtat1(1);
+                    selected.setEtat2(1);
+                    EtatPrac etat = new EtatPrac(angaz, selected.getDataod(), selected.getDatado(), selected.getEtat1(), selected.getEtat2());
+                    etatFacade.create(etat);
+                    EtatBean.edytujkalendarz(etat, kalendarzmiesiacFacade);
+                }
                 if (selected.getUmowakodzus().isPraca() && selected.getKodzawodu() != null) {
                     Stanowiskoprac stanowisko = new Stanowiskoprac(angaz, selected.getDataod(), selected.getDatado(), selected.getStanowisko());
                     stanowiskopracFacade.create(stanowisko);

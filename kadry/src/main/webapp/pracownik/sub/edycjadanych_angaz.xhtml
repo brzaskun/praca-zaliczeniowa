@@ -35,10 +35,10 @@
                             </f:facet>
                         </p:autoComplete>
                          <p:outputLabel value="rok" for="rok" />
-                            <p:inputText id="rok" value="#{angazView.selected.rok}" title="rok" >
+                            <p:inputText id="rok" value="#{angazView.selected.rok}" title="rok angażu" >
                                 <p:ajax event="blur" listener="#{angazView.sprawdzrok()}" update="@this"/>
                             </p:inputText>
-                            <p:outputLabel value="miesiąc" for="mc" />
+                            <p:outputLabel value="miesiąc angażu" for="mc" />
                         <p:selectOneMenu id="mc" value="#{angazView.selected.mc}"  style="width: 100px;">
                                 <f:selectItems value="#{mce.mceList}"/>
                                 <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"  listener="#{updateClassView.updateUmowa()}"/>
@@ -84,7 +84,7 @@
                         <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_nieliczFGSP}" for="nieliczFGSP" />
                         <p:selectBooleanCheckbox id="nieliczFGSP" value="#{angazView.selected.ubezpieczenie.nieliczFGSP}" />
                     </p:panelGrid>-->
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{angazView.create}" value="#{bundle.Save}" update="display,@(form)" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{angazView.create}" value="dodaj" update="display,@(form)" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="AngazCreateDialog.hide()"/>
                     <p:messages><p:autoUpdate/></p:messages>
                 </h:panelGroup>
@@ -96,8 +96,8 @@
                     <p:dataTable id="datalist" value="#{angazView.lista}" var="itemAngaz"
                                  selectionMode="single" selection="#{angazView.selectedlista}"
                                  rowKey="#{itemAngaz.id}"  sortBy="#{itemAngaz.pracownik.nazwisko}"
-                                style="height: 300px; overflow-y: scroll;"
-                                rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                                style="overflow-y: scroll;"
+                                rowsPerPageTemplate="10,50,150,500" paginatorPosition="top" paginator="true" rows="10"
                                 emptyMessage="Nie ma angażów w firmie"
                                  >
                         <p:ajax event="rowSelect" partialSubmit="true" global="false" update="north Angazeditform"/>
@@ -113,12 +113,12 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.utworzyl}" />
                         </p:column>
-                        <p:column width="60" style="text-align: center;">
+                        <p:column width="70" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="data"/>
                             </f:facet>
                             <h:outputText value="#{itemAngaz.datadodania}">
-                                <f:convertDateTime locale="pl" />
+                                <f:convertDateTime locale="pl" type="date" pattern="yyyy-MM-dd"/>
                             </h:outputText>
                         </p:column>
 <!--                        <p:column width="40" style="text-align: center;">

@@ -12,6 +12,7 @@ import data.Data;
 import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -80,7 +81,10 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
                     selected.setDatadodania(new Date());
                     selected.setUtworzyl(wpisView.getUzer().getImieNazwisko());
                     zmiennaWynagrodzeniaFacade.create(selected);
-                    lista.add(new Zmiennawynagrodzenia(skladnikwynagrodzenia));
+                    List<Zmiennawynagrodzenia> nowa = new ArrayList<>();
+                    nowa.add(new Zmiennawynagrodzenia(skladnikwynagrodzenia));
+                    nowa.addAll(lista);
+                    lista = nowa;
                     Msg.msg("Dodano zmienną wyn");
                 } else {
                     Msg.msg("e", "Brak daty początkowej. Nie można zapisać");

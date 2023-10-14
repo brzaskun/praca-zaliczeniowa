@@ -59,6 +59,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import kadryiplace.WynKodTyt;
 import msg.Msg;
+import pdf.PdfUmowaoDzielo;
 import pdf.PdfUmowaoPrace;
 import pdf.PdfUmowaoZlecenia;
 
@@ -170,7 +171,7 @@ public class UmowaView implements Serializable {
                 listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywnePraca();
             } else if (rodzajumowy.equals("2")) {
                 listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywneZlecenie();
-            } else {
+           } else {
                 listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywneFunkcja();
             }
         } else {
@@ -385,6 +386,22 @@ public class UmowaView implements Serializable {
                         }
                     }
                 }
+//                if (selected.getUmowakodzus().isZlecenie()||selected.getUmowakodzus().isDzielo()) {
+//                    List<EtatPrac> etaty = etatFacade.findByAngaz(angaz);
+//                    EtatPrac ostatnietat = null;
+//                    selected.setEtat1(1);
+//                    selected.setEtat2(1);
+//                    for (EtatPrac e : etaty) {
+//                        if (e.getDatado()==null||e.getDatado().equals("")) {
+//                            if (selected.getEtat1()!=e.getEtat1()||selected.getEtat2()!=e.getEtat2()) {
+//                                e.setDatado(datazamknieciapoprzedniejumowy);
+//                                etatFacade.edit(e);
+//                                EtatPrac etat = new EtatPrac(angaz, selected.getDataod(), selected.getDatado(), selected.getEtat1(), selected.getEtat2());
+//                                etatFacade.create(etat);
+//                            }
+//                        }
+//                    }
+//                }
                 if (selected.getUmowakodzus().isPraca() && selected.getKodzawodu() != null) {
                     List<Stanowiskoprac> etaty = stanowiskopracFacade.findByAngaz(angaz);
                     Stanowiskoprac ostatnietat = null;
@@ -686,6 +703,15 @@ public class UmowaView implements Serializable {
                 selected.setWypadkowe(true);
                 selected.setZdrowotne(true);
                 selected.setNfz("16R");
+            } else if (selected.getUmowakodzus().isDzielo()) {
+                selected.setNrkolejny("UD/" + numerkolejny + "/" + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu());
+                selected.setChorobowe(false);
+                selected.setChorobowedobrowolne(false);
+                selected.setRentowe(false);
+                selected.setEmerytalne(false);
+                selected.setWypadkowe(false);
+                selected.setZdrowotne(false);
+                selected.setNfz("16R");
             }
         }
     }
@@ -879,9 +905,12 @@ public class UmowaView implements Serializable {
     }
 
     public void drukujzlecenie(Umowa zlecenie) {
-        if (zlecenie != null) {
+        if (zlecenie != null && zlecenie.getUmowakodzus().isZlecenie()) {
             String nazwa = zlecenie.getAngaz().getPracownik().getPesel()+"umowa.pdf";
             PdfUmowaoZlecenia.drukuj(zlecenie, nazwa);
+        } else if (zlecenie != null && zlecenie.getUmowakodzus().isDzielo()) {
+            String nazwa = zlecenie.getAngaz().getPracownik().getPesel()+"umowa.pdf";
+            PdfUmowaoDzielo.drukuj(zlecenie, nazwa);
         } else {
             Msg.msg("e", "Nie wybrano umowy");
         }
@@ -890,7 +919,7 @@ public class UmowaView implements Serializable {
      public void mailUmowaZlecenia(Umowa zlecenie) {
          if (zlecenie==null) {
                 Msg.msg("w", "Nie wybrano umowy");
-            } else {
+        } else if (zlecenie != null && zlecenie.getUmowakodzus().isZlecenie()) {
                 FirmaKadry firmaKadry = wpisView.getFirma();
                 String nazwa = zlecenie.getAngaz().getPracownik().getPesel()+"umowazlecenia.pdf";
                 ByteArrayOutputStream drukujmail = PdfUmowaoZlecenia.drukuj(zlecenie, nazwa);
@@ -899,6 +928,15 @@ public class UmowaView implements Serializable {
                 findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
                 mail.Mail.mailUmowyZlecenia(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
                 Msg.msg("Wysłano umowę zlecenia do klienta");
+         } else if (zlecenie != null && zlecenie.getUmowakodzus().isDzielo()) {
+             FirmaKadry firmaKadry = wpisView.getFirma();
+                String nazwa = zlecenie.getAngaz().getPracownik().getPesel()+"umowazlecenia.pdf";
+                ByteArrayOutputStream drukujmail = PdfUmowaoDzielo.drukuj(zlecenie, nazwa);
+                SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+                findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
+                mail.Mail.mailUmowyZlecenia(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
+                Msg.msg("Wysłano umowę o dzieło do klienta");
          }
     }
     

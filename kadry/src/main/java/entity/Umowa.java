@@ -66,9 +66,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Umowa.findByAngaz", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByFirma", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma"),
     @NamedQuery(name = "Umowa.findByAngazPraca", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.praca = TRUE ORDER BY u.dataod ASC"),
-    @NamedQuery(name = "Umowa.findByAngazZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.zlecenie = TRUE ORDER BY u.dataod ASC"),
-    @NamedQuery(name = "Umowa.findByFirmaZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND u.umowakodzus.zlecenie = TRUE ORDER BY u.dataod ASC"),
-    @NamedQuery(name = "Umowa.findByFirmaZlecenieAktywne", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND u.umowakodzus.zlecenie = TRUE AND u.aktywna = TRUE ORDER BY u.dataod ASC"),
+    @NamedQuery(name = "Umowa.findByAngazZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND (u.umowakodzus.zlecenie = TRUE OR u.umowakodzus.dzielo = TRUE) ORDER BY u.dataod ASC"),
+    @NamedQuery(name = "Umowa.findByFirmaZlecenie", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND (u.umowakodzus.zlecenie = TRUE OR u.umowakodzus.dzielo = TRUE) ORDER BY u.dataod ASC"),
+    @NamedQuery(name = "Umowa.findByFirmaZlecenieAktywne", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND (u.umowakodzus.zlecenie = TRUE OR u.umowakodzus.dzielo = TRUE) AND u.aktywna = TRUE ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByFirmaPraca", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND u.umowakodzus.praca = TRUE ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByFirmaPracaAktywne", query = "SELECT u FROM Umowa u WHERE u.angaz.firma = :firma AND u.umowakodzus.praca = TRUE AND u.aktywna = TRUE ORDER BY u.dataod ASC"),
     @NamedQuery(name = "Umowa.findByAngazFunkcja", query = "SELECT u FROM Umowa u WHERE u.angaz = :angaz AND u.umowakodzus.funkcja = TRUE ORDER BY u.dataod ASC")

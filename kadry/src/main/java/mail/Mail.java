@@ -352,7 +352,7 @@ public class Mail {
             String temat = "Umowy zlecenia "+firma.getNazwa()+" do podpisania ";
             message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
             String tresc = "Dzień dobry"
-                    + "<p>W załączeniu nowe umowy zlecenia ze zleceniobiorcami dla firmy "+firma.getNazwa()+" NIP "+firma.getNip()
+                    + "<p>W załączeniu nowe umowy zlecenia/o dzieło ze zleceniobiorcami dla firmy "+firma.getNazwa()+" NIP "+firma.getNip()
                     + "<p>Proszę wydrukować i dać zleceniobiorcom do podpisania.</p>"
                     + "<p>Jeden egzemplarz proszę odesłać do nas.</p>"
                     + stopka;
