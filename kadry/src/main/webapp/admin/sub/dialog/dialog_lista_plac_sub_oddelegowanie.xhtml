@@ -226,6 +226,10 @@
                             <h:outputText value="kurs"/>
                             <bcf:outputkurs value="#{itempasek.kurs}"/>
                         </p:column>
+                        <p:column width="20" style="text-align: center;">
+                            <h:outputText value="#{indexpasek+1}"/>
+                            <h:outputText value="student" rendered="#{itempasek.kalendarzmiesiac.angaz.student}" style="color: #009688;"/>
+                        </p:column>
                     </p:row>
                     <p:row>
                         <p:column>

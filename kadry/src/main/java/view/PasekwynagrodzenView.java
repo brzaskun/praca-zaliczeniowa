@@ -538,6 +538,8 @@ public class PasekwynagrodzenView implements Serializable {
             }
             Pasekwynagrodzen pasek = lista.get(0);
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+            findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+            findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
             String nrpoprawny = wybranalistaplac.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
             String nazwa = wybranalistaplac.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
             mail.Mail.mailListaPlac(wpisView.getFirma(), pasek.getRok(), pasek.getMc(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujlistaplac, drukujrachunki, nazwa, wpisView.getUzer().getEmail());

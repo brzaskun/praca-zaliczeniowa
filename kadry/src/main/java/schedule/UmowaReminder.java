@@ -110,7 +110,7 @@ public class UmowaReminder {
             for (Umowa u : listaumowy) {
                 FirmaKadry firma = u.getAngaz().getFirma();
                 if (firma.getEmail()!=null) {
-                    Mail.mailPrzypomnienieoUmowie(firma.getEmail(), ogolne, ogolne, "n.sinkiewicz@taxman.biz.pl", u);
+                    Mail.mailPrzypomnienieoUmowie(firma.getEmail(), ogolne, ogolne, "m.piwonska@taxman.biz.pl", u);
                     u.setDataprzypomnieniamail(Data.aktualnaData());
                 }
             }

@@ -284,6 +284,8 @@ public class RozwiazanieumowyView  implements Serializable {
                 String nazwa = rozwiazanie.getUmowa().getPracownik().getPesel()+"wypowiedzenie.pdf";
                 ByteArrayOutputStream drukujmail = PdfWypowiedzenie.drukujMail(rozwiazanie, nazwa);
                 SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+                findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
                 mail.Mail.mailUmowyoPrace(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
                 Msg.msg("Wysłano umowę o pracę do klienta");
          }

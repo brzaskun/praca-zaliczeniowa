@@ -184,6 +184,8 @@ public class PracownikAneksyView  implements Serializable {
                 String nazwa = firmaKadry.getNip()+"aneksy.pdf";
                 ByteArrayOutputStream drukujmail = PdfUmowaoPrace.drukujanekswszystkieMail(lysta, innewarunkizatrudnienia, wpisView.getFirma(), dataaneksu, odkiedyzmiana);
                 SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+                findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
                 mail.Mail.mailAneksydoUmowy(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
                 Msg.msg("Wysłano listę płac do pracodawcy");
             } else {

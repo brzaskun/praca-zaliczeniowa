@@ -871,6 +871,8 @@ public class UmowaView implements Serializable {
                 String nazwa = praca.getAngaz().getPracownik().getPesel()+"umowaoprace.pdf";
                 ByteArrayOutputStream drukujmail = PdfUmowaoPrace.drukuj(praca, nazwa);
                 SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+                findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
                 mail.Mail.mailUmowyoPrace(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
                 Msg.msg("Wysłano umowę o pracę do klienta");
          }
@@ -893,6 +895,8 @@ public class UmowaView implements Serializable {
                 String nazwa = zlecenie.getAngaz().getPracownik().getPesel()+"umowazlecenia.pdf";
                 ByteArrayOutputStream drukujmail = PdfUmowaoZlecenia.drukuj(zlecenie, nazwa);
                 SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+                findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
                 mail.Mail.mailUmowyZlecenia(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
                 Msg.msg("Wysłano umowę zlecenia do klienta");
          }

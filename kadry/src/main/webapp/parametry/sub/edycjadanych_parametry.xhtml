@@ -1040,10 +1040,10 @@
                     </p:dataTable>`
                 </h:form>
             </p:tab>
-             <p:tab title="Zmiana hasła">
+             <p:tab title="Ustawienia użytkownika">
                 <h:form id="Haslo">
                     <p:outputPanel style="padding: 10px;">
-                        <h:outputText value="Wprowadź nowe hasło. Hasło powinno mieć przynajmniej 8 znaków" style="color: green;"/>
+                        <h:outputText value="Wprowadź nowe hasło do logowania. Hasło powinno mieć przynajmniej 8 znaków" style="color: green;"/>
                     </p:outputPanel>
                     <p:panelGrid columns="2">
                         <p:outputLabel value="nowe hasło:"/>
@@ -1052,6 +1052,21 @@
                         <p:inputText value="#{hasloView.nowehaslo2}"/>
                         <p:panelGrid columns="1">
                             <p:commandButton value="zmień" styleClass="buttonnorm" actionListener="#{hasloView.zmianaHaslaUz()}" update="akordeon:Haslo" />
+                        </p:panelGrid>
+                        <p:messages />
+                    </p:panelGrid>
+                </h:form>
+                 <h:form id="haslomail">
+                    <p:outputPanel style="padding: 10px;">
+                        <h:outputText value="Wprowadź hasło do konta mail" style="color: green;"/>
+                    </p:outputPanel>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="adres poczty:"/>
+                        <h:outputText value="#{hasloView.uzer.email}"/>
+                        <p:outputLabel value="hasło do poczty"/>
+                        <p:inputText value="#{hasloView.uzer.emailhaslo}"/>
+                        <p:panelGrid columns="1">
+                            <p:commandButton value="zmień" styleClass="buttonnorm" actionListener="#{hasloView.hasloEmailUz()}" update="akordeon:haslomail" />
                         </p:panelGrid>
                         <p:messages />
                     </p:panelGrid>

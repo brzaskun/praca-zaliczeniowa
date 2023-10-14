@@ -215,6 +215,8 @@ public class OsobaView implements Serializable {
             String nazwa = wpisView.getFirma().getNip()+"aneksy.pdf";
             ByteArrayOutputStream drukujmail = PdfHistoriaImp.drukujMail(log, wpisView.getFirma().getNazwa(), wpisView.getFirma().getNip());
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+            findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+            findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
             mail.Mail.mailRaportzImportu(wpisView.getFirma(), wpisView.getUzer().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, "info@taxman.biz.pl");
         }
 //        } finally {

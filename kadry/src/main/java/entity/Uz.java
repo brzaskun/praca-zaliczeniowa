@@ -59,6 +59,8 @@ public class Uz implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "email")
     private String email;
+    @Column(name = "emailhaslo")
+    private String emailhaslo;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 255)
     @Column(name = "haslo")
@@ -475,6 +477,14 @@ public class Uz implements Serializable {
 
     public void setM13(int m13) {
         this.m13 = m13;
+    }
+
+    public String getEmailhaslo() {
+        return emailhaslo;
+    }
+
+    public void setEmailhaslo(String emailhaslo) {
+        this.emailhaslo = emailhaslo;
     }
 
     

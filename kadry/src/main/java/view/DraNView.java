@@ -190,6 +190,8 @@ public class DraNView  implements Serializable {
     private void mailListaDRA(byte[] dra) {
         if (dra != null && dra.length > 0) {
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+            findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+            findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
             String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
             mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), "info@taxman.biz.pl", null, findSprawaByDef, dra, nazwa, wpisView.getUzer().getEmail());
             Msg.msg("Wysłano listę płac do pracodawcy");
@@ -225,6 +227,8 @@ public class DraNView  implements Serializable {
                  byte[] dra = drastream.toByteArray();
                 if (dra != null && dra.length > 0) {
                     SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                    findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+                    findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
                     String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
                     mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, dra, nazwa, wpisView.getUzer().getEmail());
                     Msg.msg("Wysłano listę płac do pracodawcy");

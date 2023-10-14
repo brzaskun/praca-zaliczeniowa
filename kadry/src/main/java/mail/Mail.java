@@ -110,7 +110,7 @@ public class Mail {
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("a.barczyk@taxman.biz.pl"));
             message.setRecipients(Message.RecipientType.BCC,
-                    InternetAddress.parse("k.koszarek@taxman.biz.pl"));
+                    InternetAddress.parse("m.piwonska@taxman.biz.pl"));
             message.setSubject("Aktualizacja danych w firmie "+firma.getNazwa());
             message.setContent("Dzień dobry"
                     + "<p>Firma "+firma.getNazwa()+" NIP "+firma.getNip()

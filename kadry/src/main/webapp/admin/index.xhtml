@@ -226,6 +226,11 @@
                 </p:panel>
                     </p:fragment>
                 </p:outputPanel>
+                <p:outputPanel style="padding: 30px;" rendered="#{wpisView.uzer.emailhaslo eq null}">
+                    <h:outputText value="Brak hasła do konta email. Nie można wysyłac wydruków klientom" style="color: red;font-size: xx-large"/>
+                </p:outputPanel>
+                
+                
                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                 <ui:include src="sub/dialog/dialog_czaspracy_kalendarzmiesiac.xhtml"/>
                 <ui:include src="sub/dialog/dialog_czaspracy_nieobecnosci.xhtml"/>

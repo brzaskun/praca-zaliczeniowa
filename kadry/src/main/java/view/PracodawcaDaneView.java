@@ -153,11 +153,15 @@ public class PracodawcaDaneView  implements Serializable {
     
     public void mailbiuro() {
         SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+        findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+        findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
         Mail.updateemailpracownik(wpisView.getFirma(),"a.barczyk@taxman.biz.pl", null, findSprawaByDef);
     }
     
     public void maildodanonowegoprac(Pracownik pracownik) {
         SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+        findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+        findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
         Mail.updateemailnowypracownik(wpisView.getFirma(),pracownik,"info@taxman.biz.pl", null, findSprawaByDef);
     }
     

@@ -19,7 +19,6 @@ import embeddable.Mce;
 import entity.Angaz;
 import entity.DeklaracjaPIT11Schowek;
 import entity.FirmaKadry;
-import entity.Kalendarzmiesiac;
 import entity.Kartawynagrodzen;
 import entity.PITPola;
 import entity.Pasekwynagrodzen;
@@ -450,6 +449,8 @@ public class KartaWynagrodzenView  implements Serializable {
                 try {
                     byte[] bytes = IOUtils.toByteArray(drukujwszystkiePIT11);
                     SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                    findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+                    findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
                     String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
                     mail.Mail.mailPIT11Zbiorcze(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, bytes, nazwa, wpisView.getUzer().getEmail());
                     Msg.msg("Wysłano zbiorczo PIT11 do pracodawcy");

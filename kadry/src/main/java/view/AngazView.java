@@ -545,6 +545,8 @@ public class AngazView  implements Serializable {
     
     public void mail(Pracownik pracownik) {
         SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+        findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+        findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
         Mail.ankieta(pracownik.getEmail(), null, findSprawaByDef);
     }
     

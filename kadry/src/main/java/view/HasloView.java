@@ -13,6 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,7 +33,14 @@ public class HasloView implements Serializable {
       private String nowehaslo2;
       @Inject
       private UzFacade uzFacade;
+      private Uz uzer;
       
+     @PostConstruct
+     private void init() {
+         uzer = wpisView.getUzer();
+     }
+    
+     
     
      public void zmianaHaslaUz() {
         if (nowehaslo2.equals(nowehaslo)) {
@@ -73,6 +81,21 @@ public class HasloView implements Serializable {
           }
           return zwrot;
      }
+     
+     public void hasloEmailUz() {
+        if (uzer.getHaslo()!=null) {
+            try {
+                uzFacade.edit(uzer);
+                wpisView.setUzer(uzer);
+                Msg.msg("Zachowano hasło do maila");
+            } catch (Exception e) { 
+                E.e(e); 
+                Msg.msg("e", "Wystąpił błąd. Nastąpiła nieudana zmiana hasła do maila");
+            }
+        } else {
+            Msg.msg("e","Nie wpisano hasła do maila");
+        }
+    }
 
     public String getNowehaslo() {
         return nowehaslo;
@@ -89,6 +112,15 @@ public class HasloView implements Serializable {
     public void setNowehaslo2(String nowehaslo2) {
         this.nowehaslo2 = nowehaslo2;
     }
+
+    public Uz getUzer() {
+        return uzer;
+    }
+
+    public void setUzer(Uz uzer) {
+        this.uzer = uzer;
+    }
      
+    
      
 }

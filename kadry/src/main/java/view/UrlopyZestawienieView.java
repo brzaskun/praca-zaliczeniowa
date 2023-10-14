@@ -127,6 +127,8 @@ public class UrlopyZestawienieView  implements Serializable {
          ByteArrayOutputStream dra =  PdfZestawienieUrlopow.drukujmail(listaurlopow, wpisView.getFirma(), wpisView.getRokWpisu());
         if (dra != null) {
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+            findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+            findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
             String nazwa = wpisView.getFirma().getNip() + "urlopyZest" + wpisView.getRokWpisu() + ".pdf";
             mail.Mail.mailUrlopy(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), "info@taxman.biz.pl", null, findSprawaByDef, dra.toByteArray(), nazwa, wpisView.getUzer().getEmail());
             Msg.msg("Wysłano listę płac do pracodawcy");

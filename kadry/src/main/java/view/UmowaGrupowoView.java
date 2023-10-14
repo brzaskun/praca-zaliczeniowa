@@ -128,6 +128,8 @@ public class UmowaGrupowoView implements Serializable {
                 FirmaKadry firmaKadry = wpisView.getFirma();
                 ByteArrayOutputStream drukujmail = PdfUmowaoZlecenia.drukujwszystkie(selected, wpisView.getFirma(), listaumowy.getTarget(), wynagrodzeniegodzinowe, wynagrodzeniemiesieczne);
                 SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+                findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
                 String nazwa = firmaKadry.getNip()+"umowyzlecenia.pdf";
                 mail.Mail.mailUmowyZlecenia(wpisView.getFirma(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, wpisView.getUzer().getEmail());
                 Msg.msg("Wysłano umowy zlecenia do klienta");

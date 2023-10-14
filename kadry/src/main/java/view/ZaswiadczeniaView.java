@@ -224,6 +224,8 @@ public class ZaswiadczeniaView  implements Serializable {
                 zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czysapotraceniakomornicze, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy, czyjesttytulkomorniczy);
         if (dra != null && dra.size() > 0) {
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+            findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+            findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
              String nazwa = wpisView.getPracownik().getPesel() + "_zaswiadczenie_zarobki.pdf";
             mail.Mail.mailZaswiadczeniezarobki(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, dra.toByteArray(), nazwa, wpisView.getUzer().getEmail(), wpisView.getPracownik());
             Msg.msg("Wysłano listę płac do pracodawcy");
