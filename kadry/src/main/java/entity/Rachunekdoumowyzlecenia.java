@@ -447,7 +447,13 @@ public class Rachunekdoumowyzlecenia implements Serializable {
         this.do26lat = do26lat;
     }
 
+    public boolean isZlecenie() {
+        return this.umowa.getUmowakodzus().isZlecenie();
+    }
     
+    public boolean isDzielo() {
+        return this.umowa.getUmowakodzus().isDzielo();
+    }
 
     
     @Override

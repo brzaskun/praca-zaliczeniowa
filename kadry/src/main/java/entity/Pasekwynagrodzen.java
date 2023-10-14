@@ -252,7 +252,7 @@ public class Pasekwynagrodzen implements Serializable {
     private Integer lis_tyt_serial;
     @Column(name = "lpl_serial")
     private Integer lpl_serial;
-    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
@@ -1437,6 +1437,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public boolean isPraca() {
         return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isPraca();
+    }
+    
+    public boolean isZlecenie() {
+        return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie();
+    }
+    
+    public boolean isDzielo() {
+        return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isDzielo();
     }
     
     public String getKodZus() {

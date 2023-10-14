@@ -502,8 +502,9 @@ public class PasekwynagrodzenView implements Serializable {
             List<Grupakadry> grupyfirma = grupakadryFacade.findByFirma(wpisView.getFirma());
             PdfListaPlac.drukujListaPodstawowa(lista, wybranalistaplac, rodzajnieobecnosciFacade, grupyfirma);
             Msg.msg("Wydrukowano listę płac");
-            if (wybranalistaplac.getRodzajlistyplac().getSymbol().equals("UZ")) {
+            if (wybranalistaplac.getRodzajlistyplac().getSymbol().equals("UZ")||wybranalistaplac.getRodzajlistyplac().getSymbol().equals("UD")) {
                 String nazwa = wpisView.getFirma().getNip()+"rachunekzlecenie.pdf";
+                List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList = lista.get(0).getRachunekdoumowyzleceniaList();
                 PdfRachunekZlecenie.drukuj(lista, nazwa);
             }
         } else {

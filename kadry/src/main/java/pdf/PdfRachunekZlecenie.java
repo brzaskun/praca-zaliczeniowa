@@ -118,11 +118,17 @@ public class PdfRachunekZlecenie {
             document.add(paragraph);
             paragraph = new Paragraph(new Phrase("NIP : "+firma.getNip(), fontM));
             document.add(paragraph);
+            boolean zlecenie = false;
             if (pasek.getRachunekdoumowyzleceniaList()!=null&&pasek.getRachunekdoumowyzleceniaList().size()>0) {
                 Rachunekdoumowyzlecenia rachunek = pasek.getRachunekdoumowyzleceniaList().get(0);
                 paragraph = new Paragraph(new Phrase("za wykonanie w czasie okresie od "+rachunek.getDataod()+" do "+rachunek.getDatado(), fontM));
                 document.add(paragraph);
-                paragraph = new Paragraph(new Phrase("prac z dwustronnie zawartą umową nr "+rachunek.getUmowa().getNrkolejny(), fontM));
+                zlecenie = rachunek.isZlecenie();
+                if (zlecenie) {
+                    paragraph = new Paragraph(new Phrase("prac zgodnie z dwustronnie zawartą umową nr "+rachunek.getUmowa().getNrkolejny(), fontM));
+                } else {
+                    paragraph = new Paragraph(new Phrase("dzieła zgodnie z dwustronnie zawartą umową nr "+rachunek.getUmowa().getNrkolejny(), fontM));
+                }
                 document.add(paragraph);
                 paragraph = new Paragraph(new Phrase("- ilośc godzin "+rachunek.getIloscgodzin(), fontM));
                 document.add(paragraph);
@@ -131,22 +137,39 @@ public class PdfRachunekZlecenie {
                 }
                 document.add(Chunk.NEWLINE);
             } else {
+                zlecenie = pasek.isZlecenie();
                 paragraph = new Paragraph(new Phrase("za wykonanie w czasie okresie "+pasek.getRok()+"/"+pasek.getMc(), fontM));
                 document.add(paragraph);
-                paragraph = new Paragraph(new Phrase("prac z dwustronnie zawartą umową nr "+pasek.getKalendarzmiesiac().getAngaz().getAktywnaUmowa().getNrkolejny(), fontM));
+                if (zlecenie) {
+                    paragraph = new Paragraph(new Phrase("prac zgodnie z dwustronnie zawartą umową nr "+pasek.getKalendarzmiesiac().getAngaz().getAktywnaUmowa().getNrkolejny(), fontM));
+                } else {
+                    paragraph = new Paragraph(new Phrase("dzieła zgodnie z dwustronnie zawartą umową nr "+pasek.getKalendarzmiesiac().getAngaz().getAktywnaUmowa().getNrkolejny(), fontM));
+                }
                 document.add(paragraph);
                 document.add(Chunk.NEWLINE);
             }
-            paragraph = new Paragraph(new Phrase("Stwierdzam, że praca została wykonana według warunków umowy dwustronnie zawartej.", fontM));
+            if (zlecenie) {
+                paragraph = new Paragraph(new Phrase("Stwierdzam, że praca została wykonana według warunków umowy dwustronnie zawartej.", fontM));
+            } else {
+                paragraph = new Paragraph(new Phrase("Stwierdzam, że dzieło została wykonana według warunków umowy dwustronnie zawartej.", fontM));
+            }
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
             paragraph = new Paragraph(new Phrase("..............................", fontM));
             document.add(paragraph);
-            paragraph = new Paragraph(new Phrase("podpis Zleceniodawcy", fontM));
+            if (zlecenie) {
+                paragraph = new Paragraph(new Phrase("podpis Zleceniodawcy", fontM));
+            } else {
+                paragraph = new Paragraph(new Phrase("podpis Zamawiającego", fontM));
+            }
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
-            paragraph = new Paragraph(new Phrase("Dane Zleceniobiorcy ", fontM));
+            if (zlecenie) {
+                paragraph = new Paragraph(new Phrase("Dane Zleceniobiorcy ", fontM));
+            } else {
+                paragraph = new Paragraph(new Phrase("Dane Wykonawcy ", fontM));
+            }   
             document.add(paragraph);
             paragraph = new Paragraph(new Phrase(pasek.getPracownik().getNazwiskoImie()+" PESEL: "+pasek.getPracownik().getPesel(), fontM));
             document.add(paragraph);
@@ -210,7 +233,11 @@ public class PdfRachunekZlecenie {
             document.add(Chunk.NEWLINE);
             paragraph = new Paragraph(new Phrase("..............................", fontM));
             document.add(paragraph);
-            paragraph = new Paragraph(new Phrase("data i podpis Zleceniobiorcy", fontM));
+            if (zlecenie) {
+                paragraph = new Paragraph(new Phrase("data i podpis Zleceniobiorcy", fontM));
+            } else {
+                paragraph = new Paragraph(new Phrase("data i podpis Wykonawcy", fontM));
+            }
             document.add(paragraph);
         } catch (Exception ex) {
             E.e(ex);
