@@ -94,8 +94,10 @@
                         <p:ajax event="change" update="form_dialog_plankont:dataList" partialSubmit="true" listener="#{planKontView.zmienuklad()}"/>
                     </p:selectOneMenu>
                    <p:commandButton value="nanieś pozycje" actionListener="#{planKontView.naniespozycjeNakontaZbazy}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
-                   <p:commandButton value="miotełka - przekierowanie" actionListener="#{planKontView.porzadkujCzterySiedem}"
+                   <p:commandButton value="miotełka" actionListener="#{planKontView.porzadkujCzterySiedem}"
                                     onclick="document.body.style.cursor = 'wait'" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                   <p:commandButton value="importuj bilansowe" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('b')}" icon="fa fa-sign-in" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true"/>
+                   <p:commandButton value="importuj wynikowe" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}"  icon="fa fa-sign-in"action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true"/>
             </p:panelGrid>
             <p:panelGrid columns="10">
                 <p:commandButton value="0" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,0)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>

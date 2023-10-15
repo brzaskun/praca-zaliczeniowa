@@ -1116,9 +1116,7 @@ public class PlanKontView implements Serializable {
                 });
                 kontoDAOfk.editList(kontabilanowe);
             }
-            List<Konto> kontapotomneDwiescie = wykazkont.stream().filter(p->p.getKontomacierzyste()!=null&&(p.getNazwapelna().startsWith("Rozrachunki należności od")
-                    ||p.getNazwapelna().startsWith("Rozrachunki zobowiązań wobec")
-                    ||p.getNazwapelna().startsWith("Rozrachunki zagraniczne od"))).collect(Collectors.toList());
+            List<Konto> kontapotomneDwiescie = wykazkont.stream().filter(p->p.getKontomacierzyste()!=null).collect(Collectors.toList());
              if (kontapotomneDwiescie.isEmpty()==false) {
                 for (Konto p : kontapotomneDwiescie) {
                     try {
@@ -1158,24 +1156,31 @@ public class PlanKontView implements Serializable {
     }
     
     public void porzadkowanieWybranegoKontaPodatnika() {
-        if (selectednodekonto!=null) {
+        if (selectednodekonto != null) {
             Podatnik podatnik = selectednodekonto.getPodatnik();
             if (!wykazkont.isEmpty()) {
                 //tutaj nanosi czy ma potomkow
-                List<Konto> kontapotomne = wykazkont.stream().filter(p->p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(selectednodekonto)).collect(Collectors.toList());
-                if (kontapotomne.isEmpty()==false) {
-                    selectednodekonto.setMapotomkow(true);
-                    kontoDAOfk.edit(selectednodekonto);
-                }
-                List<Konto> kontapotomnePorzadek = new ArrayList<>();
-                for (Konto p : kontapotomne) {
-                    if (p.getPozycjaWn()==null||p.getPozycjaMa()==null) {
-                        p.kopiujPozycje(selectednodekonto);
-                        p.setSyntetykaanalityka("syntetyczne");
-                        kontapotomnePorzadek.add(p);
+                Konto kontomacierzyste = selectednodekonto.getKontomacierzyste();
+                if (!kontomacierzyste.getSyntetykaanalityka().equals("analityka")) {
+                    boolean kontozwykle = kontomacierzyste.getSyntetykaanalityka().equals("zwykłe");
+                    List<Konto> kontapotomne = wykazkont.stream().filter(p -> p.getKontomacierzyste() != null && p.getKontomacierzyste().equals(selectednodekonto)).collect(Collectors.toList());
+                    if (kontapotomne.isEmpty() == false) {
+                        selectednodekonto.setMapotomkow(true);
+                        kontoDAOfk.edit(selectednodekonto);
                     }
-                }
-                //nie musi byc tego bo przeciez porzadkujemy te gdzie nie ma kontozapis
+                    List<Konto> kontapotomnePorzadek = new ArrayList<>();
+                    for (Konto p : kontapotomne) {
+                        if (p.getPozycjaWn() == null || p.getPozycjaMa() == null) {
+                            p.kopiujPozycje(selectednodekonto);
+                            if (kontozwykle) {
+                                p.setSyntetykaanalityka("syntetyczne");
+                            } else {
+                                p.setSyntetykaanalityka(kontomacierzyste.getSyntetykaanalityka());
+                            }
+                            kontapotomnePorzadek.add(p);
+                        }
+                    }
+                    //nie musi byc tego bo przeciez porzadkujemy te gdzie nie ma kontozapis
 //                List<KontopozycjaZapis> zapisane = kontopozycjaZapisDAO.findByUklad(wybranyuklad);
 //                if (zapisane.isEmpty()==false) {
 //                    zapisane.stream().forEach(p->{
@@ -1186,24 +1191,25 @@ public class PlanKontView implements Serializable {
 //                        }
 //                    });
 //                }
-                List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
-                for (Konto p : kontapotomnePorzadek) {
-                    try {
-                        nowepozycje.add(new KontopozycjaZapis(p, wybranyuklad));
-                    } catch (Exception e) {
-                        E.e(e);
-                        System.out.println("Zapis pozycji przy porzadkowaniu nowego kotnta, ktora juz istnieje");
-                        Msg.msg("e","Zapis pozycji przy porzadkowaniu nowego kotnta, ktora juz istnieje");
+                    List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
+                    for (Konto p : kontapotomnePorzadek) {
+                        try {
+                            nowepozycje.add(new KontopozycjaZapis(p, wybranyuklad));
+                        } catch (Exception e) {
+                            E.e(e);
+                            System.out.println("Zapis pozycji przy porzadkowaniu nowego kotnta, ktora juz istnieje");
+                            Msg.msg("e", "Zapis pozycji przy porzadkowaniu nowego kotnta, ktora juz istnieje");
+                        }
                     }
+                    kontopozycjaZapisDAO.editList(nowepozycje);
+                    kontoDAOfk.editList(kontapotomnePorzadek);
                 }
-                kontopozycjaZapisDAO.editList(nowepozycje);
-                kontoDAOfk.editList(kontapotomnePorzadek);
                 //Msg.msg("Zakończono porządkowanie pojedynczego konta");
             } else {
-                Msg.msg("e","Brak kont potomnych");
+                Msg.msg("e", "Brak kont potomnych");
             }
         } else {
-            Msg.msg("e","Nie wybrano konta");
+            Msg.msg("e", "Nie wybrano konta");
         }
     }
     
