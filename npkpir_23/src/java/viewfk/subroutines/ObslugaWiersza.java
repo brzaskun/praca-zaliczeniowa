@@ -37,6 +37,32 @@ public class ObslugaWiersza {
     //sluzy do sprawdzenia czy wprowadzono wszystkie kwoty
     public static String sprawdzSumyWierszy(Dokfk dokfk) {
         if (dokfk.getSeriadokfk().equals("BO")||dokfk.getSeriadokfk().equals("BOR")) {
+            //teraz sprawdzamy czy konta lewa prawa
+            List<Wiersz> listawierszy = dokfk.getListawierszy();
+            Collections.sort(listawierszy, new Wierszcomparator());
+            Wiersz ostatniwiersz = listawierszy.get(listawierszy.size()-1);
+            int numerwiersza = ostatniwiersz.getIdporzadkowy()-1;
+            String f = "podswietlznalezionywierszzbrakiem("+numerwiersza+")";
+            for (Wiersz p : listawierszy) {
+                numerwiersza = p.getIdporzadkowy()-1;
+                f = "podswietlznalezionywierszzbrakiem("+numerwiersza+")";
+                if (p.getTypWiersza() == 0 || p.getTypWiersza() == 5) {
+                    if (p.getStronaWn().getKonto() == null || p.getStronaMa().getKonto() == null ) {
+                        PrimeFaces.current().executeScript(f);
+                        return "Brak wpisanego konta";
+                    }
+                } else if (p.getTypWiersza()== 1 || p.getTypWiersza() == 6) {
+                    if (p.getStronaWn().getKonto() == null) {
+                        PrimeFaces.current().executeScript(f);
+                        return "Brak wpisanego konta Wn";
+                    }
+                } else if (p.getTypWiersza()== 2 || p.getTypWiersza() == 7) {
+                    if (p.getStronaMa().getKonto() == null ) {
+                        PrimeFaces.current().executeScript(f);
+                        return "Brak wpisanego konta Ma";
+                    }
+                }
+            }
             return null;
         }
         if (dokfk.getRodzajedok().isTylkovat() || dokfk.getRodzajedok().isTylkojpk()) {

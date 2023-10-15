@@ -309,10 +309,10 @@
                             </h:outputText>
 
                         </p:column>
-                        <p:column width="20" style="text-align: center;">
+                        <p:column width="20" style="text-align: center;" headerText="rozl. jako">
 <!--                            <h:outputText value="#{loop.id}" />-->
-                            <h:outputText value="r" style="#{loop.saRozrachunki ? 'color: blue': null}" rendered="#{loop.saRozrachunki  and !kontoZapisFKView.pokaztransakcje}"/>
-                            <h:outputText value="nowa tr." style="#{loop.saRozrachunki ? 'color: green': null}" rendered="#{loop.isNowatransakcja() and kontoZapisFKView.pokaztransakcje}"/>
+                            <h:outputText value="płat" style="#{loop.saRozrachunki ? 'color: blue': null}" rendered="#{loop.getSaPlatnosci()}"/>
+                            <h:outputText value="rach." style="#{loop.saRozrachunki ? 'color: green': null}" rendered="#{loop.getSaNoweTransakcje()}"/>
                         </p:column>
                         <!--                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="9{loop.loop.kontoprzeciwstawne}">
                                                     <h:outputText value="9{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>
