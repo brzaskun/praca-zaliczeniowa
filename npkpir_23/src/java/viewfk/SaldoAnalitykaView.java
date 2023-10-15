@@ -492,6 +492,7 @@ public class SaldoAnalitykaView implements Serializable {
 
     private void naniesBOnaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyBO) {
         zapisyBO.stream().forEach((r) -> {
+            //System.out.println(r.getKonto().getPelnynumer());
             SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
             if (p != null) {
                 if (tylkozapisywalutowe && !r.getSymbolWalutBOiSW().equals("PLN")) {
@@ -510,6 +511,7 @@ public class SaldoAnalitykaView implements Serializable {
                     p.getZapisy().add(r);
                 }
             }
+            //System.out.println("bez bledu");
         });
     }
 

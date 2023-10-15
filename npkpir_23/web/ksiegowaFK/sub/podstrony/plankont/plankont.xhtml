@@ -27,7 +27,7 @@
                 <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontadoWzorcowychZAnalitykom()}" icon="ui-icon-tag" update="form_dialog_plankont:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":form_dialog_plankont"/>
                 <p:menuitem value="Blokada wszystkie" actionListener="#{planKontView.obslugaBlokadyKontaWszystkie()}" icon="ui-icon-locked" update=":form_dialog_plankont"/>
-                <p:menuitem value="Porządkuj wybrane konto" onclick="PF('confirm5').show();"  global="true" icon="ui-icon-tag" 
+                <p:menuitem value="Porządkuj wybrane konto" onclick="PF('confirm5').show();"  global="true" icon="ui-icon-tag"  rendered="#{facesContext.externalContext.remoteUser eq '4'}"
                             />
 <!--                <p:menuitem value="Porządkuj konta" onclick="PF('confirm3').show();" global="false" icon="ui-icon-tag" 
                             />
@@ -50,7 +50,7 @@
                         }
                     }
             </script>-->
-              <p:panelGrid columns="10">
+              <p:panelGrid columns="11">
 <!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
@@ -93,11 +93,11 @@
                         <f:selectItems value="#{planKontView.listaukladow}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" update="form_dialog_plankont:dataList" partialSubmit="true" listener="#{planKontView.zmienuklad()}"/>
                     </p:selectOneMenu>
-                   <p:commandButton value="nanieś pozycje" actionListener="#{planKontView.naniespozycjeNakontaZbazy}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
+                   <p:commandButton value="nanieś pozycje" actionListener="#{planKontView.naniespozycjeNakontaZbazy}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                    <p:commandButton value="miotełka" actionListener="#{planKontView.porzadkujCzterySiedem}"
-                                    onclick="document.body.style.cursor = 'wait'" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
-                   <p:commandButton value="importuj bilansowe" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('b')}" icon="fa fa-sign-in" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true"/>
-                   <p:commandButton value="importuj wynikowe" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}"  icon="fa fa-sign-in"action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true"/>
+                                    onclick="document.body.style.cursor = 'wait'" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                   <p:commandButton value="importuj bilansowe" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('b')}" icon="fa fa-sign-in" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                   <p:commandButton value="importuj wynikowe" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}"  icon="fa fa-sign-in" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:panelGrid>
             <p:panelGrid columns="10">
                 <p:commandButton value="0" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,0)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
