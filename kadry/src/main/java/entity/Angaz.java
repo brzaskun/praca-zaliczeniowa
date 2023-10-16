@@ -752,7 +752,7 @@ public class Angaz implements Serializable {
         double zwrot = 0.0;
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                if (p.getRodzajwynagrodzenia().getKod().equals("40")||p.getRodzajwynagrodzenia().getKod().equals("NZ")) {
+                if (p.getRodzajwynagrodzenia().getKod().equals("40")||p.getRodzajwynagrodzenia().getKod().equals("NZ")||p.getRodzajwynagrodzenia().getKod().equals("50")) {
                     zwrot = zwrot + pobierzkwoteKwota(p.getZmiennawynagrodzeniaList(), rok, mc, kalendarz);
                 }
             }

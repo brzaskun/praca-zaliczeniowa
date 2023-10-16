@@ -238,6 +238,9 @@ public class UmowaBean {
                 }
                 if (selected.getWynagrodzeniemiesieczne() != 0.0) {
                     Rodzajwynagrodzenia rodzajwynagrodzenia = selected.getUmowakodzus().isPraca() ? rodzajwynagrodzeniaFacade.findZasadniczePraca() : rodzajwynagrodzeniaFacade.findZasadniczeZlecenie();
+                    if (selected.getUmowakodzus().isDzielo()) {
+                        rodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findZasadniczedzielo();
+                    }
                     Skladnikwynagrodzenia skladnikwynagrodzenia =  dodajskladnikwynagrodzenia(rodzajwynagrodzenia, selected, skladnikWynagrodzeniaFacade);
                     Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia, "PLN", selected, 1, zmiennaWynagrodzeniaFacade);
                     if (skladnikwynagrodzenia.getId() != null && zmiennawynagrodzenie != null) {

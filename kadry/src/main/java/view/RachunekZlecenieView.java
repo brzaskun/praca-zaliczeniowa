@@ -145,8 +145,8 @@ public class RachunekZlecenieView implements Serializable {
                         rachunekdoumowyzlecenia.setKwotaoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowanie() * iloscgodzinzkalendarzaZagranica));
                         rachunekdoumowyzlecenia.setKwotaoddelegowaniewaluta(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowaniewaluta()* iloscgodzinzkalendarzaZagranica));
                     } else {
-                        rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(kwotaZagranicaPLN);
-                        rachunekdoumowyzlecenia.setKwota(Z.z(kwotaZagranicaPLN));
+                        rachunekdoumowyzlecenia.setWynagrodzeniemiesieczne(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne()+kwotaZagranicaPLN));
+                        rachunekdoumowyzlecenia.setKwota(Z.z(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniemiesieczne()+kwotaZagranicaPLN)));
                     }
                     rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
                     double koszty = umowabiezaca.getAngaz().getKosztyuzyskaniaprocent()==100?20:50;

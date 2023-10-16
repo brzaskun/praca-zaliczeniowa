@@ -670,7 +670,7 @@ public class PasekwynagrodzenBean {
         double bruttozusoddelegowanie = 0.0;
         double bruttozusoddelegowaniewaluta = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isZus0bezzus1() == false && p.isPodatek0bezpodatek1() == false) {
+            if (p.isZus0bezzus1() == true && p.isPodatek0bezpodatek1() == false) {
                 if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
                     bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie + p.getKwotadolistyplac());
                     bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotadolistyplacwaluta());
