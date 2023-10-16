@@ -1547,52 +1547,52 @@ public class PasekwynagrodzenBean {
 
     private static void obliczdietedoodliczenia(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz) {
             List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
-            if (skladnikwynagrodzeniaList.isEmpty()==false) {
-                skladnikwynagrodzeniaList = skladnikwynagrodzeniaList.stream().filter(p->p.getRodzajwynagrodzenia().getKod().equals("G1")).collect(Collectors.toList());
+            double dnioddelegowanie = 0.0;
+            double dietawaluta = 0.0;
+            for (Dzien p : kalendarz.getDzienList()) {
+                if (p.getKod() != null && p.getKod().equals("Z")) {
+                    dnioddelegowanie++;
+                    dietawaluta = dietawaluta + p.getNieobecnosc().getDietaoddelegowanie();
+                }
             }
-            if (skladnikwynagrodzeniaList.isEmpty()==false) {
-                //pobieranie diety dla kierowcow wg nowych zasad od 2023
-                double dietypln = 0.0;
-                for (Skladnikwynagrodzenia skl : skladnikwynagrodzeniaList) {
-                    if (skl.getRodzajwynagrodzenia().getKod().equals("G1")) {
+            double dietypln = Z.z(dietawaluta * pasek.getKurs());
+            if (dnioddelegowanie==0.0) {
+                List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList2 = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
+                for (Skladnikwynagrodzenia skl : skladnikwynagrodzeniaList2) {
+                    if (skl.getRodzajwynagrodzenia().getKod().equals("52")) {
                         List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skl.getZmiennawynagrodzeniaList();
                         for (Zmiennawynagrodzenia r : zmiennawynagrodzeniaList) {
+                            int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+                            int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
                             if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
                                 dietypln = Z.z(r.getKwota());
                             }
                         }
                     }
                 }
-                pasek.setDietaodliczeniepodstawaop(dietypln);
-            } else {
-                double dnioddelegowanie = 0.0;
-                double dietawaluta = 0.0;
-                for (Dzien p : kalendarz.getDzienList()) {
-                    if (p.getKod() != null && p.getKod().equals("Z")) {
-                        dnioddelegowanie++;
-                        dietawaluta = dietawaluta + p.getNieobecnosc().getDietaoddelegowanie();
-                    }
+            }
+
+                pasek.setDietawaluta(dietawaluta);
+                pasek.setDieta(dietypln);
+            if (pasek.isPraca()) {
+                if (skladnikwynagrodzeniaList.isEmpty()==false) {
+                    skladnikwynagrodzeniaList = skladnikwynagrodzeniaList.stream().filter(p->p.getRodzajwynagrodzenia().getKod().equals("G1")).collect(Collectors.toList());
                 }
-                double dietypln = Z.z(dietawaluta * pasek.getKurs());
-                if (dnioddelegowanie==0.0) {
-                    List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList2 = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
-                    for (Skladnikwynagrodzenia skl : skladnikwynagrodzeniaList2) {
-                        if (skl.getRodzajwynagrodzenia().getKod().equals("52")) {
+                if (skladnikwynagrodzeniaList.isEmpty()==false) {
+                    //pobieranie diety dla kierowcow wg nowych zasad od 2023
+                    double dietyplnkierowca = 0.0;
+                    for (Skladnikwynagrodzenia skl : skladnikwynagrodzeniaList) {
+                        if (skl.getRodzajwynagrodzenia().getKod().equals("G1")) {
                             List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skl.getZmiennawynagrodzeniaList();
                             for (Zmiennawynagrodzenia r : zmiennawynagrodzeniaList) {
-                                int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
-                                int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
                                 if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
-                                    dietypln = Z.z(r.getKwota());
+                                    dietyplnkierowca = Z.z(r.getKwota());
                                 }
                             }
                         }
                     }
-                }
-
-                    pasek.setDietawaluta(dietawaluta);
-                    pasek.setDieta(dietypln);
-                if (pasek.isPraca()) {
+                    pasek.setDietaodliczeniepodstawaop(dietyplnkierowca);
+                } else {
                     double dietyplnpodatek = Z.z(dietypln * 0.3);
                     pasek.setDietaodliczeniepodstawaop(dietyplnpodatek);
                 }
