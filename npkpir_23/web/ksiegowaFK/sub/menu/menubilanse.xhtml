@@ -16,7 +16,8 @@
                             <p:menuitem value="przegladaj Bilans zapisy" onclick="PF('bilansprzegladukladzapisy').show();"  actionListener="#{pozycjaBRView.pobierzukladprzegladBilans('aktywa')}"
                                         update="formprzegladbilanszapisy">
                             </p:menuitem>
-                            <p:menuitem value="przyporządkowanie kont" onclick="PF('bilansuklad').show();" actionListener="#{pozycjaBRKontaView.pobierzukladkontoB('aktywa')}" update="formbilansuklad"></p:menuitem>
+                            <p:menuitem value="przyporządkowanie kont" onclick="PF('bilansuklad').show();" actionListener="#{pozycjaBRKontaView.pobierzukladkontoB('aktywa')}" update="formbilansuklad"
+                                         rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
                             <p:menuitem value="internacjonalizacja" onclick="PF('dialog_bilans_projekt_inter').show();"></p:menuitem>
                             <p:menuitem value="projekt układu" onclick="PF('bilansprojekt').show();"></p:menuitem>
                             <p:menuitem value="kopiowanie przyporządkowania kont Bilans" onclick="PF('dialog_bilans_przypisywanie_podatnik_kopiuj').show();"></p:menuitem>
@@ -41,7 +42,8 @@
                             <p:menuitem value="przeglądaj RZiS zapisy" onclick="PF('rzisprzeglad').show();" 
                                         actionListener="#{pozycjaBRView.pobierzukladprzegladRZiS()}"
                                         update=":formprzeglad"></p:menuitem>
-                            <p:menuitem value="przyporządkowanie kont" onclick="PF('rzisuklad').show();" actionListener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update="formrzisuklad"></p:menuitem>
+                            <p:menuitem value="przyporządkowanie kont" onclick="PF('rzisuklad').show();" actionListener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update="formrzisuklad"
+                                         rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
                             <p:menuitem value="internacjonalizacja" onclick="PF('dialog_rzis_projekt_inter').show();"></p:menuitem>
                             <p:menuitem value="projekt układu" onclick="PF('rzisprojekt').show();"></p:menuitem>
                             <p:menuitem value="kopiowanie przyporządkowania kont RZiS" onclick="PF('dialog_rzis_przypisywanie_podatnik_kopiuj').show();"></p:menuitem>
