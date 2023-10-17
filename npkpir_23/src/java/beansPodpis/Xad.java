@@ -8,6 +8,7 @@ package beansPodpis;
 import error.E;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Files;
@@ -281,8 +282,10 @@ public class Xad {
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 //            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             DOMSource domSource = new DOMSource(document);
-            File outputFile = new File(plikxmlnazwapodpis);
-            StreamResult streamResult = new StreamResult(outputFile);
+            FileWriter writer = new FileWriter(new File(plikxmlnazwapodpis));
+            StreamResult streamResult = new StreamResult(writer);
+//            File outputFile = new File(plikxmlnazwapodpis);
+//            StreamResult streamResult = new StreamResult(outputFile);
             transformer.transform(domSource, streamResult);
         } catch (TransformerConfigurationException ex) {
             // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
@@ -290,6 +293,8 @@ public class Xad {
         } catch (TransformerException ex) {
             System.out.println("Blad drugi zapisu pliku na dysky Xad.java saveXML");
             // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            System.out.println("Blad trzeci zapisu pliku na dysky Xad.java saveXML");
         }
     }
 

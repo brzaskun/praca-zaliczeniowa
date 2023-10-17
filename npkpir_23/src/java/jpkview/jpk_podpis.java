@@ -9,6 +9,7 @@ import beansPodpis.*;
 import static beansPodpis.ObslugaPodpisuBean.innyPesel;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Files;
@@ -26,6 +27,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.crypto.KeySelector;
 import javax.xml.crypto.MarshalException;
@@ -220,13 +223,17 @@ public class jpk_podpis {
 //            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             DOMSource domSource = new DOMSource(document);
             String filename = OUTPUTFILE;
-            File outputFile = new File(filename);
-            StreamResult streamResult = new StreamResult(outputFile);
+            FileWriter writer = new FileWriter(new File(filename));
+            StreamResult streamResult = new StreamResult(writer);
+//            File outputFile = new File(filename);
+//            StreamResult streamResult = new StreamResult(outputFile);
             transformer.transform(domSource, streamResult);
         } catch (TransformerConfigurationException ex) {
             // Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {
             // Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
