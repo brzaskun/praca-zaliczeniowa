@@ -694,7 +694,7 @@ public class Angaz implements Serializable {
         String zwrot = "";
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                if (p.getRodzajwynagrodzenia().getKod().equals("40")||p.getRodzajwynagrodzenia().getKod().equals("50")) {
+                if (p.getRodzajwynagrodzenia().getKod().equals("40")||p.getRodzajwynagrodzenia().getId()==91) {
                     zwrot = zwrot+p.getRodzajwynagrodzenia().getOpispelny()+" ";
                     zwrot = zwrot+pobierzkwoteString(p.getZmiennawynagrodzeniaList(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                 }
@@ -752,7 +752,7 @@ public class Angaz implements Serializable {
         double zwrot = 0.0;
         if (this.skladnikwynagrodzeniaList!=null) {
             for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
-                if (p.getRodzajwynagrodzenia().getKod().equals("40")||p.getRodzajwynagrodzenia().getKod().equals("NZ")||p.getRodzajwynagrodzenia().getKod().equals("50")) {
+                if (p.getRodzajwynagrodzenia().getKod().equals("40")||p.getRodzajwynagrodzenia().getKod().equals("NZ")||p.getRodzajwynagrodzenia().getId()==91) {
                     zwrot = zwrot + pobierzkwoteKwota(p.getZmiennawynagrodzeniaList(), rok, mc, kalendarz);
                 }
             }
