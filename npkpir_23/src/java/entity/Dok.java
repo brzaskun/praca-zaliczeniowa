@@ -142,6 +142,10 @@ public class Dok extends DokSuper implements Serializable {
     @Column(name = "data_k", insertable=false, updatable=false, columnDefinition="timestamp default current_timestamp")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataK;
+    @Column(name = "dataedycji")
+    private Date dataedycji;
+    @Column(name = "edytowal")
+    private String edytowal;
     @Size(max = 10)
     @Column(name = "data_wyst")
 //    @Temporal(TemporalType.DATE)
@@ -736,6 +740,18 @@ public class Dok extends DokSuper implements Serializable {
     public void setFakturaCis(FakturaCis fakturaCis) {
         this.fakturaCis = fakturaCis;
     }
+      
+    public Date getDataedycji() {
+        return dataedycji;
+    }
+
+    public void setDataedycji(Date dataedycji) {
+        this.dataedycji = dataedycji;
+    }
+
+    public String getEdytowal() {
+        return edytowal;
+    }
 
 //    public List<UmorzenieN> getListaumorzen() {
 //        return listaumorzen;
@@ -744,7 +760,10 @@ public class Dok extends DokSuper implements Serializable {
 //    public void setListaumorzen(List<UmorzenieN> listaumorzen) {
 //        this.listaumorzen = listaumorzen;
 //    }
-    
+    public void setEdytowal(String edytowal) {      
+        this.edytowal = edytowal;
+    }
+
     public double getVat() {
         double br = this.brutto == null ? 0.0 : this.brutto;
         double nt = this.netto == null ? 0.0 : this.netto;

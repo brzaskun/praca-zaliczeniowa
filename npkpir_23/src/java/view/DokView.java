@@ -712,7 +712,6 @@ public class DokView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        selDokument.setWprowadzil(wpisView.getUzer().getLogin());
         selDokument.setPkpirM(wpisView.getMiesiacWpisu());
         selDokument.setPkpirR(wpisView.getRokWpisu().toString());
         selDokument.setPodatnik(wpisView.getPodatnikObiekt());
@@ -796,6 +795,7 @@ public class DokView implements Serializable {
             }
             if (rodzajdodawania == 1) {
                 Dok duplikat = sprawdzCzyNieDuplikat(selDokument);
+                selDokument.setWprowadzil(wpisView.getUzer().getLogin());
                 if (duplikat==null) {
                     if (cechastala != null) {
                         dodajcechedodokumentu(cechastala);
@@ -825,6 +825,8 @@ public class DokView implements Serializable {
                 }
             } else {
                 selDokument.setSprawdzony(0);
+                selDokument.setDataedycji(new Date());
+                selDokument.setEdytowal(wpisView.getUzer().getLogin());
                 dokDAO.edit(selDokument);
             }
 
