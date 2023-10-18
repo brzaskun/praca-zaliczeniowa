@@ -527,6 +527,7 @@ public class PlanKontView implements Serializable {
                             Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
                         } else {
                             PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, "syntetyka");
+                            kontoDAOfk.edit(noweKonto);
                         }
                     }
                 } catch (Exception e) {
@@ -553,10 +554,13 @@ public class PlanKontView implements Serializable {
             if (wynikdodaniakonta == 0) {
                 PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAOfk);
                 if (czyoddacdowzorca == true) {
-                    wykazkontwzor = planBezSlownikowychSyntetyczne(podatnik);
+                    //wykazkontwzor = planBezSlownikowychSyntetyczne(podatnik);
+                    wykazkontwzor.add(noweKonto);
                 } else {
-                    wykazkont = planBezSlownikowychSyntetyczne(podatnik);
+                    //wykazkont = planBezSlownikowychSyntetyczne(podatnik);
+                    wykazkont.add(noweKonto);
                 }
+                Collections.sort(wykazkont,new Kontocomparator());
                 noweKonto = new Konto();
                 //PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
                 Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
@@ -1348,7 +1352,7 @@ public class PlanKontView implements Serializable {
         //kontadoporzadkowania = kontoDAOfk.findWszystkieKontaPodatnikaRO(podatnik, rok);
         for (Konto p : kontadoporzadkowania) {
             try {
-                KontopozycjaZapis kpo = PlanKontFKBean.naniesprzyporzadkowanieNowe(p, kontadoporzadkowania, kontopozycjaZapisDAO, wybranyuklad);
+                KontopozycjaZapis kpo = PlanKontFKBean.naniesprzyporzadkowanieNowe(p, kontadoporzadkowania, kontopozycjaZapisDAO, wybranyuklad, kontoDAOfk);
                 if (p.isMapotomkow() == true && kpo != null && !kpo.getSyntetykaanalityka().equals("analityka")) {
                     if (p.getBilansowewynikowe().equals("wynikowe")) {
                         if (p.getZwyklerozrachszczegolne().equals("szczególne")) {

@@ -342,10 +342,12 @@ public class PlanKontFKBean {
                 } else if (kontopozycjamacierzysta != null && kontopozycjamacierzysta.getSyntetykaanalityka().equals("wynikowe")) {
                     naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "wynikowe");
                 }
+                kontoDAOfk.edit(noweKonto);
             } else {
                 kontopozycjamacierzysta = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
                 if (kontopozycjamacierzysta != null) {
                     naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontopozycjamacierzysta.getSyntetykaanalityka());
+                    kontoDAOfk.edit(noweKonto);
                 }
             }
         } catch (Exception e) {
@@ -355,7 +357,7 @@ public class PlanKontFKBean {
     }
      
      //porzadkujemy konta wiec syntetyczne musza miec przyporzadkowanie wiec nie ma sensu brac z zapisanych pozycji 23092023
-     public static KontopozycjaZapis naniesprzyporzadkowanieNowe(Konto noweKonto, List<Konto> wykazkont, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
+     public static KontopozycjaZapis naniesprzyporzadkowanieNowe(Konto noweKonto, List<Konto> wykazkont, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR, KontoDAOfk kontoDAOfk) {
         KontopozycjaZapis kontopozycjamacierzysta = null;
         try {
             Konto macierzyste = noweKonto.getKontomacierzyste();
@@ -381,7 +383,6 @@ public class PlanKontFKBean {
                         kontopozycjamacierzysta.setSyntetykaanalityka("wynikowe");
                         break;
                 }
-                naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO,"syntetyka");
                 if (kontopozycjamacierzysta.getSyntetykaanalityka().equals("zwykle")) {
                     naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "syntetyka");
                 } else if (kontopozycjamacierzysta.getSyntetykaanalityka().equals("rozrachunkowe/vat")) {
@@ -393,10 +394,12 @@ public class PlanKontFKBean {
                 } else if (kontopozycjamacierzysta.getSyntetykaanalityka().equals("wynikowe")) {
                     naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, "wynikowe");
                 }
+                kontoDAOfk.edit(noweKonto);
             } else {
                 kontopozycjamacierzysta = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
                 if (kontopozycjamacierzysta != null) {
                     naniesPrzyporzadkowaniePojedynczeKonto(kontopozycjamacierzysta, noweKonto, kontopozycjaZapisDAO, kontopozycjamacierzysta.getSyntetykaanalityka());
+                    kontoDAOfk.edit(noweKonto);
                 }
             }
         } catch (Exception e) {
@@ -642,6 +645,7 @@ public class PlanKontFKBean {
                         Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
                     } else {
                         PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, nowekonto, kontopozycjaZapisDAO, "syntetyka");
+                        kontoDAOfk.edit(nowekonto);
                     }
                 } catch (Exception e) {
                     E.e(e);
@@ -806,7 +810,7 @@ public class PlanKontFKBean {
                 kontopozycjaZapisDAO.create(kp);
                 //wywalam to bo to oczywste 23092023
                 //kontoDAOfk.edit(noweKonto);
-                //nie moge wywalic bo to jest takze do dodawania w 
+                //nie moge wywalic bo to jest takze do dodawania w i jak tego nie ma to nie zachowuje pozycji na koncie mimo ze jest kontopozycja
             } else {
                 kp.setPozycjaWn(kpo.getPozycjaWn());
                 kp.setPozycjaMa(kpo.getPozycjaMa());
