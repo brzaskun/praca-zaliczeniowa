@@ -28,6 +28,8 @@ import entity.SMTPSettings;
 import entity.Umowa;
 import entity.UprawnieniaUz;
 import entity.Uz;
+import error.E;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +45,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import mail.Mail;
 import msg.Msg;
+import pdf.PdfHistoriaImp;
 
 /**
  *
@@ -193,10 +196,18 @@ public class AngazView  implements Serializable {
    
 
     public void create() {
-        if (selected != null && wpisView.getFirma() != null) {
+        List<String> log = new ArrayList<>();
+        Pracownik pracownik = selected.getPracownik();
+        String pesel = "brak peselu";
+        String nazwiskoimie = "brak nazwiska i imienia";
+        if (selected != null && wpisView.getFirma() != null&& pracownik!=null) {
+            log.add("Wybrano pracownika rozpoczynam generowanie angazu");
+            pesel = selected.getPracownik().getPesel();
+            nazwiskoimie = selected.getPracownik().getNazwiskoImie();
             if (selected.getPracownik().getEmail() == null || selected.getPracownik().getEmail().equals("")) {
                 selected.getPracownik().setEmail(generujemail(selected.getPracownik()));
                 selected.getPracownik().setFikcyjnymail(true);
+                log.add("Wygenerowano email pracownika "+wpisView.getFirma()+" "+nazwiskoimie);
                 pracownikFacade.edit(selected.getPracownik());
                 Msg.msg("w", "Pracownik nie posiada adresu email. Generuje zastępnczy adres mailowy");
             }
@@ -207,12 +218,21 @@ public class AngazView  implements Serializable {
                 selected.setKosztyuzyskaniaprocent(100.0);
                 selected.setKwotawolnaprocent(100.0);
                 selected.setOdliczaculgepodatkowa(true);
+                log.add("Ustawiono zmienne");
                 try {
                     angazFacade.create(selected);
+                    log.add("Zachowano angaz w bazie");
                     lista.add(selected);
                     wpisView.setAngaz(selected);
+                    log.add("Dodano angaz do wpisView");
                     wpisView.setUmowa(null);
-                    generujKalendarzNowyAngaz(selected);
+                    log.add("Wyzerowano umowe do wpisView");
+                    int ilosckalendarzy = generujKalendarzNowyAngaz(selected, log);
+                    if (ilosckalendarzy==0) {
+                        log.add("BŁĄD. Nie dodano kalendarzy  "+pracownik.getNazwisko()+" "+pracownik.getImie());
+                    } else {
+                        log.add("wygenerowano kalendarze w ilosci "+ilosckalendarzy);
+                    }
                     Msg.msg("Stworzono kalendarz dla angażu");
                     selected = new Angaz();
                     Msg.msg("Dodano nowy angaż");
@@ -222,51 +242,78 @@ public class AngazView  implements Serializable {
                         UprawnieniaUz uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
                         Uz uzer = new Uz(selected, uprawnienia);
                         uzFacade.create(uzer);
+                        log.add("Dodano nowego uzera - pracownika");
                         Msg.msg("Dodano nowego użytkownika");
                     }  catch (Exception e){
-                    
+                        log.add("Nie dodano uzera - pracownika, taki uzer juz istnieje");
                     }
                 } catch (Exception e){
+                    log.add("BŁĄD. Inny");
+                    log.add(E.e(e));
                     Msg.msg("e", "Taki angaż już istnieje");
                 }
+                log.add("Zakonczono procedure importu");
             } catch (Exception e) {
+                log.add("BŁĄD. Nie dodano stawek angazu dla  "+pracownik.getNazwisko()+" "+pracownik.getImie());
+                log.add(E.e(e));
                 Msg.msg("e", "Błąd - nie dodano nowego angażu");
-            }
-                    }
+            } finally {
+                PdfHistoriaImp.drukuj(log, wpisView.getFirma().getNazwa(), wpisView.getFirma().getNip());
+                String nazwa = "log"+pesel+"angaz.pdf";
+                ByteArrayOutputStream drukujmail = PdfHistoriaImp.drukujMail(log, wpisView.getFirma().getNazwa(), wpisView.getFirma().getNip());
+                SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+                findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+                findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
+                mail.Mail.mailRaportzImportu(wpisView.getFirma(), wpisView.getUzer().getEmail(), null, findSprawaByDef, drukujmail.toByteArray(), nazwa, "info@taxman.biz.pl");
+        }   }
     }
     
     
-     public Kalendarzmiesiac generujKalendarzNowyAngaz(Angaz nowyangaz) {
+     public int generujKalendarzNowyAngaz(Angaz nowyangaz, List<String> log) {
         Kalendarzmiesiac kal = null;
+        int ilekalendarzy = 0;
         if (nowyangaz != null && nowyangaz.getPracownik() != null) {
             String rok = nowyangaz.getRok();
             Integer rokI = Integer.parseInt(rok);
             Integer rokToday = Integer.parseInt(Data.getRok(Data.aktualnaData()));
             Integer mcod = Integer.parseInt(nowyangaz.getMc());
             for (int rokgen = rokI;rokgen<=rokToday;rokgen++) {
+                log.add("Rok generowania "+rokgen);
+                String mca = "nie rozpoczeto wyboru miesiecy ";
                 for (String mc : Mce.getMceListS()) {
-                    String rokbiezacy = String.valueOf(rokgen);
-                    Integer kolejnymc = Integer.parseInt(mc);
-                    if (kolejnymc >= mcod) {
-                        kal = new Kalendarzmiesiac();
-                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getAngaz().getFirma(), rokbiezacy, mc);
-                        if (znaleziono != null) {
-                            kal.setRok(rokbiezacy);
-                            kal.setMc(mc);
-                            kal.setAngaz(nowyangaz);
-                            kal.ganerujdnizwzrocowego(znaleziono, null);
-                            kalendarzmiesiacFacade.create(kal);
-                        } else {
-                            Msg.msg("e", "Brak kalendarza wzorcowego za " + mc);
+                    mca = mc;
+                    try {
+                        String rokbiezacy = String.valueOf(rokgen);
+                        Integer kolejnymc = Integer.parseInt(mc);
+                        if (kolejnymc >= mcod) {
+                            kal = new Kalendarzmiesiac();
+                            Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getAngaz().getFirma(), rokbiezacy, mc);
+                            if (znaleziono != null) {
+                                kal.setRok(rokbiezacy);
+                                kal.setMc(mc);
+                                kal.setAngaz(nowyangaz);
+                                kal.ganerujdnizwzrocowego(znaleziono, null);
+                                kalendarzmiesiacFacade.create(kal);
+                                log.add("Wygenerowano kalendarz za mc "+mc);
+                                ilekalendarzy++;
+                            } else {
+                                log.add("BŁĄD. Nie wygenerowano kalendarz za mc "+mca);
+                                Msg.msg("e", "Brak kalendarza wzorcowego za " + mca);
+                            }
                         }
+                    } catch (Exception e) {
+                        log.add(E.e(e));
+                        log.add("BŁĄD. Podczas generoania kalendarza za mc "+mca);
                     }
                 }
             }
+            log.add("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
             Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
         } else {
+            log.add("BŁĄD. Nie można wygenerować. Nie wybrano pracownika i umowy");
             Msg.msg("e", "Nie można wygenerować. Nie wybrano pracownika i umowy");
         }
-        return kal;
+        return ilekalendarzy;
     }
      
      public void sprawdzrok() {
