@@ -71,14 +71,25 @@ public class RachunekZlecenieView implements Serializable {
         symbolwalutyZbiorcze = zwrot.getWaluta().getSymbolwaluty();
         for (Umowa umowa : umowyzlecenia) {
             umowabiezaca = umowa;
-            init(umowa);
+            init();
             lista.add(robrachunek(umowa));
         }
         Msg.msg("wygenerowano/pobrano rachunki");
     }
 
-    public void init(Umowa umowabiezaca) {
-        rachunekdoumowyzlecenia = robrachunek(umowabiezaca);
+    public void init() {
+        Umowa umowabiezaca = wpisView.getAngaz().pobierzumowaZlecenia(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        if (umowabiezaca==null) {
+            umowabiezaca = wpisView.getAngaz().pobierzumowaDzielo(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        }
+        if (umowabiezaca!=null) {
+            this.umowabiezaca = umowabiezaca;
+            rachunekdoumowyzlecenia = robrachunek(umowabiezaca);
+            wpisView.setUmowa(umowabiezaca);
+        } else {
+          Msg.msg("e","Brak umowy w rozliczanym okresie");
+        }
+        
     }
 
     public Rachunekdoumowyzlecenia robrachunek(Umowa umowabiezaca) {
@@ -162,11 +173,11 @@ public class RachunekZlecenieView implements Serializable {
         return rachunekdoumowyzlecenia;
     }
     
-    public void przeliczkoszty() {
-        double koszty = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
-        rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwotasuma() * koszty / 100.0));
-        Msg.msg("Przeliczonp koszty");
-    }
+//    public void przeliczkoszty() {
+//        double koszty = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
+//        rachunekdoumowyzlecenia.setKoszt(Z.z(rachunekdoumowyzlecenia.getKwotasuma() * koszty / 100.0));
+//        Msg.msg("Przeliczonp koszty");
+//    }
     
     public void ustawtabelenbpRachZbiorcze() {
         if (lista!=null) {
@@ -343,7 +354,7 @@ public class RachunekZlecenieView implements Serializable {
     public void usun() {
         if (rachunekdoumowyzlecenia != null) {
             rachunekdoumowyzleceniaFacade.remove(rachunekdoumowyzlecenia);
-            init(wpisView.getUmowa());
+            init();
             Msg.msg("Usunięto rachunek");
         }
     }

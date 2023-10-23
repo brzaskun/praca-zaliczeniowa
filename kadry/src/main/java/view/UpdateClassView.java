@@ -136,7 +136,7 @@ public class UpdateClassView   implements Serializable {
         zaswiadczeniaView.init();
         try {
             kartaWynagrodzenView.pobierzdane(wpisView.getAngaz());
-            rachunekZlecenieView.init(wpisView.getUmowa());
+            rachunekZlecenieView.init();
         } catch (Exception e) {}
         
     }

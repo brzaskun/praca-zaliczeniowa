@@ -16,7 +16,7 @@
     <p:dialog id="dialograchunekzlecenia" header="Wystawianie rachunku do umowy zlecenia/o dzieło" widgetVar="dialograchunekzlecenia"  
               resizable="false"  onShow="ustawdialog('dialograchunekzlecenia','centertile',1650,800);zmienwyglad()" closeOnEscape="true" onHide="resetujdialog('dialograchunekzlecenia');" 
               fitViewport="true">
-        <p:ajax event="open" listener="#{rachunekZlecenieView.init(wpisView.umowa)}" update="RachunekZleceniaForm" global="false"/>
+        <p:ajax event="open" listener="#{rachunekZlecenieView.init()}" update="RachunekZleceniaForm" global="false"/>
             <h:form  styleClass="formadmin" id="RachunekZleceniaForm">
                 <p:outputPanel rendered="#{wpisView.umowa.umowakodzus.praca}">
                     <h:outputText value="Bieżąca umowa to umowa o pracę. Nie można wygenerować rachunku" style="color: green;"/>
@@ -92,10 +92,8 @@
                 <p:panelGrid columns="2" style="margin-top: 10px;" id="panelkwoszty">
                 <p:outputLabel value="koszt uzyskania procent: "/>
                 <p:inputNumber value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.procentkosztowuzyskania}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" style="width: 90px;" size="6">
-                    <p:ajax event="change" partialSubmit="true" global="false" listener="#{rachunekZlecenieView.przeliczkoszty}" update="@parent:@parent"/>
+                    <p:ajax event="change" partialSubmit="true" global="false" />
                 </p:inputNumber >
-                 <p:outputLabel value="koszt uzyskania kwota: "/>
-                 <bcf:outputpl value="#{rachunekZlecenieView.rachunekdoumowyzlecenia.koszt}" id="kwotakoszty"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 10px;">
                     <p:outputLabel value="osoba do 26 roku życia:"/>
