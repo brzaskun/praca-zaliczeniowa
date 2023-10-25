@@ -81,13 +81,16 @@ public class SzachMatJPK {
                 String plikxmlnazwa = "wysylka"+mainfilename;
                 String dirplikxmlnazwa = dir+plikxmlnazwa;
                 PrzygotujInitUploadXML.robDokument(wpisView, encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), aesfilename, partfilesize, partfilehash, dirplikxmlnazwa);
-                String content = new String(Files.readAllBytes(Paths.get(dirplikxmlnazwa)));
-                String plikxmlnazwapodpis = "wysylkapodpis"+mainfilename;
-                String dirplikxmlnazwapodpis = dir+plikxmlnazwapodpis;
+                String content = Files.readString(Path.of(dirplikxmlnazwa));
+                //zamiana 23.10.2023
+                //String content = new String(Files.readAllBytes(Paths.get(dirplikxmlnazwa)));
+                //String plikxmlnazwapodpis = "wysylkapodpis"+mainfilename;
+                //String dirplikxmlnazwapodpis = dir+plikxmlnazwapodpis;
                 JPKSuper jpk = pobierzJPK(dirmainfilename, wpisView);
-                beansPodpis.Xad.podpiszjpk(content, dirplikxmlnazwapodpis, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
+                Object[] podpisana = beansPodpis.Xad.podpiszjpkStream(content, mainfilename, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
                 upo.uzupelnij(podatnik, wpisView, jpk);
-                Object[] zwrot = beanJPKwysylka.wysylkadoMF(diraesfilename, dirplikxmlnazwapodpis, upo);
+                byte[] plikpodpisany = (byte[]) podpisana[0];
+                Object[] zwrot = beanJPKwysylka.wysylkadoMFStream(plikpodpisany, mainfilename, upo);
                 if ((int) zwrot[4] == 3) {
                     wiadomosc[0] = "i";
                     wiadomosc[1] = "Sporządzono, zaszyfrowano, wysłano JPK i otrzymano UPO";
@@ -164,7 +167,7 @@ public class SzachMatJPK {
             String content = new String(Files.readAllBytes(Paths.get("wysylka.xml")));
             beansPodpis.Xad.podpiszjpk(content, plikxmlnazwapodpis, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
             UPO upo = new UPO();
-            beanJPKwysylka.wysylkadoMF(partfilename, plikxmlnazwapodpis, upo);
+            //beanJPKwysylka.wysylkadoMF(partfilename, plikxmlnazwapodpis, upo);
         } catch (Exception ex) {
             E.e(ex);
         }
