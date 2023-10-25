@@ -223,10 +223,6 @@ public class AngazView  implements Serializable {
                     angazFacade.create(selected);
                     log.add("Zachowano angaz w bazie");
                     lista.add(selected);
-                    wpisView.setAngaz(selected);
-                    log.add("Dodano angaz do wpisView");
-                    wpisView.setUmowa(null);
-                    log.add("Wyzerowano umowe do wpisView");
                     int ilosckalendarzy = generujKalendarzNowyAngaz(selected, log);
                     if (ilosckalendarzy==0) {
                         log.add("BŁĄD. Nie dodano kalendarzy  "+pracownik.getNazwisko()+" "+pracownik.getImie());
@@ -234,6 +230,10 @@ public class AngazView  implements Serializable {
                         log.add("wygenerowano kalendarze w ilosci "+ilosckalendarzy);
                     }
                     Msg.msg("Stworzono kalendarz dla angażu");
+                    wpisView.setAngaz(selected);
+                    log.add("Dodano angaz do wpisView");
+                    wpisView.setUmowa(null);
+                    log.add("Wyzerowano umowe do wpisView");
                     selected = new Angaz();
                     Msg.msg("Dodano nowy angaż");
                     //nie moze tu byc bo nie ma umowy
@@ -287,7 +287,7 @@ public class AngazView  implements Serializable {
                         Integer kolejnymc = Integer.parseInt(mc);
                         if (kolejnymc >= mcod) {
                             kal = new Kalendarzmiesiac();
-                            Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getAngaz().getFirma(), rokbiezacy, mc);
+                            Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(nowyangaz.getFirma(), rokbiezacy, mc);
                             if (znaleziono != null) {
                                 kal.setRok(rokbiezacy);
                                 kal.setMc(mc);
