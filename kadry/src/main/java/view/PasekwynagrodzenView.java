@@ -641,14 +641,9 @@ public class PasekwynagrodzenView implements Serializable {
 //                    it.remove();
 //                }
 //            }
-            for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
-                Kalendarzmiesiac p = it.next();
-                Angaz angazaktywny = p.getAngaz();
-                if (angazaktywny.isUkryj()) {
-                    it.remove();
-                }
-            }
             if (rodzajlistyplac.getSymbol().equals("ZA")) {
+                listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+                Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
                 if (listakalendarzmiesiac!=null) {
                     for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator();it.hasNext();) {
                         Kalendarzmiesiac kal = it.next();
@@ -660,34 +655,35 @@ public class PasekwynagrodzenView implements Serializable {
             }
             if (rodzajlistyplac.getSymbol().equals("UZ")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
-            }
-            Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
-            if (rodzajlistyplac.getSymbol().equals("UZ")) {
-                for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
-                    Kalendarzmiesiac p = it.next();
-                    Angaz angaz = p.getAngaz();
-                    Rachunekdoumowyzlecenia znaleziony = PasekwynagrodzenBean.pobierzRachunekzlecenie(angaz, wybranalistaplac.getRok(), wybranalistaplac.getMc());
-                    if (znaleziony == null) {
-                        it.remove();
+                Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
+                if (rodzajlistyplac.getSymbol().equals("UZ")) {
+                    for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
+                        Kalendarzmiesiac p = it.next();
+                        Angaz angaz = p.getAngaz();
+                        Rachunekdoumowyzlecenia znaleziony = PasekwynagrodzenBean.pobierzRachunekzlecenie(angaz, wybranalistaplac.getRok(), wybranalistaplac.getMc());
+                        if (znaleziony == null) {
+                            it.remove();
+                        }
                     }
                 }
             }
             if (rodzajlistyplac.getSymbol().equals("UD")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
-            }
-            Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
-            if (rodzajlistyplac.getSymbol().equals("UD")) {
-                for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
-                    Kalendarzmiesiac p = it.next();
-                    Angaz angaz = p.getAngaz();
-                    Rachunekdoumowyzlecenia znaleziony = PasekwynagrodzenBean.pobierzRachunekdzielo(angaz, wybranalistaplac.getRok(), wybranalistaplac.getMc());
-                    if (znaleziony == null) {
-                        it.remove();
+                Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
+                if (rodzajlistyplac.getSymbol().equals("UD")) {
+                    for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
+                        Kalendarzmiesiac p = it.next();
+                        Angaz angaz = p.getAngaz();
+                        Rachunekdoumowyzlecenia znaleziony = PasekwynagrodzenBean.pobierzRachunekdzielo(angaz, wybranalistaplac.getRok(), wybranalistaplac.getMc());
+                        if (znaleziony == null) {
+                            it.remove();
+                        }
                     }
                 }
             }
             if (rodzajlistyplac.getSymbol().equals("OS")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+                Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
                 for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
                     Kalendarzmiesiac kal = it.next();
                     List<Umowa> umowy = kal.getAngaz().getUmowaList();
@@ -758,6 +754,13 @@ public class PasekwynagrodzenView implements Serializable {
                 Kalendarzmiesiac kal = it.next();
                 Pasekwynagrodzen pasek = kal.getPasek(wybranalistaplac);
                 if (lista.contains(pasek)) {
+                    it.remove();
+                }
+            }
+            for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator(); it.hasNext();) {
+                Kalendarzmiesiac p = it.next();
+                Angaz angazaktywny = p.getAngaz();
+                if (angazaktywny.isUkryj()) {
                     it.remove();
                 }
             }
