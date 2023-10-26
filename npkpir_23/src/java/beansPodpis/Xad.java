@@ -349,7 +349,7 @@ public class Xad {
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 //            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             DOMSource domSource = new DOMSource(document);
-            FileWriter writer = new FileWriter(new File(plikxmlnazwapodpis));
+            FileWriter writer = new FileWriter(new File(plikxmlnazwapodpis), false);
             StreamResult streamResult = new StreamResult(writer);
 //            File outputFile = new File(plikxmlnazwapodpis);
 //            StreamResult streamResult = new StreamResult(outputFile);
@@ -358,11 +358,14 @@ public class Xad {
         } catch (TransformerConfigurationException ex) {
             // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Blad pierwszy zapisu pliku na dysky Xad.java saveXML");
+            System.out.println("nazwa pliku "+plikxmlnazwapodpis);
         } catch (TransformerException ex) {
             System.out.println("Blad drugi zapisu pliku na dysky Xad.java saveXML");
+            System.out.println("nazwa pliku "+plikxmlnazwapodpis);
             // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             System.out.println("Blad trzeci zapisu pliku na dysky Xad.java saveXML");
+            System.out.println("nazwa pliku "+plikxmlnazwapodpis);
         }
         return zwrot;
     }
