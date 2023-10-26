@@ -84,22 +84,30 @@ public class SzachMatJPK {
                 String content = Files.readString(Path.of(dirplikxmlnazwa));
                 //zamiana 23.10.2023
                 //String content = new String(Files.readAllBytes(Paths.get(dirplikxmlnazwa)));
-                //String plikxmlnazwapodpis = "wysylkapodpis"+mainfilename;
-                //String dirplikxmlnazwapodpis = dir+plikxmlnazwapodpis;
+                String plikxmlnazwapodpis = "wysylkapodpis"+mainfilename;
+                String dirplikxmlnazwapodpis = dir+plikxmlnazwapodpis;
                 JPKSuper jpk = pobierzJPK(dirmainfilename, wpisView);
-                Object[] podpisana = beansPodpis.Xad.podpiszjpkStream(content, mainfilename, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
-                upo.uzupelnij(podatnik, wpisView, jpk);
-                byte[] plikpodpisany = (byte[]) podpisana[0];
-                Object[] zwrot = beanJPKwysylka.wysylkadoMFStream(plikpodpisany, mainfilename, upo);
-                if ((int) zwrot[4] == 3) {
-                    wiadomosc[0] = "i";
-                    wiadomosc[1] = "Sporządzono, zaszyfrowano, wysłano JPK i otrzymano UPO";
-                } else {
-                    String[] wiadomoscblad = (String[]) zwrot[2];
-                    wiadomosc[0] = wiadomoscblad[0];
-                    wiadomosc[1] = wiadomoscblad[1];
-                }
+                int wynikpodpisu  = beansPodpis.Xad.podpiszjpk(content, dirplikxmlnazwapodpis, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
+                if (wynikpodpisu==1) {
+                    upo.uzupelnij(podatnik, wpisView, jpk);
+                    Object[] zwrot = beanJPKwysylka.wysylkadoMF(diraesfilename, dirplikxmlnazwapodpis, upo);
+                    if ((int) zwrot[4] == 3) {
+                        wiadomosc[0] = "i";
+                        wiadomosc[1] = "Sporządzono, zaszyfrowano, wysłano JPK i otrzymano UPO";
+                    } else {
+                        String[] wiadomoscblad = (String[]) zwrot[2];
+                        wiadomosc[0] = wiadomoscblad[0];
+                        wiadomosc[1] = wiadomoscblad[1];
+                        try {
+                            wiadomosc[2] = (String) zwrot[5];
+                        } catch (Exception e){}
+
+                    }
                     System.out.println("Koniec");
+                } else {
+                    wiadomosc[0] = "e";
+                    wiadomosc[1] = "Błąd podczas zapisywania podpisanego JPK na dysku. Przerywam wysyłkę";
+                }
             } else {
                 wiadomosc[0] = "e";
                 wiadomosc[1] = "Nie odnaleziono pliku z JPK, nie można bylo go wysłać";

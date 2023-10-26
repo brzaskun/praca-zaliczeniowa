@@ -493,7 +493,7 @@ public class Jpk_VAT2NView implements Serializable {
                 String[] wiadomosc = SzachMatJPK.wysylka(podatnik, wpisView, upo);
                 if (!wiadomosc[0].equals("e")) {
                     wiadomosc = zachowajUPO(upo);
-                    if (upo.getDeklaracja()!=null) {
+                    if (upo.getDeklaracja()!=null&& upo.getCode()==120) {
                         DeklSuper deklaracja = upo.getDeklaracja();
                         deklaracja.setStatus("399");
                         deklaracja.setIdentyfikator("wysłano z jpk, oczekuje na upo");

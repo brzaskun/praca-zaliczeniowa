@@ -19,7 +19,7 @@
                          <h:form>
                              <p:growl life="3600"  id="fifi" ><p:autoUpdate/></p:growl>
                             <p:confirmDialog id="confirmDialog" message="Usunąć wybrany JPK?"  
-                                             header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmation">  
+                                             header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmationJPK">  
 
                                 <p:commandButton id="confirm" value="Tak, usunąć" update="form_dialog_jpk_vat" oncomplete="PF('confirmation').hide()"  
                                                  actionListener="#{jpk_VAT2NView.usunUPO}" />  

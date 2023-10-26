@@ -288,6 +288,21 @@ public class DeklaracjevatView implements Serializable {
                 Msg.msg("e","Deklaracja nie usunięta");
             }
     }
+    
+    public void resetuj(Deklaracjevat selDok) {
+        selected = selDok;
+        try {
+                selected.setIdentyfikator("dla jpk");
+                selected.setStatus("388");
+                selected.setOpis("zachowana dla wysłania z jpk");
+                selected.setDatazlozenia(new Date());
+               deklaracjevatDAO.edit(selected);
+                Msg.msg("i","Deklaracja zresetowana");
+            } catch (Exception e) { 
+                E.e(e); 
+                Msg.msg("e","Deklaracja nie zresetowana");
+            }
+    }
            
    public void destroy(Deklaracjevat selDok) {
         selected = selDok;

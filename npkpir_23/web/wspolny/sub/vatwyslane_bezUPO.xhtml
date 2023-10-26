@@ -60,8 +60,12 @@
                 </p:panelGrid>
             </p:column>
             <p:column id="deleteColumn" headerText="usuń" width="110" style="text-align: center;">
-                <p:commandButton actionListener="#{deklaracjevatView.destroybezupo(item)}" update="@form" rendered="#{item.status ne '300'}"
-                                 id="delete" icon="ui-icon ui-icon-trash" type="submit" style="width: 80px;"/>
+                <p:panelGrid columns="1">
+                    <p:commandButton actionListener="#{deklaracjevatView.destroybezupo(item)}" update="@form" rendered="#{item.status ne '300'}"
+                                     id="delete" icon="ui-icon ui-icon-trash" type="submit" style="width: 80px;"/>
+                    <p:commandButton actionListener="#{deklaracjevatView.resetuj(item)}" update="@form"
+                                     id="resetjpk" icon="ui-icon ui-icon-disk" type="submit" style="width: 80px;"/>
+                </p:panelGrid>
             </p:column>
             <p:rowExpansion>
                 <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">

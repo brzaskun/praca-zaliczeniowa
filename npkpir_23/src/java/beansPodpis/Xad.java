@@ -160,9 +160,9 @@ public class Xad {
         return podpisana;
     }
     
-    public static Object[] podpiszjpk(String deklaracja, String plikxmlnazwapodpis, String innehaslo, String innypesel) {
+    public static int podpiszjpk(String deklaracja, String plikxmlnazwapodpis, String innehaslo, String innypesel) {
         String haslo = inneHaslo(innehaslo);
-        Object[] podpisana = null;
+        int podpisana = 0;
         try {
             //deklaracja = deklaracja.substring(38);
             Provider provider = ObslugaPodpisuBean.jestCzytnikDriver();
@@ -217,9 +217,9 @@ public class Xad {
                 ex.printStackTrace();
             }
             //podpisana = saveInput(doc);
-            saveXML(doc, plikxmlnazwapodpis);
+            int wynikzapisu = saveXML(doc, plikxmlnazwapodpis);
 //            validate(doc, xmlSigFactory);
-
+            podpisana = wynikzapisu;
         } catch (Exception ex) {
             E.e(ex);
         }
@@ -340,7 +340,8 @@ public class Xad {
         return zwrot;
     }
 
-    public static void saveXML(Document document, String plikxmlnazwapodpis) {
+    public static int saveXML(Document document, String plikxmlnazwapodpis) {
+        int zwrot = 0;
         try {
             // creating and writing to xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -353,6 +354,7 @@ public class Xad {
 //            File outputFile = new File(plikxmlnazwapodpis);
 //            StreamResult streamResult = new StreamResult(outputFile);
             transformer.transform(domSource, streamResult);
+            zwrot = 1;
         } catch (TransformerConfigurationException ex) {
             // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Blad pierwszy zapisu pliku na dysky Xad.java saveXML");
@@ -362,6 +364,7 @@ public class Xad {
         } catch (IOException ex) {
             System.out.println("Blad trzeci zapisu pliku na dysky Xad.java saveXML");
         }
+        return zwrot;
     }
 
     public static void validate(Document doc, XMLSignatureFactory xmlSigFactory) {

@@ -11,11 +11,11 @@ import deklaracje.upo.Potwierdzenie;
 import entity.UPO;
 import error.E;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -58,59 +58,59 @@ public class beanJPKwysylka {
         }
     }
 
-    public static Object[] wysylkadoMF(byte[] aesfilename, String plikxml, UPO upo) {
+    public static Object[] wysylkadoMF(String aesfilename, String plikxml, UPO upo) {
         Object[] zwrot = null;
         try {
-            Object[] etap1zwrot = etap1(aesfilename, plikxml);
+            Object[] etap1zwrot = etap1(plikxml);
             zwrot = etap1zwrot;
             JSONObject jo = (JSONObject) etap1zwrot[0];
             boolean wynik1 = (boolean) etap1zwrot[1];
             String[] wiadomosc = (String[]) etap1zwrot[2];
             String referenceNumber = (String) etap1zwrot[3];
             boolean wynik2 = false;
-            if (wynik1) {
-                Object[] etap2zwrot = etap2(referenceNumber, aesfilename, jo);
-                wynik2 = (boolean) etap2zwrot[1];
-                zwrot = etap2zwrot;
-            }
-            if (wynik2) {
-                Object[] etap3zwrot = etap3(referenceNumber, upo);
-                zwrot = etap3zwrot;
-            }
+//            if (wynik1) {
+//                Object[] etap2zwrot = etap2(referenceNumber, aesfilename, jo);
+//                wynik2 = (boolean) etap2zwrot[1];
+//                zwrot = etap2zwrot;
+//            }
+//            if (wynik2) {
+//                Object[] etap3zwrot = etap3(referenceNumber, upo);
+//                zwrot = etap3zwrot;
+//            }
         } catch (Exception ex) {
             E.e(ex);
         }
         return zwrot;
     }
     
-    public static Object[] wysylkadoMFStream(byte[] aesfilename, String plikxml, UPO upo) {
-        Object[] zwrot = null;
-        try {
-            Object[] etap1zwrot = etap1(aesfilename, plikxml);
-            zwrot = etap1zwrot;
-            JSONObject jo = (JSONObject) etap1zwrot[0];
-            boolean wynik1 = (boolean) etap1zwrot[1];
-            String[] wiadomosc = (String[]) etap1zwrot[2];
-            String referenceNumber = (String) etap1zwrot[3];
-            boolean wynik2 = false;
-            if (wynik1) {
-                Object[] etap2zwrot = etap2(referenceNumber, aesfilename, jo);
-                wynik2 = (boolean) etap2zwrot[1];
-                zwrot = etap2zwrot;
-            }
-            if (wynik2) {
-                Object[] etap3zwrot = etap3(referenceNumber, upo);
-                zwrot = etap3zwrot;
-            }
-        } catch (Exception ex) {
-            E.e(ex);
-        }
-        return zwrot;
-    }
+//    public static Object[] wysylkadoMFStream(byte[] aesfilename, String plikxml, UPO upo) {
+//        Object[] zwrot = null;
+//        try {
+//            Object[] etap1zwrot = etap1(aesfilename, plikxml);
+//            zwrot = etap1zwrot;
+//            JSONObject jo = (JSONObject) etap1zwrot[0];
+//            boolean wynik1 = (boolean) etap1zwrot[1];
+//            String[] wiadomosc = (String[]) etap1zwrot[2];
+//            String referenceNumber = (String) etap1zwrot[3];
+//            boolean wynik2 = false;
+//            if (wynik1) {
+//                Object[] etap2zwrot = etap2(referenceNumber, aesfilename, jo);
+//                wynik2 = (boolean) etap2zwrot[1];
+//                zwrot = etap2zwrot;
+//            }
+//            if (wynik2) {
+//                Object[] etap3zwrot = etap3(referenceNumber, upo);
+//                zwrot = etap3zwrot;
+//            }
+//        } catch (Exception ex) {
+//            E.e(ex);
+//        }
+//        return zwrot;
+//    }
 
-   public static Object[] etap1(byte[] plikxml, String nazwapliku) {
+   public static Object[] etap1(String plikxml) {
        if (plikxml!=null) {
-           System.out.println("NAZWA JPK "+nazwapliku);
+           System.out.println("NAZWA JPK "+plikxml);
        } else {
            System.out.println("PUSTY PLIK Z NAZWĄ JPK");
        }
@@ -162,7 +162,7 @@ public class beanJPKwysylka {
         return zwrot;
     }
 
-    public static Object[] etap2(String referenceNumber, byte[] aesfilename, JSONObject jo) {
+    public static Object[] etap2(String referenceNumber, String aesfilename, JSONObject jo) {
         Object[] zwrot = new Object[5];
         boolean wynik = false;
         String[] wiadomosc = new String[2];
@@ -191,6 +191,7 @@ public class beanJPKwysylka {
         zwrot[2] = wiadomosc;
         zwrot[3] = referenceNumber;
         zwrot[4] = 2;
+        zwrot[5] = responseCode;
         return zwrot;
     }
 
@@ -268,12 +269,12 @@ public class beanJPKwysylka {
         return zwrot;
     }
 
-    private static void wysylkaAzure(String ur, byte[] plik) {
+    private static void wysylkaAzure(String ur, String nazwapliku) {
         try {
             // Upload an image file.
             CloudBlockBlob blob = new CloudBlockBlob(new URI(ur));
-            InputStream targetStream = new ByteArrayInputStream(plik);
-            blob.upload(targetStream, plik.length);
+            File sourceFile = new File(nazwapliku);
+            blob.upload(new FileInputStream(sourceFile), sourceFile.length());
         } catch (FileNotFoundException fileNotFoundException) {
             System.out.print("FileNotFoundException encountered: ");
             System.exit(-1);
@@ -286,16 +287,16 @@ public class beanJPKwysylka {
         }
     }
 
-    private static Object[] autoryzacja(byte[] postData, String URL_autoryzacja) {
+    private static Object[] autoryzacja(String filename, String URL_autoryzacja) {
         Object[] zwrot = new Object[2];
         try {
             //java 8
             //String daneautoryzujace = new String(Files.readAllBytes(Paths.get(filename)));
             System.out.println("******************** 261");
-            //Path filePath = Path.of(filename);
-            //String daneautoryzujace = Files.readString(filePath);
+            Path filePath = Path.of(filename);
+            String daneautoryzujace = Files.readString(filePath);
             System.out.println("******************** 264");
-            //byte[] postData = daneautoryzujace.getBytes(StandardCharsets.UTF_8);
+            byte[] postData = daneautoryzujace.getBytes(StandardCharsets.UTF_8);
             System.out.println("******************** 266");
             int postDataLength = postData.length;
             System.out.println("******************** 268");
