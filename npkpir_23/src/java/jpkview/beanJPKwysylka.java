@@ -68,15 +68,15 @@ public class beanJPKwysylka {
             String[] wiadomosc = (String[]) etap1zwrot[2];
             String referenceNumber = (String) etap1zwrot[3];
             boolean wynik2 = false;
-//            if (wynik1) {
-//                Object[] etap2zwrot = etap2(referenceNumber, aesfilename, jo);
-//                wynik2 = (boolean) etap2zwrot[1];
-//                zwrot = etap2zwrot;
-//            }
-//            if (wynik2) {
-//                Object[] etap3zwrot = etap3(referenceNumber, upo);
-//                zwrot = etap3zwrot;
-//            }
+            if (wynik1) {
+                Object[] etap2zwrot = etap2(referenceNumber, aesfilename, jo);
+                wynik2 = (boolean) etap2zwrot[1];
+                zwrot = etap2zwrot;
+            }
+            if (wynik2) {
+                Object[] etap3zwrot = etap3(referenceNumber, upo);
+                zwrot = etap3zwrot;
+            }
         } catch (Exception ex) {
             E.e(ex);
         }

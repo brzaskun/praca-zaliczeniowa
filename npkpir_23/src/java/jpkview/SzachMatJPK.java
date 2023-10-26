@@ -88,7 +88,7 @@ public class SzachMatJPK {
                 String dirplikxmlnazwapodpis = dir+plikxmlnazwapodpis;
                 JPKSuper jpk = pobierzJPK(dirmainfilename, wpisView);
                 int wynikpodpisu  = beansPodpis.Xad.podpiszjpk(content, dirplikxmlnazwapodpis, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
-                if (wynikpodpisu==1) {
+                if (wynikpodpisu==100) {
                     upo.uzupelnij(podatnik, wpisView, jpk);
                     Object[] zwrot = beanJPKwysylka.wysylkadoMF(diraesfilename, dirplikxmlnazwapodpis, upo);
                     if ((int) zwrot[4] == 3) {
