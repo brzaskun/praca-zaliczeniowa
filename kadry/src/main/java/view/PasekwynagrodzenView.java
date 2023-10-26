@@ -372,9 +372,9 @@ public class PasekwynagrodzenView implements Serializable {
                     }
                     List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngaz(angaz);
                     List<Kalendarzmiesiac> kalendarzlista = kalendarzmiesiacFacade.findByAngaz(angaz);
-                    Umowa aktywnaumowa = wpisView.getAngaz().pobierzumowaZlecenia(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                    Umowa aktywnaumowa = angaz.pobierzumowaZlecenia(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                     if (rodzajlistyplac.getSymbol().equals("UD")) {
-                        aktywnaumowa = wpisView.getAngaz().pobierzumowaDzielo(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                        aktywnaumowa = angaz.pobierzumowaDzielo(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                     }
                     Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = rachunekdoumowyzleceniaFacade.findByRokMcUmowa(kalendarzpracownikaLP.getRok(),kalendarzpracownikaLP.getMc(), aktywnaumowa);
                     if (rachunekdoumowyzlecenia!=null) {
