@@ -205,6 +205,13 @@
                 <p:commandButton value="usuń" actionListener="#{klientJPKView.usunwszytskieimportowane()}" update="formVatZestKsiegowa:akordeon:tabelapozycjedlajpk" style="width: 120px;"/>
             </p:panelGrid>
         </p:tab>
+        <p:tab title="deklaracja VAT">
+            <ui:include src="/wspolny/sub/vatPrzygotowanieDeklaracjiN.xhtml"/> 
+        </p:tab>
+        <p:tab title="wysyłka">
+            <ui:include src="/wspolny/sub/vatdowyslania.xhtml"/>  
+        </p:tab>
+        
     </p:tabView>
 
 </ui:composition>   

@@ -82,6 +82,8 @@ public class Vat7DKView implements Serializable {
     @Inject
     protected DeklaracjevatDAO deklaracjevatDAO;
     @Inject
+    private DeklaracjevatView deklaracjevatView;
+    @Inject
     private DeklaracjaVatSchemaDAO deklaracjaVatSchemaDAO;
     @Inject
     private SchemaEwidencjaDAO schemaEwidencjaDAO;
@@ -240,7 +242,7 @@ public class Vat7DKView implements Serializable {
         if (wpisView.getUzer().getNrtelefonu()==null) {
             Msg.msg("e","Brak numeru telefonu sporządzającego deklarację. Nie można jej zapisać");
         } else {
-            ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
+            //ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
             mapaewidencji =  ewidencjaVatView.getSumaewidencji();
             obliczNowa();
         }
@@ -506,7 +508,9 @@ public class Vat7DKView implements Serializable {
             if (vatzd) {
                 wniosekVATZDEntityDAO.edit(wniosekVATZDEntity);
             }
+            deklaracjevatView.init();
             Msg.msg("i", "Podatnik: "+wpisView.getPrintNazwa() + " - zachowano nową deklaracje VAT za " + rok + "-" + mc);
+            
         }
         //pobieranie potwierdzenia
         nowadeklaracja = null;
