@@ -188,7 +188,8 @@ public class DeklaracjevatView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        pokazprzyciskpodpisfunkcja();
+        //pokazprzyciskpodpisfunkcja();
+        pokazprzyciskpodpis = true;
         deklaracjazjpk();
         Collections.sort(wyslanenormalne, new Vatcomparator());
     }
@@ -255,7 +256,7 @@ public class DeklaracjevatView implements Serializable {
                 biezaca.setDeklaracjapodpisana((byte[]) deklaracje[0]);
                 biezaca.setDeklaracja((String) deklaracje[1]);
                 deklaracjevatDAO.edit(biezaca);
-                pokazprzyciskpodpisfunkcja();
+                //pokazprzyciskpodpisfunkcja();
                 Msg.msg("Udało się podpisać deklarację podpisem certyfikowanym");
             } catch (Exception e) {
                 Msg.msg("e", "Nie udało się podpisać deklaracji");
