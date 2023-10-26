@@ -21,9 +21,9 @@
                             <p:confirmDialog id="confirmDialog" message="Usunąć wybrany JPK?"  
                                              header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmationJPK">  
 
-                                <p:commandButton id="confirm" value="Tak, usunąć" update="form_dialog_jpk_vat" oncomplete="PF('confirmation').hide()"  
+                                <p:commandButton id="confirm" value="Tak, usunąć" update="form_dialog_jpk_vat" oncomplete="PF('confirmationJPK').hide()"  
                                                  actionListener="#{jpk_VAT2NView.usunUPO}" />  
-                                <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
+                                <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmationJPK').hide()" type="button" />   
 
                             </p:confirmDialog>  
                         </h:form>

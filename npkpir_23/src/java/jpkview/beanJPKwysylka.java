@@ -163,7 +163,7 @@ public class beanJPKwysylka {
     }
 
     public static Object[] etap2(String referenceNumber, String aesfilename, JSONObject jo) {
-        Object[] zwrot = new Object[5];
+        Object[] zwrot = new Object[6];
         boolean wynik = false;
         String[] wiadomosc = new String[2];
         wiadomosc[0] = "i";
