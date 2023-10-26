@@ -9,7 +9,6 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     
     >
-<!--     <f:event type="preRenderView" listener="#{podpisView.sprawdzczymozna(WpisView)}"/>-->
             
                 <p:panelGrid columns="10" id="panelzalacznisprzedaz2" styleClass="panelvazd" rendered="#{vat7DKView.wniosekVATZDEntity ne null}" style="padding-bottom: 10px;">
                 <h:outputText value="Jest przygotowana korekta sprzedaży VAT-ZD:" style="color: red;"/>
@@ -25,7 +24,7 @@
             </p:panelGrid>
             <p:panelGrid id="przyciskivat" columns="6" style="border-style: solid; border-color: lightgray;">
                 <p:commandButton id="przycisk2d" value="oblicz"  actionListener="#{vat7DKView.obliczNowaDedra()}" 
-                                 update="@form deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."
+                                 update="@form" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."
                                  rendered="#{WpisView.podatnikObiekt.nip eq '5263158333'}"/>
                 <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowaPkpir()}" update="@form" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."
                                  rendered="#{!WpisView.ksiegirachunkowe and WpisView.podatnikObiekt.nip ne '5263158333'}"/>
@@ -38,11 +37,11 @@
                                  rendered="#{vat7DKView.pokazuproszczona and vat7DKView.pozwolnazapis}"
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <p:commandButton  value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
-                                 update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt formX dialog_deklaracje_vat_wysylka formbutton" 
+                                 update=":formdekl    dialog_deklaracje_vat_wysylka " 
                                  rendered="#{WpisView.podatnikObiekt.nip ne '5263158333' and vat7DKView.pokazpelna and vat7DKView.pozwolnazapis}" 
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <p:commandButton  value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
-                                 update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" 
+                                 update=":formdekl  " 
                                  rendered="#{WpisView.podatnikObiekt.nip eq '5263158333' and vat7DKView.pokazpelna and vat7DKView.pozwolnazapis}" 
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <h:outputText value=" rozliczenia są kwartalne nie można zapisać deklaracji" style="color: red;" rendered="#{!vat7DKView.pozwolnazapis}"/>
@@ -161,16 +160,7 @@
                 <p:inputText styleClass="vatramki"  value="#{vat7DKView.rodzajzobowiazania}" size="20"/>
             </p:panelGrid>
         
-<!--    <h:form id="deklaracjauwagavatzt"  >
-        <h:outputText value="Wystąpiono o kwotę do zwrotu a nie ma sprzedaży opodatkowanej. Należy wypełnić załącznik VAT-ZT" 
-                      style="font-weight: 900; padding: 10px;"
-                      rendered="#{vat7DKView.flagazt}"/>
-    </h:form>
-    <h:form id="deklaracjauwagavatzz"   rendered="#{vat7DKView.flaga eq 0}">
-        <h:outputText value="Wystąpiono o kwotę do zwrotu na rachunek bankowy w terminie 25 dni. Należy wypełnić załącznik VAT-ZZ" 
-                      style="font-weight: 900; padding: 10px;"
-                      rendered="#{vat7DKView.pokazinfovatzz}"/>
-    </h:form>-->
+
 </ui:composition>   
 
 
