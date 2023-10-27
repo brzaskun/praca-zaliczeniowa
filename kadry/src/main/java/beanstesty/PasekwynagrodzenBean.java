@@ -964,6 +964,16 @@ public class PasekwynagrodzenBean {
         double bezzus = pasek.getBruttobezzus();
         double bezspolecznych = pasek.getBruttobezspolecznych();
         double skladki = pasek.getRazemspolecznepracownik();
+        //zapisek dla kierowcow 27.10.23
+        Skladnikwynagrodzenia skladnikZUS51 = pasek.getSkladnikZUS51();
+        if (skladnikZUS51!=null) {
+            Zmiennawynagrodzenia zmiennawynagrodzenia = KalendarzmiesiacBean.usrednijZmienna(skladnikZUS51, pasek.getKalendarzmiesiac());
+            if (zmiennawynagrodzenia!=null) {
+                skladki = zmiennawynagrodzenia.getKwota();
+                pasek.setSpolecznedoodliczeniakierowca(skladki);
+            }
+        }
+        //zapisek dla kierowcow 27.10.23
         double zusbezpodatku = pasek.getBruttozusbezpodatek();
         double podstawadochdowyprzeddieta = Z.z(zzus + bezzus + bezspolecznych + zusbezpodatku - skladki) > 0.0 ? Z.z(zzus + bezzus + bezspolecznych + zusbezpodatku - skladki) : 0.0;
         pasek.setBruttominusspoleczne(podstawadochdowyprzeddieta);

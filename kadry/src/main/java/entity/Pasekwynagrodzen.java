@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -153,6 +154,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double pracrentowe;
     @Column(name = "razemspolecznepracownik")
     private double razemspolecznepracownik;
+    @Column(name = "spolecznedoodliczeniakierowca")
+    private double spolecznedoodliczeniakierowca;
     @Column(name = "bruttominusspoleczne")
     private double bruttominusspoleczne;
     @Column(name = "praczdrowotne")
@@ -1253,6 +1256,14 @@ public class Pasekwynagrodzen implements Serializable {
         this.podatekdochodowyzagranica = podatekdochodowyzagranica;
     }
 
+    public double getSpolecznedoodliczeniakierowca() {
+        return spolecznedoodliczeniakierowca;
+    }
+
+    public void setSpolecznedoodliczeniakierowca(double spolecznedoodliczeniakierowca) {
+        this.spolecznedoodliczeniakierowca = spolecznedoodliczeniakierowca;
+    }
+
     
     
 //
@@ -1616,6 +1627,16 @@ public class Pasekwynagrodzen implements Serializable {
             if (nal.getNieobecnosc().getRodzajnieobecnosci().isZ33()) {
                 zwrot = zwrot+nal.getKwota();
             }
+        }
+        return zwrot;
+    }
+
+    public Skladnikwynagrodzenia getSkladnikZUS51() {
+        Skladnikwynagrodzenia zwrot = null;
+        List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = this.kalendarzmiesiac.getAngaz().getSkladnikwynagrodzeniaList();
+        skladnikwynagrodzeniaList = skladnikwynagrodzeniaList.stream().filter(p->p.getRodzajwynagrodzenia().getKod().equals("ZUS1")).collect(Collectors.toList());
+        if (skladnikwynagrodzeniaList!=null&&skladnikwynagrodzeniaList.size()==1) {
+            zwrot = skladnikwynagrodzeniaList.get(0);
         }
         return zwrot;
     }
