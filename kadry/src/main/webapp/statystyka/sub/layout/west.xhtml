@@ -9,7 +9,12 @@
     >
     
            <h:form>
-            <p:panel header="Wykaz firm" style="margin-top: 80px;"> 
+            <p:outputPanel><p:panelGrid columns="2"><h:outputText value="tylko moje"/>
+                    <p:selectBooleanCheckbox value="#{firmaView.ukryj}">
+                        <p:ajax event="change" listener="#{firmaView.init()}" global="false"  update="@form"/>
+                    </p:selectBooleanCheckbox>
+                </p:panelGrid></p:outputPanel>
+            <p:panel header="Wykaz firm" style="margin-top: 60px;">  
                 <p:dataTable id="datalist" value="#{firmaView.lista}" var="item1"
                              selectionMode="single" selection="#{firmaView.selectedeast}"
                              rowKey="#{item1.id}" 

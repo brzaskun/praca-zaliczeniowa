@@ -46,6 +46,7 @@ public class WpisView implements Serializable {
     private String rokNastepny;
     private String miesiacWpisu;
     private Okres okreswpisu;
+    private Okres okreswpisupoprzedni;
     private Uz uzer;
     private String miesiacOd;
     private String miesiacDo;
@@ -83,6 +84,10 @@ public class WpisView implements Serializable {
                 this.rokWpisu = memory.getRok();
                 this.miesiacWpisu = memory.getMc();
                 this.okreswpisu = new Okres(memory.getRok(), memory.getMc());
+                if (memory.getRok()!=null&& memory.getMc()!=null) {
+                    String[] poprzedniOkres = Data.poprzedniOkres(memory.getMc(), memory.getRok());
+                    this.okreswpisupoprzedni = new Okres(poprzedniOkres[1], poprzedniOkres[0]);
+                }
             } else if (uzer.getUprawnienia().getNazwa().equals("Administrator")) {
                 this.firma = uzer.getFirma();
             }
@@ -287,6 +292,15 @@ public class WpisView implements Serializable {
         return okreswpisu;
     }
 
+    public Okres getOkreswpisupoprzedni() {
+        String[] poprzedniOkres = Data.poprzedniOkres(this.miesiacWpisu, this.rokWpisu);
+        this.okreswpisupoprzedni = new Okres(poprzedniOkres[1], poprzedniOkres[0]);
+        return okreswpisupoprzedni;
+    }
+
+    
+
+    
     public void setOkreswpisu(Okres okreswpisu) {
         rokWpisu = okreswpisu.getRok();
         miesiacWpisu = okreswpisu.getMc();
