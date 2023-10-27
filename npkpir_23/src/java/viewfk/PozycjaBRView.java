@@ -135,6 +135,7 @@ public class PozycjaBRView implements Serializable {
         } catch (Exception e) {
             
         }
+        //<editor-fold defaultstate="collapsed" desc="comment">
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
 //        pozycje_old.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
 //        pozycje_old.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
@@ -160,8 +161,8 @@ public class PozycjaBRView implements Serializable {
 //        pozycje_old.add(new PozycjaRZiS(22, "E.II", "II", 20, 1, "Aktualizacja aktywów niefinansowych", true, 0.0));
 //        pozycje_old.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 0.0));
 //        pozycje_old.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
-        //tutaj dzieje sie magia :) tak funkcja przeksztalca baze danych w nody
-       // pozycje.addAll(pozycjaRZiSDAO.findAll());
+//tutaj dzieje sie magia :) tak funkcja przeksztalca baze danych w nody
+// pozycje.addAll(pozycjaRZiSDAO.findAll());
 //        if (pozycje.size() == 0) {
 //            pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
 //            Msg.msg("i", "Dodaje pusta pozycje");
@@ -171,6 +172,7 @@ public class PozycjaBRView implements Serializable {
 //            List<Konto> plankont = kontoDAO.findAll();
 //            ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
 //        }
+//</editor-fold>
 
     }
     
@@ -209,22 +211,27 @@ public class PozycjaBRView implements Serializable {
     }
     
     //gdy sa obroty rozpoczecia
+    //chcialem usuna bo nullpointer ale to nie ejst czyszczenie pzyci na konatych usunalem to 27.10.2023 bo nie wiem dlaczego przy obliczaniu bo ma czyscic pozycje???
     public void pobierzukladprzegladRZiSBO() {
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, "", "r");
-        UkladBRBean.czyscPozycje(pozycje);
-        rootProjektRZiS.getChildren().clear();
-        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikoweBO(stronaWierszaDAO, wpisView);
-        try {
-            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy);
-            level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
-            Msg.msg("i", "Pobrano układ ");
-        } catch (Exception e) {
-            E.e(e);
+        if (pozycje!=null) {
+            UkladBRBean.czyscPozycje(pozycje);
             rootProjektRZiS.getChildren().clear();
-            Msg.msg("e", e.getLocalizedMessage());
+            List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikoweBO(stronaWierszaDAO, wpisView);
+            try {
+                PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy);
+                level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
+                Msg.msg("i", "Pobrano układ ");
+            } catch (Exception e) {
+                E.e(e);
+                rootProjektRZiS.getChildren().clear();
+                Msg.msg("e", e.getLocalizedMessage());
+            }
+        } else {
+            Msg.msg("e", "Luki w przyporzadkowaniach kont");
         }
     }
      
@@ -233,17 +240,21 @@ public class PozycjaBRView implements Serializable {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, "", "r");
-        //UkladBRBean.czyscPozycje(pozycje);
-        rootProjektRZiS.getChildren().clear();
-        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        try {
-            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy);
-            level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
-            Msg.msg("i", "Pobrano układ ");
-        } catch (Exception e) {
-            E.e(e);
+        if (pozycje!=null) {
+            UkladBRBean.czyscPozycje(pozycje);
             rootProjektRZiS.getChildren().clear();
-            Msg.msg("e", e.getLocalizedMessage());
+            List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            try {
+                PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy);
+                level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
+                Msg.msg("i", "Pobrano układ ");
+            } catch (Exception e) {
+                E.e(e);
+                rootProjektRZiS.getChildren().clear();
+                Msg.msg("e", e.getLocalizedMessage());
+            }
+        } else {
+            Msg.msg("e", "Luki w przyporzadkowaniach kont");
         }
     }
    
@@ -506,6 +517,7 @@ public class PozycjaBRView implements Serializable {
     }
     
     private void naniesKwoteWynikFinansowyBO(Konto kontowyniku) {
+        //usunalem 27.10.2023 bo czysci pozycje przy kazdym robieniu bo!!!
         pobierzukladprzegladRZiSBO();
         List<Object> listazwrotnapozycji = Collections.synchronizedList(new ArrayList<>());
         rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
@@ -529,6 +541,7 @@ public class PozycjaBRView implements Serializable {
     }
     
     private void naniesKwoteWynikFinansowy(Konto kontowyniku) {
+        //usunalem 27.10.2023 bo czysci pozycje przy kazdym robieniu bo!!!
         pobierzukladprzegladRZiS();
         List<Object> listazwrotnapozycji = Collections.synchronizedList(new ArrayList<>());
         rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);

@@ -139,7 +139,7 @@
                                               onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
                             </p:commandButton>
 
-                            <p:commandButton value="przelicz"  action="#{zestawienieView.obliczPit()}" update="formpit" type="submit" style="width: 120px" styleClass="klik"/>
+                            <p:commandButton value="przelicz"  actionListener="#{zestawienieView.obliczPit()}" update="formpit"  style="width: 120px" styleClass="klik"/>
                             <p:commandButton value="oblicz pit roczny"  action="#{zestawienieView.obliczPitRoczny()}" update="formpit" type="submit" style="width: 120px" styleClass="klik"/>
                             <p:splitButton value="zachowaj pit"  action="#{zestawienieView.zachowajPit()}" update="akordeon:formpit akordeon:formpi:tablicapita" type="submit">
                                 <p:menuitem global="false" value="dodatkowy-13" actionListener="#{zestawienieView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  

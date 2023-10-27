@@ -25,7 +25,6 @@ import embeddable.Mce;
 import embeddable.WierszPkpir;
 import entity.Amodok;
 import entity.Dok;
-import entity.Faktura;
 import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
@@ -59,7 +58,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import mail.MaiManager;
-import mail.Mail;
 import mail.MailOther;
 import msg.Msg;
 import org.apache.commons.collections4.CollectionUtils;
@@ -539,14 +537,14 @@ public class ZestawienieView implements Serializable {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         String uzernazwa = principal.getName();
-        if (!uzernazwa.equals("szef")) {
-            List<Faktura> czywystawionofakture = fakturaDAO.findbyKontrahentNipRokMc(wpisView.getPodatnikObiekt().getNip(), taxman, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            if (czywystawionofakture==null||czywystawionofakture.isEmpty()) {
-                Msg.msg("e","Nie wystawiono faktury dla firmy. Nie można zakończyć miesiąca");
-                Mail.wykrytobrakfaktury("info@taxman.biz.pl", wpisView.getPrintNazwa(), null, sMTPSettingsDAO.findSprawaByDef(), wpisView.getUzer().getImieNazwisko());
-                //return;
-            }
-        }
+//        if (!uzernazwa.equals("szef")) {
+//            List<Faktura> czywystawionofakture = fakturaDAO.findbyKontrahentNipRokMc(wpisView.getPodatnikObiekt().getNip(), taxman, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//            if (czywystawionofakture==null||czywystawionofakture.isEmpty()) {
+//                Msg.msg("e","Nie wystawiono faktury dla firmy. Nie można zakończyć miesiąca");
+//                Mail.wykrytobrakfaktury("info@taxman.biz.pl", wpisView.getPrintNazwa(), null, sMTPSettingsDAO.findSprawaByDef(), wpisView.getUzer().getImieNazwisko());
+//                //return;
+//            }
+//        }
         komunikatblad = null;
         if (listawybranychudzialowcow.size() == 1) {
             wybranyudzialowiec = listawybranychudzialowcow.get(0);
