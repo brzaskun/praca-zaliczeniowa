@@ -9,7 +9,7 @@
     <p:tabView id="akordeon">
         <p:tab title="zestawienie do PIT-11">
     <p:outputPanel>
-        <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.init()}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11"/>
+        <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.init2()}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11"/>
         <p:commandButton value="PIT-y 11" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All(false)}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11"/>
         <p:commandButton value="Korekty" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All(true)}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11">
                     <p:confirm type="popup" header="Potwierdzenie" message="Wystawić korekty do deklaracji?" icon="pi pi-exclamation-triangle"/>
@@ -19,7 +19,7 @@
         <h:form id="KartyWynangrodzenPITForm" styleClass="formpit11">
             <p:dataTable id="datalist" value="#{kartaWynagrodzenView.sumypracownicy}" var="itemkarta"
                          rowKey="#{itemkarta.angaz.id}" rowIndexVar="indexka" 
-                         style="height: 350px; overflow-y: scroll;width: 1490px;" emptyMessage="Nie pobrano danych"
+                         style="height: 350px; overflow-y: scroll;width: 1590px;" emptyMessage="Nie pobrano danych"
                          sortBy="#{itemkarta.nazwiskoiimie}" selection="#{kartaWynagrodzenView.listaselected}" rowSelectMode="add"
                          >
                 <p:ajax event="rowSelectCheckbox"  partialSubmit="true" global="false"/>
@@ -67,6 +67,12 @@
                         <h:outputText value="brutto"/>
                     </f:facet>
                     <bcf:outputpl value="#{itemkarta.brutto}"/>
+                </p:column>
+                 <p:column width="60">
+                    <f:facet name="header">
+                        <h:outputText value="okres przek. 26"/>
+                    </f:facet>
+                     <bcf:outputpl value="#{itemkarta.okresprzekroczenie26}"/>
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">
@@ -148,6 +154,14 @@
                         <h:outputText value="wysł"/>
                     </f:facet>
                     <h:outputText  value="&#x2714;" rendered="#{itemkarta.wyslano}" styleClass="ww"/>
+                </p:column>
+                <p:column width="30" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <p:commandButton icon="pi pi-calendar" oncomplete="PF('dialogkartawynagrodzen').show()" >
+                        <p:ajax event="click" listener="#{kartaWynagrodzenView.pobierzdane(itemkarta.angaz)}" update="KartyWynangrodzenListForm" global="false"/>
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
             <p:dataTable id="datalistpit" value="#{kartaWynagrodzenView.pitpola}" var="itempit"

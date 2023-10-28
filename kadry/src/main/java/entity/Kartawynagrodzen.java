@@ -26,7 +26,6 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import z.Z;
 
 /**
@@ -79,12 +78,18 @@ public class Kartawynagrodzen implements Serializable {
     @Column(name = "id")
     private Integer id;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "brutto")
+    private double brutto;
     @Column(name = "bruttobezzus")
     private double bruttobezzus;
     @Column(name = "bruttobezpodatku")
     private double bruttobezpodatku;
     @Column(name = "bruttozus")
     private double bruttozus;
+    @Column(name = "bruttodo26lat")
+    private double bruttodo26lat;
+    @Column(name = "bruttopowyzej26lat")
+    private double bruttopowyzej26lat;
     @Column(name = "fgsp")
     private double fgsp;
     @Column(name = "fp")
@@ -141,6 +146,8 @@ public class Kartawynagrodzen implements Serializable {
     private double kosztpracodawcy;
     @Column(name = "dochodzagranica")
     private double dochodzagranica;
+    @Column(name = "okresprzekroczenie26")
+    private String okresprzekroczenie26;
     
     @Size(max = 4)
     @Column(name = "rok")
@@ -457,10 +464,15 @@ public class Kartawynagrodzen implements Serializable {
         this.angaz = angaz;
     }
 
-    @XmlTransient
     public double getBrutto() {
-        return Z.z(this.bruttozus+this.bruttobezzus);
+        return brutto;
     }
+
+    public void setBrutto(double brutto) {
+        this.brutto = brutto;
+    }
+
+    
 
     public String getNrlisty() {
         return nrlisty;
@@ -582,7 +594,33 @@ public class Kartawynagrodzen implements Serializable {
         this.potraceniainne = potraceniainne;
     }
 
-     
+    public double getBruttodo26lat() {
+        return bruttodo26lat;
+    }
+
+    public void setBruttodo26lat(double bruttodo26lat) {
+        this.bruttodo26lat = bruttodo26lat;
+    }
+
+    public double getBruttopowyzej26lat() {
+        return bruttopowyzej26lat;
+    }
+
+    public void setBruttopowyzej26lat(double bruttopowyzej26lat) {
+        this.bruttopowyzej26lat = bruttopowyzej26lat;
+    }
+
+    public String getOkresprzekroczenie26() {
+        return okresprzekroczenie26;
+    }
+
+    public void setOkresprzekroczenie26(String okresprzekroczenie26) {
+        this.okresprzekroczenie26 = okresprzekroczenie26;
+    }
+
+    
+
+  
     
     
     @Override
@@ -592,6 +630,8 @@ public class Kartawynagrodzen implements Serializable {
         return hash;
     }
 
+    
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -613,9 +653,12 @@ public class Kartawynagrodzen implements Serializable {
     
 
     public void zeruj() {
+        this.brutto = 0.0;
         this.bruttobezzus = 0.0;
         this.bruttobezpodatku = 0.0;
         this.bruttozus = 0.0;
+        this.bruttodo26lat = 0.0;
+        this.bruttopowyzej26lat = 0.0;
         this.fgsp = 0.0;
         this.fp = 0.0;
         this.kosztyuzyskania = 0.0;
@@ -649,9 +692,12 @@ public class Kartawynagrodzen implements Serializable {
 
 
     public void dodaj(Pasekwynagrodzen pasek) {
+        this.brutto = Z.z(this.brutto+pasek.getBrutto());
         this.bruttobezzus = Z.z(this.bruttobezzus+pasek.getBruttobezzus());
         this.bruttobezpodatku = Z.z(this.bruttobezpodatku+pasek.getBruttobezzusbezpodatek());
         this.bruttozus = Z.z(this.bruttozus+pasek.getBruttozus()+pasek.getBruttozusbezpodatek());
+//        this.bruttodo26lat = Z.z(this.bruttodo26lat+pasek.getBruttobezzusbezpodatek()+pasek.getBruttozusbezpodatek()+pasek.getBruttobezspolecznych());
+//        this.bruttopowyzej26lat = Z.z(this.bruttopowyzej26lat+(pasek.getBrutto()-(pasek.getBruttobezzusbezpodatek()+pasek.getBruttozusbezpodatek()+pasek.getBruttobezspolecznych())));
         this.fgsp += pasek.getFgsp();
         this.fp += pasek.getFp();
         this.kosztyuzyskania = Z.z(this.kosztyuzyskania+pasek.getKosztyuzyskania());
@@ -678,6 +724,9 @@ public class Kartawynagrodzen implements Serializable {
         this.potraceniainne += pasek.getPotraceniaInne();
         this.razem53 += pasek.getRazem53();
         this.kosztpracodawcy += pasek.getKosztpracodawcy();
+        if (pasek.isDo26lat()==false) {
+            this.okresprzekroczenie26 = pasek.getOkresWypl();
+        }
         //this.mc!=null musi byc bo uzywamy tego tez do pit-11
         if (pasek.getDefinicjalistaplac().getNrkolejny()!=null && this.mc!=null && !this.mc.equals("razem")) {
             if (this.nrlisty==null) {
@@ -709,6 +758,8 @@ public class Kartawynagrodzen implements Serializable {
         this.bruttobezzus = Z.z(this.bruttobezzus+kartawynagrodzen.getBruttobezzus());
         this.bruttobezpodatku = Z.z(this.bruttobezpodatku+kartawynagrodzen.getBruttobezpodatku());
         this.bruttozus = Z.z(this.bruttozus+kartawynagrodzen.getBruttozus());
+        this.bruttodo26lat = Z.z(this.bruttodo26lat+kartawynagrodzen.getBruttodo26lat());
+        this.bruttopowyzej26lat = Z.z(this.bruttopowyzej26lat+kartawynagrodzen.getBruttopowyzej26lat());
         this.kosztyuzyskania = Z.z(this.kosztyuzyskania+kartawynagrodzen.getKosztyuzyskania());
         this.kwotawolna += kartawynagrodzen.getKwotawolna();
         this.netto += kartawynagrodzen.getNetto();

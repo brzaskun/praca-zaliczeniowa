@@ -37,7 +37,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -82,12 +81,18 @@ public class KartaWynagrodzenView  implements Serializable {
     private List<DeklaracjaPIT11Schowek> listaPIT11;
     private List<DeklaracjaPIT11Schowek> listaPIT11sorted;
     private List<Pasekwynagrodzen> listapaski;
+    private Pracownik selected;
     
      
 
-    @PostConstruct
+    
     public void init() {
         pobierzdane(wpisView.getAngaz());
+        pobierzdaneAll();
+        listaPIT11 = deklaracjaPIT11SchowekFacade.findByRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
+    }
+    
+     public void init2() {
         pobierzdaneAll();
         listaPIT11 = deklaracjaPIT11SchowekFacade.findByRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
     }
@@ -127,6 +132,7 @@ public class KartaWynagrodzenView  implements Serializable {
         if (angaz!=null) {
             kartawynagrodzenlist = pobierzkartywynagrodzen(angaz, wpisView.getRokWpisu());
             aktualizujdane(kartawynagrodzenlist, wpisView.getRokWpisu(), angaz);
+            selected = angaz.getPracownik();
             //Msg.msg("Pobrano dane wynagrodzeń");
         }
     }
@@ -144,6 +150,7 @@ public class KartaWynagrodzenView  implements Serializable {
                 if (paski!=null && !paski.isEmpty()) {
                     Map<String,Kartawynagrodzen> sumy = new HashMap<>();
                     Kartawynagrodzen suma = sumuj(kartawynagrodzenlist, paski, p.getPracownik().getNazwiskoImie(), p.getPracownik().getDataurodzenia(), p.getPracownik().getPlec(), sumy, p);
+                    suma.setId(p.getId());
                     suma.setJestPIT11(pobierzpotwierdzenie(p.getPracownik(), pityfirma));
                     suma.setWyslano(pobierzstatus200(p.getPracownik(), pityfirma));
                     sumypracownicy.add(suma);
@@ -205,7 +212,8 @@ public class KartaWynagrodzenView  implements Serializable {
         Collections.sort(listapaski, new Pasekwynagrodzencomparator());
         if (paski!=null && !paski.isEmpty()) {
             Map<String,Kartawynagrodzen> sumy = new HashMap<>();
-            sumuj(kartawynagrodzenlist, paski, wpisView.getPracownik().getNazwiskoImie(), wpisView.getPracownik().getDataurodzenia(), wpisView.getPracownik().getPlec(), sumy, angaz);
+            Pracownik pracownik = angaz.getPracownik();
+            sumuj(kartawynagrodzenlist, paski, pracownik.getNazwiskoImie(), pracownik.getDataurodzenia(), pracownik.getPlec(), sumy, angaz);
         }
     }
 
@@ -225,6 +233,8 @@ public class KartaWynagrodzenView  implements Serializable {
         suma.setAngaz(angaz);
         suma.setMc("razem");
         int lata = 0;
+        String okresprzekroczenia = null;
+        boolean badajpasek = false;
         for (Kartawynagrodzen karta : kartawynagrodzenlist) {
             List<Angaz> angazzpaskow = new ArrayList<>();
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
@@ -233,6 +243,12 @@ public class KartaWynagrodzenView  implements Serializable {
                 lata = pasek.getLata();
                 if (lata==64||lata==65) {
                     System.out.println("");
+                }
+                if (pasek.isDo26lat()) {
+                    badajpasek = true;
+                }
+                if (badajpasek && pasek.isDo26lat()==false&&okresprzekroczenia==null) {
+                    okresprzekroczenia = pasek.getOkresWypl();
                 }
                 if (pasek.getMcwypl().equals(karta.getMc())) {
                     //tu sie dodaje paski do karty wynagrodzen
@@ -290,6 +306,7 @@ public class KartaWynagrodzenView  implements Serializable {
             }
         }
         suma.setNazwiskoiimie(nazwiskoiimie);
+        suma.setOkresprzekroczenie26(okresprzekroczenia);
         String ostatnidzien =  Data.ostatniDzien(wpisView.getRokWpisu(), "12");
         suma.setWieklata(Data.obliczwieklata(angaz.getPracownik().getDataurodzenia(),ostatnidzien));
         sumy.put("sumaUmowaoprace", sumaUmowaoprace);
@@ -625,6 +642,14 @@ public class KartaWynagrodzenView  implements Serializable {
 
     public void setListaPIT11sorted(List<DeklaracjaPIT11Schowek> listaPIT11sorted) {
         this.listaPIT11sorted = listaPIT11sorted;
+    }
+
+    public Pracownik getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Pracownik selected) {
+        this.selected = selected;
     }
 
     

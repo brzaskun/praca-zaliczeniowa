@@ -5,7 +5,6 @@
         <WariantFormularza>29</WariantFormularza>
         <CelZlozenia poz="P_7">1</CelZlozenia>
         <Rok>2022</Rok>
-        <KodUrzedu>3217</KodUrzedu>
     </Naglowek>
     <Podmiot1 rola="Płatnik/Składający">
         <OsobaFizyczna>
@@ -37,13 +36,13 @@
     <PozycjeSzczegolowe>
         <P_11>1</P_11>
         <P_28>1</P_28>
-        <P_29>40958.0</P_29>
-        <P_30>3000.0</P_30>
-        <P_31>37958.0</P_31>
-        <P_33>323</P_33>
-        <P_95>5615.35</P_95>
+        <P_29>51670.0</P_29>
+        <P_30>2250.0</P_30>
+        <P_31>49420.0</P_31>
+        <P_33>2380</P_33>
+        <P_95>7083.95</P_95>
         <P_121>2</P_121>
-        <P_122>3180.82</P_122>
+        <P_122>4012.73</P_122>
     </PozycjeSzczegolowe>
     <Pouczenie>1</Pouczenie>
 </Deklaracja>
