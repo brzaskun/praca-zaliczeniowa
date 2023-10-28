@@ -541,7 +541,7 @@ public class UmowaView implements Serializable {
                 String rok = Data.getRok(selected.getDataod());
                 String mc = Data.getMc(selected.getDataod());
                 Kalendarzmiesiac kalendarz = kalendarzmiesiacFacade.findByRokMcAngaz(selected.getAngaz(), selected.getRok(), selected.getMc());
-                if (kalendarz!=null) {
+                if (selected.getId()==null&&kalendarz!=null) {
                     List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = PasekwynagrodzenBean.rozpoczecieumowywtrakcieMiesiaca(selected.getAngaz(), selected.getDataod(), selected.getDatado(), rodzajnieobecnosciFacade, rok, mc, kalendarz, dataostatniejumowy);
                     if (zatrudnieniewtrakciemiesiaca != null) {
                         nieobecnoscFacade.createList(zatrudnieniewtrakciemiesiaca);
@@ -783,6 +783,7 @@ public class UmowaView implements Serializable {
     public void edytuj(Umowa umowa) {
         if (umowa != null) {
             selected = umowa;
+            tabView = 2;
             rodzajumowy = umowa.isPraca()?"1":"2";
             Msg.msg("Wybrano umowę do edycji");
         } else {
