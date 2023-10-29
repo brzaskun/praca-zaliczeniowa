@@ -9,10 +9,12 @@ import comparator.Podatnikcomparator;
 import comparator.Uzcomparator;
 import dao.DokDAO;
 import dao.DokDAOfk;
+import dao.KlienciDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
 import data.Data;
 import entity.Dok;
+import entity.Klienci;
 import entity.Podatnik;
 import entity.Uz;
 import entityfk.Dokfk;
@@ -54,6 +56,9 @@ public class PodatnikKsiegowaShortView implements Serializable{
     private DokDAOfk dokDAOfk;
     private String rok;
     private String mc;
+    @Inject
+    private KlienciDAO klienciDAO;
+    List<Klienci> klienci;
     
     @PostConstruct
     public void init() { //E.m(this);
@@ -69,6 +74,7 @@ public class PodatnikKsiegowaShortView implements Serializable{
         String[] okrespoprzedni = Data.poprzedniOkres(mc, rok);
         rok = okrespoprzedni[1];
         mc  = okrespoprzedni[0];
+        klienci = klienciDAO.findAll();
     }
     
     public void init2() { //E.m(this);
@@ -130,6 +136,14 @@ public class PodatnikKsiegowaShortView implements Serializable{
                 Set<Podatnik> keySet = firmaksiegowa.keySet();
                 podatnikDAO.editList(new ArrayList(keySet));
                 Msg.msg("Zaktualizowano powiązania uproszczona");
+                for (Podatnik pod: keySet) {
+                    final String nip = pod.getNip();
+                    Klienci get = klienci.parallelStream().filter(fa->fa.getNip().equals(nip)).findFirst().get();
+                    get.setKsiegowadane(pod.getKsiegowa().getNazwiskoImie());
+                }
+                klienciDAO.editList(klienci);
+                Msg.msg("Naniesiono dane księgowej na klientów urposzczona");
+                
             }
             List<Dokfk> dokumentyfk = dokDAOfk.findDokRokMC(rok, mc);
             if (dokumentypkpir!=null) {
@@ -145,6 +159,13 @@ public class PodatnikKsiegowaShortView implements Serializable{
                 Set<Podatnik> keySet = firmaksiegowa.keySet();
                 podatnikDAO.editList(new ArrayList(keySet));
                 Msg.msg("Zaktualizowano powiązania pełna");
+                for (Podatnik pod: keySet) {
+                    final String nip = pod.getNip();
+                    Klienci get = klienci.parallelStream().filter(fa->fa.getNip().equals(nip)).findFirst().get();
+                    get.setKsiegowadane(pod.getKsiegowa().getNazwiskoImie());
+                }
+                klienciDAO.editList(klienci);
+                Msg.msg("Naniesiono dane księgowej na klientów pełna");
                 wybrany = null;
                 init2();
             }

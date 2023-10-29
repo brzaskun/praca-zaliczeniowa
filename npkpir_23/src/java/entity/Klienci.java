@@ -68,6 +68,8 @@ public class Klienci extends KlienciSuper implements Serializable {
     @Size(max = 255)
     @Column(name = "adresnowe")
     private String adresnowe;
+    @Column(name = "ksiegowadane")
+    private String ksiegowadane;
     @Transient
     private String pkpirKolumna;
     @Size(max = 255)
@@ -388,6 +390,14 @@ public class Klienci extends KlienciSuper implements Serializable {
 
     public void setPolecajacy(String polecajacy) {
         this.polecajacy = polecajacy;
+    }
+
+    public String getKsiegowadane() {
+        return ksiegowadane;
+    }
+
+    public void setKsiegowadane(String ksiegowadane) {
+        this.ksiegowadane = ksiegowadane;
     }
 
 

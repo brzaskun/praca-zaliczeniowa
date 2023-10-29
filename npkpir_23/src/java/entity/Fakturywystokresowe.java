@@ -146,6 +146,14 @@ public class Fakturywystokresowe implements Serializable {
     private boolean recznaedycja;
     @Column(name = "kwotaroknastepny")
     private double kwotaroknastepny;
+    @Column(name = "trudny")
+    private boolean trudny;
+    @Column(name = "wabank")
+    private boolean wabank;
+    @Column(name = "skokdokumentow")
+    private boolean skokdokumentow;
+    @Column(name = "klientzaakceptowal")
+    private boolean klientzaakceptowal;
     @Column(name = "datautworzenia", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datautworzenia;
@@ -439,6 +447,38 @@ public class Fakturywystokresowe implements Serializable {
 
     public void setDataedycji(Date dataedycji) {
         this.dataedycji = dataedycji;
+    }
+
+    public boolean isTrudny() {
+        return trudny;
+    }
+
+    public void setTrudny(boolean trudny) {
+        this.trudny = trudny;
+    }
+
+    public boolean isWabank() {
+        return wabank;
+    }
+
+    public void setWabank(boolean wabank) {
+        this.wabank = wabank;
+    }
+
+    public boolean isSkokdokumentow() {
+        return skokdokumentow;
+    }
+
+    public void setSkokdokumentow(boolean skokdokumentow) {
+        this.skokdokumentow = skokdokumentow;
+    }
+
+    public boolean isKlientzaakceptowal() {
+        return klientzaakceptowal;
+    }
+
+    public void setKlientzaakceptowal(boolean klientzaakceptowal) {
+        this.klientzaakceptowal = klientzaakceptowal;
     }
 
     
