@@ -941,13 +941,11 @@ public class KontoZapisFKView implements Serializable{
             }
             if (RozliczTransakcjeBean.sprawdznowatransakcje(wybranezapisydosumowania)==null) {
                 Msg.msg("e", "Żadna z pozycji nie jest oznaczona jako rachunek. Nie można zrobić szybkiego rozliczenia");
-            } else if (RozliczTransakcjeBean.wiecejnizjednatransakcja(wybranezapisydosumowania)) {
-                Msg.msg("e", "Wśród wybranych wierszy znajdują sie dwie nowe transakcje/faktury. Nie można rozliczyć zapisów. Zmień oznaczenie w zakładce Rozrachunki");
             } else if (czyroznewaluty(wybranezapisydosumowania)){
                 Msg.msg("e", "Zaznaczone dokumenty są różnowalutowe. Nie można zrobić szybkiego rozliczenia");
             } else {
-                Msg.msg("Rozliczam oznaczone transakcje");
-                List<StronaWiersza> listapoedycji = RozliczTransakcjeBean.naniestransakcje(wybranezapisydosumowania);
+                Msg.msg("Rozliczam wzjemnie zaznaczone pozycje");
+                List<StronaWiersza> listapoedycji = RozliczTransakcjeBean.naniestransakcjeRozne(wybranezapisydosumowania);
                 stronaWierszaDAO.editList(listapoedycji);
                 for (StronaWiersza p : wybranezapisydosumowania) {
                     if (Z.z(p.getPozostalo()) == 0.0) {

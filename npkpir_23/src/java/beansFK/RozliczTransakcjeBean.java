@@ -5,6 +5,7 @@
  */
 package beansFK;
 
+import comparator.StronaWierszacomparator;
 import data.Data;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
@@ -67,6 +68,26 @@ public class RozliczTransakcjeBean {
                 p.setPlatnosci(new ArrayList<>());
                 zwrot = p;
                 break;
+            }
+        }
+        return zwrot;
+    }
+    
+    public static List<StronaWiersza> pobierzNoweTransakcje(List<StronaWiersza> w) {
+        List<StronaWiersza> zwrot = new ArrayList<>();
+        for (StronaWiersza p : w) {
+            if (p.isNowatransakcja()) {
+                zwrot.add(p);
+            }
+        }
+        return zwrot;
+    }
+    
+    public static List<StronaWiersza> pobierzRozliczenia(List<StronaWiersza> w) {
+        List<StronaWiersza> zwrot = new ArrayList<>();
+        for (StronaWiersza p : w) {
+            if (p.isNowatransakcja()==false) {
+                zwrot.add(p);
             }
         }
         return zwrot;
@@ -150,6 +171,59 @@ public class RozliczTransakcjeBean {
                         }
                     }
                     w.add(nowatransakcja);
+                }
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return w;
+    }
+    
+    public static List<StronaWiersza> naniestransakcjeRozne(List<StronaWiersza> w) {
+        try {
+            List<StronaWiersza> noweTransakcje = pobierzNoweTransakcje(w);
+            Collections.sort(noweTransakcje, new StronaWierszacomparator());
+            List<StronaWiersza> rozliczenia = pobierzRozliczenia(w);
+            Collections.sort(rozliczenia, new StronaWierszacomparator());
+            if (noweTransakcje.isEmpty() == false && rozliczenia.isEmpty() == false) {
+                for (StronaWiersza nowatransakcja : noweTransakcje) {
+                    if (nowatransakcja != null) {
+                        Double limitNowejTransakcji = nowatransakcja.getPozostalo();
+                        if (limitNowejTransakcji > 0.0) {
+                            for (Iterator<StronaWiersza> it = rozliczenia.iterator(); it.hasNext();) {
+                                StronaWiersza platnosc = it.next();
+                                double dorozliczenia = obliczkwotedorozliczenia(limitNowejTransakcji, platnosc);
+                                if (dorozliczenia > 0.0) {
+                                    Transakcja transakcja = new Transakcja(platnosc, nowatransakcja);
+                                    transakcja.setDatarozrachunku(wyliczdatetransakcji(platnosc));
+                                    transakcja.setKwotatransakcji(dorozliczenia);
+                                    transakcja.setKwotawwalucierachunku(dorozliczenia);
+                                    RozniceKursoweBean.rozliczroznicekursowe(transakcja);
+                                    if (nowatransakcja.getPlatnosci() != null) {
+                                        nowatransakcja.getPlatnosci().add(transakcja);
+                                    } else {
+                                        List<Transakcja> nowalistatransakcji = Collections.synchronizedList(new ArrayList<>());
+                                        nowalistatransakcji.add(transakcja);
+                                        nowatransakcja.setPlatnosci(nowalistatransakcji);
+                                    }
+                                    if (platnosc.getNowetransakcje() != null) {
+                                        //ja tego nie bedzie to bedzie w biezacych ale biezace nie sa transkacjami aktualnego
+                                        platnosc.getNowetransakcje().add(transakcja);
+                                    } else {
+                                        List<Transakcja> nowalistaplatnosci = Collections.synchronizedList(new ArrayList<>());
+                                        nowalistaplatnosci.add(transakcja);
+                                        platnosc.setNowetransakcje(nowalistaplatnosci);
+                                    }
+                                    limitNowejTransakcji = limitNowejTransakcji - dorozliczenia;
+                                } else {
+                                    it.remove();
+                                }
+                            }
+                        } else {
+                            break;
+                        }
+                        w.add(nowatransakcja);
+                    }
                 }
             }
         } catch (Exception e) {
