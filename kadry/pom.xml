@@ -318,24 +318,6 @@
                         <id>wsimport-generate-dokumenty</id>
                         <phase>generate-sources</phase>
                     </execution>
-                    <execution>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                        <configuration>
-                            <wsdlFiles>
-                                <wsdlFile>localhost_8080/FakturaWS/FakturaWS.wsdl</wsdlFile>
-                            </wsdlFiles>
-                            <packageName>webservicefaktura</packageName>
-                            <vmArgs>
-                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
-                            </vmArgs>
-                            <wsdlLocation>http://localhost:8080/FakturaWS/FakturaWS?wsdl</wsdlLocation>
-                            <staleFile>${project.build.directory}/jaxws/stale/FakturaWS.stale</staleFile>
-                        </configuration>
-                        <id>wsimport-generate-FakturaWS</id>
-                        <phase>generate-sources</phase>
-                    </execution>
                 </executions>
                 <dependencies>
                     <dependency>

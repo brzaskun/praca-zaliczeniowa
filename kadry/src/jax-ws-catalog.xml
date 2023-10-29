@@ -5,6 +5,4 @@
     <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/kadry/src/main/webapp/WEB-INF/wsdl/zuszla.wsdl" uri="wsdl/zuszla.wsdl"/>
     <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/kadry/src/main/webapp/WEB-INF/wsdl/dokumenty.wsdl" uri="wsdl/dokumenty.wsdl"/>
     <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/kadry/src/main/webapp/WEB-INF/wsdl/GateService.xsd" uri="wsdl/GateService.xsd"/>
-    <system systemId="http://localhost:8080/FakturaWS/FakturaWS?wsdl" uri="wsdl/localhost_8080/FakturaWS/FakturaWS.wsdl"/>
-    <system systemId="http://localhost:8080/FakturaWS/FakturaWS?xsd=1" uri="wsdl/localhost_8080/FakturaWS/FakturaWS.xsd_1.xsd"/>
 </catalog>
