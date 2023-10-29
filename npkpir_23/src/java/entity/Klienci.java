@@ -70,6 +70,10 @@ public class Klienci extends KlienciSuper implements Serializable {
     private String adresnowe;
     @Column(name = "ksiegowadane")
     private String ksiegowadane;
+    @Column(name = "telefondb")
+    private String telefondb;
+    @Column(name = "opodatkowanie")
+    private String opodatkowanie;
     @Transient
     private String pkpirKolumna;
     @Size(max = 255)
@@ -382,6 +386,22 @@ public class Klienci extends KlienciSuper implements Serializable {
 
     public void setKsiegowa(Uz ksiegowa) {
         this.ksiegowa = ksiegowa;
+    }
+
+    public String getTelefondb() {
+        return telefondb;
+    }
+
+    public void setTelefondb(String telefondb) {
+        this.telefondb = telefondb;
+    }
+
+    public String getOpodatkowanie() {
+        return opodatkowanie;
+    }
+
+    public void setOpodatkowanie(String opodatkowanie) {
+        this.opodatkowanie = opodatkowanie;
     }
 
     public String getPolecajacy() {
