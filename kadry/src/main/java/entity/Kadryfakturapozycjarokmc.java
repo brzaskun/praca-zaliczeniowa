@@ -49,7 +49,7 @@ public class Kadryfakturapozycjarokmc implements Serializable {
     private String mc;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ilosc")
-    private Double ilosc;
+    private double ilosc;
     @JoinColumn(name = "kadryfakturypozycja", referencedColumnName = "id")
     @OneToOne(optional = false)
     private Kadryfakturapozycja kadryfakturypozycja;
@@ -85,13 +85,15 @@ public class Kadryfakturapozycjarokmc implements Serializable {
         this.mc = mc;
     }
 
-    public Double getIlosc() {
+    public double getIlosc() {
         return ilosc;
     }
 
-    public void setIlosc(Double ilosc) {
+    public void setIlosc(double ilosc) {
         this.ilosc = ilosc;
     }
+
+   
 
     public Kadryfakturapozycja getKadryfakturypozycja() {
         return kadryfakturypozycja;
