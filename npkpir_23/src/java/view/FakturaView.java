@@ -3511,6 +3511,17 @@ public class FakturaView implements Serializable {
         
     }
     
+    public void pokazotwarte() {
+        fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        for (Iterator<Fakturywystokresowe> it =fakturyokresowe.iterator(); it.hasNext();) {
+            Fakturywystokresowe p = it.next();
+            if (p.getDatazalatwione()!=null) {
+                it.remove();
+            }
+        }
+        Msg.msg("Przefiltrowano faktury");
+    }
+    
     public void filtrujfaktury2() {
         if (dolnylimit>0.0 || gornylimit>0.0) {
             if (fakturyokresoweFiltered!=null) {
