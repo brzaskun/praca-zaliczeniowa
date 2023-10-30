@@ -220,55 +220,66 @@
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                 <p:rowExpansion>
-                     <p:panelGrid  columns="4"  style="width:800px">
-                        <h:outputText value="NIP kontrahenta"/>
-                        <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
-                        <h:outputText value="email kontrahenta"/>
-                        <h:outputText value="#{wpis.dokument.kontrahent.email ne '' ? wpis.dokument.kontrahent.email : 'brak adresu email'}"/>
-<!--                        <h:outputText value="kwota netto"/>
-                        <bcf:outputpl value="#{wpis.dokument.netto}"/>
-                        <h:outputText value="kwota vat"/>
-                        <bcf:outputpl value="#{wpis.dokument.vat}"/>
-                        <h:outputText value="kwota brutto"/>
-                        <bcf:outputpl value="#{wpis.dokument.brutto}"/>-->
-                        <h:outputText value="data waloryzacji"/>
-                        <h:outputText value="#{wpis.dokument.datawaloryzacji}">
-                            <f:convertDateTime pattern="yyyy-MM-dd" />
-                        </h:outputText>
-                        <h:outputText value="procent waloryzacji %" rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
-                        <bcf:outputpl value="#{wpis.dokument.procentwaloryzacji}"  rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
-                        <h:outputText value="stara kwota" rendered="#{wpis.dokument.starakwota ne 0}"/>
-                        <bcf:outputpl value="#{wpis.dokument.starakwota}"  rendered="#{wpis.dokument.starakwota ne 0}"/>
-                     </p:panelGrid>
-                    <p:panelGrid  columns="1"  style="width:800px">
-                        <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" >  
-                            <p:dataTable var="subwpis" value="#{wpis.dokument.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true">
-                                <p:column id="SubColumn1" headerText="ewidencja" width="350">  
-                                <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
+                    <p:panelGrid columns="2">
+                        <p:panelGrid columns="1">
+                            <p:column id="SubColumn3uwagi" headerText="uwagi">  uwagi
+                                <p:inputTextarea value="#{wpis.uwagi}" cols="70" rows="4">
+                                    <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
+                                </p:inputTextarea>
                             </p:column>
-                            <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
-                                <h:outputText value="#{subwpis.netto}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="1">
+                            <p:panelGrid  columns="4" >
+                                <h:outputText value="NIP kontrahenta"/>
+                                <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
+                                <h:outputText value="email kontrahenta"/>
+                                <h:outputText value="#{wpis.dokument.kontrahent.email ne '' ? wpis.dokument.kontrahent.email : 'brak adresu email'}"/>
+                                <h:outputText value="kwota netto"/>
+                                <bcf:outputpl value="#{wpis.dokument.netto}"/>
+                                <h:outputText value="kwota vat"/>
+                                <bcf:outputpl value="#{wpis.dokument.vat}"/>
+                                <h:outputText value="kwota brutto"/>
+                                <bcf:outputpl value="#{wpis.dokument.brutto}"/>
+                                <h:outputText value="data waloryzacji"/>
+                                <h:outputText value="#{wpis.dokument.datawaloryzacji}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd" />
                                 </h:outputText>
-                            </p:column>
-                            <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
-                                <h:outputText value="#{subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column id="SubColumn2a" headerText="brutto">  
-                                <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column id="SubColumn3" headerText="op/zw" style="text-align: center">  
-                                <h:outputText value="#{subwpis.estawka}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
-                            </p:column>
-                            <p:column id="SubColumn4" headerText="okresy vat">  
-                                <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
-                            </p:column>
-                        </p:dataTable>
-                    </p:column>
+                                <h:outputText value="procent waloryzacji %" rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
+                                <bcf:outputpl value="#{wpis.dokument.procentwaloryzacji}"  rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
+                                <h:outputText value="stara kwota" rendered="#{wpis.dokument.starakwota ne 0}"/>
+                                <bcf:outputpl value="#{wpis.dokument.starakwota}"  rendered="#{wpis.dokument.starakwota ne 0}"/>
+                            </p:panelGrid>
+                            <p:panelGrid  columns="1" >
+                                <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" >  
+                                    <p:dataTable var="subwpis" value="#{wpis.dokument.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true">
+                                        <p:column id="SubColumn1" headerText="ewidencja" width="350">  
+                                            <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
+                                        </p:column>
+                                        <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
+                                            <h:outputText value="#{subwpis.netto}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
+                                            <h:outputText value="#{subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column id="SubColumn2a" headerText="brutto">  
+                                            <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column id="SubColumn3" headerText="op/zw" style="text-align: center">  
+                                            <h:outputText value="#{subwpis.estawka}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                                        </p:column>
+                                        <p:column id="SubColumn4" headerText="okresy vat">  
+                                            <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:column>
+                            </p:panelGrid>
+                        </p:panelGrid>
                     </p:panelGrid>
                 </p:rowExpansion>
             </p:dataTable>

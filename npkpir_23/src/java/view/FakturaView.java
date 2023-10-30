@@ -3298,7 +3298,7 @@ public class FakturaView implements Serializable {
     public void edytujokresowa(Fakturywystokresowe fakturaokresowa) {
         if (fakturaokresowa!=null) {
             fakturywystokresoweDAO.edit(fakturaokresowa);
-            Msg.msg("Zachowano kwotę waloryzacji");
+            Msg.msg("Zachowano zmiany faktury okresowej");
         } else {
             Msg.msg("Nie wybrano waloryzacji");
         }

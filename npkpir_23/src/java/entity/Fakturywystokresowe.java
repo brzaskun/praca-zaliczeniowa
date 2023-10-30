@@ -154,6 +154,8 @@ public class Fakturywystokresowe implements Serializable {
     private boolean skokdokumentow;
     @Column(name = "klientzaakceptowal")
     private boolean klientzaakceptowal;
+    @Column(name = "uwagi")
+    private String uwagi;
     @Column(name = "datautworzenia", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datautworzenia;
@@ -162,6 +164,7 @@ public class Fakturywystokresowe implements Serializable {
     private Date dataedycji;
     @Transient
     private boolean sapracownicy;
+    
 
     public Fakturywystokresowe() {
     }
@@ -481,6 +484,15 @@ public class Fakturywystokresowe implements Serializable {
         this.klientzaakceptowal = klientzaakceptowal;
     }
 
+    public String getUwagi() {
+        return uwagi;
+    }
+
+    public void setUwagi(String uwagi) {
+        this.uwagi = uwagi;
+    }
+
+  
     
     
 
