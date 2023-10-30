@@ -3303,6 +3303,20 @@ public class FakturaView implements Serializable {
             Msg.msg("Nie wybrano waloryzacji");
         }
     }
+    
+    public void edytujokresowaok(Fakturywystokresowe fakturaokresowa) {
+        if (fakturaokresowa!=null) {
+            if (fakturaokresowa.isKlientzaakceptowal()) {
+                fakturaokresowa.setDatazalatwione(new Date());
+            } else {
+                fakturaokresowa.setDatazalatwione(null);
+            }
+            fakturywystokresoweDAO.edit(fakturaokresowa);
+            Msg.msg("Zachowano zmiany faktury okresowej");
+        } else {
+            Msg.msg("Nie wybrano waloryzacji");
+        }
+    }
 
     private boolean czywystawiona(Fakturywystokresowe p, String miesiacWpisu) {
         boolean zwrot = false;

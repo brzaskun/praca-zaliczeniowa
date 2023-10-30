@@ -72,7 +72,7 @@
             </p:panelGrid>
             
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}" 
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1820px;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 2100px;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
                          rowSelectMode="add"
                          rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" paginator="true" rows="40"
                          >
@@ -109,6 +109,16 @@
                         <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
                     </p:inputNumber>
                 </p:column>
+                 <p:column headerText="praca" width="80" filterBy="#{wpis.kwotapraca}" sortBy="#{wpis.kwotapraca}" >  
+                     <p:inputNumber value="#{wpis.kwotapraca}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" size="8" >
+                        <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
+                    </p:inputNumber>
+                </p:column>
+                <p:column headerText="zlecenie" width="80" filterBy="#{wpis.kwotazlecenie}" sortBy="#{wpis.kwotazlecenie}" >  
+                    <p:inputNumber value="#{wpis.kwotazlecenie}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" size="8" >
+                        <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
+                    </p:inputNumber>
+                </p:column>
                 <p:column headerText="trudny" width="40"  style="text-align: center;">  
                     <p:selectBooleanCheckbox value="#{wpis.trudny}">
                         <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
@@ -124,10 +134,15 @@
                         <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
                     </p:selectBooleanCheckbox>
                 </p:column>
-                <p:column headerText="ok" width="40"   style="text-align: center; background-color: #BDBDBD" >  
+                <p:column headerText="ok" width="40"   style="text-align: center; background-color: #BDBDBD" sortBy="#{wpis.klientzaakceptowal}">  
                     <p:selectBooleanCheckbox value="#{wpis.klientzaakceptowal}">
-                        <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
+                        <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowaok(wpis)}" update="@(.datazalatwione)"/>
                     </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column headerText="zakończono" width="70"  sortBy="#{wpis.datazalatwione}" >  
+                    <h:outputText value="#{wpis.datazalatwione}" styleClass="datazalatwione">
+                        <f:convertDateTime pattern="yyyy/MM/dd" />
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="wier." width="30" filterBy="#{wpis.dokument.pozycjenafakturze.size()}" sortBy="#{wpis.dokument.pozycjenafakturze.size()}" style="text-align: center;">  
                     <h:outputText value="#{wpis.dokument.pozycjenafakturze.size()}"/>
@@ -201,12 +216,12 @@
                 <p:column headerText="prac." width="30" filterBy="#{wpis.sapracownicy}" sortBy="#{wpis.sapracownicy}" style="text-align: center;">  
                     <h:outputText value="&#x2713;" rendered="#{wpis.sapracownicy}" style="color: blue;font-weight: 900;"/>
                 </p:column>
-                <p:column headerText="data" width="60"  sortBy="#{wpis.datautworzenia}">  
+                <p:column headerText="data" width="70"  sortBy="#{wpis.datautworzenia}">  
                     <h:outputText value="#{wpis.datautworzenia}">
                         <f:convertDateTime pattern="yyyy/MM/dd" />
                     </h:outputText>
                 </p:column>
-                <p:column headerText="edycja" width="60"  sortBy="#{wpis.datautworzenia}">  
+                <p:column headerText="edycja" width="70"  sortBy="#{wpis.datautworzenia}">  
                     <h:outputText value="#{wpis.dataedycji}">
                         <f:convertDateTime pattern="yyyy/MM/dd" />
                     </h:outputText>

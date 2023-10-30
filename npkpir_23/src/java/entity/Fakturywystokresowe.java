@@ -146,6 +146,10 @@ public class Fakturywystokresowe implements Serializable {
     private boolean recznaedycja;
     @Column(name = "kwotaroknastepny")
     private double kwotaroknastepny;
+    @Column(name = "kwotapraca")
+    private double kwotapraca;
+    @Column(name = "kwotazlecenie")
+    private double kwotazlecenie;
     @Column(name = "trudny")
     private boolean trudny;
     @Column(name = "wabank")
@@ -162,6 +166,9 @@ public class Fakturywystokresowe implements Serializable {
     @Column(name = "dataedycji", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataedycji;
+    @Column(name = "datazalatwione", insertable=true, updatable=true)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date datazalatwione;
     @Transient
     private boolean sapracownicy;
     
@@ -383,6 +390,22 @@ public class Fakturywystokresowe implements Serializable {
     public double getNetto() {
         return this.dokument.getNettoPrzelicz();
     }
+
+    public double getKwotapraca() {
+        return kwotapraca;
+    }
+
+    public void setKwotapraca(double kwotapraca) {
+        this.kwotapraca = kwotapraca;
+    }
+
+    public double getKwotazlecenie() {
+        return kwotazlecenie;
+    }
+
+    public void setKwotazlecenie(double kwotazlecenie) {
+        this.kwotazlecenie = kwotazlecenie;
+    }
     
     public double getVat() {
         return this.dokument.getVatPrzelicz();
@@ -490,6 +513,14 @@ public class Fakturywystokresowe implements Serializable {
 
     public void setUwagi(String uwagi) {
         this.uwagi = uwagi;
+    }
+
+    public Date getDatazalatwione() {
+        return datazalatwione;
+    }
+
+    public void setDatazalatwione(Date datazalatwione) {
+        this.datazalatwione = datazalatwione;
     }
 
   
