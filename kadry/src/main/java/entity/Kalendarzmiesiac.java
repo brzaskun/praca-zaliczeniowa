@@ -592,7 +592,7 @@ private static final long serialVersionUID = 1L;
         boolean zwrot = false;
         if (this.dzienList!=null) {
             for (Dzien d : dzienList) {
-                if (d.getWynagrodzeniezachorobe()>0.0) {
+                if (d.getWynagrodzeniezachorobe()>0.0||(d.getKod()!=null&&d.getKod().equals("CH"))) {
                     zwrot = true;
                     break;
                 }
@@ -604,7 +604,7 @@ private static final long serialVersionUID = 1L;
         boolean zwrot = false;
         if (this.dzienList!=null) {
             for (Dzien d : dzienList) {
-                if (d.getZasilek()>0.0||d.getMacierzynski()>0.0||d.getWychowawczy()>0.0) {
+                if (d.getZasilek()>0.0||d.getMacierzynski()>0.0||d.getWychowawczy()>0.0||(d.getKod()!=null&&d.getKod().equals("ZC"))) {
                     zwrot = true;
                     break;
                 }
