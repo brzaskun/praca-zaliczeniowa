@@ -1888,7 +1888,8 @@ public class KalendarzmiesiacBean {
                 nadliczbowe = nadliczbowe + nadgodziny;
             }
         }
-        if (nadliczbowe>0.0) {
+        //01/11/2023 usunalem bo przy liczeniu chorobowego nie widzla tego skladnika, bo on nie jest co miesiac
+//        if (nadliczbowe>0.0) {
             Naliczenieskladnikawynagrodzenia wynagrodzeniedopobrania = pobierzskladnik(pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList(), "11");
             if (wynagrodzeniedopobrania != null) {
                 Skladnikwynagrodzenia wynagrodzeniezasadnicze = wynagrodzeniedopobrania.getSkladnikwynagrodzenia();
@@ -1920,7 +1921,7 @@ public class KalendarzmiesiacBean {
                     }
                 }
             }
-        }
+//        }
     }
 
     private static boolean czyjuzjestdodane(List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList, Skladnikwynagrodzenia skladnikwynagrodzenia) {

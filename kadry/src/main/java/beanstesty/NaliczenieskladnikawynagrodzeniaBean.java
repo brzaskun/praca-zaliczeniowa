@@ -193,6 +193,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                        }
                     }
                     double dniredukcjiIurlopu = dniredukcji_12+dniurlopu;
+                    //dodane 02.11.2023 bo naj byla sama NP 151 to nie lczyl reduckji bo nie ma urlopu i sie gubil
+                    double godzinyredukcjiIurlopu = godzinyredukcji_12+godzinyurlopu;
                     if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()||(wynagrodzeniekierowca&&skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany())) {
                          if (dniredukcji_11==0.0 && dniurlopu>0.0 && dniredukcji_12==0.0) {
                             //jest tylko urlop badz koniec umowy
@@ -208,7 +210,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             //redukcja_12 = redukcja_12 + (kwotazmiennej /kalendarz.getGodzinyroboczewmiesiacu()*godzinyredukcji_12);
                             stawkadzienna = Z.z6(kwotazmiennej/wymiardzien);
                             stawkagodzinowa = wymiargodzina>0 ? Z.z6(kwotazmiennej/wymiargodzina):0.0;
-                            redukcja_12 = redukcja_12 + stawkagodzinowa*godzinyurlopu;
+                            redukcja_12 = redukcja_12 + stawkagodzinowa*godzinyredukcjiIurlopu;
                             double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_12);
                             dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji;
                         } else if (dniredukcjiIurlopu==0.0 && dniredukcji_11>0.0) {
