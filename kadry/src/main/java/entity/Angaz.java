@@ -818,6 +818,18 @@ public class Angaz implements Serializable {
         return zwrot;
     }
     
+    public boolean czyrusztowania() {
+        boolean zwrot = false;
+        if (this.skladnikwynagrodzeniaList!=null) {
+            for (Skladnikwynagrodzenia p : this.skladnikwynagrodzeniaList) {
+                if (p.getRodzajwynagrodzenia().getWks_serial()==1078) {
+                    zwrot = true;
+                }
+            }
+        }
+        return zwrot;
+    }
+    
     public boolean czywynagrodzeniegodzinoweRachunek() {
         boolean zwrot = false;
         if (this.skladnikwynagrodzeniaList!=null) {

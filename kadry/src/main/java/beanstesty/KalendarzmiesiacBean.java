@@ -206,7 +206,11 @@ public class KalendarzmiesiacBean {
                     naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen, kalendarzList);
                 } else if (kod.equals("UD")) {
                     //urlop wypoczynowy
-                    naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(kalendarz, nieobecnosc, pasekwynagrodzen, kurs);
+                    if (pasekwynagrodzen.getKalendarzmiesiac().getAngaz().czyrusztowania()) {
+                        naliczskladnikiwynagrodzeniazaUrlopOddelegowanieRusztowania(kalendarz, nieobecnosc, pasekwynagrodzen, kurs);
+                    } else {
+                        naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(kalendarz, nieobecnosc, pasekwynagrodzen, kurs);
+                    }
                 } else if (nieobecnosc.getRodzajnieobecnosci().isNieplatny()) {
                     //urlopo bezpłatny
                     naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, kod);
@@ -1401,6 +1405,56 @@ public class KalendarzmiesiacBean {
             //p.setKwotyredukujacesuma(p.getKwotaumownazacalymc()-p.getKwotadolistyplac());
         }
     }
+    
+    static void naliczskladnikiwynagrodzeniazaUrlopOddelegowanieRusztowania(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
+        double liczbadniobowiazku = 0.0;
+        double liczbadniurlopu = 0.0;
+        double liczbagodzinurlopu = 0.0;
+        double liczbagodzinobowiazku = 0.0;
+        String pierwszydzienmiesiaca = Data.pierwszyDzienKalendarz(kalendarz);
+        String ostatnidzienmiesiaca = Data.ostatniDzienKalendarz(kalendarz);
+        String dataod = Data.czyjestpoTerminData(pierwszydzienmiesiaca, nieobecnosc.getDataod()) ? nieobecnosc.getDataod() : pierwszydzienmiesiaca;
+        String datado = Data.czyjestprzed(ostatnidzienmiesiaca, nieobecnosc.getDatado()) ? nieobecnosc.getDatado() : ostatnidzienmiesiaca;
+        int dzienod = Data.getDzienI(dataod);
+        int dziendo = Data.getDzienI(datado);
+        for (Dzien p : kalendarz.getDzienList()) {
+            if (p.getTypdnia() == 0 && (p.getNormagodzin() != 0.0 || p.getKod().equals("D"))) {
+                if (p.getPrzepracowano() > 0.0 || p.getKod().equals("UD") || p.getKod().equals("D")) {
+                    liczbadniobowiazku = liczbadniobowiazku + 1;
+                    liczbagodzinobowiazku = liczbagodzinobowiazku + p.getNormagodzin();
+                }
+            }
+            if (p.getTypdnia() == 0 && p.getNrdnia() >= dzienod && p.getNrdnia() <= dziendo) {
+                liczbadniurlopu = liczbadniurlopu + 1;
+                liczbagodzinurlopu = liczbagodzinurlopu + p.getUrlopPlatny();
+            }
+        }
+        List<Skladnikwynagrodzenia> listaskladnikowzmiennych = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
+        for (Skladnikwynagrodzenia skladnikwynagrodzenia : listaskladnikowzmiennych) {
+            if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1() == true && skladnikwynagrodzenia.getRodzajwynagrodzenia().isSredniaurlopowaoddelegowanie() == true && skladnikwynagrodzenia.isOddelegowanie()) {
+                Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
+                naliczenienieobecnosc.setDataod(dataod);
+                naliczenienieobecnosc.setDatado(datado);
+                naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
+                naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+                //double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowaZmienneOddelegowanie(kalendarz, skladnikwynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc, kalendarzList);
+                double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowaZmienneOddelegowanieNoweRusztowania(kalendarz, skladnikwynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc, kurs);
+                naliczenienieobecnosc.setJakiskladnikredukowalny(skladnikwynagrodzenia.getUwagi());
+                naliczenienieobecnosc.setSkladnikistale(dowyplatyzaczasnieobecnosci);
+                naliczenienieobecnosc.setLiczbadniobowiazku(liczbadniobowiazku);
+                naliczenienieobecnosc.setLiczbadniNieobecnosci(liczbadniurlopu);
+                naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
+                naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinurlopu);
+                naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
+                naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
+                naliczenienieobecnosc.setKwotaredukcji(0.0);
+                naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
+                pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
+            }
+            //p.setKwotadolistyplac(p.getKwotadolistyplac()-dowyplatyzaczasnieobecnosci);
+            //p.setKwotyredukujacesuma(p.getKwotaumownazacalymc()-p.getKwotadolistyplac());
+        }
+    }
 
     static void naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         double liczbadniobowiazku = 0.0;
@@ -1712,6 +1766,53 @@ public class KalendarzmiesiacBean {
                         double stawkadziennazm = Z.z(stawkagodzinowawalutazm * normadzienna);
                         sredniadopodstawy = sredniadopodstawy + Z.z(stawkagodzinowazm * liczbagodzinieobecnosci);
                         sredniadopodstawywaluta = sredniadopodstawywaluta + Z.z(stawkagodzinowawalutazm * liczbagodzinieobecnosci);
+                        //tu wylicza wynagrodzenie za faktycznie przepracowany czas i date obowiazywania zmiennej
+                        naliczenienieobecnosc.setSumakwotdosredniej(0.0);
+                        naliczenienieobecnosc.setSumagodzindosredniej(0.0);
+                        naliczenienieobecnosc.setSkladnikizmiennesrednia(0.0);
+                        naliczenienieobecnosc.setStawkadzienna(stawkadziennazm);
+                        naliczenienieobecnosc.setStawkagodzinowa(stawkagodzinowawalutazm);
+                        naliczenienieobecnosc.setWaluta(r.getWaluta());
+                        naliczenienieobecnosc.setKwotawaluta(sredniadopodstawywaluta);
+                    }
+                }
+            }
+        }
+        return sredniadopodstawy;
+    }
+    
+    private static double wyliczsredniagodzinowaZmienneOddelegowanieNoweRusztowania(Kalendarzmiesiac kalendarz, Skladnikwynagrodzenia skladnikwynagrodzenia, double liczbagodzinieobecnosci, double liczbagodzinobowiazku,
+            Naliczenienieobecnosc naliczenienieobecnosc, double kurs) {
+        double sredniadopodstawy = 0.0;
+        double sredniadopodstawywaluta = 0.0;
+        double normadzienna = 0.0;
+        if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getStale0zmienne1() == true && skladnikwynagrodzenia.isOddelegowanie()) {
+            if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isSredniaurlopowaoddelegowanie() && skladnikwynagrodzenia.isOddelegowanie()) {
+                for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
+                    Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+                    naliczenieskladnikawynagrodzenia.setWaluta(r.getWaluta());
+                    double stawkagodzinowawaluta = 0.0;
+                    int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+                    int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
+                    if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
+                        for (Dzien s : kalendarz.getDzienList()) {
+                            //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
+                            //zmienilem zdanie. redukcja bedzie statystyczna
+                            //tu musza byc faktycznie dni
+                            if (s.getKod() != null && s.getKod().equals("Z")) {
+                                if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                                    normadzienna = s.getNormagodzin();
+                                }
+                            }
+                        }
+                        sredniadopodstawywaluta = r.getKwota();
+                        sredniadopodstawy = sredniadopodstawywaluta*kurs;
+                        double stawkagodzinowawalutazm = sredniadopodstawywaluta / normadzienna;
+                        double stawkagodzinowazm = stawkagodzinowawalutazm * kurs;
+                        stawkagodzinowawaluta = stawkagodzinowawaluta + stawkagodzinowawalutazm;
+                        double stawkadziennazm = Z.z(stawkagodzinowawalutazm * normadzienna);
+                        
+                        
                         //tu wylicza wynagrodzenie za faktycznie przepracowany czas i date obowiazywania zmiennej
                         naliczenienieobecnosc.setSumakwotdosredniej(0.0);
                         naliczenienieobecnosc.setSumagodzindosredniej(0.0);
