@@ -91,7 +91,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         double zmiennawynagrodzeniakwota = 0.0;
         List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
         for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-            if (p.isAktywna()) {
+            if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), p.getDataod(), p.getDatado())) {
                 if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("90")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("80")) {
                     zmiennawynagrodzeniakwota = p.getKwota();
                     zwrot.setPasekwynagrodzen(pasekwynagrodzen);
@@ -175,15 +175,18 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             if (s.getNormagodzin()>0) {
                                 wymiargodzina = wymiargodzina+s.getNormagodzin();
                             }
-
-                       } else if (s.getKod()!=null&&s.getKod().equals("D")) {
-                           dniredukcji_12 = dniredukcji_12+1;
-                           godzinyredukcji_12 = godzinyredukcji_12+s.getNormagodzin();
-                           if (s.getNormagodzin()>0.0) {
-                              dniredukcji_pozaumowa = dniredukcji_pozaumowa+1;
-                           }
-                           godzinyredukcji_pozaumowa = godzinyredukcji_pozaumowa+s.getNormagodzin();
-                       } else if (s.getTypdnia()!=-1){
+                        //}
+                        //to trzeba bylo wywalic bo mamy nowy element usrednianie zmiennej KalendarzmiesiacBean.usrednijZmienna(skladnikwynagrodzenia, kalendarz);
+                        //i to juz uzdlenia D
+//                       } else if (s.getKod()!=null&&s.getKod().equals("D")) {
+//                           dniredukcji_12 = dniredukcji_12+1;
+//                           godzinyredukcji_12 = godzinyredukcji_12+s.getNormagodzin();
+//                           if (s.getNormagodzin()>0.0) {
+//                              dniredukcji_pozaumowa = dniredukcji_pozaumowa+1;
+//                           }
+//                           godzinyredukcji_pozaumowa = godzinyredukcji_pozaumowa+s.getNormagodzin();
+                       } else if (s.getTypdnia()!=-1 && (s.getKod()!=null&&!s.getKod().equals("D"))){
+                           //zmienilem to bo w dalszym ciagu zaciagalo "D"
                            dniredukcji_12 = dniredukcji_12+1;
                            godzinyredukcji_12 = godzinyredukcji_12+s.getNormagodzin();
                            if (s.getNormagodzin()>0.0) {
