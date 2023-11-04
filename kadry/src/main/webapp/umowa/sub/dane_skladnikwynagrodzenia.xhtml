@@ -34,11 +34,11 @@
             </p:outputPanel>-->
             <p:outputPanel>
                 <h:form styleClass="formumowa" id="SkladnikwynagrodzeniaListForm">
-                    <p:panel header="Wykaz składników wynagrodzenia" style="width: 850px;">
+                    <p:panel header="Wykaz składników wynagrodzenia" style="width: 890px;">
                         <p:dataTable id="datalist" value="#{skladnikWynagrodzeniaView.lista}" var="itemskladnikwyn"
                                      selectionMode="single" selection="#{skladnikWynagrodzeniaView.selectedlista}" 
                                      rowKey="#{itemskladnikwyn.hashCode()}" emptyMessage="Brak ustalonych skłądników wynagrodzenia"
-                                     style="height: 240px; overflow-y: scroll;width: 850px;"
+                                     style="height: 240px; overflow-y: scroll;width: 890px;"
                                      >
                             <p:ajax event="rowSelect" listener="#{zmiennaWynagrodzeniaView.init2(skladnikWynagrodzeniaView.selectedlista)}" partialSubmit="true" global="false" update="akordeon:ZmiennawynagrodzeniaListForm:datalist"/>
                             <p:column width="40" style="text-align: center;"  sortBy="#{itemskladnikwyn.id}" sortOrder="descending">
@@ -99,6 +99,14 @@
                                 <h:outputText value="zmienna" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true?'grey':'green'};"/>
                                 <h:outputText value="stała" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq false}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true?'grey':'initial'};"/>
                             </p:column>
+                             <p:column style="text-align: center;" width="40">
+                                <f:facet name="header">
+                                    <h:outputText value="podst. chor."/>
+                                </f:facet>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.podstzasilekchorobowy eq true}"  style="color: #{itemskladnikwyn.rodzajwynagrodzenia.tylkosuperplace eq true or itemskladnikwyn.historyczny eq true?'grey':'green'};"/>
+                                
+                            </p:column>
+
                              <p:column style="text-align: center;" width="40">
                                 <f:facet name="header">
                                     <h:outputText value="urlop kraj"/>

@@ -86,8 +86,6 @@ public class RachunekZlecenieView implements Serializable {
             this.umowabiezaca = umowabiezaca;
             rachunekdoumowyzlecenia = robrachunek(umowabiezaca);
             wpisView.setUmowa(umowabiezaca);
-        } else {
-          Msg.msg("e","Brak umowy w rozliczanym okresie");
         }
         
     }

@@ -183,5 +183,13 @@ public class KalendarzmiesiacFacade  extends DAO implements Serializable {
         return zwrot;
     }
 
+    //to jeszt to nanoszenie seryjnych zmian z globalnego
+     public List<Kalendarzmiesiac> findByRokMc(String rok, String mc) {
+        List<Kalendarzmiesiac> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByRokMc").setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        } catch (Exception e) {}
+        return zwrot;
+    }
    
 }

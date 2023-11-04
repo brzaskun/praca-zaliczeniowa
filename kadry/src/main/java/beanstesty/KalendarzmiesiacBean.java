@@ -485,8 +485,7 @@ public class KalendarzmiesiacBean {
                 if ((recznapodstawajedenskladnik == true && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("11"))
                         || (recznapodstawajedenskladnik && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("13"))
                         || recznapodstawajedenskladnik == false) {
-                    if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isRedukowany() || naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("13")
-                            || naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("12") || naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("11")) {
+                    if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isPodstzasilekchorobowy()) {
                         Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
                         naliczenienieobecnosc.setDataod(dataod);
                         naliczenienieobecnosc.setDatado(datado);

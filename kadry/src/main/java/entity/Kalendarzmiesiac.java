@@ -60,6 +60,7 @@ import z.Z;
     @NamedQuery(name = "Kalendarzmiesiac.findByRokAngaz", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.rok = :rok AND k.angaz=:angaz"),
     @NamedQuery(name = "Kalendarzmiesiac.findByAngaz", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.angaz=:angaz"),
     @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMc", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.angaz.firma=:firma"),
+    @NamedQuery(name = "Kalendarzmiesiac.findByRokMc", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok"),
     @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMcNierezydent", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.angaz.firma=:firma AND k.angaz.pracownik.nierezydent = TRUE")
    })
 @Cacheable(false)

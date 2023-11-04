@@ -344,6 +344,8 @@ public class Rodzajwynagrodzenia implements Serializable {
     public void setSpecjalny(boolean specjalny) {
         this.specjalny = specjalny;
     }
+
+
     
 
     @XmlTransient

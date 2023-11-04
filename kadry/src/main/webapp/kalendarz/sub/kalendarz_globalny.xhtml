@@ -145,6 +145,10 @@
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nanieszmiany}" value="nanieś na wzór."  update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}">
                         <p:confirm type="popup" header="Kopiowanie do wszystkich wzorcowych" message="Na pewno kopiowac do wzorcowych?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nanieszmianyPracownicy}" value="nanieś na pracowników"  
+                                     update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}">
+                        <p:confirm type="popup" header="Kopiowanie do wszystkich pracowników" message="Na pewno kopiowac do wszytskich pracowników?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
                 </p:outputPanel>
            </h:form>
                 <p:outputPanel>

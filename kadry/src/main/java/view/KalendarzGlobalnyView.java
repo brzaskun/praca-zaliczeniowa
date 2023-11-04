@@ -158,9 +158,31 @@ public class KalendarzGlobalnyView  implements Serializable {
             for (Kalendarzwzor kal: kalendarzewzorcowe) {
                 if (!kal.getFirma().getNip().equals("0000000000")) {
                     kal.edytujdnizglobalnego(selected);
-                    kalendarzwzorFacade.edit(kal);
                 }
             }
+            kalendarzwzorFacade.editList(kalendarzewzorcowe);
+            Msg.msg("Naniesiono zmiany na kalendarze wzorcowe");
+        } else {
+            Msg.msg("e","nie wybrnao kalendarza, kalendarz nie zachowany w bazie");
+        }
+    }
+    
+    public void nanieszmianyPracownicy() {
+        if (selected!=null && selected.getId()!=null) {
+            List<Kalendarzwzor> kalendarzewzorcowe = kalendarzwzorFacade.findByRokMc(selected.getRok(), selected.getMc());
+            kalendarzewzorcowe.parallelStream().forEach(kal -> {
+                if (!kal.getFirma().getNip().equals("0000000000")) {
+                    kal.edytujdnizglobalnego(selected);
+                    kal.setNorma(selected.getNorma());
+                }
+            });
+            kalendarzwzorFacade.editList(kalendarzewzorcowe);
+            List<Kalendarzmiesiac> kalendarzepracownicze = kalendarzmiesiacFacade.findByRokMc(selected.getRok(), selected.getMc());
+            kalendarzepracownicze.parallelStream().forEach(kal -> {
+                kal.edytujdnizglobalnego(selected);
+                kal.setNorma(selected.getNorma());
+            });
+            kalendarzmiesiacFacade.editList(kalendarzepracownicze);
             Msg.msg("Naniesiono zmiany na kalendarze pracowników");
         } else {
             Msg.msg("e","nie wybrnao kalendarza, kalendarz nie zachowany w bazie");

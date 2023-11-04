@@ -589,6 +589,7 @@ public class Dzien implements Serializable {
     void nanieswzor(Dzien dzienwzor) {
         this.typdnia = dzienwzor.typdnia;
         this.normagodzin = dzienwzor.normagodzin;
+        this.normagodzinwzorcowa = dzienwzor.normagodzin;
         this.przepracowano = dzienwzor.normagodzin;
         if (dzienwzor.roboczyoddelegowanie) {
             this.roboczyoddelegowanie = dzienwzor.roboczyoddelegowanie;
