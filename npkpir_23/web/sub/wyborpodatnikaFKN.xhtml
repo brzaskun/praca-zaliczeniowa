@@ -1,0 +1,44 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+
+    <h:form id="westIndex">
+        <p:focus id="focus" context="panelwyboru"/>
+        <p:panel id="panelwyboru" menuTitle="Dane" header="zmień firmę" style="width: 600px; margin-left: auto; margin-right: auto;margin-top: 0px;">
+            <p:panelGrid columns="1"  >
+                <p:column >
+                    <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 572px;" scrollHeight="200" converter="#{podatConv}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
+                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                    </p:selectOneListbox>
+                </p:column>
+            </p:panelGrid>
+            <p:panelGrid columns="3" style="float: right;">
+                <p:column>
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="float: right;">
+                        <f:selectItems value="#{roki.rokiList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column >
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="float: right;">
+                        <f:selectItems value="#{mce.mceListOdKonca}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column >
+                    <p:commandButton  id="okbutton" action="#{WpisView.wroc()}" 
+                                      style="width: 150px; float: right;" 
+                                      actionListener="#{WpisView.wpisAktualizuj()}" value="#{mgs.wybierzmcrok}"/>
+                </p:column>
+                <p:defaultCommand target="okbutton" />
+            </p:panelGrid>
+        </p:panel>
+
+    </h:form>
+
+
+</ui:composition>  
