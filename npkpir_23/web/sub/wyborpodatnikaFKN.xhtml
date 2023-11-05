@@ -6,10 +6,10 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
-
+    <p:outputPanel style="height: 500px;width: 610px; box-shadow: 10px 10px 5px #888888; margin-left: 500px; margin-top: 15px;">
     <h:form id="westIndex">
         <p:focus id="focus" context="panelwyboru"/>
-        <p:panel id="panelwyboru" menuTitle="Dane" header="zmień firmę" style="width: 600px; margin-left: auto; margin-right: auto;margin-top: 0px;">
+        <p:panel id="panelwyboru" menuTitle="Dane" header="wybierz firmę, wciśnij wybierz i czekaj na przeładowanie strony" style="width: 600px; ">
             <p:panelGrid columns="1"  >
                 <p:column >
                     <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 572px;" scrollHeight="200" converter="#{podatConv}" filter="true" filterMatchMode="contains">
@@ -30,7 +30,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column >
-                    <p:commandButton  id="okbutton" action="#{WpisView.wroc()}" 
+                    <p:commandButton  id="okbutton" action="#{WpisView.wroc()}" onclick="PF('dialogAjaxCzekaj').show();"
                                       style="width: 150px; float: right;" 
                                       actionListener="#{WpisView.wpisAktualizuj()}" value="#{mgs.wybierzmcrok}"/>
                 </p:column>
@@ -39,6 +39,6 @@
         </p:panel>
 
     </h:form>
-
+</p:outputPanel>
 
 </ui:composition>  
