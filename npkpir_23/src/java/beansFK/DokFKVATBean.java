@@ -391,7 +391,7 @@ public class DokFKVATBean {
             }
             pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);
             if (selected.getRodzajedok().getProcentkup()!=0.0) {
-                rozliczobcieciekosztow(selected, nkup);
+                rozliczobcieciekosztow(selected, nkup, kontadlaewidencji.get("404-2"));
             }
             PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:0:netto");
             PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:0:brutto");
@@ -402,10 +402,10 @@ public class DokFKVATBean {
         }
     }
     
-    private static void rozliczobcieciekosztow(Dokfk selected, Cechazapisu nkup) {
+    private static void rozliczobcieciekosztow(Dokfk selected, Cechazapisu nkup, Konto vatnkup) {
         double procent = Z.z(selected.getRodzajedok().getProcentkup()/100);
         List<Wiersz> wierszenkup = new ArrayList<>();
-        int liczbawierszy = selected.getStronyWierszy().size();
+        int nrkolejnegowiersza = selected.getListawierszy().size()+1;
         for (StronaWiersza p : selected.getStronyWierszy()) {
             if (p.isWn() && p.getKonto().getPelnynumer().startsWith("4")) {
                 double starawartosc = p.getKwota();
@@ -417,10 +417,14 @@ public class DokFKVATBean {
                 double nowawartoscnkupWaluta = starawartoscWaluta-nowawartoscWaluta;
                 double nowawartoscPLN = Z.z(starawartoscPLN * procent);
                 double nowawartoscnkupPLN = starawartoscPLN-nowawartoscPLN;
-                Wiersz wiersznkup = ObslugaWiersza.utworzNowyWierszWn(selected, liczbawierszy++, nowawartoscnkup, 1);
+                Wiersz wiersznkup = ObslugaWiersza.utworzNowyWierszWn(selected, nrkolejnegowiersza++, nowawartoscnkup, 1);
                 wiersznkup.getStronaWn().setKwotaPLN(Z.z(nowawartoscnkupPLN));
                 wiersznkup.getStronaWn().setKwotaWaluta(Z.z(nowawartoscnkupWaluta));
-                wiersznkup.getStronaWn().setKonto(p.getKonto());
+                if (p.getWiersz().getOpisWiersza().contains("podatek vat nie podl. odl.")) {
+                    wiersznkup.getStronaWn().setKonto(vatnkup);
+                } else {
+                    wiersznkup.getStronaWn().setKonto(p.getKonto());
+                }
                 wiersznkup.getStronaWn().getCechazapisuLista().add(nkup);
                 String opis = p.getWiersz().getOpisWiersza()+" - nkup";
                 wiersznkup.setOpisWiersza(opis);
@@ -436,12 +440,13 @@ public class DokFKVATBean {
     
     private static void sprawdzsumyobciecie(List<Wiersz> listawierszy) {
         try {
-            double sumap = Z.z(listawierszy.get(0).getStronaMa().getKwota());
-            double sumal = 0.0;
+            double sumaMa = 0.0;
+            double sumaWn = 0.0;
             for (Wiersz p : listawierszy) {
-                sumal += p.getKwotaWn();
+                sumaWn += p.getKwotaWn();
+                sumaMa += p.getKwotaMa();
             }
-            double roznica = Z.z(sumap-sumal);
+            double roznica = Z.z(sumaMa-sumaWn);
             Wiersz ostatni = listawierszy.get(listawierszy.size()-1);
             ostatni.getStronaWn().setKwota(ostatni.getStronaWn().getKwota()+roznica);
         } catch (Exception e) {}
@@ -534,7 +539,7 @@ public class DokFKVATBean {
                 selected.getListawierszy().add(wiersz2_3);
     }
     
-    public static void rozliczVatKosztNapraw(EVatwpisFK wierszvatdoc, WartosciVAT wartosciVAT, Dokfk selected, WpisView wpisView, Cechazapisu nkup, Konto kontoRozrachunkowe) {
+    public static void rozliczVatKosztNapraw(EVatwpisFK wierszvatdoc, WartosciVAT wartosciVAT, Dokfk selected, WpisView wpisView, Cechazapisu nkup, Konto kontoRozrachunkowe, Map<String, Konto> kontadlaewidencji) {
         Wiersz wierszpierwszy = selected.getListawierszy().get(0);
         Waluty w = selected.getWalutadokumentu();
         StronaWiersza wn = wierszpierwszy.getStronaWn()!=null?wierszpierwszy.getStronaWn():new StronaWiersza(wierszpierwszy, "Wn");
@@ -619,7 +624,7 @@ public class DokFKVATBean {
                             }
                         }
                     }
-                    rozliczobcieciekosztow(selected, nkup);
+                    rozliczobcieciekosztow(selected, nkup,kontadlaewidencji.get("404-2"));
                 }
         } catch (Exception e1) {
             Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
@@ -687,7 +692,7 @@ public class DokFKVATBean {
         }
     }
     
-      public static void rozliczVatKosztEdycja(EVatwpisFK wierszvatdoc, WartosciVAT wartosciVAT, Dokfk selected, WpisView wpisView, Cechazapisu nkup, int rowindex) {
+      public static void rozliczVatKosztEdycja(EVatwpisFK wierszvatdoc, WartosciVAT wartosciVAT, Dokfk selected, WpisView wpisView, Cechazapisu nkup, int rowindex, Map<String, Konto> kontadlaewidencji) {
         Wiersz wierszpierwszy = selected.getListawierszy().get(0);
         Waluty w = selected.getWalutadokumentu();
         try {
@@ -761,7 +766,7 @@ public class DokFKVATBean {
                             }
                         }
                     }
-                    rozliczobcieciekosztow(selected, nkup);
+                    rozliczobcieciekosztow(selected, nkup, kontadlaewidencji.get("404-2"));
                 }
                 PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:"+rowindex+":netto");
                 PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:"+rowindex+":brutto");

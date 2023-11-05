@@ -34,7 +34,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -60,7 +62,23 @@ public class DokfkWeryfikacjaView implements Serializable {
     private KontoDAOfk kontoDAO;
     @Inject
     private WpisView wpisView;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
+    private Map<String, Konto> kontadlaewidencji;
+
+    public DokfkWeryfikacjaView() {
+        this.kontadlaewidencji = new ConcurrentHashMap<>();
+    }
     
+    
+    public void init() {
+        try {
+            kontadlaewidencji.put("221-3", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("149-3", kontoDAOfk.findKonto("149-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+            kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("404-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        } catch (Exception e){}
+    }
 
     public void sprawdzNIPVAT(List<Dokfk> wykazZaksiegowanychDokumentow, List<Dokfk> filtered) {
         List<Dokfk> lista = filtered !=null && filtered.size()>0 ? filtered : wykazZaksiegowanychDokumentow;
@@ -152,7 +170,7 @@ public class DokfkWeryfikacjaView implements Serializable {
             boolean ustawionookresyvat = ustawokresyvat(p);
             boolean zledaty = sprawdzdaty(p,listabrakidaty);
             boolean sprawdzonokontavat = sprawdzkontavat(p, listabrakivat);
-            boolean pozostaletrzybraki = sprawdzpozostaletrzybraki(p, listabraki, listabrakiPozycji, listabrakiKontaAnalityczne, listabrakiKontaAnalityczne_nr, listaRozniceWnMa, listabrakiKonto);
+            boolean pozostaletrzybraki = sprawdzpozostaletrzybraki(p, listabraki, listabrakiPozycji, listabrakiKontaAnalityczne, listabrakiKontaAnalityczne_nr, listaRozniceWnMa, listabrakiKonto, kontadlaewidencji);
             boolean porownanoewidencjakonto = porownajewidencjakonto(p,listaniezgodnoscvatkonto);
         }
         Set<Dokfk> listaZaksiegowanychDokumentow = new HashSet<>();
@@ -421,7 +439,8 @@ public class DokfkWeryfikacjaView implements Serializable {
         return zwrot;
     }
 
-    private boolean sprawdzpozostaletrzybraki(Dokfk p, List<Dokfk> listabraki, List<Dokfk> listabrakiPozycji, List<Dokfk> listabrakiKontaAnalityczne, List<Integer> listabrakiKontaAnalityczne_nr, List<Dokfk> listaRozniceWnMa, List<Dokfk> listabrakiKonto) {
+    private boolean sprawdzpozostaletrzybraki(Dokfk p, List<Dokfk> listabraki, List<Dokfk> listabrakiPozycji, List<Dokfk> listabrakiKontaAnalityczne, 
+            List<Integer> listabrakiKontaAnalityczne_nr, List<Dokfk> listaRozniceWnMa, List<Dokfk> listabrakiKonto, Map<String, Konto> kontadlaewidencji) {
         boolean zwrot = true;
         try {
             double sumawn = 0.0;
@@ -529,7 +548,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                             Rodzajedok rodzajdok = p.getRodzajedok();
                             WartosciVAT wartosciVAT = podsumujwartosciVAT(p.getEwidencjaVAT());
                             if (p.getListawierszy().size() == 1 && rodzajdok.getKategoriadokumentu() == 1) {
-                                rozliczVatKosztNapraw(p.getEwidencjaVAT().get(0), wartosciVAT, p, wpisView, null, kontoRozrachunkowe);
+                                rozliczVatKosztNapraw(p.getEwidencjaVAT().get(0), wartosciVAT, p, wpisView, null, kontoRozrachunkowe, kontadlaewidencji);
                             } else if (p.getListawierszy().size() == 1 && rodzajdok.getKategoriadokumentu() == 2) {
                                 rozliczVatPrzychodNapraw(p.getEwidencjaVAT().get(0), wartosciVAT, p, wpisView, kontoRozrachunkowe);
                             } else if (p.getListawierszy().size() == 1 && rodzajdok.getKategoriadokumentu() == 3) {

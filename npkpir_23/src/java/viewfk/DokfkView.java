@@ -840,30 +840,32 @@ public class DokfkView implements Serializable {
         if (!selected.iswTrakcieEdycji() && !niesumuj && !selected.getRodzajedok().isTylkovat() && !selected.getRodzajedok().isTylkojpk()){
             Rodzajedok rodzajdok = selected.getRodzajedok();
             WartosciVAT wartosciVAT = podsumujwartosciVAT(selected.getEwidencjaVAT());
-            if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
-                if (kontoRozrachunkowe == null && dodacdoslownikow) {
-                    kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
-                }
-                if (rodzajdok.getKategoriadokumentu() == 1) {
-                    if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
-                        //oblicza polowe vat dla faktur samochody osobowe
-                        evatwpis.setVat(Z.z(wartosciVAT.getVatPlndodoliczenia()));
-                        evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
-                        PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
-                        PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
+            if (wartosciVAT.getNetto()!=0.0||wartosciVAT.getVat()!=0.0) {
+                if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
+                    if (kontoRozrachunkowe == null && dodacdoslownikow) {
+                        kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
                     }
-                    rozliczVatKoszt(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe, nkup);
-                } else if (selected.getListawierszy().get(0).getStronaWn().getKonto() == null && rodzajdok.getKategoriadokumentu() == 2) {
-                    rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
+                    if (rodzajdok.getKategoriadokumentu() == 1) {
+                        if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
+                            //oblicza polowe vat dla faktur samochody osobowe
+                            evatwpis.setVat(Z.z(wartosciVAT.getVatPlndodoliczenia()));
+                            evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
+                            PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
+                            PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
+                        }
+                        rozliczVatKoszt(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe, nkup);
+                    } else if (selected.getListawierszy().get(0).getStronaWn().getKonto() == null && rodzajdok.getKategoriadokumentu() == 2) {
+                        rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
+                    }
+                } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 1) {
+                    rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView, nkup, rowindex, kontadlaewidencji);
+                } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 2) {
+                    rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView, rowindex);
                 }
-            } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 1) {
-                rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView, nkup, rowindex);
-            } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 2) {
-                rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView, rowindex);
+                selected.setZablokujzmianewaluty(true);
+                PrimeFaces.current().ajax().update("formwpisdokument:panelwalutowywybor");
+                PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
             }
-            selected.setZablokujzmianewaluty(true);
-            PrimeFaces.current().ajax().update("formwpisdokument:panelwalutowywybor");
-            PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
         } else {
             Msg.msg("w", "Dokument w trybie edycji. Automatyczne dodawanie wierszy wyłączone");
         }

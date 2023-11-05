@@ -507,6 +507,7 @@ public class Wiersz implements Serializable {
     @Override
     public String toString() {
         try {
+            String idwiersza = this.idwiersza==null?"brakid":String.valueOf(this.idwiersza);
             if (getStronaWn() == null && getStronaMa().getKonto() != null) {
                 return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : " + typWiersza + " Wn: null, Ma: " + getStronaMa().getKwota() + " Ma:" + getStronaMa().getKonto().getPelnynumer() + " " + opisWiersza;
             } else if (getStronaMa() == null && getStronaWn().getKonto() != null) {
