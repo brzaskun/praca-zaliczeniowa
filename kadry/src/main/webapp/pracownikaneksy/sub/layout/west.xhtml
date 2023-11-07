@@ -7,8 +7,8 @@
     xmlns:bcf="http://brzaskun.com/facelets"
       xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    
-            <<p:outputPanel><p:panelGrid columns="2"><h:outputText value="tylko moje"/>
+    <h:form>
+            <p:outputPanel><p:panelGrid columns="2"><h:outputText value="tylko moje"/>
                     <p:selectBooleanCheckbox value="#{firmaView.ukryj}">
                         <p:ajax event="change" listener="#{firmaView.init()}" global="false"  update="@form"/>
                     </p:selectBooleanCheckbox>
@@ -25,6 +25,6 @@
                     </p:column>
                 </p:dataTable>
             </p:panel>
-    
+    </h:form>
 </ui:composition>   
 
