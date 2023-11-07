@@ -659,7 +659,12 @@ public class StronaWiersza implements Serializable {
     }
     
     public String getKontrahent() {
-        return this.getDokfk().getKontr().getNpelna();
+        String zwrot = this.getDokfk().getKontr().getNskrocona()==null?this.getDokfk().getKontr().getNpelna():this.getDokfk().getKontr().getNskrocona();
+        EVatwpisFK eVatwpisFK = this.getWiersz().geteVatwpisFK();
+        if (eVatwpisFK!=null) {
+            zwrot = eVatwpisFK.getKontr().getNskrocona()==null?eVatwpisFK.getKontr().getNpelna():eVatwpisFK.getKontr().getNskrocona();
+        }
+        return zwrot;
     }
 
     public void setPozostalo(double pozostalo) {

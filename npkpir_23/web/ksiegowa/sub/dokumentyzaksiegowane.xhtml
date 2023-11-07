@@ -62,7 +62,7 @@
         <script>
             //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
             /* <![CDATA[ */
-            $(document).on("click", '.grid tr', function (event) {
+            $("#form\\:dokumentyLista_data").on("click", '.grid tr', function (event) {
                 var listawierszy = $("#form\\:dokumentyLista_data").children("tr");
                 var lppierwszywiersz = $(listawierszy[0]).find(".lpwiersza").text();
                 try {
