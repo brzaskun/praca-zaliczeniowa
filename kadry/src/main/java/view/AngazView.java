@@ -5,6 +5,7 @@
  */
 package view;
 
+import comparator.Dziencomparator;
 import comparator.Umowacomparator;
 import dao.AngazFacade;
 import dao.FirmaKadryFacade;
@@ -19,6 +20,7 @@ import dao.UzFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
+import entity.Dzien;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
@@ -270,7 +272,7 @@ public class AngazView  implements Serializable {
     
     
      public int generujKalendarzNowyAngaz(Angaz nowyangaz, List<String> log) {
-        Kalendarzmiesiac kal = null;
+        Kalendarzmiesiac nowykalendarz = null;
         int ilekalendarzy = 0;
         if (nowyangaz != null && nowyangaz.getPracownik() != null) {
             String rok = nowyangaz.getRok();
@@ -286,14 +288,19 @@ public class AngazView  implements Serializable {
                         String rokbiezacy = String.valueOf(rokgen);
                         Integer kolejnymc = Integer.parseInt(mc);
                         if (kolejnymc >= mcod) {
-                            kal = new Kalendarzmiesiac();
+                            nowykalendarz = new Kalendarzmiesiac();
                             Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(nowyangaz.getFirma(), rokbiezacy, mc);
                             if (znaleziono != null) {
-                                kal.setRok(rokbiezacy);
-                                kal.setMc(mc);
-                                kal.setAngaz(nowyangaz);
-                                kal.ganerujdnizwzrocowego(znaleziono, null);
-                                kalendarzmiesiacFacade.create(kal);
+                                nowykalendarz.setRok(rokbiezacy);
+                                nowykalendarz.setMc(mc);
+                                nowykalendarz.setAngaz(nowyangaz);
+                                List<Dzien> nowedni = ganerujdnizwzrocowego(znaleziono, null, nowykalendarz);
+                                if (nowedni==null||nowedni.size()==0) {
+                                    log.add("BŁĄD. Nie wygenerowano dni za mc "+mca);
+                                } else {
+                                    nowykalendarz.setDzienList(nowedni);
+                                }
+                                kalendarzmiesiacFacade.create(nowykalendarz);
                                 log.add("Wygenerowano kalendarz za mc "+mc);
                                 ilekalendarzy++;
                             } else {
@@ -314,6 +321,22 @@ public class AngazView  implements Serializable {
             Msg.msg("e", "Nie można wygenerować. Nie wybrano pracownika i umowy");
         }
         return ilekalendarzy;
+    }
+     
+     public List<Dzien> ganerujdnizwzrocowego(Kalendarzwzor kalendarzwzor, Integer dzienstart, Kalendarzmiesiac nowykalendarz) {
+        List<Dzien> dzienListWzor = kalendarzwzor.getDzienList();
+        Collections.sort(dzienListWzor, new Dziencomparator());
+        int start = dzienstart!=null? dzienstart:0;
+        List<Dzien> nowedni = new ArrayList<>();
+        for (int i = 0; i < dzienListWzor.size(); i++) {
+            Dzien dzienwzor = dzienListWzor.get(i);
+            Dzien dzien = new Dzien(dzienwzor, nowykalendarz);
+            if (dzien.getNrdnia()<start) {
+                dzien.setPrzepracowano(0);
+            }
+            nowedni.add(dzien);
+        }
+        return nowedni;
     }
      
      public void sprawdzrok() {
