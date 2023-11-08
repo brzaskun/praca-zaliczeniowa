@@ -665,4 +665,23 @@ public class Wiersz implements Serializable {
         }
         return zwrot;
     }
+    
+    public String getCechy() {
+        String zwrot = null;
+        List<String> nazwy = new ArrayList<>();
+        List<StronaWiersza> stronyWiersza = this.getStronyWiersza();
+        List<Cechazapisu> cechy = new ArrayList<>();
+        for (StronaWiersza s : stronyWiersza) {
+            if (s.getCechazapisuLista()!=null&&s.getCechazapisuLista().size()>0) {
+                cechy.addAll(s.getCechazapisuLista());
+            }
+        }
+        if (cechy!=null&&cechy.size()>0) {
+            for (Cechazapisu c : cechy) {
+                nazwy.add(c.getNazwacechy());
+            }
+            zwrot = nazwy.toString();
+        }
+        return zwrot;
+    }
 }

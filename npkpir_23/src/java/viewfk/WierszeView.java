@@ -4,7 +4,9 @@
  */
 package viewfk;
 
+import dao.CechazapisuDAOfk;
 import dao.WierszeDAO;
+import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -12,10 +14,9 @@ import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,6 +38,11 @@ public class WierszeView implements Serializable {
     private List<Wiersz> wybranewierszeWDT;
     private List<Wiersz> wierszeWNT;
     private List<Wiersz> wierszeWDT;
+    private List<Wiersz> wierszezestawienie;
+    private List<Cechazapisu> pobranecechypodatnik;
+    @Inject
+    private CechazapisuDAOfk cechazapisuDAOfk;
+    private Cechazapisu wybranacecha;
     private double sumakg;
     private double sumaszt;
     private double sumawn;
@@ -49,25 +55,30 @@ public class WierszeView implements Serializable {
          
     }
     
-    public void nowewiersze() {
-        List<Wiersz> wierszedo = wierszeDAO.findWierszePodatnikRokMCDo(wpisView.getPodatnikObiekt(), wpisView);
-        if (!wiersze.isEmpty()&&!wpisView.getMiesiacWpisu().equals("01")) {
-            Set<Konto> kontastare = new HashSet<>();
-            wierszedo.stream().forEach(p -> {
-                kontastare.add(p.getKontoWn());
-                kontastare.add(p.getKontoMa());
-            });
-            for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
-                Wiersz w = it.next();
-                if (kontastare.contains(w.getKontoWn())&&kontastare.contains(w.getKontoMa())) {
-                    it.remove();
-                }
-            }
-            Msg.msg("Zakończono usuwanie starych kont");
-        }
+//    public void nowewiersze() {
+//        List<Wiersz> wierszedo = wierszeDAO.findWierszePodatnikRokMCDo(wpisView.getPodatnikObiekt(), wpisView);
+//        if (!wiersze.isEmpty()&&!wpisView.getMiesiacWpisu().equals("01")) {
+//            Set<Konto> kontastare = new HashSet<>();
+//            wierszedo.stream().forEach(p -> {
+//                kontastare.add(p.getKontoWn());
+//                kontastare.add(p.getKontoMa());
+//            });
+//            for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
+//                Wiersz w = it.next();
+//                if (kontastare.contains(w.getKontoWn())&&kontastare.contains(w.getKontoMa())) {
+//                    it.remove();
+//                }
+//            }
+//            Msg.msg("Zakończono usuwanie starych kont");
+//        }
+//    }
+    @PostConstruct
+    public void inita() {
+        pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
     }
     
     public void init() { //E.m(this);
+        
         sumawn = 0.0;
         sumama = 0.0;
         if (wpisView.getMiesiacWpisu().equals("CR")) {
@@ -185,6 +196,58 @@ public class WierszeView implements Serializable {
         wierszeWDT.add(w);
     }
     
+    public void naniesceche() {
+        if (wybranacecha!=null) {
+            if (wierszezestawienie!=null&&wierszezestawienie.size()>0) {
+                for (Wiersz w : wierszezestawienie) {
+                    List<StronaWiersza> stronyWiersza = w.getStronyWiersza();
+                    for (StronaWiersza sw : stronyWiersza) {
+                        if (sw.getKonto()!=null&&sw.getKonto().isWynik0bilans1()==false) {
+                            List<Cechazapisu> cechazapisuLista = sw.getCechazapisuLista();
+                            if (cechazapisuLista==null) {
+                                cechazapisuLista = new ArrayList();
+                            }
+                            cechazapisuLista.add(wybranacecha);
+                        }
+                    }
+                }
+                wierszeDAO.editList(wierszezestawienie);
+               Msg.msg("Nadano cechę");
+            } else {
+                Msg.msg("e","Nie wybrano zapisów do nadania cech");
+            }
+        } else {
+            Msg.msg("e","Nie wybrano cechy do nadania");
+        }
+    }
+    
+    public void usunceche() {
+        if (wybranacecha!=null) {
+            if (wierszezestawienie!=null&&wierszezestawienie.size()>0) {
+                for (Wiersz w : wierszezestawienie) {
+                    List<StronaWiersza> stronyWiersza = w.getStronyWiersza();
+                    for (StronaWiersza sw : stronyWiersza) {
+                        if (sw.getKonto()!=null&&sw.getKonto().isWynik0bilans1()==false) {
+                            List<Cechazapisu> cechazapisuLista = sw.getCechazapisuLista();
+                            for (Iterator<Cechazapisu> it = cechazapisuLista.iterator();it.hasNext();)  {
+                                Cechazapisu cecha = it.next();
+                                if (cecha.equals(wybranacecha)) {
+                                    it.remove();
+                                }
+                            }
+                        }
+                    }
+                }
+                wierszeDAO.editList(wierszezestawienie);
+               Msg.msg("Usunięto cechę");
+            } else {
+                Msg.msg("e","Nie wybrano zapisów do usunięcia cech");
+            }
+        } else {
+            Msg.msg("e","Nie wybrano cechy do usunięcia");
+        }
+    }
+    
     
     public void odswiezzaksiegowane() {
         if (wpisView.getMiesiacWpisu().equals("CR")) {
@@ -268,7 +331,11 @@ public class WierszeView implements Serializable {
             }
     }
     
-//    
+    public List<Cechazapisu> getPobranecechypodatnik() {
+        return pobranecechypodatnik;
+    }
+
+//
 //     public void usunwybranewiersze() {
 //        if (wiersze!=null&&wiersze.size()>1) {
 //            try {
@@ -292,7 +359,10 @@ public class WierszeView implements Serializable {
 //        }
 //    }
 //<editor-fold defaultstate="collapsed" desc="comment">
-    
+    public void setPobranecechypodatnik(List<Cechazapisu> pobranecechypodatnik) {    
+        this.pobranecechypodatnik = pobranecechypodatnik;
+    }
+
     public double getSumawn() {
         return sumawn;
     }
@@ -388,9 +458,27 @@ public class WierszeView implements Serializable {
     public void setTylkobezrozrachunkow(boolean tylkobezrozrachunkow) {
         this.tylkobezrozrachunkow = tylkobezrozrachunkow;
     }
+
+    public List<Wiersz> getWierszezestawienie() {
+        return wierszezestawienie;
+    }
+
+    public void setWierszezestawienie(List<Wiersz> wierszezestawienie) {
+        this.wierszezestawienie = wierszezestawienie;
+    }
+    
+    
     
     
 //</editor-fold>
+
+    public Cechazapisu getWybranacecha() {
+        return wybranacecha;
+    }
+
+    public void setWybranacecha(Cechazapisu wybranacecha) {
+        this.wybranacecha = wybranacecha;
+    }
      
     
 }

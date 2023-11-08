@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-        
+
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <style>
@@ -12,10 +12,10 @@
             height: 40px;
         }
     </style>
-        <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisywdokumentach" style="overflow-y: hidden;"
-              resizable="false"  onShow="ustawdialog('dialogczwarty','menudokumenty', 1600, 750);" closeOnEscape="true" onHide="resetujdialog('dialogczwarty');" maximizable="true">
+    <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisywdokumentach" style="overflow-y: hidden;"
+              resizable="false"  onShow="ustawdialog('dialogczwarty','menudokumenty', 1730, 750);" closeOnEscape="true" onHide="resetujdialog('dialogczwarty');" maximizable="true">
         <h:form id="zestawieniezapisownakontach">
-            <p:panelGrid columns="7" style="margin-left: 2%;" >
+            <p:panelGrid columns="10" style="margin-left: 2%;" >
                 <p:column>
                     <h:outputText value="miesiąc: "/>
                 </p:column>
@@ -31,18 +31,26 @@
                 <p:selectBooleanCheckbox value="#{wierszeView.tylkobezrozrachunkow}">
                     <p:ajax event="change" global="false" partialSubmit="true" oncomplete="r('zestawieniezapisownakontach:butonpobierzwiersze').click()"/>
                 </p:selectBooleanCheckbox>
-                <p:commandButton value="#{mgs.drukuj}" icon="fa fa-print" actionListener="#{wierszeView.drukujWiersze()}"   style="width: 120px; margin-left: 30px;"/>
-                <p:commandButton value="nowe konta" actionListener="#{wierszeView.nowewiersze()}" update="zestawieniezapisownakontach:dataList"   style="width: 120px; margin-left: 30px;"/>
+                <p:commandButton value="#{mgs.drukuj}" icon="fa fa-print" actionListener="#{wierszeView.drukujWiersze()}"   style="width: 120px; margin-left: 130px;"/>
+                <p:selectOneMenu id="cechadokumentulist" value="#{wierszeView.wybranacecha}" styleClass="fkbutton" style="width: 150px; margin-left: 30px;" 
+                                 converter="#{cechaConv1}">
+                    <f:selectItem itemValue="" itemLabel="wybierz cechę dla wiersza" noSelectionOption="true"/>
+                    <f:selectItems value="#{wierszeView.pobranecechypodatnik}" var="p" itemValue="#{p}" itemDescription="#{p.nazwacechy}" itemLabel="#{p.nazwacechy}"/>
+                    <p:ajax event="itemSelect" partialSubmit="true"/>
+                </p:selectOneMenu>
+                <p:commandButton value="nanieś cechę" actionListener="#{wierszeView.naniesceche()}"   style="width: 120px; margin-left: 10px;" update="zestawieniezapisownakontach:dataList"/>
+                <p:commandButton value="usuń cechę" actionListener="#{wierszeView.usunceche()}"   style="width: 120px; margin-left: 10px;" update="zestawieniezapisownakontach:dataList"/>
+<!--                <p:commandButton value="nowe konta" actionListener="#{wierszeView.nowewiersze()}" update="zestawieniezapisownakontach:dataList"   style="width: 120px; margin-left: 30px;"/>-->
             </p:panelGrid>
             <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
-                <p:menuitem value="Edytuj dokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
+                <p:menuitem value="Edytuj dokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();" actionListener="#{dokfkView.wierszezestawienie(wierszeView.wierszezestawienie)}"/>
                 <p:menuitem value="Usuń wybrane" global="false" icon="ui-icon-circle-plus" actionListener="#{wierszeView.usunwybranewiersze()}" update="zestawieniezapisownakontach:dataList"  rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:contextMenu>
             <h:outputText value="Wiersz z dokumentu do edycj wybieramy klikając na jeden wybrany czekbox. Inaczej dokument nie zostanie prawidłowo pobrany" style="color: green;"/>
-            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1550px; height: 600px; overflow-y: scroll;" 
+            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1700px; height: 600px; overflow-y: scroll;" 
                          widgetVar="dokwpisTable" emptyMessage="Nie pobrano wierszy" styleClass="tabelawierszy"
                          filteredValue="#{wierszeView.wierszefiltered}" 
-                         rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wierszezestawienie}" sortBy="#{loop.dokfk.datadokumentu}"
+                         rowKey="#{loop.idwiersza}" editable="true" selection="#{wierszeView.wierszezestawienie}" sortBy="#{loop.dokfk.datadokumentu}"
                          rowsPerPageTemplate="100,200,300,400, 1000" paginatorPosition="top" paginator="#{wierszeView.wiersze.size() gt 100 ? 'true':'false'}" rows="100"
                          >
                 <p:ajax event="toggleSelect" global="false" />
@@ -52,13 +60,13 @@
                 <p:ajax event="filter" global="false" listener="#{wierszeView.sumujwiersze()}" update="zestawieniezapisownakontach_footer"/>
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wierszy w dokumentach " />  
-<!--                    <h:outputText value="- wyszukiwanie: " />  
-                    <p:inputText id="globalFilter" onkeyup="PF('dokwpisTable').filter()" style="width:150px" />  -->
+                    <!--                    <h:outputText value="- wyszukiwanie: " />  
+                                        <p:inputText id="globalFilter" onkeyup="PF('dokwpisTable').filter()" style="width:150px" />  -->
                 </f:facet>
-                 <p:column headerText="#{mgs.numerkolejny}" width="30">
+                <p:column headerText="#{mgs.numerkolejny}" width="30">
                     <h:outputText value="#{row+1}" />
                 </p:column>
-                 <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
                 <p:column headerText="import" width="30" filterBy="#{loop.dokfk.importowany}" sortBy="#{loop.dokfk.importowany}" style="text-align: center;">
                     <h:outputText value="#{loop.dokfk.importowany ? 'tak':null}" style="color: red"/>
                 </p:column>
@@ -67,12 +75,12 @@
                     <h:outputText value="#{loop.stronaMa.konto.zwyklerozrachszczegolne eq 'rozrachunkowe' ? (loop.stronaMa.typStronaWiersza eq 0 ? 'Ma' : null) : null}"/>
                 </p:column>
                 <p:column headerText="data dokum" width="40">
-                     <h:outputText value="#{loop.dokfk.datadokumentu.substring(2)}" style="#{loop.dokfk.datadokumentu.length() ne 10 ? 'color: red;': null}"/>
+                    <h:outputText value="#{loop.dokfk.datadokumentu.substring(2)}" style="#{loop.dokfk.datadokumentu.length() ne 10 ? 'color: red;': null}"/>
                 </p:column>
                 <p:column headerText="id dokumentu" width="90" sortBy="#{loop.dokfkS}" filterBy="#{loop.dokfkS}" filterMatchMode="contains">
-                     <h:outputText value="#{loop.dokfkS}"/>
+                    <h:outputText value="#{loop.dokfkS}"/>
                 </p:column>
-                 <p:column headerText="nr własny" width="120" sortBy="#{loop.dokfk.numerwlasnydokfk}" filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
+                <p:column headerText="nr własny" width="120" sortBy="#{loop.dokfk.numerwlasnydokfk}" filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
                     <h:outputText value="#{loop.dokfk.numerwlasnydokfk}" style="#{loop.dokfk.importowany ? 'color: blue':null}"/>
                 </p:column>
                 <p:column headerText="lp wier." width="30" filterBy="#{loop.idporzadkowy}" style="text-align: center;"
@@ -86,32 +94,40 @@
                 <p:column headerText="kwota Wn" width="60" filterBy="#{loop.stronaWn.kwota}" 
                           filterMatchMode="contains" sortBy="#{loop.stronaWn.kwota}">
                     <h:outputText value="#{loop.stronaWn.kwota}" rendered="#{loop.stronaWn.kwota eq 0 ? false : true}" style="float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                        </h:outputText>
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
-                 <p:column headerText="kwota Wn PLN" width="60" filterBy="#{loop.stronaWn.kwotaPLN}" filterMatchMode="contains" sortBy="#{loop.stronaWn.kwota}">
+                <p:column headerText="kwota Wn PLN" width="60" filterBy="#{loop.stronaWn.kwotaPLN}" filterMatchMode="contains" sortBy="#{loop.stronaWn.kwota}">
                     <h:outputText value="#{loop.stronaWn.kwotaPLN}" rendered="#{loop.stronaWn.kwotaPLN eq 0 ? false : true}" style="float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                        </h:outputText>
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="konto Wn" width="90"  filterBy="#{loop.stronaWn.konto.pelnynumer}"
                           filterMatchMode="startsWith" sortBy="#{loop.stronaWn.konto.pelnynumer}">
                     <h:outputText value="#{loop.stronaWn.konto.pelnynumer}" style="margin-left: 3px; #{loop.stronaWn.konto.mapotomkow eq true ? 'color: red' : null}"/>
                 </p:column>
-                
+
                 <p:column headerText="kwota Ma" width="60" filterBy="#{loop.stronaMa.kwota}"  filterMatchMode="contains" sortBy="#{loop.stronaMa.kwota}">
                     <h:outputText value="#{loop.stronaMa.kwota}" rendered="#{loop.stronaMa.kwota eq 0 ? false : true}" style="float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                        </h:outputText>
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="kwota Ma PLN" width="60" filterBy="#{loop.stronaMa.kwotaPLN}"  filterMatchMode="contains" sortBy="#{loop.stronaMa.kwota}">
                     <h:outputText value="#{loop.stronaMa.kwotaPLN}" rendered="#{loop.stronaMa.kwotaPLN eq 0 ? false : true}" style="float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                        </h:outputText>
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="konto Ma" width="90"   filterBy="#{loop.stronaMa.konto.pelnynumer}" 
                           filterMatchMode="startsWith" sortBy="#{loop.stronaMa.konto.pelnynumer}">
                     <h:outputText value="#{loop.stronaMa.konto.pelnynumer}"  style="margin-left: 3px;  #{loop.stronaMa.konto.mapotomkow eq true ? 'color: red' : null}"/>
+                </p:column>
+                <p:column headerText="wal" width="40"   filterBy="#{loop.walutaWiersz}"  style="text-align: center;"
+                          filterMatchMode="startsWith" sortBy="#{loop.walutaWiersz}">
+                    <h:outputText value="#{loop.walutaWiersz}"/>
+                </p:column>
+                 <p:column headerText="cechy" width="80"   filterBy="#{loop.cechy}"  style="text-align: center;"
+                          filterMatchMode="contains" sortBy="#{loop.cechy}">
+                    <h:outputText value="#{loop.cechy}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
@@ -120,10 +136,10 @@
         </h:form>
         <h:form id="zestawieniezapisownakontach_footer">
             <p:panelGrid columns="4" style="margin-top: 10px;">
-            <h:outputText value="suma Wn"/>
-            <bcf:outputpl value="#{wierszeView.sumawn}"/>
-            <h:outputText value=" / suma Ma"/>
-            <bcf:outputpl value="#{wierszeView.sumama}"/>
+                <h:outputText value="suma Wn"/>
+                <bcf:outputpl value="#{wierszeView.sumawn}"/>
+                <h:outputText value=" / suma Ma"/>
+                <bcf:outputpl value="#{wierszeView.sumama}"/>
             </p:panelGrid>
         </h:form>
     </p:dialog>
