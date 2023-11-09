@@ -109,7 +109,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
         boolean wynagrodzeniekrajowemiesieczne = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("11") && skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true;
         boolean wynagrodzeniekrajowegodzinowe = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("11") && skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==false;
-        boolean wynagrodzeniekierowca = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13")&&skladnikwynagrodzenia.getRodzajwynagrodzenia().getWks_serial()!=1078 
+        boolean wynagrodzeniekierowca = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13")
                 && skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true;
         if (wynagrodzeniekrajowemiesieczne || wynagrodzeniekierowca) {
             //tu usredniamy zmienna w przypadku zmiany angazu
@@ -276,20 +276,25 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                 }
                 if (liczbazmiennych > 0) {
                     double dnifaktycznieprzepracowane = kalendarz.getDnipracywmiesiacu();
-                    if (dnifaktycznieprzepracowane>0) {
-                        //stawkadzienna = Z.z6(stawkadzienna / kalendarz.getDnipracywmiesiacu() / liczbazmiennych);
-                        //stawkagodzinowa = Z.z6(stawkagodzinowa / kalendarz.getGodzinypracywmiesiacu() / liczbazmiennych);
-                        //to nie jest potrzebne bo jest rekucja 12 17.07.2023;
-                        //double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
-                        //redukcja = redukcja_11 + redukcja_12+ redukcja_urlop;
-                        redukcja = redukcja_11 + redukcja_12;
-                    } else {
-                        //jezeli  nie ma ani jednego dnia faktycznie przepracowanego to sie nie nalezy
-//                        stawkadzienna = 0.0;
-//                        stawkagodzinowa = 0.0;
-//te stawki musza zostac bo sa potrzebne do wyliczania urlopu nawet jak nie ma ani jednego dnia pracy
-                        dowyplatyzaczasprzepracowany = 0.0;
-                        redukcja = kwotazmiennej;
+                    if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getWks_serial()!=1078) {
+                        if (dnifaktycznieprzepracowane>0) {
+                            //stawkadzienna = Z.z6(stawkadzienna / kalendarz.getDnipracywmiesiacu() / liczbazmiennych);
+                            //stawkagodzinowa = Z.z6(stawkagodzinowa / kalendarz.getGodzinypracywmiesiacu() / liczbazmiennych);
+                            //to nie jest potrzebne bo jest rekucja 12 17.07.2023;
+                            //double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
+                            //redukcja = redukcja_11 + redukcja_12+ redukcja_urlop;
+                            redukcja = redukcja_11 + redukcja_12;
+                        } else {
+                            //jezeli  nie ma ani jednego dnia faktycznie przepracowanego to sie nie nalezy
+    //                        stawkadzienna = 0.0;
+    //                        stawkagodzinowa = 0.0;
+    //te stawki musza zostac bo sa potrzebne do wyliczania urlopu nawet jak nie ma ani jednego dnia pracy
+                            dowyplatyzaczasprzepracowany = 0.0;
+                            redukcja = kwotazmiennej;
+                        }
+                    }
+                    if (naliczenieskladnikawynagrodzenia.getWaluta().equals("PLN")==false) {
+                        dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany*kurs;
                     }
                     naliczenieskladnikawynagrodzenia.setDataod(datastart);
                     naliczenieskladnikawynagrodzenia.setDatado(dataend);

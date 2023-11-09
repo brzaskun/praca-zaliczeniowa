@@ -207,9 +207,9 @@ public class KalendarzmiesiacBean {
                 } else if (kod.equals("UD")) {
                     //urlop wypoczynowy
                     if (pasekwynagrodzen.getKalendarzmiesiac().getAngaz().czyrusztowania()) {
+                        //nmie wiem po co to jest bo mamy jako skladnik wynagrodzenia
                         //naliczskladnikiwynagrodzeniazaUrlopOddelegowanieRusztowania(kalendarz, nieobecnosc, pasekwynagrodzen, kurs);
                     } else {
-                        System.out.println("robie ud");
                         naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(kalendarz, nieobecnosc, pasekwynagrodzen, kurs);
                     }
                 } else if (nieobecnosc.getRodzajnieobecnosci().isNieplatny()) {
@@ -783,18 +783,18 @@ public class KalendarzmiesiacBean {
         double sredniadopodstawystale = 0.0;
         List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
         Collections.sort(zmiennawynagrodzeniaList, new ZmiennaWynagrodzeniacomparator());
-        for (Zmiennawynagrodzenia r : zmiennawynagrodzeniaList) {
+        for (Zmiennawynagrodzenia zmiennawynagrodzenia : zmiennawynagrodzeniaList) {
                 double dniroboczezm = 0.0;
-                int dzienodzmienna = DataBean.dataod(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
-                int dziendozmienna = DataBean.datado(r.getDatado(), kalendarz.getRok(), kalendarz.getMc());
-                if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
-                     if (Data.czyjestpo(dataod, r.getDataod())) {
-                        dataod = r.getDataod();
+                int dzienodzmienna = DataBean.dataod(zmiennawynagrodzenia.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+                int dziendozmienna = DataBean.datado(zmiennawynagrodzenia.getDatado(), kalendarz.getRok(), kalendarz.getMc());
+                if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), zmiennawynagrodzenia.getDataod(), zmiennawynagrodzenia.getDatado())) {
+                     if (Data.czyjestpo(dataod, zmiennawynagrodzenia.getDataod())) {
+                        dataod = zmiennawynagrodzenia.getDataod();
                     }
-                    if (Data.czyjestprzed(datado, r.getDatado())) {
-                        datado = r.getDatado();
+                    if (Data.czyjestprzed(datado, zmiennawynagrodzenia.getDatado())) {
+                        datado = zmiennawynagrodzenia.getDatado();
                     }
-                    skladnikistale = r.getKwota();
+                    skladnikistale = zmiennawynagrodzenia.getKwota();
                     for (Dzien s : kalendarz.getDzienList()) {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
                         if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
@@ -804,8 +804,8 @@ public class KalendarzmiesiacBean {
                      double stawkadziennazm=  Z.z4(skladnikistale / dniroboczewmiesiacu);
                     sredniadopodstawystale = sredniadopodstawystale + Z.z(stawkadziennazm * dniroboczezm);
                     zwrot.setWaluta(waluta);
-                    if (r.getWaluta()!=null) {
-                        zwrot.setWaluta(r.getWaluta());
+                    if (zmiennawynagrodzenia.getWaluta()!=null) {
+                        zwrot.setWaluta(zmiennawynagrodzenia.getWaluta());
                     }
                 } 
             }
