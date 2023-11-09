@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-11-09T13:47:06.132Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3217</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>10</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>9552413093</NIP>
+            <PelnaNazwa>STABMAR SP. Z O.O.</PelnaNazwa>
+            <Email>w.daniluk@taxman.biz.pl</Email>
+            <Telefon>539034444</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5941582250</NrKontrahenta>
+            <NazwaKontrahenta>WOBA - Damian Stasiak</NazwaKontrahenta>
+            <DowodSprzedazy>3/MG/10/2023</DowodSprzedazy>
+            <DataWystawienia>2023-10-31</DataWystawienia>
+            <DataSprzedazy>2023-09-22</DataSprzedazy>
+            <K_19>-243.20</K_19>
+            <K_20>-55.94</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5540231993</NrKontrahenta>
+            <NazwaKontrahenta>"SOLBET" sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>51/MT/10/2023</DowodSprzedazy>
+            <DataWystawienia>2023-10-31</DataWystawienia>
+            <DataSprzedazy>2023-10-05</DataSprzedazy>
+            <K_19>2358.31</K_19>
+            <K_20>542.41</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581400342</NrKontrahenta>
+            <NazwaKontrahenta>GAMA Mirosław Minuta</NazwaKontrahenta>
+            <DowodSprzedazy>52/MT/10/2023</DowodSprzedazy>
+            <DataWystawienia>2023-10-31</DataWystawienia>
+            <DataSprzedazy>2023-10-06</DataSprzedazy>
+            <K_19>4350.00</K_19>
+            <K_20>1000.5</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552472380</NrKontrahenta>
+            <NazwaKontrahenta>MESEL sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>26/MG/10/2023</DowodSprzedazy>
+            <DataWystawienia>2023-10-31</DataWystawienia>
+            <DataSprzedazy>2023-10-09</DataSprzedazy>
+            <K_19>7278.00</K_19>
+            <K_20>1673.94</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8531278790</NrKontrahenta>
+            <NazwaKontrahenta>AM-TERMAC Marcin Jędrzejewski</NazwaKontrahenta>
+            <DowodSprzedazy>27/MG/10/2023</DowodSprzedazy>
+            <DataWystawienia>2023-10-31</DataWystawienia>
+            <DataSprzedazy>2023-10-12</DataSprzedazy>
+            <K_19>437.82</K_19>
+            <K_20>100.7</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000001646</NrKontrahenta>
+            <NazwaKontrahenta>Artur Przybysz</NazwaKontrahenta>
+            <DowodSprzedazy>53/MT/10/2023</DowodSprzedazy>
+            <DataWystawienia>2023-10-31</DataWystawienia>
+            <DataSprzedazy>2023-10-23</DataSprzedazy>
+            <K_19>4790.12</K_19>
+            <K_20>1101.73</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000011938</NrKontrahenta>
+            <NazwaKontrahenta>Tomasz Milewski</NazwaKontrahenta>
+            <DowodSprzedazy>54/MT/10/2023</DowodSprzedazy>
+            <DataWystawienia>2023-10-31</DataWystawienia>
+            <DataSprzedazy>2023-10-23</DataSprzedazy>
+            <K_19>8761.05</K_19>
+            <K_20>2015.04</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8531278790</NrKontrahenta>
+            <NazwaKontrahenta>AM-TERMAC Marcin Jędrzejewski</NazwaKontrahenta>
+            <DowodSprzedazy>28/MG/10/2023</DowodSprzedazy>
+            <DataWystawienia>2023-10-31</DataWystawienia>
+            <DataSprzedazy>2023-10-23</DataSprzedazy>
+            <K_19>903.00</K_19>
+            <K_20>207.69</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5941525654</NrKontrahenta>
+            <NazwaKontrahenta>Przedsiębiorstwo Usługowe Daniel Piątek</NazwaKontrahenta>
+            <DowodSprzedazy>55/MT/10/2023</DowodSprzedazy>
+            <DataWystawienia>2023-10-31</DataWystawienia>
+            <DataSprzedazy>2023-10-30</DataSprzedazy>
+            <K_19>6724.85</K_19>
+            <K_20>1546.72</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>10</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5941485133</NrKontrahenta>
+            <NazwaKontrahenta>Rafał Włodarczyk "RAJ" Usługi Remontowo - Budowlane</NazwaKontrahenta>
+            <DowodSprzedazy>56/MT/10/2023</DowodSprzedazy>
+            <DataWystawienia>2023-10-31</DataWystawienia>
+            <DataSprzedazy>2023-10-31</DataSprzedazy>
+            <K_19>15821.70</K_19>
+            <K_20>3638.99</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>11</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DK</KodKrajuNadaniaTIN>
+            <NrKontrahenta>25131045</NrKontrahenta>
+            <NazwaKontrahenta>DIRKMARINE.DK </NazwaKontrahenta>
+            <DowodSprzedazy>57/MT/10/2023</DowodSprzedazy>
+            <DataWystawienia>2023-10-31</DataWystawienia>
+            <DataSprzedazy>2023-10-31</DataSprzedazy>
+            <K_21>8345.86</K_21>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>11</LiczbaWierszySprzedazy>
+            <PodatekNalezny>11771.78</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522353084</NrDostawcy>
+            <NazwaDostawcy>EZKa Sp. Jaw</NazwaDostawcy>
+            <DowodZakupu>286/2023</DowodZakupu>
+            <DataZakupu>2023-10-02</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>875.64</K_42>
+            <K_43>201.4</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7523010394</DowodZakupu>
+            <DataZakupu>2023-10-02</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>4102.33</K_42>
+            <K_43>943.53</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522180583</NrDostawcy>
+            <NazwaDostawcy>ATA Magdalena Andrzejewska</NazwaDostawcy>
+            <DowodZakupu>8/10/2023</DowodZakupu>
+            <DataZakupu>2023-10-02</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>130.08</K_42>
+            <K_43>14.96</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512120077</NrDostawcy>
+            <NazwaDostawcy>"P4 sp. z o.o."</NazwaDostawcy>
+            <DowodZakupu>000154717725/OPR/10/2023</DowodZakupu>
+            <DataZakupu>2023-10-03</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>85.27</K_42>
+            <K_43>19.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260212925</NrDostawcy>
+            <NazwaDostawcy>MLEASING sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>SFC/10/67560/23</DowodZakupu>
+            <DataZakupu>2023-10-03</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>1454.30</K_42>
+            <K_43>167.25</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261032852</NrDostawcy>
+            <NazwaDostawcy>Onninen Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>424578067</DowodZakupu>
+            <DataZakupu>2023-10-05</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>1572.43</K_42>
+            <K_43>361.66</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261032852</NrDostawcy>
+            <NazwaDostawcy>Onninen Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>424581233</DowodZakupu>
+            <DataZakupu>2023-10-06</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>3280.61</K_42>
+            <K_43>754.54</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8531509350</NrDostawcy>
+            <NazwaDostawcy>PGF Zachód Spółka z ograniczoną odpowiedzialnością Spółka komandytowa  Stacja pa</NazwaDostawcy>
+            <DowodZakupu>10184K3/7579/23</DowodZakupu>
+            <DataZakupu>2023-10-06</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>152.05</K_42>
+            <K_43>17.48</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>7856K2/4514/23</DowodZakupu>
+            <DataZakupu>2023-10-10</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>287.08</K_42>
+            <K_43>33.02</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552201652</NrDostawcy>
+            <NazwaDostawcy>"PHU DARIUSZ BOBRYK, DOROTA BOBRYK" Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>8965/0004/FP/2023</DowodZakupu>
+            <DataZakupu>2023-10-14</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>239.84</K_42>
+            <K_43>27.58</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7523011043</DowodZakupu>
+            <DataZakupu>2023-10-16</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>5345.38</K_42>
+            <K_43>1229.44</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>10/2023/STAB09</DowodZakupu>
+            <DataZakupu>2023-10-17</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>660.00</K_42>
+            <K_43>151.8</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6311979176</NrDostawcy>
+            <NazwaDostawcy>"AFRISO" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FS-1966/10/2023</DowodZakupu>
+            <DataZakupu>2023-10-17</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>3602.19</K_42>
+            <K_43>828.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7523011110</DowodZakupu>
+            <DataZakupu>2023-10-17</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>811.40</K_42>
+            <K_43>186.62</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7523011263</DowodZakupu>
+            <DataZakupu>2023-10-19</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>1254.40</K_42>
+            <K_43>288.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261032852</NrDostawcy>
+            <NazwaDostawcy>Onninen Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>424608750</DowodZakupu>
+            <DataZakupu>2023-10-19</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>755.00</K_42>
+            <K_43>173.65</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7941513356</NrDostawcy>
+            <NazwaDostawcy>T I A sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>F.VAT 267/SK/10/2023</DowodZakupu>
+            <DataZakupu>2023-10-25</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>370.00</K_42>
+            <K_43>85.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>23100577157594</DowodZakupu>
+            <DataZakupu>2023-10-26</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>40.00</K_42>
+            <K_43>9.2</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7523011684</DowodZakupu>
+            <DataZakupu>2023-10-26</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>2119.01</K_42>
+            <K_43>487.37</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9581440661</NrDostawcy>
+            <NazwaDostawcy>FLOWAIR GŁOGOWSKI I BRZEZIŃSKI Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>FV/0546/12/24</DowodZakupu>
+            <DataZakupu>2023-10-31</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>13073.00</K_42>
+            <K_43>3006.79</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7523011981</DowodZakupu>
+            <DataZakupu>2023-10-31</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>1905.90</K_42>
+            <K_43>438.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7523011972</DowodZakupu>
+            <DataZakupu>2023-10-31</DataZakupu>
+            <DataWplywu>2023-10-31</DataWplywu>
+            <K_42>7206.60</K_42>
+            <K_43>1657.52</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>22</LiczbaWierszyZakupow>
+            <PodatekNaliczony>11083.88</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

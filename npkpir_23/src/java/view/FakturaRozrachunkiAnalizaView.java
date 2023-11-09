@@ -211,7 +211,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         k.setNazwapodatnika(po.getPrintnazwa());
                         k.setTelefon(po.getTelefonkontaktowy());
                         k.setAktywny(po.isPodmiotaktywny());
-                        k.setKsiegowa(po.getKsiegowa());
+                        if (po.getKsiegowa()!=null) {
+                            k.setKsiegowa(po.getKsiegowa());
+                        }
                         k.setPolecajacy(po.getPolecajacy());
                         break;
                     }

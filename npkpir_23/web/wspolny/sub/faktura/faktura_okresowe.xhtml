@@ -232,7 +232,7 @@
                 <p:menuitem value="Resetuj bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.resetujbiezacymiesiac()}" icon="ui-icon-cancel" />
                 <p:menuitem value="Oznacz bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczbiezacymiesiac()}" icon="ui-icon-plus" />
                 <p:menuitem value="Zawieś/odwieś fakturę" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.zawiesfakture()}" icon="ui-icon-arrowthickstop-1-n" />
-                <p:menuitem value="Oznacz wielorazowa" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczwielorazowa()}" icon="ui-icon-arrowthickstop-1-n"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+                <p:menuitem value="Oznacz wielorazowa" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczwielorazowa()}" icon="ui-icon-arrowthickstop-1-n"/>
                 <p:menuitem value="Oznacz waloryzacja" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczwaloryzacja()}" icon="ui-icon-arrowthickstop-1-n"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
                 <p:menuitem value="Oznacz ręczna edycja" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczrecznaedycja()}" icon="ui-icon-arrowthickstop-1-n"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
                 <p:menuitem value="Porzadek" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.porzadekbiuro()}" icon="ui-icon-arrowthickstop-1-n" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
