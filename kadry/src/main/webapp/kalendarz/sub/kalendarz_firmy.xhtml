@@ -9,7 +9,7 @@
 >
     <p:outputPanel style="height: 180px">
             <p:panelGrid columns="4">
-                <h:form id="KalendarzwzorCreateForm">
+                <h:form id="KalendarzwzorCreateForm" styleClass="firmakalendarz">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" rendered="#{kalendarzwzorView.selected != null}">
                             <p:outputLabel value="firma" for="firmakalendarz" />
@@ -26,7 +26,7 @@
                         </p:panelGrid>
                     </h:panelGroup>
                 </h:form>
-                <h:form id="KalendarzwzormiesiacSaRokForm">
+                <h:form id="KalendarzwzormiesiacSaRokForm" styleClass="firmakalendarz">
                     <p:dataTable id="datalist" value="#{kalendarzwzorView.lista}" var="itemkalendarzwzorjest"
                                  rowKey="#{itemkalendarzwzorjest.id}" emptyMessage="brak kalendarzy wzor."
                                  selection="#{kalendarzwzorView.selected}" selectionMode="single"
@@ -41,21 +41,21 @@
                         </p:column>
                     </p:dataTable>
                 </h:form>
-                <h:form id="KalendarzwzorCopyForm" >
+                <h:form id="KalendarzwzorCopyForm"  styleClass="firmakalendarz">
                     <p:outputPanel rendered="#{wpisView.uzer.login eq '2'}">
                         <p:commandButton value="generuj z globalnego" styleClass="buttonnorm" actionListener="#{kalendarzwzorView.globalnie}" update="akordeon:KalendarzwzormiesiacSaRokForm"/>
                     </p:outputPanel>
                 </h:form>
-                <h:form id="KalendarzwzorCopyFormTMP">
+                <h:form id="KalendarzwzorCopyFormTMP" styleClass="firmakalendarz">
                     <p:outputPanel rendered="#{wpisView.uzer.login eq '2'}">
-                        <p:commandButton value="wygeneruj globalne" styleClass="buttonnorm" actionListener="#{kalendarzwzorView.taxmannaglobalnie}" update="akordeon:KalendarzwzormiesiacSaRokForm"/>
+                        <p:commandButton value="taxman na globalny" styleClass="buttonnorm" actionListener="#{kalendarzwzorView.taxmannaglobalnie}" update="akordeon:KalendarzwzormiesiacSaRokForm"/>
                     </p:outputPanel>
                 </h:form>
             </p:panelGrid>
         </p:outputPanel>
         <p:outputPanel>
             <p:panelGrid columns="2">
-            <h:form id="KalendarzwzorListForm">
+            <h:form id="KalendarzwzorListForm" styleClass="firmakalendarz">
                 <p:panel header="Dni kalendarza wzorcowego">
                     <p:dataTable id="datalist" value="#{kalendarzwzorView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"  sortMode="single"

@@ -5,7 +5,6 @@
  */
 package view;
 
-import DAOsuperplace.FirmaFacade;
 import DAOsuperplace.OsobaFacade;
 import comparator.ZatrudHistComparator;
 import dao.AngazFacade;
@@ -28,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,7 +34,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import kadryiplace.Firma;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaDet;
 import kadryiplace.OsobaPropTyp;
@@ -67,14 +64,14 @@ public class HistoriaView  implements Serializable {
     private UpdateClassView updateClassView;
     @Inject
     private WpisView wpisView;
-    private List<Firma> firmysuperplace;
+//    private List<Firma> firmysuperplace;
     private List<Osoba> osoby;
     private List<Osoba> selectedosoby;
-    private Firma selectedfirma;
+//    private Firma selectedfirma;
     @Inject
     private OsobaFacade osobaFacade;
-    @Inject
-    private FirmaFacade firmaFacade;
+//    @Inject
+//    private FirmaFacade firmaFacade;
     @Inject
     private dao.FirmaKadryFacade firmaKadryFacade;
     @Inject
@@ -83,24 +80,28 @@ public class HistoriaView  implements Serializable {
     
     @PostConstruct
     public void init() {
-        firmysuperplace = firmaFacade.findAll();
-        List<FirmaKadry> nowefirmy = firmaKadryFacade.findAll();
-        if (firmysuperplace!=null&&nowefirmy!=null) {
-            for (FirmaKadry f : nowefirmy) {
-                Firma odnaleziona = firmysuperplace.stream().filter(p->ladnynip(p.getFirNip()).equals(f.getNip())).findFirst().orElse(null);
-                if (odnaleziona!=null) {
-                    odnaleziona.setZaimportowana(f.isZaimportowana());
-                }
-            }
-        }
+//        firmysuperplace = firmaFacade.findAll();
+//        List<FirmaKadry> nowefirmy = firmaKadryFacade.findAll();
+//        if (firmysuperplace!=null&&nowefirmy!=null) {
+//            for (FirmaKadry f : nowefirmy) {
+//                Firma odnaleziona = firmysuperplace.stream().filter(p->ladnynip(p.getFirNip()).equals(f.getNip())).findFirst().orElse(null);
+//                if (odnaleziona!=null) {
+//                    odnaleziona.setZaimportowana(f.isZaimportowana());
+//                }
+//            }
+//        }
         listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
         if (selectedangaz!=null) {
             listawynagrodzenhistoria = wynagrodzeniahistoryczneFacade.findByAngaz(selectedangaz);
         }
-        if (wpisView.getFirma()!=null) {
-            selectedfirma = firmaFacade.findBySerial(wpisView.getFirma().getFir_serial());
-            pobierzosoby();
-        }
+//        if (wpisView.getFirma()!=null) {
+//            selectedfirma = firmaFacade.findBySerial(wpisView.getFirma().getFir_serial());
+//            pobierzosoby();
+//        }
+//        if (wpisView.getFirma()!=null) {
+//            selectedfirma = firmaKadryFacade.findByNIP(wpisView.getFirma().getNip());
+//            pobierzosoby();
+//        }
     }
     
     private String ladnynip(String firNip) {
@@ -111,34 +112,34 @@ public class HistoriaView  implements Serializable {
         return zwrot;
     }
     
-    public void pobierzosoby() {
-        osoby = osobaFacade.findByFirmaSerial(selectedfirma.getFirSerial());
-        if (pokazwszystkie==false) {
-            for (Iterator<Osoba> it = osoby.iterator();it.hasNext();) {
-                Osoba o = it.next();
-                if (o.getOsoDataZwol()!=null) {
-                    boolean czyjestpozniej = Data.czyjestpo(o.getOsoDataZwol(), "2021", "12");
-                    if (czyjestpozniej==false) {
-                       it.remove();
-                    }
-                }
-            }
-        }
-        for (Osoba o : osoby) {
-            for (Angaz a : listapracownikow) {
-                if (a.getSerialsp()!=null) {
-                    if (o.getOsoSerial().equals(Integer.parseInt(a.getSerialsp()))) {
-                        o.setOsoDodVchar3("tak");
-                        break;
-                    }
-                }
-            }
-        }
-        List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
-        for (Osoba o : osoby) {
-            naniesliczbamcy(o, rodzajezatr);
-        }
-    }
+//    public void pobierzosoby() {
+//        osoby = osobaFacade.findByFirmaSerial(selectedfirma.getFirSerial());
+//        if (pokazwszystkie==false) {
+//            for (Iterator<Osoba> it = osoby.iterator();it.hasNext();) {
+//                Osoba o = it.next();
+//                if (o.getOsoDataZwol()!=null) {
+//                    boolean czyjestpozniej = Data.czyjestpo(o.getOsoDataZwol(), "2021", "12");
+//                    if (czyjestpozniej==false) {
+//                       it.remove();
+//                    }
+//                }
+//            }
+//        }
+//        for (Osoba o : osoby) {
+//            for (Angaz a : listapracownikow) {
+//                if (a.getSerialsp()!=null) {
+//                    if (o.getOsoSerial().equals(Integer.parseInt(a.getSerialsp()))) {
+//                        o.setOsoDodVchar3("tak");
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
+//        for (Osoba o : osoby) {
+//            naniesliczbamcy(o, rodzajezatr);
+//        }
+//    }
     
     private void naniesliczbamcy(Osoba osoba,List<Slownikszkolazatrhistoria> rodzajezatr) {
         List<String> kody = new ArrayList<String>(Arrays.asList("1","2","3","4","5","P"));
@@ -296,22 +297,22 @@ public class HistoriaView  implements Serializable {
     }
 
    
+//
+//    public List<Firma> getFirmysuperplace() {
+//        return firmysuperplace;
+//    }
+//
+//    public void setFirmysuperplace(List<Firma> firmysuperplace) {
+//        this.firmysuperplace = firmysuperplace;
+//    }
 
-    public List<Firma> getFirmysuperplace() {
-        return firmysuperplace;
-    }
-
-    public void setFirmysuperplace(List<Firma> firmysuperplace) {
-        this.firmysuperplace = firmysuperplace;
-    }
-
-    public Firma getSelectedfirma() {
-        return selectedfirma;
-    }
-
-    public void setSelectedfirma(Firma selectedfirma) {
-        this.selectedfirma = selectedfirma;
-    }
+//    public Firma getSelectedfirma() {
+//        return selectedfirma;
+//    }
+//
+//    public void setSelectedfirma(Firma selectedfirma) {
+//        this.selectedfirma = selectedfirma;
+//    }
 
     public boolean isPokazwszystkie() {
         return pokazwszystkie;

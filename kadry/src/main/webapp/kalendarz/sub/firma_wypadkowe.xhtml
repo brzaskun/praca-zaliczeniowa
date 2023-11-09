@@ -9,7 +9,7 @@
 >
     <p:outputPanel style="height: 180px">
             <p:panelGrid columns="3">
-                <h:form id="WypadkoweForm">
+                <h:form id="WypadkoweForm" styleClass="firmakalendarz">
                     <p:outputPanel>
                         <p:outputLabel value="data od" for="dataod" />
                         <p:inputText id="dataod" value="#{wypadkowefirmaView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
@@ -28,7 +28,7 @@
         </p:outputPanel>
         <p:outputPanel>
             <p:panelGrid columns="2">
-            <h:form id="WypadkoweFormLista">
+            <h:form id="WypadkoweFormLista" styleClass="firmakalendarz">
                 <p:panel header="Stawki ubezpieczenia wypadkowego dla firmy">
                     <p:dataTable id="datalist" value="#{wypadkowefirmaView.lista}" var="itemwypadkowe"
                                  rowKey="#{itemwypadkowe.id}"  sortMode="single"

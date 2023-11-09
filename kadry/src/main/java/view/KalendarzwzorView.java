@@ -164,6 +164,12 @@ public class KalendarzwzorView  implements Serializable {
                     } else {
                         Msg.msg("e","Brak kalendarza globalnego za "+mce);
                     }
+                } else if (kalmiesiac!=null && (kalmiesiac.getDzienList()==null||kalmiesiac.getDzienList().size()==0)) {
+                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firmaglobalna, kal.getRok(), mce);
+                    if (znaleziono!=null) {
+                        kalmiesiac.generujdnizglobalnego(znaleziono);
+                        kalendarzwzorFacade.edit(kalmiesiac);
+                    }
                 }
             }
              lista  = kalendarzwzorFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());

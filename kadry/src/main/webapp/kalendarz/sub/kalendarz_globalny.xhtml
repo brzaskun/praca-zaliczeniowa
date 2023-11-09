@@ -9,7 +9,7 @@
 >
     <p:outputPanel style="height: 180px">
             <p:panelGrid columns="3">
-                <h:form id="KalendarzGlobalCreateForm">
+                <h:form id="KalendarzGlobalCreateForm" styleClass="firmakalendarz">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" rendered="#{kalendarzGlobalnyView.selected != null}">
                             <p:outputLabel value="firma" for="firmakalendarz" />
@@ -26,7 +26,7 @@
                         </p:panelGrid>
                     </h:panelGroup>
                 </h:form>
-                <h:form id="KalendarzwzormiesiacSaRokGlobForm">
+                <h:form id="KalendarzwzormiesiacSaRokGlobForm" styleClass="firmakalendarz">
                     <p:dataTable id="datalist" value="#{kalendarzGlobalnyView.lista}" var="itemkalendarzwzorjest"
                                  rowKey="#{itemkalendarzwzorjest.id}" emptyMessage="brak kalendarzy wzor."
                                  selection="#{kalendarzGlobalnyView.selected}" selectionMode="single"
@@ -45,7 +45,7 @@
         </p:outputPanel>
         <p:outputPanel>
             <p:panelGrid columns="2">
-            <h:form id="KalendarzwzorListGlobForm">
+            <h:form id="KalendarzwzorListGlobForm" styleClass="firmakalendarz">
                 <p:panel header="Dni kalendarza wzorcowego">
                     <p:dataTable id="datalist" value="#{kalendarzGlobalnyView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"  sortMode="single"
