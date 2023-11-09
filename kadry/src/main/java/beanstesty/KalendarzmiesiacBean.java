@@ -207,8 +207,9 @@ public class KalendarzmiesiacBean {
                 } else if (kod.equals("UD")) {
                     //urlop wypoczynowy
                     if (pasekwynagrodzen.getKalendarzmiesiac().getAngaz().czyrusztowania()) {
-                        naliczskladnikiwynagrodzeniazaUrlopOddelegowanieRusztowania(kalendarz, nieobecnosc, pasekwynagrodzen, kurs);
+                        //naliczskladnikiwynagrodzeniazaUrlopOddelegowanieRusztowania(kalendarz, nieobecnosc, pasekwynagrodzen, kurs);
                     } else {
+                        System.out.println("robie ud");
                         naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(kalendarz, nieobecnosc, pasekwynagrodzen, kurs);
                     }
                 } else if (nieobecnosc.getRodzajnieobecnosci().isNieplatny()) {
@@ -803,10 +804,12 @@ public class KalendarzmiesiacBean {
                      double stawkadziennazm=  Z.z4(skladnikistale / dniroboczewmiesiacu);
                     sredniadopodstawystale = sredniadopodstawystale + Z.z(stawkadziennazm * dniroboczezm);
                     zwrot.setWaluta(waluta);
+                    if (r.getWaluta()!=null) {
+                        zwrot.setWaluta(r.getWaluta());
+                    }
                 } 
             }
          zwrot.setKwota(sredniadopodstawystale);
-         zwrot.setWaluta(waluta);
          zwrot.setDataod(dataod);
          zwrot.setDatado(datado);
          return zwrot;
@@ -1444,9 +1447,10 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setLiczbadniNieobecnosci(liczbadniurlopu);
                 naliczenienieobecnosc.setLiczbagodzinobowiazku(liczbagodzinobowiazku);
                 naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinurlopu);
-                naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
+                naliczenienieobecnosc.setKwotawaluta(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotaredukcji(0.0);
+                naliczenienieobecnosc.setWaluta("EUR");
                 naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
                 pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
             }

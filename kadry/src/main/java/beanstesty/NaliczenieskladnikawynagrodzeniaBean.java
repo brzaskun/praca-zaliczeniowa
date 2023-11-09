@@ -109,7 +109,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
         boolean wynagrodzeniekrajowemiesieczne = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("11") && skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true;
         boolean wynagrodzeniekrajowegodzinowe = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("11") && skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==false;
-        boolean wynagrodzeniekierowca = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13") && skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true;
+        boolean wynagrodzeniekierowca = skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("13")&&skladnikwynagrodzenia.getRodzajwynagrodzenia().getWks_serial()!=1078 
+                && skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true;
         if (wynagrodzeniekrajowemiesieczne || wynagrodzeniekierowca) {
             //tu usredniamy zmienna w przypadku zmiany angazu
             Zmiennawynagrodzenia zmiennawyn = KalendarzmiesiacBean.usrednijZmienna(skladnikwynagrodzenia, kalendarz);
