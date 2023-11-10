@@ -774,15 +774,21 @@ public class PasekwynagrodzenBean {
                 bruttozuskraj = bruttozuskraj + p.getKwotazus();
             }
         }
-        double sumaprzejsciowa = bruttozuskraj + bruttozusoddelegowanie;
-        double nowasumaprzychodow = sumapoprzednich + sumaprzejsciowa;
+        double przychodbiezacymiesiac = bruttozuskraj + bruttozusoddelegowanie;
+        if (pasek.isPrzekroczenieoddelegowanie()) {
+            przychodbiezacymiesiac = bruttozuskraj;
+        }
+        double nowasumaprzychodow = sumapoprzednich + przychodbiezacymiesiac;
         double roznicapowyzejlimitu = nowasumaprzychodow - limit26;
         if (roznicapowyzejlimitu > 0.0) {
-            double bezpodatku = sumaprzejsciowa - roznicapowyzejlimitu;
+            if (roznicapowyzejlimitu>przychodbiezacymiesiac) {
+                roznicapowyzejlimitu = przychodbiezacymiesiac;   
+            }
+            double bezpodatku = przychodbiezacymiesiac - roznicapowyzejlimitu;
              pasek.setBruttozusbezpodatek(bezpodatku);
             pasek.setBruttozus(roznicapowyzejlimitu);
         } else {
-            pasek.setBruttozusbezpodatek(sumaprzejsciowa);
+            pasek.setBruttozusbezpodatek(przychodbiezacymiesiac);
         }
         pasek.setOddelegowaniepln(bruttozusoddelegowanie);
         pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
@@ -1062,7 +1068,7 @@ public class PasekwynagrodzenBean {
         pasek.setPodstawaopodatkowania(podstawa);
         pasek.setPodstawaprzedkorektaozagranice(podstawa);
         pasek.setSpoleczneudzialpolska(polskiespoleczne);
-        korektaprzychodyopodatkowanezagranica(podstawa,pasek);
+        korektaprzychodyopodatkowanezagranica26(podstawa,pasek);
         pasek.setKosztyuzyskania(kosztyuzyskania);
     }
 
@@ -1640,14 +1646,35 @@ public class PasekwynagrodzenBean {
         List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokAngaz(rokwyplaty, angaz);
         double suma = 0.0;
         int mckalendarza = Integer.parseInt(mcwyplaty);
+        
         for (Pasekwynagrodzen r : paskipodatnika) {
             if (r.getMcI() <= mckalendarza) {
                 suma = suma + r.getBrutto();
+                if (r.getPodatekdochodowyzagranica()>0.0) {
+                    suma = suma - sumujoddelegowaniewartosc(r);
+                }
             }
         }
         return suma;
     }
 
+    private static double sumujoddelegowaniewartosc(Pasekwynagrodzen r) {
+        double suma = 0.0;
+        List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = r.getNaliczenieskladnikawynagrodzeniaList();
+        for (Naliczenieskladnikawynagrodzenia nal : naliczenieskladnikawynagrodzeniaList) {
+            if (nal.getWaluta()!=null&&nal.getWaluta().equals("EUR")) {
+                suma = suma + nal.getKwotadolistyplac();
+            }
+        }
+        List<Naliczenienieobecnosc> naliczenienieobecnoscList = r.getNaliczenienieobecnoscList();
+        for (Naliczenienieobecnosc nal : naliczenienieobecnoscList) {
+            if (nal.getWaluta()!=null&&nal.getWaluta().equals("EUR")) {
+                suma = suma + nal.getKwota();
+            }
+        }
+        return suma;
+    }
+    
     public static boolean czyodliczonokwotewolna(String rok, String mc, Angaz angaz, PasekwynagrodzenFacade pasekwynagrodzenFacade) {
         boolean zwrot = false;
         List<Pasekwynagrodzen> innepaskiwtymmiesiacu = pasekwynagrodzenFacade.findByRokMcAngaz(rok, mc, angaz);
@@ -1859,6 +1886,37 @@ public class PasekwynagrodzenBean {
             E.e(e);
         }
     }
+    
+    private static void korektaprzychodyopodatkowanezagranica26(double podstawa, Pasekwynagrodzen pasek) {
+        try {
+            if (pasek.isPrzekroczenieoddelegowanie()) {
+                List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
+                double zagranicapln = 0.0;
+                double zagranicawaluta = 0.0;
+                for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getWks_serial().equals(1072)) {
+                        zagranicawaluta = zagranicawaluta + p.getKwotadolistyplacwaluta();
+                        zagranicapln = zagranicapln + p.getKwotadolistyplac();
+                    }
+                }
+                List<Naliczenienieobecnosc> naliczenienieobecnoscList = pasek.getNaliczenienieobecnoscList();
+                for (Naliczenienieobecnosc p : naliczenienieobecnoscList) {
+                    if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UD")) {
+                        zagranicawaluta = zagranicawaluta + p.getKwotawaluta();
+                        zagranicapln = zagranicapln + p.getKwota();
+                    }
+                }
+                pasek.setPodstawaopodatkowaniazagranicawaluta(Z.z(zagranicawaluta));
+                pasek.setPodstawaopodatkowaniazagranica(Z.z(zagranicapln));
+//                if (pasek.getPodstawaopodatkowania()>0.0) {
+//                    double nowapodstawapolska = Z.z0(pasek.getPodstawaopodatkowania()-zagranicapln) > 0.0? Z.z0(pasek.getPodstawaopodatkowania()-zagranicapln) : 0.0;
+//                    pasek.setPodstawaopodatkowania(Z.z0(nowapodstawapolska));
+//                }
+            }
+        } catch (Exception e){
+            E.e(e);
+        }
+    }
 
     private static boolean czyjestpowrotzmacierzynskiego(List<Nieobecnosc> nieobecnoscList, String datawyplaty) {
         boolean jestpowrot = false;
@@ -1891,5 +1949,7 @@ public class PasekwynagrodzenBean {
         }
         return zwrot;
     }
+
+    
 
 }
