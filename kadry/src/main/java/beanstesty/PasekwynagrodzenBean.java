@@ -424,7 +424,12 @@ public class PasekwynagrodzenBean {
                     KalendarzmiesiacBean.naliczskladnikiwynagrodzeniazaUrlopOddelegowanie(kalendarz, nieobecnosc, pasek, kurs);
                 }
            }
-        if (rachunekdoumowyzlecenia.getUmowa().getUmowakodzus().isDzielo()) {
+        if (rachunekdoumowyzlecenia.getUmowa().getUmowakodzus().isZlecenie()&&pasek.isDo26lat()) {
+                PasekwynagrodzenBean.obliczbrutto26(pasek, limit26, sumabruttopoprzednich);
+                PasekwynagrodzenBean.obliczbruttobezzus(pasek);
+                PasekwynagrodzenBean.obliczbruttobezzusbezpodatek(pasek);
+                PasekwynagrodzenBean.obliczbruttobezSpolecznych(pasek);
+        } else if (rachunekdoumowyzlecenia.getUmowa().getUmowakodzus().isDzielo()) {
             PasekwynagrodzenBean.obliczbruttoumowadzielo(pasek, rachunekdoumowyzlecenia);
         } else {
             PasekwynagrodzenBean.obliczbruttoumowazlecenia(pasek, rachunekdoumowyzlecenia);
@@ -458,7 +463,11 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.pracownikchorobowaZlecenie(pasek, rachunekdoumowyzlecenia);
         PasekwynagrodzenBean.razemspolecznepracownik(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
-        PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe, pasek.isNierezydent());
+        if (rachunekdoumowyzlecenia.getUmowa().getUmowakodzus().isZlecenie()&&pasek.isDo26lat()) {
+            PasekwynagrodzenBean.obliczpodstaweopodatkowania26DB(pasek, stawkipodatkowe, false, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone(), limit26);
+        } else {
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe, pasek.isNierezydent());
+        }
         PasekwynagrodzenBean.obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
         if (czyodlicoznokwotewolna == false) {
             PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, false, odliczaculgepodatkowa);
@@ -1062,7 +1071,11 @@ public class PasekwynagrodzenBean {
         pasek.setKosztyuzyskaniahipotetyczne(kosztyuzyskania);
         pasek.setPodstawaopodatkowaniahipotetyczna(podstawa);
         //kosztyuzyskania = 0.0;
-        podstawa = Z.z0(kwotanadwyzki - kosztyuzyskania - polskiespoleczne - ulgadlaklasysredniej) > 0.0 ? Z.z0(kwotanadwyzki - kosztyuzyskania - polskiespoleczne  - ulgadlaklasysredniej) : 0.0;
+        if (pasek.isPrzekroczenieoddelegowanie()) {
+            podstawa = Z.z0(kwotanadwyzki - kosztyuzyskania - polskiespoleczne - ulgadlaklasysredniej) > 0.0 ? Z.z0(kwotanadwyzki - kosztyuzyskania - polskiespoleczne  - ulgadlaklasysredniej) : 0.0;
+        } else {
+            podstawa = Z.z0(kwotanadwyzki - kosztyuzyskania - pasek.getRazemspolecznepracownik() - ulgadlaklasysredniej) > 0.0 ? Z.z0(kwotanadwyzki - kosztyuzyskania - pasek.getRazemspolecznepracownik()  - ulgadlaklasysredniej) : 0.0;
+        }
         //nie odejmujemy od podstaway calekj kwoty oddelegoanie tylko robimy proporckje w stosunku do wynagrodzenia bo w przekroczeniu tez jest proporcja
         //double procentoddelegowaniebrutto = pasek.getOddelegowaniepln()/pasek.getBrutto();
         pasek.setPodstawaopodatkowania(podstawa);
