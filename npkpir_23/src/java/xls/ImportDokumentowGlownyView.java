@@ -78,7 +78,7 @@ import waluty.Z;
  */
 @Named
 @ViewScoped
-public class InterpaperImportView implements Serializable {
+public class ImportDokumentowGlownyView implements Serializable {
     private static final long serialVersionUID = 1L;
    @Inject
     private WpisView wpisView;
@@ -122,6 +122,7 @@ public class InterpaperImportView implements Serializable {
     private CommandButton generujbutton;
     private CommandButton drkujfizbutton;
     private SelectOneMenu kontobutton;
+    private SelectOneMenu kontobutton2;
     private Konto kontonetto;
     private Konto kontonettokoszt;
     private Konto kontonettotowary;
@@ -143,6 +144,7 @@ public class InterpaperImportView implements Serializable {
     private PanstwaMap panstwaMapa;
     private List<String> rodzajedokimportu;
     private Konto kontodlanetto;
+    private Konto kontodlabrutto;
     private List<Konto> listakontoRZiS;
     private String jakipobor;
     private double nettopln;
@@ -194,6 +196,7 @@ public class InterpaperImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("AGLP xls","xls","",12));
         zwrot.add(new ImportowanyPlik("Domeguru xls","xls","",13));
         zwrot.add(new ImportowanyPlik("Szyszko Logistics csv","csv","",14));
+        zwrot.add(new ImportowanyPlik("Vintis Vendor csv","csv","",15));
         return zwrot;
     }
     
@@ -307,6 +310,13 @@ public class InterpaperImportView implements Serializable {
                     importyzbrakami = (List<InterpaperXLS>) zwrot5[2];
                     innyokres = (List<InterpaperXLS>) zwrot5[3];
                     break;
+                case 15:
+                    Object[] zwrot6 = ReadCSVAmznVendorFile.getListafaktur(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu());
+                    pobranefaktury = (List<InterpaperXLS>) zwrot6[0];
+                    przerwanyimport = (List<InterpaperXLS>) zwrot6[1];
+                    importyzbrakami = (List<InterpaperXLS>) zwrot6[2];
+                    innyokres = (List<InterpaperXLS>) zwrot6[3];
+                    break;
             }
             sumujnadole(pobranefaktury);
             if (jakipobor!=null) {
@@ -331,33 +341,33 @@ public class InterpaperImportView implements Serializable {
             if (wybranyrodzajimportu.getLp()==2 && (rodzajdok.equals("sprzedaż NIP") || rodzajdok.contains("zakup") || rodzajdok.contains("WNT") || rodzajdok.contains("IU"))) {
                 generujbutton.setRendered(true);
                 drkujfizbutton.setRendered(true);
-                kontobutton.setRendered(true);
+                kontobutton.setRendered(true);kontobutton2.setRendered(true);
             } else if (wybranyrodzajimportu.getLp()==1 && (rodzajdok.equals("sprzedaż os.fiz"))) {
                 generujbutton.setRendered(true);
                 drkujfizbutton.setRendered(true);
-                kontobutton.setRendered(true);
+                kontobutton.setRendered(true);kontobutton2.setRendered(true);
             } else if (wybranyrodzajimportu.getLp()==1 && (rodzajdok.equals("sprzedaż") || rodzajdok.contains("zakup") || rodzajdok.contains("WNT") || rodzajdok.contains("IU"))){
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
-                kontobutton.setRendered(true);
+                kontobutton.setRendered(true);kontobutton2.setRendered(true);
             } else if (wybranyrodzajimportu.getLp()==3 && (rodzajdok.equals("sprzedaż") || rodzajdok.equals("zakup") || rodzajdok.contains("WNT") || rodzajdok.contains("IU"))){
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
-                kontobutton.setRendered(true);
+                kontobutton.setRendered(true);kontobutton2.setRendered(true);
             } else if (wybranyrodzajimportu.getLp()==4 && (rodzajdok.equals("sprzedaż") || rodzajdok.contains("zakup") || rodzajdok.contains("WNT") || rodzajdok.contains("IU"))){
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
-                kontobutton.setRendered(true);
+                kontobutton.setRendered(true);kontobutton2.setRendered(true);
             } else if (wybranyrodzajimportu.getLp()==7 && (jakipobor.equals("fiz"))){
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
-                kontobutton.setRendered(true);
+                kontobutton.setRendered(true);kontobutton2.setRendered(true);
             }else {
                 if (jakipobor==null||jakipobor.equals("fiz")) {
                     drkujfizbutton.setRendered(true);
                 } else {
                     drkujfizbutton.setRendered(true);
-                    kontobutton.setRendered(true);
+                    kontobutton.setRendered(true);kontobutton2.setRendered(true);
                     generujbutton.setRendered(true);
                 }
                 
@@ -1108,7 +1118,11 @@ public class InterpaperImportView implements Serializable {
         strwn.setKwotaPLN(Z.z(nettopln+vatpln));
         strma.setKwotaPLN(Z.z(nettopln));
         strma.setKonto(kontodlanetto!=null?kontodlanetto:kontonetto);
-        strwn.setKonto(pobierzkontoWn(nd, interpaperXLS, nd.getKontr()));
+        if (kontodlabrutto!=null) {
+            strwn.setKonto(kontodlabrutto);
+        } else {
+            strwn.setKonto(pobierzkontoWn(nd, interpaperXLS, nd.getKontr()));
+        }
         w.setStronaWn(strwn);
         w.setStronaMa(strma);
         return w;
@@ -1657,6 +1671,7 @@ public class InterpaperImportView implements Serializable {
                 break;
             case 13:
             case 14:
+            case 15:
                 zwrot.add("sprzedaż");
                 break;
         }
@@ -1943,6 +1958,24 @@ public class InterpaperImportView implements Serializable {
     public void setBruttopln(double bruttopln) {
         this.bruttopln = bruttopln;
     }
+
+    public Konto getKontodlabrutto() {
+        return kontodlabrutto;
+    }
+
+    public void setKontodlabrutto(Konto kontodlabrutto) {
+        this.kontodlabrutto = kontodlabrutto;
+    }
+
+    public SelectOneMenu getKontobutton2() {
+        return kontobutton2;
+    }
+
+    public void setKontobutton2(SelectOneMenu kontobutton2) {
+        this.kontobutton2 = kontobutton2;
+    }
+    
+    
 
     private void sumujnadole(List<InterpaperXLS> pobranefaktury) {
         nettopln = 0.0;

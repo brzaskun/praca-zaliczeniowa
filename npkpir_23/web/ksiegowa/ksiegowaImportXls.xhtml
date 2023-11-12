@@ -10,7 +10,7 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <f:event type="preRenderComponent" listener="#{interpaperImportView.init()}"/>
+            <f:event type="preRenderComponent" listener="#{importDokumentowGlownyView.init()}"/>
             <f:view>
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                     <ui:include src="sub/layoutImporty/north.xhtml"/>  <!-- panel polnocny-->

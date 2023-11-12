@@ -14,13 +14,13 @@
               onShow="ustawdialogAuto('dialog_nowyklientimport',1100,320);" focus=":form_dialog_nowyklientimport:nipPole" onHide="resetujdialog('dialog_nowyklientimport');" >
         <h:form id="form_dialog_nowyklientimport_wybor" >
             <p:panel style="margin-top: 15px;margin-bottom: 15px;" header="wyszukaj klienta z listy i zmień dotychczasowego">
-            <p:autoComplete id="acForce" value="#{interpaperImportView.selectedimport1}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniewybor"
+            <p:autoComplete id="acForce" value="#{importDokumentowGlownyView.selectedimport1}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniewybor"
                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
                                     minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" queryDelay="5"
                                     forceSelection="true" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
                                      style="width: 250px;">
                         <p:ajax event="query" global="false"/>
-                        <p:ajax event="itemSelect" listener="#{interpaperImportView.nanieszmianytabela}" partialSubmit="true" oncomplete="PF('dlgwprowadzanieklientaimport').hide();" global="false" update="akordeon5:form_importinterpaper"/>
+                        <p:ajax event="itemSelect" listener="#{importDokumentowGlownyView.nanieszmianytabela}" partialSubmit="true" oncomplete="PF('dlgwprowadzanieklientaimport').hide();" global="false" update="akordeon5:form_importinterpaper"/>
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                 <f:facet name="header">  
@@ -46,20 +46,20 @@
                     <h:outputLabel value="nazwa skrocona" style="font-weight: 700"/>
                     <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
                     <h:outputLabel value="miejscowość" style="font-weight: 700"/>
-                    <p:inputText id="nipPole" value="#{interpaperImportView.selectedimport.nip}" maxlength="20" style="width: 200px">
+                    <p:inputText id="nipPole" value="#{importDokumentowGlownyView.selectedimport.nip}" maxlength="20" style="width: 200px">
                         <p:watermark for="nipPole" value="bez -" /> 
                     </p:inputText>
-                    <p:inputText id="nazwaPole" value="#{interpaperImportView.selectedimport.npelna}" title="pełna nazwa kontrahenta" maxlength="55" 
+                    <p:inputText id="nazwaPole" value="#{importDokumentowGlownyView.selectedimport.npelna}" title="pełna nazwa kontrahenta" maxlength="55" 
                                  style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste"
                                   onblur="kopiujnazwepelna();">
                         <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 55znakow" /> 
                     </p:inputText>
-                    <p:inputText id="symbolPole" value="#{interpaperImportView.selectedimport.nskrocona}" maxlength="20" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
+                    <p:inputText id="symbolPole" value="#{importDokumentowGlownyView.selectedimport.nskrocona}" maxlength="20" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
                         <p:watermark for="symbolPole" value="hasłowo, np:FORTEX" /> 
                     </p:inputText>
-                    <p:inputText id="kodPole" value="#{interpaperImportView.selectedimport.kodpocztowy}" maxlength="6" style="width: 150px" required="true" 
+                    <p:inputText id="kodPole" value="#{importDokumentowGlownyView.selectedimport.kodpocztowy}" maxlength="6" style="width: 150px" required="true" 
                                  requiredMessage="Pole kod pocztowy nie może byc puste" />
-                    <p:autoComplete id="miejscowoscPole" value="#{interpaperImportView.selectedimport.miejscowosc}" completeMethod="#{miasta.complete}"
+                    <p:autoComplete id="miejscowoscPole" value="#{importDokumentowGlownyView.selectedimport.miejscowosc}" completeMethod="#{miasta.complete}"
                                     var="p" itemLabel="#{p}" itemValue="#{p}"  styleClass="wpisywanieklienta"
                                     minQueryLength="1" maxResults="10" maxlength="40"  forceSelection="false" 
                                     effect="clip" autocomplete="true" queryDelay="100" 
@@ -74,15 +74,15 @@
                     <h:outputLabel value="kraj*" style="font-weight: 700"/>
                     <h:outputLabel value="email*" style="font-weight: 700"/>
 
-                    <p:inputText id="ulicaPole1" value="#{interpaperImportView.selectedimport.ulica}"   style="width: 200px" required="true" requiredMessage="Pole ulica nie może byc puste"
+                    <p:inputText id="ulicaPole1" value="#{importDokumentowGlownyView.selectedimport.ulica}"   style="width: 200px" required="true" requiredMessage="Pole ulica nie może byc puste"
                                  onblur="wykresllokal_wykazklientow_dialog('form_dialog_nowyklientimport:ulicaPole');">
                     </p:inputText>
-                    <p:inputText id="domPole1" value="#{interpaperImportView.selectedimport.dom}" style="width: 200px" required="true" requiredMessage="Pole dom nie może byc puste"/>
-                    <p:inputText id="lokalPole1" value="#{interpaperImportView.selectedimport.lokal}"  style="width: 200px"
+                    <p:inputText id="domPole1" value="#{importDokumentowGlownyView.selectedimport.dom}" style="width: 200px" required="true" requiredMessage="Pole dom nie może byc puste"/>
+                    <p:inputText id="lokalPole1" value="#{importDokumentowGlownyView.selectedimport.lokal}"  style="width: 200px"
                                  onblur="wykresllokal_wykazklientow_dialog('form_dialog_nowyklientimport:lokalPole');"
                                  >
                     </p:inputText>
-                    <p:autoComplete id="krajPole1" value="#{interpaperImportView.selectedimport.krajnazwa}" completeMethod="#{panstwa.complete}"
+                    <p:autoComplete id="krajPole1" value="#{importDokumentowGlownyView.selectedimport.krajnazwa}" completeMethod="#{panstwa.complete}"
                                     var="p" itemLabel="#{p}" itemValue="#{p}"
                                     minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="true" 
                                     effect="clip" autocomplete="true" queryDelay="100" styleClass="wpisywanieklienta"
@@ -90,9 +90,9 @@
                         <p:ajax event="change" partialSubmit="true" global="false"/>
                         <p:ajax event="query" global="false"/>
                     </p:autoComplete>
-                    <p:inputText id="emailPole" value="#{interpaperImportView.selectedimport.email}" style="width: 200px" >
+                    <p:inputText id="emailPole" value="#{importDokumentowGlownyView.selectedimport.email}" style="width: 200px" >
                     </p:inputText>
-                    <p:commandButton value="dodaj" action="#{interpaperImportView.dodajKlienta()}" update="akordeon5:form_importinterpaper" oncomplete="PF('dlgwprowadzanieklientaimport').hide();"
+                    <p:commandButton value="dodaj" action="#{importDokumentowGlownyView.dodajKlienta()}" update="akordeon5:form_importinterpaper" oncomplete="PF('dlgwprowadzanieklientaimport').hide();"
                                       style="width: 120px;margin-top: 8px;"/>
                 </p:panelGrid>
             </p:panel>

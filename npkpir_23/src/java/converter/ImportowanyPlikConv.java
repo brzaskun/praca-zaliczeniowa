@@ -78,6 +78,7 @@ public class ImportowanyPlikConv implements javax.faces.convert.Converter,Serial
         zwrot.add(new ImportowanyPlik("AGLP xls","xls","",12));
         zwrot.add(new ImportowanyPlik("Domeguru xls","xls","",13));
         zwrot.add(new ImportowanyPlik("Szyszko Logistics csv","csv","",14));
+        zwrot.add(new ImportowanyPlik("Vintis Vendor csv","csv","",15));
         //to dotyczy importowanych bankow
         zwrot.addAll(BankImportWykaz.getWYKAZ());
         return zwrot;
