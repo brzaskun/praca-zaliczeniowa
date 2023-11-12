@@ -10,8 +10,6 @@ import error.E;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -37,6 +35,7 @@ public class MaiManager implements Serializable {
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
             message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wysylajacy));
+            message.setReplyTo(InternetAddress.parse(wysylajacy));
         } catch (MessagingException ex) {
             // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
@@ -44,6 +43,22 @@ public class MaiManager implements Serializable {
         }
         return message;
     }
+   //zamienilem bo przychodzily odpowiedzi od klientow do mnie 12.11.2023
+//   public static MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy, SMTPSettings settings, SMTPSettings ogolne) {
+//        MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
+//        try {
+//            message.setSentDate(new Date());
+//            message.addHeader("X-Priority", "1");
+//            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
+//            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
+//            message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wysylajacy));
+//        } catch (MessagingException ex) {
+//            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (UnsupportedEncodingException ex) {
+//            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return message;
+//    }
 
     public static void mailManagerZUSPIT(String adres, String temat, String tresc, String wysylajacy, SMTPSettings settings, SMTPSettings ogolne) throws MessagingException, UnsupportedEncodingException {
         //MailSetUp mailSetUp = new MailSetUp();
