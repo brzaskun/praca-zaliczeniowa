@@ -1936,9 +1936,10 @@ public class FakturaView implements Serializable {
     }
 
     public void wygenerujzokresowychreczne() {
+        List<Faktura> listafakturzamiesiac = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         for (Iterator<Fakturywystokresowe> it = gosciwybralokres.iterator(); it.hasNext();) {
             Fakturywystokresowe p = it.next();
-            if (p.isRecznaedycja()==false || sprawdzmiesiac(p)) {
+            if (p.isRecznaedycja()==false || sprawdzmiesiac(p, listafakturzamiesiac)) {
                 it.remove();
             }
         }
@@ -1980,9 +1981,10 @@ public class FakturaView implements Serializable {
     }
     
     public void wygenerujzokresowychzaleglekadry() {
+        List<Faktura> listafakturzamiesiac = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         for (Iterator<Fakturywystokresowe> it = gosciwybralokres.iterator(); it.hasNext();) {
             Fakturywystokresowe p = it.next();
-            if (p.isRecznaedycja()==false && sprawdzmiesiac(p)==false) {
+            if (p.isRecznaedycja()==false && sprawdzmiesiac(p, listafakturzamiesiac)==false) {
                 it.remove();
             }
         }
@@ -1994,9 +1996,10 @@ public class FakturaView implements Serializable {
     }
     
     public void wygenerujzokresowych() {
+        List<Faktura> listafakturzamiesiac = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         for (Iterator<Fakturywystokresowe> it = gosciwybralokres.iterator(); it.hasNext();) {
             Fakturywystokresowe p = it.next();
-            if (p.isRecznaedycja()==true || sprawdzmiesiac(p)) {
+            if (p.isRecznaedycja()==true || sprawdzmiesiac(p, listafakturzamiesiac)) {
                 it.remove();
             }
         }
@@ -2007,55 +2010,69 @@ public class FakturaView implements Serializable {
         }
     }
     
-    private boolean sprawdzmiesiac(Fakturywystokresowe p) {
+    private boolean sprawdzmiesiac(Fakturywystokresowe p, List<Faktura> listafakturzamiesiac) {
         boolean zwrot = false;
         if (p.isWystawtylkoraz()==true) {
-            String mc = wpisView.getMiesiacWpisu();
-            int liczbafaktur = 0;
-            switch (mc) {
-                case "01":
-                    liczbafaktur = p.getM1();
-                    break;
-                case "02":
-                    liczbafaktur = p.getM2();
-                    break;
-                case "03":
-                    liczbafaktur = p.getM3();
-                    break;
-                case "04":
-                    liczbafaktur = p.getM4();
-                    break;
-                case "05":
-                    liczbafaktur = p.getM5();
-                    break;
-                case "06":
-                    liczbafaktur = p.getM6();
-                    break;
-                case "07":
-                    liczbafaktur = p.getM7();
-                    break;
-                case "08":
-                    liczbafaktur = p.getM8();
-                    break;
-                case "09":
-                    liczbafaktur = p.getM9();
-                    break;
-                case "10":
-                    liczbafaktur = p.getM10();
-                    break;
-                case "11":
-                    liczbafaktur = p.getM11();
-                    break;
-                case "12":
-                    liczbafaktur = p.getM12();
-                    break;
-            }
-            if (liczbafaktur>0) {
-                zwrot = true;
+            final String nip = p.getDokument().getKontrahent().getNip();
+            if (listafakturzamiesiac!=null) {
+                Faktura get = listafakturzamiesiac.parallelStream().filter(fa->fa.getKontrahent().getNip().equals(nip)&&fa.isWygenerowanaautomatycznie()).findAny().orElse(null);
+                if (get!=null) {
+                    zwrot = true;
+                }
             }
         }
         return zwrot;
     }
+    
+//    private boolean sprawdzmiesiac(Fakturywystokresowe p) {
+//        boolean zwrot = false;
+//        if (p.isWystawtylkoraz()==true) {
+//            String mc = wpisView.getMiesiacWpisu();
+//            int liczbafaktur = 0;
+//            switch (mc) {
+//                case "01":
+//                    liczbafaktur = p.getM1();
+//                    break;
+//                case "02":
+//                    liczbafaktur = p.getM2();
+//                    break;
+//                case "03":
+//                    liczbafaktur = p.getM3();
+//                    break;
+//                case "04":
+//                    liczbafaktur = p.getM4();
+//                    break;
+//                case "05":
+//                    liczbafaktur = p.getM5();
+//                    break;
+//                case "06":
+//                    liczbafaktur = p.getM6();
+//                    break;
+//                case "07":
+//                    liczbafaktur = p.getM7();
+//                    break;
+//                case "08":
+//                    liczbafaktur = p.getM8();
+//                    break;
+//                case "09":
+//                    liczbafaktur = p.getM9();
+//                    break;
+//                case "10":
+//                    liczbafaktur = p.getM10();
+//                    break;
+//                case "11":
+//                    liczbafaktur = p.getM11();
+//                    break;
+//                case "12":
+//                    liczbafaktur = p.getM12();
+//                    break;
+//            }
+//            if (liczbafaktur>0) {
+//                zwrot = true;
+//            }
+//        }
+//        return zwrot;
+//    }
     
     
     public List<Faktura> wygenerujzokresowychcd() {
