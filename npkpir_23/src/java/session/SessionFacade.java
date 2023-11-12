@@ -636,8 +636,8 @@ public class SessionFacade<T> implements Serializable {
         }
     }
 
-    public Dokfk findDokfofaTypeKontrahent(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
-        return (Dokfk)  getEntityManager().createNamedQuery("Dokfk.findBySeriaNumerRokdokfk").setParameter("seriadokfk", vat).setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikWpisu).setParameter("mc", mc).getSingleResult();
+    public Dokfk findDokfofaTypeKontrahent(Podatnik podatnikWpisu, String rodzajdok, String rokWpisuSt, String mc) {
+        return (Dokfk)  getEntityManager().createNamedQuery("Dokfk.findBySeriaNumerRokdokfk").setParameter("seriadokfk", rodzajdok).setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikWpisu).setParameter("mc", mc).getSingleResult();
     }
     
     public List<Dokfk> findDokfofaTypeKontrahentKilka(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {

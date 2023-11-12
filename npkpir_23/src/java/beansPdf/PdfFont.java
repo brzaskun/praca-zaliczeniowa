@@ -149,6 +149,7 @@ public class PdfFont {
             font.setColor(color);
             cell = new PdfPCell(new Phrase(fraza2, font));
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setNoWrap(false);
             getOrient(cell, orient);
         } catch (Exception ex) {
             E.e(ex);

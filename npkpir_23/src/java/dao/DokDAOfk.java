@@ -333,14 +333,14 @@ public class DokDAOfk extends DAO implements Serializable {
         return sessionFacade.findDokfkBKVAT(podatnik,rok);
     }
 
-    public Dokfk findDokfofaType(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
+    public Dokfk findDokfofaType(Podatnik podatnikWpisu, String symboldokumentu, String rokWpisuSt, String mc) {
         Dokfk zwrot = null;
         try {
-           zwrot = sessionFacade.findDokfofaTypeKontrahent(podatnikWpisu,vat, rokWpisuSt, mc);
+           zwrot = sessionFacade.findDokfofaTypeKontrahent(podatnikWpisu,symboldokumentu, rokWpisuSt, mc);
        } catch (Exception e ){
            
        }
-        return null;
+        return zwrot;
     }
     
     public List<Dokfk> findDokfofaTypeKilkaLista(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {

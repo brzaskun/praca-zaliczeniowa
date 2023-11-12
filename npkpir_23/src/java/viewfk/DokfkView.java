@@ -2923,7 +2923,7 @@ public class DokfkView implements Serializable {
                 String kontrahent = aktualnyWierszDlaRozrachunkow.getKonto().getNazwapelna();
                 String opislinia = "f: ";
                 for (String p : op) {
-                    opislinia = opislinia+p+";";
+                    opislinia = opislinia+p+"; ";
                 }
                 opislinia = opislinia+" "+kontrahent;
                 opislinia = opislinia.length() >767 ? opislinia.substring(0, 766) : opislinia;

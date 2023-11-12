@@ -1477,7 +1477,7 @@ public class PdfMain {
                     col13[0] = 1;
                     col13[1] = 5;
                     col13[2] = 2;
-                    col13[3] = 5;
+                    col13[3] = 7;
                     col13[4] = 2;
                     col13[5] = 3;
                     col13[6] = 3;
@@ -2931,7 +2931,7 @@ public class PdfMain {
                 } else {
                     Transakcja p = (Transakcja) it.next();
                     table.addCell(ustawfrazeAlign(i++, "center", 8));
-                    String rachunek = p.getNowaTransakcja().getWiersz().getOpisWiersza()+"/"+p.getNowaTransakcja().getWiersz().getDokfkS();
+                    String rachunek = p.getNowaTransakcja().getWiersz().getOpisWiersza()+" / "+p.getNowaTransakcja().getWiersz().getDokfkS();
                     table.addCell(ustawfrazeAlign(rachunek, "left", 8));
                     double kurs = p.getNowaTransakcja().getKursBO() != 0.0 ? p.getNowaTransakcja().getKursBO() : p.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredniPrzelicznik();
                     table.addCell(ustawfrazeAlign(number.format(kurs), "right", 8));
