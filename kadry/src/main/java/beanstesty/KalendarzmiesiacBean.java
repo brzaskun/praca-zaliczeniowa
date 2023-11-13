@@ -378,6 +378,7 @@ public class KalendarzmiesiacBean {
                 double kwota = p.getRodzajwynagrodzenia().getOpispelny().contains("oddelegowanie") ? zmiennawynagrodzeniakwotaodelegowanie : zmiennawynagrodzeniakwota;
                 if (p.getRodzajwynagrodzenia().getWks_serial() != 1072) {
                     zmiennawaluta = 0.0;
+                    waluta = "PLN";
                 } else {
                     zmiennawaluta = zmiennawynagrodzeniakwotaodelegowaniewaluta;
                     waluta = "EUR";

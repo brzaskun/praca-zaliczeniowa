@@ -295,6 +295,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double przychodyzus51;
     @Column(name = "przychodyzus52")
     private double przychodyzus52;
+    @Column(name="przekroczenie26lat")
+    private double przekroczenie26lat;
     
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "ekwiwalentskladniki", referencedColumnName = "id")
@@ -1348,6 +1350,16 @@ public class Pasekwynagrodzen implements Serializable {
     public void setPrzychodzagranicasuperplace(double przychodzagranicasuperplace) {
         this.przychodzagranicasuperplace = przychodzagranicasuperplace;
     }
+
+    public double getPrzekroczenie26lat() {
+        return przekroczenie26lat;
+    }
+
+    public void setPrzekroczenie26lat(double przekroczenie26lat) {
+        this.przekroczenie26lat = przekroczenie26lat;
+    }
+
+   
     
     
 

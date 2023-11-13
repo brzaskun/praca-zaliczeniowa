@@ -654,6 +654,7 @@ public class PasekwynagrodzenBean {
         pasek.setPrzychodypodatekzagranica(0.0);
         double przychodynarastajacodolimitu26 = sumapoprzednich + przychodyBiezacyMiesiac;
         double doopodatkowaniapow26narast = przychodynarastajacodolimitu26 - limit26;
+        pasek.setPrzekroczenie26lat(doopodatkowaniapow26narast);
         if (pasek.isDo26lat() && rachunekdoumowyzlecenia.isStatusstudenta()) {
             pasek.setPrzychodyzus51(0.0);
             pasek.setPrzychodyzus52(0.0);
