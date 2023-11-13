@@ -464,7 +464,8 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.razemspolecznepracownik(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
         if (rachunekdoumowyzlecenia.getUmowa().getUmowakodzus().isZlecenie()&&pasek.isDo26lat()) {
-            PasekwynagrodzenBean.obliczpodstaweopodatkowania26DB(pasek, stawkipodatkowe, false, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone(), limit26);
+            PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie26(pasek, stawkipodatkowe, pasek.isNierezydent());
+            //PasekwynagrodzenBean.obliczpodstaweopodatkowania26DB(pasek, stawkipodatkowe, false, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone(), limit26);
         } else {
             PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZlecenie(pasek, stawkipodatkowe, pasek.isNierezydent());
         }
@@ -1119,6 +1120,41 @@ public class PasekwynagrodzenBean {
         double podstawadlakosztow = Z.z(nowapodstawapl) > 0.0 ? Z.z(nowapodstawapl) : 0.0;
         double kosztyuzyskania = Z.z(podstawadlakosztow * procentkosztyuzyskania / 100.0);
         if (pasek.isDo26lat()) {
+            kosztyuzyskania = 0.0;
+        }
+        if (pasek.isNierezydent()) {
+            kosztyuzyskania = 0.0;
+        }
+        double podstawa = Z.z0(nowapodstawapl - kosztyuzyskania) > 0.0 ? Z.z0(nowapodstawapl - kosztyuzyskania) : 0.0;
+        pasek.setPodstawaopodatkowania(podstawa);
+        if (nierezydent) {
+            pasek.setKosztyuzyskania(0.0);
+        } else {
+            pasek.setKosztyuzyskania(kosztyuzyskania);
+        }
+    }
+    
+    private static void obliczpodstaweopodatkowaniaZlecenie26(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
+        Podatki pierwszyprog = stawkipodatkowe.get(0);
+        double bruttominusspoleczne = pasek.getBruttozus();
+        Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(pasek.getKalendarzmiesiac().getAngaz(), pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
+        if (rachunekdoumowyzlecenia==null) {
+            rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekdzielo(pasek.getKalendarzmiesiac().getAngaz(), pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
+        }
+        //Rachunekdoumowyzlecenia rachunekdoumowyzlecenia =null;
+        double dieta30proc = pasek.getDietaodliczeniepodstawaop();
+        if (pasek.isPrzekroczenieoddelegowanie()) {
+            pasek.setDietaodliczeniepodstawaop(0.0);
+            dieta30proc = 0.0;
+        }
+        double podstawawstepna  = Z.z0(bruttominusspoleczne -  dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne - dieta30proc) : 0.0;
+        pasek.setPodstawaopodatkowania(podstawawstepna);
+        korektaprzychodyopodatkowanezagranicaZlecenie(podstawawstepna,pasek);
+        double nowapodstawapl = pasek.getPodstawaopodatkowania();
+        double procentkosztyuzyskania = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
+        double podstawadlakosztow = Z.z(nowapodstawapl) > 0.0 ? Z.z(nowapodstawapl) : 0.0;
+        double kosztyuzyskania = Z.z(podstawadlakosztow * procentkosztyuzyskania / 100.0);
+        if (pasek.isDo26lat()&&bruttominusspoleczne==0.0) {
             kosztyuzyskania = 0.0;
         }
         if (pasek.isNierezydent()) {
