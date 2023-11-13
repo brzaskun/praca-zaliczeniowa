@@ -361,7 +361,8 @@ public class PasekwynagrodzenView implements Serializable {
                     double sumapoprzednich = PasekwynagrodzenBean.sumapodstawaopodpopmce(pasekwynagrodzenFacade, kalendarzpracownikaLP, stawkipodatkowe.get(1).getKwotawolnaod());
                     String rokwyplaty = Data.getRok(datawyplaty);
                     String mcwyplaty = Data.getMc(datawyplaty);
-                    double sumabruttopoprzednich = PasekwynagrodzenBean.sumabruttopodstawaopodpopmce(pasekwynagrodzenFacade, rokwyplaty, mcwyplaty,  angaz, stawkipodatkowe.get(1).getKwotawolnaod());
+                    double sumabruttopoprzednich = PasekwynagrodzenBean.sumabruttopodstawaopodpopmce(pasekwynagrodzenFacade, rokwyplaty, mcwyplaty,  angaz);
+                    double sumabruttoopodatkowanapoprzednich = PasekwynagrodzenBean.sumabruttopolskaopodpopmce(pasekwynagrodzenFacade, rokwyplaty, mcwyplaty,  angaz);
                     Wynagrodzenieminimalne wynagrodzenieminimalne = pobierzwynagrodzenieminimalne(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc());
                     //zeby nei odoliczyc kwoty wolnej dwa razy
                     boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc(), angaz, pasekwynagrodzenFacade);
@@ -383,7 +384,7 @@ public class PasekwynagrodzenView implements Serializable {
                     try {
                         Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(kalendarzpracownikaLP, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, 
                                 wynagrodzenieminimalne, czyodlicoznokwotewolna,
-                                kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, kalendarzwzor, definicjadlazasilkow);
+                                kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, kalendarzwzor, definicjadlazasilkow, sumabruttoopodatkowanapoprzednich);
                         usunpasekjakzawiera(pasek);
                         pasek.setSporzadzil(wpisView.getUzer().getImieNazwisko());
                         pasek.setData(new Date());

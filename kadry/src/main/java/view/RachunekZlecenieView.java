@@ -276,6 +276,7 @@ public class RachunekZlecenieView implements Serializable {
             } else {
                 rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe() * rachunekdoumowyzlecenia.getIloscgodzin()));
                 rachunekdoumowyzlecenia.setKwotaoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowanie() * rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie()));
+                rachunekdoumowyzlecenia.setKwotaoddelegowaniewaluta(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowaniewaluta()* rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie()));
                 rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
             }
             Msg.msg("Przeliczono kwotę rachunku");
@@ -290,6 +291,7 @@ public class RachunekZlecenieView implements Serializable {
             } else {
                 rachunekdoumowyzlecenia.setKwota(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinowe() * rachunekdoumowyzlecenia.getIloscgodzin()));
                 rachunekdoumowyzlecenia.setKwotaoddelegowanie(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowanie() * rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie()));
+                rachunekdoumowyzlecenia.setKwotaoddelegowaniewaluta(Z.z(rachunekdoumowyzlecenia.getWynagrodzeniegodzinoweoddelegowaniewaluta()* rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie()));
                 rachunekdoumowyzlecenia.setKwotasuma(Z.z(rachunekdoumowyzlecenia.getKwota() + rachunekdoumowyzlecenia.getKwotaoddelegowanie()));
             }
             Msg.msg("Przeliczono kwotę rachunku");

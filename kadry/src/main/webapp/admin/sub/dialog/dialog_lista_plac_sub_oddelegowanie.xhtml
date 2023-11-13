@@ -36,13 +36,13 @@
                             <h:outputText value="#{itempasek.wiekpasek}" style="color: #009688;"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value=" zus kraj"/>
+                            <h:outputText value="ozusowane"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value=" bez zus"/>
+                            <h:outputText value="podatek polska"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value=" bez zus i pod."/>
+                            <h:outputText value="podatek zagranica"/>
                         </p:column>
                         <p:column>
                             <h:outputText value="za oddeleg. w wal."/>
@@ -97,13 +97,13 @@
                             <h:outputText value="przekroczenie" rendered="#{itempasek.przekroczenieoddelegowanie}" style="color: green;"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{itempasek.bruttozuskraj}" />
+                            <bcf:outputpl value="#{itempasek.przychodyzus51}" />
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{itempasek.bruttobezzus}"/>
+                            <bcf:outputpl value="#{itempasek.przychodypodatekpolska}"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{itempasek.bruttobezzusbezpodatek}"/>
+                            <bcf:outputpl value="#{itempasek.przychodypodatekzagranica}"/>
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.oddelegowaniewaluta}"/>

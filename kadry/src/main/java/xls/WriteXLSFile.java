@@ -214,10 +214,12 @@ public class WriteXLSFile {
             createTextCell(styletext, row, (short) columnIndex++, st.getWiekpasek());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getBrutto());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttozus());
-            createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttobezzusbezpodatek());
+//            createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttobezzusbezpodatek());
+            createDoubleCell(styledouble, row, (short) columnIndex++, -1000);
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttobezspolecznych());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttobezzus());
-            createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttobezzusbezpodatek());
+//            createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttobezzusbezpodatek());
+            createDoubleCell(styledouble, row, (short) columnIndex++, -1000);
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttozuskraj());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getOddelegowaniewaluta());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getKurs());

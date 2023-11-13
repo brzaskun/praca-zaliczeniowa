@@ -857,23 +857,23 @@ public class OsobaBean {
     }
 
     static void historycznenaliczeniezlecenie(List<PlaceZlec> placeZlecList, Pasekwynagrodzen pasekwynagrodzen, List<Skladnikwynagrodzenia> skladnikwynagrodzenia) {
-        for (PlaceZlec p : placeZlecList) {
-            Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
-            naliczenieskladnikawynagrodzenia.setDataod(Data.data_yyyyMMddNull(p.getPzlDataOd()));
-            naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getPzlDataDo()));
-            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(p.getPzlKwota().doubleValue());
-            naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikzlecenie(p, skladnikwynagrodzenia));
-            naliczenieskladnikawynagrodzenia.setSkl_dod_1(p.getPzlDod1());
-            if (p.getPzlZus().equals('T')) {
-                pasekwynagrodzen.setBruttozus(Z.z(pasekwynagrodzen.getBruttozus() + p.getPzlKwota().doubleValue()));
-            } else if (p.getPzlPodDoch().equals('T')) {
-                pasekwynagrodzen.setBruttobezzus(Z.z(pasekwynagrodzen.getBruttobezzus() + p.getPzlKwota().doubleValue()));
-            } else {
-                pasekwynagrodzen.setBruttobezzusbezpodatek(Z.z(pasekwynagrodzen.getBruttobezzusbezpodatek() + p.getPzlKwota().doubleValue()));
-            }
-            naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
-            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
-        }
+//        for (PlaceZlec p : placeZlecList) {
+//            Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+//            naliczenieskladnikawynagrodzenia.setDataod(Data.data_yyyyMMddNull(p.getPzlDataOd()));
+//            naliczenieskladnikawynagrodzenia.setDatado(Data.data_yyyyMMddNull(p.getPzlDataDo()));
+//            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(p.getPzlKwota().doubleValue());
+//            naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(histporiapobierzskladnikzlecenie(p, skladnikwynagrodzenia));
+//            naliczenieskladnikawynagrodzenia.setSkl_dod_1(p.getPzlDod1());
+//            if (p.getPzlZus().equals('T')) {
+//                pasekwynagrodzen.setBruttozus(Z.z(pasekwynagrodzen.getBruttozus() + p.getPzlKwota().doubleValue()));
+//            } else if (p.getPzlPodDoch().equals('T')) {
+//                pasekwynagrodzen.setBruttobezzus(Z.z(pasekwynagrodzen.getBruttobezzus() + p.getPzlKwota().doubleValue()));
+//            } else {
+//                pasekwynagrodzen.setBruttobezzusbezpodatek(Z.z(pasekwynagrodzen.getBruttobezzusbezpodatek() + p.getPzlKwota().doubleValue()));
+//            }
+//            naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+//            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+//        }
     }
 
     static void historycznenaliczeniewynagrodzenia(List<PlaceSkl> placeSklList, Pasekwynagrodzen pasekwynagrodzen, List<Skladnikwynagrodzenia> skladnikwynagrodzenia, Short lplDniObow, Short lplDniPrzepr) {
@@ -894,7 +894,7 @@ public class OsobaBean {
                 } else if (p.getSklPodDoch().equals('T')) {
                     pasekwynagrodzen.setBruttobezzus(Z.z(pasekwynagrodzen.getBruttobezzus() + p.getSklKwota().doubleValue()));
                 } else {
-                    pasekwynagrodzen.setBruttobezzusbezpodatek(Z.z(pasekwynagrodzen.getBruttobezzusbezpodatek() + p.getSklKwota().doubleValue()));
+//                    pasekwynagrodzen.setBruttobezzusbezpodatek(Z.z(pasekwynagrodzen.getBruttobezzusbezpodatek() + p.getSklKwota().doubleValue()));
                 }
                 naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
                 pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);

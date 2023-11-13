@@ -287,6 +287,15 @@ public class Pasekwynagrodzen implements Serializable {
     private double podstawaprzedkorektaozagranice;
     @Column(name = "spoleczneudzialpolska")
     private double spoleczneudzialpolska;
+    @Column(name = "przychodypodatekpolska")
+    private double przychodypodatekpolska;
+    @Column(name = "przychodypodatekzagranica")
+    private double przychodypodatekzagranica;
+    @Column(name = "przychodyzus51")
+    private double przychodyzus51;
+    @Column(name = "przychodyzus52")
+    private double przychodyzus52;
+    
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "ekwiwalentskladniki", referencedColumnName = "id")
 //    private EkwiwalentUrlop ekwiwalentSkladniki;
@@ -1215,14 +1224,14 @@ public class Pasekwynagrodzen implements Serializable {
         this.miesiace = miesiace;
     }
     
-
-    public double getBruttobezzusbezpodatek() {
-        return bruttobezzusbezpodatek;
-    }
-
-    public void setBruttobezzusbezpodatek(double bruttobezzusbezpodatek) {
-        this.bruttobezzusbezpodatek = bruttobezzusbezpodatek;
-    }
+//delete
+//    public double getBruttobezzusbezpodatek() {
+//        return bruttobezzusbezpodatek;
+//    }
+//
+//    public void setBruttobezzusbezpodatek(double bruttobezzusbezpodatek) {
+//        this.bruttobezzusbezpodatek = bruttobezzusbezpodatek;
+//    }
 
     public double getWynagrodzenieminimalne() {
         return wynagrodzenieminimalne;
@@ -1283,6 +1292,47 @@ public class Pasekwynagrodzen implements Serializable {
         this.datawysylki = datawysylki;
     }
 
+    public double getPrzychodypodatekpolska() {
+        return przychodypodatekpolska;
+    }
+
+    public void setPrzychodypodatekpolska(double przychodypodatekpolska) {
+        this.przychodypodatekpolska = przychodypodatekpolska;
+    }
+
+    public double getPrzychodypodatekzagranica() {
+        return przychodypodatekzagranica;
+    }
+
+    public void setPrzychodypodatekzagranica(double przychodypodatekzagranica) {
+        this.przychodypodatekzagranica = przychodypodatekzagranica;
+    }
+
+    public double getPrzychodyzus51() {
+        return przychodyzus51;
+    }
+
+    public void setPrzychodyzus51(double przychodyzus51) {
+        this.przychodyzus51 = przychodyzus51;
+    }
+
+    public double getPrzychodyzus52() {
+        return przychodyzus52;
+    }
+
+    public void setPrzychodyzus52(double przychodyzus52) {
+        this.przychodyzus52 = przychodyzus52;
+    }
+
+    public double getBruttobezzusbezpodatek() {
+        return bruttobezzusbezpodatek;
+    }
+
+    public void setBruttobezzusbezpodatek(double bruttobezzusbezpodatek) {
+        this.bruttobezzusbezpodatek = bruttobezzusbezpodatek;
+    }
+
+    
     public double getBruttozusbezpodatek() {
         return bruttozusbezpodatek;
     }
