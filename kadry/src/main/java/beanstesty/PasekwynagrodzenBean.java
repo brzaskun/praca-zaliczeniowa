@@ -784,21 +784,34 @@ public class PasekwynagrodzenBean {
             }
         }
         double przychodbiezacymiesiac = bruttozuskraj + bruttozusoddelegowanie;
+        //dodalem to na szybkiego bo zrobilem przekroczenie ale popsulem przedprzekroczenie 15.11.2023
         if (pasek.isPrzekroczenieoddelegowanie()) {
             przychodbiezacymiesiac = bruttozuskraj;
-        }
-        double nowasumaprzychodow = sumapoprzednich + przychodbiezacymiesiac;
-        double roznicapowyzejlimitu = nowasumaprzychodow - limit26;
-        if (roznicapowyzejlimitu > 0.0) {
-            if (roznicapowyzejlimitu>przychodbiezacymiesiac) {
-                roznicapowyzejlimitu = przychodbiezacymiesiac;   
+            double nowasumaprzychodow = sumapoprzednich + przychodbiezacymiesiac;
+            double roznicapowyzejlimitu = nowasumaprzychodow - limit26;
+            if (roznicapowyzejlimitu > 0.0) {
+                if (roznicapowyzejlimitu>przychodbiezacymiesiac) {
+                    roznicapowyzejlimitu = przychodbiezacymiesiac;   
+                }
+                double bezpodatku = przychodbiezacymiesiac - roznicapowyzejlimitu;
+                 pasek.setBruttozusbezpodatek(bezpodatku);
+                pasek.setBruttozus(roznicapowyzejlimitu);
+            } else {
+                pasek.setBruttozusbezpodatek(przychodbiezacymiesiac);
             }
-            double bezpodatku = przychodbiezacymiesiac - roznicapowyzejlimitu;
-             pasek.setBruttozusbezpodatek(bezpodatku);
-            pasek.setBruttozus(roznicapowyzejlimitu);
         } else {
-            pasek.setBruttozusbezpodatek(przychodbiezacymiesiac);
+            double sumaprzejsciowa = bruttozuskraj + bruttozusoddelegowanie;
+            double nowasumaprzychodow = sumapoprzednich + sumaprzejsciowa;
+            double roznicapowyzejlimitu = nowasumaprzychodow - limit26;
+            if (roznicapowyzejlimitu > 0.0) {
+                double bezpodatku = sumaprzejsciowa - roznicapowyzejlimitu;
+                 pasek.setBruttozusbezpodatek(bezpodatku);
+                pasek.setBruttozus(roznicapowyzejlimitu);
+            } else {
+                pasek.setBruttozusbezpodatek(sumaprzejsciowa);
+            }
         }
+       
         pasek.setOddelegowaniepln(bruttozusoddelegowanie);
         pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
         pasek.setBruttozuskraj(bruttozuskraj);
