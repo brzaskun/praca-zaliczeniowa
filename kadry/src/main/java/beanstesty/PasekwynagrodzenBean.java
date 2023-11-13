@@ -1136,7 +1136,7 @@ public class PasekwynagrodzenBean {
     
     private static void obliczpodstaweopodatkowaniaZlecenie26(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
-        double bruttominusspoleczne = pasek.getBruttozus();
+        double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         Rachunekdoumowyzlecenia rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekzlecenie(pasek.getKalendarzmiesiac().getAngaz(), pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
         if (rachunekdoumowyzlecenia==null) {
             rachunekdoumowyzlecenia = PasekwynagrodzenBean.pobierzRachunekdzielo(pasek.getKalendarzmiesiac().getAngaz(), pasek.getKalendarzmiesiac().getRok(), pasek.getKalendarzmiesiac().getMc());
@@ -1154,7 +1154,7 @@ public class PasekwynagrodzenBean {
         double procentkosztyuzyskania = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
         double podstawadlakosztow = Z.z(nowapodstawapl) > 0.0 ? Z.z(nowapodstawapl) : 0.0;
         double kosztyuzyskania = Z.z(podstawadlakosztow * procentkosztyuzyskania / 100.0);
-        if (pasek.isDo26lat()&&bruttominusspoleczne==0.0) {
+        if (pasek.isDo26lat()&&pasek.getBruttozus()==0.0) {
             kosztyuzyskania = 0.0;
         }
         if (pasek.isNierezydent()) {
