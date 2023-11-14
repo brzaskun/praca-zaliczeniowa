@@ -40,6 +40,8 @@ static{
     wykazPanstwUE.add("NL");
     wykazPanstwUE.add("IE");
     wykazPanstwUE.add("LT");
+    //luxemburg
+    wykazPanstwUE.add("LU");
     wykazPanstwUE.add("LV");
     wykazPanstwUE.add("MT");
     wykazPanstwUE.add("DE");
