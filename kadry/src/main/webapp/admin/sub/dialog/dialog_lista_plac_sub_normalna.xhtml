@@ -36,22 +36,22 @@
                             <h:outputText value="#{itempasek.wiekpasek}" style="color: #009688;"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="z zus"/>
+                            <h:outputText value="ozusowane"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="z zus bez pod."/>
+                            <h:outputText value="podatek polska"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="bez społ."/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="bez zus"/>
+                            <h:outputText value="podatek zagranica"/>
                         </p:column>
                         <p:column>
                             <h:outputText value="bez zus i pod."/>
                         </p:column>
                         <p:column style="background-color: #bbc7cd">
                             <h:outputText value="razem brutto" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="przekrocz. 26 lat" rendered="#{itempasek.do26lat eq true}" style="color: blue;"/>
                         </p:column>
                         <p:column>
                             <h:outputText value="podst.społ."/>
@@ -85,22 +85,22 @@
                             <h:outputText value="nierezydent" rendered="#{itempasek.nierezydent}" style="color: #009688;"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{itempasek.bruttozus}" />
-                        </p:column>
-                         <p:column>
-                             <bcf:outputpl value="#{itempasek.bruttozusbezpodatek}" />
+                            <bcf:outputpl value="#{itempasek.przychodyzus51}" />
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{itempasek.bruttobezspolecznych}" />
+                            <bcf:outputpl value="#{itempasek.przychodypodatekpolska}"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{itempasek.bruttobezzus}"/>
+                            <bcf:outputpl value="#{itempasek.przychodypodatekzagranica}"/>
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.bruttobezzusbezpodatek}"/>
                         </p:column>
                         <p:column>
                             <bcf:outputpl value="#{itempasek.brutto}"/>
+                        </p:column>
+                         <p:column>
+                             <bcf:outputpl value="#{itempasek.przekroczenie26lat}" rendered="#{itempasek.do26lat eq true}"/>
                         </p:column>
                         <p:column >
                             <bcf:outputpl value="#{itempasek.podstawaskladkizus}"/>
