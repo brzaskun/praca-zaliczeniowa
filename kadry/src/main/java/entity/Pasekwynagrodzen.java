@@ -158,6 +158,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double spolecznedoodliczeniakierowca;
     @Column(name = "bruttominusspoleczne")
     private double bruttominusspoleczne;
+    @Column(name = "bruttominusspolecznehipotetyczne")
+    private double bruttominusspolecznehipotetyczne;
     @Column(name = "praczdrowotne")
     private double praczdrowotne;
     @Column(name = "praczdrowotnedoodliczenia")
@@ -471,6 +473,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setKomornik(double komornik) {
         this.komornik = komornik;
+    }
+
+    public double getBruttominusspolecznehipotetyczne() {
+        return bruttominusspolecznehipotetyczne;
+    }
+
+    public void setBruttominusspolecznehipotetyczne(double bruttominusspolecznehipotetyczne) {
+        this.bruttominusspolecznehipotetyczne = bruttominusspolecznehipotetyczne;
     }
 
     

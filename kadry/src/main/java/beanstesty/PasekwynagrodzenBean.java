@@ -696,6 +696,7 @@ public class PasekwynagrodzenBean {
         double przychodynarastajacodolimitu26 = sumapoprzednich + przychodyBiezacyMiesiacPolska;
         double doopodatkowaniapow26narast = przychodynarastajacodolimitu26 - limit26;
         pasek.setPrzekroczenie26lat(doopodatkowaniapow26narast);
+        pasek.setBruttominusspolecznehipotetyczne(przychodyBiezacyMiesiacPolska);
         if (pasek.isDo26lat()) {
             pasek.setPrzychodypodatekpolska(0.0);
             pasek.setPrzychodypodatekpolska(0.0);
@@ -1091,6 +1092,8 @@ public class PasekwynagrodzenBean {
         //double zusbezpodatku = pasek.getBruttozusbezpodatek();
         double podstawadochdowyprzeddieta = Z.z(wynagrodzeniebrutto - skladki+skladnikppk) > 0.0 ? Z.z(wynagrodzeniebrutto - skladki+skladnikppk) : 0.0;
         pasek.setBruttominusspoleczne(podstawadochdowyprzeddieta);
+        double podstawahipotetyczna = Z.z(pasek.getBruttominusspolecznehipotetyczne()-skladki+skladnikppk) >0.0?Z.z(pasek.getBruttominusspolecznehipotetyczne()-skladki+skladnikppk):0.0;
+        pasek.setBruttominusspolecznehipotetyczne(podstawahipotetyczna);
     }
 
     private static void obliczpodstaweopodatkowaniaZasilekDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe) {
@@ -1169,9 +1172,11 @@ public class PasekwynagrodzenBean {
         } else if (podstawapopomniejszeniu < kosztyuzyskania) {
             kosztyuzyskania = podstawapopomniejszeniu;
         }
-        double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) : 0.0;
+        double bruttominusspolecznehipotetyczne = pasek.getBruttominusspolecznehipotetyczne();
+        double podstawahipotetyczna = Z.z0(bruttominusspolecznehipotetyczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspolecznehipotetyczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) : 0.0;
         pasek.setKosztyuzyskaniahipotetyczne(kosztyuzyskania);
-        pasek.setPodstawaopodatkowaniahipotetyczna(podstawa);
+        pasek.setPodstawaopodatkowaniahipotetyczna(podstawahipotetyczna);
+        double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) : 0.0;
         //kosztyuzyskania = 0.0;
         //nie wiem po co to
 //        if (pasek.isPrzekroczenieoddelegowanie()) {
@@ -1494,18 +1499,20 @@ public class PasekwynagrodzenBean {
                 pasek.setPraczdrowotnedoodliczenia(0.0);
                 pasek.setPraczdrowotnedopotracenia(0.0);
             } else if (pasek.isDo26lat()) {
-                double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
-                if (Z.z(pasek.getKwotawolna()) > 0.0) {
-                    zdrowotne = zdrowotne > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotne;
-                    zdrowotneodliczane = zdrowotneodliczane > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneodliczane;
-                }
+                double podstawahipotetyczna = pasek.getBruttominusspolecznehipotetyczne()-pasek.getKosztyuzyskania();
+                double limitdlazdrowotnej = Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
+//                if (Z.z(pasek.getKwotawolna()) > 0.0) {
+//                    zdrowotne = zdrowotne > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotne;
+//                    zdrowotneodliczane = zdrowotneodliczane > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneodliczane;
+//                }
                 pasek.setPraczdrowotne(zdrowotne);
                 zdrowotneodliczane = Integer.parseInt(pasek.getRokwypl()) < 2022 ? zdrowotneodliczane : 0.0;
                 pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
                 pasek.setPraczdrowotnedopotracenia(zdrowotne);
             } else {
                 if (Integer.parseInt(pasek.getRokwypl()) < 2022) {
-                    double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
+                    double podstawahipotetyczna = pasek.getBruttominusspolecznehipotetyczne()-pasek.getKosztyuzyskania();
+                    double limitdlazdrowotnej = Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
                     //spawa
                     if (zdrowotneodliczane > limitdlazdrowotnej && Z.z(pasek.getKwotawolna()) > 0.0) {
                         pasek.setPraczdrowotne(limitdlazdrowotnej);
