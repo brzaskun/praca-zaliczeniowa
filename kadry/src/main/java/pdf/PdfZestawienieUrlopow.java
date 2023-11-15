@@ -101,7 +101,7 @@ public class PdfZestawienieUrlopow {
             table.addCell(ustawfrazeAlign("3", "center",8));
             table.addCell(ustawfrazeAlign("4", "center",8));
             table.addCell(ustawfrazeAlign("5", "center",8));
-            table.addCell(ustawfrazeAlign("8", "center",8));
+            table.addCell(ustawfrazeAlign("6", "center",8));
             table.addCell(ustawfrazeAlign("7", "center",8));
             table.addCell(ustawfrazeAlign("8", "center",8));
             table.addCell(ustawfrazeAlign("9", "center",8));
