@@ -92,7 +92,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
         for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
             if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), p.getDataod(), p.getDatado())) {
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("90")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("80")) {
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("92")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("90")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("80")) {
                     zmiennawynagrodzeniakwota = p.getKwota();
                     zwrot.setPasekwynagrodzen(pasekwynagrodzen);
                     zwrot.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);

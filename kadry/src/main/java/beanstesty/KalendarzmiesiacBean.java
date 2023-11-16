@@ -329,7 +329,7 @@ public class KalendarzmiesiacBean {
                         //if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() != 0.0) {
                         pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                         //}
-                    } else if (p.getRodzajwynagrodzenia().getKod().equals("90")||p.getRodzajwynagrodzenia().getKod().equals("80")) {
+                    } else if (p.getRodzajwynagrodzenia().getKod().equals("92")||p.getRodzajwynagrodzenia().getKod().equals("90")||p.getRodzajwynagrodzenia().getKod().equals("80")) {
                         Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createBezZusPodatekDB(kalendarz, pasekwynagrodzen, p);
                         if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc() != 0.0) {
                             pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
