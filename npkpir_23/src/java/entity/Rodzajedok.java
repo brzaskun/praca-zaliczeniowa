@@ -167,6 +167,9 @@ public class Rodzajedok implements Serializable {
     }
 
     public void setSkrot(String skrot) {
+        try {
+            skrot = skrot.replaceAll("\\s+", " ");
+        } catch(Exception e){}
         this.skrot = skrot;
     }
     
@@ -185,6 +188,9 @@ public class Rodzajedok implements Serializable {
     }
 
     public void setSkrotNazwyDok(String skrotNazwyDok) {
+        try {
+            skrotNazwyDok = skrotNazwyDok.replaceAll("\\s+", " ");
+        } catch(Exception e){}
         this.skrotNazwyDok = skrotNazwyDok;
     }
 

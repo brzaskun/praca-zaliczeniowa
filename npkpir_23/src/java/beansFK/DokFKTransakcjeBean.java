@@ -330,17 +330,22 @@ public class DokFKTransakcjeBean implements Serializable{
                             transakcja.setKwotawwalucierachunku(placonakwota);
                         }
                     } else if (kursPlatnosci != 0.0 && kursRachunku != 0.0 && !transakcja.getRozliczajacy().getSymbolWalutBOiSW().equals(transakcja.getNowaTransakcja().getSymbolWalutBOiSW())) {
+                            double kwotwaPlatnosciwWaluciepierwotnej = placonakwota;
                             double kwotaPlatnosciwPLN = Z.z(placonakwota * kursPlatnosci);
                             double kwotaPlatnosciwwalucieRachunku = Z.z(kwotaPlatnosciwPLN / kursRachunku);
-                            double kwotadoRozlwWalRach = transakcja.getNowaTransakcja().getKwota() - transakcja.getNowaTransakcja().getRozliczono(transakcja);
-                            double kwotaRachunkuwPLN = kwotadoRozlwWalRach * kursRachunku;
+                            //zostało do rozliczenia
+                            double kwotaRachunkuwWalRach = transakcja.getNowaTransakcja().getKwota() - transakcja.getNowaTransakcja().getRozliczono(transakcja);
+                            double kwotaPlatnosciRozliczanadoLimituwalutaRachunku = kwotaPlatnosciwwalucieRachunku > kwotaRachunkuwWalRach ? kwotaRachunkuwWalRach : kwotaPlatnosciwwalucieRachunku;
+                            double kwotaPlatnosciwalutaPlatnoscikalkulacja = Z.z(kwotaPlatnosciRozliczanadoLimituwalutaRachunku * kursRachunku /kursPlatnosci);
+                            transakcja.setKwotatransakcji(kwotaPlatnosciwalutaPlatnoscikalkulacja);
+                            double kwotaRachunkuwPLN = kwotaPlatnosciRozliczanadoLimituwalutaRachunku * kursRachunku;
                             double roznicakursowa = Z.z(kwotaPlatnosciwPLN-kwotaRachunkuwPLN);
                             if (roznicakursowa > 0.0) {
                                 transakcja.setRoznicekursowe(roznicakursowa);
                             } else {
                                 transakcja.setRoznicekursowe(0.0);
                             }
-                            transakcja.setKwotawwalucierachunku(kwotaPlatnosciwwalucieRachunku > kwotadoRozlwWalRach ? kwotadoRozlwWalRach : kwotaPlatnosciwwalucieRachunku);
+                            transakcja.setKwotawwalucierachunku(kwotaPlatnosciRozliczanadoLimituwalutaRachunku);
                     }
                 }
             }

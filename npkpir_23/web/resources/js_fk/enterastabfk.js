@@ -100,9 +100,20 @@ var TabKeyDown;
                                 limitrachunku = limitrachunku/kursplatnosci;
                                 limitrachunku = limitrachunku.round(2);
                             } else if (walutarachunku!=="PLN" && walutaplatnosci!=="PLN") {
-                                var limitplatnosciwpln =  limitplatnosci*kursplatnosci;
-                                limitplatnosci = limitplatnosciwpln/kursrachunku;
-                                limitplatnosci = limitplatnosci.round(2);
+                                if (walutarachunku===walutaplatnosci) {
+                                    var limitplatnosciwpln =  limitplatnosci*kursplatnosci;
+                                    limitplatnosci = limitplatnosciwpln/kursrachunku;
+                                    limitplatnosci = limitplatnosci.round(2);
+                                } else {
+                                    var limitplatnosciwpln =  limitplatnosci*kursplatnosci;
+                                    var limitrachunkuwpln =  limitrachunku*kursrachunku;
+                                    if (limitrachunkuwpln<limitplatnosciwpln) {
+                                        limitplatnosci = limitrachunkuwpln/kursplatnosci;
+                                    } else {
+                                        limitplatnosci = limitplatnosciwpln/kursplatnosci;
+                                    }
+                                    limitplatnosci = limitplatnosci.round(2);
+                                }    
                             }
                             var kom1 = taregetId.split("_")[0]+"_input";
                             var kom2 = taregetId.split("_")[0]+"_hinput";
