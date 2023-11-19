@@ -295,7 +295,8 @@
                         <p:column width="20" style="text-align: center;">
                             <h:outputText value="#{indexpasek+1}"/>
                             <h:outputText value="student" rendered="#{itempasek.kalendarzmiesiac.angaz.student}" style="color: #009688;"/>
-                            <p:commandButton icon="pi pi-trash" actionListener="#{pasekwynagrodzenView.usun(itempasek)}" global="false" update="NieobecnoscListForm DefinicjalistaplacCreateForm2 PasekwynagrodzenListForm:datalist RachunekZleceniaForm"/>
+                            <p:commandButton icon="pi pi-trash" actionListener="#{pasekwynagrodzenView.usun(itempasek)}" global="false" 
+                                             update="NieobecnoscListForm DefinicjalistaplacCreateForm2 PasekwynagrodzenListForm:datalist RachunekZleceniaForm @(.dataUmowy)"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>

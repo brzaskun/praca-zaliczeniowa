@@ -772,7 +772,13 @@ public class PasekwynagrodzenView implements Serializable {
                 this.listakalendarzmiesiac.setSource(new ArrayList<>());
                 this.listakalendarzmiesiac.setTarget(new ArrayList<>());
             }
-            datawyplaty = zrobdatawyplaty(wybranalistaplac.getMc(), wybranalistaplac.getRok(), wpisView.getFirma());
+            if (lista!=null&&lista.size()>0) {
+                Pasekwynagrodzen pasek = lista.get(0);
+                datawyplaty = pasek.getDatawyplaty();
+                ustawtabelenbp(datawyplaty);
+            } else {
+                datawyplaty = zrobdatawyplaty(wybranalistaplac.getMc(), wybranalistaplac.getRok(), wpisView.getFirma());
+            }
             Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
         }
     }

@@ -60,11 +60,11 @@
                                 <p:ajax event="change" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.ustawtabelenbp(pasekwynagrodzenView.datawyplaty)}" update="KursDataLPForm:kurspole KursDataLPForm:kurspoledata"/>
                             </p:inputText>
                             <h:outputLabel for="kurspole" value="kurs przelicz."/>
-                            <p:inputNumber value="#{pasekwynagrodzenView.kursdlalisty}" id="kurspole" decimalPlaces="4" style="text-align: right;">
+                            <p:inputNumber value="#{pasekwynagrodzenView.kursdlalisty}" id="kurspole" decimalPlaces="4" style="text-align: right;"  styleClass="dataUmowy">
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:inputNumber>
                            <h:outputLabel for="kurspoledata" value="z dnia: "/>
-                           <p:inputText id="kurspoledata" value="#{pasekwynagrodzenView.datadlalisty}" readonly="true"/>
+                           <p:inputText id="kurspoledata" value="#{pasekwynagrodzenView.datadlalisty}" readonly="true"  styleClass="dataUmowy"/>
                            </p:panelGrid>
                            </p:fragment>
                             <p:panelGrid columns="2" >
