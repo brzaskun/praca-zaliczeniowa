@@ -4,7 +4,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+        
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <p:confirmDialog id="confirmDialog" message="Usunąć wybrane faktury? Sztuk #{fakturaView.gosciwybral.size()}"  appendTo="@(body)"
                      header="Rozpoczęcie usuwania faktur" severity="alert" widgetVar="confirmationFaktura" >  
         <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmationFaktura').hide()" type="button" style="margin-left: 15px;"/>   
@@ -42,7 +43,8 @@
     </p:confirmDialog>  
     <ui:include src="faktura/dialog_nowyklient_faktura.xhtml"/>
     <ui:include src="faktura/dialog_nazwaskroconafaktura.xhtml"/>
-    <p:tabView id="akordeon" style="max-width: 1900px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}" >
+    <c:if test="#{WpisView.podatnikObiekt.nip ne '8511005008'}"  >
+    <p:tabView id="akordeon" style="max-width: 1900px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}">
         <p:ajax event="tabChange" onstart="PF('dokTableFaktury').clearFilters()" global="false"/>
         <ui:include src="faktura/faktura_stworz.xhtml"/>
         <ui:include src="faktura/faktura_sporzadzone.xhtml"/>
@@ -53,6 +55,20 @@
         <ui:include src="faktura/faktura_okresowe_2.xhtml"/>
         <ui:include src="faktura/faktura_zestawienie.xhtml"/>
     </p:tabView>
+    </c:if>
+    <c:if test="#{WpisView.podatnikObiekt.nip eq '8511005008'}"  >
+     <p:tabView id="akordeon" style="max-width: 1900px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}">
+        <p:ajax event="tabChange" onstart="PF('dokTableFaktury').clearFilters()" global="false"/>
+        <ui:include src="faktura/faktura_stworz.xhtml"/>
+        <ui:include src="faktura/faktura_sporzadzone_taxman.xhtml"/>
+        <ui:include src="faktura/faktura_sporzadzone_edycja.xhtml"/>
+        <ui:include src="faktura/faktura_proforma.xhtml"/>
+        <ui:include src="faktura/faktura_archiwum.xhtml"/>
+        <ui:include src="faktura/faktura_okresowe.xhtml"/>
+        <ui:include src="faktura/faktura_okresowe_2.xhtml"/>
+        <ui:include src="faktura/faktura_zestawienie.xhtml"/>
+    </p:tabView>
+    </c:if>
  
 </ui:composition>   
 

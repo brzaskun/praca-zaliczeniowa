@@ -677,6 +677,7 @@ public class FakturaView implements Serializable {
                 selected.setMc(Data.getCzescDaty(selected.getDatawystawienia(), 1));
             }
             selected.setFakturagrupa(wpisView.getUzer().getFakturagrupa());
+            selected.setDatasporzadzenia(new Date());
             fakturaDAO.create(selected);
             Klienci kontra = selected.getKontrahent();
             kontra.setAktywnydlafaktrozrachunki(true);
@@ -721,6 +722,7 @@ public class FakturaView implements Serializable {
             selected.setNazwa(null);
         }
         try {
+            selected.setDatasporzadzenia(new Date());
             if (selected.isWygenerowanaautomatycznie() == true) {
                 selected.setWygenerowanaautomatycznie(false);
             }
@@ -734,6 +736,7 @@ public class FakturaView implements Serializable {
                 String nowynumer = String.valueOf(new DateTime().getMillis());
                 selected.setNumerkolejny(nowynumer);
                 selected.setTylkodlaokresowej(true);
+                selected.setDatasporzadzenia(new Date());
                 fakturaDAO.create(selected);
                 selected.getIdfakturaokresowa().setDokument(selected);
                 fakturywystokresoweDAO.edit(selected.getIdfakturaokresowa());
@@ -2143,6 +2146,7 @@ public class FakturaView implements Serializable {
                 nowa.setZatwierdzona(false);
                 nowa.setTylkodlaokresowej(false);
                 nowa.setAutor(wpisView.getUzer().getLogin());
+                nowa.setDatasporzadzenia(new Date());
                 int fakturanowyrok = 0;
                 boolean istnieje = true;
                 FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, nowa, wpisView);

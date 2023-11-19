@@ -280,6 +280,9 @@ public class Faktura implements Serializable {
     @Column(name = "datatelefon", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datatelefon;
+    @Column(name = "datasporzadzenia", insertable=true, updatable=true)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date datasporzadzenia;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<FakturaDuplikat> duplikaty;
     @Column(name = "sprzedazsamochoduimportowanego", nullable = true)
@@ -626,6 +629,14 @@ public class Faktura implements Serializable {
 
     public void setGutschrift(boolean gutschrift) {
         this.gutschrift = gutschrift;
+    }
+
+    public Date getDatasporzadzenia() {
+        return datasporzadzenia;
+    }
+
+    public void setDatasporzadzenia(Date datasporzadzenia) {
+        this.datasporzadzenia = datasporzadzenia;
     }
 
     public boolean isSprzedazsamochoduimportowanego() {
