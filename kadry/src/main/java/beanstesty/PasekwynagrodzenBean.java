@@ -703,6 +703,9 @@ public class PasekwynagrodzenBean {
             if (doopodatkowaniapow26narast > 0.0) {
                double doopodatkowaniaZaMiesiac = doopodatkowaniapow26narast-sumabruttoopodatkowanapoprzednich;
                pasek.setPrzychodypodatekpolska(doopodatkowaniaZaMiesiac);
+               if (doopodatkowaniaZaMiesiac>0.0) {
+                   pasek.setBruttominusspolecznehipotetyczne(doopodatkowaniaZaMiesiac);
+               }
                
             }
         } 
@@ -1174,7 +1177,8 @@ public class PasekwynagrodzenBean {
             kosztyuzyskania = podstawapopomniejszeniu;
         }
         double bruttominusspolecznehipotetyczne = pasek.getBruttominusspolecznehipotetyczne();
-        double podstawahipotetyczna = Z.z0(pasek.getPrzychodypodatekpolska() - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(pasek.getPrzychodypodatekpolska() - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) : 0.0;
+        double zushipotetyczny = Z.z(bruttominusspolecznehipotetyczne*.1371>pasek.getRazemspolecznepracownik()?pasek.getRazemspolecznepracownik():bruttominusspolecznehipotetyczne*.1371);
+        double podstawahipotetyczna = Z.z0(bruttominusspolecznehipotetyczne - kosztyuzyskania - zushipotetyczny - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspolecznehipotetyczne - kosztyuzyskania - zushipotetyczny - dieta30proc - ulgadlaklasysredniej) : 0.0;
         pasek.setKosztyuzyskaniahipotetyczne(kosztyuzyskania);
         pasek.setPodstawaopodatkowaniahipotetyczna(podstawahipotetyczna);
         double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) : 0.0;
