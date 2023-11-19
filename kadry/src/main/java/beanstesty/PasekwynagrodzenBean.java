@@ -1174,7 +1174,7 @@ public class PasekwynagrodzenBean {
             kosztyuzyskania = podstawapopomniejszeniu;
         }
         double bruttominusspolecznehipotetyczne = pasek.getBruttominusspolecznehipotetyczne();
-        double podstawahipotetyczna = Z.z0(bruttominusspolecznehipotetyczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspolecznehipotetyczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) : 0.0;
+        double podstawahipotetyczna = Z.z0(pasek.getPrzychodypodatekpolska() - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(pasek.getPrzychodypodatekpolska() - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) : 0.0;
         pasek.setKosztyuzyskaniahipotetyczne(kosztyuzyskania);
         pasek.setPodstawaopodatkowaniahipotetyczna(podstawahipotetyczna);
         double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) : 0.0;
@@ -1500,12 +1500,10 @@ public class PasekwynagrodzenBean {
                 pasek.setPraczdrowotnedoodliczenia(0.0);
                 pasek.setPraczdrowotnedopotracenia(0.0);
             } else if (pasek.isDo26lat()) {
-                double podstawahipotetyczna = pasek.getBruttominusspolecznehipotetyczne()-pasek.getKosztyuzyskania();
+                double podstawahipotetyczna = pasek.getPodstawaopodatkowaniahipotetyczna();
                 double limitdlazdrowotnej = Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
-                if (Z.z(pasek.getKwotawolna()) > 0.0) {
-                    zdrowotne = zdrowotne > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotne;
-                    zdrowotneodliczane = zdrowotneodliczane > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneodliczane;
-                }
+                zdrowotne = zdrowotne > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotne;
+                zdrowotneodliczane = zdrowotneodliczane > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneodliczane;
                 pasek.setPraczdrowotne(zdrowotne);
                 zdrowotneodliczane = Integer.parseInt(pasek.getRokwypl()) < 2022 ? zdrowotneodliczane : 0.0;
                 pasek.setPraczdrowotnedoodliczenia(zdrowotneodliczane);
