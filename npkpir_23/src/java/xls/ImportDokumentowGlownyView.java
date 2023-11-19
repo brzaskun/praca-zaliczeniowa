@@ -197,6 +197,7 @@ public class ImportDokumentowGlownyView implements Serializable {
         zwrot.add(new ImportowanyPlik("Domeguru xls","xls","",13));
         zwrot.add(new ImportowanyPlik("Szyszko Logistics csv","csv","",14));
         zwrot.add(new ImportowanyPlik("Vintis Vendor csv","csv","",15));
+        zwrot.add(new ImportowanyPlik("Amazon json json","json","",16));
         return zwrot;
     }
     
@@ -204,7 +205,7 @@ public class ImportDokumentowGlownyView implements Serializable {
         try {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
-            if (extension.equals("csv")||extension.equals("xls")||extension.equals("xlsx")||extension.equals("xml")||extension.equals("epp")) {
+            if (extension.equals("csv")||extension.equals("xls")||extension.equals("xlsx")||extension.equals("xml")||extension.equals("epp")||extension.equals("json")) {
                 String filename = uploadedFile.getFileName();
                 pobranyplik = uploadedFile.getContents();
                 pobraneplikibytes.add(uploadedFile.getContents());
@@ -316,6 +317,13 @@ public class ImportDokumentowGlownyView implements Serializable {
                     przerwanyimport = (List<InterpaperXLS>) zwrot6[1];
                     importyzbrakami = (List<InterpaperXLS>) zwrot6[2];
                     innyokres = (List<InterpaperXLS>) zwrot6[3];
+                    break;
+                case 16:
+                    Object[] zwrot7 = ReadCSVAmznJsonFile.getListafaktur(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu(), tabelanbpDAO);
+                    pobranefaktury = (List<InterpaperXLS>) zwrot7[0];
+                    przerwanyimport = (List<InterpaperXLS>) zwrot7[1];
+                    importyzbrakami = (List<InterpaperXLS>) zwrot7[2];
+                    innyokres = (List<InterpaperXLS>) zwrot7[3];
                     break;
             }
             sumujnadole(pobranefaktury);
@@ -1672,6 +1680,7 @@ public class ImportDokumentowGlownyView implements Serializable {
             case 13:
             case 14:
             case 15:
+            case 16:
                 zwrot.add("sprzedaż");
                 break;
         }
