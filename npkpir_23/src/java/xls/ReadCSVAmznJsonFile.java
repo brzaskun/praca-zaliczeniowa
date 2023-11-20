@@ -205,10 +205,17 @@ public class ReadCSVAmznJsonFile {
                 interpaperXLS.setWalutaplatnosci(row.getWaluta());
                 //interpaperXLS.setSaldofaktury(Z.z(Double.parseDouble(row.get(28))));
                 Tabelanbp innatabela = pobierztabele(row.getWaluta(), row.getData_wystawienia(), tabelanbpDAO);
-                interpaperXLS.setNettoPLN(Z.z(przeliczpln(row.getPodatek_vat_waluta(), innatabela)));
-                interpaperXLS.setNettoPLNvat(Z.z(przeliczpln(row.getPodatek_vat_waluta(), innatabela)));
-                interpaperXLS.setVatPLN(Z.z(przeliczpln(row.getPodatek_vat_waluta(), innatabela)));
-                interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettoPLN()+interpaperXLS.getVatPLN()));
+                if (row.getWaluta().equals("PLN")==false) {
+                    interpaperXLS.setNettoPLN(Z.z(przeliczpln(row.getCena_total_netto_waluta(), innatabela)));
+                    interpaperXLS.setNettoPLNvat(Z.z(przeliczpln(row.getCena_total_netto_waluta(), innatabela)));
+                    interpaperXLS.setVatPLN(Z.z(przeliczpln(row.getPodatek_vat_waluta(), innatabela)));
+                    interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettoPLN()+interpaperXLS.getVatPLN()));
+                } else {
+                    interpaperXLS.setNettoPLN(Z.z(row.getCena_total_netto_pln()));
+                    interpaperXLS.setNettoPLNvat(Z.z(row.getCena_total_netto_pln()));
+                    interpaperXLS.setVatPLN(Z.z(row.getPodatek_vat_pln()));
+                    interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettoPLN()+interpaperXLS.getVatPLN()));
+                }
                 interpaperXLS.setNettowaluta(Z.z(row.getCena_total_netto_waluta()));
                 interpaperXLS.setVatwaluta(Z.z(row.getPodatek_vat_waluta()));
                 interpaperXLS.setBruttowaluta(Z.z(interpaperXLS.getNettowaluta()+interpaperXLS.getVatwaluta()));
