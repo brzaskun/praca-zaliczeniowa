@@ -1642,45 +1642,47 @@ public class PlanKontView implements Serializable {
 
     public void zmiananazwykonta() {
         Konto selectednodekontoL = this.selectednodekontoZmiana;
-        UkladBR wybranyukladL = ustawuklad();
-        try {
-            List<Konto> kontapotomne = wykazkont.stream().filter(p->p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(selectednodekontoL)).collect(Collectors.toList());
-            List<KontopozycjaZapis> pozycjedousuniecia = new ArrayList<>();
-            for (Konto p : kontapotomne) {
-                if (p != null) {
-                    p.setZwyklerozrachszczegolne(selectednodekontoL.getZwyklerozrachszczegolne());
-                    if (selectednodekontoL.isWynik0bilans1()==false) {
-                        p.setSyntetykaanalityka("syntetyczne");
-                    }
-                    p.setBilansowewynikowe(selectednodekontoL.getBilansowewynikowe());
-                    if (usunprzyporzadkowanie) {
-                        KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, wybranyukladL);
-                        if (kp != null) {
-                            pozycjedousuniecia.add(kp);
+        if (selectednodekontoL!=null) {
+            UkladBR wybranyukladL = ustawuklad();
+            try {
+                List<Konto> kontapotomne = wykazkont.stream().filter(p->p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(selectednodekontoL)).collect(Collectors.toList());
+                List<KontopozycjaZapis> pozycjedousuniecia = new ArrayList<>();
+                for (Konto p : kontapotomne) {
+                    if (p != null) {
+                        p.setZwyklerozrachszczegolne(selectednodekontoL.getZwyklerozrachszczegolne());
+                        if (selectednodekontoL.isWynik0bilans1()==false) {
+                            p.setSyntetykaanalityka("syntetyczne");
                         }
-                        p.czyscPozycje();
+                        p.setBilansowewynikowe(selectednodekontoL.getBilansowewynikowe());
+                        if (usunprzyporzadkowanie) {
+                            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, wybranyukladL);
+                            if (kp != null) {
+                                pozycjedousuniecia.add(kp);
+                            }
+                            p.czyscPozycje();
+                        }
                     }
                 }
-            }
-            if (kontapotomne.isEmpty()==false) {
-                kontopozycjaZapisDAO.removeList(pozycjedousuniecia);
-                kontoDAOfk.editList(kontapotomne);
-            }
-            //bo u gory to tylko potomne czysci
-            if (usunprzyporzadkowanie) {
-                KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(selectednodekontoL, wybranyukladL);
-                if (kp != null) {
-                    kontopozycjaZapisDAO.remove(kp);
+                if (kontapotomne.isEmpty()==false) {
+                    kontopozycjaZapisDAO.removeList(pozycjedousuniecia);
+                    kontoDAOfk.editList(kontapotomne);
                 }
-                selectednodekontoL.czyscPozycje();
+                //bo u gory to tylko potomne czysci
+                if (usunprzyporzadkowanie) {
+                    KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(selectednodekontoL, wybranyukladL);
+                    if (kp != null) {
+                        kontopozycjaZapisDAO.remove(kp);
+                    }
+                    selectednodekontoL.czyscPozycje();
+                }
+                if (kontapotomne.isEmpty()==false) {
+                    selectednodekontoL.setMapotomkow(true);
+                }
+                kontoDAOfk.edit(selectednodekontoL);
+                usunprzyporzadkowanie = false;
+            } catch (Exception e) {
+                E.e(e);
             }
-            if (kontapotomne.isEmpty()==false) {
-                selectednodekontoL.setMapotomkow(true);
-            }
-            kontoDAOfk.edit(selectednodekontoL);
-            usunprzyporzadkowanie = false;
-        } catch (Exception e) {
-            E.e(e);
         }
     }
 
