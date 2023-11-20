@@ -73,7 +73,7 @@
             </p:panelGrid>
             
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}" 
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 2100px;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 2200px;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
                          rowSelectMode="add"
                          rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" paginator="true" rows="40"
                          >
@@ -148,8 +148,8 @@
                 <p:column headerText="wier." width="30" filterBy="#{wpis.dokument.pozycjenafakturze.size()}" sortBy="#{wpis.dokument.pozycjenafakturze.size()}" style="text-align: center;">  
                     <h:outputText value="#{wpis.dokument.pozycjenafakturze.size()}"/>
                 </p:column>
-                <p:column headerText="księgowa" width="70" filterBy="#{wpis.dokument.kontrahent.ksiegowadane}" filterMatchMode="contains" sortBy="#{wpis.dokument.kontrahent.ksiegowadane}" style="text-align: left;">  
-                    <h:outputText value="#{wpis.dokument.kontrahent.ksiegowadane}"/>
+                <p:column headerText="księgowa" width="70" filterBy="#{wpis.ksiegowadane}" filterMatchMode="contains" sortBy="#{wpis.ksiegowadane}" style="text-align: left;">  
+                    <h:outputText value="#{wpis.ksiegowadane}"/>
                 </p:column>
 <!--                <p:column headerText="data wystawienia" sortBy="#{wpis.getDatawystawieniaOld()}" filterBy="#{wpis.getDatawystawieniaOld()}" filterMatchMode="contains" filterStyle="display : none;" width="90">
                     <h:outputText value="#{wpis.getDatawystawieniaOld()}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
@@ -220,6 +220,11 @@
                 <p:column headerText="data" width="70"  sortBy="#{wpis.datautworzenia}">  
                     <h:outputText value="#{wpis.datautworzenia}">
                         <f:convertDateTime pattern="yyyy/MM/dd" />
+                    </h:outputText>
+                </p:column>
+                 <p:column styleClass="data" headerText="sporz." sortBy="#{wpis.autor}" filterBy="#{wpis.autor}" filterMatchMode="contains"  
+                          style="text-align: left;"  width="70">
+                    <h:outputText value="#{wpis.autor}">
                     </h:outputText>
                 </p:column>
                 <p:column headerText="edycja" width="70"  sortBy="#{wpis.datautworzenia}">  

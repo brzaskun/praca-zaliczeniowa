@@ -634,7 +634,7 @@ public class FakturaView implements Serializable {
             FakturaBean.wielekont(selected, listakontaktywne, fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
         }
         selected.setPodpis(FakturaBean.pobierzpodpis(wpisView));
-        selected.setAutor(wpisView.getUzer().getLogin());
+        selected.setAutor(wpisView.getUzer().getNazwiskoImie());
         setPokazfakture(true);
         selected.setWystawca(podatnikobiekt);
         selected.setRok(String.valueOf(wpisView.getRokWpisu()));
@@ -1802,6 +1802,7 @@ public class FakturaView implements Serializable {
                 String rok = p.getDatasprzedazy().split("-")[0];
                 nowafakturaokresowa.setRok(rok);
                 nowafakturaokresowa.setDatautworzenia(new Date());
+                nowafakturaokresowa.setAutor(wpisView.getUzer().getNazwiskoImie());
                 try {
                     fakturywystokresoweDAO.create(nowafakturaokresowa);
                     p.setIdfakturaokresowa(nowafakturaokresowa);
@@ -2145,7 +2146,7 @@ public class FakturaView implements Serializable {
                 nowa.setZaksiegowana(false);
                 nowa.setZatwierdzona(false);
                 nowa.setTylkodlaokresowej(false);
-                nowa.setAutor(wpisView.getUzer().getLogin());
+                nowa.setAutor(wpisView.getUzer().getNazwiskoImie());
                 nowa.setDatasporzadzenia(new Date());
                 int fakturanowyrok = 0;
                 boolean istnieje = true;

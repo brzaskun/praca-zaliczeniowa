@@ -139,8 +139,10 @@ public class PodatnikKsiegowaShortView implements Serializable{
                 for (Podatnik pod: keySet) {
                     final String nip = pod.getNip();
                     Klienci get = klienci.parallelStream().filter(fa->fa.getNip().equals(nip)).findFirst().get();
-                    get.setKsiegowadane(pod.getKsiegowa().getNazwiskoImie());
-                    get.setTelefondb(pod.getTelefonkontaktowy());
+                    if (get!=null) {
+                        get.setKsiegowadane(pod.getKsiegowa().getNazwiskoImie());
+                        get.setTelefondb(pod.getTelefonkontaktowy());
+                    }
                 }
                 klienciDAO.editList(klienci);
                 Msg.msg("Naniesiono dane księgowej na klientów urposzczona");
@@ -163,8 +165,10 @@ public class PodatnikKsiegowaShortView implements Serializable{
                 for (Podatnik pod: keySet) {
                     final String nip = pod.getNip();
                     Klienci get = klienci.parallelStream().filter(fa->fa.getNip().equals(nip)).findFirst().get();
-                    get.setKsiegowadane(pod.getKsiegowa().getNazwiskoImie());
-                    get.setTelefondb(pod.getTelefonkontaktowy());
+                    if (get!=null) {
+                        get.setKsiegowadane(pod.getKsiegowa().getNazwiskoImie());
+                        get.setTelefondb(pod.getTelefonkontaktowy());
+                    }
                 }
                 klienciDAO.editList(klienci);
                 Msg.msg("Naniesiono dane księgowej na klientów pełna");

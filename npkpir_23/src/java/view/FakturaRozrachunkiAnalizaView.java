@@ -362,6 +362,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             selectedrozliczenia = null;
             pobierzwszystkoKlienta();
             Msg.msg("Zarchiwizowano wybrane pozycje");
+        } else {
+            Msg.msg("e","Wybieramy pozycje do archiwizacji po lewej stronie");
         }
     }
     

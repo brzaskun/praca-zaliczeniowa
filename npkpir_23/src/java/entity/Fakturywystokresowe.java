@@ -160,6 +160,8 @@ public class Fakturywystokresowe implements Serializable {
     private boolean klientzaakceptowal;
     @Column(name = "uwagi")
     private String uwagi;
+    @Column(name = "autor")
+    private String autor;
     @Column(name = "datautworzenia", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datautworzenia;
@@ -522,6 +524,24 @@ public class Fakturywystokresowe implements Serializable {
     public void setDatazalatwione(Date datazalatwione) {
         this.datazalatwione = datazalatwione;
     }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    
+    public String getKsiegowadane() {
+        String zwrot  = "niepobrano";
+        if (this.dokument!=null) {
+            zwrot = this.dokument.getKontrahent().getKsiegowadane();
+        }
+        return zwrot;
+    }
+    
 
   
     
