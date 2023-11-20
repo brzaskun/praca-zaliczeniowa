@@ -1504,7 +1504,7 @@ public class PasekwynagrodzenBean {
                 pasek.setPraczdrowotnedoodliczenia(0.0);
                 pasek.setPraczdrowotnedopotracenia(0.0);
             } else if (pasek.isDo26lat()) {
-                double podstawahipotetyczna = pasek.getPodstawaopodatkowaniahipotetyczna();
+                double podstawahipotetyczna = pasek.getPodstawaopodatkowania();
                 double limitdlazdrowotnej = Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
                 zdrowotne = zdrowotne > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotne;
                 zdrowotneodliczane = zdrowotneodliczane > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneodliczane;
