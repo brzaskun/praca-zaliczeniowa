@@ -146,11 +146,15 @@ public class Kalendarzwzor implements Serializable {
         List<Dzien> dzienListGlobalny = kalendarzglobalny.getDzienList();
         Collections.sort(dzienListGlobalny, new Dziencomparator());
         List<Dzien> dzienListWzor = this.getDzienList();
-        Collections.sort(dzienListWzor, new Dziencomparator());
-        for (int i = 0; i < dzienListGlobalny.size(); i++) {
-            Dzien dzienwzor = dzienListWzor.get(i);
-            Dzien dzienglobalny = dzienListGlobalny.get(i);
-            dzienwzor.nanieswzor(dzienglobalny);
+        if (dzienListWzor!=null&&dzienListWzor.size()==dzienListGlobalny.size()) {
+            Collections.sort(dzienListWzor, new Dziencomparator());
+            for (int i = 0; i < dzienListGlobalny.size(); i++) {
+                Dzien dzienwzor = dzienListWzor.get(i);
+                Dzien dzienglobalny = dzienListGlobalny.get(i);
+                if (dzienwzor.getTypdnia()!=dzienglobalny.getTypdnia()||dzienwzor.getNormagodzinwzorcowa()!=dzienglobalny.getNormagodzin()) {
+                    dzienwzor.nanieswzor(dzienglobalny);
+                }
+            }
         }
     }
     
