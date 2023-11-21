@@ -1801,11 +1801,11 @@ public class PasekwynagrodzenBean {
     }
 
     public static double sumapodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, Kalendarzmiesiac p, double prog) {
-        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokAngaz(p.getRok(), p.getAngaz());
+        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokWyplAngaz(p.getRok(), p.getAngaz());
         double suma = 0.0;
         int mckalendarza = p.getMcI();
         for (Pasekwynagrodzen r : paskipodatnika) {
-            if (r.getMcI() <= mckalendarza) {
+            if (r.getMcI() <= mckalendarza || r.getRokI() < p.getRokI()) {
                 suma = suma + r.getPodstawaopodatkowania();
             }
         }
@@ -1813,17 +1813,12 @@ public class PasekwynagrodzenBean {
     }
 
     public static double sumabruttopodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, String rokwyplaty, String mcwyplaty, Angaz angaz) {
-        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokAngaz(rokwyplaty, angaz);
-        String[] poprzedniOkres = Data.poprzedniOkres("12", "2023");
-        List<Pasekwynagrodzen> findByRokMcAngaz = pasekwynagrodzenFacade.findByRokMcAngaz(poprzedniOkres[1], "12", angaz);
-        if (findByRokMcAngaz!=null&&findByRokMcAngaz.isEmpty()==false) {
-            paskipodatnika.addAll(findByRokMcAngaz);
-        }
+        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokWyplAngaz(rokwyplaty, angaz);
         double suma = 0.0;
         int mckalendarza = Integer.parseInt(mcwyplaty);
-        
+        int rokkalendarza = Integer.parseInt(rokwyplaty);
         for (Pasekwynagrodzen r : paskipodatnika) {
-            if (r.getMcI() < mckalendarza) {
+            if (r.getMcI() < mckalendarza || r.getRokI() < rokkalendarza) {
                 suma = suma + r.getBrutto();
                 if (r.isPrzekroczenieoddelegowanie()) {
                     suma = suma - sumujoddelegowaniewartosc(r);
