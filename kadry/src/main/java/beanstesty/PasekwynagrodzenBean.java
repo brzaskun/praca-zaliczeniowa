@@ -1829,12 +1829,7 @@ public class PasekwynagrodzenBean {
     }
     
      public static double sumabruttopolskaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, String rokwyplaty, String mcwyplaty, Angaz angaz) {
-        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokAngaz(rokwyplaty, angaz);
-        String[] poprzedniOkres = Data.poprzedniOkres(mcwyplaty, rokwyplaty);
-        List<Pasekwynagrodzen> findByRokMcAngaz = pasekwynagrodzenFacade.findByRokMcAngaz(poprzedniOkres[1], "12", angaz);
-        if (findByRokMcAngaz!=null&&findByRokMcAngaz.isEmpty()==false) {
-            paskipodatnika.addAll(findByRokMcAngaz);
-        }
+        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokWyplAngaz(rokwyplaty, angaz);
         double suma = 0.0;
         int mckalendarza = Integer.parseInt(mcwyplaty);
         
