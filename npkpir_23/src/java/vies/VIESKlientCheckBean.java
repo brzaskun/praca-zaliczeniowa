@@ -39,18 +39,19 @@ import viesapi.ViesVatRegistration;
  */
 public class VIESKlientCheckBean {
     
-    public static List<Vieskontrahent> sprawdz(List<VatUe> klienciWDTWNT, ViesDAO viesDAO, Podatnik podatnik, Uz wprowadzil)  {
+    public static List<Vieskontrahent> sprawdz(List<VatUe> listavatue, ViesDAO viesDAO, Podatnik podatnik, Uz wprowadzil)  {
         List<Vieskontrahent> viesy = Collections.synchronizedList(new ArrayList<>());
-        if (klienciWDTWNT != null) {
+        if (listavatue != null) {
             int i = 0;
-             for (Iterator it = klienciWDTWNT.iterator(); it.hasNext();) {
+             for (Iterator it = listavatue.iterator(); it.hasNext();) {
                  VatUe vatuebiezacy = (VatUe) it.next();
                  if (vatuebiezacy.getVieskontrahent()==null||vatuebiezacy.getVieskontrahent().isStatus()==false) {
                     String kraj = vatuebiezacy.getKontrahentkraj();
-                    String nip = vatuebiezacy.getKontrahentnip();
+                    String nip = vatuebiezacy.getKontrahentNipWybor();
                     if (nip!=null) {
                         boolean jestprefix = sprawdznip(nip);
                         if (jestprefix) {
+                            kraj = pobierzprefix(nip);
                             nip = nip.substring(2).trim();
                         }
                         Vieskontrahent v = null;
@@ -138,6 +139,19 @@ public class VIESKlientCheckBean {
         Pattern p = Pattern.compile("[0-9]");
         boolean isnumber = p.matcher(prefix).find();
         return !isnumber;
+    }
+    
+    private static String pobierzprefix(String nip) {
+        //jezeli false to dobrze
+        int ile = 2;
+        String pr = nip.substring(0, 2);
+        if (pr.equals("ES")|| pr.equals("AT")) {
+            ile = 3;
+        }
+        String prefix = nip.substring(0, ile);
+        Pattern p = Pattern.compile("[0-9]");
+        boolean isnumber = p.matcher(prefix).find();
+        return pr;
     }
     
     public static ViesVatRegistration pobierzKlient(String kraj, String nip) throws SocketTimeoutException {

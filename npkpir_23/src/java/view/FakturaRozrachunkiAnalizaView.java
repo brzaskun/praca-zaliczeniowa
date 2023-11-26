@@ -194,6 +194,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         return pozycje;
     }
     
+     
    
      
     private Collection<? extends Klienci> pobierzkontrahentow() {

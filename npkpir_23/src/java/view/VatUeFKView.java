@@ -476,7 +476,7 @@ public class VatUeFKView implements Serializable {
         List<Vieskontrahent> listadousuniecia = new ArrayList<>();
         for (Vieskontrahent p: listastarych) {
             if (p.getIdentyfikatorsprawdzenia()!=null&&p.isStatus()==false) {
-                Optional<VatUe> findFirst = klienciWDTWNT.stream().filter(r->r.getKontrahentnip().equals(p.getNip())).findFirst();
+                Optional<VatUe> findFirst = klienciWDTWNT.stream().filter(r->r.getKontrahentNipWybor().equals(p.getNip())).findFirst();
                 if (findFirst.isPresent()) {
                     VatUe staryue = findFirst.get();
                     staryue.setVieskontrahent(null);
@@ -496,7 +496,7 @@ public class VatUeFKView implements Serializable {
         List<Vieskontrahent> listastarych = vieskontrahentDAO.findByRokMcTyd(rok, mc, tydzien);
         for (Vieskontrahent p: listastarych) {
             if (p.isStatus()) {
-                Optional<VatUe> findFirst = klienciWDTWNT.stream().filter(r->r.getKontrahentnip().equals(p.getNip())).findFirst();
+                Optional<VatUe> findFirst = klienciWDTWNT.stream().filter(r->r.getKontrahentNipWybor().equals(p.getNip())).findFirst();
                 if (findFirst.isPresent()) {
                     VatUe staryue = findFirst.get();
                     staryue.setVieskontrahent(p);

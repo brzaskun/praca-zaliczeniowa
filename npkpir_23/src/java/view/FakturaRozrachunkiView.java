@@ -9,6 +9,7 @@ import comparator.FakturaRozrachunkicomparator;
 import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
+import dao.KlienciDAO;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import entity.FakturaRozrachunki;
@@ -18,8 +19,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
@@ -54,6 +57,8 @@ public class FakturaRozrachunkiView  implements Serializable {
     private FakturaRozrachunkiAnalizaView fakturaRozrachunkiAnalizaView;
     @Inject
     private FakturaDAO fakturaDAO;
+    @Inject
+    private KlienciDAO klienciDAO;
     @Inject
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
     private String west;
@@ -93,6 +98,20 @@ public class FakturaRozrachunkiView  implements Serializable {
         selected.setRodzajdokumentu("rk");
         pobierzostatninumer();
         Collections.sort(klienci, new Kliencicomparator());
+        aktywujkontrahentow();
+    }
+    
+    private void aktywujkontrahentow() {
+        List<Klienci> p = fakturaDAO.findKontrahentFakturyRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        Set<Klienci> klienciset = new HashSet<>(p);
+        for (Iterator<Klienci> it = klienciset.iterator(); it.hasNext();) {
+            Klienci k = it.next();
+            if (k.isAktywnydlafaktrozrachunki() == false) {
+                k.setAktywnydlafaktrozrachunki(true);
+            }
+        }
+        List<Klienci> lisatsave = new ArrayList<>(klienciset);
+        klienciDAO.editList(lisatsave);
     }
    
     public void sumuj() {

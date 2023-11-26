@@ -189,6 +189,14 @@ public class VatSuper implements Serializable{
             return null;
         }
     }
+    
+    public String getKontrahentNipWybor() {
+        String zwrot = this.kontrahentnip;
+        if (zwrot==null&&this.kontrahent!=null) {
+            zwrot = this.kontrahent.getNip();
+        }
+        return zwrot;
+    }
 
 
     public double getNettowaluta() {
