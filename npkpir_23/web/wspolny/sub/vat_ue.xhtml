@@ -50,7 +50,7 @@
                               rowKey="#{wpis1.id}" selection="#{vatUeFKView.listawybranych}"
                               emptyMessage="#{vatUeFKView.komunikat}"
                               sortBy="#{wpis1.kontrahent.npelna}" styleClass="upd1"
-                              style="height: 400px;overflow-y: scroll;width: 1300px;" widgetVar="dokTable" 
+                              style="height: 400px;overflow-y: scroll;width: 1400px;" widgetVar="dokTable" 
                               > 
                     <f:facet name="header">  
                         <h:outputText value="#{vatUeFKView.opisvatuepkpir}" /> 
@@ -103,11 +103,22 @@
                             <f:convertNumber minFractionDigits="0" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="vies" headerText="VIES" sortBy="#{wpis1.vies}" style="width: 15%; text-align: center;">  
+                    <p:column id="vies" headerText="VIES" sortBy="#{wpis1.vieskontrahent}" style="width: 15%; text-align: center;">  
+                        <h:outputText value="#{wpis1.vieskontrahent.getWynikVies()}" rendered="#{wpis1.transakcja eq 'podsum.' ? false : true}"
+                                       style="#{wpis1.vieskontrahent.identyfikatorsprawdzenia eq null or wpis1.vies.uwagi ne null ? 'color: red;':'color: green;'}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="vies2" headerText="data" sortBy="#{wpis1.vieskontrahent}" style="width: 15%; text-align: center;">  
+                        <h:outputText value="#{wpis1.vieskontrahent.data}" rendered="#{wpis1.transakcja eq 'podsum.' ? false : true}"
+                                       style="#{wpis1.vieskontrahent.identyfikatorsprawdzenia eq null or wpis1.vies.uwagi ne null ? 'color: red;':'color: green;'}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:ss"/>
+                        </h:outputText>
+                    </p:column>
+<!--                     <p:column id="vies" headerText="VIES" sortBy="#{wpis1.vies}" style="width: 15%; text-align: center;">  
                          <h:outputText value="#{wpis1.vies.wynikVies}" rendered="#{wpis1.transakcja eq 'podsum.' ? false : true}"
                                        style="#{wpis1.vies.identyfikatorsprawdzenia eq null or wpis1.vies.uwagi ne null ? 'color: red;':'color: green;'}">
                         </h:outputText>
-                    </p:column>
+                    </p:column>-->
                      <p:column id="del" style="width: 30px; text-align: center;">  
                          <p:commandButton icon="fa fa-trash" actionListener="#{vatUeFKView.usunpozycje(wpis1)}" update="@parent:@parent"/>
                     </p:column>

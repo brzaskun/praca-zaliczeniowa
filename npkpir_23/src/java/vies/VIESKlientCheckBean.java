@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template 7file, choose Tools | Templates
  * and open the template in the editor.
  */
 package vies;
@@ -10,6 +10,7 @@ import entity.Klienci;
 import entity.Podatnik;
 import entity.Uz;
 import entity.VatUe;
+import entity.Vieskontrahent;
 import error.E;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -36,41 +37,47 @@ import viesapi.ViesVatRegistration;
  *
  * @author Osito
  */
-public class VIESCheckBean {
+public class VIESKlientCheckBean {
     
-    public static boolean sprawdz(List klienciWDTWNT, ViesDAO viesDAO, Podatnik podatnik, Uz wprowadzil)  {
-        boolean zwrot = true;
+    public static List<Vieskontrahent> sprawdz(List<VatUe> klienciWDTWNT, ViesDAO viesDAO, Podatnik podatnik, Uz wprowadzil)  {
+        List<Vieskontrahent> viesy = Collections.synchronizedList(new ArrayList<>());
         if (klienciWDTWNT != null) {
-            List<Vies> viesy = Collections.synchronizedList(new ArrayList<>());
+            int i = 0;
              for (Iterator it = klienciWDTWNT.iterator(); it.hasNext();) {
-                 VatUe p = (VatUe) it.next();
-                 String kraj = p.getKontrahentwyborKraj();
-                 String nip = p.getKontrahentwyborNIP();
-                 if (nip!=null && (p.getVies()==null ||!p.getVies().isWynik())) {
-                     boolean jestprefix = sprawdznip(nip);
-                     if (jestprefix) {
-                         nip = nip.substring(2).trim();
-                     }
-                     Vies v = null;
-                     try {
-                         v = VIESCheckBean.pobierzAPI(kraj, nip, podatnik, wprowadzil);
-                         p.setVies(v);
-                         v.setVatue(p);
-                     } catch (SocketTimeoutException se) {
-                         zwrot = false;
-                         E.e(se);
-                         break;
-                     } catch (Exception e) {
-                         E.e(e);
-                         zwrot = false;
-                     }
-                     if (v != null) {
-                         viesy.add(v);
-                     }
+                 VatUe vatuebiezacy = (VatUe) it.next();
+                 if (vatuebiezacy.getVieskontrahent()==null||vatuebiezacy.getVieskontrahent().isStatus()==false) {
+                    String kraj = vatuebiezacy.getKontrahentkraj();
+                    String nip = vatuebiezacy.getKontrahentnip();
+                    if (nip!=null) {
+                        boolean jestprefix = sprawdznip(nip);
+                        if (jestprefix) {
+                            nip = nip.substring(2).trim();
+                        }
+                        Vieskontrahent v = null;
+                        try {
+                            v = VIESKlientCheckBean.pobierzAPI(kraj, nip);
+                            v.setNip(nip);
+                            v.ustawRokMcTydzien();
+                            v.setData(new Date());
+                        } catch (SocketTimeoutException se) {
+                            E.e(se);
+                            break;
+                        } catch (Exception e) {
+                            E.e(e);
+                        }
+                        if (v != null) {
+                            viesy.add(v);
+                            vatuebiezacy.setVieskontrahent(v);
+                        }
+                    }
                  }
+                 i++;
+                 if (i>1000) {
+                    break;
+             }
              }
         }
-        return zwrot;
+        return viesy;
     }
     
     public static List<Vies> sprawdzViesAuto(List klienciWDTWNT, Podatnik podatnik, Uz wprowadzil)  {
@@ -145,6 +152,23 @@ public class VIESCheckBean {
             nip = nip.substring(2).trim();
         }
         zwrot = Vies2.checkVatApproxSimpl(kraj, nip);
+        return zwrot;
+    }
+    
+     private static Vieskontrahent pobierzAPI(String kraj, String nip) throws SocketTimeoutException {
+        Vieskontrahent zwrot = new Vieskontrahent();
+        if (kraj.equals("GR")) {
+            kraj = "EL";
+        }
+        ViesVatRegistration table = Vies2.checkVatApproxSimpl(kraj, nip);
+        if (table != null) {
+            zwrot.setData(table.getRequestDate());
+            zwrot.setStatus(table.isValid());
+            zwrot.setKraj(kraj);
+            zwrot.setIdentyfikatorsprawdzenia(table.getIdentifier());
+        } else {
+            zwrot =  null;
+        }
         return zwrot;
     }
     

@@ -13,6 +13,7 @@ import dao.KlientJPKDAO;
 import dao.PodatnikDAO;
 import dao.VatuepodatnikDAO;
 import dao.ViesDAO;
+import dao.VieskontrahentDAO;
 import dao.WalutyDAOfk;
 import data.Data;
 import deklaracje.vatue.m4.VATUEM4Bean;
@@ -27,6 +28,7 @@ import entity.Klienci;
 import entity.KlientJPK;
 import entity.Podatnik;
 import entity.VatUe;
+import entity.Vieskontrahent;
 import entityfk.Dokfk;
 import entityfk.Waluty;
 import error.E;
@@ -40,6 +42,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -54,7 +57,7 @@ import pdffk.PdfVIES;
 import pl.gov.crd.wzor._2020._07._03._9689.VATUEKM5Bean;
 import pl.gov.crd.wzor._2020._07._03._9690.VATUEM5Bean;
 import plik.Plik;
-import vies.VIESCheckBean;
+import vies.VIESKlientCheckBean;
 import vies.Vies;
 import waluty.Z;
 import xml.XMLValid;
@@ -92,6 +95,8 @@ public class VatUeFKView implements Serializable {
     private PodatnikDAO podatnikDAO;
     @Inject
     private ViesDAO viesDAO;
+    @Inject
+    private VieskontrahentDAO vieskontrahentDAO;
     @Inject
     private KlienciDAO klienciDAO;
      @Inject
@@ -238,6 +243,7 @@ public class VatUeFKView implements Serializable {
             } catch (Exception e) { 
                 E.e(e); 
             }
+            przejrzyjVieskontrahentzBazy();
             inicjacjabyla = true;
         }
     }
@@ -449,8 +455,10 @@ public class VatUeFKView implements Serializable {
     public void sprawdzVIES() {
        try {
         boolean zwrot = true;
-        zwrot = VIESCheckBean.sprawdz(klienciWDTWNT, viesDAO, wpisView.getPodatnikObiekt(), wpisView.getUzer());
+       edytujVieskontrahentzBazy();
+        List<Vieskontrahent> listanowych = VIESKlientCheckBean.sprawdz(klienciWDTWNT, viesDAO, wpisView.getPodatnikObiekt(), wpisView.getUzer());
         if (zwrot) {
+            vieskontrahentDAO.createEditList(listanowych);
             Msg.msg("Sprawdzono VIES");
         } else {
             Msg.msg("e","Problem z NIP-em. Przerwano sprawdzanie VIES. Przejrzyj niesprawdzone pozycje");
@@ -459,6 +467,58 @@ public class VatUeFKView implements Serializable {
            E.e(e);
        }
     }
+    
+    private void edytujVieskontrahentzBazy() {
+        String rok = Data.aktualnyRok();
+        String mc = Data.aktualnyMc();
+        String tydzien = Data.aktualnyTydzien();
+        List<Vieskontrahent> listastarych = vieskontrahentDAO.findByRokMcTyd(rok, mc, tydzien);
+        List<Vieskontrahent> listadousuniecia = new ArrayList<>();
+        for (Vieskontrahent p: listastarych) {
+            if (p.getIdentyfikatorsprawdzenia()!=null&&p.isStatus()==false) {
+                Optional<VatUe> findFirst = klienciWDTWNT.stream().filter(r->r.getKontrahentnip().equals(p.getNip())).findFirst();
+                if (findFirst.isPresent()) {
+                    VatUe staryue = findFirst.get();
+                    staryue.setVieskontrahent(null);
+                    listadousuniecia.add(p);
+                }
+            }
+        }
+        if (listadousuniecia.isEmpty()==false) {
+            vieskontrahentDAO.removeList(listadousuniecia);
+        }
+    }
+    
+    private void przejrzyjVieskontrahentzBazy() {
+        String rok = Data.aktualnyRok();
+        String mc = Data.aktualnyMc();
+        String tydzien = Data.aktualnyTydzien();
+        List<Vieskontrahent> listastarych = vieskontrahentDAO.findByRokMcTyd(rok, mc, tydzien);
+        for (Vieskontrahent p: listastarych) {
+            if (p.isStatus()) {
+                Optional<VatUe> findFirst = klienciWDTWNT.stream().filter(r->r.getKontrahentnip().equals(p.getNip())).findFirst();
+                if (findFirst.isPresent()) {
+                    VatUe staryue = findFirst.get();
+                    staryue.setVieskontrahent(p);
+                }
+            }
+        }
+    }
+    
+    
+//     public void sprawdzVIES() {
+//       try {
+//        boolean zwrot = true;
+//        zwrot = VIESCheckBean.sprawdz(klienciWDTWNT, viesDAO, wpisView.getPodatnikObiekt(), wpisView.getUzer());
+//        if (zwrot) {
+//            Msg.msg("Sprawdzono VIES");
+//        } else {
+//            Msg.msg("e","Problem z NIP-em. Przerwano sprawdzanie VIES. Przejrzyj niesprawdzone pozycje");
+//        }
+//       } catch (Exception e) {
+//           E.e(e);
+//       }
+//    }
    
     public void drukujVIES() {
         try {

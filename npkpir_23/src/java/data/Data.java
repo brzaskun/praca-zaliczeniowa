@@ -11,10 +11,13 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.time.temporal.WeekFields;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.inject.Named;
@@ -246,6 +249,13 @@ public class Data implements Serializable {
             zwrot = formattedDate.split("-")[1];
         }
         return zwrot;
+    }
+    
+    public static String aktualnyTydzien() {
+        String zwrot = "błąd";
+        LocalDate date = LocalDate.now();
+        int weekOfYear = date.get(WeekFields.of(new Locale("pl", "PL")).weekOfYear());
+        return String.valueOf(weekOfYear);
     }
     public static String poprzedniMc() {
         String zwrot = "błąd";

@@ -94,11 +94,20 @@ public class Vies2 {
 //            String faultKey = fault.getFaultString();
             //String faultMessage = "vies.fault." + faultKey;
             res.setValid(false);
-            res.setUwagi("uzupełnij kod");
+            res.setUwagi("Bład komunikacji z serwerem");
+            String localizedMessage = ex.getLocalizedMessage();
+            if (localizedMessage.contains("MS_UNAVAILABLE ")) {
+                res.setUwagi("Serwer nieczynny");
+            } else if (localizedMessage.contains("MS_MAX_CONCURRENT")) {
+                res.setUwagi("Za dużo zapytań na raz");
+            } else if (localizedMessage.contains("MS_UNAVAILABLE")) {
+                res.setUwagi("Serwer odmówił logowania");
+            }
+            res.setKodbledu(ex.getLocalizedMessage());
         }  catch (WebServiceException ex) {
             //LOG.error("{}-{} lookup failed", countryCode, vatNumber, ex);
             res.setValid(false);
-            res.setUwagi("błąd programu");
+            res.setUwagi("Błąd wysyłania danych na serwer");
         }
 
         if (valid.value!=null && valid.value==true) {

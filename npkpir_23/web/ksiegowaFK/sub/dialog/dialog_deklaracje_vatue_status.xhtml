@@ -6,8 +6,8 @@
     xmlns:f="http://java.sun.com/jsf/core"
     >
 
-    <p:dialog id="dialog_deklaracje_vatue_status" header="Sporządzanie i wysłanie deklaracji VAT-UE" widgetVar="dialog_deklaracje_vatue_status"  appendTo="@(body)" modal="true"
-              resizable="false" onShow="ustawdialog('dialog_deklaracje_vatue_status','menurejestry', 1450, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_deklaracje_vatue_status');"  >
+    <p:dialog id="dialog_deklaracje_vatue_status" header="Sporządzanie i wysłanie deklaracji VAT-UE" widgetVar="dialog_deklaracje_vatue_status"  appendTo="@(body)" 
+              resizable="false" onShow="ustawdialog('dialog_deklaracje_vatue_status','menurejestry', 1550, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_deklaracje_vatue_status');"  >
         <p:ajax event="open" listener="#{vatUeFKView.init()}" update="akordeon2"/>
         <p:panel style="height: 600px;">
             

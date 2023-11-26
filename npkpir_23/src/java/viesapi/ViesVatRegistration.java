@@ -20,6 +20,7 @@ public class ViesVatRegistration {
     private boolean valid;
     private String identifier;
     private String uwagi;
+    private String kodbledu;
 
     public String getCountry() {
         return country;
@@ -85,6 +86,15 @@ public class ViesVatRegistration {
         this.uwagi = uwagi;
     }
 
+    public String getKodbledu() {
+        return kodbledu;
+    }
+
+    public void setKodbledu(String kodbledu) {
+        this.kodbledu = kodbledu;
+    }
+
+    
     
     
     @Override

@@ -105,6 +105,7 @@ public class Klienci extends KlienciSuper implements Serializable {
     private String polecajacy;
     @Transient
     private boolean aktywny;
+
     
     
 
@@ -178,7 +179,7 @@ public class Klienci extends KlienciSuper implements Serializable {
         this.npelna = p.getNazwaKontrahenta();
         this.nskrocona = p.getNazwaKontrahentaShort();
     }
-    
+
     
     
     

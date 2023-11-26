@@ -38,6 +38,8 @@ public class VatUe extends VatSuper implements Serializable{
     @OneToOne(mappedBy = "vatue", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     protected Vies vies;
     @Transient
+    protected Vieskontrahent vieskontrahent;
+    @Transient
     private String poprzedninip;
 
     
@@ -129,6 +131,15 @@ public class VatUe extends VatSuper implements Serializable{
         }   
         return zwrot;
     }
+
+    public Vieskontrahent getVieskontrahent() {
+        return vieskontrahent;
+    }
+
+    public void setVieskontrahent(Vieskontrahent vieskontrahent) {
+        this.vieskontrahent = vieskontrahent;
+    }
+    
     
     public String getKontrahentwyborKraj() {
         String zwrot = this.kontrahentkraj;

@@ -613,7 +613,8 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 String opodatkowanie = row.get("TAXABLE_JURISDICTION");
                 klientJPK.setJurysdykcja(opodatkowanie);
                 String nip = row.get("BUYER_VAT_NUMBER");
-                klientJPK.setNazwaKontrahenta("brak");
+                String buyername = row.get("BUYER_NAME");
+                klientJPK.setNazwaKontrahenta(buyername!=null?buyername:"brak");
                 klientJPK.setKodKrajuNadania(krajwysylki);
                 klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
                 klientJPK.setNrKontrahenta(nip);

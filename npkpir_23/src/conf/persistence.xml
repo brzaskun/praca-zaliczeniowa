@@ -110,6 +110,7 @@
     <class>entity.Uz</class>
     <class>entity.Vat27</class>
     <class>entity.VATDeklaracjaKorektaDok</class>
+    <class>entity.Vieskontrahent</class>
     <class>entity.VatUe</class>
     <class>entity.VATZDpozycja</class>
     <class>entity.WierszDRA</class>
