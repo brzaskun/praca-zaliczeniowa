@@ -9,6 +9,7 @@ import embeddable.Mce;
 import embeddable.STRtabela;
 import embeddablefk.SaldoKonto;
 import entity.Rodzajedok;
+import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.PozycjaRZiSBilans;
 import error.E;
@@ -279,6 +280,42 @@ public class WriteXLSFile {
         insertPrintHeader(sheet, wpisView);
         int rowIndex = 0;
         rowIndex = drawATable(workbook, sheet, rowIndex, headersList, rodzajedok, "Rodzajedok", 1, "rodzajedok");
+        workbook.setPrintArea(
+        0, //sheet index
+        0, //start column
+        3, //end column
+        0, //start row
+        rowIndex //end row
+        );
+      //set paper size
+        sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+        sheet.setFitToPage(true);
+        //write this workbook in excel file.
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String FILE_PATH = realPath+FILE_PATH1;
+        try {
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
+            workbook.write(fos);
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return workbook;
+    }
+    
+    public static Workbook zachowajKontrahencikXLS(Map<String, List> listy, WpisView wpisView){
+        List rodzajedok = listy.get("kontrahenci");
+        List headersList = kontrahenci();
+        // Using XSSF for xlsx format, for xls use HSSF
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Kontrahenci");
+        insertPrintHeader(sheet, wpisView);
+        int rowIndex = 0;
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersList, rodzajedok, "Kontrahenci", 1, "kontrahenci");
         workbook.setPrintArea(
         0, //sheet index
         0, //start column
@@ -595,6 +632,14 @@ public class WriteXLSFile {
         return headers;
     }
     
+    public static List kontrahenci() {
+        List headers = new ArrayList();
+        headers.add("lp");
+        headers.add("nazwa");
+        headers.add("nip");
+        return headers;
+    }
+    
     private static <T> int drawATableZorin(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT> elements, String tableheader, int typ, String nazwasumy) {
         int startindex = rowIndex+3;
         int columnIndex = 0;
@@ -846,7 +891,12 @@ public class WriteXLSFile {
             createTextCell(styletext, row, (short) columnIndex++, st.getSkrot());
             createTextCell(styletext, row, (short) columnIndex++, st.getNazwa());
             createTextCell(styletext, row, (short) columnIndex++, st.getDe());
-        }   else if (c.getName().equals("entityfk.PozycjaBilans")||c.getName().equals("entityfk.PozycjaRZiS")) {
+        } else if (c.getName().contains("Kliencifk")) {
+            Kliencifk st = (Kliencifk) ob;
+            createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));
+            createTextCell(styletext, row, (short) columnIndex++, st.getNazwa());
+            createTextCell(styletext, row, (short) columnIndex++, st.getNip());
+        }    else if (c.getName().equals("entityfk.PozycjaBilans")||c.getName().equals("entityfk.PozycjaRZiS")) {
             PozycjaRZiSBilans st = (PozycjaRZiSBilans) ob;
             createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));
             createTextCell(styletext, row, (short) columnIndex++, String.valueOf(st.getLp()));

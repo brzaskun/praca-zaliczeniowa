@@ -8,7 +8,7 @@
     <p:dialog id="dialog_kliencifk_lista" header="Przyporządkowanie klientów do kont - lista" widgetVar="dialog_kliencifk_lista" 
               resizable="false"  onShow="ustawdialog('dialog_kliencifk_lista','menukartoteki',1200,600);" closeOnEscape="true" onHide="resetujdialog('dialog_kliencifk_lista');" >
         <h:form id="kliencifkform">
-            <p:panelGrid columns="5" >
+            <p:panelGrid columns="6" >
                 <h:outputText value="nowa nazwa klientafk "/>
                 <p:inputText id="nazwaklientafk" value="#{kliencifkView.selected.nazwa}" style="width: 250px; margin-left: 5px; margin-right: 5px;"/>
                 <h:outputText value="nowy nip klientafk "/>
@@ -18,6 +18,7 @@
             </p:panelGrid>
         </h:form>
         <h:form id="kliencifkformLista">
+             <p:commandButton id="xlsbutton"  value="dane w formacie XLS" actionListener="#{xlsKontrahenciView.zachowajwXLS(kliencifkView.listawszystkichklientowFk)}" style="width: 120px;" global="false" ajax="false"/>
             <p:dataTable id="infokonta" value="#{kliencifkView.listawszystkichklientowFk}" var="item"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
                          style="margin-top: 1%; width: 1050px;" 
                          scrollable="true" scrollHeight="400" 
@@ -28,22 +29,22 @@
                 <f:facet name="header">
                     <h:outputText value="Wykaz przyporządkowanych kont"/>
                 </f:facet>
-                <p:column headerText="lp" sortBy="#{item.nrkonta}" style="width: 30px;" >
+                <p:column headerText="lp" sortBy="#{item.nrkonta}" style="width: 30px;" exportable="true">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
-                <p:column headerText="nazwa" sortBy="#{item.nazwa}" filterBy="#{item.nazwa}" filterMatchMode="contains" style="width: 400px;" filterStyle="width:300px;">
+                <p:column headerText="nazwa" sortBy="#{item.nazwa}" filterBy="#{item.nazwa}" filterMatchMode="contains" style="width: 400px;" filterStyle="width:300px;" exportable="true">
                     <h:outputText value="#{item.nazwa}"/>
                 </p:column>
-                <p:column headerText="nip" sortBy="#{item.nip}" filterBy="#{item.nip}" filterMatchMode="startsWith" style="width: 120px;">
+                <p:column headerText="nip" sortBy="#{item.nip}" filterBy="#{item.nip}" filterMatchMode="startsWith" style="width: 120px;" exportable="true">
                     <h:outputText value="#{item.nip}"/>
                 </p:column>
-                <p:column headerText="dod.symbol" sortBy="#{item.banksymbol}" filterBy="#{item.banksymbol}" filterMatchMode="startsWith" style="width: 150px;">
+                <p:column headerText="dod.symbol" sortBy="#{item.banksymbol}" filterBy="#{item.banksymbol}" filterMatchMode="startsWith" style="width: 150px;"  exportable="true">
                     <h:outputText value="#{item.banksymbol}"/>
                 </p:column>
-                <p:column headerText="edytuj" style="text-align: center; width: 70px;">
+                <p:column headerText="edytuj" style="text-align: center; width: 70px;"  exportable="false">
                     <p:commandButton icon="ui-icon-comment" actionListener="#{kliencifkView.edytuj(item)}" update=":kliencifkform :kliencifkformLista" global="false"/>
                 </p:column>
-                <p:column headerText="usuń" style="text-align: center; width: 70px;">
+                <p:column headerText="usuń" style="text-align: center; width: 70px;" exportable="false">
                     <p:commandButton icon="ui-icon-trash" actionListener="#{kliencifkView.remove(item)}" update=":kliencifkform :kliencifkformLista"/>
                 </p:column>
             </p:dataTable>
