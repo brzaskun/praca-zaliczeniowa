@@ -325,8 +325,12 @@ public class Jpk_VAT2NView implements Serializable {
         duplikujjpkwnt(kliencijpk);
         if (bledy.size()==0 && (wiersze!=null||kliencijpk!=null)) {
             String[] sciezka = generujXML(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
-            String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
-            PrimeFaces.current().executeScript(polecenie);
+            if (sciezka[2]!=null) {
+                Msg.msg("e",sciezka[2]);
+            } else if (sciezka[0]!=null){
+                String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
+                PrimeFaces.current().executeScript(polecenie);
+            }
         } else if (wiersze==null) {
            Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
@@ -1175,70 +1179,74 @@ public class Jpk_VAT2NView implements Serializable {
     
     
     public String[] generujXML(List<KlientJPK> kliencijpk, List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
-        String[] zwrot = new String[2];
+        String[] zwrot = new String[3];
         JPKSuper jpk = genJPK(kliencijpk, wiersze, podatnik, nowa0korekta1);
         String sciezka = null;
-        try {
-            sciezka = marszajuldoplikuxml(podatnik, jpk);
-            zwrot[0] = sciezka;
-            zwrot[1] = "ok";
-            if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
-                pl.gov.crd.wzor._2021._12._27._11148.JPK jpk2 = (pl.gov.crd.wzor._2021._12._27._11148.JPK) jpk;
-                String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
-                    Object[] walidacja = XMLValid.walidujJPK2022View(mainfilename,0, jpk2.getNaglowek().getKodFormularza().getWersjaSchemy());
-                    if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
-                        zwrot[0] = sciezka;
-                        zwrot[1] = "ok";
-                        Msg.msg("Walidacja JPK pomyślna");
-                    } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
-                        zwrot[0] = sciezka;
-                        zwrot[1] = null;
-                        Msg.msg("e", (String) walidacja[1]);
-                    }
-            } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
-                pl.gov.crd.wzor._2021._12._27._11149.JPK jpk2 = (pl.gov.crd.wzor._2021._12._27._11149.JPK) jpk;
-                String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
-                    Object[] walidacja = XMLValid.walidujJPK2022View(mainfilename,1, jpk2.getNaglowek().getKodFormularza().getWersjaSchemy());
-                    if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
-                        zwrot[0] = sciezka;
-                        zwrot[1] = "ok";
-                        Msg.msg("Walidacja JPK pomyślna");
-                    } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
-                        zwrot[0] = sciezka;
-                        zwrot[1] = null;
-                        Msg.msg("e", (String) walidacja[1]);
-                    }
-            } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
-                pl.gov.crd.wzor._2020._05._08._9393.JPK jpk2 = (pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk;
-                String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
-                    Object[] walidacja = XMLValid.walidujJPK2020View(mainfilename,0, jpk2.getNaglowek().getKodFormularza().getWersjaSchemy());
-                    if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
-                        zwrot[0] = sciezka;
-                        zwrot[1] = "ok";
-                        Msg.msg("Walidacja JPK pomyślna");
-                    } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
-                        zwrot[0] = sciezka;
-                        zwrot[1] = null;
-                        Msg.msg("e", (String) walidacja[1]);
-                    }
-            } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
-                pl.gov.crd.wzor._2020._05._08._9394.JPK jpk2 = (pl.gov.crd.wzor._2020._05._08._9394.JPK) jpk;
-                String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
-                    Object[] walidacja = XMLValid.walidujJPK2020View(mainfilename,1, jpk2.getNaglowek().getKodFormularza().getWersjaSchemy());
-                    if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
-                        zwrot[0] = sciezka;
-                        zwrot[1] = "ok";
-                        Msg.msg("Walidacja JPK pomyślna");
-                    } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
-                        zwrot[0] = sciezka;
-                        zwrot[1] = null;
-                        Msg.msg("e", (String) walidacja[1]);
-                    }
+        if (jpk!=null) {
+            try {
+                sciezka = marszajuldoplikuxml(podatnik, jpk);
+                zwrot[0] = sciezka;
+                zwrot[1] = "ok";
+                if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
+                    pl.gov.crd.wzor._2021._12._27._11148.JPK jpk2 = (pl.gov.crd.wzor._2021._12._27._11148.JPK) jpk;
+                    String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+                        Object[] walidacja = XMLValid.walidujJPK2022View(mainfilename,0, jpk2.getNaglowek().getKodFormularza().getWersjaSchemy());
+                        if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
+                            zwrot[0] = sciezka;
+                            zwrot[1] = "ok";
+                            Msg.msg("Walidacja JPK pomyślna");
+                        } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
+                            zwrot[0] = sciezka;
+                            zwrot[1] = null;
+                            Msg.msg("e", (String) walidacja[1]);
+                        }
+                } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
+                    pl.gov.crd.wzor._2021._12._27._11149.JPK jpk2 = (pl.gov.crd.wzor._2021._12._27._11149.JPK) jpk;
+                    String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+                        Object[] walidacja = XMLValid.walidujJPK2022View(mainfilename,1, jpk2.getNaglowek().getKodFormularza().getWersjaSchemy());
+                        if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
+                            zwrot[0] = sciezka;
+                            zwrot[1] = "ok";
+                            Msg.msg("Walidacja JPK pomyślna");
+                        } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
+                            zwrot[0] = sciezka;
+                            zwrot[1] = null;
+                            Msg.msg("e", (String) walidacja[1]);
+                        }
+                } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                    pl.gov.crd.wzor._2020._05._08._9393.JPK jpk2 = (pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk;
+                    String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+                        Object[] walidacja = XMLValid.walidujJPK2020View(mainfilename,0, jpk2.getNaglowek().getKodFormularza().getWersjaSchemy());
+                        if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
+                            zwrot[0] = sciezka;
+                            zwrot[1] = "ok";
+                            Msg.msg("Walidacja JPK pomyślna");
+                        } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
+                            zwrot[0] = sciezka;
+                            zwrot[1] = null;
+                            Msg.msg("e", (String) walidacja[1]);
+                        }
+                } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
+                    pl.gov.crd.wzor._2020._05._08._9394.JPK jpk2 = (pl.gov.crd.wzor._2020._05._08._9394.JPK) jpk;
+                    String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+                        Object[] walidacja = XMLValid.walidujJPK2020View(mainfilename,1, jpk2.getNaglowek().getKodFormularza().getWersjaSchemy());
+                        if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
+                            zwrot[0] = sciezka;
+                            zwrot[1] = "ok";
+                            Msg.msg("Walidacja JPK pomyślna");
+                        } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
+                            zwrot[0] = sciezka;
+                            zwrot[1] = null;
+                            Msg.msg("e", (String) walidacja[1]);
+                        }
+                }
+                Msg.msg("Wygenerowano plik JPK");
+            } catch(Exception e) {
+                Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
+                E.e(e);
             }
-            Msg.msg("Wygenerowano plik JPK");
-        } catch(Exception e) {
-            Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
-            E.e(e);
+        } else {
+            zwrot[2] = "Nie udało się wygenerować pliku JPK";
         }
         return zwrot;
     }
@@ -1423,6 +1431,8 @@ public class Jpk_VAT2NView implements Serializable {
     private Object[] utworzWierszeJpkSprzedaz2020M2(List<KlientJPK> kliencijpk, List wiersze, Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
         Object[] zwrot = new Object[2];
         zwrot[0] = Collections.synchronizedList(new ArrayList<>());
+        int i = 0;
+        int j = 0;
         if (wiersze.size() >0) {
             Class c = wiersze.get(0).getClass();
             List<pl.gov.crd.wzor._2021._12._27._11148.JPK.Ewidencja.SprzedazWiersz> lista = Collections.synchronizedList(new ArrayList<>());
@@ -1434,6 +1444,8 @@ public class Jpk_VAT2NView implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpis1 wiersz = (EVatwpis1) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        System.out.println(i+" "+"wiersz "+wiersz.getNrWlDk()+" "+wiersz.getDok().getDataWyst());
+                        i++;
                         lista.add(JPK_VAT2020M2_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
@@ -1455,6 +1467,8 @@ public class Jpk_VAT2NView implements Serializable {
             if (kliencijpk!=null&& !kliencijpk.isEmpty()) {
                 for (KlientJPK p : kliencijpk) {
                      if (!p.getEwidencjaVAT().get(0).getEwidencja().getTypewidencji().equals("z") && (Z.z(p.getNetto()) != 0.0 || Z.z(p.getVat()) != 0.0)) {
+                         System.out.println(j+" "+"wiersz "+p.getSerial()+" "+p.getDataSprzedazy());
+                         j++;
                         lista.add(JPK_VAT2020M2_Bean.dodajwierszsprzedazy(p, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(p.getEwidencjaVAT().get(0).getEwidencja())));
                      } else {
                          System.out.println("");

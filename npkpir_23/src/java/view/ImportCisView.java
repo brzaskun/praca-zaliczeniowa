@@ -226,7 +226,8 @@ public class ImportCisView  implements Serializable {
            Klienci inc = new Klienci();
            inc.setNpelna(wiersz.getBuyer_name());
            inc.setNskrocona(wiersz.getBuyer_name());
-           inc.setAdresincydentalny(pobierzadres(wiersz));
+           inc.setAdresincydentalny(pobierzadres(wiersz)); 
+           inc.setKrajkod(wiersz.getBuyer_iso_kod());
            return inc;
         } else {
             Klienci klientznaleziony = klDAO.findKlientByNipImport(nrKontrahenta);
@@ -336,7 +337,7 @@ public class ImportCisView  implements Serializable {
                         dokDAO.create(p);
                         i++;
                     } else {
-                        if (p.getVat()!=0) {
+                        if (p.getVat()!=0 && p.getKontr().getKrajkod()!=null && p.getKontr().getKrajkod().equals("PL")) {
                             p.setNrWpkpir(j++);
                             polskaprywatne.add(p);
                         } else {
