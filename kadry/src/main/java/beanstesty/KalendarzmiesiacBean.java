@@ -7,7 +7,7 @@ package beanstesty;
 
 import comparator.KalendarzmiesiacLastcomparator;
 import comparator.KalendarzmiesiacRMcomparator;
-import comparator.ZmiennaWynagrodzeniacomparator;
+import comparator.ZmiennaWynagrodzeniaDownUpcomparator;
 import data.Data;
 import embeddable.Mce;
 import entity.Definicjalistaplac;
@@ -783,17 +783,30 @@ public class KalendarzmiesiacBean {
         double skladnikistale = 0.0;
         double sredniadopodstawystale = 0.0;
         List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
-        Collections.sort(zmiennawynagrodzeniaList, new ZmiennaWynagrodzeniacomparator());
+        Collections.sort(zmiennawynagrodzeniaList, new ZmiennaWynagrodzeniaDownUpcomparator());
+        String dataodzmiennej = null;
+        String datadozmiennej = null;
         for (Zmiennawynagrodzenia zmiennawynagrodzenia : zmiennawynagrodzeniaList) {
                 double dniroboczezm = 0.0;
                 int dzienodzmienna = DataBean.dataod(zmiennawynagrodzenia.getDataod(), kalendarz.getRok(), kalendarz.getMc());
                 int dziendozmienna = DataBean.datado(zmiennawynagrodzenia.getDatado(), kalendarz.getRok(), kalendarz.getMc());
                 if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), zmiennawynagrodzenia.getDataod(), zmiennawynagrodzenia.getDatado())) {
-                     if (Data.czyjestpo(dataod, zmiennawynagrodzenia.getDataod())) {
-                        dataod = zmiennawynagrodzenia.getDataod();
+                     if (dataodzmiennej==null || Data.czyjestpo(zmiennawynagrodzenia.getDataod(),dataodzmiennej)) {
+                         if (Data.czyjestpo(zmiennawynagrodzenia.getDataod(),dataod)) {
+                             dataodzmiennej = dataod;
+                         } else {
+                            dataodzmiennej = zmiennawynagrodzenia.getDataod();
+                         }
                     }
-                    if (Data.czyjestprzed(datado, zmiennawynagrodzenia.getDatado())) {
-                        datado = zmiennawynagrodzenia.getDatado();
+                    if (datadozmiennej==null || Data.czyjestprzed(zmiennawynagrodzenia.getDatado(),datadozmiennej)) {
+                        if (Data.czyjestprzed(zmiennawynagrodzenia.getDatado(),datado)) {
+                            datadozmiennej = datado;
+                        } else {
+                            datadozmiennej = zmiennawynagrodzenia.getDatado();
+                        }
+                    }
+                    if (zmiennawynagrodzenia.getDatado().equals("")) {
+                        datadozmiennej = datado;
                     }
                     skladnikistale = zmiennawynagrodzenia.getKwota();
                     for (Dzien s : kalendarz.getDzienList()) {
