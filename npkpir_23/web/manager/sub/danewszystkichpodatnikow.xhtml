@@ -61,7 +61,7 @@
                  <h:outputText value="#{podatnik.ulica} #{podatnik.nrdomu}" rendered="#{podatnik.nrlokalu eq null or podatnik.nrlokalu eq '' or podatnik.nrlokalu eq '-'}"/>
              </p:panelGrid>
         </p:column>
-        <p:column width="40" headerText="podmiot aktywny" style="text-align: center;">
+        <p:column width="40" headerText="podmiot aktywny" style="text-align: center;" sortBy="#{podatnik.podmiotaktywny}" filterBy="#{podatnik.podmiotaktywny}">
             <p:selectBooleanCheckbox value="#{podatnik.podmiotaktywny}">
                 <p:ajax event="change" partialSubmit="true" listener="#{podatnicyView.edytuj(podatnik)}"/>
             </p:selectBooleanCheckbox>
