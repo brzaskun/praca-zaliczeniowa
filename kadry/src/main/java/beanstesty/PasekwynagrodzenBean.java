@@ -650,8 +650,11 @@ public class PasekwynagrodzenBean {
                 } else {
                     bruttokraj = Z.z(bruttokraj + p.getKwotadolistyplac());
                 }
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isZus0bezzus1()==false) {
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSpoleczna0bezspolecznej1()==false) {
                     przychodyzus51 = Z.z(przychodyzus51+p.getKwotadolistyplac());
+                } 
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isZdrowotna0bezzdrowotnej()==false) {
+                    przychodyzus52 = Z.z(przychodyzus52+p.getKwotadolistyplac());
                 }
             }
             brutto = Z.z(brutto+p.getKwotadolistyplac());
