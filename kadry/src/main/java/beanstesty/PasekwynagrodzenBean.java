@@ -669,6 +669,7 @@ public class PasekwynagrodzenBean {
             }
             if (p.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy()==false) {
                 przychodyzus51 = Z.z(przychodyzus51+p.getKwotazus());
+                przychodyzus52 = Z.z(przychodyzus52+p.getKwotazus());
             }
             if (p.getNieobecnosc().getSwiadczeniekodzus() != null && p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()&& p.getNieobecnosc().getSwiadczeniekodzus().isSpoleczne()==false) {
                 przychodyzus52 = Z.z(przychodyzus52 + p.getKwotabezzus());
