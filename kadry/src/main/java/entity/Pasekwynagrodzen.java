@@ -1523,6 +1523,10 @@ public class Pasekwynagrodzen implements Serializable {
         return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isPraca();
     }
     
+    public boolean isFunkcja() {
+        return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja();
+    }
+    
     public boolean isZlecenie() {
         return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie();
     }

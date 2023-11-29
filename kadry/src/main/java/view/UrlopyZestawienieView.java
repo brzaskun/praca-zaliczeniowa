@@ -130,7 +130,7 @@ public class UrlopyZestawienieView  implements Serializable {
             findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
             findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
             String nazwa = wpisView.getFirma().getNip() + "urlopyZest" + wpisView.getRokWpisu() + ".pdf";
-            mail.Mail.mailUrlopy(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), "info@taxman.biz.pl", null, findSprawaByDef, dra.toByteArray(), nazwa, wpisView.getUzer().getEmail());
+            mail.Mail.mailUrlopy(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, dra.toByteArray(), nazwa, wpisView.getUzer().getEmail());
             Msg.msg("Wysłano listę płac do pracodawcy");
         } else {
             Msg.msg("e", "Błąd dwysyki DRA");

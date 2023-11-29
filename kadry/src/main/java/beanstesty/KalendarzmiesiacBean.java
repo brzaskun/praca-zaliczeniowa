@@ -339,8 +339,8 @@ public class KalendarzmiesiacBean {
                         if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() > 0.0) {
                             pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                         }
-                    } else if (p.getRodzajwynagrodzenia().getKod().equals("12")) {
-
+                    } else if (p.getRodzajwynagrodzenia().getKod().equals("50") || p.getRodzajwynagrodzenia().getKod().equals("70")) {
+                    
                     } else {
                         Msg.msg("w", "Nie ma formuły naliczenia składnika wynagrodzenia " + p.getRodzajwynagrodzenia().getOpisskrocony());
                         System.out.println("Nie ma formuly naliczenia skladnika wynagrodzzenia " + p.getRodzajwynagrodzenia().getOpisskrocony());
@@ -351,22 +351,42 @@ public class KalendarzmiesiacBean {
             Msg.msg("e", "Brak zdefiniowanych składników wynagrodzenia");
         }
     }
-
-    static double naliczskladnikiPPKDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor) {
-        double kwotappk = 0.0;
-        for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
-            if (p.getRodzajwynagrodzenia().isTylkosuperplace() == false) {
-                if (p.getRodzajwynagrodzenia().getKod().equals("98")) {
-                    List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBPPK(kalendarz, pasekwynagrodzen, p, kurs);
-                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().addAll(naliczenieskladnikawynagrodzenia);
-                    for (Naliczenieskladnikawynagrodzenia skl : naliczenieskladnikawynagrodzenia) {
-                        kwotappk = Z.z(kwotappk + skl.getKwotadolistyplac());
+    
+    static void naliczskladnikiPPKDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor, Pasekpomocnik sumyprzychodow) {
+        List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
+        if (skladnikwynagrodzeniaList.isEmpty()==false) {
+            skladnikwynagrodzeniaList = skladnikwynagrodzeniaList.stream().filter(p->p.getRodzajwynagrodzenia().isSpecjalny()==false).collect(Collectors.toList());
+            for (Skladnikwynagrodzenia p : skladnikwynagrodzeniaList) {
+                //trzeba usunac tylkospuerplace==true
+                if (p.getRodzajwynagrodzenia().isAktywne()) {
+                    if (p.getRodzajwynagrodzenia().getKod().equals("98")) {
+                        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBPPK(kalendarz, pasekwynagrodzen, p, kurs, sumyprzychodow);
+                        if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() > 0.0) {
+                            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                        } 
                     }
                 }
             }
+        } else {
+            Msg.msg("e", "Brak zdefiniowanych składników wynagrodzenia");
         }
-        return kwotappk;
     }
+
+//    static double naliczskladnikiPPKDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor) {
+//        double kwotappk = 0.0;
+//        for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
+//            if (p.getRodzajwynagrodzenia().isTylkosuperplace() == false) {
+//                if (p.getRodzajwynagrodzenia().getKod().equals("98")) {
+//                    List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBPPK(kalendarz, pasekwynagrodzen, p, kurs);
+//                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().addAll(naliczenieskladnikawynagrodzenia);
+//                    for (Naliczenieskladnikawynagrodzenia skl : naliczenieskladnikawynagrodzenia) {
+//                        kwotappk = Z.z(kwotappk + skl.getKwotadolistyplac());
+//                    }
+//                }
+//            }
+//        }
+//        return kwotappk;
+//    }
 
     static boolean naliczskladnikiwynagrodzeniaDBZlecenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs,
             double zmiennawynagrodzeniakwota, double iloscgodzin, double zmiennawynagrodzeniakwotaodelegowanie, double zmiennawynagrodzeniakwotaodelegowaniewaluta) {
@@ -798,16 +818,16 @@ public class KalendarzmiesiacBean {
                             dataodzmiennej = zmiennawynagrodzenia.getDataod();
                          }
                     }
-                    if (datadozmiennej==null || Data.czyjestprzed(zmiennawynagrodzenia.getDatado(),datadozmiennej)) {
+                    if (zmiennawynagrodzenia.getDatado()==null||zmiennawynagrodzenia.getDatado().equals("")) {
+                        datadozmiennej = datado;
+                    } else if (datadozmiennej==null || Data.czyjestprzed(zmiennawynagrodzenia.getDatado(),datadozmiennej)) {
                         if (Data.czyjestprzed(zmiennawynagrodzenia.getDatado(),datado)) {
                             datadozmiennej = datado;
                         } else {
                             datadozmiennej = zmiennawynagrodzenia.getDatado();
                         }
                     }
-                    if (zmiennawynagrodzenia.getDatado().equals("")) {
-                        datadozmiennej = datado;
-                    }
+                    
                     skladnikistale = zmiennawynagrodzenia.getKwota();
                     for (Dzien s : kalendarz.getDzienList()) {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej

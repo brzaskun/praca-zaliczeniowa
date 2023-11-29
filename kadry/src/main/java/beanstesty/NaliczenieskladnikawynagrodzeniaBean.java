@@ -686,8 +686,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
 ////        zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
 //        return zwrot;
 //    }
-    public static List<Naliczenieskladnikawynagrodzenia> createWynagrodzenieDBPPK(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs) {
-        List<Naliczenieskladnikawynagrodzenia> zwrot = new ArrayList<>();
+    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDBPPK(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs, Pasekpomocnik sumyprzychodow) {
+        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
         double dniroboczewmiesiacu = 0.0;
         double godzinyroboczewmiesiacu = 0.0;
         for (Dzien p : kalendarz.getDzienList()) {
@@ -698,7 +698,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         }
         if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getKod().equals("98")) {
             for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
-                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+                naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
                 naliczenieskladnikawynagrodzenia.setWaluta(r.getWaluta());
                 double liczbazmiennych = 0.0;
                 String datastart = DataBean.dataodString(r.getDataod(), kalendarz.getRok(), kalendarz.getMc());
@@ -708,7 +708,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     liczbazmiennych++;
                 }
                 if (liczbazmiennych > 0) {
-                    double kwotapodstawyzus = pasekwynagrodzen.getPodstawaskladkizus();
+                    double kwotapodstawyzus = sumyprzychodow.getPrzychodyzus51();
                     double ppkpracodawca = Z.z(kwotapodstawyzus*0.015);
                     naliczenieskladnikawynagrodzenia.setDataod(datastart);
                     naliczenieskladnikawynagrodzenia.setDatado(dataend);
@@ -727,12 +727,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     naliczenieskladnikawynagrodzenia.setKwotadolistyplacwaluta(0.0);
                     
                 }
-                if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac()!=0.0) {
-                    zwrot.add(naliczenieskladnikawynagrodzenia);
-                }
             }
         }
-        return zwrot;
+        return naliczenieskladnikawynagrodzenia;
     }
     
     public static List<Naliczenieskladnikawynagrodzenia> createWynagrodzenieDBOddelegowanie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs) {
