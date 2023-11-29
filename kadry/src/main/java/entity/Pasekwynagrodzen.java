@@ -1520,19 +1520,39 @@ public class Pasekwynagrodzen implements Serializable {
     } 
 
     public boolean isPraca() {
-        return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isPraca();
+        boolean zwrot = false;
+        Umowa aktywnaUmowa = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa();
+        if (aktywnaUmowa!=null) {
+            zwrot = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isPraca();
+        }
+        return zwrot;
     }
     
     public boolean isFunkcja() {
-        return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja();
+        boolean zwrot = false;
+        Umowa aktywnaUmowa = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa();
+        if (aktywnaUmowa!=null) {
+            zwrot = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja();
+        }
+        return zwrot;
     }
     
     public boolean isZlecenie() {
-        return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie();
+        boolean zwrot = false;
+        Umowa aktywnaUmowa = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa();
+        if (aktywnaUmowa!=null) {
+            zwrot = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie();
+        }
+        return zwrot;
     }
     
     public boolean isDzielo() {
-        return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isDzielo();
+        boolean zwrot = false;
+        Umowa aktywnaUmowa = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa();
+        if (aktywnaUmowa!=null) {
+            zwrot = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isDzielo();
+        }
+        return zwrot;
     }
     
     public String getKodZus() {
