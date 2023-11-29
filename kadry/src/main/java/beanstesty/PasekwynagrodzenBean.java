@@ -262,8 +262,6 @@ public class PasekwynagrodzenBean {
             double limit26, List<Kalendarzmiesiac> kalendarzlista, Wynagrodzenieminimalne wynagrodzenieminimalne, double sumabruttopoprzednich, double sumabruttoopodatkowanapoprzednich) {
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny);
-        Pasekpomocnik sumyprzychodow = sumujprzychodyzlisty(pasek);
-        KalendarzmiesiacBean.naliczskladnikiPPKDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny, sumyprzychodow);
         List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz, nieobecnoscilista);
         //List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");
         List<Nieobecnosc> choroba = pobierz(nieobecnosci, "CH");
@@ -313,7 +311,9 @@ public class PasekwynagrodzenBean {
         //odkrecilem 26-02-2023 po przebudowie kompletnej wyliczania zasadniczego, redukcja jest juz na poczatku
         KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
         String umowakodzus = pasek.getKodZus();
-        
+        //to musi byc na dole bo inaczej nie sumuje wynagrodzenia za urlop, ktore wchodzi w ppk 29.11.2023
+        Pasekpomocnik sumyprzychodow = sumujprzychodyzlisty(pasek);
+        KalendarzmiesiacBean.naliczskladnikiPPKDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny, sumyprzychodow);
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
             PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);
         } else {
