@@ -129,7 +129,7 @@ public class PdfZestawienieUrlopow {
             table.addCell(ustawfrazeAlignColor(rs.getM3(), "center",8,robcolor(rs.getM3())));
             table.addCell(ustawfrazeAlignColor(rs.getM4(), "center",8,robcolor(rs.getM4())));
             table.addCell(ustawfrazeAlignColor(rs.getM5(), "center",8,robcolor(rs.getM5())));
-            table.addCell(ustawfrazeAlignColor(rs.getM8(), "center",8,robcolor(rs.getM6())));
+            table.addCell(ustawfrazeAlignColor(rs.getM6(), "center",8,robcolor(rs.getM6())));
             table.addCell(ustawfrazeAlignColor(rs.getM7(), "center",8,robcolor(rs.getM7())));
             table.addCell(ustawfrazeAlignColor(rs.getM8(), "center",8,robcolor(rs.getM8())));
             table.addCell(ustawfrazeAlignColor(rs.getM9(), "center",8,robcolor(rs.getM9())));
