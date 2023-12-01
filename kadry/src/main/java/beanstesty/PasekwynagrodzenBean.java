@@ -716,8 +716,15 @@ public class PasekwynagrodzenBean {
         } 
         pasek.setOddelegowaniepln(sumyprzychodow.getBruttooddelegowanie());
         pasek.setOddelegowaniewaluta(sumyprzychodow.getBruttooddelegowaniewaluta());
-        pasek.setBruttozuskraj(sumyprzychodow.getBruttokraj());
-        pasek.setBrutto(Z.z(pasek.getBrutto() + sumyprzychodow.brutto));
+        if (pasek.getKodZus().equals("0511")) {
+            pasek.setPrzychodyzus51(0.0);
+            pasek.setPrzychodyzus52(0.0);
+            pasek.setBruttobezspolecznych(sumyprzychodow.getBruttokraj());
+            pasek.setBrutto(Z.z(pasek.getBrutto() + sumyprzychodow.brutto));
+        } else {
+            pasek.setBruttozuskraj(sumyprzychodow.getBruttokraj());
+            pasek.setBrutto(Z.z(pasek.getBrutto() + sumyprzychodow.brutto));
+        }
     }
     
     private static void obliczbruttoumowafunkcja(Pasekwynagrodzen pasek) {
@@ -804,33 +811,33 @@ public class PasekwynagrodzenBean {
         pasek.setBrutto(Z.z(bruttobezzus + bruttozusoddelegowanie));
     }
 
-//    private static void obliczbruttoumowaopraceKod0511(Pasekwynagrodzen pasek) {
-//        double bruttokraj = 0.0;
-//        double bruttooddelegowanie = 0.0;
-//        double bruttooddelegowaniewaluta = 0.0;
-//        for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-//            if (p.isZus0bezzus1() == false && p.isPodatek0bezpodatek1() == false) {
-//                if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
-//                    bruttooddelegowanie = bruttooddelegowanie + p.getKwotadolistyplac();
-//                    bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + p.getKwotadolistyplacwaluta();
-//                } else {
-//                    bruttokraj = bruttokraj + p.getKwotadolistyplac();
-//                }
-//            }
-//        }
-//       for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-//            
-//            if (p.getNieobecnosc().getKod().equals("UD")) {
-//                bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + p.getKwotawaluta();
-//                bruttooddelegowanie = Z.z(bruttooddelegowanie+ p.getKwotazus());
-//            } else {
-//                bruttokraj = bruttokraj + p.getKwotazus();
-//            }
-//        }
-//        pasek.setOddelegowaniepln(Z.z(bruttooddelegowanie));
-//        pasek.setOddelegowaniewaluta(Z.z(bruttooddelegowaniewaluta));
-//        pasek.setBruttobezzus(Z.z(bruttokraj + bruttooddelegowanie));
-//    }
+    private static void obliczbruttoumowaopraceKod0511(Pasekwynagrodzen pasek) {
+        double bruttokraj = 0.0;
+        double bruttooddelegowanie = 0.0;
+        double bruttooddelegowaniewaluta = 0.0;
+        for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+            if (p.isZus0bezzus1() == false && p.isPodatek0bezpodatek1() == false) {
+                if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
+                    bruttooddelegowanie = bruttooddelegowanie + p.getKwotadolistyplac();
+                    bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + p.getKwotadolistyplacwaluta();
+                } else {
+                    bruttokraj = bruttokraj + p.getKwotadolistyplac();
+                }
+            }
+        }
+       for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
+            
+            if (p.getNieobecnosc().getKod().equals("UD")) {
+                bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + p.getKwotawaluta();
+                bruttooddelegowanie = Z.z(bruttooddelegowanie+ p.getKwotazus());
+            } else {
+                bruttokraj = bruttokraj + p.getKwotazus();
+            }
+        }
+        pasek.setOddelegowaniepln(Z.z(bruttooddelegowanie));
+        pasek.setOddelegowaniewaluta(Z.z(bruttooddelegowaniewaluta));
+        pasek.setBruttobezzus(Z.z(bruttokraj + bruttooddelegowanie));
+    }
 
 //    private static void obliczbruttoumowaoprace(Pasekwynagrodzen pasek) {
 //        double bruttokraj = 0.0;
