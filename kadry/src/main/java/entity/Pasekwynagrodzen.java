@@ -1556,7 +1556,12 @@ public class Pasekwynagrodzen implements Serializable {
     }
     
     public String getKodZus() {
-        return this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().getKod();
+        String zwrot = "brak aktywnej umowy";
+        Umowa aktywnaUmowa = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa();
+        if (aktywnaUmowa!=null) {
+            zwrot = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().getKod();
+        }
+        return zwrot;
     }
 
     public Angaz getAngaz() {
