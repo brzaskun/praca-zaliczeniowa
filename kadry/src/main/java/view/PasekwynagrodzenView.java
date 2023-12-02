@@ -368,11 +368,16 @@ public class PasekwynagrodzenView implements Serializable {
                 Msg.msg("e", "Brak limitu dochodu dla osób 26lat");
             } else if (stawkipodatkowe != null && !stawkipodatkowe.isEmpty()) {
                 List<Rachunekdoumowyzlecenia> rachunkilista = new ArrayList<>();
+                Kalendarzwzor kalendarzwzor = null;
                 for (Iterator<Kalendarzmiesiac>  it = listakalendarzmiesiac.getTarget().iterator();it.hasNext();) {
                     Kalendarzmiesiac kalendarzpracownikaLP = it.next();
                     kalendarzpracownikaLP = kalendarzmiesiacFacade.findById(kalendarzpracownikaLP.getId());
                     Angaz angaz = kalendarzpracownikaLP.getAngaz();
-                    Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaGlobalnaRokMc(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc());
+                    //ten kalendarz globalny jest ttylko do wyliczenia nominalnych
+                    if (kalendarzwzor==null) {
+                        kalendarzwzor= kalendarzwzorFacade.findByFirmaGlobalnaRokMc(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc());
+                    }
+                    //wlasnie odkrylem ze on sumuje za kazdym razem godziny z kalendarza zanim zrobi listye 02.12.2023 :) btw - miłej hiszpanii. napisz jak było.
                     kalendarzpracownikaLP.podsumujdnigodziny(kalendarzwzor);
                     kalendarzmiesiacFacade.edit(kalendarzpracownikaLP);
                     boolean czysainnekody = kalendarzpracownikaLP.czysainnekody();

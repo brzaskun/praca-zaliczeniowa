@@ -20,11 +20,11 @@
                                 <f:selectItems value="#{roki.rokiList}"/>
                                 <p:ajax event="blur" listener="#{kalendarzmiesiacView.pobierzkalendarzeprac}" partialSubmit="true" global="false" update="KalendarzmiesiacSaRokForm KalendarzmiesiacListForm"/>
                             </p:selectOneMenu>
-                            <p:outputLabel value="miesiąc" for="mc" />
+<!--                            <p:outputLabel value="miesiąc" for="mc" />
                             <p:selectOneMenu id="mc" value="#{kalendarzmiesiacView.selected.mc}"  style="width: 30px;">
                                 <f:selectItems value="#{mce.mceList}"/>
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{kalendarzmiesiacView.zrobkalendarzumowa}" update=":KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm KalendarzmiesiacListForm"/>
-                            </p:selectOneMenu>
+                            </p:selectOneMenu>-->
                         </p:panelGrid>
                     </h:form>
                     
@@ -87,8 +87,8 @@
                             </p:panelGrid>
                     </h:form>
                     <h:form  styleClass="formadmin" id="KalendarzmiesiacCreateRokForm">
-<!--                        <p:panelGrid columns="2" rendered="#{wpisView.uzer.login eq '2'}">-->
-                        <p:panelGrid columns="2">
+                        <p:panelGrid columns="2" rendered="#{wpisView.uzer.login eq '2'}">
+<!--                        <p:panelGrid columns="2">-->
                             <p:outputLabel value="generuj kalendarz za rok" for="rokkal" />
                             <p:commandButton id="rokkal" value="generuj" styleClass="buttonnorm" global="true" actionListener="#{kalendarzmiesiacView.generujrok()}" update="KalendarzmiesiacSaRokForm KalendarzmiesiacListForm"/>
                         </p:panelGrid>
@@ -254,7 +254,10 @@
                             <h:outputText value="#{itemkalendarz.datastring}" style="color: #{itemkalendarz.typdniaCol}"/>
                         </p:column>
                     </p:dataTable>
-                    <p:panelGrid columns="13" style="width: 580px;align-content: center; margin-top: 10px;">
+                    <p:panelGrid columns="16" style="width: 580px;align-content: center; margin-top: 10px;">
+                        <h:outputText value="norma dni" style="color: #125386"/>
+                        <h:outputText value="dni robocze" style="color: #006775"/>
+                        <h:outputText value="dni przeprac." style="color: #006775"/>
                         <h:outputText value="norma godzin"/>
                         <h:outputText value="godz. przeprac."/>
                         <h:outputText value="dni oddeleg." style="color: #006775"/>
@@ -268,6 +271,9 @@
                         <h:outputText value="zasiłek dni kal." style="color: #006775"/>
                         <h:outputText value="macierz."/>
                         <h:outputText value="wychow."/>
+                        <h:outputText value="#{kalendarzmiesiacView.selected.dniroboczenominalnewmiesiacu}"  style="color: #125386"/>
+                        <h:outputText value="#{kalendarzmiesiacView.selected.dniroboczewmiesiacu}"  style="color: #006775"/>
+                        <h:outputText value="#{kalendarzmiesiacView.selected.dnipracywmiesiacu}"  style="color: #006775"/>
                         <h:outputText value="#{kalendarzmiesiacView.selected.norma}"/>
                         <h:outputText value="#{kalendarzmiesiacView.selected.przepracowane}"/>
                         <h:outputText value="#{kalendarzmiesiacView.selected.dnioddelegowania}" style="color: #006775"/>

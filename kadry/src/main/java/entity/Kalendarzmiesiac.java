@@ -141,10 +141,12 @@ private static final long serialVersionUID = 1L;
     private double dniroboczenominalnewmiesiacu;
     @Column(name="godzinyroboczenominalnewmiesiacu")
     private double godzinyroboczenominalnewmiesiacu;
+    //dni robocze wg kalendarza indowidulanego firmy 
     @Column(name="dniroboczewmiesiacu")
     private double dniroboczewmiesiacu;
     @Column(name="godzinyroboczewmiesiacu")
     private double godzinyroboczewmiesiacu;
+    //dni faktycznie przepracowane przez pracownika
     @Column(name="dnipracywmiesiacu")
     private double dnipracywmiesiacu;
     @Column(name="godzinypracywmiesiacu")
@@ -1016,7 +1018,9 @@ private static final long serialVersionUID = 1L;
     public double getDniroboczewmiesiacu() {
         return dniroboczewmiesiacu;
     }
-    
+    /**
+   * @return dni robocze wg kalendarza indowidulanego firmy 
+   */
     public void setDniroboczewmiesiacu(double dniroboczewmiesiacu) {
         this.dniroboczewmiesiacu = dniroboczewmiesiacu;
     }
@@ -1029,6 +1033,9 @@ private static final long serialVersionUID = 1L;
         this.godzinyroboczewmiesiacu = godzinyroboczewmiesiacu;
     }
     
+    /**
+   * @return dni faktycznie przepracowane przez pracownika
+   */
     public double getDnipracywmiesiacu() {
         return dnipracywmiesiacu;
     }

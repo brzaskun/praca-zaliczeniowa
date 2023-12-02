@@ -70,8 +70,42 @@ public class KalendarzmiesiacView  implements Serializable {
                     it.remove();
                 }
             }
+            //nanosil te rzeczy dfopoiero jak byla robiona lista plac, po nanienieniu nieobecnosci nie aktualizowal informacjia na kalendarzu
+            Kalendarzwzor kalendarzwzor= kalendarzwzorFacade.findByFirmaGlobalnaRokMc(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+            if (kalendarzwzor!=null) {
+                selected.podsumujdnigodziny(kalendarzwzor);
+                kalendarzmiesiacFacade.edit(selected);
+            }
         }
         pobierzkalendarzeprac();
+    }
+    
+    // to dla pobierz kalendarz przyciskiem miesiac to przeciez nie meisiac wpisu
+    public void init(String mc) {
+        Kalendarzmiesiac szukany = null;
+        if (wpisView.getAngaz()!=null) {
+             szukany  = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(),mc);
+        }
+        if (szukany==null) {
+            selected = new Kalendarzmiesiac();
+            selected.setRok(wpisView.getRokWpisu());
+            selected.setMc(wpisView.getMiesiacWpisu());
+        } else {
+            selected  = kalendarzmiesiacFacade.findByRokMcAngaz(wpisView.getAngaz(), wpisView.getRokWpisu(), mc);
+            List<Dzien> dzienList = selected.getDzienList();
+            for (Iterator<Dzien> it= dzienList.iterator();it.hasNext();) {
+                Dzien dzien = it.next();
+                if (dzien.getTypdnia()==-1) {
+                    it.remove();
+                }
+            }
+            //nanosil te rzeczy dfopoiero jak byla robiona lista plac, po nanienieniu nieobecnosci nie aktualizowal informacjia na kalendarzu
+            Kalendarzwzor kalendarzwzor= kalendarzwzorFacade.findByFirmaGlobalnaRokMc(wpisView.getRokWpisu(), mc);
+            if (kalendarzwzor!=null) {
+                selected.podsumujdnigodziny(kalendarzwzor);
+                kalendarzmiesiacFacade.edit(selected);
+            }
+        }
     }
         
 
@@ -328,6 +362,7 @@ public class KalendarzmiesiacView  implements Serializable {
                             it.remove();
                         }
                     }
+                    init(mc);
                     Msg.msg("Pobrano kalendarz");
                     break;
                 }
