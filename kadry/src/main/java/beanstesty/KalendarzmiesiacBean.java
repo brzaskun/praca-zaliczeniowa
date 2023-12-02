@@ -466,15 +466,13 @@ public class KalendarzmiesiacBean {
         }
     }
 
-    public static void naliczskladnikipotraceniaPonownieDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double wolneodzajecia) {
-        double netto = pasekwynagrodzen.getNettoprzedpotraceniami();
-        double sumazajec = 0.0;
-        for (Naliczeniepotracenie p : pasekwynagrodzen.getNaliczeniepotracenieList()) {
-            double dozajecia = netto - wolneodzajecia - sumazajec;
-            sumazajec = sumazajec + NaliczeniepotracenieBean.przeliczPotracenieDB(pasekwynagrodzen, p, dozajecia);
-        }
-        pasekwynagrodzen.setPotracenia(sumazajec);
-    }
+//    public static void naliczskladnikipotraceniaPonownieDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double wolneodzajecia) {
+//        double sumazajec = 0.0;
+//        for (Naliczeniepotracenie p : pasekwynagrodzen.getNaliczeniepotracenieList()) {
+//            sumazajec = sumazajec + NaliczeniepotracenieBean.przeliczPotracenieDB(pasekwynagrodzen, p, wolneodzajecia);
+//        }
+//        pasekwynagrodzen.setPotracenia(sumazajec);
+//    }
 
     static void naliczskladnikiwynagrodzeniazaChorobe(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, Definicjalistaplac definicjalistaplac, Definicjalistaplac definicjadlazasilkow,
             double limitpodstawyzasilkow, double minimalnedozasilkow, boolean jestoodelegowanie) {

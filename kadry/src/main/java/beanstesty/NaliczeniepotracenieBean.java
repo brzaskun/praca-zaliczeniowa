@@ -38,21 +38,21 @@ public class NaliczeniepotracenieBean {
         Naliczeniepotracenie zwrot = new Naliczeniepotracenie();
         List<Zmiennapotracenia> zmiennawynagrodzeniaList = skladnikpotracenia.getZmiennapotraceniaList();
         for (Zmiennapotracenia p : zmiennawynagrodzeniaList) {
-            double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
-            double wolneodzajecia = wolneodzajeciaustawa;
-            if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")) {
-                ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
-            }
-            if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("ZA")) {
-                ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitzasilki();
-            }
-            if (p.isMaxustawowy()==false) {
-                wolneodzajecia = 0.0;
-                ilemozna = 100;
-            }
-            int dzienodzmienna = DataBean.dataod(p.getDataod(), kalendarz.getRok(), kalendarz.getMc());
-            int dziendozmienna = DataBean.datado(p.getDatado(), kalendarz.getRok(), kalendarz.getMc());
             if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), p.getDataod(), p.getDatado())) {
+                double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
+                double wolneodzajecia = wolneodzajeciaustawa;
+                if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")) {
+                    ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
+                }
+                if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("ZA")) {
+                    ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitzasilki();
+                }
+                if (p.isMaxustawowy()==false) {
+                    wolneodzajecia = 0.0;
+                    ilemozna = 100;
+                }
+                int dzienodzmienna = DataBean.dataod(p.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+                int dziendozmienna = DataBean.datado(p.getDatado(), kalendarz.getRok(), kalendarz.getMc());
                 double juzrozliczono = podsumuj(pasekwynagrodzen, skladnikpotracenia, p.getDataod());
                 if (p.getKwotastala()!=0.0) {
                     if (p.getDatado()==null || Data.czyjestprzed(p.getDatado(), pasekwynagrodzen.getRok(), pasekwynagrodzen.getMc())) {
@@ -136,19 +136,21 @@ public class NaliczeniepotracenieBean {
         return zwrot;
     }
     
-    static double przeliczPotracenieDB(Pasekwynagrodzen pasekwynagrodzen, Naliczeniepotracenie naliczeniepotracenie, double dozajecia) {
-        double zajeciebiezace = 0.0;
-        double kwota = naliczeniepotracenie.getKwota();
-        zajeciebiezace = kwota;
-        double kwotanarastajaco = naliczeniepotracenie.getKwotanarastajaco();
-        if (kwota>dozajecia) {
-            kwotanarastajaco = kwotanarastajaco+kwota-dozajecia;
-            naliczeniepotracenie.setKwota(Z.z(dozajecia));
-            naliczeniepotracenie.setKwotanarastajaco(Z.z(kwotanarastajaco));
-            zajeciebiezace = Z.z(dozajecia);
-        }
-        return zajeciebiezace;
-    }
+//    static double przeliczPotracenieDB(Pasekwynagrodzen pasekwynagrodzen, Naliczeniepotracenie naliczeniepotracenie, double wolneodzajeciaustawa) {
+//        double zajeciebiezace = 0.0;
+//        double kwota = naliczeniepotracenie.getKwota();
+//        zajeciebiezace = kwota;
+//        double kwotanarastajaco = naliczeniepotracenie.getKwotanarastajaco();
+//        double ilemozna = naliczeniepotracenie.getSkladnikpotracenia().getRodzajpotracenia().getLimitumowaoprace();
+//        double wolneodzajecia = wolneodzajeciaustawa;
+//        if (kwota>dozajecia) {
+//            kwotanarastajaco = kwotanarastajaco+kwota-dozajecia;
+//            naliczeniepotracenie.setKwota(Z.z(dozajecia));
+//            naliczeniepotracenie.setKwotanarastajaco(Z.z(kwotanarastajaco));
+//            zajeciebiezace = Z.z(dozajecia);
+//        }
+//        return zajeciebiezace;
+//    }
 
     private static double podsumuj(Pasekwynagrodzen pasekwynagrodzen, Skladnikpotracenia skladnikpotracenia, String dataod) {
         List<Kalendarzmiesiac> kalendarzmiesiacList = pasekwynagrodzen.getKalendarzmiesiac().getAngaz().getKalendarzmiesiacList();

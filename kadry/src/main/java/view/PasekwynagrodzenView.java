@@ -292,14 +292,38 @@ public class PasekwynagrodzenView implements Serializable {
         }
     }
         
-    public void editpasek(Pasekwynagrodzen pasek) {
-        if (pasek!=null) {
-            pasek.setPodatekdochodowyzagranica(Z.z(pasek.getPodatekdochodowyzagranicawaluta()*pasek.getKurs()));
-            pasek.setNettoprzedpotraceniami(Z.z(pasek.getNettoprzedpotraceniamisafe()-pasek.getPodatekdochodowyzagranica()));
-            KalendarzmiesiacBean.naliczskladnikipotraceniaPonownieDB(pasek.getKalendarzmiesiac(), pasek, pasek.getWolneodzajecia());
-            PasekwynagrodzenBean.dowyplaty(pasek);
-            PasekwynagrodzenBean.przelicznawalute(pasek);
-            pasekwynagrodzenFacade.edit(pasek);
+//    public void editpasek(Pasekwynagrodzen pasek) {
+//        if (pasek!=null) {
+//                pasek.setNaliczeniepotracenieList(null);
+//                pasekwynagrodzenFacade.edit(pasek);
+//                pasek.setPodatekdochodowyzagranica(Z.z(pasek.getPodatekdochodowyzagranicawaluta()*pasek.getKurs()));
+//                pasek.setNettoprzedpotraceniami(Z.z(pasek.getNettoprzedpotraceniamisafe()-pasek.getPodatekdochodowyzagranica()));
+//                KalendarzmiesiacBean.naliczskladnikipotraceniaDB(pasek.getKalendarzmiesiac(), pasek, pasek.getWolneodzajecia());
+//                PasekwynagrodzenBean.potracenia(pasek);
+//                PasekwynagrodzenBean.dowyplaty(pasek);
+//                PasekwynagrodzenBean.przelicznawalute(pasek);
+//                pasekwynagrodzenFacade.edit(pasek);
+//        } else {
+//            Msg.msg("e","Nie wybrano paska");
+//        }
+//    }
+    
+    public void editpasek(Pasekwynagrodzen pasekzmiany) {
+        if (pasekzmiany!=null) {
+            for (Pasekwynagrodzen pasek : lista) {
+                if (pasek.getPodstawaopodatkowaniazagranicawaluta()==pasekzmiany.getPodstawaopodatkowaniazagranicawaluta()) {
+                    pasek.setNaliczeniepotracenieList(null);
+                    pasekwynagrodzenFacade.edit(pasek);
+                    pasek.setPodatekdochodowyzagranicawaluta(pasekzmiany.getPodatekdochodowyzagranicawaluta());
+                    pasek.setPodatekdochodowyzagranica(Z.z(pasek.getPodatekdochodowyzagranicawaluta()*pasek.getKurs()));
+                    pasek.setNettoprzedpotraceniami(Z.z(pasek.getNettoprzedpotraceniamisafe()-pasek.getPodatekdochodowyzagranica()));
+                    KalendarzmiesiacBean.naliczskladnikipotraceniaDB(pasek.getKalendarzmiesiac(), pasek, pasek.getWolneodzajecia());
+                    PasekwynagrodzenBean.potracenia(pasek);
+                    PasekwynagrodzenBean.dowyplaty(pasek);
+                    PasekwynagrodzenBean.przelicznawalute(pasek);
+                    pasekwynagrodzenFacade.edit(pasek);
+                }
+            }
         } else {
             Msg.msg("e","Nie wybrano paska");
         }
@@ -906,6 +930,12 @@ public class PasekwynagrodzenView implements Serializable {
             
         }
     }
+    //to nie ma sensu, bo przy zmianie parametrow bedzie przeciez przeliczany podatek
+//    public void pobierzpodatekzagraniczny() {
+//        if (ileszczegolow.equals("podatek")) {
+//            Msg.msg("Pobieram podatek zagraniczny");
+//        }
+//    }
 
     public Pasekwynagrodzen getSelected() {
         return selected;

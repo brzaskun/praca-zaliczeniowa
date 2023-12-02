@@ -74,6 +74,7 @@
                                 <f:selectItem itemLabel="normalna" itemValue="normalna"/>
                                 <f:selectItem itemLabel="oddelegowanie" itemValue="oddelegowanie"/>
                                 <f:selectItem itemLabel="podatek zagr." itemValue="podatek"/>
+<!--                                <p:ajax event="change" partialSubmit="true" global="false" update="PasekwynagrodzenListForm" listener="#{pasekwynagrodzenView.pobierzpodatekzagraniczny}"/>-->
                                 <p:ajax event="change" partialSubmit="true" global="false" update="PasekwynagrodzenListForm"/>
                             </p:selectOneMenu>
                             <h:outputLabel for="niewyslana" value="wysłana: " rendered="#{pasekwynagrodzenView.lista ne null and pasekwynagrodzenView.lista.size() gt 0 and pasekwynagrodzenView.lista.get(0).datawysylki eq null}"/>

@@ -529,6 +529,9 @@ public class PasekwynagrodzenBean {
         pasek.setDatawyplaty(datawyplaty);
         pasek.setDefinicjalistaplac(definicjalistaplac);
         pasek.setKalendarzmiesiac(kalendarz);
+        pasek.setPrzychodypodatekpolska(wynagrodzenieminimalne);
+        pasek.setPrzychodyzus51(wynagrodzenieminimalne);
+        pasek.setPrzychodyzus52(wynagrodzenieminimalne);
         pasek.setBruttozus(wynagrodzenieminimalne);
         pasek.setBrutto(Z.z(wynagrodzenieminimalne));
         pasek.setPodstawaskladkizus(wynagrodzenieminimalne);
@@ -1606,7 +1609,7 @@ public class PasekwynagrodzenBean {
         pasek.setPodatekdochodowy(podateknetto < 0.0 ? 0.0 : podateknetto);
     }
 
-    private static void potracenia(Pasekwynagrodzen pasek) {
+    public static void potracenia(Pasekwynagrodzen pasek) {
         double potracenia = 0.0;
         for (Naliczeniepotracenie p : pasek.getNaliczeniepotracenieList()) {
             potracenia = Z.z(potracenia + p.getKwota());
@@ -2149,7 +2152,8 @@ public class PasekwynagrodzenBean {
                 if (nieob.getSwiadczeniekodzus()!=null&&(nieob.getSwiadczeniekodzus().getKod().equals("319")||nieob.getSwiadczeniekodzus().getKod().equals("121"))) {
                     if (nieob.getDatado()!=null) {
                         datakoncazwolnienia = nieob.getDatado();
-                        break;
+                        //nie moze byc break bo sie zatryzma na poprzednim zwolnieniu sprzed roku
+                        //break;
                     }
                 }
             }
