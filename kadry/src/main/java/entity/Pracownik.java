@@ -191,6 +191,12 @@ public class Pracownik implements Serializable {
     private Date datadodania;
     @Column(name = "utworzyl")
     private String utworzyl;
+    @Column(name = "dodatkowywymiar")
+    private int dodatkowywymiar;
+    @Column(name = "uzasadnieniedodwymiaru")
+    private String uzasadnieniedodwymiaru;
+    @Column(name = "datadodwymiar")
+    private String datadodwymiar;
     
     
 
@@ -348,6 +354,30 @@ public class Pracownik implements Serializable {
 
     public void setFikcyjnymail(boolean fikcyjnymail) {
         this.fikcyjnymail = fikcyjnymail;
+    }
+
+    public int getDodatkowywymiar() {
+        return dodatkowywymiar;
+    }
+
+    public void setDodatkowywymiar(int dodatkowywymiar) {
+        this.dodatkowywymiar = dodatkowywymiar;
+    }
+
+    public String getUzasadnieniedodwymiaru() {
+        return uzasadnieniedodwymiaru;
+    }
+
+    public void setUzasadnieniedodwymiaru(String uzasadnieniedodwymiaru) {
+        this.uzasadnieniedodwymiaru = uzasadnieniedodwymiaru;
+    }
+
+    public String getDatadodwymiar() {
+        return datadodwymiar;
+    }
+
+    public void setDatadodwymiar(String datadodwymiar) {
+        this.datadodwymiar = datadodwymiar;
     }
     
     

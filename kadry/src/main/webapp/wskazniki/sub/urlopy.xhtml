@@ -7,13 +7,16 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <h:form styleClass="formcentrum">
+    <h:form id="formzesturlopy" styleClass="formcentrum">
         
         <p:panel  header="Urlopy zestawienie roczne. Stan na #{wpisView.rokWpisu}/#{wpisView.miesiacWpisu}. Tylko pracownicy z aktywną umową"/> 
         <p:outputPanel style="height: 800px;overflow-y: scroll;" id="pnlPrint1" > 
-            <p:panelGrid columns="2">
-            <p:commandButton value="Drukuj" styleClass="buttonnorm" icon="pi pi-print" actionListener="#{urlopyZestawienieView.drukuj()}">
+            <p:panelGrid columns="3">
+            <p:commandButton value="pdf" styleClass="buttonnorm" icon="pi pi-print" actionListener="#{urlopyZestawienieView.drukuj()}">
 <!--                <p:printer target="datalist" />-->
+            </p:commandButton>
+            <p:commandButton value="xls" styleClass="buttonnorm">
+                <p:dataExporter type="xls" target="formzesturlopy:datalist" fileName="zestawienieurlopow"/>
             </p:commandButton>
                 <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{urlopyZestawienieView.mail()}" global="true" style="margin-left: 10px;">
                             <p:confirm type="popup" header="Potwierdzenie" message="Wysłać zestawienie do firmy?" icon="pi pi-exclamation-triangle"/>
@@ -28,18 +31,21 @@
              <p:panelGrid columns="1" style="margin-top: 20px">
                  <p:dataTable id="datalist" value="#{urlopyZestawienieView.listaurlopow}" var="items"
                                  rowIndexVar="index"
-                                 rowKey="#{items.nazwiskoiImie}" sortBy="#{items.nazwiskoiImie}"
-                                 style="width: 1360px;"
+                                 rowKey="#{items.angaz.nazwiskoiImie}" sortBy="#{items.angaz.nazwiskoiImie}"
+                                 style="width: 1450px;"
                                  emptyMessage="nie pobrano danych"
                                  >
                      <p:column width="200" headerText="nazwisko i imię" style="text-align: left;" groupRow="true">
-                            <h:outputText value="#{items.nazwiskoiImie}"/>
+                            <h:outputText value="#{items.angaz.nazwiskoiImie}"/>
                         </p:column>
                         <p:column width="30" headerText="wymiar" style="text-align: center;">
-                            <h:outputText value="#{items.pracownik.wymiarurlopu}" style="color: #{items.pracownik.wymiarurlopu gt 0?'green':'gray'}"/>
+                            <h:outputText value="#{items.angaz.pracownik.wymiarurlopu}" style="color: #{items.angaz.pracownik.wymiarurlopu gt 0?'green':'gray'}"/>
                         </p:column>
                         <p:column width="30" headerText="rok. pop." style="text-align: center;">
-                            <h:outputText value="#{items.bourlopdni}" style="color: #{items.bourlopdni gt 0 ?'green':'gray'}"/>
+                            <h:outputText value="#{items.urlopzalegly}" style="color: #{items.urlopzalegly gt 0 ?'green':'gray'}"/>
+                        </p:column>
+                     <p:column width="30" headerText="dod. wym." style="text-align: center;">
+                         <h:outputText value="#{items.dodatkowywymiar}" style="color: blue;" rendered="#{items.dodatkowywymiar gt 0}"/>
                         </p:column>
                         <p:column width="30" headerText="01" style="text-align: center;">
                             <h:outputText value="#{items.m1}" style="color: #{items.m1 gt 0 ?'green':'gray'}"/>
@@ -78,13 +84,16 @@
                             <h:outputText value="#{items.m12}" style="color: #{items.m12 gt 0 ?'green':'gray'}"/>
                      </p:column>
                      <p:column width="30" headerText="wyk." style="text-align: center;">
-                         <h:outputText value="#{items.m13}" style="color: blue;"/>
+                         <h:outputText value="#{items.wykorzystaniesuma}" style="color: blue;"/>
+                     </p:column>
+                     <p:column width="30" headerText="ekw." style="text-align: center;">
+                         <h:outputText value="#{items.ewiwalent}" style="color: blue;"/>
                      </p:column>
                       <p:column width="30" headerText="zost." style="text-align: center;">
-                         <h:outputText value="#{items.m14}" style="color: blue;"/>
+                          <h:outputText value="#{items.dowykorzystanianastrok}" style="color: blue;"/>
                      </p:column>
                      <p:column width="200" headerText="nazwisko i imię" style="text-align: left;" groupRow="true">
-                            <h:outputText value="#{items.nazwiskoiImie}"/>
+                            <h:outputText value="#{items.angaz.nazwiskoiImie}"/>
                         </p:column>
                 </p:dataTable>
             </p:panelGrid>

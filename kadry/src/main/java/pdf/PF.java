@@ -80,6 +80,9 @@ public class PF {
             case "gray":
                 zwrot = BaseColor.GRAY;
                 break;
+            case "white":
+                zwrot = BaseColor.WHITE;
+                break;
         }
         return zwrot;
     }

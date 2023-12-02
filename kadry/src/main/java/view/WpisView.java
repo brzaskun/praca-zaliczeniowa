@@ -18,8 +18,8 @@ import entity.Umowa;
 import entity.Uz;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Osito
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class WpisView implements Serializable {
     private static final long serialVersionUID = 1L;
 

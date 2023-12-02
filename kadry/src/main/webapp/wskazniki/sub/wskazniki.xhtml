@@ -7,14 +7,14 @@
    <p:outputPanel style="padding: 10px;">
             <p:panel header="Zestawienie wskaźników"/>
             <p:tabView id="akordeon">
+                 <p:tab title="Urlopy">
+                    <ui:include src="urlopy.xhtml"/>
+                </p:tab>
                  <p:tab title="Stan zatrudnienia">
                     <ui:include src="pfron.xhtml"/>
                 </p:tab>
                 <p:tab title="SOKA">
                     <ui:include src="soka.xhtml"/>
-                </p:tab>
-                <p:tab title="Urlopy">
-                    <ui:include src="urlopy.xhtml"/>
                 </p:tab>
             </p:tabView>
         </p:outputPanel>

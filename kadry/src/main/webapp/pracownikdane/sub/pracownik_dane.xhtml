@@ -131,6 +131,17 @@
                         <p:outputLabel value="staż dni" for="stdni" />
                         <p:inputText id="stdni" value="#{pracownikDane2View.selected.stazdni}" title="staż dni" size="10"/>
                     </p:panelGrid>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="dodatkowy wymiar urlopu wymiar urlopu" for="dodatkowywymiar" />
+                        <p:inputText id="dodatkowywymiar" value="#{pracownikDane2View.selected.dodatkowywymiar}" title="dodatkowy wymiar urlopu" size="10"/>
+                        <p:outputLabel value="od kiedy" for="odkiedy" />
+                        <p:inputMask id="odkiedy" value="#{pracownikDane2View.selected.datadodwymiar}" mask="9999-99-99"
+                                     title="data urodzenia" >
+                        </p:inputMask>
+                        <p:outputLabel value="uzasadnienie" for="uzasadnienie" />
+                        <p:inputText id="uzasadnienie" value="#{pracownikDane2View.selected.uzasadnieniedodwymiaru}" title="uzasadnienie" size="60"/>
+                        
+                    </p:panelGrid>
                 </p:outputPanel>
                 <p:outputPanel style="margin-top: 50px;">
                     <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikDane2View.edit}" value="#{bundle.Save}" update="north PracownikCreateForm:wiadomosc" />

@@ -10,8 +10,8 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import entity.Angaz;
 import entity.FirmaKadry;
+import entity.Rejestrurlopow;
 import error.E;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -31,7 +31,7 @@ import plik.Plik;
  * @author Osito
  */
 public class PdfZestawienieUrlopow {
-    public static ByteArrayOutputStream drukuj(List<Angaz> lista, FirmaKadry firma, String rok) {
+    public static ByteArrayOutputStream drukuj(List<Rejestrurlopow> lista, FirmaKadry firma, String rok) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = firma.getNip()+"urlopyZest.pdf";
@@ -55,7 +55,7 @@ public class PdfZestawienieUrlopow {
         return out;
     }
     
-    public static ByteArrayOutputStream drukujmail(List<Angaz> lista, FirmaKadry firma, String rok) {
+    public static ByteArrayOutputStream drukujmail(List<Rejestrurlopow> lista, FirmaKadry firma, String rok) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwa = firma.getNip()+"urlopyZest.pdf";
@@ -77,7 +77,7 @@ public class PdfZestawienieUrlopow {
         return out;
     }
     
-    private static void dodajtabeleglowna(List<Angaz> lista, Document document) {
+    private static void dodajtabeleglowna(List<Rejestrurlopow> lista, Document document) {
         try {
             PdfPTable table = generujTabele();
             dodajwiersze(lista, table);
@@ -88,13 +88,14 @@ public class PdfZestawienieUrlopow {
     }
     
     private static PdfPTable generujTabele() {
-        PdfPTable table = new PdfPTable(19);
+        PdfPTable table = new PdfPTable(20);
         try {
             table.setWidthPercentage(95);
-            table.setWidths(new int[]{1, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6});
+            table.setWidths(new int[]{1, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6});
             table.addCell(ustawfrazeAlign("lp", "center",8));
             table.addCell(ustawfrazeAlign("nazwisko i imię", "left",8));
             table.addCell(ustawfrazeAlign("wym.", "center",8));
+            table.addCell(ustawfrazeAlign("dod. w.", "center",8));
             table.addCell(ustawfrazeAlign("r.p.", "center",8));
             table.addCell(ustawfrazeAlign("1", "center",8));
             table.addCell(ustawfrazeAlign("2", "center",8));
@@ -117,13 +118,14 @@ public class PdfZestawienieUrlopow {
         return table;
     }
     
-    public static void dodajwiersze(List<Angaz> lista,PdfPTable table) {
+    public static void dodajwiersze(List<Rejestrurlopow> lista,PdfPTable table) {
         int i = 1;
-        for (Angaz rs : lista) {
+        for (Rejestrurlopow rs : lista) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "center",8,15f));
-            table.addCell(ustawfrazeAlign(rs.getNazwiskoiImie(), "left",8,15f));
-            table.addCell(ustawfrazeAlignColor(rs.getPracownik().getWymiarurlopu(), "center",8,robcolor(rs.getPracownik().getWymiarurlopu())));
-            table.addCell(ustawfrazeAlignColor(rs.getM0(), "center",8,robcolor(rs.getM0())));
+            table.addCell(ustawfrazeAlign(rs.getAngaz().getNazwiskoiImie(), "left",8,15f));
+            table.addCell(ustawfrazeAlignColor(rs.getAngaz().getPracownik().getWymiarurlopu(), "center",8,robcolor(rs.getAngaz().getPracownik().getWymiarurlopu())));
+            table.addCell(ustawfrazeAlignColor(rs.getDodatkowywymiar(), "center",8,robcolor1(rs.getDodatkowywymiar())));
+            table.addCell(ustawfrazeAlignColor(rs.getUrlopzalegly(), "center",8,robcolor(rs.getUrlopzalegly())));
             table.addCell(ustawfrazeAlignColor(rs.getM1(), "center",8,robcolor(rs.getM1())));
             table.addCell(ustawfrazeAlignColor(rs.getM2(), "center",8,robcolor(rs.getM2())));
             table.addCell(ustawfrazeAlignColor(rs.getM3(), "center",8,robcolor(rs.getM3())));
@@ -136,14 +138,22 @@ public class PdfZestawienieUrlopow {
             table.addCell(ustawfrazeAlignColor(rs.getM10(), "center",8,robcolor(rs.getM10())));
             table.addCell(ustawfrazeAlignColor(rs.getM11(), "center",8,robcolor(rs.getM11())));
             table.addCell(ustawfrazeAlignColor(rs.getM12(), "center",8,robcolor(rs.getM12())));
-            table.addCell(ustawfrazeAlignColor(rs.getM13(), "center",8,robcolor(rs.getM13())));
-            table.addCell(ustawfrazeAlignColor(rs.getM14(), "center",8,"black"));
-            table.addCell(ustawfrazeAlign(rs.getNazwiskoiImie(), "left",8,15f));
+            table.addCell(ustawfrazeAlignColor(rs.getWykorzystaniesuma(), "center",8,robcolor(rs.getWykorzystaniesuma())));
+            table.addCell(ustawfrazeAlignColor(rs.getDowykorzystanianastrok(), "center",8,"black"));
+            table.addCell(ustawfrazeAlign(rs.getAngaz().getNazwiskoiImie(), "left",8,15f));
         }
     }
     
     private static String robcolor(int i) {
         String zwrot = "gray";
+        if (i>0) {
+            zwrot = "blue";
+        }
+        return zwrot;
+    }
+    
+    private static String robcolor1(int i) {
+        String zwrot = "white";
         if (i>0) {
             zwrot = "blue";
         }
