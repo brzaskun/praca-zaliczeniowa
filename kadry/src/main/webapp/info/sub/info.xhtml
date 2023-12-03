@@ -129,7 +129,7 @@
                     <p:dataTable id="dokumentyOkresowe" value="#{infoView.klienciPaski}" var="wpis"  rowIndexVar="row" 
                                  rowKey="#{wpis.id}" style="width: 1200px;height: 600px; overflow-y: scroll;" widgetVar="okresTable" 
                                  >
-                        <p:column headerText="nazwa" width="220" sortBy="#{wpis.nazwa}" filterBy="#{wpis.nazwa}" sortable="true" sortPriority="1" sortOrder="asc">  
+                        <p:column headerText="nazwa" width="220" sortBy="#{wpis.nazwa}" filterBy="#{wpis.nazwa}" sortable="true" sortPriority="1" sortOrder="asc" filterMatchMode="contains">  
                             <h:outputText value="#{wpis.nazwa}" />
                         </p:column>
                         <p:column headerText="nip" width="60" sortBy="#{wpis.nip}">  
