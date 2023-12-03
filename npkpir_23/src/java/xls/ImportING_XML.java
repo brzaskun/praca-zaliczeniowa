@@ -87,6 +87,10 @@ public class ImportING_XML implements Serializable {
                                         if (content.get(1).getClass().getName().equals("javax.xml.bind.JAXBElement")) {
                                             String iban = (String) ((javax.xml.bind.JAXBElement) content.get(1)).getValue();
                                             x.setIBAN(iban.replaceAll("\\s", ""));
+                                        } else if (content.get(1).getClass().getName().equals("java.lang.String")) {
+                                            String iban = (String) content.get(1);
+                                            x.setIBAN(iban.replaceAll("\\s", ""));
+                                            x.setIBAN("znow problem z Othr zamiast Other");
                                         } else {
                                             xls.ing.Other o = (xls.ing.Other) content.get(1);
                                             Id id1 = o.getId();
@@ -109,6 +113,10 @@ public class ImportING_XML implements Serializable {
                                             if (content.get(1).getClass().getName().equals("javax.xml.bind.JAXBElement")) {
                                                 String iban = (String) ((javax.xml.bind.JAXBElement) content.get(1)).getValue();
                                                 x.setIBAN(iban.replaceAll("\\s", ""));
+                                            } else if (content.get(1).getClass().getName().equals("java.lang.String")) {
+                                                String iban = (String) content.get(1);
+                                                x.setIBAN(iban.replaceAll("\\s", ""));
+                                                x.setIBAN("znow problem z Othr zamiast Other");
                                             } else {
                                                 xls.ing.Other o = (xls.ing.Other) content.get(1);
                                                 Id id1 = o.getId();

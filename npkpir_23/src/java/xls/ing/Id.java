@@ -49,7 +49,8 @@ public class Id {
 
     @XmlElementRefs({
         @XmlElementRef(name = "IBAN", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "Other", type = Other.class, required = false)
+        @XmlElementRef(name = "Other", type = Other.class, required = false),
+        @XmlElementRef(name = "Othr", type = Othr.class, required = false)
     })
     @XmlMixed
     protected List<Object> content;
