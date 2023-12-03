@@ -113,7 +113,17 @@
             </h:form>
         </p:tab>
         <p:tab title="Firma / paski">
-            <h:form>
+            <h:form id="firmapaski">
+                <p:outputLabel value="rodzaj listy płac" />
+                    <p:selectOneListbox id="rodzajumowy" value="#{infoView.rodzajlistyplac}" scrollHeight="120" style="width: 280px;margin-left: 10px;" required="true" 
+                                         requiredMessage="Wybierz rodzaj listy płac"
+                         converter="#{rodzjalistyplacConverter}">
+                                <f:selectItem itemLabel="wszytskie typy list" noSelectionOption="true"/>
+                                <f:selectItems value="#{infoView.listarodzajlistyplac}"
+                                               var="firmalistaItem"
+                                               itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwa}"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{infoView.przelicz()}" global="true" update="akordeon:firmapaski:dokumentyOkresowe"/>
+                    </p:selectOneListbox>
                 <p:outputPanel style="padding: 20px;">
                     <p:panel header="Statystyka pasków dla firm" style="width: 1100px; padding: 10px;"/>
                     <p:dataTable id="dokumentyOkresowe" value="#{infoView.klienciPaski}" var="wpis"  rowIndexVar="row" 

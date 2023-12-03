@@ -7,17 +7,21 @@ package view;
 
 import dao.FirmaKadryFacade;
 import dao.PasekwynagrodzenFacade;
+import dao.RodzajlistyplacFacade;
 import dao.RozwiazanieumowyFacade;
 import dao.UmowaFacade;
 import dao.UzFacade;
 import embeddable.Mce;
 import entity.FirmaKadry;
 import entity.Pasekwynagrodzen;
+import entity.Rodzajlistyplac;
 import entity.Rozwiazanieumowy;
 import entity.Umowa;
 import entity.Uz;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -43,16 +47,22 @@ public class InfoView implements Serializable {
     @Inject
     private FirmaKadryFacade firmaKadryFacade;
     @Inject
+    private RodzajlistyplacFacade rodzajlistyplacFacade;
+    @Inject
     private RozwiazanieumowyFacade rozwiazanieumowyFacade;
     private List<Uz> uzytkownicyPaski;
     private List<FirmaKadry> klienciPaski;
     private List<Uz> uzytkownicyUmowy;
+    private List<Rodzajlistyplac> listarodzajlistyplac;
+    private Rodzajlistyplac rodzajlistyplac;
+    private List<Pasekwynagrodzen> paski;
     
     @PostConstruct
     private void init() {
         String rok = wpisView.getRokWpisu();
-        List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRok(rok);
+        paski = pasekwynagrodzenFacade.findByRok(rok);
         uzytkownicyPaski = uzFacade.findByUprawnienia("Administrator");
+        listarodzajlistyplac = rodzajlistyplacFacade.findAktywne();
         for (Uz u : uzytkownicyPaski) {
             int suma = 0;
             for (String mc : Mce.getMceListS()) {
@@ -177,11 +187,24 @@ public class InfoView implements Serializable {
             u.setM13(suma);
         }
         klienciPaski = firmaKadryFacade.findAll();
+        przeliczliczbapaskow(paski, rodzajlistyplac);
+    }
+    
+    public void przelicz() {
+        List<Pasekwynagrodzen> paskisave = new ArrayList<>(paski);
+        przeliczliczbapaskow(paskisave, rodzajlistyplac);
+    }
+    
+    private void przeliczliczbapaskow (List<Pasekwynagrodzen> paski, Rodzajlistyplac rodzajlistyplac) {
         klienciPaski.parallelStream().forEach(u->{
             int suma = 0;
             for (String mc : Mce.getMceListS()) {
                 try {
                     List<Pasekwynagrodzen> paskimc = paski.stream().filter(p->p.getMc().equals(mc)&&(p.getAngaz().getFirma().equals(u))).collect(Collectors.toList());
+                    if (rodzajlistyplac!=null) {
+                        Predicate<Pasekwynagrodzen> isQualified = item -> !item.getDefinicjalistaplac().getRodzajlistyplac().equals(rodzajlistyplac);
+                        paskimc.removeIf(isQualified);
+                    }
                     int paskimcilosc = paskimc.size();
                     switch (mc){
                         case "01":
@@ -237,7 +260,6 @@ public class InfoView implements Serializable {
             }
             u.setM13(suma);
         });
-        System.out.println("");
     }
 
     public List<Uz> getUzytkownicyPaski() {
@@ -262,6 +284,22 @@ public class InfoView implements Serializable {
 
     public void setKlienciPaski(List<FirmaKadry> klienciPaski) {
         this.klienciPaski = klienciPaski;
+    }
+
+    public List<Rodzajlistyplac> getListarodzajlistyplac() {
+        return listarodzajlistyplac;
+    }
+
+    public void setListarodzajlistyplac(List<Rodzajlistyplac> listarodzajlistyplac) {
+        this.listarodzajlistyplac = listarodzajlistyplac;
+    }
+
+    public Rodzajlistyplac getRodzajlistyplac() {
+        return rodzajlistyplac;
+    }
+
+    public void setRodzajlistyplac(Rodzajlistyplac rodzajlistyplac) {
+        this.rodzajlistyplac = rodzajlistyplac;
     }
     
     
