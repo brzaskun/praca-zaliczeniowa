@@ -58,7 +58,7 @@
                     <f:selectItem itemLabel="wielorazowa" itemValue="3"/>
                     <f:selectItem itemLabel="waloryzowana" itemValue="4"/>
                     <f:selectItem itemLabel="niewaloryzowana" itemValue="5"/>
-                    <p:ajax event="change" partialSubmit="true" global="false" listener="#{fakturaView.filtrujfaktury}" update="akordeon:formokresowe2:dokumentyOkresowe"/>
+                    <p:ajax event="change" partialSubmit="true" global="false" listener="#{fakturaView.filtrujfakturyNowe}" update="akordeon:formokresowe2:dokumentyOkresowe"/>
                 </p:selectOneMenu>
                 <h:outputText value="filtruj wg wartości od-do"/>
                 <p:inputNumber  value="#{fakturaView.dolnylimit}" symbol=" zł" 
@@ -163,40 +163,40 @@
                     <bcf:outputpl value="#{wpis.dokument.bruttoFakturaViewPLN}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
                     <h:outputText value=" PLN" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}" style="color: "/>
                 </p:column>-->
-                <p:column headerText="01" width="20" sortBy="#{wpis.m1}"  rendered="#{WpisView.miesiacWpisu eq '01'}">  
+                <p:column headerText="01" width="20" sortBy="#{wpis.m1}"  rendered="#{WpisView.miesiacWpisu eq '01'}" filterBy="#{wpis.m1}">  
                     <h:outputText value="#{wpis.m1}" styleClass="#{wpis.m1 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="02" width="20" sortBy="#{wpis.m2}" rendered="#{WpisView.miesiacWpisu eq '02'}">  
+                <p:column headerText="02" width="20" sortBy="#{wpis.m2}" rendered="#{WpisView.miesiacWpisu eq '02'}" filterBy="#{wpis.m2}">  
                     <h:outputText value="#{wpis.m2}" styleClass="#{wpis.m2 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="03" width="20" sortBy="#{wpis.m3}" rendered="#{WpisView.miesiacWpisu eq '03'}">  
+                <p:column headerText="03" width="20" sortBy="#{wpis.m3}" rendered="#{WpisView.miesiacWpisu eq '03'}" filterBy="#{wpis.m3}">  
                     <h:outputText value="#{wpis.m3}" styleClass="#{wpis.m3 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="04" width="20" sortBy="#{wpis.m4}" rendered="#{WpisView.miesiacWpisu eq '04'}">  
+                <p:column headerText="04" width="20" sortBy="#{wpis.m4}" rendered="#{WpisView.miesiacWpisu eq '04'}" filterBy="#{wpis.m4}">  
                     <h:outputText value="#{wpis.m4}" styleClass="#{wpis.m4 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="05" width="20" sortBy="#{wpis.m5}" rendered="#{WpisView.miesiacWpisu eq '05'}">  
+                <p:column headerText="05" width="20" sortBy="#{wpis.m5}" rendered="#{WpisView.miesiacWpisu eq '05'}" filterBy="#{wpis.m5}">  
                     <h:outputText value="#{wpis.m5}" styleClass="#{wpis.m5 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="06" width="20" sortBy="#{wpis.m6}" rendered="#{WpisView.miesiacWpisu eq '06'}">  
+                <p:column headerText="06" width="20" sortBy="#{wpis.m6}" rendered="#{WpisView.miesiacWpisu eq '06'}" filterBy="#{wpis.m6}">  
                     <h:outputText value="#{wpis.m6}" styleClass="#{wpis.m6 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="07" width="20" sortBy="#{wpis.m7}" rendered="#{WpisView.miesiacWpisu eq '07'}">  
+                <p:column headerText="07" width="20" sortBy="#{wpis.m7}" rendered="#{WpisView.miesiacWpisu eq '07'}" filterBy="#{wpis.m7}">  
                     <h:outputText value="#{wpis.m7}" styleClass="#{wpis.m7 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="08" width="20" sortBy="#{wpis.m8}" rendered="#{WpisView.miesiacWpisu eq '08'}">  
+                <p:column headerText="08" width="20" sortBy="#{wpis.m8}" rendered="#{WpisView.miesiacWpisu eq '08'}" filterBy="#{wpis.m8}">  
                     <h:outputText value="#{wpis.m8}" styleClass="#{wpis.m8 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="09" width="20" sortBy="#{wpis.m9}" rendered="#{WpisView.miesiacWpisu eq '09'}">  
+                <p:column headerText="09" width="20" sortBy="#{wpis.m9}" rendered="#{WpisView.miesiacWpisu eq '09'}" filterBy="#{wpis.m9}">  
                     <h:outputText value="#{wpis.m9}" styleClass="#{wpis.m9 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="10" width="20" sortBy="#{wpis.m10}" rendered="#{WpisView.miesiacWpisu eq '10'}">  
+                <p:column headerText="10" width="20" sortBy="#{wpis.m10}" rendered="#{WpisView.miesiacWpisu eq '10'}" filterBy="#{wpis.m10}">  
                     <h:outputText value="#{wpis.m10}" styleClass="#{wpis.m10 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="11" width="20" sortBy="#{wpis.m11}" rendered="#{WpisView.miesiacWpisu eq '11'}">  
+                <p:column headerText="11" width="20" sortBy="#{wpis.m11}" rendered="#{WpisView.miesiacWpisu eq '11'}" filterBy="#{wpis.m11}">  
                     <h:outputText value="#{wpis.m11}" styleClass="#{wpis.m11 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="12" width="20"  sortBy="#{wpis.m12}" rendered="#{WpisView.miesiacWpisu eq '12'}">  
+                <p:column headerText="12" width="20"  sortBy="#{wpis.m12}" rendered="#{WpisView.miesiacWpisu eq '12'}" filterBy="#{wpis.m12}">  
                     <h:outputText value="#{wpis.m12}" styleClass="#{wpis.m12 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
                 <p:column headerText="bil." width="20"  sortBy="#{wpis.m13}">  

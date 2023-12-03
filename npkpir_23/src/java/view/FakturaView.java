@@ -73,6 +73,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.context.FacesContext;
@@ -3529,6 +3530,32 @@ public class FakturaView implements Serializable {
                 }
                 Msg.msg("Przefiltrowano faktury");
             }
+        }
+        
+    }
+    public void filtrujfakturyNowe() {
+        if (jakapobrac>0) {
+            Predicate<Fakturywystokresowe> isQualified = null;
+            if (jakapobrac==1) {
+                isQualified = item->item.isRecznaedycja();
+            } else if (jakapobrac==2) {
+                isQualified = item->item.isZawieszona();
+            } else if (jakapobrac==3) {
+                isQualified = item->item.isWystawtylkoraz();
+            } else if (jakapobrac==4) {
+                isQualified = item->item.getDokument().getDatawaloryzacji()==null;
+            } else if (jakapobrac==5) {
+                isQualified = item->item.getDokument().getDatawaloryzacji()!=null;
+            } else if (jakapobrac==6 ) {
+                isQualified = item->czywystawiona(item, wpisView.getMiesiacWpisu());
+            }
+            if (fakturyokresoweFiltered!=null) {
+                fakturyokresoweFiltered.removeIf(isQualified.negate());
+            } else {
+                fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                fakturyokresowe.removeIf(isQualified.negate());
+            }
+            Msg.msg("Przefiltrowano faktury");
         }
         
     }
