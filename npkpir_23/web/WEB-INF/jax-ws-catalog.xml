@@ -7,4 +7,6 @@
     <system systemId="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd2.xsd" uri="wsdl/Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd2.xsd"/>
     <system systemId="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd3.xsd" uri="wsdl/Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd3.xsd"/>
     <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/WebApplication1Ant/web/WEB-INF/wsdl/wsdlnipvat.wsdl" uri="wsdl/wsdlnipvat.wsdl"/>
+    <system systemId="http://localhost:8080/kadry/WsKadryFakturaPozycja?wsdl" uri="wsdl/localhost_8080/kadry/WsKadryFakturaPozycja.wsdl"/>
+    <system systemId="http://localhost:8080/kadry/WsKadryFakturaPozycja?xsd=1" uri="wsdl/localhost_8080/kadry/WsKadryFakturaPozycja.xsd_1.xsd"/>
 </catalog>

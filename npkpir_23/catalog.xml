@@ -11,4 +11,6 @@
     <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wsdlnipvat.wsdl" uri="src/conf/xml-resources/web-service-references/wsdlnipvat_1/wsdl/wsdlnipvat.wsdl"/>
     <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/testdok.wsdl" uri="src/conf/xml-resources/web-service-references/testdok_1/wsdl/testdok.wsdl"/>
     <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/GateService.xsd" uri="src/conf/xml-resources/web-service-references/testdok_1/wsdl/GateService.xsd"/>
+    <system systemId="http://localhost:8080/kadry/WsKadryFakturaPozycja?wsdl" uri="src/conf/xml-resources/web-service-references/WsKadryFakturaPozycja/wsdl/localhost_8080/kadry/WsKadryFakturaPozycja.wsdl"/>
+    <system systemId="http://localhost:8080/kadry/WsKadryFakturaPozycja?xsd=1" uri="src/conf/xml-resources/web-service-references/WsKadryFakturaPozycja/wsdl/localhost_8080/kadry/WsKadryFakturaPozycja.xsd_1.xsd"/>
 </catalog>
