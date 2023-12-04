@@ -14,6 +14,9 @@
             <p:commandButton value="Drukuj" type="button" icon="pi pi-print" styleClass="buttonnorm">
                 <p:printer target="datalist" />
             </p:commandButton>
+             <p:commandButton value="XLS" styleClass="buttonnorm">
+                    <p:dataExporter type="xls" target="datalist" fileName="lista"/>
+                </p:commandButton>
             <p:panelGrid columns="4">
                 <h:outputText value="firma" style="color: green;"/>
                 <h:outputText value="#{wpisView.firma.nazwa}" style="color: green;"/>

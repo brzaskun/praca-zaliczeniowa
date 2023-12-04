@@ -8,6 +8,7 @@ package view;
 import beanstesty.NieobecnosciBean;
 import beanstesty.UrlopBean;
 import comparator.Nieobecnosccomparator;
+import comparator.NieobecnosccomparatorDU;
 import comparator.Pracownikcomparator;
 import comparator.Rodzajnieobecnoscicomparator;
 import dao.AngazFacade;
@@ -509,6 +510,15 @@ public class NieobecnoscView  implements Serializable {
      public void drukujnieobecnosci() {
          if (selectedlista!=null) {
              PdfNieobecnosci.drukuj(selectedlista, wpisView.getAngaz(), wpisView.getRokWpisu());
+         } else {
+             Msg.msg("e","Nie wybrano pozycji do wydruku");
+         }
+     }
+     
+     public void drukujnieobecnoscide() {
+         if (selectedlista!=null) {
+             Collections.sort(lista, new NieobecnosccomparatorDU());
+             PdfNieobecnosci.drukujde(lista, wpisView.getAngaz(), wpisView.getRokWpisu());
          } else {
              Msg.msg("e","Nie wybrano pozycji do wydruku");
          }

@@ -302,10 +302,11 @@
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
-                    <p:panelGrid columns="2">
+                    <p:panelGrid columns="3">
                     <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz()}" value="nanieś na kal." 
                                      update="NieobecnoscListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacListForm KalendarzmiesiacListForm:datalist KalendarzmiesiacCreateForm KalendarzmiesiacCreateRokForm @(.urlopnizostalo) NieobecnoscListForm"/>
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{nieobecnoscView.drukujnieobecnosci()}" value="drukuj" />
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{nieobecnoscView.drukujnieobecnoscide()}" value="druk de" />
                     </p:panelGrid>
                 </p:panel>
             </h:form>

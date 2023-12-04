@@ -404,6 +404,36 @@ public class PdfMain {
         }
     }
     
+    public static void dodajOpisnieobecnoscide(Document document, Angaz angaz, String nazwadok, String rok, String pesel, String dataurodzenia) {
+        try {
+            StringBuilder s = new StringBuilder();
+            s.append(nazwadok);
+            s.append(" ");
+            s.append(angaz.getPracownik().getNazwiskoImie());
+            StringBuilder s1 = new StringBuilder();
+            s1.append("Arbeitgeber ");
+            s1.append(angaz.getFirma().getNazwa());
+            s1.append(" Steuernummer: ");
+            s1.append(angaz.getFirma().getSteuernummer());
+            Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
+            opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            opiswstepny = new Paragraph(new Phrase(s1.toString(), ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            opiswstepny = new Paragraph(new Phrase("Jahr "  + rok, ft[1]));
+            document.add(opiswstepny);
+            opiswstepny = new Paragraph(new Phrase("Pesel: " + pesel, ft[1]));
+            document.add(opiswstepny);
+            opiswstepny = new Paragraph(new Phrase("geb. am " + dataurodzenia, ft[1]));
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+    
     public static void dodajpodpis(Document document, String formaprawna) {
         try {
             document.add(Chunk.NEWLINE);

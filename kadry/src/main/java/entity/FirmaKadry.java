@@ -52,6 +52,9 @@ public class FirmaKadry implements Serializable {
     @Size(max = 255)
     @Column(name = "nip",nullable = false)
     private String nip;
+     @Size(max = 255)
+    @Column(name = "steuernummer",nullable = false)
+    private String steuernummer;
     @Size(max = 255)
     @Column(name = "regon")
     private String regon;
@@ -671,6 +674,20 @@ public class FirmaKadry implements Serializable {
     public void setBankkonto(String bankkonto) {
         this.bankkonto = bankkonto;
     }
+
+    public String getSteuernummer() {
+        String zwrot = "brak Steuernummer";
+        if (this.steuernummer!=null) {
+            zwrot = this.steuernummer;
+        }
+        return zwrot;
+    }
+
+    public void setSteuernummer(String steuernummer) {
+        this.steuernummer = steuernummer;
+    }
+    
+    
     
     @XmlTransient
     public List<Wypadkowefirma> getWypadkowefirmaList() {

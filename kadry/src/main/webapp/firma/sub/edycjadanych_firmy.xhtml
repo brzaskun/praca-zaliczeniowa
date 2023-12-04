@@ -142,8 +142,10 @@
                        <p:inputText id="dataurodzenia" value="#{firmaImportView.selectedlista.dataurodzenia}" title="nazwisko przedsiębiorcy"   placeholder="____-__-__"  maxlength="10"/>
                        <p:outputLabel value="Regon" for="regon" />
                        <p:inputText id="regon" value="#{firmaImportView.selectedlista.regon}" title="Regon" />
+                       <p:outputLabel value="Steuernummer" for="steuernummer" />
+                       <p:inputText id="steuernummer" value="#{firmaImportView.selectedlista.steuernummer}" title="steuernummer" />
                        <p:outputLabel value="NIP" for="nip" rendered="#{wpisView.uzer.login eq '2'}"/>
-                        <p:inputText id="nip" value="#{firmaImportView.selectedlista.nip}" title="NIP"  rendered="#{wpisView.uzer.login eq '2'}"/>
+                       <p:inputText id="nip" value="#{firmaImportView.selectedlista.nip}" title="NIP"  rendered="#{wpisView.uzer.login eq '2'}"/>
                 </p:panelGrid>
                 <p:panel header="adres siedziby firmy #{firmaImportView.selectedlista.nazwa}"/>
                     <p:panelGrid columns="8">
