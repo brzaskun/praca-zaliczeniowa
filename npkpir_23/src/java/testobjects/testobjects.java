@@ -145,14 +145,28 @@ public class testobjects {
        List n = new ArrayList();
        n.add("lp");
        n.add("kontrahent");
-       n.add("opis");
        n.add("netto");
-       n.add("brutto");
+       n.add("praca");
+       n.add("zlecenie");
+       n.add("data");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;
        return tabela;
    }
+   
+//   public static List[] getFakturyOkresowe(List<Fakturywystokresowe> wiersze) {
+//       List n = new ArrayList();
+//       n.add("lp");
+//       n.add("kontrahent");
+//       n.add("opis");
+//       n.add("netto");
+//       n.add("brutto");
+//       List[] tabela = new List[2];
+//       tabela[0] = n;
+//       tabela[1] = wiersze;
+//       return tabela;
+//   }
    
    public static List[] getCzlonkowie(List<MiejscePrzychodow> wiersze) {
        List n = new ArrayList();

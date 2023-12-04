@@ -897,9 +897,10 @@ public class PdfMain {
                 col = new int[size];
                 col[0] = 2;
                 col[1] = 8;
-                col[2] = 8;
+                col[2] = 3;
                 col[3] = 3;
                 col[4] = 3;
+                col[5] = 3;
                 return col;
             case "entityfk.Cechazapisu":
                 col = new int[size];
@@ -1943,14 +1944,24 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getKodpocztowy(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getMiejscowosc(), "left", 8));
             }
+//            if (nazwaklasy.equals("entity.Fakturywystokresowe")) {
+//                Fakturywystokresowe p = (Fakturywystokresowe) it.next();
+//                table.addCell(ustawfrazeAlign(i++, "center", 8));
+//                table.addCell(ustawfrazeAlign(p.getDokument().getKontrahent().getNpelna(), "left", 8, 15f));
+//                table.addCell(ustawfrazeAlign(p.getDokument().getOpisFaktury(), "left", 8));
+//                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDokument().getNetto())), "right", 8));
+//                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDokument().getBrutto())), "right", 8));
+//            }
             if (nazwaklasy.equals("entity.Fakturywystokresowe")) {
                 Fakturywystokresowe p = (Fakturywystokresowe) it.next();
                 table.addCell(ustawfrazeAlign(i++, "center", 8));
                 table.addCell(ustawfrazeAlign(p.getDokument().getKontrahent().getNpelna(), "left", 8, 15f));
-                table.addCell(ustawfrazeAlign(p.getDokument().getOpisFaktury(), "left", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDokument().getNetto())), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDokument().getBrutto())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaroknastepny())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotapraca())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotazlecenie())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(Data.data_yyyyMMdd(p.getDatazalatwione())), "right", 8));
             }
+
             if (nazwaklasy.equals("testobjects.WierszTabeli")) {
                 WierszTabeli p = (WierszTabeli) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
