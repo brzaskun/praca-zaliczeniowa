@@ -5,23 +5,30 @@
  */
 package view;
 
+import comparator.FirmaKadrycomparator;
 import dao.FakturaopisuslugiFacade;
 import dao.FirmaKadryFacade;
 import dao.KadryfakturapozycjaFacade;
+import dao.PasekwynagrodzenFacade;
 import dao.WalutyFacade;
+import dao.WierszFakturyFacade;
 import entity.Fakturaopisuslugi;
 import entity.FirmaKadry;
 import entity.Kadryfakturapozycja;
+import entity.Pasekwynagrodzen;
 import entity.Waluty;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import webservice.WierszFaktury;
 
 /**
  *
@@ -34,32 +41,41 @@ public class KadryfakturapozycjaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private WpisView wpisView;
-    private List<Kadryfakturapozycja> lista;
+    private List<Kadryfakturapozycja> listauslugklientcena;
+    private List<WierszFaktury> listawierszfaktury;
     @Inject
     private KadryfakturapozycjaFacade kadryfakturapozycjaFacade;
     @Inject
     private Kadryfakturapozycja selected;
     @Inject
     private WalutyFacade walutyFacade;
+    @Inject
+    private WierszFakturyFacade wierszFakturyFacade;
     private List<FirmaKadry> listafirm;
     private List<Fakturaopisuslugi> listauslug;
     private List<Waluty> listawaluty;
-    
+    @Inject
+    private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     @Inject
     private FirmaKadryFacade firmaKadryFacade;
      @Inject
     private FakturaopisuslugiFacade fakturaopisuslugiFacade;
+    private String rok;
+    private String mc;
     
     @PostConstruct
     public void init() {
-        lista = kadryfakturapozycjaFacade.findAll();
-        if (lista ==null) {
-            lista = new ArrayList<>();
+        listauslugklientcena = kadryfakturapozycjaFacade.findAll();
+        if (listauslugklientcena ==null) {
+            listauslugklientcena = new ArrayList<>();
         }
         listafirm = firmaKadryFacade.findAll();
+        Collections.sort(listafirm,new FirmaKadrycomparator());
         listauslug = fakturaopisuslugiFacade.findAll();
         listawaluty = walutyFacade.findAll();
         selected.setWaluta(listawaluty.stream().filter(p->p.getSymbolwaluty().equals("PLN")).findFirst().get());
+        rok = wpisView.getRokWpisu();
+        mc = wpisView.getMiesiacWpisu();
     }
 
     public void dodaj() {
@@ -68,7 +84,7 @@ public class KadryfakturapozycjaView  implements Serializable {
                 selected.setUz(wpisView.getUzer());
                 selected.setDatadodania(new Date());
                 kadryfakturapozycjaFacade.create(selected);
-                lista.add(selected);
+                listauslugklientcena.add(selected);
                 selected = new Kadryfakturapozycja();
                 Msg.msg("Wprowadzono nową pozycję");
             } catch (Exception e) {
@@ -82,7 +98,16 @@ public class KadryfakturapozycjaView  implements Serializable {
      public void usun(Kadryfakturapozycja selected) {
         if (selected!=null) {
             kadryfakturapozycjaFacade.remove(selected);
-            lista.remove(selected);
+            listauslugklientcena.remove(selected);
+            Msg.msg("Usunięto pozycję");
+            
+        }
+     }
+     
+     public void usunwiersz(WierszFaktury selected) {
+        if (selected!=null) {
+            wierszFakturyFacade.remove(selected);
+            listawierszfaktury.remove(selected);
             Msg.msg("Usunięto pozycję");
             
         }
@@ -96,13 +121,57 @@ public class KadryfakturapozycjaView  implements Serializable {
             
         }
      }
+     
+     public void pobierz () {
+         listawierszfaktury = wierszFakturyFacade.findbyRokMc(rok, mc);
+         if (listauslugklientcena.isEmpty()==false) {
+             przetworzuslugiwmiesiacu();
+         }
+         if (listawierszfaktury.isEmpty()) {
+             Msg.msg("w","Brak pozycji w wybranym miesiącu");
+         } else {
+             wierszFakturyFacade.editList(listawierszfaktury);
+             Msg.msg("Pobrano pozycje");
+         }
+     }
 
-    public List<Kadryfakturapozycja> getLista() {
-        return lista;
+    private void przetworzuslugiwmiesiacu() {
+        for (Kadryfakturapozycja k : listauslugklientcena) {
+            List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokMcNip(rok, mc, k.getFirmakadry().getNip());
+            WierszFaktury wierszpobrany = pobierzwiersz(listawierszfaktury, k);
+            naniesusluge (wierszpobrany, k.getOpisuslugi(), paski);
+            if (wierszpobrany.getIlosc()>0&&wierszpobrany.getId()==null) {
+                listawierszfaktury.add(wierszpobrany);
+            }
+            System.out.println(k.getOpisuslugi().getClass()+" "+wierszpobrany.getIlosc());
+        }
+    }
+    
+    private WierszFaktury pobierzwiersz(List<WierszFaktury> listawierszfaktury, Kadryfakturapozycja k) {
+        WierszFaktury zwrot = new WierszFaktury(k, rok, mc);
+        for (WierszFaktury w : listawierszfaktury) {
+            if (w.getNip().equals(k.getFirmakadry().getNip())&&w.getOpis().equals(k.getOpisuslugi().getOpis())) {
+                zwrot = w;
+            }
+        }
+        return zwrot;
+    }
+    
+    private void naniesusluge(WierszFaktury wierszpobrany, Fakturaopisuslugi opisuslugi, List<Pasekwynagrodzen> paski) {
+        if (opisuslugi.isListawz()) {
+            Predicate<Pasekwynagrodzen> isQualified = item->item.isPraca();
+            paski.removeIf(isQualified.negate());
+            wierszpobrany.setIlosc(paski.size());
+        }
     }
 
-    public void setLista(List<Kadryfakturapozycja> lista) {
-        this.lista = lista;
+     
+    public List<Kadryfakturapozycja> getListauslugklientcena() {
+        return listauslugklientcena;
+    }
+
+    public void setListauslugklientcena(List<Kadryfakturapozycja> listauslugklientcena) {
+        this.listauslugklientcena = listauslugklientcena;
     }
 
     public Kadryfakturapozycja getSelected() {
@@ -136,6 +205,35 @@ public class KadryfakturapozycjaView  implements Serializable {
     public void setListawaluty(List<Waluty> listawaluty) {
         this.listawaluty = listawaluty;
     }
+
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
+    }
+
+    public List<WierszFaktury> getListawierszfaktury() {
+        return listawierszfaktury;
+    }
+
+    public void setListawierszfaktury(List<WierszFaktury> listawierszfaktury) {
+        this.listawierszfaktury = listawierszfaktury;
+    }
+
+    
+
+    
+   
     
 
     

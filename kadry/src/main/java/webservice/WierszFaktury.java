@@ -4,23 +4,88 @@
  */
 package webservice;
 
+import entity.Kadryfakturapozycja;
 import java.io.Serializable;
-import java.util.Objects;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Osito
  */
-public class WierszFaktury implements Serializable{
+@Entity
+@Table(name = "wierszfaktury", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"nip", "rok", "mc", "opis"})})
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "WierszFaktury.findAll", query = "SELECT w FROM WierszFaktury w"),
+    @NamedQuery(name = "WierszFaktury.findById", query = "SELECT w FROM WierszFaktury w WHERE w.id = :id"),
+    @NamedQuery(name = "WierszFaktury.findByNip", query = "SELECT w FROM WierszFaktury w WHERE w.nip = :nip"),
+    @NamedQuery(name = "WierszFaktury.findByRok", query = "SELECT w FROM WierszFaktury w WHERE w.rok = :rok"),
+    @NamedQuery(name = "WierszFaktury.findByRokMc", query = "SELECT w FROM WierszFaktury w WHERE w.rok = :rok AND  w.mc = :mc"),
+    @NamedQuery(name = "WierszFaktury.findByMc", query = "SELECT w FROM WierszFaktury w WHERE w.mc = :mc"),
+    @NamedQuery(name = "WierszFaktury.findByOpis", query = "SELECT w FROM WierszFaktury w WHERE w.opis = :opis"),
+    @NamedQuery(name = "WierszFaktury.findBySymbolwaluty", query = "SELECT w FROM WierszFaktury w WHERE w.symbolwaluty = :symbolwaluty"),
+    @NamedQuery(name = "WierszFaktury.findByKwota", query = "SELECT w FROM WierszFaktury w WHERE w.kwota = :kwota"),
+    @NamedQuery(name = "WierszFaktury.findByIlosc", query = "SELECT w FROM WierszFaktury w WHERE w.ilosc = :ilosc")})
+public class WierszFaktury implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
+    @Basic(optional = false)
+    @Column(name = "nip", nullable = false, length = 45)
     private String nip;
+    @Basic(optional = false)
+    @Column(name = "rok", nullable = false, length = 4)
     private String rok;
+    @Basic(optional = false)
+    @Column(name = "mc", nullable = false, length = 2)
     private String mc;
+    @Column(name = "opis", length = 128)
     private String opis;
+    @Column(name = "symbolwaluty", length = 3)
     private String symbolwaluty;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "kwota", precision = 22, scale = 0)
     private double kwota;
-    private double ilosc;
+    @Column(name = "ilosc")
+    private int ilosc;
+
+    public WierszFaktury() {
+    }
+
+    public WierszFaktury(int id) {
+        this.id = id;
+    }
+
+    public WierszFaktury(int id, String nip, String rok, String mc) {
+        this.id = id;
+        this.nip = nip;
+        this.rok = rok;
+        this.mc = mc;
+    }
+
+    public WierszFaktury(Kadryfakturapozycja k, String rok, String mc) {
+        this.nip = k.getFirmakadry().getNip();
+        this.opis = k.getOpisuslugi().getOpis();
+        this.rok = rok;
+        this.mc = mc;
+        this.kwota = k.getCena();
+        this.symbolwaluty = k.getWaluta().getSymbolwaluty();
+    }
 
     public Integer getId() {
         return id;
@@ -78,39 +143,37 @@ public class WierszFaktury implements Serializable{
         this.kwota = kwota;
     }
 
-    public double getIlosc() {
+    public int getIlosc() {
         return ilosc;
     }
 
-    public void setIlosc(double ilosc) {
+    public void setIlosc(int ilosc) {
         this.ilosc = ilosc;
     }
 
-    
-    
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 47 * hash + Objects.hashCode(this.id);
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof WierszFaktury)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        WierszFaktury other = (WierszFaktury) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
-        final WierszFaktury other = (WierszFaktury) obj;
-        return Objects.equals(this.id, other.id);
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "javaapplication2.WierszFaktury[ id=" + id + " ]";
     }
     
-    
-    
-
 }

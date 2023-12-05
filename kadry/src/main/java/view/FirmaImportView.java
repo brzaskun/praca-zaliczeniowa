@@ -7,6 +7,7 @@ package view;
 
 import DAOsuperplace.FirmaFacade;
 import DAOsuperplace.UrzadFacade;
+import comparator.FirmaKadrycomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.FirmaKadryFacade;
 import dao.KalendarzwzorFacade;
@@ -27,6 +28,7 @@ import entity.UprawnieniaUz;
 import entity.Uz;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -82,6 +84,7 @@ public class FirmaImportView  implements Serializable {
     @PostConstruct
     private void init() {
         lista  = firmaKadryFacade.findAll();
+        Collections.sort(lista,new FirmaKadrycomparator());
         if (wpisView.getFirma()!=null) {
             selectedeast = wpisView.getFirma();
         }
@@ -475,6 +478,7 @@ public class FirmaImportView  implements Serializable {
     public void setFirmaSPimport(Firma firmaSPimport) {
         this.firmaSPimport = firmaSPimport;
     }
+    
     
     
     
