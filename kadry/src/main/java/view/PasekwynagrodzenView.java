@@ -311,7 +311,7 @@ public class PasekwynagrodzenView implements Serializable {
     public void editpasek(Pasekwynagrodzen pasekzmiany) {
         if (pasekzmiany!=null) {
             for (Pasekwynagrodzen pasek : lista) {
-                if (pasek.getPodstawaopodatkowaniazagranicawaluta()==pasekzmiany.getPodstawaopodatkowaniazagranicawaluta()) {
+                if (pasek.getPodstawaopodatkowaniazagranicawaluta()>0.0&&pasek.getPodstawaopodatkowaniazagranicawaluta()==pasekzmiany.getPodstawaopodatkowaniazagranicawaluta()) {
                     pasek.setNaliczeniepotracenieList(null);
                     pasekwynagrodzenFacade.edit(pasek);
                     pasek.setPodatekdochodowyzagranicawaluta(pasekzmiany.getPodatekdochodowyzagranicawaluta());
