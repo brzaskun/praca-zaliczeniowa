@@ -93,7 +93,7 @@ public class X {
                     zwrot = Double.valueOf(pobrane);
                     break;
                 default:
-                    zwrot = (int) cell.getNumericCellValue();
+                    zwrot = cell.getNumericCellValue();
                     break;
             }
         }
