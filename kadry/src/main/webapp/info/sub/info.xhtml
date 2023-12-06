@@ -398,7 +398,7 @@
             </h:form >
                     <h:form styleClass="kadrypozycja">
                 <p:outputPanel style="padding: 10px;">
-                    <p:dataTable id="datalist" value="#{kadryfakturapozycjaView.lista}" var="item111"
+                    <p:dataTable id="datalist" value="#{kadryfakturapozycjaView.listauslugklientcena}" var="item111"
                                  selectionMode="single"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" 
                                  scrollable="true" scrollHeight="400" scrollRows="30" 
@@ -461,6 +461,81 @@
                                 <h:outputText value=""/>
                             </f:facet>
                             <p:commandButton icon="pi pi-trash" actionListener="#{kadryfakturapozycjaView.usun(item111)}" update="@parent:@parent">
+                                <p:confirm type="popup" header="Potwierdzenie" message="Usunąć pozycję?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </p:tab>
+        <p:tab title="Naliczenia do faktur">
+            <h:form styleClass="kadrypozycja">
+                <p:panelGrid columns="4">
+                    <p:outputLabel value="rok" for="rok" />
+                     <p:selectOneMenu id="rok" value="#{kadryfakturapozycjaView.rok}"  style="width: 60px;">
+                           <f:selectItems value="#{roki.rokiList}"/>
+                       </p:selectOneMenu>
+                    <p:outputLabel value="miesiąc" for="mc" />
+                    <p:selectOneMenu id="mc" value="#{kadryfakturapozycjaView.mc}"  style="width: 100px;">
+                       <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kadryfakturapozycjaView.pobierz}" value="pobierz" update="@form" />
+                </p:panelGrid>
+                <p:outputPanel style="padding: 10px;">
+                    <p:dataTable id="datalist" value="#{kadryfakturapozycjaView.listawierszfaktury}" var="item111"
+                                 selectionMode="single"
+                                 rowKey="#{item111.id}" rowIndexVar="indexumowa" 
+                                 scrollable="true" scrollHeight="400" scrollRows="30" 
+                                 style="width: 1000px;"
+                                 emptyMessage="Nie pobrano elementów"
+                                 >
+                        <p:ajax event="filter" partialSubmit="true" global="false" />
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value="#{indexumowa+1}"/>
+                        </p:column>
+                        <p:column width="100" style="text-align: left;" sortBy="#{item111.nip}" sortOrder="asc"
+                                  filterBy="#{item111.nip}" filterMatchMode="contains" sortPriority="1">
+                            <f:facet name="header">
+                                <h:outputText value="nip"/>
+                            </f:facet>
+                            <h:outputText value="#{item111.nip}"/>
+                        </p:column>
+                        <p:column width="250" style="text-align: left;" sortBy="#{item111.opis}" sortOrder="asc"
+                                  filterBy="#{item111.opis}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="opis"/>
+                            </f:facet>
+                            <h:outputText value="#{item111.opis}"/>
+                        </p:column>
+                        <p:column width="70" style="text-align: left;" sortBy="#{item111.kwota}" sortOrder="asc"
+                                  filterBy="#{item111.kwota}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="cena"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item111.kwota}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;" sortBy="#{item111.symbolwaluty}" sortOrder="asc"
+                                  filterBy="#{item111.symbolwaluty}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value="#{item111.symbolwaluty}"/>
+                        </p:column>
+                        <p:column width="70" style="text-align: left;" sortBy="#{item111.ilosc}" sortOrder="asc"
+                                  filterBy="#{item111.ilosc}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="ilosc"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item111.ilosc}"/>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <p:commandButton icon="pi pi-trash" actionListener="#{kadryfakturapozycjaView.usunwiersz(item111)}" update="@parent:@parent">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć pozycję?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
                         </p:column>
