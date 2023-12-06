@@ -5,6 +5,7 @@
 package pluginkadry;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
@@ -29,8 +30,12 @@ public class WsKadryFakturaPozycjaView implements Serializable {
             WsKadryFakturaPozycja wsKadryFakturaPozycjaPort = wsKadryFakturaPozycja_Service.getWsKadryFakturaPozycjaPort();
             String hello = wsKadryFakturaPozycjaPort.hello("lolo");
             System.out.println("odp: "+hello);
-            WierszFaktury wiersz = wsKadryFakturaPozycjaPort.kadryfakturapozycjamcrok("nip", "rok", "mc");
-            System.out.println("odp: "+wiersz.toString());
+            List<WierszFaktury> wiersze = wsKadryFakturaPozycjaPort.kadryfakturapozycjamcrok("8513282893", "2023", "10");
+            if (wiersze.isEmpty()==false) {
+                System.out.println("odp: "+wiersze.get(0).nip+" nazwa: "+wiersze.get(0).nazwa);
+            } else {
+                System.out.println("odebrałem pusta baze");
+            }
         } catch (Exception ex) {
             Logger.getLogger(WsKadryFakturaPozycjaView.class.getName()).log(Level.SEVERE, null, ex);
         }

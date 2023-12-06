@@ -122,5 +122,21 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/pluginkadry"/>
         <delete dir="${build.generated.dir}/jax-wsCache/WsKadryFakturaPozycja"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-checkVATService, wsimport-client-dokumenty, wsimport-client-wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl, wsimport-client-wsdlnipvat, wsimport-client-testdok, wsimport-client-WsKadryFakturaPozycja"/>
+    <target name="wsimport-client-WsKadryFakturaPozycja_1" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/WsKadryFakturaPozycja_1"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/WsKadryFakturaPozycja_1" destdir="${build.generated.dir}/jax-wsCache/WsKadryFakturaPozycja_1" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/WsKadryFakturaPozycja_1/wsdl/localhost_8080/kadry/WsKadryFakturaPozycja.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/kadry/WsKadryFakturaPozycja?wsdl" xnocompile="true" xendorsed="true" package="pluginkadry">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/WsKadryFakturaPozycja_1/wsdl/localhost_8080/kadry/WsKadryFakturaPozycja.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/WsKadryFakturaPozycja_1"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/WsKadryFakturaPozycja_1">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-WsKadryFakturaPozycja_1" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/pluginkadry"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/WsKadryFakturaPozycja_1"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-checkVATService, wsimport-client-dokumenty, wsimport-client-wyszukiwarkaregontest.stat.gov.pl_wsBIR_wsdl_UslugaBIRzewnPubl, wsimport-client-wsdlnipvat, wsimport-client-testdok, wsimport-client-WsKadryFakturaPozycja, wsimport-client-WsKadryFakturaPozycja_1"/>
 </project>

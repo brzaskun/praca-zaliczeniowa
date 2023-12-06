@@ -8,6 +8,8 @@
 
 <xs:element name="kadryfakturapozycjamcrokResponse" type="tns:kadryfakturapozycjamcrokResponse"/>
 
+<xs:element name="wierszFaktury" type="tns:wierszFaktury"/>
+
 <xs:complexType name="kadryfakturapozycjamcrok">
 <xs:sequence>
 <xs:element name="nip" type="xs:string" minOccurs="0"/>
@@ -18,20 +20,20 @@
 
 <xs:complexType name="kadryfakturapozycjamcrokResponse">
 <xs:sequence>
-<xs:element name="return" type="tns:wierszFaktury" minOccurs="0"/>
+<xs:element name="return" type="tns:wierszFaktury" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="wierszFaktury">
 <xs:sequence>
 <xs:element name="id" type="xs:int" minOccurs="0"/>
-<xs:element name="ilosc" type="xs:double"/>
+<xs:element name="ilosc" type="xs:int"/>
 <xs:element name="kwota" type="xs:double"/>
 <xs:element name="mc" type="xs:string" minOccurs="0"/>
+<xs:element name="nazwa" type="xs:string" minOccurs="0"/>
 <xs:element name="nip" type="xs:string" minOccurs="0"/>
 <xs:element name="opis" type="xs:string" minOccurs="0"/>
 <xs:element name="rok" type="xs:string" minOccurs="0"/>
-<xs:element name="nazwa" type="xs:string" minOccurs="0"/>
 <xs:element name="symbolwaluty" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
