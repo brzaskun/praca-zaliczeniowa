@@ -337,8 +337,11 @@ public class DokFKTransakcjeBean implements Serializable{
                             double kwotaRachunkuwWalRach = transakcja.getNowaTransakcja().getKwota() - transakcja.getNowaTransakcja().getRozliczono(transakcja);
                             double kwotaPlatnosciRozliczanadoLimituwalutaRachunku = kwotaPlatnosciwwalucieRachunku > kwotaRachunkuwWalRach ? kwotaRachunkuwWalRach : kwotaPlatnosciwwalucieRachunku;
                             double kwotaPlatnosciwalutaPlatnoscikalkulacja = Z.z(kwotaPlatnosciRozliczanadoLimituwalutaRachunku * kursRachunku /kursPlatnosci);
+                            if (kwotaPlatnosciwalutaPlatnoscikalkulacja>kwotwaPlatnosciwWaluciepierwotnej+0.01||kwotaPlatnosciwalutaPlatnoscikalkulacja>kwotwaPlatnosciwWaluciepierwotnej-0.01) {
+                                kwotaPlatnosciwalutaPlatnoscikalkulacja = kwotwaPlatnosciwWaluciepierwotnej;
+                            }
                             transakcja.setKwotatransakcji(kwotaPlatnosciwalutaPlatnoscikalkulacja);
-                            double kwotaRachunkuwPLN = kwotaPlatnosciRozliczanadoLimituwalutaRachunku * kursRachunku;
+                            double kwotaRachunkuwPLN = Z.z(kwotaPlatnosciRozliczanadoLimituwalutaRachunku * kursRachunku);
                             double roznicakursowa = Z.z(kwotaPlatnosciwPLN-kwotaRachunkuwPLN);
                             if (roznicakursowa > 0.0) {
                                 transakcja.setRoznicekursowe(roznicakursowa);
