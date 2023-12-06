@@ -91,8 +91,13 @@ public class ImportING_XML implements Serializable {
                                             String iban = (String) content.get(1);
                                             x.setIBAN(iban.replaceAll("\\s", ""));
                                             x.setIBAN("znow problem z Othr zamiast Other");
-                                        } else {
+                                        } else if (content.get(1).getClass().getName().equals("xls.ing.Other")) {
                                             xls.ing.Other o = (xls.ing.Other) content.get(1);
+                                            Id id1 = o.getId();
+                                            String iban = (String) id1.getContent().get(0);
+                                            x.setIBAN(iban.replaceAll("\\s", ""));
+                                        } else {
+                                            xls.ing.Othr o = (xls.ing.Othr) content.get(1);
                                             Id id1 = o.getId();
                                             String iban = (String) id1.getContent().get(0);
                                             x.setIBAN(iban.replaceAll("\\s", ""));
@@ -117,8 +122,13 @@ public class ImportING_XML implements Serializable {
                                                 String iban = (String) content.get(1);
                                                 x.setIBAN(iban.replaceAll("\\s", ""));
                                                 x.setIBAN("znow problem z Othr zamiast Other");
-                                            } else {
+                                            } else if (content.get(1).getClass().getName().equals("xls.ing.Other")) {
                                                 xls.ing.Other o = (xls.ing.Other) content.get(1);
+                                                Id id1 = o.getId();
+                                                String iban = (String) id1.getContent().get(0);
+                                                x.setIBAN(iban.replaceAll("\\s", ""));
+                                            } else {
+                                                xls.ing.Othr o = (xls.ing.Othr) content.get(1);
                                                 Id id1 = o.getId();
                                                 String iban = (String) id1.getContent().get(0);
                                                 x.setIBAN(iban.replaceAll("\\s", ""));
