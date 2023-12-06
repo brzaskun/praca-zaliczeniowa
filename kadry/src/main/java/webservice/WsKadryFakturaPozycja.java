@@ -4,6 +4,12 @@
  */
 package webservice;
 
+import dao.FirmaKadryFacade;
+import dao.WierszFakturyFacade;
+import entity.FirmaKadry;
+import java.io.Serializable;
+import java.util.List;
+import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -13,7 +19,12 @@ import javax.jws.WebService;
  * @author Osito
  */
 @WebService(serviceName = "WsKadryFakturaPozycja")
-public class WsKadryFakturaPozycja {
+public class WsKadryFakturaPozycja implements Serializable {
+    
+    @Inject
+    private WierszFakturyFacade wierszFakturyFacade;
+    @Inject
+    private FirmaKadryFacade firmaKadryFacade;
 
     /**
      * This is a sample web service operation
@@ -27,7 +38,14 @@ public class WsKadryFakturaPozycja {
      * Web service operation
      */
     @WebMethod(operationName = "kadryfakturapozycjamcrok")
-    public WierszFaktury kadryfakturapozycjamcrok(@WebParam(name = "nip") String nip, @WebParam(name = "rok") String rok, @WebParam(name = "mc") String mc) {
+    public List<WierszFaktury> kadryfakturapozycjamcrok(@WebParam(name = "nip") String nip, @WebParam(name = "rok") String rok, @WebParam(name = "mc") String mc) {
+        List<WierszFaktury> zwrotbaza = wierszFakturyFacade.findbyNipRokMc(nip, rok, mc);
+        List<FirmaKadry> firmy = firmaKadryFacade.findAll();
+        if (zwrotbaza.isEmpty()) {
+            System.out.println("baza pusta");
+        } else {
+            System.out.println("pobrano pusta");
+        }
         WierszFaktury zwrot = new WierszFaktury();
         zwrot.setId(1);
         zwrot.setRok(rok);
@@ -36,6 +54,8 @@ public class WsKadryFakturaPozycja {
         zwrot.setOpis("krowa");
         zwrot.setSymbolwaluty("PLN");
         zwrot.setKwota(22);
-        return zwrot;
+        zwrot.setNazwa("KOPANA");
+        zwrot.setNip("nipupupu");
+        return zwrotbaza;
     }
 }

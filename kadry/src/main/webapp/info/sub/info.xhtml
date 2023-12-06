@@ -486,7 +486,7 @@
                                  selectionMode="single"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" 
                                  scrollable="true" scrollHeight="400" scrollRows="30" 
-                                 style="width: 1000px;"
+                                 style="width: 1200px;"
                                  emptyMessage="Nie pobrano elementów"
                                  >
                         <p:ajax event="filter" partialSubmit="true" global="false" />
@@ -496,12 +496,19 @@
                             </f:facet>
                             <h:outputText value="#{indexumowa+1}"/>
                         </p:column>
-                        <p:column width="100" style="text-align: left;" sortBy="#{item111.nip}" sortOrder="asc"
+                        <p:column width="70" style="text-align: left;" sortBy="#{item111.nip}" sortOrder="asc"
                                   filterBy="#{item111.nip}" filterMatchMode="contains" sortPriority="1">
                             <f:facet name="header">
                                 <h:outputText value="nip"/>
                             </f:facet>
                             <h:outputText value="#{item111.nip}"/>
+                        </p:column>
+                         <p:column width="250" style="text-align: left;" sortBy="#{item111.nazwa}" sortOrder="asc"
+                                  filterBy="#{item111.nazwa}" filterMatchMode="contains" sortPriority="1">
+                            <f:facet name="header">
+                                <h:outputText value="nazwa"/>
+                            </f:facet>
+                            <h:outputText value="#{item111.nazwa}"/>
                         </p:column>
                         <p:column width="250" style="text-align: left;" sortBy="#{item111.opis}" sortOrder="asc"
                                   filterBy="#{item111.opis}" filterMatchMode="contains">

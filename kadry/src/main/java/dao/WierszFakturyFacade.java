@@ -51,6 +51,12 @@ public class WierszFakturyFacade extends DAO  implements Serializable {
        zwrot = getEntityManager().createNamedQuery("WierszFaktury.findByRokMc").setParameter("rok", rokWpisu).setParameter("mc", mc).getResultList();
        return zwrot;
     }
+   
+   public List<WierszFaktury> findbyNipRokMc(String nip, String rokWpisu, String mc) {
+       List<WierszFaktury> zwrot = new ArrayList<>();
+       zwrot = getEntityManager().createNamedQuery("WierszFaktury.findByNipRokMc").setParameter("nip", nip).setParameter("rok", rokWpisu).setParameter("mc", mc).getResultList();
+       return zwrot;
+    }
 
       
 }

@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "WierszFaktury.findByNip", query = "SELECT w FROM WierszFaktury w WHERE w.nip = :nip"),
     @NamedQuery(name = "WierszFaktury.findByRok", query = "SELECT w FROM WierszFaktury w WHERE w.rok = :rok"),
     @NamedQuery(name = "WierszFaktury.findByRokMc", query = "SELECT w FROM WierszFaktury w WHERE w.rok = :rok AND  w.mc = :mc"),
+    @NamedQuery(name = "WierszFaktury.findByNipRokMc", query = "SELECT w FROM WierszFaktury w WHERE w.nip = :nip AND w.rok = :rok AND  w.mc = :mc"),
     @NamedQuery(name = "WierszFaktury.findByMc", query = "SELECT w FROM WierszFaktury w WHERE w.mc = :mc"),
     @NamedQuery(name = "WierszFaktury.findByOpis", query = "SELECT w FROM WierszFaktury w WHERE w.opis = :opis"),
     @NamedQuery(name = "WierszFaktury.findBySymbolwaluty", query = "SELECT w FROM WierszFaktury w WHERE w.symbolwaluty = :symbolwaluty"),
@@ -48,6 +49,9 @@ public class WierszFaktury implements Serializable {
     @Basic(optional = false)
     @Column(name = "nip", nullable = false, length = 45)
     private String nip;
+    @Basic(optional = false)
+    @Column(name = "nazwa", nullable = false, length = 256)
+    private String nazwa;
     @Basic(optional = false)
     @Column(name = "rok", nullable = false, length = 4)
     private String rok;
@@ -80,6 +84,7 @@ public class WierszFaktury implements Serializable {
 
     public WierszFaktury(Kadryfakturapozycja k, String rok, String mc) {
         this.nip = k.getFirmakadry().getNip();
+        this.nazwa = k.getFirmakadry().getNazwa();
         this.opis = k.getOpisuslugi().getOpis();
         this.rok = rok;
         this.mc = mc;
@@ -103,6 +108,14 @@ public class WierszFaktury implements Serializable {
         this.nip = nip;
     }
 
+    public String getNazwa() {
+        return nazwa;
+    }
+
+    public void setNazwa(String nazwa) {
+        this.nazwa = nazwa;
+    }
+    
     public String getRok() {
         return rok;
     }
