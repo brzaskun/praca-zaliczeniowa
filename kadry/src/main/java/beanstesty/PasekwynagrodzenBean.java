@@ -940,6 +940,7 @@ public class PasekwynagrodzenBean {
 //                bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
 //            }
         }
+        pasek.setPrzychodypodatekpolska(bruttobezzus);
         pasek.setBruttobezzus(bruttobezzus);
         pasek.setBrutto(Z.z(pasek.getBrutto() + bruttobezzus));
     }
