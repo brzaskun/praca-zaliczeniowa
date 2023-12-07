@@ -504,6 +504,11 @@ public class Vat7DKView implements Serializable {
                 nowadeklaracja.setWniosekVATZDEntity(wniosekVATZDEntity);
             }
             nowadeklaracja.setDatasporzadzenia(new Date());
+            nowadeklaracja.setIdentyfikator("dla jpk");
+            nowadeklaracja.setStatus("388");
+            nowadeklaracja.setOpis("zachowana dla wysłania z jpk");
+            nowadeklaracja.setDatazlozenia(new Date());
+            nowadeklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
             deklaracjevatDAO.create(nowadeklaracja);
             if (vatzd) {
                 wniosekVATZDEntityDAO.edit(wniosekVATZDEntity);
