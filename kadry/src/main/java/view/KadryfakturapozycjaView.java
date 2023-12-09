@@ -5,6 +5,7 @@
  */
 package view;
 
+import beanstesty.WierszFakturaBean;
 import comparator.FirmaKadrycomparator;
 import dao.FakturaopisuslugiFacade;
 import dao.FirmaKadryFacade;
@@ -24,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 import javax.annotation.PostConstruct;
+import javax.ejb.Schedule;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -85,7 +87,9 @@ public class KadryfakturapozycjaView  implements Serializable {
                 selected.setDatadodania(new Date());
                 kadryfakturapozycjaFacade.create(selected);
                 listauslugklientcena.add(selected);
+                Waluty waluta = selected.getWaluta();
                 selected = new Kadryfakturapozycja();
+                selected.setWaluta(waluta);
                 Msg.msg("Wprowadzono nową pozycję");
             } catch (Exception e) {
                 Msg.msg("e","Taka pozycja już istnieje");
@@ -122,6 +126,7 @@ public class KadryfakturapozycjaView  implements Serializable {
         }
      }
      
+     
      public void pobierz () {
          listawierszfaktury = wierszFakturyFacade.findbyRokMc(rok, mc);
          if (listauslugklientcena.isEmpty()==false) {
@@ -138,32 +143,19 @@ public class KadryfakturapozycjaView  implements Serializable {
     private void przetworzuslugiwmiesiacu() {
         for (Kadryfakturapozycja k : listauslugklientcena) {
             List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokMcNip(rok, mc, k.getFirmakadry().getNip());
-            WierszFaktury wierszpobrany = pobierzwiersz(listawierszfaktury, k);
-            naniesusluge (wierszpobrany, k.getOpisuslugi(), paski);
+            WierszFaktury wierszpobrany = WierszFakturaBean.pobierzwiersz(listawierszfaktury, k, rok, mc);
+            WierszFakturaBean.naniesusluge (wierszpobrany, k.getOpisuslugi(), paski);
             if (wierszpobrany.getIlosc()>0&&wierszpobrany.getId()==null) {
                 listawierszfaktury.add(wierszpobrany);
+                wierszFakturyFacade.create(wierszpobrany);
+            } else if (wierszpobrany.getId()!=null) {
+                wierszFakturyFacade.edit(wierszpobrany);
             }
             System.out.println(k.getOpisuslugi().getClass()+" "+wierszpobrany.getIlosc());
         }
     }
     
-    private WierszFaktury pobierzwiersz(List<WierszFaktury> listawierszfaktury, Kadryfakturapozycja k) {
-        WierszFaktury zwrot = new WierszFaktury(k, rok, mc);
-        for (WierszFaktury w : listawierszfaktury) {
-            if (w.getNip().equals(k.getFirmakadry().getNip())&&w.getOpis().equals(k.getOpisuslugi().getOpis())) {
-                zwrot = w;
-            }
-        }
-        return zwrot;
-    }
-    
-    private void naniesusluge(WierszFaktury wierszpobrany, Fakturaopisuslugi opisuslugi, List<Pasekwynagrodzen> paski) {
-        if (opisuslugi.isListawz()) {
-            Predicate<Pasekwynagrodzen> isQualified = item->item.isPraca();
-            paski.removeIf(isQualified.negate());
-            wierszpobrany.setIlosc(paski.size());
-        }
-    }
+   
 
      
     public List<Kadryfakturapozycja> getListauslugklientcena() {

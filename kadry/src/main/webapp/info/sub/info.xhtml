@@ -368,7 +368,8 @@
                 <p:outputPanel style="padding: 10px;">
                     <p:panelGrid columns="2">
                         <h:outputText value="firma"/>
-                        <p:selectOneMenu id="firma" value="#{kadryfakturapozycjaView.selected.firmakadry}" required="true" requiredMessage="Wybierz firmę" converter="#{firmaKadryConverter}" styleClass="datalistadef">
+                        <p:selectOneMenu id="firma" value="#{kadryfakturapozycjaView.selected.firmakadry}" filter="true" filterMatchMode="contains"
+                                         required="true" requiredMessage="Wybierz firmę" converter="#{firmaKadryConverter}" styleClass="datalistadef">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{kadryfakturapozycjaView.listafirm}"
                                            var="firmalistaItem"
