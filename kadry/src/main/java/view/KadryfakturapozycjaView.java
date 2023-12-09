@@ -7,6 +7,7 @@ package view;
 
 import beanstesty.WierszFakturaBean;
 import comparator.FirmaKadrycomparator;
+import comparator.Kadryfakturapozycjacomparator;
 import dao.FakturaopisuslugiFacade;
 import dao.FirmaKadryFacade;
 import dao.KadryfakturapozycjaFacade;
@@ -68,6 +69,7 @@ public class KadryfakturapozycjaView  implements Serializable {
     @PostConstruct
     public void init() {
         listauslugklientcena = kadryfakturapozycjaFacade.findAll();
+        Collections.sort(listauslugklientcena, new Kadryfakturapozycjacomparator());
         if (listauslugklientcena ==null) {
             listauslugklientcena = new ArrayList<>();
         }
