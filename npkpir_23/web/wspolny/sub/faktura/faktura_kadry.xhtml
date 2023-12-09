@@ -1,0 +1,107 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:tab title="Naliczenia do faktur">
+            <h:form styleClass="kadrypozycja">
+                <p:panelGrid columns="4">
+                    <p:outputLabel value="rok" for="rok" />
+                     <p:selectOneMenu id="rok" value="#{wsKadryFakturaPozycjaView.rok}"  style="width: 60px;">
+                           <f:selectItems value="#{roki.rokiList}"/>
+                       </p:selectOneMenu>
+                    <p:outputLabel value="miesiąc" for="mc" />
+                    <p:selectOneMenu id="mc" value="#{wsKadryFakturaPozycjaView.mc}"  style="width: 100px;">
+                       <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{wsKadryFakturaPozycjaView.init()}" value="pobierz" update="@form" />
+                </p:panelGrid>
+                <p:outputPanel style="padding: 10px;">
+                    <p:dataTable id="datalist" value="#{wsKadryFakturaPozycjaView.wierzfakturybazalist}" var="item111"
+                                 selectionMode="single"
+                                 rowKey="#{item111.id}" rowIndexVar="indexumowa" 
+                                 style="width: 1300px;"
+                                 emptyMessage="Nie pobrano elementów"
+                                 >
+                        <p:ajax event="filter" partialSubmit="true" global="false" />
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value="#{indexumowa+1}"/>
+                        </p:column>
+                        <p:column width="70" style="text-align: left;" sortBy="#{item111.nip}" 
+                                  filterBy="#{item111.nip}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="nip"/>
+                            </f:facet>
+                            <h:outputText value="#{item111.nip}"/>
+                        </p:column>
+                         <p:column width="250" style="text-align: left;" sortBy="#{item111.nazwa}" 
+                                  filterBy="#{item111.nazwa}" filterMatchMode="contains" >
+                            <f:facet name="header">
+                                <h:outputText value="nazwa"/>
+                            </f:facet>
+                            <h:outputText value="#{item111.nazwa}"/>
+                        </p:column>
+                        <p:column width="250" style="text-align: left;" sortBy="#{item111.opis}" 
+                                  filterBy="#{item111.opis}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="opis"/>
+                            </f:facet>
+                            <h:outputText value="#{item111.opis}"/>
+                        </p:column>
+                        <p:column width="70" style="text-align: left;" sortBy="#{item111.kwota}" 
+                                  filterBy="#{item111.kwota}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="cena"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item111.kwota}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;" sortBy="#{item111.symbolwaluty}" 
+                                  filterBy="#{item111.symbolwaluty}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value="#{item111.symbolwaluty}"/>
+                        </p:column>
+                        <p:column width="70" style="text-align: left;" sortBy="#{item111.ilosc}" 
+                                  filterBy="#{item111.ilosc}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="ilosc"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item111.ilosc}"/>
+                        </p:column>
+                         <p:column width="30" style="text-align: center;" sortBy="#{item111.wymagakorekty}" 
+                                   filterBy="#{item111.wymagakorekty}" filterMatchMode="startsWith">
+                            <f:facet name="header">
+                                <h:outputText value="różnice"/>
+                            </f:facet>
+                            <h:outputText value="&#x2713;" rendered="#{item111.wymagakorekty}"  style="color: red;font-weight: 900;"/>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;" sortBy="#{item111.naniesiony}" 
+                                  filterBy="#{item111.naniesiony}" filterMatchMode="startsWith">
+                            <f:facet name="header">
+                                <h:outputText value="nan."/>
+                            </f:facet>
+                            <h:outputText value="&#x2713;" rendered="#{item111.naniesiony}"  style="color: green;font-weight: 900;"/>
+                        </p:column>
+                        <p:column width="70" style="text-align: center;" sortBy="#{item111.naniesiony}" 
+                                  >
+                            <f:facet name="header">
+                                <h:outputText value="data fakt."/>
+                            </f:facet>
+                            <h:outputText value="#{item111.datafaktury}">
+                               <f:convertDateTime pattern="yyyy/MM/dd" />
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </p:tab>
+</ui:composition>   
+
+
