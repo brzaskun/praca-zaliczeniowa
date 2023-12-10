@@ -114,6 +114,7 @@
     <class>entity.VatUe</class>
     <class>entity.VATZDpozycja</class>
     <class>entity.WierszDRA</class>
+    <class>entity.Wierszfakturybaza</class>
     <class>entity.WniosekVATZDEntity</class>
     <class>entity.ZamkniecieRokuEtap</class>
     <class>entity.ZamkniecieRokuRozliczenie</class>
