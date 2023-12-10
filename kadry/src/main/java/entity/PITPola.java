@@ -119,6 +119,11 @@ public class PITPola {
         this.praca33zaliczka = this.praca33zaliczka+karta.getPodatekdochodowy();
         this.zus51pole95 = this.zus51pole95+karta.getRazemspolecznepracownik();
         this.zus52pole122 = this.zus52pole122+karta.getPraczdrowotnedopotracenia();
+        if (karta.getDochodzagranica()>0.0) {
+            this.praca32dochodzwolniony = karta.getDochodzagranica();
+            this.praca29przychod = this.praca29przychod-this.praca32dochodzwolniony;
+            this.praca31dochod = this.praca29przychod-this.praca30koszt;
+        }
     }
 
     public void dodajprace26zwolnione(Kartawynagrodzen karta) {

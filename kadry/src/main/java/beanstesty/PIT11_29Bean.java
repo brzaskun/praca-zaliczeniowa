@@ -293,6 +293,7 @@ public class PIT11_29Bean {
                     dochodzagranica = Z.z(dochodzagranica-sumaUmowaoprace.getBrutto());
                 }
             }
+            poz.setP32(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getDochodzagranica())));
             poz.setP30(BigDecimal.valueOf(sumaUmowaoprace.getKosztyuzyskania()));
             BigDecimal subtract = poz.getP29().subtract(poz.getP30()).doubleValue()<0.0?BigDecimal.ZERO:poz.getP29().subtract(poz.getP30());
             if (poz.getP31()!=null) {

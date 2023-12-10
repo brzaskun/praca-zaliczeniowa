@@ -402,52 +402,52 @@ public class PdfPIT11 {
                     absText(writer, "NIE WYSŁANA!", 340, 785, 12);
                 }
                 document.newPage();
-                    absTextW(writer, pobierz(ps.getP29()), 230, 700);
-                    absTextW(writer, pobierz(ps.getP30()), 300, 700);
-                    absTextW(writer, pobierz(ps.getP31()), 372, 690);
-                    absTextW(writer, pobierz(ps.getP32()), 440, 690);
-                    absTextW(writer, pobierzI(ps.getP33()), 523, 690);
-                    absTextW(writer, pobierz(ps.getP34()), 230, 660);
-                    absTextW(writer, pobierz(ps.getP35()), 300, 660);
-                    absTextW(writer, pobierz(ps.getP36()), 230, 635);
-                    absTextW(writer, pobierz(ps.getP37()), 300, 635);
-                    absTextW(writer, pobierz(ps.getP38()), 372, 610);
-                    absTextW(writer, pobierz(ps.getP39()), 440, 610);
-                    absTextW(writer, pobierzI(ps.getP40()), 523, 610);
-                    absTextW(writer, pobierz(ps.getP41()), 230, 610);
-                    absTextW(writer, pobierz(ps.getP42()), 300, 610);
+                    absTextW(writer, pobierz(ps.getP29()), 225, 700);
+                    absTextW(writer, pobierz(ps.getP30()), 295, 700);
+                    absTextW(writer, pobierz(ps.getP31()), 368, 690);
+                    absTextW(writer, pobierz(ps.getP32()), 435, 690);
+                    absTextW(writer, pobierzI(ps.getP33()), 518, 690);
+                    absTextW(writer, pobierz(ps.getP34()), 225, 660);
+                    absTextW(writer, pobierz(ps.getP35()), 295, 660);
+                    absTextW(writer, pobierz(ps.getP36()), 225, 635);
+                    absTextW(writer, pobierz(ps.getP37()), 295, 635);
+                    absTextW(writer, pobierz(ps.getP38()), 368, 610);
+                    absTextW(writer, pobierz(ps.getP39()), 435, 610);
+                    absTextW(writer, pobierzI(ps.getP40()), 518, 610);
+                    absTextW(writer, pobierz(ps.getP41()), 225, 610);
+                    absTextW(writer, pobierz(ps.getP42()), 295, 610);
                     //emeryt
-                    absTextW(writer, pobierz(ps.getP43()), 230, 570);
-                    absTextW(writer, pobierz(ps.getP44()), 300, 570);
-                    absTextW(writer, pobierz(ps.getP45()), 372, 570);
-                    absTextW(writer, pobierzI(ps.getP47()), 523, 570);
-                    absTextW(writer, pobierz(ps.getP48()), 230, 550);
-                    absTextW(writer, pobierz(ps.getP49()), 300, 550);
+                    absTextW(writer, pobierz(ps.getP43()), 225, 570);
+                    absTextW(writer, pobierz(ps.getP44()), 295, 570);
+                    absTextW(writer, pobierz(ps.getP45()), 368, 570);
+                    absTextW(writer, pobierzI(ps.getP47()), 518, 570);
+                    absTextW(writer, pobierz(ps.getP48()), 225, 550);
+                    absTextW(writer, pobierz(ps.getP49()), 295, 550);
 
-                    absTextW(writer, pobierz(ps.getP54()), 230, 460);
-                    absTextW(writer, pobierz(ps.getP55()), 300, 460);
-                    absTextW(writer, pobierz(ps.getP56()), 372, 460);
-                    absTextW(writer, pobierzI(ps.getP57()), 523, 460);
+                    absTextW(writer, pobierz(ps.getP54()), 225, 460);
+                    absTextW(writer, pobierz(ps.getP55()), 295, 460);
+                    absTextW(writer, pobierz(ps.getP56()), 368, 460);
+                    absTextW(writer, pobierzI(ps.getP57()), 518, 460);
                     //zlecenie
-                    absTextW(writer, pobierz(ps.getP58()), 230, 430);
-                    absTextW(writer, pobierz(ps.getP59()), 300, 430);
-                    absTextW(writer, pobierz(ps.getP60()), 372, 430);
-                    absTextW(writer, pobierzI(ps.getP61()), 523, 430);
+                    absTextW(writer, pobierz(ps.getP58()), 225, 430);
+                    absTextW(writer, pobierz(ps.getP59()), 295, 430);
+                    absTextW(writer, pobierz(ps.getP60()), 368, 430);
+                    absTextW(writer, pobierzI(ps.getP61()), 518, 430);
                     //26 lat zlecenie opodatkowane
-                    absTextW(writer, pobierz(ps.getP62()), 230, 400);
-                    absTextW(writer, pobierz(ps.getP63()), 300, 400);
-                    absTextW(writer, pobierz(ps.getP64()), 372, 400);
-                    absTextW(writer, pobierzI(ps.getP65()), 523, 400);
+                    absTextW(writer, pobierz(ps.getP62()), 225, 400);
+                    absTextW(writer, pobierz(ps.getP63()), 295, 400);
+                    absTextW(writer, pobierz(ps.getP64()), 368, 400);
+                    absTextW(writer, pobierzI(ps.getP65()), 518, 400);
                     //emeryt zlecenei
-                    absTextW(writer, pobierz(ps.getP66()), 230, 370);
-                    absTextW(writer, pobierz(ps.getP67()), 300, 370);
-                    absTextW(writer, pobierz(ps.getP68()), 372, 370);
-                    absTextW(writer, pobierzI(ps.getP69()), 523, 370);
+                    absTextW(writer, pobierz(ps.getP66()), 225, 370);
+                    absTextW(writer, pobierz(ps.getP67()), 295, 370);
+                    absTextW(writer, pobierz(ps.getP68()), 368, 370);
+                    absTextW(writer, pobierzI(ps.getP69()), 518, 370);
                     //zasilki
-                    absTextW(writer, pobierz(ps.getP90()), 230, 150);
-                    absTextW(writer, pobierz(ps.getP91()), 300, 150);
-                    absTextW(writer, pobierz(ps.getP92()), 372, 150);
-                    absTextW(writer, pobierzI(ps.getP94()), 523, 150);
+                    absTextW(writer, pobierz(ps.getP90()), 225, 150);
+                    absTextW(writer, pobierz(ps.getP91()), 295, 150);
+                    absTextW(writer, pobierz(ps.getP92()), 368, 150);
+                    absTextW(writer, pobierzI(ps.getP94()), 518, 150);
                     
                    // absTextW(writer, pobierz(ps.getP74()), 300, 362);
 //                    absTextW(writer, pobierz(ps.getP64()), 230, 383);

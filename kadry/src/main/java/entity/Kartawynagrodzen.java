@@ -148,6 +148,10 @@ public class Kartawynagrodzen implements Serializable {
     private double dochodzagranica;
     @Column(name = "okresprzekroczenie26")
     private String okresprzekroczenie26;
+    @Column(name = "podstawaopodatkowaniazagranica")
+    private double podstawaopodatkowaniazagranica;
+    @Column(name = "podatekdochodowyzagranica")
+    private double podatekdochodowyzagranica;
     
     @Size(max = 4)
     @Column(name = "rok")
@@ -618,6 +622,22 @@ public class Kartawynagrodzen implements Serializable {
         this.okresprzekroczenie26 = okresprzekroczenie26;
     }
 
+    public double getPodstawaopodatkowaniazagranica() {
+        return podstawaopodatkowaniazagranica;
+    }
+
+    public void setPodstawaopodatkowaniazagranica(double podstawaopodatkowaniazagranica) {
+        this.podstawaopodatkowaniazagranica = podstawaopodatkowaniazagranica;
+    }
+
+    public double getPodatekdochodowyzagranica() {
+        return podatekdochodowyzagranica;
+    }
+
+    public void setPodatekdochodowyzagranica(double podatekdochodowyzagranica) {
+        this.podatekdochodowyzagranica = podatekdochodowyzagranica;
+    }
+
     
 
   
@@ -724,6 +744,8 @@ public class Kartawynagrodzen implements Serializable {
         this.potraceniainne += pasek.getPotraceniaInne();
         this.razem53 += pasek.getRazem53();
         this.kosztpracodawcy += pasek.getKosztpracodawcy();
+        this.podstawaopodatkowaniazagranica += pasek.getPodstawaopodatkowaniazagranica();
+        this.podatekdochodowyzagranica += pasek.getPodatekdochodowyzagranica();
         if (pasek.isDo26lat()==false) {
             this.okresprzekroczenie26 = pasek.getOkresWypl();
         }
@@ -739,18 +761,21 @@ public class Kartawynagrodzen implements Serializable {
             this.paski.add(pasek);
         }
         this.pesele.add(pasek.getPesel());
-        List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
-        double niemcy = 0.0;
-        if (this.angaz!=null&&this.angaz.getPrzekroczenierok()!=null) {
-            for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
-                //double zus = p.getKwotadolistyplac()<5922.0?p.getKwotadolistyplac()*.1371:5922.0*.1371;
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")) {
-                    niemcy = Z.z(niemcy + (p.getKwotadolistyplac()));
-                    this.setPrzekroczeniedni(true);
-                }
-            }
-        }
-        this.dochodzagranica = this.dochodzagranica + Z.z(pasek.getPrzychodzagranicasuperplace()+niemcy);
+        this.przekroczeniedni = pasek.isPrzekroczenieoddelegowanie();
+        //to jest po staremu jak bralismy dane z superplac
+        //teraz o tym czy jest rpzekroczenie jest info w pasku 1.12.2023 Sitges niedziela poranek przy kawie :)
+//        List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
+//        double niemcy = 0.0;
+//        if (this.angaz!=null&&this.angaz.getPrzekroczenierok()!=null) {
+//            for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
+//                //double zus = p.getKwotadolistyplac()<5922.0?p.getKwotadolistyplac()*.1371:5922.0*.1371;
+//                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")) {
+//                    niemcy = Z.z(niemcy + (p.getKwotadolistyplac()));
+//                    this.setPrzekroczeniedni(true);
+//                }
+//            }
+//        }
+        this.dochodzagranica = this.dochodzagranica + Z.z(pasek.getPodstawaopodatkowaniazagranica());
         
     }
     

@@ -7,8 +7,8 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
     >
-    <p:dialog id="dialogkartawynagrodzen" header="Karta wynagrodzeń" widgetVar="dialogkartawynagrodzen"  
-              resizable="true"  onShow="ustawdialog('dialogkartawynagrodzen','centertile',1600,600);" closeOnEscape="true" onHide="resetujdialog('dialogkartawynagrodzen');" 
+    <p:dialog id="dialogkartawynagrodzen" header="Karta wynagrodzeń dla PIT-11" widgetVar="dialogkartawynagrodzen"  
+              resizable="true"  onShow="ustawdialog('dialogkartawynagrodzen','centertile',1620,450);" closeOnEscape="true" onHide="resetujdialog('dialogkartawynagrodzen');" 
               >
         <p:outputPanel>
             <h:form  styleClass="formadmin" id="KartyWynangrodzenListForm">
@@ -77,19 +77,19 @@
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.razemspolecznepracownik}" stylePlus="#{itemkarta.razemspolecznepracownik eq 0 ? 'color:silver':null}"/>
                     </p:column>
-                      <p:column width="55">
+<!--                      <p:column width="55">
                         <f:facet name="header">
                             <h:outputText value="ubezp. społ. firma"/>
                         </f:facet>
                           <bcf:outputpl value="#{itemkarta.razemspolecznefirma}" stylePlus="#{itemkarta.razemspolecznefirma eq 0 ? 'color:silver':null}"/>
-                    </p:column>
+                    </p:column>-->
                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="podstawa opod." />
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.podstawaopodatkowania}" stylePlus="#{itemkarta.podstawaopodatkowania eq 0 ? 'color:silver':null}"/>
                     </p:column>
-                    <p:column width="30">
+                    <p:column width="40">
                         <f:facet name="header">
                             <h:outputText value="koszty uzysk."/>
                         </f:facet>
@@ -103,15 +103,21 @@
                     </p:column>
                     <p:column width="45">
                         <f:facet name="header">
-                            <h:outputText value="komornik"/>
+                            <h:outputText value="przychod zagranica"/>
                         </f:facet>
-                        <bcf:outputpl value="#{itemkarta.komornik}" stylePlus="#{itemkarta.komornik eq 0 ? 'color:silver':null}"/>
+                        <bcf:outputpl value="#{itemkarta.podstawaopodatkowaniazagranica}" stylePlus="#{itemkarta.podstawaopodatkowaniazagranica eq 0 ? 'color:silver':null}"/>
+                    </p:column>
+                    <p:column width="35" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="przekr."/>
+                        </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemkarta.przekroczeniedni eq true}" style="color: green;font-weight: 900;"/>
                     </p:column>
                     <p:column width="45">
                         <f:facet name="header">
-                            <h:outputText value="inne potr."/>
+                            <h:outputText value="podatek zagranica"/>
                         </f:facet>
-                        <bcf:outputpl value="#{itemkarta.potraceniainne}" stylePlus="#{itemkarta.potraceniainne eq 0 ? 'color:silver':null}"/>
+                        <bcf:outputpl value="#{itemkarta.podatekdochodowyzagranica}" stylePlus="#{itemkarta.podatekdochodowyzagranica eq 0 ? 'color:silver':null}"/>
                     </p:column>
 <!--                    <p:column width="60">
                         <f:facet name="header">
