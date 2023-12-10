@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialogrzisprzeglad" header="Rachunek Zysków i Strat za okres rozliczeniowy z saldami kont - #{WpisView.podatnikObiekt.printnazwa}" widgetVar="rzisprzeglad" 
-              resizable="false" onShow="ustawdialog('dialogrzisprzeglad','menubilanse', 1250, 780);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprzeglad');"  >
+              resizable="false" onShow="ustawdialog('dialogrzisprzeglad','menubilanse', 1650, 780);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprzeglad');"  >
         <bcf:ajaxs/>
         <h:form id="formprzeglad">
             <!--            <p:contextMenu for="dataList">
@@ -65,7 +65,7 @@
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}"
-                                 scrollable="true" style="height: 650px; margin-top: 0px; width: 650px; overflow-y: scroll;">
+                                 scrollable="true" style="height: 650px; margin-top: 0px; width: 750px; overflow-y: scroll;">
                         <f:facet  name="header">
                                 <h:outputText value="#{mgs.rachunekzyskówistrat}"/>
                             </f:facet>
@@ -86,10 +86,13 @@
                 <p:column>
                     <p:panelGrid columns="1" >
                         <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
-                                     style="height: 200px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}">
+                                     style="height: 200px; margin-top: 0%; width: 850px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}"
+                                     rowKey="#{loop.id}" selection="#{pozycjaBRView.wybranokonto}">
                             <f:facet  name="header">
                                 <h:outputText value="#{mgs.podpiętesaldakont}"/>
                             </f:facet>
+                             <p:ajax event="rowSelectRadio"  global="false" update=":formprzeglad:podpietepozycje" listener="#{pozycjaBRView.pobierzdanezkonta}" />
+                              <p:column selectionMode="single"  width="30" style="text-align: center;"/>
                             <p:column width="60">
                                 <h:outputText value="#{loop.pelnynumer}"/>
                             </p:column>
@@ -101,7 +104,7 @@
                             </p:column>
                         </p:dataTable>
                         <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
-                                     style="height: 400px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
+                                     style="height: 400px; margin-top: 0%; width: 850px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
                             <f:facet  name="header">
                                 <h:outputText value="#{mgs.podpiętezapisy}"/>
                             </f:facet>

@@ -2132,12 +2132,12 @@ public class FakturaView implements Serializable {
     
     public List<Faktura> wygenerujzokresowychcd() {
         List<Faktura> nowododane = new ArrayList<>();
-        for (Fakturywystokresowe p : gosciwybralokres) {
-            if (!p.isZawieszona()) {
-                Faktura nowa = SerialClone.clone(p.getDokument());
+        for (Fakturywystokresowe okresowa : gosciwybralokres) {
+            if (!okresowa.isZawieszona()) {
+                Faktura nowa = SerialClone.clone(okresowa.getDokument());
                 nowa.setId(null);
                 nowa.setDatawysylki(null);
-                nowa.setRecznaedycja(p.isRecznaedycja());
+                nowa.setRecznaedycja(okresowa.isRecznaedycja());
                 if (nowa.getPozycjenafakturze()!=null) {
                     List<Pozycjenafakturzebazadanych> pozycjenafakturze = nowa.getPozycjenafakturze();
                     Pozycjenafakturzebazadanych pozycje = pozycjenafakturze.get(0);
@@ -2146,7 +2146,7 @@ public class FakturaView implements Serializable {
                     }
                 }
                 if (wpisView.getPodatnikObiekt().getNip().equals("8511005008")) {
-                    dodajwierszedodatkowe(nowa, p);
+                    dodajwierszedodatkowe(nowa, okresowa);
                 }
                 int dniDoZaplaty = nowa.getDnizaplaty();
                 if (datawystawienia.isEmpty()) {
@@ -2174,7 +2174,7 @@ public class FakturaView implements Serializable {
                 if (waloryzajca > 0.0) {
                     try {
                         waloryzacjakwoty(nowa, waloryzajca);
-                        Faktura stara = p.getDokument();
+                        Faktura stara = okresowa.getDokument();
                         //to jest po to zeby potem juz generowac z okresowych ze zwaloryzowana kwota
                         waloryzacjakwoty(stara, waloryzajca);
                         FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
@@ -2191,7 +2191,7 @@ public class FakturaView implements Serializable {
                     }
                 }
                 nowa.setWygenerowanaautomatycznie(true);
-                nowa.setIdfakturaokresowa(p);
+                nowa.setIdfakturaokresowa(okresowa);
                 nowa.setWyslana(false);
                 nowa.setDatazaplaty(null);
                 nowa.setZaksiegowana(false);
@@ -2226,45 +2226,45 @@ public class FakturaView implements Serializable {
                         String miesiac = datawystawienia.substring(5, 7);
                         switch (miesiac) {
                             case "01":
-                                p.setM1(p.getM1() + 1);
+                                okresowa.setM1(okresowa.getM1() + 1);
                                 break;
                             case "02":
-                                p.setM2(p.getM2() + 1);
+                                okresowa.setM2(okresowa.getM2() + 1);
                                 break;
                             case "03":
-                                p.setM3(p.getM3() + 1);
+                                okresowa.setM3(okresowa.getM3() + 1);
                                 break;
                             case "04":
-                                p.setM4(p.getM4() + 1);
+                                okresowa.setM4(okresowa.getM4() + 1);
                                 break;
                             case "05":
-                                p.setM5(p.getM5() + 1);
+                                okresowa.setM5(okresowa.getM5() + 1);
                                 break;
                             case "06":
-                                p.setM6(p.getM6() + 1);
+                                okresowa.setM6(okresowa.getM6() + 1);
                                 break;
                             case "07":
-                                p.setM7(p.getM7() + 1);
+                                okresowa.setM7(okresowa.getM7() + 1);
                                 break;
                             case "08":
-                                p.setM8(p.getM8() + 1);
+                                okresowa.setM8(okresowa.getM8() + 1);
                                 break;
                             case "09":
-                                p.setM9(p.getM9() + 1);
+                                okresowa.setM9(okresowa.getM9() + 1);
                                 break;
                             case "10":
-                                p.setM10(p.getM10() + 1);
+                                okresowa.setM10(okresowa.getM10() + 1);
                                 break;
                             case "11":
-                                p.setM11(p.getM11() + 1);
+                                okresowa.setM11(okresowa.getM11() + 1);
                                 break;
                             case "12":
-                                p.setM12(p.getM12() + 1);
+                                okresowa.setM12(okresowa.getM12() + 1);
                                 break;
                         }
-                        p.setDatawystawienia(nowa.getDatawystawienia());
-                        p.setSapracownicy(false);
-                        fakturywystokresoweDAO.edit(p);
+                        okresowa.setDatawystawienia(nowa.getDatawystawienia());
+                        okresowa.setSapracownicy(false);
+                        fakturywystokresoweDAO.edit(okresowa);
                     }
                     if (waloryzajca > 0) {
                         Msg.msg("i", "Generuje bieżącą fakturę z okresowej z waloryzacją. Kontrahent: " + nowa.getKontrahent().getNpelna());

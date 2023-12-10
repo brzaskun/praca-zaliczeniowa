@@ -102,6 +102,7 @@ public class PozycjaBRView implements Serializable {
     private String bilansoddnia;
     private String opisdodatkowy;
     private String kontabilansowebezprzyporzadkowania;
+    private Konto wybranokonto;
     
     
     @Inject
@@ -906,6 +907,7 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void wyluskajStronyzPozycjiBilans() {
+        wybranokonto = null;
         podpieteStronyWiersza = Collections.synchronizedList(new ArrayList<>());
         sumaPodpietychKont = Collections.synchronizedList(new ArrayList<>());
         List<Konto> podpieteKonta = Collections.synchronizedList(new ArrayList<>());
@@ -947,6 +949,34 @@ public class PozycjaBRView implements Serializable {
                     it.remove();
                 }
             }
+        }
+    }
+    
+    public void pobierzdanezkonta() {
+        if (wybranokonto!=null) {
+            podpieteStronyWiersza = new ArrayList<>();
+            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext(); ) {   
+                StronaWiersza r = (StronaWiersza) it.next();
+                if (r.getKonto().equals(wybranokonto)) {
+                    podpieteStronyWiersza.add(r);
+                }
+            }
+               
+        }
+    }
+    
+    public void pobierzdanezkontawynik() {
+        if (wybranokonto!=null) {
+            podpieteStronyWiersza = new ArrayList<>();
+            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext(); ) {   
+                StronaWiersza r = (StronaWiersza) it.next();
+                if (r.getKonto().equals(wybranokonto)) {
+                    podpieteStronyWiersza.add(r);
+                }
+            }
+               
         }
     }
     
@@ -1031,6 +1061,14 @@ public class PozycjaBRView implements Serializable {
 
     public void setOpisdodatkowy(String opisdodatkowy) {
         this.opisdodatkowy = opisdodatkowy;
+    }
+
+    public Konto getWybranokonto() {
+        return wybranokonto;
+    }
+
+    public void setWybranokonto(Konto wybranokonto) {
+        this.wybranokonto = wybranokonto;
     }
 
     public String getKontabilansowebezprzyporzadkowania() {
