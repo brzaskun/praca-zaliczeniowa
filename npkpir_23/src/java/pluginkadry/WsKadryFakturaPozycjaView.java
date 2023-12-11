@@ -55,8 +55,6 @@ public class WsKadryFakturaPozycjaView implements Serializable {
     
     public void init() {
         try {
-            rok = wpisView.getRokWpisuSt();
-            mc = wpisView.getMiesiacWpisu();
             listawierszfaktury = new ArrayList<>();
             List<Fakturywystokresowe> fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             wsKadryFakturaPozycja_Service = new WsKadryFakturaPozycja_Service();

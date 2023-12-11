@@ -983,7 +983,10 @@ public class FakturaView implements Serializable {
     
     private int dodajpozycje(boolean liczodbrutto, List<Pozycjenafakturzebazadanych> pozycje, Klienci kontrahent, String rok, String mc, Fakturywystokresowe okresowa) {
         int zwrot = 0;
-        List<Wierszfakturybaza> lista =  wierszfakturybazaDAO.findbyNipRokMc(kontrahent.getNip(), rok, mc);
+        String[] okrespoprzedni = Data.poprzedniOkres(mc, rok);
+        String rokdod = okrespoprzedni[1];
+        String mcdod = okrespoprzedni[0];
+        List<Wierszfakturybaza> lista =  wierszfakturybazaDAO.findbyNipRokMc(kontrahent.getNip(), rokdod, mcdod);
         if (lista!=null && lista.size()>0) {
             int lp = 0;
             int wystawiono = pobierzpe(okresowa, mc);
@@ -2470,7 +2473,7 @@ public class FakturaView implements Serializable {
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         for (Faktura r : fakturytmp) {
             for (Fakturywystokresowe p : this.fakturyokresowe) {
-                if (p.getDokument().getKontrahent().equals(r.getKontrahent())) {
+                if (p.equals(r.getIdfakturaokresowa())) {
                     if (r.isBilansowa()) {
                         p.setM13(p.getM13() + 1);
                         fakturywystokresoweDAO.edit(p);
@@ -3457,6 +3460,73 @@ public class FakturaView implements Serializable {
         }
         return zwrot;
     }
+    
+    private boolean czyniewystawiona(Fakturywystokresowe p, String miesiacWpisu) {
+        boolean zwrot = true;
+        switch (miesiacWpisu) {
+            case "01":
+                if (p.getM1()>0) {
+                    zwrot = false;
+                }
+                break;
+            case "02":
+                if (p.getM2()>0) {
+                    zwrot = false;
+                }
+                break;
+            case "03":
+                if (p.getM3()>0) {
+                    zwrot = false;
+                }
+                break;
+            case "04":
+                if (p.getM4()>0) {
+                    zwrot = false;
+                }
+                break;
+            case "05":
+                if (p.getM5()>0) {
+                    zwrot = false;
+                }
+                break;
+            case "06":
+                if (p.getM6()>0) {
+                    zwrot = false;
+                }
+                break;
+            case "07":
+                if (p.getM7()>0) {
+                    zwrot = false;
+                }
+                break;
+            case "08":
+                if (p.getM8()>0) {
+                    zwrot = false;
+                }
+                break;
+            case "09":
+                if (p.getM9()>0) {
+                    zwrot = false;
+                }
+                break;
+            case "10":
+                if (p.getM10()>0) {
+                    zwrot = false;
+                }
+                break;
+            case "11":
+                if (p.getM11()>0) {
+                    zwrot = false;
+                }
+                break;
+            case "12":
+                if (p.getM12()>0) {
+                    zwrot = false;
+                }
+                break;
+        }
+        return zwrot;
+    }
 
     
 
@@ -3597,7 +3667,7 @@ public class FakturaView implements Serializable {
             } else if (jakapobrac==5) {
                 isQualified = item->item.getDokument().getDatawaloryzacji()!=null;
             } else if (jakapobrac==6 ) {
-                isQualified = item->czywystawiona(item, wpisView.getMiesiacWpisu());
+                isQualified = item->czyniewystawiona(item, wpisView.getMiesiacWpisu());
             }
             if (fakturyokresoweFiltered!=null) {
                 fakturyokresoweFiltered.removeIf(isQualified.negate());
@@ -3606,6 +3676,8 @@ public class FakturaView implements Serializable {
                 fakturyokresowe.removeIf(isQualified.negate());
             }
             Msg.msg("Przefiltrowano faktury");
+        } else {
+            fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
         
     }

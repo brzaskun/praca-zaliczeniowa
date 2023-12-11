@@ -16,15 +16,16 @@
                     <p:outputLabel value="miesiąc" for="mc" />
                     <p:selectOneMenu id="mc" value="#{wsKadryFakturaPozycjaView.mc}"  style="width: 100px;">
                        <f:selectItems value="#{mce.mceList}"/>
+                       <p:ajax event="change" partialSubmit="true"/>
                     </p:selectOneMenu>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{wsKadryFakturaPozycjaView.init()}" value="pobierz" update="@form" />
+                    <p:commandButton styleClass="buttonnorm" style="width: 120px;" actionListener="#{wsKadryFakturaPozycjaView.init()}" value="pobierz" update="@form" />
                 </p:panelGrid>
                 <p:outputPanel style="padding: 10px;">
                     <p:dataTable id="datalist" value="#{wsKadryFakturaPozycjaView.wierzfakturybazalist}" var="item111"
                                  selectionMode="single"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" 
                                  style="width: 1300px;"
-                                 emptyMessage="Nie pobrano elementów"
+                                 emptyMessage="Elementy dla danego miesiąca są w poprzedni miesiącu. W danym miesiącu fakturujemy listy za poprzedni miesiąc."
                                  >
                         <p:ajax event="filter" partialSubmit="true" global="false" />
                         <p:column width="40" style="text-align: center;">
