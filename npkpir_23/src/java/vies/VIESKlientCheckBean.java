@@ -59,7 +59,6 @@ public class VIESKlientCheckBean {
                             v = VIESKlientCheckBean.pobierzAPI(kraj, nip);
                             v.setNip(nip);
                             v.ustawRokMcTydzien();
-                            v.setData(new Date());
                         } catch (SocketTimeoutException se) {
                             E.e(se);
                             break;
@@ -67,8 +66,16 @@ public class VIESKlientCheckBean {
                             E.e(e);
                         }
                         if (v != null) {
-                            viesy.add(v);
-                            vatuebiezacy.setVieskontrahent(v);
+                            if (vatuebiezacy.getVieskontrahent()!=null) {
+                                Vieskontrahent vieskontrahentstary = vatuebiezacy.getVieskontrahent();
+                                vieskontrahentstary.ustawRokMcTydzien();
+                                vieskontrahentstary.setStatus(v.isStatus());
+                                vieskontrahentstary.setIdentyfikatorsprawdzenia(v.getIdentyfikatorsprawdzenia());
+                                viesy.add(v);
+                            } else {
+                                viesy.add(v);
+                                vatuebiezacy.setVieskontrahent(v);
+                            }
                         }
                     }
                  }
