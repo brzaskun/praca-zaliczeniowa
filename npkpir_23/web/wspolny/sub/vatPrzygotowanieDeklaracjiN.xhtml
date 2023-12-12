@@ -142,22 +142,22 @@
                 <p:inputNumber  value="#{vat7DKView.wntsamochoddoodliczenia}" decimalPlaces="0" inputStyle="text-align: right;" />
                 <h:outputText value="kwota wydatkowana na zakup kasy rejestrującej"/>
                 <p:inputNumber  value="#{vat7DKView.kwotanakaserej}" decimalPlaces="0" inputStyle="text-align: right;" />
-                <h:outputText value="zwrot na rachunek w terminie 25 dni"/>
-                <p:inputNumber value="#{vat7DKView.zwrot25dni}" decimalPlaces="0" inputStyle="text-align: right;" />
-                <h:outputText value="zwrot na rachunek w terminie 60 dni"/>
-                <p:inputNumber  value="#{vat7DKView.zwrot60dni}" decimalPlaces="0" inputStyle="text-align: right;"/>
-                <h:outputText value="zwrot na rachunek w terminie 180 dni"/>
-                <p:inputNumber value="#{vat7DKView.zwrot180dni}" decimalPlaces="0" inputStyle="text-align: right;"/>
+                <h:outputText value="zwrot na rachunek w terminie 25 dni" rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
+                <p:inputNumber value="#{vat7DKView.zwrot25dni}" decimalPlaces="0" inputStyle="text-align: right;" rendered="#{vat7DKView.pokazzwrotnarachunek}" />
+                <h:outputText value="zwrot na rachunek w terminie 60 dni" rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
+                <p:inputNumber  value="#{vat7DKView.zwrot60dni}" decimalPlaces="0" inputStyle="text-align: right;" rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
+                <h:outputText value="zwrot na rachunek w terminie 180 dni" rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
+                <p:inputNumber value="#{vat7DKView.zwrot180dni}" decimalPlaces="0" inputStyle="text-align: right;" rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
             </p:panelGrid>
             <p:panelGrid columns="2"  style="width: 600px;" styleClass="vatramki"   rendered="#{vat7DKView.flaga ne 1 and vat7DKView.nowejpk}">
-                <h:outputText value="Zwrot na rachunek VAT, o którym mowa w art. 87 ust. 6a ustawy"/>
-                <p:selectBooleanCheckbox styleClass="vatramki"  value="#{vat7DKView.przelewnarachunekvat}" />
-                <h:outputText value="Zaliczenie zwrotu podatku na poczet przyszłych zobowiązań podatkowych"/>
-                <p:selectBooleanCheckbox styleClass="vatramki"  value="#{vat7DKView.zaliczenienapoczetzobowiazan}" />
-                <h:outputText value="Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych"/>
-                <p:inputNumber styleClass="vatramki"  value="#{vat7DKView.zaliczenienapoczetzobowiazankwota}" decimalPlaces="0" inputStyle="text-align: right;" />
-                <h:outputText value="Rodzaj przyszłego zobowiązania podatkowego"/>
-                <p:inputText styleClass="vatramki"  value="#{vat7DKView.rodzajzobowiazania}" size="20"/>
+                <h:outputText value="Zwrot na rachunek VAT, o którym mowa w art. 87 ust. 6a ustawy" rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
+                <p:selectBooleanCheckbox styleClass="vatramki"  value="#{vat7DKView.przelewnarachunekvat}"  rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
+                <h:outputText value="Zaliczenie zwrotu podatku na poczet przyszłych zobowiązań podatkowych" rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
+                <p:selectBooleanCheckbox styleClass="vatramki"  value="#{vat7DKView.zaliczenienapoczetzobowiazan}"  rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
+                <h:outputText value="Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych" rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
+                <p:inputNumber styleClass="vatramki"  value="#{vat7DKView.zaliczenienapoczetzobowiazankwota}" decimalPlaces="0" inputStyle="text-align: right;"  rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
+                <h:outputText value="Rodzaj przyszłego zobowiązania podatkowego" rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
+                <p:inputText styleClass="vatramki"  value="#{vat7DKView.rodzajzobowiazania}" size="20" rendered="#{vat7DKView.pokazzwrotnarachunek}"/>
             </p:panelGrid>
         
 

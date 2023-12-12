@@ -802,15 +802,12 @@ public class DokTabView implements Serializable {
         sumanetto = 0.0;
         sumavat = 0.0;
         sumabrutto = 0.0;
-        if (dokumentyFiltered != null) {
-            for (Dok p : dokumentyFiltered) {
+        List<Dok> lista = f.l.l(dokumentylista, dokumentyFiltered, gosciuwybral);
+        if (lista != null) {
+            for (Dok p : lista) {
                 sumujdokumentydodane(p);
             }
-        } else {
-            for (Dok p : dokumentylista) {
-                sumujdokumentydodane(p);
-            }
-        }
+        } 
     }
 
    

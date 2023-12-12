@@ -132,6 +132,7 @@ public class Vat7DKView implements Serializable {
     private Integer zaliczenienapoczetzobowiazankwota;
     private String rodzajzobowiazania;
     private List<EwidPoz> pozycjeSzczegoloweNowe;
+    private boolean pokazzwrotnarachunek;
    
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -306,7 +307,8 @@ public class Vat7DKView implements Serializable {
                 DeklaracjaVatSchemaWierszSum należny = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem (suma przychodów)");
                 DeklaracjaVatSchemaWierszSum naliczony = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem kwota podatku naliczonego do odliczenia");
                 DeklaracjaVatSchemaWierszSum dowpłaty = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota podatku podlegająca wpłacie");    
-                DeklaracjaVatSchemaWierszSum nadwyzkanaliczonego = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Nadwyżka podatku naliczonego nad należnym");    
+                DeklaracjaVatSchemaWierszSum nadwyzkanaliczonego = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Nadwyżka podatku naliczonego nad należnym");
+              
                 try {
                     //niepotrzebne bo jest wyzej
                     //deklaracjakorygowana = bylajuzdeklaracjawtymmiesiacu(rok,mc);
@@ -351,6 +353,9 @@ public class Vat7DKView implements Serializable {
                 boolean nowyjpk2020 = wpisView.isJpk2020M()||wpisView.isJpk2020K()||wpisView.isJpk2020M2()||wpisView.isJpk2020K2();
                 DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
                 doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
+                if (doprzeniesienia.getDeklaracjaVatWierszSumaryczny().getSumavat()>0.0) {
+                    pokazzwrotnarachunek =true;
+                }
                 pokazinfovatzz =  false;
                 int dozwrotujuznarachunek = 0;
                 if (zwrot25dni != null) {
@@ -1448,6 +1453,14 @@ public class Vat7DKView implements Serializable {
 
     public void setWntsamochoddoodliczenia(Integer wntsamochoddoodliczenia) {
         this.wntsamochoddoodliczenia = wntsamochoddoodliczenia;
+    }
+
+    public boolean isPokazzwrotnarachunek() {
+        return pokazzwrotnarachunek;
+    }
+
+    public void setPokazzwrotnarachunek(boolean pokazzwrotnarachunek) {
+        this.pokazzwrotnarachunek = pokazzwrotnarachunek;
     }
 
    
