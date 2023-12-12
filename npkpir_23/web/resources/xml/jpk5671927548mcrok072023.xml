@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-12-12T22:04:22.329Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <KodUrzedu>1420</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>7</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>5671927548</ns2:NIP>
+            <ns2:ImiePierwsze>PAULINA</ns2:ImiePierwsze>
+            <ns2:Nazwisko>STRUBIŃSKA</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1997-02-17</ns2:DataUrodzenia>
+            <Email>brzaskun@o2.pl</Email>
+            <Telefon>603133396</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298161657</NrKontrahenta>
+            <NazwaKontrahenta>Tavan Tiefbau GmbH&amp;Co.KG</NazwaKontrahenta>
+            <DowodSprzedazy>1/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-06</DataWystawienia>
+            <DataSprzedazy>2023-07-06</DataSprzedazy>
+            <K_11>43223.58</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298161657</NrKontrahenta>
+            <NazwaKontrahenta>Tavan Tiefbau GmbH&amp;Co.KG</NazwaKontrahenta>
+            <DowodSprzedazy>2/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-12</DataWystawienia>
+            <DataSprzedazy>2023-07-12</DataSprzedazy>
+            <K_11>28290.48</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298161657</NrKontrahenta>
+            <NazwaKontrahenta>Tavan Tiefbau GmbH&amp;Co.KG</NazwaKontrahenta>
+            <DowodSprzedazy>3/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-19</DataWystawienia>
+            <DataSprzedazy>2023-07-19</DataSprzedazy>
+            <K_11>51966.57</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298161657</NrKontrahenta>
+            <NazwaKontrahenta>Tavan Tiefbau GmbH&amp;Co.KG</NazwaKontrahenta>
+            <DowodSprzedazy>4/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-19</DataWystawienia>
+            <DataSprzedazy>2023-07-19</DataSprzedazy>
+            <K_11>35369.49</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298161657</NrKontrahenta>
+            <NazwaKontrahenta>Tavan Tiefbau GmbH&amp;Co.KG</NazwaKontrahenta>
+            <DowodSprzedazy>5/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-26</DataWystawienia>
+            <DataSprzedazy>2023-07-26</DataSprzedazy>
+            <K_11>73280.64</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298161657</NrKontrahenta>
+            <NazwaKontrahenta>Tavan Tiefbau GmbH&amp;Co.KG</NazwaKontrahenta>
+            <DowodSprzedazy>6/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <K_11>50647.71</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298161657</NrKontrahenta>
+            <NazwaKontrahenta>Tavan Tiefbau GmbH&amp;Co.KG</NazwaKontrahenta>
+            <DowodSprzedazy>7/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <K_11>-1289.69</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298161657</NrKontrahenta>
+            <NazwaKontrahenta>Tavan Tiefbau GmbH&amp;Co.KG</NazwaKontrahenta>
+            <DowodSprzedazy>8/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <K_11>-845.49</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298161657</NrKontrahenta>
+            <NazwaKontrahenta>Tavan Tiefbau GmbH&amp;Co.KG</NazwaKontrahenta>
+            <DowodSprzedazy>10/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <K_11>-1059.34</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>10</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298161657</NrKontrahenta>
+            <NazwaKontrahenta>Tavan Tiefbau GmbH&amp;Co.KG</NazwaKontrahenta>
+            <DowodSprzedazy>11/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <K_11>-2193.91</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>11</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298161657</NrKontrahenta>
+            <NazwaKontrahenta>Tavan Tiefbau GmbH&amp;Co.KG</NazwaKontrahenta>
+            <DowodSprzedazy>12/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <K_11>-1519.43</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>12</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>298161657</NrKontrahenta>
+            <NazwaKontrahenta>Tavan Tiefbau GmbH&amp;Co.KG</NazwaKontrahenta>
+            <DowodSprzedazy>9/07/2023</DowodSprzedazy>
+            <DataWystawienia>2023-07-31</DataWystawienia>
+            <DataSprzedazy>2023-07-31</DataSprzedazy>
+            <K_11>-1556.39</K_11>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>12</LiczbaWierszySprzedazy>
+            <PodatekNalezny>0</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7760003918</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO WIELOBRANŻOWE "WILIS" Wiesław Lis</NazwaDostawcy>
+            <DowodZakupu>F 2997K1/7550/23</DowodZakupu>
+            <DataZakupu>2023-07-01</DataZakupu>
+            <DataWplywu>2023-07-01</DataWplywu>
+            <K_42>540.98</K_42>
+            <K_43>124.43</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>00683#020901607140</DowodZakupu>
+            <DataZakupu>2023-07-02</DataZakupu>
+            <DataWplywu>2023-07-02</DataWplywu>
+            <K_42>37.40</K_42>
+            <K_43>8.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5980002699</NrDostawcy>
+            <NazwaDostawcy>STACJA SPRZEDAŻY PALIW "EKO-TANK" ZBIGNIEW PIEKUT I JÓZEF BRYSZEWSKI Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>F550820</DowodZakupu>
+            <DataZakupu>2023-07-02</DataZakupu>
+            <DataWplywu>2023-07-02</DataWplywu>
+            <K_42>315.50</K_42>
+            <K_43>72.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>00462#022104600608</DowodZakupu>
+            <DataZakupu>2023-07-02</DataZakupu>
+            <DataWplywu>2023-07-02</DataWplywu>
+            <K_42>22.76</K_42>
+            <K_43>5.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>01079#021103610052</DowodZakupu>
+            <DataZakupu>2023-07-02</DataZakupu>
+            <DataWplywu>2023-07-02</DataWplywu>
+            <K_42>22.77</K_42>
+            <K_43>5.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>00611#022102600608</DowodZakupu>
+            <DataZakupu>2023-07-05</DataZakupu>
+            <DataWplywu>2023-07-05</DataWplywu>
+            <K_42>22.76</K_42>
+            <K_43>5.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>447076</DowodZakupu>
+            <DataZakupu>2023-07-05</DataZakupu>
+            <DataWplywu>2023-07-05</DataWplywu>
+            <K_42>2.44</K_42>
+            <K_43>0.56</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>00154#022214600749</DowodZakupu>
+            <DataZakupu>2023-07-05</DataZakupu>
+            <DataWplywu>2023-07-05</DataWplywu>
+            <K_42>22.76</K_42>
+            <K_43>5.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5660004455</NrDostawcy>
+            <NazwaDostawcy>CEDROB S.A.</NazwaDostawcy>
+            <DowodZakupu>6852/23/R</DowodZakupu>
+            <DataZakupu>2023-07-07</DataZakupu>
+            <DataWplywu>2023-07-07</DataWplywu>
+            <K_42>368.80</K_42>
+            <K_43>84.82</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>044-051-0000510420</DowodZakupu>
+            <DataZakupu>2023-07-08</DataZakupu>
+            <DataWplywu>2023-07-08</DataWplywu>
+            <K_42>212.46</K_42>
+            <K_43>48.87</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>00274#020861440679</DowodZakupu>
+            <DataZakupu>2023-07-09</DataZakupu>
+            <DataWplywu>2023-07-09</DataWplywu>
+            <K_42>34.96</K_42>
+            <K_43>8.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>00261#020803607017</DowodZakupu>
+            <DataZakupu>2023-07-11</DataZakupu>
+            <DataWplywu>2023-07-11</DataWplywu>
+            <K_42>34.96</K_42>
+            <K_43>8.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>00460#022106600756</DowodZakupu>
+            <DataZakupu>2023-07-11</DataZakupu>
+            <DataWplywu>2023-07-11</DataWplywu>
+            <K_42>22.76</K_42>
+            <K_43>5.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>8/2023/STRU54</DowodZakupu>
+            <DataZakupu>2023-07-11</DataZakupu>
+            <DataWplywu>2023-07-11</DataWplywu>
+            <K_42>3045.00</K_42>
+            <K_43>700.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>01610#020104601937</DowodZakupu>
+            <DataZakupu>2023-07-29</DataZakupu>
+            <DataWplywu>2023-07-29</DataWplywu>
+            <K_42>34.96</K_42>
+            <K_43>8.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>00894#022214601408</DowodZakupu>
+            <DataZakupu>2023-07-29</DataZakupu>
+            <DataWplywu>2023-07-29</DataWplywu>
+            <K_42>22.76</K_42>
+            <K_43>5.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>02443#021211600285</DowodZakupu>
+            <DataZakupu>2023-07-29</DataZakupu>
+            <DataWplywu>2023-07-29</DataWplywu>
+            <K_42>22.76</K_42>
+            <K_43>5.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8790172862</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO PRODUKCYJNO-USŁUGOWE ELJOT JACEK JURKIEWICZ, WŁODZIMIERZ LEWANDOWSKI Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>F 1965K3/7180/23</DowodZakupu>
+            <DataZakupu>2023-07-30</DataZakupu>
+            <DataWplywu>2023-07-30</DataWplywu>
+            <K_42>555.72</K_42>
+            <K_43>127.82</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>18</LiczbaWierszyZakupow>
+            <PodatekNaliczony>1228.76</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

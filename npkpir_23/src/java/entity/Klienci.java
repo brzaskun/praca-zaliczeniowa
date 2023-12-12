@@ -4,6 +4,7 @@
  */
 package entity;
 
+import embeddable.PanstwaMap;
 import java.io.Serializable;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -269,8 +270,11 @@ public class Klienci extends KlienciSuper implements Serializable {
         String zwrot = this.krajkod;
         if (zwrot==null) {
             zwrot = "";
+            if (this.krajnazwa!=null) {
+                zwrot = PanstwaMap.getWykazPanstwSX().get(this.krajnazwa.trim());
+            }
         }
-        return krajkod;
+        return zwrot;
     }
 
     public void setKrajkod(String krajkod) {
@@ -282,6 +286,9 @@ public class Klienci extends KlienciSuper implements Serializable {
     }
 
     public void setKrajnazwa(String krajnazwa) {
+        if (krajnazwa!=null) {
+            krajnazwa = krajnazwa.trim();
+        }
         this.krajnazwa = krajnazwa;
     }
 
