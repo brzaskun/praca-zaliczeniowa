@@ -17,11 +17,12 @@
             <p:panelGrid columns="10">
                 <p:panelGrid columns="4">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
-                    <p:selectOneMenu value="#{pozycjaBRKontaView.wybranyuklad}" converter="#{ukladBRConv}" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
+                    <h:outputText value="#{pozycjaBRKontaView.wybranyuklad.uklad}"/>
+<!--                    <p:selectOneMenu value="#{pozycjaBRKontaView.wybranyuklad}" converter="#{ukladBRConv}" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" listener="#{pozycjaBRKontaView.pobierzukladkontoB('aktywa')}" update=":formbilansuklad"/>
-                    </p:selectOneMenu>
+                    </p:selectOneMenu>-->
                      <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
                     <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoB('aktywa')}" update=":formbilansuklad" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>
                     <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoB('pasywa')}" update=":formbilansuklad" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>
