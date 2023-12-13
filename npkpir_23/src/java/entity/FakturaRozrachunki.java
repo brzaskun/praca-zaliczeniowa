@@ -72,6 +72,10 @@ public class FakturaRozrachunki implements Serializable {
     private double kwotapln;
     @Column(name = "kurs")
     private double kurs;
+    @Column(name = "przeniesienie")
+    private double przeniesienie;
+    @Column(name = "saldo")
+    private double saldo;
     //tu powedruje kwotapln w walucie jak dodam platnosc w euro
     @Column(name = "kwotawwalucie")
     private double kwotawwalucie;
@@ -101,6 +105,8 @@ public class FakturaRozrachunki implements Serializable {
     private double kwotaidentyfikujaca;
     @Column(name = "rozrachunekarchiwalny")
     private boolean rozrachunekarchiwalny;
+    @Column(name = "uwagi")
+    private String uwagi;
     
 
     public FakturaRozrachunki() {
@@ -152,7 +158,7 @@ public class FakturaRozrachunki implements Serializable {
 
     @Override
     public String toString() {
-        return "FakturaRozrachunki{" + "lp=" + lp + ", wystawca=" + wystawca.getNazwapelna() + ", kontrahent=" + kontrahent.getNpelna() + ", wprowadzil=" + wprowadzil + ", dataksiegowania=" + dataksiegowania + ", data=" + data + ", kwota=" + kwotapln + ", zaplata0korekta1=" + zaplata0korekta1 + '}';
+        return "FakturaRozrachunki{" + "lp=" + lp + "nr dok " + nrdokumentu + ", wystawca=" + wystawca.getNazwapelna() + ", kontrahent=" + kontrahent.getNpelna() + ", wprowadzil=" + wprowadzil.getLogin() + ", dataksiegowania=" + dataksiegowania + ", data=" + data + ", kwota=" + kwotapln + ", zaplata0korekta1=" + zaplata0korekta1 + '}';
     }
 //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -162,6 +168,14 @@ public class FakturaRozrachunki implements Serializable {
     
     public void setLp(Integer lp) {
         this.lp = lp;
+    }
+
+    public String getUwagi() {
+        return uwagi;
+    }
+
+    public void setUwagi(String uwagi) {
+        this.uwagi = uwagi;
     }
 
     public boolean isRozrachunekarchiwalny() {
@@ -184,6 +198,14 @@ public class FakturaRozrachunki implements Serializable {
         return przeniesionosaldo;
     }
 
+    public double getPrzeniesienie() {
+        return przeniesienie;
+    }
+
+    public void setPrzeniesienie(double przeniesienie) {
+        this.przeniesienie = przeniesienie;
+    }
+
     public void setPrzeniesionosaldo(boolean przeniesionosaldo) {
         this.przeniesionosaldo = przeniesionosaldo;
     }
@@ -202,6 +224,14 @@ public class FakturaRozrachunki implements Serializable {
     
     public void setKontrahent(Klienci kontrahent) {
         this.kontrahent = kontrahent;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
     }
     
     public Uz getWprowadzil() {

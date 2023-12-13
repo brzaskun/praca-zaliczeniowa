@@ -30,6 +30,9 @@
                         <p:menuitem value="#{mgs.kontrahenci}"  outcome="gfakturaFakturaKontrahenci" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="#{mgs.slowniki}"  outcome="GuestFakturaSlownik" icon="ui-icon-circle-arrow-e"/>
                         </p:menu>
+                      <p:menu style="width: 200px;" rendered="#{facesContext.externalContext.isUserInRole('GuestFaktura')}">
+                            <p:menuitem value="raport kasowy"  outcome="gfakturaFakturaRK" icon="ui-icon-circle-arrow-e"/>
+                        </p:menu>
                         <p:menu style="width: 200px;" rendered="#{facesContext.externalContext.isUserInRole('GuestFaktura')}">
                             <p:menuitem value="#{mgs.zmianafirmy}"  outcome="GuestFaktura" icon="ui-icon-circle-arrow-e"/>
                         </p:menu> 

@@ -29,7 +29,9 @@
                             <p:menuitem value="#{mgs.kontrahenci}"  outcome="gfakturaFakturaKontrahenci" icon="ui-icon-circle-arrow-e"/>
                             <p:menuitem value="#{mgs.slowniki}"  outcome="GuestFakturaSlownik" icon="ui-icon-circle-arrow-e"/>
                         </p:menu>
-                    
+                      <p:menu style="width: 200px;" rendered="#{facesContext.externalContext.isUserInRole('GuestFaktura')}">
+                            <p:menuitem value="raport kasowy"  outcome="gfakturaFakturaRK" icon="ui-icon-circle-arrow-e"/>
+                        </p:menu>
                         <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="margin-left: 25%; margin-top: 10px;"/>
                     </p:panelGrid>
             </p:panel>

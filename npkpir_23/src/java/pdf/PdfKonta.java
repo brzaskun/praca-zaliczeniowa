@@ -94,7 +94,7 @@ public class PdfKonta {
         PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
-        writer.setBoxSize("art", new Rectangle(590, 842, 0, 0));
+        writer.setBoxSize("art", new Rectangle(600, 1500, 0, 0));
         writer.setPageEvent(headerfoter);
         document.addTitle("Zestawienie obroty sald");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");

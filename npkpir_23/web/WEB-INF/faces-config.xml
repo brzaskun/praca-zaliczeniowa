@@ -849,6 +849,10 @@
             <to-view-id>/wspolny/wspolnyFakturaPlatnosci.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>gfakturaFakturaRK</from-outcome>
+            <to-view-id>/wspolny/wspolnyFakturaRK.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>gfakturaFakturaKontrahenci</from-outcome>
             <to-view-id>/wspolny/wspolnyFakturaKontrahenci.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

@@ -25,10 +25,10 @@ public class FakturaRozrachunkicomparator implements Comparator<FakturaRozrachun
         String datao2 = null;
         if (numertablicao1.length == 2) {
             datao1 = numertablicao1[1];
-            datao2 = numertablicao1[1];
+            datao2 = numertablicao2[1];
         } else {
             datao1 = numertablicao1[0];
-            datao2 = numertablicao1[0];
+            datao2 = numertablicao2[0];
         }
         Collator collator = Collator.getInstance(new Locale("pl", "PL"));
         collator.setStrength(Collator.PRIMARY);
