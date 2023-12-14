@@ -23,7 +23,7 @@
                 <p:outputPanel style="padding: 10px;">
                     <p:dataTable id="datalist" value="#{wsKadryFakturaPozycjaView.wierzfakturybazalist}" var="item111"
                                  selectionMode="single"
-                                 rowKey="#{item111.id}" rowIndexVar="indexumowa" 
+                                 rowKey="#{item111.id}" rowIndexVar="indexumowa" sortBy="#{item111.nazwa}"
                                  style="width: 1300px;"
                                  emptyMessage="Elementy dla danego miesiąca są w poprzedni miesiącu. W danym miesiącu fakturujemy listy za poprzedni miesiąc."
                                  >

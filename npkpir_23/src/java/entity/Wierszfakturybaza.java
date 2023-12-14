@@ -221,7 +221,9 @@ public class Wierszfakturybaza implements Serializable {
 
     @Override
     public String toString() {
-        return "javaapplication2.Wierszfakturybaza[ id=" + id + " ]";
+        return "Wierszfakturybaza{" + "nip=" + nip + ", rok=" + rok + ", mc=" + mc + ", opis=" + opis + ", kwota=" + kwota + ", ilosc=" + ilosc + ", nazwa=" + nazwa + ", naniesiony=" + naniesiony + '}';
     }
+
+   
     
 }
