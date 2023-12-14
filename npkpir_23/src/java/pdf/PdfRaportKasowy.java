@@ -23,13 +23,18 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.FakturaRozrachunki;
 import entity.Podatnik;
+import format.F;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
+import static pdf.PdfVAT7.absText;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.inicjacjaA4Landscape;
 import plik.Plik;
+import slownie.Slownie;
 import view.WpisView;
 
 /**
@@ -56,44 +61,212 @@ public class PdfRaportKasowy {
         Font font = new Font(helvetica, 12);
         Font fontM = new Font(helvetica, 10);
         Font fontS = new Font(helvetica, 6);
-        String firma = wpisView.getPodatnikObiekt().getPrintnazwa();
-        Podatnik pod = wpisView.getPodatnikObiekt();
-        String ulica = pod.getUlica() + " " + pod.getNrdomu();
-        String miejscowosc = pod.getKodpocztowy()+" " + pod.getMiejscowosc();
-        String nip = "NIP: " + pod.getNip();
-        PdfPTable table = wygenerujtabliceWystawcaOdbiorca(firma,ulica, miejscowosc, nip, 180, 70, 10);
-        table.writeSelectedRows(0, table.getRows().size(), 60, 600, writer.getDirectContent());
-        String miejsce = "Szczecin, dn. "+fakturaRozrachunki.getData();
-        table = wygenerujtabliceMiejscowosc(miejsce, 140, 70, 10);
-        table.writeSelectedRows(0, table.getRows().size(), 240, 600, writer.getDirectContent());
-        String wplatawyplata = "KP - WPŁATA, nr "+fakturaRozrachunki.getNrdokumentu();
-        table = wygenerujtabliceMiejscowosc(wplatawyplata, 140, 70, 10);
-        table.writeSelectedRows(0, table.getRows().size(), 380, 600, writer.getDirectContent());
-        String odkogo = "Od kogo: "+fakturaRozrachunki.getKontrahent().getNpelna();
-        table = wygenerujtabliceMiejscowosc(odkogo, 180, 30, 10);
-        table.writeSelectedRows(0, table.getRows().size(), 60, 530, writer.getDirectContent());
-        String kasawn = "Kasa Wn";
-        table = wygenerujtabliceMiejscowosc(kasawn, 140, 30, 10);
-        table.writeSelectedRows(0, table.getRows().size(), 240, 530, writer.getDirectContent());
-        String kontoma = "Konto Ma";
-        table = wygenerujtabliceMiejscowosc(kontoma, 140, 30, 10);
-        table.writeSelectedRows(0, table.getRows().size(), 380, 530, writer.getDirectContent());
-        String zaco = "za co";
-        table = wygenerujtabliceCenter(zaco, 180, 20, 10);
-        table.writeSelectedRows(0, table.getRows().size(), 60, 500, writer.getDirectContent());
-        String pln = "pln";
-        table = wygenerujtabliceCenter(pln, 140, 20, 10);
-        table.writeSelectedRows(0, table.getRows().size(), 240, 500, writer.getDirectContent());
-        String numer = "numer";
-        table = wygenerujtabliceCenter(numer, 140, 20, 10);
-        table.writeSelectedRows(0, table.getRows().size(), 380, 500, writer.getDirectContent());
+        if (fakturaRozrachunki.isZaplata0korekta1()==false) {
+            pokwitowanieKP(fakturaRozrachunki, wpisView, writer,760);
+            absText(writer, "....................................................................................................................................................", 60, 450, 10);
+            pokwitowanieKP(fakturaRozrachunki, wpisView, writer,400);
+        } else {
+            pokwitowanieKW(fakturaRozrachunki, wpisView, writer,760);
+            absText(writer, "....................................................................................................................................................", 60, 450, 10);
+            pokwitowanieKW(fakturaRozrachunki, wpisView, writer,400);
+        }
         document.close();
         PdfMain.dodajQR(nazwapliku);
         PrimeFaces.current().executeScript("pokazwydruk('"+nazwapliku+"');");
         Msg.msg("i", "Wydrukowano kw.kp");
     }
     
-     public static PdfPTable wygenerujtabliceMiejscowosc(String text, int szerokosc, int wysokosc, int czcionkasize) throws DocumentException, IOException {
+    public static void pokwitowanieKP(FakturaRozrachunki fakturaRozrachunki, WpisView wpisView, PdfWriter writer, int h) {
+        try {
+            String firma = wpisView.getPodatnikObiekt().getPrintnazwa();
+            Podatnik pod = wpisView.getPodatnikObiekt();
+            String ulica = pod.getUlica() + " " + pod.getNrdomu();
+            String miejscowosc = pod.getKodpocztowy()+" " + pod.getMiejscowosc();
+            String nip = "NIP: " + pod.getNip();
+            int w1 = 250;
+            int w23 = 120;
+            int p1 = 60;
+            int p2 = p1+w1;
+            int p3 = p2+w23;
+            int hw1 = 70;
+            int hw2 = 26;
+            int hw3 = 14;
+            PdfPTable table = wygenerujtabliceWystawcaOdbiorca(firma,ulica, miejscowosc, nip, w1, hw1, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            String miejsce = "Szczecin, dn. "+fakturaRozrachunki.getData();
+            table = wygenerujtabliceLeft(miejsce, w23, hw1, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p2, h, writer.getDirectContent());
+            String wplatawyplata = "KP - WPŁATA, nr "+fakturaRozrachunki.getNrdokumentu();
+            table = wygenerujtabliceLeft(wplatawyplata, w23, hw1, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p3, h, writer.getDirectContent());
+            h = h-hw1;
+            String odkogo = "Od kogo: "+fakturaRozrachunki.getWplacajacy();
+            table = wygenerujtabliceLeft(odkogo, w1, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            String kasawn = "Kasa Wn";
+            table = wygenerujtabliceLeft(kasawn, w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p2, h, writer.getDirectContent());
+            String kontoma = "Konto Ma";
+            table = wygenerujtabliceLeft(kontoma, w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p3, h, writer.getDirectContent());
+            h = h-hw2;
+            String zaco = "za co";
+            table = wygenerujtabliceCenter(zaco, w1, hw3, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            String pln = "pln";
+            table = wygenerujtabliceCenter(pln, w23, hw3, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p2, h, writer.getDirectContent());
+            String numer = "numer";
+            table = wygenerujtabliceCenter(numer, w23, hw3, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p3, h, writer.getDirectContent());
+            h = h-hw3;
+            String nazwa = fakturaRozrachunki.getKontrahent().getNpelna()+" "+fakturaRozrachunki.getUwagi();
+            table = wygenerujtabliceCenter(nazwa, w1, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            double kwota = fakturaRozrachunki.getKwotapln();
+            table = wygenerujtabliceCenter(F.curr(kwota), w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p2, h, writer.getDirectContent());
+            String konto = "";
+            table = wygenerujtabliceCenter(konto, w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p3, h, writer.getDirectContent());
+            //        h = h-hw2;
+            //        pustewiersze("", writer, h, w1, w23, p1, p2, p3, hw2);
+            h = h-hw2;
+            pustewiersze("", writer, h, w1, w23, p1, p2, p3, hw2);
+            h = h-hw2;
+            String slownie = "kwota wpłaty słownie: "+Slownie.slownie(String.valueOf(fakturaRozrachunki.getKwotapln()),"zł");
+            table = wygenerujtabliceLeft(slownie, w1+w23+w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            h = h-hw2;
+            String wys = "wystawił";
+            table = wygenerujtabliceCenter(wys, w1, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            String spr = "sprawdził";
+            table = wygenerujtabliceCenter(spr, w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p2, h, writer.getDirectContent());
+            String zatw = "zatwierdził";
+            table = wygenerujtabliceCenter(zatw, w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p3, h, writer.getDirectContent());
+            h = h-hw2;
+            pustewiersze(wpisView.getUzer().getNazwiskoImie(), writer, h, w1, w23, p1, p2, p3, hw2);
+            h = h-hw2;
+            String potw = "kwotę powyższą otrzymałem - podpis kasjera";
+            table = wygenerujtabliceCenter(potw, w1+w23+w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            h = h-hw2;
+            table = wygenerujtabliceCenter("", w1+w23+w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfRaportKasowy.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PdfRaportKasowy.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void pokwitowanieKW(FakturaRozrachunki fakturaRozrachunki, WpisView wpisView, PdfWriter writer, int h) {
+        try {
+            String firma = wpisView.getPodatnikObiekt().getPrintnazwa();
+            Podatnik pod = wpisView.getPodatnikObiekt();
+            String ulica = pod.getUlica() + " " + pod.getNrdomu();
+            String miejscowosc = pod.getKodpocztowy()+" " + pod.getMiejscowosc();
+            String nip = "NIP: " + pod.getNip();
+            int w1 = 250;
+            int w23 = 120;
+            int p1 = 60;
+            int p2 = p1+w1;
+            int p3 = p2+w23;
+            int hw1 = 70;
+            int hw2 = 26;
+            int hw3 = 14;
+            PdfPTable table = wygenerujtabliceWystawcaOdbiorca(firma,ulica, miejscowosc, nip, w1, hw1, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            String miejsce = "Szczecin, dn. "+fakturaRozrachunki.getData();
+            table = wygenerujtabliceLeft(miejsce, w23, hw1, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p2, h, writer.getDirectContent());
+            String wplatawyplata = "KW - WYPŁATA, nr "+fakturaRozrachunki.getNrdokumentu();
+            table = wygenerujtabliceLeft(wplatawyplata, w23, hw1, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p3, h, writer.getDirectContent());
+            h = h-hw1;
+            String odkogo = "Dla kogo: "+fakturaRozrachunki.getWplacajacy();
+            table = wygenerujtabliceLeft(odkogo, w1, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            String kasawn = "Kasa Ma";
+            table = wygenerujtabliceLeft(kasawn, w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p2, h, writer.getDirectContent());
+            String kontoma = "Konto Wn";
+            table = wygenerujtabliceLeft(kontoma, w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p3, h, writer.getDirectContent());
+            h = h-hw2;
+            String zaco = "za co";
+            table = wygenerujtabliceCenter(zaco, w1, hw3, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            String pln = "pln";
+            table = wygenerujtabliceCenter(pln, w23, hw3, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p2, h, writer.getDirectContent());
+            String numer = "numer";
+            table = wygenerujtabliceCenter(numer, w23, hw3, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p3, h, writer.getDirectContent());
+            h = h-hw3;
+            String nazwa = fakturaRozrachunki.getKontrahent().getNpelna()+" "+fakturaRozrachunki.getUwagi();
+            table = wygenerujtabliceCenter(nazwa, w1, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            double kwota = fakturaRozrachunki.getKwotapln();
+            table = wygenerujtabliceCenter(F.curr(kwota), w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p2, h, writer.getDirectContent());
+            String konto = "";
+            table = wygenerujtabliceCenter(konto, w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p3, h, writer.getDirectContent());
+            //        h = h-hw2;
+            //        pustewiersze("", writer, h, w1, w23, p1, p2, p3, hw2);
+            h = h-hw2;
+            pustewiersze("", writer, h, w1, w23, p1, p2, p3, hw2);
+            h = h-hw2;
+            String slownie = "kwota wypłaty słownie: "+Slownie.slownie(String.valueOf(fakturaRozrachunki.getKwotapln()),"zł");
+            table = wygenerujtabliceLeft(slownie, w1+w23+w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            h = h-hw2;
+            String wys = "wystawił";
+            table = wygenerujtabliceCenter(wys, w1, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            String spr = "sprawdził";
+            table = wygenerujtabliceCenter(spr, w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p2, h, writer.getDirectContent());
+            String zatw = "zatwierdził";
+            table = wygenerujtabliceCenter(zatw, w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p3, h, writer.getDirectContent());
+            h = h-hw2;
+            pustewiersze(wpisView.getUzer().getNazwiskoImie(), writer, h, w1, w23, p1, p2, p3, hw2);
+            h = h-hw2;
+            String potw = "kwotę powyższą wypłaciłem - podpis kasjera     |      kwotę otrzymałem";
+            table = wygenerujtabliceCenter(potw, w1+w23+w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+            h = h-hw2;
+            table = wygenerujtabliceCenter("", w1+w23+w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, h, writer.getDirectContent());
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfRaportKasowy.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PdfRaportKasowy.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    public static void pustewiersze(String tekst1, PdfWriter writer, int vert, int w1, int w23, int p1, int p2, int p3, int hw2) {
+        try {
+            PdfPTable table = wygenerujtabliceCenter(tekst1, w1, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p1, vert, writer.getDirectContent());
+            table = wygenerujtabliceCenter("", w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p2, vert, writer.getDirectContent());
+            table = wygenerujtabliceCenter("", w23, hw2, 10);
+            table.writeSelectedRows(0, table.getRows().size(), p3, vert, writer.getDirectContent());
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfRaportKasowy.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PdfRaportKasowy.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+     public static PdfPTable wygenerujtabliceLeft(String text, int szerokosc, int wysokosc, int czcionkasize) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(1);
         float x1 = (float) (szerokosc);
         table.setTotalWidth(x1);

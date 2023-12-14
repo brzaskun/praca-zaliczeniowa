@@ -107,6 +107,8 @@ public class FakturaRozrachunki implements Serializable {
     private boolean rozrachunekarchiwalny;
     @Column(name = "uwagi")
     private String uwagi;
+    @Column(name = "wplacajacy")
+    private String wplacajacy;
     
 
     public FakturaRozrachunki() {
@@ -168,6 +170,14 @@ public class FakturaRozrachunki implements Serializable {
     
     public void setLp(Integer lp) {
         this.lp = lp;
+    }
+
+    public String getWplacajacy() {
+        return wplacajacy;
+    }
+
+    public void setWplacajacy(String wplacajacy) {
+        this.wplacajacy = wplacajacy;
     }
 
     public String getUwagi() {

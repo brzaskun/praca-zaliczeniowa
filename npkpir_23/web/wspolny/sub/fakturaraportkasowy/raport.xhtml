@@ -44,6 +44,9 @@
                             <h:outputText value="kwota"/>
                         </p:column>
                         <p:column>
+                            <h:outputText value="wplacajacy"/>
+                        </p:column>
+                        <p:column>
                             <h:outputText value="kontrahent"/>
                         </p:column>
                         <p:column>
@@ -93,6 +96,9 @@
                                        inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
                     <p:column>
+                        <p:inputText value="#{fakturaRaportKasowyView.selected.wplacajacy}" size="30"/>
+                    </p:column>
+                    <p:column>
                         <p:autoComplete value="#{fakturaRaportKasowyView.selected.kontrahent}" completeMethod="#{fakturaRaportKasowyView.completeKL}"
                                         var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
                                         maxResults="20" maxlength="20" converterMessage="Nieudana konwersja Klient" 
@@ -122,7 +128,7 @@
                                                              inputStyle="text-align: right;" decimalPlaces="4" minValue="-10000000" styleClass="wiersznetto"/> 
                                         </p:column>-->
                     <p:column>
-                        <p:inputText value="#{fakturaRaportKasowyView.selected.uwagi}" size="50"/>
+                        <p:inputText value="#{fakturaRaportKasowyView.selected.uwagi}" size="30"/>
                     </p:column>
                      <p:column>
                          <p:inputNumber value="#{fakturaRaportKasowyView.selected.przeniesienie}" symbol=" zł" required="true" 
@@ -139,7 +145,7 @@
                 <h:outputText value="suma: " style="margin-right: 10px;"/><bcf:outputpl value="#{fakturaRaportKasowyView.suma}" stylePlus="margin-right: 200px;"/>
             </p:outputPanel>
             <p:remoteCommand name="przeliczfilter" actionListener="#{fakturaRaportKasowyView.sumuj}" update="@form"/>
-            <p:dataTable value="#{fakturaRaportKasowyView.wprowadzoneplatnosci}" var="item" style="width: 1400px; margin-top: 20px;"
+            <p:dataTable value="#{fakturaRaportKasowyView.wprowadzoneplatnosci}" var="item" style="width: 1550px; margin-top: 20px;"
                          emptyMessage="niczego dzisiaj nie zaksięgowano"  sortOrder="descending" filteredValue="#{fakturaRaportKasowyView.wprowadzoneplatnoscifiltered}"
                          editable="true" widgetVar="form_wprowadzoneplatnosci" sortBy="#{item.lp}"
                          paginator="true" rows="10" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -178,14 +184,7 @@
                     <f:facet name="header">
                         <h:outputText value="data"/>
                     </f:facet>
-                    <p:cellEditor>
-                        <f:facet name="output">
                             <h:outputText value="#{item.data}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText value="#{item.data}" style="width: 70px;"/>
-                        </f:facet>
-                    </p:cellEditor>
                 </p:column>
                 <p:column width="100" style="text-align: center;" filterBy="#{item.rodzajdokumentu}" filterMatchMode="exact" >
                     <f:facet name="header">
@@ -228,6 +227,12 @@
                     </f:facet>
                     <bcf:outputpl value="#{item.saldo}"/>
 
+                </p:column>
+                <p:column width="120"  sortable="true" sortBy="#{item.wplacajacy}" filterBy="#{item.wplacajacy}" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText value="od/dla kogo"/>
+                    </f:facet>
+                     <h:outputText value="#{item.wplacajacy}"/>
                 </p:column>
                 <p:column width="150"  sortable="true">
                     <f:facet name="header">
