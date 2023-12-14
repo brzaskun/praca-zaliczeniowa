@@ -8,6 +8,7 @@ package view;
 import comparator.Dziencomparator;
 import comparator.Umowacomparator;
 import dao.AngazFacade;
+import dao.DzienFacade;
 import dao.FirmaKadryFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
@@ -91,6 +92,8 @@ public class AngazView  implements Serializable {
     private UpdateClassView updateClassView;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
+    @Inject
+    private DzienFacade dzienFacade;
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
     @Inject
@@ -294,13 +297,15 @@ public class AngazView  implements Serializable {
                                 nowykalendarz.setRok(rokbiezacy);
                                 nowykalendarz.setMc(mc);
                                 nowykalendarz.setAngaz(nowyangaz);
+                                kalendarzmiesiacFacade.create(nowykalendarz);
                                 List<Dzien> nowedni = ganerujdnizwzrocowego(znaleziono, null, nowykalendarz);
                                 if (nowedni==null||nowedni.size()==0) {
                                     log.add("BŁĄD. Nie wygenerowano dni za mc "+mca);
                                 } else {
                                     nowykalendarz.setDzienList(nowedni);
+                                    dzienFacade.createList(nowedni);
                                 }
-                                kalendarzmiesiacFacade.create(nowykalendarz);
+                                
                                 log.add("Wygenerowano kalendarz za mc "+mc);
                                 ilekalendarzy++;
                             } else {

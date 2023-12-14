@@ -12,6 +12,7 @@ import data.Data;
 import entity.Fakturaopisuslugi;
 import entity.Kadryfakturapozycja;
 import entity.Pasekwynagrodzen;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import javax.ejb.Schedule;
@@ -68,14 +69,18 @@ public class WierszFakturaBean {
     }
      
       public static void naniesusluge(WierszFaktury wierszpobrany, Fakturaopisuslugi opisuslugi, List<Pasekwynagrodzen> paski) {
+        wierszpobrany.setIlosc(0);
         if (opisuslugi.isListawz()) {
+            List<Pasekwynagrodzen> paskitmp = new ArrayList<>(paski);
             Predicate<Pasekwynagrodzen> isQualified = item->item.isPraca();
-            paski.removeIf(isQualified.negate());
-            wierszpobrany.setIlosc(paski.size());
-        } else if (opisuslugi.isListauz()) {
+            paskitmp.removeIf(isQualified.negate());
+            wierszpobrany.setIlosc(wierszpobrany.getIlosc()+paskitmp.size());
+        } 
+        if (opisuslugi.isListauz()) {
+            List<Pasekwynagrodzen> paskitmp = new ArrayList<>(paski);
             Predicate<Pasekwynagrodzen> isQualified = item->item.isZlecenie();
-            paski.removeIf(isQualified.negate());
-            wierszpobrany.setIlosc(paski.size());
+            paskitmp.removeIf(isQualified.negate());
+            wierszpobrany.setIlosc(wierszpobrany.getIlosc()+paskitmp.size());
         }
     }
 }

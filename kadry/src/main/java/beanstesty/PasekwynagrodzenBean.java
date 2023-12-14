@@ -2149,12 +2149,17 @@ public class PasekwynagrodzenBean {
         boolean jestpowrot = false;
         if (nieobecnoscList!=null) {
             String datakoncazwolnienia = null;
+            
             for (Nieobecnosc nieob : nieobecnoscList) {
                 if (nieob.getSwiadczeniekodzus()!=null&&(nieob.getSwiadczeniekodzus().getKod().equals("319")||nieob.getSwiadczeniekodzus().getKod().equals("121"))) {
-                    if (nieob.getDatado()!=null) {
+                    if (nieob.getDatado()!=null&&datakoncazwolnienia==null) {
                         datakoncazwolnienia = nieob.getDatado();
                         //nie moze byc break bo sie zatryzma na poprzednim zwolnieniu sprzed roku
                         //break;
+                    } else if (nieob.getDatado()!=null&&datakoncazwolnienia!=null) {
+                        if (Data.czyjestpo(datakoncazwolnienia, nieob.getDatado())) {
+                            datakoncazwolnienia = nieob.getDatado();
+                        }
                     }
                 }
             }

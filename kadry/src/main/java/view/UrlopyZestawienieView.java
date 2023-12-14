@@ -101,7 +101,7 @@ public class UrlopyZestawienieView  implements Serializable {
             int sumadnirok = 0;
             rejestrurlopow.setUrlopzalegly(rejestrurlopow.getAngaz().getBourlopdni());
             String datadodatkowywymiar = rejestrurlopow.getAngaz().getPracownik().getDatadodwymiar();
-            if (datadodatkowywymiar!=null) {
+            if (datadodatkowywymiar!=null&&datadodatkowywymiar.length()==10) {
                 String rok = Data.getRok(datadodatkowywymiar);
                 Integer rokI = Integer.parseInt(rok);
                 if (wpisView.getRokWpisuInt()>=rokI) {

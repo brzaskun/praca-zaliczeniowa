@@ -107,6 +107,7 @@ public class FirmaImportView  implements Serializable {
     public void create() {
       if (selected!=null) {
           try {
+            selected.setNip(selected.getNip().trim());
             firmaKadryFacade.create(selected);
             lista.add(selected);
             wpisView.setFirma(selected);
@@ -313,6 +314,7 @@ public class FirmaImportView  implements Serializable {
         if (selectedlista!=null && selectedlista.getEmail()!=null) {
             String nazwaurzedu = selectedlista.getNazwaurzeduskarbowego();
             selectedlista.setKodurzeduskarbowego(tKodUS.getMapaUrzadKod().get(nazwaurzedu));
+            selectedlista.setNip(selectedlista.getNip().trim());
             firmaKadryFacade.edit(selectedlista);
             Uz uz = uzFacade.findUzByPesel(selectedlista.getNip());
             if (uz!=null) {

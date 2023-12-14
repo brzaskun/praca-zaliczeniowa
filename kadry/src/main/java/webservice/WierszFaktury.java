@@ -186,7 +186,8 @@ public class WierszFaktury implements Serializable {
 
     @Override
     public String toString() {
-        return "javaapplication2.WierszFaktury[ id=" + id + " ]";
+        return "WierszFaktury{" + "nip=" + nip + ", nazwa=" + nazwa + ", rok=" + rok + ", mc=" + mc + ", opis=" + opis + ", symbolwaluty=" + symbolwaluty + ", kwota=" + kwota + ", ilosc=" + ilosc + '}';
     }
-    
+
+   
 }

@@ -146,7 +146,8 @@ public class Kadryfakturapozycja implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Kadryfakturapozycja[ id=" + id + " ]";
+        return "Kadryfakturapozycja{" + "cena=" + cena + ", opisuslugi=" + opisuslugi + ", firmakadry=" + firmakadry.getNazwa() + ", uz=" + uz.getImieNazwisko() + ", waluta=" + waluta + ", datadodania=" + datadodania + '}';
     }
+
     
 }
