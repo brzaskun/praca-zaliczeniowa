@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-12-15T07:31:32.288Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3206</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>11</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>7011062540</ns2:NIP>
+            <ns2:ImiePierwsze>Joanna</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Zieres</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1970-07-27</ns2:DataUrodzenia>
+            <Email>b.matczak@taxman.biz.pl</Email>
+            <Telefon>502262432</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_35>0</P_35>
+            <P_37>0</P_37>
+            <P_38>0</P_38>
+            <P_39>0</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>0</P_42>
+            <P_43>0</P_43>
+            <P_48>0</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>0</P_53>
+            <P_62>0</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>0</LiczbaWierszySprzedazy>
+            <PodatekNalezny>0</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>0</LiczbaWierszyZakupow>
+            <PodatekNaliczony>0</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

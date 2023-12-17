@@ -1,0 +1,36 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .ui-datatable .dokumorzeniowe .ui-column-filter {
+            width: 50px !important;
+        }
+        .ui-inputfield .dokumorzeniowe .ui-inputtext {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .ui-datatable-data .dokumorzeniowe tr td {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+        /*        dzieki temu nie mamy ramek przy wpisywani danych do dokumentu*/
+        .ui-inputfield .dokumorzeniowe  .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+    </style>
+<bcf:ajaxs/>
+    <h:form id="formSTRUmorzenie">
+        <p:outputPanel id="wrapper2">
+            SPRAWY NIEMEICKIE
+        </p:outputPanel>
+    </h:form>
+</ui:composition>   
+

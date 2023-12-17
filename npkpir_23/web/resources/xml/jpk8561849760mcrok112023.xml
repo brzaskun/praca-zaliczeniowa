@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-12-15T10:56:04.978Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3205</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>11</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8561849760</NIP>
+            <PelnaNazwa>CODY RACKS sp. z o.o.</PelnaNazwa>
+            <Email>zanetagrzegorczyk1@gmail.com</Email>
+            <Telefon>532434443</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_11>30600</P_11>
+            <P_12>30600</P_12>
+            <P_17>117397</P_17>
+            <P_18>9392</P_18>
+            <P_19>3000</P_19>
+            <P_20>690</P_20>
+            <P_35>0</P_35>
+            <P_37>150997</P_37>
+            <P_38>10082</P_38>
+            <P_39>38934</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>93917</P_42>
+            <P_43>16995</P_43>
+            <P_48>55929</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>45847</P_53>
+            <P_54>1677</P_54>
+            <P_57>1</P_57>
+            <P_59>1</P_59>
+            <P_60>1677</P_60>
+            <P_61>CIT 11 2023 740 PLN PIT-4 za 11 2023 937 PLN</P_61>
+            <P_62>44170</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000011328</NrKontrahenta>
+            <NazwaKontrahenta>Mateusz Matławski</NazwaKontrahenta>
+            <DowodSprzedazy>1/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-10</DataSprzedazy>
+            <K_17>13325.40</K_17>
+            <K_18>1066.03</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DK</KodKrajuNadaniaTIN>
+            <NrKontrahenta>40548696</NrKontrahenta>
+            <NazwaKontrahenta>Byg Impulse ApS</NazwaKontrahenta>
+            <DowodSprzedazy>2/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-17</DataSprzedazy>
+            <GTU_12>1</GTU_12>
+            <K_11>30600.00</K_11>
+            <K_12>30600.00</K_12>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000011758</NrKontrahenta>
+            <NazwaKontrahenta>Sławomir Majchrzak</NazwaKontrahenta>
+            <DowodSprzedazy>3/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-20</DataSprzedazy>
+            <K_17>10000.00</K_17>
+            <K_18>800.0</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000011328</NrKontrahenta>
+            <NazwaKontrahenta>Mateusz Matławski</NazwaKontrahenta>
+            <DowodSprzedazy>4/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-27</DataSprzedazy>
+            <K_17>21093.68</K_17>
+            <K_18>1687.49</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000011999</NrKontrahenta>
+            <NazwaKontrahenta>Karolina Szarek</NazwaKontrahenta>
+            <DowodSprzedazy>5/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-28</DataSprzedazy>
+            <K_17>7559.26</K_17>
+            <K_18>604.74</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5941606306</NrKontrahenta>
+            <NazwaKontrahenta>MAKOB KOBESZKO SPÓŁKA KOMANDYTOWA</NazwaKontrahenta>
+            <DowodSprzedazy>6/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_17>13552.00</K_17>
+            <K_18>1084.16</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8561689629</NrKontrahenta>
+            <NazwaKontrahenta>"LIDER" - Grzegorz Kondrat</NazwaKontrahenta>
+            <DowodSprzedazy>7/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_17>25544.00</K_17>
+            <K_18>2043.52</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000011758</NrKontrahenta>
+            <NazwaKontrahenta>Sławomir Majchrzak</NazwaKontrahenta>
+            <DowodSprzedazy>8/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_17>26322.50</K_17>
+            <K_18>2105.8</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DK</KodKrajuNadaniaTIN>
+            <NrKontrahenta>40548696</NrKontrahenta>
+            <NazwaKontrahenta>Byg Impulse ApS</NazwaKontrahenta>
+            <DowodSprzedazy>9/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_19>3000.00</K_19>
+            <K_20>690.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>9</LiczbaWierszySprzedazy>
+            <PodatekNalezny>10081.74</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6721144175</NrDostawcy>
+            <NazwaDostawcy>HANDWERKER Małgorzata Cimoszko</NazwaDostawcy>
+            <DowodZakupu>5/10/2023</DowodZakupu>
+            <DataZakupu>2023-10-16</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>7000.00</K_42>
+            <K_43>560.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>23100565996785</DowodZakupu>
+            <DataZakupu>2023-10-19</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>63.00</K_42>
+            <K_43>14.49</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512120077</NrDostawcy>
+            <NazwaDostawcy>"P4 sp. z o.o."</NazwaDostawcy>
+            <DowodZakupu>F/30122321/10/23</DowodZakupu>
+            <DataZakupu>2023-10-22</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>174.39</K_42>
+            <K_43>40.11</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811925818</NrDostawcy>
+            <NazwaDostawcy>ERATO sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>07951231027547502</DowodZakupu>
+            <DataZakupu>2023-10-27</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>82.90</K_42>
+            <K_43>19.07</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561811272</NrDostawcy>
+            <NazwaDostawcy>PSB-MRÓWKA-MARBUD sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>690/10/2023/GPL</DowodZakupu>
+            <DataZakupu>2023-10-31</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>4229.00</K_42>
+            <K_43>972.67</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>F0082640644/011/23</DowodZakupu>
+            <DataZakupu>2023-11-01</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>123.23</K_42>
+            <K_43>24.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5222857117</NrDostawcy>
+            <NazwaDostawcy>Santander Cinsumer Multirent Sp. zo.o.</NazwaDostawcy>
+            <DowodZakupu>RL/22703/11/23</DowodZakupu>
+            <DataZakupu>2023-11-01</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>3769.79</K_42>
+            <K_43>433.52</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5361938486</NrDostawcy>
+            <NazwaDostawcy>MTOILET sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FVS/011021/SZ/2023</DowodZakupu>
+            <DataZakupu>2023-11-02</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>190.00</K_42>
+            <K_43>15.2</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5361938486</NrDostawcy>
+            <NazwaDostawcy>MTOILET sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FVS/011022/SZ/2023</DowodZakupu>
+            <DataZakupu>2023-11-02</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>49.40</K_42>
+            <K_43>3.95</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6721144175</NrDostawcy>
+            <NazwaDostawcy>HANDWERKER Małgorzata Cimoszko</NazwaDostawcy>
+            <DowodZakupu>1/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-03</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>4000.00</K_42>
+            <K_43>920.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6721144175</NrDostawcy>
+            <NazwaDostawcy>HANDWERKER Małgorzata Cimoszko</NazwaDostawcy>
+            <DowodZakupu>2/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-03</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>4000.00</K_42>
+            <K_43>460.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>0467612379</DowodZakupu>
+            <DataZakupu>2023-11-04</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>787.57</K_42>
+            <K_43>90.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>12/2023/CODY76</DowodZakupu>
+            <DataZakupu>2023-11-05</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>2390.00</K_42>
+            <K_43>549.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561066609</NrDostawcy>
+            <NazwaDostawcy>P.H.U. "DOMINO" Łukaszewicz Sławomir</NazwaDostawcy>
+            <DowodZakupu>1962/20323</DowodZakupu>
+            <DataZakupu>2023-11-06</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>56.24</K_42>
+            <K_43>12.94</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7792433421</NrDostawcy>
+            <NazwaDostawcy>GRUPA OLX sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2024/1102880008</DowodZakupu>
+            <DataZakupu>2023-11-06</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>97.48</K_42>
+            <K_43>22.42</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7792433421</NrDostawcy>
+            <NazwaDostawcy>GRUPA OLX sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2024/1102880009</DowodZakupu>
+            <DataZakupu>2023-11-06</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>34.07</K_42>
+            <K_43>7.83</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561811272</NrDostawcy>
+            <NazwaDostawcy>PSB-MRÓWKA-MARBUD sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>240/11/2023/GPL</DowodZakupu>
+            <DataZakupu>2023-11-06</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>1998.14</K_42>
+            <K_43>459.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561788716</NrDostawcy>
+            <NazwaDostawcy>MOJE BIURO Sonia Wronkowicz</NazwaDostawcy>
+            <DowodZakupu>1134/MAG/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-07</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>81.87</K_42>
+            <K_43>18.83</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561811272</NrDostawcy>
+            <NazwaDostawcy>PSB-MRÓWKA-MARBUD sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>31/11/2023/GKOR/K</DowodZakupu>
+            <DataZakupu>2023-11-09</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>-840.00</K_42>
+            <K_43>-193.2</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561788716</NrDostawcy>
+            <NazwaDostawcy>MOJE BIURO Sonia Wronkowicz</NazwaDostawcy>
+            <DowodZakupu>1155/MAG/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-09</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>199.02</K_42>
+            <K_43>45.78</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561847695</NrDostawcy>
+            <NazwaDostawcy>NETBUD S.C. MAREK KRAWCZYK, MIROSŁAW MIERZICKI, SYLWESTER KOWALSKI</NazwaDostawcy>
+            <DowodZakupu>4211/2023</DowodZakupu>
+            <DataZakupu>2023-11-09</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>2282.11</K_42>
+            <K_43>524.89</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561788716</NrDostawcy>
+            <NazwaDostawcy>MOJE BIURO Sonia Wronkowicz</NazwaDostawcy>
+            <DowodZakupu>1168/MAG/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-10</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>76.42</K_42>
+            <K_43>17.58</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5992805808</NrDostawcy>
+            <NazwaDostawcy>Gezet Głuchy i Spółka Sp. J</NazwaDostawcy>
+            <DowodZakupu>FV/UP/756/23/SZM</DowodZakupu>
+            <DataZakupu>2023-11-14</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>2439.02</K_42>
+            <K_43>280.49</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522541532</NrDostawcy>
+            <NazwaDostawcy>EXTRADACH sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FS-766/MSZ/11/23</DowodZakupu>
+            <DataZakupu>2023-11-15</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>7252.42</K_42>
+            <K_43>1668.06</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513269183</NrDostawcy>
+            <NazwaDostawcy>Kancelaria Notarialna Konrad Stuła, Michał Sosnowski Spółka Cywilna</NazwaDostawcy>
+            <DowodZakupu>398/23</DowodZakupu>
+            <DataZakupu>2023-11-15</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>1454.00</K_42>
+            <K_43>334.42</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561811272</NrDostawcy>
+            <NazwaDostawcy>PSB-MRÓWKA-MARBUD sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>51/11/2023/GKOR/K</DowodZakupu>
+            <DataZakupu>2023-11-15</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>-274.50</K_42>
+            <K_43>-63.14</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>0467633374</DowodZakupu>
+            <DataZakupu>2023-11-17</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>1208.44</K_42>
+            <K_43>138.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>23110608401657</DowodZakupu>
+            <DataZakupu>2023-11-18</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>68.00</K_42>
+            <K_43>15.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5361938486</NrDostawcy>
+            <NazwaDostawcy>MTOILET sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FVS/011614/SZ/2023</DowodZakupu>
+            <DataZakupu>2023-11-20</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>95.00</K_42>
+            <K_43>7.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561247877</NrDostawcy>
+            <NazwaDostawcy>Grzelak Jolanta - Warsztat Samochodowy ,,wiking''</NazwaDostawcy>
+            <DowodZakupu>2213/2023</DowodZakupu>
+            <DataZakupu>2023-11-21</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>130.08</K_42>
+            <K_43>14.96</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811925818</NrDostawcy>
+            <NazwaDostawcy>ERATO sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>07951231123386802</DowodZakupu>
+            <DataZakupu>2023-11-23</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>29.26</K_42>
+            <K_43>6.73</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561566447</NrDostawcy>
+            <NazwaDostawcy>KANCELARIA PRAWNICZA MGR ADRIAN TARGOŃ</NazwaDostawcy>
+            <DowodZakupu>FS 224/2023</DowodZakupu>
+            <DataZakupu>2023-11-23</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>1200.00</K_42>
+            <K_43>276.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8560004865</NrDostawcy>
+            <NazwaDostawcy>"ŚRUBY GIEC" Wojciech Giec</NazwaDostawcy>
+            <DowodZakupu>345/Z5/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-23</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>54.00</K_42>
+            <K_43>12.42</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561924094</NrDostawcy>
+            <NazwaDostawcy>TP PROFI SPÓŁKA Z Ograniczona Odpowiedzialnością</NazwaDostawcy>
+            <DowodZakupu>1183/MAG/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-24</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>126.30</K_42>
+            <K_43>29.05</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>35</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6721144175</NrDostawcy>
+            <NazwaDostawcy>HANDWERKER Małgorzata Cimoszko</NazwaDostawcy>
+            <DowodZakupu>4/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-27</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>13888.89</K_42>
+            <K_43>1111.11</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>36</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561811272</NrDostawcy>
+            <NazwaDostawcy>PSB-MRÓWKA-MARBUD sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>611/11/2023/GPL</DowodZakupu>
+            <DataZakupu>2023-11-28</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>38.02</K_42>
+            <K_43>8.74</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>37</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561110598</NrDostawcy>
+            <NazwaDostawcy>FPHU ARDOM Jacek Modrzejewski</NazwaDostawcy>
+            <DowodZakupu>FV-0561_2023</DowodZakupu>
+            <DataZakupu>2023-11-28</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>2002.80</K_42>
+            <K_43>460.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>38</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561924094</NrDostawcy>
+            <NazwaDostawcy>TP PROFI SPÓŁKA Z Ograniczona Odpowiedzialnością</NazwaDostawcy>
+            <DowodZakupu>1193/MAG/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-29</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>129.51</K_42>
+            <K_43>29.79</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>39</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561811272</NrDostawcy>
+            <NazwaDostawcy>PSB-MRÓWKA-MARBUD sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>593/11/2023/GPL</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>19454.00</K_42>
+            <K_43>4474.42</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>40</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512120077</NrDostawcy>
+            <NazwaDostawcy>"P4 sp. z o.o."</NazwaDostawcy>
+            <DowodZakupu>F/30072345/23</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>186.73</K_42>
+            <K_43>42.95</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>41</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561847695</NrDostawcy>
+            <NazwaDostawcy>NETBUD S.C. MAREK KRAWCZYK, MIROSŁAW MIERZICKI, SYLWESTER KOWALSKI</NazwaDostawcy>
+            <DowodZakupu>4443/2023</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>7803.98</K_42>
+            <K_43>1794.92</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>42</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561847695</NrDostawcy>
+            <NazwaDostawcy>NETBUD S.C. MAREK KRAWCZYK, MIROSŁAW MIERZICKI, SYLWESTER KOWALSKI</NazwaDostawcy>
+            <DowodZakupu>4444/2023</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>5786.34</K_42>
+            <K_43>1330.86</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>42</LiczbaWierszyZakupow>
+            <PodatekNaliczony>16994.59</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

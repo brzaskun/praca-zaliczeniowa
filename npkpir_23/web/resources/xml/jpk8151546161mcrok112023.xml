@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-12-15T12:48:06.025Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>11</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>8151546161</ns2:NIP>
+            <ns2:ImiePierwsze>Małgorzata</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Dulęba-Niełacna</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1984-04-04</ns2:DataUrodzenia>
+            <Email>b.matczak@taxman.biz.pl</Email>
+            <Telefon>502262432</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_17>10593</P_17>
+            <P_18>847</P_18>
+            <P_19>2198</P_19>
+            <P_20>505</P_20>
+            <P_29>64</P_29>
+            <P_30>15</P_30>
+            <P_35>0</P_35>
+            <P_37>12855</P_37>
+            <P_38>1367</P_38>
+            <P_39>0</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>7914</P_42>
+            <P_43>1401</P_43>
+            <P_48>1401</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>34</P_53>
+            <P_62>34</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8393184744</NrKontrahenta>
+            <NazwaKontrahenta>AUTO LUX Kateryna Petrova</NazwaKontrahenta>
+            <DowodSprzedazy>11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-06</DataWystawienia>
+            <DataSprzedazy>2023-11-06</DataSprzedazy>
+            <K_19>1056.91</K_19>
+            <K_20>243.09</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrKontrahenta>23138978</NrKontrahenta>
+            <NazwaKontrahenta>SIX PAYMENT SERVICES (EUROPE) S.A.</NazwaKontrahenta>
+            <DowodSprzedazy>60'104'337</DowodSprzedazy>
+            <DataWystawienia>2023-11-13</DataWystawienia>
+            <DataSprzedazy>2023-11-13</DataSprzedazy>
+            <K_29>63.99</K_29>
+            <K_30>14.72</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8151546161</NrKontrahenta>
+            <NazwaKontrahenta>ATELIER FRYZJERSTWA Małgorzata Dulęba-niełacna</NazwaKontrahenta>
+            <DowodSprzedazy>Raport fiskalny 11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_17>10592.59</K_17>
+            <K_18>847.41</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8151546161</NrKontrahenta>
+            <NazwaKontrahenta>ATELIER FRYZJERSTWA Małgorzata Dulęba-niełacna</NazwaKontrahenta>
+            <DowodSprzedazy>Raport fiskalny 11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_19>1140.66</K_19>
+            <K_20>262.35</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>4</LiczbaWierszySprzedazy>
+            <PodatekNalezny>1367.57</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 10290K1/4269/23</DowodZakupu>
+            <DataZakupu>2023-08-02</DataZakupu>
+            <DataWplywu>2023-08-02</DataWplywu>
+            <K_42>127.44</K_42>
+            <K_43>14.66</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>F 12944K1/4101/23</DowodZakupu>
+            <DataZakupu>2023-08-04</DataZakupu>
+            <DataWplywu>2023-08-04</DataWplywu>
+            <K_42>128.00</K_42>
+            <K_43>14.72</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>I23139B01007404</DowodZakupu>
+            <DataZakupu>2023-08-09</DataZakupu>
+            <DataWplywu>2023-08-09</DataWplywu>
+            <K_42>203.26</K_42>
+            <K_43>23.37</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>I23596B01007468</DowodZakupu>
+            <DataZakupu>2023-08-11</DataZakupu>
+            <DataWplywu>2023-08-11</DataWplywu>
+            <K_42>150.09</K_42>
+            <K_43>17.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512381607</NrDostawcy>
+            <NazwaDostawcy>BOOKSY INTERNATIONAL sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FV/VD/2023/11/05867</DowodZakupu>
+            <DataZakupu>2023-11-01</DataZakupu>
+            <DataWplywu>2023-11-01</DataWplywu>
+            <K_42>41.52</K_42>
+            <K_43>9.55</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 10441K2/4282/23</DowodZakupu>
+            <DataZakupu>2023-11-01</DataZakupu>
+            <DataWplywu>2023-11-01</DataWplywu>
+            <K_42>275.61</K_42>
+            <K_43>31.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>11/2023/ATEL16</DowodZakupu>
+            <DataZakupu>2023-11-05</DataZakupu>
+            <DataWplywu>2023-11-05</DataWplywu>
+            <K_42>378.00</K_42>
+            <K_43>86.94</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811483817</NrDostawcy>
+            <NazwaDostawcy>FAROUK SYSTEMS POLSKA LIDIA Mikulska; Mysterium</NazwaDostawcy>
+            <DowodZakupu>FS-SM/34218/2023</DowodZakupu>
+            <DataZakupu>2023-11-06</DataZakupu>
+            <DataWplywu>2023-11-06</DataWplywu>
+            <K_42>735.22</K_42>
+            <K_43>169.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>I23139B02008082</DowodZakupu>
+            <DataZakupu>2023-11-13</DataZakupu>
+            <DataWplywu>2023-11-13</DataWplywu>
+            <K_42>254.33</K_42>
+            <K_43>29.25</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>4960248221</NrDostawcy>
+            <NazwaDostawcy>Warszawska Szafa Jakub Sawicki</NazwaDostawcy>
+            <DowodZakupu>FS 59478/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-16</DataZakupu>
+            <DataWplywu>2023-11-16</DataWplywu>
+            <K_42>72.68</K_42>
+            <K_43>16.72</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811483817</NrDostawcy>
+            <NazwaDostawcy>FAROUK SYSTEMS POLSKA LIDIA Mikulska; Mysterium</NazwaDostawcy>
+            <DowodZakupu>FS-SM/35769/2023</DowodZakupu>
+            <DataZakupu>2023-11-16</DataZakupu>
+            <DataWplywu>2023-11-16</DataWplywu>
+            <K_42>1018.94</K_42>
+            <K_43>234.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811483817</NrDostawcy>
+            <NazwaDostawcy>FAROUK SYSTEMS POLSKA LIDIA Mikulska; Mysterium</NazwaDostawcy>
+            <DowodZakupu>FS-SK/7240/2023</DowodZakupu>
+            <DataZakupu>2023-11-16</DataZakupu>
+            <DataWplywu>2023-11-16</DataWplywu>
+            <K_42>982.75</K_42>
+            <K_43>226.03</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811483817</NrDostawcy>
+            <NazwaDostawcy>FAROUK SYSTEMS POLSKA LIDIA Mikulska; Mysterium</NazwaDostawcy>
+            <DowodZakupu>FS-SM/35767/2023</DowodZakupu>
+            <DataZakupu>2023-11-16</DataZakupu>
+            <DataWplywu>2023-11-16</DataWplywu>
+            <K_42>101.60</K_42>
+            <K_43>23.37</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811483817</NrDostawcy>
+            <NazwaDostawcy>FAROUK SYSTEMS POLSKA LIDIA Mikulska; Mysterium</NazwaDostawcy>
+            <DowodZakupu>FS-SM/35975/2023</DowodZakupu>
+            <DataZakupu>2023-11-20</DataZakupu>
+            <DataWplywu>2023-11-20</DataWplywu>
+            <K_42>82.27</K_42>
+            <K_43>18.92</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5272260025</NrDostawcy>
+            <NazwaDostawcy>"OCHRONA JUWENTUS-BIS" sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>Z/31080/11/23</DowodZakupu>
+            <DataZakupu>2023-11-21</DataZakupu>
+            <DataWplywu>2023-11-21</DataWplywu>
+            <K_42>59.27</K_42>
+            <K_43>13.63</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512120077</NrDostawcy>
+            <NazwaDostawcy>"P4 sp. z o.o."</NazwaDostawcy>
+            <DowodZakupu>F/30246520/11/23</DowodZakupu>
+            <DataZakupu>2023-11-22</DataZakupu>
+            <DataWplywu>2023-11-22</DataWplywu>
+            <K_42>275.36</K_42>
+            <K_43>63.33</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7651692244</NrDostawcy>
+            <NazwaDostawcy>Gift 4 You Joanna Wysocka</NazwaDostawcy>
+            <DowodZakupu>228/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-23</DataZakupu>
+            <DataWplywu>2023-11-23</DataWplywu>
+            <K_42>313.01</K_42>
+            <K_43>71.99</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>F 9391K2/4101/23</DowodZakupu>
+            <DataZakupu>2023-11-24</DataZakupu>
+            <DataWplywu>2023-11-24</DataWplywu>
+            <K_42>212.59</K_42>
+            <K_43>24.45</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7671004218</NrDostawcy>
+            <NazwaDostawcy>TERG S.A.</NazwaDostawcy>
+            <DowodZakupu>FS-533704/23/MEPL1/10</DowodZakupu>
+            <DataZakupu>2023-11-25</DataZakupu>
+            <DataWplywu>2023-11-25</DataWplywu>
+            <K_42>147.74</K_42>
+            <K_43>33.98</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7010308447</NrDostawcy>
+            <NazwaDostawcy>BMW Financial Services Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FRR/01495/1123/LRP</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-06</DataWplywu>
+            <K_42>2290.21</K_42>
+            <K_43>263.37</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrDostawcy>23138978</NrDostawcy>
+            <NazwaDostawcy>SIX PAYMENT SERVICES (EUROPE) S.A.</NazwaDostawcy>
+            <DowodZakupu>60'104'337</DowodZakupu>
+            <DataZakupu>2023-11-13</DataZakupu>
+            <DataWplywu>2023-11-13</DataWplywu>
+            <K_42>63.99</K_42>
+            <K_43>14.72</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>21</LiczbaWierszyZakupow>
+            <PodatekNaliczony>1401.42</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

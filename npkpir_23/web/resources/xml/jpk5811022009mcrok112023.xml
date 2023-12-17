@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-12-15T07:31:31.168Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3219</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>11</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>5811022009</ns2:NIP>
+            <ns2:ImiePierwsze>Aldona</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Lewandowska</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1971-10-24</ns2:DataUrodzenia>
+            <Email>m.janowska@taxman.biz.pl</Email>
+            <Telefon>507700791</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DK</KodKrajuNadaniaTIN>
+            <NrKontrahenta>24431118</NrKontrahenta>
+            <NazwaKontrahenta>DK company A/S</NazwaKontrahenta>
+            <DowodSprzedazy>10335253</DowodSprzedazy>
+            <DataWystawienia>2023-11-01</DataWystawienia>
+            <DataSprzedazy>2023-11-01</DataSprzedazy>
+            <K_23>7965.47</K_23>
+            <K_24>1832.06</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DK</KodKrajuNadaniaTIN>
+            <NrKontrahenta>24431118</NrKontrahenta>
+            <NazwaKontrahenta>DK company A/S</NazwaKontrahenta>
+            <DowodSprzedazy>10335254</DowodSprzedazy>
+            <DataWystawienia>2023-11-01</DataWystawienia>
+            <DataSprzedazy>2023-11-01</DataSprzedazy>
+            <K_23>12235.07</K_23>
+            <K_24>2814.07</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DK</KodKrajuNadaniaTIN>
+            <NrKontrahenta>24431118</NrKontrahenta>
+            <NazwaKontrahenta>DK company A/S</NazwaKontrahenta>
+            <DowodSprzedazy>10335255</DowodSprzedazy>
+            <DataWystawienia>2023-11-01</DataWystawienia>
+            <DataSprzedazy>2023-11-01</DataSprzedazy>
+            <K_23>8705.98</K_23>
+            <K_24>2002.38</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>263537541</NrKontrahenta>
+            <NazwaKontrahenta>Hermes Germany GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>639134******</DowodSprzedazy>
+            <DataWystawienia>2023-11-02</DataWystawienia>
+            <DataSprzedazy>2023-11-02</DataSprzedazy>
+            <K_29>182.35</K_29>
+            <K_30>41.94</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>263469087</NrKontrahenta>
+            <NazwaKontrahenta>Kühlwein Johanna </NazwaKontrahenta>
+            <DowodSprzedazy>1/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-23</DataWystawienia>
+            <DataSprzedazy>2023-11-23</DataSprzedazy>
+            <K_21>2844.85</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6364992H</NrKontrahenta>
+            <NazwaKontrahenta>Adobe Systems Software Ireland Ltd</NazwaKontrahenta>
+            <DowodSprzedazy>IEE2023013055486</DowodSprzedazy>
+            <DataWystawienia>2023-11-29</DataWystawienia>
+            <DataSprzedazy>2023-11-29</DataSprzedazy>
+            <K_29>43.50</K_29>
+            <K_30>10.01</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>200081785</NrKontrahenta>
+            <NazwaKontrahenta>eBay GMBH</NazwaKontrahenta>
+            <DowodSprzedazy>FNEU027821167</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_29>15837.75</K_29>
+            <K_30>3642.68</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5811022009</NrKontrahenta>
+            <NazwaKontrahenta>BACCAROO - Aldona Lewandowska</NazwaKontrahenta>
+            <DowodSprzedazy>RF 1/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_19>51415.52</K_19>
+            <K_20>11825.57</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5811022009</NrKontrahenta>
+            <NazwaKontrahenta>BACCAROO - Aldona Lewandowska</NazwaKontrahenta>
+            <DowodSprzedazy>1/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_19>-2044.71</K_19>
+            <K_20>-470.28</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>10</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5811022009</NrKontrahenta>
+            <NazwaKontrahenta>BACCAROO - Aldona Lewandowska</NazwaKontrahenta>
+            <DowodSprzedazy>2/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_19>-552.03</K_19>
+            <K_20>-126.97</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>11</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5811022009</NrKontrahenta>
+            <NazwaKontrahenta>BACCAROO - Aldona Lewandowska</NazwaKontrahenta>
+            <DowodSprzedazy>3/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_19>-2860.16</K_19>
+            <K_20>-657.84</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>12</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5811022009</NrKontrahenta>
+            <NazwaKontrahenta>BACCAROO - Aldona Lewandowska</NazwaKontrahenta>
+            <DowodSprzedazy>RF 2/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_19>-308.94</K_19>
+            <K_20>-71.06</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>13</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>263537541</NrKontrahenta>
+            <NazwaKontrahenta>Hermes Germany GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_29>9446.15</K_29>
+            <K_30>2172.61</K_30>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>13</LiczbaWierszySprzedazy>
+            <PodatekNalezny>23015.17</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7770020640</NrDostawcy>
+            <NazwaDostawcy>ENEA S.A.</NazwaDostawcy>
+            <DowodZakupu>P/20391584/0006/23</DowodZakupu>
+            <DataZakupu>2023-11-01</DataZakupu>
+            <DataWplywu>2023-10-24</DataWplywu>
+            <K_42>158.44</K_42>
+            <K_43>36.44</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5272698282</NrDostawcy>
+            <NazwaDostawcy>LEASELINK sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>06182/11/2023/UL</DowodZakupu>
+            <DataZakupu>2023-11-02</DataZakupu>
+            <DataWplywu>2023-11-02</DataWplywu>
+            <K_42>255.43</K_42>
+            <K_43>58.75</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9241776043</NrDostawcy>
+            <NazwaDostawcy>Robert Dobucki Ideasun</NazwaDostawcy>
+            <DowodZakupu>5/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-06</DataZakupu>
+            <DataWplywu>2023-11-06</DataWplywu>
+            <K_42>2079.00</K_42>
+            <K_43>478.17</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6793108059</NrDostawcy>
+            <NazwaDostawcy>INPOST sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>9405/2023/NFK/11</DowodZakupu>
+            <DataZakupu>2023-11-07</DataZakupu>
+            <DataWplywu>2023-11-07</DataWplywu>
+            <K_42>2766.62</K_42>
+            <K_43>636.33</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1090002031</NrDostawcy>
+            <NazwaDostawcy>MEGI sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>5741/23/FVS</DowodZakupu>
+            <DataZakupu>2023-11-09</DataZakupu>
+            <DataWplywu>2023-11-09</DataWplywu>
+            <K_42>11740.00</K_42>
+            <K_43>2700.2</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260208763</NrDostawcy>
+            <NazwaDostawcy>SIEMENS FINANCE SPÓŁKA ZO.O.</NazwaDostawcy>
+            <DowodZakupu>15411/11/23/SLMLO</DowodZakupu>
+            <DataZakupu>2023-11-10</DataZakupu>
+            <DataWplywu>2023-11-10</DataWplywu>
+            <K_42>187.35</K_42>
+            <K_43>43.09</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>11/2023/BACC00</DowodZakupu>
+            <DataZakupu>2023-11-13</DataZakupu>
+            <DataWplywu>2023-11-13</DataWplywu>
+            <K_42>650.00</K_42>
+            <K_43>149.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1090002031</NrDostawcy>
+            <NazwaDostawcy>MEGI sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>5942/23/FVS</DowodZakupu>
+            <DataZakupu>2023-11-22</DataZakupu>
+            <DataWplywu>2023-11-22</DataWplywu>
+            <K_42>11524.00</K_42>
+            <K_43>2650.52</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1090002031</NrDostawcy>
+            <NazwaDostawcy>MEGI sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>6033/23/FVS</DowodZakupu>
+            <DataZakupu>2023-11-28</DataZakupu>
+            <DataWplywu>2023-11-28</DataWplywu>
+            <K_42>8573.00</K_42>
+            <K_43>1971.79</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8551477274</NrDostawcy>
+            <NazwaDostawcy>Krzysztof Kogut</NazwaDostawcy>
+            <DowodZakupu>FA 0153/18</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>4065.04</K_42>
+            <K_43>934.96</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8551477274</NrDostawcy>
+            <NazwaDostawcy>Krzysztof Kogut</NazwaDostawcy>
+            <DowodZakupu>FA 0154/18</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>3252.03</K_42>
+            <K_43>747.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8551477274</NrDostawcy>
+            <NazwaDostawcy>Krzysztof Kogut</NazwaDostawcy>
+            <DowodZakupu>FA 0155/18</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>4878.05</K_42>
+            <K_43>1121.95</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8551477274</NrDostawcy>
+            <NazwaDostawcy>Krzysztof Kogut</NazwaDostawcy>
+            <DowodZakupu>FA 0156/18</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>7317.07</K_42>
+            <K_43>1682.93</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252674798</NrDostawcy>
+            <NazwaDostawcy>ALLEGRO.PL sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>00038159/PL/N/PLN/2023/11</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>458.73</K_42>
+            <K_43>105.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5213705997</NrDostawcy>
+            <NazwaDostawcy>PAYPO sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>854/11/PP/2023</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>53.83</K_42>
+            <K_43>12.38</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>DK</KodKrajuNadaniaTIN>
+            <NrDostawcy>24431118</NrDostawcy>
+            <NazwaDostawcy>DK company A/S</NazwaDostawcy>
+            <DowodZakupu>10335253</DowodZakupu>
+            <DataZakupu>2023-11-01</DataZakupu>
+            <DataWplywu>2023-11-01</DataWplywu>
+            <K_42>7965.47</K_42>
+            <K_43>1832.06</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>DK</KodKrajuNadaniaTIN>
+            <NrDostawcy>24431118</NrDostawcy>
+            <NazwaDostawcy>DK company A/S</NazwaDostawcy>
+            <DowodZakupu>10335254</DowodZakupu>
+            <DataZakupu>2023-11-01</DataZakupu>
+            <DataWplywu>2023-11-01</DataWplywu>
+            <K_42>12235.07</K_42>
+            <K_43>2814.07</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>DK</KodKrajuNadaniaTIN>
+            <NrDostawcy>24431118</NrDostawcy>
+            <NazwaDostawcy>DK company A/S</NazwaDostawcy>
+            <DowodZakupu>10335255</DowodZakupu>
+            <DataZakupu>2023-11-01</DataZakupu>
+            <DataWplywu>2023-11-01</DataWplywu>
+            <K_42>8705.98</K_42>
+            <K_43>2002.38</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>263537541</NrDostawcy>
+            <NazwaDostawcy>Hermes Germany GmbH</NazwaDostawcy>
+            <DowodZakupu>639134******</DowodZakupu>
+            <DataZakupu>2023-11-02</DataZakupu>
+            <DataWplywu>2023-11-02</DataWplywu>
+            <K_42>182.35</K_42>
+            <K_43>41.94</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrDostawcy>6364992H</NrDostawcy>
+            <NazwaDostawcy>Adobe Systems Software Ireland Ltd</NazwaDostawcy>
+            <DowodZakupu>IEE2023013055486</DowodZakupu>
+            <DataZakupu>2023-11-29</DataZakupu>
+            <DataWplywu>2023-11-29</DataWplywu>
+            <K_42>43.50</K_42>
+            <K_43>10.01</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>200081785</NrDostawcy>
+            <NazwaDostawcy>eBay GMBH</NazwaDostawcy>
+            <DowodZakupu>FNEU027821167</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>15837.75</K_42>
+            <K_43>3642.68</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>263537541</NrDostawcy>
+            <NazwaDostawcy>Hermes Germany GmbH</NazwaDostawcy>
+            <DowodZakupu>11/2023</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>9446.15</K_42>
+            <K_43>2172.61</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>22</LiczbaWierszyZakupow>
+            <PodatekNaliczony>25846.24</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

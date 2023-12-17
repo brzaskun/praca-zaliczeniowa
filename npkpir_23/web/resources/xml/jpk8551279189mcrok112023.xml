@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-12-15T10:19:41.555Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3216</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>11</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>8551279189</ns2:NIP>
+            <ns2:ImiePierwsze>Andrzej</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Grabowski</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1975-02-06</ns2:DataUrodzenia>
+            <Email>m.zmuda@taxman.biz.pl</Email>
+            <Telefon>539034444</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513203267</NrKontrahenta>
+            <NazwaKontrahenta>INTERIO GROUP sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>1/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-14</DataWystawienia>
+            <DataSprzedazy>2023-11-14</DataSprzedazy>
+            <TP>1</TP>
+            <K_19>3500.00</K_19>
+            <K_20>805.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8510108315</NrKontrahenta>
+            <NazwaKontrahenta>Szczecin Pilot Sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>11-UP/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_19>63220.00</K_19>
+            <K_20>14540.6</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>2</LiczbaWierszySprzedazy>
+            <PodatekNalezny>15345.60</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5251488303</NrDostawcy>
+            <NazwaDostawcy>Mercedes-Benz Leasing Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>8074/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-02</DataZakupu>
+            <DataWplywu>2023-11-02</DataWplywu>
+            <K_42>1595.59</K_42>
+            <K_43>183.49</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>11/2023/INTE18</DowodZakupu>
+            <DataZakupu>2023-11-05</DataZakupu>
+            <DataWplywu>2023-11-05</DataWplywu>
+            <K_42>200.00</K_42>
+            <K_43>46.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8510204757</NrDostawcy>
+            <NazwaDostawcy>Auto Ars Roman Lubiński Sławomir Kozakowski Sp. J.</NazwaDostawcy>
+            <DowodZakupu>FAK/0902/2023</DowodZakupu>
+            <DataZakupu>2023-11-16</DataZakupu>
+            <DataWplywu>2023-11-16</DataWplywu>
+            <K_42>1152.62</K_42>
+            <K_43>132.55</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>3</LiczbaWierszyZakupow>
+            <PodatekNaliczony>362.04</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

@@ -57,6 +57,7 @@
     <class>entity.FakturaXXLKolumna</class>
     <class>entity.Fakturyokresowe</class>
     <class>entity.Fakturywystokresowe</class>
+    <class>entity.Finanzamt</class>
     <class>entity.Granica</class>
     <class>entity.Inwestycje</class>
     <class>entity.Jpkblob</class>

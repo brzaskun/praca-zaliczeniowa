@@ -1,0 +1,886 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-12-15T07:06:43.260Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3216</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>11</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>8550006696</ns2:NIP>
+            <ns2:ImiePierwsze>Grzegorz</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Murawski</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1967-03-31</ns2:DataUrodzenia>
+            <Email>m.janowska@taxman.biz.pl</Email>
+            <Telefon>507700791</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_21>199380</P_21>
+            <P_29>27109</P_29>
+            <P_30>6235</P_30>
+            <P_35>0</P_35>
+            <P_37>226489</P_37>
+            <P_38>6235</P_38>
+            <P_39>0</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>236028</P_42>
+            <P_43>54218</P_43>
+            <P_48>54218</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>47983</P_53>
+            <P_54>47983</P_54>
+            <P_57>1</P_57>
+            <P_62>0</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>351131887</NrKontrahenta>
+            <NazwaKontrahenta>Rieck Logistik Berlin Nord</NazwaKontrahenta>
+            <DowodSprzedazy>81/505020/8600</DowodSprzedazy>
+            <DataWystawienia>2023-11-02</DataWystawienia>
+            <DataSprzedazy>2023-11-02</DataSprzedazy>
+            <K_29>1956.23</K_29>
+            <K_30>449.93</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>2023/FVZHA2/009292*</DowodSprzedazy>
+            <DataWystawienia>2023-11-06</DataWystawienia>
+            <DataSprzedazy>2023-11-06</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>35624.25</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>351131887</NrKontrahenta>
+            <NazwaKontrahenta>Rieck Logistik Berlin Nord</NazwaKontrahenta>
+            <DowodSprzedazy>81/505074/8600</DowodSprzedazy>
+            <DataWystawienia>2023-11-07</DataWystawienia>
+            <DataSprzedazy>2023-11-07</DataSprzedazy>
+            <K_29>1784.82</K_29>
+            <K_30>410.51</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>2023/FVZHA1/011218*</DowodSprzedazy>
+            <DataWystawienia>2023-11-08</DataWystawienia>
+            <DataSprzedazy>2023-11-08</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>3783.00</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>2023/FVZHA2/009335*</DowodSprzedazy>
+            <DataWystawienia>2023-11-08</DataWystawienia>
+            <DataSprzedazy>2023-11-08</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>26966.02</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>813312787</NrKontrahenta>
+            <NazwaKontrahenta>DHL Packet GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>1823063468</DowodSprzedazy>
+            <DataWystawienia>2023-11-10</DataWystawienia>
+            <DataSprzedazy>2023-11-10</DataSprzedazy>
+            <K_29>656.11</K_29>
+            <K_30>150.91</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>2023/FVZHA1/011342*</DowodSprzedazy>
+            <DataWystawienia>2023-11-10</DataWystawienia>
+            <DataSprzedazy>2023-11-10</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>16875.61</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>7231/07/2023*</DowodSprzedazy>
+            <DataWystawienia>2023-11-13</DataWystawienia>
+            <DataSprzedazy>2023-11-13</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>2110.17</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>7230/07/2023*</DowodSprzedazy>
+            <DataWystawienia>2023-11-13</DataWystawienia>
+            <DataSprzedazy>2023-11-13</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>2638.06</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>10</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>351131887</NrKontrahenta>
+            <NazwaKontrahenta>Rieck Logistik Berlin Nord</NazwaKontrahenta>
+            <DowodSprzedazy>81/505156/8600</DowodSprzedazy>
+            <DataWystawienia>2023-11-14</DataWystawienia>
+            <DataSprzedazy>2023-11-14</DataSprzedazy>
+            <K_29>4348.52</K_29>
+            <K_30>1000.16</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>11</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>2023/FVZHA1/011619*</DowodSprzedazy>
+            <DataWystawienia>2023-11-17</DataWystawienia>
+            <DataSprzedazy>2023-11-17</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>646.48</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>12</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>2023/FVZHA2/009654*</DowodSprzedazy>
+            <DataWystawienia>2023-11-17</DataWystawienia>
+            <DataSprzedazy>2023-11-17</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>39420.26</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>13</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>813312787</NrKontrahenta>
+            <NazwaKontrahenta>DHL Packet GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>1782155593</DowodSprzedazy>
+            <DataWystawienia>2023-11-20</DataWystawienia>
+            <DataSprzedazy>2023-11-20</DataSprzedazy>
+            <K_29>434.30</K_29>
+            <K_30>99.89</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>14</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>2023/FVZHA2/009719*</DowodSprzedazy>
+            <DataWystawienia>2023-11-21</DataWystawienia>
+            <DataSprzedazy>2023-11-21</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>34035.83</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>15</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>2023/FVZHA2/009724*</DowodSprzedazy>
+            <DataWystawienia>2023-11-21</DataWystawienia>
+            <DataSprzedazy>2023-11-21</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>472.13</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>16</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>351131887</NrKontrahenta>
+            <NazwaKontrahenta>Rieck Logistik Berlin Nord</NazwaKontrahenta>
+            <DowodSprzedazy>81/505304/5100</DowodSprzedazy>
+            <DataWystawienia>2023-11-21</DataWystawienia>
+            <DataSprzedazy>2023-11-21</DataSprzedazy>
+            <K_29>2595.47</K_29>
+            <K_30>596.96</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>17</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>351131887</NrKontrahenta>
+            <NazwaKontrahenta>Rieck Logistik Berlin Nord</NazwaKontrahenta>
+            <DowodSprzedazy>81/505243/8600</DowodSprzedazy>
+            <DataWystawienia>2023-11-21</DataWystawienia>
+            <DataSprzedazy>2023-11-21</DataSprzedazy>
+            <K_29>3819.68</K_29>
+            <K_30>878.53</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>18</LpSprzedazy>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrKontrahenta>30797030</NrKontrahenta>
+            <NazwaKontrahenta>Eurosender SARL</NazwaKontrahenta>
+            <DowodSprzedazy>INV-23-135032</DowodSprzedazy>
+            <DataWystawienia>2023-11-23</DataWystawienia>
+            <DataSprzedazy>2023-11-23</DataSprzedazy>
+            <K_29>68.16</K_29>
+            <K_30>15.68</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>19</LpSprzedazy>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrKontrahenta>30797030</NrKontrahenta>
+            <NazwaKontrahenta>Eurosender SARL</NazwaKontrahenta>
+            <DowodSprzedazy>INV-23-135035</DowodSprzedazy>
+            <DataWystawienia>2023-11-23</DataWystawienia>
+            <DataSprzedazy>2023-11-23</DataSprzedazy>
+            <K_29>68.16</K_29>
+            <K_30>15.68</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>20</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>191/Z/11/2023*</DowodSprzedazy>
+            <DataWystawienia>2023-11-24</DataWystawienia>
+            <DataSprzedazy>2023-11-24</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>6658.40</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>21</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>2023/FVZHA1/011994*</DowodSprzedazy>
+            <DataWystawienia>2023-11-27</DataWystawienia>
+            <DataSprzedazy>2023-11-27</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>10998.36</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>22</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>250267596</NrKontrahenta>
+            <NazwaKontrahenta>Murawski Grzegorz</NazwaKontrahenta>
+            <DowodSprzedazy>2023/FVZHA2/009965*</DowodSprzedazy>
+            <DataWystawienia>2023-11-27</DataWystawienia>
+            <DataSprzedazy>2023-11-27</DataSprzedazy>
+            <TP>1</TP>
+            <K_21>19151.16</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>23</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>351131887</NrKontrahenta>
+            <NazwaKontrahenta>Rieck Logistik Berlin Nord</NazwaKontrahenta>
+            <DowodSprzedazy>81/201586/8100</DowodSprzedazy>
+            <DataWystawienia>2023-11-29</DataWystawienia>
+            <DataSprzedazy>2023-11-29</DataSprzedazy>
+            <K_29>163.46</K_29>
+            <K_30>37.6</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>24</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>813312787</NrKontrahenta>
+            <NazwaKontrahenta>DHL Packet GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>1133106390</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_29>553.11</K_29>
+            <K_30>127.22</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>25</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6388047V</NrKontrahenta>
+            <NazwaKontrahenta>Google Ireland Ltd Gordon Hause</NazwaKontrahenta>
+            <DowodSprzedazy>4867233565</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_29>649.08</K_29>
+            <K_30>149.29</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>26</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>200081785</NrKontrahenta>
+            <NazwaKontrahenta>eBay GMBH</NazwaKontrahenta>
+            <DowodSprzedazy>FNEU027505956</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-30</DataSprzedazy>
+            <K_29>10011.40</K_29>
+            <K_30>2302.62</K_30>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>26</LiczbaWierszySprzedazy>
+            <PodatekNalezny>6234.98</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>I235558B01006940</DowodZakupu>
+            <DataZakupu>2023-11-01</DataZakupu>
+            <DataWplywu>2023-11-01</DataWplywu>
+            <K_42>293.48</K_42>
+            <K_43>67.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 3347K2/0858/23</DowodZakupu>
+            <DataZakupu>2023-11-02</DataZakupu>
+            <DataWplywu>2023-11-02</DataWplywu>
+            <K_42>203.67</K_42>
+            <K_43>46.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 3364K2/0858/23</DowodZakupu>
+            <DataZakupu>2023-11-04</DataZakupu>
+            <DataWplywu>2023-11-04</DataWplywu>
+            <K_42>406.92</K_42>
+            <K_43>93.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>11/2023/AROU69</DowodZakupu>
+            <DataZakupu>2023-11-05</DataZakupu>
+            <DataWplywu>2023-11-05</DataWplywu>
+            <K_42>1810.00</K_42>
+            <K_43>416.3</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9181745428</NrDostawcy>
+            <NazwaDostawcy>"BLACK RED WHITE" S.A.</NazwaDostawcy>
+            <DowodZakupu>2023/FVZHA2/009292</DowodZakupu>
+            <DataZakupu>2023-11-06</DataZakupu>
+            <DataWplywu>2023-11-06</DataWplywu>
+            <K_42>35624.25</K_42>
+            <K_43>8193.58</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 6868K1/0858/23</DowodZakupu>
+            <DataZakupu>2023-11-08</DataZakupu>
+            <DataWplywu>2023-11-08</DataWplywu>
+            <K_42>488.08</K_42>
+            <K_43>112.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9181745428</NrDostawcy>
+            <NazwaDostawcy>"BLACK RED WHITE" S.A.</NazwaDostawcy>
+            <DowodZakupu>2023/FVZHA1/011218</DowodZakupu>
+            <DataZakupu>2023-11-08</DataZakupu>
+            <DataWplywu>2023-11-08</DataWplywu>
+            <K_42>3783.00</K_42>
+            <K_43>870.09</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9181745428</NrDostawcy>
+            <NazwaDostawcy>"BLACK RED WHITE" S.A.</NazwaDostawcy>
+            <DowodZakupu>2023/FVZHA2/009335</DowodZakupu>
+            <DataZakupu>2023-11-08</DataZakupu>
+            <DataWplywu>2023-11-08</DataWplywu>
+            <K_42>26966.02</K_42>
+            <K_43>6202.18</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 13552K2/4259/23</DowodZakupu>
+            <DataZakupu>2023-11-09</DataZakupu>
+            <DataWplywu>2023-11-09</DataWplywu>
+            <K_42>446.96</K_42>
+            <K_43>102.8</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 16835K2/1457/23</DowodZakupu>
+            <DataZakupu>2023-11-09</DataZakupu>
+            <DataWplywu>2023-11-09</DataWplywu>
+            <K_42>165.37</K_42>
+            <K_43>19.02</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9181745428</NrDostawcy>
+            <NazwaDostawcy>"BLACK RED WHITE" S.A.</NazwaDostawcy>
+            <DowodZakupu>2023/FVZHA1/011342</DowodZakupu>
+            <DataZakupu>2023-11-10</DataZakupu>
+            <DataWplywu>2023-11-10</DataWplywu>
+            <K_42>16875.61</K_42>
+            <K_43>3881.39</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 12748K2/4638/23</DowodZakupu>
+            <DataZakupu>2023-11-13</DataZakupu>
+            <DataWplywu>2023-11-13</DataWplywu>
+            <K_42>487.80</K_42>
+            <K_43>112.2</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522452136</NrDostawcy>
+            <NazwaDostawcy>CEZAR-SZCZECIN SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>2516/1/N</DowodZakupu>
+            <DataZakupu>2023-11-13</DataZakupu>
+            <DataWplywu>2023-11-13</DataWplywu>
+            <K_42>270.49</K_42>
+            <K_43>62.21</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8510306044</NrDostawcy>
+            <NazwaDostawcy>"SOTEX" PRODUKCYJNO-USŁUGOWO-HANDLOWA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>7231/07/2023</DowodZakupu>
+            <DataZakupu>2023-11-13</DataZakupu>
+            <DataWplywu>2023-11-13</DataWplywu>
+            <K_42>2110.17</K_42>
+            <K_43>485.34</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8510306044</NrDostawcy>
+            <NazwaDostawcy>"SOTEX" PRODUKCYJNO-USŁUGOWO-HANDLOWA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>7230/07/2023</DowodZakupu>
+            <DataZakupu>2023-11-13</DataZakupu>
+            <DataWplywu>2023-11-13</DataWplywu>
+            <K_42>2638.06</K_42>
+            <K_43>606.75</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 3466K2/0858/23</DowodZakupu>
+            <DataZakupu>2023-11-14</DataZakupu>
+            <DataWplywu>2023-11-14</DataWplywu>
+            <K_42>162.79</K_42>
+            <K_43>37.44</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>F0082513405/011/23</DowodZakupu>
+            <DataZakupu>2023-11-14</DataZakupu>
+            <DataWplywu>2023-11-14</DataWplywu>
+            <K_42>48.78</K_42>
+            <K_43>11.22</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7792467259</NrDostawcy>
+            <NazwaDostawcy>CYBER_FOLKS S.A.</NazwaDostawcy>
+            <DowodZakupu>FV/EQ/270776/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-15</DataZakupu>
+            <DataWplywu>2023-11-15</DataWplywu>
+            <K_42>149.00</K_42>
+            <K_43>34.27</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 7059K1/0858/23</DowodZakupu>
+            <DataZakupu>2023-11-15</DataZakupu>
+            <DataWplywu>2023-11-15</DataWplywu>
+            <K_42>582.24</K_42>
+            <K_43>133.92</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 9566K1/4418/23</DowodZakupu>
+            <DataZakupu>2023-11-17</DataZakupu>
+            <DataWplywu>2023-11-17</DataWplywu>
+            <K_42>446.77</K_42>
+            <K_43>102.76</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 16748K1/1458/23</DowodZakupu>
+            <DataZakupu>2023-11-17</DataZakupu>
+            <DataWplywu>2023-11-17</DataWplywu>
+            <K_42>270.98</K_42>
+            <K_43>31.16</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9181745428</NrDostawcy>
+            <NazwaDostawcy>"BLACK RED WHITE" S.A.</NazwaDostawcy>
+            <DowodZakupu>2023/FVZHA1/011619</DowodZakupu>
+            <DataZakupu>2023-11-17</DataZakupu>
+            <DataWplywu>2023-11-17</DataWplywu>
+            <K_42>646.48</K_42>
+            <K_43>148.69</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9181745428</NrDostawcy>
+            <NazwaDostawcy>"BLACK RED WHITE" S.A.</NazwaDostawcy>
+            <DowodZakupu>2023/FVZHA2/009654</DowodZakupu>
+            <DataZakupu>2023-11-17</DataZakupu>
+            <DataWplywu>2023-11-17</DataWplywu>
+            <K_42>39420.26</K_42>
+            <K_43>9066.66</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 18155K1/1457/23</DowodZakupu>
+            <DataZakupu>2023-11-21</DataZakupu>
+            <DataWplywu>2023-11-21</DataWplywu>
+            <K_42>447.13</K_42>
+            <K_43>102.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9181745428</NrDostawcy>
+            <NazwaDostawcy>"BLACK RED WHITE" S.A.</NazwaDostawcy>
+            <DowodZakupu>2023/FVZHA2/009719</DowodZakupu>
+            <DataZakupu>2023-11-21</DataZakupu>
+            <DataWplywu>2023-11-21</DataWplywu>
+            <K_42>34035.83</K_42>
+            <K_43>7828.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9181745428</NrDostawcy>
+            <NazwaDostawcy>"BLACK RED WHITE" S.A.</NazwaDostawcy>
+            <DowodZakupu>2023/FVZHA2/009724</DowodZakupu>
+            <DataZakupu>2023-11-21</DataZakupu>
+            <DataWplywu>2023-11-21</DataWplywu>
+            <K_42>472.13</K_42>
+            <K_43>108.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7792467259</NrDostawcy>
+            <NazwaDostawcy>CYBER_FOLKS S.A.</NazwaDostawcy>
+            <DowodZakupu>FV/EQ/277651/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-23</DataZakupu>
+            <DataWplywu>2023-11-23</DataWplywu>
+            <K_42>879.00</K_42>
+            <K_43>202.17</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8741805250</NrDostawcy>
+            <NazwaDostawcy>STOLKAR sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>191/Z/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-24</DataZakupu>
+            <DataWplywu>2023-11-24</DataWplywu>
+            <K_42>6658.40</K_42>
+            <K_43>1531.43</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7191503973</NrDostawcy>
+            <NazwaDostawcy>PFLEIDERER POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1215/SKLEP/2023</DowodZakupu>
+            <DataZakupu>2023-11-27</DataZakupu>
+            <DataWplywu>2023-11-27</DataWplywu>
+            <K_42>115.77</K_42>
+            <K_43>26.63</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9181745428</NrDostawcy>
+            <NazwaDostawcy>"BLACK RED WHITE" S.A.</NazwaDostawcy>
+            <DowodZakupu>2023/FVZHA1/011994</DowodZakupu>
+            <DataZakupu>2023-11-27</DataZakupu>
+            <DataWplywu>2023-11-27</DataWplywu>
+            <K_42>10998.36</K_42>
+            <K_43>2529.62</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9181745428</NrDostawcy>
+            <NazwaDostawcy>"BLACK RED WHITE" S.A.</NazwaDostawcy>
+            <DowodZakupu>2023/FVZHA2/009965</DowodZakupu>
+            <DataZakupu>2023-11-27</DataZakupu>
+            <DataWplywu>2023-11-27</DataWplywu>
+            <K_42>19151.16</K_42>
+            <K_43>4404.77</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 3547K2/0858/23</DowodZakupu>
+            <DataZakupu>2023-11-27</DataZakupu>
+            <DataWplywu>2023-11-27</DataWplywu>
+            <K_42>447.12</K_42>
+            <K_43>102.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7791019062</NrDostawcy>
+            <NazwaDostawcy>"PALECIAKI S.C." MACIEJ WICIAK, Aleksander Stachowiak</NazwaDostawcy>
+            <DowodZakupu>03536/23</DowodZakupu>
+            <DataZakupu>2023-11-27</DataZakupu>
+            <DataWplywu>2023-11-27</DataWplywu>
+            <K_42>1045.00</K_42>
+            <K_43>240.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>f 13939k1/1284/23</DowodZakupu>
+            <DataZakupu>2023-11-28</DataZakupu>
+            <DataWplywu>2023-11-28</DataWplywu>
+            <K_42>162.84</K_42>
+            <K_43>37.45</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>35</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5671790871</NrDostawcy>
+            <NazwaDostawcy>Przedsiębiorstwo Usługowo Handlowe RadBull Radosław Banasiewicz</NazwaDostawcy>
+            <DowodZakupu>10902/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-28</DataZakupu>
+            <DataWplywu>2023-11-28</DataWplywu>
+            <K_42>47.15</K_42>
+            <K_43>10.85</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>36</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513185351</NrDostawcy>
+            <NazwaDostawcy>ARGUM Bartłomiej Kaznowski</NazwaDostawcy>
+            <DowodZakupu>530/2023</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>162.60</K_42>
+            <K_43>18.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>37</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>351131887</NrDostawcy>
+            <NazwaDostawcy>Rieck Logistik Berlin Nord</NazwaDostawcy>
+            <DowodZakupu>81/505020/8600</DowodZakupu>
+            <DataZakupu>2023-11-02</DataZakupu>
+            <DataWplywu>2023-11-02</DataWplywu>
+            <K_42>1956.23</K_42>
+            <K_43>449.93</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>38</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>351131887</NrDostawcy>
+            <NazwaDostawcy>Rieck Logistik Berlin Nord</NazwaDostawcy>
+            <DowodZakupu>81/505074/8600</DowodZakupu>
+            <DataZakupu>2023-11-07</DataZakupu>
+            <DataWplywu>2023-11-07</DataWplywu>
+            <K_42>1784.82</K_42>
+            <K_43>410.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>39</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>813312787</NrDostawcy>
+            <NazwaDostawcy>DHL Packet GmbH </NazwaDostawcy>
+            <DowodZakupu>1823063468</DowodZakupu>
+            <DataZakupu>2023-11-10</DataZakupu>
+            <DataWplywu>2023-11-10</DataWplywu>
+            <K_42>656.11</K_42>
+            <K_43>150.91</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>40</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>351131887</NrDostawcy>
+            <NazwaDostawcy>Rieck Logistik Berlin Nord</NazwaDostawcy>
+            <DowodZakupu>81/505156/8600</DowodZakupu>
+            <DataZakupu>2023-11-14</DataZakupu>
+            <DataWplywu>2023-11-14</DataWplywu>
+            <K_42>4348.52</K_42>
+            <K_43>1000.16</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>41</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>813312787</NrDostawcy>
+            <NazwaDostawcy>DHL Packet GmbH </NazwaDostawcy>
+            <DowodZakupu>1782155593</DowodZakupu>
+            <DataZakupu>2023-11-20</DataZakupu>
+            <DataWplywu>2023-11-20</DataWplywu>
+            <K_42>434.30</K_42>
+            <K_43>99.89</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>42</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>351131887</NrDostawcy>
+            <NazwaDostawcy>Rieck Logistik Berlin Nord</NazwaDostawcy>
+            <DowodZakupu>81/505304/5100</DowodZakupu>
+            <DataZakupu>2023-11-21</DataZakupu>
+            <DataWplywu>2023-11-21</DataWplywu>
+            <K_42>2595.47</K_42>
+            <K_43>596.96</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>43</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>351131887</NrDostawcy>
+            <NazwaDostawcy>Rieck Logistik Berlin Nord</NazwaDostawcy>
+            <DowodZakupu>81/505243/8600</DowodZakupu>
+            <DataZakupu>2023-11-21</DataZakupu>
+            <DataWplywu>2023-11-21</DataWplywu>
+            <K_42>3819.68</K_42>
+            <K_43>878.53</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>44</LpZakupu>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrDostawcy>30797030</NrDostawcy>
+            <NazwaDostawcy>Eurosender SARL</NazwaDostawcy>
+            <DowodZakupu>INV-23-135032</DowodZakupu>
+            <DataZakupu>2023-11-23</DataZakupu>
+            <DataWplywu>2023-11-23</DataWplywu>
+            <K_42>68.16</K_42>
+            <K_43>15.68</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>45</LpZakupu>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrDostawcy>30797030</NrDostawcy>
+            <NazwaDostawcy>Eurosender SARL</NazwaDostawcy>
+            <DowodZakupu>INV-23-135035</DowodZakupu>
+            <DataZakupu>2023-11-23</DataZakupu>
+            <DataWplywu>2023-11-23</DataWplywu>
+            <K_42>68.16</K_42>
+            <K_43>15.68</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>46</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>351131887</NrDostawcy>
+            <NazwaDostawcy>Rieck Logistik Berlin Nord</NazwaDostawcy>
+            <DowodZakupu>81/201586/8100</DowodZakupu>
+            <DataZakupu>2023-11-29</DataZakupu>
+            <DataWplywu>2023-11-29</DataWplywu>
+            <K_42>163.46</K_42>
+            <K_43>37.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>47</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>813312787</NrDostawcy>
+            <NazwaDostawcy>DHL Packet GmbH </NazwaDostawcy>
+            <DowodZakupu>1133106390</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>553.11</K_42>
+            <K_43>127.22</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>48</LpZakupu>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrDostawcy>6388047V</NrDostawcy>
+            <NazwaDostawcy>Google Ireland Ltd Gordon Hause</NazwaDostawcy>
+            <DowodZakupu>4867233565</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>649.08</K_42>
+            <K_43>149.29</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>49</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>200081785</NrDostawcy>
+            <NazwaDostawcy>eBay GMBH</NazwaDostawcy>
+            <DowodZakupu>FNEU027505956</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>10011.40</K_42>
+            <K_43>2302.62</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>49</LiczbaWierszyZakupow>
+            <PodatekNaliczony>54217.63</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

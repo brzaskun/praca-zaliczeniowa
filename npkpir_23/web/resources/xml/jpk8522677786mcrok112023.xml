@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-12-15T12:45:09.381Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3216</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>11</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8522677786</NIP>
+            <PelnaNazwa>SZYSZKO LOGISTICS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ</PelnaNazwa>
+            <Email>zanetagrzegorczyk1@gmail.com</Email>
+            <Telefon>532434443</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_11>1402</P_11>
+            <P_12>1402</P_12>
+            <P_19>172138</P_19>
+            <P_20>39592</P_20>
+            <P_29>1041</P_29>
+            <P_30>239</P_30>
+            <P_35>0</P_35>
+            <P_37>174581</P_37>
+            <P_38>39831</P_38>
+            <P_39>5603</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>97238</P_42>
+            <P_43>22365</P_43>
+            <P_48>27968</P_48>
+            <P_49>0</P_49>
+            <P_51>11863</P_51>
+            <P_52>0</P_52>
+            <P_53>0</P_53>
+            <P_62>0</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNG72D8D74155604DCCA973E638FDD27B59</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-04</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>4522.73</K_19>
+            <K_20>1040.24</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNGB06F3C38664746E29657E9E860B5C323</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-04</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>26685.82</K_19>
+            <K_20>6137.73</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNG19F9AD51BCD1418CBF0E3CE9E67BBFF4</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-05</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>6447.75</K_19>
+            <K_20>1482.99</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9721220185</NrKontrahenta>
+            <NazwaKontrahenta>MEDIAESTE sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FVS/1/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-05</DataSprzedazy>
+            <K_19>300.00</K_19>
+            <K_20>69.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513256393</NrKontrahenta>
+            <NazwaKontrahenta>JJTM-TRANSPORT sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FVS/2/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-06</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>935.95</K_19>
+            <K_20>215.27</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNG009F838104404C7BAED102A7997627E9</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-07</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>4444.95</K_19>
+            <K_20>1022.35</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552521552</NrKontrahenta>
+            <NazwaKontrahenta>ALEXANDER GLOBAL LOGISTICS POLAND sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FVS/3/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-07</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>2007.67</K_19>
+            <K_20>461.77</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>334608205</NrKontrahenta>
+            <NazwaKontrahenta>Monig Gotha GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>FVS/4/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-08</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_11>1402.16</K_11>
+            <K_12>1402.16</K_12>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9581660606</NrKontrahenta>
+            <NazwaKontrahenta>PENTAGON FREIGHT SERVICES sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FVS/5/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-09</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>1560.44</K_19>
+            <K_20>358.9</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>10</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5252712381</NrKontrahenta>
+            <NazwaKontrahenta>ENEPSO sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FVS/6/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-09</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>3477.55</K_19>
+            <K_20>799.84</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>11</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNGE7DEC89E72BF4A3F9B2A4D702569976F</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-10</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>3045.53</K_19>
+            <K_20>700.48</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>12</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNG7CE08C9E2FD64E3BAE2F695CF2E9509A</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-11</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>26569.28</K_19>
+            <K_20>6110.93</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>13</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9581660606</NrKontrahenta>
+            <NazwaKontrahenta>PENTAGON FREIGHT SERVICES sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FVS/7/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-13</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>1547.94</K_19>
+            <K_20>356.03</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>14</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>189439213</NrKontrahenta>
+            <NazwaKontrahenta>TimoCom GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>223366204</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-14</DataSprzedazy>
+            <K_29>323.21</K_29>
+            <K_30>74.35</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>15</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNG33F28618C78249BBBF89F511904C0520</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-14</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>1418.75</K_19>
+            <K_20>326.31</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>16</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNG84F354541B2645CAA9D8EF1F9CC5A45F</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-18</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>18631.87</K_19>
+            <K_20>4285.31</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>17</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNGB745E75DAAF447DAAA078CC5BB9563B1</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-18</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>9295.15</K_19>
+            <K_20>2137.88</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>18</LpSprzedazy>
+            <KodKrajuNadaniaTIN>NL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>801426972B01</NrKontrahenta>
+            <NazwaKontrahenta>DAF Trucks N.V.</NazwaKontrahenta>
+            <DowodSprzedazy>QP036189</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-19</DataSprzedazy>
+            <K_29>717.86</K_29>
+            <K_30>165.11</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>19</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNG2C60641E447E44FB867649476906D156</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-19</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>3071.44</K_19>
+            <K_20>706.44</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>20</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNG4C379FE2BCDF4D388113D0205B35B840</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-25</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>2858.24</K_19>
+            <K_20>657.4</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>21</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNG7F40776178AE4F1191D1FEBF1D6F9BB2</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-25</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>9843.92</K_19>
+            <K_20>2264.1</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>22</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNG9BD19734718C41E2A72468708F664B91</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-25</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>43679.11</K_19>
+            <K_20>10046.22</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>23</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy># AZNGB7164D8903F2495EBDBE514541693DEB</DowodSprzedazy>
+            <DataWystawienia>2023-11-30</DataWystawienia>
+            <DataSprzedazy>2023-11-26</DataSprzedazy>
+            <GTU_13>1</GTU_13>
+            <K_19>1793.48</K_19>
+            <K_20>412.52</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>23</LiczbaWierszySprzedazy>
+            <PodatekNalezny>39831.17</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8542152549</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWE "OAZA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>I23854D01006120</DowodZakupu>
+            <DataZakupu>2023-11-01</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>60.98</K_42>
+            <K_43>14.02</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511442602</NrDostawcy>
+            <NazwaDostawcy>THERMO TECHNICA Krzysztof Jakubiec</NazwaDostawcy>
+            <DowodZakupu>Fv/338/23</DowodZakupu>
+            <DataZakupu>2023-11-02</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>1082.10</K_42>
+            <K_43>248.88</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7251735694</NrDostawcy>
+            <NazwaDostawcy>PKO LEASING S.A.</NazwaDostawcy>
+            <DowodZakupu>LE3300824</DowodZakupu>
+            <DataZakupu>2023-11-02</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>5028.43</K_42>
+            <K_43>1156.54</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7251735694</NrDostawcy>
+            <NazwaDostawcy>PKO LEASING S.A.</NazwaDostawcy>
+            <DowodZakupu>LE3299179</DowodZakupu>
+            <DataZakupu>2023-11-02</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>6526.13</K_42>
+            <K_43>1501.01</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8542152549</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWE "OAZA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>I23854D01006126</DowodZakupu>
+            <DataZakupu>2023-11-02</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>20.33</K_42>
+            <K_43>4.67</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7790001083</NrDostawcy>
+            <NazwaDostawcy>CIRCLE K POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>00875723070463200</DowodZakupu>
+            <DataZakupu>2023-11-03</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>12.99</K_42>
+            <K_43>2.99</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7790001083</NrDostawcy>
+            <NazwaDostawcy>CIRCLE K POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>704167631</DowodZakupu>
+            <DataZakupu>2023-11-05</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>4805.20</K_42>
+            <K_43>1105.21</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002110</NrDostawcy>
+            <NazwaDostawcy>ZRZESZENIE MIĘDZYNARODOWYCH PRZEWOŹNIKÓW DROGOWYCH W Polsce</NazwaDostawcy>
+            <DowodZakupu>VTC/2023/11/0019</DowodZakupu>
+            <DataZakupu>2023-11-07</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>424.69</K_42>
+            <K_43>97.66</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002110</NrDostawcy>
+            <NazwaDostawcy>ZRZESZENIE MIĘDZYNARODOWYCH PRZEWOŹNIKÓW DROGOWYCH W Polsce</NazwaDostawcy>
+            <DowodZakupu>T4E/2023/11/1555</DowodZakupu>
+            <DataZakupu>2023-11-08</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>95.72</K_42>
+            <K_43>22.02</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6690012951</NrDostawcy>
+            <NazwaDostawcy>MOJSIUK sp.j.</NazwaDostawcy>
+            <DowodZakupu>2452/SS-2/2023</DowodZakupu>
+            <DataZakupu>2023-11-08</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>3412.84</K_42>
+            <K_43>784.95</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7542760478</NrDostawcy>
+            <NazwaDostawcy>OPOLTRANS - sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>S07/23023905</DowodZakupu>
+            <DataZakupu>2023-11-10</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>241.73</K_42>
+            <K_43>55.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552201652</NrDostawcy>
+            <NazwaDostawcy>"PHU DARIUSZ BOBRYK, DOROTA BOBRYK" Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>I23779D02001441</DowodZakupu>
+            <DataZakupu>2023-11-11</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>72.36</K_42>
+            <K_43>16.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8542152549</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWE "OAZA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>i23854D02009300</DowodZakupu>
+            <DataZakupu>2023-11-11</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>40.65</K_42>
+            <K_43>9.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7790001083</NrDostawcy>
+            <NazwaDostawcy>CIRCLE K POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>704168415</DowodZakupu>
+            <DataZakupu>2023-11-12</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>12588.61</K_42>
+            <K_43>2895.39</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>12/2023/SZYS78</DowodZakupu>
+            <DataZakupu>2023-11-13</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>2400.00</K_42>
+            <K_43>552.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>F410729</DowodZakupu>
+            <DataZakupu>2023-11-13</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>32.52</K_42>
+            <K_43>7.48</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>00505</DowodZakupu>
+            <DataZakupu>2023-11-13</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>121.14</K_42>
+            <K_43>27.86</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8992847820</NrDostawcy>
+            <NazwaDostawcy>KANCELARIA ITD - PIP sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FA-EW/000211/11/2023/TR</DowodZakupu>
+            <DataZakupu>2023-11-15</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>250.00</K_42>
+            <K_43>57.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8561811616</NrDostawcy>
+            <NazwaDostawcy>Galan Logistics Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>WA/416/SP/2023/SP</DowodZakupu>
+            <DataZakupu>2023-11-15</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>319.28</K_42>
+            <K_43>73.43</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512120077</NrDostawcy>
+            <NazwaDostawcy>"P4 sp. z o.o."</NazwaDostawcy>
+            <DowodZakupu>F/50008882/11/23</DowodZakupu>
+            <DataZakupu>2023-11-17</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>83.53</K_42>
+            <K_43>19.21</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512120077</NrDostawcy>
+            <NazwaDostawcy>"P4 sp. z o.o."</NazwaDostawcy>
+            <DowodZakupu>F/50007108/11/23</DowodZakupu>
+            <DataZakupu>2023-11-17</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>82.44</K_42>
+            <K_43>18.96</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512120077</NrDostawcy>
+            <NazwaDostawcy>"P4 sp. z o.o."</NazwaDostawcy>
+            <DowodZakupu>F/50008408/11/23</DowodZakupu>
+            <DataZakupu>2023-11-17</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>133.00</K_42>
+            <K_43>30.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512120077</NrDostawcy>
+            <NazwaDostawcy>"P4 sp. z o.o."</NazwaDostawcy>
+            <DowodZakupu>F/50007323/11/23</DowodZakupu>
+            <DataZakupu>2023-11-17</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>80.00</K_42>
+            <K_43>18.4</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261040567</NrDostawcy>
+            <NazwaDostawcy>T mobile Polska SA</NazwaDostawcy>
+            <DowodZakupu>515006541123</DowodZakupu>
+            <DataZakupu>2023-11-17</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>170.00</K_42>
+            <K_43>39.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7790001083</NrDostawcy>
+            <NazwaDostawcy>CIRCLE K POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>704175945</DowodZakupu>
+            <DataZakupu>2023-11-19</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>6589.96</K_42>
+            <K_43>1515.71</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8542152549</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWE "OAZA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>I23854D02009549</DowodZakupu>
+            <DataZakupu>2023-11-20</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>20.33</K_42>
+            <K_43>4.67</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8542152549</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWE "OAZA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>I23854D02009544</DowodZakupu>
+            <DataZakupu>2023-11-20</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>169.92</K_42>
+            <K_43>39.08</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5591988068</NrDostawcy>
+            <NazwaDostawcy>GM7 STACJE sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FS/25866/2023/301</DowodZakupu>
+            <DataZakupu>2023-11-21</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>32.52</K_42>
+            <K_43>7.48</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002110</NrDostawcy>
+            <NazwaDostawcy>ZRZESZENIE MIĘDZYNARODOWYCH PRZEWOŹNIKÓW DROGOWYCH W Polsce</NazwaDostawcy>
+            <DowodZakupu>T4E/2023/11/3416</DowodZakupu>
+            <DataZakupu>2023-11-22</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>6.55</K_42>
+            <K_43>1.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5220002110</NrDostawcy>
+            <NazwaDostawcy>ZRZESZENIE MIĘDZYNARODOWYCH PRZEWOŹNIKÓW DROGOWYCH W Polsce</NazwaDostawcy>
+            <DowodZakupu>T4E/2023/11/2503</DowodZakupu>
+            <DataZakupu>2023-11-22</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>6.55</K_42>
+            <K_43>1.53</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8542152549</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWE "OAZA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>I23854D02009672</DowodZakupu>
+            <DataZakupu>2023-11-23</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>20.33</K_42>
+            <K_43>4.67</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261040337</NrDostawcy>
+            <NazwaDostawcy>ING LEASE (POLSKA) SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>61071/FC/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-25</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>1639.33</K_42>
+            <K_43>377.05</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261040337</NrDostawcy>
+            <NazwaDostawcy>ING LEASE (POLSKA) SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>56951/FC/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-25</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>3335.93</K_42>
+            <K_43>767.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7790001083</NrDostawcy>
+            <NazwaDostawcy>CIRCLE K POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>704176738</DowodZakupu>
+            <DataZakupu>2023-11-26</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>16377.27</K_42>
+            <K_43>3766.78</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>35</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7872045158</NrDostawcy>
+            <NazwaDostawcy>"ADGAM INVESTMENT" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>F 8089K3/7565/23</DowodZakupu>
+            <DataZakupu>2023-11-27</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>23.58</K_42>
+            <K_43>5.42</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>36</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5272260025</NrDostawcy>
+            <NazwaDostawcy>"OCHRONA JUWENTUS-BIS" sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>Z/36856/11/23</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>195.00</K_42>
+            <K_43>44.85</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>37</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6721433034</NrDostawcy>
+            <NazwaDostawcy>SZYSZKO MAREK</NazwaDostawcy>
+            <DowodZakupu>FVS/1/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>7045.06</K_42>
+            <K_43>1620.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>38</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6721433034</NrDostawcy>
+            <NazwaDostawcy>SZYSZKO MAREK</NazwaDostawcy>
+            <DowodZakupu>FVS/2/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>3252.03</K_42>
+            <K_43>747.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>39</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6721433034</NrDostawcy>
+            <NazwaDostawcy>SZYSZKO MAREK</NazwaDostawcy>
+            <DowodZakupu>FVS/3/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>11382.11</K_42>
+            <K_43>2617.89</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>40</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6721433034</NrDostawcy>
+            <NazwaDostawcy>SZYSZKO MAREK</NazwaDostawcy>
+            <DowodZakupu>FV/4/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>3899.43</K_42>
+            <K_43>896.87</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>41</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6721433034</NrDostawcy>
+            <NazwaDostawcy>SZYSZKO MAREK</NazwaDostawcy>
+            <DowodZakupu>FVS/5/11/2023</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>3899.43</K_42>
+            <K_43>896.87</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>42</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7790001083</NrDostawcy>
+            <NazwaDostawcy>CIRCLE K POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>704181836</DowodZakupu>
+            <DataZakupu>2023-11-30</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>217.07</K_42>
+            <K_43>49.92</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>43</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>189439213</NrDostawcy>
+            <NazwaDostawcy>TimoCom GmbH</NazwaDostawcy>
+            <DowodZakupu>223366204</DowodZakupu>
+            <DataZakupu>2023-11-14</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>323.21</K_42>
+            <K_43>74.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>44</LpZakupu>
+            <KodKrajuNadaniaTIN>NL</KodKrajuNadaniaTIN>
+            <NrDostawcy>801426972B01</NrDostawcy>
+            <NazwaDostawcy>DAF Trucks N.V.</NazwaDostawcy>
+            <DowodZakupu>QP036189</DowodZakupu>
+            <DataZakupu>2023-11-19</DataZakupu>
+            <DataWplywu>2023-11-30</DataWplywu>
+            <K_42>717.86</K_42>
+            <K_43>165.11</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>44</LiczbaWierszyZakupow>
+            <PodatekNaliczony>22364.81</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

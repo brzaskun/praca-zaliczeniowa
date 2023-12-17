@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-12-15T10:10:10.492Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>11</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>8522216217</ns2:NIP>
+            <ns2:ImiePierwsze>KATARZYNA</ns2:ImiePierwsze>
+            <ns2:Nazwisko>GRABOWSKA</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1973-02-11</ns2:DataUrodzenia>
+            <Email>m.zmuda@taxman.biz.pl</Email>
+            <Telefon>539034444</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513203267</NrKontrahenta>
+            <NazwaKontrahenta>INTERIO GROUP sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>1/11/2023</DowodSprzedazy>
+            <DataWystawienia>2023-11-20</DataWystawienia>
+            <DataSprzedazy>2023-11-20</DataSprzedazy>
+            <TP>1</TP>
+            <K_19>6500.00</K_19>
+            <K_20>1495.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>1</LiczbaWierszySprzedazy>
+            <PodatekNalezny>1495.00</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>I23225B01016187</DowodZakupu>
+            <DataZakupu>2023-10-01</DataZakupu>
+            <DataWplywu>2023-10-01</DataWplywu>
+            <K_42>176.34</K_42>
+            <K_43>20.28</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>I23149B02014887</DowodZakupu>
+            <DataZakupu>2023-10-05</DataZakupu>
+            <DataWplywu>2023-10-05</DataWplywu>
+            <K_42>53.08</K_42>
+            <K_43>6.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>12263K2/0422/23</DowodZakupu>
+            <DataZakupu>2023-10-08</DataZakupu>
+            <DataWplywu>2023-10-08</DataWplywu>
+            <K_42>101.46</K_42>
+            <K_43>11.67</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>27256K1/7407/23</DowodZakupu>
+            <DataZakupu>2023-10-30</DataZakupu>
+            <DataWplywu>2023-10-30</DataWplywu>
+            <K_42>183.24</K_42>
+            <K_43>21.07</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5831023182</NrDostawcy>
+            <NazwaDostawcy>MOL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>23712/F/347/23</DowodZakupu>
+            <DataZakupu>2023-11-13</DataZakupu>
+            <DataWplywu>2023-11-13</DataWplywu>
+            <K_42>176.75</K_42>
+            <K_43>20.33</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>11/2023/NAVI21</DowodZakupu>
+            <DataZakupu>2023-11-13</DataZakupu>
+            <DataWplywu>2023-11-13</DataWplywu>
+            <K_42>300.00</K_42>
+            <K_43>69.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>26300K1/7407/23</DowodZakupu>
+            <DataZakupu>2023-11-17</DataZakupu>
+            <DataWplywu>2023-11-17</DataWplywu>
+            <K_42>179.03</K_42>
+            <K_43>20.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552413963</NrDostawcy>
+            <NazwaDostawcy>DNHS PARK Sp. z o.o. sp.kom.</NazwaDostawcy>
+            <DowodZakupu>14269K1/7677/23</DowodZakupu>
+            <DataZakupu>2023-11-18</DataZakupu>
+            <DataWplywu>2023-11-18</DataWplywu>
+            <K_42>79.66</K_42>
+            <K_43>9.16</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>8</LiczbaWierszyZakupow>
+            <PodatekNaliczony>178.20</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

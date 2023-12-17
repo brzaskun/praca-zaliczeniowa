@@ -357,6 +357,11 @@ public class Podatnik implements Serializable {
     private String domyslnametodaplatnosci;
     @Column(name = "zwolnienievat43")
     private boolean zwolnienievat43;
+    @JoinColumn(name = "finanzamt", referencedColumnName = "id")
+    @ManyToOne
+    private Finanzamt finanzamt;
+    @Column(name = "steuernummer")
+    private String steuernummer;
     @Transient
     private double cena;
     @Transient
@@ -446,6 +451,22 @@ public class Podatnik implements Serializable {
 
     public void setZusstawkinowe(List<Zusstawkinew> zusstawkinowe) {
         this.zusstawkinowe = zusstawkinowe;
+    }
+
+    public String getSteuernummer() {
+        return steuernummer;
+    }
+
+    public void setSteuernummer(String steuernummer) {
+        this.steuernummer = steuernummer;
+    }
+
+    public Finanzamt getFinanzamt() {
+        return finanzamt;
+    }
+
+    public void setFinanzamt(Finanzamt finanzamt) {
+        this.finanzamt = finanzamt;
     }
 
    

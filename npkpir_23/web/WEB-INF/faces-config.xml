@@ -438,6 +438,10 @@
             <from-outcome>srodki</from-outcome>
             <to-view-id>/wspolny/wspolnySrodkiWykaz.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>niemcy</from-outcome>
+            <to-view-id>/wspolny/wspolnyNiemcy.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>srodkidok</from-outcome>
             <to-view-id>/wspolny/wspolnySrodkiDokUmorzeniowe.xhtml?faces-redirect=true</to-view-id>

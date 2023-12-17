@@ -13,6 +13,7 @@ import comparator.Podmiotcomparator;
 import comparator.Uzcomparator;
 import dao.DokDAO;
 import dao.DokDAOfk;
+import dao.FinanzamtDAO;
 import dao.KlienciDAO;
 import dao.KontoDAOfk;
 import dao.PodatnikDAO;
@@ -27,6 +28,7 @@ import data.Data;
 import embeddable.Parametr;
 import embeddable.Udzialy;
 import entity.Dok;
+import entity.Finanzamt;
 import entity.Klienci;
 import entity.ParamCzworkiPiatki;
 import entity.ParamDeklVatNadwyzka;
@@ -144,6 +146,7 @@ public class PodatnikView implements Serializable {
     private boolean wszystkiekonta;
     private List<Uz> listaksiegowych;
     private List<Uz> listakadrowych;
+    private List<Finanzamt> listafinanzamt;
     @Inject
     private ParamVatUE paramVatUE;
     @Inject
@@ -152,6 +155,8 @@ public class PodatnikView implements Serializable {
     private ParamDeklVatNadwyzka paramDeklVatNadwyzka;
     @Inject
     private DokDAOfk dokDAOfk;
+    @Inject
+    private FinanzamtDAO finanzamtDAO;
     @Inject
     private DokDAO dokDAO;
     private double sumaudzialow;
@@ -233,6 +238,7 @@ public class PodatnikView implements Serializable {
         Collections.sort(listakadrowych, new Uzcomparator());
         podmioty = podmiotDAO.findAll();
         Collections.sort(podmioty, new Podmiotcomparator());
+        listafinanzamt = finanzamtDAO.findAll();
     }
     
     private void korygujtelefon(Podatnik selected) {
@@ -2049,6 +2055,14 @@ public class PodatnikView implements Serializable {
     
     public void setSelectedStrata(Podatnik selectedStrata) {
         this.selectedStrata = selectedStrata;
+    }
+
+    public List<Finanzamt> getListafinanzamt() {
+        return listafinanzamt;
+    }
+
+    public void setListafinanzamt(List<Finanzamt> listafinanzamt) {
+        this.listafinanzamt = listafinanzamt;
     }
     
       
