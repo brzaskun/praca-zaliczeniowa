@@ -14,6 +14,7 @@
         <p:commandButton value="Korekty" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All(true)}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11">
                     <p:confirm type="popup" header="Potwierdzenie" message="Wystawić korekty do deklaracji?" icon="pi pi-exclamation-triangle"/>
         </p:commandButton>
+        <h:outputText value="Proszę uzupelnić kody urzędów skarbowych pracowników!" style="color: red;margin-left: 15px;"/>
     </p:outputPanel>
     <p:outputPanel style="margin: 10px;">
         <h:form id="KartyWynangrodzenPITForm" styleClass="formpit11">

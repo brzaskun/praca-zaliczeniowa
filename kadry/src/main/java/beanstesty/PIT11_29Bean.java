@@ -145,7 +145,7 @@ public class PIT11_29Bean {
         kodformularza.setWersjaSchemy(kodformularza.getWersjaSchemy());
         naglowek.setKodFormularza(kodformularza);
         naglowek.setKodUrzedu(kodurzedu);
-        naglowek.setRok(Data.XMLGCinitRok("2022"));
+        naglowek.setRok(Data.XMLGCinitRok(rok));
 //        naglowek.setRok(Data.XMLGCinitRok(rok));
         naglowek.setWariantFormularza((byte)29);
         return naglowek;

@@ -152,6 +152,7 @@ public class KartaWynagrodzenView  implements Serializable {
                     Kartawynagrodzen suma = sumuj(kartawynagrodzenlist, paski, p.getPracownik().getNazwiskoImie(), p.getPracownik().getDataurodzenia(), p.getPracownik().getPlec(), sumy, p);
                     suma.setId(p.getId());
                     suma.setJestPIT11(pobierzpotwierdzenie(p.getPracownik(), pityfirma));
+                    suma.setRok(wpisView.getRokWpisu());
                     suma.setWyslano(pobierzstatus200(p.getPracownik(), pityfirma));
                     sumypracownicy.add(suma);
                     pitpola.add(naniesnapola(suma, p.getPracownik()));
@@ -272,17 +273,21 @@ public class KartaWynagrodzenView  implements Serializable {
                     if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==4)&&pasek.isDo26lat()==false) {
                         //emeryci
                         if ((plec.equals("M")&&lata>=65)||(plec.equals("K")&&lata>=60)) {
-                            if (pasek.getProcentkosztow()>100.0) {
-                                sumaUmowaopraceEmerytkosztypodwyzszone.dodaj(pasek);
-                            } else {
-                                sumaUmowaopraceEmeryt.dodaj(pasek);
-                            }
+                            //koszty podwyzszone laduja tam gdzie normalne 20-12-2023
+                            sumaUmowaopraceEmeryt.dodaj(pasek);
+//                            if (pasek.getProcentkosztow()>100.0) {
+//                                sumaUmowaopraceEmerytkosztypodwyzszone.dodaj(pasek);
+//                            } else {
+//                                sumaUmowaopraceEmeryt.dodaj(pasek);
+//                            }
                         } else {
-                            if (pasek.getProcentkosztow()>100.0) {
-                                sumaUmowaopracekosztypodwyzszone.dodaj(pasek);
-                            } else {
-                                sumaUmowaoprace.dodaj(pasek);
-                            }
+                            sumaUmowaoprace.dodaj(pasek);
+                            //koszty podwyzszone laduja tam gdzie normalne 20-12-2023
+//                            if (pasek.getProcentkosztow()>100.0) {
+//                                sumaUmowaopracekosztypodwyzszone.dodaj(pasek);
+//                            } else {
+//                                sumaUmowaoprace.dodaj(pasek);
+//                            }
                         }
                     } else if (pasek.getRodzajWynagrodzenia()==1006&&pasek.isDo26lat()==false) {
                             sumaZasilkiDorosly.dodaj(pasek);
@@ -341,23 +346,27 @@ public class KartaWynagrodzenView  implements Serializable {
             Kartawynagrodzen kartawynagrodzen = kartawynagrodzenlist.get(12);
             FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
             Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
-            List<DeklaracjaPIT11Schowek> istniejacedeklaracje = deklaracjaPIT11SchowekFacade.findByRokFirmaPracownik(wpisView.getRokWpisu(), kartawynagrodzen.getAngaz().getPracownik(), firma);
-            boolean korekta = false;
-            if (istniejacedeklaracje!=null&&istniejacedeklaracje.size()>0) {
-                korekta = true;
-            }
-            byte normalna1korekta2 = korekta?(byte)2:(byte)1;
-            Object[] sciezka = beanstesty.PIT11_29Bean.generujXML(kartawynagrodzen, firma, pracownik, normalna1korekta2, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
-            pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja)sciezka[2];
-            if (deklaracja!=null) {
-                String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
-                PrimeFaces.current().executeScript(polecenie);
-                String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon(), null);
-                DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
-                deklaracjaSchowekFacade.create(schowek);
-                polecenie = "wydrukPDF(\""+nazwapliku+"\")";
-                PrimeFaces.current().executeScript(polecenie);
-                Msg.msg("Wydrukowano PIT-11");
+            if (pracownik.getKodurzeduskarbowego()!=null) {
+                List<DeklaracjaPIT11Schowek> istniejacedeklaracje = deklaracjaPIT11SchowekFacade.findByRokFirmaPracownik(wpisView.getRokWpisu(), kartawynagrodzen.getAngaz().getPracownik(), firma);
+                boolean korekta = false;
+                if (istniejacedeklaracje!=null&&istniejacedeklaracje.size()>0) {
+                    korekta = true;
+                }
+                byte normalna1korekta2 = korekta?(byte)2:(byte)1;
+                Object[] sciezka = beanstesty.PIT11_29Bean.generujXML(kartawynagrodzen, firma, pracownik, normalna1korekta2, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
+                pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja)sciezka[2];
+                if (deklaracja!=null) {
+                    String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
+                    PrimeFaces.current().executeScript(polecenie);
+                    String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon(), null);
+                    DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
+                    deklaracjaSchowekFacade.create(schowek);
+                    polecenie = "wydrukPDF(\""+nazwapliku+"\")";
+                    PrimeFaces.current().executeScript(polecenie);
+                    Msg.msg("Wydrukowano PIT-11");
+                }
+            } else {
+                Msg.msg("e","Błąd generowania PIT-11. Brak kodu urzędu skarbowego");
             }
         } else {
             Msg.msg("e","Błąd generowania PIT-11. Brak karty wynagrodzeń");
