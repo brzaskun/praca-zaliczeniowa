@@ -126,10 +126,10 @@ public class Xad {
 //                ref.add(xmlSigFactory.newReference("", xmlSigFactory.newDigestMethod(DigestMethod.SHA1, null),
 //                        Collections.singletonList(xmlSigFactory.newTransform(Transform.ENVELOPED,
 //                                (TransformParameterSpec) null)), null, "Dokument-Reference"));
-                signedInfo = xmlSigFactory.newSignedInfo(
+                 signedInfo = xmlSigFactory.newSignedInfo(
                         xmlSigFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE,
                                 (C14NMethodParameterSpec) null),
-                        xmlSigFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, null),
+                        xmlSigFactory.newSignatureMethod(SignatureMethod.RSA_SHA256, null),
                         ref);
             } catch (NoSuchAlgorithmException ex) {
                 ex.printStackTrace();

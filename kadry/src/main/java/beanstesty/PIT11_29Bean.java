@@ -652,9 +652,9 @@ public class PIT11_29Bean {
             //koszty uzyskania
             poz.setP28((byte)1);
             if (kartawynagrodzen.isKosztypodwyzszone()) {
-                poz.setP28((byte)2);
-            } else if (kartawynagrodzen.isKosztywieleumow()) {
                 poz.setP28((byte)3);
+            } else if (kartawynagrodzen.isKosztywieleumow()) {
+                poz.setP28((byte)2);
             } else if (kartawynagrodzen.isKosztypodwyzszone()&&kartawynagrodzen.isKosztywieleumow()) {
                 poz.setP28((byte)4);
             }

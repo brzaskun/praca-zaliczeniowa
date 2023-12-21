@@ -34,7 +34,7 @@ public class ObslugaPodpisuBean {
     
 //    static String PLIK = "james.xml";
     static String DRIVER = "resources\\\\podpis\\\\cryptoCertum3PKCS64.dll";
-    private static String PROVIDERCONFIG = "d:\\pkcsconfig.txt";
+    private static String PROVIDERCONFIG = "d:\\pkcsconfigkadry.txt";
     static Map<Integer, String> odpowiedz;
 //  
 

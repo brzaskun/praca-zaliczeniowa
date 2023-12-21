@@ -114,35 +114,39 @@ public class PitWysylkaView  implements Serializable {
     
     public void robPIT1129(DeklaracjaPIT11Schowek wysylanaDeklaracja){
         try {
-            //Object[] podpiszDeklaracje = podpiszDeklaracje(wysylanaDeklaracja);
-            Holder<String> id = new Holder<>();
-            Holder<Integer> stat = new Holder<>();
-            Holder<String> opis = new Holder<>();
-            Holder<String> upo = new Holder<>();
-            //byte[] dok = (byte[]) podpiszDeklaracje[0];
-            byte[] dok = wysylanaDeklaracja.getDeklaracjapodpisana();
-            //sendSignDocument(dok, id, stat, opis);
-            sendSignDocument(dok, id, stat, opis);
-            String idMB = id.value;
-            String idpobierz = id.value;
-            List<String> komunikat = null;
-            String opisMB = opis.value;
-                komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
-            if (komunikat.size() > 1) {
-                    Msg.msg(komunikat.get(0), komunikat.get(1));
-                    opisMB = komunikat.get(1);
-            }
-            if (idMB!=null) {
-                wysylanaDeklaracja.setIdentyfikator(idMB);
-                wysylanaDeklaracja.setStatus(String.valueOf(stat.value));
-                wysylanaDeklaracja.setOpis(opisMB);
-                wysylanaDeklaracja.setDatawysylki(new Date());
-                wysylanaDeklaracja.setDataupo(new Date());
-                wysylanaDeklaracja.setUz(wpisView.getUzer());
-                deklaracjaPIT11SchowekFacade.edit(wysylanaDeklaracja);
-                Msg.msg("i", "Wypuszczono gołębia z deklaracja PIT11 pracownika " + wysylanaDeklaracja.getPracownik().getNazwiskoImie());
+            Object[] podpiszDeklaracje = podpiszDeklaracje(wysylanaDeklaracja);
+            if (podpiszDeklaracje[0]==null) {
+                Msg.msg("e", "Błąd. Nie udało się podpisac dekalracji. Wysylka przerwana");
             } else {
-                Msg.msg("e", "Błąd. Nie wysłano deklaracji");
+                Holder<String> id = new Holder<>();
+                Holder<Integer> stat = new Holder<>();
+                Holder<String> opis = new Holder<>();
+                Holder<String> upo = new Holder<>();
+                byte[] dok = (byte[]) podpiszDeklaracje[0];
+                //byte[] dok = wysylanaDeklaracja.getDeklaracjapodpisana();
+                sendSignDocument(dok, id, stat, opis);
+                //sendSignDocument(dok, id, stat, opis);
+                String idMB = id.value;
+                String idpobierz = id.value;
+                List<String> komunikat = null;
+                String opisMB = opis.value;
+                    komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+                if (komunikat.size() > 1) {
+                        Msg.msg(komunikat.get(0), komunikat.get(1));
+                        opisMB = komunikat.get(1);
+                }
+                if (idMB!=null) {
+                    wysylanaDeklaracja.setIdentyfikator(idMB);
+                    wysylanaDeklaracja.setStatus(String.valueOf(stat.value));
+                    wysylanaDeklaracja.setOpis(opisMB);
+                    wysylanaDeklaracja.setDatawysylki(new Date());
+                    wysylanaDeklaracja.setDataupo(new Date());
+                    wysylanaDeklaracja.setUz(wpisView.getUzer());
+                    deklaracjaPIT11SchowekFacade.edit(wysylanaDeklaracja);
+                    Msg.msg("i", "Wypuszczono gołębia z deklaracja PIT11 pracownika " + wysylanaDeklaracja.getPracownik().getNazwiskoImie());
+                } else {
+                    Msg.msg("e", "Błąd. Nie wysłano deklaracji");
+                }
             }
         } catch (javax.xml.ws.WebServiceException  ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania PIT11 pracownika " + wysylanaDeklaracja.getPracownik().getNazwiskoImie());
@@ -193,8 +197,8 @@ public class PitWysylkaView  implements Serializable {
     private int sendSignDocument(byte[] dok, javax.xml.ws.Holder<java.lang.String> id, javax.xml.ws.Holder<Integer> stat, javax.xml.ws.Holder<java.lang.String> opis) {
         int zwrot = 0;
         try {
-            //https.bramka_e_deklaracje_mf_gov.GateServicePortType port2 = testservice.getGateServiceSOAP12Port();
-            //port2.sendDocument(dok, id, stat, opis);
+            https.bramka_e_deklaracje_mf_gov.GateServicePortType port2 = testservice.getGateServiceSOAP12Port();
+            port2.sendDocument(dok, id, stat, opis);
         } catch (Exception e) {
             E.e(e);
             zwrot = 1;
