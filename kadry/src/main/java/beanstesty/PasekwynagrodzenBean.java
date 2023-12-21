@@ -314,6 +314,8 @@ public class PasekwynagrodzenBean {
         //to musi byc na dole bo inaczej nie sumuje wynagrodzenia za urlop, ktore wchodzi w ppk 29.11.2023
         Pasekpomocnik sumyprzychodow = sumujprzychodyzlisty(pasek);
         KalendarzmiesiacBean.naliczskladnikiPPKDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny, sumyprzychodow);
+        //myaslalem ze to jest potrzebne 21-12-2023 ale potem przeredagowalem ponizek, byly niepotrzebe zaokraglania czastkowtycgh
+        //PasekwynagrodzenBean.zaokraglijgrosze(pasek);
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
             PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);
         } else {
@@ -651,13 +653,13 @@ public class PasekwynagrodzenBean {
                     bruttooddelegowanie = Z.z(bruttooddelegowanie + p.getKwotadolistyplac());
                     bruttooddelegowaniewaluta = Z.z(bruttooddelegowaniewaluta + p.getKwotadolistyplacwaluta());
                 } else {
-                    bruttokraj = Z.z(bruttokraj + p.getKwotadolistyplac());
+                    bruttokraj = bruttokraj + p.getKwotadolistyplac();
                 }
                 if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSpoleczna0bezspolecznej1()==false) {
-                    przychodyzus51 = Z.z(przychodyzus51+p.getKwotadolistyplac());
+                    przychodyzus51 = przychodyzus51+p.getKwotadolistyplac();
                 } 
                 if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isZdrowotna0bezzdrowotnej()==false) {
-                    przychodyzus52 = Z.z(przychodyzus52+p.getKwotadolistyplac());
+                    przychodyzus52 = przychodyzus52+p.getKwotadolistyplac();
                 }
             }
             brutto = Z.z(brutto+p.getKwotadolistyplac());
@@ -665,19 +667,19 @@ public class PasekwynagrodzenBean {
         for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
 //            taki krzywy ryj bo nie ma oznaczenia oddelegowanie przy nieobecnosci urlop delehowanie
             if (p.getKwotawaluta()>0.0) {
-                bruttooddelegowanie = Z.z(bruttooddelegowanie + p.getKwota());
-                bruttooddelegowaniewaluta = Z.z(bruttooddelegowaniewaluta + p.getKwotawaluta());
+                bruttooddelegowanie = bruttooddelegowanie + p.getKwota();
+                bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + p.getKwotawaluta();
             } else {
-                bruttokraj = Z.z(bruttokraj + p.getKwota());
+                bruttokraj = bruttokraj + p.getKwota();
             }
             if (p.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy()==false) {
-                przychodyzus51 = Z.z(przychodyzus51+p.getKwotazus());
-                przychodyzus52 = Z.z(przychodyzus52+p.getKwotazus());
+                przychodyzus51 = przychodyzus51+p.getKwotazus();
+                przychodyzus52 = przychodyzus52+p.getKwotazus();
             }
             if (p.getNieobecnosc().getSwiadczeniekodzus() != null && p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()&& p.getNieobecnosc().getSwiadczeniekodzus().isSpoleczne()==false) {
-                przychodyzus52 = Z.z(przychodyzus52 + p.getKwotabezzus());
+                przychodyzus52 = przychodyzus52 + p.getKwotabezzus();
             }
-            brutto = Z.z(brutto+p.getKwota());
+            brutto = brutto+p.getKwota();
         }
         //double skladnikppk = KalendarzmiesiacBean.naliczskladnikiPPKDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny);
         zwrot.setBruttokraj(Z.z(bruttokraj));
@@ -2181,6 +2183,39 @@ public class PasekwynagrodzenBean {
             zwrot = Data.czyjestprzed(limit12mcy, datalisty);
         }
         return zwrot;
+    }
+
+    //21-12-2023 przy stalym zasadniczym suma zasadniczego zredukowanego i urlopow poinna rownac sie zasadniczemu. czasami jednak jest jakis grosz. to zalatwia sprawe
+    private static void zaokraglijgrosze(Pasekwynagrodzen pasek) {
+        List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
+        List<Naliczenienieobecnosc> naliczenienieobecnoscList = pasek.getNaliczenienieobecnoscList();
+        if (naliczenienieobecnoscList.isEmpty()==false) {
+            double brutto = 0.0;
+            double wynagrodzeniezasadnicze = 0.0;
+            boolean czyjest11 = false;
+            Naliczenieskladnikawynagrodzenia nale = null;
+            for (Naliczenieskladnikawynagrodzenia nal : naliczenieskladnikawynagrodzeniaList) {
+                if (nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
+                    czyjest11 = true;
+                    wynagrodzeniezasadnicze = nal.getKwotaumownazacalymc();
+                    brutto = Z.z(nal.getKwotadolistyplac());
+                    nale = nal;
+                    break;
+                }
+            }
+            boolean czyjesturlop = false;
+            for (Naliczenienieobecnosc nieob : naliczenienieobecnoscList) {
+                if (nieob.getNieobecnosc().getKod().equals("U")) {
+                    brutto = brutto + Z.z(nieob.getKwota());
+                    czyjesturlop = true;
+                }
+            }
+            if (czyjest11&&czyjesturlop &&(brutto!=wynagrodzeniezasadnicze)) {
+                double roznica = Z.z(Z.z(wynagrodzeniezasadnicze)-Z.z(brutto));
+                nale.setKwotadolistyplac(nale.getKwotadolistyplac()+roznica);
+            }
+        }
+        
     }
 
     
