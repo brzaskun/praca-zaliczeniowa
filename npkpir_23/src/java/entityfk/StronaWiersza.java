@@ -5,6 +5,7 @@
  */
 package entityfk;
 
+import data.Data;
 import embeddable.Mce;
 import embeddablefk.ListaSum;
 import java.io.Serializable;
@@ -531,6 +532,34 @@ public class StronaWiersza implements Serializable {
         if (this.nowetransakcje != null) {
             for (Transakcja p : this.nowetransakcje) {
                     this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+            }
+            this.pozostalo = Z.z(this.getKwotaR() - this.rozliczono);
+        }
+        return Z.z(this.pozostalo);
+    }
+
+    public double getPozostalookres(String rok, String mc) {
+        String ostatnidzien = Data.ostatniDzien(rok, mc);
+        this.rozliczono = 0.0;
+        if (this.platnosci != null) {
+            for (Transakcja p : this.platnosci) {
+                boolean czyjestprzed = Data.czyjestprzed(ostatnidzien, p.getDatarozrachunku());
+                if (czyjestprzed) {
+                    if (p.getKwotawwalucierachunku() != 0.0) {
+                        this.rozliczono = Z.z(this.rozliczono+p.getKwotawwalucierachunku());
+                    } else {
+                        this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                    }
+                }
+            }
+            this.pozostalo = Z.z(this.getKwotaR() - this.rozliczono);
+        }
+        if (this.nowetransakcje != null) {
+            for (Transakcja p : this.nowetransakcje) {
+                boolean czyjestprzed = Data.czyjestprzed(ostatnidzien, p.getDatarozrachunku());
+                if (czyjestprzed) {
+                    this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                }
             }
             this.pozostalo = Z.z(this.getKwotaR() - this.rozliczono);
         }

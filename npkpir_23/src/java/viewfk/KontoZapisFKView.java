@@ -1273,7 +1273,7 @@ public class KontoZapisFKView implements Serializable{
                 StronaWiersza sw = it.next();
                 if (!wybranaWalutaDlaKont.equals("wszystkie") && !sw.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
                     it.remove();
-                } else if (Z.z(sw.getPozostalo()) == 0.0 || sw.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
+                } else if (Z.z(sw.getPozostalookres(wpisView.getRokWpisuSt(), wpisView.getMiesiacDo())) == 0.0 || sw.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
                     it.remove();
                 }
             }
