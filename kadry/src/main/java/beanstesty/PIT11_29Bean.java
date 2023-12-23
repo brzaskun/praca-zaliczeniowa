@@ -308,9 +308,9 @@ public class PIT11_29Bean {
                 poz.setP95(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getRazemspolecznepracownik())));
             }
             if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getPraczdrowotnedopotracenia()))));
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getPraczdrowotne()))));
             } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getPraczdrowotnedopotracenia())));
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getPraczdrowotne())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);

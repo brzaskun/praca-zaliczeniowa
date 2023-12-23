@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -82,10 +83,11 @@ public class KartaWynagrodzenView  implements Serializable {
     private List<DeklaracjaPIT11Schowek> listaPIT11sorted;
     private List<Pasekwynagrodzen> listapaski;
     private Pracownik selected;
+    private boolean brakkoduurzedu;
     
      
 
-    
+    @PostConstruct
     public void init() {
         pobierzdane(wpisView.getAngaz());
         pobierzdaneAll();
@@ -138,6 +140,7 @@ public class KartaWynagrodzenView  implements Serializable {
     }
     
      public void pobierzdaneAll() {
+        brakkoduurzedu = false;
         sumypracownicy = new ArrayList<>();
         pitpola  = new ArrayList<>();
         List<DeklaracjaPIT11Schowek> pityfirma = deklaracjaPIT11SchowekFacade.findByRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
@@ -157,6 +160,10 @@ public class KartaWynagrodzenView  implements Serializable {
                     sumypracownicy.add(suma);
                     pitpola.add(naniesnapola(suma, p.getPracownik()));
                     duzasuma.dodajkarta(suma);
+                }
+                String kodurzeduskarbowego = p.getPracownik().getKodurzeduskarbowego();
+                if (kodurzeduskarbowego==null||kodurzeduskarbowego.equals("")) {
+                    brakkoduurzedu = true;
                 }
            }
         }
@@ -333,7 +340,7 @@ public class KartaWynagrodzenView  implements Serializable {
     
     public void drukuj() {
         if (kartawynagrodzenlist!=null && kartawynagrodzenlist.size()>0) {
-            PdfKartaWynagrodzen.drukuj(kartawynagrodzenlist, wpisView.getAngaz(), wpisView.getRokWpisu());
+            PdfKartaWynagrodzen.drukuj(kartawynagrodzenlist, wpisView.getFirma(), wpisView.getPracownik(), wpisView.getRokWpisu());
             Msg.msg("Wydrukowano kartę wynagrodzeń");
         } else {
             Msg.msg("e","Błąd drukowania. Brak karty wynagrodzeń");
@@ -415,22 +422,26 @@ public class KartaWynagrodzenView  implements Serializable {
                     if (istniejacedeklaracje!=null&&istniejacedeklaracje.size()>0) {
                         korekta = true;
                     }
-                    byte normalna1korekta2 = korekta?(byte)2:(byte)1;
-                    Object[] sciezka = beanstesty.PIT11_29Bean.generujXML(kartawynagrodzen, firma, pracownik, normalna1korekta2, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
-                    pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja)sciezka[2];
-                    if (deklaracja!=null) {
-                        //String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
-                        //PrimeFaces.current().executeScript(polecenie);
-                        String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon(), null);
-                        DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
-                        schowek.setKorekta(korekta);
-                        schowek.setUz(wpisView.getUzer());
-                        karta.setJestPIT11(true);
-                        deklaracjaSchowekFacade.create(schowek);
-                        listaPIT11.add(schowek);
-                        String polecenie = "wydrukPDF(\""+nazwapliku+"\")";
-                        PrimeFaces.current().executeScript(polecenie);
-                        Msg.msg("Wydrukowano PIT-11");
+                    try {
+                        byte normalna1korekta2 = korekta?(byte)2:(byte)1;
+                        Object[] sciezka = beanstesty.PIT11_29Bean.generujXML(kartawynagrodzen, firma, pracownik, normalna1korekta2, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy());
+                        pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja)sciezka[2];
+                        if (deklaracja!=null) {
+                            //String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
+                            //PrimeFaces.current().executeScript(polecenie);
+                            String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon(), null);
+                            DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
+                            schowek.setKorekta(korekta);
+                            schowek.setUz(wpisView.getUzer());
+                            karta.setJestPIT11(true);
+                            deklaracjaSchowekFacade.create(schowek);
+                            listaPIT11.add(schowek);
+                            String polecenie = "wydrukPDF(\""+nazwapliku+"\")";
+                            PrimeFaces.current().executeScript(polecenie);
+                            Msg.msg("Wydrukowano PIT-11");
+                        }
+                    } catch (Exception e) {
+                        Msg.msg("e","Bląd generowania. Proszę sprawdzić dane osobowe pracownika, adres itp.");
                     }
                 }
             }
@@ -493,13 +504,14 @@ public class KartaWynagrodzenView  implements Serializable {
         ByteArrayInputStream zwrot = null;
          if (listaPIT11sorted!=null && listaPIT11sorted.size()>0) {
              try {
-                List<InputStream> pliki = new ArrayList<>();
+                List<InputStream> pojedynczy = new ArrayList<>();
                 for (DeklaracjaPIT11Schowek p : listaPIT11sorted) {
                     ByteArrayInputStream drukujPIT11 = drukujPIT11(p, false);
-                    pliki.add(drukujPIT11);
+                    pojedynczy.add(drukujPIT11);
+
                 }
                 PDFMergerUtility uti = new PDFMergerUtility();
-                uti.addSources(pliki);
+                uti.addSources(pojedynczy);
                 ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
                 String bazwa = wpisView.getFirma().getNip()+"_PIT11_zbiorcze.pdf";
                 String realPath = ctx.getRealPath("/")+"resources\\pdf\\"+bazwa;
@@ -514,6 +526,47 @@ public class KartaWynagrodzenView  implements Serializable {
         }
          return zwrot;
     }
+    
+      public ByteArrayInputStream drukujwszystkiePIT11kartawyn() {
+        ByteArrayInputStream zwrot = null;
+         if (listaPIT11sorted!=null && listaPIT11sorted.size()>0) {
+             try {
+                List<InputStream> pojedynczy = new ArrayList<>();
+                for (DeklaracjaPIT11Schowek p : listaPIT11sorted) {
+                    ByteArrayInputStream drukujPIT11 = drukujPIT11(p, false);
+                    pojedynczy.add(drukujPIT11);
+                    List<Kartawynagrodzen> listakartypracownika = pobierzdanewydruk(sumypracownicy, p.getPracownik());
+                    ByteArrayInputStream kartawyn = PdfKartaWynagrodzen.drukuj(listakartypracownika, p.getFirma(), p.getPracownik(), p.getRok());
+                    pojedynczy.add(kartawyn);
+                }
+                PDFMergerUtility uti = new PDFMergerUtility();
+                uti.addSources(pojedynczy);
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                String bazwa = wpisView.getFirma().getNip()+"_PIT11_zbiorcze.pdf";
+                String realPath = ctx.getRealPath("/")+"resources\\pdf\\"+bazwa;
+                uti.setDestinationFileName(realPath);
+                uti.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
+                String polecenie = "wydrukPDF(\"" + bazwa + "\")";
+                PrimeFaces.current().executeScript(polecenie);
+                zwrot = new ByteArrayInputStream(FileUtils.readFileToByteArray(new File(realPath)));
+             } catch (Exception e){}
+         } else {
+            Msg.msg("e","Błąd drukowania PIT-11. Nie wybrano pracowników");
+        }
+         return zwrot;
+    }
+      
+    private List<Kartawynagrodzen> pobierzdanewydruk(List<Kartawynagrodzen> sumypracownicy, Pracownik pracownik) {
+        List<Kartawynagrodzen> zwrot = new ArrayList<>();
+        for (Kartawynagrodzen suma : sumypracownicy) {
+            if (suma.getAngaz()!=null&&suma.getAngaz().getPracownik().equals(pracownik)) {
+                zwrot = new ArrayList<>(suma.getSumy().values());
+                break;
+            }
+        }
+        return zwrot;
+    }
+
             
    
     public ByteArrayInputStream drukujPIT11(DeklaracjaPIT11Schowek deklaracjaPIT11Schowek, boolean pokaz) {
@@ -661,6 +714,15 @@ public class KartaWynagrodzenView  implements Serializable {
         this.selected = selected;
     }
 
+    public boolean isBrakkoduurzedu() {
+        return brakkoduurzedu;
+    }
+
+    public void setBrakkoduurzedu(boolean brakkoduurzedu) {
+        this.brakkoduurzedu = brakkoduurzedu;
+    }
+
+   
     
 
    

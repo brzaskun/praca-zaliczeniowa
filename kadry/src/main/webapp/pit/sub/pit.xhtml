@@ -14,7 +14,7 @@
         <p:commandButton value="Korekty" styleClass="buttonnorm2" actionListener="#{kartaWynagrodzenView.pit11All(true)}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11">
                     <p:confirm type="popup" header="Potwierdzenie" message="Wystawić korekty do deklaracji?" icon="pi pi-exclamation-triangle"/>
         </p:commandButton>
-        <h:outputText value="Proszę uzupelnić kody urzędów skarbowych pracowników!" style="color: red;margin-left: 15px;"/>
+        <h:outputText value="Proszę uzupelnić kody urzędów skarbowych pracowników!" style="color: red;margin-left: 15px;" rendered="#{kartaWynagrodzenView.brakkoduurzedu}"/>
     </p:outputPanel>
     <p:outputPanel style="margin: 10px;">
         <h:form id="KartyWynangrodzenPITForm" styleClass="formpit11">
@@ -89,9 +89,15 @@
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">
-                        <h:outputText value="dochód zagr."/>
+                        <h:outputText value="podst. opod. zagr."/>
                     </f:facet>
-                    <bcf:outputpl value="#{itemkarta.dochodzagranica}"/>
+                    <bcf:outputpl value="#{itemkarta.podstawaopodatkowaniazagranica}"/>
+                </p:column>
+                <p:column width="60">
+                    <f:facet name="header">
+                        <h:outputText value="podat. zagr"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{itemkarta.podatekdochodowyzagranica}"/>
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">
@@ -108,16 +114,11 @@
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">
-                        <h:outputText value="zdrowotne potrąc."/>
+                        <h:outputText value="zdrowotne naliczone"/>
                     </f:facet>
-                    <bcf:outputpl value="#{itemkarta.praczdrowotnedopotracenia}"/>
+                    <bcf:outputpl value="#{itemkarta.praczdrowotne}"/>
                 </p:column>
-                <p:column width="60">
-                    <f:facet name="header">
-                        <h:outputText value="zdrowotne odlicz."/>
-                    </f:facet>
-                    <bcf:outputpl value="#{itemkarta.praczdrowotnedoodliczenia}"/>
-                </p:column>
+
                 <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="wyn. netto"/>
@@ -158,7 +159,7 @@
                 </p:column>
                 <p:column width="30" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value=""/>
+                        <h:outputText value="karta. wyn."/>
                     </f:facet>
                     <p:commandButton icon="pi pi-calendar" oncomplete="PF('dialogkartawynagrodzen').show()" >
                         <p:ajax event="click" listener="#{kartaWynagrodzenView.pobierzdane(itemkarta.angaz)}" update="KartyWynangrodzenListForm" global="false"/>
@@ -403,8 +404,9 @@
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
-                <p:panelGrid columns="4" style="padding: 20px;">
-                        <p:commandButton value="drukuj wszystkie" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.drukujwszystkiePIT11()}" global="true"/>
+                <p:panelGrid columns="5" style="padding: 20px;">
+                        <p:commandButton value="drukuj PIT-11" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.drukujwszystkiePIT11()}" global="true"/>
+                        <p:commandButton value="drukuj z kart. wyn." styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.drukujwszystkiePIT11kartawyn()}" global="true"/>
                         <p:commandButton value="wyślij do urzędu" styleClass="buttonnorm" actionListener="#{pitWysylkaView.zbiorczawysylka(kartaWynagrodzenView.listaPIT11)}" global="true" update="akordeon:wystawionepit11">
                             <p:confirm type="popup" header="Potwierdzenie" message="Wysłać wszystko do US?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>

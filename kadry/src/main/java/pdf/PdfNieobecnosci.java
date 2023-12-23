@@ -39,7 +39,7 @@ public class PdfNieobecnosci {
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaL(writer);
                 otwarcieDokumentu(document, nazwa);
-                PdfMain.dodajOpisWstepnyKartaWyn(document, angaz, "Zestawienie nieobecności pracownika", rok, angaz.getPracownik().getPesel());
+                PdfMain.dodajOpisWstepnyKartaWyn(document, angaz.getFirma(), angaz.getPracownik(), "Zestawienie nieobecności pracownika", rok, angaz.getPracownik().getPesel());
                 dodajtabeleglowna(angaz, document, rok, lista);
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "pokazwydruk('"+nazwa+"');";

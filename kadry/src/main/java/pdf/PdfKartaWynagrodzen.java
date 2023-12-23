@@ -10,14 +10,21 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Angaz;
+import entity.FirmaKadry;
 import entity.Kartawynagrodzen;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczenieskladnikawynagrodzenia;
+import entity.Pracownik;
 import error.E;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import msg.Msg;
+import org.apache.commons.io.FileUtils;
 import org.primefaces.PrimeFaces;
 import static pdf.PdfFont.*;
 import static pdf.PdfMain.finalizacjaDokumentuQR;
@@ -31,30 +38,35 @@ import z.Z;
  * @author Osito
  */
 public class PdfKartaWynagrodzen {
-    public static void drukuj(List<Kartawynagrodzen> lista, Angaz angaz, String rok) {
+    public static ByteArrayInputStream drukuj(List<Kartawynagrodzen> lista, FirmaKadry firma, Pracownik pracownik, String rok) {
+         ByteArrayInputStream zwrot = null;
         try {
-            String nazwa = angaz.getPracownik().getPesel()+"lp.pdf";
+            String nazwa = pracownik.getPesel()+"kartawyn"+rok+".pdf";
             if (lista != null) {
                 Document document = PdfMain.inicjacjaA4Landscape();
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaL(writer);
                 otwarcieDokumentu(document, nazwa);
-                PdfMain.dodajOpisWstepnyKartaWyn(document, angaz, "Karta wynagrodzeń pracownika", rok, angaz.getPracownik().getPesel());
-                dodajtabeleglowna(angaz, document, rok, lista);
+                PdfMain.dodajOpisWstepnyKartaWyn(document, firma, pracownik, "Karta wynagrodzeń pracownika", rok, pracownik.getPesel());
+                dodajtabeleglowna(firma, pracownik, document, rok, lista);
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "pokazwydruk('"+nazwa+"');";
                 PrimeFaces.current().executeScript(f);
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                String realPath = ctx.getRealPath("/")+"resources\\wydruki\\"+nazwa;
+                zwrot = new ByteArrayInputStream(FileUtils.readFileToByteArray(new File(realPath)));
             } else {
                 Msg.msg("w", "Nie ma Paska do wydruku");
             }
         } catch (Exception e) {
             E.e(e);
         }
+        return zwrot;
     }
     
-    private static void dodajtabeleglowna(Angaz a, Document document, String rok, List<Kartawynagrodzen> lista) {
+    private static void dodajtabeleglowna(FirmaKadry firma, Pracownik pracownik, Document document, String rok, List<Kartawynagrodzen> lista) {
         try {
-            PdfPTable table = generujTabele(a.getFirma().getNazwa(),a.getPracownik().getNazwiskoImie(),a.getPracownik().getPesel(), rok);
+            PdfPTable table = generujTabele(firma.getNazwa(),pracownik.getNazwiskoImie(),pracownik.getPesel(), rok);
             dodajwiersze(lista, table);
             document.add(table);
         } catch (DocumentException ex) {
@@ -81,7 +93,8 @@ public class PdfKartaWynagrodzen {
             table.addCell(ustawfraze("Podstawa opodatkowania", 0, 2));
             table.addCell(ustawfraze("Potrącona zaliczka na podatek dochodowy", 0, 2));
             table.addCell(ustawfraze("Potrącenia kom. i inne", 0, 2));
-            table.addCell(ustawfraze("Ubezpieczenie zdrowotne", 2, 0));
+            table.addCell(ustawfraze("Ubezpieczenie zdrowotne", 0, 2));
+            table.addCell(ustawfraze("Podatek niemiecki", 0, 2));
             table.addCell(ustawfraze("Należna zaliczka na podatek dochodowy", 0, 2));
             table.addCell(ustawfraze("Do wypłaty", 0, 2));
             table.addCell(ustawfrazeAlign("Składniki z ZUS", "center",6));
@@ -90,8 +103,6 @@ public class PdfKartaWynagrodzen {
             table.addCell(ustawfrazeAlign("Ubezp. rentowe", "center",6));
             table.addCell(ustawfrazeAlign("Ubezp. chorobowe", "center",6));
             table.addCell(ustawfrazeAlign("Razem składki na ub. Społ.", "center",6));
-            table.addCell(ustawfrazeAlign("Potrącona", "center",6));
-            table.addCell(ustawfrazeAlign("Odliczona od podatku", "center",6));
             table.addCell(ustawfrazeAlign("1", "center",6));
             table.addCell(ustawfrazeAlign("2", "center",6));
             table.addCell(ustawfrazeAlign("3", "center",6));
@@ -134,11 +145,7 @@ public class PdfKartaWynagrodzen {
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekwstepny())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPotracenia())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotne())), "right",7));
-            if (rs.getRok()!=null&&Integer.parseInt(rs.getRok())<2022) {
-                table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedoodliczenia())), "right",7));
-            } else {
-                table.addCell(ustawfrazeAlign("", "right",7));
-            }
+             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowyzagranica())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy())), "right",7));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getNetto())), "right",7));
         }

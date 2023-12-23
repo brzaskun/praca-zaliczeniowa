@@ -89,7 +89,7 @@ public class PitWysylkaView  implements Serializable {
     public void zbiorczawysylka(List<DeklaracjaPIT11Schowek> listaPIT11) {
         if (listaPIT11!=null && listaPIT11.size()>0) {
             for (DeklaracjaPIT11Schowek p : listaPIT11) {
-                if (p.getIdentyfikator()!=null) {
+                if (p.getIdentyfikator()==null) {
                     robPIT1129(p);
                 }
             }

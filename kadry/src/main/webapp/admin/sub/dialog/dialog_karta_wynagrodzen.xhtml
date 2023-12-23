@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     >
     <p:dialog id="dialogkartawynagrodzen" header="Karta wynagrodzeń" widgetVar="dialogkartawynagrodzen"  
-              resizable="false"  onShow="ustawdialog('dialogkartawynagrodzen','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkartawynagrodzen');" 
+              resizable="false"  onShow="ustawdialog('dialogkartawynagrodzen','centertile',1650,700);" closeOnEscape="true" onHide="resetujdialog('dialogkartawynagrodzen');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{kartaWynagrodzenView.pobierzdane(wpisView.angaz)}" update="KartyWynangrodzenListForm" global="false"/>
         <p:outputPanel>
@@ -60,6 +60,7 @@
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.bruttozus}" stylePlus="#{itemkarta.bruttozus eq 0 ? 'color:silver':null}"/>
                     </p:column>
+                  
                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="wyn. bez zus"/>
@@ -84,12 +85,12 @@
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.razemspolecznepracownik}" stylePlus="#{itemkarta.razemspolecznepracownik eq 0 ? 'color:silver':null}"/>
                     </p:column>
-                      <p:column width="55">
+<!--                      <p:column width="55">
                         <f:facet name="header">
                             <h:outputText value="ubezp. społ. firma"/>
                         </f:facet>
                           <bcf:outputpl value="#{itemkarta.razemspolecznefirma}" stylePlus="#{itemkarta.razemspolecznefirma eq 0 ? 'color:silver':null}"/>
-                    </p:column>
+                    </p:column>-->
                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="podstawa opod." />
@@ -120,18 +121,31 @@
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.potraceniainne}" stylePlus="#{itemkarta.potraceniainne eq 0 ? 'color:silver':null}"/>
                     </p:column>
+<p:column width="55">
+                        <f:facet name="header">
+                            <h:outputText value="podatek"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.podatekdochodowy}" stylePlus="#{itemkarta.podatekdochodowy eq 0 ? 'color:silver':null}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="pod.opod. niemcy"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.dochodzagranica}" stylePlus="#{itemkarta.dochodzagranica eq 0 ? 'color:silver':null}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="podatek niemcy"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.podatekdochodowyzagranica}" stylePlus="#{itemkarta.podatekdochodowyzagranica eq 0 ? 'color:silver':null}"/>
+                    </p:column>
 <!--                    <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="zdrowotne odlicz."/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.praczdrowotnedoodliczenia}" stylePlus="#{itemkarta.praczdrowotnedoodliczenia eq 0 ? 'color:silver':null}"  rendered="#{itempasek.rokI lt 2022}"/>
                     </p:column>-->
-                    <p:column width="55">
-                        <f:facet name="header">
-                            <h:outputText value="podatek"/>
-                        </f:facet>
-                        <bcf:outputpl value="#{itemkarta.podatekdochodowy}" stylePlus="#{itemkarta.podatekdochodowy eq 0 ? 'color:silver':null}"/>
-                    </p:column>
+                    
                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="do wypł."/>
@@ -337,13 +351,13 @@
         </p:outputPanel>
         <p:outputPanel>
             <p:commandButton value="drukuj" style="width: 120px;" actionListener="#{kartaWynagrodzenView.drukuj()}"/>
-            <p:commandButton value="PIT-11" style="width: 120px;" actionListener="#{kartaWynagrodzenView.pit11}"/>
+<!--            <p:commandButton value="PIT-11" style="width: 120px;" actionListener="#{kartaWynagrodzenView.pit11}"/>-->
             <p:commandButton value="druk szer." type="button" icon="pi pi-print" styleClass="shadow-1 mb-3">
                 <p:printer target="KartyWynangrodzenListForm:datalist" />
             </p:commandButton>
         </p:outputPanel>
         <p:outputPanel style="margin-top: 10px;">
-            <h:outputText value="W przypadku druku tabeli szerokiej należy ręcznie zmienić orientacje strony na poziomą" style="color: green;"/>
+            <h:outputText value="Ważne! W przypadku druku tabeli szerokiej należy ręcznie zmienić orientacje strony na poziomą i zmienić skalę" style="color: green;"/>
         </p:outputPanel>
     </p:dialog>
 </ui:composition>

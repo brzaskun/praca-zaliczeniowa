@@ -24,6 +24,8 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Angaz;
+import entity.FirmaKadry;
+import entity.Pracownik;
 import error.E;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -376,17 +378,17 @@ public class PdfMain {
         }
     }
     
-    public static void dodajOpisWstepnyKartaWyn(Document document, Angaz angaz, String nazwadok, String rok, String pesel) {
+    public static void dodajOpisWstepnyKartaWyn(Document document, FirmaKadry firma, Pracownik pracownik, String nazwadok, String rok, String pesel) {
         try {
             StringBuilder s = new StringBuilder();
             s.append(nazwadok);
             s.append(" ");
-            s.append(angaz.getPracownik().getNazwiskoImie());
+            s.append(pracownik.getNazwiskoImie());
             StringBuilder s1 = new StringBuilder();
             s1.append("Firma ");
-            s1.append(angaz.getFirma().getNazwa());
+            s1.append(firma.getNazwa());
             s1.append(" NIP ");
-            s1.append(angaz.getFirma().getNip());
+            s1.append(firma.getNip());
             Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
