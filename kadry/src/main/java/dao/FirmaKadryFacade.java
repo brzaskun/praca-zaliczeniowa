@@ -7,6 +7,8 @@ package dao;
 
 import entity.FirmaKadry;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -48,6 +50,14 @@ public class FirmaKadryFacade extends DAO  implements Serializable {
         FirmaKadry zwrot = null;
         try {
             zwrot = (FirmaKadry) getEntityManager().createNamedQuery("FirmaKadry.findByNip").setParameter("nip", nip).getSingleResult();
+        } catch (Exception e){}
+        return zwrot;
+    }
+    
+    public List<FirmaKadry> findByBezglobal() {
+        List<FirmaKadry> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("FirmaKadry.findByBezglobal").getResultList();
         } catch (Exception e){}
         return zwrot;
     }
