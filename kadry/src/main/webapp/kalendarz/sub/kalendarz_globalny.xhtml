@@ -9,30 +9,38 @@
 >
     <p:outputPanel style="height: 180px">
             <p:panelGrid columns="3">
-<!--                <h:form id="KalendarzGlobalCreateForm" styleClass="firmakalendarz">
+                <h:form id="KalendarzGlobalCreateForm" styleClass="firmakalendarz">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" rendered="#{kalendarzGlobalnyView.selected != null}">
                             <p:outputLabel value="firma" for="firmakalendarz" />
-                            <h:outputText id="firmakalendarz" value="#{kalendarzGlobalnyView.selected.firma.nazwa}"/>
+                            <h:outputText id="firmakalendarz" value="#{kalendarzGlobalnyView.firmaglobalna.nazwa}"/>
                             <p:outputLabel value="rok" for="rok" />
-                            <p:inputText id="rok" value="#{kalendarzGlobalnyView.selected.rok}" title="rok" >
-                                <p:ajax event="blur" partialSubmit="true" listener="#{kalendarzGlobalnyView.zrobkalendarzumowa}" global="false" update="akordeon:KalendarzwzorListGlobForm" />
+                            <p:inputText id="rok" value="#{kalendarzGlobalnyView.rok}" title="rok" >
+                                <p:ajax event="blur" partialSubmit="true" listener="#{kalendarzGlobalnyView.zrobkalendarzumowaglobalny}" global="false" 
+                                        update="akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist 
+                                        akordeon:KalendarzwzorListGlobForm:panelprzyciski" />
                             </p:inputText>
                             <p:outputLabel value="miesiąc" for="mc" />
-                            <p:inputText id="mc" value="#{kalendarzGlobalnyView.selected.mc}" title="mc" >
-                                <p:ajax event="blur" listener="#{kalendarzGlobalnyView.zrobkalendarzumowa}" partialSubmit="true" global="false" update="akordeon:KalendarzwzorListGlobForm"/>
+                            <p:inputText id="mc" value="#{kalendarzGlobalnyView.mc}" title="mc" >
+                                <p:ajax event="blur" listener="#{kalendarzGlobalnyView.zrobkalendarzumowaglobalny}" partialSubmit="true" global="false" 
+                                        update="akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist 
+                                        akordeon:KalendarzwzorListGlobForm:panelprzyciski"/>
                             </p:inputText>
 
                         </p:panelGrid>
+                        <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.zrobkalendarzumowaglobalny}" value="generuj"  
+                                         update="akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist 
+                                         akordeon:KalendarzwzorListGlobForm:panelprzyciski"/>
                     </h:panelGroup>
-                </h:form>-->
+                </h:form>
                 <h:form id="KalendarzwzormiesiacSaRokGlobForm" styleClass="firmakalendarz">
                     <p:dataTable id="datalist" value="#{kalendarzGlobalnyView.lista}" var="itemkalendarzwzorjest"
-                                 rowKey="#{itemkalendarzwzorjest.id}" emptyMessage="brak kalendarzy wzor."
+                                 rowKey="#{itemkalendarzwzorjest.idhash}" emptyMessage="brak kalendarzy wzor."
                                  selection="#{kalendarzGlobalnyView.selected}" selectionMode="single"
                                  style="height: 150px;overflow-y: scroll; width: 150px; margin-left: 50px;" sortBy="#{itemkalendarzwzorjest.mc}"
                                  >
-                        <p:ajax event="rowSelect" partialSubmit="true" global="true" update="akordeon:KalendarzwzorListGlobForm akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzGlobalCreateForm:rok"/>
+                        <p:ajax event="rowSelect" partialSubmit="true" global="true" 
+                                update="akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzGlobalCreateForm:rok akordeon:KalendarzwzorListGlobForm:panelprzyciski"/>
                         <p:column width="50" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="utworzono kalendarze za mc"/>
@@ -136,18 +144,24 @@
                         </p:fragment>
                     </p:outputPanel>
                 </p:panel>
-                <p:outputPanel>
+                <p:outputPanel id="panelprzyciski">
                     <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzGlobalnyView.edit}" value="#{bundle.Edit}"  update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}">
                         <p:confirm type="popup" header="Zachowanie zmian" message="Na pewno zachować zmiany?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.reset}" value="Resetuj"  update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.create}" value="#{bundle.Save}"  update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id eq null}"/>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.create}" value="#{bundle.Save}" 
+                                     update="akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" 
+                                     rendered="#{kalendarzGlobalnyView.selected.id eq null}"/>
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nanieszmiany}" value="nanieś na wzór."  update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}">
                         <p:confirm type="popup" header="Kopiowanie do wszystkich wzorcowych" message="Na pewno kopiowac do wzorcowych?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nanieszmianyPracownicy}" value="nanieś na pracowników"  
                                      update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}">
                         <p:confirm type="popup" header="Kopiowanie do wszystkich pracowników" message="Na pewno kopiowac do wszytskich pracowników?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.otworzrok}" value="otwórz rok"  
+                                      rendered="#{kalendarzGlobalnyView.selected.id ne null}">
+                        <p:confirm type="popup" header="Generowanie wszystkich kalendarzy nowy rok" message="Stworzyć kalendarze dla firm i pracowników?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:outputPanel>
            </h:form>

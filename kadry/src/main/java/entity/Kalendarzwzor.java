@@ -7,6 +7,8 @@ package entity;
 
 import comparator.Dziencomparator;
 import java.io.Serializable;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -192,6 +194,16 @@ public class Kalendarzwzor implements Serializable {
     public void setMc(String mc) {
         this.mc = mc;
     }
+    
+    public int getIdhash() {
+        int zwrot = 0;
+        if (this.id!=null) {
+            zwrot = this.id;
+        } else {
+            zwrot = Integer.parseInt(this.rok)+Integer.parseInt(this.mc);
+        }
+        return zwrot;
+    }
 
     public void zrobkolejnedni(Kalendarzwzor poprzedni) {
         if (poprzedni!=null) {
@@ -219,19 +231,31 @@ public class Kalendarzwzor implements Serializable {
                 } else {
                     d.setDatastring(data+licznik++);
                 }
-                if (iloscroboczych<5) {
-                    d.setTypdnia(0);
-                    d.setNormagodzin(8.0);
-                    iloscroboczych++;
-                } else if (iloscroboczych==5) {
-                    d.setTypdnia(1);
+                try {
+                       LocalDate dzienszukany = LocalDate.parse(d.getDatastring());
+                       DayOfWeek day = dzienszukany.getDayOfWeek();//numery od 1 poniedzialek do 7 niedziela
+                    int numerdnia = day.getValue();
+                    if (iloscroboczych<5) {
+                        d.setTypdnia(0);
+                        d.setNormagodzin(8.0);
+                        d.setNormagodzinwzorcowa(8.0);
+                        iloscroboczych++;
+                    } else if (iloscroboczych==5) {
+                        d.setTypdnia(1);
+                        d.setNormagodzin(0.0);
+                        d.setNormagodzinwzorcowa(0.0);
+                        iloscroboczych++;
+                    } else if (iloscroboczych==6) {
+                        d.setTypdnia(2);
+                        d.setNormagodzin(0.0);
+                        d.setNormagodzinwzorcowa(0.0);
+                        iloscroboczych=0;
+                    }
+                } catch (Exception e) {
+                    d.setTypdnia(-1);
                     d.setNormagodzin(0.0);
-                    iloscroboczych++;
-                } else if (iloscroboczych==6) {
-                    d.setTypdnia(2);
-                    d.setNormagodzin(0.0);
-                    iloscroboczych=0;
-                }
+                    d.setNormagodzinwzorcowa(0.0);
+               }
             }
         }
     }

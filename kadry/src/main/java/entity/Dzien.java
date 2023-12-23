@@ -187,11 +187,18 @@ public class Dzien implements Serializable {
             if (dayOfWeek == DayOfWeek.SATURDAY) {
                 this.typdnia = 1;
                 this.normagodzin = 0;
+                this.normagodzinwzorcowa = 0;
             } else if (dayOfWeek == DayOfWeek.SUNDAY) {
                 this.typdnia = 2;
                 this.normagodzin = 0;
+                this.normagodzinwzorcowa = 0;
             }
-        } catch (Exception e){}
+        } catch (Exception e){
+            //to jest jak bedzie np. 31. lutego
+            this.typdnia = -1;
+            this.normagodzin = 0;
+            this.normagodzinwzorcowa = 0;
+        }
         this.kalendarzwzor = kalendarzWzor;
     }
 
@@ -393,14 +400,12 @@ public class Dzien implements Serializable {
     }
 
     public String getTypdniaString() {
-        String zwrot = "błąd";
+        String zwrot = "XXX";
         try {
             LocalDate dzienszukany = LocalDate.parse(this.datastring);
             String dayOfWeek = dzienszukany.getDayOfWeek().getDisplayName(TextStyle.SHORT, new Locale("pl","PL"));
             zwrot = dayOfWeek;
             switch (typdnia) {
-                case -1:
-                    zwrot = "XXX";
                 case 1:
                     zwrot = "sobota";
                     break;
@@ -414,7 +419,9 @@ public class Dzien implements Serializable {
                     zwrot = "ekw.za św.";
                     break;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+          
+        }
         return zwrot;
     }
     
