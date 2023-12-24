@@ -46,7 +46,9 @@ public class WspolczynnikEkwiwalentFacade extends DAO  implements Serializable {
 
    public WspolczynnikEkwiwalent findbyRok(String rokWpisu) {
        WspolczynnikEkwiwalent zwrot = null;
-       zwrot = (WspolczynnikEkwiwalent) getEntityManager().createNamedQuery("WspolczynnikEkwiwalent.findbyRok").setParameter("rok", rokWpisu).getSingleResult();
+       try {
+        zwrot = (WspolczynnikEkwiwalent) getEntityManager().createNamedQuery("WspolczynnikEkwiwalent.findbyRok").setParameter("rok", rokWpisu).getSingleResult();
+       } catch (Exception ex){}
        return zwrot;
     }
 

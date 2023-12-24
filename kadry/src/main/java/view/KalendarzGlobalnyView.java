@@ -5,8 +5,11 @@
  */
 package view;
 
+import beanstesty.DataBean;
 import beanstesty.KalendarzWzorBean;
 import beanstesty.KalendarzmiesiacBean;
+import comparator.Dziencomparator;
+import dao.AngazFacade;
 import dao.DzienFacade;
 import dao.FirmaKadryFacade;
 import dao.KalendarzmiesiacFacade;
@@ -14,12 +17,16 @@ import dao.KalendarzwzorFacade;
 import dao.UmowaFacade;
 import data.Data;
 import embeddable.Mce;
+import entity.Angaz;
 import entity.Dzien;
+import entity.EtatPrac;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -51,7 +58,7 @@ public class KalendarzGlobalnyView  implements Serializable {
     @Inject
     private FirmaKadryFacade firmaFacade;
     @Inject
-    private UmowaFacade umowaFacade;
+    private AngazFacade angazFacade;
     @Inject
     private WpisView wpisView;
     private FirmaKadry firmaglobalna;
@@ -257,10 +264,27 @@ public class KalendarzGlobalnyView  implements Serializable {
     public void otworzrok() {
         if (lista.isEmpty()==false) {
             List<FirmaKadry> firmy = firmaFacade.findByBezglobal();
-            for (Kalendarzwzor globalny : lista) {
-                for (FirmaKadry firma : firmy) {
-                    globalnie(firma, globalny);
+//            for (Kalendarzwzor globalny : lista) {
+//                for (FirmaKadry firma : firmy) {
+//                    globalnie(firma, globalny);
+//                }
+//            }
+
+            for (FirmaKadry firma : firmy) {
+                System.out.println("firma :" +firma.getNazwa());
+                List<Kalendarzwzor> listakalendarzywzorcowych = kalendarzwzorFacade.findByFirmaRok(firma, rok);
+                List<Angaz> listaangazy = angazFacade.findByFirmaAktywni(firma);
+                if (listaangazy.isEmpty()==false) {
+                    System.out.println("angaze "+listaangazy.size());
                 }
+                for (Angaz angaz : listaangazy) {
+                    if (angaz.jestumowaAktywna(rok, mc)) {
+                        globalniepracownicy(angaz, listakalendarzywzorcowych);
+                    }
+                }
+                System.out.println("koeniec firma :" +firma.getNazwa());
+  
+               
             }
         }
     }
@@ -270,7 +294,7 @@ public class KalendarzGlobalnyView  implements Serializable {
                 Kalendarzwzor kal = new Kalendarzwzor();
                 kal.setRok(globalny.getRok());
                 kal.setMc(globalny.getMc());
-                kal.setFirma(wpisView.getFirma());
+                kal.setFirma(firma);
                 Kalendarzwzor kalmiesiac = kalendarzwzorFacade.findByFirmaRokMc(firma, kal.getRok(), kal.getMc());
                 if (kalmiesiac==null) {
                     if (globalny!=null) {
@@ -285,6 +309,71 @@ public class KalendarzGlobalnyView  implements Serializable {
                 }
         }
     }
+     
+    public void globalniepracownicy(Angaz nowyangaz, List<Kalendarzwzor> listakalendarzywzorcowych) {
+        for (String mc : Mce.getMceListS()) {
+            try {
+                String rokbiezacy = rok;
+                Integer kolejnymc = Integer.parseInt(mc);
+                Kalendarzmiesiac nowykalendarz = new Kalendarzmiesiac();
+                Kalendarzwzor znaleziono = pobierzwzorcowyzamc(listakalendarzywzorcowych, mc);
+                if (znaleziono != null) {
+                    nowykalendarz.setRok(rokbiezacy);
+                    nowykalendarz.setMc(mc);
+                    nowykalendarz.setAngaz(nowyangaz);
+                    kalendarzmiesiacFacade.create(nowykalendarz);
+                    List<Dzien> nowedni = ganerujdnizwzrocowego(znaleziono, nowykalendarz, nowyangaz.getEtatList());
+                    nowykalendarz.setDzienList(nowedni);
+                    dzienFacade.createList(nowedni);
+                } 
+            } catch (Exception e) {
+                break;
+            }
+        }
+    }
+    
+    private Kalendarzwzor pobierzwzorcowyzamc(List<Kalendarzwzor> listakalendarzywzorcowych, String mc) {
+        Kalendarzwzor kalendarzwzor = null;
+        for (Kalendarzwzor kalwzor : listakalendarzywzorcowych) {
+            if (kalwzor.getMc().equals(mc)) {
+                kalendarzwzor = kalwzor;
+                break;
+            }
+        }
+        return kalendarzwzor;
+    }
+    public List<Dzien> ganerujdnizwzrocowego(Kalendarzwzor kalendarzwzor, Kalendarzmiesiac nowykalendarz, List<EtatPrac> etaty) {
+        List<Dzien> dzienListWzor = kalendarzwzor.getDzienList();
+        Collections.sort(dzienListWzor, new Dziencomparator());
+        int start = 0;
+        List<Dzien> nowedni = new ArrayList<>();
+        for (int i = 0; i < dzienListWzor.size(); i++) {
+            Dzien dzienwzor = dzienListWzor.get(i);
+            EtatPrac etat = pobierzetat(etaty, dzienwzor);
+            Dzien dzien = new Dzien(dzienwzor, nowykalendarz, etat);
+            if (dzien.getNrdnia()<start) {
+                dzien.setPrzepracowano(0);
+            }
+            nowedni.add(dzien);
+        }
+        return nowedni;
+    }
+    
+    private EtatPrac pobierzetat(List<EtatPrac> etaty, Dzien dzienwzor) {
+        String datadnia = dzienwzor.getDatastring();
+        EtatPrac zwrot = null;
+        if (etaty!=null) {
+            for (EtatPrac e : etaty) {
+                boolean czysiemiesci = DataBean.czysiemiescidzien(datadnia, e.getDataod(), e.getDatado());
+                if (czysiemiesci) {
+                    zwrot = e;
+                    break;
+                }
+            }
+        }
+        return zwrot;
+    }
+   
     
     public Kalendarzwzor getSelected() {
         return selected;
@@ -348,6 +437,8 @@ public class KalendarzGlobalnyView  implements Serializable {
             kalendarzwzorFacade.edit(p);
         }
     }
+
+    
     
     
 }
