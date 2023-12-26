@@ -59,4 +59,8 @@ public class DeklaracjaPIT11SchowekFacade extends DAO  implements Serializable {
      public List<DeklaracjaPIT11Schowek> findByRokFirma(String rok, FirmaKadry firma) {
         return getEntityManager().createNamedQuery("DeklaracjaPIT11Schowek.findByRokFirma").setParameter("rok", rok).setParameter("firma", firma).getResultList();
     }
+     
+     public List<DeklaracjaPIT11Schowek> findByRok(String rok) {
+        return getEntityManager().createNamedQuery("DeklaracjaPIT11Schowek.findByRok").setParameter("rok", rok).getResultList();
+    }
 }

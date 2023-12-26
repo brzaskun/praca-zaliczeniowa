@@ -1,0 +1,74 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    >
+
+    <p:tab title="PIT-11 globalnie">
+        <p:outputPanel>
+            <h:form id="wystawionepit11zbiorczo"  styleClass="formpit11">
+                <p:outputPanel style="padding: 10px;">
+                    <p:commandButton styleClass="buttonnorm" value="pobierz" actionListener="#{pit11PodsumowanieView.pobierz}" update="@form"/>
+                </p:outputPanel>
+                <p:panelGrid columns="6" style="width: 400px;padding: 10px;">
+                    <h:outputText value="pracowników"/>
+                    <h:outputText value="#{pit11PodsumowanieView.angaze}"/>
+                    <h:outputText value="pity zrobione"/>
+                    <h:outputText value="#{pit11PodsumowanieView.pity}" style="color: green;"/>
+                    <h:outputText value="do zrobienia"/>
+                    <h:outputText value="#{pit11PodsumowanieView.pozostalo}" style="color: blue;"/>
+                </p:panelGrid>
+                <p:dataTable id="datalistwa" value="#{pit11PodsumowanieView.firmapitilosclist}" var="itempity22"
+                             rowKey="#{itempity22.id}" rowIndexVar="indexpity11" 
+                             style="height: 550px; width: 700px; overflow-y:scroll;" emptyMessage="Nie pobrano danych"
+                             filteredValue="#{pit11PodsumowanieView.firmapitilosclistfilter}"
+                             >
+                    <p:ajax event="filter" global="false"/>
+                    <f:facet name="header">
+                        <h:outputText value="Wygegnerowane deklaracje PIT-11"/>
+                    </f:facet>
+                    <!--                    <p:column width="40" selectionMode="multiple" selectRow="true" style="text-align: center;"/>-->
+                    <p:column width="20" style="text-align: center;">
+                        <h:outputText value="#{indexpity11+1}"/>
+                    </p:column>
+                    <p:column style="text-align: left;" sortBy="#{itempity22.firma.nazwa}" sortable="true" sortOrder="asc" filterable="true" 
+
+                              filterBy="#{itempity22.firma.nazwa}" filterMatchMode="contains" >
+                        <f:facet name="header">
+                            <h:outputText value="firma"/>
+                        </f:facet>
+                        <h:outputText value="#{itempity22.firma.nazwa}" rendered="#{itempity22.pozostalo gt 0}"/>
+                        <h:outputText value="#{itempity22.firma.nazwa}" rendered="#{itempity22.pozostalo eq 0}" style="color: lightgray;"/>
+                    </p:column>
+                    <p:column width="50" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="angaże"/>
+                        </f:facet>
+                        <h:outputText value="#{itempity22.iloscangazy}" rendered="#{itempity22.iloscangazy gt 0}"/>
+                        <h:outputText value="#{itempity22.iloscangazy}" rendered="#{itempity22.iloscangazy eq 0}" style="color: lightgray;"/>
+                    </p:column>
+                    <p:column width="50" style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="pity zrobione"/>
+                        </f:facet>
+                        <h:outputText value="#{itempity22.iloscpit}" rendered="#{itempity22.iloscpit gt 0}"/>
+                        <h:outputText value="#{itempity22.iloscpit}" rendered="#{itempity22.iloscpit eq 0}" style="color: lightgray;"/>
+                    </p:column>
+                    <p:column width="50" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="pozostało"/>
+                        </f:facet>
+                        <h:outputText value="#{itempity22.pozostalo}" rendered="#{itempity22.pozostalo gt 0}" style="color: blue;"/>
+                        <h:outputText value="#{itempity22.pozostalo}" rendered="#{itempity22.pozostalo eq 0}" style="color: lightgray;"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:outputPanel>
+    </p:tab>
+
+</ui:composition>
+
+

@@ -35,6 +35,7 @@ import javax.validation.constraints.Size;
 @Table(name = "deklaracjapit11schowek")
 @NamedQueries({
     @NamedQuery(name = "DeklaracjaPIT11Schowek.findByRokPracownik", query = "SELECT r FROM DeklaracjaPIT11Schowek r WHERE r.rok = :rok AND r.pracownik = :pracownik"),
+    @NamedQuery(name = "DeklaracjaPIT11Schowek.findByRok", query = "SELECT r FROM DeklaracjaPIT11Schowek r WHERE r.rok = :rok"),
     @NamedQuery(name = "DeklaracjaPIT11Schowek.findByRokFirmaPracownik", query = "SELECT r FROM DeklaracjaPIT11Schowek r WHERE r.rok = :rok AND r.pracownik = :pracownik AND r.firma = :firma"),
     @NamedQuery(name = "DeklaracjaPIT11Schowek.findByRokFirma", query = "SELECT r FROM DeklaracjaPIT11Schowek r WHERE r.rok = :rok AND r.firma = :firma")
 })
