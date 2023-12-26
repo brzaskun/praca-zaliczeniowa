@@ -136,8 +136,12 @@ public class Angaz implements Serializable {
     private List<Rejestrurlopow> rejestrurlopowList;
     @Column(name = "student")
     private  boolean student;
+    @Size(min = 4,max = 4)
     @Column(name = "przekroczenierok")
     private String przekroczenierok;
+    @Size(min = 2,max = 2)
+    @Column(name = "przekroczeniemc")
+    private String przekroczeniemc;
     @Column(name = "bourlopdni")
     private int bourlopdni;
     @Column(name = "bourlopgodziny")
@@ -228,6 +232,15 @@ public class Angaz implements Serializable {
         this.przekroczenierok = przekroczenierok;
     }
 
+    public String getPrzekroczeniemc() {
+        return przekroczeniemc;
+    }
+
+    public void setPrzekroczeniemc(String przekroczeniemc) {
+        this.przekroczeniemc = przekroczeniemc;
+    }
+
+    
     public int getBourlopdni() {
         return bourlopdni;
     }
@@ -252,9 +265,22 @@ public class Angaz implements Serializable {
         this.stazList = stazList;
     }
 
-   
+   public String getStudentsymbol(){
+        String zwrot = "";
+        if (this.student) {
+            zwrot = "✔";
+        }
+        return zwrot;
+    }
     
-
+    public String getUlgasymbol(){
+        String zwrot = "";
+        if (this.student) {
+            zwrot = "✔";
+        }
+        return zwrot;
+    }
+    
 
     @XmlTransient
     public List<Umowa> getUmowaList() {

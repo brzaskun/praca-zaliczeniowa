@@ -582,21 +582,25 @@ public class AngazView  implements Serializable {
     public void zapiszangaz() {
         if (selectedlista!=null) {
             if (selectedlista.getId()!=null) {
-                if (selectedlista.getKosztyuzyskaniaprocent()>100) {
-                    selectedlista.setKosztyuzyskania0podwyzszone(true);
+                if (selectedlista.getPrzekroczenierok()!=null&&selectedlista.getPrzekroczeniemc()==null) {
+                    Msg.msg("e","Proszę uzupełnić miesiąc przekroczenia");
                 } else {
-                    selectedlista.setKosztyuzyskania0podwyzszone(false);
+                    if (selectedlista.getKosztyuzyskaniaprocent()>100) {
+                        selectedlista.setKosztyuzyskania0podwyzszone(true);
+                    } else {
+                        selectedlista.setKosztyuzyskania0podwyzszone(false);
+                    }
+                    if (selectedlista.getKwotawolnaprocent()>0) {
+                        selectedlista.setOdliczaculgepodatkowa(true);
+                    } else {
+                        selectedlista.setOdliczaculgepodatkowa(false);
+                    }
+                    pracownikFacade.edit(selectedlista);
+                    if (selectedlista.equals(wpisView.getAngaz())) {
+                        wpisView.setAngaz(selectedlista);
+                    }
+                    Msg.msg("Zaktualizowano danepracownika");
                 }
-                if (selectedlista.getKwotawolnaprocent()>0) {
-                    selectedlista.setOdliczaculgepodatkowa(true);
-                } else {
-                    selectedlista.setOdliczaculgepodatkowa(false);
-                }
-                pracownikFacade.edit(selectedlista);
-                if (selectedlista.equals(wpisView.getAngaz())) {
-                    wpisView.setAngaz(selectedlista);
-                }
-                Msg.msg("Zaktualizowano danepracownika");
             }
         } else {
             Msg.msg("e","Nie wybrano angażu do edycji");
@@ -647,6 +651,8 @@ public class AngazView  implements Serializable {
             Msg.dP();
         }
     }
+    
+     
     
     public Angaz getSelected() {
         return selected;

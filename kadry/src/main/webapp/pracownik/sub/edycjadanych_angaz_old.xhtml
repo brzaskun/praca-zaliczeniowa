@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:panelGrid columns="1" columnClasses="twenty-percent, eighty-percent" style="height: 300px;width: 1700px;">
+     <p:panelGrid columns="1" columnClasses="twenty-percent, eighty-percent" style="height: 300px;width: 1700px;">
         <p:outputPanel style="height: 250px">
             <h:form id="AngazCreateForm" styleClass="formangaz">
                 <h:panelGroup id="display">
@@ -34,56 +34,56 @@
                                 </h:panelGrid>
                             </f:facet>
                         </p:autoComplete>
-                        <p:outputLabel value="rok" for="rok" />
-                        <p:inputText id="rok" value="#{angazView.selected.rok}" title="rok angażu" >
-                            <p:ajax event="blur" listener="#{angazView.sprawdzrok()}" update="@this"/>
-                        </p:inputText>
-                        <p:outputLabel value="miesiąc angażu" for="mc" />
+                         <p:outputLabel value="rok" for="rok" />
+                            <p:inputText id="rok" value="#{angazView.selected.rok}" title="rok angażu" >
+                                <p:ajax event="blur" listener="#{angazView.sprawdzrok()}" update="@this"/>
+                            </p:inputText>
+                            <p:outputLabel value="miesiąc angażu" for="mc" />
                         <p:selectOneMenu id="mc" value="#{angazView.selected.mc}"  style="width: 100px;">
-                            <f:selectItems value="#{mce.mceList}"/>
-                            <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"  listener="#{updateClassView.updateUmowa()}"/>
-                        </p:selectOneMenu>
+                                <f:selectItems value="#{mce.mceList}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"  listener="#{updateClassView.updateUmowa()}"/>
+                            </p:selectOneMenu>
                     </p:panelGrid>
-
-                    <!--                    <p:panel header="Podatki"/>
-                                    <p:panelGrid columns="2" rendered="#{angazView.lista != null}">
-                                          <p:outputLabel value="#{bundle.CreatePodatekLabel_odliczaculgepodatkowa}" for="odliczaculgepodatkowa" />
-                                          <p:selectBooleanCheckbox id="odliczaculgepodatkowa" value="#{angazView.selected.podatek.odliczaculgepodatkowa}" />
-                                          <p:outputLabel value="#{bundle.CreatePodatekLabel_kosztyuzyskania}" for="kosztyuzyskania" />
-                                          <p:inputNumber id="kosztyuzyskania" value="#{angazView.selected.podatek.kosztyuzyskania}" title="#{bundle.CreatePodatekTitle_kosztyuzyskania}" required="true" requiredMessage="#{bundle.CreatePodatekRequiredMessage_kosztyuzyskania}"
-                                                         decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator=","/>
-                                      </p:panelGrid>
-                                      <p:panel header="ZUS"/>
-                                      <p:panelGrid columns="2" rendered="#{angazView.selected != null}">
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_kodubezpieczenia}" for="kodubezpieczenia" />
-                                          <p:inputText id="kodubezpieczenia" value="#{angazView.selected.ubezpieczenie.kodubezpieczenia}" title="#{bundle.CreateUbezpieczenieTitle_kodubezpieczenia}" required="true" requiredMessage="#{bundle.CreateUbezpieczenieRequiredMessage_kodubezpieczenia}"/>
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_kodzawodu}" for="kodzawodu" />
-                                          <p:inputText id="kodzawodu" value="#{angazView.selected.ubezpieczenie.kodzawodu}" title="#{bundle.CreateUbezpieczenieTitle_kodzawodu}" required="true" requiredMessage="#{bundle.CreateUbezpieczenieRequiredMessage_kodzawodu}"/>
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_nfz}" for="nfz" />
-                                          <p:inputText id="nfz" value="#{angazView.selected.ubezpieczenie.nfz}" title="#{bundle.CreateUbezpieczenieTitle_nfz}" />
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_datanfz}" for="datanfz" />
-                                          <p:inputText id="datanfz" value="#{angazView.selected.ubezpieczenie.datanfz}" title="#{bundle.CreateUbezpieczenieTitle_datanfz}" />
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_dataspoleczne}" for="dataspoleczne" />
-                                          <p:inputText id="dataspoleczne" value="#{angazView.selected.ubezpieczenie.dataspoleczne}" title="#{bundle.CreateUbezpieczenieTitle_dataspoleczne}" />
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_datazdrowotne}" for="datazdrowotne" />
-                                          <p:inputText id="datazdrowotne" value="#{angazView.selected.ubezpieczenie.datazdrowotne}" title="#{bundle.CreateUbezpieczenieTitle_datazdrowotne}" />
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_emerytalne}" for="emerytalne" />
-                                          <p:selectBooleanCheckbox id="emerytalne" value="#{angazView.selected.ubezpieczenie.emerytalne}" />
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_rentowe}" for="rentowe" />
-                                          <p:selectBooleanCheckbox id="rentowe" value="#{angazView.selected.ubezpieczenie.rentowe}" />
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_chorobowe}" for="chorobowe" />
-                                          <p:selectBooleanCheckbox id="chorobowe" value="#{angazView.selected.ubezpieczenie.chorobowe}" />
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_chorobowedobrowolne}" for="chorobowedobrowolne" />
-                                          <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{angazView.selected.ubezpieczenie.chorobowedobrowolne}" />
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_wypadkowe}" for="wypadkowe" />
-                                          <p:selectBooleanCheckbox id="wypadkowe" value="#{angazView.selected.ubezpieczenie.wypadkowe}" />
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_zdrowotne}" for="zdrowotne" />
-                                          <p:selectBooleanCheckbox id="zdrowotne" value="#{angazView.selected.ubezpieczenie.zdrowotne}" />
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_nieliczFP}" for="nieliczFP" />
-                                          <p:selectBooleanCheckbox id="nieliczFP" value="#{angazView.selected.ubezpieczenie.nieliczFP}" />
-                                          <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_nieliczFGSP}" for="nieliczFGSP" />
-                                          <p:selectBooleanCheckbox id="nieliczFGSP" value="#{angazView.selected.ubezpieczenie.nieliczFGSP}" />
-                                      </p:panelGrid>-->
+          
+  <!--                    <p:panel header="Podatki"/>
+                  <p:panelGrid columns="2" rendered="#{angazView.lista != null}">
+                        <p:outputLabel value="#{bundle.CreatePodatekLabel_odliczaculgepodatkowa}" for="odliczaculgepodatkowa" />
+                        <p:selectBooleanCheckbox id="odliczaculgepodatkowa" value="#{angazView.selected.podatek.odliczaculgepodatkowa}" />
+                        <p:outputLabel value="#{bundle.CreatePodatekLabel_kosztyuzyskania}" for="kosztyuzyskania" />
+                        <p:inputNumber id="kosztyuzyskania" value="#{angazView.selected.podatek.kosztyuzyskania}" title="#{bundle.CreatePodatekTitle_kosztyuzyskania}" required="true" requiredMessage="#{bundle.CreatePodatekRequiredMessage_kosztyuzyskania}"
+                                       decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator=","/>
+                    </p:panelGrid>
+                    <p:panel header="ZUS"/>
+                    <p:panelGrid columns="2" rendered="#{angazView.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_kodubezpieczenia}" for="kodubezpieczenia" />
+                        <p:inputText id="kodubezpieczenia" value="#{angazView.selected.ubezpieczenie.kodubezpieczenia}" title="#{bundle.CreateUbezpieczenieTitle_kodubezpieczenia}" required="true" requiredMessage="#{bundle.CreateUbezpieczenieRequiredMessage_kodubezpieczenia}"/>
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_kodzawodu}" for="kodzawodu" />
+                        <p:inputText id="kodzawodu" value="#{angazView.selected.ubezpieczenie.kodzawodu}" title="#{bundle.CreateUbezpieczenieTitle_kodzawodu}" required="true" requiredMessage="#{bundle.CreateUbezpieczenieRequiredMessage_kodzawodu}"/>
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_nfz}" for="nfz" />
+                        <p:inputText id="nfz" value="#{angazView.selected.ubezpieczenie.nfz}" title="#{bundle.CreateUbezpieczenieTitle_nfz}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_datanfz}" for="datanfz" />
+                        <p:inputText id="datanfz" value="#{angazView.selected.ubezpieczenie.datanfz}" title="#{bundle.CreateUbezpieczenieTitle_datanfz}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_dataspoleczne}" for="dataspoleczne" />
+                        <p:inputText id="dataspoleczne" value="#{angazView.selected.ubezpieczenie.dataspoleczne}" title="#{bundle.CreateUbezpieczenieTitle_dataspoleczne}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_datazdrowotne}" for="datazdrowotne" />
+                        <p:inputText id="datazdrowotne" value="#{angazView.selected.ubezpieczenie.datazdrowotne}" title="#{bundle.CreateUbezpieczenieTitle_datazdrowotne}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_emerytalne}" for="emerytalne" />
+                        <p:selectBooleanCheckbox id="emerytalne" value="#{angazView.selected.ubezpieczenie.emerytalne}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_rentowe}" for="rentowe" />
+                        <p:selectBooleanCheckbox id="rentowe" value="#{angazView.selected.ubezpieczenie.rentowe}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_chorobowe}" for="chorobowe" />
+                        <p:selectBooleanCheckbox id="chorobowe" value="#{angazView.selected.ubezpieczenie.chorobowe}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_chorobowedobrowolne}" for="chorobowedobrowolne" />
+                        <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{angazView.selected.ubezpieczenie.chorobowedobrowolne}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_wypadkowe}" for="wypadkowe" />
+                        <p:selectBooleanCheckbox id="wypadkowe" value="#{angazView.selected.ubezpieczenie.wypadkowe}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_zdrowotne}" for="zdrowotne" />
+                        <p:selectBooleanCheckbox id="zdrowotne" value="#{angazView.selected.ubezpieczenie.zdrowotne}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_nieliczFP}" for="nieliczFP" />
+                        <p:selectBooleanCheckbox id="nieliczFP" value="#{angazView.selected.ubezpieczenie.nieliczFP}" />
+                        <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_nieliczFGSP}" for="nieliczFGSP" />
+                        <p:selectBooleanCheckbox id="nieliczFGSP" value="#{angazView.selected.ubezpieczenie.nieliczFGSP}" />
+                    </p:panelGrid>-->
                     <p:commandButton styleClass="buttonnorm" actionListener="#{angazView.create}" value="dodaj" update="display,@(form)" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="AngazCreateDialog.hide()"/>
                     <p:messages><p:autoUpdate/></p:messages>
@@ -91,14 +91,14 @@
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
-            <h:form id="AngazListForm" styleClass="formangaz">
-                <p:panel header="Wykaz angażów w firmie #{wpisView.firma.nazwa}">
+             <h:form id="AngazListForm" styleClass="formangaz">
+                 <p:panel header="Wykaz angażów w firmie #{wpisView.firma.nazwa}">
                     <p:dataTable id="datalist" value="#{angazView.lista}" var="itemAngaz"
                                  selectionMode="single" selection="#{angazView.selectedlista}"
                                  rowKey="#{itemAngaz.id}"  sortBy="#{itemAngaz.pracownik.nazwisko}"
-                                 style="overflow-y: scroll;"
-                                 rowsPerPageTemplate="10,50,150,500" paginatorPosition="top" paginator="true" rows="10"
-                                 emptyMessage="Nie ma angażów w firmie"
+                                style="overflow-y: scroll;"
+                                rowsPerPageTemplate="10,50,150,500" paginatorPosition="top" paginator="true" rows="10"
+                                emptyMessage="Nie ma angażów w firmie"
                                  >
                         <p:ajax event="rowSelect" partialSubmit="true" global="false" update="north Angazeditform"/>
                         <p:column width="40" style="text-align: center;">
@@ -121,37 +121,29 @@
                                 <f:convertDateTime locale="pl" type="date" pattern="yyyy-MM-dd"/>
                             </h:outputText>
                         </p:column>
-                        <!--                        <p:column width="40" style="text-align: center;">
-                                                    <f:facet name="header">
-                                                        <h:outputText value="serial"/>
-                                                    </f:facet>
-                                                    <h:outputText value="#{itemAngaz.serialsp}"/>
-                                                </p:column>-->
+<!--                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="serial"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.serialsp}"/>
+                        </p:column>-->
                         <p:column  sortBy="#{itemAngaz.pracownik.nazwiskoImie}" sortOrder="asc" filterBy="#{itemAngaz.pracownik.nazwiskoImie}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="pracownik"/>
                             </f:facet>
                             <h:outputText value="#{itemAngaz.pracownik.nazwiskoImie}"/>
                         </p:column>
-                        <p:column filterBy="#{itemAngaz.pracownik.pesel}" filterMatchMode="startsWith" style="text-align: center;">
+                         <p:column filterBy="#{itemAngaz.pracownik.pesel}" filterMatchMode="startsWith" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="Pesel"/>
                             </f:facet>
                             <h:outputText value="#{itemAngaz.pracownik.pesel}"/>
                         </p:column>
-                        <p:column width="80" filterBy="#{itemAngaz.przekroczenierok}" filterMatchMode="contains" style="text-align: center;">
+                        <p:column width="70" filterBy="#{itemAngaz.przekroczenierok}" filterMatchMode="contains" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="rok przekroczenie"/>
                             </f:facet>
                             <p:inputText value="#{itemAngaz.przekroczenierok}" size="6" maxlength="4">
-                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.edytuj(itemAngaz)}"/>
-                            </p:inputText>
-                        </p:column>
-                         <p:column width="80" filterBy="#{itemAngaz.przekroczeniemc}" filterMatchMode="contains" style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="mc przekroczenie"/>
-                            </f:facet>
-                            <p:inputText value="#{itemAngaz.przekroczeniemc}" size="6" maxlength="4">
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.edytuj(itemAngaz)}"/>
                             </p:inputText>
                         </p:column>
@@ -161,19 +153,37 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.stazurlop}"/>
                         </p:column>
-                        <p:column width="40" style="text-align: center;" sortBy="#{itemAngaz.student}">
+                         <p:column width="200" filterBy="#{itemAngaz.pracownik.email}" filterMatchMode="contains">
                             <f:facet name="header">
-                                <h:outputText value="student"/>
+                                <h:outputText value="email"/>
                             </f:facet>
-                            <h:outputText value="#{itemAngaz.studentsymbol}"/>
+                             <p:inputText value="#{itemAngaz.pracownik.email}" size="50">
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{pracownikView.edytuj(itemAngaz.pracownik)}"/>
+                            </p:inputText>
                         </p:column>
-                        <p:column width="40" style="text-align: center;" sortBy="#{itemAngaz.odliczaculgepodatkowa}">
+<!--                        <p:column style="text-align: center;" filterBy="#{itemAngaz.pracownik.telefon}" filterMatchMode="contains">
                             <f:facet name="header">
-                                <h:outputText value="ulga pod."/>
+                                <h:outputText value="telefon"/>
                             </f:facet>
-                            <h:outputText value="#{itemAngaz.ulgasymbol}"/>
+                            <p:inputText value="#{itemAngaz.pracownik.telefon}">
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{pracownikView.edytuj(itemAngaz.pracownik)}"/>
+                            </p:inputText>
+                        </p:column>-->
+                        <p:column width="40" style="text-align: center;" sortBy="#{itemAngaz.pracownik.fikcyjnymailsymbol}">
+                            <f:facet name="header">
+                                <h:outputText value="fikcyjnyu mail"/>
+                            </f:facet>
+                             <h:outputText value="#{itemAngaz.pracownik.fikcyjnymailsymbol}"/>
                         </p:column>
-                        <p:column style="text-align: left;">
+                        <p:column width="70" filterBy="#{itemAngaz.pracownik.datalogowania}" filterMatchMode="startsWith">
+                            <f:facet name="header">
+                                <h:outputText value="logowanie"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.pracownik.datalogowania}">
+                                <f:convertDateTime dateStyle="medium" locale="pl"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="zmienił"/>
                             </f:facet>
@@ -183,9 +193,9 @@
                             <f:facet name="header">
                                 <h:outputText value="ukryj"/>
                             </f:facet>
-                            <p:selectBooleanCheckbox value="#{itemAngaz.ukryj}">
-                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.edytuj(itemAngaz)}"/>
-                            </p:selectBooleanCheckbox>
+                             <p:selectBooleanCheckbox value="#{itemAngaz.ukryj}">
+                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.edytuj(itemAngaz)}"/>
+                             </p:selectBooleanCheckbox>
                         </p:column>
                         <p:column width="30">
                             <f:facet name="header">
@@ -193,7 +203,7 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.rok}"/>
                         </p:column>
-                        <p:column width="20">
+                         <p:column width="20">
                             <f:facet name="header">
                                 <h:outputText value="mc"/>
                             </f:facet>
@@ -207,10 +217,10 @@
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.zapisz(itemAngaz.pracownik)}"/>
                             </p:selectBooleanCheckbox>
                         </p:column>-->
-                        <!--                        <p:column headerText="mail"  width="40" style="text-align: center;">
-                                                    <p:commandButton icon="pi pi-file-text" actionListener="#{angazView.mail(itemAngaz.pracownik)}"/>
-                                                </p:column>-->
-                        <p:column width="40" style="text-align: center;">
+                        <p:column headerText="mail"  width="40" style="text-align: center;">
+                            <p:commandButton icon="pi pi-file-text" actionListener="#{angazView.mail(itemAngaz.pracownik)}"/>
+                        </p:column>
+                          <p:column width="40" style="text-align: center;">
                             <p:commandButton icon="pi pi-trash" actionListener="#{angazView.usun(itemAngaz)}" update="north AngazListForm">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć angaż pracownika?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
@@ -236,18 +246,18 @@
                         <p:selectBooleanCheckbox id="student" value="#{angazView.selectedlista.student}"/>
                         <h:outputText value="czy to nierezydent" />
                         <h:outputText value="tę informację uzupełniamy na poziomie pracownika"/>
-                        <!--                        <p:selectBooleanCheckbox id="nierezydent" value="{angazView.selectedlista.nierezydent}"/>-->
+<!--                        <p:selectBooleanCheckbox id="nierezydent" value="{angazView.selectedlista.nierezydent}"/>-->
                     </p:panelGrid>
                 </p:outputPanel>
                 <p:commandButton value="zapisz" actionListener="#{angazView.zapiszangaz()}" styleClass="buttonnorm" update="@form"/>
             </h:form>
-            <!--            <h:form>
-                            <p:outputPanel style="padding: 20px;">
-                                <p:commandButton value="Usuń wszystko" actionListener="#{angazView.usunwszystkie()}" styleClass="buttonnorm" update="@form AngazListForm" style="margin-left: 1200px;">
-                                        <p:confirm type="popup" header="Potwierdzenie" message="Usunąć wszystkie angaże?" icon="pi pi-exclamation-triangle"/>
-                                    </p:commandButton>
-                            </p:outputPanel>
-                        </h:form>-->
+<!--            <h:form>
+                <p:outputPanel style="padding: 20px;">
+                    <p:commandButton value="Usuń wszystko" actionListener="#{angazView.usunwszystkie()}" styleClass="buttonnorm" update="@form AngazListForm" style="margin-left: 1200px;">
+                            <p:confirm type="popup" header="Potwierdzenie" message="Usunąć wszystkie angaże?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                </p:outputPanel>
+            </h:form>-->
         </p:outputPanel>
-    </p:panelGrid>
+     </p:panelGrid>
 </ui:composition>
