@@ -77,6 +77,9 @@ public class FirmaKadry implements Serializable {
     @Column(name = "email")
     private String email;
     @Size(max = 128)
+    @Column(name = "emaillp")
+    private String emaillp;
+    @Size(max = 128)
     @Column(name = "telefon")
     private String telefon;
     @Size(max = 128)
@@ -336,6 +339,14 @@ public class FirmaKadry implements Serializable {
 
     public void setOsobafizyczna(boolean osobafizyczna) {
         this.osobafizyczna = osobafizyczna;
+    }
+
+    public String getEmaillp() {
+        return emaillp;
+    }
+
+    public void setEmaillp(String emaillp) {
+        this.emaillp = emaillp;
     }
 
     public String getKodurzeduskarbowego() {

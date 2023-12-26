@@ -394,7 +394,7 @@ public class PasekwynagrodzenView implements Serializable {
                     double sumabruttoopodatkowanapoprzednich = PasekwynagrodzenBean.sumabruttopolskaopodpopmce(pasekwynagrodzenFacade, rokwyplaty, mcwyplaty,  angaz);
                     Wynagrodzenieminimalne wynagrodzenieminimalne = pobierzwynagrodzenieminimalne(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc());
                     //zeby nei odoliczyc kwoty wolnej dwa razy
-                    boolean czyodlicoznokwotewolna = PasekwynagrodzenBean.czyodliczonokwotewolna(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc(), angaz, pasekwynagrodzenFacade);
+                    double odliczonajuzkwotawolna = PasekwynagrodzenBean.czyodliczonokwotewolna(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc(), angaz, pasekwynagrodzenFacade);
                     double limitzus = 0.0;
                     OddelegowanieZUSLimit oddelegowanieZUSLimit = oddelegowanieZUSLimitFacade.findbyRok(Data.getRok(datawyplaty));
                     if (oddelegowanieZUSLimit != null) {
@@ -412,7 +412,7 @@ public class PasekwynagrodzenView implements Serializable {
                     }
                     try {
                         Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(kalendarzpracownikaLP, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, 
-                                wynagrodzenieminimalne, czyodlicoznokwotewolna,
+                                wynagrodzenieminimalne, odliczonajuzkwotawolna,
                                 kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, kalendarzwzor, definicjadlazasilkow, sumabruttoopodatkowanapoprzednich);
                         usunpasekjakzawiera(pasek);
                         pasek.setSporzadzil(wpisView.getUzer().getImieNazwisko());
@@ -577,7 +577,8 @@ public class PasekwynagrodzenView implements Serializable {
             findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
             String nrpoprawny = wybranalistaplac.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
             String nazwa = wybranalistaplac.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
-            mail.Mail.mailListaPlac(wpisView.getFirma(), pasek.getRok(), pasek.getMc(), wpisView.getFirma().getEmail(), null, findSprawaByDef, drukujlistaplac, drukujrachunki, nazwa, wpisView.getUzer().getEmail());
+            mail.Mail.mailListaPlac(wpisView.getFirma(), pasek.getRok(), pasek.getMc(), wpisView.getFirma().getEmail(), wpisView.getFirma().getEmaillp(), 
+                    null, findSprawaByDef, drukujlistaplac, drukujrachunki, nazwa, wpisView.getUzer().getEmail());
             Msg.msg("Wysłano listę płac do pracodawcy");
             for (Pasekwynagrodzen p :lista) {
                 p.setDatawysylki(Data.aktualnaData());

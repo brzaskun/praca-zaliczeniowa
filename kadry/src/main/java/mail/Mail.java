@@ -274,14 +274,18 @@ public class Mail {
     }
     
     
-    public static void mailListaPlac(FirmaKadry firma, String rok, String mc, String adres, SMTPSettings settings,SMTPSettings ogolne, ByteArrayOutputStream listaplac, ByteArrayOutputStream rachunki, String nazwapliku, String adresBCC)  {
+    public static void mailListaPlac(FirmaKadry firma, String rok, String mc, String adresemail, String adresemaillista, SMTPSettings settings,SMTPSettings ogolne, ByteArrayOutputStream listaplac, ByteArrayOutputStream rachunki, String nazwapliku, String adresBCC)  {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(adres));
+                    InternetAddress.parse(adresemail));
+            String adresybcc = adresBCC;
+            if (adresemaillista!=null) {
+                adresybcc = adresybcc+","+adresemaillista;
+            }
             message.setRecipients(Message.RecipientType.BCC,
-                    InternetAddress.parse(adresBCC));
+                    InternetAddress.parse(adresybcc));
             MimeBodyPart mbp1 = new MimeBodyPart();
             String temat = "Lista płac "+firma.getNazwa()+" za "+rok+"/"+mc;
             message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));

@@ -41,6 +41,7 @@
                     <p:inputText id="email" value="#{firmaImportView.selected.email}" title="email" required="true" requiredMessage="Wpisz email">
 <!--                       <p:ajax event="blur" listener="#{firmaImportView.sprawdzmail}" partialSubmit="true"/>-->
                     </p:inputText>
+
                     <p:outputLabel value="login" for="login" />
                     <p:inputText id="login" value="#{firmaImportView.selected.loginfirmy}" title="login firmy" required="true" requiredMessage="Wpisz login firmy">
                         <p:ajax event="blur" listener="#{firmaImportView.sprawdzmail}" partialSubmit="true"/>
@@ -182,11 +183,13 @@
                         <p:outputLabel value="telefon kont." for="tel" />
                         <p:inputText id="tel" value="#{firmaImportView.selectedlista.telefon}" title="telefon" required="true" requiredMessage="Wpisz nr telefonu" size="32"/>
                         <p:outputLabel value="adres email" for="email" />
-                        <p:inputText id="email" value="#{firmaImportView.selectedlista.email}" title="email" required="true" requiredMessage="Wpisz adres email" size="32"/>
+                        <p:inputText id="email" value="#{firmaImportView.selectedlista.email}" title="email" required="true" requiredMessage="Wpisz adres email" size="64"/>
+                        <p:outputLabel value="adres email do listy płac" for="emaillp" />
+                        <p:inputText id="emaillp" value="#{firmaImportView.selectedlista.emaillp}" title="email do listy płac" size="64"/>
                          <p:outputLabel value="urząd skarbowy" for="urzad" />
                         <p:autoComplete id="urzad" completeMethod="#{tKodUS.complete}" value="#{firmaImportView.selectedlista.nazwaurzeduskarbowego}"
                                     forceSelection="true" maxResults="15" size="250"  minQueryLength="3" effect="clip" var="p"
-                                    itemLabel="#{p}" itemValue="#{p}" inputStyle="width:400px;">
+                                    itemLabel="#{p}" itemValue="#{p}" inputStyle="width:400px;" required="true">
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                 <f:facet name="header">  
