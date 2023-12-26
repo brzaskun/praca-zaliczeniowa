@@ -116,6 +116,7 @@ public class NieobecnoscView  implements Serializable {
     private boolean naniesbezposrednio;
     private Nieobecnoscprezentacja urlopprezentacja;
     private boolean dialogOtwarty;
+     private boolean dialogOtwartyzbiorcze;
     
     public void open() {
         dialogOtwarty = true;
@@ -124,10 +125,20 @@ public class NieobecnoscView  implements Serializable {
         dialogOtwarty = false;
     }
     
+    public void open1() {
+        dialogOtwartyzbiorcze = true;
+    }
+    public void close1() {
+        dialogOtwartyzbiorcze = false;
+    }
+    
     public void reloadDialog() {
         boolean zwrot = false;
         if (dialogOtwarty) {
             init();
+        }
+        if (dialogOtwartyzbiorcze) {
+            initzbiorcze();
         }
     }
 

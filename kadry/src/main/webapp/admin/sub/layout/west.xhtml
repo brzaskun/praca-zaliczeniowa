@@ -25,7 +25,8 @@
                     </p:column>
                 </p:dataTable>-->
                 <p:selectOneListbox value="#{firmaView.selectedeast}" filter="true" filterMatchMode="contains" converter="#{firmaKadryConverter}" scrollHeight="350" style="width: 90%;">
-                    <p:ajax event="change" listener="#{angazView.aktywujPracAngaze(firmaView.selectedeast)}" partialSubmit="true" global="true" update="north @(.formadmin) @(.formadminwest)"/>
+                    <p:ajax event="change" listener="#{angazView.aktywujPracAngaze(firmaView.selectedeast)}" partialSubmit="true" 
+                            global="true" update="north @(.formadmin) @(.formadminwest)"/>
                     <f:selectItems value="#{firmaView.lista}" var="p" itemLabel="#{p.nazwa}" itemValue="#{String.valueOf(p.id)}" />
                 </p:selectOneListbox>
             </p:panel>

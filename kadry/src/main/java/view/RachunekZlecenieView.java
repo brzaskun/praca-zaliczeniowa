@@ -14,6 +14,7 @@ import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Kalendarzmiesiac;
+import entity.Pasekwynagrodzen;
 import entity.Rachunekdoumowyzlecenia;
 import entity.Tabelanbp;
 import entity.Umowa;
@@ -24,6 +25,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import pdf.PdfRachunekZlecenie;
 import viewsuperplace.OsobaBean;
 import z.Z;
 
@@ -340,6 +342,15 @@ public class RachunekZlecenieView implements Serializable {
         if (rachunekdoumowyzlecenia.getId() != null) {
             rachunekdoumowyzleceniaFacade.edit(rachunekdoumowyzlecenia);
             Msg.msg("Edytowano rachunek");
+        }
+    }
+    
+    public void drukuj() {
+        if (rachunekdoumowyzlecenia!=null) {
+            String nazwa = rachunekdoumowyzlecenia.getUmowa().getPracownik().getPesel()+"rachunekzlecenie.pdf";
+             List<Pasekwynagrodzen> rachunekdoumowyzleceniaList = new ArrayList<>();
+             rachunekdoumowyzleceniaList.add(rachunekdoumowyzlecenia.getPasekwynagrodzen());
+             PdfRachunekZlecenie.drukuj(rachunekdoumowyzleceniaList, nazwa);
         }
     }
 

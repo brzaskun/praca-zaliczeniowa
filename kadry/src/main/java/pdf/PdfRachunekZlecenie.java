@@ -133,7 +133,8 @@ public class PdfRachunekZlecenie {
                 paragraph = new Paragraph(new Phrase("- ilośc godzin "+rachunek.getIloscgodzin(), fontM));
                 document.add(paragraph);
                 if (rachunek.getIloscgodzinoddelegowanie()>0.0) {
-                    paragraph = new Paragraph(new Phrase("- ilośc godzin oddelegowanie"+rachunek.getIloscgodzinoddelegowanie(), fontM));
+                    paragraph = new Paragraph(new Phrase("- ilośc godzin oddelegowanie "+rachunek.getIloscgodzinoddelegowanie(), fontM));
+                    document.add(paragraph);
                 }
                 document.add(Chunk.NEWLINE);
             } else {
