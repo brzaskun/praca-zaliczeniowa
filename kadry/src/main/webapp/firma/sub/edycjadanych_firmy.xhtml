@@ -186,7 +186,7 @@
                          <p:outputLabel value="urząd skarbowy" for="urzad" />
                         <p:autoComplete id="urzad" completeMethod="#{tKodUS.complete}" value="#{firmaImportView.selectedlista.nazwaurzeduskarbowego}"
                                     forceSelection="true" maxResults="15" size="250"  minQueryLength="3" effect="clip" var="p"
-                                    itemLabel="#{p}" itemValue="#{p}" inputStyle="width:400px;">
+                                    itemLabel="#{p}" itemValue="#{p}" inputStyle="width:400px;" required="true">
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                 <f:facet name="header">  

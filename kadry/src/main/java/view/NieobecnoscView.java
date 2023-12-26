@@ -239,12 +239,15 @@ public class NieobecnoscView  implements Serializable {
         }
         return duplikat;
     }
-    
+    //pobiera tylko aktywnych w danym miesiacu umowy 26.12.2023 bielsko-biala :)
     private List<Pracownik> pobierzpracownikow(List<Angaz> angazList) {
         Set<Pracownik> zwrot = new HashSet<>();
         for (Angaz a : angazList) {
-            zwrot.add(a.getPracownik());
+            if (a.jestumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu())==true) {
+                zwrot.add(a.getPracownik());
+            }
         }
+        
         return new ArrayList<Pracownik>(zwrot);
     }
     

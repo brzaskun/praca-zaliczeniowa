@@ -81,6 +81,8 @@ public class Pracownik implements Serializable {
     @Size(max = 11, min = 11)
     @Column(name = "pesel", unique = true)
     private String pesel;
+    @Column(name = "niemieckipesel")
+    private String niemieckipesel;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 128)
     @Column(name = "email")
@@ -241,6 +243,14 @@ public class Pracownik implements Serializable {
 
     public boolean isNierezydent() {
         return nierezydent;
+    }
+
+    public String getNiemieckipesel() {
+        return niemieckipesel;
+    }
+
+    public void setNiemieckipesel(String niemieckipesel) {
+        this.niemieckipesel = niemieckipesel;
     }
 
     public void setNierezydent(boolean nierezydent) {

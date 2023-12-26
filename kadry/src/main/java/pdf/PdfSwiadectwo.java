@@ -141,6 +141,8 @@ public class PdfSwiadectwo {
                 text1 = mezczyzna?"wykorzystał":"wykorzystała";
                 String zwolnienie148 = "1) "+text1+" zwolnienie od pracy przewidziane w art. 148(1) §1 Kodeksu pracu: 0";
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, zwolnienie148, Element.ALIGN_LEFT, 2);
+                String zwolnienie148a = "(liczba dni lub godzin zwolnienia wykorzystanego w roku kalendarzowym, w którym ustał stosunek pracy)";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, zwolnienie148a, Element.ALIGN_LEFT, 1);
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
                 text1 = mezczyzna?"wykorzystał":"wykorzystała";
@@ -178,6 +180,8 @@ public class PdfSwiadectwo {
                 String urlopgodziny = " tj. "+urlopgodzi+" godzin";
                 String razemurlop = urlopdni+urlopgodziny;
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, razemurlop, Element.ALIGN_LEFT, 2);
+                String razemurlopa = "(urlop wypoczynkowy wykorzystany w roku kalendarzowym, w którym ustał stosunek pracy)";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, razemurlopa, Element.ALIGN_LEFT, 1);
                 if (dniekwiwalentu>0) {
                     String urlop1a = "W tym wypłacono ekwiwalent za dni: " +dniekwiwalentu;
                     PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop1a, Element.ALIGN_LEFT, 2);
@@ -298,10 +302,14 @@ public class PdfSwiadectwo {
                     opieka = opieka+" nie dotyczy";
                 }
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, opieka, Element.ALIGN_LEFT, 2);
+                String opiekaa = "(liczba dni lub godzin zwolnienia wykorzystanego w roku kalendarzowym, w którym ustał stosunek pracy)";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, opiekaa, Element.ALIGN_LEFT, 1);
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
                 String pracazdalna = "10) wykonywał pracę zdalną przewidzianą w art. 188 Kodeksu pracy : nie";
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, pracazdalna, Element.ALIGN_LEFT, 2);
+                String pracazdalnaa ="(liczba dni wykonywania pracy zdalnej w roku kalendarzowym, w którym ustał stosunek pracy)";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, pracazdalnaa, Element.ALIGN_LEFT, 1);
                 czydodano = false;
                 document.add(Chunk.NEWLINE);
                 String choroba = "11) był niezdolny do pracy przez okres:  ";
@@ -318,10 +326,15 @@ public class PdfSwiadectwo {
                     choroba = choroba +chorobadni+" dni";
                 }
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, choroba, Element.ALIGN_LEFT, 2);
+                String chorobaa = "(liczba dni, za które pracownik otrzymał wynagrodzenie, zgodnie z art. 92 Kodeksu pracy, w roku kalendarzowym, w którym\n" +
+"ustał stosunek pracy)";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, chorobaa, Element.ALIGN_LEFT, 1);
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
                  String punkt12 = "12) nie";
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, punkt12, Element.ALIGN_LEFT, 2);
+                String punkt12a = "(dni, za które pracownik nie zachował prawa do wynagrodzenia, przypadające w okresie od dnia 1 stycznia 2003 r. do dnia 31 grudnia 2003 r., zgodnie z art. 92 § 1(1) Kodeksu pracy obowiązującym w tym okresie)";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, punkt12a, Element.ALIGN_LEFT, 1);
                 czydodano = false;
                 document.add(Chunk.NEWLINE);
                 String wojsko = "13) odbył służbę wojskową w okresie:  ";
@@ -335,9 +348,13 @@ public class PdfSwiadectwo {
                     wojsko = wojsko+" nie dotyczy";
                 }
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, wojsko, Element.ALIGN_LEFT, 2);
+                String wojskoa = "(okres odbywania czynnej służby wojskowej lub jej form zastępczych)";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, wojsko, Element.ALIGN_LEFT, 1);
                 document.add(Chunk.NEWLINE);
                 String szczegolne = "14) wykonywał pracę w szczególnych warunkach lub w szczególnym charakterze";
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, szczegolne, Element.ALIGN_LEFT, 2);
+                String szczagolnea = "(okresy wykonywania pracy oraz jej rodzaj i zajmowane stanowiska)";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, szczegolne, Element.ALIGN_LEFT, 1);
                 document.add(Chunk.NEWLINE);
                 String dodurlop = "15) wykorzystał dodatkowy urlop albo inne uprawnienia lub świadczenia przewidziane przepisami prawa pracy:  ";
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, dodurlop, Element.ALIGN_LEFT, 2);
@@ -354,6 +371,9 @@ public class PdfSwiadectwo {
                         }
                     }
                 }
+                String okresynieskladkowea = "(okresy nieskładkowe, przypadające w okresie zatrudnienia wskazanym w ust. 1, uwzględniane przy ustalaniu prawa do\n" +
+"emerytury lub renty)";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, okresynieskladkowe, Element.ALIGN_LEFT, 1);
                 document.add(Chunk.NEWLINE);
                 String komornik = "7. Informacja o zajęciu wynagrodzenia: ";
                 PdfMain.dodajLinieOpisuBezOdstepu(document, komornik, Element.ALIGN_LEFT, 2);
