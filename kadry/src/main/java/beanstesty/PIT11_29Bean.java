@@ -398,6 +398,9 @@ public class PIT11_29Bean {
         }
         
         if (sumaUmowapelnieniefunkcji.getBrutto()>0.0) {
+            if (sumaUmowapelnieniefunkcji.getKosztyuzyskania()>0.0) {
+                poz.setP28((byte)1);
+            }
             poz.setP54(BigDecimal.valueOf(sumaUmowapelnieniefunkcji.getBrutto()));
             poz.setP55(BigDecimal.valueOf(sumaUmowapelnieniefunkcji.getKosztyuzyskania()));
             poz.setP56(poz.getP54().subtract(poz.getP55()));

@@ -713,7 +713,7 @@ public class Kartawynagrodzen implements Serializable {
 
     public void dodaj(Pasekwynagrodzen pasek) {
         this.brutto = Z.z(this.brutto+pasek.getBrutto());
-        this.bruttobezzus = Z.z(this.bruttobezzus+pasek.getBruttobezzus());
+        this.bruttobezzus = Z.z(this.bruttobezzus+pasek.getBruttobezzus()+pasek.getBruttobezspolecznych());
         this.bruttobezpodatku = Z.z(this.bruttobezpodatku+pasek.getBruttobezzusbezpodatek());
         this.bruttozus = Z.z(this.bruttozus+pasek.getBruttozus()+pasek.getBruttozusbezpodatek()+pasek.getPrzychodyzus51());
 //        this.bruttodo26lat = Z.z(this.bruttodo26lat+pasek.getBruttobezzusbezpodatek()+pasek.getBruttozusbezpodatek()+pasek.getBruttobezspolecznych());

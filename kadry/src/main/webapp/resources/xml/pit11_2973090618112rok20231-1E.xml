@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2023</Rok>
+        <KodUrzedu>3217</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaNiefizyczna>
+            <NIP>8513264464</NIP>
+            <PelnaNazwa>KINDLER EVENT&amp;SERVICE SP. Z O.O</PelnaNazwa>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>73090618112</PESEL>
+            <ImiePierwsze>Andreas</ImiePierwsze>
+            <Nazwisko>Kindler</Nazwisko>
+            <DataUrodzenia>1973-09-06</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>zachodniopomorskie</Wojewodztwo>
+            <Powiat>Szczecin</Powiat>
+            <Gmina>Szczecin</Gmina>
+            <Ulica poz="P_23">Fioletowa</Ulica>
+            <NrDomu poz="P_24">53</NrDomu>
+            <NrLokalu poz="P_25">10</NrLokalu>
+            <Miejscowosc poz="P_26">Szczecin</Miejscowosc>
+            <KodPocztowy poz="P_27">70-781</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_54>150000.0</P_54>
+        <P_55>3000.0</P_55>
+        <P_56>147000.0</P_56>
+        <P_57>17640</P_57>
+        <P_95>0.0</P_95>
+        <P_121>2</P_121>
+        <P_122>13500.0</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>
