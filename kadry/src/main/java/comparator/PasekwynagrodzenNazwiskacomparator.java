@@ -22,7 +22,7 @@ public class PasekwynagrodzenNazwiskacomparator implements Comparator<Pasekwynag
         int zwrot = 0;
         try {
             String datao1 = obW.getNazwiskoImie();
-            String datao2 = obW.getNazwiskoImie();
+            String datao2 = obP.getNazwiskoImie();
             Collator collator = Collator.getInstance(new Locale("pl", "PL"));
             collator.setStrength(Collator.PRIMARY);
             zwrot = collator.compare(datao1, datao2);

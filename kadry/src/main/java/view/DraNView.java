@@ -8,6 +8,7 @@ package view;
 import beanstesty.PasekwynagrodzenBean;
 import comparator.Defnicjalistaplaccomparator;
 import comparator.PasekwynagrodzenNazwiskacomparator;
+import comparator.Pasekwynagrodzencomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.NieobecnoscFacade;
 import dao.PasekwynagrodzenFacade;
@@ -73,6 +74,7 @@ public class DraNView  implements Serializable {
     private double zus53;
     private double zus;
     private double pit4;
+    private double pit8AR;
     private double pit4N;
     private double potraceniaKomornik;
     private double potraceniaZaliczki;
@@ -168,6 +170,7 @@ public class DraNView  implements Serializable {
                 danezus.put("zus", zus);
                 danezus.put("pit4", pit4);
                 danezus.put("pit4N", pit4N);
+                danezus.put("pit8AR", pit8AR);
                 danezus.put("brutto", brutto);
                 danezus.put("bruttopraca", bruttopraca);
                 danezus.put("bruttozlecenia", bruttozlecenia);
@@ -215,6 +218,7 @@ public class DraNView  implements Serializable {
                 danezus.put("zus", zus);
                 danezus.put("pit4", pit4);
                 danezus.put("pit4N", pit4N);
+                danezus.put("pit8AR", pit8AR);
                 danezus.put("brutto", brutto);
                 danezus.put("bruttopraca", bruttopraca);
                 danezus.put("bruttozlecenia", bruttozlecenia);
@@ -257,12 +261,14 @@ public class DraNView  implements Serializable {
             zus53 = 0.0;
             pit4 = 0.0;
             pit4N = 0.0;
+            pit8AR = 0.0;
             zus = 0.0;
             potraceniaKomornik = 0.0;
             potraceniaPPK = 0.0;
             potraceniaZaliczki = 0.0;
             potraceniaPozostale = 0.0;
             paskiwynagrodzen = new ArrayList<>();
+             double sumapotracen =0.0;
             if (listywybrane.isEmpty()==false) {
                 for (Definicjalistaplac d : listywybrane) {
                     List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByDef(d);
@@ -272,6 +278,7 @@ public class DraNView  implements Serializable {
                 }
                 if (paskiwynagrodzen.isEmpty()==false) {
                     Collections.sort(paskiwynagrodzen, new PasekwynagrodzenNazwiskacomparator());
+                   
                     for (Pasekwynagrodzen p : paskiwynagrodzen) {
                         zus51pracownik = Z.z(zus51pracownik+p.getRazemspolecznepracownik());
                         zus51pracodawca = Z.z(zus51pracodawca+p.getRazemspolecznefirma());
@@ -280,7 +287,11 @@ public class DraNView  implements Serializable {
                         zusFP = Z.z(zusFP+p.getFp());
                         zusFGSP = Z.z(zusFGSP+p.getFgsp());
                         zus53 = Z.z(zus53+p.getRazem53());
-                        pit4 = Z.z(pit4+p.getPodatekdochodowy());
+                        if (p.isNierezydent()) {
+                            pit8AR = Z.z(pit8AR+p.getPodatekdochodowy());
+                        } else {
+                            pit4 = Z.z(pit4+p.getPodatekdochodowy());
+                        }
                         pit4N = Z.z(pit4N+p.getPodatekdochodowyzagranicawaluta());
                         brutto = Z.z(brutto+p.getBrutto());
                         if (p.getDefinicjalistaplac().getRodzajlistyplac().getTyp()==1) {
@@ -292,12 +303,13 @@ public class DraNView  implements Serializable {
                         potraceniaKomornik = Z.z(potraceniaKomornik+p.getPotraceniaKomornik());
                         potraceniaZaliczki = Z.z(potraceniaZaliczki+p.getPotraceniaZaliczki());
                         potraceniaPPK = Z.z(potraceniaPPK+p.getPotraceniaPPK());
-                        potraceniaPozostale = Z.z(p.getPotracenia()-potraceniaKomornik-potraceniaZaliczki-potraceniaPPK);
+                        sumapotracen = Z.z(sumapotracen + p.getPotracenia());
                     }
                     paskiwynagrodzen.add(PasekwynagrodzenBean.sumujpaski(paskiwynagrodzen));
                     zus = Z.z(zus+zus51+zus52+zus53);
                     Msg.msg("Pobrano paski do DRA");
                 }
+                potraceniaPozostale = Z.z(sumapotracen -potraceniaKomornik-potraceniaZaliczki-potraceniaPPK);
             }
         } else {
             Msg.msg("e","Błąd pobierania pasków");
@@ -420,6 +432,23 @@ public class DraNView  implements Serializable {
         this.pit4 = pit4;
     }
 
+    public double getPit8AR() {
+        return pit8AR;
+    }
+
+    public void setPit8AR(double pit8AR) {
+        this.pit8AR = pit8AR;
+    }
+
+    public double getPit4N() {
+        return pit4N;
+    }
+
+    public void setPit4N(double pit4N) {
+        this.pit4N = pit4N;
+    }
+
+    
     public String getMcdra() {
         return mcdra;
     }

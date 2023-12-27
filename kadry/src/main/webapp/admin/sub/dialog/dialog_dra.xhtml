@@ -13,7 +13,7 @@
         <p:ajax event="open" listener="#{draNView.init()}" update="DRACreateForm DRASumaForm DRAListForm" global="false"/>
         <p:ajax event="close" listener="#{draNView.close()}" global="false"/>
          <p:ajax event="open" listener="#{draNView.open()}" global="false"/>
-        <p:outputPanel style="height: 120px">
+        <p:outputPanel style="height: 100px">
             <h:form  styleClass="formadmin" id="DRACreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2">
@@ -77,7 +77,7 @@
                 <p:panel header="paski wynagrodzeń">
                     <p:dataTable id="datalist" value="#{draNView.paskiwynagrodzen}" var="itemdra"
                                  selectionMode="single" selection="#{draNView.selectedlista}" rowIndexVar="indexdra"
-                                 rowKey="#{itemdra.kalendarzmiesiac.hashCode()}" sortBy="#{itemdra.kalendarzmiesiac.angaz.pracownik.nazwiskoImie}"
+                                 rowKey="#{itemdra.kalendarzmiesiac.hashCode()}" 
                                  style="height: 500px; overflow-y: scroll;"
                                  emptyMessage="nie pobrano danych"
                                  >
