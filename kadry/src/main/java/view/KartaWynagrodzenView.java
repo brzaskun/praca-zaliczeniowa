@@ -6,6 +6,7 @@
 package view;
 
 import beanstesty.PIT11_29Bean;
+import comparator.DeklaracjaPIT11Schowekcomparator;
 import comparator.Kartawynagrodzencomparator;
 import comparator.PITPolacomparator;
 import comparator.Pasekwynagrodzencomparator;
@@ -91,11 +92,13 @@ public class KartaWynagrodzenView  implements Serializable {
         pobierzdane(wpisView.getAngaz());
         pobierzdaneAll();
         listaPIT11 = deklaracjaPIT11SchowekFacade.findByRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
+        Collections.sort(listaPIT11, new DeklaracjaPIT11Schowekcomparator());
     }
     
      public void init2() {
         pobierzdaneAll();
         listaPIT11 = deklaracjaPIT11SchowekFacade.findByRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
+        Collections.sort(listaPIT11, new DeklaracjaPIT11Schowekcomparator());
     }
  public void aktywujKartaWyn(FirmaKadry firma) {
         if (firma!=null) {

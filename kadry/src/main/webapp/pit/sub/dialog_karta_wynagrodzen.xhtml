@@ -12,7 +12,7 @@
               resizable="false"  onShow="ustawdialog('dialogkartawynagrodzen','centertile',1650,700);" closeOnEscape="true" onHide="resetujdialog('dialogkartawynagrodzen');" 
               >
             <p:outputPanel>
-            <h:form  styleClass="formadmin" id="KartyWynangrodzenListForm">
+            <h:form  styleClass="formpit11" id="KartyWynangrodzenListForm">
                 <p:panelGrid columns="1">
                     <h:outputText value="pracownik"/>
                     <h:outputText value="#{kartaWynagrodzenView.selected.nazwiskoImie}"/>
@@ -42,12 +42,12 @@
                         </f:facet>
                         <h:outputText value="#{itemkarta.nrlisty}"/>
                     </p:column>
-                    <p:column width="60">
+<!--                    <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="koszt całk."/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.kosztpracodawcy}" stylePlus="#{itemkarta.kosztpracodawcy eq 0 ? 'color:silver':null}"/>
-                    </p:column>
+                    </p:column>-->
                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="brutto"/>
@@ -97,7 +97,7 @@
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.podstawaopodatkowania}" stylePlus="#{itemkarta.podstawaopodatkowania eq 0 ? 'color:silver':null}"/>
                     </p:column>
-                    <p:column width="30">
+                    <p:column width="50">
                         <f:facet name="header">
                             <h:outputText value="koszty uzysk."/>
                         </f:facet>

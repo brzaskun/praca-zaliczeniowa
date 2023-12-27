@@ -35,7 +35,8 @@ import z.Z;
  * @author Osito
  */
 public class PIT11_29Bean {
-     public static Object[] generujXML(Kartawynagrodzen kartawynagrodzen, FirmaKadry firma, Pracownik pracownik, byte normalna1korekta2, String kodurzedu, String rok, Map<String,Kartawynagrodzen> sumy) {
+     public static Object[] generujXML(Kartawynagrodzen kartawynagrodzen, FirmaKadry firma, Pracownik pracownik, byte normalna1korekta2, 
+             String kodurzedu, String rok, Map<String,Kartawynagrodzen> sumy) {
         Object[] zwrot = new Object[3];
         pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja = genPIT1129(kartawynagrodzen, firma, pracownik, normalna1korekta2, kodurzedu, rok, sumy);
         String sciezka = null;
@@ -112,7 +113,8 @@ public class PIT11_29Bean {
         return zwrot;
     }
     
-     private static Deklaracja genPIT1129(Kartawynagrodzen kartawynagrodzen, FirmaKadry firma, Pracownik pracownik, byte normalna1korekta2, String kodurzedu, String rok, Map<String,Kartawynagrodzen> sumy) {
+     private static Deklaracja genPIT1129(Kartawynagrodzen kartawynagrodzen, FirmaKadry firma, Pracownik pracownik, byte normalna1korekta2, 
+             String kodurzedu, String rok, Map<String,Kartawynagrodzen> sumy) {
         pl.gov.crd.wzor._2022._11._09._11890.ObjectFactory of = new pl.gov.crd.wzor._2022._11._09._11890.ObjectFactory();
         Deklaracja deklaracja = of.createDeklaracja();
         deklaracja.setNaglowek(of.createTNaglowek());
@@ -641,10 +643,11 @@ public class PIT11_29Bean {
             } else{
                 poz.setP109(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getBrutto())));
             }
+            double zdrowotna = sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia()>0.0?sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia():sumaUmowazlecenia26zwolnione.getPraczdrowotne();
             if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia()))));
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(zdrowotna))));
             } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia())));
+                poz.setP122(BigDecimal.valueOf(Z.z(zdrowotna)));
             }
             poz.setP121((byte)2);
         }

@@ -13,10 +13,10 @@
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="wystawionepit11"  styleClass="formpit11">
-                <p:dataTable id="datalistwa" value="#{kartaWynagrodzenView.listaPIT11}" var="itempity11"
-                             rowKey="#{itempity11.id}" rowIndexVar="indexpity11" 
+                <p:dataTable id="datalistwa" value="#{kartaWynagrodzenView.listaPIT11}" var="itempity44"
+                             rowKey="#{itempity44.hashCode()}" rowIndexVar="indexpity11" 
                              style="height: 450px; width: 1550px; overflow-y:scroll;" emptyMessage="Nie pobrano danych"
-                             sortBy="#{itempity11.pracownik.nazwiskoImie}" rowSelectMode="add"
+                             rowSelectMode="add"
                              selection="#{kartaWynagrodzenView.listaPIT11sorted}"
                              >
                     <f:facet name="header">
@@ -30,33 +30,33 @@
                         <f:facet name="header">
                             <h:outputText value="rok"/>
                         </f:facet>
-                        <h:outputText value="#{itempity11.rok}"/>
+                        <h:outputText value="#{itempity44.rok}"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="nazwa"/>
                         </f:facet>
-                        <h:outputText value="#{itempity11.nazwa}" rendered="#{itempity11.korekta eq false}"/>
-                        <h:outputText value="#{itempity11.nazwa}" rendered="#{itempity11.korekta eq true}" style="color: #852196"/>
+                        <h:outputText value="#{itempity44.nazwa}" rendered="#{itempity44.korekta eq false}"/>
+                        <h:outputText value="#{itempity44.nazwa}" rendered="#{itempity44.korekta eq true}" style="color: #852196"/>
                     </p:column>
-                    <p:column width="120" style="text-align: left;" sortBy="#{itempity11.pracownik.nazwiskoImie}" sortOrder="asc">
+                    <p:column width="120" style="text-align: left;">
                         <f:facet name="header">
                             <h:outputText value="pracownik"/>
                         </f:facet>
-                        <h:outputText value="#{itempity11.pracownik.nazwiskoImie}"  rendered="#{itempity11.korekta eq false}"/>
-                        <h:outputText value="#{itempity11.pracownik.nazwiskoImie}"  rendered="#{itempity11.korekta eq true}" style="color: #852196"/>
+                        <h:outputText value="#{itempity44.pracownik.nazwiskoImie}"  rendered="#{itempity44.korekta eq false}"/>
+                        <h:outputText value="#{itempity44.pracownik.nazwiskoImie}"  rendered="#{itempity44.korekta eq true}" style="color: #852196"/>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="kor"/>
                         </f:facet>
-                        <h:outputText  value="&#x2714;" rendered="#{itempity11.korekta}" style="color: #852196"/>
+                        <h:outputText  value="&#x2714;" rendered="#{itempity44.korekta}" style="color: #852196"/>
                     </p:column>
                     <p:column width="100" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="wysyłka"/>
                         </f:facet>
-                        <h:outputText value="#{itempity11.datawysylki}">
+                        <h:outputText value="#{itempity44.datawysylki}">
                             <f:convertDateTime timeStyle="short" type="both"/>
                         </h:outputText>
                     </p:column>
@@ -64,20 +64,20 @@
                         <f:facet name="header">
                             <h:outputText value="nr id"/>
                         </f:facet>
-                        <h:outputText value="#{itempity11.identyfikator}"/>
+                        <h:outputText value="#{itempity44.identyfikator}"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="status"/>
                         </f:facet>
-                        <h:outputText value="#{itempity11.status}" rendered="#{itempity11.status ne '200'}"/>
-                        <h:outputText value="#{itempity11.status}" rendered="#{itempity11.status eq '200'}" style="color: green;"/>
+                        <h:outputText value="#{itempity44.status}" rendered="#{itempity44.status ne '200'}"/>
+                        <h:outputText value="#{itempity44.status}" rendered="#{itempity44.status eq '200'}" style="color: green;"/>
                     </p:column>
                     <p:column width="100" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="upo data"/>
                         </f:facet>
-                        <h:outputText value="#{itempity11.dataupo}">
+                        <h:outputText value="#{itempity44.dataupo}">
                             <f:convertDateTime locale="pl" type="date" pattern="yyyy-MM-dd"/>
                         </h:outputText>
                     </p:column>
@@ -85,33 +85,33 @@
                         <f:facet name="header">
                             <h:outputText value="wersja"/>
                         </f:facet>
-                        <h:outputText value="#{itempity11.klasa}"/>
+                        <h:outputText value="#{itempity44.klasa}"/>
                     </p:column>
                     <p:column width="120">
                         <f:facet name="header">
                             <h:outputText value="sporządził"/>
                         </f:facet>
-                        <h:outputText value="#{itempity11.uz.imieNazwisko}"/>
+                        <h:outputText value="#{itempity44.uz.imieNazwisko}"/>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="pdf"/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-file-pdf" actionListener="#{kartaWynagrodzenView.drukujPIT11(itempity11, true)}">
+                        <p:commandButton icon="pi pi-file-pdf" actionListener="#{kartaWynagrodzenView.drukujPIT11(itempity44, true)}">
                         </p:commandButton>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="xml"/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-print" actionListener="#{kartaWynagrodzenView.pokazPIT11XML(itempity11)}">
+                        <p:commandButton icon="pi pi-print" actionListener="#{kartaWynagrodzenView.pokazPIT11XML(itempity44)}">
                         </p:commandButton>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="us"/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-envelope" actionListener="#{pitWysylkaView.robPIT1129(itempity11)}" update="@parent:@parent"  rendered="#{podpisView.jestkarta eq true}">
+                        <p:commandButton icon="pi pi-envelope" actionListener="#{pitWysylkaView.robPIT1129(itempity44)}" update="@parent:@parent"  rendered="#{podpisView.jestkarta eq true}">
                             <p:confirm type="popup" header="Potwierdzenie" message="Wysłać deklarację do urzędu?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>
@@ -119,7 +119,7 @@
                         <f:facet name="header">
                             <h:outputText value="upo"/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-cloud-download" actionListener="#{pitWysylkaView.pobierztest(itempity11)}" update="@parent:@parent">
+                        <p:commandButton icon="pi pi-cloud-download" actionListener="#{pitWysylkaView.pobierztest(itempity44)}" update="@parent:@parent">
                             <p:confirm type="popup" header="Potwierdzenie" message="Pobrać UPO?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>
@@ -127,7 +127,7 @@
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-trash" actionListener="#{kartaWynagrodzenView.usunPIT11(itempity11)}" update="akordeon:wystawionepit11 akordeon:KartyWynangrodzenPITForm">
+                        <p:commandButton icon="pi pi-trash" actionListener="#{kartaWynagrodzenView.usunPIT11(itempity44)}" update="akordeon:wystawionepit11 akordeon:KartyWynangrodzenPITForm">
                             <p:confirm type="popup" header="Potwierdzenie" message="Usunąć deklaracje?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>

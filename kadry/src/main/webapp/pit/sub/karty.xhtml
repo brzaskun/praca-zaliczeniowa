@@ -162,7 +162,8 @@
                             <h:outputText value="karta. wyn."/>
                         </f:facet>
                         <p:commandButton icon="pi pi-calendar" >
-                            <p:ajax event="click" listener="#{kartaWynagrodzenView.pobierzdane(itemkarta.angaz)}" update="KartyWynangrodzenListForm" global="false"  oncomplete="PF('dialogkartawynagrodzen').show()"/>
+                            <p:ajax event="click" listener="#{kartaWynagrodzenView.pobierzdane(itemkarta.angaz)}" 
+                                    update="KartyWynangrodzenListForm" global="false"  oncomplete="PF('dialogkartawynagrodzen').show()"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
