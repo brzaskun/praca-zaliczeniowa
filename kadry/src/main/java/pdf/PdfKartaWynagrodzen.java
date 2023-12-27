@@ -64,6 +64,32 @@ public class PdfKartaWynagrodzen {
         return zwrot;
     }
     
+    public static ByteArrayInputStream drukujScilent(List<Kartawynagrodzen> lista, FirmaKadry firma, Pracownik pracownik, String rok) {
+         ByteArrayInputStream zwrot = null;
+        try {
+            String nazwa = pracownik.getPesel()+"kartawyn"+rok+".pdf";
+            if (lista != null) {
+                Document document = PdfMain.inicjacjaA4Landscape();
+                PdfWriter writer = inicjacjaWritera(document, nazwa);
+                naglowekStopkaL(writer);
+                otwarcieDokumentu(document, nazwa);
+                PdfMain.dodajOpisWstepnyKartaWyn(document, firma, pracownik, "Karta wynagrodzeń pracownika", rok, pracownik.getPesel());
+                dodajtabeleglowna(firma, pracownik, document, rok, lista);
+                finalizacjaDokumentuQR(document,nazwa);
+                String f = "pokazwydruk('"+nazwa+"');";
+                //PrimeFaces.current().executeScript(f);
+                ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                String realPath = ctx.getRealPath("/")+"resources\\wydruki\\"+nazwa;
+                zwrot = new ByteArrayInputStream(FileUtils.readFileToByteArray(new File(realPath)));
+            } else {
+                Msg.msg("w", "Nie ma Paska do wydruku");
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return zwrot;
+    }
+    
     private static void dodajtabeleglowna(FirmaKadry firma, Pracownik pracownik, Document document, String rok, List<Kartawynagrodzen> lista) {
         try {
             PdfPTable table = generujTabele(firma.getNazwa(),pracownik.getNazwiskoImie(),pracownik.getPesel(), rok);

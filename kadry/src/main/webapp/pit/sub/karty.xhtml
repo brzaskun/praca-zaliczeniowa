@@ -6,6 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets"
     >
+    <f:event type="preRenderView" listener="#{kartaWynagrodzenView.init2()}"/>
     <p:tab title="zestawienie do PIT-11">
         <p:outputPanel>
             <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenView.init2()}" update="akordeon:KartyWynangrodzenPITForm akordeon:wystawionepit11"/>
@@ -160,8 +161,8 @@
                         <f:facet name="header">
                             <h:outputText value="karta. wyn."/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-calendar" oncomplete="PF('dialogkartawynagrodzen').show()" >
-                            <p:ajax event="click" listener="#{kartaWynagrodzenView.pobierzdane(itemkarta.angaz)}" update="KartyWynangrodzenListForm" global="false"/>
+                        <p:commandButton icon="pi pi-calendar" >
+                            <p:ajax event="click" listener="#{kartaWynagrodzenView.pobierzdane(itemkarta.angaz)}" update="KartyWynangrodzenListForm" global="false"  oncomplete="PF('dialogkartawynagrodzen').show()"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>

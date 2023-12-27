@@ -667,7 +667,7 @@ public class Kartawynagrodzen implements Serializable {
 
     @Override
     public String toString() {
-        return "Kartawynagrodzen{rok=" + rok + ", mc=" + mc  + "bruttobezzus=" + bruttobezzus + ", bruttozus=" + bruttozus + ", kosztyuzyskania=" + kosztyuzyskania + ", kwotawolna=" + kwotawolna + ", netto=" + netto + ", podatekdochodowy=" + podatekdochodowy + ", razemspolecznepracownik=" + razemspolecznepracownik + ", praczdrowotne=" + praczdrowotne + ", kosztypodwyzszone=" + kosztypodwyzszone + ", kosztywieleumow=" + kosztywieleumow + '}';
+        return "Kartawynagrodzen{prac=" + angaz.getPracownik().getNazwiskoImie() + " rok  "+rok +", mc=" + mc  + "bruttobezzus=" + bruttobezzus + ", bruttozus=" + bruttozus + ", kosztyuzyskania=" + kosztyuzyskania + ", kwotawolna=" + kwotawolna + ", netto=" + netto + ", podatekdochodowy=" + podatekdochodowy + ", razemspolecznepracownik=" + razemspolecznepracownik + ", praczdrowotne=" + praczdrowotne + ", kosztypodwyzszone=" + kosztypodwyzszone + ", kosztywieleumow=" + kosztywieleumow + '}';
     }
 
     

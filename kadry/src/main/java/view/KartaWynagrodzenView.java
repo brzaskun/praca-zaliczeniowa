@@ -87,7 +87,6 @@ public class KartaWynagrodzenView  implements Serializable {
     
      
 
-    @PostConstruct
     public void init() {
         pobierzdane(wpisView.getAngaz());
         pobierzdaneAll();
@@ -202,6 +201,22 @@ public class KartaWynagrodzenView  implements Serializable {
             }
         } else {
             kartaWynagrodzenFacade.removeList(kartypobranezbazy);
+            kartypobranezbazy = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                Kartawynagrodzen nowa = new Kartawynagrodzen();
+                nowa.setAngaz(selectedangaz);
+                nowa.setRok(rok);
+                nowa.setMc(mc);
+                kartypobranezbazy.add(nowa);
+            }
+        }
+        return kartypobranezbazy;
+    }
+    
+    private List<Kartawynagrodzen> pobierzkartywynagrodzenwydruk(Angaz selectedangaz, String rok) {
+        List<Kartawynagrodzen> kartypobranezbazy = kartaWynagrodzenFacade.findByAngazRok(selectedangaz, rok);
+        Collections.sort(kartypobranezbazy, new Kartawynagrodzencomparator());
+        if (kartypobranezbazy==null || kartypobranezbazy.isEmpty()) {
             kartypobranezbazy = new ArrayList<>();
             for (String mc : Mce.getMceListS()) {
                 Kartawynagrodzen nowa = new Kartawynagrodzen();
@@ -441,7 +456,8 @@ public class KartaWynagrodzenView  implements Serializable {
                             Msg.msg("Wydrukowano PIT-11");
                         }
                     } catch (Exception e) {
-                        Msg.msg("e","Bląd generowania. Proszę sprawdzić dane osobowe pracownika, adres itp.");
+                        Msg.msg("e","Bląd generowania. Proszę sprawdzić dane firmy i dane osobowe pracownika, adres itp.");
+                        Msg.msg("e","Przy jdg sprawdź datę urodzenia");
                     }
                 }
             }
@@ -529,14 +545,22 @@ public class KartaWynagrodzenView  implements Serializable {
     
       public ByteArrayInputStream drukujwszystkiePIT11kartawyn() {
         ByteArrayInputStream zwrot = null;
+        List<Angaz> angaze = angazFacade.findByFirmaAktywni(wpisView.getFirma());
          if (listaPIT11sorted!=null && listaPIT11sorted.size()>0) {
              try {
+               
                 List<InputStream> pojedynczy = new ArrayList<>();
                 for (DeklaracjaPIT11Schowek p : listaPIT11sorted) {
+                     Kartawynagrodzen suma = new Kartawynagrodzen();
                     ByteArrayInputStream drukujPIT11 = drukujPIT11(p, false);
                     pojedynczy.add(drukujPIT11);
-                    List<Kartawynagrodzen> listakartypracownika = pobierzdanewydruk(sumypracownicy, p.getPracownik());
-                    ByteArrayInputStream kartawyn = PdfKartaWynagrodzen.drukuj(listakartypracownika, p.getFirma(), p.getPracownik(), p.getRok());
+                    Angaz angaz = pobierzangaz(angaze, p.getPracownik());
+                    List<Kartawynagrodzen> listakartypracownika = pobierzkartywynagrodzenwydruk(angaz, p.getRok());
+                    for (Kartawynagrodzen karta : listakartypracownika) {
+                        suma.dodajkarta(karta);
+                    }
+                    listakartypracownika.add(suma);
+                    ByteArrayInputStream kartawyn = PdfKartaWynagrodzen.drukujScilent(listakartypracownika, p.getFirma(), p.getPracownik(), p.getRok());
                     pojedynczy.add(kartawyn);
                 }
                 PDFMergerUtility uti = new PDFMergerUtility();
@@ -636,7 +660,15 @@ public class KartaWynagrodzenView  implements Serializable {
         }
     }
     
-    
+    private Angaz pobierzangaz(List<Angaz> angaze, Pracownik pracownik) {
+        Angaz zwrot = null;
+        for (Angaz angaz : angaze) {
+            if (angaz.getPracownik().equals(pracownik)) {
+                zwrot = angaz;
+            }
+        }
+        return zwrot;
+    }
 
     
  public List<Kartawynagrodzen> getKartawynagrodzenlist() {
@@ -721,6 +753,8 @@ public class KartaWynagrodzenView  implements Serializable {
     public void setBrakkoduurzedu(boolean brakkoduurzedu) {
         this.brakkoduurzedu = brakkoduurzedu;
     }
+
+    
 
    
     

@@ -279,6 +279,11 @@ public class DeklaracjaPIT11Schowek implements Serializable {
     public void setKorekta(boolean korekta) {
         this.korekta = korekta;
     }
+
+    @Override
+    public String toString() {
+        return "DeklaracjaPIT11Schowek{" + "rok=" + rok + ", firma=" + firma.getNazwa() + ", pracownik=" + pracownik.getNazwiskoImie() + '}';
+    }
     
     
 
