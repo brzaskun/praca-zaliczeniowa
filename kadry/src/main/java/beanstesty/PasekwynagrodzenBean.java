@@ -1904,6 +1904,9 @@ public class PasekwynagrodzenBean {
                 zwrot = zwrot + p.getKwotawolna();
             }
         }
+        if (angaz.isOdliczaculgepodatkowa()==false) {
+            zwrot = 300;
+        }
         return zwrot;
     }
 

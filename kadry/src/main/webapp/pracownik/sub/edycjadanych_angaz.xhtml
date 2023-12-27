@@ -151,7 +151,7 @@
                             <f:facet name="header">
                                 <h:outputText value="mc przekroczenie"/>
                             </f:facet>
-                            <p:inputText value="#{itemAngaz.przekroczeniemc}" size="6" maxlength="4">
+                            <p:inputText value="#{itemAngaz.przekroczeniemc}" size="6" maxlength="2">
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.edytuj(itemAngaz)}"/>
                             </p:inputText>
                         </p:column>

@@ -136,10 +136,8 @@ public class Angaz implements Serializable {
     private List<Rejestrurlopow> rejestrurlopowList;
     @Column(name = "student")
     private  boolean student;
-    @Size(min = 4,max = 4)
     @Column(name = "przekroczenierok")
     private String przekroczenierok;
-    @Size(min = 2,max = 2)
     @Column(name = "przekroczeniemc")
     private String przekroczeniemc;
     @Column(name = "bourlopdni")
@@ -275,7 +273,7 @@ public class Angaz implements Serializable {
     
     public String getUlgasymbol(){
         String zwrot = "";
-        if (this.student) {
+        if (this.odliczaculgepodatkowa) {
             zwrot = "✔";
         }
         return zwrot;

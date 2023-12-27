@@ -326,8 +326,7 @@ public class PdfSwiadectwo {
                     choroba = choroba +chorobadni+" dni";
                 }
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, choroba, Element.ALIGN_LEFT, 2);
-                String chorobaa = "(liczba dni, za które pracownik otrzymał wynagrodzenie, zgodnie z art. 92 Kodeksu pracy, w roku kalendarzowym, w którym\n" +
-"ustał stosunek pracy)";
+                String chorobaa = "(liczba dni, za które pracownik otrzymał wynagrodzenie, zgodnie z art. 92 Kodeksu pracy, w roku kalendarzowym, w którym ustał stosunek pracy)";
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, chorobaa, Element.ALIGN_LEFT, 1);
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
@@ -349,12 +348,12 @@ public class PdfSwiadectwo {
                 }
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, wojsko, Element.ALIGN_LEFT, 2);
                 String wojskoa = "(okres odbywania czynnej służby wojskowej lub jej form zastępczych)";
-                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, wojsko, Element.ALIGN_LEFT, 1);
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, wojskoa, Element.ALIGN_LEFT, 1);
                 document.add(Chunk.NEWLINE);
                 String szczegolne = "14) wykonywał pracę w szczególnych warunkach lub w szczególnym charakterze";
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, szczegolne, Element.ALIGN_LEFT, 2);
-                String szczagolnea = "(okresy wykonywania pracy oraz jej rodzaj i zajmowane stanowiska)";
-                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, szczegolne, Element.ALIGN_LEFT, 1);
+                String szczegolnea = "(okresy wykonywania pracy oraz jej rodzaj i zajmowane stanowiska)";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, szczegolnea, Element.ALIGN_LEFT, 1);
                 document.add(Chunk.NEWLINE);
                 String dodurlop = "15) wykorzystał dodatkowy urlop albo inne uprawnienia lub świadczenia przewidziane przepisami prawa pracy:  ";
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, dodurlop, Element.ALIGN_LEFT, 2);
@@ -371,9 +370,8 @@ public class PdfSwiadectwo {
                         }
                     }
                 }
-                String okresynieskladkowea = "(okresy nieskładkowe, przypadające w okresie zatrudnienia wskazanym w ust. 1, uwzględniane przy ustalaniu prawa do\n" +
-"emerytury lub renty)";
-                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, okresynieskladkowe, Element.ALIGN_LEFT, 1);
+                String okresynieskladkowea = "(okresy nieskładkowe, przypadające w okresie zatrudnienia wskazanym w ust. 1, uwzględniane przy ustalaniu prawa do emerytury lub renty)";
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, okresynieskladkowea, Element.ALIGN_LEFT, 1);
                 document.add(Chunk.NEWLINE);
                 String komornik = "7. Informacja o zajęciu wynagrodzenia: ";
                 PdfMain.dodajLinieOpisuBezOdstepu(document, komornik, Element.ALIGN_LEFT, 2);

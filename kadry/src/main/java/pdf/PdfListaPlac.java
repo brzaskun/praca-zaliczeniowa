@@ -206,10 +206,10 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeSpanFont("Składka zdrow.", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Koszty uzyskania przychodu", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Podstawa opodatkowania", 0, 2, 6));
-            table.addCell(ustawfrazeSpanFont("Potrącona zaliczka na podatek dochodowy", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Należna zaliczka na podatek dochodowy", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Ubezpieczenie zdrowotne", 0, 0, 6));
             table.addCell(ustawfrazeSpanFont("Kwota wolna", 0, 2, 6));
-            table.addCell(ustawfrazeSpanFont("Należna zaliczka na podatek dochodowy", 0, 2, 6));
+            table.addCell(ustawfrazeSpanFont("Potrącona zaliczka na podatek dochodowy", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Kwota netto", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Komornik", 0, 2, 6));
             table.addCell(ustawfrazeSpanFont("Inne potrącenia", 0, 2, 6));
