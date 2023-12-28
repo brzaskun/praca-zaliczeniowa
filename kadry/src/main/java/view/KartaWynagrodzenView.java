@@ -358,7 +358,7 @@ public class KartaWynagrodzenView  implements Serializable {
     
     public void drukuj() {
         if (kartawynagrodzenlist!=null && kartawynagrodzenlist.size()>0) {
-            PdfKartaWynagrodzen.drukuj(kartawynagrodzenlist, wpisView.getFirma(), wpisView.getPracownik(), wpisView.getRokWpisu());
+            PdfKartaWynagrodzen.drukuj(kartawynagrodzenlist, wpisView.getFirma(), selected, wpisView.getRokWpisu());
             Msg.msg("Wydrukowano kartę wynagrodzeń");
         } else {
             Msg.msg("e","Błąd drukowania. Brak karty wynagrodzeń");

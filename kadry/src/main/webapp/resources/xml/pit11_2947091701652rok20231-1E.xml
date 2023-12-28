@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2023</Rok>
+        <KodUrzedu>3215</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaNiefizyczna>
+            <NIP>9551899751</NIP>
+            <PelnaNazwa>GM PLAST SP. Z O.O.</PelnaNazwa>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>47091701652</PESEL>
+            <ImiePierwsze>Henryk</ImiePierwsze>
+            <Nazwisko>Gauza</Nazwisko>
+            <DataUrodzenia>1947-09-17</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>zachodniopomorskie</Wojewodztwo>
+            <Powiat>Policki</Powiat>
+            <Gmina>Police</Gmina>
+            <Ulica poz="P_23">Wróblewskiego</Ulica>
+            <NrDomu poz="P_24">8B</NrDomu>
+            <NrLokalu poz="P_25">5</NrLokalu>
+            <Miejscowosc poz="P_26">Police</Miejscowosc>
+            <KodPocztowy poz="P_27">72-010</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_43>18609.88</P_43>
+        <P_44>2750.0</P_44>
+        <P_45>15859.88</P_45>
+        <P_47>1607</P_47>
+        <P_96>2471.92</P_96>
+        <P_121>2</P_121>
+        <P_122>1437.49</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

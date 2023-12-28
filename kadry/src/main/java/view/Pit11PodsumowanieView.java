@@ -58,6 +58,8 @@ public class Pit11PodsumowanieView implements Serializable {
             angaze = angaze + angazesize;
             int zrobionepit = (int) listapit.stream().filter(p->p.getFirma().equals(firma)).count();
             pozycja.setIloscpit(zrobionepit);
+            int bezupo = (int) listapit.stream().filter(p->p.getFirma().equals(firma)&&(p.getStatus()==null||p.getStatus().equals("200")==false)).count();
+            pozycja.setBezupo(bezupo);
             pity = pity + zrobionepit;
             firmapitilosclist.add(pozycja);
             id++;

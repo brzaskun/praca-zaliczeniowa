@@ -119,7 +119,7 @@
                         <f:facet name="header">
                             <h:outputText value="upo"/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-cloud-download" actionListener="#{pitWysylkaView.pobierztest(itempity44)}" update="@parent:@parent">
+                        <p:commandButton icon="pi pi-cloud-download" actionListener="#{pitWysylkaView.pobierztest(itempity44)}" update="@parent:@parent"  rendered="#{itempity44.status ne null and itempity44.status ne '200'}">
                             <p:confirm type="popup" header="Potwierdzenie" message="Pobrać UPO?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>
@@ -127,7 +127,8 @@
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-trash" actionListener="#{kartaWynagrodzenView.usunPIT11(itempity44)}" update="akordeon:wystawionepit11 akordeon:KartyWynangrodzenPITForm">
+                        <p:commandButton icon="pi pi-trash" actionListener="#{kartaWynagrodzenView.usunPIT11(itempity44)}" 
+                                         update="akordeon:wystawionepit11 akordeon:KartyWynangrodzenPITForm" rendered="#{itempity44.status eq null or itempity44.status ne '200'}">
                             <p:confirm type="popup" header="Potwierdzenie" message="Usunąć deklaracje?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>

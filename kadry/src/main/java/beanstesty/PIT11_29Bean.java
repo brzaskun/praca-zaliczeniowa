@@ -269,7 +269,7 @@ public class PIT11_29Bean {
         Kartawynagrodzen sumaZasilkiDorosly = sumy.get("sumaZasilkiDorosly");
         Kartawynagrodzen sumaZasilki26 = sumy.get("sumaZasilki26");
         double dochodzagranica = Z.z(kartawynagrodzen.getDochodzagranica());
-        if (sumaUmowaoprace.getBrutto()>0.0) {
+        if (sumaUmowaoprace.getBrutto()>0.0|sumaUmowaopracekosztypodwyzszone.getBrutto()>0.0) {
             poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBrutto()));
             if (dochodzagranica>0.0) {
                 if (sumaUmowaoprace.getBrutto()>dochodzagranica) {
@@ -317,40 +317,41 @@ public class PIT11_29Bean {
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);
         }
-        if (sumaUmowaopracekosztypodwyzszone.getBrutto()>0.0) {
-            poz.setP34(BigDecimal.valueOf(sumaUmowaopracekosztypodwyzszone.getBrutto()));
-            if (dochodzagranica>0.0) {
-                BigDecimal dochzagr = BigDecimal.valueOf(dochodzagranica);
-                poz.setP34(poz.getP34().subtract(dochzagr));
-                if (poz.getP32()!=null) {
-                    poz.setP32(poz.getP32().add(dochzagr));
-                } else{
-                    poz.setP32(dochzagr);
-                }
-            }
-            poz.setP35(BigDecimal.valueOf(sumaUmowaopracekosztypodwyzszone.getKosztyuzyskania()));
-            BigDecimal subtract = poz.getP34().subtract(poz.getP35());
-            if (poz.getP31()!=null) {
-                poz.setP31(poz.getP31().add(subtract));
-            } else{
-                poz.setP31(subtract);
-            }
-            poz.setP33(BigInteger.valueOf(Z.zUD(sumaUmowaopracekosztypodwyzszone.getPodatekdochodowy())));
-            if (poz.getP95()!=null) {
-                poz.setP95(poz.getP95().add(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getRazemspolecznepracownik()))));
-            } else{
-                poz.setP95(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getRazemspolecznepracownik())));
-            }
-            if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotnedopotracenia()))));
-            } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotnedopotracenia())));
-            }
-            //czy dodano PIT-R 1tak 2nie
-            poz.setP121((byte)2);
-        }
+        //to nie ma sensu bo kwoty sa tez w 29
+//        if (sumaUmowaopracekosztypodwyzszone.getBrutto()>0.0) {
+//            poz.setP29(BigDecimal.valueOf(sumaUmowaopracekosztypodwyzszone.getBrutto()));
+//            if (dochodzagranica>0.0) {
+//                BigDecimal dochzagr = BigDecimal.valueOf(dochodzagranica);
+//                poz.setP29(poz.getP29().subtract(dochzagr));
+//                if (poz.getP32()!=null) {
+//                    poz.setP32(poz.getP32().add(dochzagr));
+//                } else{
+//                    poz.setP32(dochzagr);
+//                }
+//            }
+//            poz.setP30(BigDecimal.valueOf(sumaUmowaopracekosztypodwyzszone.getKosztyuzyskania()));
+//            BigDecimal subtract = poz.getP29().subtract(poz.getP32());
+//            if (poz.getP31()!=null) {
+//                poz.setP31(poz.getP31().add(subtract));
+//            } else{
+//                poz.setP31(subtract);
+//            }
+//            poz.setP33(BigInteger.valueOf(Z.zUD(sumaUmowaopracekosztypodwyzszone.getPodatekdochodowy())));
+//            if (poz.getP95()!=null) {
+//                poz.setP95(poz.getP95().add(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getRazemspolecznepracownik()))));
+//            } else{
+//                poz.setP95(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getRazemspolecznepracownik())));
+//            }
+//            if (poz.getP122()!=null) {
+//                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotnedopotracenia()))));
+//            } else{
+//                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotnedopotracenia())));
+//            }
+//            //czy dodano PIT-R 1tak 2nie
+//            poz.setP121((byte)2);
+//        }
         //emeryt
-         if (sumaUmowaopraceEmeryt.getBrutto()>0.0) {
+         if (sumaUmowaopraceEmeryt.getBrutto()>0.0||sumaUmowaopracekosztypodwyzszone.getBrutto()>0.0) {
             poz.setP43(BigDecimal.valueOf(sumaUmowaopraceEmeryt.getBrutto()));
             poz.setP44(BigDecimal.valueOf(sumaUmowaopraceEmeryt.getKosztyuzyskania()));
             BigDecimal subtract = poz.getP43().subtract(poz.getP44());
@@ -373,34 +374,34 @@ public class PIT11_29Bean {
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);
         }
-        if (sumaUmowaopracekosztypodwyzszone.getBrutto()>0.0) {
-            poz.setP48(BigDecimal.valueOf(sumaUmowaopraceEmeryt.getBrutto()));
-            poz.setP49(BigDecimal.valueOf(sumaUmowaopraceEmeryt.getKosztyuzyskania()));
-            BigDecimal subtract = poz.getP48().subtract(poz.getP49());
-            if (poz.getP45()!=null) {
-                poz.setP45(poz.getP45().add(subtract));
-            } else{
-                poz.setP45(subtract);
-            }
-            poz.setP47(BigInteger.valueOf(Z.zUD(sumaUmowaopraceEmeryt.getPodatekdochodowy())));
-            if (poz.getP96()!=null) {
-                poz.setP96(poz.getP96().add(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getRazemspolecznepracownik()))));
-            } else{
-                poz.setP96(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getRazemspolecznepracownik())));
-            }
-            if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotnedopotracenia()))));
-            } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotnedopotracenia())));
-            }
-            //czy dodano PIT-R 1tak 2nie
-            poz.setP121((byte)2);
-        }
+//        if (sumaUmowaopracekosztypodwyzszone.getBrutto()>0.0) {
+//            poz.setP48(BigDecimal.valueOf(sumaUmowaopraceEmeryt.getBrutto()));
+//            poz.setP49(BigDecimal.valueOf(sumaUmowaopraceEmeryt.getKosztyuzyskania()));
+//            BigDecimal subtract = poz.getP48().subtract(poz.getP49());
+//            if (poz.getP45()!=null) {
+//                poz.setP45(poz.getP45().add(subtract));
+//            } else{
+//                poz.setP45(subtract);
+//            }
+//            poz.setP47(BigInteger.valueOf(Z.zUD(sumaUmowaopraceEmeryt.getPodatekdochodowy())));
+//            if (poz.getP96()!=null) {
+//                poz.setP96(poz.getP96().add(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getRazemspolecznepracownik()))));
+//            } else{
+//                poz.setP96(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getRazemspolecznepracownik())));
+//            }
+//            if (poz.getP122()!=null) {
+//                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotnedopotracenia()))));
+//            } else{
+//                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotnedopotracenia())));
+//            }
+//            //czy dodano PIT-R 1tak 2nie
+//            poz.setP121((byte)2);
+//        }
         
         if (sumaUmowapelnieniefunkcji.getBrutto()>0.0) {
-            if (sumaUmowapelnieniefunkcji.getKosztyuzyskania()>0.0) {
-                poz.setP28((byte)1);
-            }
+//            if (sumaUmowapelnieniefunkcji.getKosztyuzyskania()>0.0) {
+//                poz.setP28((byte)1);
+//            }
             poz.setP54(BigDecimal.valueOf(sumaUmowapelnieniefunkcji.getBrutto()));
             poz.setP55(BigDecimal.valueOf(sumaUmowapelnieniefunkcji.getKosztyuzyskania()));
             poz.setP56(poz.getP54().subtract(poz.getP55()));
@@ -654,7 +655,7 @@ public class PIT11_29Bean {
             }
             poz.setP121((byte)2);
         }
-        if (poz.getP30()!=null||poz.getP35()!=null||poz.getP37()!=null||poz.getP42()!=null) {
+        if (poz.getP30()!=null||poz.getP35()!=null||poz.getP37()!=null||poz.getP42()!=null||poz.getP44()!=null) {
             //koszty uzyskania
             poz.setP28((byte)1);
             if (kartawynagrodzen.isKosztypodwyzszone()) {

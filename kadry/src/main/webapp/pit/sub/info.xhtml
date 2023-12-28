@@ -23,7 +23,7 @@
                 </p:panelGrid>
                 <p:dataTable id="datalistwa" value="#{pit11PodsumowanieView.firmapitilosclist}" var="itempity22"
                              rowKey="#{itempity22.id}" rowIndexVar="indexpity11" 
-                             style="height: 550px; width: 700px; overflow-y:scroll;" emptyMessage="Nie pobrano danych"
+                             style="height: 550px; width: 800px; overflow-y:scroll;" emptyMessage="Nie pobrano danych"
                              filteredValue="#{pit11PodsumowanieView.firmapitilosclistfilter}"
                              >
                     <p:ajax event="filter" global="false"/>
@@ -56,6 +56,13 @@
                         </f:facet>
                         <h:outputText value="#{itempity22.iloscpit}" rendered="#{itempity22.iloscpit gt 0}"/>
                         <h:outputText value="#{itempity22.iloscpit}" rendered="#{itempity22.iloscpit eq 0}" style="color: lightgray;"/>
+                    </p:column>
+                    <p:column width="50" style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="bez upo"/>
+                        </f:facet>
+                        <h:outputText value="#{itempity22.bezupo}" rendered="#{itempity22.bezupo gt 0}"/>
+                        <h:outputText value="#{itempity22.bezupo}" rendered="#{itempity22.bezupo eq 0}" style="color: lightgray;"/>
                     </p:column>
                     <p:column width="50" style="text-align: center;">
                         <f:facet name="header">

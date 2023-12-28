@@ -16,6 +16,7 @@ public class Infopit11 {
         private FirmaKadry firma;
         private int iloscangazy;
         private int iloscpit;
+        private int bezupo;
        
         
         public Infopit11() {
@@ -62,6 +63,16 @@ public class Infopit11 {
         public int getPozostalo() {
             return this.iloscangazy-this.iloscpit;
         }
+
+    public int getBezupo() {
+        return bezupo;
+    }
+
+    public void setBezupo(int bezupo) {
+        this.bezupo = bezupo;
+    }
+        
+        
 
         @Override
         public int hashCode() {
