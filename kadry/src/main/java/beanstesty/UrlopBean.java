@@ -6,6 +6,7 @@
 package beanstesty;
 
 import comparator.KalendarzmiesiacRMNormalcomparator;
+import comparator.UmowaStareNowecomparator;
 import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
@@ -191,6 +192,7 @@ public class UrlopBean {
      public static Object[] obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat,String rok, String stannadzien, Angaz angaz, List<Kalendarzmiesiac> kalendarze) {
         int wymiarwdniach = 20;
         double liczbadni = 0;
+        Collections.sort(umowy,new UmowaStareNowecomparator());
         for (Umowa p : umowy) {
             if (p.isLiczdourlopu()) {
                 if (p.getSlownikszkolazatrhistoria()!=null) {
