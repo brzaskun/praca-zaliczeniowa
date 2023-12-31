@@ -93,6 +93,12 @@
                         </f:facet>
                         <h:outputText value="#{itempity44.uz.imieNazwisko}"/>
                     </p:column>
+                     <p:column width="30">
+                        <f:facet name="header">
+                            <h:outputText value="przekr."/>
+                        </f:facet>
+                         <h:outputText value="&#x2714;" rendered="#{itempity44.przekroczenie}" style="color: orange;"/>
+                    </p:column>
                     <p:column width="30" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="pdf"/>
@@ -111,7 +117,8 @@
                         <f:facet name="header">
                             <h:outputText value="us"/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-envelope" actionListener="#{pitWysylkaView.robPIT1129(itempity44)}" update="@parent:@parent"  rendered="#{podpisView.jestkarta eq true}">
+                        <p:commandButton icon="pi pi-envelope" actionListener="#{pitWysylkaView.robPIT1129(itempity44)}" update="@parent:@parent" 
+                                         rendered="#{podpisView.jestkarta eq true and itempity44.przekroczenie eq false}">
                             <p:confirm type="popup" header="Potwierdzenie" message="Wysłać deklarację do urzędu?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>

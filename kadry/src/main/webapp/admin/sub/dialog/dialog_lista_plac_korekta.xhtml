@@ -1,0 +1,89 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets"
+    >
+    <p:dialog id="dialoglistaplackorekta" header="korekta list pląc przekroczenie" widgetVar="dialoglistaplackorekta"  maximizable="true"
+              resizable="false"  onShow="ustawdialog('dialoglistaplackorekta','centertile',1800,820);" closeOnEscape="true"
+              onHide="resetujdialog('dialoglistaplackorekta');" 
+              fitViewport="true">
+        <p:ajax event="open" listener="#{pasekwynagrodzenkorektaView.init()}" update="listaplackorekta" global="true"/>
+        <p:ajax event="close" listener="#{pasekwynagrodzenkorektaView.close()}" global="false"/>
+        <p:ajax event="open" listener="#{pasekwynagrodzenkorektaView.open()}" global="false"/>
+        <h:form id="listaplackorekta">
+            <p:outputPanel style="padding: 10px;">
+                <p:selectOneMenu id="swiadczenie" value="#{pasekwynagrodzenkorektaView.selectedpracownik}"  
+                                 filter="true" filterMatchMode="contains" converter="#{pracownikConverter}"
+                                 style="width: 300px;">
+                    <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                    <f:selectItems value="#{pasekwynagrodzenkorektaView.pracownicyzpaskami.keySet()}" 
+                                   var="pracItem"
+                                   itemValue="#{pracItem}" itemLabel="#{pracItem.getNazwiskoImie()}"/>
+                    <p:ajax event="change" partialSubmit="true" global="false" update="@form" 
+                            listener="#{pasekwynagrodzenkorektaView.pobierzdane()}"/>
+                </p:selectOneMenu>
+            </p:outputPanel>
+            <p:outputPanel style="padding: 10px;">
+                <p:dataTable id="datalist3" value="#{pasekwynagrodzenkorektaView.paskiwybranego }" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
+                             selectionMode="single" selection="#{pasekwynagrodzenkorektaView.selectedpasek}" rowIndexVar="indexpasekpod"
+                             rowKey="#{itempasekpod.kalendarzmiesiac.id}" sortBy="#{itempasekpod.nazwiskoImie}"
+                             style="height: 430px; overflow-y: scroll; width: 1300px;"
+
+                             >
+                    <f:facet name="header">
+                        <h:outputText value="Korekta list płac w związku z przekroczeniem za rok #{wpisView.rokWpisu}"/>
+                    </f:facet>
+                    <p:column width="10">
+                        <h:outputText value="#{indexpasekpod+1}"/>
+                    </p:column>
+                    <p:column width="30" headerText="mc">
+                        <h:outputText value="#{itempasekpod.mc}"/>
+                    </p:column>
+                    <p:column width="70" headerText="przekr" style="text-align: center;">
+                        <h:outputText value="#{itempasekpod.kalendarzmiesiac.angaz.przekroczenierok} #{itempasekpod.kalendarzmiesiac.angaz.przekroczeniemc}"/>
+                    </p:column>
+                    <p:column headerText="podst. PIT Polska">
+                        <bcf:outputpl value="#{itempasekpod.podstawaopodatkowania}"/>
+                    </p:column>
+                    <p:column headerText="podatek Polska">
+                        <bcf:outputpl value="#{itempasekpod.podatekdochodowy}"/>
+                    </p:column>
+                    <p:column headerText="podstawa pod. zagr. pln">
+                        <bcf:outputpl value="#{itempasekpod.podstawaopodatkowaniazagranica}"/>
+                    </p:column>
+                    <p:column headerText="podstawa pod. zagr. wal.">
+                        <bcf:outputwal value="#{itempasekpod.podstawaopodatkowaniazagranicawaluta}" symbolwaluty="€"/>
+                    </p:column>
+                    <p:column headerText="oddeleg. wal.">
+                        <bcf:outputwal value="#{itempasekpod.oddelegowaniewaluta}" symbolwaluty="€"/>
+                    </p:column>
+
+                    <p:column headerText="oddeleg. pln.">
+                        <bcf:outputpl value="#{itempasekpod.oddelegowaniepln}"/>
+                    </p:column>
+                    <p:column headerText="skorygowana podstawa pln">
+                        <bcf:outputpl value="#{itempasekpod.przekroczeniekorektapodstawypolska}" rendered="#{itempasekpod.podstawaopodatkowaniazagranica eq 0.0}"/>
+                        <h:outputText value="bez zmian"  rendered="#{itempasekpod.podstawaopodatkowaniazagranica ne 0.0}"/>
+                    </p:column>
+                    <p:column headerText="skorygowany podatek pln">
+                        <bcf:outputpl value="#{itempasekpod.przekroczenienowypodatek}"/>
+                    </p:column>
+                    <p:column headerText="oddeleg. wal.">
+                        <bcf:outputwal value="#{itempasekpod.przekroczeniepodstawaniemiecka}" symbolwaluty="€" rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}"/>
+                    </p:column>
+                    <p:column headerText="podatek zagr. wal" style="text-align: center;">
+                        <p:inputNumber value="#{itempasekpod.przekroczeniepodatekniemiecki}"  size="10"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" styleClass="polepodatkuwpln"
+                                       rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}">
+                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.editpasek(itempasekpod)}" update="@(.polepodatkuwpln)"/>
+                        </p:inputNumber>
+                        <bcf:outputwal value="#{itempasekpod.podatekdochodowyzagranicawaluta}" symbolwaluty="€" rendered="#{itempasekpod.podstawaopodatkowaniazagranicawaluta gt 0.0}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+</ui:composition>

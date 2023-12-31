@@ -55,6 +55,7 @@ import z.Z;
     @NamedQuery(name = "Pasekwynagrodzen.findByRokWyplAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rokwypl = :rok AND p.kalendarzmiesiac.angaz = :angaz"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRokMcAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.mc = :mc AND p.kalendarzmiesiac.angaz = :angaz"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRokMcFirma", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.mc = :mc AND p.kalendarzmiesiac.angaz.firma = :firma"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByRokFirma", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.kalendarzmiesiac.angaz.firma = :firma"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRokMcNip", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.mc = :mc AND p.kalendarzmiesiac.angaz.firma.nip = :nip"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRokMcWyplAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rokwypl = :rok AND p.mcwypl = :mc AND p.kalendarzmiesiac.angaz = :angaz"),
     @NamedQuery(name = "Pasekwynagrodzen.findById", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.id = :id"),
@@ -300,6 +301,14 @@ public class Pasekwynagrodzen implements Serializable {
     private double przychodyzus52;
     @Column(name="przekroczenie26lat")
     private double przekroczenie26lat;
+    @Column(name="przekroczeniekorektapodstawypolska")
+    private double przekroczeniekorektapodstawypolska;
+     @Column(name="przekroczenienowypodatek")
+    private double przekroczenienowypodatek;
+    @Column(name="przekroczeniepodstawaniemiecka")
+    private double przekroczeniepodstawaniemiecka;
+    @Column(name="przekroczeniepodatekniemiecki")
+    private double przekroczeniepodatekniemiecki;
     
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "ekwiwalentskladniki", referencedColumnName = "id")
@@ -436,8 +445,46 @@ public class Pasekwynagrodzen implements Serializable {
         this.podatekdochodowyzagranica = Z.z(this.podatekdochodowyzagranica+p.getPodatekdochodowyzagranica());
         this.podstawaopodatkowaniazagranicawaluta = Z.z(this.podstawaopodatkowaniazagranicawaluta+p.getPodstawaopodatkowaniazagranicawaluta());
         this.podstawaopodatkowaniazagranica = Z.z(this.podstawaopodatkowaniazagranica+p.getPodstawaopodatkowaniazagranica());
+        this.przekroczeniekorektapodstawypolska = Z.z(this.przekroczeniekorektapodstawypolska+p.getPrzekroczeniekorektapodstawypolska());
+        this.przekroczenienowypodatek = Z.z(this.przekroczenienowypodatek)+p.getPrzekroczenienowypodatek();
+        this.przekroczeniepodstawaniemiecka = Z.z(this.przekroczeniepodstawaniemiecka+p.getPrzekroczeniepodstawaniemiecka());
+        this.przekroczeniepodatekniemiecki = Z.z(this.przekroczeniepodatekniemiecki)+p.getPrzekroczeniepodatekniemiecki();
     }
 
+    public double getPrzekroczeniekorektapodstawypolska() {
+        return przekroczeniekorektapodstawypolska;
+    }
+
+    public void setPrzekroczeniekorektapodstawypolska(double przekroczeniekorektapodstawypolska) {
+        this.przekroczeniekorektapodstawypolska = przekroczeniekorektapodstawypolska;
+    }
+
+    public double getPrzekroczenienowypodatek() {
+        return przekroczenienowypodatek;
+    }
+
+    public void setPrzekroczenienowypodatek(double przekroczenienowypodatek) {
+        this.przekroczenienowypodatek = przekroczenienowypodatek;
+    }
+
+    public double getPrzekroczeniepodstawaniemiecka() {
+        return przekroczeniepodstawaniemiecka;
+    }
+
+    public void setPrzekroczeniepodstawaniemiecka(double przekroczeniepodstawaniemiecka) {
+        this.przekroczeniepodstawaniemiecka = przekroczeniepodstawaniemiecka;
+    }
+
+    public double getPrzekroczeniepodatekniemiecki() {
+        return przekroczeniepodatekniemiecki;
+    }
+
+    public void setPrzekroczeniepodatekniemiecki(double przekroczeniepodatekniemiecki) {
+        this.przekroczeniepodatekniemiecki = przekroczeniepodatekniemiecki;
+    }
+
+    
+    
     public Integer getId() {
         return id;
     }
@@ -646,6 +693,7 @@ public class Pasekwynagrodzen implements Serializable {
         return ulgadlaklasysredniejII;
     }
 
+   
     public void setUlgadlaklasysredniejII(double ulgadlaklasysredniejII) {
         this.ulgadlaklasysredniejII = ulgadlaklasysredniejII;
     }

@@ -12,7 +12,7 @@
         <p:dataTable id="datalist3" value="#{pasekwynagrodzenView.lista}" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
                      selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasekpod"
                      rowKey="#{itempasekpod.kalendarzmiesiac.id}" sortBy="#{itempasekpod.nazwiskoImie}"
-                     style="height: 430px; overflow-y: scroll; width: 1230px;"
+                     style="height: 430px; overflow-y: scroll; width: 1300px;"
                      >
             <p:column width="10">
                 <h:outputText value="#{indexpasekpod+1}"/>
@@ -45,10 +45,10 @@
             <p:column headerText="skład. oddeleg.">
                 <bcf:outputpl value="#{itempasekpod.oddelegowaniewaluta}"/>
             </p:column>
-            <p:column headerText="kurs">
+            <p:column headerText="kurs" width="30">
                 <bcf:outputpl value="#{itempasekpod.kurs}"/>
             </p:column>
-            <p:column headerText="waluta">
+            <p:column headerText="wal." width="20">
                 <bcf:outputpl value="#{itempasekpod.symbolwaluty}"/>
             </p:column>
             <p:column headerText="podstawa pod. zagr.">

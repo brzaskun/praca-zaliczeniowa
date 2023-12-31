@@ -92,6 +92,8 @@ public class DeklaracjaPIT11Schowek implements Serializable {
     private String status;
     @Column(name = "opis")
     private String opis;
+    @Column(name = "przekroczenie")
+    private boolean przekroczenie;
     @JoinColumn(name = "uz", referencedColumnName = "id")
     @NotNull
     @ManyToOne
@@ -278,6 +280,14 @@ public class DeklaracjaPIT11Schowek implements Serializable {
 
     public void setKorekta(boolean korekta) {
         this.korekta = korekta;
+    }
+
+    public boolean isPrzekroczenie() {
+        return przekroczenie;
+    }
+
+    public void setPrzekroczenie(boolean przekroczenie) {
+        this.przekroczenie = przekroczenie;
     }
 
     @Override

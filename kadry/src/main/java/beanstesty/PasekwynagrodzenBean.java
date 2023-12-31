@@ -1422,6 +1422,8 @@ public class PasekwynagrodzenBean {
         }
         pasek.setPodatekwstepny(podatek);
     }
+    
+    
 
     private static void obliczpodatekwstepnyZlecenieDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         double podatek = Z.z(Z.z0(pasek.getPodstawaopodatkowania()) * stawkipodatkowe.get(0).getStawka());

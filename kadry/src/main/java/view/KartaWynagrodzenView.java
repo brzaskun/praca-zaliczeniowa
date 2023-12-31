@@ -451,6 +451,7 @@ public class KartaWynagrodzenView  implements Serializable {
                             DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
                             schowek.setKorekta(korekta);
                             schowek.setUz(wpisView.getUzer());
+                            schowek.setPrzekroczenie(karta.getPodstawaopodatkowaniazagranica()>0.0);
                             karta.setJestPIT11(true);
                             deklaracjaSchowekFacade.create(schowek);
                             listaPIT11.add(schowek);

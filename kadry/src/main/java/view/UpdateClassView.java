@@ -28,6 +28,8 @@ public class UpdateClassView   implements Serializable {
     @Inject
     private PasekwynagrodzenView pasekwynagrodzenView;
     @Inject
+    private PasekwynagrodzenkorektaView pasekwynagrodzenkorektaView;
+    @Inject
     private DraNView draView;
     @Inject
     private NieobecnoscView nieobecnoscView;
@@ -129,6 +131,7 @@ public class UpdateClassView   implements Serializable {
         pracownikNieobecnoscView.reloadDialog();
         skladnikWynagrodzeniaView.init();
         pasekwynagrodzenView.reloadDialog();
+        pasekwynagrodzenkorektaView.reloadDialog();
         draView.reloadDialog();
         zmienneZbiorczoView.init();
         skladnikiZbiorczoView.init();
