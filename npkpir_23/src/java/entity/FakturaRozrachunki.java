@@ -109,13 +109,15 @@ public class FakturaRozrachunki implements Serializable {
     private String uwagi;
     @Column(name = "wplacajacy")
     private String wplacajacy;
+    @Column(name = "waluta")
+    private String waluta;
     
 
     public FakturaRozrachunki() {
     }
 
     
-    public FakturaRozrachunki(ImportBankWiersz r, Podatnik podatnik, Uz wprowadzil, String rodzajdokumentu, String rok, String mc) {
+    public FakturaRozrachunki(ImportBankWiersz r, Podatnik podatnik, Uz wprowadzil, String rodzajdokumentu, String rok, String mc, String waluta) {
         this.data = r.getDatatransakcji();
         this.iban = r.getIBAN();
         this.wystawca = podatnik;
@@ -126,6 +128,7 @@ public class FakturaRozrachunki implements Serializable {
         this.rok = rok;
         this.mc = mc;
         this.kwotaidentyfikujaca = r.getSaldopooperacji();
+        this.waluta = waluta;
     }
     
     @PrePersist
@@ -178,6 +181,22 @@ public class FakturaRozrachunki implements Serializable {
 
     public void setWplacajacy(String wplacajacy) {
         this.wplacajacy = wplacajacy;
+    }
+
+    public String getWaluta() {
+        String zwrot = waluta;
+        if (waluta==null) {
+            if (kurs!=0.0) {
+                zwrot = "EUR";
+            } else {
+                zwrot = "PLN";
+            }
+        }
+        return zwrot;
+    }
+
+    public void setWaluta(String waluta) {
+        this.waluta = waluta;
     }
 
     public String getUwagi() {

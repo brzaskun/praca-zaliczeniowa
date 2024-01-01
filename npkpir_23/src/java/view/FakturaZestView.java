@@ -220,6 +220,7 @@ public class FakturaZestView implements Serializable {
                             ft.setData(p.getDatawystawienia());
                             ft.setFaktura(p);
                             ft.setWaluta(p.getWalutafaktury());
+                            ft.setWystawil(p.getAutor());
                             fakturazestawienie.getTrescfaktury().add(ft);
                         } else {
                             fakturazestawienie.setKontrahent(p.getKontrahent());
@@ -239,6 +240,7 @@ public class FakturaZestView implements Serializable {
                             ft.setIloscwierszy(p.getPozycjenafakturze().size());
                             ft.setData(p.getDatawystawienia());
                             ft.setFaktura(p);
+                            ft.setWystawil(p.getAutor());
                             ft.setWaluta(p.getWalutafaktury());
                             fakturazestawienie.getTrescfaktury().add(ft);
                         }

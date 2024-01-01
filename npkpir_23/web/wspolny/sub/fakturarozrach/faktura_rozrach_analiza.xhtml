@@ -21,7 +21,7 @@
                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" binding="#{fakturaRozrachunkiAnalizaView.selectOneUI}"
                                     filter="true" filterMatchMode="contains" widgetVar="wybierzkontrahenta"
                                     >
-                    <f:selectItems value="#{fakturaRozrachunkiAnalizaView.klienci}" var="poz" itemLabel="#{poz.nazwapodatnika}"/>
+                    <f:selectItems value="#{fakturaRozrachunkiAnalizaView.klienci}" var="poz" itemLabel="#{poz.nazwabezCudzy}"/>
                     <p:ajax event="change" global="false" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" 
                             update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>
                 </p:selectOneListbox>
@@ -132,7 +132,7 @@
                     </p:panelGrid>
             </p:panelGrid>
             <h:outputText value="Aby zarchiwizować wszystkie należy wybrać po lewej i wcisnąć przycisk 'archiwizuj'. Archiwizowanie pojedyncze i odarchiwizowanie - wciskamy czekboksy po prawej" style="color: green;"/>
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1250px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1600px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          rowIndexVar="row" editable="true" styleClass="compact" rowSelectMode="add"
                          rowStyleClass="#{item.mc mod 2 eq 0 ? 'parzyste':null}"
@@ -170,6 +170,12 @@
                     </f:facet>
                      <h:outputText value="#{item.rodzajDok} #{item.nrDok}"/>
                 </p:column>
+                 <p:column width="160">
+                    <f:facet name="header">
+                        <h:outputText value="wystawił"/>
+                    </f:facet>
+                     <h:outputText value="#{item.faktura.autor}"/>
+                </p:column>
                 <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="zapłata"/>
@@ -205,14 +211,40 @@
                     <f:facet name="header">
                         <h:outputText value="wal"/>
                     </f:facet>
-                        <h:outputText value="#{item.pokazWalute()}"/>
+                        
+                    <p:cellEditor>
+                        <f:facet name="output">  
+                            <h:outputText value="#{item.pokazWalute()}"/>
+                        </f:facet>
+                        <f:facet name="input">  
+                            <p:selectOneMenu value="#{item.walutafaktury}" >
+                                <f:selectItem itemLabel="PLN" itemValue="PLN"/>
+                                <f:selectItem itemLabel="EUR" itemValue="EUR"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
-<!--                <p:column width="60">
+                  <p:column width="60">
+                    <f:facet name="header">
+                        <h:outputText value="kurs"/>
+                    </f:facet>
+                         <p:cellEditor>
+                        <f:facet name="output">  
+                            <bcf:outputkurs value="#{item.kurs}" rendered="#{item.kurs ne 0.0}"/>
+                        </f:facet>
+                        <f:facet name="input">  
+                            <p:inputNumber value="#{item.kurs}" required="true" styleClass="kwotarozrachunku" size="9"
+                                    symbolPosition="s" decimalSeparator="."  
+                                    thousandSeparator="&#160;" inputStyle="text-align: right;" decimalPlaces="4" minValue="-1000000"/> 
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="saldo wal"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.saldo}"/>
-                </p:column>-->
+                </p:column>
                 <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="saldo pln"/>

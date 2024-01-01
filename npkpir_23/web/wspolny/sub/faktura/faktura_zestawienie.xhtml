@@ -14,7 +14,7 @@
                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
                                         filter="true" filterMatchMode="contains"
                                         >
-                        <f:selectItems value="#{fakturaZestView.klienci}"/>
+                        <f:selectItems value="#{fakturaZestView.klienci}" var="klient" itemLabel="#{klient.nazwabezCudzy}"/>
                         <p:ajax event="change" global="false" listener="#{fakturaZestView.pobierzwszystkoKlienta()}" 
                                 update="formzestawienie:dokumentyZestawienie akordeon:formzestawienie:panelinfo"/>
                     </p:selectOneListbox>
@@ -102,7 +102,7 @@
                 <h:outputText value="#{fakturaZestView.fakturaWaloryzacja.kontrahent.email}" style=color:blue;"/>
             </p:panelGrid>-->
             <p:dataTable id="dokumentyZestawienie"  value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
-                         rowKey="#{item.kontrahent.npelna}" style="width: 1050px;height: 800px; overflow-y: scroll;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}" sortOrder="descending"
+                         rowKey="#{item.kontrahent.npelna}" style="width: 1350px;height: 800px; overflow-y: scroll;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}" sortOrder="descending"
                          rowSelectMode="add"  emptyMessage="nie pobrano wierszy" >
                 <p:column>
                     <style>
@@ -141,11 +141,14 @@
                         <p:column headerText="brutto">
                             <bcf:outputpl value="#{loop.brutto}"/>
                         </p:column>
-                        <p:column headerText="ilosc wierszy" style="text-align: center;">
+                        <p:column headerText="ilosc wierszy" style="text-align: center;" width="30">
                             <h:outputText value="#{loop.iloscwierszy}"/>
                         </p:column>
-                        <p:column headerText="waluta" style="text-align: center;">
+                        <p:column headerText="waluta" style="text-align: center;" width="30">
                             <h:outputText value="#{loop.waluta}" rendered="#{loop.waluta ne 'PLN'}"/>
+                        </p:column>
+                        <p:column headerText="wystawił" style="text-align: left;" width="230">
+                            <h:outputText value="#{loop.wystawil}"/>
                         </p:column>
                         <p:column  headerText="PDF" style="text-align: center;"  width="50">
                             <p:commandButton  actionListener="#{pdfFaktura.drukuj(loop.faktura, rowA, WpisView.podatnikObiekt)}" icon="ui-icon-print" />

@@ -462,6 +462,7 @@ public class Klienci extends KlienciSuper implements Serializable {
         String nazwa = "brak nazwy klienta";
         if (this.getNpelna()!=null) {
             nazwa = this.getNpelna().replace("\"", "");
+            nazwa = nazwa.replace("\'", "");
         }
         return nazwa;
     }

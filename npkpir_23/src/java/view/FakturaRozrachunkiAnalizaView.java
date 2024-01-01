@@ -8,7 +8,7 @@ package view;
 import beansFaktura.FakturaBean;
 import beansMail.SMTPBean;
 import comparator.FakturaPodatnikRozliczeniecomparator;
-import comparator.KlienciNPcomparator;
+import comparator.Kliencicomparator;
 import comparator.UzNazwiskocomparator;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
@@ -118,7 +118,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
         klienci.addAll(pobierzkontrahentow());
         dodatkowyadresmailowy="m.januszewska@taxman.biz.pl";
-        Collections.sort(klienci, new KlienciNPcomparator());
+        Collections.sort(klienci, new Kliencicomparator());
         podatnicy = podatnikDAO.findAll();
         listaksiegowych = uzDAO.findByUprawnienia("Bookkeeper");
         listaksiegowych.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
@@ -296,7 +296,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 if (p.isFaktura0rozliczenie1()) {
                     iloscfakturbezplatnosci --;
                     if (p.getRozliczenie().getKurs() != 0.0) {
-                        saldo -= p.getKwotapln();
+                        saldo -= p.getKwota();
                         saldopln -= p.getKwotapln();
                     } else {
                         saldo -= p.getKwota();
@@ -310,13 +310,13 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         saldo += p.getKwota();
                         saldopln += p.getKwota();
                     } else if (p.getFaktura() != null && p.getFaktura().getWalutafaktury() != null && !p.getFaktura().getWalutafaktury().equals("PLN")) {
-                        saldo += p.getKwotapln();
+                        saldo += p.getKwota();
                         saldopln += p.getKwotapln();
                     } else if (p.getRozliczenie() != null && p.getRozliczenie().getKurs() == 0.0) {//to jest dla dokumentu bo ktory jest traktowany jak faktura ale jest rozliczeniem
                         saldo += p.getKwota();
                         saldopln += p.getKwota();
                     } else if (p.getRozliczenie() != null && p.getRozliczenie().getKurs() != 0.0) {
-                        saldo += p.getKwotapln();
+                        saldo += p.getKwota();
                         saldopln += p.getKwotapln();
                     }
                 }
@@ -419,7 +419,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     public void zestawieniezbiorcze() {
         klienci = new ArrayList<>();
         klienci.addAll(pobierzkontrahentow());
-        Collections.sort(klienci, new KlienciNPcomparator());
+        Collections.sort(klienci, new Kliencicomparator());
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
         if (wybranyksiegowy!=null) {
@@ -589,6 +589,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void korygujsaldo(FakturaPodatnikRozliczenie p) {
         double saldopln = p.getSaldopln();
+        double saldowaluta = p.getSaldo();
         if (saldopln != 0.0) {
             FakturaRozrachunki f = new FakturaRozrachunki();
             f.setData(Data.aktualnaData());
@@ -598,6 +599,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 szukanyklient = p.getFaktura().getKontrahent();
             }
             f.setKontrahent(szukanyklient);
+            f.setWaluta(p.getWalutafaktury());
             f.setKwotawwalucie(-p.getSaldo());
             f.setKwotapln(-p.getSaldopln());
             if (p.getSaldo()!=0.0 && p.getSaldopln()!=0.0 && Z.z(p.getSaldo())!=Z.z(p.getSaldopln())) {

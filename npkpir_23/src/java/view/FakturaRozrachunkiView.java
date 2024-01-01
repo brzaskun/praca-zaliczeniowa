@@ -230,7 +230,12 @@ public class FakturaRozrachunkiView  implements Serializable {
     public void onRowEditAnaliza(RowEditEvent event) {
         FakturaPodatnikRozliczenie fr = (FakturaPodatnikRozliczenie) event.getObject();
         if (fr !=null && fr.getRozliczenie()!=null) {
-            fr.getRozliczenie().setKwotapln(fr.getKwota());
+            fr.getRozliczenie().setKwotawwalucie(fr.getKwota());
+            fr.getRozliczenie().setWaluta(fr.getWalutafaktury());
+            if (fr.getKurs()>0.0) {
+                fr.getRozliczenie().setKurs(fr.getKurs());
+                fr.getRozliczenie().setKwotapln(Z.z(fr.getKwota()*fr.getKurs()));
+            }
             fakturaRozrachunkiDAO.edit(fr.getRozliczenie());
             Msg.msg("Naniesiono zmiany");
         } else {

@@ -33,6 +33,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
     private double kwotapln;
     private double saldo;
     private double saldopln;
+    private double kurs;
     private String mail;
     private Date dataupomnienia;
     private Date datatelefon;
@@ -66,7 +67,11 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         } else {
             this.walutafaktury = "PLN";
         }
+        if (p.getWaluta()!=null) {
+            this.walutafaktury = p.getWaluta();
+        }
         this.archiwalny = p.isRozrachunekarchiwalny();
+        this.kurs = p.getKurs();
     }
 
     public FakturaPodatnikRozliczenie(Faktura r) {
@@ -87,6 +92,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         } else {
             this.mail = "";
         }
+        this.kurs = Z.z(r.getBruttopln()/r.getBrutto());
         this.dataupomnienia = r.getDataupomnienia();
         this.datatelefon = r.getDatatelefon();
         this.przeniesionosaldo = r.isPrzeniesionosaldo();
@@ -159,6 +165,14 @@ public class FakturaPodatnikRozliczenie implements Serializable{
 
     public void setFaktura(Faktura faktura) {
         this.faktura = faktura;
+    }
+
+    public double getKurs() {
+        return kurs;
+    }
+
+    public void setKurs(double kurs) {
+        this.kurs = kurs;
     }
 
     public FakturaRozrachunki getRozliczenie() {

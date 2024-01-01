@@ -28,6 +28,7 @@ public class FZTresc implements Serializable {
     private String opis;
     private String waluta;
     private Faktura faktura;
+    private String wystawil;
 
     public FZTresc() {
     }
@@ -111,6 +112,16 @@ public class FZTresc implements Serializable {
     public void setIloscwierszy(int iloscwierszy) {
         this.iloscwierszy = iloscwierszy;
     }
+
+    public String getWystawil() {
+        return wystawil;
+    }
+
+    public void setWystawil(String wystawil) {
+        this.wystawil = wystawil;
+    }
+    
+    
 
     @Override
     public int hashCode() {
