@@ -35,6 +35,7 @@ import java.util.List;
 import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
+import pdffk.PdfDodajTabele;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
@@ -57,6 +58,8 @@ public class PdfKontoZapisy {
             boolean duzy0maly1, boolean pokaztransakcje)  throws DocumentException, FileNotFoundException, IOException {
         Podatnik pod = wpisView.getPodatnikObiekt();
         Konto konto = wybranekonto;
+        final String rok = wpisView.getRokWpisuSt();
+        final String mc = wpisView.getMiesiacDo();
         try {
             List<Parametr> param = pod.getVatokres();
             Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 20);
@@ -193,8 +196,8 @@ public class PdfKontoZapisy {
                double kwotawaluta = rs.getKwota();
                double kwotapln = rs.getKwotaPLN();
                if (pokaztransakcje) {
-                   kwotawaluta = rs.getPozostaloZapisynakoncie();
-                   kwotapln = rs.getPozostaloPLNZapisynakoncie();
+                   kwotawaluta = rs.getPozostaloZapisynakoncie(rok, mc);
+                   kwotapln = rs.getPozostaloPLNZapisynakoncie(rok, mc);
                }
                 if (duzy0maly1 == false) {
                     if (rs.getWnma().equals("Wn")) {
@@ -331,6 +334,8 @@ public class PdfKontoZapisy {
     
     public static void drukujzapisyKompakt(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto, List<ListaSum> listasum, 
             int opcja, boolean nierenderujkolumnnywalut, boolean pokaztransakcje)  {
+        final String rok = wpisView.getRokWpisuSt();
+        final String mc = wpisView.getMiesiacDo();
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"plankont";
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -357,9 +362,9 @@ public class PdfKontoZapisy {
                 PdfMain.dodajLinieOpisuCenter(document, wybranekonto.getNumerNazwaMacierzyste());
             }
             if (pokaztransakcje) {
-                dodajTabele(document, testobjects.testobjects.getKontoZapisy3(nowalista),95,3);
+                PdfDodajTabele.dodajTabele(document, testobjects.testobjects.getKontoZapisy3(nowalista),95,3, rok, mc);
             } else {
-                dodajTabele(document, testobjects.testobjects.getKontoZapisy(nowalista),95,2);
+                PdfDodajTabele.dodajTabele(document, testobjects.testobjects.getKontoZapisy(nowalista),95,2, rok, mc);
             }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";

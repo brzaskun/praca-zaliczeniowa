@@ -33,11 +33,11 @@
         }
     </style>
     <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisynakoncie" appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1700,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
+              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1730,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true"
               >
         <p:ajax event="open" listener="#{kontoZapisFKView.init()}" update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta walutazapisynakoncie"/>
-        <p:layout fullPage="false" style="height: 720px;width: 700px;" >  
+        <p:layout fullPage="false" style="height: 720px;width: 730px;" >  
             <p:layoutUnit position="north">
                 <p:panelGrid columns="4" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
@@ -216,7 +216,7 @@
 
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
-                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="width: 1200px;"
+                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="width: 100%;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="walkingtable" rowSelectMode="add"
                                  rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{kontoZapisFKView.kontozapisy.size() gt 150 ? 'true':'false'}" rows="150"
@@ -267,7 +267,7 @@
                             <h:outputText id="kwotawnwiersz" value="#{loop.wnma eq 'Wn' ? loop.kwotaWn : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq false}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
-                            <h:outputText id="kwotawnwiersztr" value="#{loop.wnma eq 'Wn' ? loop.pozostaloZapisynakoncie : null}" style="float: right;#{loop.isNowatransakcja() ? 'color: green': 'color: blue'}" 
+                            <h:outputText id="kwotawnwiersztr" value="#{loop.wnma eq 'Wn' ? loop.getPozostaloZapisynakoncie(WpisView.rokWpisuSt, WpisView.miesiacDo) : null}" style="float: right;#{loop.isNowatransakcja() ? 'color: green': 'color: blue'}" 
                                           rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -283,7 +283,7 @@
                             <h:outputText id="kwotamawiersz" value="#{loop.wnma eq 'Ma' ? loop.kwotaMa : null}" style="float: right;" rendered="#{kontoZapisFKView.pokaztransakcje eq false}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
-                            <h:outputText id="kwotamawiersztr" value="#{loop.wnma eq 'Ma' ? loop.pozostaloZapisynakoncie : null}" style="float: right;#{loop.isNowatransakcja() ? 'color: green': 'color: blue'}" rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
+                            <h:outputText id="kwotamawiersztr" value="#{loop.wnma eq 'Ma' ? loop.pozostaloZapisynakoncie(WpisView.rokWpisuSt, WpisView.miesiacDo) : null}" style="float: right;#{loop.isNowatransakcja() ? 'color: green': 'color: blue'}" rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>

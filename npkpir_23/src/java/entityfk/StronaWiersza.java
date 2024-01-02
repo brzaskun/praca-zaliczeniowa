@@ -566,14 +566,18 @@ public class StronaWiersza implements Serializable {
         return Z.z(this.pozostalo);
     }
     
-    public double getPozostaloZapisynakoncie() {
+    public double getPozostaloZapisynakoncie(String rok, String mc) {
         this.rozliczono = 0.0;
+        String ostatnidzien = Data.ostatniDzien(rok, mc);
         if (this.platnosci != null) {
             for (Transakcja p : this.platnosci) {
-                if (p.getKwotawwalucierachunku() != 0.0) {
-                    this.rozliczono = Z.z(this.rozliczono+p.getKwotawwalucierachunku());
-                } else {
-                    this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                boolean czyjestprzed = Data.czyjestprzed(ostatnidzien, p.getDatarozrachunku());
+                if (czyjestprzed) {
+                    if (p.getKwotawwalucierachunku() != 0.0) {
+                        this.rozliczono = Z.z(this.rozliczono+p.getKwotawwalucierachunku());
+                    } else {
+                        this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                    }
                 }
             }
             if (this.kwota >= 0.0) {
@@ -584,7 +588,10 @@ public class StronaWiersza implements Serializable {
         }
         if (this.nowetransakcje != null) {
             for (Transakcja p : this.nowetransakcje) {
+                boolean czyjestprzed = Data.czyjestprzed(ostatnidzien, p.getDatarozrachunku());
+                if (czyjestprzed) {
                     this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                }
             }
             if (this.kwota >= 0.0) {
                 this.pozostalo = Z.z(this.kwota - this.rozliczono);
@@ -595,6 +602,35 @@ public class StronaWiersza implements Serializable {
         return Z.z(this.pozostalo);
     }
 
+    
+//    public double getPozostaloZapisynakoncie() {
+//        this.rozliczono = 0.0;
+//        if (this.platnosci != null) {
+//            for (Transakcja p : this.platnosci) {
+//                if (p.getKwotawwalucierachunku() != 0.0) {
+//                    this.rozliczono = Z.z(this.rozliczono+p.getKwotawwalucierachunku());
+//                } else {
+//                    this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+//                }
+//            }
+//            if (this.kwota >= 0.0) {
+//                this.pozostalo = Z.z(this.kwota - this.rozliczono);
+//            } else {
+//                this.pozostalo = Z.z(this.kwota + this.rozliczono);
+//            }
+//        }
+//        if (this.nowetransakcje != null) {
+//            for (Transakcja p : this.nowetransakcje) {
+//                    this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+//            }
+//            if (this.kwota >= 0.0) {
+//                this.pozostalo = Z.z(this.kwota - this.rozliczono);
+//            } else {
+//                this.pozostalo = Z.z(this.kwota + this.rozliczono);
+//            }
+//        }
+//        return Z.z(this.pozostalo);
+//    }
     public double getPozostalo(WpisView wpisView) {
         this.rozliczono = 0.0;
         int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
@@ -641,16 +677,26 @@ public class StronaWiersza implements Serializable {
         return Z.z(kwotaprzeliczenia);
     }
     
-    public double getPozostaloPLNZapisynakoncie() {
-        double kwotaprzeliczenia = getPozostaloZapisynakoncie();
+    public double getPozostaloPLNZapisynakoncie(String rok, String mc) {
+        double kwotaprzeliczenia = getPozostaloZapisynakoncie(rok, mc);
         if (this.getWiersz().getTabelanbp() != null) {
-            kwotaprzeliczenia = Z.z(getPozostaloZapisynakoncie() * this.getWiersz().getTabelanbp().getKurssredniPrzelicznik());
+            kwotaprzeliczenia = Z.z(getPozostaloZapisynakoncie(rok, mc) * this.getWiersz().getTabelanbp().getKurssredniPrzelicznik());
         } else if (this.getKursBO() != 0.0) {
-            kwotaprzeliczenia = Z.z(getPozostaloZapisynakoncie() * kursBO);
+            kwotaprzeliczenia = Z.z(getPozostaloZapisynakoncie(rok, mc) * kursBO);
         }
         return Z.z(kwotaprzeliczenia);
     }
 
+    
+//     public double getPozostaloPLNZapisynakoncie() {
+//        double kwotaprzeliczenia = getPozostaloZapisynakoncie();
+//        if (this.getWiersz().getTabelanbp() != null) {
+//            kwotaprzeliczenia = Z.z(getPozostaloZapisynakoncie() * this.getWiersz().getTabelanbp().getKurssredniPrzelicznik());
+//        } else if (this.getKursBO() != 0.0) {
+//            kwotaprzeliczenia = Z.z(getPozostaloZapisynakoncie() * kursBO);
+//        }
+//        return Z.z(kwotaprzeliczenia);
+//    }
     public String getNazwaWaluty() {
         if (this.getWiersz().getTabelanbp() != null) {
             return this.wiersz.getTabelanbp().getWaluta().getSymbolwaluty();

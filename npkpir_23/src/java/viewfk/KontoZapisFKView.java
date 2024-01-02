@@ -569,8 +569,10 @@ public class KontoZapisFKView implements Serializable{
     }
     
     private void sumawiersz(DoubleAccumulator  wn, StronaWiersza p) {
+        final String rok = wpisView.getRokWpisuSt();
+        final String mc = wpisView.getMiesiacDo();
         if (pokaztransakcje) {
-            wn.accumulate(p.getPozostaloZapisynakoncie());
+            wn.accumulate(p.getPozostaloZapisynakoncie(rok, mc));
         } else {
             wn.accumulate(p.getKwota());
         }
@@ -580,11 +582,13 @@ public class KontoZapisFKView implements Serializable{
     public void sumazapisowpln(){
         sumaWnPLN = 0.0;
         sumaMaPLN = 0.0;
+        final String rok = wpisView.getRokWpisuSt();
+        final String mc = wpisView.getMiesiacDo();
         DoubleAccumulator  wn = new DoubleAccumulator(Double::sum,0.d);
         DoubleAccumulator  ma = new DoubleAccumulator(Double::sum,0.d);
         if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
             wybranezapisydosumowania.stream().forEach((p) -> {
-                double kwotadlasumy = pokaztransakcje ? p.getPozostaloZapisynakoncie() : p.getKwotaPLN();
+                double kwotadlasumy = pokaztransakcje ? p.getPozostaloZapisynakoncie(rok, mc) : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
                     wn.accumulate(kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
@@ -593,7 +597,7 @@ public class KontoZapisFKView implements Serializable{
             });
         } else if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
             kontozapisyfiltered.stream().forEach((p) -> {
-                double kwotadlasumy = pokaztransakcje ? p.getPozostaloPLNZapisynakoncie() : p.getKwotaPLN();
+                double kwotadlasumy = pokaztransakcje ? p.getPozostaloPLNZapisynakoncie(rok, mc) : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
                     wn.accumulate(kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
@@ -602,7 +606,7 @@ public class KontoZapisFKView implements Serializable{
             });
         }  else {
             kontozapisy.stream().forEach((p) -> {
-                double kwotadlasumy = pokaztransakcje ? p.getPozostaloPLNZapisynakoncie() : p.getKwotaPLN();
+                double kwotadlasumy = pokaztransakcje ? p.getPozostaloPLNZapisynakoncie(rok, mc) : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
                     wn.accumulate(kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
