@@ -161,10 +161,11 @@ public class RozwiazanieumowyView  implements Serializable {
                 //List<Dzien> dniwroku = dni.stream().filter(s->s.getKalendarzmiesiac().getRok().equals(rok)).collect(Collectors.toList());
                 List<Dzien> dni = filter0.stream().flatMap(t->t.getDzienList().stream()).collect(Collectors.toList());
                 List<Dzien> dniroboczelist = dni.stream().filter(t->t.getTypdnia()==0).collect(Collectors.toList());
-                if (p.getRodzajnieobecnosci().getKod().equals("CH")) {
+                //to zlikwidowalem bo dni liczyl wszyskie
+                //if (p.getRodzajnieobecnosci().getKod().equals("CH")) {
                     dni = dni.stream().filter(t->t.getRok().equals(rok)).collect(Collectors.toList());
                     dniroboczelist = dni.stream().filter(t->t.getTypdnia()==0&&t.getRok().equals(rok)).collect(Collectors.toList());
-                }
+                //}
                 //nie ma zrobionych zmiennej dnikalendarfzowe
                 //double dnirobocze = p.getRodzajnieobecnosci().isDnikalendarzowe() ? dniwroku.size() : dniroboczelist.size();
                 double godzinyrobocze = dniroboczelist.stream().mapToDouble(f->f.getUrlopPlatny()).sum();
