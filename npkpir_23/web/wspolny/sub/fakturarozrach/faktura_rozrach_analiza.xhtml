@@ -33,6 +33,10 @@
                 </p:inputTextarea>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-left: 15px;">
+                    <h:outputText value="pokaż rok poprzedni"/>
+                    <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.pokazrokpoprzedni}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>
+                    </p:selectBooleanCheckbox>
                     <h:outputText value="dołącz rok poprzedni"/>
                     <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.dolaczrokpoprzedni}">
                         <p:ajax event="change" partialSubmit="true" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>

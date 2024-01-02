@@ -97,6 +97,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private boolean pobierzdwalata;
     private String tekstwiadomosci;
     private boolean dolaczrokpoprzedni;
+    private boolean pokazrokpoprzedni;
     private String dodatkowyadresmailowy;
     List<Podatnik> podatnicy;
     private double razemwybrane;
@@ -167,24 +168,31 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     public List<FakturaPodatnikRozliczenie> pobierzelementy(String mc, boolean nowe0archiwum, Klienci klient) {
         List<FakturaPodatnikRozliczenie> pozycje = null;
         if (klient != null) {
-            List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), klient);
-            if (dolaczrokpoprzedni) {
-                platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), klient);
-                for (Iterator<FakturaRozrachunki> it =platnosci.iterator();it.hasNext();) {
-                    FakturaRozrachunki f = it.next();
-                    if (f.getNrdokumentu().contains("bo")) {
-                        it.remove();
+            if (pokazrokpoprzedni==false) {
+                List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), klient);
+                if (dolaczrokpoprzedni) {
+                    platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), klient);
+                    for (Iterator<FakturaRozrachunki> it =platnosci.iterator();it.hasNext();) {
+                        FakturaRozrachunki f = it.next();
+                        if (f.getNrdokumentu().contains("bo")) {
+                            it.remove();
+                        }
                     }
+                    platnosci.addAll(fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient));
                 }
-                platnosci.addAll(fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient));
+                //problem jest zeby nie brac wczesniejszych niz 2016 wiec BO sie robi
+                List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                if (dolaczrokpoprzedni) {
+                    faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                    faktury.addAll(fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt()));
+                }
+                pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
+            } else {
+                List<FakturaRozrachunki>  platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient);
+                List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+                pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
             }
-            //problem jest zeby nie brac wczesniejszych niz 2016 wiec BO sie robi
-            List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            if (dolaczrokpoprzedni) {
-                faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-                faktury.addAll(fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt()));
-            }
-            pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
+            
             usuninnemiesiace(wpisView.getRokWpisuSt(), mc, pozycje);
             int i = 1;
             for (FakturaPodatnikRozliczenie p : pozycje) {
@@ -209,14 +217,20 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             } else {
                 for (Podatnik po : podatnicy) {
                     if (po.getNip().equals(k.getNip())) {
-                        k.setNazwapodatnika(po.getPrintnazwa());
-                        k.setTelefon(po.getTelefonkontaktowy());
-                        k.setAktywny(po.isPodmiotaktywny());
-                        if (po.getKsiegowa()!=null) {
-                            k.setKsiegowa(po.getKsiegowa());
+                        if (po.isPodmiotaktywny() == false) {
+                            it.remove();
+                            break;
+                        } else {
+                            k.setNazwapodatnika(po.getPrintnazwa());
+                            k.setTelefon(po.getTelefonkontaktowy());
+                            k.setAktywny(po.isPodmiotaktywny());
+                            if (po.getKsiegowa()!=null) {
+                                k.setKsiegowa(po.getKsiegowa());
+                            }
+                            k.setPolecajacy(po.getPolecajacy());
+
+                            break;
                         }
-                        k.setPolecajacy(po.getPolecajacy());
-                        break;
                     }
                 }
                 if (k.getNazwapodatnika()==null) {
@@ -864,6 +878,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         this.dolaczrokpoprzedni = dolaczrokpoprzedni;
     }
 
+    public boolean isPokazrokpoprzedni() {
+        return pokazrokpoprzedni;
+    }
+
+    public void setPokazrokpoprzedni(boolean pokazrokpoprzedni) {
+        this.pokazrokpoprzedni = pokazrokpoprzedni;
+    }
+
     public String getTekstwiadomosci() {
         return tekstwiadomosci;
     }
@@ -1000,7 +1022,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             Podatnik podatnik = podatnikDAO.findPodatnikByNIP(szukanyklient.getNip());
             podatnik.setPodmiotaktywny(!podatnik.isPodmiotaktywny());
             podatnikDAO.edit(podatnik);
-            szukanyklient.setAktywny(podatnik.isPodmiotaktywny());
+            Klienci klientposzukiwany = klienciDAO.findKlientById(szukanyklient.getId());
+            klientposzukiwany.setAktywny(podatnik.isPodmiotaktywny());
+            klienciDAO.edit(klientposzukiwany);
             Msg.msg("Zmieniono aktywacje podatnika");
         } else {
             Msg.msg("e","Nie pobrano podatnika");
