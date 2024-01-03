@@ -280,10 +280,15 @@
                 <p:column width="40" style="text-align: center;">
                         <p:rowEditor style="height: 30px;" />
                 </p:column>
-                <p:column   style="text-align: center;"  width="40">
+                
+                <p:column   style="text-align: center;"  width="40" headerText="pdf">
                     <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(item.faktura, row, WpisView.podatnikObiekt)}" icon="ui-icon-print"  rendered="#{item.faktura0rozliczenie1 eq false}"/>
                 </p:column>
-                <p:column   style="text-align: center;"  width="40">
+                <p:column   style="text-align: center;"  width="40" headerText="mail">
+                    <p:commandButton  update=":form1:messages" actionListener="#{fakturaView.mailfakturaJedna(item.faktura)}" icon="ui-icon-mail-closed"  
+                                      rendered="#{item.faktura0rozliczenie1 eq false}"/>
+                </p:column>
+                <p:column   style="text-align: center;"  width="40" headerText="usuń">
                     <p:commandButton  update=":form1:messages,akordeon:fakturaanaliza:tablicaanaliza" actionListener="#{fakturaRozrachunkiAnalizaView.usunfakture(item)}" icon="fa fa-trash"  
                                       rendered="#{item.faktura0rozliczenie1 eq false}"/>
                 </p:column>

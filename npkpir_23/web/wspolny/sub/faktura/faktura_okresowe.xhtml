@@ -50,7 +50,8 @@
                 <p:inputText  id="datawystawienia" value="#{fakturaView.datawystawienia}" maxlength="10" placeholder="rrrr-mm-dd" onblur="weryfikujsporzadzfakture(this)"/>
                 <p:commandButton value="drukuj" actionListener="#{fakturaView.drukujokresowe}" global="false" style="width: 120px; margin-left: 10px;"/>
                 <p:commandButton value="drukuj zerowe" actionListener="#{fakturaView.drukujokresowezerowe}" global="false" style="width: 120px; margin-left: 10px;"/>
-                <p:commandButton value="nanieś waloryzacje" actionListener="#{fakturaView.nanieswaloryzacje}" global="true" style="width: 120px; margin-left: 10px;" update="formokresowe:dokumentyOkresowe"/>
+<!--                <p:commandButton value="nanieś waloryzacje" actionListener="#{fakturaView.nanieswaloryzacje}" global="true" 
+                                 style="width: 120px; margin-left: 10px;" update="formokresowe:dokumentyOkresowe"/>-->
                 <p:selectOneMenu value="#{fakturaView.jakapobrac}" style="margin-left: 10px;">
                     <f:selectItem itemLabel="wszystkie" itemValue="0"/>
                     <f:selectItem itemLabel="niewystawione" itemValue="6"/>
@@ -61,7 +62,11 @@
                     <f:selectItem itemLabel="niewaloryzowana" itemValue="5"/>
                     <p:ajax event="change" partialSubmit="true" global="false" listener="#{fakturaView.filtrujfakturyNowe}" update="akordeon:formokresowe:dokumentyOkresowe"/>
                 </p:selectOneMenu>
-                <h:outputText value="filtruj wg wartości od-do"/>
+                <h:outputText value="pokaż zawieszone"/>
+                <p:selectBooleanCheckbox value="#{fakturaView.pokazzawieszone}">
+                    <p:ajax event="change" listener="#{fakturaView.init()}" global="false" update="akordeon:formokresowe:dokumentyOkresowe"/>
+                </p:selectBooleanCheckbox>
+<!--                <h:outputText value="filtruj wg wartości od-do"/>
                 <p:inputNumber  value="#{fakturaView.dolnylimit}" symbol=" zł" 
                                 style="width: 70px;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
                     <p:ajax event ="blur" partialSubmit="true"/>
@@ -69,7 +74,7 @@
                 <p:inputNumber  value="#{fakturaView.gornylimit}" symbol=" zł" 
                                          style="width: 70px;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
                     <p:ajax event ="blur" listener="#{fakturaView.filtrujfaktury2}" update="akordeon:formokresowe:dokumentyOkresowe"  partialSubmit="true"/>
-                </p:inputNumber>
+                </p:inputNumber>-->
             </p:panelGrid>
             
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}" 

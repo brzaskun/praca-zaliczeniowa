@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Fakturywystokresowe.findByRok", query = "SELECT f FROM Fakturywystokresowe f WHERE f.rok = :rok"),
     @NamedQuery(name = "Fakturywystokresowe.findByPodatnikRok", query = "SELECT f FROM Fakturywystokresowe f WHERE f.podatnik = :podatnik AND f.rok = :rok"),
     @NamedQuery(name = "Fakturywystokresowe.findByPodatnikRokBiezace", query = "SELECT f FROM Fakturywystokresowe f WHERE f.podatnik = :podatnik AND f.rok = :rok AND f.biezaca0archiwalna1 = '0'"),
+    @NamedQuery(name = "Fakturywystokresowe.findByPodatnikRokBiezaceBezzawieszonych", query = "SELECT f FROM Fakturywystokresowe f WHERE f.podatnik = :podatnik AND f.rok = :rok AND f.biezaca0archiwalna1 = '0' AND f.zawieszona = '0'"),
     @NamedQuery(name = "Fakturywystokresowe.findByNipodbiorcy", query = "SELECT f FROM Fakturywystokresowe f WHERE f.nipodbiorcy = :nipodbiorcy"),
     @NamedQuery(name = "Fakturywystokresowe.findByBrutto", query = "SELECT f FROM Fakturywystokresowe f WHERE f.brutto = :brutto"),
     @NamedQuery(name = "Fakturywystokresowe.findByFaktura", query = "SELECT f FROM Fakturywystokresowe f WHERE f.dokument = :faktura"),

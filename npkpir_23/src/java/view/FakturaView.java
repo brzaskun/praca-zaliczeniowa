@@ -214,6 +214,7 @@ public class FakturaView implements Serializable {
     private boolean fakturakorekta;
     private boolean rachunek;
     private boolean podazedytorvar;
+    private boolean pokazzawieszone;
     private AutoComplete kontrahentstworz;
     private AutoComplete odbiorcastworz;
     @Inject
@@ -254,7 +255,11 @@ public class FakturaView implements Serializable {
         fakturyFiltered = null;
         aktywnytab = 1;
         mailplussms = false;
-        fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        if (pokazzawieszone == true) {
+            fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        } else {
+            fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezaceBezzawieszonych(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        }
         Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         boolean czybiuro = wpisView.getPodatnikObiekt().getNip().equals("8511005008");
@@ -2691,6 +2696,25 @@ public class FakturaView implements Serializable {
         }
     }
     
+    public void mailfakturaJedna(Faktura faktura) {
+        try {
+            List<Faktura> wybrane = new ArrayList<>();
+            wybrane.add(faktura);
+            pdfFaktura.drukujmail(wybrane, wpisView);
+            Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
+            MailOther.faktura(wybrane, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef());
+            if (mailplussms) {
+                Map<String, String> zwrot = SmsSend.wyslijSMSyFakturyLista(wybrane, "Na adres firmy wysłano właśnie fakturę.", podatnikDAO);
+                if (zwrot.size()>0) {
+                    Msg.msg("e","Błąd podczas wysyłania sms do faktury "+zwrot.size());
+                }
+            }
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e","Błąd podczas wysyłki faktury "+e.getMessage());
+        }
+    }
+    
     public void pdffaktura() {
         try {
             if (gosciwybral != null && gosciwybral.size() >0) {
@@ -3849,6 +3873,14 @@ public class FakturaView implements Serializable {
 
     public void setIloscwybranych2(int iloscwybranych2) {
         this.iloscwybranych2 = iloscwybranych2;
+    }
+
+    public boolean isPokazzawieszone() {
+        return pokazzawieszone;
+    }
+
+    public void setPokazzawieszone(boolean pokazzawieszone) {
+        this.pokazzawieszone = pokazzawieszone;
     }
 
 

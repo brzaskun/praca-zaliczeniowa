@@ -157,6 +157,9 @@
                             <p:commandButton  update=":akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(loop.faktura)}" 
                                               icon="ui-icon-pencil" rendered="#{!loop.faktura.fakturaniemiecka13b}"/>
                         </p:column>
+                         <p:column  headerText="Usuń" style="text-align: center;"  width="50">
+                             <p:commandButton  actionListener="#{fakturaView.usunfakture(loop.faktura)}" icon="ui-icon-trash" />
+                        </p:column>
                     </p:dataTable>
                 </p:column>
             </p:dataTable>
