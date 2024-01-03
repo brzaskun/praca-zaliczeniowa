@@ -1023,6 +1023,7 @@ public class KalendarzmiesiacBean {
             double wynagrodzeniemczwaloryzowane = 0.0;
             Pasekwynagrodzen pasek = kalendarzdosredniej.getPasek(definicjabiezaca);
             double procentOddelegowanie = 1.0;
+            //UWAGA TUTAJ JEST PROPORCJA DLA ODDELEGOWANYCH
             if (pasek.getRokwypl()!=null) {
                 procentOddelegowanie = pasek.obliczproporcjeZusOddelegowani();
             }

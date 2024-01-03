@@ -1654,10 +1654,11 @@ public class Pasekwynagrodzen implements Serializable {
 
     public double obliczproporcjeZusOddelegowani() {
         double zwrot = 1;
-        double brutto = this.bruttozus;
-        if (this.do26lat) {
-            brutto = brutto+this.bruttozusbezpodatek;
-        }
+        double brutto = this.przychodyzus51;
+        //zmiana 03.01.2024 po rewolucji w porzadkowaniu skladnikow nie pobieralo wlasciwie
+//        if (this.do26lat) {
+//            brutto = brutto+this.bruttozusbezpodatek;
+//        }
         if (brutto>0.0&&brutto!=this.podstawaskladkizus&&this.oddelegowaniewaluta>0.0) {
             zwrot = this.podstawaskladkizus/brutto;
         } else if (this.bruttozusbezpodatek>0.0&&this.bruttozusbezpodatek!=this.podstawaskladkizus&&this.oddelegowaniewaluta>0.0) {

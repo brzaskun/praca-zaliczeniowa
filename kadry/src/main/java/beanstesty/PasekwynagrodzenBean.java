@@ -771,7 +771,8 @@ public class PasekwynagrodzenBean {
                pasek.setPrzychodypodatekpolska(doopodatkowaniaZaMiesiac);
                
             }
-        } else if (rachunekdoumowyzlecenia.isInnytytulminim()) {
+        } 
+        if (rachunekdoumowyzlecenia.isInnytytulminim()) {
             pasek.setPrzychodyzus51(0.0);
         }
         pasek.setStudent(rachunekdoumowyzlecenia.isStatusstudenta());
