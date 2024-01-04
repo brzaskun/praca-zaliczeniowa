@@ -1655,6 +1655,13 @@ public class Pasekwynagrodzen implements Serializable {
     public double obliczproporcjeZusOddelegowani() {
         double zwrot = 1;
         double brutto = this.przychodyzus51;
+        // dodalem ponownie stara wersje bo nie liczylo dobrze podstawy dla starych przychodow ze starym przyporzadkowaniem 04.01.2024
+        if (this.przychodyzus51==0.0) {
+            brutto = this.bruttozus;
+            if (this.do26lat) {
+                brutto = brutto+this.bruttozusbezpodatek;
+            }
+        }
         //zmiana 03.01.2024 po rewolucji w porzadkowaniu skladnikow nie pobieralo wlasciwie
 //        if (this.do26lat) {
 //            brutto = brutto+this.bruttozusbezpodatek;

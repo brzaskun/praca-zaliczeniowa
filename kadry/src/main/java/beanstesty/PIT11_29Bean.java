@@ -655,7 +655,7 @@ public class PIT11_29Bean {
             }
             poz.setP121((byte)2);
         }
-        if (poz.getP30()!=null||poz.getP35()!=null||poz.getP37()!=null||poz.getP42()!=null||poz.getP44()!=null) {
+        if (poz.getP30()!=null) {
             //koszty uzyskania
             poz.setP28((byte)1);
             if (kartawynagrodzen.isKosztypodwyzszone()) {
