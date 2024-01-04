@@ -26,6 +26,7 @@ import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.SMTPSettings;
 import entity.Umowa;
+import error.E;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -96,30 +97,34 @@ public class KartaWynagrodzenView  implements Serializable {
     }
     
      public void init2() {
-        pobierzdaneAll();
-        listaPIT11 = deklaracjaPIT11SchowekFacade.findByRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
-        Collections.sort(listaPIT11, new DeklaracjaPIT11Schowekcomparator());
+        try {
+            pobierzdaneAll();
+            listaPIT11 = deklaracjaPIT11SchowekFacade.findByRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
+            Collections.sort(listaPIT11, new DeklaracjaPIT11Schowekcomparator());
+        } catch (Exception ex){
+            System.out.println(E.e(ex));
+        }
     }
  public void aktywujKartaWyn(FirmaKadry firma) {
         if (firma!=null) {
             wpisView.setFirma(firma);
-            if (firma.getAngazList()==null||firma.getAngazList().isEmpty()) {
-                wpisView.setPracownik(null);
-                wpisView.setAngaz(null);
-                wpisView.setUmowa(null);
-            } else {
-                Angaz angaz = firma.getAngazList().get(0);
-                wpisView.setPracownik(angaz.getPracownik());
-                wpisView.setAngaz(angaz);
-                List<Umowa> umowy = angaz.getUmowaList();
-                if (umowy!=null && umowy.size()==1) {
-                    wpisView.setUmowa(umowy.get(0));
-                } else if (umowy!=null) {
-                    try {
-                        wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
-                    } catch (Exception e){}
-                }
-            }
+//            if (firma.getAngazList()==null||firma.getAngazList().isEmpty()) {
+//                wpisView.setPracownik(null);
+//                wpisView.setAngaz(null);
+//                wpisView.setUmowa(null);
+//            } else {
+//                Angaz angaz = firma.getAngazList().get(0);
+//                wpisView.setPracownik(angaz.getPracownik());
+//                wpisView.setAngaz(angaz);
+//                List<Umowa> umowy = angaz.getUmowaList();
+//                if (umowy!=null && umowy.size()==1) {
+//                    wpisView.setUmowa(umowy.get(0));
+//                } else if (umowy!=null) {
+//                    try {
+//                        wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
+//                    } catch (Exception e){}
+//                }
+//            }
             init();
             Msg.msg("Aktywowano firmę "+firma.getNazwa());
         }
@@ -134,7 +139,7 @@ public class KartaWynagrodzenView  implements Serializable {
        
     public void pobierzdane(Angaz angaz) {
         if (angaz!=null) {
-            kartawynagrodzenlist = pobierzkartywynagrodzen(angaz, wpisView.getRokWpisu());
+            kartawynagrodzenlist = przygotujkartywynagrodzen(angaz, wpisView.getRokWpisu());
             aktualizujdane(kartawynagrodzenlist, wpisView.getRokWpisu(), angaz);
             selected = angaz.getPracownik();
             //Msg.msg("Pobrano dane wynagrodzeń");
@@ -213,6 +218,19 @@ public class KartaWynagrodzenView  implements Serializable {
                 kartypobranezbazy.add(nowa);
             }
         }
+        return kartypobranezbazy;
+    }
+    
+    private List<Kartawynagrodzen> przygotujkartywynagrodzen(Angaz selectedangaz, String rok) {
+        List<Kartawynagrodzen> kartypobranezbazy = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                Kartawynagrodzen nowa = new Kartawynagrodzen();
+                nowa.setAngaz(selectedangaz);
+                nowa.setRok(rok);
+                nowa.setMc(mc);
+                kartypobranezbazy.add(nowa);
+            }
+        
         return kartypobranezbazy;
     }
     
@@ -351,7 +369,7 @@ public class KartaWynagrodzenView  implements Serializable {
         sumy.put("sumaZasilkiDorosly", sumaZasilkiDorosly);
         sumy.put("sumaZasilki26", sumaZasilki26);
         suma.setSumy(sumy);
-        kartaWynagrodzenFacade.createEditList(kartawynagrodzenlist);
+        //kartaWynagrodzenFacade.createEditList(kartawynagrodzenlist);
         kartawynagrodzenlist.add(suma);
         return suma;
     }

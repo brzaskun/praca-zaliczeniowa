@@ -501,7 +501,7 @@ public class PdfPIT11 {
                 byte[] pdfoutput = pdfSM.toByteArray();
                 PdfReader reader = new PdfReader(pdfoutput);
                 reader.removeUsageRights();
-                nazwapliku = nazwapliku+"R"+naglowek.getRok().toString()+"_PIT11";
+                nazwapliku = nazwapliku+"R"+naglowek.getRok().toString()+"_PIT11.pdf";
                 PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream(realPath+nazwapliku));
                 PdfContentByte underContent = pdfStamper.getUnderContent(1);
                 Image image = Image.getInstance(realPath+"PIT-111_29.png");

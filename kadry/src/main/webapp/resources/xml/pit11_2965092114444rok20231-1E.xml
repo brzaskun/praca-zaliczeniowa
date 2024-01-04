@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2023</Rok>
+        <KodUrzedu>3217</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaNiefizyczna>
+            <NIP>8561682099</NIP>
+            <PelnaNazwa>INDYK-REDŁO SP. Z O.O.</PelnaNazwa>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>65092114444</PESEL>
+            <ImiePierwsze>Liudmyla</ImiePierwsze>
+            <Nazwisko>Chumachenko</Nazwisko>
+            <DataUrodzenia>1965-09-21</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">UA</KodKraju>
+            <Wojewodztwo>.</Wojewodztwo>
+            <Powiat>.</Powiat>
+            <Gmina>.</Gmina>
+            <Ulica poz="P_23">Czeriewna</Ulica>
+            <NrDomu poz="P_24">153-9</NrDomu>
+            <NrLokalu poz="P_25">27</NrLokalu>
+            <Miejscowosc poz="P_26">Zaporoże</Miejscowosc>
+            <KodPocztowy poz="P_27">69071</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>2</P_11>
+        <P_58>2371.2</P_58>
+        <P_59>0.0</P_59>
+        <P_60>2371.2</P_60>
+        <P_61>474</P_61>
+        <P_95>267.0</P_95>
+        <P_121>2</P_121>
+        <P_122>163.08</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

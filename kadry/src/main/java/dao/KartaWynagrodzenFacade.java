@@ -48,6 +48,7 @@ public class KartaWynagrodzenFacade extends DAO  implements Serializable {
     public List<Kartawynagrodzen> findByAngazRok(Angaz selectedangaz, String rok) {
         return getEntityManager().createNamedQuery("Kartawynagrodzen.findByAngazRok").setParameter("angaz", selectedangaz).setParameter("rok", rok).getResultList();
     }
+    
 
    
 
