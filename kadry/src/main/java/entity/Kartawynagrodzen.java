@@ -712,10 +712,20 @@ public class Kartawynagrodzen implements Serializable {
 
 
     public void dodaj(Pasekwynagrodzen pasek) {
-        this.brutto = Z.z(this.brutto+pasek.getBrutto());
-        this.bruttobezzus = Z.z(this.bruttobezzus+pasek.getBruttobezzus()+pasek.getBruttobezspolecznych());
-        this.bruttobezpodatku = Z.z(this.bruttobezpodatku+pasek.getBruttobezzusbezpodatek());
-        this.bruttozus = Z.z(this.bruttozus+pasek.getBruttozus()+pasek.getBruttozusbezpodatek()+pasek.getPrzychodyzus51());
+        String mc = pasek.getMc();
+        int mcI = Integer.parseInt(mc);
+        //łatka bo byla rewolucja od 112023 w sumowaniu skladnikow 05.01.2024 Broniwoja 5 :) a oni graja
+        if (pasek.getRok().equals("2023")&&mcI<11) {
+            this.brutto = Z.z(this.brutto+pasek.getBrutto());
+            this.bruttobezzus = Z.z(this.bruttobezzus+pasek.getBruttobezzus()+pasek.getBruttobezspolecznych());
+            this.bruttobezpodatku = Z.z(this.bruttobezpodatku+pasek.getBruttobezzusbezpodatek());
+            this.bruttozus = Z.z(this.bruttozus+pasek.getBruttozus()+pasek.getBruttozusbezpodatek());
+        } else {
+            this.brutto = Z.z(this.brutto+pasek.getBrutto());
+            this.bruttobezzus = Z.z(this.bruttobezzus+pasek.getBrutto()-pasek.getPrzychodyzus51());
+            this.bruttobezpodatku = Z.z(this.bruttobezpodatku+pasek.getBrutto()-pasek.getPrzychodypodatekpolska());
+            this.bruttozus = Z.z(this.bruttozus+pasek.getPrzychodyzus51());
+        }
 //        this.bruttodo26lat = Z.z(this.bruttodo26lat+pasek.getBruttobezzusbezpodatek()+pasek.getBruttozusbezpodatek()+pasek.getBruttobezspolecznych());
 //        this.bruttopowyzej26lat = Z.z(this.bruttopowyzej26lat+(pasek.getBrutto()-(pasek.getBruttobezzusbezpodatek()+pasek.getBruttozusbezpodatek()+pasek.getBruttobezspolecznych())));
         this.fgsp += pasek.getFgsp();
