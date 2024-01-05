@@ -343,9 +343,9 @@ public class PIT11_29Bean {
 //                poz.setP95(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getRazemspolecznepracownik())));
 //            }
 //            if (poz.getP122()!=null) {
-//                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotnedopotracenia()))));
+//                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotne()))));
 //            } else{
-//                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotnedopotracenia())));
+//                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaopracekosztypodwyzszone.getPraczdrowotne())));
 //            }
 //            //czy dodano PIT-R 1tak 2nie
 //            poz.setP121((byte)2);
@@ -367,9 +367,9 @@ public class PIT11_29Bean {
                 poz.setP96(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getRazemspolecznepracownik())));
             }
             if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotnedopotracenia()))));
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotne()))));
             } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotnedopotracenia())));
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotne())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);
@@ -390,9 +390,9 @@ public class PIT11_29Bean {
 //                poz.setP96(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getRazemspolecznepracownik())));
 //            }
 //            if (poz.getP122()!=null) {
-//                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotnedopotracenia()))));
+//                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotne()))));
 //            } else{
-//                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotnedopotracenia())));
+//                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaopraceEmeryt.getPraczdrowotne())));
 //            }
 //            //czy dodano PIT-R 1tak 2nie
 //            poz.setP121((byte)2);
@@ -412,9 +412,9 @@ public class PIT11_29Bean {
                 poz.setP95(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getRazemspolecznepracownik())));
             }
             if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getPraczdrowotnedopotracenia()))));
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getPraczdrowotne()))));
             } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getPraczdrowotnedopotracenia())));
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowapelnieniefunkcji.getPraczdrowotne())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);
@@ -430,9 +430,9 @@ public class PIT11_29Bean {
                 poz.setP95(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getRazemspolecznepracownik())));
             }
             if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getPraczdrowotnedopotracenia()))));
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getPraczdrowotne()))));
             } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getPraczdrowotnedopotracenia())));
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getPraczdrowotne())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);
@@ -464,9 +464,9 @@ public class PIT11_29Bean {
                 poz.setP95(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getRazemspolecznepracownik())));
             }
             if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getPraczdrowotnedopotracenia()))));
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getPraczdrowotne()))));
             } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getPraczdrowotnedopotracenia())));
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaZasilkiDorosly.getPraczdrowotne())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);
@@ -482,9 +482,9 @@ public class PIT11_29Bean {
                 poz.setP95(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik())));
             }
             if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia()))));
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotne()))));
             } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotnedopotracenia())));
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotne())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);
@@ -532,9 +532,9 @@ public class PIT11_29Bean {
                 poz.setP109(BigDecimal.valueOf(Z.z(nowakwotazwolniona)));
             }
             if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedopotracenia()))));
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotne()))));
             } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedopotracenia())));
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotne())));
             }
             poz.setP121((byte)2);
             //dodatek nadwyzke
@@ -593,9 +593,9 @@ public class PIT11_29Bean {
                 }
             }
             if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedopotracenia()))));
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotne()))));
             } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotnedopotracenia())));
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getPraczdrowotne())));
             }
             poz.setP121((byte)2);
         }
@@ -617,9 +617,9 @@ public class PIT11_29Bean {
                 poz.setP109(BigDecimal.valueOf(Z.z(85528.0)));
             }
             if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia()))));
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotne()))));
             } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia())));
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getPraczdrowotne())));
             }
             poz.setP121((byte)2);
             poz.setP62(BigDecimal.valueOf(kwotaponadlimit));
@@ -647,7 +647,7 @@ public class PIT11_29Bean {
             } else{
                 poz.setP109(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getBrutto())));
             }
-            double zdrowotna = sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia()>0.0?sumaUmowazlecenia26zwolnione.getPraczdrowotnedopotracenia():sumaUmowazlecenia26zwolnione.getPraczdrowotne();
+            double zdrowotna = sumaUmowazlecenia26zwolnione.getPraczdrowotne()>0.0?sumaUmowazlecenia26zwolnione.getPraczdrowotne():sumaUmowazlecenia26zwolnione.getPraczdrowotne();
             if (poz.getP122()!=null) {
                 poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(zdrowotna))));
             } else{
@@ -677,9 +677,9 @@ public class PIT11_29Bean {
                 poz.setP96(BigDecimal.valueOf(Z.z(sumaUmowazleceniaEmeryt.getRazemspolecznepracownik())));
             }
             if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowazleceniaEmeryt.getPraczdrowotnedopotracenia()))));
+                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowazleceniaEmeryt.getPraczdrowotne()))));
             } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazleceniaEmeryt.getPraczdrowotnedopotracenia())));
+                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazleceniaEmeryt.getPraczdrowotne())));
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);

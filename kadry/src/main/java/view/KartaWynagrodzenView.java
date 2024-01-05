@@ -139,7 +139,7 @@ public class KartaWynagrodzenView  implements Serializable {
        
     public void pobierzdane(Angaz angaz) {
         if (angaz!=null) {
-            kartawynagrodzenlist = przygotujkartywynagrodzen(angaz, wpisView.getRokWpisu());
+            kartawynagrodzenlist = pobierzkartywynagrodzen(angaz, wpisView.getRokWpisu());
             aktualizujdane(kartawynagrodzenlist, wpisView.getRokWpisu(), angaz);
             selected = angaz.getPracownik();
             //Msg.msg("Pobrano dane wynagrodzeń");
@@ -221,18 +221,18 @@ public class KartaWynagrodzenView  implements Serializable {
         return kartypobranezbazy;
     }
     
-    private List<Kartawynagrodzen> przygotujkartywynagrodzen(Angaz selectedangaz, String rok) {
-        List<Kartawynagrodzen> kartypobranezbazy = new ArrayList<>();
-            for (String mc : Mce.getMceListS()) {
-                Kartawynagrodzen nowa = new Kartawynagrodzen();
-                nowa.setAngaz(selectedangaz);
-                nowa.setRok(rok);
-                nowa.setMc(mc);
-                kartypobranezbazy.add(nowa);
-            }
-        
-        return kartypobranezbazy;
-    }
+//    private List<Kartawynagrodzen> przygotujkartywynagrodzen(Angaz selectedangaz, String rok) {
+//        List<Kartawynagrodzen> kartypobranezbazy = new ArrayList<>();
+//            for (String mc : Mce.getMceListS()) {
+//                Kartawynagrodzen nowa = new Kartawynagrodzen();
+//                nowa.setAngaz(selectedangaz);
+//                nowa.setRok(rok);
+//                nowa.setMc(mc);
+//                kartypobranezbazy.add(nowa);
+//            }
+//        
+//        return kartypobranezbazy;
+//    }
     
     private List<Kartawynagrodzen> pobierzkartywynagrodzenwydruk(Angaz selectedangaz, String rok) {
         List<Kartawynagrodzen> kartypobranezbazy = kartaWynagrodzenFacade.findByAngazRok(selectedangaz, rok);
@@ -369,7 +369,7 @@ public class KartaWynagrodzenView  implements Serializable {
         sumy.put("sumaZasilkiDorosly", sumaZasilkiDorosly);
         sumy.put("sumaZasilki26", sumaZasilki26);
         suma.setSumy(sumy);
-        //kartaWynagrodzenFacade.createEditList(kartawynagrodzenlist);
+        kartaWynagrodzenFacade.createEditList(kartawynagrodzenlist);
         kartawynagrodzenlist.add(suma);
         return suma;
     }
