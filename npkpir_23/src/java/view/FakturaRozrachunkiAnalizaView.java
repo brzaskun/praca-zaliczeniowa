@@ -14,6 +14,7 @@ import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import dao.FakturadodelementyDAO;
+import dao.FakturywystokresoweDAO;
 import dao.KlienciDAO;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
@@ -26,6 +27,7 @@ import embeddable.Pozycjenafakturzebazadanych;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
 import entity.Fakturadodelementy;
+import entity.Fakturywystokresowe;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Uz;
@@ -88,6 +90,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private SMTPSettingsDAO sMTPSettingsDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private FakturywystokresoweDAO fakturywystokresoweDAO;
     @Inject
     private KlienciDAO klienciDAO;
     private int aktywnytab;
@@ -176,6 +180,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         FakturaRozrachunki f = it.next();
                         if (f.getNrdokumentu().contains("bo")) {
                             it.remove();
+                        } else
+                        if (f.isRozrachunekarchiwalny()) {
+                            it.remove();
                         }
                     }
                     platnosci.addAll(fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient));
@@ -186,6 +193,12 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                     faktury.addAll(fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt()));
                 }
+                for (Iterator<Faktura> it =faktury.iterator();it.hasNext();) {
+                        Faktura f = it.next();
+                        if (f.isRozrachunekarchiwalny()) {
+                            it.remove();
+                        }
+                    }
                 pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
             } else {
                 List<FakturaRozrachunki>  platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient);
@@ -1014,6 +1027,21 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     razemwybrane = razemwybrane+p.getKwota();
                 }
             }
+        }
+    }
+    
+    
+            
+    public void usunokresowa() {
+        if (szukanyklient!=null) {
+            Podatnik podatnik = podatnikDAO.findPodatnikByNIP(szukanyklient.getNip());
+            List<Fakturywystokresowe> findPodatnikBiezace = fakturywystokresoweDAO.findPodatnikBiezace(podatnik.getNazwapelna(), wpisView.getRokWpisuSt());
+            if (findPodatnikBiezace.isEmpty()==false) {
+                fakturywystokresoweDAO.removeList(findPodatnikBiezace);
+            }
+            Msg.msg("Usunięto faktury okresowe podatnika");
+        } else {
+            Msg.msg("e","Nie pobrano podatnika");
         }
     }
 

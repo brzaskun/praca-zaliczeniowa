@@ -17,7 +17,8 @@
         </style>
         <h:form id="fakturaanaliza">
             <p:panelGrid columns="3">
-                <p:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" required="true" style="width: 300px;"  converter="#{klientConvNoRO}"
+                <p:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" 
+                                    required="true" style="width: 500px;"  converter="#{klientConvNoRO}"
                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" binding="#{fakturaRozrachunkiAnalizaView.selectOneUI}"
                                     filter="true" filterMatchMode="contains" widgetVar="wybierzkontrahenta"
                                     >
@@ -115,7 +116,7 @@
                                          update=":akordeon:fakturaanaliza:tablicaanaliza"/>
                 </p:column>-->
                 </p:panelGrid>
-                    <p:panelGrid columns="5">
+                    <p:panelGrid columns="6">
                         <p:column width="35" style="text-align: center;">
                             <p:commandButton value="korekta" actionListener="#{fakturaRozrachunkiAnalizaView.korygujnazero()}" 
                                                 update="akordeon:fakturaanaliza:tablicaanaliza" />
@@ -126,6 +127,10 @@
                        </p:column>
                         <p:column width="35" style="text-align: center;">
                             <p:commandButton value="archiwizuj" actionListener="#{fakturaRozrachunkiAnalizaView.archiwizujdok()}"  update=":akordeon:fakturaanaliza:tablicaanaliza"
+                                                 />
+                       </p:column>
+                       <p:column width="35" style="text-align: center;">
+                            <p:commandButton value="usuń okr." actionListener="#{fakturaRozrachunkiAnalizaView.usunokresowa()}"  update=":akordeon:fakturaanaliza:tablicaanaliza"
                                                  />
                        </p:column>
                         <h:outputLabel value="pokaż archiwalne" style="margin-left: 200px;"/>
@@ -178,7 +183,19 @@
                     <f:facet name="header">
                         <h:outputText value="wystawił"/>
                     </f:facet>
-                     <h:outputText value="#{item.faktura.autor}"/>
+                     
+                     <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.faktura.autor}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneListbox value="#{item.rozliczenie.kontrahent}" converter="#{klientConv}" filter="true" required="true" 
+                                                    scrollHeight="120" filterMatchMode="contains" style="width: 300px;" rendered="#{item.rozliczenie ne null}">
+                                    <f:selectItems value="#{fakturaRozrachunkiView.klienci}" var="par" itemLabel="#{par.npelna}" />
+                                </p:selectOneListbox>
+                                <h:outputText value="Nie można zmieniać kontrahenta w fakturze"  rendered="#{item.rozliczenie eq null}"/>
+                            </f:facet>
+                        </p:cellEditor>
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">
