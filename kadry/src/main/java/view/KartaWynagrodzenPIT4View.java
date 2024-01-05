@@ -176,11 +176,11 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
                         karta.setKosztypodwyzszone(true);
                         suma.setKosztypodwyzszone(true);
                     }
-//                    id,nazwa,typ
+//                    id,nazwa,tyt_serial
 //                    1,"umowa o pracę",1
 //                    2,"umowa zlecenia i o dzieło",2
-//                    3,"pełnienie obowiązków",3
-//                    4,zasiłki,4
+//                    3,"pełnienie obowiązków",15
+//                    4,zasiłki,1006
 
                     if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==4||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==false) {
                         if (pasek.getProcentkosztow()>100.0) {
@@ -194,7 +194,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
                         sumaUmowazlecenia.get(karta.getMc()).dodaj(pasek);
                     } else if (pasek.getRodzajWynagrodzenia()==2&&pasek.isDo26lat()==true) {
                         sumaUmowazlecenia26zwolnione.get(karta.getMc()).dodaj(pasek);
-                    } else if (pasek.getRodzajWynagrodzenia()==3&&pasek.isDo26lat()==false) {
+                    } else if (pasek.getRodzajWynagrodzenia()==15&&pasek.isDo26lat()==false) {
                         sumaUmowapelnieniefunkcji.get(karta.getMc()).dodaj(pasek);
                     }
                     karta.dodaj(pasek);

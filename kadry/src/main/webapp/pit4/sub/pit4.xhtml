@@ -202,7 +202,8 @@
                     <f:facet name="header">
                         <h:outputText value="upo"/>
                     </f:facet>
-                    <p:commandButton icon="pi pi-cloud-download" actionListener="#{pitWysylkaView.pobierztestPIT4(itempity)}" update="@(form)">
+                    <p:commandButton icon="pi pi-cloud-download" actionListener="#{pitWysylkaView.pobierztestPIT4(itempity)}" update="@(form)"
+                                     rendered="#{itempity.status ne null and itempity.status ne '200'}">
                         <p:confirm type="popup" header="Potwierdzenie" message="Pobrać UPO?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:column>
