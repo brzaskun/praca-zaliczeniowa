@@ -101,6 +101,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private boolean pobierzdwalata;
     private String tekstwiadomosci;
     private boolean dolaczrokpoprzedni;
+    private boolean pokazrozliczonych;
     private boolean pokazrokpoprzedni;
     private String dodatkowyadresmailowy;
     List<Podatnik> podatnicy;
@@ -135,19 +136,19 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         selectedrozliczenia = null;
         String mc = wpisView.getMiesiacWpisu();
         for (Podatnik po : podatnicy) {
-            if (po.getNip().equals(szukanyklient.getNip())) {
-                szukanyklient.setTelefon(po.getTelefonkontaktowy());
-                szukanyklient.setKsiegowa(po.getKsiegowa());
-                szukanyklient.setAktywny(po.isPodmiotaktywny());
-                szukanyklient.setPolecajacy(po.getPolecajacy());
-                break;
+                if (po.getNip().equals(szukanyklient.getNip())) {
+                    szukanyklient.setTelefon(po.getTelefonkontaktowy());
+                    szukanyklient.setKsiegowa(po.getKsiegowa());
+                    szukanyklient.setAktywny(po.isPodmiotaktywny());
+                    szukanyklient.setPolecajacy(po.getPolecajacy());
+                    break;
+                }
             }
-        }
         if (szukanyklient.getEmail()==null ||szukanyklient.getEmail().equals("")) {
             szukanyklient.setEmail("brakmaila!@taxman.biz.pl");
         }
-        nowepozycje = pobierzelementy(mc, false, szukanyklient);
-        archiwum = pobierzelementy(mc, true, szukanyklient);
+        nowepozycje = pobierzelementy(mc, false, szukanyklient, false);
+        archiwum = pobierzelementy(mc, true, szukanyklient, false);
         if (pokazarchiwalne==false) {
             nowepozycje = nowepozycje.stream().filter(p->p.isArchiwalny()==false).collect(Collectors.toList());
             archiwum = archiwum.stream().filter(p->p.isArchiwalny()==false).collect(Collectors.toList());
@@ -163,13 +164,13 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         if (pobierzdwalata) {
             dolaczrokpoprzedni = true;
         }
-        nowepozycje = pobierzelementy(mc, false, klient);
-        archiwum = pobierzelementy(mc, true, klient);
+        nowepozycje = pobierzelementy(mc, false, klient, true);
+        archiwum = pobierzelementy(mc, true, klient, true);
         sortujsumuj(nowepozycje);
         sortujsumuj(archiwum);
     }
     
-    public List<FakturaPodatnikRozliczenie> pobierzelementy(String mc, boolean nowe0archiwum, Klienci klient) {
+    public List<FakturaPodatnikRozliczenie> pobierzelementy(String mc, boolean nowe0archiwum, Klienci klient, boolean pominarchiwalne) {
         List<FakturaPodatnikRozliczenie> pozycje = null;
         if (klient != null) {
             if (pokazrokpoprzedni==false) {
@@ -184,16 +185,49 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     }
                     platnosci.addAll(fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient));
                 }
+                if (pominarchiwalne) {
+                    for (Iterator<FakturaRozrachunki> it =platnosci.iterator();it.hasNext();) {
+                        FakturaRozrachunki f = it.next();
+                        if (f.isRozrachunekarchiwalny()) {
+                            it.remove();
+                        }
+                    }
+                }
+                
                 //problem jest zeby nie brac wczesniejszych niz 2016 wiec BO sie robi
                 List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 if (dolaczrokpoprzedni) {
                     faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                     faktury.addAll(fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt()));
                 }
+                if (pominarchiwalne) {
+                    for (Iterator<Faktura> it =faktury.iterator();it.hasNext();) {
+                        Faktura f = it.next();
+                        if (f.isRozrachunekarchiwalny()) {
+                            it.remove();
+                        }
+                    }
+                }
                 pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
             } else {
                 List<FakturaRozrachunki>  platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient);
+                if (pominarchiwalne) {
+                    for (Iterator<FakturaRozrachunki> it =platnosci.iterator();it.hasNext();) {
+                        FakturaRozrachunki f = it.next();
+                        if (f.isRozrachunekarchiwalny()) {
+                            it.remove();
+                        }
+                    }
+                }
                 List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+                if (pominarchiwalne) {
+                    for (Iterator<Faktura> it =faktury.iterator();it.hasNext();) {
+                        Faktura f = it.next();
+                        if (f.isRozrachunekarchiwalny()) {
+                            it.remove();
+                        }
+                    }
+                }
                 pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
             }
             
@@ -215,6 +249,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
             Klienci k = it.next();
             if (k == null) {
+                it.remove();
+            } else if (pokazrozliczonych == false && k.isRozliczonynakoniecroku() == true) {
                 it.remove();
             } else if (k.isAktywnydlafaktrozrachunki() == false) {
                 it.remove();
@@ -1050,6 +1086,18 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
     
+     public void oznaczrozliczenie() {
+        if (szukanyklient!=null) {
+            szukanyklient.setRozliczonynakoniecroku(!szukanyklient.isRozliczonynakoniecroku());
+            klienciDAO.edit(szukanyklient);
+            Msg.msg("Zmieniono rozliczenie klienta");
+        } else {
+            Msg.msg("e","Nie naniesiono rozliczenie klienta");
+        }
+    }
+    
+    
+    
 
     public void korygujnazero() {
         if (selectedrozliczenia != null) {
@@ -1170,6 +1218,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
 
     public void setPokazarchiwalne(boolean pokazarchiwalne) {
         this.pokazarchiwalne = pokazarchiwalne;
+    }
+
+    public boolean isPokazrozliczonych() {
+        return pokazrozliczonych;
+    }
+
+    public void setPokazrozliczonych(boolean pokazrozliczonych) {
+        this.pokazrozliczonych = pokazrozliczonych;
     }
 
     

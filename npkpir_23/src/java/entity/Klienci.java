@@ -92,6 +92,8 @@ public class Klienci extends KlienciSuper implements Serializable {
 //    private List<Dokfk> dokumentyfk;
     @Column(name = "aktywnydlafaktrozrachunki")
     private boolean aktywnydlafaktrozrachunki;
+    @Column(name = "rozliczonynakoniecroku")
+    private boolean rozliczonynakoniecroku;
     @Transient
     private String adresincydentalny;
     @Transient
@@ -179,6 +181,14 @@ public class Klienci extends KlienciSuper implements Serializable {
         this.nazwapodatnika = p.getNazwaKontrahenta();
         this.npelna = p.getNazwaKontrahenta();
         this.nskrocona = p.getNazwaKontrahentaShort();
+    }
+
+    public boolean isRozliczonynakoniecroku() {
+        return rozliczonynakoniecroku;
+    }
+
+    public void setRozliczonynakoniecroku(boolean rozliczonynakoniecroku) {
+        this.rozliczonynakoniecroku = rozliczonynakoniecroku;
     }
 
     

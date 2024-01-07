@@ -357,6 +357,7 @@ public class Podatnik implements Serializable {
     private String domyslnametodaplatnosci;
     @Column(name = "zwolnienievat43")
     private boolean zwolnienievat43;
+    
     @JoinColumn(name = "finanzamt", referencedColumnName = "id")
     @ManyToOne
     private Finanzamt finanzamt;
@@ -445,6 +446,7 @@ public class Podatnik implements Serializable {
         this.wykazudzialow = wykazudzialow;
     }
 
+    
     public List<Zusstawkinew> getZusstawkinowe() {
         return zusstawkinowe;
     }

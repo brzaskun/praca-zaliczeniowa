@@ -33,7 +33,7 @@
                     <p:ajax event="blur" partialSubmit="true" global="false"/>
                 </p:inputTextarea>
                 </p:panelGrid>
-                <p:panelGrid columns="2" style="margin-left: 15px;">
+                <p:panelGrid columns="4" style="margin-left: 15px;">
                     <h:outputText value="pokaż rok poprzedni"/>
                     <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.pokazrokpoprzedni}">
                         <p:ajax event="change" partialSubmit="true" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>
@@ -42,7 +42,11 @@
                     <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.dolaczrokpoprzedni}">
                         <p:ajax event="change" partialSubmit="true" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>
                     </p:selectBooleanCheckbox>
-                    <h:outputText value="dodatkowy adres mailowy"/>
+                    <h:outputText value="pokaż rozl."/>
+                    <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.pokazrozliczonych}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaRozrachunkiAnalizaView.init()}" update=":akordeon:fakturaanaliza:wyborklienta"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="dod. mail"/>
                     <p:inputText value="#{fakturaRozrachunkiAnalizaView.dodatkowyadresmailowy}">
                         <p:ajax event="blur" partialSubmit="true" />
                     </p:inputText>
@@ -116,7 +120,7 @@
                                          update=":akordeon:fakturaanaliza:tablicaanaliza"/>
                 </p:column>-->
                 </p:panelGrid>
-                    <p:panelGrid columns="6">
+                    <p:panelGrid columns="7">
                         <p:column width="35" style="text-align: center;">
                             <p:commandButton value="korekta" actionListener="#{fakturaRozrachunkiAnalizaView.korygujnazero()}" 
                                                 update="akordeon:fakturaanaliza:tablicaanaliza" />
@@ -131,6 +135,10 @@
                        </p:column>
                        <p:column width="35" style="text-align: center;">
                             <p:commandButton value="usuń okr." actionListener="#{fakturaRozrachunkiAnalizaView.usunokresowa()}"  update=":akordeon:fakturaanaliza:tablicaanaliza"
+                                                 />
+                       </p:column>
+                        <p:column width="35" style="text-align: center;">
+                            <p:commandButton value="rozliczony" actionListener="#{fakturaRozrachunkiAnalizaView.oznaczrozliczenie()}"  update=":akordeon:fakturaanaliza:tablicaanaliza"
                                                  />
                        </p:column>
                         <h:outputLabel value="pokaż archiwalne" style="margin-left: 200px;"/>
