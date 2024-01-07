@@ -180,9 +180,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         FakturaRozrachunki f = it.next();
                         if (f.getNrdokumentu().contains("bo")) {
                             it.remove();
-                        } else
-                        if (f.isRozrachunekarchiwalny()) {
-                            it.remove();
                         }
                     }
                     platnosci.addAll(fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient));
@@ -193,12 +190,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                     faktury.addAll(fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt()));
                 }
-                for (Iterator<Faktura> it =faktury.iterator();it.hasNext();) {
-                        Faktura f = it.next();
-                        if (f.isRozrachunekarchiwalny()) {
-                            it.remove();
-                        }
-                    }
                 pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
             } else {
                 List<FakturaRozrachunki>  platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient);
