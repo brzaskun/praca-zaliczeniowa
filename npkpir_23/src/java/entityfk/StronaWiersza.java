@@ -543,12 +543,14 @@ public class StronaWiersza implements Serializable {
         this.rozliczono = 0.0;
         if (this.platnosci != null) {
             for (Transakcja p : this.platnosci) {
-                boolean czyjestprzed = Data.czyjestprzed(ostatnidzien, p.getDatarozrachunku());
-                if (czyjestprzed) {
-                    if (p.getKwotawwalucierachunku() != 0.0) {
-                        this.rozliczono = Z.z(this.rozliczono+p.getKwotawwalucierachunku());
-                    } else {
-                        this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                if (p.getDatarozrachunku()!=null) {
+                    boolean czyjestprzed = Data.czyjestprzed(ostatnidzien, p.getDatarozrachunku());
+                    if (czyjestprzed) {
+                        if (p.getKwotawwalucierachunku() != 0.0) {
+                            this.rozliczono = Z.z(this.rozliczono+p.getKwotawwalucierachunku());
+                        } else {
+                            this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                        }
                     }
                 }
             }
@@ -556,9 +558,11 @@ public class StronaWiersza implements Serializable {
         }
         if (this.nowetransakcje != null) {
             for (Transakcja p : this.nowetransakcje) {
-                boolean czyjestprzed = Data.czyjestprzed(ostatnidzien, p.getDatarozrachunku());
-                if (czyjestprzed) {
-                    this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                if (p.getDatarozrachunku()!=null) {
+                    boolean czyjestprzed = Data.czyjestprzed(ostatnidzien, p.getDatarozrachunku());
+                    if (czyjestprzed) {
+                        this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                    }
                 }
             }
             this.pozostalo = Z.z(this.getKwotaR() - this.rozliczono);
@@ -571,12 +575,14 @@ public class StronaWiersza implements Serializable {
         String ostatnidzien = Data.ostatniDzien(rok, mc);
         if (this.platnosci != null) {
             for (Transakcja p : this.platnosci) {
-                boolean czyjestprzed = Data.czyjestprzed(ostatnidzien, p.getDatarozrachunku());
-                if (czyjestprzed) {
-                    if (p.getKwotawwalucierachunku() != 0.0) {
-                        this.rozliczono = Z.z(this.rozliczono+p.getKwotawwalucierachunku());
-                    } else {
-                        this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                if (p.getDatarozrachunku()!=null) {
+                    boolean czyjestprzed = Data.czyjestprzed(ostatnidzien, p.getDatarozrachunku());
+                    if (czyjestprzed) {
+                        if (p.getKwotawwalucierachunku() != 0.0) {
+                            this.rozliczono = Z.z(this.rozliczono+p.getKwotawwalucierachunku());
+                        } else {
+                            this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                        }
                     }
                 }
             }
@@ -588,9 +594,11 @@ public class StronaWiersza implements Serializable {
         }
         if (this.nowetransakcje != null) {
             for (Transakcja p : this.nowetransakcje) {
-                boolean czyjestprzed = Data.czyjestprzed(ostatnidzien, p.getDatarozrachunku());
-                if (czyjestprzed) {
-                    this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                if (p.getDatarozrachunku()!=null) {
+                    boolean czyjestprzed = Data.czyjestprzed(ostatnidzien, p.getDatarozrachunku());
+                    if (czyjestprzed) {
+                        this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                    }
                 }
             }
             if (this.kwota >= 0.0) {

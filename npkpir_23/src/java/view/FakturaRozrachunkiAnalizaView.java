@@ -588,12 +588,17 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void usunfakture(FakturaPodatnikRozliczenie fakturaPodatnikRozliczenie) {
         Faktura faktura = fakturaPodatnikRozliczenie.getFaktura();
+        FakturaRozrachunki rozrachunek = fakturaPodatnikRozliczenie.getRozliczenie();
         if (faktura!=null) {
             fakturaDAO.remove(faktura);
             nowepozycje.remove(fakturaPodatnikRozliczenie);
-            Msg.msg("Usunięto proformę");
+            Msg.msg("Usunięto fakturę");
+        } else if (rozrachunek!=null){
+            fakturaRozrachunkiDAO.remove(rozrachunek);
+            nowepozycje.remove(fakturaPodatnikRozliczenie);
+            Msg.msg("Usunięto rozliczenie");
         } else {
-            Msg.msg("e","Nie wybrano faktury/Faktura nie jest proformą");
+            Msg.msg("e","Nie wybrano faktury/rozrachunku");
         }
     }
     
@@ -1062,10 +1067,12 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     public void usunokresowa() {
         if (szukanyklient!=null) {
             Podatnik podatnik = podatnikDAO.findPodatnikByNIP(szukanyklient.getNip());
-            List<Fakturywystokresowe> findPodatnikBiezace = fakturywystokresoweDAO.findPodatnikBiezace(podatnik.getNazwapelna(), wpisView.getRokWpisuSt());
-            if (findPodatnikBiezace.isEmpty()==false) {
-                fakturywystokresoweDAO.removeList(findPodatnikBiezace);
-            }
+            try {
+                List<Fakturywystokresowe> findPodatnikBiezace = fakturywystokresoweDAO.findPodatnikBiezace(podatnik.getNazwapelna(), wpisView.getRokWpisuSt());
+                if (findPodatnikBiezace.isEmpty()==false) {
+                    fakturywystokresoweDAO.removeList(findPodatnikBiezace);
+                }
+            } catch (Exception ex){}
             Msg.msg("Usunięto faktury okresowe podatnika");
         } else {
             Msg.msg("e","Nie pobrano podatnika");
