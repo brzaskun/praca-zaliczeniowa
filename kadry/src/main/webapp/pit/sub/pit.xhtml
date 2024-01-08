@@ -128,7 +128,6 @@
                         </f:facet>
                         <p:commandButton icon="pi pi-cloud-download" actionListener="#{pitWysylkaView.pobierztest(itempity44)}" 
                                          update="@parent:@parent"  rendered="#{itempity44.status ne null and itempity44.status ne '200'}">
-                            <p:confirm type="popup" header="Potwierdzenie" message="Pobrać UPO?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
