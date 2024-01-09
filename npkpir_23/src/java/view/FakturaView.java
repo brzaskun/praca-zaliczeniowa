@@ -1135,6 +1135,55 @@ public class FakturaView implements Serializable {
         faktura.setBrutto(Z.z(brutto));
 
     }
+    
+     private void waloryzacjakwotyKwota(Faktura faktura, double nowakwotanetto) throws Exception {
+        faktura.setDatawaloryzacji(Data.data_yyyyMMdd(new Date()));
+        faktura.setProcentwaloryzacji(nowakwotanetto);
+        List<Pozycjenafakturzebazadanych> pozycje = faktura.getPozycjenafakturze();
+        double netto = 0.0;
+        double vat = 0.0;
+        double brutto = 0.0;
+        List<Evewidencja> ew = Collections.synchronizedList(new ArrayList<>());
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
+        List<EVatwpis> el = Collections.synchronizedList(new ArrayList<>());
+        for (Pozycjenafakturzebazadanych p : pozycje) {
+            double podatekstawka = p.getPodatek();
+            double podatek = nowakwotanetto * podatekstawka / (100 + podatekstawka) * 100;
+            podatek = Math.round(podatek);
+            podatek = podatek / 100;
+            vat += podatek;
+            p.setPodatekkwota(podatek);
+            netto += nowakwotanetto;
+            p.setNetto(nowakwotanetto);
+            p.setCena(p.getNetto() / p.getIlosc());
+            double brutt = Z.z(nowakwotanetto+podatek);
+            p.setBrutto(brutt);
+            brutto += brutt;
+            EVatwpis eVatwpis = new EVatwpis();
+            Evewidencja ewidencja = zwrocewidencje(ew, p);
+            for (EVatwpis r : el) {
+                if (r.getEwidencja().equals(ewidencja)) {
+                    eVatwpis = r;
+                }
+            }
+            if (eVatwpis.getNetto() != 0) {
+                eVatwpis.setNetto(eVatwpis.getNetto() + p.getNetto());
+                eVatwpis.setVat(eVatwpis.getVat() + p.getPodatekkwota());
+                el.add(eVatwpis);
+            } else {
+                eVatwpis.setEwidencja(ewidencja);
+                eVatwpis.setNetto(p.getNetto());
+                eVatwpis.setVat(p.getPodatekkwota());
+                eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
+                el.add(eVatwpis);
+            }
+        }
+        faktura.setEwidencjavat(el);
+        faktura.setNetto(Z.z(netto));
+        faktura.setVat(Z.z(vat));
+        faktura.setBrutto(Z.z(brutto));
+
+    }
 
     private Evewidencja zwrocewidencje(List<Evewidencja> ewidencje, Pozycjenafakturzebazadanych p) {
         for (Evewidencja r : ewidencje) {
@@ -2538,24 +2587,45 @@ public class FakturaView implements Serializable {
     
     public void skopiujdoNowegoroku() {
         for (Fakturywystokresowe stara : gosciwybralokres) {
-            if (stara.isZawieszona()==false) {
-                Fakturywystokresowe p = new Fakturywystokresowe(stara, wpisView.getRokNastepnySt(), wpisView.getUzer().getNazwiskoImie());
-                p.setAutor(wpisView.getUzer().getNazwiskoImie());
-                p.setId(null);
-                p.setRok(wpisView.getRokNastepnySt());
-                p.setM1(0);
-                p.setM2(0);
-                p.setM3(0);
-                p.setM4(0);
-                p.setM5(0);
-                p.setM6(0);
-                p.setM7(0);
-                p.setM8(0);
-                p.setM9(0);
-                p.setM10(0);
-                p.setM11(0);
-                p.setM12(0);
-                fakturywystokresoweDAO.create(p);
+            if (stara.isZawieszona()==false&&stara.getKwotaroknastepny()>0.0) {
+                Fakturywystokresowe nowa = new Fakturywystokresowe(stara, wpisView.getRokNastepnySt(), wpisView.getUzer().getNazwiskoImie());
+                double nowakwota = stara.getKwotaroknastepny();
+                if (nowakwota > 0.0) {
+                    try {
+                        Faktura nowafaktura = nowa.getDokument();
+                        //to jest po to zeby potem juz generowac z okresowych ze zwaloryzowana kwota
+                        waloryzacjakwotyKwota(nowafaktura, nowakwota);
+                        FakturaBean.ewidencjavat(nowafaktura, evewidencjaDAO);
+                    } catch (Exception e) { E.e(e); 
+                        Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:wygenerujzokresowych");
+                    }
+                }
+                nowa.setAutor(wpisView.getUzer().getNazwiskoImie());
+                nowa.setId(null);
+                nowa.setRok(wpisView.getRokNastepnySt());
+                nowa.setM1(0);
+                nowa.setM2(0);
+                nowa.setM3(0);
+                nowa.setM4(0);
+                nowa.setM5(0);
+                nowa.setM6(0);
+                nowa.setM7(0);
+                nowa.setM8(0);
+                nowa.setM9(0);
+                nowa.setM10(0);
+                nowa.setM11(0);
+                nowa.setM12(0);
+                nowa.setKwotaroknastepny(0);
+                nowa.setKwotapraca(0);
+                nowa.setKwotazlecenie(0);
+                if (stara.getKwotapraca()>0.0||stara.getKwotazlecenie()>0.0) {
+                    nowa.setRecznaedycja(true);
+                } else {
+                    nowa.setRecznaedycja(false);
+                }
+                fakturywystokresoweDAO.create(nowa);
+                stara.setWygenerowanoroknastepny(true);
+                fakturywystokresoweDAO.edit(stara);
             }
         }
         Msg.msg("Skopiowano okresowe do nowego roku");

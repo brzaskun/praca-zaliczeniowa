@@ -159,6 +159,8 @@ public class Fakturywystokresowe implements Serializable {
     private boolean skokdokumentow;
     @Column(name = "klientzaakceptowal")
     private boolean klientzaakceptowal;
+    @Column(name = "wygenerowanoroknastepny")
+    private boolean wygenerowanoroknastepny;
     @Column(name = "uwagi")
     private String uwagi;
     @Column(name = "autor")
@@ -212,7 +214,6 @@ public class Fakturywystokresowe implements Serializable {
         this.recznaedycja = stara.recznaedycja;
         this.biezaca0archiwalna1 = stara.biezaca0archiwalna1;
         this.zawieszona = stara.zawieszona;
-        this.kwotaroknastepny = stara.kwotaroknastepny;
         this.datautworzenia = stara.datautworzenia;
         this.dataedycji = stara.dataedycji;
         this.m1 = stara.m1;
@@ -409,6 +410,14 @@ public class Fakturywystokresowe implements Serializable {
 
     public void setKwotazlecenie(double kwotazlecenie) {
         this.kwotazlecenie = kwotazlecenie;
+    }
+
+    public boolean isWygenerowanoroknastepny() {
+        return wygenerowanoroknastepny;
+    }
+
+    public void setWygenerowanoroknastepny(boolean wygenerowanoroknastepny) {
+        this.wygenerowanoroknastepny = wygenerowanoroknastepny;
     }
     
     public double getVat() {
