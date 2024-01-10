@@ -563,6 +563,7 @@ public class FirmaKadry implements Serializable {
         }
         return aktywne;
     }
+    
 
     public void setAngazList(List<Angaz> angazList) {
         this.angazList = angazList;
@@ -743,6 +744,14 @@ public class FirmaKadry implements Serializable {
                     break;
                 }
             }
+        }
+        return zwrot;
+    }
+    
+    public String getFirmaNazwa() {
+        String zwrot = this.nazwa;
+        if (zwrot==null||zwrot.equals("")) {
+            zwrot = this.nazwisko+" "+this.imie;
         }
         return zwrot;
     }

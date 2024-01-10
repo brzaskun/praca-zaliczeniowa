@@ -7,11 +7,15 @@ package view;
 
 import dao.DeklaracjaPIT11SchowekFacade;
 import dao.FirmaKadryFacade;
+import dao.PasekwynagrodzenFacade;
 import embeddable.Infopit11;
+import entity.Angaz;
 import entity.DeklaracjaPIT11Schowek;
 import entity.FirmaKadry;
+import entity.Pasekwynagrodzen;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -32,6 +36,8 @@ public class Pit11PodsumowanieView implements Serializable {
     @Inject
     private FirmaKadryFacade firmaKadryFacade;
     @Inject
+    private PasekwynagrodzenFacade pasekwynagrodzenFacade;
+    @Inject
     private WpisView wpisView;
     private List<Infopit11> firmapitilosclist;
     private List<Infopit11> firmapitilosclistfilter;
@@ -42,10 +48,17 @@ public class Pit11PodsumowanieView implements Serializable {
     @PostConstruct
     private void init() {
         listafirm = firmaKadryFacade.findByBezglobal();
+        for (Iterator<FirmaKadry> it = listafirm.iterator(); it.hasNext();) {
+            FirmaKadry firma = it.next();
+            if (firma.getNip().equals("8522641222")||firma.getNip().equals("524694882")){
+                it.remove();
+            }
+        }
     }
     
     public void pobierz() {
         List<DeklaracjaPIT11Schowek> listapit = deklaracjaSchowekFacade.findByRok(wpisView.getRokWpisu());
+        List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokWypl(wpisView.getRokWpisu());
         firmapitilosclist = new ArrayList<>();
         firmapitilosclistfilter = null;
         angaze = 0;
@@ -53,16 +66,20 @@ public class Pit11PodsumowanieView implements Serializable {
         int id = 1;
         for (FirmaKadry firma : listafirm) {
             Infopit11 pozycja = new Infopit11(id, firma);
-            int angazesize = firma.getAngazListAktywne().size();
-            pozycja.setIloscangazy(angazesize);
-            angaze = angaze + angazesize;
-            int zrobionepit = (int) listapit.stream().filter(p->p.getFirma().equals(firma)).count();
-            pozycja.setIloscpit(zrobionepit);
-            int bezupo = (int) listapit.stream().filter(p->p.getFirma().equals(firma)&&(p.getStatus()==null||p.getStatus().equals("200")==false)).count();
-            pozycja.setBezupo(bezupo);
-            pity = pity + zrobionepit;
-            firmapitilosclist.add(pozycja);
-            id++;
+            List<Angaz> angazefirmy = paski.stream().filter(p->p.getAngaz().getFirma().equals(firma)).map(Pasekwynagrodzen::getAngaz).distinct().collect(Collectors.toList());
+            int angazesize = 0;
+            if (angazefirmy.isEmpty()==false) {
+                angazesize = angazefirmy.size();
+                pozycja.setIloscangazy(angazesize);
+                angaze = angaze + angazesize;
+                int zrobionepit = (int) listapit.stream().filter(p->p.getFirma().equals(firma)).count();
+                pozycja.setIloscpit(zrobionepit);
+                int bezupo = (int) listapit.stream().filter(p->p.getFirma().equals(firma)&&(p.getStatus()==null||p.getStatus().equals("200")==false)).count();
+                pozycja.setBezupo(bezupo);
+                pity = pity + zrobionepit;
+                firmapitilosclist.add(pozycja);
+                id++;
+            }
         }
     }
     

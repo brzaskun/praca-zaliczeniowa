@@ -49,6 +49,7 @@ import z.Z;
     @NamedQuery(name = "Pasekwynagrodzen.findByDefKal", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac AND p.kalendarzmiesiac = :kalendarzmiesiac"),
     @NamedQuery(name = "Pasekwynagrodzen.findByDef", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRok", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByRokWypl", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rokwypl = :rok"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRokMc", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok and  p.mc = :mc"),
     @NamedQuery(name = "Pasekwynagrodzen.findByRokAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.rok = :rok AND p.kalendarzmiesiac.angaz = :angaz"),
     @NamedQuery(name = "Pasekwynagrodzen.findByAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.kalendarzmiesiac.angaz = :angaz"),
