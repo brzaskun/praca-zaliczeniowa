@@ -1841,12 +1841,12 @@ public class PasekwynagrodzenBean {
         pasek.setNettoprzedpotraceniami(Z.z(pasek.getNettoprzedpotraceniami()) + bruttobezzusbezpodatek);
     }
 
-    public static double sumapodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, Kalendarzmiesiac p, double prog) {
-        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokWyplAngaz(p.getRok(), p.getAngaz());
+    public static double sumapodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, Kalendarzmiesiac p, double prog, String rokwyplaty) {
+        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokWyplAngaz(rokwyplaty, p.getAngaz());
         double suma = 0.0;
         int mckalendarza = p.getMcI();
         for (Pasekwynagrodzen r : paskipodatnika) {
-            if (r.getMcI() <= mckalendarza || r.getRokI() < p.getRokI()) {
+            if (r.getMcwyplI() <= mckalendarza) {
                 suma = suma + r.getPodstawaopodatkowania();
             }
         }

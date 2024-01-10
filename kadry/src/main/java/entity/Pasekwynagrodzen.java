@@ -1247,9 +1247,25 @@ public class Pasekwynagrodzen implements Serializable {
     public String getRokwypl() {
         return rokwypl;
     }
+    
+    public int getRokwyplI() {
+        int zwrot = 0;
+        if (this.rokwypl!=null) {
+            zwrot = Integer.parseInt(this.rokwypl);
+        }
+        return zwrot;
+    }
 
     public String getMcwypl() {
         return mcwypl;
+    }
+    
+    public Integer getMcwyplI() {
+        Integer zwrot = -1;
+        if (this.mcwypl!=null) {
+            zwrot = Integer.parseInt(this.mcwypl);
+        }
+        return zwrot;
     }
 
     public boolean isUlgadlaKlasySredniej () {
