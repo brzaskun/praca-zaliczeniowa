@@ -64,7 +64,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
     public void init() {
         String rok = wpisView.getRokWpisu();
         FirmaKadry firma = wpisView.getFirma();
-        List<Pasekwynagrodzen> listapaski = pasekwynagrodzenFacade.findByRokFirma(rok, firma);
+        List<Pasekwynagrodzen> listapaski = pasekwynagrodzenFacade.findByRokWyplFirma(rok, firma);
         Predicate<Pasekwynagrodzen> isQualified = item->item.getAngaz().getPrzekroczenierok()==null;
         listapaski.removeIf(isQualified);
         isQualified = item->item.getAngaz().getPrzekroczenierok().equals("");
