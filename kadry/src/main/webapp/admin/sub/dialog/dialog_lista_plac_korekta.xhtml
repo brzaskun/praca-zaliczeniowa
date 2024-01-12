@@ -7,7 +7,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
     >
-    <p:dialog id="dialoglistaplackorekta" header="korekta list pląc przekroczenie" widgetVar="dialoglistaplackorekta"  maximizable="true"
+    <p:dialog id="dialoglistaplackorekta" header="Korekta list pląc przekroczenie" widgetVar="dialoglistaplackorekta"  maximizable="true"
               resizable="false"  onShow="ustawdialog('dialoglistaplackorekta','centertile',1800,820);" closeOnEscape="true"
               onHide="resetujdialog('dialoglistaplackorekta');" 
               fitViewport="true">
@@ -26,6 +26,7 @@
                     <p:ajax event="change" partialSubmit="true" global="false" update="@form" 
                             listener="#{pasekwynagrodzenkorektaView.pobierzdane()}"/>
                 </p:selectOneMenu>
+                <h:outputText value="data urodzenia #{pasekwynagrodzenkorektaView.selectedpracownik.dataurodzenia}" rendered="#{pasekwynagrodzenkorektaView.selectedpracownik ne null}"/>
             </p:outputPanel>
             <p:outputPanel style="padding: 10px;">
                 <p:dataTable id="datalist3" value="#{pasekwynagrodzenkorektaView.paskiwybranego }" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
