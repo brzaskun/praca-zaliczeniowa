@@ -5,26 +5,21 @@
  */
 package view;
 
-import beanstesty.PasekwynagrodzenBean;
 import comparator.Pasekwynagrodzencomparator;
 import comparator.Pracownikcomparator;
 import dao.PasekwynagrodzenFacade;
 import dao.PodatkiFacade;
-import entity.Angaz;
 import entity.FirmaKadry;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Pracownik;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -71,6 +66,8 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
         FirmaKadry firma = wpisView.getFirma();
         List<Pasekwynagrodzen> listapaski = pasekwynagrodzenFacade.findByRokFirma(rok, firma);
         Predicate<Pasekwynagrodzen> isQualified = item->item.getAngaz().getPrzekroczenierok()==null;
+        listapaski.removeIf(isQualified);
+        isQualified = item->item.getAngaz().getPrzekroczenierok().equals("");
         listapaski.removeIf(isQualified);
         Collections.sort(listapaski, new Pasekwynagrodzencomparator());
         Map<Pracownik, List<Pasekwynagrodzen>> pracownicyzpask = listapaski.stream().collect(Collectors.groupingBy(Pasekwynagrodzen::getPracownik));
