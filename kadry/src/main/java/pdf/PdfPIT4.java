@@ -28,9 +28,6 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import msg.Msg;
-import pl.gov.crd.wzor._2021._04._02._10568.Deklaracja;
-import pl.gov.crd.wzor._2021._04._02._10568.TNaglowek;
-import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._03._11.ed.definicjetypy.TIdentyfikatorOsobyFizycznej2;
 
 /**
  *
@@ -40,7 +37,7 @@ public class PdfPIT4 {
 
     public static final String OUTPUTFILE = "pit-4F.pdf";
 
-    public static String drukuj(pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja, DeklaracjaPIT4Schowek deklaracjaPIT4Schowek) {
+    public static String drukuj(pl.gov.crd.wzor._2023._11._07._12978.Deklaracja deklaracja, DeklaracjaPIT4Schowek deklaracjaPIT4Schowek) {
         String nazwapliku = null;
         if (deklaracja != null) {
             try {
@@ -58,16 +55,16 @@ public class PdfPIT4 {
                 BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
                 Font font = new Font(helvetica, 12);
                 Font fontM = new Font(helvetica, 10);
-                TNaglowek naglowek = deklaracja.getNaglowek();
-                Deklaracja.Podmiot1 podmiot1 = deklaracja.getPodmiot1();
+                pl.gov.crd.wzor._2023._11._07._12978.TNaglowek naglowek = deklaracja.getNaglowek();
+                pl.gov.crd.wzor._2023._11._07._12978.Deklaracja.Podmiot1 podmiot1 = deklaracja.getPodmiot1();
                 if (podmiot1.getOsobaNiefizyczna() !=null) {
-                    pl.gov.crd.wzor._2021._04._02._10568.TIdentyfikatorOsobyNiefizycznej osobaNiefizyczna = podmiot1.getOsobaNiefizyczna();
+                    pl.gov.crd.wzor._2023._11._07._12978.TIdentyfikatorOsobyNiefizycznej osobaNiefizyczna = podmiot1.getOsobaNiefizyczna();
                     absText(writer, osobaNiefizyczna.getNIP(), 150, 790);
                     nazwapliku = osobaNiefizyczna.getNIP();
                     absText(writer, "X", 133, 432);
                     absText(writer, osobaNiefizyczna.getPelnaNazwa(), 133, 407);
                 } else if (podmiot1.getOsobaFizyczna() !=null) {
-                    TIdentyfikatorOsobyFizycznej2 osobaFizyczna = podmiot1.getOsobaFizyczna();
+                    pl.gov.crd.xml.schematy.dziedzinowe.mf._2022._09._13.ed.definicjetypy.TIdentyfikatorOsobyFizycznej2 osobaFizyczna = podmiot1.getOsobaFizyczna();
                     absText(writer, osobaFizyczna.getNIP(), 150, 790);
                     nazwapliku = osobaFizyczna.getNIP();
                     absText(writer, "X", 388, 432);
@@ -92,7 +89,7 @@ public class PdfPIT4 {
                     absText(writer, "NIE WYSŁANA!", 340, 785, 12);
                 }
                 
-                Deklaracja.PozycjeSzczegolowe ps = deklaracja.getPozycjeSzczegolowe();
+                pl.gov.crd.wzor._2023._11._07._12978.Deklaracja.PozycjeSzczegolowe ps = deklaracja.getPozycjeSzczegolowe();
                 absText(writer, pobierzI(ps.getP10()), 180, 340);
                 absText(writer, pobierzI(ps.getP11()), 250, 340);
                 absText(writer, pobierzI(ps.getP12()), 320, 340);

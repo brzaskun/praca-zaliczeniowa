@@ -219,8 +219,10 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
     public void pit4() {
         if (sumaUmowaoprace!=null && sumaUmowaopracekosztypodwyzszone!=null) {
             FirmaKadry firma = wpisView.getAngaz().getFirma();
-            Object[] sciezka = beanstesty.PIT4R_12Bean.generujXML(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowaoprace26zwolnione, sumaUmowazlecenia, sumaUmowapelnieniefunkcji, firma, (byte)1, firma.getKodurzeduskarbowego(), wpisView.getRokWpisu());
-            pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja = (pl.gov.crd.wzor._2021._04._02._10568.Deklaracja)sciezka[2];
+            //Object[] sciezka = beanstesty.PIT4R_12Bean.generujXML(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowaoprace26zwolnione, sumaUmowazlecenia, sumaUmowapelnieniefunkcji, firma, (byte)1, firma.getKodurzeduskarbowego(), wpisView.getRokWpisu());
+            Object[] sciezka = beanstesty.PIT4R_13Bean.generujXML(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowaoprace26zwolnione, sumaUmowazlecenia, sumaUmowapelnieniefunkcji, firma, (byte)1, firma.getKodurzeduskarbowego(), wpisView.getRokWpisu());
+            //pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja = (pl.gov.crd.wzor._2021._04._02._10568.Deklaracja)sciezka[2];
+            pl.gov.crd.wzor._2023._11._07._12978.Deklaracja deklaracja = (pl.gov.crd.wzor._2023._11._07._12978.Deklaracja)sciezka[2];
             if (deklaracja!=null) {
                 String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
                 PrimeFaces.current().executeScript(polecenie);

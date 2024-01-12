@@ -107,7 +107,7 @@ public class DeklaracjaPIT4Schowek implements Serializable {
 //        return is.readObject();
 //    }
     
-    public DeklaracjaPIT4Schowek(pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja, FirmaKadry firma, String rokWpisu, String nazwa) {
+    public DeklaracjaPIT4Schowek(pl.gov.crd.wzor._2023._11._07._12978.Deklaracja deklaracja, FirmaKadry firma, String rokWpisu, String nazwa) {
         ByteArrayOutputStream boas = new ByteArrayOutputStream();
         try (ObjectOutputStream ois = new ObjectOutputStream(boas)) {
             ois.writeObject(deklaracja);

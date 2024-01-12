@@ -90,7 +90,7 @@ public class Pit4RView  implements Serializable {
                 byte[] deklaracja = deklaracjaPIT4Schowek.getDeklaracja();//        ByteArrayInputStream in = new ByteArrayInputStream(this.deklaracja);
                 ByteArrayInputStream in = new ByteArrayInputStream(deklaracja);
                 is = new ObjectInputStream(in);
-                pl.gov.crd.wzor._2021._04._02._10568.Deklaracja dekl = (pl.gov.crd.wzor._2021._04._02._10568.Deklaracja) is.readObject();
+                pl.gov.crd.wzor._2023._11._07._12978.Deklaracja dekl = (pl.gov.crd.wzor._2023._11._07._12978.Deklaracja) is.readObject();
                 String nazwapliku = PdfPIT4.drukuj(dekl, deklaracjaPIT4Schowek);
                 String polecenie = "wydrukPDF(\""+nazwapliku+"\")";
                 PrimeFaces.current().executeScript(polecenie);
