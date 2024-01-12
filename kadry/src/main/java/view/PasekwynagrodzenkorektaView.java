@@ -131,6 +131,13 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
         }
     }
     
+     public void editpasek(Pasekwynagrodzen pasek) {
+        if (pasek != null) {
+               pasekwynagrodzenFacade.edit(pasek);
+               Msg.dP();
+        }
+    }
+    
     public TreeMap<Pracownik, List<Pasekwynagrodzen>> getPracownicyzpaskami() {
         return pracownicyzpaskami;
     }

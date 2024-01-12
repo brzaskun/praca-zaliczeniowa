@@ -79,7 +79,7 @@
                     <p:column headerText="podatek zagr. wal" style="text-align: center;">
                         <p:inputNumber value="#{itempasekpod.przekroczeniepodatekniemiecki}"  size="10"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" styleClass="polepodatkuwpln"
                                        rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}">
-                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.editpasek(itempasekpod)}" update="@(.polepodatkuwpln)"/>
+                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenkorektaView.editpasek(itempasekpod)}" update="@(.polepodatkuwpln)"/>
                         </p:inputNumber>
                         <bcf:outputwal value="#{itempasekpod.podatekdochodowyzagranicawaluta}" symbolwaluty="€" rendered="#{itempasekpod.podstawaopodatkowaniazagranicawaluta gt 0.0}"/>
                     </p:column>
