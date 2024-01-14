@@ -5,15 +5,18 @@
  */
 package view;
 
+import beanstesty.PasekwynagrodzenBean;
 import comparator.Pasekwynagrodzencomparator;
 import comparator.Pracownikcomparator;
 import dao.PasekwynagrodzenFacade;
 import dao.PodatkiFacade;
+import embeddable.PitKorektaNiemcy;
 import entity.FirmaKadry;
 import entity.Pasekwynagrodzen;
 import entity.Podatki;
 import entity.Pracownik;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +49,9 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
     private boolean dialogOtwarty;
     private Pracownik selectedpracownik;
     private Pasekwynagrodzen selectedpasek;
+    private PitKorektaNiemcy pitKorektaNiemcy;
+    private PitKorektaNiemcy pitKorektaNiemcyFirma;
+    private List<PitKorektaNiemcy> listpitKorektaNiemcy;
     
     public void open() {
         dialogOtwarty = true;
@@ -77,21 +83,52 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
         System.out.println("");
     }
     
+    public void pobierzfirme() {
+        listpitKorektaNiemcy = new ArrayList<>();
+        pitKorektaNiemcyFirma = new PitKorektaNiemcy();
+        if (pracownicyzpaskami.isEmpty()==false) {
+            for (Pracownik pracownik : pracownicyzpaskami.keySet()) {
+                selectedpracownik = pracownik;
+                pobierzdane();
+                listpitKorektaNiemcy.add(pitKorektaNiemcy);
+                pitKorektaNiemcyFirma.sumuj(pitKorektaNiemcy);
+            }
+        }
+    }
+    
     public void pobierzdane() {
         if (selectedpracownik!=null) {
             paskiwybranego = pracownicyzpaskami.get(selectedpracownik);
             List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
+            pitKorektaNiemcy = new PitKorektaNiemcy();
             for (Pasekwynagrodzen pasek : paskiwybranego) {
-                double nowapodstawa = Z.z(pasek.getPodstawaopodatkowania()-pasek.getOddelegowaniepln())>0.0?Z.z(pasek.getPodstawaopodatkowania()-pasek.getOddelegowaniepln()):0.0;
-                pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawa);
-                if (pasek.isPraca()) {
-                    obliczpodatekwstepnyDBStandard(pasek, pasek.getPrzekroczeniekorektapodstawypolska(), stawkipodatkowe, 0.0);
+                PasekwynagrodzenBean.razemspolecznepracownikkorektalp(pasek);
+                double starespoleczne = pasek.getRazemspolecznepracownik();
+                double nowespoleczne = pasek.getSpoleczneudzialpolska();
+                double podstawabezoddelegowania = Z.z(pasek.getPodstawaopodatkowania()-pasek.getOddelegowaniepln());
+                double podstawakorektazus = Z.z(podstawabezoddelegowania+starespoleczne-nowespoleczne);
+                double nowapodstawa = podstawakorektazus>0.0?podstawakorektazus:0.0;
+                pitKorektaNiemcy.setAngaz(pasek.getAngaz());
+                pitKorektaNiemcy.dodajstare(pasek);
+                if (nowapodstawa!=pasek.getPodstawaopodatkowania()) {
+                    pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawa);
+                    if (pasek.isPraca()) {
+                        obliczpodatekwstepnyDBStandard(pasek, nowapodstawa, stawkipodatkowe, 0.0);
+                    } else {
+                        obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
+                    }
+                    naniespodstaweniemiecka(pasek);
+                    pitKorektaNiemcy.dodajnowe(pasek);
+                    
                 } else {
-                    obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
+                    pasek.setPrzekroczeniekorektapodstawypolska(0.0);
+                    pasek.setPrzekroczenienowypodatek(0.0);
+                    pasek.setPrzekroczeniepodstawaniemiecka(0.0);
+                    pasek.setPrzekroczeniepodatekniemiecki(0.0);
                 }
-                naniespodstaweniemiecka(pasek);
+                
             }
-            Msg.msg("Wybrano pracownika "+selectedpracownik.getNazwiskoImie());
+            pitKorektaNiemcy.roznica();
         }
     }
 
@@ -112,6 +149,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                 podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
             }
         }
+        podatek = podatek-pasek.getKwotawolna()>0.0?podatek-pasek.getKwotawolna():0.0;
         pasek.setPrzekroczenienowypodatek(podatek);
     }
     
@@ -170,6 +208,30 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
 
     public void setSelectedpasek(Pasekwynagrodzen selectedpasek) {
         this.selectedpasek = selectedpasek;
+    }
+
+    public PitKorektaNiemcy getPitKorektaNiemcy() {
+        return pitKorektaNiemcy;
+    }
+
+    public void setPitKorektaNiemcy(PitKorektaNiemcy pitKorektaNiemcy) {
+        this.pitKorektaNiemcy = pitKorektaNiemcy;
+    }
+
+    public List<PitKorektaNiemcy> getListpitKorektaNiemcy() {
+        return listpitKorektaNiemcy;
+    }
+
+    public void setListpitKorektaNiemcy(List<PitKorektaNiemcy> listpitKorektaNiemcy) {
+        this.listpitKorektaNiemcy = listpitKorektaNiemcy;
+    }
+
+    public PitKorektaNiemcy getPitKorektaNiemcyFirma() {
+        return pitKorektaNiemcyFirma;
+    }
+
+    public void setPitKorektaNiemcyFirma(PitKorektaNiemcy pitKorektaNiemcyFirma) {
+        this.pitKorektaNiemcyFirma = pitKorektaNiemcyFirma;
     }
 
    

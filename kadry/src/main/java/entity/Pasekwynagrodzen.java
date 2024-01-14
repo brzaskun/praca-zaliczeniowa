@@ -305,7 +305,7 @@ public class Pasekwynagrodzen implements Serializable {
     private double przekroczenie26lat;
     @Column(name="przekroczeniekorektapodstawypolska")
     private double przekroczeniekorektapodstawypolska;
-     @Column(name="przekroczenienowypodatek")
+    @Column(name="przekroczenienowypodatek")
     private double przekroczenienowypodatek;
     @Column(name="przekroczeniepodstawaniemiecka")
     private double przekroczeniepodstawaniemiecka;

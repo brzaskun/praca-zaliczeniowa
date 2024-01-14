@@ -172,6 +172,14 @@ public class Kartawynagrodzen implements Serializable {
     private boolean przekroczeniedni;
     @Column
     private int wieklata;
+    @Column(name="przekroczeniekorektapodstawypolska")
+    private double przekroczeniekorektapodstawypolska;
+    @Column(name="przekroczenienowypodatek")
+    private double przekroczenienowypodatek;
+    @Column(name="przekroczeniepodstawaniemiecka")
+    private double przekroczeniepodstawaniemiecka;
+    @Column(name="przekroczeniepodatekniemiecki")
+    private double przekroczeniepodatekniemiecki;
     @Transient
     private String nazwiskoiimie;
     @Transient
@@ -237,6 +245,38 @@ public class Kartawynagrodzen implements Serializable {
 
     public void setBruttobezpodatku(double bruttobezpodatku) {
         this.bruttobezpodatku = bruttobezpodatku;
+    }
+
+    public double getPrzekroczeniekorektapodstawypolska() {
+        return przekroczeniekorektapodstawypolska;
+    }
+
+    public void setPrzekroczeniekorektapodstawypolska(double przekroczeniekorektapodstawypolska) {
+        this.przekroczeniekorektapodstawypolska = przekroczeniekorektapodstawypolska;
+    }
+
+    public double getPrzekroczenienowypodatek() {
+        return przekroczenienowypodatek;
+    }
+
+    public void setPrzekroczenienowypodatek(double przekroczenienowypodatek) {
+        this.przekroczenienowypodatek = przekroczenienowypodatek;
+    }
+
+    public double getPrzekroczeniepodstawaniemiecka() {
+        return przekroczeniepodstawaniemiecka;
+    }
+
+    public void setPrzekroczeniepodstawaniemiecka(double przekroczeniepodstawaniemiecka) {
+        this.przekroczeniepodstawaniemiecka = przekroczeniepodstawaniemiecka;
+    }
+
+    public double getPrzekroczeniepodatekniemiecki() {
+        return przekroczeniepodatekniemiecki;
+    }
+
+    public void setPrzekroczeniepodatekniemiecki(double przekroczeniepodatekniemiecki) {
+        this.przekroczeniepodatekniemiecki = przekroczeniepodatekniemiecki;
     }
 
     public double getBruttozus() {
@@ -742,6 +782,10 @@ public class Kartawynagrodzen implements Serializable {
         this.praczdrowotne += pasek.getPraczdrowotne();
         this.praczdrowotnedoodliczenia = Z.z(this.praczdrowotnedoodliczenia+pasek.getPraczdrowotnedoodliczenia());
         this.praczdrowotnedopotracenia = Z.z(this.praczdrowotnedopotracenia+pasek.getPraczdrowotnedopotracenia());
+        this.przekroczeniekorektapodstawypolska = Z.z(this.przekroczeniekorektapodstawypolska+pasek.getPrzekroczeniekorektapodstawypolska());
+        this.przekroczenienowypodatek = Z.z(this.przekroczenienowypodatek+pasek.getPrzekroczenienowypodatek());
+        this.przekroczeniepodstawaniemiecka = Z.z(this.przekroczeniepodstawaniemiecka+pasek.getPrzekroczeniepodstawaniemiecka());
+        this.przekroczeniepodatekniemiecki = Z.z(this.przekroczeniepodatekniemiecki+pasek.getPrzekroczeniepodatekniemiecki());
         this.emerytalne += pasek.getEmerytalne();
         this.rentowe += pasek.getRentowe();
         this.wypadkowe += pasek.getWypadkowe();
@@ -806,6 +850,10 @@ public class Kartawynagrodzen implements Serializable {
         this.pracrentowe += kartawynagrodzen.getPracrentowe();
         this.razemspolecznepracownik = Z.z(this.razemspolecznepracownik+kartawynagrodzen.getRazemspolecznepracownik());
         this.praczdrowotne += kartawynagrodzen.getPraczdrowotne();
+        this.przekroczeniekorektapodstawypolska = Z.z(this.przekroczeniekorektapodstawypolska+kartawynagrodzen.getPrzekroczeniekorektapodstawypolska());
+        this.przekroczenienowypodatek = Z.z(this.przekroczenienowypodatek+kartawynagrodzen.getPrzekroczenienowypodatek());
+        this.przekroczeniepodstawaniemiecka = Z.z(this.przekroczeniepodstawaniemiecka+kartawynagrodzen.getPrzekroczeniepodstawaniemiecka());
+        this.przekroczeniepodatekniemiecki = Z.z(this.przekroczeniepodatekniemiecki+kartawynagrodzen.getPrzekroczeniepodatekniemiecki());
         this.praczdrowotnedoodliczenia += kartawynagrodzen.getPraczdrowotnedoodliczenia();
         this.praczdrowotnedopotracenia = Z.z(this.praczdrowotnedopotracenia+kartawynagrodzen.getPraczdrowotnedopotracenia());
         this.praczdrowotnepomniejszone += kartawynagrodzen.getPraczdrowotnepomniejszone();

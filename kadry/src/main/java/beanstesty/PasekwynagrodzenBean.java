@@ -1063,8 +1063,27 @@ public class PasekwynagrodzenBean {
     private static void razemspolecznepracownik(Pasekwynagrodzen pasek) {
         pasek.setRazemspolecznepracownik(Z.z(pasek.getPracemerytalne() + pasek.getPracrentowe() + pasek.getPracchorobowe()));
         pasek.setSpoleczneudzialpolska(Z.z(pasek.getPracemerytalne() + pasek.getPracrentowe() + pasek.getPracchorobowe()));
-        if (pasek.isDo26lat()&&pasek.getPrzychodypodatekpolska()>0.0) {
+        if (pasek.getPrzychodypodatekpolska()>0.0&&pasek.getPodstawaskladkizus()>0.0) {
             double proporcjaprzychodow = pasek.getPrzychodypodatekpolska()/pasek.getPodstawaskladkizus();
+            //to musi byc bo jest przeciez ograniczenie wysokosci skladki zus
+            if (proporcjaprzychodow>1.0) {
+                proporcjaprzychodow = 1.0;
+            }
+            double zusproporcjonalnie = pasek.getRazemspolecznepracownik()*proporcjaprzychodow;
+            pasek.setSpoleczneudzialpolska(zusproporcjonalnie);
+        }
+    }
+    
+    public static void razemspolecznepracownikkorektalp(Pasekwynagrodzen pasek) {
+        pasek.setRazemspolecznepracownik(Z.z(pasek.getPracemerytalne() + pasek.getPracrentowe() + pasek.getPracchorobowe()));
+        pasek.setSpoleczneudzialpolska(Z.z(pasek.getPracemerytalne() + pasek.getPracrentowe() + pasek.getPracchorobowe()));
+        double przychodypolska = pasek.getPrzychodypodatekpolska();
+        if (przychodypolska==0.0) {
+            przychodypolska = Z.z(pasek.getBrutto()-pasek.getOddelegowaniepln());
+            pasek.setPrzychodypodatekpolska(przychodypolska);
+        }
+        if (pasek.getOddelegowaniepln()>0.0&&pasek.getPodstawaskladkizus()>0.0) {
+            double proporcjaprzychodow = przychodypolska/pasek.getPodstawaskladkizus();
             //to musi byc bo jest przeciez ograniczenie wysokosci skladki zus
             if (proporcjaprzychodow>1.0) {
                 proporcjaprzychodow = 1.0;

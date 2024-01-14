@@ -43,11 +43,11 @@
                         </f:facet>
                         <h:outputText value="#{itemkarta.nazwiskoiimie}" />
                     </p:column>
-                    <p:column width="70" style="text-align: center;">
+                    <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
-                            <h:outputText value="data ur."/>
+                            <h:outputText value="rozl. Niemcy"/>
                         </f:facet>
-                        <h:outputText value="#{itemkarta.angaz.pracownik.dataurodzenia}" />
+                        <h:outputText value="&#x2714;" rendered="#{itemkarta.angaz.przekroczenierok ne null}" style="font-weight: 900; color: green"/>
                     </p:column>
                     <p:column width="20" style="text-align: center;" >
                         <f:facet name="header">
@@ -69,7 +69,7 @@
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.brutto}"/>
                     </p:column>
-                    <p:column width="60">
+                    <p:column width="30">
                         <f:facet name="header">
                             <h:outputText value="okres przek. 26"/>
                         </f:facet>
@@ -121,9 +121,15 @@
 
                     <p:column width="60">
                         <f:facet name="header">
-                            <h:outputText value="wyn. netto"/>
+                            <h:outputText value="nowy dochód"/>
                         </f:facet>
-                        <bcf:outputpl value="#{itemkarta.netto}"/>
+                        <bcf:outputpl value="#{itemkarta.przekroczeniekorektapodstawypolska}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="nowy podatek"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.przekroczenienowypodatek}"/>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
                         <f:facet name="header">

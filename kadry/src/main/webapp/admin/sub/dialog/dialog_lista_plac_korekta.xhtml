@@ -11,80 +11,169 @@
               resizable="false"  onShow="ustawdialog('dialoglistaplackorekta','centertile',1800,820);" closeOnEscape="true"
               onHide="resetujdialog('dialoglistaplackorekta');" 
               fitViewport="true">
-        <p:ajax event="open" listener="#{pasekwynagrodzenkorektaView.init()}" update="listaplackorekta" global="true"/>
+        <p:ajax event="open" listener="#{pasekwynagrodzenkorektaView.init()}" update="akordeon1:listaplackorekta" global="true"/>
         <p:ajax event="close" listener="#{pasekwynagrodzenkorektaView.close()}" global="false"/>
         <p:ajax event="open" listener="#{pasekwynagrodzenkorektaView.open()}" global="false"/>
-        <h:form id="listaplackorekta">
-            <p:outputPanel style="padding: 10px;">
-                <p:selectOneMenu id="swiadczenie" value="#{pasekwynagrodzenkorektaView.selectedpracownik}"  
-                                 filter="true" filterMatchMode="contains" converter="#{pracownikConverter}"
-                                 style="width: 300px;">
-                    <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                    <f:selectItems value="#{pasekwynagrodzenkorektaView.pracownicyzpaskami.keySet()}" 
-                                   var="pracItem"
-                                   itemValue="#{pracItem}" itemLabel="#{pracItem.getNazwiskoImie()}"/>
-                    <p:ajax event="change" partialSubmit="true" global="false" update="@form" 
-                            listener="#{pasekwynagrodzenkorektaView.pobierzdane()}"/>
-                </p:selectOneMenu>
-                <h:outputText value="data urodzenia #{pasekwynagrodzenkorektaView.selectedpracownik.dataurodzenia}" rendered="#{pasekwynagrodzenkorektaView.selectedpracownik ne null}"/>
-            </p:outputPanel>
-            <p:outputPanel style="padding: 10px;">
-                <p:dataTable id="datalist3" value="#{pasekwynagrodzenkorektaView.paskiwybranego }" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
-                             selectionMode="single" selection="#{pasekwynagrodzenkorektaView.selectedpasek}" rowIndexVar="indexpasekpod"
-                             rowKey="#{itempasekpod.kalendarzmiesiac.id}" sortBy="#{itempasekpod.nazwiskoImie}"
-                             style="height: 430px; overflow-y: scroll; width: 1300px;"
+        <p:tabView id="akordeon1">
+            <p:tab title="pracownicy">
+                <h:form id="listaplackorekta">
+                    <p:outputPanel style="padding: 10px;">
+                        <p:selectOneMenu id="swiadczenie" value="#{pasekwynagrodzenkorektaView.selectedpracownik}"  
+                                         filter="true" filterMatchMode="contains" converter="#{pracownikConverter}"
+                                         style="width: 300px;">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{pasekwynagrodzenkorektaView.pracownicyzpaskami.keySet()}" 
+                                           var="pracItem"
+                                           itemValue="#{pracItem}" itemLabel="#{pracItem.getNazwiskoImie()}"/>
+                            <p:ajax event="change" partialSubmit="true" global="false" update="@form" 
+                                    listener="#{pasekwynagrodzenkorektaView.pobierzdane()}"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="data urodzenia #{pasekwynagrodzenkorektaView.selectedpracownik.dataurodzenia}" rendered="#{pasekwynagrodzenkorektaView.selectedpracownik ne null}"/>
+                    </p:outputPanel>
+                    <p:outputPanel style="padding: 10px;">
+                        <p:dataTable id="datalist3" value="#{pasekwynagrodzenkorektaView.paskiwybranego }" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
+                                     selectionMode="single" selection="#{pasekwynagrodzenkorektaView.selectedpasek}" rowIndexVar="indexpasekpod"
+                                     rowKey="#{itempasekpod.kalendarzmiesiac.id}" sortBy="#{itempasekpod.nazwiskoImie}"
+                                     style="height: 430px; overflow-y: scroll; width: 1400px;"
 
-                             >
-                    <f:facet name="header">
-                        <h:outputText value="Korekta list płac w związku z przekroczeniem za rok #{wpisView.rokWpisu}"/>
-                    </f:facet>
-                    <p:column width="10">
-                        <h:outputText value="#{indexpasekpod+1}"/>
-                    </p:column>
-                    <p:column width="30" headerText="mc">
-                        <h:outputText value="#{itempasekpod.mc}"/>
-                    </p:column>
-                    <p:column width="70" headerText="przekr" style="text-align: center;">
-                        <h:outputText value="#{itempasekpod.kalendarzmiesiac.angaz.przekroczenierok} #{itempasekpod.kalendarzmiesiac.angaz.przekroczeniemc}"/>
-                    </p:column>
-                    <p:column headerText="podst. PIT Polska">
-                        <bcf:outputpl value="#{itempasekpod.podstawaopodatkowania}"/>
-                    </p:column>
-                    <p:column headerText="podatek Polska">
-                        <bcf:outputpl value="#{itempasekpod.podatekdochodowy}"/>
-                    </p:column>
-                    <p:column headerText="podstawa pod. zagr. pln">
-                        <bcf:outputpl value="#{itempasekpod.podstawaopodatkowaniazagranica}"/>
-                    </p:column>
-                    <p:column headerText="podstawa pod. zagr. wal.">
-                        <bcf:outputwal value="#{itempasekpod.podstawaopodatkowaniazagranicawaluta}" symbolwaluty="€"/>
-                    </p:column>
-                    <p:column headerText="oddeleg. wal.">
-                        <bcf:outputwal value="#{itempasekpod.oddelegowaniewaluta}" symbolwaluty="€"/>
-                    </p:column>
+                                     >
+                            <f:facet name="header">
+                                <h:outputText value="Korekta list płac w związku z przekroczeniem za rok #{wpisView.rokWpisu}"/>
+                            </f:facet>
+                            <p:column width="10">
+                                <h:outputText value="#{indexpasekpod+1}"/>
+                            </p:column>
+                            <p:column width="60" headerText="okr. wypł">
+                                <h:outputText value="#{itempasekpod.rokwypl}/#{itempasekpod.mcwypl}"/>
+                            </p:column>
+                            <p:column width="35" headerText="przek" style="text-align: center;">
+                                <h:outputText value="#{itempasekpod.kalendarzmiesiac.angaz.przekroczenierok} #{itempasekpod.kalendarzmiesiac.angaz.przekroczeniemc}"/>
+                            </p:column>
+                            <p:column headerText="stara podst. PIT">
+                                <bcf:outputpl value="#{itempasekpod.podstawaopodatkowania}"/>
+                            </p:column>
+                            <p:column headerText="społeczne">
+                                <bcf:outputpl value="#{itempasekpod.razemspolecznepracownik}"/>
+                            </p:column>
+                            <p:column headerText="przychody polska">
+                                <bcf:outputpl value="#{itempasekpod.przychodypodatekpolska}"/>
+                            </p:column>
+                            <p:column headerText="społeczne polska">
+                                <bcf:outputpl value="#{itempasekpod.spoleczneudzialpolska}"/>
+                            </p:column>
+                            <p:column headerText="podatek Polska">
+                                <bcf:outputpl value="#{itempasekpod.podatekdochodowy}"/>
+                            </p:column>
+                            <p:column headerText="podstawa pod. zagr. pln">
+                                <bcf:outputpl value="#{itempasekpod.podstawaopodatkowaniazagranica}"/>
+                            </p:column>
+                            <p:column headerText="podstawa pod. zagr. wal.">
+                                <bcf:outputwal value="#{itempasekpod.podstawaopodatkowaniazagranicawaluta}" symbolwaluty="€"/>
+                            </p:column>
+                            <p:column headerText="oddeleg. wal.">
+                                <bcf:outputwal value="#{itempasekpod.oddelegowaniewaluta}" symbolwaluty="€"/>
+                            </p:column>
 
-                    <p:column headerText="oddeleg. pln.">
-                        <bcf:outputpl value="#{itempasekpod.oddelegowaniepln}"/>
-                    </p:column>
-                    <p:column headerText="skorygowana podstawa pln">
-                        <bcf:outputpl value="#{itempasekpod.przekroczeniekorektapodstawypolska}" rendered="#{itempasekpod.podstawaopodatkowaniazagranica eq 0.0}"/>
-                        <h:outputText value="bez zmian"  rendered="#{itempasekpod.podstawaopodatkowaniazagranica ne 0.0}"/>
-                    </p:column>
-                    <p:column headerText="skorygowany podatek pln">
-                        <bcf:outputpl value="#{itempasekpod.przekroczenienowypodatek}"/>
-                    </p:column>
-                    <p:column headerText="oddeleg. wal.">
-                        <bcf:outputwal value="#{itempasekpod.przekroczeniepodstawaniemiecka}" symbolwaluty="€" rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}"/>
-                    </p:column>
-                    <p:column headerText="podatek zagr. wal" style="text-align: center;">
-                        <p:inputNumber value="#{itempasekpod.przekroczeniepodatekniemiecki}"  size="10"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" styleClass="polepodatkuwpln"
-                                       rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}">
-                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenkorektaView.editpasek(itempasekpod)}" update="@(.polepodatkuwpln)"/>
-                        </p:inputNumber>
-                        <bcf:outputwal value="#{itempasekpod.podatekdochodowyzagranicawaluta}" symbolwaluty="€" rendered="#{itempasekpod.podstawaopodatkowaniazagranicawaluta gt 0.0}"/>
-                    </p:column>
-                </p:dataTable>
-            </p:outputPanel>
-        </h:form>
+                            <p:column headerText="oddeleg. pln.">
+                                <bcf:outputpl value="#{itempasekpod.oddelegowaniepln}"/>
+                            </p:column>
+                            <p:column headerText="skorygowana podstawa pln">
+                                <bcf:outputpl value="#{itempasekpod.przekroczeniekorektapodstawypolska}" rendered="#{itempasekpod.podstawaopodatkowaniazagranica eq 0.0}"/>
+                                <h:outputText value="bez zmian"  rendered="#{itempasekpod.podstawaopodatkowaniazagranica ne 0.0}"/>
+                            </p:column>
+                            <p:column headerText="skorygowany podatek pln">
+                                <bcf:outputpl value="#{itempasekpod.przekroczenienowypodatek}"/>
+                            </p:column>
+                            <p:column headerText="oddeleg. wal.">
+                                <bcf:outputwal value="#{itempasekpod.przekroczeniepodstawaniemiecka}" symbolwaluty="€" rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}"/>
+                            </p:column>
+                            <p:column headerText="podatek zagr. wal" style="text-align: center;">
+                                <p:inputNumber value="#{itempasekpod.przekroczeniepodatekniemiecki}"  size="10"  maxlength="8" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" styleClass="polepodatkuwpln"
+                                               rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}" symbol="€" symbolPosition="right" >
+                                    <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenkorektaView.editpasek(itempasekpod)}" update="@(.polepodatkuwpln)"/>
+                                </p:inputNumber>
+                                <bcf:outputwal value="#{itempasekpod.podatekdochodowyzagranicawaluta}" symbolwaluty="€" rendered="#{itempasekpod.podstawaopodatkowaniazagranicawaluta gt 0.0}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+                    <p:outputPanel style="padding: 10px;">
+                        <p:panelGrid columns="10" style="width: 900px;background-color: #BDBDBD;">
+                            <h:outputText value="stary przychód"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.staryprzychod}"/>
+                            <h:outputText value="stary zus"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.staryspoleczne}"/>
+                            <h:outputText value="stary podatek"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.starypodatek}"/>
+                            <h:outputText value="stary przychód niemiecki"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.staryprzychodniemiecki}"/>
+                            <h:outputText value="stary podatek niemiecki"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.starypodatekniemiecki}"/>
+                            <h:outputText value="korekta przychód"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.korektaprzychod}"/>
+                            <h:outputText value="korekta zus"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.korektaspoleczne}"/>
+                            <h:outputText value="korekta podatek"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.korektapodatek}"/>
+                            <h:outputText value="korekta przychód niemiecki"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.korektaprzychodniemiecki}"/>
+                            <h:outputText value="korekta podatek niemiecki"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.korektapodatekniemiecki}"/>
+                            <h:outputText value="nowy przychód"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.nowyprzychod}"/>
+                            <h:outputText value="nowy zus"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.nowyspoleczne}"/>
+                            <h:outputText value="nowy podatek"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.nowypodatek}"/>
+                            <h:outputText value="nowy przychód niemiecki"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.nowyprzychodniemiecki}"/>
+                            <h:outputText value="nowy podatek niemiecki"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcy.nowypodatekniemiecki}"/>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </h:form>
+            </p:tab>
+            <p:tab title="firma">
+                <h:form>
+                    <p:outputPanel style="padding: 10px;">
+                        <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{pasekwynagrodzenkorektaView.pobierzfirme()}" update="@form"/>
+                    </p:outputPanel>
+                    <p:outputPanel style="padding: 10px;">
+                        <p:dataTable id="datalist3" value="#{pasekwynagrodzenkorektaView.listpitKorektaNiemcy}" var="itempasekpod1" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
+                                     selectionMode="single"  rowIndexVar="indexpasekpod1"
+                                     rowKey="#{itempasekpod1.id}" sortBy="#{itempasekpod1.angaz.nazwiskoImie}"
+                                     style="height: 430px; overflow-y: scroll; width: 500px;"
+
+                                     >
+                            <f:facet name="header">
+                                <h:outputText value="Zestawienie korekt do rozliczenia grudnia w związku z przekroczeniem za rok #{wpisView.rokWpisu}"/>
+                            </f:facet>
+                            <p:column width="10">
+                                <h:outputText value="#{indexpasekpod1+1}"/>
+                            </p:column>
+                            <p:column width="150" headerText="nazwisko i imię">
+                                <h:outputText value="#{itempasekpod1.angaz.nazwiskoiImie}"/>
+                            </p:column>
+                            <p:column width="40" headerText="przekr.">
+                                <h:outputText value="#{itempasekpod1.angaz.przekroczenierok}"/>
+                            </p:column>
+                            <p:column width="70" headerText="korekta podatek">
+                                <bcf:outputpl value="#{itempasekpod1.korektapodatek}"/>
+                            </p:column>
+                            <p:column width="70" headerText="korekta niemcy">
+                                <bcf:outputpl value="#{itempasekpod1.korektapodatekniemiecki}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+                     <p:outputPanel style="padding: 10px;">
+                        <p:panelGrid columns="5" style="width: 500px;background-color: #BDBDBD;">
+                            <h:outputText value="korekta podatek"/>
+                            <bcf:outputpl value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcyFirma.korektapodatek}"/>
+                            <h:outputText value="korekta podatek niemiecki"/>
+                            <bcf:outputwal value="#{pasekwynagrodzenkorektaView.pitKorektaNiemcyFirma.korektapodatekniemiecki}" symbolwaluty="€"/>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </h:form>
+            </p:tab>
+        </p:tabView>
     </p:dialog>
 </ui:composition>
