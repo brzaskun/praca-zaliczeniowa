@@ -8,6 +8,7 @@
 
 package pl.gov.crd.wzor._2023._11._07._12978;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRegistry;
 
 
@@ -26,7 +27,8 @@ import javax.xml.bind.annotation.XmlRegistry;
  * 
  */
 @XmlRegistry
-public class ObjectFactory {
+public class ObjectFactory  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
 
     /**

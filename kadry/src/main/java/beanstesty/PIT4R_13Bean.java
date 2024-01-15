@@ -41,7 +41,7 @@ public class PIT4R_13Bean {
             zwrot[0] = sciezka;
             zwrot[1] = "ok";
             String nip = deklaracja.getPodmiot1().getOsobaFizyczna()!=null?deklaracja.getPodmiot1().getOsobaFizyczna().getNIP():deklaracja.getPodmiot1().getOsobaNiefizyczna().getNIP();
-            String mainfilename = "pit4R_12"+nip+"rok"+deklaracja.getNaglowek().getRok()+deklaracja.getNaglowek().getKodFormularza().getWersjaSchemy()+".xml";
+            String mainfilename = "pit4R_13"+nip+"rok"+deklaracja.getNaglowek().getRok()+deklaracja.getNaglowek().getKodFormularza().getWersjaSchemy()+".xml";
                 Object[] walidacja = xml.XMLValid_PIT4R_13.walidujPIT4r13(mainfilename);
                 zwrot[0] = sciezka;
                 zwrot[1] = "ok";
@@ -77,7 +77,7 @@ public class PIT4R_13Bean {
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
                 String nip = deklaracja.getPodmiot1().getOsobaFizyczna()!=null?deklaracja.getPodmiot1().getOsobaFizyczna().getNIP():deklaracja.getPodmiot1().getOsobaNiefizyczna().getNIP();
-                String mainfilename = "pit4R_12"+nip+"rok"+deklaracja.getNaglowek().getRok()+deklaracja.getNaglowek().getKodFormularza().getWersjaSchemy()+".xml";
+                String mainfilename = "pit4R_13"+nip+"rok"+deklaracja.getNaglowek().getRok()+deklaracja.getNaglowek().getKodFormularza().getWersjaSchemy()+".xml";
                 ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
                 String realPath = ctx.getRealPath("/")+"resources\\xml\\";
                 FileOutputStream fileStream = new FileOutputStream(new File(realPath+mainfilename));
@@ -323,6 +323,7 @@ public class PIT4R_13Bean {
         poz.setP155(poz.getP79());
         poz.setP156(poz.getP80());
         poz.setP157(poz.getP81());
+        poz.setP158((byte)2);
         return poz;
     }
 

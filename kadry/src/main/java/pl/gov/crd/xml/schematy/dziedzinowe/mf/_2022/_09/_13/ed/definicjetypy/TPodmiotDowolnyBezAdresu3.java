@@ -8,6 +8,7 @@
 
 package pl.gov.crd.xml.schematy.dziedzinowe.mf._2022._09._13.ed.definicjetypy;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -41,7 +42,8 @@ import javax.xml.bind.annotation.XmlType;
     "osobaFizyczna",
     "osobaNiefizyczna"
 })
-public class TPodmiotDowolnyBezAdresu3 {
+public class TPodmiotDowolnyBezAdresu3  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "OsobaFizyczna")
     protected TIdentyfikatorOsobyFizycznej2 osobaFizyczna;

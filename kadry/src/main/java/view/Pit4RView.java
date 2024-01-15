@@ -5,7 +5,7 @@
  */
 package view;
 
-import beanstesty.PIT4R_12Bean;
+import beanstesty.PIT4R_13Bean;
 import dao.DeklaracjaPIT4SchowekFacade;
 import entity.DeklaracjaPIT4Schowek;
 import java.io.ByteArrayInputStream;
@@ -66,8 +66,8 @@ public class Pit4RView  implements Serializable {
                 byte[] deklaracja = deklaracjaPIT4Schowek.getDeklaracja();//        ByteArrayInputStream in = new ByteArrayInputStream(this.deklaracja);
                 ByteArrayInputStream in = new ByteArrayInputStream(deklaracja);
                 is = new ObjectInputStream(in);
-                pl.gov.crd.wzor._2021._04._02._10568.Deklaracja dekl = (pl.gov.crd.wzor._2021._04._02._10568.Deklaracja) is.readObject();
-                String sciezka = PIT4R_12Bean.marszajuldoplikuxml(dekl);
+                pl.gov.crd.wzor._2023._11._07._12978.Deklaracja dekl = (pl.gov.crd.wzor._2023._11._07._12978.Deklaracja) is.readObject();
+                String sciezka = PIT4R_13Bean.marszajuldoplikuxml(dekl);
                 String polecenie = "wydrukXML(\""+sciezka+"\")";
                 PrimeFaces.current().executeScript(polecenie);
                 Msg.msg("Pobrano deklaracje");

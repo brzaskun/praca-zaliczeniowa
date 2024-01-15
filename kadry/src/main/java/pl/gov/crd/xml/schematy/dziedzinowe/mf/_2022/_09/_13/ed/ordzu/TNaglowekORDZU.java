@@ -8,6 +8,7 @@
 
 package pl.gov.crd.xml.schematy.dziedzinowe.mf._2022._09._13.ed.ordzu;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -58,7 +59,8 @@ import javax.xml.bind.annotation.XmlValue;
     "kodFormularza",
     "wariantFormularza"
 })
-public class TNaglowekORDZU {
+public class TNaglowekORDZU implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "KodFormularza", required = true)
     protected TNaglowekORDZU.KodFormularza kodFormularza;
@@ -128,7 +130,8 @@ public class TNaglowekORDZU {
     @XmlType(name = "", propOrder = {
         "value"
     })
-    public static class KodFormularza {
+    public static class KodFormularza implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlValue
         protected TKodFormularzaZU value;

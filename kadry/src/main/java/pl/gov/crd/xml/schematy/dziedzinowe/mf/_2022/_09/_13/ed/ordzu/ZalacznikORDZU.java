@@ -8,6 +8,7 @@
 
 package pl.gov.crd.xml.schematy.dziedzinowe.mf._2022._09._13.ed.ordzu;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -51,7 +52,8 @@ import javax.xml.bind.annotation.XmlType;
     "pozycjeSzczegolowe"
 })
 @XmlRootElement(name = "Zalacznik_ORD-ZU")
-public class ZalacznikORDZU {
+public class ZalacznikORDZU implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "Naglowek", required = true)
     protected TNaglowekORDZU naglowek;
@@ -130,7 +132,8 @@ public class ZalacznikORDZU {
     @XmlType(name = "", propOrder = {
         "p13"
     })
-    public static class PozycjeSzczegolowe {
+    public static class PozycjeSzczegolowe implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "P_13", required = true)
         protected String p13;

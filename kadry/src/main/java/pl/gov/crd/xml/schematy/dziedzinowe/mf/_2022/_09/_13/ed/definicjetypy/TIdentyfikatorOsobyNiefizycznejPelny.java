@@ -8,6 +8,7 @@
 
 package pl.gov.crd.xml.schematy.dziedzinowe.mf._2022._09._13.ed.definicjetypy;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -61,7 +62,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "skroconaNazwa",
     "regon"
 })
-public class TIdentyfikatorOsobyNiefizycznejPelny {
+public class TIdentyfikatorOsobyNiefizycznejPelny  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "NIP")
     protected String nip;

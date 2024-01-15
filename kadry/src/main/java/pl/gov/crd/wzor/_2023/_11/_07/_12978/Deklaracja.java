@@ -8,6 +8,7 @@
 
 package pl.gov.crd.wzor._2023._11._07._12978;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -375,7 +376,8 @@ import pl.gov.crd.xml.schematy.dziedzinowe.mf._2022._09._13.ed.ordzu.ZalacznikOR
     "zalaczniki"
 })
 @XmlRootElement(name = "Deklaracja")
-public class Deklaracja {
+public class Deklaracja  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "Naglowek", required = true)
     protected TNaglowek naglowek;
@@ -530,7 +532,8 @@ public class Deklaracja {
     @XmlType(name = "")
     public static class Podmiot1
         extends TPodmiotDowolnyBezAdresu1
-    {
+    implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlAttribute(name = "rola", required = true)
         protected String rola;
@@ -1063,7 +1066,8 @@ public class Deklaracja {
         "p194",
         "p195"
     })
-    public static class PozycjeSzczegolowe {
+    public static class PozycjeSzczegolowe implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "P_7")
         protected Byte p7;
@@ -5946,7 +5950,8 @@ public class Deklaracja {
     @XmlType(name = "", propOrder = {
         "zalacznikORDZU"
     })
-    public static class Zalaczniki {
+    public static class Zalaczniki implements Serializable {
+    private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "Zalacznik_ORD-ZU", namespace = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/09/13/eD/ORDZU/")
         protected ZalacznikORDZU zalacznikORDZU;
