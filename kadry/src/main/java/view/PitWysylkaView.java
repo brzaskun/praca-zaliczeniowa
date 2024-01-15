@@ -9,7 +9,7 @@ import beansPodpis.Xad;
 import beanstesty.EDeklaracjeObslugaBledow;
 import beanstesty.ObjectBean;
 import beanstesty.PIT11_29Bean;
-import beanstesty.PIT4R_12Bean;
+import beanstesty.PIT4R_13Bean;
 import dao.DeklaracjaPIT11SchowekFacade;
 import entity.DeklaracjaPIT11Schowek;
 import entity.DeklaracjaPIT4Schowek;
@@ -71,8 +71,8 @@ public class PitWysylkaView  implements Serializable {
      public Object[] podpiszDeklaracjePIT4(DeklaracjaPIT4Schowek wysylanaDeklaracja) {
         Object[] deklaracjapodpisana = null;
         try {
-            pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracjeobject = (pl.gov.crd.wzor._2021._04._02._10568.Deklaracja) ObjectBean.convertFromBytes(wysylanaDeklaracja.getDeklaracja());
-            String deklaracja = PIT4R_12Bean.marszajuldoStringxml(deklaracjeobject);
+            pl.gov.crd.wzor._2023._11._07._12978.Deklaracja deklaracjeobject = (pl.gov.crd.wzor._2023._11._07._12978.Deklaracja) ObjectBean.convertFromBytes(wysylanaDeklaracja.getDeklaracja());
+            String deklaracja = PIT4R_13Bean.marszajuldoStringxml(deklaracjeobject);
             System.out.println("zaczynam podpis");
             deklaracjapodpisana = Xad.podpisz(deklaracja);
             System.out.println("udany podpis");
