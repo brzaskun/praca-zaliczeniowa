@@ -62,7 +62,7 @@
                     <p:dataTable id="datalist" value="#{firmaImportView.lista}" var="item1"
                                  selectionMode="single" selection="#{firmaImportView.selectedlista}"
                                  rowKey="#{item1.id}"  sortBy="#{item1.nazwa}"
-                                 style="height: 250px; width: 1200px; overflow-y: scroll;"
+                                 style="height: 250px; width: 1100px; overflow-y: scroll;"
                                  > 
                         <p:ajax event="rowSelect" update="FirmaUzupelnijForm" listener="#{firmaImportView.pobierzinfo}"/>
                         <p:column width="40" style="text-align: center;">
@@ -111,7 +111,14 @@
                             </f:facet>
                             <h:outputText value="#{item1.angazList ne null and item1.angazList.size() gt 0 ? item1.angazList.size():''}"/>
                         </p:column>
-
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="akt."/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item1.aktywna}">
+                                <p:ajax event="change" listener="#{firmaView.edytuj(item1)}" global="false" />
+                            </p:selectBooleanCheckbox>
+                        </p:column>
                         <p:column width="40" style="text-align: center;">
                             <p:commandButton icon="pi pi-trash" actionListener="#{firmaImportView.usun(item1)}" update="north @(form)" rendered="#{item1.nip ne '0000000000'}">
                                 <p:confirm type="popup" header="Potwierdzenie" message="Usunąć wyszystkie dane firmy?" icon="pi pi-exclamation-triangle"/>

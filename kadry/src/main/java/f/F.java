@@ -74,6 +74,14 @@ public class F {
         return formatter.format(n*100.0)+"%";
     }
     
+    public static String procent2(double n) {
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+        formatter.setGroupingUsed(true);
+        return formatter.format(n*100.0)+"%";
+    }
+    
     public static double kwota(String f) {
         double zwrot = 0.0;
         if (f!=null) {

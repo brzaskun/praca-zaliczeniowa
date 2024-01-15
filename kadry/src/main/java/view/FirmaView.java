@@ -20,6 +20,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import msg.Msg;
 
 /**
  *
@@ -41,7 +42,7 @@ public class FirmaView  implements Serializable {
     
     @PostConstruct
     public void init() {
-        lista  = firmaKadryFacade.findAll();
+        lista  = firmaKadryFacade.findAktywne();
         if (!wpisView.getUzer().getLogin().equals("mariola")&&!wpisView.getUzer().getLogin().equals("2")) {
             for (Iterator<FirmaKadry> it = lista.iterator();it.hasNext();) {
                 FirmaKadry f = it.next();
@@ -70,6 +71,15 @@ public class FirmaView  implements Serializable {
         Collections.sort(lista,new FirmaKadrycomparator());
         if (wpisView.getFirma()!=null) {
             selectedeast = wpisView.getFirma();
+        }
+    }
+    
+     public void edytuj(FirmaKadry firma) {
+        if (firma!=null) {
+            firmaKadryFacade.edit(firma);
+            Msg.msg("Edytowano firmę");
+        } else {
+            Msg.msg("e","Nie wybrano firmy");
         }
     }
 

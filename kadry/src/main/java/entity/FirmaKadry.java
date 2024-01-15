@@ -39,7 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FirmaKadry.findById", query = "SELECT f FROM FirmaKadry f WHERE f.id = :id"),
     @NamedQuery(name = "FirmaKadry.findByNazwa", query = "SELECT f FROM FirmaKadry f WHERE f.nazwa = :nazwa"),
     @NamedQuery(name = "FirmaKadry.findByNip", query = "SELECT f FROM FirmaKadry f WHERE f.nip = :nip"),
-    @NamedQuery(name = "FirmaKadry.findByBezglobal", query = "SELECT f FROM FirmaKadry f WHERE f.nip != '0000000000'")
+    @NamedQuery(name = "FirmaKadry.findByBezglobal", query = "SELECT f FROM FirmaKadry f WHERE f.nip != '0000000000'"),
+    @NamedQuery(name = "FirmaKadry.findByAktywneBezglobal", query = "SELECT f FROM FirmaKadry f WHERE f.nip != '0000000000' AND f.aktywna = TRUE")
 })
 
 public class FirmaKadry implements Serializable {
@@ -147,6 +148,8 @@ public class FirmaKadry implements Serializable {
     private String bankpodatki;
     @Column(name = "bankzus")
     private String bankzus;
+    @Column(name = "aktywna")
+    private boolean aktywna;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "firma")
     private List<Grupakadry> grupaList;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
@@ -205,6 +208,15 @@ public class FirmaKadry implements Serializable {
         this.id = id;
     }
 
+    public boolean isAktywna() {
+        return aktywna;
+    }
+
+    public void setAktywna(boolean aktywna) {
+        this.aktywna = aktywna;
+    }
+
+    
     public String getFir_serial() {
         return fir_serial;
     }

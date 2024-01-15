@@ -61,4 +61,12 @@ public class FirmaKadryFacade extends DAO  implements Serializable {
         } catch (Exception e){}
         return zwrot;
     }
+
+    public List<FirmaKadry> findAktywne() {
+        List<FirmaKadry> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("FirmaKadry.findByAktywneBezglobal").getResultList();
+        } catch (Exception e){}
+        return zwrot;
+    }
 }

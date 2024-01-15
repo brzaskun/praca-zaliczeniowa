@@ -15,7 +15,6 @@ import entity.FirmaKadry;
 import entity.Pasekwynagrodzen;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -47,13 +46,7 @@ public class Pit11PodsumowanieView implements Serializable {
     
     @PostConstruct
     private void init() {
-        listafirm = firmaKadryFacade.findByBezglobal();
-        for (Iterator<FirmaKadry> it = listafirm.iterator(); it.hasNext();) {
-            FirmaKadry firma = it.next();
-            if (firma.getNip().equals("8522641222")||firma.getNip().equals("524694882")){
-                it.remove();
-            }
-        }
+        listafirm = firmaKadryFacade.findAktywne();
     }
     
     public void pobierz() {
@@ -83,7 +76,18 @@ public class Pit11PodsumowanieView implements Serializable {
         }
     }
     
-     public int getPozostalo() {
+
+    public String getPozostaloproc() {
+        String zwrot = "";
+        if (this.angaze>0) {
+            double zostalo = this.angaze-this.pity;
+            double procent = zostalo/this.angaze;
+            zwrot = f.F.procent2(procent);
+        }
+        return zwrot;
+    }
+    
+    public int getPozostalo() {
             return this.angaze-this.pity;
         }
 

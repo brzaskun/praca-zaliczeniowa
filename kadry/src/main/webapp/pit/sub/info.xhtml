@@ -13,13 +13,15 @@
                 <p:outputPanel style="padding: 10px;">
                     <p:commandButton styleClass="buttonnorm" value="pobierz" actionListener="#{pit11PodsumowanieView.pobierz}" update="@form"/>
                 </p:outputPanel>
-                <p:panelGrid columns="6" style="width: 400px;padding: 10px;">
+                <p:panelGrid columns="8" style="width: 500px;padding: 10px;">
                     <h:outputText value="pracowników"/>
                     <h:outputText value="#{pit11PodsumowanieView.angaze}"/>
                     <h:outputText value="pity zrobione"/>
                     <h:outputText value="#{pit11PodsumowanieView.pity}" style="color: green;"/>
                     <h:outputText value="do zrobienia"/>
                     <h:outputText value="#{pit11PodsumowanieView.pozostalo}" style="color: blue;"/>
+                    <h:outputText value=" w % "/>
+                    <h:outputText value="#{pit11PodsumowanieView.pozostaloproc}" style="color: blue;"/>
                 </p:panelGrid>
                 <p:dataTable id="datalistwa" value="#{pit11PodsumowanieView.firmapitilosclist}" var="itempity22"
                              rowKey="#{itempity22.id}" rowIndexVar="indexpity11" 
