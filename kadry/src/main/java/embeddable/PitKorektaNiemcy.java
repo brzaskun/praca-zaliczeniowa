@@ -45,9 +45,9 @@ public class PitKorektaNiemcy implements Serializable{
 
     
     public void dodajnowe(Pasekwynagrodzen pasek) {
-        this.korektaprzychod = Z.z(this.korektaprzychod - (pasek.getBrutto()-pasek.getOddelegowaniepln()));
+        this.korektaprzychod = Z.z(this.korektaprzychod - pasek.getOddelegowaniepln());
         this.korektaprzychodniemiecki = Z.z(this.korektaprzychodniemiecki + pasek.getPrzekroczeniepodstawaniemiecka());
-        this.korektaspoleczne = Z.z(this.korektaspoleczne - pasek.getSpoleczneudzialpolska());
+        this.korektaspoleczne = Z.z(this.korektaspoleczne - (pasek.getRazemspolecznepracownik()-pasek.getSpoleczneudzialpolska()));
         this.korektapodatek = Z.z(this.korektapodatek - (pasek.getPodatekdochodowy()-pasek.getPrzekroczenienowypodatek()));
         this.korektapodatekniemiecki = Z.z(this.korektapodatekniemiecki + pasek.getPrzekroczeniepodatekniemiecki());
     }
