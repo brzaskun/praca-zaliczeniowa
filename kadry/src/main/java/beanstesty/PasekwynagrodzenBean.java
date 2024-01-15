@@ -1864,9 +1864,13 @@ public class PasekwynagrodzenBean {
         List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokWyplAngaz(rokwyplaty, p.getAngaz());
         double suma = 0.0;
         int mckalendarza = p.getMcI();
+        int rokkalendarza = Integer.parseInt(rokwyplaty);
         for (Pasekwynagrodzen r : paskipodatnika) {
-            if (r.getMcwyplI() <= mckalendarza) {
+            if (r.getMcwyplI() <= mckalendarza || r.getRokI() < rokkalendarza) {
                 suma = suma + r.getPodstawaopodatkowania();
+                if (r.isPrzekroczenieoddelegowanie()) {
+                    suma = suma - sumujoddelegowaniewartosc(r);
+                }
             }
         }
         return suma;
