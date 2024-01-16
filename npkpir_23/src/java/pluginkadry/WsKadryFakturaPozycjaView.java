@@ -4,10 +4,9 @@
  */
 package pluginkadry;
 
-import dao.FakturyokresoweDAO;
 import dao.FakturywystokresoweDAO;
 import dao.WierszfakturybazaDAO;
-import entity.Fakturyokresowe;
+import data.Data;
 import entity.Fakturywystokresowe;
 import entity.Wierszfakturybaza;
 import java.io.Serializable;
@@ -50,6 +49,9 @@ public class WsKadryFakturaPozycjaView implements Serializable {
     public void inita() {
         rok = wpisView.getRokWpisuSt();
         mc = wpisView.getMiesiacWpisu();
+        String[] okrespoprzeni = Data.poprzedniOkres(mc, rok);
+        mc = okrespoprzeni[0];
+        rok = okrespoprzeni[1];
         listawierszfaktury = new ArrayList<>();
     }
     

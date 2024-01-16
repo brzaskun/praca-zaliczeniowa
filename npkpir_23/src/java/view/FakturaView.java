@@ -44,7 +44,6 @@ import entity.Dok;
 import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Faktura;
-import entity.FakturaDodPozycjaKontrahent;
 import entity.FakturaWaloryzacja;
 import entity.FakturaWalutaKonto;
 import entity.Fakturadodelementy;
@@ -90,8 +89,8 @@ import mail.MailOther;
 import msg.Msg;
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
- import org.joda.time.LocalDate;
-import org.joda.time.MutableDateTime;
+import org.joda.time.LocalDate;
+ import org.joda.time.MutableDateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.autocomplete.AutoComplete;
 import params.Params;
@@ -264,16 +263,32 @@ public class FakturaView implements Serializable {
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         boolean czybiuro = wpisView.getPodatnikObiekt().getNip().equals("8511005008");
         try {
-            List<FakturaDodPozycjaKontrahent> lista = fakturaDodPozycjaKontrahentDAO.findByRokMc(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            for (Fakturywystokresowe p : fakturyokresowe) {
-                Klienci odbiorca = p.getDokument().getKontrahent();
-                for (FakturaDodPozycjaKontrahent r : lista) {
-                    if (r.getKontrahent().equals(odbiorca) && r.isDowygenerowania() == true && r.getDatafaktury() == null) {
-                        p.setSapracownicy(true);
-                        break;
+            String rok = wpisView.getRokWpisuSt();
+            String mc = wpisView.getMiesiacWpisu();
+            String[] okrespoprzeni = Data.poprzedniOkres(mc, rok);
+            mc = okrespoprzeni[0];
+            rok = okrespoprzeni[1];
+            List<Wierszfakturybaza> wierzfakturybazalist = wierszfakturybazaDAO.findbyRokMc(rok, mc);
+            for (Fakturywystokresowe w : fakturyokresowe) {
+                Klienci odbiorca = w.getDokument().getKontrahent();
+                for (Wierszfakturybaza wb :wierzfakturybazalist) {
+                    if (w.isRecznaedycja()&&wb.getNip().equals(odbiorca.getNip())) {
+                        if (wb.getIlosc()>0) {
+                            w.setSapracownicy(true);
+                        }
                     }
                 }
             }
+//            List<FakturaDodPozycjaKontrahent> lista = fakturaDodPozycjaKontrahentDAO.findByRokMc(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//            for (Fakturywystokresowe p : fakturyokresowe) {
+//                Klienci odbiorca = p.getDokument().getKontrahent();
+//                for (FakturaDodPozycjaKontrahent r : lista) {
+//                    if (r.getKontrahent().equals(odbiorca) && r.isDowygenerowania() == true && r.getDatafaktury() == null) {
+//                        p.setSapracownicy(true);
+//                        break;
+//                    }
+//                }
+//            }
         } catch (Exception e){}
 //        if (czybiuro) {
 //            boolean czyszef = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("szef");

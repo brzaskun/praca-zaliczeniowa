@@ -73,7 +73,7 @@
             </p:panelGrid>
             
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}" 
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 2200px;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1600px;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
                          rowSelectMode="add"
                          rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" paginator="true" rows="40"
                          >
@@ -104,46 +104,6 @@
                  <p:column headerText="netto" sortBy="#{wpis.dokument.nettoFakturaView}" filterBy="#{wpis.dokument.nettoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
                     <bcf:outputpl value="#{wpis.dokument.nettoFakturaView}" stylePlus="color: #{wpis.dokument.kolor(WpisView.rokWpisu, WpisView.miesiacWpisu)}"/>
                     <h:outputText value=" #{wpis.dokument.walutafaktury}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
-                </p:column>
-                <p:column headerText="kwota r.n." width="80" filterBy="#{wpis.kwotaroknastepny}" sortBy="#{wpis.kwotaroknastepny}" >  
-                    <p:inputNumber value="#{wpis.kwotaroknastepny}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" size="11" >
-                        <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
-                    </p:inputNumber>
-                </p:column>
-                 <p:column headerText="praca" width="80" filterBy="#{wpis.kwotapraca}" sortBy="#{wpis.kwotapraca}" >  
-                     <p:inputNumber value="#{wpis.kwotapraca}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" size="8" >
-                        <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
-                    </p:inputNumber>
-                </p:column>
-                <p:column headerText="zlecenie" width="80" filterBy="#{wpis.kwotazlecenie}" sortBy="#{wpis.kwotazlecenie}" >  
-                    <p:inputNumber value="#{wpis.kwotazlecenie}" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" size="8" >
-                        <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
-                    </p:inputNumber>
-                </p:column>
-                <p:column headerText="trudny" width="40"  style="text-align: center;">  
-                    <p:selectBooleanCheckbox value="#{wpis.trudny}">
-                        <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
-                    </p:selectBooleanCheckbox>
-                </p:column>
-                <p:column headerText="skok dok." width="40"  style="text-align: center;"  >  
-                    <p:selectBooleanCheckbox value="#{wpis.skokdokumentow}">
-                        <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
-                    </p:selectBooleanCheckbox>
-                </p:column>
-                 <p:column headerText="va banque" width="40"   style="text-align: center;" >  
-                     <p:selectBooleanCheckbox value="#{wpis.wabank}">
-                        <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
-                    </p:selectBooleanCheckbox>
-                </p:column>
-                <p:column headerText="ok" width="40"   style="text-align: center; background-color: #BDBDBD" sortBy="#{wpis.klientzaakceptowal}">  
-                    <p:selectBooleanCheckbox value="#{wpis.klientzaakceptowal}">
-                        <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowaok(wpis)}" update="@(.datazalatwione)"/>
-                    </p:selectBooleanCheckbox>
-                </p:column>
-                <p:column headerText="zakończono" width="70"  sortBy="#{wpis.datazalatwione}" >  
-                    <h:outputText value="#{wpis.datazalatwione}" styleClass="datazalatwione">
-                        <f:convertDateTime pattern="yyyy/MM/dd" />
-                    </h:outputText>
                 </p:column>
                 <p:column headerText="wier." width="30" filterBy="#{wpis.dokument.pozycjenafakturze.size()}" sortBy="#{wpis.dokument.pozycjenafakturze.size()}" style="text-align: center;">  
                     <h:outputText value="#{wpis.dokument.pozycjenafakturze.size()}"/>
