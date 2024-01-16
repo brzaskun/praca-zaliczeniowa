@@ -25,7 +25,6 @@ import entity.PITPola;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.SMTPSettings;
-import entity.Umowa;
 import error.E;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -39,7 +38,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -279,6 +277,7 @@ public class KartaWynagrodzenView  implements Serializable {
         int lata = 0;
         String okresprzekroczenia = null;
         boolean badajpasek = false;
+        double podstawanarastajaco = 0.0;
         for (Kartawynagrodzen karta : kartawynagrodzenlist) {
             List<Angaz> angazzpaskow = new ArrayList<>();
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
@@ -347,6 +346,8 @@ public class KartaWynagrodzenView  implements Serializable {
                     } else if (pasek.getRodzajWynagrodzenia()==15) {
                         sumaUmowapelnieniefunkcji.dodaj(pasek);
                     }
+                    podstawanarastajaco += pasek.getPodstawaopodatkowania();
+                    karta.setPodstawaopodatkowanianarast(podstawanarastajaco);
                     karta.dodaj(pasek);
                     suma.dodaj(pasek);
                     it.remove();

@@ -1868,9 +1868,6 @@ public class PasekwynagrodzenBean {
         for (Pasekwynagrodzen r : paskipodatnika) {
             if (r.getMcwyplI() <= mckalendarza || r.getRokI() < rokkalendarza) {
                 suma = suma + r.getPodstawaopodatkowania();
-                if (r.isPrzekroczenieoddelegowanie()) {
-                    suma = suma - sumujoddelegowaniewartosc(r);
-                }
             }
         }
         return suma;

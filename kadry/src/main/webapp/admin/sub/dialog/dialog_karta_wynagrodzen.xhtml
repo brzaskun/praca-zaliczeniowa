@@ -42,12 +42,12 @@
                         </f:facet>
                         <h:outputText value="#{itemkarta.nrlisty}"/>
                     </p:column>
-                    <p:column width="60">
+<!--                    <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="koszt całk."/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.kosztpracodawcy}" stylePlus="#{itemkarta.kosztpracodawcy eq 0 ? 'color:silver':null}"/>
-                    </p:column>
+                    </p:column>-->
                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="brutto"/>
@@ -97,6 +97,14 @@
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.podstawaopodatkowania}" stylePlus="#{itemkarta.podstawaopodatkowania eq 0 ? 'color:silver':null}"/>
                     </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="podstawa narast." />
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.podstawaopodatkowanianarast}" stylePlus="#{itemkarta.podstawaopodatkowanianarast eq 0 ? 'color:silver':null}" rendered="#{itemkarta.podstawaopodatkowanianarast lt 120000.00}"/>
+                        <bcf:outputpl value="#{itemkarta.podstawaopodatkowanianarast}" stylePlus="color:orange" rendered="#{itemkarta.podstawaopodatkowanianarast gt 119999.99}"/>
+                    </p:column>
+
                     <p:column width="30">
                         <f:facet name="header">
                             <h:outputText value="koszty uzysk."/>

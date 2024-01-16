@@ -159,6 +159,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
         Kartawynagrodzen suma = new Kartawynagrodzen();
         suma.setAngaz(angaz);
         suma.setMc("razem");
+        double podstawanarastajaco = 0.0;
         for (Kartawynagrodzen karta : kartawynagrodzenlist) {
             List<Angaz> angazzpaskow = new ArrayList<>();
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
@@ -197,6 +198,8 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
                     } else if (pasek.getRodzajWynagrodzenia()==15&&pasek.isDo26lat()==false) {
                         sumaUmowapelnieniefunkcji.get(karta.getMc()).dodaj(pasek);
                     }
+                    podstawanarastajaco += pasek.getPodstawaopodatkowania();
+                    karta.setPodstawaopodatkowanianarast(podstawanarastajaco);
                     karta.dodaj(pasek);
                     suma.dodaj(pasek);
                     it.remove();

@@ -104,6 +104,8 @@ public class Kartawynagrodzen implements Serializable {
     private double podatekdochodowy;
     @Column(name = "podstawaopodatkowania")
     private double podstawaopodatkowania;
+    @Column(name = "podstawaopodatkowanianarast")
+    private double podstawaopodatkowanianarast;
     @Column(name = "podstawaubezpieczenspolecznych")
     private double podstawaubezpieczenspolecznych;
     @Column(name = "pracchorobowe")
@@ -237,6 +239,14 @@ public class Kartawynagrodzen implements Serializable {
 
     public void setBruttobezzus(double bruttobezzus) {
         this.bruttobezzus = bruttobezzus;
+    }
+
+    public double getPodstawaopodatkowanianarast() {
+        return podstawaopodatkowanianarast;
+    }
+
+    public void setPodstawaopodatkowanianarast(double podstawaopodatkowanianarast) {
+        this.podstawaopodatkowanianarast = podstawaopodatkowanianarast;
     }
 
     public double getBruttobezpodatku() {
