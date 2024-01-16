@@ -8,8 +8,8 @@
     <p:dialog id="dialoglistadefinicja" header="Definicja listy płaca" widgetVar="dialoglistadefinicja"  
               resizable="false"  onShow="ustawdialog('dialoglistadefinicja','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistadefinicja');" 
               fitViewport="true">
-        <p:ajax event="open" listener="#{definicjalistaplacView.init()}" update="DefinicjalistaplacdefCreateForm DefinicjalistaplacgenerujForm DefinicjalistaplacgenerujForm1 DefinicjalistaplacListForm" global="false"/>
-        <p:outputPanel style="height: 150px">
+        <p:ajax event="open" listener="#{definicjalistaplacView.init()}" update="DefinicjalistaplacgenerujForm1 DefinicjalistaplacListForm" global="false"/>
+<!--        <p:outputPanel style="height: 150px">
              <h:form  styleClass="formadmin" id="DefinicjalistaplacdefCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="8" rendered="#{definicjalistaplacView.selected != null}">
@@ -49,21 +49,23 @@
                     <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.reset}" value="#{bundle.Reset}" style="margin-left: 20px;" update="display,:DefinicjalistaplacListForm:datalist DefinicjalistaplacgenerujForm" rendered="#{definicjalistaplacView.selected.id ne null}" />
                 </h:panelGroup>
             </h:form>
-        </p:outputPanel>
+        </p:outputPanel>-->
         <p:outputPanel style="height: 30px">
-            <h:form  styleClass="formadmin" id="DefinicjalistaplacgenerujForm">
-                <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.createrok}" value="uzupełnij rok" update="display,:DefinicjalistaplacListForm:datalist" rendered="#{definicjalistaplacView.lista.size() gt 0}" />
-            </h:form>
-            <h:form  styleClass="formadmin" id="DefinicjalistaplacgenerujForm1">
-<!--                <p:commandButton styleClass="buttonnorm" actionListener="#{firmaImportView.listywszystkie(wpisView.rokWpisu)}" value="generuj rok" update="display,:DefinicjalistaplacListForm:datalist" />-->
-            </h:form>
+            <p:panelGrid columns="2">
+<!--                <h:form  styleClass="formadmin" id="DefinicjalistaplacgenerujForm">
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.createrok}" value="uzupełnij rok" update="display,:DefinicjalistaplacListForm:datalist" rendered="#{definicjalistaplacView.lista.size() gt 0}" />
+                </h:form>-->
+                <h:form  styleClass="formadmin" id="DefinicjalistaplacgenerujForm1">
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{firmaImportView.roblistynowyrok()}" value="generuj rok" update="display,:DefinicjalistaplacListForm:datalist" />
+                </h:form>
+            </p:panelGrid>
         </p:outputPanel>
         <p:outputPanel>
             <h:form  styleClass="formadmin" id="DefinicjalistaplacListForm">
                 <p:outputLabel value="wybierz wyświetlany rodzaj listy" style="margin-left: 700px;" />
                 <p:selectOneMenu id="firma" value="#{definicjalistaplacView.wybranyrodzajlisty}" required="true" requiredMessage="Wybierz rodzaj listy płac"
                                  style="margin-left: 20px;" converter="#{rodzjalistyplacConverter}">
-                    <p:ajax event="change" listener="#{definicjalistaplacView.init()}" update="DefinicjalistaplacListForm:datalist DefinicjalistaplacgenerujForm" partialSubmit="true"/>
+                    <p:ajax event="change" listener="#{definicjalistaplacView.init()}" update="DefinicjalistaplacListForm:datalist " partialSubmit="true"/>
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{definicjalistaplacView.listarodzajlistyplac}"
                                            var="firmalistaItem"
@@ -76,7 +78,7 @@
                                  rowIndexVar="indexdeflp" emptyMessage="Brak definicji list płac dla danej firmy"
                                  style="height: 500px; overflow-y: scroll;width: 1300px;"
                                  >
-                        <p:ajax event="rowSelect" partialSubmit="true" global="false" listener="#{definicjalistaplacView.wybierzdoedycji}" update="DefinicjalistaplacdefCreateForm"/>
+<!--                        <p:ajax event="rowSelect" partialSubmit="true" global="false" listener="#{definicjalistaplacView.wybierzdoedycji}" update="DefinicjalistaplacdefCreateForm"/>-->
                         <p:column width="30" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>

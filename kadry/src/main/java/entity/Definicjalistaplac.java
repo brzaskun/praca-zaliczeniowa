@@ -80,7 +80,6 @@ public class Definicjalistaplac implements Serializable {
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private FirmaKadry firma;
-   
     @OneToMany(mappedBy = "definicjalistaplac", cascade = CascadeType.ALL)
     private List<Pasekwynagrodzen> pasekwynagrodzenList;
 

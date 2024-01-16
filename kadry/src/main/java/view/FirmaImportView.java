@@ -5,7 +5,6 @@
  */
 package view;
 
-import DAOsuperplace.FirmaFacade;
 import DAOsuperplace.UrzadFacade;
 import comparator.FirmaKadrycomparator;
 import dao.DefinicjalistaplacFacade;
@@ -57,8 +56,8 @@ public class FirmaImportView  implements Serializable {
     private List<FirmaKadry> lista;
     @Inject
     private FirmaKadryFacade firmaKadryFacade;
-    @Inject
-    private FirmaFacade firmaFacade;
+//    @Inject
+//    private FirmaFacade firmaFacade;
     @Inject
     private UprawnieniaFacade uprawnieniaFacade;
     @Inject
@@ -88,7 +87,8 @@ public class FirmaImportView  implements Serializable {
         if (wpisView.getFirma()!=null) {
             selectedeast = wpisView.getFirma();
         }
-        firmysuperplace = firmaFacade.findAll();
+        firmysuperplace  = new ArrayList<>();
+        //firmysuperplace = firmaFacade.findAll();
         //opipi();
     }
     
@@ -158,6 +158,16 @@ public class FirmaImportView  implements Serializable {
             Msg.msg("e","Nie wybrano firmy");
         }
     }
+    
+    public void roblistynowyrok() {
+        List<Definicjalistaplac> findByFirmaRok = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+        if (findByFirmaRok.isEmpty()) {
+            listywszystkie(wpisView.getRokWpisu());
+        } else {
+            Msg.msg("e","Firma ma już wygenerowane listy na rok "+wpisView.getRokWpisu());
+        }
+    }
+    
     
     public void listywszystkie(String rok) {
         if (rok!=null&&wpisView.getFirma()!=null) {
