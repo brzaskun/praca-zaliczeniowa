@@ -10,7 +10,13 @@
         <h:outputText value="Nie widze karty! Nie można podpisać deklaracji" rendered="#{podpisView.jestkarta eq false}" style="color: red;"/>
     </p:outputPanel>
     <p:outputPanel>
-        <p:commandButton value="PIT-4" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenPIT4View.pit4}" update="@(form)"/>
+        <p:panelGrid columns="3" style="width: 300px;">
+            <p:commandButton value="PIT-4" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenPIT4View.pit4}" update="@(form)"/>
+            <h:outputText value="to jest korekta"/>
+            <p:selectBooleanCheckbox value="#{kartaWynagrodzenPIT4View.tojestkorekta}">
+                <p:ajax event="change" partialSubmit="true"/>
+            </p:selectBooleanCheckbox>
+        </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel>
         <h:form styleClass="formpit4">

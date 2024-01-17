@@ -114,7 +114,8 @@ public class PIT4R_13Bean {
     }
     
      private static pl.gov.crd.wzor._2023._11._07._12978.Deklaracja genPIT4R13(Map<String, Kartawynagrodzen> sumaUmowaoprace, Map<String, Kartawynagrodzen> sumaUmowaopracekosztypodwyzszone, 
-             Map<String, Kartawynagrodzen> sumaUmowaoprace26zwolnione, Map<String, Kartawynagrodzen> sumaUmowazlecenia, Map<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji, FirmaKadry firma, byte normalna1korekta2, String kodurzedu, String rok) {
+             Map<String, Kartawynagrodzen> sumaUmowaoprace26zwolnione, Map<String, Kartawynagrodzen> sumaUmowazlecenia, Map<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji, 
+             FirmaKadry firma, byte normalna1korekta2, String kodurzedu, String rok) {
         pl.gov.crd.wzor._2023._11._07._12978.ObjectFactory of = new pl.gov.crd.wzor._2023._11._07._12978.ObjectFactory();
         pl.gov.crd.wzor._2023._11._07._12978.Deklaracja deklaracja = of.createDeklaracja();
         deklaracja.setNaglowek(of.createTNaglowek());
@@ -323,6 +324,18 @@ public class PIT4R_13Bean {
         poz.setP155(poz.getP79());
         poz.setP156(poz.getP80());
         poz.setP157(poz.getP81());
+        poz.setP171(new BigDecimal(poz.getP70()));
+        poz.setP172(new BigDecimal(poz.getP71()));
+        poz.setP173(new BigDecimal(poz.getP72()));
+        poz.setP174(new BigDecimal(poz.getP73()));
+        poz.setP175(new BigDecimal(poz.getP74()));
+        poz.setP176(new BigDecimal(poz.getP75()));
+        poz.setP177(new BigDecimal(poz.getP76()));
+        poz.setP178(new BigDecimal(poz.getP77()));
+        poz.setP179(new BigDecimal(poz.getP78()));
+        poz.setP180(new BigDecimal(poz.getP79()));
+        poz.setP181(new BigDecimal(poz.getP80()));
+        poz.setP182(new BigDecimal(poz.getP81()));
         poz.setP158((byte)2);
         return poz;
     }
