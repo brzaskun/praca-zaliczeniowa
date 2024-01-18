@@ -629,7 +629,7 @@ public class PasekwynagrodzenBean {
         //PdfListaPlac.drukuj(pasek);
     }
 
-    private static Pasekpomocnik sumujprzychodyzlisty(Pasekwynagrodzen pasek) {
+    public static Pasekpomocnik sumujprzychodyzlisty(Pasekwynagrodzen pasek) {
         Pasekpomocnik zwrot = new Pasekpomocnik();
         double brutto = 0.0;
         double bruttokraj = 0.0;
@@ -1079,8 +1079,21 @@ public class PasekwynagrodzenBean {
         pasek.setSpoleczneudzialpolska(Z.z(pasek.getPracemerytalne() + pasek.getPracrentowe() + pasek.getPracchorobowe()));
         double przychodypolska = pasek.getPrzychodypodatekpolska();
         if (przychodypolska==0.0) {
-            przychodypolska = Z.z(pasek.getBrutto()-pasek.getOddelegowaniepln());
+            double oddelegowaniepln = pasek.getOddelegowaniepln();
+            double oddelegowanieplnwyliczenie = Z.z(pasek.getOddelegowaniewaluta()*pasek.getKurs());
+            if (oddelegowanieplnwyliczenie>oddelegowaniepln) {
+                oddelegowaniepln = oddelegowanieplnwyliczenie;
+            }
+            przychodypolska = Z.z(pasek.getBrutto()-oddelegowaniepln);
             pasek.setPrzychodypodatekpolska(przychodypolska);
+        } else {
+            double oddelegowaniepln = pasek.getOddelegowaniepln();
+            double oddelegowanieplnwyliczenie = Z.z(pasek.getOddelegowaniewaluta()*pasek.getKurs());
+            if (oddelegowanieplnwyliczenie>oddelegowaniepln) {
+                oddelegowaniepln = oddelegowanieplnwyliczenie;
+                przychodypolska = Z.z(pasek.getBrutto()-oddelegowaniepln);
+                pasek.setPrzychodypodatekpolska(przychodypolska);
+            }
         }
         if (pasek.getOddelegowaniepln()>0.0&&pasek.getPodstawaskladkizus()>0.0) {
             double proporcjaprzychodow = przychodypolska/pasek.getPodstawaskladkizus();

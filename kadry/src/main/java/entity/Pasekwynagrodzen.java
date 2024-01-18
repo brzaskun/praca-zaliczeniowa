@@ -5,6 +5,7 @@
  */
 package entity;
 
+import beanstesty.Pasekpomocnik;
 import data.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -390,6 +391,13 @@ public class Pasekwynagrodzen implements Serializable {
         nowy.lpl_serial = r.getLplSerial();
         return nowy;
     }
+
+    public Pasekwynagrodzen(String rok, String mc) {
+        this.rok = rok;
+        this.mc = mc;
+        this.rokwypl = rok;
+        this.mcwypl = mc;
+    }
     
     public void dodajPasek(Pasekwynagrodzen p) {
         this.rok = p.getRok();
@@ -451,6 +459,11 @@ public class Pasekwynagrodzen implements Serializable {
         this.przekroczenienowypodatek = Z.z(this.przekroczenienowypodatek)+p.getPrzekroczenienowypodatek();
         this.przekroczeniepodstawaniemiecka = Z.z(this.przekroczeniepodstawaniemiecka+p.getPrzekroczeniepodstawaniemiecka());
         this.przekroczeniepodatekniemiecki = Z.z(this.przekroczeniepodatekniemiecki)+p.getPrzekroczeniepodatekniemiecki();
+        this.przychodypodatekpolska = Z.z(this.przychodypodatekpolska)+p.getPrzychodypodatekpolska();
+        this.przychodypodatekzagranica  = Z.z(this.przychodypodatekzagranica)+p.getPrzychodypodatekzagranica();
+        this.przychodyzus51 = Z.z(this.przychodyzus51+p.getPrzychodyzus51());
+        this.przychodyzus52 = Z.z(this.przychodyzus51+p.getPrzychodyzus52());
+        this.spoleczneudzialpolska = Z.z(this.spoleczneudzialpolska+p.getSpoleczneudzialpolska());
     }
 
     public double getPrzekroczeniekorektapodstawypolska() {
@@ -1250,6 +1263,7 @@ public class Pasekwynagrodzen implements Serializable {
         return rokwypl;
     }
     
+    
     public int getRokwyplI() {
         int zwrot = 0;
         if (this.rokwypl!=null) {
@@ -1819,6 +1833,17 @@ public class Pasekwynagrodzen implements Serializable {
             zwrot = skladnikwynagrodzeniaList.get(0);
         }
         return zwrot;
+    }
+
+    
+    public void naniespomocnika(Pasekpomocnik sumujprzychodyzlisty) {
+         this.przychodypodatekpolska = sumujprzychodyzlisty.getBruttokraj();
+         this.przychodypodatekzagranica = sumujprzychodyzlisty.getBruttooddelegowanie();
+         this.podstawaopodatkowaniazagranica = sumujprzychodyzlisty.getBruttooddelegowanie();
+         this.oddelegowaniepln = sumujprzychodyzlisty.getBruttooddelegowanie();
+         this.przychodyzus51 = sumujprzychodyzlisty.getPrzychodyzus51();
+         this.przychodyzus52 = sumujprzychodyzlisty.getPrzychodyzus52();
+         this.brutto = sumujprzychodyzlisty.getBrutto();
     }
    
     

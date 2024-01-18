@@ -148,6 +148,8 @@ public class Kartawynagrodzen implements Serializable {
     private double kosztpracodawcy;
     @Column(name = "dochodzagranica")
     private double dochodzagranica;
+    @Column(name = "dochodpolska")
+    private double dochodpolska;
     @Column(name = "okresprzekroczenie26")
     private String okresprzekroczenie26;
     @Column(name = "podstawaopodatkowaniazagranica")
@@ -688,6 +690,14 @@ public class Kartawynagrodzen implements Serializable {
         this.podatekdochodowyzagranica = podatekdochodowyzagranica;
     }
 
+    public double getDochodpolska() {
+        return dochodpolska;
+    }
+
+    public void setDochodpolska(double dochodpolska) {
+        this.dochodpolska = dochodpolska;
+    }
+
     
 
   
@@ -758,6 +768,7 @@ public class Kartawynagrodzen implements Serializable {
         this.nrlisty = null;
         this.kosztypodwyzszone = false;
         this.kosztywieleumow = false;
+        this.dochodpolska = 0.0;
     }
 
 
@@ -839,7 +850,8 @@ public class Kartawynagrodzen implements Serializable {
 //                }
 //            }
 //        }
-        this.dochodzagranica = this.dochodzagranica + Z.z(pasek.getPodstawaopodatkowaniazagranica());
+        this.dochodzagranica = this.dochodzagranica + Z.z(pasek.getPrzychodypodatekzagranica());
+        this.dochodpolska = this.dochodpolska + Z.z(pasek.getPrzychodypodatekpolska());
         
     }
     
@@ -878,6 +890,7 @@ public class Kartawynagrodzen implements Serializable {
         this.potraceniainne += kartawynagrodzen.getPotraceniainne();
         this.razem53 += kartawynagrodzen.getRazem53();
         this.dochodzagranica += kartawynagrodzen.getDochodzagranica();
+        this.dochodpolska += kartawynagrodzen.getDochodpolska();
              //this.mc!=null musi byc bo uzywamy tego tez do pit-11
      
      }

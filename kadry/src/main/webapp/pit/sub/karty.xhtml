@@ -41,7 +41,8 @@
                         <f:facet name="header">
                             <h:outputText value="pracownik"/>
                         </f:facet>
-                        <h:outputText value="#{itemkarta.nazwiskoiimie}" />
+                        <h:outputText value="#{itemkarta.nazwiskoiimie}" style="color: #9E9E9E" rendered="#{itemkarta.wyslano}"/>
+                        <h:outputText value="#{itemkarta.nazwiskoiimie}" rendered="#{itemkarta.wyslano eq false}"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
@@ -65,9 +66,9 @@
                     </p:column>
                     <p:column width="60">
                         <f:facet name="header">
-                            <h:outputText value="brutto"/>
+                            <h:outputText value="przych.polska"/>
                         </f:facet>
-                        <bcf:outputpl value="#{itemkarta.brutto}"/>
+                        <bcf:outputpl value="#{itemkarta.dochodpolska}"/>
                     </p:column>
                     <p:column width="30">
                         <f:facet name="header">

@@ -31,7 +31,7 @@
                         <h:outputText value="data urodzenia #{pasekwynagrodzenkorektaView.selectedpracownik.dataurodzenia}" rendered="#{pasekwynagrodzenkorektaView.selectedpracownik ne null}"/>
                     </p:outputPanel>
                     <p:outputPanel style="padding: 10px;">
-                        <p:dataTable id="datalist3" value="#{pasekwynagrodzenkorektaView.paskiwybranego }" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
+                        <p:dataTable id="datalist3" value="#{pasekwynagrodzenkorektaView.paskiwybranego}" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
                                      selectionMode="single" selection="#{pasekwynagrodzenkorektaView.selectedpasek}" rowIndexVar="indexpasekpod"
                                      rowKey="#{itempasekpod.kalendarzmiesiac.id}" sortBy="#{itempasekpod.nazwiskoImie}"
                                      style="height: 430px; overflow-y: scroll; width: 1400px;"
@@ -44,10 +44,11 @@
                                 <h:outputText value="#{indexpasekpod+1}"/>
                             </p:column>
                             <p:column width="60" headerText="okr. wypł">
-                                <h:outputText value="#{itempasekpod.rokwypl}/#{itempasekpod.mcwypl}"/>
+                                <h:outputText value="#{itempasekpod.rokwypl}/#{itempasekpod.mcwypl}" rendered="#{itempasekpod.kalendarzmiesiac ne null}"/>
+                                <h:outputText value="suma" rendered="#{itempasekpod.kalendarzmiesiac eq null}"/>
                             </p:column>
                             <p:column width="35" headerText="przek" style="text-align: center;">
-                                <h:outputText value="#{itempasekpod.kalendarzmiesiac.angaz.przekroczenierok} #{itempasekpod.kalendarzmiesiac.angaz.przekroczeniemc}"/>
+                                <h:outputText value="#{itempasekpod.kalendarzmiesiac.angaz.przekroczenierok} #{itempasekpod.kalendarzmiesiac.angaz.przekroczeniemc}" rendered="#{itempasekpod.kalendarzmiesiac ne null}"/>
                             </p:column>
                             <p:column headerText="stara podst. PIT">
                                 <bcf:outputpl value="#{itempasekpod.podstawaopodatkowania}"/>
@@ -70,8 +71,8 @@
                             <p:column headerText="podstawa pod. zagr. wal.">
                                 <bcf:outputwal value="#{itempasekpod.podstawaopodatkowaniazagranicawaluta}" symbolwaluty="€"/>
                             </p:column>
-                            <p:column headerText="oddeleg. wal.">
-                                <bcf:outputwal value="#{itempasekpod.oddelegowaniewaluta}" symbolwaluty="€"/>
+                            <p:column headerText="kurs">
+                                <bcf:outputkurs value="#{itempasekpod.kurs}" />
                             </p:column>
 
                             <p:column headerText="oddeleg. pln.">

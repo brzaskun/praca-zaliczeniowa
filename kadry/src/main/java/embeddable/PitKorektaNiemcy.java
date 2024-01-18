@@ -36,7 +36,7 @@ public class PitKorektaNiemcy implements Serializable{
     private double nowypodatekniemiecki;
     
     public void dodajstare(Pasekwynagrodzen pasek) {
-        this.staryprzychod = Z.z(this.staryprzychod + pasek.getBrutto());
+        this.staryprzychod = Z.z(this.staryprzychod + pasek.getBruttozuskraj());
         this.staryprzychodniemiecki = Z.z(this.staryprzychodniemiecki + pasek.getPodstawaopodatkowaniazagranicawaluta());
         this.staryspoleczne = Z.z(this.staryspoleczne + pasek.getRazemspolecznepracownik());
         this.starypodatek = Z.z(this.starypodatek + pasek.getPodatekdochodowy());

@@ -5,6 +5,7 @@
  */
 package view;
 
+import beanstesty.Pasekpomocnik;
 import beanstesty.PasekwynagrodzenBean;
 import comparator.Pasekwynagrodzencomparator;
 import comparator.Pracownikcomparator;
@@ -101,34 +102,45 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
             paskiwybranego = pracownicyzpaskami.get(selectedpracownik);
             List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
             pitKorektaNiemcy = new PitKorektaNiemcy();
+            Pasekwynagrodzen paseksuma = new Pasekwynagrodzen("2023","13");
             for (Pasekwynagrodzen pasek : paskiwybranego) {
+                //adżornamiento do sytuacji od listopad 2023
+                Pasekpomocnik sumujprzychodyzlisty = PasekwynagrodzenBean.sumujprzychodyzlisty(pasek);
+                pasek.naniespomocnika(sumujprzychodyzlisty);
                 PasekwynagrodzenBean.razemspolecznepracownikkorektalp(pasek);
-                double starespoleczne = pasek.getRazemspolecznepracownik();
-                double nowespoleczne = pasek.getSpoleczneudzialpolska();
-                double podstawabezoddelegowania = Z.z(pasek.getPodstawaopodatkowania()-pasek.getOddelegowaniepln());
-                double podstawakorektazus = Z.z(podstawabezoddelegowania+starespoleczne-nowespoleczne);
-                double nowapodstawa = podstawakorektazus>0.0?podstawakorektazus:0.0;
-                pitKorektaNiemcy.setAngaz(pasek.getAngaz());
-                pitKorektaNiemcy.dodajstare(pasek);
-                if (nowapodstawa!=pasek.getPodstawaopodatkowania()) {
-                    pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawa);
-                    if (pasek.isPraca()) {
-                        obliczpodatekwstepnyDBStandard(pasek, nowapodstawa, stawkipodatkowe, 0.0);
+                pasekwynagrodzenFacade.edit(pasek);
+                if (pasek.isPrzekroczenieoddelegowanie()&&pasek.getPodstawaopodatkowaniazagranicawaluta()==0.0) {
+                    double starespoleczne = pasek.getRazemspolecznepracownik();
+                    double nowespoleczne = pasek.getSpoleczneudzialpolska();
+                    double podstawabezoddelegowania = Z.z(pasek.getPodstawaopodatkowania()-pasek.getOddelegowaniepln());
+                    double podstawakorektazus = Z.z(podstawabezoddelegowania+starespoleczne-nowespoleczne);
+                    double nowapodstawa = podstawakorektazus>0.0?podstawakorektazus:0.0;
+                    pitKorektaNiemcy.setAngaz(pasek.getAngaz());
+                    pitKorektaNiemcy.dodajstare(pasek);
+                    if (nowapodstawa!=pasek.getPodstawaopodatkowania()) {
+                        pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawa);
+                        if (pasek.isPraca()) {
+                            obliczpodatekwstepnyDBStandard(pasek, nowapodstawa, stawkipodatkowe, 0.0);
+                        } else {
+                            obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
+                        }
+                        naniespodstaweniemiecka(pasek);
+                        pitKorektaNiemcy.dodajnowe(pasek);
+
                     } else {
-                        obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
+                        pasek.setPrzekroczeniekorektapodstawypolska(0.0);
+                        pasek.setPrzekroczenienowypodatek(0.0);
+                        pasek.setPrzekroczeniepodstawaniemiecka(0.0);
+                        pasek.setPrzekroczeniepodatekniemiecki(0.0);
                     }
-                    naniespodstaweniemiecka(pasek);
-                    pitKorektaNiemcy.dodajnowe(pasek);
-                    
-                } else {
-                    pasek.setPrzekroczeniekorektapodstawypolska(0.0);
-                    pasek.setPrzekroczenienowypodatek(0.0);
-                    pasek.setPrzekroczeniepodstawaniemiecka(0.0);
-                    pasek.setPrzekroczeniepodatekniemiecki(0.0);
                 }
-                
+                if (pasek.getPrzychodypodatekpolska()==0.0) {
+                    
+                }
+                paseksuma.dodajPasek(pasek);
             }
             pitKorektaNiemcy.roznica();
+            paskiwybranego.add(paseksuma);
         }
     }
 
