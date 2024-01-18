@@ -11,11 +11,13 @@
     </p:outputPanel>
     <p:outputPanel>
         <p:panelGrid columns="3" style="width: 300px;">
+            <h:form>
             <p:commandButton value="PIT-4" styleClass="buttonnorm" actionListener="#{kartaWynagrodzenPIT4View.pit4}" update="@(form)"/>
             <h:outputText value="to jest korekta"/>
             <p:selectBooleanCheckbox value="#{kartaWynagrodzenPIT4View.tojestkorekta}">
                 <p:ajax event="change" partialSubmit="true"/>
             </p:selectBooleanCheckbox>
+            </h:form>
         </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel>
