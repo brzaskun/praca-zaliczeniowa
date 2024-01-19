@@ -34,7 +34,7 @@
                         <p:dataTable id="datalist3" value="#{pasekwynagrodzenkorektaView.paskiwybranego}" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
                                      selectionMode="single" selection="#{pasekwynagrodzenkorektaView.selectedpasek}" rowIndexVar="indexpasekpod"
                                      rowKey="#{itempasekpod.kalendarzmiesiac.id}" sortBy="#{itempasekpod.nazwiskoImie}"
-                                     style="height: 430px; overflow-y: scroll; width: 1400px;"
+                                     style="height: 430px; overflow-y: scroll; width: 1440px;"
 
                                      >
                             <f:facet name="header">
@@ -96,6 +96,11 @@
                                                rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}" symbol="€" symbolPosition="right" >
                                     <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenkorektaView.editpasek(itempasekpod)}" update="@(.polepodatkuwpln)"/>
                                 </p:inputNumber>
+                            </p:column>
+                            <p:column headerText="przekr. ręcznie" style="text-align: center;" width="40">
+                                <p:selectBooleanCheckbox value="#{itempasekpod.przekroczenieoddelegowanie}" >
+                                    <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenkorektaView.editpasek(itempasekpod)}"/>
+                                </p:selectBooleanCheckbox>
                             </p:column>
                         </p:dataTable>
                     </p:outputPanel>

@@ -630,7 +630,10 @@ public class Pasekwynagrodzen implements Serializable {
 
     @Override
     public String toString() {
-        if (definicjalistaplac!=null) {
+        if (kalendarzmiesiac==null) {
+            return "Pasekwynagrodzen brutto=" + brutto + ", kosztyuzyskania=" + kosztyuzyskania + ", netto=" + netto + ", definicjalistaplac=" 
+                    + ", rok=" + rok + ", mc=" + mc + ", rokwypl=" + rokwypl + ", mcwypl=" + mcwypl + '}';
+        } else if (definicjalistaplac!=null) {
             return "Pasekwynagrodzen{"+ "nazwisko "+kalendarzmiesiac.getNazwiskoImie() + "brutto=" + brutto + ", kosztyuzyskania=" + kosztyuzyskania + ", netto=" + netto + ", definicjalistaplac=" 
                     + definicjalistaplac.getRodzajlistyplac().getNazwa() + ", kalendarzmiesiac=" + kalendarzmiesiac.getRokMc() + ", rok=" + rok + ", mc=" + mc + ", rokwypl=" + rokwypl + ", mcwypl=" + mcwypl + '}';
         } else {
@@ -1840,6 +1843,7 @@ public class Pasekwynagrodzen implements Serializable {
          this.przychodypodatekpolska = sumujprzychodyzlisty.getBruttokraj();
          this.przychodypodatekzagranica = sumujprzychodyzlisty.getBruttooddelegowanie();
          this.podstawaopodatkowaniazagranica = sumujprzychodyzlisty.getBruttooddelegowanie();
+         this.podstawaopodatkowaniazagranicawaluta = sumujprzychodyzlisty.getBruttooddelegowaniewaluta();
          this.oddelegowaniepln = sumujprzychodyzlisty.getBruttooddelegowanie();
          this.przychodyzus51 = sumujprzychodyzlisty.getPrzychodyzus51();
          this.przychodyzus52 = sumujprzychodyzlisty.getPrzychodyzus52();

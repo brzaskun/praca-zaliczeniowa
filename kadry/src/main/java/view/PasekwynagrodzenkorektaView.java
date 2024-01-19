@@ -114,10 +114,10 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                 try {
                     pasekwynagrodzenFacade.edit(pasek);
                 } catch (Exception e) {
-                    String nazwisko = pasek.getNazwiskoImie()!=null?pasek.getNazwiskoImie():"brak nazwiska";
+                    String nazwisko = pasek.getKalendarzmiesiac()!=null&&pasek.getAngaz()!=null?pasek.getNazwiskoImie():"brak nazwiska";
                     System.out.println("Blad save korekta niemcy pasek"+nazwisko);
                 }
-                if (pasek.isPrzekroczenieoddelegowanie()&&pasek.getPodstawaopodatkowaniazagranicawaluta()==0.0) {
+                if (pasek.isPrzekroczenieoddelegowanie()&&pasek.getPodstawaopodatkowaniazagranicawaluta()==0.0 &&pasek.getPodatekdochodowyzagranicawaluta()==0.0) {
                     double starespoleczne = pasek.getRazemspolecznepracownik();
                     double nowespoleczne = pasek.getSpoleczneudzialpolska();
                     double podstawabezoddelegowania = Z.z(pasek.getPodstawaopodatkowania()-pasek.getOddelegowaniepln());
@@ -142,7 +142,9 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                         pasek.setPrzekroczeniepodatekniemiecki(0.0);
                         pasekwynagrodzenFacade.edit(pasek);
                     }
-                } else if (pasek.getPodatekdochodowyzagranicawaluta()>0.0) {
+                } else if (pasek.isPrzekroczenieoddelegowanie()&&(pasek.getPodstawaopodatkowaniazagranicawaluta()>1289.0 &&pasek.getPodatekdochodowyzagranicawaluta()==0.0)) {
+                    pasek.setPrzekroczeniepodstawaniemiecka(pasek.getPodstawaopodatkowaniazagranicawaluta());
+                } else if (pasek.getPodatekdochodowyzagranicawaluta()>0.0||(pasek.getPodstawaopodatkowaniazagranicawaluta()<1289.0 &&pasek.getPodatekdochodowyzagranicawaluta()==0.0)) {
                         pasek.setPrzekroczeniekorektapodstawypolska(0.0);
                         pasek.setPrzekroczenienowypodatek(0.0);
                         pasek.setPrzekroczeniepodstawaniemiecka(0.0);
