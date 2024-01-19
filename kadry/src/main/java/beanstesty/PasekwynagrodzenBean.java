@@ -637,41 +637,45 @@ public class PasekwynagrodzenBean {
         double bruttooddelegowaniewaluta = 0.0;
         double przychodyzus51 = 0.0;
         double przychodyzus52 = 0.0;
-        for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            //to nie ma sensu, gdyz skladnik40 zlecenie jako taki jest oznacozny jako ozusowany
-//            if (p.isZus0bezzus1() == false && p.isPodatek0bezpodatek1() == false) {
-            if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isPodatek0bezpodatek1()==false) {
-                if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
-                    bruttooddelegowanie = Z.z(bruttooddelegowanie + p.getKwotadolistyplac());
-                    bruttooddelegowaniewaluta = Z.z(bruttooddelegowaniewaluta + p.getKwotadolistyplacwaluta());
-                } else {
-                    bruttokraj = bruttokraj + p.getKwotadolistyplac();
+        if (pasek.getNaliczenieskladnikawynagrodzeniaList()!=null&&pasek.getNaliczenieskladnikawynagrodzeniaList().isEmpty()==false) {
+            for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+                //to nie ma sensu, gdyz skladnik40 zlecenie jako taki jest oznacozny jako ozusowany
+    //            if (p.isZus0bezzus1() == false && p.isPodatek0bezpodatek1() == false) {
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isPodatek0bezpodatek1()==false) {
+                    if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
+                        bruttooddelegowanie = Z.z(bruttooddelegowanie + p.getKwotadolistyplac());
+                        bruttooddelegowaniewaluta = Z.z(bruttooddelegowaniewaluta + p.getKwotadolistyplacwaluta());
+                    } else {
+                        bruttokraj = bruttokraj + p.getKwotadolistyplac();
+                    }
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSpoleczna0bezspolecznej1()==false) {
+                        przychodyzus51 = przychodyzus51+p.getKwotadolistyplac();
+                    } 
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isZdrowotna0bezzdrowotnej()==false) {
+                        przychodyzus52 = przychodyzus52+p.getKwotadolistyplac();
+                    }
                 }
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSpoleczna0bezspolecznej1()==false) {
-                    przychodyzus51 = przychodyzus51+p.getKwotadolistyplac();
-                } 
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isZdrowotna0bezzdrowotnej()==false) {
-                    przychodyzus52 = przychodyzus52+p.getKwotadolistyplac();
-                }
+                brutto = Z.z(brutto+p.getKwotadolistyplac());
             }
-            brutto = Z.z(brutto+p.getKwotadolistyplac());
         }
-        for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-//            taki krzywy ryj bo nie ma oznaczenia oddelegowanie przy nieobecnosci urlop delehowanie
-            if (p.getKwotawaluta()>0.0) {
-                bruttooddelegowanie = bruttooddelegowanie + p.getKwota();
-                bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + p.getKwotawaluta();
-            } else {
-                bruttokraj = bruttokraj + p.getKwota();
+        if (pasek.getNaliczenienieobecnoscList()!=null&&pasek.getNaliczenienieobecnoscList().isEmpty()==false) {
+            for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
+    //            taki krzywy ryj bo nie ma oznaczenia oddelegowanie przy nieobecnosci urlop delehowanie
+                if (p.getKwotawaluta()>0.0) {
+                    bruttooddelegowanie = bruttooddelegowanie + p.getKwota();
+                    bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + p.getKwotawaluta();
+                } else {
+                    bruttokraj = bruttokraj + p.getKwota();
+                }
+                if (p.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy()==false) {
+                    przychodyzus51 = przychodyzus51+p.getKwotazus();
+                    przychodyzus52 = przychodyzus52+p.getKwotazus();
+                }
+                if (p.getNieobecnosc().getSwiadczeniekodzus() != null && p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()&& p.getNieobecnosc().getSwiadczeniekodzus().isSpoleczne()==false) {
+                    przychodyzus52 = przychodyzus52 + p.getKwotabezzus();
+                }
+                brutto = brutto+p.getKwota();
             }
-            if (p.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy()==false) {
-                przychodyzus51 = przychodyzus51+p.getKwotazus();
-                przychodyzus52 = przychodyzus52+p.getKwotazus();
-            }
-            if (p.getNieobecnosc().getSwiadczeniekodzus() != null && p.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne()&& p.getNieobecnosc().getSwiadczeniekodzus().isSpoleczne()==false) {
-                przychodyzus52 = przychodyzus52 + p.getKwotabezzus();
-            }
-            brutto = brutto+p.getKwota();
         }
         //double skladnikppk = KalendarzmiesiacBean.naliczskladnikiPPKDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny);
         zwrot.setBruttokraj(Z.z(bruttokraj));
