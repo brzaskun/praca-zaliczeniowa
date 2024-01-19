@@ -127,8 +127,13 @@ public class PITPola {
     }
 
     public void dodajprace26zwolnione(Kartawynagrodzen karta) {
-        this.praca110do26lat = karta.getBrutto();
-        this.przychody109sumado26lat= this.przychody109sumado26lat+karta.getBrutto();
+        if (karta.getDochodzagranica()>0.0&&karta.isPrzekroczeniedni()) {
+            this.praca110do26lat = karta.getDochodpolska();
+            this.przychody109sumado26lat= this.przychody109sumado26lat+karta.getDochodpolska();
+        } else {
+            this.praca110do26lat = karta.getBrutto();
+            this.przychody109sumado26lat= this.przychody109sumado26lat+karta.getBrutto();
+        }
         this.zus51pole97 = this.zus51pole97+karta.getRazemspolecznepracownik();
         //this.zus52pole80 = this.zus52pole80+karta.getPraczdrowotnedopotracenia();
     }

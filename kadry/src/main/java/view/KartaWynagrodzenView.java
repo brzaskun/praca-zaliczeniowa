@@ -324,6 +324,7 @@ public class KartaWynagrodzenView  implements Serializable {
 //                            }
                         } else {
                             sumaUmowaoprace.dodaj(pasek);
+                            System.out.println(pasek.getNazwiskoImie()+" "+pasek.getPrzychodypodatekpolska());
                             //koszty podwyzszone laduja tam gdzie normalne 20-12-2023
 //                            if (pasek.getProcentkosztow()>100.0) {
 //                                sumaUmowaopracekosztypodwyzszone.dodaj(pasek);
