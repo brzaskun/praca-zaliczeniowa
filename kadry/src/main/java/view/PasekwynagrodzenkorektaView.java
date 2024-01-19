@@ -108,7 +108,15 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                 Pasekpomocnik sumujprzychodyzlisty = PasekwynagrodzenBean.sumujprzychodyzlisty(pasek);
                 pasek.naniespomocnika(sumujprzychodyzlisty);
                 PasekwynagrodzenBean.razemspolecznepracownikkorektalp(pasek);
-                pasekwynagrodzenFacade.edit(pasek);
+                if (pasek.getPodatekdochodowyzagranicawaluta()>0.0) {
+                    pasek.setPrzekroczenieoddelegowanie(true);
+                }
+                try {
+                    pasekwynagrodzenFacade.edit(pasek);
+                } catch (Exception e) {
+                    String nazwisko = pasek.getNazwiskoImie()!=null?pasek.getNazwiskoImie():"brak nazwiska";
+                    System.out.println("Blad save korekta niemcy pasek"+nazwisko);
+                }
                 if (pasek.isPrzekroczenieoddelegowanie()&&pasek.getPodstawaopodatkowaniazagranicawaluta()==0.0) {
                     double starespoleczne = pasek.getRazemspolecznepracownik();
                     double nowespoleczne = pasek.getSpoleczneudzialpolska();
@@ -117,7 +125,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                     double nowapodstawa = podstawakorektazus>0.0?podstawakorektazus:0.0;
                     pitKorektaNiemcy.setAngaz(pasek.getAngaz());
                     pitKorektaNiemcy.dodajstare(pasek);
-                    if (nowapodstawa!=pasek.getPodstawaopodatkowania()) {
+                    if (pasek.getPodatekdochodowyzagranicawaluta()==0.0&&nowapodstawa!=pasek.getPodstawaopodatkowania()) {
                         pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawa);
                         if (pasek.isPraca()) {
                             obliczpodatekwstepnyDBStandard(pasek, nowapodstawa, stawkipodatkowe, 0.0);
@@ -132,7 +140,14 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                         pasek.setPrzekroczenienowypodatek(0.0);
                         pasek.setPrzekroczeniepodstawaniemiecka(0.0);
                         pasek.setPrzekroczeniepodatekniemiecki(0.0);
+                        pasekwynagrodzenFacade.edit(pasek);
                     }
+                } else if (pasek.getPodatekdochodowyzagranicawaluta()>0.0) {
+                        pasek.setPrzekroczeniekorektapodstawypolska(0.0);
+                        pasek.setPrzekroczenienowypodatek(0.0);
+                        pasek.setPrzekroczeniepodstawaniemiecka(0.0);
+                        pasek.setPrzekroczeniepodatekniemiecki(0.0);
+                        pasekwynagrodzenFacade.edit(pasek);
                 }
                 if (pasek.getPrzychodypodatekpolska()==0.0) {
                     

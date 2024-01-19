@@ -88,12 +88,14 @@
                             <p:column headerText="oddeleg. wal.">
                                 <bcf:outputwal value="#{itempasekpod.przekroczeniepodstawaniemiecka}" symbolwaluty="€" rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}"/>
                             </p:column>
-                            <p:column headerText="podatek zagr. wal" style="text-align: center;">
+                             <p:column headerText="podatek zagr. lp" style="text-align: center;">
+                                <bcf:outputwal value="#{itempasekpod.podatekdochodowyzagranicawaluta}" symbolwaluty="€"/>
+                            </p:column>
+                            <p:column headerText="korekta podatek zagr." style="text-align: center;">
                                 <p:inputNumber value="#{itempasekpod.przekroczeniepodatekniemiecki}"  size="10"  maxlength="8" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" styleClass="polepodatkuwpln"
                                                rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}" symbol="€" symbolPosition="right" >
                                     <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenkorektaView.editpasek(itempasekpod)}" update="@(.polepodatkuwpln)"/>
                                 </p:inputNumber>
-                                <bcf:outputwal value="#{itempasekpod.podatekdochodowyzagranicawaluta}" symbolwaluty="€" rendered="#{itempasekpod.podstawaopodatkowaniazagranicawaluta gt 0.0}"/>
                             </p:column>
                         </p:dataTable>
                     </p:outputPanel>
