@@ -116,6 +116,7 @@ public class PITPola {
         this.praca29przychod = karta.getBrutto();
         this.praca30koszt = karta.getKosztyuzyskania();
         this.praca31dochod = this.praca31dochod+this.praca29przychod-this.praca30koszt;
+        this.praca32dochodzwolniony = this.praca32dochodzwolniony+karta.getDochodzagranica();
         this.praca33zaliczka = this.praca33zaliczka+karta.getPodatekdochodowy();
         this.zus51pole95 = this.zus51pole95+karta.getRazemspolecznepracownik();
         this.zus52pole122 = this.zus52pole122+karta.getPraczdrowotnedopotracenia();

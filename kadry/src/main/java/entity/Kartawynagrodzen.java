@@ -156,7 +156,8 @@ public class Kartawynagrodzen implements Serializable {
     private double podstawaopodatkowaniazagranica;
     @Column(name = "podatekdochodowyzagranica")
     private double podatekdochodowyzagranica;
-    
+    @Column(name = "dietaodliczeniepodstawaop")
+    private double dietaodliczeniepodstawaop;
     @Size(max = 4)
     @Column(name = "rok")
     private String rok;
@@ -184,6 +185,8 @@ public class Kartawynagrodzen implements Serializable {
     private double przekroczeniepodstawaniemiecka;
     @Column(name="przekroczeniepodatekniemiecki")
     private double przekroczeniepodatekniemiecki;
+    @Column(name = "spoleczneudzialpolska")
+    private double spoleczneudzialpolska;
     @Transient
     private String nazwiskoiimie;
     @Transient
@@ -241,6 +244,14 @@ public class Kartawynagrodzen implements Serializable {
 
     public void setBruttobezzus(double bruttobezzus) {
         this.bruttobezzus = bruttobezzus;
+    }
+
+    public double getDietaodliczeniepodstawaop() {
+        return dietaodliczeniepodstawaop;
+    }
+
+    public void setDietaodliczeniepodstawaop(double dietaodliczeniepodstawaop) {
+        this.dietaodliczeniepodstawaop = dietaodliczeniepodstawaop;
     }
 
     public double getPodstawaopodatkowanianarast() {
@@ -521,7 +532,19 @@ public class Kartawynagrodzen implements Serializable {
     }
 
     public double getBrutto() {
-        return brutto;
+        double zwrot = brutto;
+        if (przekroczeniedni) {
+            zwrot = dochodpolska;
+        }
+        return zwrot;
+    }
+    
+    public double getBruttoMinusDieta() {
+        double zwrot = brutto;
+        if (przekroczeniedni) {
+            zwrot = Z.z(dochodpolska-dietaodliczeniepodstawaop);
+        }
+        return zwrot;
     }
 
     public void setBrutto(double brutto) {
@@ -698,8 +721,21 @@ public class Kartawynagrodzen implements Serializable {
         this.dochodpolska = dochodpolska;
     }
 
-    
+    public double getDochodpolskaMinusdieta() {
+        return Z.z(this.dochodpolska-this.dietaodliczeniepodstawaop);
+    }
 
+    public double getSpoleczneudzialpolska() {
+        return spoleczneudzialpolska;
+    }
+
+    public void setSpoleczneudzialpolska(double spoleczneudzialpolska) {
+        this.spoleczneudzialpolska = spoleczneudzialpolska;
+    }
+    
+    public double getDochodpitpolska() {
+        return Z.z(getDochodpolskaMinusdieta()-this.kosztyuzyskania);
+    }
   
     
     
@@ -769,9 +805,11 @@ public class Kartawynagrodzen implements Serializable {
         this.kosztypodwyzszone = false;
         this.kosztywieleumow = false;
         this.dochodpolska = 0.0;
+        this.dietaodliczeniepodstawaop =0.0;
+        this.spoleczneudzialpolska = 0.0;
     }
-
-
+    
+    //tutaj
     public void dodaj(Pasekwynagrodzen pasek) {
         String mc = pasek.getMc();
         int mcI = Integer.parseInt(mc);
@@ -852,6 +890,8 @@ public class Kartawynagrodzen implements Serializable {
 //        }
         this.dochodzagranica = this.dochodzagranica + Z.z(pasek.getPrzychodypodatekzagranica());
         this.dochodpolska = this.dochodpolska + Z.z(pasek.getPrzychodypodatekpolska());
+        this.dietaodliczeniepodstawaop = this.dietaodliczeniepodstawaop + Z.z(pasek.getDietaodliczeniepodstawaop());
+        this.spoleczneudzialpolska = this.spoleczneudzialpolska + Z.z(pasek.getSpoleczneudzialpolska());
         
     }
     
@@ -891,6 +931,8 @@ public class Kartawynagrodzen implements Serializable {
         this.razem53 += kartawynagrodzen.getRazem53();
         this.dochodzagranica += kartawynagrodzen.getDochodzagranica();
         this.dochodpolska += kartawynagrodzen.getDochodpolska();
+        this.dietaodliczeniepodstawaop = this.dietaodliczeniepodstawaop + Z.z(kartawynagrodzen.getDietaodliczeniepodstawaop());
+        this.spoleczneudzialpolska = this.spoleczneudzialpolska + Z.z(kartawynagrodzen.getSpoleczneudzialpolska());
              //this.mc!=null musi byc bo uzywamy tego tez do pit-11
      
      }

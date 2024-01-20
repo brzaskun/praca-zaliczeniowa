@@ -1391,6 +1391,10 @@ public class Pasekwynagrodzen implements Serializable {
     public double getPrzychodypodatekpolska() {
         return przychodypodatekpolska;
     }
+    
+    public double getPrzychodypodatekpolskaMinusDieta() {
+        return Z.z(przychodypodatekpolska - dietaodliczeniepodstawaop);
+    }
 
     public void setPrzychodypodatekpolska(double przychodypodatekpolska) {
         this.przychodypodatekpolska = przychodypodatekpolska;

@@ -26,25 +26,27 @@
                     <p:column width="20" style="text-align: center;">
                         <h:outputText value="#{indexpity11+1}"/>
                     </p:column>
-                    <p:column width="40" style="text-align: center;">
+<!--                    <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="rok"/>
                         </f:facet>
                         <h:outputText value="#{itempity44.rok}"/>
-                    </p:column>
+                    </p:column>-->
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="nazwa"/>
                         </f:facet>
-                        <h:outputText value="#{itempity44.nazwa}" rendered="#{itempity44.korekta eq false}"/>
-                        <h:outputText value="#{itempity44.nazwa}" rendered="#{itempity44.korekta eq true}" style="color: #852196"/>
+                        <h:outputText value="#{itempity44.nazwa}" rendered="#{itempity44.korekta eq false and itempity44.status ne '200'}" />
+                        <h:outputText value="#{itempity44.nazwa}" rendered="#{itempity44.status eq '200'}" style="color: grey"/>
+                        <h:outputText value="#{itempity44.nazwa}" rendered="#{itempity44.korekta eq true and itempity44.status ne '200'}" style="color: #852196"/>
                     </p:column>
                     <p:column width="120" style="text-align: left;">
                         <f:facet name="header">
                             <h:outputText value="pracownik"/>
                         </f:facet>
-                        <h:outputText value="#{itempity44.pracownik.nazwiskoImie}"  rendered="#{itempity44.korekta eq false}"/>
-                        <h:outputText value="#{itempity44.pracownik.nazwiskoImie}"  rendered="#{itempity44.korekta eq true}" style="color: #852196"/>
+                        <h:outputText value="#{itempity44.pracownik.nazwiskoImie}"  rendered="#{itempity44.korekta eq false and itempity44.status ne '200'}"/>
+                         <h:outputText value="#{itempity44.pracownik.nazwiskoImie}" rendered="#{itempity44.status eq '200'}" style="color: grey"/>
+                        <h:outputText value="#{itempity44.pracownik.nazwiskoImie}"  rendered="#{itempity44.korekta eq true and itempity44.status ne '200'}" style="color: #852196"/>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
                         <f:facet name="header">
@@ -93,7 +95,7 @@
                         </f:facet>
                         <h:outputText value="#{itempity44.uz.imieNazwisko}"/>
                     </p:column>
-                     <p:column width="30">
+                     <p:column width="30" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="przekr."/>
                         </f:facet>

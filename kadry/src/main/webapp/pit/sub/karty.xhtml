@@ -20,7 +20,7 @@
             <h:form id="KartyWynangrodzenPITForm" styleClass="formpit11">
                 <p:dataTable id="datalist" value="#{kartaWynagrodzenView.sumypracownicy}" var="itemkarta"
                              rowKey="#{itemkarta.angaz.id}" rowIndexVar="indexka" 
-                             style="height: 350px; overflow-y: scroll;width: 1590px;" emptyMessage="Nie pobrano danych"
+                             style="height: 350px; overflow-y: scroll;width: 1850px;" emptyMessage="Nie pobrano danych"
                              sortBy="#{itemkarta.nazwiskoiimie}" selection="#{kartaWynagrodzenView.listaselected}" rowSelectMode="add"
                              >
                     <p:ajax event="rowSelectCheckbox"  partialSubmit="true" global="false"/>
@@ -70,12 +70,25 @@
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.dochodpolska}"/>
                     </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="1/3 diety"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.dietaodliczeniepodstawaop}"/>
+                    </p:column>
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="dochod - dieta"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.dochodpolskaMinusdieta}"/>
+                    </p:column>
                     <p:column width="30">
                         <f:facet name="header">
                             <h:outputText value="okres przek. 26"/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.okresprzekroczenie26}"/>
                     </p:column>
+                    
                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="koszty uzysk."/>
@@ -84,9 +97,9 @@
                     </p:column>
                     <p:column width="60">
                         <f:facet name="header">
-                            <h:outputText value="dochód"/>
+                            <h:outputText value="dochód polska"/>
                         </f:facet>
-                        <bcf:outputpl value="#{itemkarta.dochod}"/>
+                        <bcf:outputpl value="#{itemkarta.dochodpitpolska}"/>
                     </p:column>
                     <p:column width="60">
                         <f:facet name="header">
@@ -112,6 +125,12 @@
                             <h:outputText value="składki"/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.razemspolecznepracownik}"/>
+                    </p:column>
+                       <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="składki polska"/>
+                        </f:facet>
+                           <bcf:outputpl value="#{itemkarta.spoleczneudzialpolska}"/>
                     </p:column>
                     <p:column width="60">
                         <f:facet name="header">

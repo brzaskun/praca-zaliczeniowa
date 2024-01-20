@@ -50,21 +50,26 @@
                             <p:column width="35" headerText="przek" style="text-align: center;">
                                 <h:outputText value="#{itempasekpod.kalendarzmiesiac.angaz.przekroczenierok} #{itempasekpod.kalendarzmiesiac.angaz.przekroczeniemc}" rendered="#{itempasekpod.kalendarzmiesiac ne null}"/>
                             </p:column>
-                            <p:column headerText="stara podst. PIT">
-                                <bcf:outputpl value="#{itempasekpod.podstawaopodatkowania}"/>
-                            </p:column>
-                            <p:column headerText="społeczne">
-                                <bcf:outputpl value="#{itempasekpod.razemspolecznepracownik}"/>
+                           
+                            <p:column headerText="wiek" width="30"> 
+                                <h:outputText value="#{itempasekpod.lata}"/>
                             </p:column>
                             <p:column headerText="przychody polska">
                                 <bcf:outputpl value="#{itempasekpod.przychodypodatekpolska}"/>
                             </p:column>
+                            <p:column headerText="1/3 diety">
+                                <bcf:outputpl value="#{itempasekpod.dietaodliczeniepodstawaop}"/>
+                            </p:column>
+                            <p:column headerText="przych - 1/3 diety">
+                                <bcf:outputpl value="#{itempasekpod.przychodypodatekpolskaMinusDieta}"/>
+                            </p:column>
+                            <p:column headerText="społeczne">
+                                <bcf:outputpl value="#{itempasekpod.razemspolecznepracownik}"/>
+                            </p:column>
                             <p:column headerText="społeczne polska">
                                 <bcf:outputpl value="#{itempasekpod.spoleczneudzialpolska}"/>
                             </p:column>
-                            <p:column headerText="podatek Polska">
-                                <bcf:outputpl value="#{itempasekpod.podatekdochodowy}"/>
-                            </p:column>
+
                             <p:column headerText="podstawa pod. zagr. pln">
                                 <bcf:outputpl value="#{itempasekpod.podstawaopodatkowaniazagranica}"/>
                             </p:column>
@@ -74,25 +79,27 @@
                             <p:column headerText="kurs">
                                 <bcf:outputkurs value="#{itempasekpod.kurs}" />
                             </p:column>
-
-                            <p:column headerText="oddeleg. pln.">
-                                <bcf:outputpl value="#{itempasekpod.oddelegowaniepln}"/>
+                             <p:column headerText="podstawa polska">
+                                 <bcf:outputpl value="#{itempasekpod.podstawaopodatkowania}"/>
                             </p:column>
-                            <p:column headerText="skorygowana podstawa pln">
+                            <p:column headerText="skorygowana podstawa polska">
                                 <bcf:outputpl value="#{itempasekpod.przekroczeniekorektapodstawypolska}" rendered="#{itempasekpod.podstawaopodatkowaniazagranica eq 0.0}"/>
                                 <h:outputText value="bez zmian"  rendered="#{itempasekpod.podstawaopodatkowaniazagranica ne 0.0}"/>
+                            </p:column>
+                            <p:column headerText="podatek Polska">
+                                <bcf:outputpl value="#{itempasekpod.podatekdochodowy}"/>
                             </p:column>
                             <p:column headerText="skorygowany podatek pln">
                                 <bcf:outputpl value="#{itempasekpod.przekroczenienowypodatek}"/>
                             </p:column>
-                            <p:column headerText="oddeleg. wal.">
+                            <p:column headerText="nowa podst. oddel. wal.">
                                 <bcf:outputwal value="#{itempasekpod.przekroczeniepodstawaniemiecka}" symbolwaluty="€" rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}"/>
                             </p:column>
                              <p:column headerText="podatek zagr. lp" style="text-align: center;">
                                 <bcf:outputwal value="#{itempasekpod.podatekdochodowyzagranicawaluta}" symbolwaluty="€"/>
                             </p:column>
                             <p:column headerText="korekta podatek zagr." style="text-align: center;">
-                                <p:inputNumber value="#{itempasekpod.przekroczeniepodatekniemiecki}"  size="10"  maxlength="8" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" styleClass="polepodatkuwpln"
+                                <p:inputNumber value="#{itempasekpod.przekroczeniepodatekniemiecki}"  size="8"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" styleClass="polepodatkuwpln"
                                                rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}" symbol="€" symbolPosition="right" >
                                     <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenkorektaView.editpasek(itempasekpod)}" update="@(.polepodatkuwpln)"/>
                                 </p:inputNumber>

@@ -100,6 +100,8 @@ public class DeklaracjaPIT11Schowek implements Serializable {
     private Uz uz;
     @Column(name = "korekta")
     private boolean korekta;
+    @Column(name = "przekroczeniekorekta")
+    private boolean przekroczeniekorekta;
 
     public DeklaracjaPIT11Schowek() {
     }
@@ -213,6 +215,14 @@ public class DeklaracjaPIT11Schowek implements Serializable {
 
     public void setDeklaracjapodpisanastring(String deklaracjapodpisanastring) {
         this.deklaracjapodpisanastring = deklaracjapodpisanastring;
+    }
+
+    public boolean isPrzekroczeniekorekta() {
+        return przekroczeniekorekta;
+    }
+
+    public void setPrzekroczeniekorekta(boolean przekroczeniekorekta) {
+        this.przekroczeniekorekta = przekroczeniekorekta;
     }
 
    
