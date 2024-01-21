@@ -8,6 +8,7 @@ package xls;
 import embeddable.Mce;
 import embeddable.STRtabela;
 import embeddablefk.SaldoKonto;
+import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Kliencifk;
 import entityfk.Konto;
@@ -308,14 +309,14 @@ public class WriteXLSFile {
     }
     
     public static Workbook zachowajKontrahencikXLS(Map<String, List> listy, WpisView wpisView){
-        List rodzajedok = listy.get("kontrahenci");
+        List listakontrahentow = listy.get("kontrahenci");
         List headersList = kontrahenci();
         // Using XSSF for xlsx format, for xls use HSSF
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Kontrahenci");
         insertPrintHeader(sheet, wpisView);
         int rowIndex = 0;
-        rowIndex = drawATable(workbook, sheet, rowIndex, headersList, rodzajedok, "Kontrahenci", 1, "kontrahenci");
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersList, listakontrahentow, "Kontrahenci", 1, "kontrahenci");
         workbook.setPrintArea(
         0, //sheet index
         0, //start column
@@ -637,6 +638,12 @@ public class WriteXLSFile {
         headers.add("lp");
         headers.add("nazwa");
         headers.add("nip");
+        headers.add("kraj");
+        headers.add("miejscowość");
+        headers.add("kod pocztowy");
+        headers.add("ulica");
+        headers.add("nr domu");
+        headers.add("nr lokalu");
         return headers;
     }
     
@@ -896,6 +903,17 @@ public class WriteXLSFile {
             createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));
             createTextCell(styletext, row, (short) columnIndex++, st.getNazwa());
             createTextCell(styletext, row, (short) columnIndex++, st.getNip());
+        } else if (c.getName().contains("Klienci")) {
+            Klienci st = (Klienci) ob;
+            createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));
+            createTextCell(styletext, row, (short) columnIndex++, st.getNpelna());
+            createTextCell(styletext, row, (short) columnIndex++, st.getNip());
+            createTextCell(styletext, row, (short) columnIndex++, st.getKrajkod());
+            createTextCell(styletext, row, (short) columnIndex++, st.getMiejscowosc());
+            createTextCell(styletext, row, (short) columnIndex++, st.getKodpocztowy());
+            createTextCell(styletext, row, (short) columnIndex++, st.getUlica());
+            createTextCell(styletext, row, (short) columnIndex++, st.getDom());
+            createTextCell(styletext, row, (short) columnIndex++, st.getLokal());
         }    else if (c.getName().equals("entityfk.PozycjaBilans")||c.getName().equals("entityfk.PozycjaRZiS")) {
             PozycjaRZiSBilans st = (PozycjaRZiSBilans) ob;
             createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));

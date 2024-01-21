@@ -5,12 +5,16 @@
  */
 package viewfk;
 
+import dao.KlienciDAO;
+import entity.Klienci;
 import entityfk.Kliencifk;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -30,6 +34,8 @@ public class XlsKontrahenciView implements Serializable{
     private static final long serialVersionUID = 1L;
     @Inject
     private WpisView wpisView;
+    @Inject
+    private KlienciDAO klienciDAO;
 
     public XlsKontrahenciView() {
          ////E.m(this);
@@ -39,8 +45,9 @@ public class XlsKontrahenciView implements Serializable{
     
     public void zachowajwXLS(List<Kliencifk> lista) {
         try {
+            List<Klienci> kliencifkatury = przetworzliste(lista);
             Map<String, List> listy = new ConcurrentHashMap<>();
-            listy.put("kontrahenci", lista);
+            listy.put("kontrahenci", kliencifkatury);
             Workbook workbook = WriteXLSFile.zachowajKontrahencikXLS(listy, wpisView);
             // Prepare response.
             FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -57,6 +64,14 @@ public class XlsKontrahenciView implements Serializable{
             
         }
     }
+   
+    
+    private List<Klienci> przetworzliste(List<Kliencifk> lista) {
+        List<Klienci> wszyscy = klienciDAO.findAll();
+        Set<String> nipfk = lista.stream().map(p->p.getNip()).distinct().collect(Collectors.toSet());
+        List<Klienci> zwrot = wszyscy.stream().filter(p->nipfk.contains(p.getNip())).collect(Collectors.toList());
+        return zwrot;
+    }
     
       
     public WpisView getWpisView() {
@@ -66,6 +81,7 @@ public class XlsKontrahenciView implements Serializable{
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-    
+
+   
     
 }
