@@ -34,7 +34,7 @@
                         <p:dataTable id="datalist3" value="#{pasekwynagrodzenkorektaView.paskiwybranego}" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
                                      selectionMode="single" selection="#{pasekwynagrodzenkorektaView.selectedpasek}" rowIndexVar="indexpasekpod"
                                      rowKey="#{itempasekpod.kalendarzmiesiac.id}" sortBy="#{itempasekpod.nazwiskoImie}"
-                                     style="height: 430px; overflow-y: scroll; width: 1440px;"
+                                     style="height: 430px; overflow-y: scroll; width: 1500px;"
 
                                      >
                             <f:facet name="header">
@@ -69,7 +69,9 @@
                             <p:column headerText="społeczne polska">
                                 <bcf:outputpl value="#{itempasekpod.spoleczneudzialpolska}"/>
                             </p:column>
-
+                             <p:column headerText="koszty uz.przych.">
+                                 <bcf:outputpl value="#{itempasekpod.kosztyuzyskania}"/>
+                            </p:column>
                             <p:column headerText="podstawa pod. zagr. pln">
                                 <bcf:outputpl value="#{itempasekpod.podstawaopodatkowaniazagranica}"/>
                             </p:column>
@@ -106,7 +108,8 @@
                             </p:column>
                             <p:column headerText="przekr. ręcznie" style="text-align: center;" width="40">
                                 <p:selectBooleanCheckbox value="#{itempasekpod.przekroczenieoddelegowanie}" >
-                                    <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenkorektaView.editpasek(itempasekpod)}"/>
+                                    <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenkorektaView.editpasek(itempasekpod)}"
+                                            update="akordeon1:listaplackorekta:datalist3"/>
                                 </p:selectBooleanCheckbox>
                             </p:column>
                         </p:dataTable>

@@ -112,27 +112,25 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                     pasek.setPrzekroczenieoddelegowanie(true);
                 }
                 try {
+                    pasek.setPrzekroczenieoddelegowanie(true);
                     pasekwynagrodzenFacade.edit(pasek);
                 } catch (Exception e) {
                     String nazwisko = pasek.getKalendarzmiesiac()!=null&&pasek.getAngaz()!=null?pasek.getNazwiskoImie():"brak nazwiska";
                     System.out.println("Blad save korekta niemcy pasek"+nazwisko);
                 }
-                if (pasek.isPrzekroczenieoddelegowanie()&&pasek.getPodstawaopodatkowaniazagranicawaluta()==0.0 &&pasek.getPodatekdochodowyzagranicawaluta()==0.0) {
-                    double starespoleczne = pasek.getRazemspolecznepracownik();
+                if (pasek.isPrzekroczenieoddelegowanie()) {
                     double nowespoleczne = pasek.getSpoleczneudzialpolska();
-                    double podstawabezoddelegowania = Z.z(pasek.getPodstawaopodatkowania()-pasek.getOddelegowaniepln());
-                    double podstawakorektazus = Z.z(podstawabezoddelegowania+starespoleczne-nowespoleczne);
-                    double nowapodstawa = podstawakorektazus>0.0?podstawakorektazus:0.0;
+                    double nowapodstawa = Z.z(pasek.getPrzychodypodatekpolska()-nowespoleczne-pasek.getKosztyuzyskania());
                     pitKorektaNiemcy.setAngaz(pasek.getAngaz());
                     pitKorektaNiemcy.dodajstare(pasek);
-                    if (pasek.getPodatekdochodowyzagranicawaluta()==0.0&&nowapodstawa!=pasek.getPodstawaopodatkowania()) {
+                    if (pasek.isPrzekroczenieoddelegowanie()) {
                         pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawa);
                         if (pasek.isPraca()) {
                             obliczpodatekwstepnyDBStandard(pasek, nowapodstawa, stawkipodatkowe, 0.0);
                         } else {
                             obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
                         }
-                        naniespodstaweniemiecka(pasek);
+                        pasek.setPrzekroczeniepodstawaniemiecka(pasek.getOddelegowaniewaluta());
                         pitKorektaNiemcy.dodajnowe(pasek);
 
                     } else {
@@ -175,7 +173,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                 podatek = podatekdol + podatekgora;
                 pasek.setDrugiprog(true);
             } else {
-                podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
+                podatek = Z.z0(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
             }
         }
         podatek = podatek-pasek.getKwotawolna()>0.0?podatek-pasek.getKwotawolna():0.0;
@@ -185,19 +183,14 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
      private static void obliczpodatekwstepnyZlecenieDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         double podatek = Z.z(Z.z0(pasek.getPrzekroczeniekorektapodstawypolska()) * stawkipodatkowe.get(0).getStawka());
         if (nierezydent) {
-            podatek = Z.z(Z.z0(pasek.getBrutto()) * 0.2);
+            podatek = Z.z0(Z.z0(pasek.getBrutto()) * 0.2);
         } else if (pasek.isDo26lat()&&pasek.getPrzychodypodatekpolska()==0.0) {
             podatek = 0.0;
         }
         pasek.setPrzekroczenienowypodatek(podatek);
     }
      
-    private void naniespodstaweniemiecka(Pasekwynagrodzen pasek) {
-        if (pasek.getPodstawaopodatkowaniazagranicawaluta()==0.0) {
-            pasek.setPrzekroczeniepodstawaniemiecka(pasek.getOddelegowaniewaluta());
-        }
-    }
-    
+        
      public void editpasek(Pasekwynagrodzen pasek) {
         if (pasek != null) {
                pasekwynagrodzenFacade.edit(pasek);
