@@ -661,7 +661,10 @@ public class PasekwynagrodzenBean {
         if (pasek.getNaliczenienieobecnoscList()!=null&&pasek.getNaliczenienieobecnoscList().isEmpty()==false) {
             for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
     //            taki krzywy ryj bo nie ma oznaczenia oddelegowanie przy nieobecnosci urlop delehowanie
-                if (p.getKwotawaluta()>0.0) {
+                if (p.getKwotawaluta()==0.0&&p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UD")) {
+                    bruttooddelegowanie = bruttooddelegowanie + p.getKwota();
+                    bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + Z.z(p.getKwotawaluta()*p.getPasekwynagrodzen().getKurs());
+                } else if (p.getKwotawaluta()>0.0) {
                     bruttooddelegowanie = bruttooddelegowanie + p.getKwota();
                     bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + p.getKwotawaluta();
                 } else {
