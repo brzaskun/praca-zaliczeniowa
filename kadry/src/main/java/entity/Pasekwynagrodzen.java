@@ -1849,6 +1849,7 @@ public class Pasekwynagrodzen implements Serializable {
          this.podstawaopodatkowaniazagranica = sumujprzychodyzlisty.getBruttooddelegowanie();
          this.podstawaopodatkowaniazagranicawaluta = sumujprzychodyzlisty.getBruttooddelegowaniewaluta();
          this.oddelegowaniepln = sumujprzychodyzlisty.getBruttooddelegowanie();
+         this.oddelegowaniewaluta = sumujprzychodyzlisty.getBruttooddelegowaniewaluta();
          this.przychodyzus51 = sumujprzychodyzlisty.getPrzychodyzus51();
          this.przychodyzus52 = sumujprzychodyzlisty.getPrzychodyzus52();
          this.brutto = sumujprzychodyzlisty.getBrutto();
