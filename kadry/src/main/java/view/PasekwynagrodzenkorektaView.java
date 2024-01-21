@@ -104,57 +104,59 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
             pitKorektaNiemcy = new PitKorektaNiemcy();
             Pasekwynagrodzen paseksuma = new Pasekwynagrodzen("2023","13");
             for (Pasekwynagrodzen pasek : paskiwybranego) {
-                //adżornamiento do sytuacji od listopad 2023
-                Pasekpomocnik sumujprzychodyzlisty = PasekwynagrodzenBean.sumujprzychodyzlisty(pasek);
-                pasek.naniespomocnika(sumujprzychodyzlisty);
-                PasekwynagrodzenBean.razemspolecznepracownikkorektalp(pasek);
-                if (pasek.getPodatekdochodowyzagranicawaluta()>0.0) {
-                    pasek.setPrzekroczenieoddelegowanie(true);
-                }
-                try {
-                    pasek.setPrzekroczenieoddelegowanie(true);
-                    pasekwynagrodzenFacade.edit(pasek);
-                } catch (Exception e) {
-                    String nazwisko = pasek.getKalendarzmiesiac()!=null&&pasek.getAngaz()!=null?pasek.getNazwiskoImie():"brak nazwiska";
-                    System.out.println("Blad save korekta niemcy pasek"+nazwisko);
-                }
-                if (pasek.isPrzekroczenieoddelegowanie()) {
-                    double nowespoleczne = pasek.getSpoleczneudzialpolska();
-                    double nowapodstawa = Z.z(pasek.getPrzychodypodatekpolska()-nowespoleczne-pasek.getKosztyuzyskania());
-                    pitKorektaNiemcy.setAngaz(pasek.getAngaz());
-                    pitKorektaNiemcy.dodajstare(pasek);
-                    if (pasek.isPrzekroczenieoddelegowanie()) {
-                        pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawa);
-                        if (pasek.isPraca()) {
-                            obliczpodatekwstepnyDBStandard(pasek, nowapodstawa, stawkipodatkowe, 0.0);
-                        } else {
-                            obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
-                        }
-                        pasek.setPrzekroczeniepodstawaniemiecka(pasek.getOddelegowaniewaluta());
-                        pitKorektaNiemcy.dodajnowe(pasek);
-
-                    } else {
-                        pasek.setPrzekroczeniekorektapodstawypolska(0.0);
-                        pasek.setPrzekroczenienowypodatek(0.0);
-                        pasek.setPrzekroczeniepodstawaniemiecka(0.0);
-                        pasek.setPrzekroczeniepodatekniemiecki(0.0);
-                        pasekwynagrodzenFacade.edit(pasek);
+                if (pasek.getKalendarzmiesiac()!=null) {
+                    //adżornamiento do sytuacji od listopad 2023
+                    Pasekpomocnik sumujprzychodyzlisty = PasekwynagrodzenBean.sumujprzychodyzlisty(pasek);
+                    pasek.naniespomocnika(sumujprzychodyzlisty);
+                    PasekwynagrodzenBean.razemspolecznepracownikkorektalp(pasek);
+                    if (pasek.getPodatekdochodowyzagranicawaluta()>0.0) {
+                        pasek.setPrzekroczenieoddelegowanie(true);
                     }
-                } else if (pasek.isPrzekroczenieoddelegowanie()&&(pasek.getPodstawaopodatkowaniazagranicawaluta()>1289.0 &&pasek.getPodatekdochodowyzagranicawaluta()==0.0)) {
-                    pasek.setPrzekroczeniepodstawaniemiecka(pasek.getPodstawaopodatkowaniazagranicawaluta());
-                } else if (pasek.getPodatekdochodowyzagranicawaluta()>0.0||(pasek.getPodstawaopodatkowaniazagranicawaluta()<1289.0 &&pasek.getPodatekdochodowyzagranicawaluta()==0.0)) {
-                        pasek.setPrzekroczeniekorektapodstawypolska(0.0);
-                        pasek.setPrzekroczenienowypodatek(0.0);
-                        pasek.setPrzekroczeniepodstawaniemiecka(0.0);
-                        pasek.setPrzekroczeniepodatekniemiecki(0.0);
+                    try {
+                        pasek.setPrzekroczenieoddelegowanie(true);
                         pasekwynagrodzenFacade.edit(pasek);
+                    } catch (Exception e) {
+                        String nazwisko = pasek.getKalendarzmiesiac()!=null&&pasek.getAngaz()!=null?pasek.getNazwiskoImie():"brak nazwiska";
+                        System.out.println("Blad save korekta niemcy pasek"+nazwisko);
+                    }
+                    if (pasek.isPrzekroczenieoddelegowanie()) {
+                        double nowespoleczne = pasek.getSpoleczneudzialpolska();
+                        double nowapodstawa = Z.z(pasek.getPrzychodypodatekpolska()-nowespoleczne-pasek.getKosztyuzyskania());
+                        //pitKorektaNiemcy.setAngaz(pasek.getAngaz());
+                        //pitKorektaNiemcy.dodajstare(pasek);
+                        if (pasek.isPrzekroczenieoddelegowanie()) {
+                            pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawa);
+                            if (pasek.isPraca()) {
+                                obliczpodatekwstepnyDBStandard(pasek, nowapodstawa, stawkipodatkowe, 0.0);
+                            } else {
+                                obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
+                            }
+                            pasek.setPrzekroczeniepodstawaniemiecka(pasek.getOddelegowaniewaluta());
+                            //pitKorektaNiemcy.dodajnowe(pasek);
+
+                        } else {
+                            pasek.setPrzekroczeniekorektapodstawypolska(0.0);
+                            pasek.setPrzekroczenienowypodatek(0.0);
+                            pasek.setPrzekroczeniepodstawaniemiecka(0.0);
+                            pasek.setPrzekroczeniepodatekniemiecki(0.0);
+                            pasekwynagrodzenFacade.edit(pasek);
+                        }
+                    } else if (pasek.isPrzekroczenieoddelegowanie()&&(pasek.getPodstawaopodatkowaniazagranicawaluta()>1289.0 &&pasek.getPodatekdochodowyzagranicawaluta()==0.0)) {
+                        pasek.setPrzekroczeniepodstawaniemiecka(pasek.getPodstawaopodatkowaniazagranicawaluta());
+                    } else if (pasek.getPodatekdochodowyzagranicawaluta()>0.0||(pasek.getPodstawaopodatkowaniazagranicawaluta()<1289.0 &&pasek.getPodatekdochodowyzagranicawaluta()==0.0)) {
+                            pasek.setPrzekroczeniekorektapodstawypolska(0.0);
+                            pasek.setPrzekroczenienowypodatek(0.0);
+                            pasek.setPrzekroczeniepodstawaniemiecka(0.0);
+                            pasek.setPrzekroczeniepodatekniemiecki(0.0);
+                            pasekwynagrodzenFacade.edit(pasek);
+                    }
+                    if (pasek.getPrzychodypodatekpolska()==0.0) {
+
+                    }
+                    paseksuma.dodajPasek(pasek);
                 }
-                if (pasek.getPrzychodypodatekpolska()==0.0) {
-                    
-                }
-                paseksuma.dodajPasek(pasek);
             }
-            pitKorektaNiemcy.roznica();
+            //pitKorektaNiemcy.roznica();
             paskiwybranego.add(paseksuma);
         }
     }
