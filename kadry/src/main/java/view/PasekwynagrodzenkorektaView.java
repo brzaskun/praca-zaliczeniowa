@@ -177,7 +177,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                 podatek = Z.z0(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
             }
         }
-        if (podatek>=kwotawolna) {
+        if (podatek<=kwotawolna) {
             podatek = 0.0;
         } else {
             podatek = podatek-kwotawolna;
@@ -193,7 +193,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
         } else if (pasek.isDo26lat()&&pasek.getPrzychodypodatekpolska()==0.0) {
             podatek = 0.0;
         }
-        if (podatek>=kwotawolna) {
+        if (podatek<=kwotawolna) {
             podatek = 0.0;
         } else {
             podatek = podatek-kwotawolna;
