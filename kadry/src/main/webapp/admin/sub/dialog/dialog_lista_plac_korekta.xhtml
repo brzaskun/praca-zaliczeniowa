@@ -34,7 +34,7 @@
                         <p:dataTable id="datalist3" value="#{pasekwynagrodzenkorektaView.paskiwybranego}" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
                                      selectionMode="single" selection="#{pasekwynagrodzenkorektaView.selectedpasek}" rowIndexVar="indexpasekpod"
                                      rowKey="#{itempasekpod.kalendarzmiesiac.id}" sortBy="#{itempasekpod.nazwiskoImie}"
-                                     style="height: 430px; overflow-y: scroll; width: 1500px;"
+                                     style="height: 430px; overflow-y: scroll; width: 1600px;"
 
                                      >
                             <f:facet name="header">
@@ -93,6 +93,9 @@
                             </p:column>
                             <p:column headerText="skorygowany podatek pln">
                                 <bcf:outputpl value="#{itempasekpod.przekroczenienowypodatek}"/>
+                            </p:column>
+                             <p:column headerText="zdrowotna">
+                                 <bcf:outputpl value="#{itempasekpod.praczdrowotne}"/>
                             </p:column>
                             <p:column headerText="nowa podst. oddel. wal.">
                                 <bcf:outputwal value="#{itempasekpod.przekroczeniepodstawaniemiecka}" symbolwaluty="€" rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}"/>
