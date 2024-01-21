@@ -102,7 +102,7 @@
                             </p:column>
                             <p:column headerText="korekta podatek zagr." style="text-align: center;">
                                 <p:inputNumber value="#{itempasekpod.przekroczeniepodatekniemiecki}"  size="8"  maxlength="7" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right" styleClass="polepodatkuwpln"
-                                               rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}" symbol="€" symbolPosition="right" >
+                                               rendered="#{itempasekpod.przekroczeniepodstawaniemiecka gt 0.0}" symbol="€" symbolPosition="s" >
                                     <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenkorektaView.editpasek(itempasekpod)}" update="@(.polepodatkuwpln)"/>
                                 </p:inputNumber>
                             </p:column>
