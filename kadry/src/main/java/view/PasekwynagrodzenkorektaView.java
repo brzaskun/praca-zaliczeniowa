@@ -128,7 +128,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                             pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawa);
                             if (pasek.isPraca()) {
                                 obliczpodatekwstepnyDBStandard(pasek, nowapodstawa, stawkipodatkowe, 0.0);
-                            } else {
+                            } else if (pasek.isDo26lat()==false) {
                                 obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
                             }
                             pasek.setPrzekroczeniepodstawaniemiecka(pasek.getOddelegowaniewaluta());
@@ -184,6 +184,9 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
         } else {
             podatek = podatek-kwotawolna;
         }
+        if (pasek.isDo26lat()) {
+            podatek = 0.0;
+        } 
         pasek.setPrzekroczenienowypodatek(podatek);
     }
     
@@ -192,9 +195,9 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
         double podatek = Z.z(Z.z0(pasek.getPrzekroczeniekorektapodstawypolska()) * stawkipodatkowe.get(0).getStawka());
         if (nierezydent) {
             podatek = Z.z0(Z.z0(pasek.getBrutto()) * 0.2);
-        } else if (pasek.isDo26lat()&&pasek.getPrzychodypodatekpolska()==0.0) {
+        } else if (pasek.isDo26lat()) {
             podatek = 0.0;
-        }
+        } 
         if (podatek<=kwotawolna) {
             podatek = 0.0;
         } else {

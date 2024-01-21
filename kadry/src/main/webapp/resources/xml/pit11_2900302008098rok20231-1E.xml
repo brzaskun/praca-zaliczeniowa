@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2023</Rok>
+        <KodUrzedu>0410</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaNiefizyczna>
+            <NIP>8513282893</NIP>
+            <PelnaNazwa>BOMBEL GLASFASERBAU SP. Z O.O.</PelnaNazwa>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>00302008098</PESEL>
+            <ImiePierwsze>Jakub</ImiePierwsze>
+            <Nazwisko>Markowski</Nazwisko>
+            <DataUrodzenia>2000-10-20</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>Kujawsko-pomorskie</Wojewodztwo>
+            <Powiat>Lipnowski</Powiat>
+            <Gmina>Narutowo</Gmina>
+            <Ulica poz="P_23">-</Ulica>
+            <NrDomu poz="P_24">21</NrDomu>
+            <NrLokalu poz="P_25">-</NrLokalu>
+            <Miejscowosc poz="P_26">Narutowo</Miejscowosc>
+            <KodPocztowy poz="P_27">87-630</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>0</P_29>
+        <P_30>0</P_30>
+        <P_31>0</P_31>
+        <P_33>0</P_33>
+        <P_36>0</P_36>
+        <P_37>0</P_37>
+        <P_38>0</P_38>
+        <P_39>76196.92</P_39>
+        <P_40>0</P_40>
+        <P_97>4993.15</P_97>
+        <P_109>36419.7</P_109>
+        <P_110>36419.7</P_110>
+        <P_121>2</P_121>
+        <P_122>5841.51</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>
