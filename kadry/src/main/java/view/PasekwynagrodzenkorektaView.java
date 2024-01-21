@@ -160,6 +160,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
     }
 
     private static void obliczpodatekwstepnyDBStandard(Pasekwynagrodzen pasek, double podstawaopodatkowania, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
+        double kwotawolna = pasek.getKwotawolna()>0.0? stawkipodatkowe.get(0).getWolnamc():0.0;
         double podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
         double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();
         if (sumapoprzednich >= drugiprog) {
@@ -176,16 +177,26 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                 podatek = Z.z0(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
             }
         }
-        podatek = podatek-pasek.getKwotawolna()>0.0?podatek-pasek.getKwotawolna():0.0;
+        if (podatek>=kwotawolna) {
+            podatek = 0.0;
+        } else {
+            podatek = podatek-kwotawolna;
+        }
         pasek.setPrzekroczenienowypodatek(podatek);
     }
     
      private static void obliczpodatekwstepnyZlecenieDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
+        double kwotawolna = pasek.getKwotawolna()>0.0? stawkipodatkowe.get(0).getWolnamc():0.0;
         double podatek = Z.z(Z.z0(pasek.getPrzekroczeniekorektapodstawypolska()) * stawkipodatkowe.get(0).getStawka());
         if (nierezydent) {
             podatek = Z.z0(Z.z0(pasek.getBrutto()) * 0.2);
         } else if (pasek.isDo26lat()&&pasek.getPrzychodypodatekpolska()==0.0) {
             podatek = 0.0;
+        }
+        if (podatek>=kwotawolna) {
+            podatek = 0.0;
+        } else {
+            podatek = podatek-kwotawolna;
         }
         pasek.setPrzekroczenienowypodatek(podatek);
     }
