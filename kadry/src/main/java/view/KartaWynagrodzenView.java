@@ -407,7 +407,7 @@ public class KartaWynagrodzenView  implements Serializable {
                     String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon(), null);
                     DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
                     //dezaktywancja na potrzeby testow
-                    //deklaracjaSchowekFacade.create(schowek);
+                    deklaracjaSchowekFacade.create(schowek);
                     polecenie = "wydrukPDF(\""+nazwapliku+"\")";
                     PrimeFaces.current().executeScript(polecenie);
                     Msg.msg("Wydrukowano PIT-11");
@@ -468,8 +468,8 @@ public class KartaWynagrodzenView  implements Serializable {
                         Object[] sciezka = beanstesty.PIT11_29Bean.generujXML(kartawynagrodzen, firma, pracownik, normalna1korekta2, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy(), przekroczenie183);
                         pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja)sciezka[2];
                         if (deklaracja!=null) {
-                            //String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
-                            //PrimeFaces.current().executeScript(polecenie);
+//                            String polecenie = "wydrukXML(\""+(String)sciezka[0]+"\")";
+//                            PrimeFaces.current().executeScript(polecenie);
                             String nazwapliku = PdfPIT11.drukuj29(deklaracja, wpisView.getUzer().getImieNazwiskoTelefon(), null);
                             DeklaracjaPIT11Schowek schowek = new DeklaracjaPIT11Schowek(deklaracja, firma, pracownik, wpisView.getRokWpisu(),"PIT11");
                             if (karta.getPrzekroczenienowypodatek()>0.0) {
@@ -478,10 +478,9 @@ public class KartaWynagrodzenView  implements Serializable {
                             schowek.setKorekta(korekta);
                             schowek.setUz(wpisView.getUzer());
                             schowek.setPrzekroczenie(karta.getPodstawaopodatkowaniazagranica()>0.0);
-                            //!!!Przywrocic po pit11 testy
-                            //karta.setJestPIT11(true);
-                            //deklaracjaSchowekFacade.create(schowek);
-                            //listaPIT11.add(schowek);
+                            karta.setJestPIT11(true);
+                            deklaracjaSchowekFacade.create(schowek);
+                            listaPIT11.add(schowek);
                             String polecenie = "wydrukPDF(\""+nazwapliku+"\")";
                             PrimeFaces.current().executeScript(polecenie);
                             Msg.msg("Wydrukowano PIT-11");

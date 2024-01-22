@@ -54,7 +54,7 @@
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.brutto}" stylePlus="#{itemkarta.brutto eq 0 ? 'color:silver':null}"/>
                     </p:column>
-                    <p:column width="60">
+<!--                    <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="wyn. z zus"/>
                         </f:facet>
@@ -72,6 +72,18 @@
                             <h:outputText value="wyn. bez pod"/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.bruttobezpodatku}" stylePlus="#{itemkarta.bruttobezpodatku eq 0 ? 'color:silver':null}"/>
+                    </p:column>-->
+                    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="dieta"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.dietaodliczeniepodstawaop}" stylePlus="#{itemkarta.kosztyuzyskania eq 0 ? 'color:silver':null}"/>
+                    </p:column>
+    <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="przychód"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{itemkarta.bruttoMinusDieta}" stylePlus="#{itemkarta.bruttoMinusDieta eq 0 ? 'color:silver':null}"/>
                     </p:column>
                      <p:column width="55">
                         <f:facet name="header">

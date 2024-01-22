@@ -154,6 +154,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
 
                     }
                     paseksuma.dodajPasek(pasek);
+                    pasekwynagrodzenFacade.edit(pasek);
                 }
             }
             //pitKorektaNiemcy.roznica();

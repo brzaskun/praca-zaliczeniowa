@@ -536,13 +536,13 @@ public class Kartawynagrodzen implements Serializable {
         if (przekroczeniedni) {
             zwrot = dochodpolska;
         }
-        return zwrot;
+        return Z.z(zwrot);
     }
     
     public double getBruttoMinusDieta() {
-        double zwrot = brutto;
-        if (przekroczeniedni) {
-            zwrot = Z.z(dochodpolska-dietaodliczeniepodstawaop);
+        double zwrot = getBrutto();
+        if (przekroczeniedni==false) {
+            zwrot = Z.z(zwrot-dietaodliczeniepodstawaop);
         }
         return zwrot;
     }
