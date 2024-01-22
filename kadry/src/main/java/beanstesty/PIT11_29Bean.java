@@ -463,22 +463,41 @@ public class PIT11_29Bean {
             poz.setP121((byte)2);
         }
         if (sumaUmowazlecenia.getBrutto()>0.0) {
-            poz.setP58(BigDecimal.valueOf(sumaUmowazlecenia.getBrutto()));
-            poz.setP59(BigDecimal.valueOf(sumaUmowazlecenia.getKosztyuzyskania()));
-            poz.setP60(poz.getP58().subtract(poz.getP59()));
-            poz.setP61(BigInteger.valueOf(Z.zUD(sumaUmowazlecenia.getPodatekdochodowy())));
-            if (poz.getP95()!=null) {
-                poz.setP95(poz.getP95().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik()))));
-            } else{
-                poz.setP95(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik())));
+            if (przekroczenie183==false) {
+                poz.setP58(BigDecimal.valueOf(sumaUmowazlecenia.getBrutto()));
+                poz.setP59(BigDecimal.valueOf(sumaUmowazlecenia.getKosztyuzyskania()));
+                poz.setP60(poz.getP58().subtract(poz.getP59()));
+                poz.setP61(BigInteger.valueOf(Z.zUD(sumaUmowazlecenia.getPodatekdochodowy())));
+                if (poz.getP95()!=null) {
+                    poz.setP95(poz.getP95().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik()))));
+                } else{
+                    poz.setP95(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getRazemspolecznepracownik())));
+                }
+                if (poz.getP122()!=null) {
+                    poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotne()))));
+                } else{
+                    poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotne())));
+                }
+                //czy dodano PIT-R 1tak 2nie
+                poz.setP121((byte)2);
+            } else {
+                poz.setP58(BigDecimal.valueOf(sumaUmowazlecenia.getBrutto()));
+                poz.setP59(BigDecimal.valueOf(sumaUmowazlecenia.getPrzekroczeniekosztyuzyskania()));
+                poz.setP60(poz.getP58().subtract(poz.getP59()));
+                poz.setP61(BigInteger.valueOf(Z.zUD(sumaUmowazlecenia.getPrzekroczenienowypodatek())));
+                if (poz.getP95()!=null) {
+                    poz.setP95(poz.getP95().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getSpoleczneudzialpolska()))));
+                } else{
+                    poz.setP95(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getSpoleczneudzialpolska())));
+                }
+                if (poz.getP122()!=null) {
+                    poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotne()))));
+                } else{
+                    poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotne())));
+                }
+                //czy dodano PIT-R 1tak 2nie
+                poz.setP121((byte)2);
             }
-            if (poz.getP122()!=null) {
-                poz.setP122(poz.getP122().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotne()))));
-            } else{
-                poz.setP122(BigDecimal.valueOf(Z.z(sumaUmowazlecenia.getPraczdrowotne())));
-            }
-            //czy dodano PIT-R 1tak 2nie
-            poz.setP121((byte)2);
         }
         //do 26lat z oddelegowaniem i opodatkowaniem w Niemczech
         if (sumaUmowaoprace26zwolnione.getBrutto()>0.0&&dochodzagranica>0.0&&przekroczenie183) {

@@ -645,6 +645,9 @@ public class PasekwynagrodzenBean {
                     if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
                         bruttooddelegowanie = Z.z(bruttooddelegowanie + p.getKwotadolistyplac());
                         bruttooddelegowaniewaluta = Z.z(bruttooddelegowaniewaluta + p.getKwotadolistyplacwaluta());
+                        if (p.getKwotadolistyplacwaluta()==0.0) {
+                            bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + Z.z(p.getKwotadolistyplac()/p.getPasekwynagrodzen().getKurs());
+                        }
                     } else {
                         bruttokraj = bruttokraj + p.getKwotadolistyplac();
                     }

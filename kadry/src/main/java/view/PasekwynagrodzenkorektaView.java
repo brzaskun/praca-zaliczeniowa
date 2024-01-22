@@ -120,15 +120,20 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                         System.out.println("Blad save korekta niemcy pasek"+nazwisko);
                     }
                     if (pasek.isPrzekroczenieoddelegowanie()) {
-                        double nowespoleczne = pasek.getSpoleczneudzialpolska();
-                        double nowapodstawa = Z.z(pasek.getPrzychodypodatekpolska()-nowespoleczne-pasek.getKosztyuzyskania());
+                        double nowespoleczne = Z.z(pasek.getSpoleczneudzialpolska());
                         //pitKorektaNiemcy.setAngaz(pasek.getAngaz());
                         //pitKorektaNiemcy.dodajstare(pasek);
                         if (pasek.isPrzekroczenieoddelegowanie()) {
-                            pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawa);
                             if (pasek.isPraca()) {
-                                obliczpodatekwstepnyDBStandard(pasek, nowapodstawa, stawkipodatkowe, 0.0);
+                                double nowapodstawaumowaoprace = Z.z(pasek.getPrzychodypodatekpolska()-nowespoleczne-pasek.getKosztyuzyskania());
+                                pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawaumowaoprace);
+                                obliczpodatekwstepnyDBStandard(pasek, nowapodstawaumowaoprace, stawkipodatkowe, 0.0);
                             } else if (pasek.isDo26lat()==false) {
+                                double nowapodstawaumowazlecenia = Z.z(pasek.getPrzychodypodatekpolska()-nowespoleczne);
+                                double przekroczeniekoszt = Z.z(nowapodstawaumowazlecenia*0.2);
+                                pasek.setPrzekroczeniekosztyuzyskania(przekroczeniekoszt);
+                                nowapodstawaumowazlecenia = Z.z(nowapodstawaumowazlecenia-pasek.getPrzekroczeniekosztyuzyskania());
+                                pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawaumowazlecenia);
                                 obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
                             }
                             pasek.setPrzekroczeniepodstawaniemiecka(pasek.getOddelegowaniewaluta());
@@ -164,7 +169,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
 
     private static void obliczpodatekwstepnyDBStandard(Pasekwynagrodzen pasek, double podstawaopodatkowania, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
         double kwotawolna = pasek.getKwotawolna()>0.0? stawkipodatkowe.get(0).getWolnamc():0.0;
-        double podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
+        double podatek = Z.z0(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
         double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();
         if (sumapoprzednich >= drugiprog) {
             podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(1).getStawka());
@@ -193,7 +198,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
     
      private static void obliczpodatekwstepnyZlecenieDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nierezydent) {
         double kwotawolna = pasek.getKwotawolna()>0.0? stawkipodatkowe.get(0).getWolnamc():0.0;
-        double podatek = Z.z(Z.z0(pasek.getPrzekroczeniekorektapodstawypolska()) * stawkipodatkowe.get(0).getStawka());
+        double podatek = Z.z0(Z.z0(pasek.getPrzekroczeniekorektapodstawypolska()) * stawkipodatkowe.get(0).getStawka());
         if (nierezydent) {
             podatek = Z.z0(Z.z0(pasek.getBrutto()) * 0.2);
         } else if (pasek.isDo26lat()) {

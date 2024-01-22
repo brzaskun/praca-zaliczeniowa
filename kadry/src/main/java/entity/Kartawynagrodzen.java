@@ -185,6 +185,8 @@ public class Kartawynagrodzen implements Serializable {
     private double przekroczeniepodstawaniemiecka;
     @Column(name="przekroczeniepodatekniemiecki")
     private double przekroczeniepodatekniemiecki;
+    @Column(name = "przekroczeniekosztyuzyskania")
+    private double przekroczeniekosztyuzyskania;
     @Column(name = "spoleczneudzialpolska")
     private double spoleczneudzialpolska;
     @Transient
@@ -302,6 +304,15 @@ public class Kartawynagrodzen implements Serializable {
         this.przekroczeniepodatekniemiecki = przekroczeniepodatekniemiecki;
     }
 
+    public double getPrzekroczeniekosztyuzyskania() {
+        return przekroczeniekosztyuzyskania;
+    }
+
+    public void setPrzekroczeniekosztyuzyskania(double przekroczeniekosztyuzyskania) {
+        this.przekroczeniekosztyuzyskania = przekroczeniekosztyuzyskania;
+    }
+
+    
     public double getBruttozus() {
         return bruttozus;
     }
@@ -845,6 +856,7 @@ public class Kartawynagrodzen implements Serializable {
         this.przekroczenienowypodatek = Z.z(this.przekroczenienowypodatek+pasek.getPrzekroczenienowypodatek());
         this.przekroczeniepodstawaniemiecka = Z.z(this.przekroczeniepodstawaniemiecka+pasek.getPrzekroczeniepodstawaniemiecka());
         this.przekroczeniepodatekniemiecki = Z.z(this.przekroczeniepodatekniemiecki+pasek.getPrzekroczeniepodatekniemiecki());
+        this.przekroczeniekosztyuzyskania = Z.z(this.przekroczeniekosztyuzyskania+pasek.getPrzekroczeniekosztyuzyskania());
         this.emerytalne += pasek.getEmerytalne();
         this.rentowe += pasek.getRentowe();
         this.wypadkowe += pasek.getWypadkowe();
@@ -916,6 +928,7 @@ public class Kartawynagrodzen implements Serializable {
         this.przekroczenienowypodatek = Z.z(this.przekroczenienowypodatek+kartawynagrodzen.getPrzekroczenienowypodatek());
         this.przekroczeniepodstawaniemiecka = Z.z(this.przekroczeniepodstawaniemiecka+kartawynagrodzen.getPrzekroczeniepodstawaniemiecka());
         this.przekroczeniepodatekniemiecki = Z.z(this.przekroczeniepodatekniemiecki+kartawynagrodzen.getPrzekroczeniepodatekniemiecki());
+        this.przekroczeniekosztyuzyskania = Z.z(this.przekroczeniekosztyuzyskania+kartawynagrodzen.getPrzekroczeniekosztyuzyskania());
         this.praczdrowotnedoodliczenia += kartawynagrodzen.getPraczdrowotnedoodliczenia();
         this.praczdrowotnedopotracenia = Z.z(this.praczdrowotnedopotracenia+kartawynagrodzen.getPraczdrowotnedopotracenia());
         this.praczdrowotnepomniejszone += kartawynagrodzen.getPraczdrowotnepomniejszone();

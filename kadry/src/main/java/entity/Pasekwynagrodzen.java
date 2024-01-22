@@ -312,6 +312,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double przekroczeniepodstawaniemiecka;
     @Column(name="przekroczeniepodatekniemiecki")
     private double przekroczeniepodatekniemiecki;
+    @Column(name = "przekroczeniekosztyuzyskania")
+    private double przekroczeniekosztyuzyskania;
     
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "ekwiwalentskladniki", referencedColumnName = "id")
@@ -458,7 +460,8 @@ public class Pasekwynagrodzen implements Serializable {
         this.przekroczeniekorektapodstawypolska = Z.z(this.przekroczeniekorektapodstawypolska+p.getPrzekroczeniekorektapodstawypolska());
         this.przekroczenienowypodatek = Z.z(this.przekroczenienowypodatek)+p.getPrzekroczenienowypodatek();
         this.przekroczeniepodstawaniemiecka = Z.z(this.przekroczeniepodstawaniemiecka+p.getPrzekroczeniepodstawaniemiecka());
-        this.przekroczeniepodatekniemiecki = Z.z(this.przekroczeniepodatekniemiecki)+p.getPrzekroczeniepodatekniemiecki();
+        this.przekroczeniepodatekniemiecki = Z.z(this.przekroczeniepodatekniemiecki+p.getPrzekroczeniepodatekniemiecki());
+        this.przekroczeniekosztyuzyskania = Z.z(this.przekroczeniekosztyuzyskania+p.getPrzekroczeniekosztyuzyskania());
         this.przychodypodatekpolska = Z.z(this.przychodypodatekpolska)+p.getPrzychodypodatekpolska();
         this.przychodypodatekzagranica  = Z.z(this.przychodypodatekzagranica)+p.getPrzychodypodatekzagranica();
         this.przychodyzus51 = Z.z(this.przychodyzus51+p.getPrzychodyzus51());
@@ -496,6 +499,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setPrzekroczeniepodatekniemiecki(double przekroczeniepodatekniemiecki) {
         this.przekroczeniepodatekniemiecki = przekroczeniepodatekniemiecki;
+    }
+
+    public double getPrzekroczeniekosztyuzyskania() {
+        return przekroczeniekosztyuzyskania;
+    }
+
+    public void setPrzekroczeniekosztyuzyskania(double przekroczeniekosztyuzyskania) {
+        this.przekroczeniekosztyuzyskania = przekroczeniekosztyuzyskania;
     }
 
     

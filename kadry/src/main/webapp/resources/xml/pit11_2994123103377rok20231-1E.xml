@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2023</Rok>
+        <KodUrzedu>2220</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaNiefizyczna>
+            <NIP>8431627021</NIP>
+            <PelnaNazwa>FORTEFIBER SP. Z O.O.</PelnaNazwa>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>94123103377</PESEL>
+            <ImiePierwsze>Fabian</ImiePierwsze>
+            <Nazwisko>Aderek</Nazwisko>
+            <DataUrodzenia>1994-12-31</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>pomorskie</Wojewodztwo>
+            <Powiat>wejherowski</Powiat>
+            <Gmina>Wejherowo</Gmina>
+            <Ulica poz="P_23">Południowa</Ulica>
+            <NrDomu poz="P_24">5</NrDomu>
+            <NrLokalu poz="P_25">3</NrLokalu>
+            <Miejscowosc poz="P_26">Wejherowo</Miejscowosc>
+            <KodPocztowy poz="P_27">84-000</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_58>8164.76</P_58>
+        <P_59>1449.07</P_59>
+        <P_60>6715.69</P_60>
+        <P_61>696</P_61>
+        <P_95>919.35</P_95>
+        <P_121>2</P_121>
+        <P_122>4387.64</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>
