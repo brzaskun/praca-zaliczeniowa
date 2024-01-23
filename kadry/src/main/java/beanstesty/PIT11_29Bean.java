@@ -292,7 +292,7 @@ public class PIT11_29Bean {
                 poz.setP31(subtract);
             }
             poz.setP33(BigInteger.valueOf(Z.zUD(sumaUmowaoprace.getPodatekdochodowy())));
-            if (sumaUmowaoprace.getPrzekroczenienowypodatek()>0.0) {
+            if (sumaUmowaoprace.isPrzekroczeniedni()||sumaUmowaopraceEmerytkosztypodwyzszone.isPrzekroczeniedni()) {
                 poz.setP33(BigInteger.valueOf(Z.zUD(sumaUmowaoprace.getPrzekroczenienowypodatek())));
             }
             if (poz.getP95()!=null) {

@@ -41,13 +41,18 @@
                             <h:outputText value="nr listy"/>
                         </f:facet>
                         <h:outputText value="#{itemkarta.nrlisty}"/>
-                    </p:column>
+                    </p:column> 
 <!--                    <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="koszt całk."/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.kosztpracodawcy}" stylePlus="#{itemkarta.kosztpracodawcy eq 0 ? 'color:silver':null}"/>
-                    </p:column>-->
+                    </p:column>-->          <p:column width="45">
+                        <f:facet name="header">
+                            <h:outputText value="bez pod."/>
+                        </f:facet>
+    <bcf:outputpl value="#{itemkarta.bruttobezpodatku}" stylePlus="#{itemkarta.bruttobezpodatku eq 0 ? 'color:silver':null}"/>
+                    </p:column>
                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="brutto"/>
@@ -129,12 +134,12 @@
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.praczdrowotne}" stylePlus="#{itemkarta.praczdrowotne eq 0 ? 'color:silver':null}"/>
                     </p:column>
-                    <p:column width="45">
+<!--                    <p:column width="45">
                         <f:facet name="header">
                             <h:outputText value="komornik"/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.komornik}" stylePlus="#{itemkarta.komornik eq 0 ? 'color:silver':null}"/>
-                    </p:column>
+                    </p:column>-->
                     <p:column width="45">
                         <f:facet name="header">
                             <h:outputText value="inne potr."/>

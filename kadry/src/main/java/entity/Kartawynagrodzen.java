@@ -543,9 +543,9 @@ public class Kartawynagrodzen implements Serializable {
     }
 
     public double getBrutto() {
-        double zwrot = brutto;
+        double zwrot = brutto-bruttobezpodatku;
         if (przekroczeniedni) {
-            zwrot = dochodpolska;
+            zwrot = dochodpolska-bruttobezpodatku;
         }
         return Z.z(zwrot);
     }
@@ -824,6 +824,13 @@ public class Kartawynagrodzen implements Serializable {
     public void dodaj(Pasekwynagrodzen pasek) {
         String mc = pasek.getMc();
         int mcI = Integer.parseInt(mc);
+//        double nieopodatkowane = 0.0;
+//        for (Naliczenieskladnikawynagrodzenia skl : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+//            if (skl.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isPodatek0bezpodatek1()) {
+//                nieopodatkowane = nieopodatkowane+skl.getKwotadolistyplac();
+//            }
+//        }
+//        this.brutto = this.brutto-nieopodatkowane;
         //łatka bo byla rewolucja od 112023 w sumowaniu skladnikow 05.01.2024 Broniwoja 5 :) a oni graja
         if (pasek.getRok().equals("2023")&&mcI<11) {
             this.brutto = Z.z(this.brutto+pasek.getBrutto());

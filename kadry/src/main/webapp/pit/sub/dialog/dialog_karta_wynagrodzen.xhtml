@@ -48,7 +48,13 @@
                             <h:outputText value="koszt całk."/>
                         </f:facet>
                         <bcf:outputpl value="#{itemkarta.kosztpracodawcy}" stylePlus="#{itemkarta.kosztpracodawcy eq 0 ? 'color:silver':null}"/>
-                    </p:column>-->
+                    </p:column>-->  
+                        <p:column width="60">
+                        <f:facet name="header">
+                            <h:outputText value="brutto"/>
+                        </f:facet>
+                            <bcf:outputpl value="#{itemkarta.brutto}" stylePlus="#{itemkarta.brutto eq 0 ? 'color:silver':null}"/>
+                    </p:column>
                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="przych. polska"/>

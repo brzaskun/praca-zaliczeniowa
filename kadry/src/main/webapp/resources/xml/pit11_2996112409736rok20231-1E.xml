@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <Rok>2023</Rok>
+        <KodUrzedu>3218</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>6731886406</ns2:NIP>
+            <ns2:ImiePierwsze>Sebastian</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Dziadek</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1992-10-16</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>96112409736</PESEL>
+            <ImiePierwsze>Dawid</ImiePierwsze>
+            <Nazwisko>Kowalczuk</Nazwisko>
+            <DataUrodzenia>1996-11-24</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>Zachodniopomorskie</Wojewodztwo>
+            <Powiat>szczecinecki</Powiat>
+            <Gmina>Grzmiąca</Gmina>
+            <Ulica poz="P_23">Sucha</Ulica>
+            <NrDomu poz="P_24">14</NrDomu>
+            <NrLokalu poz="P_25">1</NrLokalu>
+            <Miejscowosc poz="P_26">Grzmiąca</Miejscowosc>
+            <KodPocztowy poz="P_27">78-450</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>31585.4</P_29>
+        <P_30>1750.0</P_30>
+        <P_31>29835.4</P_31>
+        <P_32>0.0</P_32>
+        <P_33>929</P_33>
+        <P_58>3283.2</P_58>
+        <P_59>566.6</P_59>
+        <P_60>2716.6</P_60>
+        <P_61>272</P_61>
+        <P_95>5047.39</P_95>
+        <P_121>2</P_121>
+        <P_122>2859.13</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>
