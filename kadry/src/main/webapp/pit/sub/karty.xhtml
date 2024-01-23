@@ -48,7 +48,7 @@
                         <f:facet name="header">
                             <h:outputText value="rozl. Niemcy"/>
                         </f:facet>
-                        <h:outputText value="&#x2714;" rendered="#{itemkarta.angaz.przekroczenierok ne null}" style="font-weight: 900; color: green"/>
+                        <h:outputText value="&#x2714;" rendered="#{itemkarta.angaz.przekroczenierok ne null and itemkarta.angaz.przekroczenierok.blank eq false}" style="font-weight: 900; color: green"/>
                     </p:column>
                     <p:column width="20" style="text-align: center;" >
                         <f:facet name="header">

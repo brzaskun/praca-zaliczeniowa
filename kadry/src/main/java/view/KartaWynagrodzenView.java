@@ -464,7 +464,7 @@ public class KartaWynagrodzenView  implements Serializable {
                     }
                     try {
                         byte normalna1korekta2 = korekta?(byte)2:(byte)1;
-                        boolean przekroczenie183 = kartawynagrodzen.getAngaz().getPrzekroczenierok()!=null;
+                        boolean przekroczenie183 = kartawynagrodzen.getAngaz().getPrzekroczenierok()!=null&&kartawynagrodzen.getAngaz().getPrzekroczenierok().isBlank()==false;
                         Object[] sciezka = beanstesty.PIT11_29Bean.generujXML(kartawynagrodzen, firma, pracownik, normalna1korekta2, pracownik.getKodurzeduskarbowego(), kartawynagrodzen.getRok(), kartawynagrodzen.getSumy(), przekroczenie183);
                         pl.gov.crd.wzor._2022._11._09._11890.Deklaracja deklaracja = (pl.gov.crd.wzor._2022._11._09._11890.Deklaracja)sciezka[2];
                         if (deklaracja!=null) {
