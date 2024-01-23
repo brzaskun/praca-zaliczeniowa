@@ -1620,36 +1620,32 @@ public class Pasekwynagrodzen implements Serializable {
 
     public boolean isPraca() {
         boolean zwrot = false;
-        Umowa aktywnaUmowa = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa();
-        if (aktywnaUmowa!=null) {
-            zwrot = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isPraca();
+        if (this.definicjalistaplac!=null) {
+            zwrot = this.definicjalistaplac.getRodzajlistyplac().getTyp()==1;
         }
         return zwrot;
     }
     
     public boolean isFunkcja() {
         boolean zwrot = false;
-        Umowa aktywnaUmowa = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa();
-        if (aktywnaUmowa!=null) {
-            zwrot = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isFunkcja();
+        if (this.definicjalistaplac!=null) {
+            zwrot = this.definicjalistaplac.getRodzajlistyplac().getTyp()==3;
         }
         return zwrot;
     }
     
     public boolean isZlecenie() {
         boolean zwrot = false;
-        Umowa aktywnaUmowa = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa();
-        if (aktywnaUmowa!=null) {
-            zwrot = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isZlecenie();
+        if (this.definicjalistaplac!=null) {
+            zwrot = this.definicjalistaplac.getRodzajlistyplac().getSymbol().equals("UZ");
         }
         return zwrot;
     }
     
     public boolean isDzielo() {
         boolean zwrot = false;
-        Umowa aktywnaUmowa = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa();
-        if (aktywnaUmowa!=null) {
-            zwrot = this.kalendarzmiesiac.getAngaz().getAktywnaUmowa().getUmowakodzus().isDzielo();
+        if (this.definicjalistaplac!=null) {
+            zwrot = this.definicjalistaplac.getRodzajlistyplac().getSymbol().equals("UD");
         }
         return zwrot;
     }

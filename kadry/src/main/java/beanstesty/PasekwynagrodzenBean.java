@@ -642,7 +642,7 @@ public class PasekwynagrodzenBean {
                 //to nie ma sensu, gdyz skladnik40 zlecenie jako taki jest oznacozny jako ozusowany
     //            if (p.isZus0bezzus1() == false && p.isPodatek0bezpodatek1() == false) {
                 if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isPodatek0bezpodatek1()==false) {
-                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")) {
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia()!=null&&p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod()!=null&&p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")) {
                         bruttooddelegowanie = Z.z(bruttooddelegowanie + p.getKwotadolistyplac());
                         bruttooddelegowaniewaluta = Z.z(bruttooddelegowaniewaluta + p.getKwotadolistyplacwaluta());
                         if (p.getKwotadolistyplacwaluta()==0.0) {
