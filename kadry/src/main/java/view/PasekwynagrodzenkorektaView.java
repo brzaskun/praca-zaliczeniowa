@@ -124,7 +124,8 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                         //pitKorektaNiemcy.setAngaz(pasek.getAngaz());
                         //pitKorektaNiemcy.dodajstare(pasek);
                         if (pasek.isPrzekroczenieoddelegowanie()) {
-                            if (pasek.isPraca()) {
+                            //musi byc tak bo inaczej zasilki traktyuje jak zlecenie
+                            if (pasek.isZlecenie()==false) {
                                 double nowapodstawaumowaoprace = Z.z(pasek.getPrzychodypodatekpolska()-nowespoleczne-pasek.getKosztyuzyskania());
                                 pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawaumowaoprace);
                                 obliczpodatekwstepnyDBStandard(pasek, nowapodstawaumowaoprace, stawkipodatkowe, 0.0);
