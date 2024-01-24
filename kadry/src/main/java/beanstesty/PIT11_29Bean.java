@@ -756,31 +756,6 @@ public class PIT11_29Bean {
         double dochodzagranica = Z.z(kartawynagrodzen.getDochodzagranica());
         if (sumaUmowaoprace.getBruttoMinusDieta()>0.0|sumaUmowaopracekosztypodwyzszone.getBruttoMinusDieta()>0.0) {
             poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBruttoMinusDieta()));
-            if (dochodzagranica>0.0) {
-                if (sumaUmowaoprace.getBruttoMinusDieta()>dochodzagranica) {
-                    double dochodpolskinowy = Z.z(sumaUmowaoprace.getBruttoMinusDieta()-dochodzagranica);
-                    BigDecimal dochodpolskinowyBI = BigDecimal.valueOf(dochodpolskinowy);
-                    poz.setP29(dochodpolskinowyBI);
-                    if (poz.getP32()!=null) {
-                        poz.setP32(poz.getP32().add(BigDecimal.valueOf(Z.z(dochodzagranica))));
-                    } else{
-                        poz.setP32(BigDecimal.valueOf(Z.z(dochodzagranica)));
-                    }
-                } else {
-                    poz.setP29(BigDecimal.ZERO);
-                    if (poz.getP32()!=null) {
-                        poz.setP32(poz.getP32().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getBruttoMinusDieta()))));
-                    } else{
-                        poz.setP32(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getBruttoMinusDieta())));
-                    }
-                }
-                if (sumaUmowaoprace.getBruttoMinusDieta()>dochodzagranica) {
-                    dochodzagranica=0.0;
-                } else {
-                    dochodzagranica = Z.z(dochodzagranica-sumaUmowaoprace.getBruttoMinusDieta());
-                }
-            }
-            poz.setP32(BigDecimal.valueOf(Z.z(sumaUmowaoprace.getDochodzagranica())));
             poz.setP30(BigDecimal.valueOf(sumaUmowaoprace.getKosztyuzyskania()));
             BigDecimal subtract = poz.getP29().subtract(poz.getP30()).doubleValue()<0.0?BigDecimal.ZERO:poz.getP29().subtract(poz.getP30());
             if (poz.getP31()!=null) {

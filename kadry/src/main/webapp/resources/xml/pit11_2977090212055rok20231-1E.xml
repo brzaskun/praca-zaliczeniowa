@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <Rok>2023</Rok>
+        <KodUrzedu>0422</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaNiefizyczna>
+            <NIP>8513282893</NIP>
+            <PelnaNazwa>BOMBEL GLASFASERBAU SP. Z O.O.</PelnaNazwa>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>77090212055</PESEL>
+            <ImiePierwsze>Przemysław</ImiePierwsze>
+            <Nazwisko>Filipiak</Nazwisko>
+            <DataUrodzenia>1977-09-02</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>kujawsko-pomorskie</Wojewodztwo>
+            <Powiat>Golub-Dobrzyń</Powiat>
+            <Gmina>Golub-Dobrzyń</Gmina>
+            <Ulica poz="P_23">Brzozowa</Ulica>
+            <NrDomu poz="P_24">27</NrDomu>
+            <NrLokalu poz="P_25">-</NrLokalu>
+            <Miejscowosc poz="P_26">Golub-Dobrzyń</Miejscowosc>
+            <KodPocztowy poz="P_27">87-400</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>60091.53</P_29>
+        <P_30>2750.0</P_30>
+        <P_31>57341.53</P_31>
+        <P_33>3307</P_33>
+        <P_95>9004.41</P_95>
+        <P_121>2</P_121>
+        <P_122>5100.63</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

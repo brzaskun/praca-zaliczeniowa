@@ -371,7 +371,7 @@ public class KartaWynagrodzenView  implements Serializable {
         sumy.put("sumaZasilkiDorosly", sumaZasilkiDorosly);
         sumy.put("sumaZasilki26", sumaZasilki26);
         suma.setSumy(sumy);
-        kartaWynagrodzenFacade.createEditList(kartawynagrodzenlist);
+        //kartaWynagrodzenFacade.createEditList(kartawynagrodzenlist);
         kartawynagrodzenlist.add(suma);
         return suma;
     }
