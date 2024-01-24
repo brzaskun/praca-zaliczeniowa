@@ -109,12 +109,12 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                     Pasekpomocnik sumujprzychodyzlisty = PasekwynagrodzenBean.sumujprzychodyzlisty(pasek);
                     pasek.naniespomocnika(sumujprzychodyzlisty);
                     PasekwynagrodzenBean.razemspolecznepracownikkorektalp(pasek);
-                    if (pasek.getPodatekdochodowyzagranicawaluta()>0.0) {
-                        pasek.setPrzekroczenieoddelegowanie(true);
-                    }
                     try {
-                        pasek.setPrzekroczenieoddelegowanie(true);
-                        pasekwynagrodzenFacade.edit(pasek);
+                        if (pasek.getPodatekdochodowyzagranicawaluta()>0.0) {
+                           pasek.setPrzekroczenieoddelegowanie(true);
+                           pasekwynagrodzenFacade.edit(pasek);
+                        }
+                        
                     } catch (Exception e) {
                         String nazwisko = pasek.getKalendarzmiesiac()!=null&&pasek.getAngaz()!=null?pasek.getNazwiskoImie():"brak nazwiska";
                         System.out.println("Blad save korekta niemcy pasek"+nazwisko);

@@ -13,6 +13,7 @@ import dao.FirmaKadryFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.MemoryFacade;
+import dao.PasekwynagrodzenFacade;
 import dao.PracownikFacade;
 import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
@@ -26,6 +27,7 @@ import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Memory;
+import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.SMTPSettings;
 import entity.Umowa;
@@ -74,6 +76,8 @@ public class AngazView  implements Serializable {
     private FirmaKadryFacade firmaFacade;
     @Inject
     private PracownikFacade pracownikFacade;
+    @Inject
+    private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     @Inject
     private UzFacade uzFacade;
     @Inject
@@ -363,6 +367,22 @@ public class AngazView  implements Serializable {
         }
      }
      
+      public void edytujPrzekroczenie(Angaz angaz) {
+        if (angaz!=null) {
+            if (angaz.getPrzekroczenierok()!=null&&angaz.getPrzekroczenierok().isBlank()) {
+                angaz.setPrzekroczenierok(null);
+                angaz.setPrzekroczeniemc(null);
+                List<Pasekwynagrodzen> paskilist = pasekwynagrodzenFacade.findByRokWyplAngaz("2023", angaz);
+                paskilist.forEach(p->p.setPrzekroczenieoddelegowanie(false));
+                pasekwynagrodzenFacade.editList(paskilist);
+            }
+            angazFacade.edit(angaz);
+            Msg.msg("Zapisano zmiany");
+        } else {
+            Msg.msg("e", "Błąd nie wybrano angażu");
+        }
+     }
+      
       public void edytuj(Angaz angaz) {
         if (angaz!=null) {
             pozamykajskladniki(angaz);

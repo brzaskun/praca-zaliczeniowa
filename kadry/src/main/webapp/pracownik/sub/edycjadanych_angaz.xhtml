@@ -144,7 +144,7 @@
                                 <h:outputText value="rok przekroczenie"/>
                             </f:facet>
                             <p:inputText value="#{itemAngaz.przekroczenierok}" size="6" maxlength="4">
-                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.edytuj(itemAngaz)}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{angazView.edytujPrzekroczenie(itemAngaz)}"/>
                             </p:inputText>
                         </p:column>
                          <p:column width="80" filterBy="#{itemAngaz.przekroczeniemc}" filterMatchMode="contains" style="text-align: center;">
