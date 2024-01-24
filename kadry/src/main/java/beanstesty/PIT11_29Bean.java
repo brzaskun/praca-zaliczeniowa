@@ -656,8 +656,8 @@ public class PIT11_29Bean {
             poz.setP121((byte)2);
             //
         } else  if (sumaUmowazlecenia26zwolnione.getBrutto()>0.0) {
-            if (sumaUmowaoprace26zwolnione.isPrzekroczeniedni()) {
-                double przychod = sumaUmowaoprace26zwolnione.getBruttoMinusDieta();
+            if (sumaUmowazlecenia26zwolnione.isPrzekroczeniedni()) {
+                double przychod = sumaUmowazlecenia26zwolnione.getBruttoMinusDieta();
                 poz.setP28(null);
                 if (poz.getP97()!=null) {
                     poz.setP97(poz.getP97().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getSpoleczneudzialpolska()))));
@@ -679,7 +679,7 @@ public class PIT11_29Bean {
                 }
                 poz.setP121((byte)2);
             } else {
-                double przychod = sumaUmowaoprace26zwolnione.getBruttoMinusDieta();
+                double przychod = sumaUmowazlecenia26zwolnione.getBruttoMinusDieta();
                 poz.setP28(null);
                 if (poz.getP97()!=null) {
                     poz.setP97(poz.getP97().add(BigDecimal.valueOf(Z.z(sumaUmowazlecenia26zwolnione.getRazemspolecznepracownik()))));

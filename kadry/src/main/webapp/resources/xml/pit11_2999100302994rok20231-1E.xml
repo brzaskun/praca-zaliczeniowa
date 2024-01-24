@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <Rok>2023</Rok>
+        <KodUrzedu>2220</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaNiefizyczna>
+            <NIP>8431627021</NIP>
+            <PelnaNazwa>FORTEFIBER SP. Z O.O.</PelnaNazwa>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>99100302994</PESEL>
+            <ImiePierwsze>Jakub</ImiePierwsze>
+            <Nazwisko>Elwart</Nazwisko>
+            <DataUrodzenia>1999-10-03</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>pomorskie</Wojewodztwo>
+            <Powiat>wejherowski</Powiat>
+            <Gmina>Reda</Gmina>
+            <Ulica poz="P_23">Leśna</Ulica>
+            <NrDomu poz="P_24">5D</NrDomu>
+            <NrLokalu poz="P_25">3</NrLokalu>
+            <Miejscowosc poz="P_26">Reda</Miejscowosc>
+            <KodPocztowy poz="P_27">84-240</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_97>734.51</P_97>
+        <P_109>6523.13</P_109>
+        <P_111>6523.13</P_111>
+        <P_121>2</P_121>
+        <P_122>4256.54</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>
