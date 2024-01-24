@@ -949,15 +949,15 @@ public class PIT11_29Bean {
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);
         }
-        double dochoddoumowyzlecenia26 = sumaUmowaoprace26zwolnione.getBrutto();
-        if (dochoddoumowyzlecenia26>85528.0) {
+        double dochoddoumowaoprace26 = sumaUmowaoprace26zwolnione.getBruttoMinusDieta();
+        if (dochoddoumowaoprace26>85528.0) {
             if (poz.getP29()==null) {
                 poz.setP29(BigDecimal.ZERO);
                 poz.setP30(BigDecimal.ZERO);
                 poz.setP31(BigDecimal.ZERO);
                 poz.setP33(BigInteger.ZERO);
             }
-            double pole36brutto = Z.z(dochoddoumowyzlecenia26-85528.0);
+            double pole36brutto = Z.z(dochoddoumowaoprace26-85528.0);
             double nowepole36 = Z.z(pole36brutto-dochodzagranica);
             double nowepole36powyzejzera = nowepole36<0?0.0:nowepole36;
             if (dochodzagranica>0.0) {
@@ -972,7 +972,7 @@ public class PIT11_29Bean {
                 poz.setP36(BigDecimal.valueOf(pole36brutto));
             }
             double zus51 = sumaUmowaoprace26zwolnione.getRazemspolecznepracownik();
-            double zuszwolniony = Z.z(85528.0/dochoddoumowyzlecenia26*zus51);
+            double zuszwolniony = Z.z(85528.0/dochoddoumowaoprace26*zus51);
             double zusopodatkowany = Z.z(zus51-zuszwolniony);
             poz.setP28(null);
             if (poz.getP97()!=null) {
@@ -1013,19 +1013,18 @@ public class PIT11_29Bean {
             } else{
                 poz.setP96(BigDecimal.valueOf(Z.z(zusopodatkowany)));
             }
-        } else if (dochoddoumowyzlecenia26>0.0) {
+        } else if (dochoddoumowaoprace26>0.0) {
             poz.setP28(null);
             if (poz.getP97()!=null) {
                 poz.setP97(poz.getP97().add(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getRazemspolecznepracownik()))));
             } else{
                 poz.setP97(BigDecimal.valueOf(Z.z(sumaUmowaoprace26zwolnione.getRazemspolecznepracownik())));
             }
-            double kwotaponadlimitminusniemcy = Z.z(dochoddoumowyzlecenia26-dochodzagranica);
-            poz.setP110(BigDecimal.valueOf(Z.z(kwotaponadlimitminusniemcy)));
+            poz.setP110(BigDecimal.valueOf(Z.z(dochoddoumowaoprace26)));
             if (poz.getP109()!=null) {
-                poz.setP109(poz.getP109().add(BigDecimal.valueOf(Z.z(kwotaponadlimitminusniemcy))));
+                poz.setP109(poz.getP109().add(BigDecimal.valueOf(Z.z(dochoddoumowaoprace26))));
             } else{
-                poz.setP109(BigDecimal.valueOf(Z.z(kwotaponadlimitminusniemcy)));
+                poz.setP109(BigDecimal.valueOf(Z.z(dochoddoumowaoprace26)));
             }
             if (dochodzagranica>0.0) {
                 if (poz.getP29()==null) {
