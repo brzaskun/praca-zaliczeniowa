@@ -148,6 +148,10 @@ public class Kartawynagrodzen implements Serializable {
     private double kosztpracodawcy;
     @Column(name = "dochodzagranica")
     private double dochodzagranica;
+    @Column(name = "dochodzagranicado26")
+    private double dochodzagranicado26;
+    @Column(name = "dochodzagranicapo26")
+    private double dochodzagranicapo26;
     @Column(name = "dochodpolska")
     private double dochodpolska;
     @Column(name = "okresprzekroczenie26")
@@ -543,9 +547,9 @@ public class Kartawynagrodzen implements Serializable {
     }
 
     public double getBrutto() {
-        double zwrot = brutto;
+        double zwrot = brutto-bruttobezpodatku;
         if (przekroczeniedni) {
-            zwrot = dochodpolska;
+            zwrot = dochodpolska-bruttobezpodatku;
         }
         return Z.z(zwrot);
     }
@@ -659,6 +663,23 @@ public class Kartawynagrodzen implements Serializable {
     public void setDochodzagranica(double dochodzagranica) {
         this.dochodzagranica = dochodzagranica;
     }
+
+    public double getDochodzagranicado26() {
+        return dochodzagranicado26;
+    }
+
+    public void setDochodzagranicado26(double dochodzagranicado26) {
+        this.dochodzagranicado26 = dochodzagranicado26;
+    }
+
+    public double getDochodzagranicapo26() {
+        return dochodzagranicapo26;
+    }
+
+    public void setDochodzagranicapo26(double dochodzagranicapo26) {
+        this.dochodzagranicapo26 = dochodzagranicapo26;
+    }
+    
 
     public double getPodstawaubezpieczenspolecznych() {
         return podstawaubezpieczenspolecznych;
@@ -812,6 +833,8 @@ public class Kartawynagrodzen implements Serializable {
         this.razem53 = 0.0;
         this.kosztpracodawcy = 0.0;
         this.dochodzagranica = 0.0;
+        this.dochodzagranicado26 = 0.0;
+        this.dochodzagranicapo26 = 0.0;
         this.nrlisty = null;
         this.kosztypodwyzszone = false;
         this.kosztywieleumow = false;
@@ -908,6 +931,8 @@ public class Kartawynagrodzen implements Serializable {
 //            }
 //        }
         this.dochodzagranica = this.dochodzagranica + Z.z(pasek.getPrzychodypodatekzagranica());
+        this.dochodzagranicado26 = this.dochodzagranicado26 + Z.z(pasek.getPrzychodypodatekzagranicado26());
+        this.dochodzagranicapo26 = this.dochodzagranicapo26 + Z.z(pasek.getPrzychodypodatekzagranicapo26());
         this.dochodpolska = this.dochodpolska + Z.z(pasek.getPrzychodypodatekpolska());
         this.dietaodliczeniepodstawaop = this.dietaodliczeniepodstawaop + Z.z(pasek.getDietaodliczeniepodstawaop());
         this.spoleczneudzialpolska = this.spoleczneudzialpolska + Z.z(pasek.getSpoleczneudzialpolska());
@@ -950,6 +975,8 @@ public class Kartawynagrodzen implements Serializable {
         this.potraceniainne += kartawynagrodzen.getPotraceniainne();
         this.razem53 += kartawynagrodzen.getRazem53();
         this.dochodzagranica += kartawynagrodzen.getDochodzagranica();
+        this.dochodzagranicado26 += kartawynagrodzen.getDochodzagranicado26();
+        this.dochodzagranicapo26 += kartawynagrodzen.getDochodzagranicapo26();
         this.dochodpolska += kartawynagrodzen.getDochodpolska();
         this.dietaodliczeniepodstawaop = this.dietaodliczeniepodstawaop + Z.z(kartawynagrodzen.getDietaodliczeniepodstawaop());
         this.spoleczneudzialpolska = this.spoleczneudzialpolska + Z.z(kartawynagrodzen.getSpoleczneudzialpolska());

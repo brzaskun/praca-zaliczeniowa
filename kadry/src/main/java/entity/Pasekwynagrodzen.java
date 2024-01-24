@@ -1861,6 +1861,22 @@ public class Pasekwynagrodzen implements Serializable {
          this.przychodyzus52 = sumujprzychodyzlisty.getPrzychodyzus52();
          this.brutto = sumujprzychodyzlisty.getBrutto();
     }
+
+    public double getPrzychodypodatekzagranicado26() {
+        double zwrot = 0.0;
+        if (this.do26lat) {
+            zwrot = this.przychodypodatekzagranica;
+        }
+        return zwrot;
+    }
+
+    public double getPrzychodypodatekzagranicapo26() {
+        double zwrot = 0.0;
+        if (this.do26lat==false) {
+            zwrot = this.przychodypodatekzagranica;
+        }
+        return zwrot;
+    }
    
     
 

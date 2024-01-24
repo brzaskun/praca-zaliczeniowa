@@ -273,13 +273,15 @@ public class PIT11_29Bean {
         Kartawynagrodzen sumaZasilkiDorosly = sumy.get("sumaZasilkiDorosly");
         Kartawynagrodzen sumaZasilki26 = sumy.get("sumaZasilki26");
         double dochodzagranica = Z.z(kartawynagrodzen.getDochodzagranica());
+        double dochodzagranicado26 = Z.z(kartawynagrodzen.getDochodzagranicado26());
+        double dochodzagranicapo26 = Z.z(kartawynagrodzen.getDochodzagranicapo26());
         if (sumaUmowaoprace.getBrutto()>0.0|sumaUmowaopracekosztypodwyzszone.getBrutto()>0.0) {
             if (sumaUmowaoprace.isPrzekroczeniedni()||sumaUmowaopraceEmerytkosztypodwyzszone.isPrzekroczeniedni()) {
                 poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBrutto()));
                 if (poz.getP32()!=null) {
-                    poz.setP32(poz.getP32().add(BigDecimal.valueOf(Z.z(dochodzagranica))));
+                    poz.setP32(poz.getP32().add(BigDecimal.valueOf(Z.z(dochodzagranicapo26))));
                 } else{
-                    poz.setP32(BigDecimal.valueOf(Z.z(dochodzagranica)));
+                    poz.setP32(BigDecimal.valueOf(Z.z(dochodzagranicapo26)));
                 }
             } else {
                 poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBruttoMinusDieta()));
@@ -523,9 +525,9 @@ public class PIT11_29Bean {
                         poz.setP37(BigDecimal.ZERO);
                     }
                     if (poz.getP39()!=null) {
-                        poz.setP39(poz.getP39().add(BigDecimal.valueOf(dochodzagranica))); 
+                        poz.setP39(poz.getP39().add(BigDecimal.valueOf(dochodzagranicado26))); 
                     } else{
-                        poz.setP39(BigDecimal.valueOf(dochodzagranica));
+                        poz.setP39(BigDecimal.valueOf(dochodzagranicado26));
                     }
                 } else {
                     poz.setP36(BigDecimal.valueOf(nadwyzkaDoOpodatkowania));
@@ -607,9 +609,9 @@ public class PIT11_29Bean {
                         poz.setP40(BigInteger.ZERO);
                     }
                     if (poz.getP39()!=null) {
-                        poz.setP39(poz.getP39().add(BigDecimal.valueOf(dochodzagranica))); 
+                        poz.setP39(poz.getP39().add(BigDecimal.valueOf(dochodzagranicado26))); 
                     } else{
-                        poz.setP39(BigDecimal.valueOf(dochodzagranica));
+                        poz.setP39(BigDecimal.valueOf(dochodzagranicado26));
                 }
                 }
                 if (poz.getP122()!=null) {
@@ -755,6 +757,8 @@ public class PIT11_29Bean {
         Kartawynagrodzen sumaZasilkiDorosly = sumy.get("sumaZasilkiDorosly");
         Kartawynagrodzen sumaZasilki26 = sumy.get("sumaZasilki26");
         double dochodzagranica = Z.z(kartawynagrodzen.getDochodzagranica());
+        double dochodzagranicado26 = Z.z(kartawynagrodzen.getDochodzagranicado26());
+        double dochodzagranicapo26 = Z.z(kartawynagrodzen.getDochodzagranicapo26());
         if (sumaUmowaoprace.getBruttoMinusDieta()>0.0|sumaUmowaopracekosztypodwyzszone.getBruttoMinusDieta()>0.0) {
             poz.setP29(BigDecimal.valueOf(sumaUmowaoprace.getBruttoMinusDieta()));
             poz.setP30(BigDecimal.valueOf(sumaUmowaoprace.getKosztyuzyskania()));
@@ -965,9 +969,9 @@ public class PIT11_29Bean {
                 BigDecimal dochodminuszagranica = BigDecimal.valueOf(nowepole36powyzejzera);
                 poz.setP36(dochodminuszagranica);
                 if (poz.getP39()!=null) {
-                    poz.setP39(poz.getP39().add(BigDecimal.valueOf(dochodzagranica))); 
+                    poz.setP39(poz.getP39().add(BigDecimal.valueOf(dochodzagranicado26))); 
                 } else{
-                    poz.setP39(BigDecimal.valueOf(dochodzagranica));
+                    poz.setP39(BigDecimal.valueOf(dochodzagranicado26));
                 }
             } else {
                 poz.setP36(BigDecimal.valueOf(pole36brutto));
