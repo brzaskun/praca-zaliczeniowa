@@ -66,21 +66,23 @@
                     </p:column>
                     <p:column width="60">
                         <f:facet name="header">
-                            <h:outputText value="przych.polska"/>
+                            <h:outputText value="przych. pit"/>
                         </f:facet>
-                        <bcf:outputpl value="#{itemkarta.dochodpolska}"/>
+                        <bcf:outputpl value="#{itemkarta.dochodpolska}" rendered="#{itemkarta.przekroczeniedni eq true}"/>
+                        <bcf:outputpl value="#{itemkarta.brutto}" rendered="#{itemkarta.przekroczeniedni eq false}"/>
                     </p:column>
                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="1/3 diety"/>
                         </f:facet>
-                        <bcf:outputpl value="#{itemkarta.dietaodliczeniepodstawaop}"/>
+                        <bcf:outputpl value="#{itemkarta.dietaodliczeniepodstawaop}" rendered="#{itemkarta.przekroczeniedni eq false}"/>
                     </p:column>
                     <p:column width="60">
                         <f:facet name="header">
                             <h:outputText value="dochod - dieta"/>
                         </f:facet>
-                        <bcf:outputpl value="#{itemkarta.dochodpolskaMinusdieta}"/>
+                        <bcf:outputpl value="#{itemkarta.bruttoMinusDieta}" rendered="#{itemkarta.przekroczeniedni eq false}"/>
+                        <bcf:outputpl value="#{itemkarta.dochodpolska}" rendered="#{itemkarta.przekroczeniedni eq true}"/>
                     </p:column>
                     <p:column width="30">
                         <f:facet name="header">
