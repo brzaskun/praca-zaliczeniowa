@@ -649,6 +649,7 @@ public class PIT11_29Bean {
             }
             //czy dodano PIT-R 1tak 2nie
             poz.setP121((byte)2);
+            //
         } else  if (sumaUmowazlecenia26zwolnione.getBrutto()>0.0) {
             if (sumaUmowaoprace26zwolnione.isPrzekroczeniedni()) {
                 double przychod = sumaUmowaoprace26zwolnione.getBruttoMinusDieta();
