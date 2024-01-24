@@ -543,9 +543,9 @@ public class Kartawynagrodzen implements Serializable {
     }
 
     public double getBrutto() {
-        double zwrot = brutto-bruttobezpodatku;
+        double zwrot = brutto;
         if (przekroczeniedni) {
-            zwrot = dochodpolska-bruttobezpodatku;
+            zwrot = dochodpolska;
         }
         return Z.z(zwrot);
     }

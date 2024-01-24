@@ -21,6 +21,9 @@
                              rowKey="#{itemkarta.id}" sortBy="#{itemkarta.mc}" rowIndexVar="indexka"
                              style="height: 450px; overflow-y: scroll;" emptyMessage="Nie pobrano danych"
                              >
+                    <f:facet name="header">
+                        <h:outputText value="#{wpisView.pracownik.nazwiskoImie}"/>
+                    </f:facet>
                     <p:column width="20" style="text-align: center;">
                         <p:rowToggler rendered="#{itemkarta.paski.size() gt 0}" />
                     </p:column>
