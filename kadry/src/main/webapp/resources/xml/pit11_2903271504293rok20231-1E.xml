@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <Rok>2023</Rok>
+        <KodUrzedu>1427</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>7761623296</ns2:NIP>
+            <ns2:ImiePierwsze>Robert</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Świderski</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1986-04-28</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>03271504293</PESEL>
+            <ImiePierwsze>Patryk</ImiePierwsze>
+            <Nazwisko>Karwowski</Nazwisko>
+            <DataUrodzenia>2003-07-15</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>mazowieckie</Wojewodztwo>
+            <Powiat>sierpecki</Powiat>
+            <Gmina>Szczechowo</Gmina>
+            <Ulica poz="P_23">-</Ulica>
+            <NrDomu poz="P_24">9</NrDomu>
+            <NrLokalu poz="P_25">-</NrLokalu>
+            <Miejscowosc poz="P_26">Szczechowo</Miejscowosc>
+            <KodPocztowy poz="P_27">09-227</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>0</P_29>
+        <P_30>0</P_30>
+        <P_31>0</P_31>
+        <P_33>0</P_33>
+        <P_36>0</P_36>
+        <P_37>0</P_37>
+        <P_38>0</P_38>
+        <P_39>46402.1</P_39>
+        <P_40>0</P_40>
+        <P_97>3441.41</P_97>
+        <P_109>25101.33</P_109>
+        <P_110>25101.33</P_110>
+        <P_121>2</P_121>
+        <P_122>3895.04</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>
