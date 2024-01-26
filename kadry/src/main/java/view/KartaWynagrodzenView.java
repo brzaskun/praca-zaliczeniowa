@@ -6,6 +6,8 @@
 package view;
 
 import beanstesty.PIT11_29Bean;
+import beanstesty.Pasekpomocnik;
+import beanstesty.PasekwynagrodzenBean;
 import comparator.DeklaracjaPIT11Schowekcomparator;
 import comparator.Kartawynagrodzencomparator;
 import comparator.PITPolacomparator;
@@ -282,6 +284,8 @@ public class KartaWynagrodzenView  implements Serializable {
             List<Angaz> angazzpaskow = new ArrayList<>();
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
                 Pasekwynagrodzen pasek = it.next();
+                Pasekpomocnik sumujprzychodyzlisty = PasekwynagrodzenBean.sumujprzychodyzlisty(pasek);
+                pasek.naniespomocnika(sumujprzychodyzlisty);
                 Data.obliczwiekNaniesnapasek(dataurodzenia, pasek);
                 lata = pasek.getLata();
                 if (lata==64||lata==65) {
@@ -353,6 +357,7 @@ public class KartaWynagrodzenView  implements Serializable {
                     suma.dodaj(pasek);
                     it.remove();
                 }
+                pasekwynagrodzenFacade.editList(paski);
             }
         }
         suma.setNazwiskoiimie(nazwiskoiimie);
