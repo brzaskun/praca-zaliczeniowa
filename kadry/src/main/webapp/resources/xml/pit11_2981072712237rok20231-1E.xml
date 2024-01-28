@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <Rok>2023</Rok>
+        <KodUrzedu>1420</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>5671927548</ns2:NIP>
+            <ns2:ImiePierwsze>Paulina</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Strubińska</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1997-02-17</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>81072712237</PESEL>
+            <ImiePierwsze>Mariusz</ImiePierwsze>
+            <Nazwisko>Kraśniewski</Nazwisko>
+            <DataUrodzenia>1981-07-27</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>mazowieckie</Wojewodztwo>
+            <Powiat>płoński</Powiat>
+            <Gmina>Raciąż</Gmina>
+            <Ulica poz="P_23">-</Ulica>
+            <NrDomu poz="P_24">11</NrDomu>
+            <NrLokalu poz="P_25">-</NrLokalu>
+            <Miejscowosc poz="P_26">Nowe Młodochowo</Miejscowosc>
+            <KodPocztowy poz="P_27">09-166</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_28>1</P_28>
+        <P_29>48783.76</P_29>
+        <P_30>2250.0</P_30>
+        <P_31>46533.76</P_31>
+        <P_33>2205</P_33>
+        <P_95>7162.09</P_95>
+        <P_121>2</P_121>
+        <P_122>4056.98</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

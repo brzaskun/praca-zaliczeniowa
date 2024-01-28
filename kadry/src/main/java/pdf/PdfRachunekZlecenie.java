@@ -52,7 +52,7 @@ public class PdfRachunekZlecenie {
                 PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                Rachunekdoumowyzlecenia rachunek = rachunekdoumowyzleceniaFacade.findByRokMcAngaz(nazwa, nazwa, pasek.getAngaz());
+                Rachunekdoumowyzlecenia rachunek = rachunekdoumowyzleceniaFacade.findByRokMcAngaz(pasek.getRok(), pasek.getMc(), pasek.getAngaz());
                 dodajtresc(pasek, document, rachunek);
                 finalizacjaDokumentuQR(document,nazwa);
                 Plik.zapiszBufferdoPlik(nazwa, out);
@@ -76,7 +76,7 @@ public class PdfRachunekZlecenie {
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
                 for (Pasekwynagrodzen pasek : lista) {
-                    Rachunekdoumowyzlecenia rachunek = rachunekdoumowyzleceniaFacade.findByRokMcAngaz(nazwa, nazwa, pasek.getAngaz());
+                    Rachunekdoumowyzlecenia rachunek = rachunekdoumowyzleceniaFacade.findByRokMcAngaz(pasek.getRok(), pasek.getMc(), pasek.getAngaz());
                     dodajtresc(pasek, document, rachunek);
                     document.add(Chunk.NEXTPAGE);
                 }

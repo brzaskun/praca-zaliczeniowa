@@ -593,7 +593,7 @@ public class PasekwynagrodzenView implements Serializable {
             if (rodzajlistyplac.getSymbol().equals("UZ")||rodzajlistyplac.getSymbol().equals("UD")) {
                 for (Pasekwynagrodzen p : lista) {
                     p =pasekwynagrodzenFacade.findById(p.getId());
-                    Rachunekdoumowyzlecenia rach = rachunekdoumowyzleceniaFacade.findByRokMcAngaz(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getAngaz());
+                    Rachunekdoumowyzlecenia rach = rachunekdoumowyzleceniaFacade.findByRokMcAngaz(p.getRok(), p.getMc(), p.getAngaz());
                     if (rach!=null) {
                         rach.setPasekwynagrodzen(null);
                         rachunekdoumowyzleceniaFacade.edit(rach);
@@ -614,12 +614,10 @@ public class PasekwynagrodzenView implements Serializable {
         if (p != null) {
             if (p.getId() != null) {
                 if (p.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")||p.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UD")) {
-                    p =pasekwynagrodzenFacade.findById(p.getId());
-                    Rachunekdoumowyzlecenia rach = rachunekdoumowyzleceniaFacade.findByRokMcAngaz(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getAngaz());
+                    Rachunekdoumowyzlecenia rach = rachunekdoumowyzleceniaFacade.findByRokMcAngaz(p.getRok(), p.getMc(), p.getAngaz());
                      if (rach!=null) {
                         rach.setPasekwynagrodzen(null);
                         rachunekdoumowyzleceniaFacade.edit(rach);
-                        pasekwynagrodzenFacade.edit(p);
                     }
                 }
                 pasekwynagrodzenFacade.remove(p);
