@@ -350,7 +350,7 @@ public class RachunekZlecenieView implements Serializable {
             String nazwa = rachunekdoumowyzlecenia.getUmowa().getPracownik().getPesel()+"rachunekzlecenie.pdf";
              List<Pasekwynagrodzen> rachunekdoumowyzleceniaList = new ArrayList<>();
              rachunekdoumowyzleceniaList.add(rachunekdoumowyzlecenia.getPasekwynagrodzen());
-             PdfRachunekZlecenie.drukuj(rachunekdoumowyzleceniaList, nazwa);
+             PdfRachunekZlecenie.drukuj(rachunekdoumowyzleceniaList, nazwa, rachunekdoumowyzleceniaFacade);
         }
     }
 

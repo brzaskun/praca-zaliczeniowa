@@ -50,6 +50,7 @@ import z.Z;
     @NamedQuery(name = "Rachunekdoumowyzlecenia.findByPodatek", query = "SELECT r FROM Rachunekdoumowyzlecenia r WHERE r.podatek = :podatek"),
     @NamedQuery(name = "Rachunekdoumowyzlecenia.findByRokUmowa", query = "SELECT r FROM Rachunekdoumowyzlecenia r WHERE r.rok = :rok and r.umowa = :umowa"),
     @NamedQuery(name = "Rachunekdoumowyzlecenia.findByRokMcUmowa", query = "SELECT r FROM Rachunekdoumowyzlecenia r WHERE r.rok = :rok and r.mc = :mc and r.umowa = :umowa"),
+    @NamedQuery(name = "Rachunekdoumowyzlecenia.findByRokMcAngaz", query = "SELECT r FROM Rachunekdoumowyzlecenia r WHERE r.rok = :rok and r.mc = :mc and r.umowa.angaz = :angaz"),
     @NamedQuery(name = "Rachunekdoumowyzlecenia.findByProcentkosztowuzyskania", query = "SELECT r FROM Rachunekdoumowyzlecenia r WHERE r.procentkosztowuzyskania = :procentkosztowuzyskania")})
 public class Rachunekdoumowyzlecenia implements Serializable {
 

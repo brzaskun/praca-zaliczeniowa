@@ -15,6 +15,7 @@ import com.itextpdf.text.TabSettings;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.RachunekdoumowyzleceniaFacade;
 import data.Data;
 import entity.Angaz;
 import entity.FirmaKadry;
@@ -43,7 +44,7 @@ import plik.Plik;
  */
 public class PdfRachunekZlecenie {
     
-    public static ByteArrayOutputStream drukujJeden(Pasekwynagrodzen pasek, String nazwa) {
+    public static ByteArrayOutputStream drukujJeden(Pasekwynagrodzen pasek, String nazwa, RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             if (pasek != null) {
@@ -51,7 +52,8 @@ public class PdfRachunekZlecenie {
                 PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtresc(pasek, document);
+                Rachunekdoumowyzlecenia rachunek = rachunekdoumowyzleceniaFacade.findByRokMcAngaz(nazwa, nazwa, pasek.getAngaz());
+                dodajtresc(pasek, document, rachunek);
                 finalizacjaDokumentuQR(document,nazwa);
                 Plik.zapiszBufferdoPlik(nazwa, out);
                 String f = "pokazwydruk('"+nazwa+"');";
@@ -65,7 +67,7 @@ public class PdfRachunekZlecenie {
         return out;
     }
     
-    public static ByteArrayOutputStream drukuj(List<Pasekwynagrodzen> lista, String nazwa) {
+    public static ByteArrayOutputStream drukuj(List<Pasekwynagrodzen> lista, String nazwa, RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             if (lista != null) {
@@ -74,7 +76,8 @@ public class PdfRachunekZlecenie {
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
                 for (Pasekwynagrodzen pasek : lista) {
-                    dodajtresc(pasek, document);
+                    Rachunekdoumowyzlecenia rachunek = rachunekdoumowyzleceniaFacade.findByRokMcAngaz(nazwa, nazwa, pasek.getAngaz());
+                    dodajtresc(pasek, document, rachunek);
                     document.add(Chunk.NEXTPAGE);
                 }
                 finalizacjaDokumentuQR(document,nazwa);
@@ -90,7 +93,7 @@ public class PdfRachunekZlecenie {
         return out;
     }
     
-    private static void dodajtresc(Pasekwynagrodzen pasek, Document document) {
+    private static void dodajtresc(Pasekwynagrodzen pasek, Document document, Rachunekdoumowyzlecenia rachunek) {
         try {
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, 11);
@@ -119,8 +122,7 @@ public class PdfRachunekZlecenie {
             paragraph = new Paragraph(new Phrase("NIP : "+firma.getNip(), fontM));
             document.add(paragraph);
             boolean zlecenie = false;
-            if (pasek.getRachunekdoumowyzleceniaList()!=null&&pasek.getRachunekdoumowyzleceniaList().size()>0) {
-                Rachunekdoumowyzlecenia rachunek = pasek.getRachunekdoumowyzleceniaList().get(0);
+            if (rachunek!=null) {
                 paragraph = new Paragraph(new Phrase("za wykonanie w czasie okresie od "+rachunek.getDataod()+" do "+rachunek.getDatado(), fontM));
                 document.add(paragraph);
                 zlecenie = rachunek.isZlecenie();

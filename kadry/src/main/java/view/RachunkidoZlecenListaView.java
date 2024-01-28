@@ -47,7 +47,7 @@ public class RachunkidoZlecenListaView  implements Serializable {
     public void drukuj(Rachunekdoumowyzlecenia rach) {
         if (rach != null) {
             String nazwa = wpisView.getPracownik().getPesel()+"rachunekzlecenie.pdf";
-            PdfRachunekZlecenie.drukujJeden(rach.getPasekwynagrodzen(),nazwa);
+            PdfRachunekZlecenie.drukujJeden(rach.getPasekwynagrodzen(),nazwa, rachunekdoumowyzleceniaFacade);
         } else {
             Msg.msg("e", "Błąd drukowania. Brak paska");
         }
@@ -57,7 +57,7 @@ public class RachunkidoZlecenListaView  implements Serializable {
         if (rachunekdoumowyzlecenialist.isEmpty() == false) {
             String nazwa = wpisView.getPracownik().getPesel()+"rachunekizlecenie.pdf";
             List<Pasekwynagrodzen> paski = rachunekdoumowyzlecenialist.stream().map(Rachunekdoumowyzlecenia::getPasekwynagrodzen).collect(Collectors.toList());
-            PdfRachunekZlecenie.drukuj(paski,nazwa);
+            PdfRachunekZlecenie.drukuj(paski,nazwa, rachunekdoumowyzleceniaFacade);
         } else {
             Msg.msg("e", "Błąd drukowania. Brak pasków");
         }

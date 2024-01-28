@@ -263,13 +263,11 @@ public class Pasekwynagrodzen implements Serializable {
     private Integer lis_tyt_serial;
     @Column(name = "lpl_serial")
     private Integer lpl_serial;
-    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
     @Transient
     private int numerator;
@@ -321,14 +319,12 @@ public class Pasekwynagrodzen implements Serializable {
 
     
     public Pasekwynagrodzen() {
-        this.rachunekdoumowyzleceniaList = new ArrayList<>();
         this.naliczeniepotracenieList = new ArrayList<>();
         this.naliczenieskladnikawynagrodzeniaList = new ArrayList<>();
         this.naliczenienieobecnoscList = new ArrayList<>();
     }
 
     public Pasekwynagrodzen(int id) {
-        this.rachunekdoumowyzleceniaList = new ArrayList<>();
         this.id = id;
         this.naliczeniepotracenieList = new ArrayList<>();
         this.naliczenieskladnikawynagrodzeniaList = new ArrayList<>();
@@ -1468,18 +1464,7 @@ public class Pasekwynagrodzen implements Serializable {
         this.przekroczenie26lat = przekroczenie26lat;
     }
 
-   
-    
-    
 
-  @XmlTransient
-    public List<Rachunekdoumowyzlecenia> getRachunekdoumowyzleceniaList() {
-        return rachunekdoumowyzleceniaList;
-    }
-
-    public void setRachunekdoumowyzleceniaList(List<Rachunekdoumowyzlecenia> rachunekdoumowyzleceniaList) {
-        this.rachunekdoumowyzleceniaList = rachunekdoumowyzleceniaList;
-    }
 
     public String getWiekpasek() {
         String zwrot = "";

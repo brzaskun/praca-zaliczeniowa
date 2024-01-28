@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entity.Angaz;
 import entity.Rachunekdoumowyzlecenia;
 import entity.Umowa;
 import java.util.List;
@@ -51,6 +52,14 @@ public class RachunekdoumowyzleceniaFacade extends DAO  {
         Rachunekdoumowyzlecenia zwrot = null;
         try {
             zwrot = (Rachunekdoumowyzlecenia) getEntityManager().createNamedQuery("Rachunekdoumowyzlecenia.findByRokMcUmowa").setParameter("rok", rokWpisu).setParameter("mc", mc).setParameter("umowa", umowa).getSingleResult();
+        } catch (Exception e) {}
+        return zwrot;
+    }
+    
+    public Rachunekdoumowyzlecenia findByRokMcAngaz(String rokWpisu, String mc, Angaz angaz) {
+        Rachunekdoumowyzlecenia zwrot = null;
+        try {
+            zwrot = (Rachunekdoumowyzlecenia) getEntityManager().createNamedQuery("Rachunekdoumowyzlecenia.findByRokMcUmowa").setParameter("rok", rokWpisu).setParameter("mc", mc).setParameter("angaz", angaz).getSingleResult();
         } catch (Exception e) {}
         return zwrot;
     }
