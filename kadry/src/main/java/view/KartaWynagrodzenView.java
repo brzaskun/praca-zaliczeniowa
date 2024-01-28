@@ -458,7 +458,7 @@ public class KartaWynagrodzenView  implements Serializable {
     public void pit11All(boolean normalne0korekty1) {
         if (listaselected!=null && listaselected.size()>0) {
             for (Kartawynagrodzen karta : listaselected) {
-                if (normalne0korekty1==false && karta.getAngaz()!=null) {
+                if (normalne0korekty1||(karta.isJestPIT11()==false && karta.getAngaz()!=null)) {
                     Kartawynagrodzen kartawynagrodzen = karta;
                     FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
                     Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();
