@@ -863,7 +863,7 @@ public class Kartawynagrodzen implements Serializable {
         } else {
             this.brutto = Z.z(this.brutto+pasek.getBrutto());
             this.bruttobezzus = Z.z(this.bruttobezzus+pasek.getBrutto()-pasek.getPrzychodyzus51());
-            this.bruttobezpodatku = Z.z(this.bruttobezpodatku+pasek.getBrutto()-pasek.getPrzychodypodatekpolska());
+            this.bruttobezpodatku = Z.z(this.bruttobezpodatku+pasek.getBruttobezzusbezpodatek());
             this.bruttozus = Z.z(this.bruttozus+pasek.getPrzychodyzus51());
         }
 //        this.bruttodo26lat = Z.z(this.bruttodo26lat+pasek.getBruttobezzusbezpodatek()+pasek.getBruttozusbezpodatek()+pasek.getBruttobezspolecznych());

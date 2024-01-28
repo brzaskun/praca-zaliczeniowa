@@ -6,6 +6,8 @@
 package view;
 
 import beanstesty.PIT11_29Bean;
+import beanstesty.Pasekpomocnik;
+import beanstesty.PasekwynagrodzenBean;
 import comparator.DeklaracjaPIT11Schowekcomparator;
 import comparator.Kartawynagrodzencomparator;
 import comparator.PITPolacomparator;
@@ -282,8 +284,8 @@ public class KartaWynagrodzenView  implements Serializable {
             List<Angaz> angazzpaskow = new ArrayList<>();
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
                 Pasekwynagrodzen pasek = it.next();
-//                Pasekpomocnik sumujprzychodyzlisty = PasekwynagrodzenBean.sumujprzychodyzlisty(pasek);
-//                pasek.naniespomocnika(sumujprzychodyzlisty);
+                Pasekpomocnik sumujprzychodyzlisty = PasekwynagrodzenBean.sumujprzychodyzlisty(pasek);
+                pasek.naniespomocnika(sumujprzychodyzlisty, pasek.isPrzekroczenieoddelegowanie());
                 Data.obliczwiekNaniesnapasek(dataurodzenia, pasek);
                 lata = pasek.getLata();
                 if (lata==64||lata==65) {
@@ -355,7 +357,7 @@ public class KartaWynagrodzenView  implements Serializable {
                     suma.dodaj(pasek);
                     it.remove();
                 }
-                pasekwynagrodzenFacade.editList(paski);
+                //pasekwynagrodzenFacade.editList(paski);
             }
         }
         suma.setNazwiskoiimie(nazwiskoiimie);
@@ -456,7 +458,7 @@ public class KartaWynagrodzenView  implements Serializable {
     public void pit11All(boolean normalne0korekty1) {
         if (listaselected!=null && listaselected.size()>0) {
             for (Kartawynagrodzen karta : listaselected) {
-                if (normalne0korekty1||(karta.isJestPIT11()==false && karta.getAngaz()!=null)) {
+                if (normalne0korekty1==false && karta.getAngaz()!=null) {
                     Kartawynagrodzen kartawynagrodzen = karta;
                     FirmaKadry firma = kartawynagrodzen.getAngaz().getFirma();
                     Pracownik pracownik = kartawynagrodzen.getAngaz().getPracownik();

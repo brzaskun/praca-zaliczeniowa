@@ -12,9 +12,18 @@ public class Pasekpomocnik {
     double bruttokraj;
     double bruttooddelegowanie;
     double bruttooddelegowaniewaluta;
+    double bezzusbezpodatek;
     double przychodyzus51;
     double przychodyzus52;
     double brutto;
+
+    public double getBezzusbezpodatek() {
+        return bezzusbezpodatek;
+    }
+
+    public void setBezzusbezpodatek(double bezzusbezpodatek) {
+        this.bezzusbezpodatek = bezzusbezpodatek;
+    }
     
 
     public double getBruttokraj() {

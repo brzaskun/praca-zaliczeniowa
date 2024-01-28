@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Deklaracja xmlns="http://crd.gov.pl/wzor/2022/11/09/11890/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/DefinicjeTypy/" xmlns:ns4="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/ORDZU/" xmlns:ns3="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2022/03/15/eD/PITR/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
+        <WariantFormularza>29</WariantFormularza>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <Rok>2023</Rok>
+        <KodUrzedu>3215</KodUrzedu>
+    </Naglowek>
+    <Podmiot1 rola="Płatnik/Składający">
+        <OsobaFizyczna>
+            <ns2:NIP>9281839264</ns2:NIP>
+            <ns2:ImiePierwsze>Katarzyna</ns2:ImiePierwsze>
+            <ns2:Nazwisko>Barczak</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1981-01-28</ns2:DataUrodzenia>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Podmiot2 rola="Podatnik">
+        <OsobaFizyczna>
+            <PESEL>72082700545</PESEL>
+            <ImiePierwsze>Małgorzata</ImiePierwsze>
+            <Nazwisko>Sargalska</Nazwisko>
+            <DataUrodzenia>1972-08-27</DataUrodzenia>
+        </OsobaFizyczna>
+        <AdresZamieszkania rodzajAdresu="RAD">
+            <KodKraju poz="P_19A">PL</KodKraju>
+            <Wojewodztwo>zachodniopomorskie</Wojewodztwo>
+            <Powiat>Szczecin</Powiat>
+            <Gmina>Szczecin</Gmina>
+            <Ulica poz="P_23">Ostrowska</Ulica>
+            <NrDomu poz="P_24">5A</NrDomu>
+            <NrLokalu poz="P_25">36</NrLokalu>
+            <Miejscowosc poz="P_26">Szczecin</Miejscowosc>
+            <KodPocztowy poz="P_27">71-757</KodPocztowy>
+        </AdresZamieszkania>
+    </Podmiot2>
+    <PozycjeSzczegolowe>
+        <P_11>1</P_11>
+        <P_58>700.0</P_58>
+        <P_59>630.0</P_59>
+        <P_60>70.0</P_60>
+        <P_61>306</P_61>
+        <P_95>0.0</P_95>
+        <P_121>2</P_121>
+        <P_122>283.5</P_122>
+    </PozycjeSzczegolowe>
+    <Pouczenie>1</Pouczenie>
+</Deklaracja>

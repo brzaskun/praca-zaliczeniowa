@@ -1850,11 +1850,16 @@ public class Pasekwynagrodzen implements Serializable {
     }
 
     
-    public void naniespomocnika(Pasekpomocnik sumujprzychodyzlisty) {
-         this.przychodypodatekpolska = sumujprzychodyzlisty.getBruttokraj();
-         this.przychodypodatekzagranica = sumujprzychodyzlisty.getBruttooddelegowanie();
-         this.podstawaopodatkowaniazagranica = sumujprzychodyzlisty.getBruttooddelegowanie();
-         this.podstawaopodatkowaniazagranicawaluta = sumujprzychodyzlisty.getBruttooddelegowaniewaluta();
+    public void naniespomocnika(Pasekpomocnik sumujprzychodyzlisty, boolean jestprzekroczenie) {
+        if (jestprzekroczenie) {
+            this.przychodypodatekpolska = sumujprzychodyzlisty.getBruttokraj();
+            this.przychodypodatekzagranica = sumujprzychodyzlisty.getBruttooddelegowanie();
+            this.podstawaopodatkowaniazagranica = sumujprzychodyzlisty.getBruttooddelegowanie();
+            this.podstawaopodatkowaniazagranicawaluta = sumujprzychodyzlisty.getBruttooddelegowaniewaluta();
+        } else {
+            this.przychodypodatekpolska = sumujprzychodyzlisty.getBruttokraj()+sumujprzychodyzlisty.getBruttooddelegowanie();
+        }
+         this.bruttobezzusbezpodatek = sumujprzychodyzlisty.getBezzusbezpodatek();
          this.oddelegowaniepln = sumujprzychodyzlisty.getBruttooddelegowanie();
          this.oddelegowaniewaluta = sumujprzychodyzlisty.getBruttooddelegowaniewaluta();
          this.przychodyzus51 = sumujprzychodyzlisty.getPrzychodyzus51();

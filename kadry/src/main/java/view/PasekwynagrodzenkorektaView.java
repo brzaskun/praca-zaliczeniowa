@@ -107,7 +107,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                 if (pasek.getKalendarzmiesiac()!=null) {
                     //adżornamiento do sytuacji od listopad 2023
                     Pasekpomocnik sumujprzychodyzlisty = PasekwynagrodzenBean.sumujprzychodyzlisty(pasek);
-                    pasek.naniespomocnika(sumujprzychodyzlisty);
+                    pasek.naniespomocnika(sumujprzychodyzlisty, pasek.isPrzekroczenieoddelegowanie());
                     PasekwynagrodzenBean.razemspolecznepracownikkorektalp(pasek);
                     try {
                         if (pasek.getPodatekdochodowyzagranicawaluta()>0.0) {

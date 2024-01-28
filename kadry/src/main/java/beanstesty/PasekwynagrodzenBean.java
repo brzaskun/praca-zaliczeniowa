@@ -635,6 +635,7 @@ public class PasekwynagrodzenBean {
         double bruttokraj = 0.0;
         double bruttooddelegowanie = 0.0;
         double bruttooddelegowaniewaluta = 0.0;
+        double bezzusbezpodatek = 0.0;
         double przychodyzus51 = 0.0;
         double przychodyzus52 = 0.0;
         if (pasek.getNaliczenieskladnikawynagrodzeniaList()!=null&&pasek.getNaliczenieskladnikawynagrodzeniaList().isEmpty()==false) {
@@ -654,6 +655,8 @@ public class PasekwynagrodzenBean {
                         if (p.getKwotadolistyplacwaluta()==0.0) {
                             bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + Z.z(p.getKwotadolistyplac()/p.getPasekwynagrodzen().getKurs());
                         }
+                    } else if (p.getSkladnikwynagrodzenia().isPodatek0bezpodatek1()&&p.getSkladnikwynagrodzenia().isZus0bezzus1()){
+                        bezzusbezpodatek = bezzusbezpodatek + p.getKwotadolistyplac();
                     } else {
                         bruttokraj = bruttokraj + p.getKwotadolistyplac();
                     }
@@ -696,6 +699,7 @@ public class PasekwynagrodzenBean {
         zwrot.setPrzychodyzus51(Z.z(przychodyzus51));
         zwrot.setPrzychodyzus52(Z.z(przychodyzus52));
         zwrot.setBrutto(Z.z(brutto));
+        zwrot.setBezzusbezpodatek(Z.z(bezzusbezpodatek));
         return zwrot;
     }
     
