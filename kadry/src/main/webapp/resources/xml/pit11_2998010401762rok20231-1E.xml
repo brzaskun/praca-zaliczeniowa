@@ -3,7 +3,7 @@
     <Naglowek>
         <KodFormularza kodSystemowy="PIT-11 (29)" kodPodatku="PIT" rodzajZobowiazania="Z" wersjaSchemy="1-1E">PIT-11</KodFormularza>
         <WariantFormularza>29</WariantFormularza>
-        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
         <Rok>2023</Rok>
         <KodUrzedu>3214</KodUrzedu>
     </Naglowek>

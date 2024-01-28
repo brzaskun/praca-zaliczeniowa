@@ -357,7 +357,7 @@ public class KartaWynagrodzenView  implements Serializable {
                     suma.dodaj(pasek);
                     it.remove();
                 }
-                //pasekwynagrodzenFacade.editList(paski);
+                pasekwynagrodzenFacade.editList(paski);
             }
         }
         suma.setNazwiskoiimie(nazwiskoiimie);
