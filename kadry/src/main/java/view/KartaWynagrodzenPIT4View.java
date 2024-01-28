@@ -165,7 +165,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
             List<Angaz> angazzpaskow = new ArrayList<>();
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
                 Pasekwynagrodzen pasek = it.next();
-                if (pasek.getMcwypl().equals(karta.getMc()) && (pasek.getBrutto()>0.0)) {
+                if (pasek.getMcwypl().equals(karta.getMc()) && (pasek.getBrutto()>0.0)&& pasek.isNierezydent()==false) {
                     //tu sie dodaje paski do karty wynagrodzen
                     if (!angazzpaskow.contains(pasek.getKalendarzmiesiac().getAngaz())) {
                         angazzpaskow.add(pasek.getKalendarzmiesiac().getAngaz());
@@ -187,17 +187,35 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
                     if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==4||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==false) {
                         if (pasek.getProcentkosztow()>100.0) {
                             sumaUmowaopracekosztypodwyzszone.get(karta.getMc()).dodaj(pasek);
+                            if(pasek.isPrzekroczenieoddelegowanie()) {
+                                sumaUmowaopracekosztypodwyzszone.get(karta.getMc()).setPodatekdochodowy(pasek.getPrzekroczenienowypodatek());
+                            }
                         } else {
                             sumaUmowaoprace.get(karta.getMc()).dodaj(pasek);
+                            if(pasek.isPrzekroczenieoddelegowanie()) {
+                                sumaUmowaoprace.get(karta.getMc()).setPodatekdochodowy(pasek.getPrzekroczenienowypodatek());
+                            }
                         }
                     } else if ((pasek.getRodzajWynagrodzenia()==1||pasek.getRodzajWynagrodzenia()==1006)&&pasek.isDo26lat()==true) {
                             sumaUmowaoprace26zwolnione.get(karta.getMc()).dodaj(pasek);
+                            if(pasek.isPrzekroczenieoddelegowanie()) {
+                                sumaUmowaoprace26zwolnione.get(karta.getMc()).setPodatekdochodowy(pasek.getPrzekroczenienowypodatek());
+                            }
                     } else if (pasek.getRodzajWynagrodzenia()==2&&pasek.isDo26lat()==false) {
                         sumaUmowazlecenia.get(karta.getMc()).dodaj(pasek);
+                        if(pasek.isPrzekroczenieoddelegowanie()) {
+                                    sumaUmowazlecenia.get(karta.getMc()).setPodatekdochodowy(pasek.getPrzekroczenienowypodatek());
+                        }
                     } else if (pasek.getRodzajWynagrodzenia()==2&&pasek.isDo26lat()==true) {
                         sumaUmowazlecenia26zwolnione.get(karta.getMc()).dodaj(pasek);
+                        if(pasek.isPrzekroczenieoddelegowanie()) {
+                            sumaUmowazlecenia26zwolnione.get(karta.getMc()).setPodatekdochodowy(pasek.getPrzekroczenienowypodatek());
+                        }
                     } else if (pasek.getRodzajWynagrodzenia()==15&&pasek.isDo26lat()==false) {
                         sumaUmowapelnieniefunkcji.get(karta.getMc()).dodaj(pasek);
+                        if(pasek.isPrzekroczenieoddelegowanie()) {
+                            sumaUmowapelnieniefunkcji.get(karta.getMc()).setPodatekdochodowy(pasek.getPrzekroczenienowypodatek());
+                        }
                     }
                     podstawanarastajaco += pasek.getPodstawaopodatkowania();
                     karta.setPodstawaopodatkowanianarast(podstawanarastajaco);
