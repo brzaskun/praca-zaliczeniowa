@@ -165,7 +165,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
             List<Angaz> angazzpaskow = new ArrayList<>();
             for (Iterator<Pasekwynagrodzen> it = paski.iterator(); it.hasNext();) {
                 Pasekwynagrodzen pasek = it.next();
-                if (pasek.getMcwypl().equals(karta.getMc()) && (pasek.getBrutto()>0.0)&& pasek.isNierezydent()==false) {
+                if (pasek.getMcwypl().equals(karta.getMc()) && (pasek.getBrutto()>0.0)&& pasek.getAngaz().getPracownik().isNierezydent()==false) {
                     //tu sie dodaje paski do karty wynagrodzen
                     if (!angazzpaskow.contains(pasek.getKalendarzmiesiac().getAngaz())) {
                         angazzpaskow.add(pasek.getKalendarzmiesiac().getAngaz());
