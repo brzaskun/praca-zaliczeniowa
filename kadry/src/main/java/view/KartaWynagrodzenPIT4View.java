@@ -244,7 +244,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
             byte normalna1korekta2 = tojestkorekta?(byte)2:(byte)1;
             //Object[] sciezka = beanstesty.PIT4R_12Bean.generujXML(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowaoprace26zwolnione, sumaUmowazlecenia, sumaUmowapelnieniefunkcji, firma, (byte)1, firma.getKodurzeduskarbowego(), wpisView.getRokWpisu());
             Object[] sciezka = beanstesty.PIT4R_13Bean.generujXML(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowaoprace26zwolnione, sumaUmowazlecenia, 
-                    sumaUmowapelnieniefunkcji, firma, normalna1korekta2, firma.getKodurzeduskarbowego(), wpisView.getRokWpisu());
+                    sumaUmowapelnieniefunkcji, sumaUmowazlecenia26zwolnione, firma, normalna1korekta2, firma.getKodurzeduskarbowego(), wpisView.getRokWpisu());
             //pl.gov.crd.wzor._2021._04._02._10568.Deklaracja deklaracja = (pl.gov.crd.wzor._2021._04._02._10568.Deklaracja)sciezka[2];
             pl.gov.crd.wzor._2023._11._07._12978.Deklaracja deklaracja = (pl.gov.crd.wzor._2023._11._07._12978.Deklaracja)sciezka[2];
             if (deklaracja!=null) {
