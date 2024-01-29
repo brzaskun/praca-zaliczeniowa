@@ -36,7 +36,7 @@ public class PIT4R_13Bean {
              , FirmaKadry firma, byte normalna1korekta2, String kodurzedu, String rok) {
         Object[] zwrot = new Object[3];
         pl.gov.crd.wzor._2023._11._07._12978.Deklaracja deklaracja = genPIT4R13(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowaoprace26zwolnione, sumaUmowazlecenia, 
-                sumaUmowapelnieniefunkcji, sumaUmowaoprace26zwolnione, firma, normalna1korekta2, kodurzedu, rok);
+                sumaUmowapelnieniefunkcji, sumaUmowazlecenia26zwolnione, firma, normalna1korekta2, kodurzedu, rok);
         String sciezka = null;
         try {
             sciezka = marszajuldoplikuxml(deklaracja);
@@ -123,7 +123,7 @@ public class PIT4R_13Bean {
         deklaracja.setNaglowek(of.createTNaglowek());
         deklaracja.setNaglowek(naglowek(normalna1korekta2, kodurzedu, rok));
         deklaracja.setPodmiot1(pracodawca(firma));
-        deklaracja.setPozycjeSzczegolowe(pozycjeszczegolowe(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowaoprace26zwolnione, sumaUmowazlecenia, sumaUmowapelnieniefunkcji, sumaUmowaoprace26zwolnione, normalna1korekta2));
+        deklaracja.setPozycjeSzczegolowe(pozycjeszczegolowe(sumaUmowaoprace, sumaUmowaopracekosztypodwyzszone, sumaUmowaoprace26zwolnione, sumaUmowazlecenia, sumaUmowapelnieniefunkcji, sumaUmowazlecenia26zwolnione, normalna1korekta2));
         deklaracja.setPouczenia(BigDecimal.ONE);
         return deklaracja;
     }
