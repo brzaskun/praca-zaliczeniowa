@@ -873,7 +873,11 @@ public class Kartawynagrodzen implements Serializable {
         this.kosztyuzyskania = Z.z(this.kosztyuzyskania+pasek.getKosztyuzyskania());
         this.kwotawolna += pasek.getKwotawolna();
         this.netto += pasek.getNetto();
-        this.podatekdochodowy = Z.z(this.podatekdochodowy+pasek.getPodatekdochodowy());
+        if (pasek.isPrzekroczenieoddelegowanie()) {
+            this.podatekdochodowy = Z.z(this.podatekdochodowy+pasek.getPrzekroczenienowypodatek());
+        } else {
+            this.podatekdochodowy = Z.z(this.podatekdochodowy+pasek.getPodatekdochodowy());
+        }
         this.podstawaopodatkowania += pasek.getPodstawaopodatkowania();
         this.pracchorobowe += pasek.getPracchorobowe();
         this.pracemerytalne += pasek.getPracemerytalne();

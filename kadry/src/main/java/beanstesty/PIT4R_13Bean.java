@@ -188,18 +188,9 @@ public class PIT4R_13Bean {
         }
         for (String mc : Mce.getMceListS()) {
             double kwota1 = sumaUmowaoprace.get(mc).getPodatekdochodowy();
-            if (sumaUmowaoprace.get(mc).isPrzekroczeniedni()) {
-                kwota1 = sumaUmowaoprace.get(mc).getPrzekroczenienowypodatek();
-            }
             double kwota2 = sumaUmowaopracekosztypodwyzszone.get(mc).getPodatekdochodowy();
-            if (sumaUmowaopracekosztypodwyzszone.get(mc).isPrzekroczeniedni()) {
-                kwota2 = sumaUmowaopracekosztypodwyzszone.get(mc).getPrzekroczenienowypodatek();
-            }
             //ta linijka jest dla podatku od zasiłków
             double kwota3 = sumaUmowaoprace26zwolnione.get(mc).getPodatekdochodowy();
-            if (sumaUmowaoprace26zwolnione.get(mc).isPrzekroczeniedni()) {
-                kwota3 = sumaUmowaoprace26zwolnione.get(mc).getPrzekroczenienowypodatek();
-            }
             int sumakwot = Z.zUD(kwota1 + kwota2 + kwota3);
             Set<String> sumapeseli = new HashSet<>();
             sumapeseli.addAll(sumaUmowaoprace.get(mc).getPesele());
@@ -259,17 +250,8 @@ public class PIT4R_13Bean {
         }
         for (String mc : Mce.getMceListS()) {
             double kwota1 = sumaUmowazlecenia.get(mc).getPodatekdochodowy();
-            if (sumaUmowazlecenia.get(mc).isPrzekroczeniedni()) {
-                kwota1 = sumaUmowazlecenia.get(mc).getPrzekroczenienowypodatek();
-            }
             double kwota2 = sumaUmowapelnieniefunkcji.get(mc).getPodatekdochodowy();
-            if (sumaUmowapelnieniefunkcji.get(mc).isPrzekroczeniedni()) {
-                kwota2 = sumaUmowapelnieniefunkcji.get(mc).getPrzekroczenienowypodatek();
-            }
             double kwota3 = sumaUmowazlecenia26zwolnione.get(mc).getPodatekdochodowy();
-            if (sumaUmowazlecenia26zwolnione.get(mc).isPrzekroczeniedni()) {
-                kwota3 = sumaUmowazlecenia26zwolnione.get(mc).getPrzekroczenienowypodatek();
-            }
             int sumakwot = Z.zUD(kwota1 + kwota2 + kwota3);
             switch (mc) {
                 case "01":
