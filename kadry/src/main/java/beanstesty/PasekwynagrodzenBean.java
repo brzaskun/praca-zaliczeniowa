@@ -655,8 +655,6 @@ public class PasekwynagrodzenBean {
                         if (p.getKwotadolistyplacwaluta()==0.0) {
                             bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + Z.z(p.getKwotadolistyplac()/p.getPasekwynagrodzen().getKurs());
                         }
-                    } else if (p.getSkladnikwynagrodzenia().isPodatek0bezpodatek1()&&p.getSkladnikwynagrodzenia().isZus0bezzus1()){
-                        bezzusbezpodatek = bezzusbezpodatek + p.getKwotadolistyplac();
                     } else {
                         bruttokraj = bruttokraj + p.getKwotadolistyplac();
                     }
@@ -666,9 +664,12 @@ public class PasekwynagrodzenBean {
                     if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isZdrowotna0bezzdrowotnej()==false) {
                         przychodyzus52 = przychodyzus52+p.getKwotadolistyplac();
                     }
+                } else  if (p.getSkladnikwynagrodzenia().isPodatek0bezpodatek1()&&p.getSkladnikwynagrodzenia().isZus0bezzus1()){
+                    bezzusbezpodatek = bezzusbezpodatek + p.getKwotadolistyplac();
                 }
                 brutto = Z.z(brutto+p.getKwotadolistyplac());
             }
+            
         }
         if (pasek.getNaliczenienieobecnoscList()!=null&&pasek.getNaliczenienieobecnoscList().isEmpty()==false) {
             for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
