@@ -73,6 +73,7 @@ public class DraNView  implements Serializable {
     private double zus53;
     private double zus;
     private double pit4;
+    private double pit4przekroczenie;
     private double pit8AR;
     private double pit4N;
     private double potraceniaKomornik;
@@ -168,6 +169,7 @@ public class DraNView  implements Serializable {
                 danezus.put("zus53", zus53);
                 danezus.put("zus", zus);
                 danezus.put("pit4", pit4);
+                danezus.put("pit4przekroczenie", pit4przekroczenie);
                 danezus.put("pit4N", pit4N);
                 danezus.put("pit8AR", pit8AR);
                 danezus.put("brutto", brutto);
@@ -216,7 +218,7 @@ public class DraNView  implements Serializable {
                 danezus.put("zus53", zus53);
                 danezus.put("zus", zus);
                 danezus.put("pit4", pit4);
-                danezus.put("pit4N", pit4N);
+                danezus.put("pit4przekroczenie", pit4przekroczenie);
                 danezus.put("pit8AR", pit8AR);
                 danezus.put("brutto", brutto);
                 danezus.put("bruttopraca", bruttopraca);
@@ -259,6 +261,7 @@ public class DraNView  implements Serializable {
             zusFGSP = 0.0;
             zus53 = 0.0;
             pit4 = 0.0;
+            pit4przekroczenie = 0.0;
             pit4N = 0.0;
             pit8AR = 0.0;
             zus = 0.0;
@@ -291,6 +294,7 @@ public class DraNView  implements Serializable {
                         } else {
                             pit4 = Z.z(pit4+p.getPodatekdochodowy());
                         }
+                        pit4przekroczenie = Z.z(pit4przekroczenie+p.getPrzekroczenienowypodatek());
                         pit4N = Z.z(pit4N+p.getPodatekdochodowyzagranicawaluta());
                         brutto = Z.z(brutto+p.getBrutto());
                         if (p.getDefinicjalistaplac().getRodzajlistyplac().getTyp()==1) {
@@ -470,6 +474,14 @@ public class DraNView  implements Serializable {
 
     public void setNetto(double netto) {
         this.netto = netto;
+    }
+
+    public double getPit4przekroczenie() {
+        return pit4przekroczenie;
+    }
+
+    public void setPit4przekroczenie(double pit4przekroczenie) {
+        this.pit4przekroczenie = pit4przekroczenie;
     }
 
     

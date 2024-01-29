@@ -66,13 +66,13 @@
                     <p:outputLabel value="ZUS 53 FP" style="width: 80px;"/>
                     <p:outputLabel value="ZUS 53 FGŚP" style="width: 80px;"/>
                     <p:outputLabel value="Niemcy" style="width: 80px;"/>
-                    <p:outputLabel value=" "/>
+                    <p:outputLabel value="PIT4 nowe" style="width: 80px;"/>
                     <bcf:outputpl value="#{draNView.zus51pracownik}"/>
                     <bcf:outputpl value="#{draNView.zus51pracodawca}"/>
                     <bcf:outputpl value="#{draNView.zusFP}"/>
                     <bcf:outputpl value="#{draNView.zusFGSP}"/>
                     <bcf:outputpl value="#{draNView.pit4N}"/>
-                    <p:outputLabel value=" "/>
+                    <bcf:outputpl value="#{draNView.pit4przekroczenie}"/>
                 </p:panelGrid>
             </h:form>
         </p:outputPanel>
@@ -141,6 +141,9 @@
                         </p:column>
                         <p:column headerText="podatek">
                             <bcf:outputpl value="#{itemdra.podatekdochodowy}"/>
+                        </p:column>
+                          <p:column headerText="podatek nowy">
+                              <bcf:outputpl value="#{itemdra.przekroczenienowypodatek}"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

@@ -980,6 +980,7 @@ public class Kartawynagrodzen implements Serializable {
         this.dochodpolska += kartawynagrodzen.getDochodpolska();
         this.dietaodliczeniepodstawaop = this.dietaodliczeniepodstawaop + Z.z(kartawynagrodzen.getDietaodliczeniepodstawaop());
         this.spoleczneudzialpolska = this.spoleczneudzialpolska + Z.z(kartawynagrodzen.getSpoleczneudzialpolska());
+        this.przekroczeniedni = kartawynagrodzen.przekroczeniedni;
              //this.mc!=null musi byc bo uzywamy tego tez do pit-11
      
      }

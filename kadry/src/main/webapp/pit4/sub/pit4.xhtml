@@ -26,7 +26,7 @@
             <h:outputText value="razem podatek: "/>
             <bcf:outputpl value="#{kartaWynagrodzenPIT4View.podatekrazem}"/>
         </p:panelGrid>
-        <p:panelGrid columns="7" style="padding: 20px;">
+        <p:panelGrid columns="9" style="padding: 20px;">
             <p:dataTable id="datalist" value="#{mce.mceList}" var="itemmc"
                          rowKey="#{itemmc.id}" rowIndexVar="indexmc" 
                          style="height: 350px; width: 40px;" emptyMessage="Nie pobrano danych"
@@ -50,6 +50,20 @@
                 </p:column>
                 <p:column>
                     <bcf:outputpl value="#{itempraca.podatekdochodowy}"/>
+                </p:column>
+            </p:dataTable>
+            <p:dataTable id="datalist1k" value="#{kartaWynagrodzenPIT4View.sumaUmowaoprace.values()}" var="itempraca"
+                         rowKey="#{itempraca.id}"  
+                         style="height: 350px; width: 120px;" emptyMessage="Nie pobrano danych"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="praca kor."/>
+                </f:facet>
+                <p:column width="25">
+                    <h:outputText value="#{itempraca.pesele.size()}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{itempraca.przekroczenienowypodatek}"/>
                 </p:column>
             </p:dataTable>
             <p:dataTable id="datalist15" value="#{kartaWynagrodzenPIT4View.sumaUmowaoprace26zwolnione.values()}" var="itempracak26"
@@ -92,6 +106,20 @@
                 </p:column>
                 <p:column>
                     <bcf:outputpl value="#{itemzlec.podatekdochodowy}"/>
+                </p:column>
+            </p:dataTable>
+             <p:dataTable id="datalist2k" value="#{kartaWynagrodzenPIT4View.sumaUmowazlecenia.values()}" var="itemzlec"
+                         rowKey="#{itemzlec.id}" 
+                         style="height: 350px; width: 120px;" emptyMessage="Nie pobrano danych"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="zlec. kor"/>
+                </f:facet>
+                <p:column width="25">
+                    <h:outputText value="#{itemzlec.pesele.size()}"/>
+                </p:column>
+                <p:column>
+                    <bcf:outputpl value="#{itemzlec.przekroczenienowypodatek}"/>
                 </p:column>
             </p:dataTable>
              <p:dataTable id="datalist2z" value="#{kartaWynagrodzenPIT4View.sumaUmowazlecenia26zwolnione.values()}" var="itemzlec26"
