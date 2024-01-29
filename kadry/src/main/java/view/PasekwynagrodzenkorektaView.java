@@ -169,7 +169,8 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
     }
 
     private static void obliczpodatekwstepnyDBStandard(Pasekwynagrodzen pasek, double podstawaopodatkowania, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
-        double kwotawolna = pasek.getKwotawolna()>0.0? stawkipodatkowe.get(0).getWolnamc():0.0;
+        //double kwotawolna = pasek.getKwotawolna()>0.0? stawkipodatkowe.get(0).getWolnamc():0.0;
+        double kwotawolna = stawkipodatkowe.get(0).getWolnamc();
         double podatek = Z.z0(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
         double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();
         if (sumapoprzednich >= drugiprog) {
