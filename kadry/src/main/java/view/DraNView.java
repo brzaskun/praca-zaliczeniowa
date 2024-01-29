@@ -8,7 +8,6 @@ package view;
 import beanstesty.PasekwynagrodzenBean;
 import comparator.Defnicjalistaplaccomparator;
 import comparator.PasekwynagrodzenNazwiskacomparator;
-import comparator.Pasekwynagrodzencomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.NieobecnoscFacade;
 import dao.PasekwynagrodzenFacade;
@@ -283,11 +282,11 @@ public class DraNView  implements Serializable {
                         zus51pracownik = Z.z(zus51pracownik+p.getRazemspolecznepracownik());
                         zus51pracodawca = Z.z(zus51pracodawca+p.getRazemspolecznefirma());
                         zus51 = Z.z(zus51+p.getRazemspolecznepracownik()+p.getRazemspolecznefirma());
-                        zus52 = Z.z(zus52+p.getPraczdrowotne());
+                        zus52 = Z.z(zus52+p.getPraczdrowotnedopotracenia());
                         zusFP = Z.z(zusFP+p.getFp());
                         zusFGSP = Z.z(zusFGSP+p.getFgsp());
                         zus53 = Z.z(zus53+p.getRazem53());
-                        if (p.isNierezydent()) {
+                        if (p.getAngaz().getPracownik().isNierezydent()) {
                             pit8AR = Z.z(pit8AR+p.getPodatekdochodowy());
                         } else {
                             pit4 = Z.z(pit4+p.getPodatekdochodowy());

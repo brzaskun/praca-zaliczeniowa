@@ -48,26 +48,29 @@
         </p:outputPanel>
         <p:outputPanel style="height: 100px">
             <h:form  styleClass="formadmin" id="DRASumaForm">
-                <p:panelGrid columns="5" style="width: 600px;" styleClass="pasekwync">
+                <p:panelGrid columns="6" style="width: 700px;" styleClass="pasekwync">
                     <p:outputLabel value="ZUS 51" style="width: 80px;"/>
                     <p:outputLabel value="ZUS 52" style="width: 80px;"/>
                     <p:outputLabel value="ZUS 53" style="width: 80px;"/>
                     <p:outputLabel value="razem ZUS" style="width: 80px;"/>
                     <p:outputLabel value="PIT4" style="width: 80px;"/>
+                    <p:outputLabel value="PIT8AR" style="width: 80px;"/>
                     <bcf:outputpl value="#{draNView.zus51}"/>
                     <bcf:outputpl value="#{draNView.zus52}"/>
                     <bcf:outputpl value="#{draNView.zus53}"/>
                     <bcf:outputpl value="#{draNView.zus}"/>
                     <bcf:outputpl value="#{draNView.pit4}"/>
+                    <bcf:outputpl value="#{draNView.pit8AR}"/>
                     <p:outputLabel value="ZUS 51 pracownik" style="width: 80px;"/>
                     <p:outputLabel value="ZUS 51 pracodawca" style="width: 80px;"/>
                     <p:outputLabel value="ZUS 53 FP" style="width: 80px;"/>
                     <p:outputLabel value="ZUS 53 FGŚP" style="width: 80px;"/>
-                    <p:outputLabel value=" " style="width: 80px;"/>
+                    <p:outputLabel value="Niemcy" style="width: 80px;"/>
                     <bcf:outputpl value="#{draNView.zus51pracownik}"/>
                     <bcf:outputpl value="#{draNView.zus51pracodawca}"/>
                     <bcf:outputpl value="#{draNView.zusFP}"/>
                     <bcf:outputpl value="#{draNView.zusFGSP}"/>
+                    <bcf:outputpl value="#{draNView.pit4N}"/>
                     <p:outputLabel value=" "/>
                 </p:panelGrid>
             </h:form>
