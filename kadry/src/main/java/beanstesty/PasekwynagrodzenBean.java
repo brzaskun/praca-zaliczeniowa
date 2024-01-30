@@ -714,6 +714,7 @@ public class PasekwynagrodzenBean {
         }
         pasek.setPrzychodyzus51(sumyprzychodow.przychodyzus51);
         pasek.setPrzychodyzus52(sumyprzychodow.przychodyzus52);
+        pasek.setBruttobezzusbezpodatek(sumyprzychodow.bezzusbezpodatek);
         pasek.setPrzychodypodatekpolska(przychodyBiezacyMiesiacPolska);
         pasek.setPrzychodypodatekzagranica(przychodyBiezacyMiesiacZagranica);
         double przychodynarastajacodolimitu26 = sumapoprzednich + przychodyBiezacyMiesiacPolska;
@@ -758,6 +759,7 @@ public class PasekwynagrodzenBean {
         pasek.setPrzychodypodatekpolska(przychodyBiezacyMiesiacPolska);
         pasek.setPrzychodypodatekzagranica(przychodyBiezacyMiesiacZagranica);
         pasek.setBruttozuskraj(sumyprzychodow.getBruttokraj());
+        pasek.setBruttobezzusbezpodatek(sumyprzychodow.bezzusbezpodatek);
         pasek.setBrutto(Z.z(pasek.getBrutto() + sumyprzychodow.brutto));
     }
     
@@ -773,6 +775,7 @@ public class PasekwynagrodzenBean {
         pasek.setPrzychodyzus52(sumyprzychodow.getPrzychodyzus52());
         pasek.setPrzychodypodatekpolska(przychodyBiezacyMiesiacPolska);
         pasek.setPrzychodypodatekzagranica(przychodyBiezacyMiesiacZagranica);
+        pasek.setBruttobezzusbezpodatek(sumyprzychodow.getBezzusbezpodatek());
         double przychodynarastajacodolimitu26 = sumapoprzednich + przychodyBiezacyMiesiacPolska;
         double doopodatkowaniapow26narast = przychodynarastajacodolimitu26 - limit26;
         pasek.setPrzekroczenie26lat(doopodatkowaniapow26narast);
@@ -1517,6 +1520,7 @@ public class PasekwynagrodzenBean {
     private static void ulgapodatkowaDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean ignoruj26lat, double odliczonajuzkwotawolna) {
         double kwotawolna = stawkipodatkowe.get(0).getWolnamc() - odliczonajuzkwotawolna;
         double kwotawolnadlazdrowotnej = stawkipodatkowe.get(0).getWolnadlazdrowotnej();
+        pasek.setKwotawolnanalezna(kwotawolna);
         if (pasek.isDrugiprog()) {
             // wywalilem tu 29.11.2023 bo dziewczyny na czacie z urzedem ustalily ze mozna odejmowac
             //kwotawolna = 0.0;
@@ -1525,6 +1529,7 @@ public class PasekwynagrodzenBean {
         if (pasek.isNierezydent() && pasek.isPraca() == false) {
             kwotawolna = 0.0;
             pasek.setKwotawolna(kwotawolna);
+            pasek.setKwotawolnanalezna(kwotawolna);
         } else if (pasek.isDo26lat() == false || ignoruj26lat) {
             double podatek = pasek.getPodatekwstepny();
             if (kwotawolna > podatek) {
@@ -1535,6 +1540,7 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setKwotawolnahipotetyczna(kwotawolna);
             pasek.setKwotawolna(0.0);
+            pasek.setKwotawolnanalezna(kwotawolna);
         }
         if (pasek.isDo26lat() == true && pasek.getPodatekwstepny() > 0.0) {
             double podatek = pasek.getPodatekwstepny();
