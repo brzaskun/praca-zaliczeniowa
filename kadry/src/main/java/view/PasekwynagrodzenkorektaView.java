@@ -106,7 +106,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
             Pasekwynagrodzen paseksuma = new Pasekwynagrodzen("2023","13");
             for (Iterator<Pasekwynagrodzen> it = paskiwybranego.iterator(); it.hasNext();) {
                 Pasekwynagrodzen p = it.next();
-                if (p.getRodzajWynagrodzenia()!=1006) {
+                if (p.getRodzajWynagrodzenia()==1006) {
                     it.remove();
                 }
             }
