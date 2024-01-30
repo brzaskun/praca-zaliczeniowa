@@ -104,7 +104,8 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
             pitKorektaNiemcy = new PitKorektaNiemcy();
             Pasekwynagrodzen paseksuma = new Pasekwynagrodzen("2023","13");
             for (Pasekwynagrodzen pasek : paskiwybranego) {
-                if (pasek.getKalendarzmiesiac()!=null) {
+                //omijamy zasilki
+                if (pasek.getKalendarzmiesiac()!=null&&pasek.getRodzajWynagrodzenia()!=1006) {
                     //adżornamiento do sytuacji od listopad 2023
                     Pasekpomocnik sumujprzychodyzlisty = PasekwynagrodzenBean.sumujprzychodyzlisty(pasek);
                     pasek.naniespomocnika(sumujprzychodyzlisty, pasek.isPrzekroczenieoddelegowanie());
