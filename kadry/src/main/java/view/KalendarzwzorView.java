@@ -147,15 +147,15 @@ public class KalendarzwzorView  implements Serializable {
         }
     }
     
-      public void globalnie() {
-        if (wpisView.getFirma()!=null && wpisView.getRokWpisu()!=null) {
+      public void globalnie(FirmaKadry firma) {
+        if (firma!=null && wpisView.getRokWpisu()!=null) {
             FirmaKadry firmaglobalna = firmaFacade.findByNIP("0000000000");
             for (String mce: Mce.getMceListS()) {
                 Kalendarzwzor kal = new Kalendarzwzor();
                 kal.setRok(wpisView.getRokWpisu());
                 kal.setMc(mce);
                 kal.setFirma(wpisView.getFirma());
-                Kalendarzwzor kalmiesiac = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getFirma(), kal.getRok(), mce);
+                Kalendarzwzor kalmiesiac = kalendarzwzorFacade.findByFirmaRokMc(firma, kal.getRok(), mce);
                 if (kalmiesiac==null) {
                     Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firmaglobalna, kal.getRok(), mce);
                     if (znaleziono!=null) {
@@ -172,7 +172,7 @@ public class KalendarzwzorView  implements Serializable {
                     }
                 }
             }
-             lista  = kalendarzwzorFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+             lista  = kalendarzwzorFacade.findByFirmaRok(firma, wpisView.getRokWpisu());
             Msg.msg("Pobrano dane z kalendarza globalnego z bazy danych i utworzono kalendarz wzorcowy firmy");
         } else {
             Msg.msg("e","Nie wybrano firmy");
