@@ -19,6 +19,7 @@ import entity.Pracownik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -103,6 +104,12 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
             List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
             pitKorektaNiemcy = new PitKorektaNiemcy();
             Pasekwynagrodzen paseksuma = new Pasekwynagrodzen("2023","13");
+            for (Iterator<Pasekwynagrodzen> it = paskiwybranego.iterator(); it.hasNext();) {
+                Pasekwynagrodzen p = it.next();
+                if (p.getRodzajWynagrodzenia()!=1006) {
+                    it.remove();
+                }
+            }
             for (Pasekwynagrodzen pasek : paskiwybranego) {
                 //omijamy zasilki
                 if (pasek.getKalendarzmiesiac()!=null&&pasek.getRodzajWynagrodzenia()!=1006) {
