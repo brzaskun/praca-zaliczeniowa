@@ -314,6 +314,7 @@ public class PasekwynagrodzenView implements Serializable {
                 if (pasek.getPodstawaopodatkowaniazagranicawaluta()>0.0&&pasek.getPodstawaopodatkowaniazagranicawaluta()==pasekzmiany.getPodstawaopodatkowaniazagranicawaluta()) {
                     pasek.setNaliczeniepotracenieList(null);
                     pasekwynagrodzenFacade.edit(pasek);
+                    pasek.setNaliczeniepotracenieList(new ArrayList<>());
                     pasek.setPodatekdochodowyzagranicawaluta(pasekzmiany.getPodatekdochodowyzagranicawaluta());
                     pasek.setPodatekdochodowyzagranica(Z.z(pasek.getPodatekdochodowyzagranicawaluta()*pasek.getKurs()));
                     pasek.setNettoprzedpotraceniami(Z.z(pasek.getNettoprzedpotraceniamisafe()-pasek.getPodatekdochodowyzagranica()));

@@ -460,7 +460,7 @@ public class UmowaBean {
             int biezacagrupa = 1;
             String datapoprzednia = null;
             for (Umowa u : listapraca) {
-                if (datapoprzednia==null) {
+                if (datapoprzednia==null&&u.getDatado()!=null&&u.getDatado().length()==10) {
                     u.setGrupaumow(biezacagrupa);
                     datapoprzednia = Data.dodajdzien(u.getDatado(),1);
                 } else {
