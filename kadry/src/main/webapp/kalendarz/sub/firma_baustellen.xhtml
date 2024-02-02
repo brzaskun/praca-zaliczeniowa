@@ -1,0 +1,89 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets"
+>
+    <p:outputPanel style="height: 180px">
+                <h:form id="BaustellenForm" styleClass="firmakalendarz">
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="państwo" />
+                        <p:inputText value="#{firmaBaustellenView.selected.kraj}"/>
+                        <p:outputLabel value="budowa/miasto" />
+                        <p:inputText value="#{firmaBaustellenView.selected.miasto}"/>
+                        <p:outputLabel value="symbol" />
+                        <p:inputText value="#{firmaBaustellenView.selected.nrkolejny}"/>
+                        <p:outputLabel value="data od" for="dataod" />
+                        <p:inputText id="dataod" value="#{firmaBaustellenView.selected.dataod}" title="datac od"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę od">
+                            <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                        </p:inputText>
+                        <p:outputLabel value="data do" for="datado" />
+                        <p:inputText id="datado" value="#{firmaBaustellenView.selected.datado}" title="data do"  placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę do">
+                            <p:ajax event="blur" onstart="ustawDateSprzedazy(#{wpisView.rokWpisu},#{wpisView.miesiacWpisu});" partialSubmit="true" global="false" />
+                        </p:inputText>
+                        <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{firmaBaustellenView.dodaj}" update="akordeon:BaustellenForm akordeon:BaustellenFormLista"/>
+                    </p:panelGrid>
+                </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+            <p:panelGrid columns="2">
+            <h:form id="BaustellenFormLista" styleClass="firmakalendarz">
+                <p:panel header="Stawki ubezpieczenia wypadkowego dla firmy">
+                    <p:dataTable id="datalist" value="#{firmaBaustellenView.lista}" var="itembaustelle"
+                                 rowKey="#{itembaustelle.id}"  sortMode="single" rowIndexVar="yndeks"
+                                 style="height: 450px; width: 800px; overflow-y: scroll;"
+                                 emptyMessage="Brak zapisów"
+                                 >
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value="#{yndeks+1}"/>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="od"/>
+                            </f:facet>
+                            <h:outputText value="#{itembaustelle.dataod}"/>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="do"/>
+                            </f:facet>
+                            <h:outputText value="#{itembaustelle.datado}"/>
+                        </p:column>
+                        <p:column width="100" style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="państwo"/>
+                            </f:facet>
+                            <h:outputText value="#{itembaustelle.kraj}"/>
+                        </p:column>
+                        <p:column width="100" style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="miasto/budowa"/>
+                            </f:facet>
+                            <h:outputText value="#{itembaustelle.miasto}"/>
+                        </p:column>
+                        <p:column width="100" style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="symbol"/>
+                            </f:facet>
+                            <h:outputText value="#{itembaustelle.nrkolejny}"/>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <p:commandButton icon="pi pi-trash" actionListener="#{firmaBaustellenView.usun(itembaustelle)}" update="akordeon:BaustellenFormLista"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </p:panel>
+           </h:form>
+           
+            </p:panelGrid>
+        </p:outputPanel>
+</ui:composition>

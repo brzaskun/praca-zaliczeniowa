@@ -73,6 +73,8 @@ public class UpdateClassView   implements Serializable {
     private WypadkowefirmaView wypadkowefirmaView;
     @Inject
     private KalendarzGlobalnyView kalendarzGlobalnyView;
+    @Inject
+    private FirmaBaustellenView firmaBaustellenView;
     
 
     public void updateRok(){
@@ -120,6 +122,7 @@ public class UpdateClassView   implements Serializable {
         skladnikPotraceniaView.init();
         zmiennaPotraceniaView.init();
         pasekwynagrodzenView.init();
+        firmaBaustellenView.pobierzedane();
     }
     
     public void updateAdminTab(){

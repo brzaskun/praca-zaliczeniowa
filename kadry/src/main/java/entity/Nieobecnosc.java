@@ -75,6 +75,9 @@ public class Nieobecnosc implements Serializable {
     private String kodzwolnienia;
     @Column(name = "naniesiona")
     private boolean naniesiona;
+    @JoinColumn(name = "firmabaustelle", referencedColumnName = "id")
+    @ManyToOne(optional = true)
+    private Firmabaustelle firmabaustelle;
     @JoinColumn(name = "rodzajnieobecnosci", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Rodzajnieobecnosci rodzajnieobecnosci;
@@ -240,6 +243,14 @@ public class Nieobecnosc implements Serializable {
     @XmlTransient
     public List<Dzien> getDzienList() {
         return dzienList;
+    }
+
+    public Firmabaustelle getFirmabaustelle() {
+        return firmabaustelle;
+    }
+
+    public void setFirmabaustelle(Firmabaustelle firmabaustelle) {
+        this.firmabaustelle = firmabaustelle;
     }
 
     public void setDzienList(List<Dzien> dzienList) {
@@ -496,5 +507,6 @@ public class Nieobecnosc implements Serializable {
         return this.rodzajnieobecnosci.isRozliczanapar12();
     }
 
+    
 
 }

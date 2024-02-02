@@ -17,6 +17,7 @@
     <class>entity.Swiadczeniekodzus</class>
     <class>entity.Rozwiazanie</class>
     <class>entity.Rejestrurlopow</class>
+    <class>entity.Firmabaustelle</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

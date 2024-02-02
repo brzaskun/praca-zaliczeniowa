@@ -13,6 +13,7 @@ import comparator.Pracownikcomparator;
 import comparator.Rodzajnieobecnoscicomparator;
 import dao.AngazFacade;
 import dao.DzienFacade;
+import dao.FirmabaustelleFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.NaliczenienieobecnoscFacade;
 import dao.NieobecnoscFacade;
@@ -23,6 +24,7 @@ import data.Data;
 import entity.Angaz;
 import entity.Dzien;
 import entity.FirmaKadry;
+import entity.Firmabaustelle;
 import entity.Kalendarzmiesiac;
 import entity.Naliczenienieobecnosc;
 import entity.Nieobecnosc;
@@ -105,6 +107,9 @@ public class NieobecnoscView  implements Serializable {
     private NaliczenienieobecnoscFacade naliczenienieobecnoscFacade;
     @Inject
     private WpisView wpisView;
+    private List<Firmabaustelle> listabaustelle;
+    @Inject
+    private FirmabaustelleFacade firmabaustelleFacade;
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/zuszla.wsdl")
     private zuszla.WsdlPlatnikRaportyZla wsdlPlatnikRaportyZla;
     private  boolean pokazcalyrok;
@@ -167,6 +172,7 @@ public class NieobecnoscView  implements Serializable {
                 lista = lista.stream().filter(p->p.getKod().equals("Z")==false).collect(Collectors.toList());
             }
         }
+        listabaustelle = firmabaustelleFacade.findbyRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
         listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());
         listaabsencji = rodzajnieobecnosciFacade.findAll();
         Collections.sort(listaabsencji, new Rodzajnieobecnoscicomparator());
@@ -951,6 +957,14 @@ public class NieobecnoscView  implements Serializable {
 
     public void setBezoddelegowania(boolean bezoddelegowania) {
         this.bezoddelegowania = bezoddelegowania;
+    }
+
+    public List<Firmabaustelle> getListabaustelle() {
+        return listabaustelle;
+    }
+
+    public void setListabaustelle(List<Firmabaustelle> listabaustelle) {
+        this.listabaustelle = listabaustelle;
     }
 
     

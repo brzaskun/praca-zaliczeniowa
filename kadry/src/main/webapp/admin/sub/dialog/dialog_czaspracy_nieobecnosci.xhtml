@@ -18,9 +18,9 @@
         <p:ajax event="close" listener="#{nieobecnoscView.close()}" global="false"/>
          <p:ajax event="open" listener="#{nieobecnoscView.open()}" global="false"/>
         <p:outputPanel style="height: 180px">
-            <p:panelGrid columns="2" columnClasses="eighty-percent twenty-percent" style="width: 1500px;">
+            <p:panelGrid columns="2" columnClasses="eighty-percent twenty-percent" style="width: 1600px;">
                 <h:form  styleClass="formadmin" id="NieobecnoscCreateForm">
-                    <h:panelGroup id="display" style="width: 1200px;">
+                    <h:panelGroup id="display" style="width: 1400px;">
                         <p:panelGrid columns="4" rendered="#{nieobecnoscView.selected != null}">
                             <p:panelGrid columns="2">
                                 <p:outputLabel value="pracownik" for="prac" />
@@ -71,11 +71,18 @@
                              </p:fragment>
                             <p:fragment>
                                 <p:autoUpdate/>
-                                <p:panelGrid columns="2"  rendered="#{nieobecnoscView.delegacja}">
+                                <p:panelGrid columns="2"  rendered="#{nieobecnoscView.delegacja}" style="width: 300px;">
                                     <p:outputLabel value="oznacz pon-pt" for="ponpiat"  rendered="#{nieobecnoscView.delegacja}"/>
                                     <p:selectBooleanCheckbox id="ponpiat" value="#{nieobecnoscView.selected.ponpiatek}" rendered="#{nieobecnoscView.delegacja}"/>
-                                    <p:outputLabel value="kraj oddel." for="uwagi" />
-                                    <p:inputText id="uwagi" value="#{nieobecnoscView.selected.krajoddelegowania}" title="kraj oddelegowania" />
+                                    <p:outputLabel value="Baustelle" for="uwagi" />
+<!--                                    <p:inputText id="uwagi" value="#{nieobecnoscView.selected.krajoddelegowania}" title="Baustelle" />-->
+                                    <p:selectOneMenu id="uwagi" value="#{nieobecnoscView.selected.firmabaustelle}" required="true" requiredMessage="Wybierz baustelle" converter="#{firmabaustelleConverter}">
+                                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                        <f:selectItems value="#{nieobecnoscView.listabaustelle}" 
+                                                       var="bsItem"
+                                                       itemValue="#{bsItem}" itemLabel="#{bsItem.toStringnieobecnosc()}"/>
+                                        <p:ajax event="change" partialSubmit="true" global="false" />
+                                    </p:selectOneMenu>
                                     <p:outputLabel value="kwota diety"/>
                                     <bcf:inputpl value="#{nieobecnoscView.selected.dietaoddelegowanie}"/>
                                     <p:outputLabel value="waluta diety" for="waluta" />
@@ -116,7 +123,7 @@
                     </h:panelGroup>
                 </h:form>
                 <h:form  styleClass="formadmin" id="NieobecnoscCreateFormZUS">
-                    <h:panelGroup id="display" style="float: right;">
+                    <h:panelGroup id="display" style="float: right;width: 200px;">
                         <p:panelGrid columns="1" >
                             <p:outputLabel value="pobranie zwolnień z ZUS" for="zuspobierz" />
                             <p:commandButton id="zuspobierz" styleClass="buttonnorm" actionListener="#{nieobecnoscView.pobierzzzus}" value="pobierz" update="display,:NieobecnoscListForm:datalist"/>
@@ -231,9 +238,9 @@
                     
                         <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
-                                <h:outputText value="kraj"/>
+                                <h:outputText value="baustelle"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.krajoddelegowania}"/>
+                            <h:outputText value="#{itemNieob.firmabaustelle.toStringnieobecnosc()}"/>
                         </p:column>
                         <p:column width="50" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
                             <f:facet name="header">
