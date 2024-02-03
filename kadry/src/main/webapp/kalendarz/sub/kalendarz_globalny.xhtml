@@ -152,7 +152,7 @@
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.create}" value="#{bundle.Save}" 
                                      update="akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" 
                                      rendered="#{kalendarzGlobalnyView.selected.id eq null}"/>
-                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nanieszmiany}" value="nanieś na wzór."  update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}">
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nanieszmiany}" value="nanieś na firmowe"  update="akordeon:KalendarzGlobalCreateForm:mc akordeon:KalendarzwzorListGlobForm:datalist akordeon:KalendarzwzormiesiacSaRokGlobForm:datalist" rendered="#{kalendarzGlobalnyView.selected.id ne null}">
                         <p:confirm type="popup" header="Kopiowanie do wszystkich wzorcowych" message="Na pewno kopiowac do wzorcowych?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nanieszmianyPracownicy}" value="nanieś na pracowników"  
@@ -162,6 +162,10 @@
                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.otworzrok}" value="otwórz rok"  
                                       rendered="#{kalendarzGlobalnyView.selected.id ne null}">
                         <p:confirm type="popup" header="Generowanie wszystkich kalendarzy nowy rok" message="Stworzyć kalendarze dla firm i pracowników?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nowyroknieobecnosci}" value="nieobecności nowy rok"  
+                                      rendered="#{kalendarzGlobalnyView.selected.id ne null}">
+                        <p:confirm type="popup" header="Nanoszenie przełomowych nieobecności na naowy rok" message="Nanieść nieobecności pracowników z poprzedniego roku do nowego?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                 </p:outputPanel>
            </h:form>

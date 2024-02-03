@@ -1055,11 +1055,9 @@ private static final long serialVersionUID = 1L;
 
     
     
-    public int[] naniesnieobecnosc(Nieobecnosc nieobecnosc, boolean pierwszymc, boolean ostatnimc) {
-        int dzienod = Data.getDzienI(nieobecnosc.getDataod());
-        int dziendo = Data.getDzienI(nieobecnosc.getDatado());
-        String mcod = Data.getMc(nieobecnosc.getDataod());
-        String mcdo = Data.getMc(nieobecnosc.getDatado());
+    public int[] naniesnieobecnosc(Nieobecnosc nieobecnosc, boolean pierwszymc, boolean ostatnimc, String dataod, String datado) {
+        int dzienod = Data.getDzienI(dataod);
+        int dziendo = Data.getDzienI(datado);
         if (pierwszymc==true&&ostatnimc==false) {
             dziendo = Data.ostatnidzienInt(this.getDzienList().get(0).getDatastring());
         } else if (pierwszymc==false&&ostatnimc==true) {

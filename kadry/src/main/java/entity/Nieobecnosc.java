@@ -48,6 +48,7 @@ import kadryiplace.OsobaPrz;
     @NamedQuery(name = "Nieobecnosc.findByKod", query = "SELECT n FROM Nieobecnosc n WHERE n.swiadczeniekodzus.kod = :kod"),
     @NamedQuery(name = "Nieobecnosc.findByNazwa", query = "SELECT n FROM Nieobecnosc n WHERE n.swiadczeniekodzus.opis = :opis"),
     @NamedQuery(name = "Nieobecnosc.findByAngaz", query = "SELECT n FROM Nieobecnosc n WHERE n.angaz = :angaz"),
+    @NamedQuery(name = "Nieobecnosc.findByAngazRokDo", query = "SELECT n FROM Nieobecnosc n WHERE n.angaz = :angaz and n.rokdo >= :rokdo"),
     @NamedQuery(name = "Nieobecnosc.findByAngaz200", query = "SELECT n FROM Nieobecnosc n WHERE n.angaz = :angaz and n.swiadczeniekodzus.kod='200'"),
     @NamedQuery(name = "Nieobecnosc.findByDataod", query = "SELECT n FROM Nieobecnosc n WHERE n.dataod = :dataod"),
     @NamedQuery(name = "Nieobecnosc.findByDatado", query = "SELECT n FROM Nieobecnosc n WHERE n.datado = :datado")})

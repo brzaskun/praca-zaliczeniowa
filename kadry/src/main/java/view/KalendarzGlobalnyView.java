@@ -8,14 +8,14 @@ package view;
 import beanstesty.DataBean;
 import beanstesty.KalendarzWzorBean;
 import beanstesty.KalendarzmiesiacBean;
+import beanstesty.NieobecnosciBean;
 import comparator.Dziencomparator;
 import dao.AngazFacade;
 import dao.DzienFacade;
 import dao.FirmaKadryFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
-import dao.UmowaFacade;
-import data.Data;
+import dao.NieobecnoscFacade;
 import embeddable.Mce;
 import entity.Angaz;
 import entity.Dzien;
@@ -23,12 +23,13 @@ import entity.EtatPrac;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
-import error.E;
+import entity.Nieobecnosc;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -55,6 +56,8 @@ public class KalendarzGlobalnyView  implements Serializable {
     private DzienFacade dzienFacade;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
+    @Inject
+    private NieobecnoscFacade nieobecnoscFacade;
     @Inject
     private FirmaKadryFacade firmaFacade;
     @Inject
@@ -261,14 +264,44 @@ public class KalendarzGlobalnyView  implements Serializable {
         System.out.println("KONIEC");
     }
     
+            
+    public void nowyroknieobecnosci() {
+        if (lista.isEmpty()==false) {
+            List<FirmaKadry> firmy = firmaFacade.findByBezglobal();
+            int i = 0;
+            for (FirmaKadry firma : firmy) {
+                //System.out.println("firma :" +firma.getNazwa());
+                List<Angaz> listaangazy = angazFacade.findByFirmaAktywni(firma);
+                if (listaangazy.isEmpty()==false) {
+                    //System.out.println("angaze "+listaangazy.size());
+                }
+                mc = "01";
+                for (Angaz angaz : listaangazy) {
+                    if (angaz.jestumowaAktywna(rok, mc)) {
+//                        List<Nieobecnosc> nieobecnosci = nieobecnoscFacade.findByAngazRokDo(angaz, wpisView.getRokWpisu());
+                        List<Nieobecnosc> nieobecnosci = angaz.getNieobecnoscList().stream().filter(p->p.getRokod().equals(p.getRokdo())==false && Integer.parseInt(p.getRokdo())>=wpisView.getRokWpisuInt()).collect(Collectors.toList());
+                        for (Nieobecnosc nieob : nieobecnosci) {
+                            NieobecnosciBean.naniesnowyrok(nieob, kalendarzmiesiacFacade, nieobecnoscFacade, rok);
+                            i++;
+                            System.out.println("firma :" +firma.getNazwa()+" prac:"+nieob.getAngaz().getNazwiskoiImie());
+                        }
+                    }
+                }
+                //System.out.println("koeniec firma :" +firma.getNazwa());
+  
+            }
+            System.out.println("***********************************koeniec nieobecnosci");
+        }
+    }
+    
     public void otworzrok() {
         if (lista.isEmpty()==false) {
             List<FirmaKadry> firmy = firmaFacade.findByBezglobal();
-//            for (Kalendarzwzor globalny : lista) {
-//                for (FirmaKadry firma : firmy) {
-//                    globalnie(firma, globalny);
-//                }
-//            }
+            for (Kalendarzwzor globalny : lista) {
+                for (FirmaKadry firma : firmy) {
+                    globalnieFirma(firma, globalny);
+                }
+            }
 
             for (FirmaKadry firma : firmy) {
                 System.out.println("firma :" +firma.getNazwa());
@@ -289,7 +322,7 @@ public class KalendarzGlobalnyView  implements Serializable {
         }
     }
     
-     public void globalnie(FirmaKadry firma, Kalendarzwzor globalny) {
+     public void globalnieFirma(FirmaKadry firma, Kalendarzwzor globalny) {
         if (firma!=null && wpisView.getRokWpisu()!=null) {
                 Kalendarzwzor kal = new Kalendarzwzor();
                 kal.setRok(globalny.getRok());

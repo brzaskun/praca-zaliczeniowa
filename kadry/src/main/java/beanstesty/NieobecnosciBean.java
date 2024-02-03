@@ -281,7 +281,7 @@ public class NieobecnosciBean {
                         }
                         if (start) {
                             //tu zmieniłem 2023-02-04 nieobecnosci nanoszenie dni i dodalem godziny
-                             int[] dnigodziny = kal.naniesnieobecnosc(nieobecnosc, pierwszymc, ostatnimc);
+                             int[] dnigodziny = kal.naniesnieobecnosc(nieobecnosc, pierwszymc, ostatnimc, nieobecnosc.getDataod(), nieobecnosc.getDatado());
                              nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dnigodziny[0]);
                              nieobecnosc.setGodzinyroboczenieobecnosc(nieobecnosc.getGodzinyroboczenieobecnosc()+dnigodziny[1]);
                              nieobecnoscFacade.edit(nieobecnosc);
@@ -298,6 +298,62 @@ public class NieobecnosciBean {
                 Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
             }
         }
+        return czynaniesiono;
+    }
+    
+    public static boolean naniesnowyrok(Nieobecnosc nieobecnosc, KalendarzmiesiacFacade kalendarzmiesiacFacade, NieobecnoscFacade nieobecnoscFacade, String nowyrok) {
+        boolean czynaniesiono = false;
+//        if (nieobecnosc.isNaniesiona() == false) {
+            try {
+                String rokod = Data.getRok(nieobecnosc.getDataod());
+                String rokdo = Data.getRok(nieobecnosc.getDatado());
+                //bo przeciez bierzemy z przelomu
+                String mcod = "01";
+                String mcdo = nieobecnosc.getMcdo();
+                boolean start = false;
+                boolean stop = false;
+                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(nieobecnosc.getAngaz(), nowyrok);
+                Collections.sort(kalendarze, new KalendarzmiesiacRMNormalcomparator());
+                nieobecnosc.setDniroboczenieobecnosci(0.0);
+                nieobecnosc.setGodzinyroboczenieobecnosc(0.0);
+                String dataod = nowyrok+"-01-01";
+                for (Kalendarzmiesiac kal : kalendarze) {
+                    String rokkalendarza = kal.getRok();
+                    if (rokkalendarza.equals(rokod)||rokkalendarza.equals(rokdo)) {
+                        boolean pierwszymc = false;
+                        boolean ostatnimc = false;
+                        String mckalendarza = kal.getMc();
+                        if (rokkalendarza.equals(rokdo)) {
+                            if (mckalendarza.equals(mcod)) {
+                                start = true;
+                                pierwszymc = true;
+                            }
+                        }
+                        if (rokkalendarza.equals(rokdo)) {
+                            if (mckalendarza.equals(mcdo)) {
+                                stop = true;
+                                ostatnimc = true;
+                            }
+                        }
+                        if (start) {
+//                            //chcialem to usunac ale przeciez to musi zosac
+                            int[] dnigodziny = kal.naniesnieobecnosc(nieobecnosc, pierwszymc, ostatnimc, dataod, nieobecnosc.getDatado());
+                             nieobecnosc.setDniroboczenieobecnosci(nieobecnosc.getDniroboczenieobecnosci()+dnigodziny[0]);
+                             nieobecnosc.setGodzinyroboczenieobecnosc(nieobecnosc.getGodzinyroboczenieobecnosc()+dnigodziny[1]);
+                             nieobecnoscFacade.edit(nieobecnosc);
+                             kalendarzmiesiacFacade.edit(kal);
+                             czynaniesiono = nieobecnosc.isNaniesiona();
+                         }
+                         if (stop) {
+                             break;
+                         }
+                    }
+                }
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystąpił błąd podczas nanoszenia nieobecności");
+            }
+        //}
         return czynaniesiono;
     }
      

@@ -203,25 +203,25 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.dnikalendarzowe}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column>
-                        <p:column style="text-align: center;" width="40">
+                        <p:column style="text-align: center;" width="30">
                             <f:facet name="header">
                                 <h:outputText value="dni rob."/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.dniroboczenieobecnosci}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column>
-                        <p:column style="text-align: center;" width="40">
+                        <p:column style="text-align: center;" width="30">
                             <f:facet name="header">
                                 <h:outputText value="godz. rob."/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.godzinyroboczenieobecnosc}" style="color: #{nieobecnoscView.kolornieobecnosci(itemNieob)};"/>
                         </p:column>
-                        <p:column style="text-align: center;" width="40">
+                        <p:column style="text-align: center;" width="30">
                             <f:facet name="header">
                                 <h:outputText value="nan. na kal."/>
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemNieob.naniesiona}" style="color: green;font-weight: 900;"/>
                         </p:column>
-                        <p:column style="text-align: center;" width="40">
+                        <p:column style="text-align: center;" width="30">
                             <f:facet name="header">
                                 <h:outputText value="jest lista płac"/>
                             </f:facet>
@@ -236,7 +236,7 @@
                             </h:outputText>
                         </p:column>
                     
-                        <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}">
+                        <p:column style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}" width="130">
                             <f:facet name="header">
                                 <h:outputText value="baustelle"/>
                             </f:facet>
