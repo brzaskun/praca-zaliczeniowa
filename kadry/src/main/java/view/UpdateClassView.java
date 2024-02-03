@@ -124,6 +124,19 @@ public class UpdateClassView   implements Serializable {
         pasekwynagrodzenView.init();
         firmaBaustellenView.pobierzedane();
     }
+    @Inject
+    WskaznikPfronView wskaznikPfronView;
+    @Inject
+    SokaView sokaView;
+    @Inject
+    UrlopyZestawienieView urlopyZestawienieView;
+    
+    public void updateWydruki(){
+        wskaznikPfronView.init();
+        sokaView.init();
+        urlopyZestawienieView.init();
+       
+    }
     
     public void updateAdminTab(){
         kalendarzmiesiacView.init();

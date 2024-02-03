@@ -57,7 +57,7 @@ public class WskaznikPfronView  implements Serializable {
     private double sredniamiesieczna;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         listaeast2 = angazFacade.findByFirmaAktywni(wpisView.getFirma());
         lista = new ArrayList<>();
         List<Kalendarzmiesiac> pracownicy = kalendarzmiesiacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());

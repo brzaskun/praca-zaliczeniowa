@@ -53,7 +53,7 @@ public class SokaView  implements Serializable {
 
     
     @PostConstruct
-    private void init() {
+    public void init() {
         listaeast2 = angazFacade.findByFirmaAktywni(wpisView.getFirma());
         lista = new ArrayList<>();
         List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokMcFirma(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(),wpisView.getFirma());

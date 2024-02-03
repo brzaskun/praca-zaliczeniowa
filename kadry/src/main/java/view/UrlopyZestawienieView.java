@@ -9,6 +9,7 @@ import beanstesty.UrlopBean;
 import comparator.Rejestrurlopowcomparator;
 import dao.AngazFacade;
 import dao.KalendarzmiesiacFacade;
+import dao.PracownikFacade;
 import dao.RejestrurlopowFacade;
 import dao.SMTPSettingsFacade;
 import data.Data;
@@ -54,13 +55,17 @@ public class UrlopyZestawienieView  implements Serializable {
     @Inject
     private AngazFacade angazFacade;
     @Inject
+    private PracownikFacade pracownikFacade;
+    @Inject
     private RejestrurlopowFacade rejestrurlopowFacade;
 
     
     @PostConstruct
-    private void init() {
+    public void init() {
         List<Angaz> angaze = angazFacade.findByFirmaAktywni(wpisView.getFirma());
         listaurlopow = rejestrurlopowFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+        String rokpoprzedni = wpisView.getRokUprzedni();
+        List<Rejestrurlopow> listaurlopowrokuprzedni = rejestrurlopowFacade.findByFirmaRok(wpisView.getFirma(), rokpoprzedni);
         for (Rejestrurlopow rejestr : listaurlopow) {
             Predicate<Angaz> isQualified = item -> item.equals(rejestr.getAngaz());
             angaze.removeIf(isQualified);
@@ -80,14 +85,23 @@ public class UrlopyZestawienieView  implements Serializable {
                     Nieobecnoscprezentacja urlopprezentacja = UrlopBean.pobierzurlop(rejestrurlopowrok.getAngaz(), wpisView.getRokWpisu(), stannadzien, dataDlaEtatu);
                     Pracownik pracownik = rejestrurlopowrok.getAngaz().getPracownik();
                     if(rejestrurlopowrok.getRok().equals(wpisView.getRokWpisu())) {
-                        pracownik.setWymiarurlopu(urlopprezentacja.getWymiarokresbiezacydni());
-                    } else {
+                        //pracownik.setWymiarurlopu(urlopprezentacja.getWymiarokresbiezacydni());
                         pracownik.setWymiarurlopu(urlopprezentacja.getWymiargeneralnydni());
+                        pracownikFacade.edit(pracownik);
                     }
-                    rejestrurlopowFacade.edit(rejestrurlopowrok);
+                    if (listaurlopowrokuprzedni.isEmpty()==false) {
+                        Predicate<Rejestrurlopow> pred = item -> item.getAngaz().equals(rejestrurlopowrok.getAngaz());
+                        Rejestrurlopow rejestrpoprzednirok = listaurlopowrokuprzedni.stream().filter(pred).findAny().orElse(null);
+                        if (rejestrpoprzednirok!=null) {
+                            System.out.println("rejestr: "+rejestrpoprzednirok.getAngaz().getNazwiskoiImie()+" "+rejestrpoprzednirok.getDowykorzystanianastrok());
+                            rejestrurlopowrok.setUrlopzalegly(rejestrpoprzednirok.getDowykorzystanianastrok());
+                        }
+                        
+                    }
                 }
             }
             Collections.sort(listaurlopow, new Rejestrurlopowcomparator());
+            //tutaj sa sejwy
             sumujUrlopy(listaurlopow);
         }
     }
@@ -99,7 +113,9 @@ public class UrlopyZestawienieView  implements Serializable {
                 kalendarzmiesiacs = kalendarzmiesiacs.stream().filter(p -> p.getRok().equals(wpisView.getRokWpisu())).collect(Collectors.toList());
             }
             int sumadnirok = 0;
-            rejestrurlopow.setUrlopzalegly(rejestrurlopow.getAngaz().getBourlopdni());
+            if (rejestrurlopow.getAngaz().getRok().equals(wpisView.getRokWpisu())) {
+                rejestrurlopow.setUrlopzalegly(rejestrurlopow.getAngaz().getBourlopdni());
+            }
             String datadodatkowywymiar = rejestrurlopow.getAngaz().getPracownik().getDatadodwymiar();
             if (datadodatkowywymiar!=null&&datadodatkowywymiar.length()==10) {
                 String rok = Data.getRok(datadodatkowywymiar);
@@ -108,7 +124,6 @@ public class UrlopyZestawienieView  implements Serializable {
                     rejestrurlopow.setDodatkowywymiar(rejestrurlopow.getAngaz().getPracownik().getDodatkowywymiar());
                 }
             }
-            rejestrurlopow.setUrlopzalegly(rejestrurlopow.getAngaz().getBourlopdni());
             for (Kalendarzmiesiac kal : kalendarzmiesiacs) {
                 int sumadni = 0;
                 String mc = kal.getMc();
@@ -136,6 +151,7 @@ public class UrlopyZestawienieView  implements Serializable {
             rejestrurlopow.setWykorzystaniesuma(sumadnirok);
             int wymiar = rejestrurlopow.getAngaz().getPracownik().getWymiarurlopu();
             rejestrurlopow.setDowykorzystanianastrok(wymiar - sumadnirok + rejestrurlopow.getUrlopzalegly()+rejestrurlopow.getDodatkowywymiar() - rejestrurlopow.getEwiwalent());
+            rejestrurlopowFacade.edit(rejestrurlopow);
         }
     }
     

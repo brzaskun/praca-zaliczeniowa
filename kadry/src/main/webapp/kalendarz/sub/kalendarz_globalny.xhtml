@@ -163,10 +163,14 @@
                                       rendered="#{kalendarzGlobalnyView.selected.id ne null}">
                         <p:confirm type="popup" header="Generowanie wszystkich kalendarzy nowy rok" message="Stworzyć kalendarze dla firm i pracowników?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
-                     <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nowyroknieobecnosci}" value="nieobecności nowy rok"  
+                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nowyroknieobecnosci}" value="nieobecności nowy rok"  
                                       rendered="#{kalendarzGlobalnyView.selected.id ne null}">
                         <p:confirm type="popup" header="Nanoszenie przełomowych nieobecności na naowy rok" message="Nanieść nieobecności pracowników z poprzedniego roku do nowego?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
+<!--                    <p:commandButton styleClass="buttonnorm2" actionListener="#{kalendarzGlobalnyView.nowyrokurlopykartoteki}" value="urlopy nowy rok"  
+                                      rendered="#{kalendarzGlobalnyView.selected.id ne null}">
+                        <p:confirm type="popup" header="Nanoszenie bo urlopy na naowy rok" message="Wygenerować kartoteki urlopowe pracowników na nowy rok?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>-->
                 </p:outputPanel>
            </h:form>
                 <p:outputPanel>
