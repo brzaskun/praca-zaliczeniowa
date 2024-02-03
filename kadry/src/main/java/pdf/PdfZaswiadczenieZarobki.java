@@ -218,7 +218,11 @@ public class PdfZaswiadczenieZarobki {
             if (czyustalozatrudnienie) {
                 p.add(new Phrase("Stosunek pracy został zakończony dnia "+datazakonczeniaostatnieumowy, fontM));
             } else {
-                p.add(new Phrase("Wyżej wymieniony zatrudniony nie znajduje się w okresie wypowiedzenia ani w okresie próbnym.", fontM));
+                if (pracownik.getPlec().equals("K")) {
+                    p.add(new Phrase("Wyżej wymieniona zatrudniona nie znajduje się w okresie wypowiedzenia ani w okresie próbnym.", fontM));
+                } else {
+                    p.add(new Phrase("Wyżej wymieniony zatrudniony nie znajduje się w okresie wypowiedzenia ani w okresie próbnym.", fontM));
+                }
             }
             document.add(p);
             p = new Paragraph();

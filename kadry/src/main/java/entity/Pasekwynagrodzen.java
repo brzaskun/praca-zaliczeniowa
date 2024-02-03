@@ -1760,6 +1760,18 @@ public class Pasekwynagrodzen implements Serializable {
         }
         return zwrot;
     }
+    
+     public double getNaliczeniaPPKPracodawca() {
+        double zwrot = 0.0;
+        if (this.naliczenieskladnikawynagrodzeniaList!=null) {
+            for (Naliczenieskladnikawynagrodzenia pot : this.naliczenieskladnikawynagrodzeniaList) {
+                if (pot.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("98")||pot.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("99")) {
+                    zwrot = zwrot +pot.getKwotadolistyplac();
+                }
+            }
+        }
+        return zwrot;
+    }
 
     public double getPotraceniaZaliczki() {
         double zwrot = 0.0;

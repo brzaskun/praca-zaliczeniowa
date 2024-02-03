@@ -152,6 +152,7 @@ public class PasekwynagrodzenView implements Serializable {
     private double symulacjatotalcost;
     private Definicjalistaplac definicjadlazasilkow;
     private boolean dialogOtwarty;
+    private boolean pozwalamusunacpasek;
     
     public void open() {
         dialogOtwarty = true;
@@ -177,6 +178,12 @@ public class PasekwynagrodzenView implements Serializable {
     
     
     public void init() {
+        String rok = Data.aktualnyRok();
+        if (wpisView.getRokWpisu().equals(rok)) {
+            pozwalamusunacpasek = true;
+        } else {
+            pozwalamusunacpasek = false;
+        }
         lista = new ArrayList<>();
         if (wpisView.getUmowa() != null) {
             if (wpisView.getUmowa().getUmowakodzus() != null && wpisView.getUmowa().getUmowakodzus().isPraca()) {
@@ -1114,6 +1121,14 @@ public class PasekwynagrodzenView implements Serializable {
 
     public void setZusrcaDAO(UbezpZusrcaDAO zusrcaDAO) {
         this.zusrcaDAO = zusrcaDAO;
+    }
+
+    public boolean isPozwalamusunacpasek() {
+        return pozwalamusunacpasek;
+    }
+
+    public void setPozwalamusunacpasek(boolean pozwalamusunacpasek) {
+        this.pozwalamusunacpasek = pozwalamusunacpasek;
     }
 
 }

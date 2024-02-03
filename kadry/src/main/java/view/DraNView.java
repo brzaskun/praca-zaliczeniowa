@@ -79,6 +79,7 @@ public class DraNView  implements Serializable {
     private double potraceniaKomornik;
     private double potraceniaZaliczki;
     private double potraceniaPPK;
+    private double naliczeniaPPK;
     private double potraceniaPozostale;
     private String mcdra;
     private List<Nieobecnosc> listanieobecnosci;
@@ -178,6 +179,7 @@ public class DraNView  implements Serializable {
                 danezus.put("netto", netto);
                 danezus.put("potraceniaKomornik", potraceniaKomornik);
                 danezus.put("potraceniaPPK", potraceniaPPK);
+                danezus.put("naliczeniaPPK", naliczeniaPPK);
                 danezus.put("potraceniaZaliczki", potraceniaZaliczki);
                 danezus.put("potraceniaPozostale", potraceniaPozostale);
                 ByteArrayOutputStream dra = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa(), wpisView.getFirma());
@@ -226,6 +228,7 @@ public class DraNView  implements Serializable {
                 danezus.put("netto", netto);
                 danezus.put("potraceniaKomornik", potraceniaKomornik);
                 danezus.put("potraceniaPPK", potraceniaPPK);
+                danezus.put("naliczeniaPPK", naliczeniaPPK);
                 danezus.put("potraceniaZaliczki", potraceniaZaliczki);
                 danezus.put("potraceniaPozostale", potraceniaPozostale);
                 ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa(), wpisView.getFirma());
@@ -267,6 +270,7 @@ public class DraNView  implements Serializable {
             zus = 0.0;
             potraceniaKomornik = 0.0;
             potraceniaPPK = 0.0;
+            naliczeniaPPK = 0.0;
             potraceniaZaliczki = 0.0;
             potraceniaPozostale = 0.0;
             paskiwynagrodzen = new ArrayList<>();
@@ -306,6 +310,7 @@ public class DraNView  implements Serializable {
                         potraceniaKomornik = Z.z(potraceniaKomornik+p.getPotraceniaKomornik());
                         potraceniaZaliczki = Z.z(potraceniaZaliczki+p.getPotraceniaZaliczki());
                         potraceniaPPK = Z.z(potraceniaPPK+p.getPotraceniaPPK());
+                        naliczeniaPPK = Z.z(naliczeniaPPK+p.getNaliczeniaPPKPracodawca());
                         sumapotracen = Z.z(sumapotracen + p.getPotracenia());
                     }
                     paskiwynagrodzen.add(PasekwynagrodzenBean.sumujpaski(paskiwynagrodzen));
@@ -482,6 +487,14 @@ public class DraNView  implements Serializable {
 
     public void setPit4przekroczenie(double pit4przekroczenie) {
         this.pit4przekroczenie = pit4przekroczenie;
+    }
+
+    public double getNaliczeniaPPK() {
+        return naliczeniaPPK;
+    }
+
+    public void setNaliczeniaPPK(double naliczeniaPPK) {
+        this.naliczeniaPPK = naliczeniaPPK;
     }
 
     

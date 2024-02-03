@@ -220,7 +220,8 @@ public class PdfDRA {
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "PIT-8AR do wpłaty: ", f.F.curr(danezus.get("pit8AR")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "PIT-4 Niemcy do wpłaty w walucie: ", f.F.curr(danezus.get("pit4N"),"EUR"), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia komornicze: ", f.F.curr(danezus.get("potraceniaKomornik")), Element.ALIGN_LEFT, 1, 100);
-                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia PPK: ", f.F.curr(danezus.get("potraceniaPPK")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia PPK - część pracownika: ", f.F.curr(danezus.get("potraceniaPPK")), Element.ALIGN_LEFT, 1, 100);
+                PdfMain.dodajLinieOpisuBezOdstepuTab(document, "naliczenia PPK - część pracodawcy: ", f.F.curr(danezus.get("naliczeniaPPK")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia zaliczki: ", f.F.curr(danezus.get("potraceniaZaliczki")), Element.ALIGN_LEFT, 1, 100);
                 PdfMain.dodajLinieOpisuBezOdstepuTab(document, "potrącenia pozostałe: ", f.F.curr(danezus.get("potraceniaPozostale")), Element.ALIGN_LEFT, 1, 100);
                 document.add(Chunk.NEWLINE);
