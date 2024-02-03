@@ -22,11 +22,17 @@
                      selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"
                      rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.angaz.pracownik.nazwiskoImie}"
                      style="height: 430px; overflow-y: scroll;"
+                     filterBy="#{itempasek.nazwiskoImie}" filteredValue="#{pasekwynagrodzenView.listafiltered}"
+                     
                      >
+            <p:ajax event="filter" global="false"/>
+             <f:facet name="header">
+                
+            </f:facet>
             <p:column width="20" style="text-align: center;">
                 <p:rowToggler />
             </p:column>
-            <p:column>
+            <p:column  filterMatchMode="contains" filterable="true" filterBy="#{itempasek.nazwiskoImie}">
                 <p:panelGrid styleClass="pasekwync">
                     <p:row>
                         <p:column width="80" style="text-align: center;">

@@ -20,13 +20,19 @@
         </style>
         <p:dataTable id="datalist" value="#{pasekwynagrodzenView.lista}" var="itempasek" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
                      selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"
+                     widgetVar="tabelapaski"
                      rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.angaz.pracownik.nazwiskoImie}"
-                     style="height: 430px; overflow-y: scroll;"
+                     style="height: 430px; overflow-y: scroll;" filterBy="#{itempasek.nazwiskoImie}" filteredValue="#{pasekwynagrodzenView.listafiltered}"
+                     
                      >
+            <p:ajax event="filter" global="false"/>
+             <f:facet name="header">
+                
+            </f:facet>
             <p:column width="20" style="text-align: center;">
                 <p:rowToggler />
             </p:column>
-            <p:column>
+            <p:column filterMatchMode="contains" filterable="true" filterBy="#{itempasek.nazwiskoImie}">
                 <p:panelGrid styleClass="pasekwync">
                     <p:row>
                         <p:column width="80" style="text-align: center;">

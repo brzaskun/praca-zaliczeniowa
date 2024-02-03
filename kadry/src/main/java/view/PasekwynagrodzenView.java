@@ -94,6 +94,7 @@ public class PasekwynagrodzenView implements Serializable {
     private Definicjalistaplac wybranalistaplac2;
     private Kalendarzmiesiac wybranykalendarz;
     private List<Pasekwynagrodzen> lista;
+    private List<Pasekwynagrodzen> listafiltered;
     private List<Definicjalistaplac> listadefinicjalistaplac;
     private List<Definicjalistaplac> listadefinicjalistaplacAnaliza;
     private org.primefaces.model.DualListModel<Kalendarzmiesiac> listakalendarzmiesiac;
@@ -937,6 +938,14 @@ public class PasekwynagrodzenView implements Serializable {
 //            Msg.msg("Pobieram podatek zagraniczny");
 //        }
 //    }
+
+    public List<Pasekwynagrodzen> getListafiltered() {
+        return listafiltered;
+    }
+
+    public void setListafiltered(List<Pasekwynagrodzen> listafiltered) {
+        this.listafiltered = listafiltered;
+    }
 
     public Pasekwynagrodzen getSelected() {
         return selected;

@@ -1222,7 +1222,7 @@ public class PasekwynagrodzenBean {
         }
         double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) : 0.0;
         pasek.setPodstawaopodatkowania(podstawa);
-        korektaprzychodyopodatkowanezagranica(podstawa,pasek);
+        korektaprzychodyopodatkowanezagranica(pasek);
         pasek.setKosztyuzyskania(kosztyuzyskania);
 
     }
@@ -1298,10 +1298,11 @@ public class PasekwynagrodzenBean {
             pasek.setDietaodliczeniepodstawaop(0.0);
             dieta30proc = 0.0;
         }
-        double podstawawstepna  = Z.z0(bruttominusspoleczne -  dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne - dieta30proc) : 0.0;
+        //nie wolno wczesniej zaokrgaldac do integer
+        double podstawawstepna  = Z.z(bruttominusspoleczne -  dieta30proc) > 0.0 ? Z.z(bruttominusspoleczne - dieta30proc) : 0.0;
         pasek.setPodstawaopodatkowania(podstawawstepna);
         //to w zasadzie jest niepotrzebne bo mamy osobna kategorie w pasku juz przy obliczaniu brutto
-        korektaprzychodyopodatkowanezagranicaZlecenie(podstawawstepna,pasek);
+        korektaprzychodyopodatkowanezagranicaZlecenie(pasek);
         double nowapodstawapl = pasek.getPodstawaopodatkowania();
         double procentkosztyuzyskania = rachunekdoumowyzlecenia.getProcentkosztowuzyskania();
         if (procentkosztyuzyskania==100.0) {
@@ -1373,7 +1374,7 @@ public class PasekwynagrodzenBean {
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
         double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc) : 0.0;
         pasek.setPodstawaopodatkowania(podstawa);
-        korektaprzychodyopodatkowanezagranica(podstawa,pasek);
+        korektaprzychodyopodatkowanezagranica(pasek);
         if (nierezydent) {
             pasek.setKosztyuzyskania(0.0);
         } else {
@@ -2110,7 +2111,7 @@ public class PasekwynagrodzenBean {
     
     
     
-    private static void korektaprzychodyopodatkowanezagranicaZlecenie(double podstawa, Pasekwynagrodzen pasek) {
+    private static void korektaprzychodyopodatkowanezagranicaZlecenie(Pasekwynagrodzen pasek) {
         try {
             if (pasek.isPrzekroczenieoddelegowanie()) {
                 List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
@@ -2141,7 +2142,7 @@ public class PasekwynagrodzenBean {
         }
     }
 
-    private static void korektaprzychodyopodatkowanezagranica(double podstawa, Pasekwynagrodzen pasek) {
+    private static void korektaprzychodyopodatkowanezagranica(Pasekwynagrodzen pasek) {
         try {
             if (pasek.isPrzekroczenieoddelegowanie()) {
                 List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
