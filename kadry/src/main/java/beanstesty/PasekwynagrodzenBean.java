@@ -1085,16 +1085,18 @@ public class PasekwynagrodzenBean {
     }
 
     private static void razemspolecznepracownik(Pasekwynagrodzen pasek) {
-        pasek.setRazemspolecznepracownik(Z.z(pasek.getPracemerytalne() + pasek.getPracrentowe() + pasek.getPracchorobowe()));
-        pasek.setSpoleczneudzialpolska(Z.z(pasek.getPracemerytalne() + pasek.getPracrentowe() + pasek.getPracchorobowe()));
+        double spolecznepracownik = Z.z(pasek.getPracemerytalne() + pasek.getPracrentowe() + pasek.getPracchorobowe());
+        pasek.setRazemspolecznepracownik(Z.z(spolecznepracownik));
+        pasek.setSpoleczneudzialpolska(Z.z(spolecznepracownik));
         if (pasek.getPrzychodypodatekpolska()>0.0&&pasek.getPodstawaskladkizus()>0.0) {
             double proporcjaprzychodow = pasek.getPrzychodypodatekpolska()/pasek.getPodstawaskladkizus();
             //to musi byc bo jest przeciez ograniczenie wysokosci skladki zus
             if (proporcjaprzychodow>1.0) {
                 proporcjaprzychodow = 1.0;
             }
-            double zusproporcjonalnie = pasek.getRazemspolecznepracownik()*proporcjaprzychodow;
+            double zusproporcjonalnie = spolecznepracownik*proporcjaprzychodow;
             pasek.setSpoleczneudzialpolska(zusproporcjonalnie);
+            pasek.setSpoleczneudzialoddelegowanie(spolecznepracownik-zusproporcjonalnie);
         }
     }
     
@@ -1127,6 +1129,7 @@ public class PasekwynagrodzenBean {
             }
             double zusproporcjonalnie = pasek.getRazemspolecznepracownik()*proporcjaprzychodow;
             pasek.setSpoleczneudzialpolska(zusproporcjonalnie);
+            pasek.setSpoleczneudzialoddelegowanie(pasek.getRazemspolecznepracownik()-zusproporcjonalnie);
         }
     }
 
@@ -1280,6 +1283,7 @@ public class PasekwynagrodzenBean {
         if (pasek.getPrzychodypodatekzagranica()==0.0) {
             //robimy to bo przy zbirgu niemcy i 26lat zawzal kwote
             pasek.setSpoleczneudzialpolska(polskiespoleczne);
+            pasek.setSpoleczneudzialoddelegowanie(0.0);
         }
         korektaprzychodyopodatkowanezagranica26(podstawa,pasek);
         pasek.setKosztyuzyskania(kosztyuzyskania);

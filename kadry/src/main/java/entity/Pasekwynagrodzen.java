@@ -294,6 +294,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double podstawaprzedkorektaozagranice;
     @Column(name = "spoleczneudzialpolska")
     private double spoleczneudzialpolska;
+    @Column(name = "spoleczneudzialoddelegowanie")
+    private double spoleczneudzialoddelegowanie;
     @Column(name = "przychodypodatekpolska")
     private double przychodypodatekpolska;
     @Column(name = "przychodypodatekzagranica")
@@ -466,6 +468,7 @@ public class Pasekwynagrodzen implements Serializable {
         this.przychodyzus51 = Z.z(this.przychodyzus51+p.getPrzychodyzus51());
         this.przychodyzus52 = Z.z(this.przychodyzus51+p.getPrzychodyzus52());
         this.spoleczneudzialpolska = Z.z(this.spoleczneudzialpolska+p.getSpoleczneudzialpolska());
+        this.spoleczneudzialoddelegowanie = Z.z(this.spoleczneudzialoddelegowanie+p.getSpoleczneudzialoddelegowanie());
     }
 
     public double getPrzekroczeniekorektapodstawypolska() {
@@ -506,6 +509,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setPrzekroczeniekosztyuzyskania(double przekroczeniekosztyuzyskania) {
         this.przekroczeniekosztyuzyskania = przekroczeniekosztyuzyskania;
+    }
+
+    public double getSpoleczneudzialoddelegowanie() {
+        return spoleczneudzialoddelegowanie;
+    }
+
+    public void setSpoleczneudzialoddelegowanie(double spoleczneudzialoddelegowanie) {
+        this.spoleczneudzialoddelegowanie = spoleczneudzialoddelegowanie;
     }
 
     
