@@ -22,13 +22,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import mail.MailOther;
-import msg.Msg;import pdf.PdfEwidencjaPrzychodow;
+import msg.Msg;
+import pdf.PdfEwidencjaPrzychodow;
 
 /**
  *
@@ -140,17 +140,23 @@ public class EwidencjaPrzychodowView implements Serializable {
         Podatnik pod = wpisView.getPodatnikObiekt();
         int numerkolejny = EwidencjaPrzychBean.pobierznumerrecznie(pod,rok,mc);
         List<Dok> dokumentyzaMc = EwidencjaPrzychBean.pobierzdokumentyR(dokDAO, pod, rok, mc, numerkolejny);
-        podsumowanie = EwidencjaPrzychBean.ustawpodsumowanieR();
-        for (Dok tmp : dokumentyzaMc) {
-            DokEwidPrzych dk = new DokEwidPrzych(tmp);
-            List<KwotaKolumna1> listawierszy = tmp.getListakwot1();
-                for (KwotaKolumna1 tmpX : listawierszy) {
-                    EwidencjaPrzychBean.rozliczkolumnyR(dk, tmpX, podsumowanie);
-                }
-            EwidencjaPrzychBean.rozliczkolumnysumaryczneR(dk, podsumowanie);
-            lista.add(dk);
+        if (dokumentyzaMc.isEmpty()) {
+               podsumowanie = EwidencjaPrzychBean.ustawpodsumowanieR();
+               podsumowanie.setOpis("brak dokumentów w miesiącu");
+               lista.add(podsumowanie);
+        } else {
+            podsumowanie = EwidencjaPrzychBean.ustawpodsumowanieR();
+            for (Dok tmp : dokumentyzaMc) {
+                DokEwidPrzych dk = new DokEwidPrzych(tmp);
+                List<KwotaKolumna1> listawierszy = tmp.getListakwot1();
+                    for (KwotaKolumna1 tmpX : listawierszy) {
+                        EwidencjaPrzychBean.rozliczkolumnyR(dk, tmpX, podsumowanie);
+                    }
+                EwidencjaPrzychBean.rozliczkolumnysumaryczneR(dk, podsumowanie);
+                lista.add(dk);
+            }
+            lista.add(podsumowanie);
         }
-        lista.add(podsumowanie);
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
