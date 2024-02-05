@@ -129,8 +129,8 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                     }
                     if (pasek.isPrzekroczenieoddelegowanie()) {
                         double nowespoleczne = Z.z(pasek.getSpoleczneudzialpolska());
-                        //pitKorektaNiemcy.setAngaz(pasek.getAngaz());
-                        //pitKorektaNiemcy.dodajstare(pasek);
+                        pitKorektaNiemcy.setAngaz(pasek.getAngaz());
+                        pitKorektaNiemcy.dodajstare(pasek);
                         if (pasek.isPrzekroczenieoddelegowanie()) {
                             //musi byc tak bo inaczej zasilki traktyuje jak zlecenie
                             if (pasek.isZlecenie()==false) {
@@ -146,7 +146,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                                 obliczpodatekwstepnyZlecenieDB(pasek, stawkipodatkowe, pasek.isNierezydent());
                             }
                             pasek.setPrzekroczeniepodstawaniemiecka(pasek.getOddelegowaniewaluta());
-                            //pitKorektaNiemcy.dodajnowe(pasek);
+                            pitKorektaNiemcy.dodajnowe(pasek);
 
                         } else {
                             pasek.setPrzekroczeniekorektapodstawypolska(0.0);
@@ -171,7 +171,7 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                     pasekwynagrodzenFacade.edit(pasek);
                 }
             }
-            //pitKorektaNiemcy.roznica();
+            pitKorektaNiemcy.roznica();
             paskiwybranego.add(paseksuma);
         }
     }
