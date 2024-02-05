@@ -15,8 +15,8 @@ import entity.SMTPSettings;
 import entity.Umowa;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -44,8 +44,17 @@ public class UmowaReminder {
     public void oznaczumowy() {
         List<Angaz> angaze = angazFacade.findAll();
         List<Umowa> listaumowy = new ArrayList<>();
+        for (Iterator<Angaz> it = angaze.iterator(); it.hasNext();) {
+                Angaz angaz = it.next();
+                if (angaz.jestumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu())==false) {
+                    it.remove();
+                }
+        }
         for (Angaz a : angaze) {
-            listaumowy.addAll(a.getUmowaList().stream().filter(p->p.isAktywna()).filter(p->p.getDatado()!=null).filter(p->!p.getDatado().equals("")).collect(Collectors.toList()));
+            Umowa umowaAktywna = a.pobierzumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+            if (umowaAktywna!=null) {
+                listaumowy.add(umowaAktywna);
+            }
         }
         if (listaumowy!=null) {
             for (Umowa u : listaumowy) {
@@ -60,12 +69,8 @@ public class UmowaReminder {
             }
             umowaFacade.editList(listaumowy);
         }
-        List<Umowa> listaszkoleniabhp = new ArrayList<>();
-        for (Angaz a : angaze) {
-            listaszkoleniabhp.addAll(a.getUmowaList().stream().filter(p->p.isAktywna()).collect(Collectors.toList()));
-        }
-        if (listaszkoleniabhp!=null) {
-            for (Umowa um : listaszkoleniabhp) {
+        if (listaumowy!=null) {
+            for (Umowa um : listaumowy) {
                 Angaz u =um.getAngaz();
                 if (u.getDataszkolenie5lat()!=null&&!u.getDataszkolenie5lat().equals("")) {
                     LocalDate today = LocalDate.parse(u.getDataszkolenie5lat()) ;
@@ -81,7 +86,7 @@ public class UmowaReminder {
                     u.setDataprzypomnieniaszkolenie(tomorrow.toString());
                 }
             }
-            umowaFacade.editList(listaszkoleniabhp);
+            umowaFacade.editList(listaumowy);
         }
     }
     
@@ -119,7 +124,7 @@ public class UmowaReminder {
         
     }
     
-     @Schedule(dayOfWeek = "Mon-Fri", hour = "23", minute = "23", persistent = false)
+    @Schedule(dayOfWeek = "Mon-Fri", hour = "23", minute = "23", persistent = false)
     public void alarA1() {
         List<Angaz> angaze = angazFacade.findAll();
         List<Angaz> listaangaze = new ArrayList<>();
@@ -128,6 +133,39 @@ public class UmowaReminder {
             if (angaz.getDataa1()!=null&&!angaz.getDataa1().equals("")) {
                 boolean czymailniezostalwyslany = angaz.getDataa1mail()==null||angaz.getDataa1mail().equals("");
                 String data = angaz.getDataa1mail();
+                LocalDate today = LocalDate.parse(data) ;
+                LocalDate tomorrow = today.minusDays(21) ;
+                String dataprzypomnienia = tomorrow.toString();
+                boolean czymineladataalarmu = Data.czyjestpoTerminData(dataprzypomnienia, databiezaca);
+                if (czymailniezostalwyslany&&czymineladataalarmu) {
+                    listaangaze.add(angaz);
+                    break;
+                }
+            }
+        }
+        if (listaangaze!=null) {
+            SMTPSettings ogolne = sMTPSettingsFacade.findSprawaByDef();
+            for (Angaz u : listaangaze) {
+                FirmaKadry firma = u.getFirma();
+                if (firma.getEmail()!=null) {
+                    Mail.mailPrzypomnienieoA1(firma.getEmail(), ogolne, ogolne, "n.sinkiewicz@taxman.biz.pl", u);
+                    u.setDataa1mail(Data.aktualnaData());
+                }
+            }
+            angazFacade.editList(listaangaze);
+        }
+        
+    }
+    
+    @Schedule(dayOfWeek = "Mon-Fri", hour = "21", minute = "21", persistent = false)
+    public void alarbadabnia() {
+        List<Angaz> angaze = angazFacade.findAll();
+        List<Angaz> listaangaze = new ArrayList<>();
+        String databiezaca = Data.aktualnaData();
+        for (Angaz angaz : angaze) {
+            if (angaz.getDatabadanielekarskie()!=null&&!angaz.getDatabadanielekarskie().equals("")) {
+                boolean czymailniezostalwyslany = angaz.getDatabadanielekarskiemail()==null||angaz.getDatabadanielekarskiemail().equals("");
+                String data = angaz.getDatabadanielekarskiemail();
                 LocalDate today = LocalDate.parse(data) ;
                 LocalDate tomorrow = today.minusDays(21) ;
                 String dataprzypomnienia = tomorrow.toString();

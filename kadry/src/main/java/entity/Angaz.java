@@ -150,6 +150,10 @@ public class Angaz implements Serializable {
     private String  dataa1;
     @Column(name = "dataa1mail")
     private String  dataa1mail;
+    @Column(name = "databadanielekarskie")
+    private String  databadanielekarskie;
+    @Column(name = "databadanielekarskiemail")
+    private String  databadanielekarskiemail;
 //    @Transient
 //    private int m0;
 //    @Transient
@@ -503,6 +507,24 @@ public class Angaz implements Serializable {
         this.dataa1 = dataa1;
     }
 
+    public String getDatabadanielekarskie() {
+        return databadanielekarskie;
+    }
+
+    public void setDatabadanielekarskie(String databadanielekarskie) {
+        this.databadanielekarskie = databadanielekarskie;
+    }
+
+    public String getDatabadanielekarskiemail() {
+        return databadanielekarskiemail;
+    }
+
+    public void setDatabadanielekarskiemail(String databadanielekarskiemail) {
+        this.databadanielekarskiemail = databadanielekarskiemail;
+    }
+
+    
+    
 //    public int getM0() {
 //        return m0;
 //    }

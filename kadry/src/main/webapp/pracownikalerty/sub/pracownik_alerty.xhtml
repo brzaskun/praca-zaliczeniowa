@@ -9,9 +9,8 @@
         <p:tab title="czas trwania umowy">
             <p:dataTable id="datalist" value="#{pracownikAlertyView.listaumowy}" var="itemUmowa" rowIndexVar="yndex"
                          selectionMode="single" 
-                         rowKey="#{itemUmowa.id}"  sortBy="#{itemUmowa.datado}"
-                         style="height: 550px; overflow-y: scroll;width: 960px;"
-                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                         rowKey="#{itemUmowa.id}"  
+                         style="height: 650px; overflow-y: scroll;width: 960px;"
                          emptyMessage="Nie pobrano listy"
                          >
                 <f:facet name="header">
@@ -23,7 +22,7 @@
                     </f:facet>
                     <h:outputText value="#{yndex+1}"/>
                 </p:column>
-                <p:column width="200" sortBy="#{itemUmowa.nazwiskoImie}">
+                <p:column width="200" sortBy="#{itemUmowa.nazwiskoImie}" sortOrder="1" sortPriority="1">
                     <f:facet name="header">
                         <h:outputText value="nazwisko i imię"/>
                     </f:facet>
@@ -74,8 +73,7 @@
             <p:dataTable id="datalist1" value="#{pracownikAlertyView.listaszkoleniabhp}" var="itemBHP" rowIndexVar="yndex1"
                          selectionMode="single" 
                          rowKey="#{itemBHP.id}"   sortBy="#{itemBHP.nazwiskoImie}"
-                         style="height: 550px; overflow-y: scroll;width: 900px; margin-top: 10px"
-                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                         style="height: 650px; overflow-y: scroll;width: 900px; margin-top: 10px"
                          emptyMessage="Nie pobrano listy"
                          >
                 <f:facet name="header">
@@ -140,8 +138,7 @@
             <p:dataTable id="datalist2" value="#{pracownikAlertyView.listaA1}" var="itemA1" rowIndexVar="yndex1"
                          selectionMode="single" 
                          rowKey="#{itemA1.id}"   sortBy="#{itemA1.nazwiskoiImie}"
-                         style="height: 550px; overflow-y: scroll;width: 500px; margin-top: 10px"
-                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
+                         style="height: 650px; overflow-y: scroll;width: 500px; margin-top: 10px"
                          emptyMessage="Nie pobrano listy"
                          >
                 <f:facet name="header">
@@ -167,6 +164,40 @@
                 </p:column>
             </p:dataTable>
                 <p:commandButton value="zapisz" styleClass="buttonnorm" actionListener="#{pracownikAlertyView.zapiszzmianya1()}" />
+            </h:form>
+        </p:tab>
+         <p:tab title="badania lekarskie"> 
+            <h:form id="formbadania">
+            <h:outputText value="Wprowadzamy daty ważności badań lekarskich" style="color: blue;margin-top: 40px;"/>
+            <p:dataTable id="datalist2" value="#{pracownikAlertyView.listaA1}" var="itembadania" rowIndexVar="yndexba"
+                         selectionMode="single" 
+                         rowKey="#{itembadania.id}"   sortBy="#{itembadania.nazwiskoiImie}"
+                         style="height: 650px; overflow-y: scroll;width: 500px; margin-top: 10px"
+                         emptyMessage="Nie pobrano listy"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="Daty upływu ważności "/>
+                </f:facet>
+                <p:column width="20" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="id"/>
+                    </f:facet>
+                    <h:outputText value="#{yndexba+1}"/>
+                </p:column>
+                <p:column width="150"  sortBy="#{itembadania.nazwiskoiImie}" sortOrder="asc" sortPriority="1">
+                    <f:facet name="header">
+                        <h:outputText value="nazwisko i imię"/>
+                    </f:facet>
+                    <h:outputText value="#{itembadania.nazwiskoiImie}"/>
+                </p:column>
+                <p:column width="60" style="text-align: center;" sortBy="#{itembadania.databadanielekarskie}" sortOrder="desc">
+                    <f:facet name="header">
+                        <h:outputText value="data ważności badania"/>
+                    </f:facet>
+                    <p:inputText value="#{itembadania.databadanielekarskie}" title="datac od"  placeholder="____-__-__" maxlength="10" size="11"/>
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="zapisz" styleClass="buttonnorm" actionListener="#{pracownikAlertyView.zapiszzmianybadanialekarskie()}" />
             </h:form>
         </p:tab>
     </p:tabView>

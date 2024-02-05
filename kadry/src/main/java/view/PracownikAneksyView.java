@@ -24,9 +24,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -70,8 +70,18 @@ public class PracownikAneksyView  implements Serializable {
         if (wpisView.getFirma() != null) {
             List<Angaz> angaze = angazFacade.findByFirma(wpisView.getFirma());
             listaumowy = new ArrayList<>();
+            List<Umowa> listaumowy = new ArrayList<>();
+            for (Iterator<Angaz> it = angaze.iterator(); it.hasNext();) {
+                    Angaz angaz = it.next();
+                    if (angaz.jestumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu())==false) {
+                        it.remove();
+                    }
+            }
             for (Angaz a : angaze) {
-                listaumowy.addAll(a.getUmowaList().stream().filter(p -> p.isAktywna()).collect(Collectors.toList()));
+                Umowa umowaAktywna = a.pobierzumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                if (umowaAktywna!=null) {
+                    listaumowy.add(umowaAktywna);
+                }
             }
             rodzajewynagrodzen = pobierzrodzajewyn(angaze);
         }
