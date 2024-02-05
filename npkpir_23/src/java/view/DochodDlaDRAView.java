@@ -204,7 +204,7 @@ public class DochodDlaDRAView implements Serializable {
             for (Podatnik podatnik : podatnicy) {
                 //if (podatnik.getNip().equals("8522532326")) {
                 //if (podatnik.getNip().equals("8511005008")||podatnik.getNip().equals("8511054159")||podatnik.getNip().equals("8792611113")||podatnik.getNip().equals("9551392851")||podatnik.getNip().equals("9281839264")) {
-                    PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(podatnik, rok, mc);
+                    PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(podatnik, rokpkpir, mc);
                     if (opodatkowanie != null) {
                         String formaopodatkowania = opodatkowanie.getFormaopodatkowania();
                         List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(podatnik);
@@ -296,6 +296,9 @@ public class DochodDlaDRAView implements Serializable {
 
                     } 
                     i++;
+                    if (i>2) {
+                        break;
+                    }
                 //}
             }
 //            if (this.wiersze!=null&&this.wiersze.size()>0) {
@@ -575,7 +578,8 @@ public class DochodDlaDRAView implements Serializable {
                         w.setBlad(false);
                     }
                 }
-                dodajpit4DRA(znaleziona, firmy);
+                //tego nie powinno byc to sa superplace. nie ma ich w 2024 05.02.2024
+                //dodajpit4DRA(znaleziona, firmy);
                 przygotujmail(w, maile,zwiekszmiesiac[0],zwiekszmiesiac[1]);
             }
         }

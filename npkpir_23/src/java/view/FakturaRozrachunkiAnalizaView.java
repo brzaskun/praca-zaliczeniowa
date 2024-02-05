@@ -646,6 +646,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         Msg.msg("Zaksięgowano w bo");
     }
     
+    
+    
     public void korygujsaldo(FakturaPodatnikRozliczenie p) {
         double saldopln = p.getSaldopln();
         double saldowaluta = p.getSaldo();
