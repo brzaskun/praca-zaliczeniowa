@@ -296,10 +296,7 @@ public class DochodDlaDRAView implements Serializable {
 
                     } 
                     i++;
-                    if (i>2) {
-                        break;
-                    }
-                //}
+                 //}
             }
 //            if (this.wiersze!=null&&this.wiersze.size()>0) {
 //                List<WierszDRA> wierszeglowne = wiersze.stream().filter(p->p.getPodatnikudzial()!=null&&p.getPodatnikudzial().isPit()).collect(Collectors.toList());
