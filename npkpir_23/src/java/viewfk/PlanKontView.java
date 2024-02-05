@@ -1203,6 +1203,9 @@ public class PlanKontView implements Serializable {
                         }
                         kontoDAOfk.editList(kontapotomnePorzadek);
                         kontopozycjaZapisDAO.editList(nowepozycje);
+                    } else {
+                        selectednodekonto.setMapotomkow(false);
+                        kontoDAOfk.edit(selectednodekonto);
                     }
                 }
             } else {

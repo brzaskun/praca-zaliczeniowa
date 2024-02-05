@@ -133,7 +133,7 @@ public class DochodDlaDRAView implements Serializable {
     
     @PostConstruct
     public void start() {
-        rok = "2022";
+        rok = "2024";
         maxmc = Data.poprzedniMc();
     }
     
@@ -345,15 +345,15 @@ public class DochodDlaDRAView implements Serializable {
      public void pobierzrokByNip() {
         if (podatnik!=null) {
             wierszerok = wierszDRADAO.findByRokPodatnik(rok, podatnik);
-            List<WierszDRA> styczen2023 = wierszDRADAO.findByRokMcPodatnik("2023", "01", podatnik);
+            List<WierszDRA> styczen2024 = wierszDRADAO.findByRokMcPodatnik("2023", "01", podatnik);
             WierszDRA wierszstyczen =null;
-            if (styczen2023!=null&&styczen2023.size()==1) {
-                wierszstyczen = styczen2023.get(0);
+            if (styczen2024!=null&&styczen2024.size()==1) {
+                wierszstyczen = styczen2024.get(0);
             }
             if (wierszerok==null) {
                 wierszerok = new ArrayList<>();
-            } else if (styczen2023!=null) {
-                wierszerok.addAll(styczen2023);
+            } else if (styczen2024!=null) {
+                wierszerok.addAll(styczen2024);
             }
             pobierzremanent(podatnik.getRemanent(), rok);
             String nazwa = podatnik.getNazwapelna();
@@ -362,10 +362,10 @@ public class DochodDlaDRAView implements Serializable {
             if (podatnikprocentudzial != 100.0) {
                 udzialowiec = wierszstyczen.getPodatnikudzial().getNazwiskoimie();
             }
-            double dochod = pobierzdochod(nazwa, udzialowiec, "2022", "12", wierszstyczen);
+            double dochod = pobierzdochod(nazwa, udzialowiec, "2023", "12", wierszstyczen);
             Collections.sort(wierszerok, new WierszDRAcomparator());
-            WierszDRA mc122022 = wierszerok.get(11);
-            rokdochod = Z.z(dochod+mc122022.getWynikpodatkowynar());
+            WierszDRA mc122023 = wierszerok.get(11);
+            rokdochod = Z.z(dochod+mc122023.getWynikpodatkowynar());
             Msg.msg("Pobrano i przeliczono dane");
         }
     }
