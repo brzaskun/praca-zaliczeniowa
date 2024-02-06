@@ -70,7 +70,6 @@ public class PracownikAneksyView  implements Serializable {
         if (wpisView.getFirma() != null) {
             List<Angaz> angaze = angazFacade.findByFirma(wpisView.getFirma());
             listaumowy = new ArrayList<>();
-            List<Umowa> listaumowy = new ArrayList<>();
             for (Iterator<Angaz> it = angaze.iterator(); it.hasNext();) {
                     Angaz angaz = it.next();
                     if (angaz.jestumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu())==false) {
