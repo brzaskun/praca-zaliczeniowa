@@ -1316,7 +1316,8 @@ public class KalendarzmiesiacBean {
 //            }
         }
         for (Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1() && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1() == false
+            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1() && 
+                    naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getStale0zmienne1() == false
                     && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSredniaurlopowakraj() == true) {
                 String dataodS = naliczenieskladnikawynagrodzenia.getDataod();
                 String datadoS = naliczenieskladnikawynagrodzenia.getDatado();
@@ -1424,6 +1425,11 @@ public class KalendarzmiesiacBean {
                         naliczenienieobecnosc.setLiczbagodzinNieobecnosci(liczbagodzinurlopu);
                         naliczenienieobecnosc.setStawkagodzinowa(r.getKwota());
                         double dowyplatyzaczasnieobecnosci = wyliczsredniagodzinowaZmienne(kalendarz, skladnikwynagrodzenia, liczbagodzinurlopu, liczbagodzinobowiazku, naliczenienieobecnosc, kalendarzList);
+                        if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==false) {
+                            dowyplatyzaczasnieobecnosci = liczbagodzinurlopu*r.getKwota();
+                            naliczenienieobecnosc.setStawkadzienna(Z.z(liczbadniurlopu*r.getKwota()));
+                            naliczenienieobecnosc.setStawkagodzinowa(r.getKwota());
+                        }
                         if (dowyplatyzaczasnieobecnosci==0.0) {
                             dowyplatyzaczasnieobecnosci = liczbagodzinurlopu*r.getKwota();
                         }

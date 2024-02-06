@@ -1601,7 +1601,7 @@ public class PasekwynagrodzenBean {
                 }
                 pasek.setPraczdrowotne(zdrowotne);
                 pasek.setPraczdrowotnedoodliczenia(0.0);
-                pasek.setPraczdrowotnedopotracenia(0.0);
+                pasek.setPraczdrowotnedopotracenia(zdrowotne);
             } else if (pasek.isDo26lat()) {
                 double podstawahipotetyczna = pasek.getPodstawaopodatkowania();
                 if (podstawahipotetyczna>0.0) {
