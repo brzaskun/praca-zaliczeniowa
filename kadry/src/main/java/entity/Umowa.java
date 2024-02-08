@@ -191,6 +191,8 @@ public class Umowa implements Serializable {
     private String  dataprzypomnieniamail;
     @Column(name = "lata")
     private int lata;
+    @Column(name = "miesiace")
+    private int miesiace;
     @Column(name = "dni")
     private int dni;
     @Column(name = "licznikumow")
@@ -801,6 +803,16 @@ public class Umowa implements Serializable {
     public void setPrzyczynaumowaokreslony(String przyczynaumowaokreslony) {
         this.przyczynaumowaokreslony = przyczynaumowaokreslony;
     }
+
+    public int getMiesiace() {
+        return miesiace;
+    }
+
+    public void setMiesiace(int miesiace) {
+        this.miesiace = miesiace;
+    }
+    
+    
 
     public boolean isImportowana() {
         return importowana;

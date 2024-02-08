@@ -55,10 +55,10 @@
                                         </p:panelGrid>
                                     </p:outputPanel>
                                 </p:tab>
-                                <p:tab title="umowy o pracę">
-                                    <h:form>
+                                <p:tab title="wykaz umów">
+                                    <h:form id="formopispracownikumowa" styleClass="formumowa">
                                     <p:outputPanel>
-                                        <h:outputText value="Umowy pracownika #{wpisView.pracownik.nazwiskoImie}" styleClass="info"/>
+                                        <h:outputText value="Umowy pracownika #{wpisView.pracownik.nazwiskoImie}" styleClass="info" id="opispracownikumowa"/>
                                     </p:outputPanel>
                                     </h:form>
                                     <ui:include src="sub/dane_umowa_praca.xhtml"/>

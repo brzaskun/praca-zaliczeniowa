@@ -119,7 +119,7 @@
                             </p:panelGrid>
                         </p:panelGrid>
                         <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.create()}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist @(.urlopnizostalo)"/>
-                        <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscCreateDialog.hide()"/>
+                        <p:commandButton value="#{bundle.Cancel}" actionListener="#{nieobecnoscView.kasuj()}" onclick="NieobecnoscCreateDialog.hide()"/>
                     </h:panelGroup>
                 </h:form>
                 <h:form  styleClass="formadmin" id="NieobecnoscCreateFormZUS">

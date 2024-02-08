@@ -197,6 +197,7 @@ public class NieobecnoscView  implements Serializable {
     
     public void initzbiorcze() {
         listaabsencji = rodzajnieobecnosciFacade.findAll();
+        listabaustelle = firmabaustelleFacade.findbyRokFirma(wpisView.getRokWpisu(), wpisView.getFirma());
         Collections.sort(listaabsencji, new Rodzajnieobecnoscicomparator());
         listapracownikow = new org.primefaces.model.DualListModel<>();
         listapracownikow.setSource(new ArrayList<>());
@@ -268,6 +269,12 @@ public class NieobecnoscView  implements Serializable {
         return new ArrayList<Pracownik>(zwrot);
     }
     
+    public void kasuj() {
+      if (selected!=null) {
+          selected = new Nieobecnosc();
+          selected.setAngaz(wpisView.getAngaz());
+      }
+    }
     public void create() {
       if (selected!=null) {
           if (selected.getRodzajnieobecnosci()==null || selected.getDataod()==null || selected.getDatado()==null) {
@@ -491,6 +498,7 @@ public class NieobecnoscView  implements Serializable {
                         nowa.setKodzwolnienia(selectedzbiorczo.getKodzwolnienia());
                         nowa.setUzasadnienie(selectedzbiorczo.getUzasadnienie());
                         nowa.setPonpiatek(selectedzbiorczo.isPonpiatek());
+                        nowa.setFirmabaustelle(selectedzbiorczo.getFirmabaustelle());
                         LocalDate oddata = LocalDate.parse(selectedzbiorczo.getDataod());
                         LocalDate dodata = LocalDate.parse(selectedzbiorczo.getDatado());
                         double iloscdni = DAYS.between(oddata,dodata);
@@ -603,11 +611,11 @@ public class NieobecnoscView  implements Serializable {
                 selectedzbiorczo.setDietaoddelegowanie(49.0);
                 delegacja = true;
             }
-            if (selected.getRodzajnieobecnosci().getKodzbiorczy().equals("CH")) {
+            if (selectedzbiorczo.getRodzajnieobecnosci().getKodzbiorczy().equals("CH")) {
                 zwolnienie = true;
             }
             if (swiadczeniekodzusLista.size()==1) {
-                selected.setSwiadczeniekodzus(swiadczeniekodzusLista.get(0));
+                selectedzbiorczo.setSwiadczeniekodzus(swiadczeniekodzusLista.get(0));
             }
             Msg.msg("Wybrano rodzaj nieobecności");
         }

@@ -47,6 +47,7 @@ import error.E;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -178,6 +179,8 @@ public class UmowaView implements Serializable {
             rodzajumowy = "1";
             listaumowakodzus = rodzajumowyFacade.findUmowakodzusAktywnePraca();
             listapraca = new ArrayList<>();
+            listazlecenia = new ArrayList<>();
+            listafunkcja = new ArrayList<>();
             listawypowiedzenia = new ArrayList<>();
         }
         //to psuje zmiane pracownika jak ma tyylko umowy zlecenia
@@ -278,8 +281,8 @@ public class UmowaView implements Serializable {
                 createkolejna(listazlecenia);
             } else {
                 selected.setAngaz(wpisView.getAngaz());
-                Umowa umowa = beanstesty.UmowaBean.createpierwsza(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade, wpisView.getUzer().getImieNazwisko());
-                listapraca.add(umowa);
+                Umowa umowa = beanstesty.UmowaBean.createpierwszaZlecenie(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, kalendarzmiesiacFacade, wpisView.getUzer().getImieNazwisko());
+                listazlecenia.add(umowa);
                 wpisView.setUmowa(umowa);
             }
                 skladnikWynagrodzeniaView.init();
@@ -311,7 +314,7 @@ public class UmowaView implements Serializable {
             } else {
                 selected.setAngaz(wpisView.getAngaz());
                 Umowa umowa = beanstesty.UmowaBean.createpierwszaFunkcja(selected, umowaFacade, etatFacade, stanowiskopracFacade, rodzajwynagrodzeniaFacade, skladnikWynagrodzeniaFacade, zmiennaWynagrodzeniaFacade, wpisView.getUzer().getImieNazwisko());
-                listapraca.add(umowa);
+                listafunkcja.add(umowa);
                 wpisView.setUmowa(umowa);
             }
             //zrobic dopasowanie kalendarfza do etatu
@@ -564,13 +567,13 @@ public class UmowaView implements Serializable {
         } else if (selected != null && selected.getDataod() != null) {
             LocalDate dataur = LocalDate.parse(dataurodzenia);
             LocalDate dataumowy = LocalDate.parse(selected.getDataod());
-            String rok = Data.getRok(selected.getDataod());
-            String pierwszydzienroku = rok + "-01-01";
-            LocalDate dataroku = LocalDate.parse(pierwszydzienroku);
-            long lata = ChronoUnit.YEARS.between(dataur, dataumowy);
-            long dni = ChronoUnit.DAYS.between(dataroku, dataumowy);
-            selected.setLata((int) lata);
-            selected.setDni((int) dni);
+            Period period = Period.between(dataur, dataumowy);
+            int years = period.getYears();
+            int months = period.getMonths();
+            int days = period.getDays(); 
+            selected.setLata(years);
+            selected.setMiesiace(months);
+            selected.setDni(days);
         }
     }
 

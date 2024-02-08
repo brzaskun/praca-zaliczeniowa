@@ -70,8 +70,16 @@
                                 <p:panelGrid columns="2"  rendered="#{nieobecnoscView.delegacja}">
                                     <p:outputLabel value="oznacz pon-pt" for="ponpiat"  rendered="#{nieobecnoscView.delegacja}"/>
                                     <p:selectBooleanCheckbox id="ponpiat" value="#{nieobecnoscView.selectedzbiorczo.ponpiatek}" rendered="#{nieobecnoscView.delegacja}"/>
-                                    <p:outputLabel value="kraj oddel." for="uwagi" />
-                                    <p:inputText id="uwagi" value="#{nieobecnoscView.selectedzbiorczo.krajoddelegowania}" title="kraj oddelegowania"/>
+                                  
+                                    <p:outputLabel value="Baustelle" for="uwagi" />
+                                    <p:selectOneMenu id="uwagi" value="#{nieobecnoscView.selectedzbiorczo.firmabaustelle}" required="true" 
+                                                     requiredMessage="Wybierz baustelle" converter="#{firmabaustelleConverter}">
+                                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                        <f:selectItems value="#{nieobecnoscView.listabaustelle}" 
+                                                       var="bsItem"
+                                                       itemValue="#{bsItem}" itemLabel="#{bsItem.toStringnieobecnosc()}"/>
+                                        <p:ajax event="change" partialSubmit="true" global="false" />
+                                    </p:selectOneMenu>
                                     <p:outputLabel value="kwota diety"/>
                                     <bcf:inputpl value="#{nieobecnoscView.selectedzbiorczo.dietaoddelegowanie}"/>
                                     <p:outputLabel value="waluta diety" for="waluta" />
