@@ -89,14 +89,20 @@ public class UrlopyZestawienieView  implements Serializable {
                         pracownik.setWymiarurlopu(urlopprezentacja.getWymiargeneralnydni());
                         pracownikFacade.edit(pracownik);
                     }
-                    if (listaurlopowrokuprzedni.isEmpty()==false) {
-                        Predicate<Rejestrurlopow> pred = item -> item.getAngaz().equals(rejestrurlopowrok.getAngaz());
-                        Rejestrurlopow rejestrpoprzednirok = listaurlopowrokuprzedni.stream().filter(pred).findAny().orElse(null);
-                        if (rejestrpoprzednirok!=null) {
-                            System.out.println("rejestr: "+rejestrpoprzednirok.getAngaz().getNazwiskoiImie()+" "+rejestrpoprzednirok.getDowykorzystanianastrok());
-                            rejestrurlopowrok.setUrlopzalegly(rejestrpoprzednirok.getDowykorzystanianastrok());
-                        }
+                    boolean jestprzed2023 = wpisView.getRokWpisu().equals("2023")&&Integer.parseInt(rejestrurlopowrok.getAngaz().getRok())<2023?true:false;
+                    if (rejestrurlopowrok.getAngaz().getRok().equals(wpisView.getRokWpisu())||jestprzed2023) {
+                        rejestrurlopowrok.setUrlopzalegly(rejestrurlopowrok.getAngaz().getBourlopdni());
+                    } else {
                         
+                        if (listaurlopowrokuprzedni.isEmpty()==false) {
+                            Predicate<Rejestrurlopow> pred = item -> item.getAngaz().equals(rejestrurlopowrok.getAngaz());
+                            Rejestrurlopow rejestrpoprzednirok = listaurlopowrokuprzedni.stream().filter(pred).findAny().orElse(null);
+                            if (rejestrpoprzednirok!=null) {
+                                System.out.println("rejestr: "+rejestrpoprzednirok.getAngaz().getNazwiskoiImie()+" "+rejestrpoprzednirok.getDowykorzystanianastrok());
+                                rejestrurlopowrok.setUrlopzalegly(rejestrpoprzednirok.getDowykorzystanianastrok());
+                            }
+
+                        }
                     }
                 }
             }

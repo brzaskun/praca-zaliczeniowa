@@ -72,12 +72,12 @@
                         <p:spacer width="50"/>
                         <h:outputText value="brutto: "/>
                         <h:outputText value="brutto zus: "/>
-                        <h:outputText value="brutto zus 26lat: "/>
-                        <h:outputText value="brutto bez zus: "/>
+                        <h:outputText value="zus 51: "/>
+                        <h:outputText value="zus 52: "/>
                         <h:outputText value="składki prac: "/>
                         <h:outputText value="koszt uzyskania: "/>
                         <h:outputText value="zdrowotna: "/>
-                        <h:outputText value="zdrowotna odl.: "/>
+<!--                        <h:outputText value="zdrowotna odl.: "/>-->
                         <h:outputText value="podatek: "/>
                         <h:outputText value="netto: "/>
                         <h:outputText value="#{pasekwynagrodzenView.wybranykalendarz.nazwiskoImie}" styleClass="wwb"/>
@@ -85,12 +85,12 @@
                         <p:spacer width="50"/>
                         <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).brutto}"/>
                         <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).bruttozus}"/>
-                        <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).bruttozusbezpodatek}"/>
-                        <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).bruttobezzus}"/>
+                        <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).przychodyzus51}"/>
+                        <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).przychodyzus52}"/>
                         <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).razemspolecznepracownik}"/>
                         <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).kosztyuzyskania}"/>
                         <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).praczdrowotne}"/>
-                        <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).praczdrowotnedopotracenia}"/>
+<!--                        <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).praczdrowotnedopotracenia}"/>-->
                         <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).podatekdochodowy}"/>
                         <bcf:outputpl value="#{pasekwynagrodzenView.wybranykalendarz.getPasek(pasekwynagrodzenView.wybranalistaplac2).netto}"/>
                     </p:panelGrid>
