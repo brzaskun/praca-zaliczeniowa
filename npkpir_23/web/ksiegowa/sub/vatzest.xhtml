@@ -8,9 +8,9 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets">
     <script>
-        var pobierzxml = function() {
-            document.getElementById('link').setAttribute('href','../resources/xml/testowa#{WpisView.podatnikObiekt.nip}.xml');
-            document.getElementById('link').setAttribute('download','jpk#{WpisView.podatnikObiekt.nip}_#{WpisView.rokWpisuSt}#{WpisView.miesiacWpisu}.xml');
+        var pobierzxml = function () {
+            document.getElementById('link').setAttribute('href', '../resources/xml/testowa#{WpisView.podatnikObiekt.nip}.xml');
+            document.getElementById('link').setAttribute('download', 'jpk#{WpisView.podatnikObiekt.nip}_#{WpisView.rokWpisuSt}#{WpisView.miesiacWpisu}.xml');
             document.getElementById('link').click()
         }
     </script>
@@ -24,17 +24,17 @@
         <p:tab id="ewid1" title="ewidencje">
             <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >
                 <p:tab title="#{item[0].nazwaewidencji.nazwa}">
-                <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}"  action="#{sesjaView.dodajwydruk()}"
-                                 onsuccess="wydrukewidencje('#{WpisView.podatnikObiekt.nip}','#{item[0].nazwaewidencji.nazwa}');pokazwyslijbutton(this);"  style="width: 120px;"/>
-                <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji.nazwa)}" action="#{sesjaView.dodajwydruk()}"
-                                 onsuccess="wydrukewidencje('#{WpisView.podatnikObiekt.nip}','#{item[0].nazwaewidencji.nazwa}');pokazwyslijbutton(this);"  style="width: 120px;"/>
-                <p:commandButton value="Wyślij" id="wyslijvatbutton" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" 
-                                 actionListener="#{sesjaView.dodajmail()}" widgetVar="wydrukbuttonvat"
-                                 style="width: 170px; margin-left: 2%; display: none;">
-                    <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji.nazwa))}"/>
-                </p:commandButton>
-                <p:commandButton value="Drukuj wszyst. data - rok" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieRok()}" style="width: 220px; margin-left: 20px;" action="#{sesjaView.dodajwydruk()}"/>
-                <p:separator/>
+                    <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}"  action="#{sesjaView.dodajwydruk()}"
+                                     onsuccess="wydrukewidencje('#{WpisView.podatnikObiekt.nip}','#{item[0].nazwaewidencji.nazwa}');pokazwyslijbutton(this);"  style="width: 120px;"/>
+                    <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji.nazwa)}" action="#{sesjaView.dodajwydruk()}"
+                                     onsuccess="wydrukewidencje('#{WpisView.podatnikObiekt.nip}','#{item[0].nazwaewidencji.nazwa}');pokazwyslijbutton(this);"  style="width: 120px;"/>
+                    <p:commandButton value="Wyślij" id="wyslijvatbutton" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" 
+                                     actionListener="#{sesjaView.dodajmail()}" widgetVar="wydrukbuttonvat"
+                                     style="width: 170px; margin-left: 2%; display: none;">
+                        <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji.nazwa))}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Drukuj wszyst. data - rok" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieRok()}" style="width: 220px; margin-left: 20px;" action="#{sesjaView.dodajwydruk()}"/>
+                    <p:separator/>
                     <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1200px; overflow-y: scroll; height: 450px;" 
                                  rowIndexVar="#{itemik.id}"
                                  >
@@ -44,7 +44,7 @@
                         <p:column headerText="id" style="width: 40px; text-align: center;" sortBy="#{itemik.id}">
                             <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
                         </p:column>
-                        
+
                         <p:column headerText="data wyst." style="width: 100px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">
                             <h:outputText value="#{itemik.dataWyst}"/>
                         </p:column>
@@ -61,21 +61,27 @@
                             <h:outputText value="#{itemik.opis}"/>
                         </p:column>
                         <p:column headerText="#{mgs.netto}" style="width: 100px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains">
-                            <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%; color:#{itemik.netto lt 0.0?'red':null}">
+                            <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%; color:#{itemik.netto lt 0.0?'red':null}"  rendered="#{itemik.ewidencja.niemcy eq false}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText value="#{itemik.netto} €" style="float: right; padding-right: 3%; color:#{itemik.netto lt 0.0?'red':null}"  rendered="#{itemik.ewidencja.niemcy eq true}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="#{mgs.VAT}" style="width: 100px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains">
-                            <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%; color:#{itemik.netto lt 0.0?'red':null}">
+                            <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%; color:#{itemik.netto lt 0.0?'red':null}" rendered="#{itemik.ewidencja.niemcy eq false}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText value="#{itemik.vat} €" style="float: right; padding-right: 3%; color:#{itemik.netto lt 0.0?'red':null}" rendered="#{itemik.ewidencja.niemcy eq true}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="WNT" style="width: 40px;" sortBy="#{itemik.duplikat}" filterBy="#{itemik.duplikat}" rendered="#{item[0].nazwaewidencji.nazwa eq 'zakup'}">
                             <h:outputText value="#{itemik.duplikat eq true ? 't' : null}"/>
                         </p:column>
-<!--                        <p:column  style="width: 40px;" >
-                            <p:commandButton icon="fa fa-trash" actionListener="#{ewidencjaVatView.usunpozycje(item,itemik)}" update="@parent:@parent"/>
-                        </p:column>-->
+                        <!--                        <p:column  style="width: 40px;" >
+                                                    <p:commandButton icon="fa fa-trash" actionListener="#{ewidencjaVatView.usunpozycje(item,itemik)}" update="@parent:@parent"/>
+                                                </p:column>-->
                     </p:dataTable>
                 </p:tab>
             </p:tabView>
@@ -88,73 +94,126 @@
                 <f:convertNumber minFractionDigits="0" locale="PL" />
             </h:outputText>
             <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikObiekt.nip}');" style="width: 120px;"/>
+            <p:commandButton value="druk Niemcy" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSumaNiemcy()}" onsuccess="wydruksumavat('#{WpisView.podatnikObiekt.nip}');" style="width: 120px;margin-left: 10px;"/>
             <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 100px;"/>
-                    <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 10px;"/>
+            <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 10px;"/>
 <!--                    <p:commandButton value="generuj jpk" icon="ui-icon-play" actionListener="#{jpk_VAT2NView.przygotujXML()}"
-                                     oncomplete="pobierzxml()" update="formVatZestKsiegowa"
-                             style="width: 120px; margin-left: 10px;"/>-->
+                             oncomplete="pobierzxml()" update="formVatZestKsiegowa"
+                     style="width: 120px; margin-left: 10px;"/>-->
             <p:separator/>
-             <p:panelGrid id="panelposumowaniavat" columns="2" columnClasses="fifty-percent fifty-percent">
-                        <p:panelGrid columns="1">
-            <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
-                         selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 600px;"
-                         >
-                <f:facet name="header">
-                    <h:outputText value="zestawienie ewidencji vat - sprzedaż"/>
-                </f:facet>
-                <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie') and !(itemik.ewidencja.nazwa eq 'suma upkt')}"></p:column>
-                <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie') or (itemik.ewidencja.nazwa eq 'suma upkt')}"></p:column>
-                <p:column headerText="nazwa ewidencji">
-                    <h:outputText value="#{itemik.ewidencja.nazwa}"/>
-                </p:column>
-                <p:column headerText="wartość netto" >
-                    <h:outputText value="#{itemik.netto}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="wartosć vat należny" >
-                    <h:outputText value="#{itemik.vat}"  style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
+            <p:panelGrid id="panelposumowaniavat" columns="2" columnClasses="fifty-percent fifty-percent">
+                <p:panelGrid columns="1">
+                    <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemikpl" 
+                                 selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemikpl.ewidencja.nazwa}" style="width: 600px;"
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="zestawienie ewidencji vat - sprzedaż"/>
+                        </f:facet>
+                        <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemikpl.ewidencja.nazwa eq 'podsumowanie') and !(itemikpl.ewidencja.nazwa eq 'suma upkt')}"></p:column>
+                        <p:column style="width: 50px;" rendered="#{(itemikpl.ewidencja.nazwa eq 'podsumowanie') or (itemikpl.ewidencja.nazwa eq 'suma upkt')}"></p:column>
+                        <p:column headerText="nazwa ewidencji">
+                            <h:outputText value="#{itemikpl.ewidencja.nazwa}"/>
+                        </p:column>
+                        <p:column headerText="wartość netto" >
+                            <h:outputText value="#{itemikpl.netto}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="wartosć vat należny" >
+                            <h:outputText value="#{itemikpl.vat}"  style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
 
-            </p:dataTable>
-            <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemik" 
-                         selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 600px;"
-                         >
-                <f:facet name="header">
-                    <h:outputText value="zestawienie ewidencji vat - koszty"/>
-                </f:facet>
-                <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
-                <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+                    </p:dataTable>
+                    <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemikpl" 
+                                 selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemikpl.ewidencja.nazwa}" style="width: 600px;"
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="zestawienie ewidencji vat - koszty"/>
+                        </f:facet>
+                        <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemikpl.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+                        <p:column style="width: 50px;" rendered="#{(itemikpl.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
 
-                <p:column headerText="nazwa ewidencji">
-                    <h:outputText value="#{itemik.ewidencja.nazwa}"/>
-                </p:column>
-                <p:column headerText="wartość netto" >
-                    <h:outputText value="#{itemik.netto}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="wartosć vat naliczony" >
-                    <h:outputText value="#{itemik.vat}"  style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
+                        <p:column headerText="nazwa ewidencji">
+                            <h:outputText value="#{itemikpl.ewidencja.nazwa}"/>
+                        </p:column>
+                        <p:column headerText="wartość netto" >
+                            <h:outputText value="#{itemikpl.netto}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="wartosć vat naliczony" >
+                            <h:outputText value="#{itemikpl.vat}"  style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
 
-            </p:dataTable>
+                    </p:dataTable>
+                </p:panelGrid>
             </p:panelGrid>
-<!--                        <p:panelGrid id="paneljpk" columns="4">
-                            <p:panelGrid rendered="#{jpk_VAT2NView.jpk ne null}" style="width: 300px;" columns="2">
-                                <h:outputText value="jpk sprzedaż"/><bcf:outputpl value="#{jpk_VAT2NView.jpk.sprzedazCtrl.podatekNalezny}"/>
-                                <h:outputText value="jpk sprzedaż wiersze"/><h:outputText value="#{jpk_VAT2NView.jpk.sprzedazCtrl.liczbaWierszySprzedazy}"/>
-                                <h:outputText value="jpk zakup"/><bcf:outputpl value="#{jpk_VAT2NView.jpk.zakupCtrl.podatekNaliczony}"/>
-                                <h:outputText value="jpk zakup wiersze"/><h:outputText value="#{jpk_VAT2NView.jpk.zakupCtrl.liczbaWierszyZakupow}"/>
-                            </p:panelGrid>
-                        </p:panelGrid>
-<a  download='jpkvat' id="link"></a>-->
-                        </p:panelGrid>
-                
+                <p:panelGrid id="panelposumowaniavatniemcy" columns="2" columnClasses="fifty-percent fifty-percent" style="margin-top: 10px;">
+                <p:panelGrid columns="1">
+                    <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedazNiemcy}" var="itemik" 
+                                 selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 600px;"
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="Niemcy zestawienie ewidencji vat - sprzedaż"/>
+                        </f:facet>
+                        <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie') and !(itemik.ewidencja.nazwa eq 'suma upkt')}"></p:column>
+                        <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie') or (itemik.ewidencja.nazwa eq 'suma upkt')}"></p:column>
+                        <p:column headerText="nazwa ewidencji">
+                            <h:outputText value="#{itemik.ewidencja.nazwa}"/>
+                        </p:column>
+                        <p:column headerText="wartość netto" >
+                            <h:outputText value="#{itemik.netto}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="wartosć vat należny" >
+                            <h:outputText value="#{itemik.vat}"  style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+
+                    </p:dataTable>
+                    <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniazakupyNiemcy}" var="itemik" 
+                                 selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 600px;"
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="Niemcy zestawienie ewidencji vat - koszty"/>
+                        </f:facet>
+                        <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+                        <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
+
+                        <p:column headerText="nazwa ewidencji">
+                            <h:outputText value="#{itemik.ewidencja.nazwa}"/>
+                        </p:column>
+                        <p:column headerText="wartość netto" >
+                            <h:outputText value="#{itemik.netto}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="wartosć vat naliczony" >
+                            <h:outputText value="#{itemik.vat}"  style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:panelGrid>
+                     </p:panelGrid>
+                <!--                        <p:panelGrid id="paneljpk" columns="4">
+                                            <p:panelGrid rendered="#{jpk_VAT2NView.jpk ne null}" style="width: 300px;" columns="2">
+                                                <h:outputText value="jpk sprzedaż"/><bcf:outputpl value="#{jpk_VAT2NView.jpk.sprzedazCtrl.podatekNalezny}"/>
+                                                <h:outputText value="jpk sprzedaż wiersze"/><h:outputText value="#{jpk_VAT2NView.jpk.sprzedazCtrl.liczbaWierszySprzedazy}"/>
+                                                <h:outputText value="jpk zakup"/><bcf:outputpl value="#{jpk_VAT2NView.jpk.zakupCtrl.podatekNaliczony}"/>
+                                                <h:outputText value="jpk zakup wiersze"/><h:outputText value="#{jpk_VAT2NView.jpk.zakupCtrl.liczbaWierszyZakupow}"/>
+                                            </p:panelGrid>
+                                        </p:panelGrid>
+                <a  download='jpkvat' id="link"></a>-->
+
+
         </p:tab>
         <p:tab title="pobrane dla JPK">
             <p:panel header="Lista fakatur fiskalizowanych/WDT incydentalnych pobranych za miesiąc bieżący" />
@@ -209,10 +268,10 @@
         <p:tab title="deklaracja VAT">
             <ui:include src="/wspolny/sub/vatPrzygotowanieDeklaracjiN.xhtml"/> 
         </p:tab>
-<!--        <p:tab title="wysyłka">
-            <ui:include src="/wspolny/sub/vatdowyslania.xhtml"/>  
-        </p:tab>-->
-        
+        <!--        <p:tab title="wysyłka">
+                    <ui:include src="/wspolny/sub/vatdowyslania.xhtml"/>  
+                </p:tab>-->
+
     </p:tabView>
 
 </ui:composition>   

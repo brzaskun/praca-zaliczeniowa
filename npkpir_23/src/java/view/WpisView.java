@@ -542,6 +542,7 @@ public class WpisView implements Serializable {
     }
      
     
+    
 
 //<editor-fold defaultstate="collapsed" desc="comment">
     public Integer getRokNastepny() {

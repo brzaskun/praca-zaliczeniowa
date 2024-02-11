@@ -97,6 +97,8 @@ public class Evewidencja implements Serializable {
     private String de;
     @Column(name = "stawkavat")
     private double stawkavat;
+    @Column(name = "niemcy")
+    private boolean niemcy;
    
    
 //    @OneToMany(mappedBy = "ewidencja", cascade = CascadeType.ALL,  orphanRemoval=true)
@@ -226,6 +228,14 @@ public class Evewidencja implements Serializable {
 
     public String getPole() {
         return pole;
+    }
+
+    public boolean isNiemcy() {
+        return niemcy;
+    }
+
+    public void setNiemcy(boolean niemcy) {
+        this.niemcy = niemcy;
     }
 
     public void setPole(String pole) {

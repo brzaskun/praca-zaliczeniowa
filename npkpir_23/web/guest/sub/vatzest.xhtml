@@ -41,12 +41,18 @@
                             <h:outputText value="#{itemik.opis}"/>
                         </p:column>
                         <p:column headerText="#{mgs.netto}" style="width: 100px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains">
-                            <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%">
+                            <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%" rendered="#{itemik.ewidencja.niemcy eq false}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                             <h:outputText value="#{itemik.netto} €" style="float: right; padding-right: 3%" rendered="#{itemik.ewidencja.niemcy eq true}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="#{mgs.VAT}" style="width: 100px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains">
-                            <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%">
+                            <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%" rendered="#{itemik.ewidencja.niemcy eq false}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText value="#{itemik.vat} €" style="float: right; padding-right: 3%" rendered="#{itemik.ewidencja.niemcy eq true}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>

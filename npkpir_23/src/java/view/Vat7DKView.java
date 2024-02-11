@@ -45,6 +45,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
@@ -244,7 +246,15 @@ public class Vat7DKView implements Serializable {
             Msg.msg("e","Brak numeru telefonu sporządzającego deklarację. Nie można jej zapisać");
         } else {
             //ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
-            mapaewidencji =  ewidencjaVatView.getSumaewidencji();
+            HashMap<String,EVatwpisSuma>  mapaewidencjitmp =  ewidencjaVatView.getSumaewidencji();
+            mapaewidencji = mapaewidencjitmp.entrySet().stream()
+                .filter(entry -> entry.getKey().contains("Niemcy")==false)
+                .collect(Collectors.toMap(
+                entry -> entry.getKey(), // Klucz pozostaje bez zmian
+                entry -> entry.getValue(), // Wartość pozostaje bez zmian
+                (existing, replacement) -> existing, // Rozwiązanie konfliktów kluczy
+                HashMap::new // Wyraźne określenie typu wynikowej mapy
+            ));
             obliczNowa();
         }
     }

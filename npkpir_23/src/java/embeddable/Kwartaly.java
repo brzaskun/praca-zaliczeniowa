@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import view.WpisView;
@@ -18,7 +19,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@SessionScoped
+@ApplicationScoped
 public class Kwartaly implements Serializable{
 
     private static final List<String> mceList;

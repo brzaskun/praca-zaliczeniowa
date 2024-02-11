@@ -84,6 +84,8 @@ public class EwidencjaVatView implements Serializable {
     private List<EVatwpisSuma> goscwybralsuma;
     private List<EVatwpisSuma> sumydowyswietleniasprzedaz;
     private List<EVatwpisSuma> sumydowyswietleniazakupy;
+    private List<EVatwpisSuma> sumydowyswietleniasprzedazNiemcy;
+    private List<EVatwpisSuma> sumydowyswietleniazakupyNiemcy;
     private BigDecimal wynikOkresu;
     private List<EVatwpisSuper> listadokvatprzetworzona;
     private List<EVatwpisFK> listaprzesunietychKoszty;
@@ -187,6 +189,8 @@ public class EwidencjaVatView implements Serializable {
         listaewidencji = new HashMap<>();
         sumydowyswietleniasprzedaz = Collections.synchronizedList(new ArrayList<>());
         sumydowyswietleniazakupy = Collections.synchronizedList(new ArrayList<>());
+        sumydowyswietleniasprzedazNiemcy = Collections.synchronizedList(new ArrayList<>());
+        sumydowyswietleniazakupyNiemcy = Collections.synchronizedList(new ArrayList<>());
         listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
         sumaewidencji = new HashMap<>();
         listaprzesunietychKoszty = Collections.synchronizedList(new ArrayList<>());
@@ -702,10 +706,12 @@ public class EwidencjaVatView implements Serializable {
             //rozdziela zapisy na poszczególne ewidencje
             rozdzielEVatwpis1NaEwidencje();
             rozdzielsumeEwidencjiNaPodlisty();
+            rozdzielsumeEwidencjiNaPodlistyNiemcy();
             /**
              * dodajemy wiersze w tab sumowanie
              */
             uzupelnijSumyEwidencji();
+             uzupelnijSumyEwidencjiNiemcy();
             /**
              * Dodaj sumy do ewidencji dla wydruku
              */
@@ -760,16 +766,18 @@ public class EwidencjaVatView implements Serializable {
     private void obliczwynikokresu() {
         wynikOkresu = new BigDecimal(BigInteger.ZERO);
         for (EVatwpisSuma p : sumaewidencji.values()) {
-            switch (p.getEwidencja().getTypewidencji()) {
-                case "s":
-                    wynikOkresu = wynikOkresu.add(p.getVat());
-                    break;
-                case "z":
-                    wynikOkresu = wynikOkresu.subtract(p.getVat());
-                    break;
-                case "sz":
-                    wynikOkresu = wynikOkresu.add(p.getVat());
-                    break;
+            if (p.getEwidencja().isNiemcy()==false) {
+                switch (p.getEwidencja().getTypewidencji()) {
+                    case "s":
+                        wynikOkresu = wynikOkresu.add(p.getVat());
+                        break;
+                    case "z":
+                        wynikOkresu = wynikOkresu.subtract(p.getVat());
+                        break;
+                    case "sz":
+                        wynikOkresu = wynikOkresu.add(p.getVat());
+                        break;
+                }
             }
         }
     }
@@ -781,18 +789,43 @@ public class EwidencjaVatView implements Serializable {
         sumydowyswietleniazakupy = Collections.synchronizedList(new ArrayList<>());
         for (EVatwpisSuma ew : sumaewidencji.values()) {
             String typeewidencji = ew.getEwidencja().getTypewidencji();
-            switch (typeewidencji) {
-                case "s":
-                    sumydowyswietleniasprzedaz.add(ew);
-                    break;
-                case "z":
-                    sumydowyswietleniazakupy.add(ew);
-                    break;
-                case "sz":
-                    sumydowyswietleniasprzedaz.add(ew);
-                    //wywalamy to bo pobieranie wpisow generuje duplikaty z ewidencja zakup
-                    //sumydowyswietleniazakupy.add(ew);
-                    break;
+            if (ew.getEwidencja().isNiemcy()==false) {
+                switch (typeewidencji) {
+                    case "s":
+                        sumydowyswietleniasprzedaz.add(ew);
+                        break;
+                    case "z":
+                        sumydowyswietleniazakupy.add(ew);
+                        break;
+                    case "sz":
+                        sumydowyswietleniasprzedaz.add(ew);
+                        //wywalamy to bo pobieranie wpisow generuje duplikaty z ewidencja zakup
+                        //sumydowyswietleniazakupy.add(ew);
+                        break;
+                }
+            }
+        }
+    }
+    
+    private void rozdzielsumeEwidencjiNaPodlistyNiemcy() {
+        sumydowyswietleniasprzedazNiemcy = Collections.synchronizedList(new ArrayList<>());
+        sumydowyswietleniazakupyNiemcy = Collections.synchronizedList(new ArrayList<>());
+        for (EVatwpisSuma ew : sumaewidencji.values()) {
+            String typeewidencji = ew.getEwidencja().getTypewidencji();
+            if (ew.getEwidencja().isNiemcy()==true) {
+                switch (typeewidencji) {
+                    case "s":
+                        sumydowyswietleniasprzedazNiemcy.add(ew);
+                        break;
+                    case "z":
+                        sumydowyswietleniazakupyNiemcy.add(ew);
+                        break;
+                    case "sz":
+                        sumydowyswietleniasprzedazNiemcy.add(ew);
+                        //wywalamy to bo pobieranie wpisow generuje duplikaty z ewidencja zakup
+                        //sumydowyswietleniazakupy.add(ew);
+                        break;
+                }
             }
         }
     }
@@ -1054,6 +1087,26 @@ public class EwidencjaVatView implements Serializable {
         }
         sumydowyswietleniazakupy.add(sumazakup);
     }
+    
+    private void uzupelnijSumyEwidencjiNiemcy() {
+        EVatwpisSuma sumauptk = new EVatwpisSuma(new Evewidencja("suma upkt"), BigDecimal.ZERO, BigDecimal.ZERO, "");
+        EVatwpisSuma sumasprzedaz = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "");
+        for (EVatwpisSuma ew : sumydowyswietleniasprzedazNiemcy) {
+            sumasprzedaz.setNetto(sumasprzedaz.getNetto().add(ew.getNetto()));
+            sumasprzedaz.setVat(sumasprzedaz.getVat().add(ew.getVat()));
+            if (ew.getEwidencja().getNazwa().contains("usługi świad.")) {
+                sumauptk.setNetto(sumauptk.getNetto().add(ew.getNetto()));
+            }
+        }
+        sumydowyswietleniasprzedazNiemcy.add(sumasprzedaz);
+        sumydowyswietleniasprzedazNiemcy.add(sumauptk);
+        EVatwpisSuma sumazakup = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "");
+        for (EVatwpisSuma ew : sumydowyswietleniazakupyNiemcy) {
+            sumazakup.setNetto(sumazakup.getNetto().add(ew.getNetto()));
+            sumazakup.setVat(sumazakup.getVat().add(ew.getVat()));
+        }
+        sumydowyswietleniazakupyNiemcy.add(sumazakup);
+    }
 
     private void rozdzielEVatwpis1NaEwidencje() {
         Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMap();
@@ -1311,7 +1364,15 @@ public class EwidencjaVatView implements Serializable {
 
     public void drukujPdfSuma() {
         try {
-            PdfVATsuma.drukuj(sumaewidencji, wpisView);
+            PdfVATsuma.drukuj(sumaewidencji, wpisView, false);
+        } catch (Exception e) { E.e(e); 
+
+        }
+    }
+    
+     public void drukujPdfSumaNiemcy() {
+        try {
+            PdfVATsuma.drukuj(sumaewidencji, wpisView, true);
         } catch (Exception e) { E.e(e); 
 
         }
@@ -1552,6 +1613,22 @@ public class EwidencjaVatView implements Serializable {
 
     public TabView getAkordeon() {
         return akordeon;
+    }
+
+    public List<EVatwpisSuma> getSumydowyswietleniasprzedazNiemcy() {
+        return sumydowyswietleniasprzedazNiemcy;
+    }
+
+    public void setSumydowyswietleniasprzedazNiemcy(List<EVatwpisSuma> sumydowyswietleniasprzedazNiemcy) {
+        this.sumydowyswietleniasprzedazNiemcy = sumydowyswietleniasprzedazNiemcy;
+    }
+
+    public List<EVatwpisSuma> getSumydowyswietleniazakupyNiemcy() {
+        return sumydowyswietleniazakupyNiemcy;
+    }
+
+    public void setSumydowyswietleniazakupyNiemcy(List<EVatwpisSuma> sumydowyswietleniazakupyNiemcy) {
+        this.sumydowyswietleniazakupyNiemcy = sumydowyswietleniazakupyNiemcy;
     }
 
     public void setAkordeon(TabView akordeon) {

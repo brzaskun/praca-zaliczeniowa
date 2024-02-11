@@ -1323,6 +1323,14 @@ public class Podatnik implements Serializable {
     public boolean isNiesprawdzajfaktury() {
         return niesprawdzajfaktury;
     }
+    
+    public boolean isNiemcy() {
+        boolean zwrot = false;
+        if (this.getSteuernummer()!=null&&this.getSteuernummer().isBlank()==false) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
 
     public void setNiesprawdzajfaktury(boolean niesprawdzajfaktury) {
         this.niesprawdzajfaktury = niesprawdzajfaktury;

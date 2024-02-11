@@ -21,6 +21,7 @@ import entity.Podatnik;
 import entity.Uz;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -40,7 +41,7 @@ import view.WpisView;import waluty.Z;
 
 public class PdfVATsuma {
 
-    public static void drukuj(HashMap<String, EVatwpisSuma> sumaewidencji, WpisView wpisView) throws FileNotFoundException, DocumentException, IOException  {
+    public static void drukuj(HashMap<String, EVatwpisSuma> sumaewidencji, WpisView wpisView, boolean bezniemcy0niemcy1) throws FileNotFoundException, DocumentException, IOException  {
         Document document = new Document();
         PdfWriter.getInstance(document, Plik.plikR("vatsuma" + wpisView.getPodatnikObiekt().getNip() + ".pdf")).setInitialLeading(16);
         document.addTitle("Zestawienie sum z ewidencji VAT");
@@ -49,6 +50,7 @@ public class PdfVATsuma {
         document.addKeywords("VAT, PDF");
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
+        String symbolwaluty = bezniemcy0niemcy1?"EUR":"PLN";
             //Rectangle rect = new Rectangle(0, 832, 136, 800);
             //rect.setBackgroundColor(BaseColor.RED);
             //document.add(rect);
@@ -87,22 +89,20 @@ public class PdfVATsuma {
             PdfPTable tableZakup = new PdfPTable(5);
             tableZakup.setWidths(new int[]{1, 5, 2, 2, 2});
             tableZakup.setWidthPercentage(95);
-            NumberFormat formatter = NumberFormat.getCurrencyInstance();
-                formatter.setMaximumFractionDigits(2);
-                formatter.setMinimumFractionDigits(2);
-                formatter.setGroupingUsed(true);
             List<EVatwpisSuma> sumaVatSprzedaz = Collections.synchronizedList(new ArrayList<>());
             List<EVatwpisSuma> sumaVatZakup = Collections.synchronizedList(new ArrayList<>());
             for (EVatwpisSuma ew : sumaewidencji.values()) {
-                String typeewidencji = ew.getEwidencja().getTypewidencji();
-                switch (typeewidencji) {
-                    case "s" : sumaVatSprzedaz.add(ew);
-                        break;
-                    case "z" : sumaVatZakup.add(ew);
-                        break;
-                    case "sz": sumaVatSprzedaz.add(ew);
-//                               sumaVatZakup.add(ew);
-                        break;
+                if (ew.getEwidencja().isNiemcy()==bezniemcy0niemcy1) {
+                    String typeewidencji = ew.getEwidencja().getTypewidencji();
+                    switch (typeewidencji) {
+                        case "s" : sumaVatSprzedaz.add(ew);
+                            break;
+                        case "z" : sumaVatZakup.add(ew);
+                            break;
+                        case "sz": sumaVatSprzedaz.add(ew);
+    //                               sumaVatZakup.add(ew);
+                            break;
+                    }
                 }
             }
             //tu robimy wykaz ewidencji sprzedazy
@@ -123,10 +123,11 @@ public class PdfVATsuma {
                 vatsuma += p.getVat().doubleValue();
                 tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(i),"center",10));
                 tableSprzedaz.addCell(ustawfrazeAlign(p.getEwidencja().getNazwa(),"left",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())),"right",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(p.getNetto().doubleValue(), symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(p.getVat().doubleValue(), symbolwaluty),"right",10));
                 try {
-                    tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat().add(p.getNetto()))),"right",10));
+                    BigDecimal brutto = p.getVat().add(p.getNetto());
+                    tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(brutto.doubleValue(), symbolwaluty),"right",10));
                 } catch (Exception e){
                     tableSprzedaz.addCell(ustawfrazeAlign("","right",10));
                 }
@@ -135,9 +136,9 @@ public class PdfVATsuma {
             if (tableSprzedaz.size() > 1) {
                 tableSprzedaz.addCell(ustawfrazeAlign("","center",10));
                 tableSprzedaz.addCell(ustawfrazeAlign("podsumowanie","left",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(nettosuma)),"right",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(vatsuma)),"right",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(Z.z(nettosuma+vatsuma))),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(nettosuma, symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(vatsuma, symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(Z.z(nettosuma+vatsuma), symbolwaluty),"right",10));
             }
             document.add(Chunk.NEWLINE);
             document.add(tableSprzedaz);
@@ -159,10 +160,11 @@ public class PdfVATsuma {
                 vatsuma1 += p.getVat().doubleValue();
                 tableZakup.addCell(ustawfrazeAlign(String.valueOf(j),"center",10));
                 tableZakup.addCell(ustawfrazeAlign(p.getEwidencja().getNazwa(),"left",10));
-                tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())),"right",10));
-                tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())),"right",10));
+                 tableZakup.addCell(ustawfrazeAlign(format.F.curr(p.getNetto().doubleValue(), symbolwaluty),"right",10));
+                tableZakup.addCell(ustawfrazeAlign(format.F.curr(p.getVat().doubleValue(), symbolwaluty),"right",10));
                 try {
-                    tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat().add(p.getNetto()))),"right",10));
+                    BigDecimal brutto = p.getVat().add(p.getNetto());
+                    tableZakup.addCell(ustawfrazeAlign(format.F.curr(brutto.doubleValue(), symbolwaluty),"right",10));
                 } catch (Exception e){
                     tableZakup.addCell(ustawfrazeAlign("","right",10));
                 }
@@ -171,9 +173,9 @@ public class PdfVATsuma {
             if (tableZakup.size()>1) {
                 tableZakup.addCell(ustawfrazeAlign("","center",10));
                 tableZakup.addCell(ustawfrazeAlign("podsumowanie","left",10));
-                tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(nettosuma1)),"right",10));
-                tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(vatsuma1)),"right",10));
-                tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(Z.z(nettosuma1+vatsuma1))),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(nettosuma, symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(vatsuma, symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(Z.z(nettosuma+vatsuma), symbolwaluty),"right",10));
             }
             document.add(Chunk.NEWLINE);
             document.add(tableZakup);

@@ -134,6 +134,8 @@ public class DokView implements Serializable {
     private GUSView gUSView;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
+    @Inject
+    private ListaEwidencjiVat listaEwidencjiVatNiemcy;
     /*Środki trwałe*/
     @Inject
     private SrodekTrw selectedSTR;
@@ -282,10 +284,10 @@ public class DokView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        podepnijEwidencjeVat();
-        podepnijListe();
         domyslatabela = DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
         selDokument.setTabelanbp(domyslatabela);
+        podepnijEwidencjeVat();
+        podepnijListe();
         PrimeFaces.current().ajax().update("dodWiad");
         listaoznaczenjpk = jPKOznaczeniaDAO.findAll();
         //ukrocmiesiace();
@@ -370,7 +372,8 @@ public class DokView implements Serializable {
 //            sumujnetto();
 //            ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
 //        } else 
-        if ((!wpisView.isVatowiecue() && !wpisView.isVatowiec()) || (selDokument.getRodzajedok() !=null && !selDokument.getRodzajedok().getSkrot().equals("IU") && selDokument.getRodzajedok().isDokProsty())) {
+        if ((!wpisView.isVatowiecue() && !wpisView.isVatowiec()) || 
+                (selDokument.getRodzajedok() !=null && !selDokument.getRodzajedok().getSkrot().equals("IU") && selDokument.getRodzajedok().isDokProsty())) {
             selDokument.setDokumentProsty(true);
             ukryjEwiencjeVAT = true;
             sumujnetto();
@@ -382,27 +385,27 @@ public class DokView implements Serializable {
             String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
             if (wpisView.isVatowiec() == true || typdok.equals("UPTK100")) {
                 /*wyswietlamy ewidencje VAT*/
-                List<Evewidencja> opisewidencji = Collections.synchronizedList(new ArrayList<>());
+                List<Evewidencja> uzywaneewidencje = Collections.synchronizedList(new ArrayList<>());
                 selDokument.setDokumentProsty(false);
-                opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(transakcjiRodzaj));
-                for (Iterator<Evewidencja> it = opisewidencji.iterator(); it.hasNext();) {
+                uzywaneewidencje.addAll(listaEwidencjiVat.pobierzEvewidencje(transakcjiRodzaj));
+                for (Iterator<Evewidencja> it = uzywaneewidencje.iterator(); it.hasNext();) {
                     Evewidencja p = it.next();
                     if (p.getNazwa().contains("ulga na złe długi")) {
                         it.remove();;
                     }
                 }
                 if (selDokument.getRodzajedok().getRodzajtransakcji().equals("sprzedaz")&&listaewidencjipodatnika!=null && listaewidencjipodatnika.size()>0){
-                        opisewidencji = reorganizujewidencje(opisewidencji, listaewidencjipodatnika);
+                        uzywaneewidencje = reorganizujewidencje(uzywaneewidencje, listaewidencjipodatnika);
                 }
                 if (typdok.equals("UPTK")) {
-                    for (Iterator<Evewidencja> it = opisewidencji.iterator(); it.hasNext();) {
+                    for (Iterator<Evewidencja> it = uzywaneewidencje.iterator(); it.hasNext();) {
                         Evewidencja p = it.next();
                         if (p.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
                             it.remove();
                         }
                     }
                 } else if (typdok.equals("UPTK100")) {
-                    for (Iterator<Evewidencja> it = opisewidencji.iterator(); it.hasNext();) {
+                    for (Iterator<Evewidencja> it = uzywaneewidencje.iterator(); it.hasNext();) {
                         Evewidencja p = it.next();
                         if (p.getNazwa().equals("usługi świad. poza ter.kraju")) {
                             it.remove();
@@ -414,17 +417,12 @@ public class DokView implements Serializable {
                 if (t != null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {
                     sumanetto = Z.z(sumanetto * t.getKurssredni());
                 }
+                
                 selDokument.setEwidencjaVAT1(new ArrayList<>());
                 //ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
                 int k = 0;
-                for (Evewidencja p : opisewidencji) {
-                    EVatwpis1 ewidencjaAddwiad = new EVatwpis1();
-                    ewidencjaAddwiad.setLp(k++);
-                    ewidencjaAddwiad.setEwidencja(p);
-                    ewidencjaAddwiad.setNetto(0.0);
-                    ewidencjaAddwiad.setVat(0.0);
-                    ewidencjaAddwiad.setBrutto(0.0);
-                    ewidencjaAddwiad.setEstawka("op");
+                for (Evewidencja p : uzywaneewidencje) {
+                    EVatwpis1 ewidencjaAddwiad = new EVatwpis1(k++,p,"op");
                     this.selDokument.getEwidencjaVAT1().add(ewidencjaAddwiad);
                 }
                 //obliczam 23% dla pierwszego
@@ -485,6 +483,38 @@ public class DokView implements Serializable {
                 sumujnetto();
                 selDokument.setEwidencjaVAT1(new ArrayList<>());
                 //ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
+            }
+        }
+        if (wpisView.getPodatnikObiekt().isNiemcy()) {
+            ukryjEwiencjeVAT = false;
+            String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
+            boolean pokaz = false;
+            if (transakcjiRodzaj.equals("zakup")&&selDokument.getWalutadokumentu().getSymbolwaluty().equals("EUR")) {
+                pokaz = true;
+            } else if (pokaz = transakcjiRodzaj.equals("zakup")== false) {
+                pokaz = true;
+            }
+            if (pokaz) {
+                List<Evewidencja> uzywaneewidencje = Collections.synchronizedList(new ArrayList<>());
+                selDokument.setDokumentProsty(false);
+                uzywaneewidencje.addAll(listaEwidencjiVat.pobierzEvewidencjeNiemcy(transakcjiRodzaj));
+                double sumanetto = sumujnetto();
+                int nrwiersza = 0;
+                //bo od teraz sa niemieckie ewidencje. pozdro z Sitges 10.02.2024 sobota wieczor
+                if (selDokument.getEwidencjaVAT1()==null) {
+                    selDokument.setEwidencjaVAT1(new ArrayList<>());
+                } else {
+                    nrwiersza = selDokument.getEwidencjaVAT1().size();
+                }
+                 //ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
+                int k = 0;
+                for (Evewidencja p : uzywaneewidencje) {
+                    EVatwpis1 ewidencjaAddwiad = new EVatwpis1(k++,p,"op");
+                    this.selDokument.getEwidencjaVAT1().add(ewidencjaAddwiad);
+                }
+                //obliczam 23% dla pierwszego
+                //nie bede dodawal netto bo faktur niemieckich jest mniej i jak ksiegowa nie wypelni to 
+                //selDokument.getEwidencjaVAT1().get(nrwiersza).setNetto(sumanetto);
             }
         }
     }

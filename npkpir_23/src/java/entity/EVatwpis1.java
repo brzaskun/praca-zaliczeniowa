@@ -67,6 +67,12 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
     public EVatwpis1() {
     }
 
+    public EVatwpis1(int k, Evewidencja p, String op) {
+        this.lp = k++;
+        this.ewidencja = p;
+        this.estawka = "op";
+    }
+
     @Override
     public Evewidencja getEwidencja() {
         return ewidencja;

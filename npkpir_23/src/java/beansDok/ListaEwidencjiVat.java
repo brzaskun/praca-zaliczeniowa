@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -46,6 +47,11 @@ public class ListaEwidencjiVat implements Serializable{
     private List<Evewidencja> uslugiPTK;
     private List<Evewidencja> eksporttowarow;
     private List<Evewidencja> listadostepnychewidencji;
+    //*****************************
+    private List<Evewidencja> sprzedazNiemcyVList;
+    private List<Evewidencja> zakupNiemcyVList;
+    private List<Evewidencja> wntNiemcyVList;
+    private List<Evewidencja> rvcNiemcyVList;//reverse charge - odwrotne obciazenie
 
 
     public ListaEwidencjiVat() {
@@ -63,13 +69,19 @@ public class ListaEwidencjiVat implements Serializable{
         eksporttowarow = Collections.synchronizedList(new ArrayList<>());
         //pojemnik na wszytskie ewidencje z EVDAO
         listadostepnychewidencji = Collections.synchronizedList(new ArrayList<>());
+        sprzedazNiemcyVList = Collections.synchronizedList(new ArrayList<>());
+        zakupNiemcyVList = Collections.synchronizedList(new ArrayList<>());
+        wntNiemcyVList = Collections.synchronizedList(new ArrayList<>());
+        rvcNiemcyVList = Collections.synchronizedList(new ArrayList<>());
     }
     
     
     //po pobraniu ewidencji z EVDAO podkleja je pod trzy kategorie ewidencji w celu ich wygenerowania programowego
     @PostConstruct
     public void init() { //E.m(this);
-        List<Evewidencja> tmp = eVDAO.findAll();
+        List<Evewidencja> wszystkie = eVDAO.findAll();
+        List<Evewidencja> tmp = wszystkie.stream().filter(p->p.isNiemcy()==false).collect(Collectors.toList());
+        wszystkie.removeAll(tmp);
         if (tmp != null) {
             Collections.sort(tmp, new Evewidencjacomparator());
             for (Evewidencja up : tmp){
@@ -116,6 +128,29 @@ public class ListaEwidencjiVat implements Serializable{
                 }
             }
         }
+        if (wszystkie != null) {
+            Collections.sort(wszystkie, new Evewidencjacomparator());
+            for (Evewidencja up : wszystkie){
+                listadostepnychewidencji.add(up);
+                switch(up.getTransakcja()) {
+                    case "zakup" : 
+                        zakupNiemcyVList.add(up);
+                        break;
+                    case "WNT" : 
+                        wntNiemcyVList.add(up);
+                        break;
+                    case "odwrotne obciążenie" : 
+                        rvcNiemcyVList.add(up);
+                        break;
+                    case ("odwrotne obciążenie sprzedawca"):
+                        rvcVListS.add(up);
+                        break;
+
+                    default : 
+                        sprzedazNiemcyVList.add(up);
+                }
+            }
+        }
     }
     
     public List<Evewidencja> pobierzEvewidencje(String transakcjiRodzaj) {
@@ -146,6 +181,19 @@ public class ListaEwidencjiVat implements Serializable{
                         return eksporttowarow;
                     default:
                         return sprzedazVList;
+                }
+    }
+    
+    public List<Evewidencja> pobierzEvewidencjeNiemcy(String transakcjiRodzaj) {
+        switch (transakcjiRodzaj) {
+                    case ("zakup"):
+                        return zakupNiemcyVList;
+                    case ("odwrotne obciążenie"):
+                        return rvcNiemcyVList;
+                    case ("WNT"):
+                        return wntNiemcyVList;
+                    default:
+                        return sprzedazNiemcyVList;
                 }
     }
     

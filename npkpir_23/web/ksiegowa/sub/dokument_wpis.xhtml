@@ -36,7 +36,8 @@
         <!--                te batony zostaja, sa wywolywane przez javascript-->
         <p:commandButton id="dodkol" value="dodajkolumne" actionListener="#{DokumentView.dodajwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
         <p:commandButton id="usunkol" value="usunkolumne" actionListener="#{DokumentView.usunwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="t" style="display: none;"/>
-        <h:outputText value="nie wprowadzono danych tego podatnika na nowy rok podatkowy - zablokowano możliwość księgowania dokumentów" rendered="#{WpisView.czegosbrakuje}" style="font-weight: 800; color: red; padding: 20px;"/>
+        <h:outputText value="nie wprowadzono danych tego podatnika na nowy rok podatkowy - zablokowano możliwość księgowania dokumentów" 
+                      rendered="#{WpisView.czegosbrakuje}" style="font-weight: 800; color: red; padding: 20px;"/>
         <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikObiekt.nazwapelnaPDF} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" rendered="#{!WpisView.czegosbrakuje}"
                  style="width: 900px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: -2%; min-height: 450px;" id="wprowadzanie">
             <p:growl life="3600"  id="mess_add" ><p:autoUpdate/></p:growl>
@@ -51,7 +52,7 @@
                             <p:column>
                                 <h:outputLabel value="data powst.ob." style="font-weight: 500"/>
                             </p:column>
-                            <p:column  rendered="#{WpisView.podatnikObiekt.metodakasowa eq 'tak'}">
+                            <p:column  rendered="#{WpisView.podatnikObiekt.metodakasowa eq 'tak' or WpisView.podatnikObiekt.niemcy}">
                                 <h:outputLabel value="termin płatności" style="font-weight: 500"/>
                             </p:column>
                             <p:column>
@@ -78,7 +79,7 @@
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{DokumentView.edytujkursNBP}" update="dodWiad:panelTabelaNBP, dodWiad:dokumentprosty dodWiad:panelewidencjivat, dodWiad:sumbrutto"/>
                             </p:inputText>
                         </p:column>
-                        <p:column width="60" rendered="#{WpisView.podatnikObiekt.metodakasowa eq 'tak'}">
+                        <p:column width="60" rendered="#{WpisView.podatnikObiekt.metodakasowa eq 'tak' or WpisView.podatnikObiekt.niemcy}">
                              <p:inputText id="dataTrPole" value="#{DokumentView.selDokument.terminPlatnosci}" size="10"
                                          onblur="ustawDateGen(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu},'dodWiad:dataTrPole');" 
                                          required="true" requiredMessage="Pole termin zapłaty nie może byc puste" >
@@ -480,17 +481,20 @@
                         <h:outputText value="#{item.ewidencja.nazwa}"/>
                     </p:column>
                     <p:column headerText="#{mgs.netto}" style="width: 20%;">
-                        <p:inputNumber id="netto" value="#{item.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                        <p:inputNumber id="netto" value="#{item.netto}" 
+                                       symbol="#{item.ewidencja.niemcy?' €':' zł'}" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                             <p:ajax event="change" listener="#{DokumentView.updatenetto(item)}" />
                         </p:inputNumber>
                     </p:column>
                     <p:column headerText="#{mgs.VAT}" style="width: 20%;">
-                        <p:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                        <p:inputNumber id="vat" value="#{item.vat}" 
+                                       symbol="#{item.ewidencja.niemcy?' €':' zł'}" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                             <p:ajax event="change" listener="#{DokumentView.updatevat(item)}" />
                         </p:inputNumber>
                     </p:column>
                     <p:column headerText="brutto" style="width: 20%;">
-                        <p:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                        <p:inputNumber id="brutto" value="#{item.brutto}" 
+                                       symbol="#{item.ewidencja.niemcy?' €':' zł'}" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                     </p:column>
                      <p:column headerText="nie odliczaj" style="width: 20%;text-align: center">
                          <p:selectBooleanCheckbox value="#{item.nieduplikuj}"/>

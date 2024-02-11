@@ -681,6 +681,15 @@ public class Dok extends DokSuper implements Serializable {
         this.fakturakontrahent = fakturakontrahent;
     }
 
+    public boolean jestniemcy() {
+        boolean zwrot = false;
+        for (EVatwpis1 p : this.ewidencjaVAT1) {
+            if (p.ewidencja.isNiemcy()) {
+               zwrot = true;
+            }
+        }
+        return zwrot;
+    }
     
     
     public Double getNettoWaluta() {
