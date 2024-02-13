@@ -19,6 +19,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.ws.WebServiceRef;
+import msg.Msg;
 import view.WpisView;
 
 /**
@@ -67,12 +68,15 @@ public class WsKadryFakturaPozycjaView implements Serializable {
                 for (Fakturywystokresowe f : fakturyokresowe) {
                     List<WierszFaktury> wiersze = wsKadryFakturaPozycjaPort.kadryfakturapozycjamcrok(f.getDokument().getKontrahent().getNip(), rok, mc);
                     if (wiersze.isEmpty()==false) {
+                        f.setRecznaedycja(true);
+                        
                         listawierszfaktury.addAll(wiersze);
                         System.out.println("odp: "+wiersze.get(0).nip+" nazwa: "+wiersze.get(0).nazwa+ " "+wiersze.size());
                     } else {
                         System.out.println("odebrałem pusta baze");
                     }
                 }
+                fakturywystokresoweDAO.editList(fakturyokresowe);
             }
             wierzfakturybazalist = wierszfakturybazaDAO.findbyRokMc(rok, mc);
             for (WierszFaktury w : listawierszfaktury) {
@@ -97,6 +101,14 @@ public class WsKadryFakturaPozycjaView implements Serializable {
             }
         } catch (Exception ex) {
             Logger.getLogger(WsKadryFakturaPozycjaView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void usun() {
+        if (listawierszfaktury!=null&&listawierszfaktury.isEmpty()==false) {
+            wierszfakturybazaDAO.removeList(wierzfakturybazalist);
+            wierzfakturybazalist = new ArrayList<>();
+            Msg.msg("Usunięto wiersze z miesiąca");
         }
     }
 
