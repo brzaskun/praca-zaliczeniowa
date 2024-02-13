@@ -19,6 +19,7 @@ import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
+import view.WpisView;
 import webservice.WierszFaktury;
 
 /**
@@ -43,10 +44,13 @@ public class WierszFakturaBean {
         rok = poprzedniokres[1];
         mc = poprzedniokres[0];
         List<WierszFaktury> listawierszfaktury = wierszFakturyFacade.findbyRokMc(rok, mc);
-        List<Kadryfakturapozycja> listauslugklientcena = kadryfakturapozycjaFacade.findAll();
+        List<Kadryfakturapozycja> listauslugklientcena = kadryfakturapozycjaFacade.findByRok(rok);
         for (Kadryfakturapozycja k : listauslugklientcena) {
             List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokMcNip(rok, mc, k.getFirmakadry().getNip());
             WierszFaktury wierszpobrany = pobierzwiersz(listawierszfaktury, k, rok, mc);
+            if (wierszpobrany.isNowacena()) {
+                wierszFakturyFacade.edit(wierszpobrany);
+            }
             naniesusluge(wierszpobrany, k.getOpisuslugi(), paski);
             if (wierszpobrany.getIlosc() > 0 && wierszpobrany.getId() == null) {
                 listawierszfaktury.add(wierszpobrany);
@@ -58,10 +62,15 @@ public class WierszFakturaBean {
         }
     }
      
-     public static WierszFaktury pobierzwiersz(List<WierszFaktury> listawierszfaktury, Kadryfakturapozycja k,String rok, String mc) {
-        WierszFaktury zwrot = new WierszFaktury(k, rok, mc);
+     public static WierszFaktury pobierzwiersz(List<WierszFaktury> listawierszfaktury, Kadryfakturapozycja kadryfakturapozycja,String rok, String mc) {
+        WierszFaktury zwrot = new WierszFaktury(kadryfakturapozycja, rok, mc);
         for (WierszFaktury w : listawierszfaktury) {
-            if (w.getNip().equals(k.getFirmakadry().getNip())&&w.getOpis().equals(k.getOpisuslugi().getOpis())) {
+            if (w.getNip().equals(kadryfakturapozycja.getFirmakadry().getNip())&&w.getOpis().equals(kadryfakturapozycja.getOpisuslugi().getOpis())) {
+                if (w.getKwota()!=kadryfakturapozycja.getCena()) {
+                    zwrot.setKwota(kadryfakturapozycja.getCena());
+                    zwrot.setSymbolwaluty(kadryfakturapozycja.getWaluta().getSymbolwaluty());
+                    zwrot.setNowacena(true);
+                }
                 zwrot = w;
             }
         }

@@ -68,7 +68,7 @@ public class KadryfakturapozycjaView  implements Serializable {
     
     @PostConstruct
     public void init() {
-        listauslugklientcena = kadryfakturapozycjaFacade.findAll();
+        listauslugklientcena = kadryfakturapozycjaFacade.findByRok(wpisView.getRokWpisu());
         Collections.sort(listauslugklientcena, new Kadryfakturapozycjacomparator());
         if (listauslugklientcena ==null) {
             listauslugklientcena = new ArrayList<>();
@@ -87,6 +87,7 @@ public class KadryfakturapozycjaView  implements Serializable {
             try {
                 selected.setUz(wpisView.getUzer());
                 selected.setDatadodania(new Date());
+                selected.setRok(wpisView.getRokWpisu());
                 kadryfakturapozycjaFacade.create(selected);
                 listauslugklientcena.add(selected);
                 Waluty waluta = selected.getWaluta();

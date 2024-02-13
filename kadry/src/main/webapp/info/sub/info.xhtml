@@ -414,14 +414,14 @@
                             <h:outputText value="#{indexumowa+1}"/>
                         </p:column>
                         <p:column width="300" style="text-align: left;" sortBy="#{item111.firmakadry.nazwa}" sortOrder="asc"
-                                  filterBy="#{item111.firmakadry.nazwa}" filterMatchMode="contains">
+                                  filterBy="#{item111.firmakadry.nazwa}" filterMatchMode="contains" sortPriority="1">
                             <f:facet name="header">
                                 <h:outputText value="firma"/>
                             </f:facet>
                             <h:outputText value="#{item111.firmakadry.nazwa}"/>
                         </p:column>
                         <p:column width="200" style="text-align: left;" sortBy="#{item111.opisuslugi.opis}" sortOrder="asc"
-                                  filterBy="#{item111.opisuslugi.opis}" filterMatchMode="contains">
+                                  filterBy="#{item111.opisuslugi.opis}" filterMatchMode="contains" sortPriority="2">
                             <f:facet name="header">
                                 <h:outputText value="opis"/>
                             </f:facet>
@@ -487,7 +487,7 @@
                                  selectionMode="single"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" 
                                  scrollable="true" scrollHeight="600" scrollRows="20" 
-                                 style="width: 1200px;"
+                                 style="width: 1200px;" sortBy="#{item111.nazwa}"
                                  emptyMessage="Nie pobrano elementów"
                                  >
                         <p:ajax event="filter" partialSubmit="true" global="false" />

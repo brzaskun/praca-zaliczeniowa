@@ -5,7 +5,10 @@
  */
 package dao;
 
+import entity.FirmaKadry;
 import entity.Kadryfakturapozycja;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -39,6 +42,14 @@ public class KadryfakturapozycjaFacade extends DAO  {
     public KadryfakturapozycjaFacade() {
         super(Kadryfakturapozycja.class);
         super.em = em;
+    }
+
+    public List<Kadryfakturapozycja> findByRok(String rok) {
+        List<Kadryfakturapozycja> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Kadryfakturapozycja.findByRok").setParameter("rok", rok).getResultList();
+        } catch (Exception e){}
+        return zwrot;
     }
    
 }

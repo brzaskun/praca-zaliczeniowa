@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Kadryfakturapozycja.findAll", query = "SELECT k FROM Kadryfakturapozycja k"),
     @NamedQuery(name = "Kadryfakturapozycja.findById", query = "SELECT k FROM Kadryfakturapozycja k WHERE k.id = :id"),
+    @NamedQuery(name = "Kadryfakturapozycja.findByRok", query = "SELECT k FROM Kadryfakturapozycja k WHERE k.rok = :rok"),
     @NamedQuery(name = "Kadryfakturapozycja.findByCena", query = "SELECT k FROM Kadryfakturapozycja k WHERE k.cena = :cena")})
 public class Kadryfakturapozycja implements Serializable {
 
@@ -60,6 +61,8 @@ public class Kadryfakturapozycja implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "datadodania")
     private Date datadodania;
+    @Column(name = "rok")
+    private String rok;
 
     public Kadryfakturapozycja() {
     }
@@ -124,6 +127,15 @@ public class Kadryfakturapozycja implements Serializable {
         this.datadodania = datadodania;
     }
 
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -15,7 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.transaction.Transactional;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -67,6 +69,8 @@ public class WierszFaktury implements Serializable {
     private double kwota;
     @Column(name = "ilosc")
     private int ilosc;
+    @Transient
+    private boolean nowacena;
 
     public WierszFaktury() {
     }
@@ -123,6 +127,16 @@ public class WierszFaktury implements Serializable {
     public void setRok(String rok) {
         this.rok = rok;
     }
+
+    public boolean isNowacena() {
+        return nowacena;
+    }
+
+    public void setNowacena(boolean nowacena) {
+        this.nowacena = nowacena;
+    }
+    
+    
 
     public String getMc() {
         return mc;
