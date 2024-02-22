@@ -72,8 +72,10 @@
                 <p:commandButton value="pokaż otwarte" actionListener="#{fakturaView.pokazotwarte}" global="false" style="width: 120px; margin-left: 10px;"  update="akordeon:formokresowe2:dokumentyOkresowe"/>
             </p:panelGrid>
             
-            <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}" 
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1600px;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
+            <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row" 
+                         filteredValue="#{fakturaView.fakturyokresoweFiltered}"
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1600px;" widgetVar="okresTable2" 
+                         sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
                          rowSelectMode="add"
                          rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" paginator="true" rows="40"
                          >

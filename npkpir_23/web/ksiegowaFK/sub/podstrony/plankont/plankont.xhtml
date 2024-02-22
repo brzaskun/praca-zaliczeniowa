@@ -30,8 +30,8 @@
                 <p:menuitem value="Porządkuj wybrane konto" onclick="PF('confirm5').show();"  global="true" icon="ui-icon-tag"  rendered="#{facesContext.externalContext.remoteUser eq '4'}"
                             />
 <!--                <p:menuitem value="Porządkuj konta" onclick="PF('confirm3').show();" global="false" icon="ui-icon-tag" 
-                            />
-                <p:menuitem value="Weryfikuj słowniki" onclick="PF('confirm4').show();" global="false" icon="ui-icon-note" update="form_dialog_plankont:dataList" />-->
+                            />-->
+                <p:menuitem value="Weryfikuj słowniki" onclick="PF('confirm4').show();" global="false" icon="ui-icon-note" update="form_dialog_plankont:dataList" />
                 <p:menuitem value="Usuń z subkontami"  icon="ui-icon-trash" actionListener="#{planKontView.usunZsubkontami('K')}" update="form_dialog_plankont:dataList"
                             rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Usuń wszystkie" onclick="PF('confirm2').show();" 
