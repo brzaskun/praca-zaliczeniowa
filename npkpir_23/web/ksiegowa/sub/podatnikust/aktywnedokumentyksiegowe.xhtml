@@ -132,10 +132,12 @@
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazszt}" />
                     <h:outputText value=" rozliczaj tylko VAT należny: " />
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkovatnalezny}" />
-                     <h:outputText value=" dokument tylko dla vat: " />
+                    <h:outputText value=" dokument tylko dla vat: " />
                      <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkovat}" />
                      <h:outputText value=" dokument tylko dla jpk: " />
                      <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkojpk}" />
+                      <h:outputText value=" dokument tylko dla CIT: " />
+                      <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkopodatkowo}" />
                      <h:outputText value=" jpk oznaczenie 1: " />
                     <h:selectOneMenu value="#{podatnikView.selectedDokKsi.oznaczenie1}" converter="#{jpkoznaczeniaConv}">
                         <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
