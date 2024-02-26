@@ -1064,6 +1064,7 @@ public class PasekwynagrodzenBean {
         } else {
             pasek.setWypadkowe(Z.z(pasek.getPodstawaskladkizus() * (pobrane.getProcent() / 100.0)));
         }
+        
     }
 
     private static void fp(Pasekwynagrodzen pasek) {

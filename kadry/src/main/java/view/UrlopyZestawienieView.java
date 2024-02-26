@@ -86,7 +86,7 @@ public class UrlopyZestawienieView  implements Serializable {
                     Pracownik pracownik = rejestrurlopowrok.getAngaz().getPracownik();
                     if(rejestrurlopowrok.getRok().equals(wpisView.getRokWpisu())) {
                         //pracownik.setWymiarurlopu(urlopprezentacja.getWymiarokresbiezacydni());
-                        pracownik.setWymiarurlopu(urlopprezentacja.getWymiargeneralnydni());
+                        pracownik.setWymiarurlopu(urlopprezentacja.getWymiarokresbiezacydni());
                         pracownikFacade.edit(pracownik);
                     }
                     boolean jestprzed2023 = wpisView.getRokWpisu().equals("2023")&&Integer.parseInt(rejestrurlopowrok.getAngaz().getRok())<2023?true:false;

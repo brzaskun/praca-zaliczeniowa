@@ -35,8 +35,11 @@
                                  style="width: 1450px;"
                                  emptyMessage="nie pobrano danych"
                                  >
-                     <p:column width="200" headerText="nazwisko i imię" style="text-align: left;" groupRow="true">
+                     <p:column width="170" headerText="nazwisko i imię" style="text-align: left;" groupRow="true">
                             <h:outputText value="#{items.angaz.nazwiskoiImie}"/>
+                        </p:column>
+                       <p:column width="70" headerText="angaż" style="text-align: center;">
+                           <h:outputText value="#{items.angaz.rokMc}"/>
                         </p:column>
                         <p:column width="30" headerText="wymiar" style="text-align: center;">
                             <h:outputText value="#{items.angaz.pracownik.wymiarurlopu}" style="color: #{items.angaz.pracownik.wymiarurlopu gt 0?'green':'gray'}"/>

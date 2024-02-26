@@ -16,6 +16,7 @@ import dao.KalendarzmiesiacFacade;
 import dao.NieobecnoscprezentacjaFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PracownikFacade;
+import dao.RejestrurlopowFacade;
 import dao.RodzajwynagrodzeniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
@@ -31,6 +32,7 @@ import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnoscprezentacja;
 import entity.Nieobecnoscwykorzystanie;
 import entity.Pracownik;
+import entity.Rejestrurlopow;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Sredniadlanieobecnosci;
@@ -81,6 +83,8 @@ public class PracownikEkwiwalentView  implements Serializable {
     private EkwiwalentUrlopFacade ekwiwalentSkladnikiFacade;
     @Inject
     private RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade;
+    @Inject
+    private RejestrurlopowFacade rejestrurlopowFacade;
     @Inject
     private WpisView wpisView;
     private Nieobecnoscprezentacja urlopprezentacja;
@@ -152,7 +156,8 @@ public class PracownikEkwiwalentView  implements Serializable {
     
     public void pobierzurlop() {
         if (wpisView.getPracownik()!=null) {
-            urlopprezentacja = UrlopBean.pobierzurlop(wpisView.getAngaz(), wpisView.getRokWpisu(), stannadzien, stannadzien);
+            Rejestrurlopow rejestrurlopow = rejestrurlopowFacade.findByAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
+            urlopprezentacja = UrlopBean.pobierzurlopSwiadectwo(wpisView.getAngaz(), wpisView.getRokWpisu(), stannadzien, stannadzien, rejestrurlopow);
         }
     }
     public void pobierzoddelegowanie() {

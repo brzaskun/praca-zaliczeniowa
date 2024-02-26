@@ -45,10 +45,10 @@ public class RejestrurlopowFacade extends DAO  {
         super.em = em;
     }
     
-    public List<Rejestrurlopow> findByAngaz(Angaz angaz, String rok) {
-        List<Rejestrurlopow> zwrot = new ArrayList<>();
+    public Rejestrurlopow findByAngaz(Angaz angaz, String rok) {
+        Rejestrurlopow zwrot = null;
         try {
-            zwrot = getEntityManager().createNamedQuery("Rejestrurlopow.findByAngazRok").setParameter("angaz", angaz).setParameter("rok", rok).getResultList();
+            zwrot = (Rejestrurlopow) getEntityManager().createNamedQuery("Rejestrurlopow.findByAngazRok").setParameter("angaz", angaz).setParameter("rok", rok).getSingleResult();
         } catch (Exception e){
             
         }

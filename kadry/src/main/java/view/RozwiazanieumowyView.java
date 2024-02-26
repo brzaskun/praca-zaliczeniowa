@@ -15,6 +15,7 @@ import dao.AngazFacade;
 import dao.EkwiwalentUrlopFacade;
 import dao.NieobecnoscFacade;
 import dao.NieobecnoscswiadectwoschemaFacade;
+import dao.RejestrurlopowFacade;
 import dao.RozwiazanieumowyFacade;
 import dao.SMTPSettingsFacade;
 import dao.UmowaFacade;
@@ -28,6 +29,7 @@ import entity.EtatPrac;
 import entity.Nieobecnosc;
 import entity.Nieobecnoscprezentacja;
 import entity.Nieobecnoscswiadectwoschema;
+import entity.Rejestrurlopow;
 import entity.Rozwiazanieumowy;
 import entity.SMTPSettings;
 import entity.Skladnikpotracenia;
@@ -69,6 +71,8 @@ public class RozwiazanieumowyView  implements Serializable {
     private AngazFacade angazFacade;
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
+    @Inject
+    private RejestrurlopowFacade rejestrurlopowFacade;
     @Inject
     private EkwiwalentUrlopFacade ekwiwalentSkladnikiFacade;
     private Rozwiazanieumowy selectedlista;
@@ -142,7 +146,8 @@ public class RozwiazanieumowyView  implements Serializable {
                     }
                     listanieobecschema = nieobecnoscswiadectwoschemaFacade.findAll();
                     dnidoswiadectwa = naniesnieobecnoscinascheme(listanieob, listanieobecschema, selectedlista, wpisView.getRokWpisu());
-                    urlopprezentacja = UrlopBean.pobierzurlop(wpisView.getAngaz(), wpisView.getRokWpisu(), selectedlista.getDatauplywuokresuwyp(), selectedlista.getDatauplywuokresuwyp());
+                    Rejestrurlopow rejestrurlopow = rejestrurlopowFacade.findByAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
+                    urlopprezentacja = UrlopBean.pobierzurlopSwiadectwo(wpisView.getAngaz(), wpisView.getRokWpisu(), selectedlista.getDatauplywuokresuwyp(), selectedlista.getDatauplywuokresuwyp(), rejestrurlopow);
             }
         } else {
             lista = new ArrayList<>();

@@ -15,6 +15,7 @@ import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnoscprezentacja;
 import entity.Nieobecnoscwykorzystanie;
+import entity.Rejestrurlopow;
 import entity.Staz;
 import entity.Umowa;
 import java.time.LocalDate;
@@ -49,6 +50,42 @@ public class UrlopBean {
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
                 List<Umowa> umowy = angaz.getUmowaList();
                 Object[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz, kalendarze);
+                urlopprezentacja.setWymiarokresbiezacydni((int) obliczwymiarwgodzinach[0]);
+                urlopprezentacja.setWymiarokresbiezacygodziny((int) obliczwymiarwgodzinach[1]);
+                urlopprezentacja.setWymiargeneralnydni((int) obliczwymiarwgodzinach[2]);
+                urlopprezentacja.setListamiesiecy((Set<String>) obliczwymiarwgodzinach[3]);
+                int wykorzystanierokbierzacydni  = (urlopprezentacja.getWykorzystanierokbiezacy()/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
+                urlopprezentacja.setWykorzystanierokbiezacydni(wykorzystanierokbierzacydni);
+                int doprzeniesienia = urlopprezentacja.getBilansotwarciagodziny()+urlopprezentacja.getWymiarokresbiezacygodziny()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
+                urlopprezentacja.setDoprzeniesienia(doprzeniesienia);
+                int doprzeniesieniadni = (doprzeniesienia/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
+                urlopprezentacja.setDoprzeniesieniadni(doprzeniesieniadni);
+                int doswiadectwagodziny = (urlopprezentacja.getWykorzystanierokbiezacy()+urlopprezentacja.getWykorzystanierokbiezacyekwiwalent())-urlopprezentacja.getBilansotwarciagodziny();
+                urlopprezentacja.setDoswiadectwagodziny(doswiadectwagodziny);
+                int doswiadectwadni = (doswiadectwagodziny/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
+                urlopprezentacja.setDoswiadectwadni(doswiadectwadni);
+            } else {
+                urlopprezentacja = new Nieobecnoscprezentacja();
+            }
+            //Msg.msg("Pobrano dane urlopowe");
+        }
+        return urlopprezentacja;
+    }
+     
+     public static Nieobecnoscprezentacja pobierzurlopSwiadectwo(Angaz angaz, String rok, String stannadzien, String dataDlaEtatu, Rejestrurlopow rejestrurlopow) {
+         Nieobecnoscprezentacja urlopprezentacja = new Nieobecnoscprezentacja(angaz, rok);
+        if (angaz!=null) {
+            EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,dataDlaEtatu);
+            if (pobierzetat!=null) {
+                List<Kalendarzmiesiac> kalendarze = angaz.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)).collect(Collectors.toList());
+                //wstawilem to tu bo dzieki temu zmodyfikuje dni w kalendarzach i oznacze je jako wykorzystanie urlopu z okresu poprzedniego
+                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
+                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
+                List<Umowa> umowy = angaz.getUmowaList();
+                Object[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz, kalendarze);
+                urlopprezentacja.setBilansotwarciadni(rejestrurlopow.getUrlopzalegly());
+                int urlopzaleglygodziny  = (rejestrurlopow.getUrlopzalegly()*8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
+                urlopprezentacja.setBilansotwarciagodziny(urlopzaleglygodziny);
                 urlopprezentacja.setWymiarokresbiezacydni((int) obliczwymiarwgodzinach[0]);
                 urlopprezentacja.setWymiarokresbiezacygodziny((int) obliczwymiarwgodzinach[1]);
                 urlopprezentacja.setWymiargeneralnydni((int) obliczwymiarwgodzinach[2]);
