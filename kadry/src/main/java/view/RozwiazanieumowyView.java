@@ -147,7 +147,8 @@ public class RozwiazanieumowyView  implements Serializable {
                     listanieobecschema = nieobecnoscswiadectwoschemaFacade.findAll();
                     dnidoswiadectwa = naniesnieobecnoscinascheme(listanieob, listanieobecschema, selectedlista, wpisView.getRokWpisu());
                     Rejestrurlopow rejestrurlopow = rejestrurlopowFacade.findByAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
-                    urlopprezentacja = UrlopBean.pobierzurlopSwiadectwo(wpisView.getAngaz(), wpisView.getRokWpisu(), selectedlista.getDatauplywuokresuwyp(), selectedlista.getDatauplywuokresuwyp(), rejestrurlopow);
+                    EkwiwalentUrlop ekwiwalentUrlop = ekwiwalentSkladnikiFacade.findbyUmowa(wpisView.getUmowa());
+                    urlopprezentacja = UrlopBean.pobierzurlopSwiadectwo(wpisView.getAngaz(), wpisView.getRokWpisu(), selectedlista.getDatauplywuokresuwyp(), selectedlista.getDatauplywuokresuwyp(), rejestrurlopow, ekwiwalentUrlop);
             }
         } else {
             lista = new ArrayList<>();

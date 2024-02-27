@@ -11,6 +11,7 @@ import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
 import entity.Dzien;
+import entity.EkwiwalentUrlop;
 import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnoscprezentacja;
@@ -26,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import msg.Msg;
 
 /**
  *
@@ -72,7 +74,7 @@ public class UrlopBean {
         return urlopprezentacja;
     }
      
-     public static Nieobecnoscprezentacja pobierzurlopSwiadectwo(Angaz angaz, String rok, String stannadzien, String dataDlaEtatu, Rejestrurlopow rejestrurlopow) {
+     public static Nieobecnoscprezentacja pobierzurlopSwiadectwo(Angaz angaz, String rok, String stannadzien, String dataDlaEtatu, Rejestrurlopow rejestrurlopow, EkwiwalentUrlop ekwiwalentUrlop) {
          Nieobecnoscprezentacja urlopprezentacja = new Nieobecnoscprezentacja(angaz, rok);
         if (angaz!=null) {
             EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,dataDlaEtatu);
@@ -83,9 +85,13 @@ public class UrlopBean {
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
                 List<Umowa> umowy = angaz.getUmowaList();
                 Object[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz, kalendarze);
-                urlopprezentacja.setBilansotwarciadni(rejestrurlopow.getUrlopzalegly());
-                int urlopzaleglygodziny  = (rejestrurlopow.getUrlopzalegly()*8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
-                urlopprezentacja.setBilansotwarciagodziny(urlopzaleglygodziny);
+                if (rejestrurlopow!=null) {
+                    urlopprezentacja.setBilansotwarciadni(rejestrurlopow.getUrlopzalegly());
+                    int urlopzaleglygodziny  = (rejestrurlopow.getUrlopzalegly()*8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
+                    urlopprezentacja.setBilansotwarciagodziny(urlopzaleglygodziny);
+                } else {
+                    Msg.msg("e","Brak rejestru urlopów dla pracownika");
+                }
                 urlopprezentacja.setWymiarokresbiezacydni((int) obliczwymiarwgodzinach[0]);
                 urlopprezentacja.setWymiarokresbiezacygodziny((int) obliczwymiarwgodzinach[1]);
                 urlopprezentacja.setWymiargeneralnydni((int) obliczwymiarwgodzinach[2]);
@@ -96,7 +102,11 @@ public class UrlopBean {
                 urlopprezentacja.setDoprzeniesienia(doprzeniesienia);
                 int doprzeniesieniadni = (doprzeniesienia/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setDoprzeniesieniadni(doprzeniesieniadni);
-                int doswiadectwagodziny = (urlopprezentacja.getWykorzystanierokbiezacy()+urlopprezentacja.getWykorzystanierokbiezacyekwiwalent())-urlopprezentacja.getBilansotwarciagodziny();
+                int ekwiwalentwyplaconydni = 0;
+                if (ekwiwalentUrlop!=null) {
+                    ekwiwalentwyplaconydni = ekwiwalentUrlop.getBiezacy()*8*pobierzetat.getEtat2()/pobierzetat.getEtat1();
+                }
+                int doswiadectwagodziny = (urlopprezentacja.getWykorzystanierokbiezacy()+ekwiwalentwyplaconydni);
                 urlopprezentacja.setDoswiadectwagodziny(doswiadectwagodziny);
                 int doswiadectwadni = (doswiadectwagodziny/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setDoswiadectwadni(doswiadectwadni);

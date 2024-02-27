@@ -148,6 +148,7 @@ public class PdfSwiadectwo {
                 text1 = mezczyzna?"wykorzystał":"wykorzystała";
                 String urlop1 = "2) "+text1+" urlop wypoczynkowy w wymiarze: ";
                 int dniwykorzystane = 0;
+                int godzinywykorzystane = 0;
                 //usuniete bo teraz bierze urlop tylko z tego roku przemycany w zmiennej urlopprezentacja
 //                for (Swiadectwodni s : dnidoswiadectwa) {
 //                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKodzbiorczy().equals("U")) {
@@ -158,26 +159,15 @@ public class PdfSwiadectwo {
                 if (urlopprezentacja!=null) {
                     if (urlopprezentacja.getDoswiadectwadni()>0) {
                         dniwykorzystane = urlopprezentacja.getDoswiadectwadni();
+                        godzinywykorzystane = urlopprezentacja.getDoswiadectwagodziny();
                     }
                 }
                 int dniekwiwalentu = 0;
                 if (ekwiwalentUrlop!=null&&ekwiwalentUrlop.getKwota()>0.0) {
-                    int dnirokpoprzeni = urlopprezentacja.getDoswiadectwadni() <0?urlopprezentacja.getDoswiadectwadni():0;
-                    dniwykorzystane = dniwykorzystane+dnirokpoprzeni+ekwiwalentUrlop.getDni();
-                    dniekwiwalentu = dnirokpoprzeni+dniekwiwalentu+ekwiwalentUrlop.getDni();
-                    czydodano = true;
+                    dniekwiwalentu = ekwiwalentUrlop.getBiezacy();
                 }
-                int sumadniurlopu = dniwykorzystane; 
-                if (czydodano==false) {
-                    // nie mam pojecia po to rto jest
-                    //urlop1 = urlop1+sumadniurlopu+" 0";
-                    urlop1 = urlop1+sumadniurlopu;
-                } else {
-                    urlop1 = urlop1+sumadniurlopu;
-                }
-                String urlopdni = urlop1+" dni";
-                double urlopgodzi = sumadniurlopu*8.0;
-                String urlopgodziny = " tj. "+urlopgodzi+" godzin";
+                String urlopdni = dniwykorzystane+" dni";
+                String urlopgodziny = " tj. "+godzinywykorzystane+" godzin";
                 String razemurlop = urlopdni+urlopgodziny;
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, razemurlop, Element.ALIGN_LEFT, 2);
                 String razemurlopa = "(urlop wypoczynkowy wykorzystany w roku kalendarzowym, w którym ustał stosunek pracy)";
