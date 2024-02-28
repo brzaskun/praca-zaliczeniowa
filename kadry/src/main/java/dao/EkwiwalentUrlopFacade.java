@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entity.Angaz;
 import entity.EkwiwalentUrlop;
 import entity.Umowa;
 import java.io.Serializable;
@@ -53,6 +54,15 @@ public class EkwiwalentUrlopFacade extends DAO  implements Serializable {
         EkwiwalentUrlop zwrot = null;
         try {
             zwrot = (EkwiwalentUrlop) getEntityManager().createNamedQuery("EkwiwalentUrlop.findByUmowa").setParameter("umowa", umowa).getSingleResult();
+        } catch (Exception e) {
+        }
+        return zwrot;
+    }
+    
+    public EkwiwalentUrlop findbyRokAngaz(String rok, Angaz angaz) {
+        EkwiwalentUrlop zwrot = null;
+        try {
+            zwrot = (EkwiwalentUrlop) getEntityManager().createNamedQuery("EkwiwalentUrlop.findByRokAngaz").setParameter("rok", rok).setParameter("angaz", angaz).getSingleResult();
         } catch (Exception e) {
         }
         return zwrot;

@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "EkwiwalentUrlop.findByKwota", query = "SELECT e FROM EkwiwalentUrlop e WHERE e.kwota = :kwota"),
     @NamedQuery(name = "EkwiwalentUrlop.findByMc", query = "SELECT e FROM EkwiwalentUrlop e WHERE e.mc = :mc"),
     @NamedQuery(name = "EkwiwalentUrlop.findByRok", query = "SELECT e FROM EkwiwalentUrlop e WHERE e.rok = :rok"),
+    @NamedQuery(name = "EkwiwalentUrlop.findByRokAngaz", query = "SELECT e FROM EkwiwalentUrlop e WHERE e.rok = :rok AND e.angaz=:angaz"),
     @NamedQuery(name = "EkwiwalentUrlop.findByUmowa", query = "SELECT e FROM EkwiwalentUrlop e WHERE e.umowa = :umowa"),
     @NamedQuery(name = "EkwiwalentUrlop.findByDni", query = "SELECT e FROM EkwiwalentUrlop e WHERE e.dni = :dni"),
     @NamedQuery(name = "EkwiwalentUrlop.findByGodziny", query = "SELECT e FROM EkwiwalentUrlop e WHERE e.godziny = :godziny"),

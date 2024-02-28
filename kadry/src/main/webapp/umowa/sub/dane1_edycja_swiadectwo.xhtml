@@ -12,10 +12,12 @@
                  
                 <p:panel header="Zestawienie danych do świadectwa">
                     <p:panelGrid columns="2" style="width: 340px;">
-                           <p:outputLabel value="niewykorzystany rok poprzedni godz." for="urloplpop" />
-                           <h:outputText id="urloplpop" value="#{rozwiazanieumowyView.urlopprezentacja.bilansotwarciagodziny}"  style="text-align: right;"/>
-                            <p:outputLabel value="wykorzystany urlop w roku bieżący godz." for="urloplp1e" />
-                            <h:outputText id="urloplp1e" value="#{rozwiazanieumowyView.urlopprezentacja.wykorzystanierokbiezacy}" style="text-align: right;"/>
+                           <p:outputLabel value="niewykorzystany rok poprzedni dni." for="urloplpop" />
+                           <h:outputText id="urloplpop" value="#{rozwiazanieumowyView.urlopprezentacja.bilansotwarciadni}"  style="text-align: right;"/>
+                            <p:outputLabel value="urlop należny rok bieżacy dni." for="urloplpbie" />
+                            <h:outputText id="urloplpbie" value="#{rozwiazanieumowyView.urlopprezentacja.wymiarokresbiezacydni}"  style="text-align: right;"/>
+                            <p:outputLabel value="wykorzystany urlop w roku bieżący dni" for="urloplp1e" />
+                            <h:outputText id="urloplp1e" value="#{rozwiazanieumowyView.urlopprezentacja.wykorzystanierokbiezacydni}" style="text-align: right;"/>
                             <p:outputLabel value="godziny urlopu tylko z wymiaru roku bieżącego" for="urloplpop1" />
                             <h:outputText id="urloplpop1" value="#{rozwiazanieumowyView.urlopprezentacja.doswiadectwagodziny}"  style="text-align: right;"/>
                             <p:outputLabel value="dni urlopu tylko z wymiaru roku bieżącego" for="urloplpop1a" />

@@ -54,9 +54,11 @@ public class Nieobecnoscprezentacja implements Serializable {
     private int bilansotwarciadni;
     @Column(name = "wymiarokresbiezacygodziny")
     private int wymiarokresbiezacygodziny;
+    //wymiar wg stazu w roku gdzie nastepuje przyjecie/zwolnienie - proporcja
     @Column(name = "wymiarokresbiezacydni")
     private int wymiarokresbiezacydni;
     @Column(name = "wymiargeneralnydni")
+    //wymiar wynikajacy ze stazu
     private int wymiargeneralnydni;
     @Column(name = "doprzeniesienia")
     private int doprzeniesienia;

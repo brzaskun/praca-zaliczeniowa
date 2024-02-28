@@ -34,6 +34,7 @@ import msg.Msg;
  * @author Osito
  */
 public class UrlopBean {
+    //tu bede zliczal urlop ale bez ekwiwalentu 
      public static Nieobecnoscprezentacja pobierzurlop(Angaz angaz, String rok, String stannadzien, String dataDlaEtatu) {
          Nieobecnoscprezentacja urlopprezentacja = new Nieobecnoscprezentacja(angaz, rok);
         if (angaz!=null) {
@@ -41,31 +42,31 @@ public class UrlopBean {
             if (pobierzetat!=null) {
                 List<Kalendarzmiesiac> kalendarze = angaz.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)).collect(Collectors.toList());
                 //wstawilem to tu bo dzieki temu zmodyfikuje dni w kalendarzach i oznacze je jako wykorzystanie urlopu z okresu poprzedniego
-                if (angaz.getRok().equals(rok)) {
-                    urlopprezentacja.setBilansotwarciagodziny(angaz.getBourlopgodziny());
-                    urlopprezentacja.setBilansotwarciadni(angaz.getBourlopdni());
-                } else if (angaz.getSerialsp()!=null&&rok.equals("2023")) {
-                    urlopprezentacja.setBilansotwarciagodziny(angaz.getBourlopgodziny());
-                    urlopprezentacja.setBilansotwarciadni(angaz.getBourlopdni());
-                }//w metodzie nanies dni z kodem uzulepniana jest zmienna urlopprezentacja.Wykorzystanierokbiezacy
+//                if (angaz.getRok().equals(rok)) {
+//                    urlopprezentacja.setBilansotwarciagodziny(angaz.getBourlopgodziny());
+//                    urlopprezentacja.setBilansotwarciadni(angaz.getBourlopdni());
+//                } else if (angaz.getSerialsp()!=null&&rok.equals("2023")) {
+//                    urlopprezentacja.setBilansotwarciagodziny(angaz.getBourlopgodziny());
+//                    urlopprezentacja.setBilansotwarciadni(angaz.getBourlopdni());
+//                }//w metodzie nanies dni z kodem uzulepniana jest zmienna urlopprezentacja.Wykorzystanierokbiezacy
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
                 List<Umowa> umowy = angaz.getUmowaList();
                 Object[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz, kalendarze);
-                urlopprezentacja.setWymiarokresbiezacydni((int) obliczwymiarwgodzinach[0]);
-                urlopprezentacja.setWymiarokresbiezacygodziny((int) obliczwymiarwgodzinach[1]);
+                //wymiar w trakcie roku przyjecia/zwolnienia
+                int wymiarbiezacydni = (int) obliczwymiarwgodzinach[0];
+                urlopprezentacja.setWymiarokresbiezacydni(wymiarbiezacydni);
+                int wymiarbiezacygodziny = (wymiarbiezacydni*8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
+                urlopprezentacja.setWymiarokresbiezacygodziny(wymiarbiezacygodziny);
                 urlopprezentacja.setWymiargeneralnydni((int) obliczwymiarwgodzinach[2]);
                 urlopprezentacja.setListamiesiecy((Set<String>) obliczwymiarwgodzinach[3]);
+                //urlopprezentacja.getWykorzystanierokbiezacy() uzupelnaije jest wyzej w funkcji naniesdnizkodem(kalendarze, urlopprezentacja, "U"))
                 int wykorzystanierokbierzacydni  = (urlopprezentacja.getWykorzystanierokbiezacy()/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setWykorzystanierokbiezacydni(wykorzystanierokbierzacydni);
                 int doprzeniesienia = urlopprezentacja.getBilansotwarciagodziny()+urlopprezentacja.getWymiarokresbiezacygodziny()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
                 urlopprezentacja.setDoprzeniesienia(doprzeniesienia);
                 int doprzeniesieniadni = (doprzeniesienia/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setDoprzeniesieniadni(doprzeniesieniadni);
-                int doswiadectwagodziny = (urlopprezentacja.getWykorzystanierokbiezacy()+urlopprezentacja.getWykorzystanierokbiezacyekwiwalent())-urlopprezentacja.getBilansotwarciagodziny();
-                urlopprezentacja.setDoswiadectwagodziny(doswiadectwagodziny);
-                int doswiadectwadni = (doswiadectwagodziny/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
-                urlopprezentacja.setDoswiadectwadni(doswiadectwadni);
             } else {
                 urlopprezentacja = new Nieobecnoscprezentacja();
             }
@@ -106,7 +107,7 @@ public class UrlopBean {
                 if (ekwiwalentUrlop!=null) {
                     ekwiwalentwyplaconydni = ekwiwalentUrlop.getBiezacy()*8*pobierzetat.getEtat2()/pobierzetat.getEtat1();
                 }
-                int doswiadectwagodziny = (urlopprezentacja.getWykorzystanierokbiezacy()+ekwiwalentwyplaconydni);
+                int doswiadectwagodziny = (urlopprezentacja.getWykorzystanierokbiezacy()+ekwiwalentwyplaconydni-urlopprezentacja.getBilansotwarciagodziny());
                 urlopprezentacja.setDoswiadectwagodziny(doswiadectwagodziny);
                 int doswiadectwadni = (doswiadectwagodziny/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setDoswiadectwadni(doswiadectwadni);
@@ -147,6 +148,8 @@ public class UrlopBean {
 //        return urlopprezentacja;
 //    }
      
+     
+     //tego nie ruszamy bo to jest uniwersalne
      public static List<Nieobecnoscwykorzystanie> naniesdnizkodem(List<Kalendarzmiesiac> kalendarze, Nieobecnoscprezentacja urlopprezentacja, String kod) {
         List<Nieobecnoscwykorzystanie> lista = new ArrayList<>();
         Nieobecnoscwykorzystanie wykorzystaniesuma = new Nieobecnoscwykorzystanie("podsum.",0);
@@ -237,7 +240,7 @@ public class UrlopBean {
     }
      
      public static Object[] obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat,String rok, String stannadzien, Angaz angaz, List<Kalendarzmiesiac> kalendarze) {
-        int wymiarwdniach = 20;
+        int wymiarproporcjonalny = 20;
         double liczbadni = 0;
         Collections.sort(umowy,new UmowaStareNowecomparator());
         for (Umowa p : umowy) {
@@ -263,14 +266,14 @@ public class UrlopBean {
         double angazstazlata = angaz.getPracownik().getStazlata();
         double liczbalatumowy = liczbadni / 365;
         if (angazstazlata>=10) {
-            wymiarwdniach = 26;
+            wymiarproporcjonalny = 26;
         } else if (angazstazlata+liczbalatumowy>=10){
-            wymiarwdniach = 26;
+            wymiarproporcjonalny = 26;
         } else {
             double angazstadni = angazstazlata*365+angaz.getPracownik().getStazdni();
             double duzasumadni = angazstadni+liczbadni;
             if (duzasumadni>=3650) {
-                wymiarwdniach = 26;
+                wymiarproporcjonalny = 26;
             }
         }
         //trzeba pobrad date od, albo poczatek roku albo data pierwszej umowy w roku
@@ -298,17 +301,17 @@ public class UrlopBean {
                 }
             }
             Set<String> napoczetemiesiacepokorekcie = korygujnapiczetemiesiaceobezplatny(napoczetemiesiace, kalendarze);
-            double nowywymiarwdniach =  Math.ceil(wymiarwdniach);
-            double wymiargeneralny = nowywymiarwdniach;
+            double nowywymiarwdniach =  Math.ceil(wymiarproporcjonalny);
+            double wymiarwgstazu = nowywymiarwdniach;
             double wymiargodzin = (nowywymiarwdniach*8);
             if (etat!=null) {
                 //to musi bo moze byc zatrudnienie nie od pocztaku roku i jest proporcja
                 if (napoczetemiesiacepokorekcie.size()>0) {
-                    wymiarwdniach = (int) (Math.ceil(wymiarwdniach/12.0*napoczetemiesiacepokorekcie.size()));
+                    wymiarproporcjonalny = (int) (Math.ceil(wymiarproporcjonalny/12.0*napoczetemiesiacepokorekcie.size()));
                 }
-                wymiargodzin = (wymiarwdniach*8*etat.getEtat1()/etat.getEtat2());
+                wymiargodzin = (wymiarproporcjonalny*8*etat.getEtat1()/etat.getEtat2());
             }
-        Object[] zwrot = new Object[]{(int)wymiarwdniach,(int)wymiargodzin, (int)wymiargeneralny, napoczetemiesiacepokorekcie};
+        Object[] zwrot = new Object[]{(int)wymiarproporcjonalny,(int)wymiargodzin, (int)wymiarwgstazu, napoczetemiesiacepokorekcie};
         return zwrot;
         //nie wiem co z tym etatem czy badac
     }

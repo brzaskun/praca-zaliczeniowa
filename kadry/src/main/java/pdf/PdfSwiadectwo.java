@@ -164,10 +164,22 @@ public class PdfSwiadectwo {
                 }
                 int dniekwiwalentu = 0;
                 if (ekwiwalentUrlop!=null&&ekwiwalentUrlop.getKwota()>0.0) {
-                    dniekwiwalentu = ekwiwalentUrlop.getBiezacy();
+                    int dnirokpoprzeni = urlopprezentacja.getDoswiadectwadni() <0?urlopprezentacja.getDoswiadectwadni():0;
+                    dniwykorzystane = dniwykorzystane+dnirokpoprzeni+ekwiwalentUrlop.getDni();
+                    dniekwiwalentu = dnirokpoprzeni+dniekwiwalentu+ekwiwalentUrlop.getDni();
+                    czydodano = true;
                 }
-                String urlopdni = dniwykorzystane+" dni";
-                String urlopgodziny = " tj. "+godzinywykorzystane+" godzin";
+                int sumadniurlopu = dniwykorzystane; 
+                if (czydodano==false) {
+                    // nie mam pojecia po to rto jest
+                    //urlop1 = urlop1+sumadniurlopu+" 0";
+                    urlop1 = urlop1+sumadniurlopu;
+                } else {
+                    urlop1 = urlop1+sumadniurlopu;
+                }
+                String urlopdni = urlop1+" dni";
+                double urlopgodzi = sumadniurlopu*8.0;
+                String urlopgodziny = " tj. "+urlopgodzi+" godzin";
                 String razemurlop = urlopdni+urlopgodziny;
                 PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, razemurlop, Element.ALIGN_LEFT, 2);
                 String razemurlopa = "(urlop wypoczynkowy wykorzystany w roku kalendarzowym, w którym ustał stosunek pracy)";

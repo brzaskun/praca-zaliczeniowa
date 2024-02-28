@@ -36,21 +36,21 @@ public class EkwiwalentUrlopView  implements Serializable {
     @PostConstruct
     private void init() {
         wpolczynnik = wspolczynnikEkwiwalentFacade.findbyRok(wpisView.getRokWpisu());
-        selected = ekwiwalentSkladnikiFacade.findbyRok(wpisView.getRokWpisu());
-        if (selected==null) {
-            selected = new EkwiwalentUrlop();
-        }
+//        selected = ekwiwalentSkladnikiFacade.findbyRok(wpisView.getRokWpisu());
+//        if (selected==null) {
+//            selected = new EkwiwalentUrlop();
+//        }
     }
     
     
 
-    public EkwiwalentUrlop getSelected() {
-        return selected;
-    }
-
-    public void setSelected(EkwiwalentUrlop selected) {
-        this.selected = selected;
-    }
+//    public EkwiwalentUrlop getSelected() {
+//        return selected;
+//    }
+//
+//    public void setSelected(EkwiwalentUrlop selected) {
+//        this.selected = selected;
+//    }
 
     public WspolczynnikEkwiwalent getWpolczynnik() {
         return wpolczynnik;

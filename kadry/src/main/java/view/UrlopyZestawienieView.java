@@ -8,6 +8,7 @@ package view;
 import beanstesty.UrlopBean;
 import comparator.Rejestrurlopowcomparator;
 import dao.AngazFacade;
+import dao.EkwiwalentUrlopFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.PracownikFacade;
 import dao.RejestrurlopowFacade;
@@ -15,6 +16,7 @@ import dao.SMTPSettingsFacade;
 import data.Data;
 import entity.Angaz;
 import entity.Dzien;
+import entity.EkwiwalentUrlop;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Nieobecnosc;
@@ -58,6 +60,8 @@ public class UrlopyZestawienieView  implements Serializable {
     private PracownikFacade pracownikFacade;
     @Inject
     private RejestrurlopowFacade rejestrurlopowFacade;
+    @Inject
+    private EkwiwalentUrlopFacade ekwiwalentUrlopFacade;
 
     
     @PostConstruct
@@ -104,7 +108,12 @@ public class UrlopyZestawienieView  implements Serializable {
 
                         }
                     }
+                    EkwiwalentUrlop ekwiwalent = ekwiwalentUrlopFacade.findbyRokAngaz(wpisView.getRokWpisu(), rejestrurlopowrok.getAngaz());
+                    if (ekwiwalent!=null) {
+                        rejestrurlopowrok.setEwiwalent(ekwiwalent.getDni());
+                    }
                 }
+                
             }
             Collections.sort(listaurlopow, new Rejestrurlopowcomparator());
             //tutaj sa sejwy
