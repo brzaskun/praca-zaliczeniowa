@@ -111,6 +111,8 @@ public class UrlopyZestawienieView  implements Serializable {
                     EkwiwalentUrlop ekwiwalent = ekwiwalentUrlopFacade.findbyRokAngaz(wpisView.getRokWpisu(), rejestrurlopowrok.getAngaz());
                     if (ekwiwalent!=null) {
                         rejestrurlopowrok.setEwiwalent(ekwiwalent.getDni());
+                    } else {
+                        rejestrurlopowrok.setEwiwalent(0);
                     }
                 }
                 

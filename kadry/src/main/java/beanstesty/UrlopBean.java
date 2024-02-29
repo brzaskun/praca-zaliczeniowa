@@ -97,17 +97,19 @@ public class UrlopBean {
                 urlopprezentacja.setWymiarokresbiezacygodziny((int) obliczwymiarwgodzinach[1]);
                 urlopprezentacja.setWymiargeneralnydni((int) obliczwymiarwgodzinach[2]);
                 urlopprezentacja.setListamiesiecy((Set<String>) obliczwymiarwgodzinach[3]);
-                int wykorzystanierokbierzacydni  = (urlopprezentacja.getWykorzystanierokbiezacy()/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
+                //urlopprezentacja.getWykorzystanierokbiezacy() to jest nanowszone w naniesdnizkodem
+                int wykorzystanierokbiezacygodziny = urlopprezentacja.getWykorzystanierokbiezacy();
+                int wykorzystanierokbierzacydni  = (wykorzystanierokbiezacygodziny/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setWykorzystanierokbiezacydni(wykorzystanierokbierzacydni);
                 int doprzeniesienia = urlopprezentacja.getBilansotwarciagodziny()+urlopprezentacja.getWymiarokresbiezacygodziny()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
                 urlopprezentacja.setDoprzeniesienia(doprzeniesienia);
                 int doprzeniesieniadni = (doprzeniesienia/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setDoprzeniesieniadni(doprzeniesieniadni);
-                int ekwiwalentwyplaconydni = 0;
+                int ekwiwalentwyplaconygodziny = 0;
                 if (ekwiwalentUrlop!=null) {
-                    ekwiwalentwyplaconydni = ekwiwalentUrlop.getBiezacy()*8*pobierzetat.getEtat2()/pobierzetat.getEtat1();
+                    ekwiwalentwyplaconygodziny = ekwiwalentUrlop.getBiezacy()*8*pobierzetat.getEtat2()/pobierzetat.getEtat1();
                 }
-                int doswiadectwagodziny = (urlopprezentacja.getWykorzystanierokbiezacy()+ekwiwalentwyplaconydni-urlopprezentacja.getBilansotwarciagodziny());
+                int doswiadectwagodziny = (wykorzystanierokbiezacygodziny+ekwiwalentwyplaconygodziny);
                 urlopprezentacja.setDoswiadectwagodziny(doswiadectwagodziny);
                 int doswiadectwadni = (doswiadectwagodziny/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setDoswiadectwadni(doswiadectwadni);
