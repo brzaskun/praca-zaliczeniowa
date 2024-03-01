@@ -125,6 +125,8 @@ public class PdfSwiadectwo {
                 }else if (uplywczasu){
                     String ustanie1 = rozwiazanieumowy.getPodstawaprawna();
                     PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, ustanie1, Element.ALIGN_LEFT, 2);
+                } else {
+                    PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, "NIE WYBRANO PRZYCZYNY ROZWIĄZANIA UMOWY!", Element.ALIGN_LEFT, 2);
                 }
                 document.add(Chunk.NEWLINE);
                 String skr = "5. Został zastosowany skrócony okres wypowiedzenia umowy o pracę na podstawie art. 36 1 § 1 Kodeksu pracy: ";
