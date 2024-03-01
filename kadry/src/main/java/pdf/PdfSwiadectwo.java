@@ -163,8 +163,8 @@ public class PdfSwiadectwo {
                     }
                 }
                 int dniekwiwalentu = 0;
-                if (ekwiwalentUrlop!=null&&ekwiwalentUrlop.getKwota()>0.0) {
-                    dniekwiwalentu = ekwiwalentUrlop.getBiezacy();
+                if (urlopprezentacja.getDoswiadectwadniekwiwalent()>0&&ekwiwalentUrlop.getKwota()>0.0) {
+                    dniekwiwalentu = urlopprezentacja.getDoswiadectwadniekwiwalent();
                     czydodano = true;
                 }
                 int sumadniurlopu = dniwykorzystane; 

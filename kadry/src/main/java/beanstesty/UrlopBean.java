@@ -107,12 +107,19 @@ public class UrlopBean {
                 urlopprezentacja.setDoprzeniesieniadni(doprzeniesieniadni);
                 int ekwiwalentwyplaconygodziny = 0;
                 if (ekwiwalentUrlop!=null) {
-                    ekwiwalentwyplaconygodziny = ekwiwalentUrlop.getBiezacy()*8*pobierzetat.getEtat2()/pobierzetat.getEtat1();
+                    ekwiwalentwyplaconygodziny = ekwiwalentUrlop.getDni()*8*pobierzetat.getEtat2()/pobierzetat.getEtat1();
                 }
-                int doswiadectwagodziny = (wykorzystanierokbiezacygodziny+ekwiwalentwyplaconygodziny);
+                int limitdnizrokubiezacego = urlopprezentacja.getWymiarokresbiezacygodziny();
+                int wykorzystaniewtymroku = wykorzystanierokbiezacygodziny+ekwiwalentwyplaconygodziny;
+                int rozliczonegodzinyztegoroku = wykorzystaniewtymroku > limitdnizrokubiezacego? limitdnizrokubiezacego:wykorzystaniewtymroku;
+                int doswiadectwagodziny = (rozliczonegodzinyztegoroku);
                 urlopprezentacja.setDoswiadectwagodziny(doswiadectwagodziny);
                 int doswiadectwadni = (doswiadectwagodziny/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setDoswiadectwadni(doswiadectwadni);
+                int rozliczonegodzinyztegorokuekwiwalent = ekwiwalentwyplaconygodziny>rozliczonegodzinyztegoroku?rozliczonegodzinyztegoroku:ekwiwalentwyplaconygodziny;
+                int rozliczonedniztegorokuekwiwalent = (rozliczonegodzinyztegorokuekwiwalent/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
+                urlopprezentacja.setDoswiadectwadniekwiwalent(rozliczonedniztegorokuekwiwalent);
+                
             } else {
                 urlopprezentacja = new Nieobecnoscprezentacja();
             }

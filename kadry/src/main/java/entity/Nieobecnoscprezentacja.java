@@ -66,8 +66,10 @@ public class Nieobecnoscprezentacja implements Serializable {
     private int doprzeniesieniadni;
     @Column(name = "doswiadectwagodziny")
     private int doswiadectwagodziny;
-     @Column(name = "doswiadectwadni")
+    @Column(name = "doswiadectwadni")
     private int doswiadectwadni;
+    @Column(name = "doswiadectwadniekwiwalent")
+    private int doswiadectwadniekwiwalent;
     @Column(name = "wykorzystanierokbiezacy")
     private int wykorzystanierokbiezacy;
     @Column(name = "wykorzystanierokbiezacydni")
@@ -257,7 +259,14 @@ public class Nieobecnoscprezentacja implements Serializable {
         this.wykorzystanierokbiezacydni = wykorzystanierokbiezacydni;
     }
 
-   
+    public int getDoswiadectwadniekwiwalent() {
+        return doswiadectwadniekwiwalent;
+    }
+
+    public void setDoswiadectwadniekwiwalent(int doswiadectwadniekwiwalent) {
+        this.doswiadectwadniekwiwalent = doswiadectwadniekwiwalent;
+    }
+
 
     @XmlTransient
     public List<Nieobecnoscwykorzystanie> getNieobecnoscwykorzystanieList() {

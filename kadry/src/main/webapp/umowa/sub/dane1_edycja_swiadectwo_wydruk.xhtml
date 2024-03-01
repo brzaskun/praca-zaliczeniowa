@@ -28,6 +28,10 @@
                             <p:inputNumber id="urloplpop1a" value="#{rozwiazanieumowyView.urlopprezentacja.doswiadectwadni}" style="text-align: right;"  decimalPlaces="0" size="3">
                                  <p:ajax event="change" partialSubmit="true"/>
                              </p:inputNumber>
+                             <p:outputLabel value="w tym ekwiwalenty dni tylko z wymiaru roku bieżącego" for="urloplpop1aew" />
+                             <p:inputNumber id="urloplpop1aew" value="#{rozwiazanieumowyView.urlopprezentacja.doswiadectwadniekwiwalent}" style="text-align: right;"  decimalPlaces="0" size="3">
+                                 <p:ajax event="change" partialSubmit="true"/>
+                             </p:inputNumber>
                     </p:panelGrid>
                 <p:outputPanel>
                     <p:commandButton value="druk" styleClass="buttonnorm" actionListener="#{rozwiazanieumowyView.drukujswiadectwo}"  rendered="#{rozwiazanieumowyView.selectedlista ne null}"/>
