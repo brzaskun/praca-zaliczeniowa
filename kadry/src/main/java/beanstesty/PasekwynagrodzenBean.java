@@ -1578,7 +1578,7 @@ public class PasekwynagrodzenBean {
         }
         pasek.setPodstawaubezpzdrowotne(podstawazdrowotna);
         double zdrowotne = Z.z(podstawazdrowotna * 0.09);
-        pasek.setPraczdrowotne(zdrowotne);
+            pasek.setPraczdrowotne(zdrowotne);
         double zdrowotneodliczane = Z.z(podstawazdrowotna * 0.0775);
         if (nierezydent) {
             pasek.setPraczdrowotnedoodliczenia(0.0);

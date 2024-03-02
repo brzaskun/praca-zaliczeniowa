@@ -38,6 +38,8 @@
                         <p:inputText id="mu" value="#{pracownikDane2View.selected.miejsceurodzenia}" title="miejsce urodzenia" />
                         <p:outputLabel value="nierezydent" for="rez" />
                         <p:selectBooleanCheckbox id="rez" value="#{pracownikDane2View.selected.nierezydent}" title="czy pracownik jest nierezydentem"/>
+                        <p:outputLabel value="płeć" for="płeć" />
+                        <h:outputText id="płeć" value="#{pracownikDane2View.selected.plec}"
                      </p:panelGrid>
                     <p:panel header="adres zamieszkania"/>
                     <p:panelGrid columns="8">

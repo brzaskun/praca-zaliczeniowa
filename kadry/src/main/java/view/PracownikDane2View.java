@@ -71,9 +71,7 @@ public class PracownikDane2View  implements Serializable {
             }
             selected.setDatalogowania(Data.aktualnaDataCzas());
             selected.setModyfikowal(wpisView.getUzer().getImieNazwisko());
-            if (selected.getPlec()==null||selected.getPlec().isEmpty()) {
-                selected.setPlec(pleczPesel(selected.getPesel()));
-            }
+            selected.setPlec(pleczPesel(selected.getPesel()));
             selected.setDatalogowania(Data.aktualnaDataCzas());
             selected.setModyfikowal(wpisView.getUzer().getImieNazwisko());
             pracownikFacade.edit(selected);
@@ -88,11 +86,13 @@ public class PracownikDane2View  implements Serializable {
     
     private String pleczPesel(String pesel) {
         String zwrot = "M";
-        char chara = pesel.charAt(9);
-        int liczbakontrolna = Character.getNumericValue(chara);
-        boolean isEven = liczbakontrolna % 2 == 0;
-        if (isEven) {
-            zwrot = "K";
+        if (pesel!=null&&pesel.length()==11) {
+            char chara = pesel.charAt(10);
+            int liczbakontrolna = Character.getNumericValue(chara);
+            boolean isEven = liczbakontrolna % 2 == 0;
+            if (isEven) {
+                zwrot = "K";
+            }
         }
         return zwrot;
     }
