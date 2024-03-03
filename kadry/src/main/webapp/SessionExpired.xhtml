@@ -29,7 +29,7 @@
             const LOCAL_DOMAINS = ["localhost"];
             const LOCAL_DOMAINS_OFFICE = ["192.168.1.90"];
             var czylocal = function() {
-                var zwrot = "http://taxman.pl:8080/kadry";
+                var zwrot = "https://taxman.pl:8181/kadry";
                 if (LOCAL_DOMAINS.includes(window.location.hostname)) {
                   zwrot = "http://localhost:8080/kadry";
                 } else if (LOCAL_DOMAINS_OFFICE.includes(window.location.hostname)) {
