@@ -534,7 +534,7 @@ public class KalendarzmiesiacBean {
                             } else {
                                 sredniadopodstawypobrana = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow, jestoodelegowanie);
                                 if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==false) {
-                                    limitpodstawyzasilkow = 0.0;
+                                    //limitpodstawyzasilkow = 0.0;
                                 }
                             }
                             double pomniejszenieospoleczne = sredniadopodstawypobrana * .1371;
