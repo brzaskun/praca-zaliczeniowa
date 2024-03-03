@@ -53,7 +53,7 @@ public class Mail {
        reklama = "<br/>"
                + "<div>Możesz zawsze samodzielnie pobierać wszelkie informacje na temat twoje firmy</div>"
                + "<div>Wystarczy zarejestrować się w naszym programie księgowym online </div>"
-               + "<div>Tutaj jest adres http tego programu <a href= \"http://taxman.pl:8080\">http://taxman.pl:8080</a></div>"
+               + "<div>Tutaj jest adres http tego programu <a href= \"https://taxman.pl:8181\">https://taxman.pl:8181</a></div>"
                + "<br/>";
        fake = "<div style=\"color: green;\">Mail wysłany przez nasz system księgowy. Prosimy nie odpowiadać na niniejszą wiadomość.</div>";
        dawnoniezmieniona = "<p>Chcielibyśmy ponadto podkreślić, że opłata była w państwa przypadku dawno nie zmieniana. Stąd nowa kwota w takiej wysokości.</p>";
@@ -186,9 +186,9 @@ public class Mail {
             message.setContent("Szanowny Użytkowniku,"
                     + "<p>Administrator własnie nadał ci następujące uprawnienia: <strong>"+uprawnienia+"</strong><br/>"
                     + "w naszym serwisie powiązane z loginem: <br/>"+login+".</p>"
-                    + "<p>Od teraz możesz logować się do naszego serwisu pod adresem <a href=\"http://taxman.pl:8080\">http://taxman.pl:8080</a><br/>"
+                    + "<p>Od teraz możesz logować się do naszego serwisu pod adresem <a href=\"https://taxman.pl:8181\">https://taxman.pl:8181</a><br/>"
                     + "używając wybranego loginu: "+login+" i wybranego podczas rejestracji hasła.</p>"
-                    + "<p>W przypadku zagubienia hasła wybierz <a href=\"http://taxman.pl:8080/faces/zapomnialemhasla.xhtml?faces-redirect=true\">"
+                    + "<p>W przypadku zagubienia hasła wybierz <a href=\"https://taxman.pl:8181/faces/zapomnialemhasla.xhtml?faces-redirect=true\">"
                     + "zapomnialem hasla</a> na stronie serwisu.</p>"
                     + stopka,  "text/html; charset=utf-8");
             message.setHeader("Content-Type", "text/html; charset=utf-8");
@@ -231,7 +231,7 @@ public class Mail {
                     + "<p>Administrator własnie zresetował Ci hasło"
                     + "w naszym serwisie</p>"
                     + "<p>Nowe hasło brzmi po prostu - <strong>haslo</strong></p>"
-                    + "<p>Teraz powinieneś zalogować się do naszego serwisu <a href=\"http://taxman.pl:8080\">http://taxman.pl:8080</a><br/>"
+                    + "<p>Teraz powinieneś zalogować się do naszego serwisu <a href=\"https://taxman.pl:8181\">https://taxman.pl:8181</a><br/>"
                     + "używając swojego loginu: "+login+" i nowego hasła nadanego przez administratora</p>"
                     + "<p><strong>oraz zmienić je niezwłocznie(!!!) na swoje własne.</strong></p>"
                     + stopka,  "text/html; charset=utf-8");
