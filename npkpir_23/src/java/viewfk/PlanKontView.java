@@ -1190,7 +1190,7 @@ public class PlanKontView implements Serializable {
                                 }
                                 kontapotomnePorzadek.add(p);
                                 if (zapisanepozycje.isEmpty() == false) {
-                                    zapisanepozycje.parallelStream().forEach(pz -> {
+                                    zapisanepozycje.stream().forEach(pz -> {
                                         for (Konto pa : kontapotomnePorzadek) {
                                             if (pa.equals(pz.getKontoID())) {
                                                 kontopozycjaZapisDAO.remove(pz);
