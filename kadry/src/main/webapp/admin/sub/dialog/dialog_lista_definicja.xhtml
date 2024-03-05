@@ -52,11 +52,13 @@
         </p:outputPanel>-->
         <p:outputPanel style="height: 30px">
             <p:panelGrid columns="2">
-<!--                <h:form  styleClass="formadmin" id="DefinicjalistaplacgenerujForm">
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.createrok}" value="uzupełnij rok" update="display,:DefinicjalistaplacListForm:datalist" rendered="#{definicjalistaplacView.lista.size() gt 0}" />
-                </h:form>-->
+                <h:form  styleClass="formadmin" id="DefinicjalistaplacgenerujForm">
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.generujindywidualnie()}" value="uzupełnij rok" update="display,:DefinicjalistaplacListForm:datalist" 
+                                      rendered="#{facesContext.externalContext.remoteUser eq '2'}" />
+                </h:form>
                 <h:form  styleClass="formadmin" id="DefinicjalistaplacgenerujForm1">
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{firmaImportView.roblistynowyrok()}" value="generuj rok" update="display,:DefinicjalistaplacListForm:datalist" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{firmaImportView.roblistynowyrok()}" value="generuj rok" update="display,:DefinicjalistaplacListForm:datalist" 
+                                      rendered="#{facesContext.externalContext.remoteUser eq '2'}"/>
                 </h:form>
             </p:panelGrid>
         </p:outputPanel>

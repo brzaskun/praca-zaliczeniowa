@@ -175,6 +175,7 @@ public class FirmaImportView  implements Serializable {
             Rodzajlistyplac zasilki =  rodzajlistyplacFacade.findByTyt_serial(1006);
             Rodzajlistyplac zagraniczneryczaly =  rodzajlistyplacFacade.findByTyt_serial(1032);
             Rodzajlistyplac umowaodzielo =  rodzajlistyplacFacade.findByTyt_serial(10);
+            Rodzajlistyplac swiadczeniarzeczowe =  rodzajlistyplacFacade.findByTyt_serial(8);
             List<Definicjalistaplac> listy = new ArrayList<>();
             for (String mc : Mce.getMceListS()) {
                  String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
@@ -217,13 +218,20 @@ public class FirmaImportView  implements Serializable {
                  listy.add(definicjalistaplac);
             }
             definicjalistaplacFacade.createList(listy);
+            listy = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
+                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, swiadczeniarzeczowe, wpisView.getFirma(), datawyplaty);
+                 listy.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listy);
             Msg.msg("Wygenerowano definicje list za rok "+rok);
         } else {
             Msg.msg("e","Nie wybrano firmy");
         }
     }
     
-  
+    
     
     public void aktywuj(FirmaKadry firma) {
         if (firma!=null) {

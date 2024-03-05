@@ -64,6 +64,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -668,6 +669,23 @@ public class PasekwynagrodzenView implements Serializable {
 //                    it.remove();
 //                }
 //            }
+              if (rodzajlistyplac.getSymbol().equals("NA")) {
+                listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+                Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
+                if (listakalendarzmiesiac!=null) {
+                    for (Iterator<Kalendarzmiesiac> it = listakalendarzmiesiac.iterator();it.hasNext();) {
+                        Kalendarzmiesiac kal = it.next();
+                        List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = kal.getAngaz().getSkladnikwynagrodzeniaList();
+                        if (!skladnikwynagrodzeniaList.isEmpty()) {
+                            Predicate<Skladnikwynagrodzenia> isQualified = item->item.getRodzajwynagrodzenia().isSwiadczenierzeczowe();
+                            skladnikwynagrodzeniaList.removeIf(isQualified.negate());
+                            if (skladnikwynagrodzeniaList.isEmpty()) {
+                                it.remove();
+                            }
+                        }
+                    }
+                }
+            }
             if (rodzajlistyplac.getSymbol().equals("ZA")) {
                 listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
                 Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());

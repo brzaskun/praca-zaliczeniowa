@@ -196,6 +196,22 @@ public class DefinicjalistaplacView  implements Serializable {
         }
     }
     
+    public void generujindywidualnie() {
+        if (wybranyrodzajlisty!=null) {
+            lista = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                 String datawyplaty = OsobaBean.zrobdatawyplaty(mc, wpisView.getRokWpisu(), wpisView.getFirma());
+                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(wpisView.getRokWpisu(), mc, wybranyrodzajlisty, wpisView.getFirma(), datawyplaty);
+                 lista.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(lista);
+            Msg.msg("Wygenerowano definicje list "+ wybranyrodzajlisty.getNazwa()+" za rok "+wpisView.getRokWpisu());
+        } else {
+            Msg.msg("e","Nie wybrano firmy");
+        }
+    }
+  
+    
     public Definicjalistaplac getSelected() {
         return selected;
     }
