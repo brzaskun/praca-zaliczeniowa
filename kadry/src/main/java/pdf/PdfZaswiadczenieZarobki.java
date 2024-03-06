@@ -209,7 +209,7 @@ public class PdfZaswiadczenieZarobki {
                 Paragraph p = new Paragraph();
                 p.add(new Phrase("Wynagrodzenie powyższe nie jest obciążone z tytułu wyroków sądowych lub innych tytułów.", fontM));
                 document.add(p);
-            } else {
+            } else if (zarobki) {
                 Paragraph p = new Paragraph();
                 p.add(new Phrase("Wynagrodzenie powyższe jest obciążone z egzekucją komorniczą.", fontM));
                 document.add(p);
