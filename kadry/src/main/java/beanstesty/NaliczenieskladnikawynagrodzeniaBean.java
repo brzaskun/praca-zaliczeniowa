@@ -905,6 +905,64 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
         return naliczenieskladnikawynagrodzenia;
     }
+    
+    public static Naliczenieskladnikawynagrodzenia createSwiadczenieRzeczoweDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia) {
+        double dniroboczewmiesiacu = 0.0;
+        double godzinyroboczewmiesiacu = 0.0;
+        for (Dzien p : kalendarz.getDzienList()) {
+            if (p.getTypdnia() == 0) {
+                dniroboczewmiesiacu++;
+                godzinyroboczewmiesiacu = godzinyroboczewmiesiacu + p.getNormagodzin();
+            }
+        }
+        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+        double zmiennawynagrodzeniakwota = 0.0;
+        double dniroboczeprzepracowane = 0.0;
+        double dniroboczeprzepracowanestat = 0.0;
+        double godzinyobecnosciroboczenorma =0.0;
+        double godzinyobecnosciroboczefaktyczne = 0.0;
+        String datastart = ustaldateod(kalendarz);
+        String dataend = kalendarz.getOstatniDzien();
+        for (Zmiennawynagrodzenia r : skladnikwynagrodzenia.getZmiennawynagrodzeniaList()) {
+            int dzienodzmienna = DataBean.dataod(naliczenieskladnikawynagrodzenia.getDataod(), kalendarz.getRok(), kalendarz.getMc());
+            int dziendozmienna = DataBean.datado(naliczenieskladnikawynagrodzenia.getDatado(), kalendarz.getRok(), kalendarz.getMc());
+            if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), r.getDataod(), r.getDatado())) {
+                zmiennawynagrodzeniakwota = r.getKwota();
+                for (Dzien s : kalendarz.getDzienList()) {
+                    //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
+                    if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                        dniroboczeprzepracowane++;
+                        godzinyobecnosciroboczenorma = godzinyobecnosciroboczenorma+s.getNormagodzin();
+                    }
+                    if (s.getTypdnia() == 0 && s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                        dniroboczeprzepracowanestat++;
+                        godzinyobecnosciroboczefaktyczne = godzinyobecnosciroboczefaktyczne+s.getPrzepracowano();
+                    }
+                }
+            }
+        }
+        double stawkadzienna = zmiennawynagrodzeniakwota / dniroboczewmiesiacu;
+        double stawkagodzinowa = zmiennawynagrodzeniakwota / godzinyroboczewmiesiacu;
+        double dowyplatyzaczasprzepracowany = Z.z(stawkagodzinowa * godzinyobecnosciroboczefaktyczne);
+        naliczenieskladnikawynagrodzenia.setDataod(datastart);
+        naliczenieskladnikawynagrodzenia.setDatado(dataend);
+        naliczenieskladnikawynagrodzenia.setStawkadzienna(stawkadzienna);
+        naliczenieskladnikawynagrodzenia.setStawkagodzinowa(stawkagodzinowa);
+        naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(zmiennawynagrodzeniakwota);
+        if (skladnikwynagrodzenia.getRodzajwynagrodzenia().isRedukowany()) {
+            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(dowyplatyzaczasprzepracowany);
+            
+        } else {
+            naliczenieskladnikawynagrodzenia.setKwotadolistyplac(zmiennawynagrodzeniakwota);
+        }
+        naliczenieskladnikawynagrodzenia.setDninalezne(dniroboczewmiesiacu);
+        naliczenieskladnikawynagrodzenia.setDnifaktyczne(dniroboczeprzepracowanestat);
+        naliczenieskladnikawynagrodzenia.setGodzinynalezne(godzinyroboczewmiesiacu);
+        naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(godzinyobecnosciroboczefaktyczne);
+        naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+        naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+        return naliczenieskladnikawynagrodzenia;
+    }
 
     public static Naliczenieskladnikawynagrodzenia createNadgodziny50() {
         if (naliczenieskladnikanadgodziny50 == null) {

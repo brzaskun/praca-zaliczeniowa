@@ -334,13 +334,17 @@ public class KalendarzmiesiacBean {
                         if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc() != 0.0) {
                             pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                         }
+                    } else if (p.getRodzajwynagrodzenia().getKod().equals("50") && p.getRodzajwynagrodzenia().isSwiadczenierzeczowe()) {
+                        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createSwiadczenieRzeczoweDB(kalendarz, pasekwynagrodzen, p);
+                        if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() > 0.0) {
+                            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                        }
+                    
                     } else if (p.getRodzajwynagrodzenia().getKod().equals("50") || p.getRodzajwynagrodzenia().getKod().equals("70")) {
                         Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(kalendarz, pasekwynagrodzen, p);
                         if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() > 0.0) {
                             pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                         }
-                    } else if (p.getRodzajwynagrodzenia().getKod().equals("50") || p.getRodzajwynagrodzenia().getKod().equals("70")) {
-                    
                     } else {
                         Msg.msg("w", "Nie ma formuły naliczenia składnika wynagrodzenia " + p.getRodzajwynagrodzenia().getOpisskrocony());
                         System.out.println("Nie ma formuly naliczenia skladnika wynagrodzzenia " + p.getRodzajwynagrodzenia().getOpisskrocony());
