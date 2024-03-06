@@ -52,8 +52,26 @@ function ustawDateSprzedazy(rok, mc) {
         if (!testw.match(re)) {
             dataWyst.value = null;
         }
+        if (isValidDate(wart)===false) {
+            dataWyst.value = wart+" jest niepoprawną datą";
+        }
     } catch (e){}
 };
+    //sprawdza lata przestępne
+    function isValidDate(dateString) {
+        const regex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+        if (!regex.test(dateString)) {
+            return false;
+        }
+
+        const [year, month, day] = dateString.split('-').map(Number);
+        const date = new Date(year, month - 1, day);
+        if (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day) {
+            return true;
+        }
+
+        return false;
+    }
 
 $(document).on("ajaxStart pfAjaxSend", function () {
     $("html").addClass("progress");
