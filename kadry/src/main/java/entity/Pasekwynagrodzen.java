@@ -316,6 +316,32 @@ public class Pasekwynagrodzen implements Serializable {
     private double przekroczeniepodatekniemiecki;
     @Column(name = "przekroczeniekosztyuzyskania")
     private double przekroczeniekosztyuzyskania;
+    @Transient
+    private double pracchoroboweOddelegowanie;
+    @Transient
+    private double pracemerytalneOddelegowanie;
+    @Transient
+    private double pracrentoweOddelegowanie;
+    @Transient
+    private double praczdrowotneOddelegowanie;
+    @Transient
+    private double emerytalneOddelegowanie;
+    @Transient
+    private double rentoweOddelegowanie;
+    @Transient
+    private double pracchoroboweOddelegowanieEuro;
+    @Transient
+    private double pracemerytalneOddelegowanieEuro;
+    @Transient
+    private double pracrentoweOddelegowanieEuro;
+    @Transient
+    private double praczdrowotneOddelegowanieEuro;
+    @Transient
+    private double emerytalneOddelegowanieEuro;
+    @Transient
+    private double rentoweOddelegowanieEuro;
+    @Transient
+    private double liczbapaskow;
     
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "ekwiwalentskladniki", referencedColumnName = "id")
@@ -1486,6 +1512,111 @@ public class Pasekwynagrodzen implements Serializable {
         this.przekroczenie26lat = przekroczenie26lat;
     }
 
+    public double getPracchoroboweOddelegowanie() {
+        return pracchoroboweOddelegowanie;
+    }
+
+    public void setPracchoroboweOddelegowanie(double pracchoroboweOddelegowanie) {
+        this.pracchoroboweOddelegowanie = pracchoroboweOddelegowanie;
+    }
+
+    public double getPracemerytalneOddelegowanie() {
+        return pracemerytalneOddelegowanie;
+    }
+
+    public void setPracemerytalneOddelegowanie(double pracemerytalneOddelegowanie) {
+        this.pracemerytalneOddelegowanie = pracemerytalneOddelegowanie;
+    }
+
+    public double getPracrentoweOddelegowanie() {
+        return pracrentoweOddelegowanie;
+    }
+
+    public void setPracrentoweOddelegowanie(double pracrentoweOddelegowanie) {
+        this.pracrentoweOddelegowanie = pracrentoweOddelegowanie;
+    }
+
+    public double getPraczdrowotneOddelegowanie() {
+        return praczdrowotneOddelegowanie;
+    }
+
+    public void setPraczdrowotneOddelegowanie(double praczdrowotneOddelegowanie) {
+        this.praczdrowotneOddelegowanie = praczdrowotneOddelegowanie;
+    }
+
+    public double getEmerytalneOddelegowanie() {
+        return emerytalneOddelegowanie;
+    }
+
+    public void setEmerytalneOddelegowanie(double emerytalneOddelegowanie) {
+        this.emerytalneOddelegowanie = emerytalneOddelegowanie;
+    }
+
+    public double getRentoweOddelegowanie() {
+        return rentoweOddelegowanie;
+    }
+
+    public void setRentoweOddelegowanie(double rentoweOddelegowanie) {
+        this.rentoweOddelegowanie = rentoweOddelegowanie;
+    }
+
+    public double getLiczbapaskow() {
+        return liczbapaskow;
+    }
+
+    public void setLiczbapaskow(double liczbapaskow) {
+        this.liczbapaskow = liczbapaskow;
+    }
+
+    public double getPracchoroboweOddelegowanieEuro() {
+        return pracchoroboweOddelegowanieEuro;
+    }
+
+    public void setPracchoroboweOddelegowanieEuro(double pracchoroboweOddelegowanieEuro) {
+        this.pracchoroboweOddelegowanieEuro = pracchoroboweOddelegowanieEuro;
+    }
+
+    public double getPracemerytalneOddelegowanieEuro() {
+        return pracemerytalneOddelegowanieEuro;
+    }
+
+    public void setPracemerytalneOddelegowanieEuro(double pracemerytalneOddelegowanieEuro) {
+        this.pracemerytalneOddelegowanieEuro = pracemerytalneOddelegowanieEuro;
+    }
+
+    public double getPracrentoweOddelegowanieEuro() {
+        return pracrentoweOddelegowanieEuro;
+    }
+
+    public void setPracrentoweOddelegowanieEuro(double pracrentoweOddelegowanieEuro) {
+        this.pracrentoweOddelegowanieEuro = pracrentoweOddelegowanieEuro;
+    }
+
+    public double getPraczdrowotneOddelegowanieEuro() {
+        return praczdrowotneOddelegowanieEuro;
+    }
+
+    public void setPraczdrowotneOddelegowanieEuro(double praczdrowotneOddelegowanieEuro) {
+        this.praczdrowotneOddelegowanieEuro = praczdrowotneOddelegowanieEuro;
+    }
+
+    public double getEmerytalneOddelegowanieEuro() {
+        return emerytalneOddelegowanieEuro;
+    }
+
+    public void setEmerytalneOddelegowanieEuro(double emerytalneOddelegowanieEuro) {
+        this.emerytalneOddelegowanieEuro = emerytalneOddelegowanieEuro;
+    }
+
+    public double getRentoweOddelegowanieEuro() {
+        return rentoweOddelegowanieEuro;
+    }
+
+    public void setRentoweOddelegowanieEuro(double rentoweOddelegowanieEuro) {
+        this.rentoweOddelegowanieEuro = rentoweOddelegowanieEuro;
+    }
+
+    
 
 
     public String getWiekpasek() {

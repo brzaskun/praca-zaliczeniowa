@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <h:form styleClass="formcentrum" id="zusniemcy">
+        
+        <p:panel  header="SOKA-BAU informacje miesięczne"/> 
+        <p:outputPanel style="height: 800px;overflow-y: scroll;" id="pnlPrint1" > 
+            <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{zusniemcyView.init()}" update="akordeon:zusniemcy">
+                
+            </p:commandButton>
+            <p:commandButton value="Drukuj" type="button" icon="pi pi-print" styleClass="buttonnorm">
+                <p:printer target="datalist" />
+            </p:commandButton>
+             <p:commandButton value="XLS" styleClass="buttonnorm">
+                    <p:dataExporter type="xls" target="datalist" fileName="lista"/>
+                </p:commandButton>
+            <p:panelGrid columns="4">
+                <h:outputText value="firma" style="color: green;"/>
+                <h:outputText value="#{wpisView.firma.nazwa}" style="color: green;"/>
+                <h:outputText value="okres: #{wpisView.rokWpisu}/#{wpisView.miesiacWpisu}"/>
+            </p:panelGrid>
+             <p:panelGrid columns="1" style="margin-top: 20px">
+                 <p:dataTable id="datalist" value="#{zusniemcyView.paski}" var="items"
+                                 rowIndexVar="index"
+                                 rowKey="#{items.nazwiskoImie}" sortBy="#{items.nazwiskoImie}"
+                                 style="width: 1900px;"
+                                 emptyMessage="nie pobrano danych"
+                                 >
+                     <p:column width="150" headerText="nazwisko i imię" style="text-align: left;">
+                            <h:outputText value="#{items.nazwiskoImie}"/>
+                        </p:column>
+                        <p:column width="30" headerText="paski" style="text-align: center;">
+                            <h:outputText value="#{items.liczbapaskow}"/>
+                        </p:column>
+                        <p:column width="30" headerText="proc" style="text-align: center;">
+                            <bcf:outputplprocent value="#{items.spoleczneudzialoddelegowanie}"/>
+                        </p:column>
+                        <p:column width="60" headerText="emerytalna" style="text-align: right;">
+                            <bcf:outputwal value="#{items.pracemerytalneOddelegowanie}"/>
+                        </p:column>
+                        <p:column width="60" headerText="rentowa" style="text-align: right;" >
+                            <bcf:outputwal value="#{items.pracrentoweOddelegowanie}"/>
+                        </p:column>
+                        <p:column width="60" headerText="razem" style="text-align: right;">
+                            <bcf:outputwal value="#{items.pracrentoweOddelegowanie+items.pracemerytalneOddelegowanie}" style="color: green"/>
+                        </p:column>
+                        <p:column width="60" headerText="chorobowa" style="text-align: right;">
+                          <bcf:outputwal value="#{items.pracchoroboweOddelegowanie}"/>
+                        </p:column>
+                        <p:column width="60" headerText="zdrowotna" style="text-align: right;">
+                            <bcf:outputwal value="#{items.praczdrowotneOddelegowanie}"/>
+                        </p:column>
+                        <p:column width="60" headerText="razem" style="text-align: right;">
+                            <bcf:outputwal value="#{items.pracchoroboweOddelegowanie+items.praczdrowotneOddelegowanie}" style="color: green"/>
+                        </p:column>
+                        <p:column width="60" headerText="emeryt. prac." style="text-align: right;" >
+                            <bcf:outputwal value="#{items.emerytalneOddelegowanie}"/>
+                        </p:column>
+                        <p:column width="60" headerText="rentowe prac." style="text-align: right;" >
+                            <bcf:outputwal value="#{items.rentoweOddelegowanie}"/>
+                        </p:column>
+                        <p:column width="60" headerText="razem" style="text-align: right;">
+                            <bcf:outputwal value="#{items.rentoweOddelegowanie+items.emerytalneOddelegowanie}" style="color: green"/>
+                        </p:column>
+                        <p:column width="60" headerText="emerytalna EUR" style="text-align: right;">
+                            <bcf:outputwal value="#{items.pracemerytalneOddelegowanieEuro}" symbolwaluty="€"/>
+                        </p:column>
+                        <p:column width="60" headerText="rentowa EUR" style="text-align: right;" >
+                            <bcf:outputwal value="#{items.pracrentoweOddelegowanieEuro}" symbolwaluty="€"/>
+                        </p:column>
+                        <p:column width="60" headerText="razem EUR" style="text-align: right;">
+                            <bcf:outputwal value="#{items.pracrentoweOddelegowanieEuro+items.pracemerytalneOddelegowanieEuro}" style="color: green" symbolwaluty="€"/>
+                        </p:column>
+                        <p:column width="60" headerText="chorobowa EUR" style="text-align: right;">
+                          <bcf:outputwal value="#{items.pracchoroboweOddelegowanieEuro}" symbolwaluty="€"/>
+                        </p:column>
+                        <p:column width="60" headerText="zdrowotna EUR" style="text-align: right;">
+                            <bcf:outputwal value="#{items.praczdrowotneOddelegowanieEuro}" symbolwaluty="€"/>
+                        </p:column>
+                        <p:column width="60" headerText="razem EUR" style="text-align: right;">
+                            <bcf:outputwal value="#{items.pracchoroboweOddelegowanieEuro+items.praczdrowotneOddelegowanieEuro}" style="color: green" symbolwaluty="€"/>
+                        </p:column>
+                        <p:column width="60" headerText="emeryt. prac. EUR" style="text-align: right;" >
+                            <bcf:outputwal value="#{items.emerytalneOddelegowanieEuro}" symbolwaluty="€"/>
+                        </p:column>
+                        <p:column width="60" headerText="rentowe prac EUR." style="text-align: right;" >
+                            <bcf:outputwal value="#{items.rentoweOddelegowanieEuro}" symbolwaluty="€"/>
+                        </p:column>
+                        <p:column width="60" headerText="razem EUR" style="text-align: right;">
+                            <bcf:outputwal value="#{items.rentoweOddelegowanieEuro+items.emerytalneOddelegowanieEuro}" style="color: green" symbolwaluty="€"/>
+                        </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+            
+            
+        </p:outputPanel>
+    </h:form><!-- comment -->
+
+</ui:composition>   
+
