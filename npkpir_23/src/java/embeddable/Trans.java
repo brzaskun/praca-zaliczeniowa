@@ -24,6 +24,7 @@ public class Trans implements Serializable{
     static {
         transList = Collections.synchronizedList(new ArrayList<>());
         transList.add("zakup");
+        transList.add("zakup Niemcy");
         transList.add("srodek trw");
         transList.add("srodek trw sprzedaz");
         transList.add("sprzedaz");
@@ -42,6 +43,7 @@ public class Trans implements Serializable{
         transList.add("PK");
         transListZO = Collections.synchronizedList(new ArrayList<>());
         transListZO.add("zakup");
+        transListZO.add("zakup Niemcy");
         transListZO.add("srodek trw");
         transListZO.add("srodek trw sprzedaz");
         transListZO.add("sprzedaz");
@@ -59,6 +61,7 @@ public class Trans implements Serializable{
         transListRY.add("ryczałt");
         transListRY.add("sprzedaz Niemcy");
         transListRY.add("zakup");
+        transListRY.add("zakup Niemcy");
         transListRY.add("srodek trw");
         transListRY.add("srodek trw sprzedaz");
         transListRY.add("WDT");

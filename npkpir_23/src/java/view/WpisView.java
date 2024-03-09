@@ -287,6 +287,18 @@ public class WpisView implements Serializable {
        jakitobedziejpk2020();
     }
     
+    public boolean isVatowiecPlde() {
+        boolean zwrot = false;
+        if (podatnikObiekt.getVatokres().isEmpty()==false) {
+            zwrot = true;
+        } else if (podatnikObiekt.getParamVatUE().isEmpty()==false) {
+            zwrot = true;
+        } else if (podatnikObiekt.getSteuernummer().isEmpty()==false) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+    
     private void czytojetsbiuroiszef() {
         try {
             biuroiszef = true;

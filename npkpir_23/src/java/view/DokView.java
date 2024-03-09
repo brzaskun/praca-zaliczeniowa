@@ -351,7 +351,10 @@ public class DokView implements Serializable {
             kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
             selDokument.setDokumentProsty(selDokument.getRodzajedok().isDokProsty());
         } else {
-            kolumny = Kolmn.zwrockolumnyR(transakcjiRodzaj);
+            //bo dodalismy rozliczenia niemieckie w ryczalcie a tam jest Rachde, wnt itp
+            if (transakcjiRodzaj.equals("ryczałt")||transakcjiRodzaj.equals("usługi poza ter.")) {
+                kolumny = Kolmn.zwrockolumnyR(transakcjiRodzaj);
+            }
             selDokument.setDokumentProsty(selDokument.getRodzajedok().isDokProsty());
         }
         if (transakcjiRodzaj.equals("srodek trw sprzedaz")){
@@ -489,34 +492,27 @@ public class DokView implements Serializable {
             ukryjEwiencjeVAT = false;
             String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
             boolean pokaz = false;
-            if (transakcjiRodzaj.equals("zakup")&&selDokument.getWalutadokumentu().getSymbolwaluty().equals("EUR")) {
-                pokaz = true;
-            } else if (pokaz = transakcjiRodzaj.equals("zakup")== false) {
-                pokaz = true;
+            List<Evewidencja> uzywaneewidencje = Collections.synchronizedList(new ArrayList<>());
+            selDokument.setDokumentProsty(false);
+            uzywaneewidencje.addAll(listaEwidencjiVat.pobierzEvewidencjeNiemcy(transakcjiRodzaj));
+            double sumanetto = sumujnetto();
+            int nrwiersza = 0;
+            //bo od teraz sa niemieckie ewidencje. pozdro z Sitges 10.02.2024 sobota wieczor
+            if (selDokument.getEwidencjaVAT1()==null) {
+                selDokument.setEwidencjaVAT1(new ArrayList<>());
+            } else {
+                nrwiersza = selDokument.getEwidencjaVAT1().size();
             }
-            if (pokaz) {
-                List<Evewidencja> uzywaneewidencje = Collections.synchronizedList(new ArrayList<>());
-                selDokument.setDokumentProsty(false);
-                uzywaneewidencje.addAll(listaEwidencjiVat.pobierzEvewidencjeNiemcy(transakcjiRodzaj));
-                double sumanetto = sumujnetto();
-                int nrwiersza = 0;
-                //bo od teraz sa niemieckie ewidencje. pozdro z Sitges 10.02.2024 sobota wieczor
-                if (selDokument.getEwidencjaVAT1()==null) {
-                    selDokument.setEwidencjaVAT1(new ArrayList<>());
-                } else {
-                    nrwiersza = selDokument.getEwidencjaVAT1().size();
-                }
-                 //ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
-                int k = 0;
-                for (Evewidencja p : uzywaneewidencje) {
-                    EVatwpis1 ewidencjaAddwiad = new EVatwpis1(k++,p,"op");
-                    this.selDokument.getEwidencjaVAT1().add(ewidencjaAddwiad);
-                }
-                //obliczam 23% dla pierwszego
-                //nie bede dodawal netto bo faktur niemieckich jest mniej i jak ksiegowa nie wypelni to 
-                //selDokument.getEwidencjaVAT1().get(nrwiersza).setNetto(sumanetto);
+             //ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
+            int k = 0;
+            for (Evewidencja p : uzywaneewidencje) {
+                EVatwpis1 ewidencjaAddwiad = new EVatwpis1(k++,p,"op");
+                this.selDokument.getEwidencjaVAT1().add(ewidencjaAddwiad);
             }
-        }
+            //obliczam 23% dla pierwszego
+            //nie bede dodawal netto bo faktur niemieckich jest mniej i jak ksiegowa nie wypelni to 
+            //selDokument.getEwidencjaVAT1().get(nrwiersza).setNetto(sumanetto);
+                }
     }
     
     private List<Evewidencja> reorganizujewidencje(List<Evewidencja> ewidencjepobrane, List<PodatnikEwidencjaDok> listaewidencjipodatnika) {
@@ -615,7 +611,7 @@ public class DokView implements Serializable {
                 PrimeFaces.current().ajax().update(update);
                 update = "dodWiad:sumbrutto";
                 PrimeFaces.current().ajax().update(update);
-            } else if (Math.abs(e.getVat()) < vatmin && e.getDok().getRodzajedok().getKategoriadokumentu()==2) {
+            } else if (Math.abs(e.getVat()) < vatmin && selDokument.getRodzajedok().getKategoriadokumentu()==2) {
                 e.setVat(0.0);
                 e.setBrutto(0.0);
                 Msg.msg("e", "VAT jest za mały niż wyliczona kwota");

@@ -25,7 +25,7 @@
                 <p:panelGrid columns="1">
                     <p:menu >
                     <p:menuitem global="false" value="powrót"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
-                       <p:menuitem global="false" value="ewidencje" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westWpis" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 or WpisView.podatnikObiekt.paramVatUE.size() gt 0 ? true : false}">
+                       <p:menuitem global="false" value="ewidencje" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westWpis" rendered="#{WpisView.vatowiecPlde}">
                             
                             
                             

@@ -49,8 +49,10 @@ public class ListaEwidencjiVat implements Serializable{
     private List<Evewidencja> listadostepnychewidencji;
     //*****************************
     private List<Evewidencja> sprzedazNiemcyVList;
+    private List<Evewidencja> sprzedazNiemcy13bVList;
     private List<Evewidencja> zakupNiemcyVList;
     private List<Evewidencja> wntNiemcyVList;
+    private List<Evewidencja> wdtNiemcyVList;
     private List<Evewidencja> rvcNiemcyVList;//reverse charge - odwrotne obciazenie
 
 
@@ -70,8 +72,10 @@ public class ListaEwidencjiVat implements Serializable{
         //pojemnik na wszytskie ewidencje z EVDAO
         listadostepnychewidencji = Collections.synchronizedList(new ArrayList<>());
         sprzedazNiemcyVList = Collections.synchronizedList(new ArrayList<>());
+        sprzedazNiemcy13bVList = Collections.synchronizedList(new ArrayList<>());
         zakupNiemcyVList = Collections.synchronizedList(new ArrayList<>());
         wntNiemcyVList = Collections.synchronizedList(new ArrayList<>());
+        wdtNiemcyVList = Collections.synchronizedList(new ArrayList<>());
         rvcNiemcyVList = Collections.synchronizedList(new ArrayList<>());
     }
     
@@ -80,11 +84,12 @@ public class ListaEwidencjiVat implements Serializable{
     @PostConstruct
     public void init() { //E.m(this);
         List<Evewidencja> wszystkie = eVDAO.findAll();
-        List<Evewidencja> tmp = wszystkie.stream().filter(p->p.isNiemcy()==false).collect(Collectors.toList());
-        wszystkie.removeAll(tmp);
-        if (tmp != null) {
-            Collections.sort(tmp, new Evewidencjacomparator());
-            for (Evewidencja up : tmp){
+        List<Evewidencja> tylkoPolskie = wszystkie.stream().filter(p->p.isNiemcy()==false).collect(Collectors.toList());
+        wszystkie.removeAll(tylkoPolskie);
+        List<Evewidencja> tylkoNiemieckie = wszystkie;
+        if (tylkoPolskie != null) {
+            Collections.sort(tylkoPolskie, new Evewidencjacomparator());
+            for (Evewidencja up : tylkoPolskie){
                 listadostepnychewidencji.add(up);
                 switch(up.getTransakcja()) {
                     case "zakup" : 
@@ -128,23 +133,42 @@ public class ListaEwidencjiVat implements Serializable{
                 }
             }
         }
-        if (wszystkie != null) {
-            Collections.sort(wszystkie, new Evewidencjacomparator());
-            for (Evewidencja up : wszystkie){
+        if (tylkoNiemieckie != null) {
+            Collections.sort(tylkoNiemieckie, new Evewidencjacomparator());
+            for (Evewidencja up : tylkoNiemieckie){
                 listadostepnychewidencji.add(up);
                 switch(up.getTransakcja()) {
-                    case "zakup" : 
+                    case "zakup Niemcy" : 
+                        //dokument RACH BEDZIE UZYWANY U NIEVAT I U VAAT    bo to sa niemieckiie zakupowe
+                        //nowy dokument rachde bo przeciez sa rachy bez niemiec i wtedytrzbea by bylo zerowac ewidencje albo wprowadzac cczekbnosky
+                        //tylko ewidencja niemiecka
+                        //dwie ewidencje jedna do odliczenia naliczonego
+                        //druga dl 13b
+                        //ra
                         zakupNiemcyVList.add(up);
                         break;
+                    case "WDT" : 
+                        wntNiemcyVList.add(up);
+                        wdtNiemcyVList.add(up);
+                        break;
                     case "WNT" : 
+                        //czy opodczepiac ewidencje wszystkie czy tworzyc dokumen WNTDE
+                        wdtNiemcyVList.add(up);
                         wntNiemcyVList.add(up);
                         break;
-                    case "odwrotne obciążenie" : 
-                        rvcNiemcyVList.add(up);
+                    case "usługi poza ter.":
+                        //uzupelnic ewidencja dokumemnt UPTk bedzie tylko ten dokument sprzedazy
+                        //podlaczyc sprzedaz z estawka 19% oraz 13B
+                        sprzedazNiemcy13bVList.add(up);
                         break;
-                    case ("odwrotne obciążenie sprzedawca"):
-                        rvcVListS.add(up);
-                        break;
+                            
+                        //tego njie uzywamy rto sa dokumen RVC RVCS
+//                    case "odwrotne obciążenie" : 
+//                        rvcNiemcyVList.add(up);
+//                        break;
+//                    case ("odwrotne obciążenie sprzedawca"):
+//                        rvcVListS.add(up);
+//                        break;
 
                     default : 
                         sprzedazNiemcyVList.add(up);
@@ -186,12 +210,15 @@ public class ListaEwidencjiVat implements Serializable{
     
     public List<Evewidencja> pobierzEvewidencjeNiemcy(String transakcjiRodzaj) {
         switch (transakcjiRodzaj) {
-                    case ("zakup"):
+                    case ("zakup Niemcy"):
                         return zakupNiemcyVList;
                     case ("odwrotne obciążenie"):
                         return rvcNiemcyVList;
                     case ("WNT"):
+                    case ("WDT"):
                         return wntNiemcyVList;
+                    case ("usługi poza ter."):
+                        return sprzedazNiemcy13bVList;
                     default:
                         return sprzedazNiemcyVList;
                 }
@@ -205,6 +232,46 @@ public class ListaEwidencjiVat implements Serializable{
     
     public List<Evewidencja> getSprzedazVList() {
         return sprzedazVList;
+    }
+
+    public List<Evewidencja> getSprzedazNiemcy13bVList() {
+        return sprzedazNiemcy13bVList;
+    }
+
+    public List<Evewidencja> getSprzedazNiemcyVList() {
+        return sprzedazNiemcyVList;
+    }
+
+    public void setSprzedazNiemcyVList(List<Evewidencja> sprzedazNiemcyVList) {
+        this.sprzedazNiemcyVList = sprzedazNiemcyVList;
+    }
+
+    public List<Evewidencja> getZakupNiemcyVList() {
+        return zakupNiemcyVList;
+    }
+
+    public void setZakupNiemcyVList(List<Evewidencja> zakupNiemcyVList) {
+        this.zakupNiemcyVList = zakupNiemcyVList;
+    }
+
+    public List<Evewidencja> getWntNiemcyVList() {
+        return wntNiemcyVList;
+    }
+
+    public void setWntNiemcyVList(List<Evewidencja> wntNiemcyVList) {
+        this.wntNiemcyVList = wntNiemcyVList;
+    }
+
+    public List<Evewidencja> getRvcNiemcyVList() {
+        return rvcNiemcyVList;
+    }
+
+    public void setRvcNiemcyVList(List<Evewidencja> rvcNiemcyVList) {
+        this.rvcNiemcyVList = rvcNiemcyVList;
+    }
+
+    public void setSprzedazNiemcy13bVList(List<Evewidencja> sprzedazNiemcy13bVList) {
+        this.sprzedazNiemcy13bVList = sprzedazNiemcy13bVList;
     }
 
     public void setSprzedazVList(List<Evewidencja> sprzedazVList) {

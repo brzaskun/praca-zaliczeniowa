@@ -833,7 +833,7 @@ public class EwidencjaVatView implements Serializable {
     private void pobierzEVATwpis1zaOkres(Podatnik podatnik, int vatokres, String rok, String mc) {
         try {
             listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
-            if (wpisView.getPodatnikObiekt().getMetodakasowa().equals("tak")) {
+            if (wpisView.getPodatnikObiekt().getMetodakasowa()!=null&&wpisView.getPodatnikObiekt().getMetodakasowa().equals("tak")) {
                 if (vatokres==1) {
                     List<PlatnoscWaluta> lista = platnoscWalutaDAO.findByPodRokMc(podatnik, rok, mc);
                     listadokvatprzetworzona.addAll(stworzevatwpis(lista));
