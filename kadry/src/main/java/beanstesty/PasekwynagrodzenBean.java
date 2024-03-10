@@ -113,8 +113,8 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.rentowa(pasek);
         PasekwynagrodzenBean.wypadkowa(pasek);
         PasekwynagrodzenBean.razemspolecznefirma(pasek);
-        PasekwynagrodzenBean.fp(pasek);
-        PasekwynagrodzenBean.fgsp(pasek);
+        PasekwynagrodzenBean.fp(pasek, pasek.getPodstawaskladkizus());
+        PasekwynagrodzenBean.fgsp(pasek, pasek.getPodstawaskladkizus());
         PasekwynagrodzenBean.razem53(pasek);
         PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
         PasekwynagrodzenBean.naniesrobocze(pasek, kalendarz);
@@ -213,28 +213,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.rentowa(pasek);
         PasekwynagrodzenBean.wypadkowa(pasek);
         PasekwynagrodzenBean.razemspolecznefirma(pasek);
-        boolean przekroczeniewieku = czyprzekroczonowiek(kalendarz, pasek.getDatawyplaty());
-        boolean ponizejwynminimalnego = czyponizejminimalnego(pasek, wynagrodzenieminimalne.getKwotabrutto());
-        boolean firmamatylkozlecenia = czysatylkozlecenia(kalendarz);
-        boolean powrotzmacierzynskiego = czyjestpowrotzmacierzynskiego(kalendarz.getAngaz().getNieobecnoscList(), pasek.getDatawyplaty());
-        boolean bezrobotnyskierowanieFP = czynienaliczacFPbezrobotny(kalendarz);
-        if (bezrobotnyskierowanieFP==true) {
-            
-        } else if (swiadczeniarzeczowe) {
-            PasekwynagrodzenBean.fp(pasek);
-            PasekwynagrodzenBean.fgsp(pasek);
-        } else if (przekroczeniewieku == true || powrotzmacierzynskiego ==true) {
-            //obojetnei jaka forma prawna jak jest przekroczenie wieku to nie liczymy FP i FGSP
-            pasek.setFpprzekroczeniewiek(przekroczeniewieku);
-            pasek.setFppowrotmacierzynski(powrotzmacierzynskiego);
-        } else if (ponizejwynminimalnego == true) {
-            PasekwynagrodzenBean.fgsp(pasek);
-        } else if (kalendarz.getAngaz().getFirma().isOsobafizyczna()&&firmamatylkozlecenia == true) {
-            PasekwynagrodzenBean.fgsp(pasek);
-        } else {
-            PasekwynagrodzenBean.fp(pasek);
-            PasekwynagrodzenBean.fgsp(pasek);
-        }
+        PasekwynagrodzenBean.przeliczfundusze(pasek,wynagrodzenieminimalne.getKwotabrutto());
         PasekwynagrodzenBean.razem53(pasek);
         PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
         PasekwynagrodzenBean.naniesrobocze(pasek, kalendarz);
@@ -1108,12 +1087,12 @@ public class PasekwynagrodzenBean {
         
     }
 
-    private static void fp(Pasekwynagrodzen pasek) {
-        pasek.setFp(Z.z(pasek.getPodstawaskladkizus() * 0.0245));
+    private static void fp(Pasekwynagrodzen pasek, double podstawa) {
+        pasek.setFp(Z.z(podstawa * 0.0245));
     }
 
-    private static void fgsp(Pasekwynagrodzen pasek) {
-        pasek.setFgsp(Z.z(pasek.getPodstawaskladkizus() * 0.001));
+    private static void fgsp(Pasekwynagrodzen pasek, double podstawa) {
+        pasek.setFgsp(Z.z(podstawa * 0.001));
     }
 
     private static void pracownikchorobowa(Pasekwynagrodzen pasek) {
@@ -2331,6 +2310,64 @@ public class PasekwynagrodzenBean {
             }
         }
         
+    }
+
+    private static void przeliczfundusze(Pasekwynagrodzen pasek, double minimalnekwotabrutto) {
+        boolean przekroczeniewieku = czyprzekroczonowiek(pasek.getKalendarzmiesiac(), pasek.getDatawyplaty());
+        boolean ponizejwynminimalnego = czyponizejminimalnego(pasek, minimalnekwotabrutto);
+        boolean firmamatylkozlecenia = czysatylkozlecenia(pasek.getKalendarzmiesiac());
+        boolean powrotzmacierzynskiego = czyjestpowrotzmacierzynskiego(pasek.getKalendarzmiesiac().getAngaz().getNieobecnoscList(), pasek.getDatawyplaty());
+        boolean bezrobotnyskierowanieFP = czynienaliczacFPbezrobotny(pasek.getKalendarzmiesiac());
+        double podstawaFP = obliczpodstawedofp(pasek);
+        double podstawaFGSP = obliczpodstawedofgsp(pasek);
+        if (przekroczeniewieku == true || powrotzmacierzynskiego ==true) {
+            //obojetnei jaka forma prawna jak jest przekroczenie wieku to nie liczymy FP i FGSP
+            pasek.setFpprzekroczeniewiek(przekroczeniewieku);
+            pasek.setFppowrotmacierzynski(powrotzmacierzynskiego);
+            podstawaFP = 0.0;
+        } else if (ponizejwynminimalnego == true) {
+            podstawaFP = 0.0;
+        } else if (pasek.getKalendarzmiesiac().getAngaz().getFirma().isOsobafizyczna()&&firmamatylkozlecenia == true) {
+            podstawaFP = 0.0;
+        }
+        PasekwynagrodzenBean.fp(pasek, podstawaFP);
+        PasekwynagrodzenBean.fgsp(pasek, podstawaFGSP);
+    }
+
+    private static double obliczpodstawedofp(Pasekwynagrodzen pasek) {
+        double podstawa = 0.0;
+        for (Naliczenieskladnikawynagrodzenia wyn : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+            if (wyn.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkafp()) {
+                podstawa = podstawa+wyn.getKwotadolistyplac();
+            }
+        }
+        for (Naliczenienieobecnosc wyn : pasek.getNaliczenienieobecnoscList()) {
+            if (wyn.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkafp()) {
+                podstawa = podstawa+wyn.getKwota();
+            }
+        }
+        if (podstawa>pasek.getPodstawaskladkizus()) {
+            podstawa = pasek.getPodstawaskladkizus();
+        }
+        return podstawa;
+    }
+
+    private static double obliczpodstawedofgsp(Pasekwynagrodzen pasek) {
+         double podstawa = 0.0;
+        for (Naliczenieskladnikawynagrodzenia wyn : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+            if (wyn.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkafgsp()) {
+                podstawa = podstawa+wyn.getKwotadolistyplac();
+            }
+        }
+        for (Naliczenienieobecnosc wyn : pasek.getNaliczenienieobecnoscList()) {
+            if (wyn.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkafgsp()) {
+                podstawa = podstawa+wyn.getKwota();
+            }
+        }
+        if (podstawa>pasek.getPodstawaskladkizus()) {
+            podstawa = pasek.getPodstawaskladkizus();
+        }
+        return podstawa;
     }
 
     

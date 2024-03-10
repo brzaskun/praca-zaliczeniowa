@@ -303,6 +303,102 @@
                     <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzjawynagrodzeniaSetView.zachowaj}" update="@form"/>
                 </h:form>
             </p:tab>
+            <p:tab title="Składnik wynagrodzenia - składki">
+                <h:form id="RodzajwynagrodzeniaForm2">
+                    <p:dataTable id="datalistr" value="#{rodzjawynagrodzeniaSetView.listazus}" var="item11"
+                                 selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlistazus}"
+                                 rowKey="#{item11.id}" emptyMessage="Nie znaleziono takiego składnika"
+                                 scrollable="true" scrollHeight="700" scrollRows="30" 
+                                 style="width: 1250px;" >
+
+                        <p:column width="30" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{item11.id}"/>
+                        </p:column>
+                        <p:column width="30" style="text-align: center;" sortBy="#{item11.kod}"  sortOrder="asc">
+                            <f:facet name="header">
+                                <h:outputText value="kod"/>
+                            </f:facet>
+                            <p:inplace editor="true">
+                                 <f:facet name="output">
+                                     <h:outputText value="#{item11.kod}"/>
+                                 </f:facet>
+                                 <f:facet name="input">
+                                     <p:inputText value="#{item11.kod}" rendered="#{wpisView.uzer.login eq '2'}" size="3"/>
+                                 </f:facet>
+                                         <p:ajax event="save" listener="#{rodzjawynagrodzeniaSetView.edytujrodzajwyn(item11)}" />
+                            </p:inplace>
+                        </p:column>
+                        <p:column width="300" >
+                            <f:facet name="header">
+                                <h:outputText value="opis"/>
+                            </f:facet>
+                            <h:outputText value="#{item11.opispelny}"  rendered="#{item11.tylkosuperplace eq false and item11.aktywne eq false}"/>
+                            <h:outputText value="#{item11.opispelny}"  rendered="#{item11.aktywne eq true and item11.tylkosuperplace eq false}" style="color: #1AA11A"/>
+                            <h:outputText value="#{item11.opispelny}"  rendered="#{item11.tylkosuperplace eq true}" style="color: darkorange"/>
+                        </p:column>
+                      
+                        <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="emerytalna"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.skladkaemerytalna}"/>
+                        </p:column>
+                        <p:column style="text-align: center;background-color: #BECEFE;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="rentowa"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.skladkarentowa}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="chorobowa"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.skladkachorobowa}"/>
+                        </p:column>
+                         <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="wypadkowa"/>
+                            </f:facet>
+                             <p:selectBooleanCheckbox value="#{item11.skladkawypadkowa}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="zdrowotna"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.skladkazdrowotna}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="fundusz pracy"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.skladkafp}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="fgśp"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.skladkafgsp}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="podatek"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.skladkapodatek}"/>
+                        </p:column>
+                        
+<!--                        <p:column style="text-align: center;background-color: #BECEFE;" width="50">
+                            <f:facet name="header">
+                                <h:outputText value="tylko SupPłac"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item11.tylkosuperplace}"/>
+                        </p:column>-->
+                    </p:dataTable>
+                    <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzjawynagrodzeniaSetView.zachowaj}" update="@form"/>
+                </h:form>
+            </p:tab>
             <p:tab title="Rodzaje składników potrąceń">
                 <h:form id="SlownikPotracenForm">
                     <p:dataTable id="datalists" value="#{slownikpotraceniaView.lista}" var="item12"

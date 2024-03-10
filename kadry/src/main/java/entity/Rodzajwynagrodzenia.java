@@ -105,6 +105,22 @@ public class Rodzajwynagrodzenia implements Serializable {
     private  boolean swiadczenierzeczowe;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajwynagrodzenia")
     private List<RodzajlistyplacRodzajwynagrodzenia> rodzajllistyplacRodzajwynagrodzeniaList;
+    @Column(name = "skladkaemerytalna")
+    private  boolean skladkaemerytalna;
+    @Column(name = "skladkarentowa")
+    private  boolean skladkarentowa;
+    @Column(name = "skladkachorobowa")
+    private  boolean skladkachorobowa;
+    @Column(name = "skladkawypadkowa")
+    private  boolean skladkawypadkowa;
+    @Column(name = "skladkazdrowotna")
+    private  boolean skladkazdrowotna;
+    @Column(name = "skladkafp")
+    private  boolean skladkafp;
+    @Column(name = "skladkafgsp")
+    private  boolean skladkafgsp;
+    @Column(name = "skladkapodatek")
+    private  boolean skladkapodatek;
 
 ;     
 
@@ -353,6 +369,78 @@ public class Rodzajwynagrodzenia implements Serializable {
 
     public void setSwiadczenierzeczowe(boolean swiadczenierzeczowe) {
         this.swiadczenierzeczowe = swiadczenierzeczowe;
+    }
+
+    public List<RodzajlistyplacRodzajwynagrodzenia> getRodzajllistyplacRodzajwynagrodzeniaList() {
+        return rodzajllistyplacRodzajwynagrodzeniaList;
+    }
+
+    public void setRodzajllistyplacRodzajwynagrodzeniaList(List<RodzajlistyplacRodzajwynagrodzenia> rodzajllistyplacRodzajwynagrodzeniaList) {
+        this.rodzajllistyplacRodzajwynagrodzeniaList = rodzajllistyplacRodzajwynagrodzeniaList;
+    }
+
+    public boolean isSkladkaemerytalna() {
+        return skladkaemerytalna;
+    }
+
+    public void setSkladkaemerytalna(boolean skladkaemerytalna) {
+        this.skladkaemerytalna = skladkaemerytalna;
+    }
+
+    public boolean isSkladkarentowa() {
+        return skladkarentowa;
+    }
+
+    public void setSkladkarentowa(boolean skladkarentowa) {
+        this.skladkarentowa = skladkarentowa;
+    }
+
+    public boolean isSkladkachorobowa() {
+        return skladkachorobowa;
+    }
+
+    public void setSkladkachorobowa(boolean skladkachorobowa) {
+        this.skladkachorobowa = skladkachorobowa;
+    }
+
+    public boolean isSkladkawypadkowa() {
+        return skladkawypadkowa;
+    }
+
+    public void setSkladkawypadkowa(boolean skladkawypadkowa) {
+        this.skladkawypadkowa = skladkawypadkowa;
+    }
+
+    public boolean isSkladkazdrowotna() {
+        return skladkazdrowotna;
+    }
+
+    public void setSkladkazdrowotna(boolean skladkazdrowotna) {
+        this.skladkazdrowotna = skladkazdrowotna;
+    }
+
+    public boolean isSkladkafp() {
+        return skladkafp;
+    }
+
+    public void setSkladkafp(boolean skladkafp) {
+        this.skladkafp = skladkafp;
+    }
+
+    public boolean isSkladkafgsp() {
+        return skladkafgsp;
+    }
+
+    public void setSkladkafgsp(boolean skladkafgsp) {
+        this.skladkafgsp = skladkafgsp;
+    }
+
+    public boolean isSkladkapodatek() {
+        return skladkapodatek;
+    }
+
+    public void setSkladkapodatek(boolean skladkapodatek) {
+        this.skladkapodatek = skladkapodatek;
     }
 
 

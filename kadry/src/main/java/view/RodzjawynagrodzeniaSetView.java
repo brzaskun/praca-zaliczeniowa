@@ -29,7 +29,9 @@ public class RodzjawynagrodzeniaSetView  implements Serializable {
     @Inject
     private RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade;
     private Rodzajwynagrodzenia selectedlista;
+    private Rodzajwynagrodzenia selectedlistazus;
     private List<Rodzajwynagrodzenia> lista;
+    private List<Rodzajwynagrodzenia> listazus;
     private boolean pokazwszytskieskladniki;
     
     @PostConstruct
@@ -37,6 +39,7 @@ public class RodzjawynagrodzeniaSetView  implements Serializable {
         lista = rodzajwynagrodzeniaFacade.findAll();
         if (pokazwszytskieskladniki==false) {
             lista = lista.stream().filter(p->p.isAktywne()).collect(Collectors.toList());
+            listazus=  lista.stream().filter(p->p.isAktywne()).collect(Collectors.toList());
         }
     }
 
@@ -98,6 +101,22 @@ public class RodzjawynagrodzeniaSetView  implements Serializable {
 
     public void setPokazwszytskieskladniki(boolean pokazwszytskieskladniki) {
         this.pokazwszytskieskladniki = pokazwszytskieskladniki;
+    }
+
+    public Rodzajwynagrodzenia getSelectedlistazus() {
+        return selectedlistazus;
+    }
+
+    public void setSelectedlistazus(Rodzajwynagrodzenia selectedlistazus) {
+        this.selectedlistazus = selectedlistazus;
+    }
+
+    public List<Rodzajwynagrodzenia> getListazus() {
+        return listazus;
+    }
+
+    public void setListazus(List<Rodzajwynagrodzenia> listazus) {
+        this.listazus = listazus;
     }
     
     
