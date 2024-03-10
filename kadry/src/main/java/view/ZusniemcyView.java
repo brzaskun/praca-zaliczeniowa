@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import msg.Msg;
+import pdf.PdfZaswiadczenieZusNiemcy;
 import z.Z;
 
 /**
@@ -99,6 +101,15 @@ public class ZusniemcyView implements Serializable {
         }
         return proporcjaniemcy;
     }
+     
+    public void drukuj() {
+        if (paski.isEmpty() == false) {
+            PdfZaswiadczenieZusNiemcy.drukuj(wpisView.getFirma(), paski, wpisView.getRokWpisu(), wpisView.getUzer().getImieNazwiskoTelefon());
+        } else {
+            Msg.msg("e", "Błąd drukowania. Brak pasków");
+        }
+    }
+       
 
     public List<Pasekwynagrodzen> getPaski() {
         return paski;

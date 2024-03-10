@@ -498,7 +498,33 @@ public class PdfMain {
         }
     }
      
-     public static void dodajLinieOpisuBezOdstepuTab(Document document, String opis, String opis1, 
+     public static void dodajPozycjeBezOdstepuTab(Document document, String opis, 
+             int al, int fontsize, int tab) {
+        try {
+            Paragraph opiswstepny = new Paragraph();
+            opiswstepny.setTabSettings(new TabSettings(tab));
+            opiswstepny.add(Chunk.TABBING);
+            opiswstepny.add(new Phrase(opis, ft[fontsize]));
+            document.add(opiswstepny);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+     
+     public static Paragraph dodajPozycjeBezOdstepuTabJeden(Document document, String opis, 
+             int al, int fontsize, int tab) {
+        Paragraph zwrot = new Paragraph();
+        try {
+            zwrot.setTabSettings(new TabSettings(tab));
+            zwrot.add(Chunk.TABBING);
+            zwrot.add(new Phrase(opis, ft[fontsize]));
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return zwrot;
+    }
+     
+      public static void dodajLinieOpisuBezOdstepuTab(Document document, String opis, String opis1, 
              int al, int fontsize, int tab) {
         try {
             Paragraph opiswstepny = new Paragraph();

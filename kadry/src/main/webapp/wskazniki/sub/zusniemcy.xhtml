@@ -12,14 +12,12 @@
         <p:panel  header="SOKA-BAU informacje miesięczne"/> 
         <p:outputPanel style="height: 800px;overflow-y: scroll;" id="pnlPrint1" > 
             <p:commandButton value="pobierz" styleClass="buttonnorm" actionListener="#{zusniemcyView.init()}" update="akordeon:zusniemcy">
-                
             </p:commandButton>
-            <p:commandButton value="Drukuj" type="button" icon="pi pi-print" styleClass="buttonnorm">
-                <p:printer target="datalist" />
+            <p:commandButton value="Drukuj" icon="pi pi-print" styleClass="buttonnorm" actionListener="#{zusniemcyView.drukuj()}" >
             </p:commandButton>
-             <p:commandButton value="XLS" styleClass="buttonnorm">
+<!--             <p:commandButton value="XLS" styleClass="buttonnorm">
                     <p:dataExporter type="xls" target="datalist" fileName="lista"/>
-                </p:commandButton>
+                </p:commandButton>-->
             <p:panelGrid columns="4">
                 <h:outputText value="firma" style="color: green;"/>
                 <h:outputText value="#{wpisView.firma.nazwa}" style="color: green;"/>
