@@ -125,7 +125,7 @@ public class DraNView  implements Serializable {
                     for (Angaz angaz : angazelista) {
                         List<Nieobecnosc> nieobecnoscilista = nieobecnoscFacade.findByAngaz(angaz);
                         if (nieobecnoscilista!=null&&nieobecnoscilista.size()>0) {
-                            listanieobecnosci.addAll(pobierznieobecnosci(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), nieobecnoscilista));
+                            listanieobecnosci.addAll(pobierznieobecnosci(wpisView.getRokWpisu(), mcdra, nieobecnoscilista));
                         }
                     }
                 }
