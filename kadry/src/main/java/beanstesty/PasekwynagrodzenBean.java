@@ -1253,7 +1253,7 @@ public class PasekwynagrodzenBean {
     
      private static void obliczpodstaweopodatkowaniaRzeczoweDB(Pasekwynagrodzen pasek, List<Podatki> stawkipodatkowe, boolean nieodliczackup, boolean podwyzszonekoszty) {
         Podatki pierwszyprog = stawkipodatkowe.get(0);
-        double bruttominusspoleczne = pasek.getPodstawaskladkizus();
+        double bruttominusspoleczne = pasek.getBruttominusspoleczne();
         double kosztyuzyskania = 0.0;
         pasek.setProcentkosztow(0);
         double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania) : 0.0;

@@ -51,9 +51,8 @@ function ustawDateSprzedazy(rok, mc) {
         var testw = dataWyst.value;
         if (!testw.match(re)) {
             dataWyst.value = null;
-        }
-        if (isValidDate(wart)===false) {
-            dataWyst.value = wart+" jest niepoprawną datą";
+        } else if (isValidDate(testw)===false) {
+            dataWyst.value = "niepoprawna data";
         }
     } catch (e){}
 };

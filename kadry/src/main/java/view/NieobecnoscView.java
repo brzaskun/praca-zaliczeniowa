@@ -299,7 +299,7 @@ public class NieobecnoscView  implements Serializable {
                 double limit = wyliczlimitzewzgledunawiek(wpisView.getPracownik().getDataurodzenia(), selected.getDataod());
                 double dorozliczenia = limit-dniwyplacone;
                 double rozliczono = dorozliczenia-dnizezwolnienia;
-                if (dniwyplacone>=33) {
+                if (dniwyplacone>=33||dorozliczenia<0) {
                     double dowyplatyjakoZC = dnizezwolnienia;
                     Msg.msg("Tylko Zasiłek chorobowy "+dowyplatyjakoZC);
                     String dataodCH = selected.getDataod();
