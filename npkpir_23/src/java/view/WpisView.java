@@ -289,11 +289,11 @@ public class WpisView implements Serializable {
     
     public boolean isVatowiecPlde() {
         boolean zwrot = false;
-        if (podatnikObiekt.getVatokres().isEmpty()==false) {
+        if (podatnikObiekt.getVatokres()!=null&&podatnikObiekt.getVatokres().isEmpty()==false) {
             zwrot = true;
-        } else if (podatnikObiekt.getParamVatUE().isEmpty()==false) {
+        } else if (podatnikObiekt.getVatokres()!=null&&podatnikObiekt.getParamVatUE().isEmpty()==false) {
             zwrot = true;
-        } else if (podatnikObiekt.getSteuernummer().isEmpty()==false) {
+        } else if (podatnikObiekt.getSteuernummer()!=null&&podatnikObiekt.getSteuernummer().isEmpty()==false) {
             zwrot = true;
         }
         return zwrot;
