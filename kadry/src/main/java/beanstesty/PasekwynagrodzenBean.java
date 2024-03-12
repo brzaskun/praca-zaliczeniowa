@@ -363,7 +363,11 @@ public class PasekwynagrodzenBean {
 
     private static void zasilekchorobowywyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, double odliczonajuzkwotawolna,
             boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, List<Nieobecnosc> nieobecnosci, List<Kalendarzmiesiac> kalendarzlista, Wynagrodzenieminimalne wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor, Definicjalistaplac definicjadlazasilkow) {
-        KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzwzor);
+        if (kalendarz.getAngaz().jestumowaPracaAktywna(kalendarz.getRok(), kalendarz.getMc())) {
+            KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzwzor);
+        } else {
+            KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenieZasilek(kalendarz, pasek, kurs, 0.0, 0.0, 0.0, 0.0);
+        }
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         //List<Nieobecnosc> zatrudnieniewtrakciemiesiaca = pobierz(nieobecnosci, "D");
         //List<Nieobecnosc> choroba = pobierz(nieobecnosci, "CH");
@@ -2336,14 +2340,18 @@ public class PasekwynagrodzenBean {
 
     private static double obliczpodstawedofp(Pasekwynagrodzen pasek) {
         double podstawa = 0.0;
-        for (Naliczenieskladnikawynagrodzenia wyn : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (wyn.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkafp()) {
-                podstawa = podstawa+wyn.getKwotadolistyplac();
+        if (pasek.getNaliczenieskladnikawynagrodzeniaList()!=null&&pasek.getNaliczenieskladnikawynagrodzeniaList().isEmpty()==false) {
+            for (Naliczenieskladnikawynagrodzenia wyn : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+                if (wyn.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkafp()) {
+                    podstawa = podstawa+wyn.getKwotadolistyplac();
+                }
             }
         }
-        for (Naliczenienieobecnosc wyn : pasek.getNaliczenienieobecnoscList()) {
-            if (wyn.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkafp()) {
-                podstawa = podstawa+wyn.getKwota();
+        if (pasek.getNaliczenienieobecnoscList()!=null&&pasek.getNaliczenienieobecnoscList().isEmpty()==false) {
+            for (Naliczenienieobecnosc wyn : pasek.getNaliczenienieobecnoscList()) {
+                if (wyn.getSkladnikwynagrodzenia()!=null&&wyn.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkafp()) {
+                    podstawa = podstawa+wyn.getKwota();
+                }
             }
         }
         if (podstawa>pasek.getPodstawaskladkizus()) {
@@ -2354,14 +2362,18 @@ public class PasekwynagrodzenBean {
 
     private static double obliczpodstawedofgsp(Pasekwynagrodzen pasek) {
          double podstawa = 0.0;
-        for (Naliczenieskladnikawynagrodzenia wyn : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (wyn.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkafgsp()) {
-                podstawa = podstawa+wyn.getKwotadolistyplac();
+        if (pasek.getNaliczenieskladnikawynagrodzeniaList()!=null&&pasek.getNaliczenieskladnikawynagrodzeniaList().isEmpty()==false) {
+            for (Naliczenieskladnikawynagrodzenia wyn : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+                if (wyn.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkafgsp()) {
+                    podstawa = podstawa+wyn.getKwotadolistyplac();
+                }
             }
         }
-        for (Naliczenienieobecnosc wyn : pasek.getNaliczenienieobecnoscList()) {
-            if (wyn.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkafgsp()) {
-                podstawa = podstawa+wyn.getKwota();
+        if (pasek.getNaliczenienieobecnoscList()!=null&&pasek.getNaliczenienieobecnoscList().isEmpty()==false) {
+            for (Naliczenienieobecnosc wyn : pasek.getNaliczenienieobecnoscList()) {
+                if (wyn.getSkladnikwynagrodzenia()!=null&&wyn.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkafgsp()) {
+                    podstawa = podstawa+wyn.getKwota();
+                }
             }
         }
         if (podstawa>pasek.getPodstawaskladkizus()) {

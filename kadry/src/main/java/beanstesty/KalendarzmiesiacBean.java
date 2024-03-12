@@ -420,6 +420,33 @@ public class KalendarzmiesiacBean {
         }
         return jestoddelegowanie;
     }
+    
+    static boolean naliczskladnikiwynagrodzeniaDBZlecenieZasilek(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs,
+            double zmiennawynagrodzeniakwota, double iloscgodzin, double zmiennawynagrodzeniakwotaodelegowanie, double zmiennawynagrodzeniakwotaodelegowaniewaluta) {
+        boolean jestoddelegowanie = false;
+        double zmiennawaluta = zmiennawynagrodzeniakwotaodelegowaniewaluta;
+        String waluta = "PLN";
+        for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
+            if (p.getRodzajwynagrodzenia().getKod().equals("40")||p.getRodzajwynagrodzenia().getId()==91) {
+                double kwota = p.getRodzajwynagrodzenia().getOpispelny().contains("oddelegowanie") ? zmiennawynagrodzeniakwotaodelegowanie : zmiennawynagrodzeniakwota;
+                if (p.getRodzajwynagrodzenia().getWks_serial() != 1072) {
+                    zmiennawaluta = 0.0;
+                    waluta = "PLN";
+                } else {
+                    zmiennawaluta = zmiennawynagrodzeniakwotaodelegowaniewaluta;
+                    waluta = "EUR";
+                }
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBZlecenie(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs, kwota, zmiennawaluta);
+                naliczenieskladnikawynagrodzenia.setWaluta(waluta);
+                naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(iloscgodzin);
+                pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                if (p.isOddelegowanie()) {
+                    jestoddelegowanie = true;
+                }
+            }
+        }
+        return jestoddelegowanie;
+    }
 
     static boolean naliczskladnikiwynagrodzeniaDBFunkcja(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
         boolean jestoddelegowanie = false;
@@ -508,6 +535,7 @@ public class KalendarzmiesiacBean {
                 //to z mysla o pramiach uznaniowych, ktore jako nierekukowane nei wchodza w sklad podstawyfeeffe
                 if ((recznapodstawajedenskladnik == true && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("11"))
                         || (recznapodstawajedenskladnik && naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("13"))
+                        || naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("40")
                         || recznapodstawajedenskladnik == false) {
                     if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isPodstzasilekchorobowy()) {
                         Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
@@ -530,12 +558,19 @@ public class KalendarzmiesiacBean {
                             sredniadopodstawy = sredniadopodstawy * procentzazwolnienie;
                             skladnikistalenetto = sredniadopodstawy;
                             sumadowyrownania = sumadowyrownania + skladnikistalenetto;
+                            if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("40")){
+                                //nie waloryzujemy umowy zlecenia
+                                limitpodstawyzasilkow = 0.0;
+                            }
                         } else {
                             double sredniadopodstawypobrana = 0.0;
                             //nadgodziny oddelegowanie
                             if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("12") || naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getId() == 164) {
                                 sredniadopodstawypobrana = wyliczsredniachorobaNadgodziny(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow);
-                            } else {
+                            } else if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getKod().equals("40")){
+                                sredniadopodstawypobrana = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow, jestoodelegowanie);
+                                limitpodstawyzasilkow = 0.0;
+                            }else {
                                 sredniadopodstawypobrana = wyliczsredniachoroba(kalendarz, naliczenieskladnikawynagrodzenia, nieobecnosc, naliczenienieobecnosc, definicjalistaplac, definicjadlazasilkow, jestoodelegowanie);
                                 if (naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==false) {
                                     //limitpodstawyzasilkow = 0.0;
