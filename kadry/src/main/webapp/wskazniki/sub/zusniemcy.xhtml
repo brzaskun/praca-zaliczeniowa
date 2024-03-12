@@ -30,7 +30,7 @@
                                  style="width: 1900px;"
                                  emptyMessage="nie pobrano danych"
                                  >
-                     <p:column width="150" headerText="nazwisko i imię" style="text-align: left;">
+                     <p:column width="150" headerText="nazwisko i imię" style="text-align: left;" sortBy="#{items.nazwiskoImie}" sortPriority="1">
                             <h:outputText value="#{items.nazwiskoImie}"/>
                         </p:column>
                         <p:column width="30" headerText="paski" style="text-align: center;">
