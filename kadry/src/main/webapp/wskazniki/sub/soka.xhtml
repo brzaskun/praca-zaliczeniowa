@@ -8,59 +8,73 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <h:form styleClass="formcentrum">
-        
+
         <p:panel  header="SOKA-BAU informacje miesięczne"/> 
         <p:outputPanel style="height: 800px;overflow-y: scroll;" id="pnlPrint1" > 
             <p:commandButton value="Drukuj" type="button" icon="pi pi-print" styleClass="buttonnorm">
                 <p:printer target="datalist" />
             </p:commandButton>
-             <p:commandButton value="XLS" styleClass="buttonnorm">
-                    <p:dataExporter type="xls" target="datalist" fileName="lista"/>
-                </p:commandButton>
+            <p:commandButton value="XLS" styleClass="buttonnorm">
+                <p:dataExporter type="xls" target="datalist" fileName="lista"/>
+            </p:commandButton>
             <p:panelGrid columns="4">
                 <h:outputText value="firma" style="color: green;"/>
                 <h:outputText value="#{wpisView.firma.nazwa}" style="color: green;"/>
                 <h:outputText value="okres: #{wpisView.rokWpisu}/#{wpisView.miesiacWpisu}"/>
             </p:panelGrid>
-             <p:panelGrid columns="1" style="margin-top: 20px">
-                 <p:dataTable id="datalist" value="#{sokaView.lista}" var="items"
-                                 rowIndexVar="index"
-                                 rowKey="#{items.nazwiskoiimie}" sortBy="#{items.nazwiskoiimie}"
-                                 style="width: 840px;"
-                                 emptyMessage="nie pobrano danych"
-                                 >
-                     <p:column width="150" headerText="nazwisko i imię" style="text-align: left;" groupRow="true">
-                            <h:outputText value="#{items.nazwiskoiimie}"/>
-                        </p:column>
-                       <p:column width="70" headerText="pesel" style="text-align: center;"  groupRow="true">
-                            <h:outputText value="#{items.pesel}"/>
-                        </p:column>
-                        <p:column width="40" headerText="kod" style="text-align: center;">
-                            <h:outputText value="#{items.kod}"/>
-                        </p:column>
-                        <p:column width="40" headerText="data od" style="text-align: center;">
-                            <h:outputText value="#{items.dataod}"/>
-                        </p:column>
-                        <p:column width="40" headerText="data do" style="text-align: center;">
-                            <h:outputText value="#{items.datado}"/>
-                        </p:column>
-                        <p:column width="40" headerText="liczba dni" style="text-align: center;">
-                            <h:outputText value="#{items.dni}"/>
-                        </p:column>
-                      <p:column width="40" headerText="godziny" style="text-align: center;">
-                            <h:outputText value="#{items.godziny}"/>
-                        </p:column>
-                        <p:column width="40" headerText="kwota" style="text-align: right;"  groupRow="true">
-                            <bcf:outputwal value="#{items.kwota}"/>
-                        </p:column>
-                        <p:column width="40" headerText="waluta" style="text-align: center;"  groupRow="true">
-                            <h:outputText value="#{items.waluta}"/>
-                        </p:column>
-                      
+            <p:panelGrid columns="1">
+                <h:outputText value="Kwota  za oddelegowanie jest prezentowana jeden raz, całościowo. Kwota za urlop dotyczy każdego wiersza" style="color: green;"/>
+            </p:panelGrid>
+            <p:panelGrid columns="1" style="margin-top: 20px">
+                <p:dataTable id="datalist" value="#{sokaView.lista}" var="items"
+                             rowIndexVar="index"
+                             rowKey="#{items.id}"
+                             style="width: 900px;"
+                             emptyMessage="nie pobrano danych"
+                             >
+                    <p:column width="150" headerText="nazwisko i imię" style="text-align: left;" groupRow="true">
+                        <h:outputText value="#{items.nazwiskoiimie}"/>
+                    </p:column>
+                    <p:column width="70" headerText="pesel" style="text-align: center;"   groupRow="true">
+                        <h:outputText value="#{items.pesel}"/>
+                    </p:column>
+                    <p:column  headerText="kod" style="text-align: center;">
+                        <p:dataTable id="datalist" value="#{items.lista}" var="items2"
+                                     rowIndexVar="index" sortBy="#{items2.dataod}" sortMode="single"
+                                     rowKey="#{items2.id}"
+                                     emptyMessage="brak oddelegowania w miesiącu"
+                                     >
+                            <p:column width="40" headerText="kod" style="text-align: center;">
+                                <h:outputText value="#{items2.kod}"/>
+                            </p:column>
+                            <p:column width="40" headerText="data od" style="text-align: center;" sortBy="#{items2.dataod}" sortOrder="asc">
+                                <h:outputText value="#{items2.dataod}"/>
+                            </p:column>
+                            <p:column width="40" headerText="data do" style="text-align: center;">
+                                <h:outputText value="#{items2.datado}"/>
+                            </p:column>
+                            <p:column width="40" headerText="liczba dni" style="text-align: center;">
+                                <h:outputText value="#{items2.dni}"/>
+                            </p:column>
+                            <p:column width="40" headerText="godziny" style="text-align: center;">
+                                <h:outputText value="#{items2.godziny}"/>
+                            </p:column>
+                            <p:column width="40" headerText="kwota" style="text-align: right;" >
+                                <bcf:outputwal value="#{items2.kwota}" rendered="#{items2.kod eq 'Z' and items2.kwota ne 0.0}"/>
+                                <bcf:outputwal value="#{items2.kwota}" rendered="#{items2.kod eq 'UD'}"/>
+                            </p:column>
+                            <p:column width="40" headerText="waluta" style="text-align: center;"  groupRow="true">
+                                <h:outputText value="#{items2.waluta}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:column>
+
+
                 </p:dataTable>
             </p:panelGrid>
-            
-            
+
+
         </p:outputPanel>
     </h:form><!-- comment -->
 

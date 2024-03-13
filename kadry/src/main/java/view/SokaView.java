@@ -5,12 +5,14 @@
  */
 package view;
 
+import comparator.Dziencomparator;
 import comparator.Pasekwynagrodzencomparator;
 import comparator.Umowacomparator;
 import dao.AngazFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.UmowaFacade;
 import embeddable.Soka;
+import embeddable.Soka1;
 import entity.Angaz;
 import entity.Dzien;
 import entity.FirmaKadry;
@@ -62,22 +64,30 @@ public class SokaView  implements Serializable {
     
     private void sumujpaski(List<Pasekwynagrodzen> paski) {
         Collections.sort(paski, new Pasekwynagrodzencomparator());
+        int id = 1;
         for (Pasekwynagrodzen pasek : paski) {
+            int id0 = 1;
+            Soka soka = new Soka(id++,pasek.getNazwiskoImie(), pasek.getPesel());
             List<Naliczenienieobecnosc> naliczenienieobecnoscList = pasek.getNaliczenienieobecnoscList();
             for (Naliczenienieobecnosc nal : naliczenienieobecnoscList) {
-                if (nal.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("Z") || nal.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UD")) {
-                    lista.add(new Soka(nal));
+                if (nal.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UD")) {
+                    soka.getLista().add(new Soka1(id0++, nal.getNieobecnosc(), nal.getDataod(), nal.getDatado(), nal.getWaluta(), nal.getKwotawaluta()));
                 }
             }
             Kalendarzmiesiac kalendarzmiesiac = pasek.getKalendarzmiesiac();
             List<Dzien> dzienList = kalendarzmiesiac.getDzienList();
+            Collections.sort(dzienList, new Dziencomparator());
             List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList = pasek.getNaliczenieskladnikawynagrodzeniaList();
             Naliczenieskladnikawynagrodzenia oddelegowanie = pobierzoddelegowanie(naliczenieskladnikawynagrodzeniaList);
             Nieobecnosc nieobecnoscaccu = null;
             String dataod = null;
             String datado = null;
             if (oddelegowanie != null) {
+                double kwotawygrodzeniaZ = 0.0;
+                int licznik = dzienList.size();
+                int id1 = 1;
                 for (Dzien dzien : dzienList) {
+                    licznik = licznik-1;
                     Nieobecnosc dziennieob = dzien.getNieobecnosc();
                     if (dziennieob != null && dziennieob.getRodzajnieobecnosci().getKod().equals("Z") && nieobecnoscaccu == null) {
                         nieobecnoscaccu = dziennieob;
@@ -90,26 +100,31 @@ public class SokaView  implements Serializable {
                     }
 
                     if ((dziennieob == null || dziennieob != null && !dziennieob.getRodzajnieobecnosci().getKod().equals("Z")) && nieobecnoscaccu != null) {
-                        lista.add(new Soka(nieobecnoscaccu, dataod, datado, oddelegowanie));
+                        if (kwotawygrodzeniaZ==0.0) {
+                            kwotawygrodzeniaZ = oddelegowanie.getKwotadolistyplacwaluta();
+                            soka.getLista().add(new Soka1(id1++, nieobecnoscaccu, dataod, datado, oddelegowanie.getWaluta(), kwotawygrodzeniaZ));
+                        } else {
+                            soka.getLista().add(new Soka1(id1++, nieobecnoscaccu, dataod, datado, oddelegowanie.getWaluta(), 0.0));
+                        }
                         nieobecnoscaccu = null;
                         dataod = null;
                         datado = null;
                     }
                     if (dziennieob != null && nieobecnoscaccu != null && dzien.getTypdnia() == -1) {
-                        lista.add(new Soka(nieobecnoscaccu, dataod, datado, oddelegowanie));
+                        soka.getLista().add(new Soka1(id1++, nieobecnoscaccu, dataod, datado, oddelegowanie.getWaluta(), 0.0));
                         nieobecnoscaccu = null;
                         dataod = null;
                         datado = null;
                     }
-                    if (dziennieob != null && nieobecnoscaccu != null && dzien.getNrdnia() == 31) {
-                        lista.add(new Soka(nieobecnoscaccu, dataod, datado, oddelegowanie));
+                    if (dziennieob != null && nieobecnoscaccu != null && licznik==0) {
+                        soka.getLista().add(new Soka1(id1++, nieobecnoscaccu, dataod, datado, oddelegowanie.getWaluta(), 0.0));
                         nieobecnoscaccu = null;
                         dataod = null;
                         datado = null;
                     }
                 }
             }
-
+            lista.add(soka);
         }
     }
 

@@ -380,8 +380,10 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczbruttobezzusZasilek(pasek);
         PasekwynagrodzenBean.obliczbruttominusspoleczneDB(pasek);
         PasekwynagrodzenBean.obliczpodstaweopodatkowaniaZasilekDB(pasek, stawkipodatkowe);
-        PasekwynagrodzenBean.obliczpodatekwstepnyDBStandard(pasek, pasek.getPodstawaopodatkowania(), stawkipodatkowe, sumapoprzednich);
-        PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true, odliczonajuzkwotawolna);
+        if (kalendarz.getAngaz().jestumowaPracaAktywna(kalendarz.getRok(), kalendarz.getMc())) {
+            PasekwynagrodzenBean.obliczpodatekwstepnyDBStandard(pasek, pasek.getPodstawaopodatkowania(), stawkipodatkowe, sumapoprzednich);
+            PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true, odliczonajuzkwotawolna);
+        }
         pasek.setNaliczenieskladnikawynagrodzeniaList(new ArrayList<>());
     }
     
