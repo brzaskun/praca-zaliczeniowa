@@ -33,10 +33,13 @@
                              emptyMessage="nie pobrano danych"
                              >
                     <p:column width="150" headerText="nazwisko i imię" style="text-align: left;" groupRow="true">
-                        <h:outputText value="#{items.nazwiskoiimie}"/>
+                        <p:panelGrid columns="1">
+                            <h:outputText value="#{items.nazwiskoiimie}"/>
+                            <h:outputText value="#{items.pesel}"/>
+                        </p:panelGrid>
                     </p:column>
-                    <p:column width="70" headerText="pesel" style="text-align: center;"   groupRow="true">
-                        <h:outputText value="#{items.pesel}"/>
+                    <p:column width="70" headerText="razem" style="text-align: left;" >
+                        <bcf:outputwal value="#{items.razem}" />
                     </p:column>
                     <p:column  headerText="kod" style="text-align: center;">
                         <p:dataTable id="datalist" value="#{items.lista}" var="items2"

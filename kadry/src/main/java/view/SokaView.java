@@ -66,12 +66,14 @@ public class SokaView  implements Serializable {
         Collections.sort(paski, new Pasekwynagrodzencomparator());
         int id = 1;
         for (Pasekwynagrodzen pasek : paski) {
+            double suma = 0.0;
             int id0 = 1;
             Soka soka = new Soka(id++,pasek.getNazwiskoImie(), pasek.getPesel());
             List<Naliczenienieobecnosc> naliczenienieobecnoscList = pasek.getNaliczenienieobecnoscList();
             for (Naliczenienieobecnosc nal : naliczenienieobecnoscList) {
                 if (nal.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UD")) {
                     soka.getLista().add(new Soka1(id0++, nal.getNieobecnosc(), nal.getDataod(), nal.getDatado(), nal.getWaluta(), nal.getKwotawaluta()));
+                    suma = suma+nal.getKwotawaluta();
                 }
             }
             Kalendarzmiesiac kalendarzmiesiac = pasek.getKalendarzmiesiac();
@@ -102,6 +104,7 @@ public class SokaView  implements Serializable {
                     if ((dziennieob == null || dziennieob != null && !dziennieob.getRodzajnieobecnosci().getKod().equals("Z")) && nieobecnoscaccu != null) {
                         if (kwotawygrodzeniaZ==0.0) {
                             kwotawygrodzeniaZ = oddelegowanie.getKwotadolistyplacwaluta();
+                            suma = suma+oddelegowanie.getKwotadolistyplacwaluta();
                             soka.getLista().add(new Soka1(id1++, nieobecnoscaccu, dataod, datado, oddelegowanie.getWaluta(), kwotawygrodzeniaZ));
                         } else {
                             soka.getLista().add(new Soka1(id1++, nieobecnoscaccu, dataod, datado, oddelegowanie.getWaluta(), 0.0));
@@ -124,6 +127,7 @@ public class SokaView  implements Serializable {
                     }
                 }
             }
+            soka.setRazem(suma);
             lista.add(soka);
         }
     }

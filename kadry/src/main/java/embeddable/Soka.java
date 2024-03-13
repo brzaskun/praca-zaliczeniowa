@@ -18,6 +18,7 @@ public class Soka implements Serializable {
      private static final long serialVersionUID = 1L;
      private String nazwiskoiimie;
      private String pesel;
+     private double razem;
      private List<Soka1> lista;
 
     public Soka(int id, String nazwiskoimie, String pesel) {
@@ -45,12 +46,21 @@ public class Soka implements Serializable {
         this.nazwiskoiimie = nazwiskoiimie;
     }
 
+
     public String getPesel() {
         return pesel;
     }
 
     public void setPesel(String pesel) {
         this.pesel = pesel;
+    }
+
+    public double getRazem() {
+        return razem;
+    }
+
+    public void setRazem(double razem) {
+        this.razem = razem;
     }
 
     
