@@ -40,14 +40,14 @@
                     </p:column>
                     <p:column  headerText="kod" style="text-align: center;">
                         <p:dataTable id="datalist" value="#{items.lista}" var="items2"
-                                     rowIndexVar="index" sortBy="#{items2.dataod}" sortMode="single"
+                                     rowIndexVar="index1" sortBy="#{items2.id}"
                                      rowKey="#{items2.id}"
                                      emptyMessage="brak oddelegowania w miesiącu"
                                      >
                             <p:column width="40" headerText="kod" style="text-align: center;">
                                 <h:outputText value="#{items2.kod}"/>
                             </p:column>
-                            <p:column width="40" headerText="data od" style="text-align: center;" sortBy="#{items2.dataod}" sortOrder="asc">
+                            <p:column width="40" headerText="data od" style="text-align: center;">
                                 <h:outputText value="#{items2.dataod}"/>
                             </p:column>
                             <p:column width="40" headerText="data do" style="text-align: center;">
