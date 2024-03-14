@@ -79,7 +79,7 @@ public class ImportiPKOBP_XLS implements Serializable {
             if (rozmiar > 2) {
                 Row lrow = records.get(1);
                 Row prow = records.get(rozmiar-1);
-                pn.setWyciagdataod(Data.zmienkolejnosc(prow.getCell(0).getStringCellValue()));
+                pn.setWyciagdataod(Data.zmienkolejnosc(xls.X.xData(prow.getCell(0))));
                 pn.setWyciagnrod(Data.getMc(pn.getWyciagdataod()));
                 pn.setWyciagnrdo(mc);
                 pn.setWyciagnr("1");
@@ -88,7 +88,7 @@ public class ImportiPKOBP_XLS implements Serializable {
                 pn.setWyciagobrotyma(sumujobroty(records,1));
                 pn.setWyciagbo(xls.X.xKwota(prow.getCell(5))-xls.X.xKwota(prow.getCell(3)));
                 pn.setWyciagbz(xls.X.xKwota(lrow.getCell(5))-xls.X.xKwota(lrow.getCell(3)));
-                pn.setWyciagdatado(Data.zmienkolejnosc(lrow.getCell(0).getStringCellValue()));
+                pn.setWyciagdatado(Data.zmienkolejnosc(xls.X.xData(lrow.getCell(0))));
                 for (Iterator<Row> it = new ReverseIterator<>(records).iterator(); it.hasNext();) {
                     Row baza = it.next();
                     if (i==rozmiar) {
@@ -96,8 +96,8 @@ public class ImportiPKOBP_XLS implements Serializable {
                     }  else {
                         ImportBankWiersz x = new ImportBankWiersz();
                         x.setNr(lpwiersza++);
-                        x.setDatatransakcji(Data.zmienkolejnosc(baza.getCell(0).getStringCellValue()));
-                        x.setDatawaluty(Data.zmienkolejnosc(baza.getCell(1).getStringCellValue()));
+                        x.setDatatransakcji(Data.zmienkolejnosc(xls.X.xData(baza.getCell(0))));
+                        x.setDatawaluty(Data.zmienkolejnosc(xls.X.xData(baza.getCell(1))));
                         String mcwiersz = Data.getMc(x.getDatatransakcji());
                         if (!mcwiersz.equals(mc)) {
                               
