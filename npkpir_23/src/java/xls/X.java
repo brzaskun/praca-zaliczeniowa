@@ -90,6 +90,8 @@ public class X {
                 case STRING:
                     String pobrane = cell.getStringCellValue();
                     pobrane = pobrane.replace(",", ".");
+                    pobrane = pobrane.replace("+", "");
+                    pobrane = pobrane.replace("-", "");
                     zwrot = Double.valueOf(pobrane);
                     break;
                 default:
