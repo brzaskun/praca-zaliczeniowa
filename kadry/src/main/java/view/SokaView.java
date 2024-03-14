@@ -120,7 +120,13 @@ public class SokaView  implements Serializable {
                         datado = null;
                     }
                     if (dziennieob != null && nieobecnoscaccu != null && licznik==0) {
-                        soka.getLista().add(new Soka1(id1++, nieobecnoscaccu, dataod, datado, oddelegowanie.getWaluta(), 0.0));
+                        if (kwotawygrodzeniaZ==0.0) {
+                            kwotawygrodzeniaZ = oddelegowanie.getKwotadolistyplacwaluta();
+                            suma = suma+oddelegowanie.getKwotadolistyplacwaluta();
+                            soka.getLista().add(new Soka1(id1++, nieobecnoscaccu, dataod, datado, oddelegowanie.getWaluta(), kwotawygrodzeniaZ));
+                        } else {
+                            soka.getLista().add(new Soka1(id1++, nieobecnoscaccu, dataod, datado, oddelegowanie.getWaluta(), 0.0));
+                        }
                         nieobecnoscaccu = null;
                         dataod = null;
                         datado = null;
