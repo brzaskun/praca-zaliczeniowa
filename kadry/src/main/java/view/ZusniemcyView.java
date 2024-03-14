@@ -69,6 +69,9 @@ public class ZusniemcyView implements Serializable {
                 pasekwynagrodzen.setLiczbapaskow(pasekwynagrodzen.getLiczbapaskow()+1.0);
                 pasekwynagrodzen.setKalendarzmiesiac(pasek.getKalendarzmiesiac());
                 double spoleczneudzialoddelegowanie = razemspolecznepracownik(pasek);
+                double kurspaska = pasek.getKurs()>0.0?pasek.getKurs():4.6;
+                pasekwynagrodzen.setOddelegowaniewaluta(pasekwynagrodzen.getOddelegowaniewaluta()+pasek.getPrzekroczeniepodstawaniemiecka());
+                pasekwynagrodzen.setPodatekdochodowyzagranicawaluta(pasekwynagrodzen.getPodatekdochodowyzagranicawaluta()+pasek.getPodatekdochodowyzagranicawaluta()+pasek.getPrzekroczeniepodatekniemiecki());
                 pasekwynagrodzen.setSpoleczneudzialoddelegowanie(pasekwynagrodzen.getSpoleczneudzialoddelegowanie()+spoleczneudzialoddelegowanie);
                 pasekwynagrodzen.setPracemerytalneOddelegowanie(Z.z(pasekwynagrodzen.getPracemerytalneOddelegowanie()+pasek.getPracemerytalne()*spoleczneudzialoddelegowanie));
                 pasekwynagrodzen.setPracchoroboweOddelegowanie(Z.z(pasekwynagrodzen.getPracchoroboweOddelegowanie()+pasek.getPracchorobowe()*spoleczneudzialoddelegowanie));
@@ -76,12 +79,12 @@ public class ZusniemcyView implements Serializable {
                 pasekwynagrodzen.setEmerytalneOddelegowanie(Z.z(pasekwynagrodzen.getEmerytalneOddelegowanie()+pasek.getEmerytalne()*spoleczneudzialoddelegowanie));
                 pasekwynagrodzen.setRentoweOddelegowanie(Z.z(pasekwynagrodzen.getRentoweOddelegowanie()+pasek.getRentowe()*spoleczneudzialoddelegowanie));
                 pasekwynagrodzen.setPraczdrowotneOddelegowanie(Z.z(pasekwynagrodzen.getPraczdrowotneOddelegowanie()+pasek.getPraczdrowotne()*spoleczneudzialoddelegowanie));
-                pasekwynagrodzen.setPracemerytalneOddelegowanieEuro(Z.z(pasekwynagrodzen.getPracemerytalneOddelegowanieEuro()+pasek.getPracemerytalne()/pasek.getKurs()*spoleczneudzialoddelegowanie));
-                pasekwynagrodzen.setPracchoroboweOddelegowanieEuro(Z.z(pasekwynagrodzen.getPracchoroboweOddelegowanieEuro()+pasek.getPracchorobowe()/pasek.getKurs()*spoleczneudzialoddelegowanie));
-                pasekwynagrodzen.setPracrentoweOddelegowanieEuro(Z.z(pasekwynagrodzen.getPracrentoweOddelegowanieEuro()+pasek.getPracrentowe()/pasek.getKurs()*spoleczneudzialoddelegowanie));
-                pasekwynagrodzen.setEmerytalneOddelegowanieEuro(Z.z(pasekwynagrodzen.getEmerytalneOddelegowanieEuro()+pasek.getEmerytalne()/pasek.getKurs()*spoleczneudzialoddelegowanie));
-                pasekwynagrodzen.setRentoweOddelegowanieEuro(Z.z(pasekwynagrodzen.getRentoweOddelegowanieEuro()+pasek.getRentowe()/pasek.getKurs()*spoleczneudzialoddelegowanie));
-                pasekwynagrodzen.setPraczdrowotneOddelegowanieEuro(Z.z(pasekwynagrodzen.getPraczdrowotneOddelegowanieEuro()+pasek.getPraczdrowotne()/pasek.getKurs()*spoleczneudzialoddelegowanie));
+                pasekwynagrodzen.setPracemerytalneOddelegowanieEuro(Z.z(pasekwynagrodzen.getPracemerytalneOddelegowanieEuro()+pasek.getPracemerytalne()/kurspaska*spoleczneudzialoddelegowanie));
+                pasekwynagrodzen.setPracchoroboweOddelegowanieEuro(Z.z(pasekwynagrodzen.getPracchoroboweOddelegowanieEuro()+pasek.getPracchorobowe()/kurspaska*spoleczneudzialoddelegowanie));
+                pasekwynagrodzen.setPracrentoweOddelegowanieEuro(Z.z(pasekwynagrodzen.getPracrentoweOddelegowanieEuro()+pasek.getPracrentowe()/kurspaska*spoleczneudzialoddelegowanie));
+                pasekwynagrodzen.setEmerytalneOddelegowanieEuro(Z.z(pasekwynagrodzen.getEmerytalneOddelegowanieEuro()+pasek.getEmerytalne()/kurspaska*spoleczneudzialoddelegowanie));
+                pasekwynagrodzen.setRentoweOddelegowanieEuro(Z.z(pasekwynagrodzen.getRentoweOddelegowanieEuro()+pasek.getRentowe()/kurspaska*spoleczneudzialoddelegowanie));
+                pasekwynagrodzen.setPraczdrowotneOddelegowanieEuro(Z.z(pasekwynagrodzen.getPraczdrowotneOddelegowanieEuro()+pasek.getPraczdrowotne()/kurspaska*spoleczneudzialoddelegowanie));
             }
         }
         pasekwynagrodzen.setSpoleczneudzialoddelegowanie(Z.z6(pasekwynagrodzen.getSpoleczneudzialoddelegowanie()/pasekwynagrodzen.getLiczbapaskow()));

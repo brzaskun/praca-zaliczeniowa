@@ -27,7 +27,7 @@
                  <p:dataTable id="datalist" value="#{zusniemcyView.paski}" var="items"
                                  rowIndexVar="index"
                                  rowKey="#{items.nazwiskoImie}" sortBy="#{items.nazwiskoImie}"
-                                 style="width: 1900px;"
+                                 style="width: 2000px;"
                                  emptyMessage="nie pobrano danych"
                                  >
                      <p:column width="150" headerText="nazwisko i imię" style="text-align: left;" sortBy="#{items.nazwiskoImie}" sortPriority="1">
@@ -35,6 +35,12 @@
                         </p:column>
                         <p:column width="30" headerText="paski" style="text-align: center;">
                             <h:outputText value="#{items.liczbapaskow}"/>
+                        </p:column>
+                         <p:column width="80" headerText="brutto" style="color: green;">
+                             <bcf:outputwal value="#{items.oddelegowaniewaluta}" symbolwaluty="EUR"/>
+                        </p:column>
+                      <p:column width="80" headerText="brutto" style="color: green;">
+                          <bcf:outputwal value="#{items.podatekdochodowyzagranicawaluta}" symbolwaluty="EUR"/>
                         </p:column>
                         <p:column width="30" headerText="proc" style="text-align: center;">
                             <bcf:outputplprocent value="#{items.spoleczneudzialoddelegowanie}"/>
