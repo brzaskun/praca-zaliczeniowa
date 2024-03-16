@@ -413,6 +413,8 @@ public class PdfSwiadectwo {
 //                }
                 PdfMain.dodajLinieOpisu(document, pouczenie, Element.ALIGN_JUSTIFIED, 1);
                 PdfMain.dodajLinieOpisu(document, "(podstawa prawna - art. 97 §2(1) Kodeksu pracy)", Element.ALIGN_CENTER, 1);
+                document.newPage();
+                PdfSwiadectwoZalacznik.dodajtresc(umowa, document);
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "pokazwydruk('"+nazwa+"');";
                 PrimeFaces.current().executeScript(f);

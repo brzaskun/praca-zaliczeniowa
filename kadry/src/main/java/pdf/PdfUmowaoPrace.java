@@ -160,6 +160,8 @@ public class PdfUmowaoPrace {
             p.add(Chunk.TABBING);
             p.add(new Phrase("lub osoby reprezentującej pracodawcę)", fontS));
             document.add(p);
+            document.newPage();
+            PdfUmowaoPraceZalacznik.dodajtresc(umowa, document);
         } catch (Exception ex) {
             E.e(ex);
         }
@@ -402,7 +404,7 @@ public class PdfUmowaoPrace {
                 p.setTabSettings(new TabSettings(300));
                 p.add(Chunk.TABBING);
                 p.add(new Phrase("(podpis Zleceniodawcy lub osoby rep. Zlec.)", fontS));
-                document.add(p);
+                
             }
         } catch (Exception ex) {
             E.e(ex);
