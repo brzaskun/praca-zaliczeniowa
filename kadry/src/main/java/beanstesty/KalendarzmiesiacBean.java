@@ -421,6 +421,35 @@ public class KalendarzmiesiacBean {
         return jestoddelegowanie;
     }
     
+    static boolean naliczskladnikiwynagrodzeniaDBZlecenieSwiadczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs,
+            double swiadczeniewplnkwota, double iloscgodzin, double swiadczeniewwalkwotawpln, double swiadczeniewwalkwotawwal) {
+        boolean jestoddelegowanie = false;
+        double zmiennawaluta = swiadczeniewwalkwotawwal;
+        String waluta = "PLN";
+        for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {
+            if (p.getRodzajwynagrodzenia().getKod().equals("40")||p.getRodzajwynagrodzenia().getId()==91) {
+                double kwota = swiadczeniewwalkwotawwal>0.0 ? swiadczeniewwalkwotawpln : swiadczeniewplnkwota;
+                if (p.getRodzajwynagrodzenia().getWks_serial() != 1072) {
+                    zmiennawaluta = 0.0;
+                    waluta = "PLN";
+                } else {
+                    zmiennawaluta = swiadczeniewwalkwotawwal;
+                    waluta = "EUR";
+                }
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBZlecenie(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs, kwota, zmiennawaluta);
+                naliczenieskladnikawynagrodzenia.setWaluta(waluta);
+                naliczenieskladnikawynagrodzenia.setGodzinyfaktyczne(iloscgodzin);
+                if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc() != 0.0) {
+                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                    if (p.isOddelegowanie()) {
+                        jestoddelegowanie = true;
+                    }
+                }
+            }
+        }
+        return jestoddelegowanie;
+    }
+    
     static boolean naliczskladnikiwynagrodzeniaDBZlecenieZasilek(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs,
             double zmiennawynagrodzeniakwota, double iloscgodzin, double zmiennawynagrodzeniakwotaodelegowanie, double zmiennawynagrodzeniakwotaodelegowaniewaluta) {
         boolean jestoddelegowanie = false;
