@@ -9,6 +9,7 @@ package z;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -93,8 +94,9 @@ public class Z implements Serializable {
 //     }
      
      public static double z(double l) {
-        double pierwszy = Math.round(l*100.0)/100.0;
-        return pierwszy;
+        double pierwszy = Math.round(l*1000.0)/1000.0;
+        double drugi = Math.round(pierwszy*100.0)/100.0;
+        return drugi;
      }
 //     public static double zZUS(double l) {
 //        float baba = (float)l*1f;
@@ -103,28 +105,36 @@ public class Z implements Serializable {
 //        return pierwszy;
 //     }
      
-    
+    private static final DecimalFormat dfSharp = new DecimalFormat("#.##");
+
     public static void main(String[] args) {
-        double kwota = 26.175;
+        double kwota = 4215.0;
         error.E.s(kwota);
-        float babab = (float)kwota*100f;
-        error.E.s(babab);
-        BigDecimal nowa = new BigDecimal(babab).setScale(4, RoundingMode.HALF_UP);
-        double nowanowa = nowa.doubleValue();
-        nowa = new BigDecimal(nowanowa).setScale(0, RoundingMode.HALF_UP);
-        error.E.s(nowa.doubleValue()/100.0);
-        String aaa= nowa.toString();
-//        double m = Math.round(kwota);
-//        m /= 1;
-        double kwota1 = 113.425;
-        error.E.s(kwota1);
-        float babab1 = (float)kwota1*100f;
-        error.E.s(babab1);
-        BigDecimal nowa1 = new BigDecimal(babab1).setScale(4, RoundingMode.HALF_UP);
-        double nowanowa1 = nowa1.doubleValue();
-        nowa1 = new BigDecimal(nowanowa1).setScale(0, RoundingMode.HALF_UP);
-        error.E.s(nowa1.doubleValue()/100.0);
-        
+        double wynik = kwota*0.015;
+        System.out.println("wynik");
+        System.out.println(wynik);
+        System.out.println("salary #.## : " + dfSharp.format(kwota*0.015));
+        double wynik2 = z(kwota*0.015);
+        System.out.println("wynik2");
+        System.out.println(wynik2);
+//        float babab = (float)kwota*100f;
+//        error.E.s(babab);
+//        BigDecimal nowa = new BigDecimal(babab).setScale(4, RoundingMode.HALF_UP);
+//        double nowanowa = nowa.doubleValue();
+//        nowa = new BigDecimal(nowanowa).setScale(0, RoundingMode.HALF_UP);
+//        error.E.s(nowa.doubleValue()/100.0);
+//        String aaa= nowa.toString();
+////        double m = Math.round(kwota);
+////        m /= 1;
+//        double kwota1 = 113.425;
+//        error.E.s(kwota1);
+//        float babab1 = (float)kwota1*100f;
+//        error.E.s(babab1);
+//        BigDecimal nowa1 = new BigDecimal(babab1).setScale(4, RoundingMode.HALF_UP);
+//        double nowanowa1 = nowa1.doubleValue();
+//        nowa1 = new BigDecimal(nowanowa1).setScale(0, RoundingMode.HALF_UP);
+//        error.E.s(nowa1.doubleValue()/100.0);
+//        
     }
     
 //     public static void main(String[] args) {
