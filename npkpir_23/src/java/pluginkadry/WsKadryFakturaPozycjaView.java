@@ -71,7 +71,7 @@ public class WsKadryFakturaPozycjaView implements Serializable {
                         f.setRecznaedycja(true);
                         
                         listawierszfaktury.addAll(wiersze);
-                        System.out.println("odp: "+wiersze.get(0).nip+" nazwa: "+wiersze.get(0).nazwa+ " "+wiersze.size());
+                        //System.out.println("odp: "+wiersze.get(0).nip+" nazwa: "+wiersze.get(0).nazwa+ " "+wiersze.size());
                     } else {
                         System.out.println("odebrałem pusta baze");
                     }

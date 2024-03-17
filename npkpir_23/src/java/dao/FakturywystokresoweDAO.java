@@ -5,7 +5,6 @@
 package dao;
 
 import entity.Faktura;
-import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import error.E;
 import java.io.Serializable;
@@ -44,7 +43,7 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
     }
 
     public FakturywystokresoweDAO() {
-        super(Fakturyokresowe.class);
+        super(Fakturywystokresowe.class);
         super.em = this.em;
     }
 
@@ -83,6 +82,15 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
             E.e(e); }
         return zwrot;
     }
+     
+      public List<Fakturywystokresowe> findPodatnik(String podatnik){
+        List<Fakturywystokresowe> zwrot = Collections.synchronizedList(new ArrayList<>());
+        try {
+            zwrot = getEntityManager().createNamedQuery("Fakturywystokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        } catch (Exception e) { 
+            E.e(e); }
+        return zwrot;
+      }
      
      public List<Fakturywystokresowe> findPodatnikBiezaceBezzawieszonych(String podatnik, String rok){
         List<Fakturywystokresowe> zwrot = Collections.synchronizedList(new ArrayList<>());

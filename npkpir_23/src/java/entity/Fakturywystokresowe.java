@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -70,6 +71,9 @@ public class Fakturywystokresowe implements Serializable {
     @Size(min = 1, max = 200)
     @Column(nullable = false, length = 200)
     private String podatnik;
+    @JoinColumn(name = "podid", referencedColumnName = "id")
+    @ManyToOne
+    private Podatnik podid;
     @Size(max = 4)
     @Column(length = 4)
     private String rok;
@@ -176,6 +180,9 @@ public class Fakturywystokresowe implements Serializable {
     private Date datazalatwione;
     @Transient
     private boolean sapracownicy;
+    @Transient
+    private boolean roznemailepodatnikkontrahent;
+    
     
 
     public Fakturywystokresowe() {
@@ -247,6 +254,16 @@ public class Fakturywystokresowe implements Serializable {
         this.podatnik = podatnik;
     }
 
+    public boolean isRoznemailepodatnikkontrahent() {
+        boolean zwrot = false;
+        if (this.podid!=null &&this.podid.getEmail().equals(this.dokument.getKontrahent().getEmail())==false) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+
+    
+    
     public String getRok() {
         return rok;
     }
@@ -551,6 +568,14 @@ public class Fakturywystokresowe implements Serializable {
             zwrot = this.dokument.getKontrahent().getKsiegowadane();
         }
         return zwrot;
+    }
+
+    public Podatnik getPodid() {
+        return podid;
+    }
+
+    public void setPodid(Podatnik podid) {
+        this.podid = podid;
     }
     
 

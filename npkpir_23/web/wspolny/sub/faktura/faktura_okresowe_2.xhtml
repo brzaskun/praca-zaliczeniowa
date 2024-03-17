@@ -179,6 +179,9 @@
                 <p:column headerText="prac." width="30" filterBy="#{wpis.sapracownicy}" sortBy="#{wpis.sapracownicy}" style="text-align: center;">  
                     <h:outputText value="&#x2713;" rendered="#{wpis.sapracownicy}" style="color: blue;font-weight: 900;"/>
                 </p:column>
+                 <p:column headerText="rozne maile" width="30" filterBy="#{wpis.roznemailepodatnikkontrahent}" sortBy="#{wpis.roznemailepodatnikkontrahent}" style="text-align: center;">  
+                     <h:outputText value="!!" rendered="#{wpis.roznemailepodatnikkontrahent}" style="color: red;font-weight: 900;"/>
+                </p:column>
                 <p:column headerText="data" width="70"  sortBy="#{wpis.datautworzenia}">  
                     <h:outputText value="#{wpis.datautworzenia}">
                         <f:convertDateTime pattern="yyyy/MM/dd" />
@@ -213,9 +216,21 @@
                         </p:panelGrid>
                         <p:panelGrid columns="1">
                             <p:panelGrid  columns="4" >
-                                <h:outputText value="NIP kontrahenta"/>
-                                <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
+                                <h:outputText value="email podatnika"/>
+                                <h:outputText value="#{wpis.podid.email ne '' ? wpis.podid.email : 'brak adresu email'}"/>
                                 <h:outputText value="email kontrahenta"/>
+                                 <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" emptyLabel="brak maila" >
+                                    <f:facet name="output">
+                                        <h:outputText value="#{wpis.dokument.kontrahent.email}" rendered="#{wpis.dokument.kontrahent.email ne null}"/>
+                                        <h:outputText value="brak maila" rendered="#{wpis.dokument.kontrahent.email eq null}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{wpis.dokument.kontrahent.email}"
+                                                      label="text" style="font-weight: bolder;" >  
+                                            <p:ajax event="change" listener="#{fakturaView.zmienmailkontrahenta(wpis.dokument.kontrahent)}" global="false" partialSubmit="true"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:inplace>
                                 <h:outputText value="#{wpis.dokument.kontrahent.email ne '' ? wpis.dokument.kontrahent.email : 'brak adresu email'}"/>
                                 <h:outputText value="kwota netto"/>
                                 <bcf:outputpl value="#{wpis.dokument.netto}"/>
@@ -223,14 +238,16 @@
                                 <bcf:outputpl value="#{wpis.dokument.vat}"/>
                                 <h:outputText value="kwota brutto"/>
                                 <bcf:outputpl value="#{wpis.dokument.brutto}"/>
-                                <h:outputText value="data waloryzacji"/>
+                                <h:outputText value="NIP kontrahenta"/>
+                                <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
+<!--                                <h:outputText value="data waloryzacji"/>
                                 <h:outputText value="#{wpis.dokument.datawaloryzacji}">
                                     <f:convertDateTime pattern="yyyy-MM-dd" />
                                 </h:outputText>
                                 <h:outputText value="procent waloryzacji %" rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
                                 <bcf:outputpl value="#{wpis.dokument.procentwaloryzacji}"  rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
                                 <h:outputText value="stara kwota" rendered="#{wpis.dokument.starakwota ne 0}"/>
-                                <bcf:outputpl value="#{wpis.dokument.starakwota}"  rendered="#{wpis.dokument.starakwota ne 0}"/>
+                                <bcf:outputpl value="#{wpis.dokument.starakwota}"  rendered="#{wpis.dokument.starakwota ne 0}"/>-->
                             </p:panelGrid>
                             <p:panelGrid  columns="1" >
                                 <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" >  

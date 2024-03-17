@@ -102,7 +102,7 @@ public class ImportiPKOBP_XLS implements Serializable {
                         if (!mcwiersz.equals(mc)) {
                               
                         } else {
-                            String opis = baza.getCell(12)!=null? baza.getCell(12).getStringCellValue():baza.getCell(2).getStringCellValue();
+                            String opis = baza.getCell(8)!=null? baza.getCell(8).getStringCellValue():baza.getCell(2).getStringCellValue();
                             if (opis.contains("Numer faktury VAT lub okres płatności zbiorczej:")||opis.contains("Tytuł:")) {
                                 opis = opis.replace("Numer faktury VAT lub okres płatności zbiorczej: ", "");
                                 opis = opis.replace("Tytuł: ", "");

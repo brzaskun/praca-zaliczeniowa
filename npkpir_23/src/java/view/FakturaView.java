@@ -75,6 +75,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.context.FacesContext;
@@ -1918,6 +1919,12 @@ public class FakturaView implements Serializable {
                 Fakturywystokresowe nowafakturaokresowa = new Fakturywystokresowe();
                 nowafakturaokresowa.setDokument(new Faktura(p, wpisView.getRokWpisuSt()));
                 nowafakturaokresowa.setPodatnik(podatnik);
+                try {
+                    Podatnik podid = podatnikDAO.findPodatnikByNIP(p.getKontrahent().getNip());
+                    if (podid!=null) {
+                        nowafakturaokresowa.setPodid(podid);
+                    }
+                } catch (Exception es){};
                 nowafakturaokresowa.setWystawtylkoraz(true);
                 naznaczmiesiacnafakturzeokresowej(nowafakturaokresowa, p);
                 nowafakturaokresowa.setBrutto(p.getBrutto());
@@ -1990,6 +1997,12 @@ public class FakturaView implements Serializable {
         String podatnik = wpisView.getPodatnikWpisu();
         Fakturywystokresowe fakturyokr = new Fakturywystokresowe();
         fakturyokr.setDokument(p);
+        try {
+            Podatnik podid = podatnikDAO.findPodatnikByNIP(p.getKontrahent().getNip());
+            if (podid!=null) {
+                fakturyokr.setPodid(podid);
+            }
+        } catch (Exception es){};
         fakturyokr.setPodatnik(podatnik);
         fakturyokr.setRok(wpisView.getRokWpisu().toString());
         fakturyokr.setBrutto(p.getBrutto());
@@ -3690,6 +3703,27 @@ public class FakturaView implements Serializable {
 //           error.E.s(p.getWystawcaNIP());
 //       }
 //   }
+   
+      public void okresowepodid() {
+       List<Fakturywystokresowe> fakturyokres = fakturywystokresoweDAO.findPodatnik("GRZELCZYK");
+       List<Podatnik> podatnicy = podatnikDAO.findAll();
+       int liczbafaktur = fakturyokres.size();
+       System.out.println("Liczba faktur "+liczbafaktur);
+       int i = 1;
+       for (Fakturywystokresowe p : fakturyokres) {
+           List<Podatnik> lista = podatnicy.stream().filter(podid->podid.getNip().equals(p.getDokument().getKontrahent().getNip())).collect(Collectors.toList());
+           if (lista!=null&&lista.size()==1) {
+               Podatnik podatnik = lista.get(0);
+               p.setPodid(podatnik);
+               System.out.println(i+" Jest "+p.getDokument().getKontrahent().getNpelna());
+           } else {
+               System.out.println(i+" nie ma dla "+p.getDokument().getKontrahent().getNpelna());
+           }
+           i++;
+       }
+       fakturywystokresoweDAO.editList(fakturyokres);
+       System.out.println("Koniec");
+   }
     public static void main(String[] args) {
     }
     
@@ -3980,5 +4014,13 @@ public class FakturaView implements Serializable {
                 }
             }
         }
-        
+ 
+     public void zmienmailkontrahenta(Klienci klient) {
+       try {
+           klienciDAO.edit(klient);
+           Msg.msg("Zmieniono adres mail klienta");
+       } catch (Exception e) {
+           Msg.msg("e","Wytstąpił błąd, nie zmieniono adres mail klienta");
+       }
+   }
 }
