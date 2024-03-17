@@ -529,6 +529,307 @@ public class PdfFP {
             }
         }
     }
+    
+    public static void dolaczpozycjedofakturyNiemiecka(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiaryGora, Map<String, Integer> wymiarylewy, List<Pozycjenafakturze> skladnikifaktury, Podatnik podatnik, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
+        int wierszewtabelach = PdfFP.obliczwierszewtabelach(selected);
+        Pozycjenafakturze pozycja = new Pozycjenafakturze();
+        String adres = "";
+        String text = null;
+        float dzielnik = 1;
+        boolean bylnabywca=false;
+        for (Pozycjenafakturze p : skladnikifaktury) {
+            int szerokosc = (int) (p.getSzerokosc()/1);
+            int wysokosc = (int) (p.getWysokosc()/1);
+            switch (p.getNazwa()) {
+                case "akordeon:formwzor:data":
+                    text = selected.getMiejscewystawienia() + ", den "+ selected.getDatawystawienia();
+                    PdfPTable table = PdfFTablice.wygenerujtabliceDaty(text,szerokosc, wysokosc, 10);
+                    table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:data"), wymiaryGora.get("akordeon:formwzor:data"), writer.getDirectContent());
+                    break;
+                case "akordeon:formwzor:datasprzedazy":
+                    text = "Leistungsdatum: " + selected.getDatasprzedazy();
+                    table = PdfFTablice.wygenerujtabliceDaty(text,szerokosc, wysokosc, 10);
+                    table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:datasprzedazy"), wymiaryGora.get("akordeon:formwzor:datasprzedazy"), writer.getDirectContent());
+                    break;
+                case "akordeon:formwzor:fakturanumer":
+                    if (selected.isGutschrift()) {
+                        text = "Gutschrift Nr ";
+                    } else {
+                        text = "Rechnung";
+                         if (selected.isZaliczkowa()) {
+                            text = "Abschlagrechnung";
+                        } else if (selected.getPozycjepokorekcie() != null) {
+                            text = "Gutschrift";
+                        } else if (selected.isKoncowa()) {
+                            text = "Schlussrechnung";
+                        } else if (selected.getProjektnumer()!=null && !selected.getProjektnumer().equals("") &&selected.getProjektnumer().length() > 1) {
+                            text = "Abschladrechnung";
+                        }
+                    }
+                    table = PdfFTablice.wygenerujtabliceNrfaktury(text, selected.getNumerkolejny(), szerokosc, wysokosc, 10);
+                    table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:fakturanumer"), wymiaryGora.get("akordeon:formwzor:fakturanumer"), writer.getDirectContent());
+                    break;
+                case "akordeon:formwzor:wystawca":
+                    if (!czydodatkowyelementjestAktywny("stopka niemiecka", elementydod)) {
+                        String sprzedawca = B.b("sprzedawca")+": ";
+                        String wystawca = selected.getWystawcanazwa()!=null?selected.getWystawcanazwa():selected.getWystawca().getNazwadlafaktury();
+                        adres = selected.getWystawca().getAdresdlafaktury();
+                        if (wystawca==null) {
+                           wystawca = podatnik.getPrintnazwa();
+                           adres = podatnik.getAdres();
+                        }
+                        String nip = selected.getWystawca().getNipdlafaktury() != null ? B.b("NIP")+": "+selected.getWystawca().getNipdlafaktury() : B.b("NIP")+": "+selected.getWystawca().getNip();
+                        table = PdfFTablice.wygenerujtabliceWystawcaOdbiorca(sprzedawca, wystawca, adres, nip, szerokosc, wysokosc, 10);
+                        table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:wystawca"), wymiaryGora.get("akordeon:formwzor:wystawca"), writer.getDirectContent());
+                    }
+                    break;
+                case "akordeon:formwzor:odbiorcan":
+                    if (selected.getOdbiorca()!=null && selected.getOdbiorca().getNip()!=null) {
+                        String odbiorca  = "Leisteungsempfänger: ";
+                        String nplna = selected.getOdbiorca().getNpelna();
+                        if (selected.getOdbiorca().getLokal() != null && !selected.getOdbiorca().getLokal().equals("-") && !selected.getOdbiorca().getLokal().equals("")) {
+                            adres = selected.getOdbiorca().getKodpocztowy() + " " + selected.getOdbiorca().getMiejscowosc() + " " + selected.getOdbiorca().getUlica() + " " + selected.getOdbiorca().getDom() + "/" + selected.getOdbiorca().getLokal();
+                        } else {
+                            adres = selected.getOdbiorca().getKodpocztowy() + " " + selected.getOdbiorca().getMiejscowosc() + " " + selected.getOdbiorca().getUlica() + " " + selected.getOdbiorca().getDom();
+                        }
+                        text = "Steuernummer: " + selected.getOdbiorca().getNip();
+                        table = PdfFTablice.wygenerujtabliceWystawcaOdbiorca(odbiorca, nplna, adres, text, szerokosc, wysokosc, 10);
+                        table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:odbiorcan"), wymiaryGora.get("akordeon:formwzor:odbiorcan"), writer.getDirectContent());
+                    }
+                    break;
+                case "akordeon:formwzor:nabywca":
+                    if (bylnabywca==false) {
+                        String nabywca = "Leisteungsempfänger: ";
+                        String kontrahent = selected.getKontrahent().getNpelna();
+                        if (selected.getKontrahent().getLokal() != null && !selected.getKontrahent().getLokal().equals("-") && !selected.getKontrahent().getLokal().equals("")) {
+                            adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom() + "/" + selected.getKontrahent().getLokal();
+                        } else {
+                            adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
+                        }
+                        String nip = "Steuernummer: " + selected.getKontrahent().getNip();
+                        if (selected.getKontrahent().getNip() != null && selected.getKontrahent().getNip().startsWith("XX")) {
+                            nip = "Steuernummer: " + selected.getKontrahent().getNip();
+                        }
+                        bylnabywca=true;
+                        table = PdfFTablice.wygenerujtabliceWystawcaOdbiorca(nabywca, kontrahent, adres, nip, szerokosc, wysokosc, 10);
+                        table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:nabywca"), wymiaryGora.get("akordeon:formwzor:nabywca"), writer.getDirectContent());
+                    }
+                    break;
+                case "akordeon:formwzor:odbiorca":
+                    if (bylnabywca==false) {
+                        String odbiorca = "Leisteungsempfänger: ";
+                        String kontrahent = selected.getKontrahent().getNpelna();
+                        if (selected.getKontrahent().getLokal() != null && !selected.getKontrahent().getLokal().equals("-") && !selected.getKontrahent().getLokal().equals("")) {
+                            adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom() + "/" + selected.getKontrahent().getLokal();
+                        } else {
+                            adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
+                        }
+                        if (selected.getKontrahent().getNip() != null && selected.getKontrahent().getNip().startsWith("XX")) {
+                            text = "Steuernummer: " + selected.getKontrahent().getNip();
+                        } else {
+                            text = "Steuernummer: " + selected.getKontrahent().getNip();
+                        }
+                        bylnabywca=true;
+                        table = PdfFTablice.wygenerujtabliceWystawcaOdbiorca(odbiorca, kontrahent, adres, text, szerokosc, wysokosc, 10);
+                        table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:nabywca"), wymiaryGora.get("akordeon:formwzor:nabywca"), writer.getDirectContent());
+                    }
+                    break;
+                case "akordeon:formwzor:towary":
+                    table = null;
+                    PdfPTable tablekorekta = null;
+                    if (selected.getPozycjepokorekcie() != null && selected.isFakturavatmarza() == true) {
+                        table = wygenerujtablicevatmarza(false, selected.getPozycjenafakturze(), selected);
+                        tablekorekta = wygenerujtablicevatmarza(true, selected.getPozycjepokorekcie(), selected);
+                    } else if (selected.getPozycjepokorekcie() != null && selected.isFakturaxxl() == false) {
+                        table = wygenerujtablice(false, selected.getPozycjenafakturze(), selected, szerokosc);
+                        tablekorekta = wygenerujtablice(true, selected.getPozycjepokorekcie(), selected, szerokosc);
+                    } else if (selected.getPozycjepokorekcie() == null && selected.isFakturaNormalna()) {
+                        table = wygenerujtablice(false, selected.getPozycjenafakturze(), selected, szerokosc);
+                    } else if (selected.getPozycjepokorekcie() == null && selected.isFakturavatmarza()) {
+                        table = wygenerujtablicevatmarza(false, selected.getPozycjenafakturze(), selected);
+                    } else if (selected.getPozycjepokorekcie() == null && selected.isRachunek()) {
+                        table = wygenerujtablicerachunek(false, selected.getPozycjenafakturze(), selected);
+                    } else if (selected.getPozycjepokorekcie() == null && selected.isFakturaniemiecka13b()) {
+                        table = wygenerujtabliceNiemiecka13b(false, selected.getPozycjenafakturze(), selected);
+                    } else if (selected.getPozycjepokorekcie() != null && selected.isFakturaxxl() == true) {
+                        if (wierszewtabelach > 12) {
+                            table = wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, podatnik, true);
+                            tablekorekta = wygenerujtablicexxl(true, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, podatnik, true);
+                        } else {
+                            //false to znaczy ze odleglosci maja byc inne
+                            table = wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, podatnik, false);
+                            tablekorekta = wygenerujtablicexxl(true, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, podatnik, false);
+                        }
+                    } else if (selected.getPozycjepokorekcie() == null && selected.isFakturaxxl() == true) {
+                        if (wierszewtabelach > 12) {
+                            table = wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, podatnik, true);
+                        } else {
+                            table = wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, podatnik, false);
+                        }
+                    }
+                    // write the table to an absolute position
+                    table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:towary"), wymiaryGora.get("akordeon:formwzor:towary"), writer.getDirectContent());
+                    if (selected.getPozycjepokorekcie() != null) {
+                        int odstep = wymiaryGora.get("akordeon:formwzor:towary") - (table.getRows().size() * 17);
+                        tablekorekta.writeSelectedRows(0, tablekorekta.getRows().size(), wymiarylewy.get("akordeon:formwzor:towary"), odstep, writer.getDirectContent());
+                        int odstep1 = wymiaryGora.get("akordeon:formwzor:towary") - (table.getRows().size() * 17) - (tablekorekta.getRows().size() * 17);
+                        text = B.b("przyczynakorekty")+": " + selected.getPrzyczynakorekty();
+                        absText(writer, text, wymiarylewy.get("akordeon:formwzor:towary"), odstep1, 8);
+                    }
+                    break;
+                case "akordeon:formwzor:logo":
+                    if (PdfFP.czydodatkowyelementjestAktywny("logo", elementydod)) {
+                        try {
+                            pozycja = zwrocPolozenieElementu(skladnikifaktury, "logo");
+                            Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(podatnik.getNazwapelna());
+                            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                            String realPath = ctx.getRealPath("/");
+                            String nazwaplikuzbazy = realPath+"resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
+                            File f = new File(nazwaplikuzbazy);
+                            if (f.exists()) {
+                                Image logo = Image.getInstance(nazwaplikuzbazy);
+                                // Set the position of image
+                                float wysokoscg = zamienStringnaFloat(element.getWysokosc());
+                                float szerokoscg = zamienStringnaFloat(element.getSzerokosc());
+                                logo.scaleToFit(szerokoscg, wysokoscg);
+                                logo.setAbsolutePosition((pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:logo") - wysokoscg); //e
+                                // Add paragraph to PDF document.
+                                document.add(logo);
+                            }
+                        } catch (Exception e) {
+                            E.e(e);
+                        }
+                    }
+                    break;
+                case "akordeon:formwzor:nrzamowienia":
+                    //Dane do modulu przewłaszczenie
+                    if (PdfFP.czydodatkowyelementjestAktywny("nr zamówienia", elementydod)) {
+                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "nrzamowienia");
+                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:nrzamowienia") - 5, szerokosc, 15);
+                        text = "Auftragsnummer: " + selected.getNumerzamowienia();
+                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:nrzamowienia"), 8);
+                    }
+                    break;
+                case "akordeon:formwzor:przewłaszczenie":
+                    //Dane do modulu przewłaszczenie
+                    if (PdfFP.czydodatkowyelementjestAktywny("przewłaszczenie", elementydod)) {
+                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "przewłaszczenie");
+                        //prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:przewłaszczenie") - 5, 230, 15);
+                        absText(writer, PdfFP.pobierzelementdodatkowy("przewłaszczenie", elementydod), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:przewłaszczenie"), 8);
+                    }
+                    break;
+                case "akordeon:formwzor:warunkidostawy":
+                    //Dane do modulu przewłaszczenie
+                    if (PdfFP.czydodatkowyelementjestAktywny("warunki dostawy", elementydod)) {
+                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "warunkidostawy");
+                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:warunkidostawy") - 5, 400, 15);
+                        absText(writer, PdfFP.pobierzelementdodatkowy("warunki dostawy", elementydod), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:warunkidostawy"), 8);
+                    }
+                    break;
+                case "akordeon:formwzor:poleUwagi":
+                    if (PdfFP.czydodatkowyelementjestAktywny("pole Uwagi", elementydod)&& selected.getPoleuwagi()!=null && selected.getPoleuwagi().length()>1) {
+//                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "poleUwagi");
+//                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:poleUwagi") - 5, 400, 15);
+//                        absText(writer, selected.getPoleuwagi(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:poleUwagi"), 8);
+                        text = selected.getPoleuwagi();
+                        table = PdfFTablice.wygenerujtabliceUwagi(text,szerokosc, wysokosc, 10);
+                        table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:poleUwagi"), wymiaryGora.get("akordeon:formwzor:poleUwagi"), writer.getDirectContent());
+                    }
+                    break;
+                case "akordeon:formwzor:wezwaniedozapłaty":
+                    //Dane do modulu przewłaszczenie
+                    if (PdfFP.czydodatkowyelementjestAktywny("wezwanie do zapłaty", elementydod)) {
+                        text = PdfFP.pobierzelementdodatkowy("wezwanie do zapłaty", elementydod);
+                        table = PdfFTablice.wygenerujtabliceDaty(text,szerokosc, wysokosc, 10);
+                        table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:wezwaniedozapłaty"), wymiaryGora.get("akordeon:formwzor:wezwaniedozapłaty"), writer.getDirectContent());
+                    }
+                    break;
+                case "akordeon:formwzor:platnosc":
+                    //Dane do modulu platnosc
+//                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "platnosc");
+//                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:platnosc") - 55, szerokosc, wysokosc);
+                    String sposobzaplaty = selected.getSposobzaplaty();
+                    boolean zaplacono = selected.isZaplacona();
+                    String[] ttext = new String[2];
+                    String[] ttext1 = new String[2];
+                    String[] ttext2 = new String[2];
+                    String[] ttext3 = new String[2];
+                    if (zaplacono) {
+                        ttext[0] = "bazahlt";
+                        ttext[1] = B.b(selected.getSposobzaplaty());
+                        ttext1[0] = B.b("datazapłaty");
+                        ttext1[1] = selected.getTerminzaplaty();
+                    } else {
+                        ttext[0] = "Zahlungsart";
+                        ttext[1] = B.b(selected.getSposobzaplaty());
+                        ttext1[0] = "Zahlungstermin";
+                        ttext1[1] = selected.getTerminzaplaty();
+                    }
+                    
+                    if (sposobzaplaty.equals("przelew") && selected.getNrkontabankowego() != null && !selected.getNrkontabankowego().equals("")) {
+                        if (selected.getSposobzaplaty().equals("przelew") && selected.getNrkontabankowego() != null) {
+                            ttext2[0] = "Kontonummer";
+                            ttext2[1] = selected.getNrkontabankowego();
+                        }
+                        if (selected.getSposobzaplaty().equals("przelew") && selected.getSwift() != null) {
+                            ttext3[0] = "SWIFT: ";
+                            ttext3[1] = selected.getSwift();
+                        }
+                    }
+                    table = PdfFTablice.wygenerujtablicePlatnosc(ttext, ttext1,ttext2,ttext3, szerokosc, wysokosc, 10);
+                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "platnosc");
+                    table.writeSelectedRows(0, table.getRows().size(),  wymiarylewy.get("akordeon:formwzor:platnosc"), wymiaryGora.get("akordeon:formwzor:platnosc"), writer.getDirectContent());
+                    break;
+                case "akordeon:formwzor:dozaplaty":
+                    //Dane do modulu platnosc
+//                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "dozaplaty");
+//                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:dozaplaty") - 25, szerokosc, 35);
+                    double wynik = 0;
+                    if (selected.getPozycjepokorekcie() != null) {
+                        wynik = Z.z((selected.getNettopk() + selected.getVatpk()) - (selected.getNetto() + selected.getVat()));
+                    } else {
+                        wynik = Z.z(selected.getNetto() + selected.getVat());
+                    }
+                    ttext = new String[2];
+                    ttext1 = new String[2];
+                    boolean zaplacono1 = selected.isZaplacona();
+                    if (zaplacono1) {
+                        ttext[0] = "Gesamtbetrag: ";
+                        ttext[1] = "0.00 " + selected.getWalutafaktury();
+                    } else {
+                        if (wynik > 0) {
+                            ttext[0] = "Gesamtbetrag: ";
+                            ttext[1] = przerobkwote(wynik) + " " + selected.getWalutafaktury();
+                        } else {
+                            ttext[0] = "Gutschrift: ";
+                            ttext[1] = przerobkwote(wynik) + " " + selected.getWalutafaktury();
+                        }
+                    }
+                     if (zaplacono1) {
+                         
+                     } else {
+                         ttext1[0] = "wörtlich: ";
+                         ttext1[1] = SlownieDE.slownie(String.valueOf(wynik),selected.getWalutafaktury());
+                     }
+                    table = PdfFTablice.wygenerujtabliceDozaplaty(ttext, ttext1, szerokosc, wysokosc, 8);
+                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "dozaplaty");
+                    table.writeSelectedRows(0, table.getRows().size(),  wymiarylewy.get("akordeon:formwzor:dozaplaty"), wymiaryGora.get("akordeon:formwzor:dozaplaty"), writer.getDirectContent());
+                    break;
+                case "akordeon:formwzor:podpis":
+                    //Dane do modulu platnosc
+                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "podpis");
+                    String podpis = selected.getPodpis() == null ? "" : selected.getPodpis();
+                    absText(writer, podpis, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:podpis"), 8);
+                    absText(writer, "..........................................", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:podpis") - 20, 8);
+                    if (selected.getRodzajdokumentu().equals("rachunek baz VAT")) {
+                        absText(writer, "Leistende Unternehmer", (int) (pozycja.getLewy() / dzielnik) + 15, wymiaryGora.get("akordeon:formwzor:podpis") - 40, 8);
+                    } else {
+                        absText(writer, "Leistende Unternehmer", (int) (pozycja.getLewy() / dzielnik) + 15, wymiaryGora.get("akordeon:formwzor:podpis") - 40, 8);
+                    }
+                    break;
+            }
+        }
+    }
 
     public static Image dolaczpozycjedofakturydlugaczlogo(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiaryGora, List<Pozycjenafakturze> skladnikifaktury, Podatnik podatnik, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         Pozycjenafakturze pozycja = new Pozycjenafakturze();

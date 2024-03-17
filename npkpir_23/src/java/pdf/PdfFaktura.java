@@ -108,7 +108,11 @@ public class PdfFaktura extends Pdf implements Serializable {
                 file.delete();
             }
             List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(podatnik.getNazwapelna());
-            drukujcd(selected, fdod, row, "druk", podatnik, false, null);
+            if (selected.isFakturaniemiecka13b()) {
+                drukujcdNiemcy(selected, fdod, row, "druk", podatnik, false, null);
+            } else {
+                drukujcd(selected, fdod, row, "druk", podatnik, false, null);
+            }
             Msg.msg("Wydruk faktury");
 
         } catch (DocumentException | IOException e) {
@@ -394,6 +398,56 @@ public class PdfFaktura extends Pdf implements Serializable {
                 }
                 document.close();
             }
+            if (przeznaczenie.equals("druk")) {
+                String funkcja = "wydrukfaktura('" + String.valueOf(nrfakt) + "firma" + podatnik.getNip() + "');";
+                PrimeFaces.current().executeScript(funkcja);
+            }
+        }
+        return nazwapliku;
+    }
+    
+    private String drukujcdNiemcy(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, Podatnik podatnik, boolean duplikat,
+        FakturaDuplikat duplikatobj) throws DocumentException, FileNotFoundException, IOException {
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String nazwapliku = realPath + "wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma" + podatnik.getNip() + ".pdf";
+        List<Pozycjenafakturze> skladnikifaktury = pozycjeDAO.findFakturyPodatnik(podatnik);
+        if (skladnikifaktury.isEmpty()) {
+            Msg.msg("e", "Nie zdefiniowano pozycji faktury. Nie można jej wydrukować. Przejdź do zakładki: 'Wzór faktury'.", "akordeon:formstworz:messagesinline");
+        } else {
+            Collections.sort(skladnikifaktury, new Pozycjenafakturzecomparator());
+            Map<String, Integer> wymiaryGora = PdfFP.pobierzwymiarGora(skladnikifaktury);
+            Map<String, Integer> wymiarylewy = PdfFP.pobierzwymiarLewy(skladnikifaktury);
+            int wierszewtabelach = PdfFP.obliczwierszewtabelach(selected);
+            boolean dlugiwiersz = selected.getPozycjenafakturze().get(0).getNazwa().length() > 100;
+            boolean jestkorekta = selected.getPozycjepokorekcie() != null;
+            Document document = new Document();
+            PdfWriter writer = writerCreate(document, nrfakt, podatnik.getNip());
+            PdfFP.dodajopisdok(document);
+            document.open();
+            document.setMargins(0, 0, 20, 20);
+            if (duplikat) {
+                PdfFP.dodajoznaczenieduplikat(writer, duplikatobj);
+            }
+            if (selected.isProforma()) {
+                PdfFP.dodajoznaczenieproforma(writer);
+            }
+            if (czyjeststopkaniemiecka(elementydod)) {
+                PdfFP.dodajnaglowek(writer, elementydod);
+                PdfFP.dolaczpozycjedofakturyNiemiecka(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, wymiarylewy, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
+                FakturaStopkaNiemiecka f = fakturaStopkaNiemieckaDAO.findByPodatnik(podatnik);
+                if (f != null) {
+                    PdfFP.stopkaniemiecka(writer, document, f);
+                }
+            } else if (selected.isSprzedazsamochoduimportowanego()) {
+                PdfFP.dodajnaglowek(writer, elementydod);
+                PdfFP.dolaczpozycjedofakturyNiemiecka(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, wymiarylewy, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
+                PdfFP.sprzedazsamochoduimportowanego(writer, document, selected);
+            } else {
+                PdfFP.dodajnaglowekstopka(writer, elementydod);
+                PdfFP.dolaczpozycjedofakturyNiemiecka(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, wymiarylewy, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
+            }
+            document.close();
             if (przeznaczenie.equals("druk")) {
                 String funkcja = "wydrukfaktura('" + String.valueOf(nrfakt) + "firma" + podatnik.getNip() + "');";
                 PrimeFaces.current().executeScript(funkcja);

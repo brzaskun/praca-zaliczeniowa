@@ -74,7 +74,7 @@
             
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row" 
                          filteredValue="#{fakturaView.fakturyokresoweFiltered}"
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1600px;" widgetVar="okresTable2" 
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.id}" style="max-width: 1600px;" widgetVar="okresTable2" 
                          sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
                          rowSelectMode="add"
                          rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" paginator="true" rows="40"

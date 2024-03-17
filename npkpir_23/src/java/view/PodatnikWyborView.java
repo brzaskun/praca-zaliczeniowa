@@ -67,6 +67,8 @@ public class PodatnikWyborView implements Serializable {
                         listaPodatnikowFK.add(p);
                         listaPodatnikowNoFK.add(p);
                         break;
+                    default:
+                    listaPodatnikowNoFK.add(p);
                 }
             }
         }
@@ -82,6 +84,8 @@ public class PodatnikWyborView implements Serializable {
                     listaPodatnikowNoFKmanager.add(p);
                     listaPodatnikowFKmanager.add(p);
                     break;
+                default:
+                    listaPodatnikowNoFKmanager.add(p);
             }
         }
     }

@@ -7,7 +7,7 @@
     >
     <p:tab title="Edycja danych podatnika">
         <h:form id="form">
-            <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == 0 or podatnikView.selected.firmafk == 3}">
+            <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk ne 1}">
                 <p:growl life="3600"  id="msg" ><p:autoUpdate/></p:growl>
                 
                 <p:focus for="wprowadzaniepodatnika"/>
@@ -94,7 +94,7 @@
                     <h:selectOneMenu value="#{podatnikView.selected.formaPrawna}"
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                  onfocus="$(this).addClass('ui-state-focus');" 
-                                 onblur="$(this).removeClass('ui-state-focus');" >
+                                 onblur="$(this).removeClass('ui-state-focus');"  required="true" requiredMessage="Wybierz formę prawną">
                         <f:selectItem itemLabel="wybierz forme prawna" itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{podatnikView.formyprawne}"/>
                     </h:selectOneMenu>
@@ -149,7 +149,7 @@
             </p:outputPanel>
         </h:form>
         <h:form id="formwprowadzaniefirmy">
-            <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == 1}" style="height: 600px;">
+            <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk eq 1}" style="height: 600px;">
                 <p:growl life="3600"  id="msg" ><p:autoUpdate/></p:growl>
             <!--        wpisywanie firmy-->
                 
