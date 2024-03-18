@@ -260,7 +260,7 @@ public class ImportFakturyView  implements Serializable {
             }
             
         } catch (Exception ex) {
-            E.e(ex);
+            System.out.println(E.e(ex));
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
         }
     }
@@ -400,9 +400,17 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             int numerkolejny = ImportBean.oblicznumerkolejny(sprzedazkraj.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             for (jpkfa3.JPK.Faktura wiersz : jpk.getFaktura()) {
-                jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
+                //wiersz.getP5B() nip odbiorcy faktury dla firm
                 if (wiersz.getP5B() != null && wiersz.getP5B().length()>=0) {
+                    System.out.println(wiersz.getP2A()!=null?wiersz.getP2A():"brak");
                     Dokfk dok = null;
                     if (wiersz.getP5A()!=null && !wiersz.getP5A().toString().equals("PL")) {    
                         dok = jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, 
@@ -416,6 +424,8 @@ public class ImportFakturyView  implements Serializable {
                         vat += dok.getVATVAT();
                         dokumenty.add(dok);
                         numerkolejny++;
+                    } else {
+                        Msg.msg("Błąd podczas generowania dokumentów ");
                     }
                 }
             };

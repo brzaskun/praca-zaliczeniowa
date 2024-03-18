@@ -148,11 +148,11 @@ public class Beanjpk {
             nd.setRodzajedok(rodzajedok);
             nd.setEwidencjaVAT(null);
             nd.setImportowany(true);
-            Tabelanbp innatabela = beansDok.BeansJPK.pobierztabele(waldok, datawystawienia, tabelanbpDAO);
             if (waldok.equals("PLN")) {
                 nd.setTabelanbp(tabeladomyslna);
                 nd.setWalutadokumentu(tabeladomyslna.getWaluta());
             } else {
+                Tabelanbp innatabela = beansDok.BeansJPK.pobierztabele(waldok, datawystawienia, tabelanbpDAO);
                 nd.setTabelanbp(innatabela);
                 nd.setWalutadokumentu(innatabela.getWaluta());
             }
@@ -180,7 +180,7 @@ public class Beanjpk {
                 }
             }
             } catch (Exception ex) {
-                E.e(ex);
+                System.out.println(E.e(ex));
             }
         return nd;
     }

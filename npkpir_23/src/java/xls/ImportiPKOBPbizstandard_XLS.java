@@ -77,8 +77,8 @@ public class ImportiPKOBPbizstandard_XLS implements Serializable {
                 pn.setWyciagwaluta(prow.getCell(4).getStringCellValue());
                 pn.setWyciagobrotywn(sumujobroty(records,0));
                 pn.setWyciagobrotyma(sumujobroty(records,1));
-                pn.setWyciagbo(prow.getCell(5).getNumericCellValue()-prow.getCell(3).getNumericCellValue());
-                pn.setWyciagbz(lrow.getCell(5).getNumericCellValue()-lrow.getCell(3).getNumericCellValue());
+                pn.setWyciagbo(X.xKwota(prow.getCell(5))-X.xKwota(prow.getCell(3)));
+                pn.setWyciagbz(X.xKwota(lrow.getCell(5))-X.xKwota(lrow.getCell(3)));
                 pn.setWyciagdatado(Data.zmienkolejnosc(X.xData(lrow.getCell(0))));
                 for (Iterator<Row> it = new ReverseIterator<>(records).iterator(); it.hasNext();) {
                     Row baza = it.next();
