@@ -91,7 +91,8 @@ public class X {
                     String pobrane = cell.getStringCellValue();
                     pobrane = pobrane.replace(",", ".");
                     pobrane = pobrane.replace("+", "");
-                    pobrane = pobrane.replace("-", "");
+                    //tego nie moze byc bo w niektorych important minus jest wazny
+                    //pobrane = pobrane.replace("-", "");
                     zwrot = Double.valueOf(pobrane);
                     break;
                 default:
