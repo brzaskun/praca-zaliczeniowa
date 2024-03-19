@@ -352,8 +352,15 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             jpk.getFaktura().forEach((p) -> {
                 pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK.Faktura wiersz = (pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK.Faktura) p;
-                pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
+                
                 if (wiersz.getP5B() != null && wiersz.getP5B().length()>=10) {
                     Dok dok = pl.gov.mf.jpk.wzor._2022._02._17._02171.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
                     if (dok!=null) {
@@ -438,8 +445,14 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             int numerkolejny = ImportBean.oblicznumerkolejny(sprzedazkraj.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             for (pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK.Faktura wiersz : jpk.getFaktura()) {
-                pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
                 if (wiersz.getP5B() != null && wiersz.getP5B().length()>=0) {
                     Dokfk dok = null;
                     if (wiersz.getP5A()!=null && !wiersz.getP5A().toString().equals("PL")) {
@@ -490,8 +503,14 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             jpk.getFaktura().forEach((p) -> {
                 jpkfa3.JPK.Faktura wiersz = (jpkfa3.JPK.Faktura) p;
-                jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
                     Dok dok = jpkfa3.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
                     if (dok!=null) {
@@ -510,8 +529,14 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             jpk.getFaktura().forEach((p) -> {
                 pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK.Faktura wiersz = (pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK.Faktura) p;
-                TKodWaluty walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
                     Dok dok = pl.gov.mf.jpk.wzor._2022._02._17._02171.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
                     if (dok!=null) {
@@ -550,8 +575,14 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             int numerkolejny = ImportBean.oblicznumerkolejny(sprzedazkraj.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             for (jpkfa3.JPK.Faktura wiersz : jpk.getFaktura()) {
-                jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
                     Dokfk dok = jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, 
                             wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, kontokasadlajpk);
@@ -570,8 +601,14 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             int numerkolejny = ImportBean.oblicznumerkolejny(sprzedazkraj.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             for (pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK.Faktura wiersz : jpk.getFaktura()) {
-                TKodWaluty walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
                     Dokfk dok = pl.gov.mf.jpk.wzor._2022._02._17._02171.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, 
                             wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, kontokasadlajpk);
@@ -610,8 +647,14 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             int numerkolejny = ImportBean.oblicznumerkolejny(sprzedazkraj.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             for (pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK.Faktura wiersz : jpk.getFaktura()) {
-                TKodWaluty walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
                 Dokfk dok = pl.gov.mf.jpk.wzor._2022._02._17._02171.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzdlajpk, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), 
                         dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, kontokasadlajpk);
                 if (dok!=null) {
@@ -630,8 +673,14 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             int numerkolejny = ImportBean.oblicznumerkolejny(sprzedazkraj.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             for (jpkfa3.JPK.Faktura wiersz : jpk.getFaktura()) {
-                jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
                 Dokfk dok = jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzdlajpk, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), 
                         dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, kontokasadlajpk);
                 if (dok!=null) {
@@ -690,8 +739,14 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             jpk.getFaktura().forEach((p) -> {
                 jpkfa3.JPK.Faktura wiersz = (jpkfa3.JPK.Faktura) p;
-                jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
                     Dok dok =  jpkfa3.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, true);
                     if (dok!=null) {
@@ -709,8 +764,15 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             jpk.getFaktura().forEach((p) -> {
                 pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK.Faktura wiersz = (pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK.Faktura) p;
-                TKodWaluty walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    TKodWaluty walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
+
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
                     Dok dok =  pl.gov.mf.jpk.wzor._2022._02._17._02171.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, true);
                     if (dok!=null) {
@@ -750,8 +812,14 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             int numerkolejny = ImportBean.oblicznumerkolejny(sprzedazkraj.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             for (jpkfa3.JPK.Faktura wiersz : jpk.getFaktura()) {
-                jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
                     Dokfk dok =  jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, 
                             wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, true, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, kontokasadlajpk);
@@ -771,8 +839,14 @@ public class ImportFakturyView  implements Serializable {
         if (jpk != null) {
             int numerkolejny = ImportBean.oblicznumerkolejny(sprzedazkraj.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             for (pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK.Faktura wiersz : jpk.getFaktura()) {
-                pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty walutapliku = wiersz.getKodWaluty();
-                String waldok = walutapliku.toString();
+                String waldok = "PLN";
+                if (wiersz.getKodWaluty()!=null) {
+                    pl.gov.mf.jpk.wzor._2022._02._17._02171.TKodWaluty walutapliku = wiersz.getKodWaluty();
+                    waldok = walutapliku.toString();
+                } else {
+                    String text = wiersz.getP2A()!=null?wiersz.getP2A():"";
+                    Msg.msg("e", "Brak waluty dla faktury "+text);
+                }
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
                     Dokfk dok =  pl.gov.mf.jpk.wzor._2022._02._17._02171.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, 
                             wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, true, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny, kontokasadlajpk);
