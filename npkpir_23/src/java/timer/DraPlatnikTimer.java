@@ -140,9 +140,10 @@ public class DraPlatnikTimer {
                 dras.setZusdra(z);
                 dras.setIddokument(z.getIdDokument());
                 dras.setNazwa(dras.getNazwaF());
-                if (bazadanych!=null&&!bazadanych.isEmpty()) {
-                    dras = pobierzbaza(dras,bazadanych);
-                }
+                //nie rozumie tego bo przeciez pobiera wsczecniej
+//                if (bazadanych!=null&&!bazadanych.isEmpty()) {
+//                    dras = pobierzbaza(dras,bazadanych);
+//                }
                 dras.setZusdra(z);
                 dras.setIddokument(z.getIdDokument());
                 for (Zusrca rca : zusrca) {
