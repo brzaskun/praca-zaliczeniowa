@@ -123,7 +123,7 @@ public class DraPlatnikTimer {
                 }
                 if (dras.getPodatnik()==null && podmioty!=null) {
                     for (Podmiot za : podmioty) {
-                        if (za.getNip().equals(z.getIi1Nip())) {
+                        if (za.getNip()!=null && za.getNip().equals(z.getIi1Nip())) {
                             dras.setPodmiot(za);
                             break;
                         }
@@ -177,9 +177,9 @@ public class DraPlatnikTimer {
                 dras.setOkres(z.getI22okresdeklar());
                 dras.setDraprzychody(dras.getDraprzychodyF());
                 dras.setDraprzychodyRR(dras.getDraprzychodyRRF());
-    //            System.out.println("okres "+dras.getOkres());
-    //            System.out.println("nazwa "+dras.getNazwa());
-    //            System.out.println("id "+z.getIdDokument());
+                System.out.println("okres "+dras.getOkres());
+                System.out.println("nazwa "+dras.getNazwa());
+                System.out.println("id "+z.getIdDokument());
                 double kwota = z.getIx2Kwdozaplaty()!=null?z.getIx2Kwdozaplaty().doubleValue():0.0;
                 dras.setDozaplaty(kwota);
                 double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
@@ -192,7 +192,7 @@ public class DraPlatnikTimer {
             
         }
         draSumyDAO.editList(drasumy);
-        //System.out.println("Koniec DRA");
+        System.out.println("Koniec DRA");
     }
       
       private DraSumy pobierzbaza(DraSumy dras, List<DraSumy> bazadanych) {

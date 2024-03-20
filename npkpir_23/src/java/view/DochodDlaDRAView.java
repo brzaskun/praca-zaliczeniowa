@@ -481,7 +481,7 @@ public class DochodDlaDRAView implements Serializable {
                 drasumy.add(dras);
             } catch (Exception e) {
                 Msg.msg("e","Bład przy pobieraniu z płatnika firmy "+z.getIi6Nazwaskr());
-                System.out.println("");
+                System.out.println("Bład przy pobieraniu z płatnika firmy "+z.getIi6Nazwaskr());
             }
             
         }
