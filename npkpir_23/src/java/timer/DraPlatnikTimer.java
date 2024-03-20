@@ -28,10 +28,6 @@ import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
-import kadryiplace.Firma;
-import kadryiplace.Okres;
-import kadryiplace.Place;
-import kadryiplace.Rok;
 
 /**
  *
@@ -59,7 +55,7 @@ public class DraPlatnikTimer {
     private RokFacade rokFacade;
     
     
-    @Schedule(dayOfWeek = "1-5", hour = "23", minute = "59", persistent = false)
+    @Schedule(dayOfWeek = "1-5", hour = "21", persistent = false)
     public void autozus() {
         List<String> miesiaceGranica = Mce.getMiesiaceGranica(Data.aktualnyMc());
         String rok = Data.aktualnyRok();
@@ -88,7 +84,9 @@ public class DraPlatnikTimer {
             try {
                 List<DraSumy> bazadanych = draSumyDAO.zwrocRokMc(rok, mc);
                 podsumujDRAF(mc, rok, bazadanych, firmy, podatnicy, podmioty);
-            } catch (Exception e){}
+            } catch (Exception e){
+                System.out.println(E.e(e));
+            }
         }
      }
      
@@ -111,6 +109,7 @@ public class DraPlatnikTimer {
                 for (Podatnik za : podatnicy) {
                     if (za.getNip()!=null&&za.getNip().equals(z.getIi1Nip())) {
                         dras.setPodatnik(za);
+                        System.out.println("zus blad podsumujDRAF "+za.getPrintnazwa());
                         break;
                     }
                 }
@@ -185,9 +184,11 @@ public class DraPlatnikTimer {
                 dras.setDozaplaty(kwota);
                 double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
                 dras.setFp(kwotafp);
-                dodajpit4DRA(dras, firmy);
+                //dodajpit4DRA(dras, firmy);
                 drasumy.add(dras);
-            } catch (Exception e){}
+            } catch (Exception e){
+                System.out.println("Blad DraPlatnikTimer 191");
+            }
             
         }
         draSumyDAO.editList(drasumy);
@@ -218,41 +219,43 @@ public class DraPlatnikTimer {
         return zwrot;
     }
       
-       private void dodajpit4DRA(DraSumy w, List<kadryiplace.Firma> firmy) {
-        if (w.getPodatnik()!=null) {
-            Firma firma = null;
-            for (Firma f : firmy) {
-                if (f.getFirNip()!=null) {
-                    if (f.getFirNip().replace("-", "").equals(w.getPodatnik().getNip())) {
-                        firma = f;
-                        break;
-                    }
-                }
-            }
-            if (firma != null) {
-                Rok rok = rokFacade.findByFirmaRok(firma, Integer.parseInt(w.getRok()));
-                kadryiplace.Okres okres = null;
-                for (Okres o : rok.getOkresList()) {
-                    if (o.getOkrMieNumer() == Mce.getMiesiacToNumber().get(w.getMc())) {
-                        okres = o;
-                        break;
-                    }
-                }
-                List<Place> placeList = okres.getPlaceList();
-                int studenci = 0;
-                double podatekpraca = 0.0;
-                for (Place p : placeList) {
-                    podatekpraca = podatekpraca+p.getLplZalDoch().doubleValue();
-                    if (p.getLplKodTytU12().equals("0411") && p.getLplZalDoch().doubleValue() == 0.0) {
-                        studenci = studenci + 1;
-                    }
-                }
-                w.setStudenci(studenci);
-                w.setUbezpieczeni(w.getUbezpieczeni()+w.getStudenci());
-                w.setPit4(podatekpraca);
-            }
-        }
-    }
+      //wylaczylem 20.02.2024 nie ma superplac nie ma 
+//       private void dodajpit4DRA(DraSumy w, List<kadryiplace.Firma> firmy) {
+//        if (w.getPodatnik()!=null) {
+//            Firma firma = null;
+//            for (Firma f : firmy) {
+//                if (f.getFirNip()!=null) {
+//                    if (f.getFirNip().replace("-", "").equals(w.getPodatnik().getNip())) {
+//                        firma = f;
+//                        break;
+//                    }
+//                }
+//            }
+//            if (firma != null) {
+//                //tu jest blad po pobiera rok z superplac ale nie ma roku w superplacach
+//                Rok rok = rokFacade.findByFirmaRok(firma, Integer.parseInt(w.getRok()));
+//                kadryiplace.Okres okres = null;
+//                for (Okres o : rok.getOkresList()) {
+//                    if (o.getOkrMieNumer() == Mce.getMiesiacToNumber().get(w.getMc())) {
+//                        okres = o;
+//                        break;
+//                    }
+//                }
+//                List<Place> placeList = okres.getPlaceList();
+//                int studenci = 0;
+//                double podatekpraca = 0.0;
+//                for (Place p : placeList) {
+//                    podatekpraca = podatekpraca+p.getLplZalDoch().doubleValue();
+//                    if (p.getLplKodTytU12().equals("0411") && p.getLplZalDoch().doubleValue() == 0.0) {
+//                        studenci = studenci + 1;
+//                    }
+//                }
+//                w.setStudenci(studenci);
+//                w.setUbezpieczeni(w.getUbezpieczeni()+w.getStudenci());
+//                w.setPit4(podatekpraca);
+//            }
+//        }
+//    }
 
     private DraSumy pobierzdrasumy(Integer idDokument) {
         DraSumy zwrot = new DraSumy();

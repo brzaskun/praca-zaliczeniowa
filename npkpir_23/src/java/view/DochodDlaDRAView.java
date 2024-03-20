@@ -55,10 +55,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import kadryiplace.Firma;
-import kadryiplace.Okres;
-import kadryiplace.Place;
-import kadryiplace.Rok;
 import mail.MaiManager;
 import msg.Msg;
 import timer.DraPlatnikTimer;
@@ -481,7 +477,7 @@ public class DochodDlaDRAView implements Serializable {
                 dras.setDozaplaty(kwota);
                 double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
                 dras.setFp(kwotafp);
-                dodajpit4DRA(dras, firmy);
+                //dodajpit4DRA(dras, firmy);
                 drasumy.add(dras);
             } catch (Exception e) {
                 Msg.msg("e","Bład przy pobieraniu z płatnika firmy "+z.getIi6Nazwaskr());
@@ -596,41 +592,41 @@ public class DochodDlaDRAView implements Serializable {
         Msg.msg("Pobrano dane");
     }
 
-    private void dodajpit4DRA(DraSumy w, List<kadryiplace.Firma> firmy) {
-        if (w.getPodatnik()!=null) {
-            Firma firma = null;
-            for (Firma f : firmy) {
-                if (f.getFirNip()!=null) {
-                    if (f.getFirNip().replace("-", "").equals(w.getPodatnik().getNip())) {
-                        firma = f;
-                        break;
-                    }
-                }
-            }
-            if (firma != null) {
-                Rok rok = rokFacade.findByFirmaRok(firma, Integer.parseInt(w.getRok()));
-                kadryiplace.Okres okres = null;
-                for (Okres o : rok.getOkresList()) {
-                    if (o.getOkrMieNumer() == Mce.getMiesiacToNumber().get(w.getMc())) {
-                        okres = o;
-                        break;
-                    }
-                }
-                List<Place> placeList = okres.getPlaceList();
-                int studenci = 0;
-                double podatekpraca = 0.0;
-                for (Place p : placeList) {
-                    podatekpraca = podatekpraca+p.getLplZalDoch().doubleValue();
-                    if (p.getLplKodTytU12().equals("0411") && p.getLplPdstZus().doubleValue()==0.0 && p.getLplZalDoch().doubleValue() == 0.0) {
-                        studenci = studenci + 1;
-                    }
-                }
-                w.setStudenci(studenci);
-                w.setUbezpieczeni(w.getUbezpieczeni()+w.getStudenci());
-                w.setPit4(podatekpraca);
-            }
-        }
-    }
+//    private void dodajpit4DRA(DraSumy w, List<kadryiplace.Firma> firmy) {
+//        if (w.getPodatnik()!=null) {
+//            Firma firma = null;
+//            for (Firma f : firmy) {
+//                if (f.getFirNip()!=null) {
+//                    if (f.getFirNip().replace("-", "").equals(w.getPodatnik().getNip())) {
+//                        firma = f;
+//                        break;
+//                    }
+//                }
+//            }
+//            if (firma != null) {
+//                Rok rok = rokFacade.findByFirmaRok(firma, Integer.parseInt(w.getRok()));
+//                kadryiplace.Okres okres = null;
+//                for (Okres o : rok.getOkresList()) {
+//                    if (o.getOkrMieNumer() == Mce.getMiesiacToNumber().get(w.getMc())) {
+//                        okres = o;
+//                        break;
+//                    }
+//                }
+//                List<Place> placeList = okres.getPlaceList();
+//                int studenci = 0;
+//                double podatekpraca = 0.0;
+//                for (Place p : placeList) {
+//                    podatekpraca = podatekpraca+p.getLplZalDoch().doubleValue();
+//                    if (p.getLplKodTytU12().equals("0411") && p.getLplPdstZus().doubleValue()==0.0 && p.getLplZalDoch().doubleValue() == 0.0) {
+//                        studenci = studenci + 1;
+//                    }
+//                }
+//                w.setStudenci(studenci);
+//                w.setUbezpieczeni(w.getUbezpieczeni()+w.getStudenci());
+//                w.setPit4(podatekpraca);
+//            }
+//        }
+//    }
 
     private List<DraSumy> przetworzZusdra(List<DraSumy> zusdra) {
        Map<String,DraSumy> nowe = new HashMap<>();
@@ -766,7 +762,7 @@ public class DochodDlaDRAView implements Serializable {
             dras.setDozaplaty(kwota);
             double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
             dras.setFp(kwotafp);
-            dodajpit4DRA(dras, firmy);
+            //dodajpit4DRA(dras, firmy);
             drasumy.add(dras);
             //System.out.println(dras.getNazwa());
         });
@@ -838,31 +834,31 @@ public class DochodDlaDRAView implements Serializable {
         return new ArrayList<DraSumy>(nowe.values());
     }
     
-    private void dodajpit4(WierszDRA w, List<kadryiplace.Firma> firmy) {
-        Firma firma = null;
-        for (Firma f : firmy) {
-            if (f.getFirNip().replace("-", "").equals(w.getPodatnikudzial().getPodatnikObj().getNip())) {
-                firma = f;
-                break;
-            }
-        }
-        if (firma!=null) {
-            Rok rok = rokFacade.findByFirmaRok(firma, Integer.parseInt(w.getRok()));
-            kadryiplace.Okres okres = null;
-            for (Okres o : rok.getOkresList()) {
-                if (o.getOkrMieNumer()==Mce.getMiesiacToNumber().get(w.getMc())) {
-                    okres = o;
-                    break;
-                }
-            }
-            List<Place> placeList = okres.getPlaceList();
-            double podatekpraca = 0.0;
-            for (Place p : placeList) {
-                podatekpraca = podatekpraca+p.getLplZalDoch().doubleValue();
-            }
-
-        }
-     }
+//    private void dodajpit4(WierszDRA w, List<kadryiplace.Firma> firmy) {
+//        Firma firma = null;
+//        for (Firma f : firmy) {
+//            if (f.getFirNip().replace("-", "").equals(w.getPodatnikudzial().getPodatnikObj().getNip())) {
+//                firma = f;
+//                break;
+//            }
+//        }
+//        if (firma!=null) {
+//            Rok rok = rokFacade.findByFirmaRok(firma, Integer.parseInt(w.getRok()));
+//            kadryiplace.Okres okres = null;
+//            for (Okres o : rok.getOkresList()) {
+//                if (o.getOkrMieNumer()==Mce.getMiesiacToNumber().get(w.getMc())) {
+//                    okres = o;
+//                    break;
+//                }
+//            }
+//            List<Place> placeList = okres.getPlaceList();
+//            double podatekpraca = 0.0;
+//            for (Place p : placeList) {
+//                podatekpraca = podatekpraca+p.getLplZalDoch().doubleValue();
+//            }
+//
+//        }
+//     }
     
     
     

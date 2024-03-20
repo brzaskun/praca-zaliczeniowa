@@ -7,8 +7,6 @@ package daosuperplace;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -48,16 +46,16 @@ public class RokFacade extends DAO implements Serializable {
         super.em = em;
     }
     
-    public Rok findByFirmaRok(kadryiplace.Firma firma, Integer rok) {
-        return (Rok) getEntityManager().createNamedQuery("Rok.findByRokFirma").setParameter("firma", firma).setParameter("rok", rok.shortValue()).getSingleResult();
-    }
-    
-    public List<Rok> findByRok(Integer rok) {
-        List<Rok> zwrot = new ArrayList<>();
-        try {
-            zwrot = getEntityManager().createNamedQuery("Rok.findByRok").setParameter("rok", rok.shortValue()).getResultList();
-        } catch (Exception e){}
-        return zwrot;
-    }
+//    public Rok findByFirmaRok(kadryiplace.Firma firma, Integer rok) {
+//        return (Rok) getEntityManager().createNamedQuery("Rok.findByRokFirma").setParameter("firma", firma).setParameter("rok", rok.shortValue()).getSingleResult();
+//    }
+//    
+//    public List<Rok> findByRok(Integer rok) {
+//        List<Rok> zwrot = new ArrayList<>();
+//        try {
+//            zwrot = getEntityManager().createNamedQuery("Rok.findByRok").setParameter("rok", rok.shortValue()).getResultList();
+//        } catch (Exception e){}
+//        return zwrot;
+//    }
    
 }

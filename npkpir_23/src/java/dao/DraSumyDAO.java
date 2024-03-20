@@ -52,7 +52,9 @@ public class DraSumyDAO  extends DAO implements Serializable {
         List<DraSumy> zwrot = new ArrayList<>();
         try {
             zwrot = getEntityManager().createNamedQuery("DraSumy.findByRokMc").setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
-        } catch (Exception e){}
+        } catch (Exception e){
+            System.out.println("Blad DraSumyDAO zwrocRokMc");
+        }
         return zwrot;
     }
 
