@@ -185,13 +185,18 @@ public class DraPlatnikTimer {
                 double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
                 dras.setFp(kwotafp);
                 //dodajpit4DRA(dras, firmy);
+                if (dras.getId()==null) {
+                    draSumyDAO.create(dras);
+                } else {
+                    draSumyDAO.edit(dras);
+                }
                 drasumy.add(dras);
             } catch (Exception e){
                 System.out.println("Blad DraPlatnikTimer 191");
             }
             
         }
-        draSumyDAO.editList(drasumy);
+        //draSumyDAO.editList(drasumy);
         System.out.println("Koniec DRA");
     }
       
@@ -264,7 +269,7 @@ public class DraPlatnikTimer {
                 zwrot = draSumyDAO.findByIddokument(idDokument);
             }
         } catch (Exception e){
-            System.out.println("pobierzdrasumy blad id "+idDokument);
+            //System.out.println("pobierzdrasumy blad id "+idDokument);
             //System.out.println(E.e(e));
                    
         }
