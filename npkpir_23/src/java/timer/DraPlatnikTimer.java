@@ -103,7 +103,9 @@ public class DraPlatnikTimer {
         for (Zusdra z : zusdra) {
             try {
                 //trzeba pobrac jak juz istnieje!!!
-                DraSumy dras = pobierzdrasumy(z.getIdDokument());
+                // to nie dzialalo, wyrzucalo blad przy baziedanych
+                //DraSumy dras = pobierzdrasumy(z.getIdDokument());
+                DraSumy dras = new DraSumy();
                 dras.setRok(rok);
                 dras.setMc(mc);
                 for (Podatnik za : podatnicy) {
@@ -186,11 +188,7 @@ public class DraPlatnikTimer {
                 double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
                 dras.setFp(kwotafp);
                 //dodajpit4DRA(dras, firmy);
-                if (dras.getId()==null) {
-                    draSumyDAO.create(dras);
-                } else {
-                    draSumyDAO.edit(dras);
-                }
+                draSumyDAO.edit(dras);
                 drasumy.add(dras);
             } catch (Exception e){
                 System.out.println("Blad DraPlatnikTimer 191");
