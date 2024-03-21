@@ -22,8 +22,10 @@ import entityplatnik.UbezpZusrca;
 import entityplatnik.Zusdra;
 import entityplatnik.Zusrca;
 import error.E;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -35,7 +37,7 @@ import javax.inject.Named;
  */
 @Named
 @Stateless
-public class DraPlatnikTimer {
+public class DraPlatnikTimer implements Serializable {
     
     @Inject
     private DraSumyDAO draSumyDAO;
@@ -55,7 +57,7 @@ public class DraPlatnikTimer {
     private RokFacade rokFacade;
     
     
-    @Schedule(dayOfWeek = "1-5", hour = "21", persistent = false)
+    @Schedule(dayOfWeek = "1-5", hour = "*", minute = "25", persistent = false)
     public void autozus() {
         List<String> miesiaceGranica = Mce.getMiesiaceGranica(Data.aktualnyMc());
         String rok = Data.aktualnyRok();
@@ -82,15 +84,14 @@ public class DraPlatnikTimer {
         }
         if (draSumyDAO!=null) {
             try {
-                List<DraSumy> bazadanych = draSumyDAO.zwrocRokMc(rok, mc);
-                podsumujDRAF(mc, rok, bazadanych, firmy, podatnicy, podmioty);
+                podsumujDRAF(mc, rok, firmy, podatnicy, podmioty);
             } catch (Exception e){
                 System.out.println(E.e(e));
             }
         }
      }
      
-      public void podsumujDRAF(String mc, String rok, List<DraSumy> bazadanych, List<kadryiplace.Firma> firmy, List<Podatnik> podatnicy, List<Podmiot> podmioty) {
+      public void podsumujDRAF(String mc, String rok, List<kadryiplace.Firma> firmy, List<Podatnik> podatnicy, List<Podmiot> podmioty) {
         List<DraSumy> drasumy = new ArrayList<>();
         if (mc==null) {
             mc = Data.poprzedniMc();
@@ -98,14 +99,17 @@ public class DraPlatnikTimer {
         String okres = mc+rok;
         
         List<Zusdra> zusdra = zusdraDAO.findByOkres(okres);
+        zusdra = zusdra.stream().filter(p->p.getIi1Nip()!=null&&p.getIi1Nip().equals("8511005008")).collect(Collectors.toList());
         List<Zusrca> zusrca = zusrcaDAO.findByOkres(okres);
         int i = 1;
         for (Zusdra z : zusdra) {
             try {
                 //trzeba pobrac jak juz istnieje!!!
                 // to nie dzialalo, wyrzucalo blad przy baziedanych
-                //DraSumy dras = pobierzdrasumy(z.getIdDokument());
-                DraSumy dras = new DraSumy();
+                DraSumy dras = pobierzdrasumy(z.getIdDokument());
+                if (dras.getId()==null) {
+                    dras = new DraSumy();
+                }
                 dras.setRok(rok);
                 dras.setMc(mc);
                 for (Podatnik za : podatnicy) {
@@ -175,8 +179,8 @@ public class DraPlatnikTimer {
                 dras.setSpoleczne(dras.getSpoleczneF());
                 dras.setZdrowotne(dras.getZdrowotneF());
                 dras.setData(Data.data_yyyyMMdd(z.getXii8Datawypel()));
-                dras.setNr(z.getI21iddekls());
-                dras.setOkres(z.getI22okresdeklar());
+                  dras.setNr(z.getI21iddekls());
+                  dras.setOkres(z.getI22okresdeklar());
                 dras.setDraprzychody(dras.getDraprzychodyF());
                 dras.setDraprzychodyRR(dras.getDraprzychodyRRF());
 //                System.out.println("okres "+dras.getOkres());
@@ -187,10 +191,15 @@ public class DraPlatnikTimer {
                 double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
                 dras.setFp(kwotafp);
                 //dodajpit4DRA(dras, firmy);
-                draSumyDAO.create(dras);
+                if (dras.getId()!=null) {
+                    draSumyDAO.edit(dras);
+                } else {
+                    draSumyDAO.create(dras);
+                }
                 //System.out.println("zus ok podsumujDRAF "+dras.getPodatnik().getPrintnazwa());
                 drasumy.add(dras);
             } catch (Exception e){
+                E.m(e);
                 System.out.println("Blad DraPlatnikTimer 191");
             }
             
@@ -200,29 +209,29 @@ public class DraPlatnikTimer {
         System.out.println("Koniec DRA");
     }
       
-      private DraSumy pobierzbaza(DraSumy dras, List<DraSumy> bazadanych) {
-        DraSumy zwrot = dras;
-        for (DraSumy p : bazadanych) {
-            if (p.getPodatnik()!=null) {
-                if ( p.getPodatnik().equals(dras.getPodatnik()) && p.getNr().equals(dras.getNr())) {
-                    zwrot = p;
-                    break;
-                }
-            } else 
-            if (p.getPodmiot()!=null) {
-                if ( p.getPodmiot().equals(dras.getPodmiot()) && p.getNr().equals(dras.getNr())) {
-                    zwrot = p;
-                    break;
-                }
-            } else {
-                if ( p.getNazwa().equals(dras.getNazwa()) && p.getNr().equals(dras.getNr())) {
-                    zwrot = p;
-                    break;
-                }
-            }
-        }
-        return zwrot;
-    }
+//      private DraSumy pobierzbaza(DraSumy dras, List<DraSumy> bazadanych) {
+//        DraSumy zwrot = dras;
+//        for (DraSumy p : bazadanych) {
+//            if (p.getPodatnik()!=null) {
+//                if ( p.getPodatnik().equals(dras.getPodatnik()) && p.getNr().equals(dras.getNr())) {
+//                    zwrot = p;
+//                    break;
+//                }
+//            } else 
+//            if (p.getPodmiot()!=null) {
+//                if ( p.getPodmiot().equals(dras.getPodmiot()) && p.getNr().equals(dras.getNr())) {
+//                    zwrot = p;
+//                    break;
+//                }
+//            } else {
+//                if ( p.getNazwa().equals(dras.getNazwa()) && p.getNr().equals(dras.getNr())) {
+//                    zwrot = p;
+//                    break;
+//                }
+//            }
+//        }
+//        return zwrot;
+//    }
       
       //wylaczylem 20.02.2024 nie ma superplac nie ma 
 //       private void dodajpit4DRA(DraSumy w, List<kadryiplace.Firma> firmy) {

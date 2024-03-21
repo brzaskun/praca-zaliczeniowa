@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "DraSumy.findAll", query = "SELECT a FROM DraSumy a"),
     @NamedQuery(name = "DraSumy.findByRokMc", query = "SELECT a FROM DraSumy a where a.rok = :rok AND a.mc = :mc"),
     @NamedQuery(name = "DraSumy.findByRokPodatnik", query = "SELECT a FROM DraSumy a where a.rok = :rok AND a.podatnik = :podatnik"),
-    @NamedQuery(name = "DraSumy.findByRokPodatnik", query = "SELECT a FROM DraSumy a where a.rok = :rok AND a.podatnik = :podatnik")
+    @NamedQuery(name = "DraSumy.findByIddokument", query = "SELECT a FROM DraSumy a where a.iddokument = :iddokument")
 })
 public class DraSumy implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -282,7 +282,6 @@ public class DraSumy implements Serializable {
         int hash = 7;
         hash = 97 * hash + this.iddokument;
         hash = 97 * hash + Objects.hashCode(this.okres);
-        hash = 97 * hash + Objects.hashCode(this.nazwa);
         hash = 97 * hash + Objects.hashCode(this.nr);
         return hash;
     }
@@ -305,9 +304,6 @@ public class DraSumy implements Serializable {
         if (!Objects.equals(this.okres, other.okres)) {
             return false;
         }
-        if (!Objects.equals(this.nazwa, other.nazwa)) {
-            return false;
-        }
         if (!Objects.equals(this.nr, other.nr)) {
             return false;
         }
@@ -318,7 +314,7 @@ public class DraSumy implements Serializable {
     
     @Override
     public String toString() {
-        return "DraSumy{" + "okres=" + okres + ", podmiot=" + podmiot.getPrintnazwa() + ", nazwa=" + nazwa + ", nr=" + nr + '}';
+        return "DraSumy{" + "okres=" + okres + ", podmiot=" + podmiot.getPrintnazwa() + ", id=" + iddokument + ", nr=" + nr + '}';
     }
 
     
