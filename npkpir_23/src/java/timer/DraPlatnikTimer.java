@@ -25,7 +25,6 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -57,7 +56,7 @@ public class DraPlatnikTimer implements Serializable {
     private RokFacade rokFacade;
     
     
-    @Schedule(dayOfWeek = "1-5", hour = "*", minute = "25", persistent = false)
+    @Schedule(dayOfWeek = "1-5", hour = "*", minute = "28", persistent = false)
     public void autozus() {
         List<String> miesiaceGranica = Mce.getMiesiaceGranica(Data.aktualnyMc());
         String rok = Data.aktualnyRok();
@@ -99,7 +98,6 @@ public class DraPlatnikTimer implements Serializable {
         String okres = mc+rok;
         
         List<Zusdra> zusdra = zusdraDAO.findByOkres(okres);
-        zusdra = zusdra.stream().filter(p->p.getIi1Nip()!=null&&p.getIi1Nip().equals("8511005008")).collect(Collectors.toList());
         List<Zusrca> zusrca = zusrcaDAO.findByOkres(okres);
         int i = 1;
         for (Zusdra z : zusdra) {
