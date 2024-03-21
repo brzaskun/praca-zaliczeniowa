@@ -37,7 +37,7 @@ public class PracownikAlertyView  implements Serializable {
     @Inject
     private UmowaFacade umowaFacade;
     private List<Umowa> listaumowy;
-    private List<Umowa> listaszkoleniabhp;
+    private List<Angaz> listaszkoleniabhp;
     private List<Umowa> listabadanialekarskie;
     private List<Angaz> listaA1;
    
@@ -55,18 +55,19 @@ public class PracownikAlertyView  implements Serializable {
                         it.remove();
                     } else {
                         listaA1.add(angaz);
+                        listaszkoleniabhp.add(angaz);
                     }
             }
             for (Angaz a : angaze) {
                 Umowa umowaAktywna = a.pobierzumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                 if (umowaAktywna!=null) {
                     listaumowy.add(umowaAktywna);
-                    listaszkoleniabhp.add(umowaAktywna);
+                    listabadanialekarskie.add(umowaAktywna);
                 }
             }
             
             Collections.sort(listaumowy, new Umowacomparator());
-            Collections.sort(listaszkoleniabhp, new Umowacomparator());
+            Collections.sort(listaszkoleniabhp, new Angazcomparator());
             Collections.sort(listaA1, new Angazcomparator());
             Collections.sort(listabadanialekarskie, new Umowacomparator());
 //            if (listaumowy!=null) {
@@ -105,13 +106,15 @@ public class PracownikAlertyView  implements Serializable {
         this.listaumowy = listaumowy;
     }
 
-    public List<Umowa> getListaszkoleniabhp() {
+    public List<Angaz> getListaszkoleniabhp() {
         return listaszkoleniabhp;
     }
 
-    public void setListaszkoleniabhp(List<Umowa> listaszkoleniabhp) {
+    public void setListaszkoleniabhp(List<Angaz> listaszkoleniabhp) {
         this.listaszkoleniabhp = listaszkoleniabhp;
     }
+
+
 
     public List<Angaz> getListaA1() {
         return listaA1;

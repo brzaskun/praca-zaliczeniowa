@@ -227,6 +227,8 @@ public class Umowa implements Serializable {
     private Date datadodania;
     @Column(name = "utworzyl")
     private String utworzyl;
+    @Column(name = "databadanielekarskie")
+    private String databadanielekarskie;
    
 
     public Umowa() {
@@ -839,6 +841,16 @@ public class Umowa implements Serializable {
         }
         return zwrot;
     }
+
+    public String getDatabadanielekarskie() {
+        return databadanielekarskie;
+    }
+
+    public void setDatabadanielekarskie(String databadanielekarskie) {
+        this.databadanielekarskie = databadanielekarskie;
+    }
+    
+    
 
     public String getPierwszydzienzasilku() {
         return pierwszydzienzasilku;
