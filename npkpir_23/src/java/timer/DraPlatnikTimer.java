@@ -111,7 +111,6 @@ public class DraPlatnikTimer {
                 for (Podatnik za : podatnicy) {
                     if (za.getNip()!=null&&za.getNip().equals(z.getIi1Nip())) {
                         dras.setPodatnik(za);
-                        System.out.println("zus blad podsumujDRAF "+za.getPrintnazwa());
                         break;
                     }
                 }
@@ -180,15 +179,16 @@ public class DraPlatnikTimer {
                 dras.setOkres(z.getI22okresdeklar());
                 dras.setDraprzychody(dras.getDraprzychodyF());
                 dras.setDraprzychodyRR(dras.getDraprzychodyRRF());
-                System.out.println("okres "+dras.getOkres());
-                System.out.println("nazwa "+dras.getNazwa());
-                System.out.println("id "+z.getIdDokument());
+//                System.out.println("okres "+dras.getOkres());
+//                System.out.println("nazwa "+dras.getNazwa());
+//                System.out.println("id "+z.getIdDokument());
                 double kwota = z.getIx2Kwdozaplaty()!=null?z.getIx2Kwdozaplaty().doubleValue():0.0;
                 dras.setDozaplaty(kwota);
                 double kwotafp = z.getViii3KwzaplViii()!=null?z.getViii3KwzaplViii().doubleValue():0.0;
                 dras.setFp(kwotafp);
                 //dodajpit4DRA(dras, firmy);
-                draSumyDAO.edit(dras);
+                draSumyDAO.create(dras);
+                //System.out.println("zus ok podsumujDRAF "+dras.getPodatnik().getPrintnazwa());
                 drasumy.add(dras);
             } catch (Exception e){
                 System.out.println("Blad DraPlatnikTimer 191");
@@ -196,6 +196,7 @@ public class DraPlatnikTimer {
             
         }
         //draSumyDAO.editList(drasumy);
+        System.out.println("**********************************");
         System.out.println("Koniec DRA");
     }
       
