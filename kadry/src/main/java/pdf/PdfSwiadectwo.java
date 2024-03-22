@@ -208,6 +208,18 @@ public class PdfSwiadectwo {
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
                 String urlop3 = "4) korzystał z urlopu bezpłatnego: ";
+                
+                for (Swiadectwodni s : dnidoswiadectwa) {
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("X")) {
+                        PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop3, Element.ALIGN_LEFT, 2);
+                        czydodano = true;
+                        break;
+                    }
+                }
+                if (czydodano == false) {
+                    urlop3 = urlop3+" nie dotyczy";
+                    PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop3, Element.ALIGN_LEFT, 2);
+                }
                  for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("X")) {
                         //jak to bylo to byla zdublowana tresc punktu drugiego
@@ -221,10 +233,7 @@ public class PdfSwiadectwo {
                         }
                     }
                 }
-                if (czydodano==false) {
-                    urlop3 = urlop3+" nie dotyczy";
-                    PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop3, Element.ALIGN_LEFT, 2);
-                }
+                
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
                 String urlop4a = "5) wykorzystał urlop ojcowski w wymiarze: ";

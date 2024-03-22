@@ -108,11 +108,14 @@ public class PracownikEkwiwalentView  implements Serializable {
             if (wpisView.getPracownik()!=null) {
                 stannadzien = data.Data.ostatniDzien(wpisView);
                 wspolczynnikEkwiwalent = wspolczynnikEkwiwalentFacade.findbyRok(wpisView.getRokWpisu());
+                EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
+                double etatulamek = pobierzetat.getEtat1()/pobierzetat.getEtat2();
+                double wspolczynnikEkwiwalentkwota = wspolczynnikEkwiwalent.getKwota()*etatulamek;
                 EkwiwalentUrlop znaleziony = ekwiwalentSkladnikiFacade.findbyUmowa(wpisView.getUmowa());
                 if (znaleziony!=null) {
                     ekwiwalent=znaleziony;
                 } else {
-                    ustawekwiwalent(ekwiwalent, wspolczynnikEkwiwalent.getKwota(), stannadzien);
+                    ustawekwiwalent(ekwiwalent, wspolczynnikEkwiwalentkwota, stannadzien);
                 }
                 pobierzurlop();
                 pobierzchoroba();

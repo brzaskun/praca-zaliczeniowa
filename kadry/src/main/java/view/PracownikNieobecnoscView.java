@@ -116,8 +116,11 @@ public class PracownikNieobecnoscView  implements Serializable {
             if (wpisView.getPracownik()!=null) {
                 stannadzien = data.Data.ostatniDzien(wpisView);
                 wspolczynnikEkwiwalent = wspolczynnikEkwiwalentFacade.findbyRok(wpisView.getRokWpisu());
+                EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
+                double etatulamek = pobierzetat.getEtat1()/pobierzetat.getEtat2();
+                double wspolczynnikEkwiwalentkwota = wspolczynnikEkwiwalent.getKwota()*etatulamek;
                 EkwiwalentUrlop znaleziony = ekwiwalentSkladnikiFacade.findbyUmowa(ekwiwalent.getUmowa());
-                ustawekwiwalent(ekwiwalent, wspolczynnikEkwiwalent.getKwota(), stannadzien);
+                ustawekwiwalent(ekwiwalent, wspolczynnikEkwiwalentkwota, stannadzien);
                 Angaz angaz = angazFacade.findById(wpisView.getAngaz());
                 pobierzurlop(angaz);
                 ekwiwalent.setWykorzystany(urlopprezentacja.getWykorzystanierokbiezacy());
