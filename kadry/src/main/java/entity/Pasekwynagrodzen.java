@@ -153,6 +153,14 @@ public class Pasekwynagrodzen implements Serializable {
     private double podstawaopodatkowaniahipotetyczna;
     @Column(name = "podstawaskladkizus")
     private double podstawaskladkizus;
+    @Column(name = "podstawaskladkizusemerytalna")
+    private double podstawaskladkizusemerytalna;
+    @Column(name = "podstawaskladkizusrentowa")
+    private double podstawaskladkizusrentowa;
+    @Column(name = "podstawaskladkizuschorobowa")
+    private double podstawaskladkizuschorobowa;
+    @Column(name = "podstawaskladkizuswypadkowa")
+    private double podstawaskladkizuswypadkowa;
     @Column(name = "pracchorobowe")
     private double pracchorobowe;
     @Column(name = "pracemerytalne")
@@ -447,6 +455,10 @@ public class Pasekwynagrodzen implements Serializable {
         this.dieta = Z.z(this.dieta + p.dieta);
         this.dietaodliczeniepodstawaop = Z.z(this.dietaodliczeniepodstawaop + p.dietaodliczeniepodstawaop);
         this.podstawaskladkizus = Z.z(this.podstawaskladkizus + p.podstawaskladkizus);
+        this.podstawaskladkizusemerytalna = Z.z(this.podstawaskladkizusemerytalna + p.podstawaskladkizusemerytalna);
+        this.podstawaskladkizusrentowa = Z.z(this.podstawaskladkizusrentowa + p.podstawaskladkizusrentowa);
+        this.podstawaskladkizuschorobowa = Z.z(this.podstawaskladkizuschorobowa + p.podstawaskladkizuschorobowa);
+        this.podstawaskladkizuswypadkowa = Z.z(this.podstawaskladkizuswypadkowa + p.podstawaskladkizuswypadkowa);
         this.pracchorobowe = Z.z(this.pracchorobowe + p.pracchorobowe);
         this.pracemerytalne = Z.z(this.pracemerytalne + p.pracemerytalne);
         this.pracrentowe = Z.z(this.pracrentowe + p.pracrentowe);
@@ -508,6 +520,40 @@ public class Pasekwynagrodzen implements Serializable {
     public double getPrzekroczenienowypodatek() {
         return przekroczenienowypodatek;
     }
+
+    public double getPodstawaskladkizusemerytalna() {
+        return podstawaskladkizusemerytalna;
+    }
+
+    public void setPodstawaskladkizusemerytalna(double podstawaskladkizusemerytalna) {
+        this.podstawaskladkizusemerytalna = podstawaskladkizusemerytalna;
+    }
+
+    public double getPodstawaskladkizusrentowa() {
+        return podstawaskladkizusrentowa;
+    }
+
+    public void setPodstawaskladkizusrentowa(double podstawaskladkizusrentowa) {
+        this.podstawaskladkizusrentowa = podstawaskladkizusrentowa;
+    }
+
+    public double getPodstawaskladkizuschorobowa() {
+        return podstawaskladkizuschorobowa;
+    }
+
+    public void setPodstawaskladkizuschorobowa(double podstawaskladkizuschorobowa) {
+        this.podstawaskladkizuschorobowa = podstawaskladkizuschorobowa;
+    }
+
+    public double getPodstawaskladkizuswypadkowa() {
+        return podstawaskladkizuswypadkowa;
+    }
+
+    public void setPodstawaskladkizuswypadkowa(double podstawaskladkizuswypadkowa) {
+        this.podstawaskladkizuswypadkowa = podstawaskladkizuswypadkowa;
+    }
+    
+    
 
     public void setPrzekroczenienowypodatek(double przekroczenienowypodatek) {
         this.przekroczenienowypodatek = przekroczenienowypodatek;
