@@ -435,6 +435,7 @@ public class PasekwynagrodzenBean {
             boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, double zmiennawynagrodzeniakwota, double liczbagodzin,
             Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double limit26, double sumabruttopoprzednich, double zmiennawynagrodzeniakwotaodelegowanie, 
             List<Nieobecnosc> nieobecnoscilista,double zmiennawynagrodzeniakwotaodelegowaniewaluta, double sumabruttoopodatkowanapoprzednich) {
+        //sumowanie przychodow i pomocnikjest nizej tam gdzie obliczbrutto
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs, zmiennawynagrodzeniakwota, liczbagodzin, zmiennawynagrodzeniakwotaodelegowanie, zmiennawynagrodzeniakwotaodelegowaniewaluta);
         List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz, nieobecnoscilista);
