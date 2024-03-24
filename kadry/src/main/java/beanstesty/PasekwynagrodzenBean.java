@@ -175,19 +175,12 @@ public class PasekwynagrodzenBean {
             umowaswiadczenierzeczowewyliczenie(kalendarz, kalendarzwzor, pasek, kurs, definicjalistaplac, odliczonajuzkwotawolna, jestoddelegowanie, 
                     limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci, limit26, kalendarzlista, wynagrodzenieminimalne, sumabruttopoprzednich, sumabruttoopodatkowanapoprzednich);
         } else if (umowazlecenia) {
-            double zmiennawynagrodzeniakwota = rachunekdoumowyzlecenia.getKwota();
-            double zmiennawynagrodzeniakwotaodelegowanie = rachunekdoumowyzlecenia.getKwotaoddelegowanie();
-            double zmiennawynagrodzeniakwotaodelegowaniewaluta = rachunekdoumowyzlecenia.getKwotaoddelegowaniewaluta();
-            double liczbagodzin = rachunekdoumowyzlecenia.getIloscgodzin() + rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie();
             umowazleceniawyliczenie(kalendarz, pasek, kurs, definicjalistaplac, odliczonajuzkwotawolna, jestoddelegowanie, limitZUS, stawkipodatkowe, 
-                    sumapoprzednich, zmiennawynagrodzeniakwota, liczbagodzin, rachunekdoumowyzlecenia, limit26, sumabruttopoprzednich, 
-                    zmiennawynagrodzeniakwotaodelegowanie, nieobecnosci, zmiennawynagrodzeniakwotaodelegowaniewaluta, sumabruttoopodatkowanapoprzednich);
+                    sumapoprzednich, rachunekdoumowyzlecenia, limit26, sumabruttopoprzednich, 
+                    nieobecnosci, sumabruttoopodatkowanapoprzednich);
         } else if (umowazlecenianierezydent || naleznosciosobzagranicznych) {
-            double zmiennawynagrodzeniakwota = rachunekdoumowyzlecenia.getKwota();
-            double zmiennawynagrodzeniakwotaodelegowanie = rachunekdoumowyzlecenia.getKwotaoddelegowanie();
-            double liczbagodzin = rachunekdoumowyzlecenia.getIloscgodzin() + rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie();
             umowazleceniaNRwyliczenie(kalendarz, pasek, kurs, definicjalistaplac, odliczonajuzkwotawolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich, 
-                    zmiennawynagrodzeniakwota, liczbagodzin, rachunekdoumowyzlecenia, limit26, sumabruttopoprzednich, zmiennawynagrodzeniakwotaodelegowanie, sumabruttoopodatkowanapoprzednich);
+                    rachunekdoumowyzlecenia, limit26, sumabruttopoprzednich, sumabruttoopodatkowanapoprzednich);
         } else if (umowafunkcja) {
             umowafunkcjawyliczenie(kalendarz, pasek, kurs, definicjalistaplac, odliczonajuzkwotawolna, jestoddelegowanie, limitZUS, stawkipodatkowe, sumapoprzednich);
         } else if (zasilekchorobowy) {
@@ -432,9 +425,13 @@ public class PasekwynagrodzenBean {
     }
 
     private static void umowazleceniawyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, double odliczonajuzkwotawolna,
-            boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, double zmiennawynagrodzeniakwota, double liczbagodzin,
-            Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double limit26, double sumabruttopoprzednich, double zmiennawynagrodzeniakwotaodelegowanie, 
-            List<Nieobecnosc> nieobecnoscilista,double zmiennawynagrodzeniakwotaodelegowaniewaluta, double sumabruttoopodatkowanapoprzednich) {
+            boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, 
+            Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double limit26, double sumabruttopoprzednich, 
+            List<Nieobecnosc> nieobecnoscilista, double sumabruttoopodatkowanapoprzednich) {
+        double zmiennawynagrodzeniakwota = rachunekdoumowyzlecenia.getKwota();
+        double zmiennawynagrodzeniakwotaodelegowanie = rachunekdoumowyzlecenia.getKwotaoddelegowanie();
+        double zmiennawynagrodzeniakwotaodelegowaniewaluta = rachunekdoumowyzlecenia.getKwotaoddelegowaniewaluta();
+        double liczbagodzin = rachunekdoumowyzlecenia.getIloscgodzin() + rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie();
         //sumowanie przychodow i pomocnikjest nizej tam gdzie obliczbrutto
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBZlecenie(kalendarz, pasek, kurs, zmiennawynagrodzeniakwota, liczbagodzin, zmiennawynagrodzeniakwotaodelegowanie, zmiennawynagrodzeniakwotaodelegowaniewaluta);
@@ -539,8 +536,11 @@ public class PasekwynagrodzenBean {
     }
 
     private static void umowazleceniaNRwyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, double odliczonajuzkwotawolna,
-            boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, double zmiennawynagrodzeniakwota, double liczbagodzin,
-            Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double limit26, double sumabruttopoprzednich, double zmiennawynagrodzeniakwotaodelegowanie, double sumabruttoopodatkowanapoprzednich) {
+            boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, 
+            Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double limit26, double sumabruttopoprzednich, double sumabruttoopodatkowanapoprzednich) {
+        double zmiennawynagrodzeniakwota = rachunekdoumowyzlecenia.getKwota();
+        double zmiennawynagrodzeniakwotaodelegowanie = rachunekdoumowyzlecenia.getKwotaoddelegowanie();
+        double liczbagodzin = rachunekdoumowyzlecenia.getIloscgodzin() + rachunekdoumowyzlecenia.getIloscgodzinoddelegowanie();
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         pasek.setDo26lat(false);
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDBNierezydent(kalendarz, pasek, kurs, zmiennawynagrodzeniakwota, liczbagodzin, zmiennawynagrodzeniakwotaodelegowanie);

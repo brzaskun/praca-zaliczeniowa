@@ -233,10 +233,11 @@
                         <p:outputLabel value="numer mikrorachuneku ZUS" for="nzbaku2" />
                         <p:inputText id="nzbaku2" value="#{firmaImportView.selectedlista.bankzus}" title="numer mikrorachunku ZUS" size="32"/>
                     </p:panelGrid>
+                     <p:panel header="Proszę dodać w zakładce info pozycję z ceną za usługi kadrowo-płacowe wprowadzanej firmy"/>
                      <p:panelGrid columns="2">
                         <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{firmaImportView.edytuj()}" update="FirmaListForm:datalist"/>
-                        
                     </p:panelGrid>
+                     
                     </h:form>
         </p:outputPanel>
     </p:panelGrid>
