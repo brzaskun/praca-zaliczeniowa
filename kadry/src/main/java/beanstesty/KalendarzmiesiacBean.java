@@ -582,7 +582,7 @@ public class KalendarzmiesiacBean {
                         if (nieobecnosc.getSredniazmiennerecznie() > 0.0) {
                             double sredniadopodstawy = nieobecnosc.getSredniazmiennerecznie();
                             naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
-                            double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
+                            double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100.0);
                             naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
                             sredniadopodstawy = sredniadopodstawy * procentzazwolnienie;
                             skladnikistalenetto = sredniadopodstawy;
@@ -641,7 +641,7 @@ public class KalendarzmiesiacBean {
                     break;
                 }
             }
-            double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100);
+            double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100.0);
             limitpodstawyzasilkow = (limitpodstawyzasilkow/kalendarz.getGodzinyroboczewmiesiacu())*wymiarproporcja;
             limitpodstawyzasilkow = limitpodstawyzasilkow * procentzazwolnienie;
             //trzeba dac te ograniczenie bo podwyzszalo podstawe dla wszystkich wyunagrodzen
