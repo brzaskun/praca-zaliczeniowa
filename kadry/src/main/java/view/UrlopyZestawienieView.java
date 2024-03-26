@@ -93,8 +93,8 @@ public class UrlopyZestawienieView  implements Serializable {
                         pracownik.setWymiarurlopu(urlopprezentacja.getWymiarokresbiezacydni());
                         pracownikFacade.edit(pracownik);
                     }
-                    boolean jestprzed2023 = wpisView.getRokWpisu().equals("2023")&&Integer.parseInt(rejestrurlopowrok.getAngaz().getRok())<2023?true:false;
-                    if (rejestrurlopowrok.getAngaz().getRok().equals(wpisView.getRokWpisu())||jestprzed2023) {
+                    boolean pobierzbourlopu = wpisView.getRokWpisu().equals(rejestrurlopowrok.getAngaz().getBourloprok());
+                    if (pobierzbourlopu) {
                         rejestrurlopowrok.setUrlopzalegly(rejestrurlopowrok.getAngaz().getBourlopdni());
                     } else {
                         

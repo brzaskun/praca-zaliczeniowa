@@ -582,7 +582,7 @@ public class KalendarzmiesiacBean {
                         if (nieobecnosc.getSredniazmiennerecznie() > 0.0) {
                             double sredniadopodstawy = nieobecnosc.getSredniazmiennerecznie();
                             naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
-                            double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100.0);
+                            double procentzazwolnienie = Z.z4(nieobecnosc.getZwolnienieprocent() / 100.0);
                             naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
                             sredniadopodstawy = sredniadopodstawy * procentzazwolnienie;
                             skladnikistalenetto = sredniadopodstawy;
@@ -610,7 +610,7 @@ public class KalendarzmiesiacBean {
                             bazadowyrownania = bazadowyrownania + sredniadopodstawypobrana;
                             //hjest srednia z zus bo potemn przeciez potraca zus patrz linijki wyzej
                             naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawypobrana);
-                            double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100.0);
+                            double procentzazwolnienie = Z.z4(nieobecnosc.getZwolnienieprocent() / 100.0);
                             naliczenienieobecnosc.setProcentzazwolnienie(procentzazwolnienie);
                             skladnikistalenetto = sredniadopodstawy * procentzazwolnienie;
                             sumadowyrownania = sumadowyrownania + skladnikistalenetto;
@@ -641,7 +641,7 @@ public class KalendarzmiesiacBean {
                     break;
                 }
             }
-            double procentzazwolnienie = Z.z(nieobecnosc.getZwolnienieprocent() / 100.0);
+            double procentzazwolnienie = Z.z4(nieobecnosc.getZwolnienieprocent() / 100.0);
             limitpodstawyzasilkow = (limitpodstawyzasilkow/kalendarz.getGodzinyroboczewmiesiacu())*wymiarproporcja;
             limitpodstawyzasilkow = limitpodstawyzasilkow * procentzazwolnienie;
             //trzeba dac te ograniczenie bo podwyzszalo podstawe dla wszystkich wyunagrodzen

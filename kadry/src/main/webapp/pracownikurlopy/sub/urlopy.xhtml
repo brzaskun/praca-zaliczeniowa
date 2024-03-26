@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:panelGrid columns="1" style="padding: 20px;">
-        <h:outputText value="Wprowadzamy dane na koniec 2022" style="color: blue;"/>
+        <h:outputText value="Wprowadzamy dane na rok przejęcia firmy z pracownikami" style="color: blue;"/>
     </p:panelGrid>
      <p:panelGrid columns="1" columnClasses="twenty-percent, eighty-percent" style="height: 300px;width: 900px;">
         <p:outputPanel>
@@ -50,7 +50,14 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.pracownik.pesel}"/>
                         </p:column>
-                        
+                        <p:column  width="50" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="rok"/>
+                            </f:facet>
+                            <p:inputText value="#{itemAngaz.bourloprok}" size="4" >
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{zalegleUrlopyView.edytuj(itemAngaz)}"/>
+                            </p:inputText>
+                        </p:column>
                         <p:column  width="50" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="urlop dni"/>

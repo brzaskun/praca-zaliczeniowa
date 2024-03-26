@@ -2397,9 +2397,13 @@ public class PasekwynagrodzenBean {
         boolean bezrobotnyskierowanieFP = czynienaliczacFPbezrobotny(pasek.getKalendarzmiesiac());
         double podstawaFP = obliczpodstawedofp(pasek);
         double podstawaFGSP = obliczpodstawedofgsp(pasek);
-        if (przekroczeniewieku == true || powrotzmacierzynskiego ==true) {
+        if (przekroczeniewieku == true) {
             //obojetnei jaka forma prawna jak jest przekroczenie wieku to nie liczymy FP i FGSP
             pasek.setFpprzekroczeniewiek(przekroczeniewieku);
+            podstawaFP = 0.0;
+            podstawaFGSP = 0.0;
+        } else if (powrotzmacierzynskiego ==true) {
+            //obojetnei jaka forma prawna jak jest przekroczenie wieku to nie liczymy FP i FGSP
             pasek.setFppowrotmacierzynski(powrotzmacierzynskiego);
             podstawaFP = 0.0;
         } else if (ponizejwynminimalnego == true) {

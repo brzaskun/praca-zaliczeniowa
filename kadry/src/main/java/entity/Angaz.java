@@ -140,6 +140,8 @@ public class Angaz implements Serializable {
     private String przekroczenierok;
     @Column(name = "przekroczeniemc")
     private String przekroczeniemc;
+    @Column(name = "bourloprok")
+    private String bourloprok;
     @Column(name = "bourlopdni")
     private int bourlopdni;
     @Column(name = "bourlopgodziny")
@@ -241,6 +243,15 @@ public class Angaz implements Serializable {
     public void setPrzekroczeniemc(String przekroczeniemc) {
         this.przekroczeniemc = przekroczeniemc;
     }
+
+    public String getBourloprok() {
+        return bourloprok;
+    }
+
+    public void setBourloprok(String bourloprok) {
+        this.bourloprok = bourloprok;
+    }
+
 
     
     public int getBourlopdni() {
