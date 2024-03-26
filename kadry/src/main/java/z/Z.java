@@ -92,12 +92,16 @@ public class Z implements Serializable {
 //        double pierwszy = nowa.doubleValue()/100.0;
 //        return pierwszy;
 //     }
-     
-     public static double z(double l) {
-        double pierwszy = Math.round(l*1000.0)/1000.0;
-        double drugi = Math.round(pierwszy*100.0)/100.0;
+       public static double z(double l) {
+        double drugi = Math.round(l*100.0)/100.0;
         return drugi;
      }
+       //226.03.2024 to powodowalo wiecej rozbieznosci z platnikiem niz dotychczasowa wrsja ktora jest wyzej, wersja poprzednia. przywracam ja
+//     public static double z(double l) {
+//        double pierwszy = Math.round(l*1000.0)/1000.0;
+//        double drugi = Math.round(pierwszy*100.0)/100.0;
+//        return drugi;
+//     }
 //     public static double zZUS(double l) {
 //        float baba = (float)l*1f;
 //        BigDecimal nowa = new BigDecimal(baba).setScale(2, RoundingMode.HALF_EVEN);
