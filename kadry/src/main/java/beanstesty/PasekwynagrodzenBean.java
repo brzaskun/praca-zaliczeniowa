@@ -395,6 +395,7 @@ public class PasekwynagrodzenBean {
         List<Nieobecnosc> zasilekchorobowy = pobierz(nieobecnosci, "ZC");
         zasilekchorobowy.addAll(pobierz(nieobecnosci, "W"));
         zasilekchorobowy.addAll(pobierz(nieobecnosci, "UO"));
+        zasilekchorobowy.addAll(pobierz(nieobecnosci, "UM"));
         PasekwynagrodzenBean.wyliczpodstaweZUSlimit(kalendarz, pasek, kurs, limitZUS);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs, definicjalistaplac, definicjadlazasilkow, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());
         //PasekwynagrodzenBean.obliczbruttoumowaoprace(pasek);
