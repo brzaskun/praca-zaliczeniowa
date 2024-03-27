@@ -88,7 +88,7 @@
             <p:panelGrid columns="2">
                 <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}" rowIndexVar="indexa"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoPrzychody}"
-                         styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 1100px; height: 400px; overflow-y: scroll;"
+                         styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 1200px; height: 400px; overflow-y: scroll;"
                          
                          >
                 <f:facet name="header">
@@ -134,6 +134,16 @@
                 </p:column>
                 <p:column headerText="#{mgs.vat}" width="60" >
                     <h:outputText value="#{loop.vat != 0.0 ? loop.vat : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyWn} pod." width="60" >
+                    <h:outputText value="#{loop.obrotyWnPodatki != 0.0 ? loop.obrotyWnPodatki : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMa} pod." width="60" >
+                    <h:outputText value="#{loop.obrotyMaPodatki != 0.0 ? loop.obrotyMaPodatki : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
@@ -192,7 +202,7 @@
                 </p:panelGrid>
             <p:dataTable id="tablicasymulacjaK" value="#{symulacjaWynikuView.listakontakoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"  rowIndexVar="index1"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoKoszty}" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1100px; height: 500px; overflow-y: scroll;" widgetVar="tablicasymulacjaK"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1200px; height: 500px; overflow-y: scroll;" widgetVar="tablicasymulacjaK"
                          >
                 <f:facet name="header">
                     <h:outputText value="zestawienia kosztów "/>
@@ -238,6 +248,16 @@
                 </p:column>
                   <p:column headerText="#{mgs.vat}" width="60" >
                     <h:outputText value="#{loop.vat != 0.0 ? loop.vat : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                  <p:column headerText="#{mgs.obrotyWn} pod." width="60" >
+                    <h:outputText value="#{loop.obrotyWnPodatki != 0.0 ? loop.obrotyWnPodatki : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.obrotyMa} pod." width="60" >
+                    <h:outputText value="#{loop.obrotyMaPodatki != 0.0 ? loop.obrotyMaPodatki : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>

@@ -217,50 +217,50 @@ public class SymulacjaWynikuView implements Serializable {
         saldoKonto.setObrotyMaPodatki(sumaMaPodatki);
     }
     
-    private double[] nanieszapisysuma(String wybranawaluta,  StronaWiersza r, int przychod0koszt1) {
+    private double[] nanieszapisysuma(String wybranawaluta, StronaWiersza r, int przychod0koszt1) {
         double[] zwrot = new double[2];
         double sumaWn = 0.0;
         double sumaMa = 0.0;
         if (wybranawaluta == null) {
-                    if (r.getKonto().getZwyklerozrachszczegolne().equals("szczególne")) {
-                        if (r.getWnma().equals("Wn") && przychod0koszt1 == 1) {
-                            sumaWn += r.getKwotaPLN();
-                        } else if (r.getWnma().equals("Wn") && przychod0koszt1 == 0 && r.getKwotaPLN() < 0.0) {
-                            sumaMa -= r.getKwotaPLN();
-                        } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 0) {
-                            sumaMa += r.getKwotaPLN();
-                        } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 1 && r.getKwotaPLN() < 0.0) {
-                            sumaWn -= r.getKwotaPLN();
-                        }
-                    } else {
-                        if (r.getWnma().equals("Wn")) {
-                            sumaWn += r.getKwotaPLN();
-                        } else {
-                            sumaMa += r.getKwotaPLN();
-                        }
-                    }
-                    
+            if (r.getKonto().getZwyklerozrachszczegolne().equals("szczególne")) {
+                if (r.getWnma().equals("Wn") && przychod0koszt1 == 1) {
+                    sumaWn += r.getKwotaPLN();
+                } else if (r.getWnma().equals("Wn") && przychod0koszt1 == 0 && r.getKwotaPLN() < 0.0) {
+                    sumaMa -= r.getKwotaPLN();
+                } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 0) {
+                    sumaMa += r.getKwotaPLN();
+                } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 1 && r.getKwotaPLN() < 0.0) {
+                    sumaWn -= r.getKwotaPLN();
+                }
+            } else {
+                if (r.getWnma().equals("Wn")) {
+                    sumaWn += r.getKwotaPLN();
                 } else {
-                    if (r.getSymbolWalutBOiSW().equals(wybranawaluta)) {
-                        if (r.getKonto().getZwyklerozrachszczegolne().equals("szczególne")) {
-                            if (r.getWnma().equals("Wn") && przychod0koszt1 == 1) {
-                                sumaWn += r.getKwota();
-                            } else if (r.getWnma().equals("Wn") && przychod0koszt1 == 0 && r.getKwota() < 0.0) {
-                                sumaMa -= r.getKwota();
-                            } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 0) {
-                                sumaMa += r.getKwota();
-                            } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 1 && r.getKwota() < 0.0) {
-                                sumaWn -= r.getKwota();
-                            }
-                        } else {
-                            if (r.getWnma().equals("Wn")) {
-                                sumaWn += r.getKwota();
-                            } else {
-                                sumaMa += r.getKwota();
-                            }
-                        }
+                    sumaMa += r.getKwotaPLN();
+                }
+            }
+
+        } else {
+            if (r.getSymbolWalutBOiSW().equals(wybranawaluta)) {
+                if (r.getKonto().getZwyklerozrachszczegolne().equals("szczególne")) {
+                    if (r.getWnma().equals("Wn") && przychod0koszt1 == 1) {
+                        sumaWn += r.getKwota();
+                    } else if (r.getWnma().equals("Wn") && przychod0koszt1 == 0 && r.getKwota() < 0.0) {
+                        sumaMa -= r.getKwota();
+                    } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 0) {
+                        sumaMa += r.getKwota();
+                    } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 1 && r.getKwota() < 0.0) {
+                        sumaWn -= r.getKwota();
+                    }
+                } else {
+                    if (r.getWnma().equals("Wn")) {
+                        sumaWn += r.getKwota();
+                    } else {
+                        sumaMa += r.getKwota();
                     }
                 }
+            }
+        }
         zwrot[0] = sumaWn;
         zwrot[1] = sumaMa;
         return zwrot;
@@ -271,20 +271,20 @@ public class SymulacjaWynikuView implements Serializable {
     private void dodajdolisty(SaldoKonto saldoKonto, List<SaldoKonto> przygotowanalista, int przychod0koszt1) {
         boolean kontoszczegolne = saldoKonto.getKonto().getZwyklerozrachszczegolne().equals("szczególne");
         if (kontoszczegolne) {
-            if (saldoKonto.getSaldoWn() != 0.0 && przychod0koszt1 == 1) {
+            if ((saldoKonto.getSaldoWn() != 0.0 || saldoKonto.getSaldoWnPodatki() !=0.0) && przychod0koszt1 == 1) {
                 przygotowanalista.add(saldoKonto);
                 return;
             }
-            if (saldoKonto.getSaldoMa() != 0.0 && przychod0koszt1 == 0) {
+            if ((saldoKonto.getSaldoMa() != 0.0 || saldoKonto.getSaldoMaPodatki() !=0.0) && przychod0koszt1 == 0) {
                 przygotowanalista.add(saldoKonto);
                 return;
             }
         } else {
-            if (saldoKonto.getObrotyBoWn() != 0.0 || saldoKonto.getBoWn() != 0.0) {
+            if (saldoKonto.getObrotyBoWn() != 0.0 || saldoKonto.getObrotyWnPodatki() !=0.0 || saldoKonto.getBoWn() != 0.0) {
                 przygotowanalista.add(saldoKonto);
                 return;
             }
-            if (saldoKonto.getObrotyBoMa() != 0.0 || saldoKonto.getBoMa() != 0.0) {
+            if (saldoKonto.getObrotyBoMa() != 0.0 || saldoKonto.getObrotyMaPodatki() !=0.0  || saldoKonto.getBoMa() != 0.0) {
                 przygotowanalista.add(saldoKonto);
                 return;
             }
