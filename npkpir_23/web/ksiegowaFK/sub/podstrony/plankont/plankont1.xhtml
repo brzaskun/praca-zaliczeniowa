@@ -38,7 +38,8 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont" rowHover="true" initMode="immediate" editable="true" editMode="cell"
-                             style="width: 800px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                              rowsPerPageTemplate="150,250,500,500,1000,1500" paginatorPosition="top" paginator="true" rows="150" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                              style="width: 1000px;"
                              sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
                              >
                     <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>
@@ -57,7 +58,7 @@
                     <p:column  style="width: 50px; text-align: center;">
                         <h:outputText value="#{loop.mapotomkow == true ? '+' : null}" /> 
                     </p:column>
-                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}">
+                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}" filterBy="#{loop.pelnynumer}" filterMatchMode="contains">
                         <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
