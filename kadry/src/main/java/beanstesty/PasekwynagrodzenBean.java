@@ -2406,6 +2406,7 @@ public class PasekwynagrodzenBean {
             //obojetnei jaka forma prawna jak jest przekroczenie wieku to nie liczymy FP i FGSP
             pasek.setFppowrotmacierzynski(powrotzmacierzynskiego);
             podstawaFP = 0.0;
+            podstawaFGSP = 0.0;
         } else if (ponizejwynminimalnego == true) {
             podstawaFP = 0.0;
         } else if (pasek.getKalendarzmiesiac().getAngaz().getFirma().isOsobafizyczna()&&firmamatylkozlecenia == true) {
