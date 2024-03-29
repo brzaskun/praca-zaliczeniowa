@@ -30,7 +30,7 @@
         <p:outputPanel style="height: 630px;">
             <h:form id="rozrachunki">
                 <!--                <div style="height: 585px;width: 1200px;" >-->
-                <p:panelGrid id="paneledycji"  style="width: 1100px; " >
+                <p:panelGrid   columns="1" id="paneledycji"  style="width: 1100px; " >
                     <f:facet name="header">
                         <p:row>
                             <p:column>
@@ -76,7 +76,7 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid id="paneledycji2"  
+                <p:panelGrid  columns="1"  id="paneledycji2"  
                              style="#{dokfkView.aktualnyWierszDlaRozrachunkow.getSymbolWalutBOiSW() ne 'PLN' ? 'width: 1050px;' :  'width: 750px;'}; height: 40px;" >
                     <f:facet name="header">
                         <p:row>

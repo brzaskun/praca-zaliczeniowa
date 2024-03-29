@@ -45,7 +45,7 @@
                 <h:outputText value="Generowanie bilansu likwidacyjnego na dzień #{WpisView.podatnikObiekt.dataotwarcialikwidacji}" style="color: red;"/>
             </p:outputPanel>
             <p:focus for="formbilanswprowadzanie2_wiersz"/>
-            <p:panelGrid rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}" style="height: 50px;">
+            <p:panelGrid  columns="1"  rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}" style="height: 50px;">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -127,7 +127,7 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:panelGrid rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}"  style="height: 50px;">
+            <p:panelGrid  columns="1"  rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}"  style="height: 50px;">
                 <f:facet name="header">
                     <p:row>
                         <p:column>

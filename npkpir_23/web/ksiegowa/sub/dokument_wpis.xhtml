@@ -43,7 +43,7 @@
             <p:growl life="3600"  id="mess_add" ><p:autoUpdate/></p:growl>
             <p:focus for="polawprowadzania1"/>
             <p:panelGrid  columns="3" >
-                <p:panelGrid id="polawprowadzania1" style="width: 300px;">
+                <p:panelGrid  columns="1"  id="polawprowadzania1" style="width: 300px;">
                     <f:facet name="header">
                         <p:row >
                             <p:column>
@@ -102,7 +102,7 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid id="panelTabelaNBP" style="width: 270px;">
+                <p:panelGrid  columns="1"  id="panelTabelaNBP" style="width: 270px;">
                     <f:facet name="header">
                         <p:row rendered="#{DokumentView.selDokument.walutadokumentu.symbolwaluty ne 'PLN'}">
                             <p:column width="110">
@@ -131,7 +131,7 @@
                        
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid id="panelcechy" style="width: 100px;">
+                <p:panelGrid  columns="1"  id="panelcechy" style="width: 100px;">
                      <f:facet name="header">
                          <p:row>
                                <p:column>
@@ -146,7 +146,7 @@
                         </p:row>
                 </p:panelGrid>
             </p:panelGrid>
-            <p:panelGrid id="polawprowadzania" style="width: 450px;">
+            <p:panelGrid   columns="1" id="polawprowadzania" style="width: 450px;">
                 <f:facet name="header">
                     <p:row >
                         <p:column>
@@ -262,7 +262,7 @@
                         </h:selectOneMenu><br/>
                     </p:column>
                 </p:dataTable>
-                <p:panelGrid id="tabelapkpir2" >
+                <p:panelGrid  columns="1"  id="tabelapkpir2" >
                     <f:facet name="header">
                         <p:row >
                             <p:column>
@@ -414,7 +414,7 @@
                 </p:autoComplete>
             </p:outputPanel>
             <p:outputPanel id="nowypanelsrodki" style="width: 900px;">
-                <p:panelGrid id="tabelasrodkitrwaleOT" rendered="#{DokumentView.renderujwysz}" style="margin-top: 5px;"> 
+                <p:panelGrid  columns="1"  id="tabelasrodkitrwaleOT" rendered="#{DokumentView.renderujwysz}" style="margin-top: 5px;"> 
                     <f:facet name="header">
                         <p:row>
                             <p:column>
@@ -511,7 +511,7 @@
                 </p:dataTable>
             </p:panel>
             <!--pola ewidencji VAT-->
-            <p:panelGrid id="ostatnipanel" style="width: 400px;">
+            <p:panelGrid  columns="1" id="ostatnipanel" style="width: 400px;">
                 <f:facet name="header">
                     <p:row >
                         <p:column>
