@@ -185,11 +185,11 @@
                     <h:outputText id="pol12" value="#{loop.getTopKonto().getNazwaObcieta(40)}"/>
                     <p:tooltip for="pol12" value="#{loop.getTopKonto().pelnynumer} #{loop.getTopKonto().nazwapelna}" />
                 </p:column>
-                <p:column headerText="Wn poz." width="50" sortBy="#{loop.konto.pozycjaWn}">
+                <p:column headerText="Wn poz." width="50" sortBy="#{loop.konto.pozycjaWn}" style="text-align: center;">
                     <h:outputText value="#{loop.konto.pozycjaWn}" rendered="#{loop.konto.pozycjaWn ne null}"/>
                     <h:outputText value="!!" rendered="#{loop.konto.pozycjaWn eq null}" style="color:red;"/>
                 </p:column>
-                <p:column headerText="Ma poz." width="50" sortBy="#{loop.konto.pozycjaMa}">
+                <p:column headerText="Ma poz." width="50" sortBy="#{loop.konto.pozycjaMa}" style="text-align: center;">
                     <h:outputText value="#{loop.konto.pozycjaMa}" rendered="#{loop.konto.pozycjaMa ne null}"/>
                     <h:outputText value="!!" rendered="#{loop.konto.pozycjaMa eq null}" style="color:red;"/>
                 </p:column>

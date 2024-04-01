@@ -125,6 +125,8 @@ public class BilansWprowadzanieView implements Serializable {
     private boolean sortujwgwartosci;
     private Konto ostatniekonto;
     private String miesiacWpisu;
+    private boolean tojestbilansotwarcia;
+    private boolean tojestbilanszamkniecia;
     private boolean tojestgenerowanieobrotow;
     private boolean tojestbilanslikwidacyjny;
     private boolean pokazstarekonta;
@@ -143,18 +145,32 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
     public void rozpocznijBO() {
+        this.tojestbilansotwarcia = true;
+        this.tojestbilanszamkniecia = false;
+        this.tojestgenerowanieobrotow = false;
+        this.tojestbilanslikwidacyjny = false;
+        init();
+    }
+    
+    public void rozpocznijBZ() {
+        this.tojestbilansotwarcia = false;
+        this.tojestbilanszamkniecia = true;
         this.tojestgenerowanieobrotow = false;
         this.tojestbilanslikwidacyjny = false;
         init();
     }
     
     public void rozpocznijObroty() {
+        this.tojestbilansotwarcia = false;
+        this.tojestbilanszamkniecia = false;
         this.tojestgenerowanieobrotow = true;
         this.tojestbilanslikwidacyjny = false;
         init();
     }
     
     public void rozpocznijLikwidacja() {
+        this.tojestbilansotwarcia = false;
+        this.tojestbilanszamkniecia = false;
         this.tojestgenerowanieobrotow = false;
         this.tojestbilanslikwidacyjny = true;
         init();
@@ -897,6 +913,9 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
+    
+    
+    
     public void generowanieDokumentuBO(String typ) {
         List<WierszBO> zachowaneWiersze = zapiszBilansBOdoBazy();
 //        int nrkolejny = oblicznumerkolejny();

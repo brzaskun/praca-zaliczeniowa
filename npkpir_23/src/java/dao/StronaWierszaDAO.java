@@ -15,6 +15,7 @@ import entityfk.StronaWiersza;
 import entityfk.WierszBO;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -428,6 +429,14 @@ public class StronaWierszaDAO extends DAO implements Serializable {
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
     }
     
+    public List<StronaWiersza> findStronaByPodatnikRokBO(Podatnik podatnikObiekt, String rokWpisuSt, boolean bilansotwarcia, boolean bilanszamkniecia, boolean obrotyrozpoczecia, boolean likwidacja) {
+        return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokMcWalutyWszystkie")
+                .setParameter("podatnikObj", podatnikObiekt).setParameter("bilansotwarcia", bilansotwarcia)
+                .setParameter("rokbo", rokWpisuSt).setParameter("bilanszamkniecia", bilanszamkniecia)
+                .setParameter("obrotyrozpoczecia", obrotyrozpoczecia).setParameter("likwidacja", likwidacja).getResultList();
+    }
+    
+    
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
         return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
     }
@@ -446,6 +455,7 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoBOWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
     }
     
+        
     public static void main(String[] args) {
         String kopnto = "202-2-5";
         int ind = kopnto.lastIndexOf("-");

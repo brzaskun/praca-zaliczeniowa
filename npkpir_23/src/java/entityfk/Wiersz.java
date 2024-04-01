@@ -130,6 +130,7 @@ public class Wiersz implements Serializable {
         this.idporzadkowy = 1;
         this.typWiersza = 0;
         this.dokfk = new Dokfk();
+        this.setStronaMa(strMa);
         this.piatki = new HashSet<>();
     }
 

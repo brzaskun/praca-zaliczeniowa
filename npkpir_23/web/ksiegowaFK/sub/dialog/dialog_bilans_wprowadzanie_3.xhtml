@@ -1,0 +1,375 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .ui-autocomplete-input {
+            width: 240px;
+        }
+
+        .ui-column-filter {
+            width: 240px !important;
+        }
+
+        .kolumnaopis .ui-column-filter {
+            width: 150px !important;
+        }
+
+        .kurswaluta input {
+            width: 50px !important;
+        }
+        .gridtablicasyntetyczne .ui-datatable-odd td{
+            height : 30px !important;
+            
+        }
+        .gridtablicasyntetyczne .ui-datatable-even td{
+            height : 25px !important;
+            
+        }
+         .ui-dialog .ui-dialog-content {
+            overflow-y: hidden;
+        }
+
+    </style>
+    <p:dialog id="bilanswprowadzanienowy" header="Bilans otwarcia/Obroty rozpoczęcia - wprowadzanie sald - #{WpisView.podatnikObiekt.nazwapelnaPDF}"
+              widgetVar="bilanswprowadzanienowy"
+              appendTo="@(body)" style="overflow-y: hidden;"
+              resizable="false" onShow="ustawdialog('bilanswprowadzanienowy','menubilanse', 1700, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanienowy');"
+              maximizable="true">
+        <h:form id="formbilanswprowadzanienowy_wiersz">
+            <p:outputPanel rendered="#{bilansWprowadzanieNowyView.tojestbilanslikwidacyjny}" id="uwaga">
+                <h:outputText value="Generowanie bilansu likwidacyjnego na dzień #{WpisView.podatnikObiekt.dataotwarcialikwidacji}" style="color: red;"/>
+            </p:outputPanel>
+            <p:focus for="formbilanswprowadzanienowy_wiersz"/>
+             <p:panelGrid    columns="8" style="height: 50px;">
+
+                    <p:column width="380">
+                            <h:outputText value="#{mgs.konto}"/>
+                        </p:column>
+                    <p:column width="250">
+                            <h:outputText value="#{mgs.opis}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="kurs"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="waluta"/>
+                        </p:column>
+                         <p:column>
+                            <h:outputText value="Wn Ma"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="kwota"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="kwota PLN"/>
+                        </p:column>
+                    
+                        <p:column>
+                            <h:outputText value="zapisz"/>
+                        </p:column>
+
+            
+                    <p:column width="380">
+                        <p:autoComplete value="#{bilansWprowadzanieNowyView.selected.konto}" completeMethod="#{planKontBOView.completeBO}" id="konto2"
+                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
+                                        minQueryLength="1" converter="#{kontoConv}"  styleClass="kontobo" maxResults="50" inputStyle="width: 370px;"
+                                        converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;" 
+                                        onfocus="usunspacje(this);"
+                                        ><!--to teraz powoduje blad-->
+                            <p:ajax event="blur" global="false" partialSubmit="true" />
+                            <p:ajax event="query" global="false"/></p:autoComplete>
+                    </p:column>
+                     <p:column width="250" rendered="#{!bilansWprowadzanieNowyView.tojestgenerowanieobrotow}">
+                         <p:inputText value="#{bilansWprowadzanieNowyView.selected.wiersz.opisWiersza}" style="width: 200px;"  id="opis3" 
+                                          >
+                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieNowyView.wklejostatniekonto()}" update="formbilanswprowadzanienowy_wiersz:konto2"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false" />
+                        </p:inputText>
+                    </p:column>
+                     <p:column width="210" rendered="#{bilansWprowadzanieNowyView.tojestgenerowanieobrotow}">
+                        <p:selectOneMenu value="#{bilansWprowadzanieNowyView.selected.wiersz.opisWiersza}" style="width: 200px;"  id="opis4"
+                                         editable="true" required="true" requiredMessage="wpisz opis">
+                            <f:selectItem itemLabel="obroty Wn" itemValue="obroty Wn"/>
+                            <f:selectItem itemLabel="obroty Ma" itemValue="obroty Ma"/>
+                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieNowyView.wklejostatniekonto()}" update="formbilanswprowadzanienowy_wiersz:konto2"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false" />
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                 
+                        <p:inputNumber  value="#{bilansWprowadzanieNowyView.selected.kursBO}"  required="true"
+                                         requiredMessage="Brak kwoty - uzupełnij" id="polekurs"
+                                         style="text-align: right;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="4" 
+                                         styleClass="kurswaluta">
+                            <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieNowyView.przeliczkursN()}"
+                                    update="formbilanswprowadzanienowy_wiersz:Wnpln"/>
+                        </p:inputNumber>
+                    </p:column>
+                  
+                    <p:column>
+                        <h:selectOneMenu id="wybranawaluta" value="#{bilansWprowadzanieNowyView.selected.symbolWalutyBO}" required="true" requiredMessage="Nie wprowadzono waluty"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                         onfocus="$(this).removeClass('ui-state-default');
+                                                 $(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                 $(this).addClass('ui-state-default');"
+                                         >
+                            <f:ajax />
+                            <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieNowyView.przeliczkursN()}"
+                                    update="formbilanswprowadzanienowy_wiersz:Wnwal formbilanswprowadzanienowy_wiersz:Wnpln"/>
+                            <f:selectItems value="#{bilansWprowadzanieNowyView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p.symbolwaluty}"/>
+                        </h:selectOneMenu>
+
+                    </p:column>
+                   <p:column width="40">
+                          <h:selectOneMenu id="wybranawwnma" value="#{bilansWprowadzanieNowyView.selected.wnma}" required="true" requiredMessage="Nie wybrano strony WnMa"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
+                                         onfocus="$(this).removeClass('ui-state-default');
+                                                 $(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                 $(this).addClass('ui-state-default');"
+                                         >
+                            <f:ajax />
+                            <p:ajax event="change" global="false" partialSubmit="true"/>
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="Wn" itemValue="Wn"/>
+                            <f:selectItem itemLabel="Ma" itemValue="Ma"/>
+                        </h:selectOneMenu>
+
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <p:inputNumber value="#{bilansWprowadzanieNowyView.selected.kwota}" symbol=" #{bilansWprowadzanieNowyView.selected.wiersz.walutaWiersz}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Wnwal"
+                                        style="width: 70px;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto">
+                            <p:ajax event="change" global="false" partialSubmit="true"
+                                    listener="#{bilansWprowadzanieNowyView.przewalutujN(bilansWprowadzanieNowyView.selected.kursBO, bilansWprowadzanieNowyView.selected.kwota)}" />
+                        </p:inputNumber>
+                    </p:column>
+                    <p:column>
+                        <p:inputNumber value="#{bilansWprowadzanieNowyView.selected.kwotaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Wnpln" symbol=" zł"
+                                        style="width: 80%;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto">
+                            <p:ajax event="change" global="false" partialSubmit="true"
+                                    listener="#{bilansWprowadzanieNowyView.obliczkursN(bilansWprowadzanieNowyView.selected.kursBO, bilansWprowadzanieNowyView.selected.kwota, bilansWprowadzanieNowyView.selected.kwotaWnPLN)}"/>
+                        </p:inputNumber>
+                    </p:column>
+<!--                    <p:column style="text-align: center;">
+                        <p:inputNumber  value="#{bilansWprowadzanieNowyView.selected.kwotaMa}" symbol=" #{bilansWprowadzanieNowyView.selected.wiersz.walutaWiersz}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Mawal"
+                                         style="width: 70px;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto">
+                            <p:ajax event="change" global="false" partialSubmit="true"
+                                    listener="#{bilansWprowadzanieNowyView.przewalutujN(bilansWprowadzanieNowyView.selected.kursBO, bilansWprowadzanieNowyView.selected.kwota, 'Ma')}" />
+                        </p:inputNumber>
+                    </p:column>
+                    <p:column>
+                        <p:inputNumber  value="#{bilansWprowadzanieNowyView.selected.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Mapln" symbol=" zł"
+                                         style="width: 80%;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto">
+                            <p:ajax event="change" global="false" partialSubmit="true"
+                                    listener="#{bilansWprowadzanieNowyView.obliczkursN(bilansWprowadzanieNowyView.selected.kursBO, bilansWprowadzanieNowyView.selected.kwota, bilansWprowadzanieNowyView.selected.kwotaMaPLN, 'Ma')}"/>
+                        </p:inputNumber>
+                    </p:column>-->
+                    
+                    <p:column style="text-align: center;" width="40">
+                        <p:commandButton icon="fa fa-save" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieNowyView.dodajwiersz()}"
+                                         update="formbilanswprowadzanienowy formbilanswprowadzanienowy_wiersz"
+                                         />
+                    </p:column>
+                 </p:panelGrid>
+            <p:commandButton value="dołącz kontr." global="false" onclick="PF('dialog_kliencifk_dolaczanie_BO').show();" style="width: 120px; float: right;"/>
+        </h:form>
+        <h:form id="formbilanswprowadzanienowy">
+            <p:panelGrid columns="13" style="margin-top: 5px;">
+                <p:commandButton value="0" actionListener="#{bilansWprowadzanieNowyView.pobierzlista(0)}" global="false" update="formbilanswprowadzanienowy_wiersz formbilanswprowadzanienowy formbilanswprowadzanie3nowy"/>
+                <p:commandButton value="1" actionListener="#{bilansWprowadzanieNowyView.pobierzlista(1)}" global="false" update="formbilanswprowadzanienowy_wiersz formbilanswprowadzanienowy formbilanswprowadzanie3nowy"/>
+                <p:commandButton value="2" id="buttondwojek" actionListener="#{bilansWprowadzanieNowyView.pobierzlista(2)}" global="false" update="formbilanswprowadzanienowy_wiersz formbilanswprowadzanienowy formbilanswprowadzanie3nowy"/>
+                <p:commandButton value="3" actionListener="#{bilansWprowadzanieNowyView.pobierzlista(3)}" global="false" update="formbilanswprowadzanienowy_wiersz formbilanswprowadzanienowy formbilanswprowadzanie3nowy"/>
+                <p:commandButton value="4" actionListener="#{bilansWprowadzanieNowyView.pobierzlista(4)}" global="false" update="formbilanswprowadzanienowy_wiersz formbilanswprowadzanienowy formbilanswprowadzanie3nowy" rendered="#{bilansWprowadzanieNowyView.tojestgenerowanieobrotow}"/>
+                <p:commandButton value="6" actionListener="#{bilansWprowadzanieNowyView.pobierzlista(6)}" global="false" update="formbilanswprowadzanienowy_wiersz formbilanswprowadzanienowy formbilanswprowadzanie3nowy"/>
+                <p:commandButton value="7" actionListener="#{bilansWprowadzanieNowyView.pobierzlista(7)}" global="false" update="formbilanswprowadzanienowy_wiersz formbilanswprowadzanienowy formbilanswprowadzanie3nowy" rendered="#{bilansWprowadzanieNowyView.tojestgenerowanieobrotow}"/>
+                <p:commandButton value="8" actionListener="#{bilansWprowadzanieNowyView.pobierzlista(8)}" global="false" update="formbilanswprowadzanienowy_wiersz formbilanswprowadzanienowy formbilanswprowadzanie3nowy"/>
+                <p:commandButton value="S" actionListener="#{bilansWprowadzanieNowyView.pobierzlistaS()}"  update="formbilanswprowadzanienowy_wiersz formbilanswprowadzanienowy formbilanswprowadzanie3nowy"/>
+                <h:outputText value="wprowadzanie i edycja kont grupy #{bilansWprowadzanieNowyView.nraktualnejlisty}" style="margin-left: 10px;"/>
+                <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieNowyView.drukujBO()}" style="width: 120px; margin-left: 300px;"
+                                  rendered="#{!bilansWprowadzanieNowyView.tojestgenerowanieobrotow}"/>
+<!--                <p:commandButton value="druk.wszystko" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieNowyView.drukujdrukujObrotyWszystkieBO()}" style="width: 120px; margin-left: 20px;"
+                                  rendered="#{!bilansWprowadzanieNowyView.tojestgenerowanieobrotow}"/>-->
+                <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieNowyView.drukujObroty()}" style="width: 120px; margin-left: 200px;"
+                                  rendered="#{bilansWprowadzanieNowyView.tojestgenerowanieobrotow}"/>
+<!--                <p:commandButton value="druk.wszystko" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieNowyView.drukujObrotyWszystkie()}" style="width: 120px; margin-left: 20px;"
+                                  rendered="#{bilansWprowadzanieNowyView.tojestgenerowanieobrotow}"/>-->
+                <p:selectBooleanCheckbox value="#{bilansWprowadzanieNowyView.sortujwgwartosci}" itemLabel="wg wartości" style="margin-left: 10px;">
+                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                </p:selectBooleanCheckbox>
+            </p:panelGrid>
+            
+            <p:dataTable value="#{bilansWprowadzanieNowyView.listaBO}" var="item"
+                         style="overflow-y: scroll; height: 400px; width: 98%; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
+                         styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
+                         id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieNowyView.listaBOs1}"
+                         filteredValue="#{bilansWprowadzanieNowyView.listaBOFiltered}"  rowSelectMode="add"
+                         rowsPerPageTemplate="100,200,300,400" paginatorPosition="top" paginator="#{bilansWprowadzanieNowyView.listaBO.size() gt 150 ? 'true':'false'}" rows="100"
+                         >
+                <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieNowyView.podsumujWnMa(bilansWprowadzanieNowyView.listaBOs1, bilansWprowadzanieNowyView.listaBOsumy, bilansWprowadzanieNowyView.listaBO)}" update=":formbilanswprowadzanienowy:sum0"/>
+                <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieNowyView.podsumujWnMa(bilansWprowadzanieNowyView.listaBOs1, bilansWprowadzanieNowyView.listaBOsumy, bilansWprowadzanieNowyView.listaBO)}" update=":formbilanswprowadzanienowy:sum0"/>
+                <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieNowyView.podsumujWnMa(bilansWprowadzanieNowyView.listaBOs1, bilansWprowadzanieNowyView.listaBOsumy, bilansWprowadzanieNowyView.listaBO)}" update=":formbilanswprowadzanienowy:sum0"/>
+                <p:ajax event="filter" global="false" />
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"/>
+                <p:column width="70" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieNowyView.filterByKonto}" sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.konto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.konto.pelnynumer}"/>
+                </p:column>
+                <p:column width="250" filterBy="#{item.konto}" filterFunction="#{bilansWprowadzanieNowyView.filterByKonto}" sortBy="#{item.konto}" sortFunction="#{kontoSortView.sortujKonto}">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:outputText value="#{item.konto.nazwapelna}"/>
+                </p:column>
+                <p:column width="200"  styleClass="kolumnaopis" filterBy="#{item.wiersz.opisWiersza}" filterMatchMode="contains" sortBy="#{item.wiersz.opisWiersza}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.opis}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.wiersz.opisWiersza.length() lt 40 ? item.wiersz.opisWiersza : item.wiersz.opisWiersza.substring(0,39)}"  />
+                </p:column>
+                <p:column width="45">
+                    <f:facet name="header">
+                        <h:outputText value="kurs"/>
+                    </f:facet>
+                    <bcf:outputkurs value="#{item.kursBO}"  rendered="#{item.kursBO ne 'PLN'}"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="waluta"/>
+                    </f:facet>
+                    <h:outputText value="#{item.wiersz.tabelanbp.waluta.symbolwaluty}" rendered="#{item.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.kwotaWn}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Wn"/>
+                    </f:facet>
+                    <bcf:outputwal id="waluta1" value="#{item.kwotaWn}" rendered="#{item.kwotaWn ne 0.0}" symbolwaluty="#{item.wiersz.tabelanbp.waluta.symbolwaluty}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.kwotaWnPLN}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Wn PLN"/>
+                    </f:facet>
+                    <bcf:outputwal id="waluta2" value="#{item.kwotaWnPLN}" rendered="#{item.kwotaWnPLN ne 0.0}" symbolwaluty="zł"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.kwotaMa}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Ma"/>
+                    </f:facet>
+                    <bcf:outputwal  id="waluta3" value="#{item.kwotaMa}" rendered="#{item.kwotaMa ne 0.0}" symbolwaluty="#{item.wiersz.tabelanbp.waluta.symbolwaluty}"/>
+                </p:column>
+                <p:column style="text-align: center;" sortBy="#{item.kwotaMaPLN}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="Kwota Ma PLN"/>
+                    </f:facet>
+                    <bcf:outputwal id="waluta4" value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN ne 0.0}" symbolwaluty="zł"/>
+                </p:column>
+                <p:column style="text-align: left;" sortBy="#{item.dataWiersza}" width="90">
+                    <f:facet name="header">
+                        <h:outputText value="data"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dokfk.dataujecia}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column style="text-align: center;" width="40" rendered="#{bilansWprowadzanieNowyView.nraktualnejlisty eq 2}">
+                    <f:facet name="header">
+                        <h:outputText value="VAT"/>
+                    </f:facet>
+<!--                    <p:commandButton icon="fa fa-plus" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieNowyView.dodajewidencjeVAT(item)}"
+                                     update="formbilanswprowadzanienowy " rendered="#{item.geteVatwpisFK() eq null}" oncomplete="r('ewidencjavatRK:data1DialogVAT_input').select()"
+                                     />
+                    <p:commandButton icon="fa fa-pencil-square-o" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieNowyView.dodajewidencjeVAT(item)}"
+                                     update="formbilanswprowadzanienowy " rendered="#{item.geteVatwpisFK() ne null}" oncomplete="r('ewidencjavatRK:data1DialogVAT_input').select()"
+                                     />-->
+                </p:column>
+                <p:column style="text-align: center;" width="40">
+                    <f:facet name="header">
+                        <h:outputText value="usuń tym."/>
+                    </f:facet>
+                    <p:commandButton icon="fa fa-trash" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieNowyView.usunwierszN(item)}"
+                                     update="formbilanswprowadzanienowy "
+                                     />
+                </p:column>
+                <p:column style="text-align: center;" width="40">
+                    <f:facet name="header">
+                        <h:outputText value="edycja"/>
+                    </f:facet>
+                    <p:commandButton icon="ui-icon-circle-plus" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieNowyView.edycjawiersza(item)}"
+                                     update="formbilanswprowadzanienowy_wiersz"
+                                     />
+                </p:column>
+            </p:dataTable>
+            <p:contextMenu for="formbilanswprowadzanienowy:tab1"  style="width: 200px;">
+                <p:menuitem value="Usuń trwale" update="formbilanswprowadzanienowy:tab1" 
+                            actionListener="#{bilansWprowadzanieNowyView.usunwiele(bilansWprowadzanieNowyView.listaBOs1)}" icon="ui-icon-disk" />
+
+            </p:contextMenu>
+            <p:panelGrid columns="2">
+                <p:column>
+                    <p:panelGrid  id="sum0" columns="12" style="margin-top: 10px;margin-left: 10px;">
+                        <p:outputPanel  rendered="#{bilansWprowadzanieNowyView.nraktualnejlisty ne 9}">
+                        <h:outputText value="Wn: "/>
+                            <bcf:outputpl value="#{bilansWprowadzanieNowyView.listaBOsumy.get(0)}" style="font-weight: 900;"/>
+                        <h:outputText value=" Ma: " style="margin-left: 10px;"/>
+                            <bcf:outputpl value="#{bilansWprowadzanieNowyView.listaBOsumy.get(1)}" style="font-weight: 900;"/>
+                        <h:outputText value=" różnica: " style="margin-left: 10px;font-weight: 900;"/>
+                            <bcf:outputpl value="#{bilansWprowadzanieNowyView.listaBOsumy.get(2)}" style="margin-left: 10px;font-weight: 900; color: #{bilansWprowadzanieNowyView.listaBOsumy.get(0) - bilansWprowadzanieNowyView.listaBOsumy.get(1) != 0 ? 'red' : 'black'};"
+                                          />
+                        </p:outputPanel>
+                        <p:outputPanel rendered="#{bilansWprowadzanieNowyView.nraktualnejlisty eq 1 or bilansWprowadzanieNowyView.nraktualnejlisty eq 2 or bilansWprowadzanieNowyView.nraktualnejlisty eq 9}">
+                            <h:outputText value="Wn-PLN: "/>
+                                 <bcf:outputpl value="#{bilansWprowadzanieNowyView.listaBOsumy.get(3)}" style="font-weight: 900;"/>
+                             <h:outputText value=" Ma-PLN: " style="margin-left: 10px;"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieNowyView.listaBOsumy.get(4)}" style="font-weight: 900;"/>
+                            <h:outputText value=" różnica PLN: " style="margin-left: 10px;"/>
+                            <bcf:outputpl value="#{bilansWprowadzanieNowyView.listaBOsumy.get(5)}" style="margin-left: 10px;font-weight: 900;; color: #{bilansWprowadzanieNowyView.listaBOsumy.get(3) - bilansWprowadzanieNowyView.listaBOsumy.get(4) != 0 ? 'red' : 'black'};"/>
+                        </p:outputPanel>
+                    </p:panelGrid>
+                </p:column>
+            </p:panelGrid>
+            
+        </h:form>
+        <h:form id="formbilanswprowadzanie3nowy">
+            <p:panelGrid columns="2" id="sumyibutton" style="margin-top: 8px; margin-bottom: 10px;">
+                <p:column>
+<!--                    niepotrzebne nie ma juz wierszy bo, wiersze sie zapisuja jak edycja dokuemntu-->
+<!--                    <p:commandButton value="zapisz wiersze" actionListener="#{bilansWprowadzanieNowyView.pobierzStronyzList()}" style="width: 120px;" update="formbilanswprowadzanienowy formbilanswprowadzanie3nowy">
+                    </p:commandButton>-->
+                    <p:commandButton value="nanieś na konta" actionListener="#{bilansWprowadzanieNowyView.zapiszWierszeBOnaKonta()}" style="width: 120px;"
+                                     update="formbilanswprowadzanienowy formbilanswprowadzanie3nowy"  rendered="#{bilansWprowadzanieNowyView.tojestgenerowanieobrotow eq false}">
+                    </p:commandButton>
+<!--                    <p:commandButton value="księguj rozrachunki" actionListener="#{bilansWprowadzanieNowyView.ksiegujrozrachunki()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma :formbilanswprowadzanie:kwotysum" >
+                    </p:commandButton>-->
+                    <p:commandButton value="generuj dok.  #{bilansWprowadzanieNowyView.seriadokumentu}" actionListener="#{bilansWprowadzanieNowyView.generowanieDokumentuBO('BO')}" style="width: 120px; margin-left: 5px;" update="formbilanswprowadzanienowy formbilanswprowadzanie3nowy" rendered="#{!bilansWprowadzanieNowyView.isteniejeDokBO and bilansWprowadzanieNowyView.tojestgenerowanieobrotow eq false}"/>
+                    <p:commandButton value="edytuj dok.  #{bilansWprowadzanieNowyView.seriadokumentu}" actionListener="#{bilansWprowadzanieNowyView.edytowanieDokumentuBO('BO')}" 
+                                     style="width: 120px; margin-left: 5px;" update=":formbilanswprowadzanienowy :formbilanswprowadzanie3nowy" rendered="#{bilansWprowadzanieNowyView.isteniejeDokBO and bilansWprowadzanieNowyView.tojestgenerowanieobrotow eq false}"/>
+                  
+                    <p:commandButton value="generuj dok. #{bilansWprowadzanieNowyView.seriadokumentu}" actionListener="#{bilansWprowadzanieNowyView.generowanieDokumentuBO('BOR')}" style="width: 120px; margin-left: 5px;" update="formbilanswprowadzanienowy formbilanswprowadzanie3nowy" rendered="#{!bilansWprowadzanieNowyView.isteniejeDokBO and bilansWprowadzanieNowyView.tojestgenerowanieobrotow eq true}"/>
+                    <p:commandButton value="edytuj dok.  #{bilansWprowadzanieNowyView.seriadokumentu}" actionListener="#{bilansWprowadzanieNowyView.edytowanieDokumentuBO('BOR')}" 
+                                     style="width: 120px; margin-left: 5px;" update=":formbilanswprowadzanienowy :formbilanswprowadzanie3nowy" rendered="#{bilansWprowadzanieNowyView.isteniejeDokBO and bilansWprowadzanieNowyView.tojestgenerowanieobrotow eq true}"/>
+                </p:column>
+                <p:column>
+                    <p:panelGrid id="kwotysum" columns="7" style="margin-top: 10px;margin-left: 10px;">
+                        <h:outputText value="razem - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieNowyView.stronaWn}" rendered="true" style="font-weight: 900;"/>
+                        <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieNowyView.stronaMa}" rendered="true" style="font-weight: 900;"/>
+                        <h:outputText value=" różnica: " style="margin-left: 10px;"/>
+                        <bcf:outputpl value="#{bilansWprowadzanieNowyView.stronaWn_stronaMa}" rendered="true"
+                                      style="margin-left: 10px; color: #{bilansWprowadzanieNowyView.stronaWn_stronaMa != 0.0 ? 'red' : 'black'};">
+                        </bcf:outputpl>
+                    </p:panelGrid>
+                    <h:outputText value="Wprowadzenie dwóch i więcej zapisów na tym samym koncie wymaga podania różnych opisów!" style="margin-left: 5px;"/>
+                    
+                </p:column>
+            </p:panelGrid>
+            <h:outputText value="Jesli nie ma wprowadzonych wierszy ani dokumentu BO, a na podglądzie bilansu są kwoty proszę wcisnąć przyciski 'zapisz wiersze' i 'nanieś na konta'" style="margin-left: 5px;color: orange;"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

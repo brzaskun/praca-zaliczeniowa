@@ -8,6 +8,7 @@ package entityfk;
 import data.Data;
 import embeddable.Mce;
 import embeddablefk.ListaSum;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -79,6 +80,7 @@ import waluty.Z;
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.konto.pelnynumer LIKE :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.miesiac >= :mcod AND t.wiersz.dokfk.miesiac <= :mcdo AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.tylkopodatkowo = FALSE"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWalutyWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.tylkopodatkowo = FALSE"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokMcWalutyWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.miesiac = :mc AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.typStronaWiersza != 9 AND t.tylkopodatkowo = FALSE"),
+    @NamedQuery(name = "StronaWiersza.findByPodatnikRokMcWalutyWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.rokbo = :rokbo AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.tylkopodatkowo = FALSE AND t.bilansotwarcia = :bilansotwarcia AND t.bilanszamkniecia = :bilanszamkniecia AND t.otwarcielikwidacji = :likwidacja AND t.obrotyrozpoczecia = :obrotyrozpoczecia"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokMcVAT", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.vatM = :mc AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.tylkopodatkowo = FALSE"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokVAT", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.tylkopodatkowo = FALSE"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokWalutaWynik", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.tylkopodatkowo = FALSE"),
@@ -161,6 +163,16 @@ public class StronaWiersza implements Serializable {
     private WierszBO wierszbo;
     @Column(name = "tylkopodatkowo")
     private boolean tylkopodatkowo;
+    @Column(name="otwarcielikwidacji")
+    private boolean otwarcielikwidacji;
+    @Column(name="obrotyrozpoczecia")
+    private boolean obrotyrozpoczecia;
+    @Column(name="bilansotwarcia")
+    private boolean bilansotwarcia;
+    @Column(name="bilanszamkniecia")
+    private boolean bilanszamkniecia;
+    @Column(name = "rokbo")
+    private String rokbo;
     @Transient
     private Set<String> opis;
     @Transient
@@ -296,12 +308,31 @@ public class StronaWiersza implements Serializable {
         }
     }
 
+    public StronaWiersza(int id, String rok, Tabelanbp tabela, boolean bilansotwarcia, boolean bilanszamkniecia, boolean obrotyrozpoczecia, boolean likwidacja) {
+        this.id = id;
+        this.rokbo = rok;
+        this.bilansotwarcia = bilansotwarcia;
+        this.bilanszamkniecia = bilanszamkniecia;
+        this.obrotyrozpoczecia = obrotyrozpoczecia;
+        this.otwarcielikwidacji = likwidacja;
+        this.wiersz = new Wiersz();
+        this.wiersz.setTabelanbp(tabela);
+    }
+
     public String getColor() {
         String zwrot = "initial";
         if (this.isTylkopodatkowo()) {
             zwrot = "blue";
         }
         return zwrot;
+    }
+
+    public String getRokbo() {
+        return rokbo;
+    }
+
+    public void setRokbo(String rokbo) {
+        this.rokbo = rokbo;
     }
     
 
@@ -312,6 +343,38 @@ public class StronaWiersza implements Serializable {
 
     public void setKursBO(double kursBO) {
         this.kursBO = kursBO;
+    }
+
+    public boolean isOtwarcielikwidacji() {
+        return otwarcielikwidacji;
+    }
+
+    public void setOtwarcielikwidacji(boolean otwarcielikwidacji) {
+        this.otwarcielikwidacji = otwarcielikwidacji;
+    }
+
+    public boolean isObrotyrozpoczecia() {
+        return obrotyrozpoczecia;
+    }
+
+    public void setObrotyrozpoczecia(boolean obrotyrozpoczecia) {
+        this.obrotyrozpoczecia = obrotyrozpoczecia;
+    }
+
+    public boolean isBilansotwarcia() {
+        return bilansotwarcia;
+    }
+
+    public void setBilansotwarcia(boolean bilansotwarcia) {
+        this.bilansotwarcia = bilansotwarcia;
+    }
+
+    public boolean isBilanszamkniecia() {
+        return bilanszamkniecia;
+    }
+
+    public void setBilanszamkniecia(boolean bilanszamkniecia) {
+        this.bilanszamkniecia = bilanszamkniecia;
     }
 
     public Set<String> getOpis() {
@@ -774,9 +837,31 @@ public class StronaWiersza implements Serializable {
         return kwota;
     }
     
+    //na potrzeby BO 30.03.2024 pozdrawiam od Mietków Wielkanoc Wawa
+    //wywalam bo sie zeruje, potem jest przeciez setKwotaMa
+//    public void setKwotaWn(double kwota) {
+//        this.kwota = kwota;
+//    }
+    
+//    public void setKwotaMa(double kwota) {
+//        //tegotu nie mozna, bowszyskie kwoty sa wywolywane
+//        if (this.wnma==null||this.wnma.equals("Ma")) {
+//            this.kwota = kwota;
+//        }
+//    }
+     //na potrzeby BO 30.03.2024 pozdrawiam od Mietków Wielkanoc Wawa
+    public void setKwotaWnPLN(double kwota) {
+        this.kwotaPLN = kwota;
+    }
+    
+    public void setKwotaMaPLN(double kwota) {
+        if (this.wnma==null||this.wnma.equals("Ma")) {
+            this.kwotaPLN = kwota;
+        }
+    }
     public double getKwotaWn() {
         double zwrot = 0.0;
-        if (this.wnma.equals("Wn")) {
+        if (this.wnma!=null&&this.wnma.equals("Wn")) {
             zwrot = this.kwota;
         }
         return zwrot;
@@ -784,7 +869,7 @@ public class StronaWiersza implements Serializable {
     
     public double getKwotaWnPLN() {
         double zwrot = 0.0;
-        if (this.wnma.equals("Wn")) {
+        if (this.wnma!=null&&this.wnma.equals("Wn")) {
             zwrot = this.kwotaPLN;
         }
         return zwrot;
@@ -792,7 +877,7 @@ public class StronaWiersza implements Serializable {
     
     public double getKwotaMa() {
         double zwrot = 0.0;
-        if (this.wnma.equals("Ma")) {
+        if (this.wnma!=null&&this.wnma.equals("Ma")) {
             zwrot = this.kwota;
         }
         return zwrot;
@@ -800,7 +885,7 @@ public class StronaWiersza implements Serializable {
     
     public double getKwotaMaPLN() {
         double zwrot = 0.0;
-        if (this.wnma.equals("Ma")) {
+        if (this.wnma!=null&&this.wnma.equals("Ma")) {
             zwrot = this.kwotaPLN;
         }
         return zwrot;
@@ -1034,12 +1119,11 @@ public class StronaWiersza implements Serializable {
     public void setSumatransakcji(double sumatransakcji) {
         this.sumatransakcji = sumatransakcji;
     }
-    
-    
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = 3;
+        hash = 83 * hash + Objects.hashCode(this.id);
         hash = 83 * hash + Objects.hashCode(this.wiersz);
         hash = 83 * hash + Objects.hashCode(this.wnma);
         return hash;
@@ -1060,11 +1144,15 @@ public class StronaWiersza implements Serializable {
         if (!Objects.equals(this.wnma, other.wnma)) {
             return false;
         }
-        if (!Objects.equals(this.wiersz, other.wiersz)) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        return true;
+        return Objects.equals(this.wiersz, other.wiersz);
     }
+    
+    
+
+   
     
         
     

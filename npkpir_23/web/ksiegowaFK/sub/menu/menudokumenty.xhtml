@@ -42,6 +42,9 @@
                                 ></p:menuitem>
                     <p:menuitem value="zapisy na koncie" onclick="PF('zapisynakoncie').show();" 
                                        ></p:menuitem>
+                     <p:menuitem value="wprowadź bilans zamknięcia" actionListener="#{bilansWprowadzanieNowyView.rozpocznijBZ()}" 
+                                        update="formbilanswprowadzanienowy formbilanswprowadzanienowy_wiersz formbilanswprowadzanie3nowy"
+                                        onclick="PF('bilanswprowadzanienowy').show();"></p:menuitem>
                     <p:menuitem value="przeglądanie rejestrów vat" oncomplete="PF('dialogewidencjevatdok').show();" >
                             </p:menuitem>
                     <p:menuitem value="obroty konta" onclick="PF('obrotynakoncie').show();"

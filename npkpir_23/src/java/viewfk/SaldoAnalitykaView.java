@@ -202,6 +202,8 @@ public class SaldoAnalitykaView implements Serializable {
         wpisView.setRokWpisu(rok);
         wpisView.setRokWpisuSt(String.valueOf(rok));
         wpisView.setMiesiacWpisu(mc);
+        //dodane 01.04.024
+        zaksiegujsaldakont();
     }
 
     public void odswiezsaldoanalityczne() {

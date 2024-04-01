@@ -853,18 +853,21 @@ public class Dokfk extends DokSuper implements Serializable {
             double wn = biezacywiersz.getStronaWn() != null ? biezacywiersz.getStronaWn().getKwota() : 0.0;
             double ma = biezacywiersz.getStronaMa() != null ? biezacywiersz.getStronaMa().getKwota() : 0.0;
             double suma = 0.0;
-            if (typwiersza == 1) {
-                suma += wn;
-            } else if (typwiersza == 2) {
-                suma += ma;
-            } else {
-                double kwotaWn = wn;
-                double kwotaMa = ma;
-                if (Math.abs(kwotaMa) > Math.abs(kwotaWn)) {
+            switch (typwiersza) {
+                case 1:
                     suma += wn;
-                } else {
+                    break;
+                case 2:
                     suma += ma;
-                }
+                    break;
+                default:
+                    double kwotaWn = wn;
+                    double kwotaMa = ma;
+                    if (Math.abs(kwotaMa) > Math.abs(kwotaWn)) {
+                        suma += wn;
+                    } else {
+                        suma += ma;
+                    }   break;
             }
             this.wartoscdokumentu += suma;
         } catch (Exception e) {
