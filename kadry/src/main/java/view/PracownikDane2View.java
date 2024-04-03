@@ -87,7 +87,7 @@ public class PracownikDane2View  implements Serializable {
     private String pleczPesel(String pesel) {
         String zwrot = "M";
         if (pesel!=null&&pesel.length()==11) {
-            char chara = pesel.charAt(10);
+            char chara = pesel.charAt(9);
             int liczbakontrolna = Character.getNumericValue(chara);
             boolean isEven = liczbakontrolna % 2 == 0;
             if (isEven) {

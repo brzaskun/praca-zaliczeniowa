@@ -99,6 +99,9 @@ public class PdfZaswiadczenieZusNiemcy {
             paragraph = new Paragraph(new Phrase("Geburtsdatum: "+pasek.getKalendarzmiesiac().getDataUrodzenia(), font));
             paragraph.setAlignment(Element.ALIGN_LEFT);
             document.add(paragraph);
+            paragraph = new Paragraph(new Phrase("wohn.: "+pasek.getKalendarzmiesiac().getAngaz().getPracownik().getAdres(), font));
+            paragraph.setAlignment(Element.ALIGN_LEFT);
+            document.add(paragraph);
             document.add(Chunk.NEWLINE);
             paragraph = new Paragraph();
             paragraph.setAlignment(Element.ALIGN_LEFT);
