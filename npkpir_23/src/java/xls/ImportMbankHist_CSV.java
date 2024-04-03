@@ -100,7 +100,7 @@ public class ImportMbankHist_CSV implements Serializable {
                             x.setOpistransakcji(opis);
                             x.setNrwyciagu(pn.getWyciagnr());
                             x.setIBAN(baza.get(5).replace("\"", "").replace("'", "").replace("'", ""));
-                            String kontr = baza.get(4).length() < 5 ? "" : baza.get(4).trim().replaceAll("\"", "");
+                            String kontr = baza.get(4).length() < 5 ? baza.get(2): baza.get(4).trim().replaceAll("\"", "");
                             kontr = WordUtils.capitalizeFully(kontr);
                             x.setKontrahent(kontr);//??
                             double kwota = Double.parseDouble(baza.get(6).replaceAll("\\s+", "").replace(",", "."));

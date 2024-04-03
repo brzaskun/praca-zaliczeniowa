@@ -237,7 +237,7 @@ public class BankImportKsiazkaView implements Serializable {
                          lpwiersza = zwrot.size()==4 ? (int) zwrot.get(3):1;
                          for (Iterator<ImportBankWiersz> it = pobranefaktury.iterator(); it.hasNext();) {
                              ImportBankWiersz wie = it.next();
-                             if (wie.getWnma().equals("Ma")||!wie.getNrtransakji().contains("PRZELEW")||!wie.getNrtransakji().contains("PRZYCH")) {
+                             if (wie.getWnma().equals("Ma")||(!wie.getNrtransakji().contains("PRZELEW")&&!wie.getNrtransakji().contains("PRZYCH")&&!wie.getNrtransakji().contains("BLIK"))) {
                                  it.remove();
                              }
                          }
