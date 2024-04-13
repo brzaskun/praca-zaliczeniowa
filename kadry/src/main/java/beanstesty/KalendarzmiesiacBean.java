@@ -334,13 +334,14 @@ public class KalendarzmiesiacBean {
                         if (naliczenieskladnikawynagrodzenia.getKwotaumownazacalymc() != 0.0) {
                             pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                         }
-                    } else if (p.getRodzajwynagrodzenia().getKod().equals("50") && p.getRodzajwynagrodzenia().isSwiadczenierzeczowe()) {
-                        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createSwiadczenieRzeczoweDB(kalendarz, pasekwynagrodzen, p);
-                        if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() > 0.0) {
-                            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
-                        }
-                    
-                    } else if (p.getRodzajwynagrodzenia().getKod().equals("50") || p.getRodzajwynagrodzenia().getKod().equals("70")) {
+ //                   } nie moze tutu byc bo swiadczenia sa na osobnej liscie
+//                    } else if (p.getRodzajwynagrodzenia().getKod().equals("50") && p.getRodzajwynagrodzenia().isSwiadczenierzeczowe()) {
+//                        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createSwiadczenieRzeczoweDB(kalendarz, pasekwynagrodzen, p);
+//                        if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() > 0.0) {
+//                            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+//                        }
+//                    
+                    } else if ((p.getRodzajwynagrodzenia().getKod().equals("50") && !p.getRodzajwynagrodzenia().isSwiadczenierzeczowe())|| p.getRodzajwynagrodzenia().getKod().equals("70")) {
                         Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(kalendarz, pasekwynagrodzen, p);
                         if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() > 0.0) {
                             pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
@@ -355,6 +356,32 @@ public class KalendarzmiesiacBean {
             Msg.msg("e", "Brak zdefiniowanych składników wynagrodzenia");
         }
     }
+    
+     static void naliczskladnikiwynagrodzeniaNaturaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor) {
+        List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
+        if (skladnikwynagrodzeniaList.isEmpty()==false) {
+            skladnikwynagrodzeniaList = skladnikwynagrodzeniaList.stream().filter(p->p.getRodzajwynagrodzenia().isSpecjalny()==false).collect(Collectors.toList());
+            for (Skladnikwynagrodzenia p : skladnikwynagrodzeniaList) {
+                //trzeba usunac tylkospuerplace==true
+                if (p.getRodzajwynagrodzenia().isAktywne()) {
+                    if (p.getRodzajwynagrodzenia().getKod().equals("50") && p.getRodzajwynagrodzenia().isSwiadczenierzeczowe()) {
+                        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createSwiadczenieRzeczoweDB(kalendarz, pasekwynagrodzen, p);
+                        if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() > 0.0) {
+                            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                        }
+                    
+                
+                    } else {
+                        Msg.msg("w", "Nie ma formuły naliczenia składnika wynagrodzenia " + p.getRodzajwynagrodzenia().getOpisskrocony());
+                        System.out.println("Nie ma formuly naliczenia skladnika wynagrodzzenia " + p.getRodzajwynagrodzenia().getOpisskrocony());
+                    }
+                }
+            }
+        } else {
+            Msg.msg("e", "Brak zdefiniowanych składników wynagrodzenia");
+        }
+    }
+    
     
     static void naliczskladnikiPPKDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor, Pasekpomocnik sumyprzychodow) {
         List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();

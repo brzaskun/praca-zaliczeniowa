@@ -495,7 +495,7 @@ public class PasekwynagrodzenBean {
             double limit26, List<Kalendarzmiesiac> kalendarzlista, Wynagrodzenieminimalne wynagrodzenieminimalne, double sumabruttopoprzednich, double sumabruttoopodatkowanapoprzednich) {
         //bo sa dwie opcje rzeczowych przy umowie o prace i zleceniu
         if (kalendarz.getAngaz().jestumowaPracaAktywna(kalendarz.getRok(), kalendarz.getMc())) {
-            KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny);
+            KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaNaturaDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny);
             String umowakodzus = pasek.getKodZus();
             //to musi byc na dole bo inaczej nie sumuje wynagrodzenia za urlop, ktore wchodzi w ppk 29.11.2023
             Pasekpomocnik sumyprzychodow = sumujprzychodyzlisty(pasek);
