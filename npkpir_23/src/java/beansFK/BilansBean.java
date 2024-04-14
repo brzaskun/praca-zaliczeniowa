@@ -5,20 +5,31 @@
  */
 package beansFK;
 
+import dao.KlienciDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
 import dao.PozycjaRZiSDAO;
+import dao.RodzajedokDAO;
+import dao.TabelanbpDAO;
 import dao.UkladBRDAO;
+import dao.WalutyDAOfk;
 import embeddable.Mce;
+import entity.Klienci;
 import entity.Podatnik;
+import entity.Rodzajedok;
+import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
+import entityfk.Tabelanbp;
 import entityfk.UkladBR;
+import entityfk.Waluty;
+import entityfk.Wiersz;
 import error.E;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -100,5 +111,220 @@ public class BilansBean {
         sumy[1] = Z.z(saldowaluta);
         sumy[2] = Z.z(kurs);
         return sumy;
+    }
+    
+    public static Dokfk stworznowydokument(int nrkolejny, List<StronaWiersza> zachowaneWiersze, String seriadokumentu, WpisView wpisView, 
+            KlienciDAO klienciDAO, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk) {
+        Dokfk nd = new Dokfk(nrkolejny, wpisView.getRokWpisuSt());
+        ustawdaty(nd, wpisView, seriadokumentu);
+        ustawkontrahenta(nd, wpisView, klienciDAO);
+        ustawnumerwlasny(nd, nrkolejny, seriadokumentu, wpisView);
+        if (seriadokumentu.equals("BO")) {
+            nd.setOpisdokfk("bilans otwarcia roku: " + wpisView.getRokWpisuSt());
+        } else if (seriadokumentu.equals("BZ")) {
+            nd.setOpisdokfk("bilans zamknięcia roku: " + wpisView.getRokWpisuSt());
+        } else {
+            nd.setOpisdokfk("obroty rozpoczęcia na koniec: " + wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu());
+        }
+        nd.setPodatnikObj(wpisView.getPodatnikObiekt());
+        nd.setWprowadzil(wpisView.getUzer().getLogin());
+        ustawrodzajedok(nd, seriadokumentu, wpisView, rodzajedokDAO);
+        ustawtabelenbp(nd, tabelanbpDAO, walutyDAOfk);
+        ustawwiersze(nd, zachowaneWiersze, wpisView, seriadokumentu);
+        return nd;
+    }
+    
+    public static Dokfk edytujnowydokument(Dokfk nd, List<StronaWiersza> zachowaneWiersze, String seriadokumentu, WpisView wpisView) {
+        if (seriadokumentu.equals("BZ")) {
+            usunwiersze(nd, zachowaneWiersze, wpisView, seriadokumentu);
+            ustawwierszeBZ(nd, zachowaneWiersze, wpisView, seriadokumentu);
+        } else {
+            ustawwiersze(nd, zachowaneWiersze, wpisView, seriadokumentu);
+        }
+        return nd;
+    }
+    
+     private static void ustawdaty(Dokfk nd, WpisView wpisView, String seriadokumentu) {
+        String datadokumentu = wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu() + "-01";
+        if (seriadokumentu.equals("BZ")) {
+            datadokumentu = wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu() + "-31";
+        }
+        nd.setDatadokumentu(datadokumentu);
+        nd.setDataoperacji(datadokumentu);
+        nd.setDatawplywu(datadokumentu);
+        nd.setDatawystawienia(datadokumentu);
+        nd.setDataujecia(new Date());
+        nd.setMiesiac(wpisView.getMiesiacWpisu());
+        nd.setVatM(wpisView.getMiesiacWpisu());
+        nd.setVatR(wpisView.getRokWpisuSt());
+    }
+
+    private static void ustawkontrahenta(Dokfk nd, WpisView wpisView, KlienciDAO klienciDAO) {
+        try {
+            Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            nd.setKontr(k);
+        } catch (Exception e) {
+
+        }
+    }
+    
+    
+    private static void ustawnumerwlasny(Dokfk nd, int nrkolejny, String seriadokumentu, WpisView wpisView) {
+        String numer = nrkolejny+"/" + wpisView.getRokWpisuSt() + "/" + seriadokumentu;
+        nd.setNumerwlasnydokfk(numer);
+    }
+
+    private static void ustawrodzajedok(Dokfk nd, String typ, WpisView wpisView, RodzajedokDAO rodzajedokDAO) {
+        Rodzajedok rodzajedok = rodzajedokDAO.find(typ, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        if (rodzajedok != null) {
+            nd.setSeriadokfk(rodzajedok.getSkrot());
+            nd.setRodzajedok(rodzajedok);
+        } else {
+            Msg.msg("e", "Brak zdefiniowanego dokumentu BO/BOR");
+        }
+    }
+
+    private static void ustawtabelenbp(Dokfk nd, TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk) {
+        Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
+        nd.setTabelanbp(t);
+        Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+        nd.setWalutadokumentu(w);
+    }
+    
+    public static void ustawwiersze(Dokfk nd, List<StronaWiersza> listabiezaca, WpisView wpisView, String seriadokumentu) {
+        nd.setListawierszy(new ArrayList<Wiersz>());
+        int idporzadkowy = 1;
+        if (listabiezaca != null && listabiezaca.size() > 0) {
+            for (StronaWiersza p : listabiezaca) {
+                //bo sa takie co sa zapisane w bazie i sa generowane jako saldo i te nie maja id
+                boolean warunek = true;
+                if (seriadokumentu.equals("BO")) {
+                    warunek = p.getWiersz().getIdwiersza()==null;
+                }
+                //przetwarzamy tylko wiersze ktorych nie ma w bazie
+                if (p != null && warunek && (p.getKwotaWn() != 0.0 || p.getKwotaMa() != 0.0 || p.getKwotaPLN() != 0.0 || p.getKwotaPLN() != 0.0)) {
+                    Wiersz wierszstary = p.getWiersz();
+                    Wiersz w = new Wiersz();
+                    w.setTabelanbp(wierszstary.getTabelanbp());
+                    if (p.getWnma().equals("Wn")) {
+                        w.setStronaWn(p);
+                    } else {
+                        w.setStronaMa(p);
+                    }
+                    uzupelnijwiersz(w, nd, idporzadkowy++);
+                    
+                    String opiswiersza = "";
+                    String opiswstepny = p.getWiersz().getOpisWiersza();
+                    if (opiswstepny!=null) {
+                        opiswstepny = opiswstepny.replace("zapis BO ", "");
+                        opiswstepny = opiswstepny.replace("zapis BO: ", "");
+                        opiswstepny = opiswstepny.replace("kwota obrotów: ", "");
+                        opiswstepny = opiswstepny.replace("zapis BZ: ", "");
+                    }
+                    if (seriadokumentu.equals("BO")) {
+                        opiswiersza = "zapis BO: " + opiswstepny;
+                    } else if (seriadokumentu.equals("BOR")) {
+                        opiswiersza = "kwota obrotów: " + opiswstepny;
+                    } else if (seriadokumentu.equals("BZ")) {
+                        opiswiersza = "zapis BZ: " + opiswstepny;
+                    }
+                    w.setOpisWiersza(opiswiersza);
+                    nd.getListawierszy().add(w);
+                }
+            }
+        }
+    }
+    
+    public static void ustawwierszeBZ(Dokfk nd, List<StronaWiersza> listabiezaca, WpisView wpisView, String seriadokumentu) {
+        int idporzadkowy = 1;
+        if (listabiezaca != null && listabiezaca.size() > 0) {
+            for (StronaWiersza p : listabiezaca) {
+//                boolean warunek = p.getWiersz()!=null?p.getWiersz().getIdwiersza()==null:true;
+//                if (seriadokumentu.equals("BZ")) {
+//                    warunek = p.getWiersz()!=null?p.getWiersz().getIdwiersza()!=null:false;
+//                }
+                //przetwarzamy tylko wiersze ktorych nie ma w bazie
+                if (p != null && (p.getKwotaWn() != 0.0 || p.getKwotaMa() != 0.0 || p.getKwotaPLN() != 0.0 || p.getKwotaPLN() != 0.0)) {
+                    Wiersz wierszstary = p.getWiersz();
+                    Wiersz w = new Wiersz();
+                    if (wierszstary!=null) {
+                        w.setTabelanbp(wierszstary.getTabelanbp());
+                    } else {
+                        w.setTabelanbp(p.getTabelanbp());
+                    }
+                    if (p.getWnma().equals("Wn")) {
+                        w.setStronaWn(p);
+                    } else {
+                        w.setStronaMa(p);
+                    }
+                    uzupelnijwiersz(w, nd, idporzadkowy++);
+                    String opiswiersza = "";
+                    String opiswstepny = p.getWiersz()!=null?p.getWiersz().getOpisWiersza():"";
+                    if (opiswstepny!=null) {
+                        opiswstepny = opiswstepny.replace("zapis BO ", "");
+                        opiswstepny = opiswstepny.replace("zapis BO: ", "");
+                        opiswstepny = opiswstepny.replace("kwota obrotów: ", "");
+                        opiswstepny = opiswstepny.replace("zapis BZ: ", "");
+                    }
+                    if (seriadokumentu.equals("BO")) {
+                        opiswiersza = "zapis BO: " + opiswstepny;
+                    } else if (seriadokumentu.equals("BOR")) {
+                        opiswiersza = "kwota obrotów: " + opiswstepny;
+                    } else if (seriadokumentu.equals("BZ")) {
+                        opiswiersza = "zapis BZ: " + opiswstepny;
+                    }
+                    w.setOpisWiersza(opiswiersza);
+                    nd.getListawierszy().add(w);
+                }
+            }
+        }
+    }
+    
+    public static void usunwiersze(Dokfk nd, List<StronaWiersza> listabiezaca, WpisView wpisView, String seriadokumentu) {
+        int idporzadkowy = 1;
+        if (listabiezaca != null && listabiezaca.size() > 0) {
+            boolean sazmiany=  false;
+            for (StronaWiersza p : listabiezaca) {
+                //nie moze byc bo jak jest lista sald to nie generuje
+//                boolean warunek = p.getWiersz()!=null?p.getWiersz().getIdwiersza()==null:true;
+//                if (seriadokumentu.equals("BZ")) {
+//                    warunek = p.getWiersz()!=null?p.getWiersz().getIdwiersza()!=null:false;
+//                }
+                //przetwarzamy tylko wiersze ktorych nie ma w bazie
+                if (p != null && (p.getKwotaWn() != 0.0 || p.getKwotaMa() != 0.0 || p.getKwotaPLN() != 0.0 || p.getKwotaPLN() != 0.0)) {
+                    List<Wiersz> listawierszy = nd.getListawierszy();
+                    for (Iterator<Wiersz> it = listawierszy.iterator(); it.hasNext();) {
+                        Wiersz w = it.next();
+                        StronaWiersza stronaWn = w.getStronaWn();
+                        StronaWiersza stronaMa = w.getStronaMa();
+                        if (stronaWn!=null&&stronaWn.getKonto().equals(p.getKonto())) {
+                            it.remove();
+                            sazmiany = true;
+                        } else if (stronaMa!=null&&stronaMa.getKonto().equals(p.getKonto())) {
+                            it.remove();
+                            sazmiany = true;
+                        }
+                    }
+                }
+            }
+            if (sazmiany) {
+                int i = 1;
+                List<Wiersz> listawierszy = nd.getListawierszy();
+                for (Iterator<Wiersz> it = listawierszy.iterator(); it.hasNext();) {
+                    Wiersz w = it.next();
+                    w.setIdporzadkowy(i);
+                    i = i+1;
+                }
+            }
+        }
+    }
+
+      private static void uzupelnijwiersz(Wiersz w, Dokfk nd, int idporzadkowy) {
+        w.setIdporzadkowy(idporzadkowy);
+        w.setTypWiersza(0);
+        w.setDokfk(nd);
+        w.setLpmacierzystego(0);
+        w.setTabelanbp(w.getTabelanbp());
+        w.setDataksiegowania(nd.getDatawplywu());
     }
 }

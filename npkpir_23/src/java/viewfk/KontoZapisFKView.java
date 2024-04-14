@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import beansFK.BilansBean;
 import beansFK.DokumentFKBean;
 import beansFK.KontaFKBean;
 import beansFK.RozliczTransakcjeBean;
@@ -488,20 +489,36 @@ public class KontoZapisFKView implements Serializable{
         try {
             sumaWn = 0.0;
             sumaMa = 0.0;
+            Tabelanbp tabela = null;
             DoubleAccumulator  wn = new DoubleAccumulator(Double::sum,0.d);
             DoubleAccumulator  ma = new DoubleAccumulator(Double::sum,0.d);
             if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
                 wybranezapisydosumowania.stream().forEach((p) -> {
                     sumujstrony(wn, ma, p);
                 });
+                for (StronaWiersza s : wybranezapisydosumowania) {
+                    if (s.getWiersz().getTabelanbp()!=null&&s.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")==false) {
+                        listasum.get(0).setTabelanbp(s.getTabelanbp());
+                    }
+                }
             } else if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
                 kontozapisyfiltered.stream().forEach((p) -> {
                     sumujstrony(wn, ma, p);
                 });
+                for (StronaWiersza s : kontozapisyfiltered) {
+                    if (s.getWiersz().getTabelanbp()!=null&&s.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")==false) {
+                        listasum.get(0).setTabelanbp(s.getTabelanbp());
+                    }
+                }
             } else {
                 kontozapisy.stream().forEach((p) -> {
                     sumujstrony(wn, ma, p);
                 });
+                for (StronaWiersza s : kontozapisy) {
+                    if (s.getWiersz().getTabelanbp()!=null&&s.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")==false) {
+                        listasum.get(0).setTabelanbp(s.getWiersz().getTabelanbp());
+                    }
+                }
             }
             sumaWn = Z.z(sumaWn+wn.doubleValue());
             sumaMa = Z.z(sumaMa+ma.doubleValue());
@@ -530,6 +547,11 @@ public class KontoZapisFKView implements Serializable{
             kontozapisy.stream().forEach((p) -> {
                 sumujstrony(wn, ma, p);
             });
+            for (StronaWiersza s : kontozapisy) {
+                   if (s.getWiersz().getTabelanbp()!=null&&s.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")==false) {
+                       listasum.get(0).setTabelanbp(s.getWiersz().getTabelanbp());
+                   }
+               }
             sumaWn = Z.z(sumaWn+wn.doubleValue());
             sumaMa = Z.z(sumaMa+ma.doubleValue());
             saldoWn = 0.0;
@@ -683,7 +705,10 @@ public class KontoZapisFKView implements Serializable{
         Map<String, ListaSum> zbiorcza = stworzlisteSumwWalutach(kontozapisy);
         for (StronaWiersza p : kontozapisy) {
             ListaSum r = zbiorcza.get(p.getSymbolWalutBOiSW());
-            r.setTabelanbp(p.getWiersz().getTabelanbp());
+            Tabelanbp tabelanbp = p.getWiersz().getTabelanbp();
+            if (tabelanbp!=null) {
+                r.setTabelanbp(tabelanbp);
+            }
             r.setWalutabo(p.getWierszbo() != null ? p.getWierszbo().getWaluta(): null);
             r.setKurswaluty(p.getKursWalutyBOSW());
             if (r != null && !r.getWaluta().equals("PLN")) {
@@ -1881,6 +1906,62 @@ public class KontoZapisFKView implements Serializable{
         }
     }
 
+    public void naniesbz() {
+        if (wybranekonto==null&&listasum.isEmpty()==false) {
+            Msg.msg("e","Nie wybrano konta");
+        } else {
+            List zachowaneWiersze = wybranezapisydosumowania!=null?wybranezapisydosumowania:new ArrayList<StronaWiersza>();
+            if (zachowaneWiersze.isEmpty()) {
+                zachowaneWiersze = naniessaldo(listasum, wybranekonto);
+            }
+            String seriadokumentu = "BZ";
+            Dokfk dok = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), seriadokumentu, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            if (dok == null) {
+                dok = BilansBean.stworznowydokument(1, zachowaneWiersze, seriadokumentu, wpisView, klienciDAO, rodzajedokDAO, tabelanbpDAO, walutyDAOfk);
+                if (dok.getListawierszy() != null) {
+                    dok.przeliczKwotyWierszaDoSumyDokumentu();
+                }
+                dokDAOfk.create(dok);
+                Msg.msg("Wygenerowano dokument BZ");
+            } else {
+                BilansBean.edytujnowydokument(dok, zachowaneWiersze, seriadokumentu, wpisView);
+                if (dok.getListawierszy() != null) {
+                    dok.przeliczKwotyWierszaDoSumyDokumentu();
+                }
+                dokDAOfk.edit(dok);
+                Msg.msg("Wedytowano dokument BZ");
+            }
+        }
+    }
+    
+    private List naniessaldo(List<ListaSum> listasum, Konto konto) {
+        List<StronaWiersza> wierszsaldo = new ArrayList<>();
+        if (listasum!=null&&listasum.isEmpty()==false) {
+            StronaWiersza strona = new StronaWiersza();
+            strona.setKonto(konto);
+            if (listasum.size()==1) {
+                ListaSum l = listasum.get(0);
+                if (l.getSaldoWnPLN()!=0) {
+                    strona.setWnma("Wn");
+                    strona.setKwota(l.getSaldoWn());
+                    strona.setKwotaWaluta(l.getSaldoWn());
+                    strona.setKwotaPLN(l.getSaldoWnPLN());
+                } else if (l.getSaldoMaPLN()!=0) {
+                    strona.setWnma("Ma");
+                    strona.setKwota(l.getSaldoMa());
+                    strona.setKwotaWaluta(l.getSaldoMa());
+                    strona.setKwotaPLN(l.getSaldoMaPLN());
+                }
+                strona.setTabelanbp(l.getTabelanbp());
+            }
+            if (strona.getKwota()!=0.0) {
+                wierszsaldo.add(strona);
+            }
+        }
+        return wierszsaldo;
+    }
+    
+    
     public void oznaczjakosprawdzone(int sprawdz) {
         if (wybranekonto==null) {
             Msg.msg("e","Nie wybrano konta");
@@ -1958,6 +2039,7 @@ public class KontoZapisFKView implements Serializable{
     public void setSymboleWalut(List<String> symboleWalut) {
         this.symboleWalut = symboleWalut;
     }
+
     
     
     

@@ -5,10 +5,8 @@
  */
 package viewfk;
 
+import beansFK.BilansBean;
 import comparator.StronaWierszaKontocomparator;
-import comparator.StronaWierszacomparatorBO;
-import comparator.WierszBOcomparator;
-import comparator.WierszBOcomparatorKwota;
 import dao.DokDAOfk;
 import dao.KlienciDAO;
 import dao.KontoDAOfk;
@@ -16,15 +14,11 @@ import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
 import dao.TabelanbpDAO;
 import dao.WalutyDAOfk;
-import dao.WierszBODAO;
 import dao.WierszDAO;
 import data.Data;
 import embeddablefk.TreeNodeExtended;
 import entity.Evewidencja;
-import entity.Klienci;
 import entity.Podatnik;
-import entity.Rodzajedok;
-import entity.Uz;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import entityfk.Konto;
@@ -32,12 +26,10 @@ import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
-import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -54,7 +46,6 @@ import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.datatable.DataTable;
-import pdffk.PdfWierszBO;
  import view.WpisView;
 import waluty.Z;
 
@@ -876,7 +867,7 @@ public class BilansWprowadzanieNowyView implements Serializable {
             isteniejeDokBO = true;
         } else {
             isteniejeDokBO = false;
-            dok = stworznowydokument(1, zachowaneWiersze, seriadokumentu);
+            dok = BilansBean.stworznowydokument(1, zachowaneWiersze, seriadokumentu, wpisView, klienciDAO, rodzajedokDAO, tabelanbpDAO, walutyDAOfk);
             dok.przeliczKwotyWierszaDoSumyDokumentu();
             dokDAOfk.create(dok);
             dokumentBO = dok;
@@ -896,7 +887,7 @@ public class BilansWprowadzanieNowyView implements Serializable {
         try {
             //dodamy nowe wiersze;
             if (zachowaneWierszenowe!=null&&zachowaneWierszenowe.size()>0) {
-                ustawwiersze(dokumentBO, zachowaneWierszenowe);
+                BilansBean.ustawwiersze(dokumentBO, zachowaneWierszenowe, wpisView, seriadokumentu);
             }
             dokDAOfk.edit(dokumentBO);
             Msg.msg("Naniesiono zmiany w dokumencie BO");
@@ -947,92 +938,12 @@ public class BilansWprowadzanieNowyView implements Serializable {
 //        }
 //    }
 
-    private Dokfk stworznowydokument(int nrkolejny, List<StronaWiersza> zachowaneWiersze, String typ) {
-        Dokfk nd = new Dokfk(nrkolejny, wpisView.getRokWpisuSt());
-        ustawdaty(nd);
-        ustawkontrahenta(nd);
-        ustawnumerwlasny(nd, nrkolejny, seriadokumentu);
-        if (typ.equals(seriadokumentu)) {
-            nd.setOpisdokfk("bilans otwarcia roku: " + wpisView.getRokWpisuSt());
-        } else {
-            nd.setOpisdokfk("obroty rozpoczęcia na koniec: " + wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu());
-        }
-        nd.setPodatnikObj(wpisView.getPodatnikObiekt());
-        nd.setWprowadzil(wpisView.getUzer().getLogin());
-        ustawrodzajedok(nd, seriadokumentu);
-        ustawtabelenbp(nd);
-        ustawwiersze(nd, zachowaneWiersze);
-        return nd;
-    }
-
-    private void ustawdaty(Dokfk nd) {
-        String datadokumentu = wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu() + "-01";
-        nd.setDatadokumentu(datadokumentu);
-        nd.setDataoperacji(datadokumentu);
-        nd.setDatawplywu(datadokumentu);
-        nd.setDatawystawienia(datadokumentu);
-        nd.setDataujecia(new Date());
-        nd.setMiesiac(wpisView.getMiesiacWpisu());
-        nd.setVatM(wpisView.getMiesiacWpisu());
-        nd.setVatR(wpisView.getRokWpisuSt());
-    }
-
-    private void ustawkontrahenta(Dokfk nd) {
-        try {
-            Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-            nd.setKontr(k);
-        } catch (Exception e) {
-
-        }
-    }
-
-    private void ustawnumerwlasny(Dokfk nd, int nrkolejny, String seriadokumentu) {
-        String numer = nrkolejny+"/" + wpisView.getRokWpisuSt() + "/" + seriadokumentu;
-        nd.setNumerwlasnydokfk(numer);
-    }
-
-    private void ustawrodzajedok(Dokfk nd, String typ) {
-        Rodzajedok rodzajedok = rodzajedokDAO.find(typ, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        if (rodzajedok != null) {
-            nd.setSeriadokfk(rodzajedok.getSkrot());
-            nd.setRodzajedok(rodzajedok);
-        } else {
-            Msg.msg("e", "Brak zdefiniowanego dokumentu BO/BOR");
-        }
-    }
-
-    private void ustawtabelenbp(Dokfk nd) {
-        Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
-        nd.setTabelanbp(t);
-        Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
-        nd.setWalutadokumentu(w);
-    }
+    
 
    
-    private void ustawwiersze(Dokfk nd, List<StronaWiersza> listabiezaca) {
-        nd.setListawierszy(new ArrayList<Wiersz>());
-        int idporzadkowy = 1;
-        if (listabiezaca != null && listabiezaca.size() > 0) {
-            for (StronaWiersza p : listabiezaca) {
-                //przetwarzamy tylko wiersze ktorych nie ma w bazie
-                if (p != null && p.getWiersz().getIdwiersza()==null && (p.getKwotaWn() != 0.0 || p.getKwotaMa() != 0.0 || p.getKwotaPLN() != 0.0 || p.getKwotaPLN() != 0.0)) {
-                    Wiersz w = p.getWiersz();
-                    if (p.getWnma().equals("Wn")) {
-                        w.setStronaWn(p);
-                    } else {
-                        w.setStronaMa(p);
-                    }
-                    uzupelnijwiersz(w, nd, idporzadkowy++);
-                    String opiswiersza = "zapis BO: " + p.getWiersz().getOpisWiersza();
-                    if (!wpisView.getMiesiacWpisu().equals("01")) {
-                        opiswiersza = "kwota obrotów: " + p.getOpis();
-                    }
-                    w.setOpisWiersza(opiswiersza);
-                    nd.getListawierszy().add(w);
-                }
-            }
-        }
-    }
+
+   
+    
 
 //    private void uzupelnijTworzonyWiersz(Wiersz w, StronaWiersza p, String wnma, Integer typWiersza) {
 //        w.setTypWiersza(typWiersza);
@@ -1220,14 +1131,7 @@ public class BilansWprowadzanieNowyView implements Serializable {
 //        return znaleziony;
 //    }
 
-    private void uzupelnijwiersz(Wiersz w, Dokfk nd, int idporzadkowy) {
-        w.setIdporzadkowy(idporzadkowy);
-        w.setTypWiersza(0);
-        w.setDokfk(nd);
-        w.setLpmacierzystego(0);
-        w.setTabelanbp(w.getTabelanbp());
-        w.setDataksiegowania(nd.getDatawplywu());
-    }
+  
 
     private void podsumujWnMa(List<StronaWiersza> lista) {
         stronaWn = 0.0;

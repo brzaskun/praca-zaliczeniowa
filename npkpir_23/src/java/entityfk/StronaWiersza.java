@@ -8,7 +8,6 @@ package entityfk;
 import data.Data;
 import embeddable.Mce;
 import embeddablefk.ListaSum;
-import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -179,6 +178,8 @@ public class StronaWiersza implements Serializable {
     private String kontr;
     @Transient
     private double sumatransakcji;
+    @Transient
+    private Tabelanbp tabelanbp;
     
    
 
@@ -416,6 +417,16 @@ public class StronaWiersza implements Serializable {
     public void setRozliczeniebiezace(double rozliczeniebiezace) {
         this.rozliczeniebiezace = rozliczeniebiezace;
     }
+
+    public Tabelanbp getTabelanbp() {
+        return tabelanbp;
+    }
+
+    public void setTabelanbp(Tabelanbp tabelanbp) {
+        this.tabelanbp = tabelanbp;
+    }
+    
+    
     
 
     public double getRozliczonoViewInneDok(List<Transakcja> biezacetransakcje) {
