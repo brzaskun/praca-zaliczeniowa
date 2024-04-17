@@ -8,37 +8,40 @@
     
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab title="Wartości inwentaryzacji na koniec roku podatkowego">  
-        <h:form id="form4" >
+        <h:form id="form4old" >
             <h:outputText value="Wartości inwentaryzacji na koniec roku podatkowego" style="font-size: 15px"/>
             <p:growl life="3600"  showDetail="true"/>
             <p:focus for="parametrypodatnika3"/><br/>
-            <p:panelGrid columns="4" style="width: 300px">
-                <p:dataTable value="#{remanentView.remanentypodatnika}"  var="loop" >
+            <p:panelGrid columns="4" style="width: 500px">
+                <p:dataTable value="#{podatnikView.selected.remanent}"  var="loop" >
                     <f:facet name="header">
                     <h:outputText value="Dane historyczne"/>
                 </f:facet>
-                    <p:column headerText="rok">
-                        <h:outputText value="#{loop.rok}" />
+                    <p:column headerText="od">
+                        <h:outputText value="#{loop.mcOd}-" />
+                        <h:outputText value="#{loop.rokOd}" />
+                    </p:column>
+                    <p:column headerText="do">
+                        <h:outputText value="#{loop.mcDo}-" />
+                        <h:outputText value="#{loop.rokDo}" />
                     </p:column>
                     <p:column headerText="kwota remanentu">
-                        <bcf:outputpl value="#{loop.kwota}"/>
-                    </p:column>
-                    <p:column style="text-align: center;" headerText="usuń">
-                        <p:commandButton action="#{remanentView.usunremanent(loop)}"  icon="ui-icon-trash" update="@form" type="submit"/>
+                        <bcf:outputpl value="#{loop.paramentrNumb}"/>
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
             <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
             <p:panelGrid id="parametrypodatnika3" columns="4" >
                 <h:outputText value="rok podatkowy: "/>
-                <p:selectOneMenu value="#{remanentView.selected.rok}">
+                <p:selectOneMenu value="#{podatnikView.parametr.rokOd}">
                     <f:selectItems value="#{roki.rokiListString}"/>
                 </p:selectOneMenu>
-                <bcf:inputpl value="#{remanentView.selected.kwota}" />
+                <p:inputText value="#{podatnikView.parametr.parametr}" />
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
-                <p:commandButton action="#{remanentView.dodajremanent()}" value="dodaj parametr" update="@form" type="submit"/>
+                <p:commandButton action="#{podatnikView.usunremanent()}" value="usun parametr" update="@form" type="submit"/>
+                <p:commandButton action="#{podatnikView.dodajremanent()}" value="dodaj parametr" update="@form" type="submit"/>
             </p:panelGrid>
         </h:form>
         <br/><br/>

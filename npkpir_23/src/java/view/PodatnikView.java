@@ -1107,31 +1107,31 @@ public class PodatnikView implements Serializable {
         return "/manager/managerPodUstaw.xhtml?faces-redirect=true";
     }
 
-    public void dodajremanent() {
-        selected = wpisView.getPodatnikObiekt();
-        List<Parametr> lista = Collections.synchronizedList(new ArrayList<>());
-        try {
-            lista.addAll(selected.getRemanent());
-        } catch (Exception e) { E.e(e); 
-        }
-        if (sprawdzrok(parametr, lista) == 0) {
-            lista.add(parametr);
-            selected.setRemanent(lista);
-            zachowajZmiany(selected);
-            parametr = new Parametr();
-            Msg.msg("Dodatno parametr remanent do podatnika: "+selected.getNazwapelna());
-        } else {
-            Msg.msg("e","Niedodatno parametru remanent. Niedopasowane okresy: "+selected.getPrintnazwa());
-        }
-    }
-
-    public void usunremanent() {
-        List<Parametr> tmp = Collections.synchronizedList(new ArrayList<>());
-        tmp.addAll(selected.getRemanent());
-        tmp.remove(tmp.size() - 1);
-        selected.setRemanent(tmp);
-        zachowajZmiany(selected);
-    }
+//    public void dodajremanent() {
+//        selected = wpisView.getPodatnikObiekt();
+//        List<Parametr> lista = Collections.synchronizedList(new ArrayList<>());
+//        try {
+//            lista.addAll(selected.getRemanent());
+//        } catch (Exception e) { E.e(e); 
+//        }
+//        if (sprawdzrok(parametr, lista) == 0) {
+//            lista.add(parametr);
+//            selected.setRemanent(lista);
+//            zachowajZmiany(selected);
+//            parametr = new Parametr();
+//            Msg.msg("Dodatno parametr remanent do podatnika: "+selected.getNazwapelna());
+//        } else {
+//            Msg.msg("e","Niedodatno parametru remanent. Niedopasowane okresy: "+selected.getPrintnazwa());
+//        }
+//    }
+//
+//    public void usunremanent() {
+//        List<Parametr> tmp = Collections.synchronizedList(new ArrayList<>());
+//        tmp.addAll(selected.getRemanent());
+//        tmp.remove(tmp.size() - 1);
+//        selected.setRemanent(tmp);
+//        zachowajZmiany(selected);
+//    }
 
     public void dodajkwoteautoryzujaca() {
         selected = wpisView.getPodatnikObiekt();

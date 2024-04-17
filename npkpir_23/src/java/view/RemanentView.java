@@ -4,10 +4,14 @@
  */
 package view;
 
+import dao.PodatnikDAO;
+import dao.RemanentDAO;
 import embeddable.Parametr;
 import entity.Podatnik;
+import entity.Remanent;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -22,18 +26,17 @@ import msg.Msg;
 @ViewScoped
 public class RemanentView implements Serializable {
 
-    private double remanentPoczRoku;
-    private double remanentKoniecRoku;
-    private double roznica;
-
- 
     @Inject
     private WpisView wpisView;
+    @Inject
+    private RemanentDAO remanentDAO;
+    @Inject
+    private PodatnikDAO podatnikDAO;
+    private List<Remanent> remanentypodatnika;
+    private Remanent selected;
 
     public RemanentView() {
-        remanentPoczRoku = 0.0;
-        remanentKoniecRoku = 0.0;
-        roznica = 0.0;
+        selected = new Remanent();
     }
     
     
@@ -41,32 +44,8 @@ public class RemanentView implements Serializable {
     @PostConstruct
     private void init() { //E.m(this);
         try {
-            Podatnik pod = wpisView.getPodatnikObiekt();
-            Integer rok = wpisView.getRokWpisu();
-            Integer rokNext = wpisView.getRokWpisu()+1;
             try {
-                List<Parametr> remanentLista = pod.getRemanent();
-                if (remanentLista.isEmpty()) {
-                     Msg.msg("e", "Nie wprowadzono remanentu! Program nie obliczy PIT-u za grudzien.");
-                } else {
-                    Parametr tmp = zwrocparametrzRoku(remanentLista, rok);
-                    if (tmp instanceof Parametr) {
-                        String parametrweryf = tmp.getParametr().replace(",", ".");
-                        remanentPoczRoku = Double.valueOf(parametrweryf);
-                    } else {
-                        Msg.msg("e", "Nie wprowadzono remanentu początkowego! Program nie obliczy poprawnie PIT-u za grudzien.");
-                    }
-                    tmp = zwrocparametrzRoku(remanentLista, rokNext);
-                    if (tmp instanceof Parametr) {
-                        String parametrweryf = tmp.getParametr().replace(",", ".");
-                        remanentKoniecRoku = Double.valueOf(parametrweryf);
-                        roznica = remanentKoniecRoku-remanentPoczRoku;
-                    } else {
-                        Msg.msg("e", "Nie wprowadzono remanentu końcowego! Program nie obliczy poprawnie PIT-u za grudzien.");
-                        roznica = 0.0;
-                    }
-                    //remnierem = "Wartość ostatniego remanentu za " + tmp.getRokOd() + " wynosi: " + tmp.getParametr();
-                }
+                 remanentypodatnika = remanentDAO.findPodatnik(wpisView.getPodatnikObiekt());
             } catch (Exception e) { E.e(e); 
                     Msg.msg("e", "Nie wprowadzono remanentu! Program nie obliczy PIT-u za grudzien.");
             }
@@ -75,40 +54,68 @@ public class RemanentView implements Serializable {
         }
     }
     
-    private Parametr zwrocparametrzRoku(List<Parametr> lista, Integer szukanyRok) {
-        String rokStr = String.valueOf(szukanyRok);
-        for (Parametr p : lista) {
-            if (p.getRokOd().equals(rokStr)) {
-                return p;
+    //to jest tranzycja rem
+    public void tworzremanent() {
+        List<Podatnik> findAllManager = podatnikDAO.findAllManager();
+        for (Podatnik pod : findAllManager) {
+            List<Remanent> listaremanentow = new ArrayList<>();
+            List<Parametr> remanentLista = pod.getRemanent();
+            if (remanentLista!=null&&remanentLista.size()>0) {
+                for (Parametr par : remanentLista) {
+                    try {
+                        if (par.getParametr()!=null&&par.getParametr().equals("")==false) {
+                            String parametrweryf = par.getParametr().replace(",", ".");
+                            double remanentkwota = Double.valueOf(parametrweryf);
+                            Remanent remanent = new Remanent(par.getRokOd(), remanentkwota, pod);
+                            listaremanentow.add(remanent);
+                        }
+                    } catch (Exception e) {
+                        System.out.println("");
+                    }
+                }
+                remanentDAO.createList(listaremanentow);
             }
+            System.out.println(pod.getPrintnazwa()+" rem koniec");
         }
-        return null;
+    }
+    
+     public void dodajremanent() {
+        try {
+            selected.setPodid(wpisView.getPodatnikObiekt());
+            remanentDAO.create(selected);
+            remanentypodatnika.add(selected);
+            selected = new Remanent();
+            Msg.msg("Dodatno parametr remanent do podatnika: "+wpisView.getPrintNazwa());
+        } catch (Exception e) {
+            Msg.msg("e","Błąd przy dodawaniu remanentu.");
+        }
     }
 
-    public double getRemanentPoczRoku() {
-        return remanentPoczRoku;
+    public void usunremanent(Remanent selected) {
+        if (selected!=null) {
+            remanentDAO.remove(selected);
+            remanentypodatnika.remove(selected);
+            Msg.msg("Usunięto remanent");
+        }
     }
 
-    public void setRemanentPoczRoku(double remanentPoczRoku) {
-        this.remanentPoczRoku = remanentPoczRoku;
+    public List<Remanent> getRemanentypodatnika() {
+        return remanentypodatnika;
     }
 
-    public double getRemanentKoniecRoku() {
-        return remanentKoniecRoku;
+    public void setRemanentypodatnika(List<Remanent> remanentypodatnika) {
+        this.remanentypodatnika = remanentypodatnika;
     }
 
-    public void setRemanentKoniecRoku(double remanentKoniecRoku) {
-        this.remanentKoniecRoku = remanentKoniecRoku;
+    public Remanent getSelected() {
+        return selected;
     }
 
-    public double getRoznica() {
-        return roznica;
+    public void setSelected(Remanent selected) {
+        this.selected = selected;
     }
 
-    public void setRoznica(double roznica) {
-        this.roznica = roznica;
-    }
-
+    
    
 
     public WpisView getWpisView() {

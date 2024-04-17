@@ -17,6 +17,7 @@ import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
+import dao.RemanentDAO;
 import dao.SMTPSettingsDAO;
 import dao.StrataDAO;
 import dao.ZobowiazanieDAO;
@@ -31,6 +32,7 @@ import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Podstawki;
+import entity.Remanent;
 import entity.Strata;
 import entity.StrataWykorzystanie;
 import entity.Zobowiazanie;
@@ -165,6 +167,11 @@ public class ZestawienieView implements Serializable {
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
     private List<Pitpoz> pitydlapita;
+    private double remanentPoczRoku;
+    private double remanentKoniecRoku;
+    private double remanentroznica;
+    @Inject
+    private RemanentDAO remanentDAO;
 
     private int flaga = 0;
 
@@ -571,7 +578,20 @@ public class ZestawienieView implements Serializable {
                 biezacyPit.setPrzychodyudzialmc(Z.z(biezacyPit.getPrzychodymc()*procent));
                 biezacyPit.setKoszty(obliczkoszt(biezacyPit));
                 if (pitroczny) {
-                    BigDecimal roznicaremanentow = new BigDecimal(remanentView.getRoznica());
+                    Remanent remanentPR = remanentDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                    if (remanentPR!=null) {
+                        remanentPoczRoku = remanentPR.getKwota();
+                    } else {
+                        Msg.msg("Brak remanentu początkowego");
+                    }
+                    Remanent remanentKR = remanentDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokNastepnySt());
+                    if (remanentKR!=null) {
+                        remanentKoniecRoku = remanentKR.getKwota();
+                    } else {
+                        Msg.msg("Brak remanentu końcowego");
+                    }
+                    remanentroznica = Z.z(remanentKoniecRoku-remanentPoczRoku);
+                    BigDecimal roznicaremanentow = new BigDecimal(remanentroznica);
                     biezacyPit.setRemanent(roznicaremanentow);
                     BigDecimal kosztypokorekcie = biezacyPit.getKoszty().subtract(roznicaremanentow);
                     biezacyPit.setKosztymc(Z.z(biezacyPit.getKosztymc()-roznicaremanentow.doubleValue()));
@@ -1061,8 +1081,8 @@ public class ZestawienieView implements Serializable {
 
     public void zachowajPit13() {
         biezacyPit.setPkpirM("13");
-        BigDecimal roznicaremanentow = new BigDecimal(remanentView.getRoznica());
-        biezacyPit.setRemanent(roznicaremanentow);
+        biezacyPit.setPkpirR(wpisView.getRokWpisuSt());
+        biezacyPit.setRemanent(new BigDecimal(remanentroznica));
         zachowajPit();
     }
 
@@ -1735,6 +1755,30 @@ public class ZestawienieView implements Serializable {
 
     public void setPitroczny(boolean pitroczny) {
         this.pitroczny = pitroczny;
+    }
+
+    public double getRemanentPoczRoku() {
+        return remanentPoczRoku;
+    }
+
+    public void setRemanentPoczRoku(double remanentPoczRoku) {
+        this.remanentPoczRoku = remanentPoczRoku;
+    }
+
+    public double getRemanentKoniecRoku() {
+        return remanentKoniecRoku;
+    }
+
+    public void setRemanentKoniecRoku(double remanentKoniecRoku) {
+        this.remanentKoniecRoku = remanentKoniecRoku;
+    }
+
+    public double getRemanentroznica() {
+        return remanentroznica;
+    }
+
+    public void setRemanentroznica(double remanentroznica) {
+        this.remanentroznica = remanentroznica;
     }
 
 

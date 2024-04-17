@@ -90,6 +90,7 @@
     <class>entity.Pozycjenafakturze</class>
     <class>entity.Pozycjenafakturzebd</class>
     <class>entity.Rejestrlogowan</class>
+    <class>entity.Remanent</class>
     <class>entity.Rodzajedok</class>
     <class>entity.Rozrachunek1</class>
     <class>entity.Ryczpoz</class>
