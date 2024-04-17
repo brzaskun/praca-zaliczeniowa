@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2024-04-12T08:53:52.418Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3217</KodUrzedu>
+        <Rok>2024</Rok>
+        <Miesiac>3</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>9552413093</NIP>
+            <PelnaNazwa>STABMAR SP. Z O.O.</PelnaNazwa>
+            <Email>w.daniluk@taxman.biz.pl</Email>
+            <Telefon>539034444</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8531278790</NrKontrahenta>
+            <NazwaKontrahenta>AM-TERMAC Marcin Jędrzejewski</NazwaKontrahenta>
+            <DowodSprzedazy>3/MG/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-05</DataSprzedazy>
+            <K_19>813.00</K_19>
+            <K_20>186.99</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5941485133</NrKontrahenta>
+            <NazwaKontrahenta>Rafał Włodarczyk "RAJ" Usługi Remontowo - Budowlane</NazwaKontrahenta>
+            <DowodSprzedazy>16/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-06</DataSprzedazy>
+            <K_19>193.36</K_19>
+            <K_20>44.47</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5540231993</NrKontrahenta>
+            <NazwaKontrahenta>"SOLBET" sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>4/MG/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-07</DataSprzedazy>
+            <K_19>4833.65</K_19>
+            <K_20>1111.74</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8531278790</NrKontrahenta>
+            <NazwaKontrahenta>AM-TERMAC Marcin Jędrzejewski</NazwaKontrahenta>
+            <DowodSprzedazy>5/MG/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-11</DataSprzedazy>
+            <K_19>437.82</K_19>
+            <K_20>100.7</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000012676</NrKontrahenta>
+            <NazwaKontrahenta>Szłapa Łukasz</NazwaKontrahenta>
+            <DowodSprzedazy>17/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-14</DataSprzedazy>
+            <K_19>360.16</K_19>
+            <K_20>82.84</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6710101601</NrKontrahenta>
+            <NazwaKontrahenta>SANI-TECH  GRUPA SBS  WACŁAW Bogdan Łazarczyk</NazwaKontrahenta>
+            <DowodSprzedazy>18/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-15</DataSprzedazy>
+            <K_19>1265.20</K_19>
+            <K_20>291.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5540231993</NrKontrahenta>
+            <NazwaKontrahenta>"SOLBET" sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>6/MG/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-15</DataSprzedazy>
+            <K_19>2845.50</K_19>
+            <K_20>654.47</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000003755</NrKontrahenta>
+            <NazwaKontrahenta>Płotek Monika</NazwaKontrahenta>
+            <DowodSprzedazy>19/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-26</DataSprzedazy>
+            <K_19>1640.90</K_19>
+            <K_20>377.41</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000003755</NrKontrahenta>
+            <NazwaKontrahenta>Płotek Monika</NazwaKontrahenta>
+            <DowodSprzedazy>7/MG/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-26</DataSprzedazy>
+            <K_19>1155.20</K_19>
+            <K_20>265.7</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>10</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551099683</NrKontrahenta>
+            <NazwaKontrahenta>MZ SERWIS Mariusz Zych</NazwaKontrahenta>
+            <DowodSprzedazy>8/MG/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-26</DataSprzedazy>
+            <K_19>504.90</K_19>
+            <K_20>116.13</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>11</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5540231993</NrKontrahenta>
+            <NazwaKontrahenta>"SOLBET" sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>20/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-27</DataSprzedazy>
+            <K_19>2814.00</K_19>
+            <K_20>647.22</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>12</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6710101601</NrKontrahenta>
+            <NazwaKontrahenta>SANI-TECH  GRUPA SBS  WACŁAW Bogdan Łazarczyk</NazwaKontrahenta>
+            <DowodSprzedazy>21/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-27</DataSprzedazy>
+            <K_19>447.00</K_19>
+            <K_20>102.81</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>13</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8792312244</NrKontrahenta>
+            <NazwaKontrahenta>Przedsiębiorstwo Wielobranżowe Usługi - Handel Rafał Zieliński</NazwaKontrahenta>
+            <DowodSprzedazy>22/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-27</DataSprzedazy>
+            <K_19>5932.70</K_19>
+            <K_20>1364.52</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>14</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5941432556</NrKontrahenta>
+            <NazwaKontrahenta>MK - BUD Maciej Kaźmierczak</NazwaKontrahenta>
+            <DowodSprzedazy>23/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-27</DataSprzedazy>
+            <K_19>9766.30</K_19>
+            <K_20>2246.25</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>14</LiczbaWierszySprzedazy>
+            <PodatekNalezny>7592.25</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552209412</NrDostawcy>
+            <NazwaDostawcy>BIMS PLUS FHH SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SZCZECIN SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>1749805</DowodZakupu>
+            <DataZakupu>2024-02-29</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>-518.67</K_42>
+            <K_43>-119.3</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522353084</NrDostawcy>
+            <NazwaDostawcy>EZKa Sp. Jaw</NazwaDostawcy>
+            <DowodZakupu>57/2024</DowodZakupu>
+            <DataZakupu>2024-03-01</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>875.64</K_42>
+            <K_43>201.4</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522180583</NrDostawcy>
+            <NazwaDostawcy>ATA Magdalena Andrzejewska</NazwaDostawcy>
+            <DowodZakupu>8/03/2024</DowodZakupu>
+            <DataZakupu>2024-03-03</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>130.08</K_42>
+            <K_43>14.96</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>1586K2/4514/24</DowodZakupu>
+            <DataZakupu>2024-03-03</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>232.81</K_42>
+            <K_43>26.77</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7524002752</DowodZakupu>
+            <DataZakupu>2024-03-04</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>772.50</K_42>
+            <K_43>177.68</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6793108496</NrDostawcy>
+            <NazwaDostawcy>CALDO-WENTYLACJA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FA/000006/03/2024/ZS-WN</DowodZakupu>
+            <DataZakupu>2024-03-05</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>103.36</K_42>
+            <K_43>23.77</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512120077</NrDostawcy>
+            <NazwaDostawcy>"P4 sp. z o.o."</NazwaDostawcy>
+            <DowodZakupu>000155446099/OPR/03/2024</DowodZakupu>
+            <DataZakupu>2024-03-05</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>62.50</K_42>
+            <K_43>14.37</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260212925</NrDostawcy>
+            <NazwaDostawcy>MLEASING sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>SFC/03/65561/24</DowodZakupu>
+            <DataZakupu>2024-03-05</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>1454.30</K_42>
+            <K_43>167.25</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261032852</NrDostawcy>
+            <NazwaDostawcy>Onninen Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>424873018</DowodZakupu>
+            <DataZakupu>2024-03-07</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>1635.24</K_42>
+            <K_43>376.11</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552209412</NrDostawcy>
+            <NazwaDostawcy>BIMS PLUS FHH SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SZCZECIN SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>1748091</DowodZakupu>
+            <DataZakupu>2024-03-08</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>166.21</K_42>
+            <K_43>38.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7561967341</NrDostawcy>
+            <NazwaDostawcy>UNIMOT S.A.</NazwaDostawcy>
+            <DowodZakupu>FV2/01146/24/3148</DowodZakupu>
+            <DataZakupu>2024-03-12</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>274.51</K_42>
+            <K_43>31.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552209412</NrDostawcy>
+            <NazwaDostawcy>BIMS PLUS FHH SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SZCZECIN SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>1748490</DowodZakupu>
+            <DataZakupu>2024-03-13</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>834.60</K_42>
+            <K_43>191.96</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552209412</NrDostawcy>
+            <NazwaDostawcy>BIMS PLUS FHH SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SZCZECIN SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>1748644</DowodZakupu>
+            <DataZakupu>2024-03-14</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>337.24</K_42>
+            <K_43>77.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552209412</NrDostawcy>
+            <NazwaDostawcy>BIMS PLUS FHH SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SZCZECIN SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>1748798</DowodZakupu>
+            <DataZakupu>2024-03-15</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>277.00</K_42>
+            <K_43>63.71</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7524003386</DowodZakupu>
+            <DataZakupu>2024-03-15</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>1332.50</K_42>
+            <K_43>306.48</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7524003385</DowodZakupu>
+            <DataZakupu>2024-03-15</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>7568.76</K_42>
+            <K_43>1740.82</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7941513356</NrDostawcy>
+            <NazwaDostawcy>T I A sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>F.VAT 130/SK/03/2024</DowodZakupu>
+            <DataZakupu>2024-03-15</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>577.00</K_42>
+            <K_43>132.71</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>3/2024/STAB09</DowodZakupu>
+            <DataZakupu>2024-03-18</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>690.00</K_42>
+            <K_43>158.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7561967341</NrDostawcy>
+            <NazwaDostawcy>UNIMOT S.A.</NazwaDostawcy>
+            <DowodZakupu>FV1/03275/24/3148</DowodZakupu>
+            <DataZakupu>2024-03-18</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>273.20</K_42>
+            <K_43>31.42</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7524003521</DowodZakupu>
+            <DataZakupu>2024-03-19</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>348.91</K_42>
+            <K_43>80.25</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7524003522</DowodZakupu>
+            <DataZakupu>2024-03-19</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>503.00</K_42>
+            <K_43>115.69</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7524003643</DowodZakupu>
+            <DataZakupu>2024-03-21</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>549.50</K_42>
+            <K_43>126.39</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7524003633</DowodZakupu>
+            <DataZakupu>2024-03-21</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>8022.02</K_42>
+            <K_43>1845.07</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552209412</NrDostawcy>
+            <NazwaDostawcy>BIMS PLUS FHH SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SZCZECIN SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>1749570</DowodZakupu>
+            <DataZakupu>2024-03-21</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>797.12</K_42>
+            <K_43>183.34</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7524003729</DowodZakupu>
+            <DataZakupu>2024-03-22</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>3131.15</K_42>
+            <K_43>720.17</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7772659056</NrDostawcy>
+            <NazwaDostawcy>REMS POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>207873</DowodZakupu>
+            <DataZakupu>2024-03-22</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>2066.00</K_42>
+            <K_43>475.18</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7561967341</NrDostawcy>
+            <NazwaDostawcy>UNIMOT S.A.</NazwaDostawcy>
+            <DowodZakupu>FV2/01325/24/3148</DowodZakupu>
+            <DataZakupu>2024-03-23</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>97.64</K_42>
+            <K_43>11.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552345291</NrDostawcy>
+            <NazwaDostawcy>SKP s.c.</NazwaDostawcy>
+            <DowodZakupu>00250/2024</DowodZakupu>
+            <DataZakupu>2024-03-25</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>79.67</K_42>
+            <K_43>9.16</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130105560</NrDostawcy>
+            <NazwaDostawcy>UPONOR SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>7524003856</DowodZakupu>
+            <DataZakupu>2024-03-26</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>299.30</K_42>
+            <K_43>68.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7132716012</NrDostawcy>
+            <NazwaDostawcy>ELEKTROSERWIS Jarosław Bąk</NazwaDostawcy>
+            <DowodZakupu>2/03/2024</DowodZakupu>
+            <DataZakupu>2024-03-26</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>200.00</K_42>
+            <K_43>46.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>24030791562241</DowodZakupu>
+            <DataZakupu>2024-03-26</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>40.00</K_42>
+            <K_43>9.2</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8943031194</NrDostawcy>
+            <NazwaDostawcy>CALDO-IZOLACJA MATERIAŁY TECHNIKI CIEPLNEJ ZACHÓD sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FA/000239/03/2024/ZS-IZ</DowodZakupu>
+            <DataZakupu>2024-03-27</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>31.92</K_42>
+            <K_43>7.34</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552209412</NrDostawcy>
+            <NazwaDostawcy>BIMS PLUS FHH SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SZCZECIN SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>1750357</DowodZakupu>
+            <DataZakupu>2024-03-27</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>351.00</K_42>
+            <K_43>80.73</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7561967341</NrDostawcy>
+            <NazwaDostawcy>UNIMOT S.A.</NazwaDostawcy>
+            <DowodZakupu>FV1/03675/24/3148</DowodZakupu>
+            <DataZakupu>2024-03-27</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>288.59</K_42>
+            <K_43>33.19</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>35</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>2107K1/4514/24</DowodZakupu>
+            <DataZakupu>2024-03-30</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>246.76</K_42>
+            <K_43>28.38</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>35</LiczbaWierszyZakupow>
+            <PodatekNaliczony>7496.34</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

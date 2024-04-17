@@ -3316,25 +3316,25 @@ public class DokfkView implements Serializable {
         selected.oznaczVATdokument(sprawdzjakiokresvat());
         for (Wiersz r : selected.getListawierszy()) {
             if (innyokres != 0) {
-                if (r.getStronaWn() != null && r.getStronaWn().getKonto().getPelnynumer().equals("221-3")) {
+                if (r.getStronaWn() != null&& r.getStronaWn().getKonto()!=null && r.getStronaWn().getKonto().getPelnynumer().equals("221-3")) {
                     r.getStronaWn().setKonto(k221_4);
-                } else if (r.getStronaMa() != null && r.getStronaMa().getKonto().getPelnynumer().equals("221-3")) {
+                } else if (r.getStronaMa() != null&& r.getStronaMa().getKonto()!=null && r.getStronaMa().getKonto().getPelnynumer().equals("221-3")) {
                     r.getStronaMa().setKonto(k221_4);
                 }
-                if (r.getStronaWn() != null && r.getStronaWn().getKonto().getPelnynumer().equals("221-1")) {
+                if (r.getStronaWn() != null&& r.getStronaWn().getKonto()!=null && r.getStronaWn().getKonto().getPelnynumer().equals("221-1")) {
                     r.getStronaWn().setKonto(k221_2);
-                } else if (r.getStronaMa() != null && r.getStronaMa().getKonto().getPelnynumer().equals("221-1")) {
+                } else if (r.getStronaMa() != null && r.getStronaMa().getKonto()!=null&& r.getStronaMa().getKonto().getPelnynumer().equals("221-1")) {
                     r.getStronaMa().setKonto(k221_2);
                 }
             } else {
-                if (r.getStronaWn() != null && r.getStronaWn().getKonto().getPelnynumer().equals("221-4")) {
+                if (r.getStronaWn() != null&& r.getStronaWn().getKonto()!=null && r.getStronaWn().getKonto().getPelnynumer().equals("221-4")) {
                     r.getStronaWn().setKonto(k221_3);
-                } else if (r.getStronaMa() != null && r.getStronaMa().getKonto().getPelnynumer().equals("221-4")) {
+                } else if (r.getStronaMa() != null&& r.getStronaMa().getKonto()!=null && r.getStronaMa().getKonto().getPelnynumer().equals("221-4")) {
                     r.getStronaMa().setKonto(k221_3);
                 }
-                if (r.getStronaWn() != null && r.getStronaWn().getKonto().getPelnynumer().equals("221-2")) {
+                if (r.getStronaWn() != null&& r.getStronaWn().getKonto()!=null && r.getStronaWn().getKonto().getPelnynumer().equals("221-2")) {
                     r.getStronaWn().setKonto(k221_1);
-                } else if (r.getStronaMa() != null && r.getStronaMa().getKonto().getPelnynumer().equals("221-2")) {
+                } else if (r.getStronaMa() != null&& r.getStronaMa().getKonto()!=null && r.getStronaMa().getKonto().getPelnynumer().equals("221-2")) {
                     r.getStronaMa().setKonto(k221_1);
                 }
             }

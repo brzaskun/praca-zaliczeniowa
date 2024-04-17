@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11149/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7K (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2024-04-12T10:05:52.470Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3207</KodUrzedu>
+        <Rok>2024</Rok>
+        <Miesiac>3</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8581853658</NIP>
+            <PelnaNazwa>HYDROCAN SPÓŁKA Z O.O.</PelnaNazwa>
+            <Email>zanetagrzegorczyk1@gmail.com</Email>
+            <Telefon>532434443</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7K (16)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7K</KodFormularzaDekl>
+            <WariantFormularzaDekl>16</WariantFormularzaDekl>
+            <Kwartal>1</Kwartal>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_19>35431</P_19>
+            <P_20>8149</P_20>
+            <P_35>0</P_35>
+            <P_37>35431</P_37>
+            <P_38>8149</P_38>
+            <P_39>0</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>35305</P_42>
+            <P_43>8120</P_43>
+            <P_48>8120</P_48>
+            <P_49>0</P_49>
+            <P_51>29</P_51>
+            <P_52>0</P_52>
+            <P_53>0</P_53>
+            <P_62>0</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581854497</NrKontrahenta>
+            <NazwaKontrahenta>MANICO FHH Sp. z o.o. kom.</NazwaKontrahenta>
+            <DowodSprzedazy>1/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-06</DataSprzedazy>
+            <K_19>960.00</K_19>
+            <K_20>220.8</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581854497</NrKontrahenta>
+            <NazwaKontrahenta>MANICO FHH Sp. z o.o. kom.</NazwaKontrahenta>
+            <DowodSprzedazy>2/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-12</DataSprzedazy>
+            <K_19>160.00</K_19>
+            <K_20>36.8</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581854497</NrKontrahenta>
+            <NazwaKontrahenta>MANICO FHH Sp. z o.o. kom.</NazwaKontrahenta>
+            <DowodSprzedazy>3/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-15</DataSprzedazy>
+            <K_19>2120.00</K_19>
+            <K_20>487.6</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6932189789</NrKontrahenta>
+            <NazwaKontrahenta>KMT MONTAGE sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>4/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-21</DataSprzedazy>
+            <K_19>1008.00</K_19>
+            <K_20>231.84</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581854497</NrKontrahenta>
+            <NazwaKontrahenta>MANICO FHH Sp. z o.o. kom.</NazwaKontrahenta>
+            <DowodSprzedazy>5/MT/03/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-31</DataWystawienia>
+            <DataSprzedazy>2024-03-21</DataSprzedazy>
+            <K_19>160.00</K_19>
+            <K_20>36.8</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>5</LiczbaWierszySprzedazy>
+            <PodatekNalezny>1013.84</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>3/2024/HYDR65</DowodZakupu>
+            <DataZakupu>2024-03-06</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>500.00</K_42>
+            <K_43>115.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581535266</NrDostawcy>
+            <NazwaDostawcy>WWB Chojna Beton Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>211/03/24</DowodZakupu>
+            <DataZakupu>2024-03-06</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>930.00</K_42>
+            <K_43>213.9</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581535266</NrDostawcy>
+            <NazwaDostawcy>WWB Chojna Beton Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>244/03/24</DowodZakupu>
+            <DataZakupu>2024-03-12</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>155.00</K_42>
+            <K_43>35.65</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581535266</NrDostawcy>
+            <NazwaDostawcy>WWB Chojna Beton Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>260/03/2024</DowodZakupu>
+            <DataZakupu>2024-03-15</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>2055.00</K_42>
+            <K_43>472.65</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581535266</NrDostawcy>
+            <NazwaDostawcy>WWB Chojna Beton Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>281/03/24</DowodZakupu>
+            <DataZakupu>2024-03-21</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>868.00</K_42>
+            <K_43>199.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8581535266</NrDostawcy>
+            <NazwaDostawcy>WWB Chojna Beton Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>285/03/24</DowodZakupu>
+            <DataZakupu>2024-03-21</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+            <K_42>155.00</K_42>
+            <K_43>35.65</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>6</LiczbaWierszyZakupow>
+            <PodatekNaliczony>1072.49</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

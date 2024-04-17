@@ -155,7 +155,7 @@ public class ZestawienieFKView implements Serializable {
                 biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody());
                 biezacyPit.setKoszty(new BigDecimal(znalezione.getKosztyPodatkowe()));
                 if (wpisView.getMiesiacWpisu().equals("12")) {
-                    BigDecimal roznicaremanentow = new BigDecimal(remanentView.getRoznica());
+                    BigDecimal roznicaremanentow = new BigDecimal(0.0);
                     biezacyPit.setRemanent(roznicaremanentow);
                     BigDecimal kosztypokorekcie = biezacyPit.getKoszty().add(roznicaremanentow);
                     biezacyPit.setKosztyudzial(kosztypokorekcie);
@@ -450,7 +450,7 @@ public class ZestawienieFKView implements Serializable {
 
     public void zachowajPit13() {
         biezacyPit.setPkpirM("13");
-        BigDecimal roznicaremanentow = new BigDecimal(remanentView.getRoznica());
+        BigDecimal roznicaremanentow = new BigDecimal(0.0);
         biezacyPit.setRemanent(roznicaremanentow);
         zachowajPit();
     }

@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2024-04-12T09:38:22.540Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2024</Rok>
+        <Miesiac>3</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>8571533722</ns2:NIP>
+            <ns2:ImiePierwsze>Maciej </ns2:ImiePierwsze>
+            <ns2:Nazwisko>Jasiński </ns2:Nazwisko>
+            <ns2:DataUrodzenia>1971-10-08</ns2:DataUrodzenia>
+            <Email>m.janowska@taxman.biz.pl</Email>
+            <Telefon>507700791</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>361415606</DowodSprzedazy>
+            <DataWystawienia>2024-03-01</DataWystawienia>
+            <DataSprzedazy>2024-03-01</DataSprzedazy>
+            <K_29>11661.30</K_29>
+            <K_30>2682.1</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>9/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-01</DataWystawienia>
+            <DataSprzedazy>2024-03-01</DataSprzedazy>
+            <K_11>129570.00</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>9/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-01</DataWystawienia>
+            <DataSprzedazy>2024-03-01</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>10/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-01</DataWystawienia>
+            <DataSprzedazy>2024-03-01</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>10/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-01</DataWystawienia>
+            <DataSprzedazy>2024-03-01</DataSprzedazy>
+            <K_11>43190.00</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>11/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-06</DataWystawienia>
+            <DataSprzedazy>2024-03-06</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>11/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-06</DataWystawienia>
+            <DataSprzedazy>2024-03-06</DataSprzedazy>
+            <K_11>5567.77</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>12/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-06</DataWystawienia>
+            <DataSprzedazy>2024-03-06</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>12/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-06</DataWystawienia>
+            <DataSprzedazy>2024-03-06</DataSprzedazy>
+            <K_11>10884.81</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>10</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>361415634</DowodSprzedazy>
+            <DataWystawienia>2024-03-08</DataWystawienia>
+            <DataSprzedazy>2024-03-08</DataSprzedazy>
+            <K_29>10455.63</K_29>
+            <K_30>2404.79</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>11</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>361415635</DowodSprzedazy>
+            <DataWystawienia>2024-03-08</DataWystawienia>
+            <DataSprzedazy>2024-03-08</DataSprzedazy>
+            <K_29>17454.75</K_29>
+            <K_30>4014.59</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>12</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>361415641</DowodSprzedazy>
+            <DataWystawienia>2024-03-11</DataWystawienia>
+            <DataSprzedazy>2024-03-11</DataSprzedazy>
+            <K_29>13143.40</K_29>
+            <K_30>3022.98</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>13</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>361415642</DowodSprzedazy>
+            <DataWystawienia>2024-03-11</DataWystawienia>
+            <DataSprzedazy>2024-03-11</DataSprzedazy>
+            <K_29>4518.99</K_29>
+            <K_30>1039.37</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>14</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>361415643</DowodSprzedazy>
+            <DataWystawienia>2024-03-11</DataWystawienia>
+            <DataSprzedazy>2024-03-11</DataSprzedazy>
+            <K_29>4170.05</K_29>
+            <K_30>959.11</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>15</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>361415678</DowodSprzedazy>
+            <DataWystawienia>2024-03-19</DataWystawienia>
+            <DataSprzedazy>2024-03-19</DataSprzedazy>
+            <K_29>1769.02</K_29>
+            <K_30>406.87</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>16</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>13/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-21</DataWystawienia>
+            <DataSprzedazy>2024-03-21</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>17</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>220497138</NrKontrahenta>
+            <NazwaKontrahenta>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>13/2024</DowodSprzedazy>
+            <DataWystawienia>2024-03-21</DataWystawienia>
+            <DataSprzedazy>2024-03-21</DataSprzedazy>
+            <K_11>42260.41</K_11>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>12</LiczbaWierszySprzedazy>
+            <PodatekNalezny>14529.81</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5213202664</NrDostawcy>
+            <NazwaDostawcy>TOYOTA LEASING POLSKA Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>25019/03/2024</DowodZakupu>
+            <DataZakupu>2024-03-01</DataZakupu>
+            <DataWplywu>2024-03-01</DataWplywu>
+            <K_42>2085.91</K_42>
+            <K_43>239.88</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5213202664</NrDostawcy>
+            <NazwaDostawcy>TOYOTA LEASING POLSKA Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>25017/03/2024</DowodZakupu>
+            <DataZakupu>2024-03-01</DataZakupu>
+            <DataWplywu>2024-03-01</DataWplywu>
+            <K_42>2085.91</K_42>
+            <K_43>239.88</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260212925</NrDostawcy>
+            <NazwaDostawcy>MLEASING sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>SFC/03/16191/24</DowodZakupu>
+            <DataZakupu>2024-03-04</DataZakupu>
+            <DataWplywu>2024-03-04</DataWplywu>
+            <K_42>1892.50</K_42>
+            <K_43>217.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260212925</NrDostawcy>
+            <NazwaDostawcy>MLEASING sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>SFC/03/40906/24</DowodZakupu>
+            <DataZakupu>2024-03-04</DataZakupu>
+            <DataWplywu>2024-03-04</DataWplywu>
+            <K_42>4989.51</K_42>
+            <K_43>573.8</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9551672421</NrDostawcy>
+            <NazwaDostawcy>DDB Auto Bogacka Sp. j.</NazwaDostawcy>
+            <DowodZakupu>570/S/2024</DowodZakupu>
+            <DataZakupu>2024-03-05</DataZakupu>
+            <DataWplywu>2024-03-05</DataWplywu>
+            <K_42>1637.07</K_42>
+            <K_43>188.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 2836K1/4259/24</DowodZakupu>
+            <DataZakupu>2024-03-06</DataZakupu>
+            <DataWplywu>2024-03-06</DataWplywu>
+            <K_42>209.54</K_42>
+            <K_43>24.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513073557</NrDostawcy>
+            <NazwaDostawcy>Auto Eksport s.c.</NazwaDostawcy>
+            <DowodZakupu>FV/179/2024/03</DowodZakupu>
+            <DataZakupu>2024-03-08</DataZakupu>
+            <DataWplywu>2024-03-08</DataWplywu>
+            <K_42>65.04</K_42>
+            <K_43>14.96</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9551672421</NrDostawcy>
+            <NazwaDostawcy>DDB Auto Bogacka Sp. j.</NazwaDostawcy>
+            <DowodZakupu>619/S/2024</DowodZakupu>
+            <DataZakupu>2024-03-08</DataZakupu>
+            <DataWplywu>2024-03-08</DataWplywu>
+            <K_42>387.00</K_42>
+            <K_43>44.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 3270K2/4259/24</DowodZakupu>
+            <DataZakupu>2024-03-09</DataZakupu>
+            <DataWplywu>2024-03-09</DataWplywu>
+            <K_42>247.49</K_42>
+            <K_43>28.46</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 3059K1/4259/24</DowodZakupu>
+            <DataZakupu>2024-03-10</DataZakupu>
+            <DataWplywu>2024-03-10</DataWplywu>
+            <K_42>24.38</K_42>
+            <K_43>2.8</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5970009381</NrDostawcy>
+            <NazwaDostawcy>AUTO-PORT RENICE S.J. J. Bogusławska J. Bogusławski</NazwaDostawcy>
+            <DowodZakupu>F 2577K1/7571/24</DowodZakupu>
+            <DataZakupu>2024-03-11</DataZakupu>
+            <DataWplywu>2024-03-11</DataWplywu>
+            <K_42>231.77</K_42>
+            <K_43>26.65</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5970009381</NrDostawcy>
+            <NazwaDostawcy>AUTO-PORT RENICE S.J. J. Bogusławska J. Bogusławski</NazwaDostawcy>
+            <DowodZakupu>F 2859K1/7571/24</DowodZakupu>
+            <DataZakupu>2024-03-17</DataZakupu>
+            <DataWplywu>2024-03-17</DataWplywu>
+            <K_42>274.34</K_42>
+            <K_43>31.55</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822255623</NrDostawcy>
+            <NazwaDostawcy>"TILTON" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FS02250/24/0020</DowodZakupu>
+            <DataZakupu>2024-03-18</DataZakupu>
+            <DataWplywu>2024-03-18</DataWplywu>
+            <K_42>162.83</K_42>
+            <K_43>18.73</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 3700K2/4259/24</DowodZakupu>
+            <DataZakupu>2024-03-18</DataZakupu>
+            <DataWplywu>2024-03-18</DataWplywu>
+            <K_42>182.08</K_42>
+            <K_43>20.94</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5970009381</NrDostawcy>
+            <NazwaDostawcy>AUTO-PORT RENICE S.J. J. Bogusławska J. Bogusławski</NazwaDostawcy>
+            <DowodZakupu>F 2869K1/7571/24</DowodZakupu>
+            <DataZakupu>2024-03-18</DataZakupu>
+            <DataWplywu>2024-03-18</DataWplywu>
+            <K_42>220.50</K_42>
+            <K_43>25.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>3/2024/MACI72</DowodZakupu>
+            <DataZakupu>2024-03-18</DataZakupu>
+            <DataWplywu>2024-03-18</DataWplywu>
+            <K_42>980.00</K_42>
+            <K_43>225.4</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7671714055</NrDostawcy>
+            <NazwaDostawcy>ME M03 sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>S437/240319725701</DowodZakupu>
+            <DataZakupu>2024-03-19</DataZakupu>
+            <DataWplywu>2024-03-19</DataWplywu>
+            <K_42>40.64</K_42>
+            <K_43>9.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511011032</NrDostawcy>
+            <NazwaDostawcy>FIRMA HANDLOWA KRIS KRZYSZTOF BIEDULSKI</NazwaDostawcy>
+            <DowodZakupu>551/M-1/03/2024</DowodZakupu>
+            <DataZakupu>2024-03-21</DataZakupu>
+            <DataWplywu>2024-03-21</DataWplywu>
+            <K_42>349.51</K_42>
+            <K_43>80.39</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8510105334</NrDostawcy>
+            <NazwaDostawcy>ZAKŁAD WULKANIZACJI Frankowski Lech</NazwaDostawcy>
+            <DowodZakupu>FVA/0509/2024</DowodZakupu>
+            <DataZakupu>2024-03-21</DataZakupu>
+            <DataWplywu>2024-03-21</DataWplywu>
+            <K_42>79.67</K_42>
+            <K_43>18.33</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>F 3936K2/4259/24</DowodZakupu>
+            <DataZakupu>2024-03-22</DataZakupu>
+            <DataWplywu>2024-03-22</DataWplywu>
+            <K_42>330.86</K_42>
+            <K_43>76.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5271037727</NrDostawcy>
+            <NazwaDostawcy>POLKOMTEL sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2403200199093</DowodZakupu>
+            <DataZakupu>2024-03-22</DataZakupu>
+            <DataWplywu>2024-03-22</DataWplywu>
+            <K_42>152.84</K_42>
+            <K_43>35.15</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6412355402</NrDostawcy>
+            <NazwaDostawcy>MP Service Marek Pokora </NazwaDostawcy>
+            <DowodZakupu>3/2024</DowodZakupu>
+            <DataZakupu>2024-03-25</DataZakupu>
+            <DataWplywu>2024-03-25</DataWplywu>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811897358</NrDostawcy>
+            <NazwaDostawcy>LIDL sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>2109/00252/260324/83</DowodZakupu>
+            <DataZakupu>2024-03-26</DataZakupu>
+            <DataWplywu>2024-03-26</DataWplywu>
+            <K_42>38.93</K_42>
+            <K_43>8.95</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5210125377</NrDostawcy>
+            <NazwaDostawcy>WeNet Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>PFR/12362/3/2024</DowodZakupu>
+            <DataZakupu>2024-03-27</DataZakupu>
+            <DataWplywu>2024-03-27</DataWplywu>
+            <K_42>650.00</K_42>
+            <K_43>149.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811897358</NrDostawcy>
+            <NazwaDostawcy>LIDL sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>1288/00027/300324/82</DowodZakupu>
+            <DataZakupu>2024-03-30</DataZakupu>
+            <DataWplywu>2024-03-30</DataWplywu>
+            <K_42>70.05</K_42>
+            <K_43>16.11</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5993283312</NrDostawcy>
+            <NazwaDostawcy>Marian Valovskyi</NazwaDostawcy>
+            <DowodZakupu>FV/2/2024</DowodZakupu>
+            <DataZakupu>2024-03-31</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5993283341</NrDostawcy>
+            <NazwaDostawcy>Myroslav Kubaievych</NazwaDostawcy>
+            <DowodZakupu>FV/3/2024</DowodZakupu>
+            <DataZakupu>2024-03-31</DataZakupu>
+            <DataWplywu>2024-03-31</DataWplywu>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>220497138</NrDostawcy>
+            <NazwaDostawcy>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaDostawcy>
+            <DowodZakupu>361415606</DowodZakupu>
+            <DataZakupu>2024-03-01</DataZakupu>
+            <DataWplywu>2024-03-01</DataWplywu>
+            <K_42>11661.30</K_42>
+            <K_43>2682.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>220497138</NrDostawcy>
+            <NazwaDostawcy>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaDostawcy>
+            <DowodZakupu>361415634</DowodZakupu>
+            <DataZakupu>2024-03-08</DataZakupu>
+            <DataWplywu>2024-03-08</DataWplywu>
+            <K_42>10455.63</K_42>
+            <K_43>2404.79</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>220497138</NrDostawcy>
+            <NazwaDostawcy>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaDostawcy>
+            <DowodZakupu>361415635</DowodZakupu>
+            <DataZakupu>2024-03-08</DataZakupu>
+            <DataWplywu>2024-03-08</DataWplywu>
+            <K_42>17454.75</K_42>
+            <K_43>4014.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>220497138</NrDostawcy>
+            <NazwaDostawcy>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaDostawcy>
+            <DowodZakupu>361415641</DowodZakupu>
+            <DataZakupu>2024-03-11</DataZakupu>
+            <DataWplywu>2024-03-11</DataWplywu>
+            <K_42>13143.40</K_42>
+            <K_43>3022.98</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>220497138</NrDostawcy>
+            <NazwaDostawcy>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaDostawcy>
+            <DowodZakupu>361415642</DowodZakupu>
+            <DataZakupu>2024-03-11</DataZakupu>
+            <DataWplywu>2024-03-11</DataWplywu>
+            <K_42>4518.99</K_42>
+            <K_43>1039.37</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>220497138</NrDostawcy>
+            <NazwaDostawcy>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaDostawcy>
+            <DowodZakupu>361415643</DowodZakupu>
+            <DataZakupu>2024-03-11</DataZakupu>
+            <DataWplywu>2024-03-11</DataWplywu>
+            <K_42>4170.05</K_42>
+            <K_43>959.11</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>220497138</NrDostawcy>
+            <NazwaDostawcy>E.L.F Hallen&amp; Maschinenbau GmbH </NazwaDostawcy>
+            <DowodZakupu>361415678</DowodZakupu>
+            <DataZakupu>2024-03-19</DataZakupu>
+            <DataWplywu>2024-03-19</DataWplywu>
+            <K_42>1769.02</K_42>
+            <K_43>406.87</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>31</LiczbaWierszyZakupow>
+            <PodatekNaliczony>16846.61</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

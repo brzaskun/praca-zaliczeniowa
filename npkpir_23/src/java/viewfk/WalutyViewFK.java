@@ -141,22 +141,26 @@ public class WalutyViewFK implements Serializable {
     }
     
     private String generujNumerTabeli(String symbolRecznie, List<Tabelanbp> wprowadzonekursyRok) {
-        List<Tabelanbp> odnalezioneTabele = Collections.synchronizedList(new ArrayList<>());
-        if (wprowadzonekursyRok.size() > 0) {
-            for (Tabelanbp p : wprowadzonekursyRok) {
-                if (p.getNrtabeli().contains(symbolRecznie)) {
-                    odnalezioneTabele.add(p);
+        String zwrot = null;
+        if (symbolRecznie!=null) {
+            List<Tabelanbp> odnalezioneTabele = Collections.synchronizedList(new ArrayList<>());
+            if (wprowadzonekursyRok.size() > 0) {
+                for (Tabelanbp p : wprowadzonekursyRok) {
+                    if (p.getNrtabeli().contains(symbolRecznie)) {
+                        odnalezioneTabele.add(p);
+                    }
                 }
             }
+            if (odnalezioneTabele.size() > 2) {
+                Collections.sort(odnalezioneTabele, new Tabelanbpcomparator());
+                zwrot = numerzwiekszonyojeden(odnalezioneTabele.get(odnalezioneTabele.size()-1));
+            } else if (odnalezioneTabele.size() == 1) {
+                zwrot = numerzwiekszonyojeden(odnalezioneTabele.get(0));
+            } else {
+                zwrot = nowynumer(symbolRecznie);
+            }
         }
-        if (odnalezioneTabele.size() > 2) {
-            Collections.sort(odnalezioneTabele, new Tabelanbpcomparator());
-            return numerzwiekszonyojeden(odnalezioneTabele.get(odnalezioneTabele.size()-1));
-        } else if (odnalezioneTabele.size() == 1) {
-            return numerzwiekszonyojeden(odnalezioneTabele.get(0));
-        } else {
-            return nowynumer(symbolRecznie);
-        }
+        return zwrot;
     }
 
     private String nowynumer(String symbolRecznie) {

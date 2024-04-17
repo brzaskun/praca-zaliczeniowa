@@ -2295,71 +2295,74 @@ public class FakturaView implements Serializable {
                 nowa.setMc(miesiacsprzedazy);
                 nowa.setNrkontabankowego(FakturaBean.pobierznumerkonta(wpisView.getPodatnikObiekt()));
                 FakturaBean.wielekont(nowa, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
-                try {
-                    fakturaDAO.create(nowa);
-                    Klienci kontra = nowa.getKontrahent();
-                    kontra.setAktywnydlafaktrozrachunki(true);
-                    klienciDAO.edit(kontra);
-                    nowododane.add(nowa);
-                    if (nowa.isRecznaedycja()) {
-                        faktury_edit.add(nowa);
-                    } else {
-                        faktury.add(nowa);
-                    }
-                    if (fakturanowyrok == 0) {
-                        String datawystawienia = nowa.getDatawystawienia();
-                        String miesiac = datawystawienia.substring(5, 7);
-                        switch (miesiac) {
-                            case "01":
-                                okresowa.setM1(okresowa.getM1() + 1);
-                                break;
-                            case "02":
-                                okresowa.setM2(okresowa.getM2() + 1);
-                                break;
-                            case "03":
-                                okresowa.setM3(okresowa.getM3() + 1);
-                                break;
-                            case "04":
-                                okresowa.setM4(okresowa.getM4() + 1);
-                                break;
-                            case "05":
-                                okresowa.setM5(okresowa.getM5() + 1);
-                                break;
-                            case "06":
-                                okresowa.setM6(okresowa.getM6() + 1);
-                                break;
-                            case "07":
-                                okresowa.setM7(okresowa.getM7() + 1);
-                                break;
-                            case "08":
-                                okresowa.setM8(okresowa.getM8() + 1);
-                                break;
-                            case "09":
-                                okresowa.setM9(okresowa.getM9() + 1);
-                                break;
-                            case "10":
-                                okresowa.setM10(okresowa.getM10() + 1);
-                                break;
-                            case "11":
-                                okresowa.setM11(okresowa.getM11() + 1);
-                                break;
-                            case "12":
-                                okresowa.setM12(okresowa.getM12() + 1);
-                                break;
+                boolean czygenerowac = czygenerowacfakturetaxman(nowa,wpisView.getPodatnikObiekt().getNip());
+                if (czygenerowac) {
+                    try {
+                        fakturaDAO.create(nowa);
+                        Klienci kontra = nowa.getKontrahent();
+                        kontra.setAktywnydlafaktrozrachunki(true);
+                        klienciDAO.edit(kontra);
+                        nowododane.add(nowa);
+                        if (nowa.isRecznaedycja()) {
+                            faktury_edit.add(nowa);
+                        } else {
+                            faktury.add(nowa);
                         }
-                        okresowa.setDatawystawienia(nowa.getDatawystawienia());
-                        okresowa.setSapracownicy(false);
-                        fakturywystokresoweDAO.edit(okresowa);
+                        if (fakturanowyrok == 0) {
+                            String datawystawienia = nowa.getDatawystawienia();
+                            String miesiac = datawystawienia.substring(5, 7);
+                            switch (miesiac) {
+                                case "01":
+                                    okresowa.setM1(okresowa.getM1() + 1);
+                                    break;
+                                case "02":
+                                    okresowa.setM2(okresowa.getM2() + 1);
+                                    break;
+                                case "03":
+                                    okresowa.setM3(okresowa.getM3() + 1);
+                                    break;
+                                case "04":
+                                    okresowa.setM4(okresowa.getM4() + 1);
+                                    break;
+                                case "05":
+                                    okresowa.setM5(okresowa.getM5() + 1);
+                                    break;
+                                case "06":
+                                    okresowa.setM6(okresowa.getM6() + 1);
+                                    break;
+                                case "07":
+                                    okresowa.setM7(okresowa.getM7() + 1);
+                                    break;
+                                case "08":
+                                    okresowa.setM8(okresowa.getM8() + 1);
+                                    break;
+                                case "09":
+                                    okresowa.setM9(okresowa.getM9() + 1);
+                                    break;
+                                case "10":
+                                    okresowa.setM10(okresowa.getM10() + 1);
+                                    break;
+                                case "11":
+                                    okresowa.setM11(okresowa.getM11() + 1);
+                                    break;
+                                case "12":
+                                    okresowa.setM12(okresowa.getM12() + 1);
+                                    break;
+                            }
+                            okresowa.setDatawystawienia(nowa.getDatawystawienia());
+                            okresowa.setSapracownicy(false);
+                            fakturywystokresoweDAO.edit(okresowa);
+                        }
+                        if (waloryzajca > 0) {
+                            Msg.msg("i", "Generuje bieżącą fakturę z okresowej z waloryzacją. Kontrahent: " + nowa.getKontrahent().getNpelna());
+                        } else {
+                            Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
+                        }
+                    } catch (Exception e) { 
+                        E.e(e); 
+                        Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getNumerkolejny(), nowa.getWystawca());
+                        Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: data-" + nibyduplikat.getDatawystawienia()+" numer-"+nibyduplikat.getNumerkolejny()+" wystawca-"+nibyduplikat.getWystawca().getNazwapelna());
                     }
-                    if (waloryzajca > 0) {
-                        Msg.msg("i", "Generuje bieżącą fakturę z okresowej z waloryzacją. Kontrahent: " + nowa.getKontrahent().getNpelna());
-                    } else {
-                        Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
-                    }
-                } catch (Exception e) { 
-                    E.e(e); 
-                    Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getNumerkolejny(), nowa.getWystawca());
-                    Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: data-" + nibyduplikat.getDatawystawienia()+" numer-"+nibyduplikat.getNumerkolejny()+" wystawca-"+nibyduplikat.getWystawca().getNazwapelna());
                 }
             }
         }
@@ -3647,6 +3650,17 @@ public class FakturaView implements Serializable {
                     zwrot = false;
                 }
                 break;
+        }
+        return zwrot;
+    }
+    
+    //nie generujemy jak nie ma wygenerowanej listy plac
+    private boolean czygenerowacfakturetaxman(Faktura nowa, String nip) {
+        boolean zwrot = true;
+        if (nowa.isRecznaedycja()&&nip!=null&&nip.equals("8511005008")) {
+            if (nowa.getPozycjenafakturze()!=null&&nowa.getPozycjenafakturze().size()<2) {
+                zwrot = false;
+            }
         }
         return zwrot;
     }
