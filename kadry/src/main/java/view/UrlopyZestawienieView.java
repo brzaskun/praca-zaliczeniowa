@@ -147,7 +147,7 @@ public class UrlopyZestawienieView  implements Serializable {
                 Integer mcInt = Integer.parseInt(mc);
                 for (Dzien dzien : kal.getDzienList()) {
                     Nieobecnosc dziennieob = dzien.getNieobecnosc();
-                    if (dziennieob != null && (dziennieob.getRodzajnieobecnosci().getKod().equals("U") ||dziennieob.getRodzajnieobecnosci().getKod().equals("UD"))) {
+                    if (dziennieob != null && (dziennieob.getRodzajnieobecnosci().getKod().equals("U") ||dziennieob.getRodzajnieobecnosci().getKod().equals("UD") ||dziennieob.getRodzajnieobecnosci().getKod().equals("UZ"))) {
                         if (dzien.getTypdnia()==0) {
                             sumadni = sumadni+1;
                             sumadnirok = sumadnirok+1;

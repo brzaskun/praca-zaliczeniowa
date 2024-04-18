@@ -51,6 +51,7 @@ public class UrlopBean {
 //                }//w metodzie nanies dni z kodem uzulepniana jest zmienna urlopprezentacja.Wykorzystanierokbiezacy
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
+                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UZ"));
                 List<Umowa> umowy = angaz.getUmowaList();
                 Object[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz, kalendarze);
                 //wymiar w trakcie roku przyjecia/zwolnienia
@@ -84,6 +85,7 @@ public class UrlopBean {
                 //wstawilem to tu bo dzieki temu zmodyfikuje dni w kalendarzach i oznacze je jako wykorzystanie urlopu z okresu poprzedniego
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
+                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UZ"));
                 List<Umowa> umowy = angaz.getUmowaList();
                 Object[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz, kalendarze);
                 if (rejestrurlopow!=null) {
@@ -179,6 +181,9 @@ public class UrlopBean {
                         if (kod.equals("UD")) {
                             wykorzystanie.setGodziny((int) r.getUrlopPlatny());
                         }
+                         if (kod.equals("UZ")) {
+                            wykorzystanie.setGodziny((int) r.getUrlopPlatny());
+                        }
                         if (kod.equals("CH")) {
                             wykorzystanie.setGodziny((int) r.getWynagrodzeniezachorobe());
                         }
@@ -206,7 +211,7 @@ public class UrlopBean {
                 }
             }
         }
-        if (kod.equals("U")||kod.equals("UD")) {
+        if (kod.equals("U")||kod.equals("UD")||kod.equals("UZ")) {
             urlopprezentacja.setWykorzystanierokbiezacy(urlopprezentacja.getWykorzystanierokbiezacy()+wykorzystaniesuma.getGodziny());
         }
         if (kod.equals("CH")) {
