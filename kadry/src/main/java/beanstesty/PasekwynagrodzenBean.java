@@ -2318,20 +2318,21 @@ public class PasekwynagrodzenBean {
         }
     }
 
-    private static boolean czyjestpowrotzmacierzynskiego(List<Nieobecnosc> nieobecnoscList, String datawyplaty) {
+    private static boolean czyjestpowrotzmacierzynskiego(List<Nieobecnosc> nieobecnoscList, String datalisty) {
         boolean jestpowrot = false;
         if (nieobecnoscList!=null) {
             String datakoncazwolnienia = null;
-            
             for (Nieobecnosc nieob : nieobecnoscList) {
                 if (nieob.getSwiadczeniekodzus()!=null&&(nieob.getSwiadczeniekodzus().getKod().equals("319")||nieob.getSwiadczeniekodzus().getKod().equals("121"))) {
-                    if (nieob.getDatado()!=null&&datakoncazwolnienia==null) {
-                        datakoncazwolnienia = nieob.getDatado();
-                        //nie moze byc break bo sie zatryzma na poprzednim zwolnieniu sprzed roku
-                        //break;
-                    } else if (nieob.getDatado()!=null&&datakoncazwolnienia!=null) {
-                        if (Data.czyjestpo(datakoncazwolnienia, nieob.getDatado())) {
+                    if (Data.czyjestpoTerminData(datalisty, nieob.getDataod())==false) {
+                        if (nieob.getDatado()!=null&&datakoncazwolnienia==null) {
                             datakoncazwolnienia = nieob.getDatado();
+                            //nie moze byc break bo sie zatryzma na poprzednim zwolnieniu sprzed roku
+                            //break;
+                        } else if (nieob.getDatado()!=null&&datakoncazwolnienia!=null) {
+                            if (Data.czyjestpo(datakoncazwolnienia, nieob.getDatado())) {
+                                datakoncazwolnienia = nieob.getDatado();
+                            }
                         }
                     }
                 }
@@ -2339,7 +2340,9 @@ public class PasekwynagrodzenBean {
             if (datakoncazwolnienia!=null) {
                 String datapowrotu = Data.dodajmiesiacfp(datakoncazwolnienia, 1);
                 String data36mcy = Data.dodajmiesiac(datapowrotu, 36);
-                jestpowrot = Data.czyjestpoTerminData(datawyplaty, data36mcy);
+                boolean jestpowrotwar1 = Data.czyjestpoTerminData(datalisty, data36mcy);
+                boolean jestpowrotwar2 = Data.czyjestpoTerminData(datapowrotu, datalisty);
+                jestpowrot = jestpowrotwar1&&jestpowrotwar2;
             }
         }
         return jestpowrot;
@@ -2393,7 +2396,7 @@ public class PasekwynagrodzenBean {
         boolean przekroczeniewieku = czyprzekroczonowiek(pasek.getKalendarzmiesiac(), pasek.getDatawyplaty());
         boolean ponizejwynminimalnego = czyponizejminimalnego(pasek, minimalnekwotabrutto);
         boolean firmamatylkozlecenia = czysatylkozlecenia(pasek.getKalendarzmiesiac());
-        String datalisty = pasek.getOkresNalezny()+"01";
+        String datalisty = pasek.getRok()+"-"+pasek.getMc()+"-"+"01";
         boolean powrotzmacierzynskiego = czyjestpowrotzmacierzynskiego(pasek.getKalendarzmiesiac().getAngaz().getNieobecnoscList(), datalisty);
         boolean bezrobotnyskierowanieFP = czynienaliczacFPbezrobotny(pasek.getKalendarzmiesiac());
         double podstawaFP = obliczpodstawedofp(pasek);
