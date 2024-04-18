@@ -778,18 +778,22 @@ public class Data implements Serializable {
     
     
         public static void main(String[] args) {
-        try {
-            String termin = "2019-12-29";
-            String dzis = "2019-12-29";
-            boolean zwrot = czyjestpoTerminData(termin, dzis);
-            if (zwrot) {
-                error.E.s("TRUE");
-            } else {
-                error.E.s("FALSE");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            String termin = "2019-12-29";
+//            String dzis = "2019-12-29";
+//            boolean zwrot = czyjestpoTerminData(termin, dzis);
+//            if (zwrot) {
+//                error.E.s("TRUE");
+//            } else {
+//                error.E.s("FALSE");
+//            }
+//        } catch (Exception ex) {
+//            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        LocalDate datal = LocalDate.parse("2024-02-29");
+        LocalDate tonextmonth = datal.plusMonths(1);  
+        String datawstepna = tonextmonth.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        System.out.println(Data.getCzescDaty(datawstepna, 3)+"01");
 }
             
     public static XMLGregorianCalendar dataoddo(String data) {
@@ -1109,6 +1113,13 @@ LocalDate date = LocalDate.parse(dateString, formatter);
         LocalDate datal = LocalDate.parse(data);
         LocalDate tonextmonth = datal.plusMonths(l);  
         return tonextmonth.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+     }
+     
+     public static String dodajmiesiacfp(String data, int l) {
+        LocalDate datal = LocalDate.parse(data);
+        LocalDate tonextmonth = datal.plusMonths(l);  
+        String datawstepna = tonextmonth.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return Data.getCzescDaty(datawstepna, 3)+"01";
      }
      
      public static String odejmijdzien(String data, int l) {
