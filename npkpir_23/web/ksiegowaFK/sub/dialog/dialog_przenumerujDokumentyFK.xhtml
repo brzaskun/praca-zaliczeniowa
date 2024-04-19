@@ -8,7 +8,7 @@
     <p:dialog id="dialog_przenumerujDokumentyFK" header="Wybierz dokumenty do przenumerowania" widgetVar="dialog_przenumerujDokumentyFK" resizable="false" appendTo="@(body)" modal="true">  
         <h:form id="formdialog_przenumerujDokumentyFK">
 <!--           actionListener="#{dokfkView.przenumerujDokumentyFK()}"-->
-            <p:panelGrid  columns="1"  style="width: 400px; height: 60px;">
+            <p:panelGrid style="width: 400px; height: 60px;">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -31,7 +31,7 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:panelGrid  columns="1"  style="width: 400px; height: 60px;">
+            <p:panelGrid style="width: 400px; height: 60px;">
                 <p:commandButton value="ok" actionListener="#{dokfkView.przenumerujDokumentyFK()}" type="submit" 
                                  style="margin-left: 40px; margin-right: auto; width: 120px;" onclick="PF('dialog_przenumerujDokumentyFK').hide();"
                                  />

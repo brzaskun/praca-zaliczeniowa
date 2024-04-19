@@ -5,45 +5,44 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-
+    
     xmlns:bcf="http://brzaskun.com/facelets">
     <h:form id="form">
-        <p:panelGrid  columns="3" id="sumawybranychpanel" style="width: 410px;">
-
-            <p:column width="70" style="text-align: center;">
-                <h:outputText value="przychody"/>
-            </p:column>
-            <p:column width="70" style="text-align: center;">
-                <h:outputText value="koszty"/>
-            </p:column>
-            <p:column width="70" style="text-align: center;">
-                <h:outputText value="różnica"/>
-            </p:column>
-
-            <p:column width="70">
-                <bcf:outputpl value="#{DokTabGuestView.przychody}"/>
-            </p:column>
-            <p:column width="70">
-                <bcf:outputpl value="#{DokTabGuestView.koszty}"/>
-            </p:column>
-            <p:column width="70">
-                <bcf:outputpl value="#{DokTabGuestView.roznica}" stylePlus="#{DokTabGuestView.roznica lt 0 ? 'color:red':''}"/>
-            </p:column>
-
-
-        </p:panelGrid>
-
-        <p:panelGrid  columns="2">
-            <p:column>
-                <p:commandButton  global="false" value="sumuj" actionListener="#{DokTabGuestView.sumujwybrane}" update=":form:dokumentyLista :form:sumawybranychpanel" style="width: 120px;"/>
-            </p:column>
-            <p:column>
-                <p:commandButton  icon="fa fa-print" style="width: 120px;" actionListener="#{DokTabGuestView.drukujdokumentyuproszczona()}" global="false"/>
-            </p:column>
-        </p:panelGrid>
+          <p:panelGrid id="sumawybranychpanel" style="width: 210px; text-align: center;">
+              <f:facet name="header">
+                  <p:row>
+                      <p:column>
+                          <h:outputText value="przychody"/>
+                      </p:column>
+                       <p:column>
+                          <h:outputText value="koszty"/>
+                      </p:column>
+                       <p:column>
+                          <h:outputText value="różnica"/>
+                      </p:column>
+                  </p:row>
+              </f:facet>
+             <p:row>
+                 <p:column width="70">
+                 <bcf:outputpl value="#{DokTabGuestView.przychody}"/>
+             </p:column>
+             <p:column width="70">
+                 <bcf:outputpl value="#{DokTabGuestView.koszty}"/>
+             </p:column>
+             <p:column width="70">
+                 <bcf:outputpl value="#{DokTabGuestView.roznica}" stylePlus="#{DokTabGuestView.roznica lt 0 ? 'color:red':''}"/>
+             </p:column>
+                 <p:column>
+                     <p:commandButton  global="false" value="sumuj" actionListener="#{DokTabGuestView.sumujwybrane}" update=":form:dokumentyLista :form:sumawybranychpanel" style="width: 120px;"/>
+                 </p:column>
+                 <p:column>
+                 <p:commandButton  icon="fa fa-print" style="width: 120px;" actionListener="#{DokTabGuestView.drukujdokumentyuproszczona()}" global="false"/>
+                 </p:column>
+                 </p:row>
+         </p:panelGrid>
         <p:panelGrid columns="2">
             <h:outputText value="dok z cechami"/>
-            <p:selectOneMenu value="#{DokTabGuestView.wybranacechadok}" id="cechydokuk"
+                <p:selectOneMenu value="#{DokTabGuestView.wybranacechadok}" id="cechydokuk"
                              style="width: 200px; margin-left: 10px;" >
                 <p:ajax event="itemSelect" listener="#{DokTabGuestView.init()}" 
                         onstart="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
@@ -52,14 +51,14 @@
                 <f:selectItem itemLabel="dokumenty bez cechy" itemValue="bezcechy" />
                 <f:selectItems value="#{DokTabGuestView.cechydokzlisty}" />
             </p:selectOneMenu>
-        </p:panelGrid>
-        <p:contextMenu for="dokumentyLista">
-            <p:menuitem value="okresowa"  icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowaGuest()}"/>
-            <p:menuitem value="#{mgs.drukuj}"  actionListener="#{DokTabGuestView.drukPIT5Pdf()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
-        </p:contextMenu>
-        <p:outputPanel deferred="true">
+            </p:panelGrid>
+            <p:contextMenu for="dokumentyLista">
+                <p:menuitem value="okresowa"  icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowaGuest()}"/>
+                <p:menuitem value="#{mgs.drukuj}"  actionListener="#{DokTabGuestView.drukPIT5Pdf()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
+            </p:contextMenu>
+         <p:outputPanel deferred="true">
             <script>
-                $(document).ready(function () {
+                $(document).ready(function() {
                     $(document.getElementById('form:dokumentyLista')).find('.ui-datatable-data tr').height(25);
 //                $("#form\\:dokumentyLista_data").children("tr").hover(function () {
 //                    alert($(this).attr('id'));
@@ -78,7 +77,7 @@
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:200px" placeholder="wyszukiwana fraza"/>  
                 </f:facet>
-
+   
                 <p:column style="width: 2%;">
                     <p:rowToggler rendered="#{wpis.ewidencjaVAT1.size() gt 0 || wpis.cechadokumentuLista.size() gt 0}"/>
                     <h:outputText value="bez VAT" rendered="#{wpis.ewidencjaVAT1.size() eq null}"/>
@@ -129,18 +128,18 @@
                     </h:outputText>
                 </p:column>
 
-                <p:column id="pkpirKolColumn" headerText="zapis w pkpir" style="width: 14%;padding: 10px;" resizable="true" >
+                 <p:column id="pkpirKolColumn" headerText="zapis w pkpir" style="width: 14%;" resizable="true" >
                     <ui:repeat value="#{wpis.listakwot1}" var="item" varStatus="nr">
                         <h:outputText value="#{wpis.listakwot1.get(nr.index).netto}" style="float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                        </h:outputText>
-                        <h:outputText value="#{wpis.listakwot1.get(nr.index).nazwakolumny}" style="float: left;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                        </h:outputText><br/>
-                    </ui:repeat>
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText value="#{wpis.listakwot1.get(nr.index).nazwakolumny}" style="float: left;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText><br/>
+                        </ui:repeat>
                 </p:column>
 
-                <p:rowExpansion>
+               <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
                         <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
                             <p:column id="SubColumn1" headerText="ewidencja">  
@@ -177,11 +176,11 @@
                         </p:dataTable>
                     </p:column>
                 </p:rowExpansion>
-
+                
 
             </p:dataTable>
-        </p:outputPanel>
-    </h:form>
+            </p:outputPanel>
+         </h:form>
 
 </ui:composition>   
 

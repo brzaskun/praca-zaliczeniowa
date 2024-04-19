@@ -18,7 +18,7 @@
                 <p:ajax event="change" listener="#{sprawozdanieFinansoweView.pobierzrok}" global="false" update="@form"/>
             </p:selectOneMenu>
             <p:outputPanel id="listaelementow">
-                <p:panelGrid   columns="2"  rendered="#{sprawozdanieFinansoweView.listapodatnikow.size() gt 0}" style="height: 40px;">
+                <p:panelGrid  rendered="#{sprawozdanieFinansoweView.listapodatnikow.size() gt 0}" style="height: 40px;">
                 <f:facet name="header">
                     <p:row>
                         <p:column>

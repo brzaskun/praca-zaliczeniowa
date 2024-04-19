@@ -120,7 +120,7 @@
                 <!--                nagłówek dokumentu-->
                 <p:panelGrid id="panelzkwotami" columns="2" >
                     <p:panelGrid  columns="1"  >
-                        <p:panelGrid  columns="1"  id="paneldatydokumentu">
+                        <p:panelGrid id="paneldatydokumentu">
                             <f:facet name="header">
                                 <p:row>
                                     <p:column>
@@ -242,8 +242,10 @@
                                 </p:column>
                             </p:row>
                         </p:panelGrid>
-                        <p:panelGrid  columns="4"  id="paneldaneogolnefaktury">
-                                <p:column>
+                        <p:panelGrid id="paneldaneogolnefaktury">
+                            <f:facet name="header">
+                                <p:row>
+                                    <p:column>
                                         <h:outputText value="#{mgs.symbol}"/>
                                     </p:column>
                                     <p:column>
@@ -256,7 +258,9 @@
                                         <h:outputText id="przypkontotxt" value="#{dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? 'konto' : null}"
                                                       />
                                     </p:column>
-                            
+                                </p:row>
+                            </f:facet>
+                            <p:row>
                                 <p:column>
                                     <h:selectOneMenu id="symbol" value="#{dokfkView.selected.rodzajedok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                                      onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');" valueChangeListener="#{dokfkView.ewidencjazmianadok}"
@@ -290,9 +294,11 @@
                                     <h:outputText value="#{dokfkView.selected.kontoRozrachunkowe}"  id="przypkonto"
                                                   style="color: #{dokfkView.selected.kontoRozrachunkowe eq 'b/k' ? 'red' : 'black'}"/>
                                 </p:column>
-
+                            </p:row>
                         </p:panelGrid>
-                        <p:panelGrid  columns="3"  id="panelzkwotamidok">
+                        <p:panelGrid id="panelzkwotamidok">
+                            <f:facet name="header">
+                                <p:row>
                                     <p:column>
                                         <h:outputText value="#{mgs.kontrahent}" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}"/>
                                     </p:column>
@@ -303,6 +309,9 @@
                                         <h:outputText value="saldo" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}"
                                                       style="font-style: italic;"/>
                                     </p:column>
+                                </p:row>
+                            </f:facet>
+                            <p:row>
                                 <p:column>
                                     <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
@@ -349,14 +358,14 @@
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
-   
+                            </p:row>
                         </p:panelGrid>
 <!--                        <p:panelGrid id="panelzkwotamidoka" rendered="#{planKontView.infozebrakslownikowych ne ''}"
                                      columns="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
                             <h:outputText value="#{planKontView.infozebrakslownikowych}" style="color: red; font-weight: 900;"/>
                         </p:panelGrid>-->
                         <p:panelGrid columns="2" id="panelwalutowy" style="min-width: 100%;"  styleClass="uipanelGrid0" >
-                            <p:panelGrid  columns="1"  id="panelwalutowywybor" style="min-width: 20%;">
+                            <p:panelGrid id="panelwalutowywybor" style="min-width: 20%;">
                                 <f:facet name="header">
                                     <p:row>
                                         <p:column>
@@ -394,7 +403,7 @@
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>
-                            <p:panelGrid   columns="1" id="panelTabelaNBP" style="min-width: 80%;">
+                            <p:panelGrid id="panelTabelaNBP" style="min-width: 80%;">
                                 <f:facet name="header">
                                     <p:row rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu != 0)}">
                                         <p:column>
@@ -597,7 +606,7 @@
                             <p:autoComplete id="kontown" value="#{wploop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" 
                                             rendered="#{wploop.stronaWn != null}"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
-                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="0"  maxResults="400" 
+                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="0"  maxResults="200" 
                                             converterMessage="Nieudana konwersja Klient" scrollHeight="270" widgetVar="complWn#{wploop.idporzadkowy}"
                                             styleClass="kontoinput #{wploop.stronaWn.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaWn.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaWn.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : null}"
                                             onfocus="zachowajwiersz(#{wploop.idporzadkowy}, 'Wn', #{wploop.typWiersza}, event);
@@ -694,7 +703,7 @@
                     <p:outputPanel id="komunikatywpisdok" style="text-align: left; margin-left: 10px;">
                         <h:outputText  value="#{dokfkView.komunikatywpisdok}" style="color: red;"/>
                     </p:outputPanel> 
-                    <p:panelGrid   columns="1" id="panelwpisbutton" style="text-align: right; float: right;">
+                    <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
                         <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO' or dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BOR'}">
                             <h:outputText value="SaldoWn: "/>

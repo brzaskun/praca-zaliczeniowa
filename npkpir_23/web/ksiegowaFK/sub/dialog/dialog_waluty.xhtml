@@ -69,7 +69,9 @@
             </p:dataTable>
         </h:form>
         <h:form id="wpiswalut">
-            <p:panelGrid   columns="4" id="dataTablewpisywaniewalut" style="margin-top: 10px;margin-bottom: 5px; display: none; width: 150px;margin-top: 10px;">
+            <p:panelGrid id="dataTablewpisywaniewalut" style="margin-top: 10px;margin-bottom: 5px; display: none; width: 150px;">
+                <f:facet name="header">
+                    <p:row>
                         <p:column width="40">
                             <h:outputText value="skrót waluty" style="width: 40px;"/>
                         </p:column>
