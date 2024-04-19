@@ -188,7 +188,7 @@
                     </p:rowExpansion>
                 </p:dataTable>
                 <p:separator/>
-                <p:dataTable value="#{vatUeFKView.deklaracjeUE_biezace}" var="row" emptyMessage="brak błędnych lub niepotwierdzonych/niewysłanych deklaracji za okres" style="width: 1210px;" styleClass="upd3"
+                <p:dataTable value="#{vatUeFKView.deklaracjeUE_biezace}" var="row" emptyMessage="brak błędnych lub niepotwierdzonych/niewysłanych deklaracji za okres" style="width: 1210px; overflow-y: scroll; height: 90px;" styleClass="upd3"
                              selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.hashCode()}">
                     <p:column style="width: 3%;" >
                         <p:rowToggler/>
