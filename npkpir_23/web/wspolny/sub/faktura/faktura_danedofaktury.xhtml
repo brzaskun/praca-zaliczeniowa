@@ -56,8 +56,9 @@
                         <h:outputLabel value="zwolnienie z VAT art. 43"/>
                         <p:selectBooleanCheckbox value="#{WpisView.podatnikObiekt.zwolnienievat43}"/>
                     </p:panelGrid>   
-                    <p:panelGrid columns="1">
+                    <p:panelGrid columns="2">
                         <p:commandButton actionListener="#{fakturaView.edytujdanepodatnika()}" value="edytuj podatnika" update="@form" type="submit"/>
+                        <p:commandButton actionListener="#{fakturaView.usupelnijautomatycznie()}" value="uzupełnij automatycznie" update="@form" type="submit" style="margin-left: 20px;"/>
                     </p:panelGrid>
                 </p:outputPanel>
             </h:form>

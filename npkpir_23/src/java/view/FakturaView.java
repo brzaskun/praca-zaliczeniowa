@@ -11,6 +11,7 @@ import beansFaktura.FakturaBean;
 import beansFaktura.FakturaOkresowaGenNum;
 import beansMail.OznaczFaktBean;
 import beansMail.SMTPBean;
+import beansPodatnik.PodatnikBean;
 import beansRegon.SzukajDaneBean;
 import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
@@ -530,7 +531,7 @@ public class FakturaView implements Serializable {
         resetujoznaczeniefakur();
         fakturazwykla = true;
         inicjalizacjaczesciwspolne();
-        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt(), fakturaniemiecka));
         selected.setRodzajdokumentu("faktura");
         selected.setRodzajtransakcji("sprzedaż");
         selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
@@ -541,7 +542,7 @@ public class FakturaView implements Serializable {
         resetujoznaczeniefakur();
         fakturavatmarza = true;
         inicjalizacjaczesciwspolne();
-        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt(), fakturaniemiecka));
         selected.setRodzajdokumentu("faktura VAT marża");
         selected.setRodzajtransakcji("sprzedaż");
         selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
@@ -553,7 +554,7 @@ public class FakturaView implements Serializable {
         resetujoznaczeniefakur();
         rachunek = true;
         inicjalizacjaczesciwspolne();
-        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt(), fakturaniemiecka));
         selected.setRodzajdokumentu("rachunek baz VAT");
         selected.setRodzajtransakcji("sprzedaż");
         selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
@@ -565,7 +566,7 @@ public class FakturaView implements Serializable {
         resetujoznaczeniefakur();
         fakturaniemiecka = true;
         inicjalizacjaczesciwspolne();
-        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt()));
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(wpisView.getPodatnikObiekt(), fakturaniemiecka));
         selected.setRodzajdokumentu("faktura niemiecka");
         selected.setRodzajtransakcji("sprzedaż");
         selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
@@ -578,7 +579,7 @@ public class FakturaView implements Serializable {
         fakturaxxl = true;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
-        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt, fakturaniemiecka));
         selected.setRodzajdokumentu("faktura xxl");
         selected.setRodzajtransakcji("sprzedaż");
         selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
@@ -592,8 +593,8 @@ public class FakturaView implements Serializable {
         fakturakorekta = true;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
-        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
-        selected.setPozycjepokorekcie(FakturaBean.inicjacjapozycji(podatnikobiekt));
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt, fakturaniemiecka));
+        selected.setPozycjepokorekcie(FakturaBean.inicjacjapozycji(podatnikobiekt, fakturaniemiecka));
         selected.setRodzajdokumentu("faktura korekta");
         selected.setRodzajtransakcji("sprzedaż");
         selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
@@ -607,8 +608,8 @@ public class FakturaView implements Serializable {
         fakturakorekta = true;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
-        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
-        selected.setPozycjepokorekcie(FakturaBean.inicjacjapozycji(podatnikobiekt));
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt, fakturaniemiecka));
+        selected.setPozycjepokorekcie(FakturaBean.inicjacjapozycji(podatnikobiekt, fakturaniemiecka));
         selected.setRodzajdokumentu("faktura xxl korekta");
         selected.setRodzajtransakcji("sprzedaż");
         selected.setSposobzaplaty(wpisView.getPodatnikObiekt().getDomyslnametodaplatnosci());
@@ -2898,6 +2899,13 @@ public class FakturaView implements Serializable {
         podatnikDAO.edit(wpisView.getPodatnikObiekt());
         wpisView.initpublic();
         Msg.msg("Naniesiono dane do faktur.");
+    }
+    public void usupelnijautomatycznie () {
+        Podatnik podatnik = wpisView.getPodatnikObiekt();
+        PodatnikBean.uzupelnijdanedofaktury(podatnik);
+        podatnikDAO.edit(podatnik);
+        wpisView.initpublic();
+        Msg.msg("Wygenerowano dane do faktur");
     }
     
     public void edytujnazwaskroconapodatnika() {

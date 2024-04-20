@@ -837,6 +837,10 @@ public class Podatnik implements Serializable {
         return nazwisko;
     }
     
+    public String getNazwiskoImie() {
+        return nazwisko+" "+imie;
+    }
+    
     public void setNazwisko(String nazwisko) {
         this.nazwisko = nazwisko;
     }

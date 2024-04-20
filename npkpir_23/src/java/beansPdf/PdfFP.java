@@ -727,11 +727,15 @@ public class PdfFP {
                     }
                     break;
                 case "akordeon:formwzor:poleUwagi":
-                    if (PdfFP.czydodatkowyelementjestAktywny("pole Uwagi", elementydod)&& selected.getPoleuwagi()!=null && selected.getPoleuwagi().length()>1) {
+                     boolean czyjestniemieckie13b = czyjestniemieckie13b(selected.getPozycjenafakturze());
+                    if (czyjestniemieckie13b || (PdfFP.czydodatkowyelementjestAktywny("pole Uwagi", elementydod)&& selected.getPoleuwagi()!=null && selected.getPoleuwagi().length()>1))  {
 //                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "poleUwagi");
 //                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:poleUwagi") - 5, 400, 15);
 //                        absText(writer, selected.getPoleuwagi(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:poleUwagi"), 8);
                         text = selected.getPoleuwagi();
+                        if (czyjestniemieckie13b) {
+                            text = "Nach § 13b Abs. 1 Umsatzsteuergesetz (UStG) gilt die Steuerschuldnerschaft des Leistungsempfängers (reverse-charge)";
+                        }
                         table = PdfFTablice.wygenerujtabliceUwagi(text,szerokosc, wysokosc, 10);
                         table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:poleUwagi"), wymiaryGora.get("akordeon:formwzor:poleUwagi"), writer.getDirectContent());
                     }
@@ -761,7 +765,8 @@ public class PdfFP {
                         ttext1[1] = selected.getTerminzaplaty();
                     } else {
                         ttext[0] = "Zahlungsart";
-                        ttext[1] = B.b(selected.getSposobzaplaty());
+                        String sposobzapl = sposobzaplaty.equals("przelew")?"Überweisung":"Barzahlung";
+                        ttext[1] = sposobzapl;
                         ttext1[0] = "Zahlungstermin";
                         ttext1[1] = selected.getTerminzaplaty();
                     }
@@ -811,7 +816,7 @@ public class PdfFP {
                          ttext1[0] = "wörtlich: ";
                          ttext1[1] = SlownieDE.slownie(String.valueOf(wynik),selected.getWalutafaktury());
                      }
-                    table = PdfFTablice.wygenerujtabliceDozaplaty(ttext, ttext1, szerokosc, wysokosc, 8);
+                    table = PdfFTablice.wygenerujtabliceDozaplaty(ttext, ttext1, szerokosc, wysokosc, 9);
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "dozaplaty");
                     table.writeSelectedRows(0, table.getRows().size(),  wymiarylewy.get("akordeon:formwzor:dozaplaty"), wymiaryGora.get("akordeon:formwzor:dozaplaty"), writer.getDirectContent());
                     break;
@@ -820,11 +825,11 @@ public class PdfFP {
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "podpis");
                     String podpis = selected.getPodpis() == null ? "" : selected.getPodpis();
                     absText(writer, podpis, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:podpis"), 8);
-                    absText(writer, "..........................................", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:podpis") - 20, 8);
+                    absText(writer, "..........................................", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:podpis") - 20, 9);
                     if (selected.getRodzajdokumentu().equals("rachunek baz VAT")) {
-                        absText(writer, "Leistende Unternehmer", (int) (pozycja.getLewy() / dzielnik) + 15, wymiaryGora.get("akordeon:formwzor:podpis") - 40, 8);
+                        absText(writer, "Leistende Unternehmer", (int) (pozycja.getLewy() / dzielnik) + 15, wymiaryGora.get("akordeon:formwzor:podpis") - 40, 9);
                     } else {
-                        absText(writer, "Leistende Unternehmer", (int) (pozycja.getLewy() / dzielnik) + 15, wymiaryGora.get("akordeon:formwzor:podpis") - 40, 8);
+                        absText(writer, "Leistende Unternehmer", (int) (pozycja.getLewy() / dzielnik) + 15, wymiaryGora.get("akordeon:formwzor:podpis") - 40, 9);
                     }
                     break;
             }
@@ -1445,33 +1450,33 @@ public class PdfFP {
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
         PdfPTable table = new PdfPTable(6);
-        table.setTotalWidth(new float[]{20, 180, 40, 40, 50, 60});
+        table.setTotalWidth(new float[]{20, 250, 40, 40, 50, 60});
         // set the total width of the table
-        table.setTotalWidth(450);
+        table.setTotalWidth(500);
         if (selected.getPozycjepokorekcie() != null) {
             if (korekta) {
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("po korekcie", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
+                table.addCell(ustawfrazeAlign("", "center", 9));
+                table.addCell(ustawfrazeAlign("vor der Korrektur", "center", 9));
+                table.addCell(ustawfrazeAlign("", "center", 9));
+                table.addCell(ustawfrazeAlign("", "center", 9));
+                table.addCell(ustawfrazeAlign("", "center", 9));
 
             } else {
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("przed korektą", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
+                table.addCell(ustawfrazeAlign("", "center", 9));
+                table.addCell(ustawfrazeAlign("nach der Korrektur", "center", 9));
+                table.addCell(ustawfrazeAlign("", "center", 9));
+                table.addCell(ustawfrazeAlign("", "center", 9));
+                table.addCell(ustawfrazeAlign("", "center", 9));
+                table.addCell(ustawfrazeAlign("", "center", 9));
             }
         }
-        table.addCell(ustawfrazeAlign(B.b("lp"), "center", 8));
-        String opis = selected.getNazwa() != null ? selected.getNazwa() : B.b("opis");
-        table.addCell(ustawfrazeAlign(opis, "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("ilosc"), "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("jednostkamiary"), "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("cenanetto"), "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("wartoscnetto"), "center", 8));
+        table.addCell(ustawfrazeAlign(B.b("lp"), "center", 9));
+        String opis = selected.getNazwa() != null ? selected.getNazwa() : "Bezeichnung der Dienstleistung";
+        table.addCell(ustawfrazeAlign(opis, "center", 9));
+        table.addCell(ustawfrazeAlign("anzahl", "center", 9));
+        table.addCell(ustawfrazeAlign("maßeinheit", "center", 9));
+        table.addCell(ustawfrazeAlign("netto", "center", 9));
+        table.addCell(ustawfrazeAlign("MWSt", "center", 9));
         if (selected.getPozycjepokorekcie() != null) {
             table.setHeaderRows(2);
         } else {
@@ -1479,19 +1484,19 @@ public class PdfFP {
         }
         int lp = 1;
         for (Pozycjenafakturzebazadanych pozycje : poz) {
-            table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 8));
-            table.addCell(ustawfrazeAlign(pozycje.getNazwa(), "left", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getIlosc()), "center", 8));
-            table.addCell(ustawfrazeAlign(pozycje.getJednostka(), "center", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(Z.z(pozycje.getNetto()/pozycje.getIlosc()))), "right", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getNetto())), "right", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 9));
+            table.addCell(ustawfrazeAlign(pozycje.getNazwa(), "left", 9));
+            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getIlosc()), "center", 9));
+            table.addCell(ustawfrazeAlign(pozycje.getJednostka(), "center", 9));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(Z.z(pozycje.getNetto()/pozycje.getIlosc()))), "right", 9));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getNetto())), "right", 9));
         }
         if (korekta) {
-            table.addCell(ustawfraze(B.b("razem"), 5, 0));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk())), "right", 8));
+            table.addCell(ustawfraze(B.b("zusammen"), 5, 0));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk())), "right", 9));
         } else {
-            table.addCell(ustawfraze(B.b("razem"), 5, 0));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 8));
+            table.addCell(ustawfraze(B.b("zusammen"), 5, 0));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 9));
         }
         List<EVatwpis> ewidencja = null;
         if (korekta) {
@@ -1510,15 +1515,15 @@ public class PdfFP {
                 } else if (p.getEstawka().equals("-2.0")) {
                     table.addCell(ustawfraze(" ", 6, 0));
                 } else {
-                    table.addCell(ustawfrazeAF(B.b("kwotavatwgstawek"), 4, 0, Element.ALIGN_RIGHT, 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 8));
+                    table.addCell(ustawfrazeAF("MWSt", 4, 0, Element.ALIGN_RIGHT, 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 9));
                 }
                 ilerow++;
             }
-            table.addCell(ustawfrazeAF(B.b("wartoscbrutto"), 4, 0, Element.ALIGN_RIGHT, 8));
-            table.addCell(ustawfrazeAlign("*", "center", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto())), "right", 8));
+            table.addCell(ustawfrazeAF("Brutto", 4, 0, Element.ALIGN_RIGHT, 9));
+            table.addCell(ustawfrazeAlign("*", "center", 9));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto())), "right", 9));
         }
         if (korekta) {
             wierszroznicy(selected, table);
@@ -2100,5 +2105,17 @@ public class PdfFP {
         } catch (DocumentException ex) {
             // Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private static boolean czyjestniemieckie13b(List<Pozycjenafakturzebazadanych> pozycjenafakturze) {
+        boolean jest = false;
+        if (pozycjenafakturze!=null) {
+            for (Pozycjenafakturzebazadanych p :pozycjenafakturze) {
+                if (p.getPodatek()==-3) {
+                    jest = true;
+                }
+            }
+        }
+        return jest;
     }
 }

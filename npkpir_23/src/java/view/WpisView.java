@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansPodatnik.PodatnikBean;
 import dao.FakturaDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
@@ -120,6 +121,10 @@ public class WpisView implements Serializable {
                 rokWpisu = uzer.getRokWpisu();
                 zmianaokresuRok = uzer.getRokWpisu();
             }
+            if (podatnikObiekt.getSchematnumeracji()==null) {
+                PodatnikBean.uzupelnijdanedofaktury(podatnikObiekt);
+                podatnikDAO.edit(podatnikObiekt);
+            }
             obsluzMce();
             uzupelnijdanepodatnika();
             czyniegosc();
@@ -181,6 +186,7 @@ public class WpisView implements Serializable {
             nipfirmy = "1111005008";
             podatnik = podatnikDAO.findPodatnikByNIP(nipfirmy);
         }
+       
         uzer.setPodatnik(podatnik);
         uzDAO.edit(uzer);
         podatnikObiekt = podatnik;

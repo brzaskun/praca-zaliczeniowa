@@ -48,6 +48,9 @@
                 <p:commandButton value="faktura bez VAT" actionListener="#{fakturaView.przygotujrachunek()}" 
                                  oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"
                                  style="margin-bottom: 5px; margin-top: 5px; width: 140px; margin-left: 5px;" />
+                <p:commandButton value="faktura niemiecka" actionListener="#{fakturaView.przygotujfaktureniemiecka()}" 
+                                 oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"
+                                 style="margin-bottom: 5px; margin-top: 5px; width: 140px; margin-left: 10px;" />
             </p:outputPanel>
         </h:form>
         <h:form id="formstworz">
@@ -117,7 +120,7 @@
                         </p:inputText>
                         <h:outputLabel value="konto bankowe: " />
                         <p:outputPanel id="polebankowe">
-                            <h:outputText value="brak numeru konta bankowego wystawiającego" rendered="#{fakturaView.selected.nrkontabankowego eq 'brak numeru konta bankowego'}"/>
+                            <h:outputText value="brak numeru konta bankowego wystawiającego" rendered="#{fakturaView.selected.nrkontabankowego eq 'brak numeru konta bankowego'}" style="color: red;"/>
                             <p:outputPanel rendered="#{fakturaView.listakontawwalucie==null or fakturaView.listakontawwalucie.size() eq 1}">
                                 <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                                     <p:inputText value="#{fakturaView.selected.nrkontabankowego}" maxlength="34"

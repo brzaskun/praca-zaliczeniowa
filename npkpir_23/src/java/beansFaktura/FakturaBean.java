@@ -303,10 +303,13 @@ public class FakturaBean {
         }
     }
 
-    public static List<Pozycjenafakturzebazadanych> inicjacjapozycji(Podatnik podatnikobiekt) {
+    public static List<Pozycjenafakturzebazadanych> inicjacjapozycji(Podatnik podatnikobiekt, boolean niemiecka) {
         List<Pozycjenafakturzebazadanych> lista = Collections.synchronizedList(new ArrayList<>());
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         poz.setPodatek(23);
+        if (niemiecka) {
+            poz.setPodatek(-3);
+        }
         if (podatnikobiekt.getWierszwzorcowy() != null) {
             Pozycjenafakturzebazadanych wierszwzorcowy = podatnikobiekt.getWierszwzorcowy();
             poz.setNazwa(wierszwzorcowy.getNazwa());
@@ -413,6 +416,7 @@ public class FakturaBean {
                 brutto += wartosc;
                 p.setBrutto(Z.z(wartosc));
                 double podatekstawka = p.getPodatek() > -1 ? p.getPodatek() : 0;
+                podatekstawka = p.getPodatek() > -3 ? 0 : podatekstawka;
                 double podatek = Z.z(wartosc * podatekstawka / (100+podatekstawka));
                 if (p.getPodatekkwota()!=0.0 && (podatek+0.01==p.getPodatekkwota()||podatek-0.01==p.getPodatekkwota()) ){
                     podatek = p.getPodatekkwota();
@@ -426,6 +430,7 @@ public class FakturaBean {
                 netto += wartosc;
                 p.setNetto(wartosc);
                 double podatekstawka = p.getPodatek() > -1 ? p.getPodatek() : 0;
+                podatekstawka = p.getPodatek() > -3 ? 0 : podatekstawka;
                 double podatek = Z.z(wartosc * podatekstawka / 100);
                 if (p.getPodatekkwota()!=0.0 && (podatek+0.01==p.getPodatekkwota()||podatek-0.01==p.getPodatekkwota()) ){
                     podatek = p.getPodatekkwota();
@@ -493,6 +498,11 @@ public class FakturaBean {
                 }
             }
             if ((int) p.getPodatek() == 19) {
+                if (r.getNazwa().equals("sprzedaż Niemcy")) {
+                    return r;
+                }
+            }
+            if ((int) p.getPodatek() == -3) {
                 if (r.getNazwa().equals("sprzedaż Niemcy")) {
                     return r;
                 }
