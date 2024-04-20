@@ -570,7 +570,7 @@ public class DokfkWeryfikacjaView implements Serializable {
             }
         } catch (Exception e) {
             zwrot = false;
-            E.e(e);
+            //E.e(e);
         }
         return zwrot;
     }
@@ -644,13 +644,13 @@ public class DokfkWeryfikacjaView implements Serializable {
     private double podsumujkwotynakontach0(List<Wiersz> listawierszy) {
         double suma = 0.0;
         for (Wiersz t : listawierszy) {
-            if (t.getKontoWn().getZwyklerozrachszczegolne().equals("vat")) {
-                if (t.getKontoWn().getPelnynumer().equals("221-1") || t.getKontoWn().getPelnynumer().equals("221-3")) {
+            if (t.getKontoWn()!=null&&t.getKontoWn().getZwyklerozrachszczegolne().equals("vat")) {
+                if (t.getKontoWn()!=null&&t.getKontoWn().getPelnynumer().equals("221-1") || t.getKontoWn().getPelnynumer().equals("221-3")) {
                     suma += t.getKwotaWnPLN();
                 }
             }
-            if (t.getKontoMa().getZwyklerozrachszczegolne().equals("vat")) {
-                if (t.getKontoWn().getPelnynumer().equals("221-1") || t.getKontoWn().getPelnynumer().equals("221-3")) {
+            if (t.getKontoMa()!=null&&t.getKontoMa().getZwyklerozrachszczegolne().equals("vat")) {
+                if (t.getKontoWn()!=null&&t.getKontoWn().getPelnynumer().equals("221-1") || t.getKontoWn().getPelnynumer().equals("221-3")) {
                     suma += t.getKwotaMaPLN();
                 }
             }
