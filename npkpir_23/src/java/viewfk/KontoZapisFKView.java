@@ -1941,16 +1941,30 @@ public class KontoZapisFKView implements Serializable{
             strona.setKonto(konto);
             if (listasum.size()==1) {
                 ListaSum l = listasum.get(0);
-                if (l.getSaldoWnPLN()!=0) {
+                if (l.getSaldoWnPLN()!=0.0) {
                     strona.setWnma("Wn");
-                    strona.setKwota(l.getSaldoWn());
-                    strona.setKwotaWaluta(l.getSaldoWn());
-                    strona.setKwotaPLN(l.getSaldoWnPLN());
-                } else if (l.getSaldoMaPLN()!=0) {
+                    double kwotawaluta = l.getSaldoWn();
+                    if (kwotawaluta>0.0) {
+                        strona.setKwota(kwotawaluta);
+                        strona.setKwotaWaluta(kwotawaluta);
+                        strona.setKwotaPLN(l.getSaldoWnPLN());
+                    } else {
+                        strona.setKwota(l.getSaldoWnPLN());
+                        strona.setKwotaWaluta(l.getSaldoWnPLN());
+                        strona.setKwotaPLN(l.getSaldoWnPLN());
+                    }
+                } else if (l.getSaldoMaPLN()!=0.0) {
                     strona.setWnma("Ma");
-                    strona.setKwota(l.getSaldoMa());
-                    strona.setKwotaWaluta(l.getSaldoMa());
-                    strona.setKwotaPLN(l.getSaldoMaPLN());
+                    double kwotawaluta = l.getSaldoMa();
+                    if (kwotawaluta>0.0) {
+                        strona.setKwota(kwotawaluta);
+                        strona.setKwotaWaluta(kwotawaluta);
+                        strona.setKwotaPLN(l.getSaldoMaPLN());
+                    } else {
+                        strona.setKwota(l.getSaldoMaPLN());
+                        strona.setKwotaWaluta(l.getSaldoMaPLN());
+                        strona.setKwotaPLN(l.getSaldoMaPLN());
+                    }
                 }
                 strona.setTabelanbp(l.getTabelanbp());
             }

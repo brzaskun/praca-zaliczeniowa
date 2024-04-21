@@ -205,7 +205,8 @@ public class BilansBean {
                 if (p != null && warunek && (p.getKwotaWn() != 0.0 || p.getKwotaMa() != 0.0 || p.getKwotaPLN() != 0.0 || p.getKwotaPLN() != 0.0)) {
                     Wiersz wierszstary = p.getWiersz();
                     Wiersz w = new Wiersz();
-                    w.setTabelanbp(wierszstary.getTabelanbp());
+                    Tabelanbp tabela = wierszstary!=null?wierszstary.getTabelanbp():p.getTabelanbp();
+                    w.setTabelanbp(tabela);
                     if (p.getWnma().equals("Wn")) {
                         w.setStronaWn(p);
                     } else {
@@ -214,8 +215,8 @@ public class BilansBean {
                     uzupelnijwiersz(w, nd, idporzadkowy++);
                     
                     String opiswiersza = "";
-                    String opiswstepny = p.getWiersz().getOpisWiersza();
-                    if (opiswstepny!=null) {
+                    String opiswstepny = p.getWiersz()!=null?p.getWiersz().getOpisWiersza():p.getKonto().getPelnynumer()+" saldo na koniec "+nd.getRok();
+                    if (opiswstepny!=null||opiswiersza.isBlank()) {
                         opiswstepny = opiswstepny.replace("zapis BO ", "");
                         opiswstepny = opiswstepny.replace("zapis BO: ", "");
                         opiswstepny = opiswstepny.replace("kwota obrotów: ", "");
