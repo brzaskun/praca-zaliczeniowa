@@ -700,12 +700,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             FakturaRozrachunki r = p.getRozliczenie();
             Faktura f = p.getFaktura();
             double saldo = sumujwybraneroz(selectedrozliczenia);
+            Map<String,Double> saldawaluty = sumujwybranerozwal(selectedrozliczenia);
             if (saldo > 0) {
                 //obetnijliste(p);
                 try {
                     //String nazwa = PdfFaktRozrach.drukujKlienciSilent(szukanyklient, selectedrozliczenia, wpisView, saldo);
                     Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-                    MailFaktRozrach.rozrachunek(szukanyklient.getNpelna(), szukanyklient.getEmail(), dodatkowyadresmailowy, szukanyklient.getTelefon(), selectedrozliczenia, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), tekstwiadomosci);
+                    MailFaktRozrach.rozrachunek(szukanyklient.getNpelna(), szukanyklient.getEmail(), dodatkowyadresmailowy, szukanyklient.getTelefon(),
+                            selectedrozliczenia, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), tekstwiadomosci, saldawaluty);
                     if (r != null) {
                         r.setDataupomnienia(new Date());
                         p.setDataupomnienia(new Date());
@@ -738,12 +740,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             FakturaRozrachunki r = p.getRozliczenie();
             Faktura f = p.getFaktura();
             double saldo = sumujwybraneroz(selectedrozliczenia);
+            Map<String,Double> saldawaluty = sumujwybranerozwal(selectedrozliczenia);
             if (saldo > 0) {
                 //obetnijliste(p);
                 try {
                     //String nazwa = PdfFaktRozrach.drukujKlienciSilent(szukanyklient, selectedrozliczenia, wpisView, saldo);
                     Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-                    MailFaktRozrach.rozrachunek(szukanyklient.getNpelna(),"info@taxman.biz.pl", dodatkowyadresmailowy, szukanyklient.getTelefon(), selectedrozliczenia, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), tekstwiadomosci);
+                    MailFaktRozrach.rozrachunek(szukanyklient.getNpelna(),"info@taxman.biz.pl", dodatkowyadresmailowy, szukanyklient.getTelefon(),
+                            selectedrozliczenia, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), tekstwiadomosci, saldawaluty);
                     if (r != null) {
                         r.setDataupomnienia(new Date());
                         p.setDataupomnienia(new Date());
@@ -782,6 +786,31 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
         return zwrot;
     }
+    
+    private Map<String, Double> sumujwybranerozwal(List<FakturaPodatnikRozliczenie> selectedrozliczenia) {
+        Map<String, Double> zwrot = new HashMap<>();
+        double sumapln = 0.0;
+        double sumaeur = 0.0;
+        for (FakturaPodatnikRozliczenie p : selectedrozliczenia) {
+            if (p.isFaktura0rozliczenie1()) {
+                if (p.getWalutafaktury().equals("PLN")) {
+                    sumapln -= p.getKwota();
+                } else {
+                    sumaeur -= p.getKwota();
+                }
+            } else {
+                if (p.getWalutafaktury().equals("PLN")) {
+                    sumapln += p.getKwota();
+                } else {
+                    sumaeur += p.getKwota();
+                }
+            }
+        }
+        zwrot.put("PLN", sumapln);
+        zwrot.put("EUR", sumaeur);
+        return zwrot;
+    }
+    
     public void telefonKlienci() {
         if (szukanyklient != null && !nowepozycje.isEmpty()) {
             FakturaPodatnikRozliczenie p = nowepozycje.get(nowepozycje.size()-1);

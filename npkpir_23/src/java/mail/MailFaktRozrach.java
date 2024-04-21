@@ -11,6 +11,7 @@ import entity.SMTPSettings;
 import format.F;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
@@ -39,8 +40,15 @@ public class MailFaktRozrach implements Serializable{
             + " <p> &nbsp;</p>";
     
     
-    public static void rozrachunek(String szukanyklient, String email, String udw, String telefon, List<FakturaPodatnikRozliczenie> faktury, WpisView wpisView, FakturaDAO fakturaDAO, double saldo, String stopka, SMTPSettings settings, SMTPSettings ogolne, String tekstwiadomosci) {
+    public static void rozrachunek(String szukanyklient, String email, String udw, String telefon, List<FakturaPodatnikRozliczenie> faktury, WpisView wpisView, 
+            FakturaDAO fakturaDAO, double saldo, String stopka, SMTPSettings settings, SMTPSettings ogolne, String tekstwiadomosci, Map<String,Double> saldawaluty) {
+        double saldopln = saldawaluty.get("PLN");
+        double saldoeur = saldawaluty.get("EUR");
         tekstwiadomosci = tekstwiadomosci==null ? "": tekstwiadomosci;
+        String podsumowaniezalegosci = "<p style='color:red;font-weight: bold;'>Zaległa kwota do zapłaty faktury wystawione w walucie PLN "+F.curr(saldawaluty.get("PLN"), "PLN")+"</p>";
+        if (saldawaluty.get("EUR")>0.0) {
+            podsumowaniezalegosci = podsumowaniezalegosci+ "<p style='color:red;font-weight: bold;'>Zaległa kwota do zapłaty za faktury wystawione w EUR "+F.curr(saldawaluty.get("EUR"), "EUR")+"</p>";
+        }
         Msg.msg("Rozpoczynam wysylanie maila z rozrachunkami. Czekaj na wiadomość końcową");
         int i = 0;
         FakturaPodatnikRozliczenie f = faktury.get(0);
@@ -59,17 +67,11 @@ public class MailFaktRozrach implements Serializable{
                      + "<p>Please find below a list of unsettled invoices issued by us . Please settle any existing arrears as soon as possible.</p>"
                      + "<p>Transfers are posted automatically by our program after downloading bank statements. If you make express transfers or transfers from a new account, the payment may be incorrectly allocated.</p>"
                      + "<p>In such cases, please contact us to verify the balance.</p>"
-                     + "<p></p>"
-                     + " <table align=\"left\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 550px;\"> <caption> faktury/invoices/rechnungen</caption> "
-                    + "<thead> <tr> <th scope=\"col\"> lp</th> <th scope=\"col\"> data wyst.</th><th scope=\"col\"> nr faktury</th> <th scope=\"col\"> kwota do zap.</th> </tr> </thead> "
-                    + "<tbody> "
-                    + dodajwiersze(faktury)
-                    + "</tbody> </table>"
-                    + " <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p><br/> "
+                     + dodajtabele(faktury, saldawaluty)
                      + "<p>Firma "+szukanyklient+"</p>"
                      + "<p>tel "+telefon+"</p>"
                      + "<p>Rozliczenia obejmują okres do "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu()+"</p>"
-                     + "<p style='color:red;font-weight: bold;'>Zaległa kwota do zapłaty "+F.curr(saldo, f.getWalutafaktury())+"</p>"
+                     + podsumowaniezalegosci
                      + "<p style='color:red'>"+tekstwiadomosci+"</p>"
                      + Mail.reklama
                      + stopka,  "text/html; charset=utf-8");
@@ -109,17 +111,40 @@ public class MailFaktRozrach implements Serializable{
         }
         i++;
     }
+    
+    private static String dodajtabele(List<FakturaPodatnikRozliczenie> faktury, Map<String, Double> saldawaluty) {
+        String zwrot = "<p></p>"
+                + " <table align=\"left\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 550px;\"> <caption> faktury/invoices/rechnungen PLN</caption> "
+                + "<thead> <tr> <th scope=\"col\"> lp</th> <th scope=\"col\"> data wyst.</th><th scope=\"col\"> nr faktury</th> <th scope=\"col\"> kwota do zap.</th> </tr> </thead> "
+                + "<tbody> "
+                + dodajwiersze(faktury, "PLN")
+                + "</tbody> </table>"
+                + " <p> &nbsp;</p> <p> &nbsp;</p>";
+        if (saldawaluty.get("EUR") > 0.0) {
+            zwrot = zwrot
+                + " <table align=\"left\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 550px;\"> <caption> faktury/invoices/rechnungen EUR</caption> "
+                + "<thead> <tr> <th scope=\"col\"> lp</th> <th scope=\"col\"> data wyst.</th><th scope=\"col\"> nr faktury</th> <th scope=\"col\"> kwota do zap.</th> </tr> </thead> "
+                + "<tbody> "
+                + dodajwiersze(faktury, "EUR")
+                + "</tbody> </table>"
+                + " <p> &nbsp;</p> <p> &nbsp;</p>";
+        }
+        zwrot = zwrot + " <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p><br/> ";
+        return zwrot;
+    }
 
-    private static String dodajwiersze(List<FakturaPodatnikRozliczenie> faktury) {
+    private static String dodajwiersze(List<FakturaPodatnikRozliczenie> faktury, String waluta) {
         String zwrot = "";
         int lp = 1;
         for (FakturaPodatnikRozliczenie p : faktury) {
-            if (p.isFaktura0rozliczenie1()) {
-                zwrot += "<tr> <td style=\"text-align: center;\"> "+lp+"</td> <td> "+p.getData()+"</td><td> otrzymano wpłatę"+p.getNrDok()+"</td> <td style=\"text-align: right;\">"+F.curr(-p.getKwota(),p.getWalutafaktury())+"</td> </tr> ";
-                lp++;
-            } else {
-                zwrot += "<tr> <td style=\"text-align: center;\"> "+lp+"</td> <td> "+p.getData()+"</td><td>  faktura "+p.getNrDok()+"</td> <td style=\"text-align: right;\">"+F.curr(p.getKwota(),p.getWalutafaktury())+"</td> </tr> ";
-                lp++;
+            if (p.getWalutafaktury().equals(waluta)) {
+                if (p.isFaktura0rozliczenie1()) {
+                    zwrot += "<tr> <td style=\"text-align: center;\"> "+lp+"</td> <td> "+p.getData()+"</td><td> otrzymano wpłatę"+p.getNrDok()+"</td> <td style=\"text-align: right;\">"+F.curr(-p.getKwota(),p.getWalutafaktury())+"</td> </tr> ";
+                    lp++;
+                } else {
+                    zwrot += "<tr> <td style=\"text-align: center;\"> "+lp+"</td> <td> "+p.getData()+"</td><td>  faktura "+p.getNrDok()+"</td> <td style=\"text-align: right;\">"+F.curr(p.getKwota(),p.getWalutafaktury())+"</td> </tr> ";
+                    lp++;
+                }
             }
         }
         return zwrot;
