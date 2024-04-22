@@ -11,7 +11,7 @@
         <h:form id="form4old" >
             <h:outputText value="Wartości inwentaryzacji na koniec roku podatkowego" style="font-size: 15px"/>
             <p:growl life="3600"  showDetail="true"/>
-            <p:focus for="parametrypodatnika3"/><br/>
+<!--            <p:focus for="parametrypodatnika3"/><br/>-->
             <p:panelGrid columns="4" style="width: 500px">
                 <p:dataTable value="#{podatnikView.selected.remanent}"  var="loop" >
                     <f:facet name="header">

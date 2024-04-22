@@ -195,7 +195,11 @@ public class BilansBean {
         nd.setListawierszy(new ArrayList<Wiersz>());
         int idporzadkowy = 1;
         if (listabiezaca != null && listabiezaca.size() > 0) {
-            for (StronaWiersza p : listabiezaca) {
+            for (StronaWiersza starastrona : listabiezaca) {
+                StronaWiersza p = serialclone.SerialClone.clone(starastrona);
+                p.setId(null);
+                p.setNowetransakcje(null);
+                p.setPlatnosci(null);
                 //bo sa takie co sa zapisane w bazie i sa generowane jako saldo i te nie maja id
                 boolean warunek = true;
                 if (seriadokumentu.equals("BO")) {

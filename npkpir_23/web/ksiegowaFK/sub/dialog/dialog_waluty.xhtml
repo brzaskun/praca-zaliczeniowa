@@ -84,6 +84,8 @@
                         <p:column>
                             <h:outputText value="przelicznik"/>
                         </p:column>
+                    </p:row>
+                    <p:row>
                     <p:column >
                         <p:inputText value="#{walutyViewFK.nowawaluta.symbolwaluty}" required="true" requiredMessage="Wpisz skrót waluty" maxlength="3"   style="text-align: center;"/>
                     </p:column>
@@ -97,6 +99,7 @@
                     <p:column>
                         <p:inputText value="#{walutyViewFK.nowawaluta.przelicznik}" required="true"/>
                     </p:column>
+                    </p:row>
             </p:panelGrid>
             <div style="padding: 10px;">
                 <p:commandButton id="walutynowabutton" value="nowa" onclick="walutypokaz();" style="width: 120px;"/>
