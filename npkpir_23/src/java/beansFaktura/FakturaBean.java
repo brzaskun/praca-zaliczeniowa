@@ -430,7 +430,7 @@ public class FakturaBean {
                 netto += wartosc;
                 p.setNetto(wartosc);
                 double podatekstawka = p.getPodatek() > -1 ? p.getPodatek() : 0;
-                podatekstawka = p.getPodatek() > -3 ? 0 : podatekstawka;
+                podatekstawka = p.getPodatek() == -3 ? 0 : podatekstawka;
                 double podatek = Z.z(wartosc * podatekstawka / 100);
                 if (p.getPodatekkwota()!=0.0 && (podatek+0.01==p.getPodatekkwota()||podatek-0.01==p.getPodatekkwota()) ){
                     podatek = p.getPodatekkwota();
