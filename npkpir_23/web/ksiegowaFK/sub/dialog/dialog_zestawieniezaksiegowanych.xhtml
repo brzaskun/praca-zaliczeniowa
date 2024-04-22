@@ -39,7 +39,7 @@
         /* ]]> */
     </script>
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" 
-              widgetVar="zestawieniezaksiegowanych" style="overflow-y: hidden;"
+              widgetVar="zestawieniezaksiegowanych" style="overflow-y: hidden;" appendTo="@(body)" 
               
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1780, 580);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>

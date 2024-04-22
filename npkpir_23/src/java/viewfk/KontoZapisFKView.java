@@ -22,6 +22,7 @@ import dao.WierszBODAO;
 import dao.WierszDAO;
 import data.Data;
 import embeddablefk.ListaSum;
+import entity.Rodzajedok;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.Konto;
@@ -92,8 +93,12 @@ public class KontoZapisFKView implements Serializable{
     private KlienciDAO klienciDAO;
     @Inject
     private CechazapisuDAOfk cechazapisuDAOfk;
-    @Inject private Konto wybranekonto;
-    @Inject private Konto kontodoprzeksiegowania;
+    @Inject
+    private RodzajedokDAO todzajedokDAO;
+    @Inject 
+    private Konto wybranekonto;
+    @Inject 
+    private Konto kontodoprzeksiegowania;
     private Double sumaWn;
     private Double sumaMa;
     private Double saldoWn;
@@ -1907,30 +1912,49 @@ public class KontoZapisFKView implements Serializable{
     }
 
     public void naniesbz() {
-        if (wybranekonto==null&&listasum.isEmpty()==false) {
-            Msg.msg("e","Nie wybrano konta");
-        } else {
-            List zachowaneWiersze = wybranezapisydosumowania!=null?wybranezapisydosumowania:new ArrayList<StronaWiersza>();
-            if (zachowaneWiersze.isEmpty()) {
-                zachowaneWiersze = naniessaldo(listasum, wybranekonto);
-            }
-            String seriadokumentu = "BZ";
-            Dokfk dok = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), seriadokumentu, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            if (dok == null) {
-                dok = BilansBean.stworznowydokument(1, zachowaneWiersze, seriadokumentu, wpisView, klienciDAO, rodzajedokDAO, tabelanbpDAO, walutyDAOfk);
-                if (dok.getListawierszy() != null) {
-                    dok.przeliczKwotyWierszaDoSumyDokumentu();
+        if (wpisView.getMiesiacOd().equals("01")&&wpisView.getMiesiacDo().equals("12")) {
+            Rodzajedok definicjabz = rodzajedokDAO.find("BZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            if (definicjabz!=null) {
+                if (wybranekonto==null&&listasum.isEmpty()==false) {
+                    Msg.msg("e","Nie wybrano konta");
+                } else {
+                    boolean czyobrotytylkopojednej = true;
+                    List zachowaneWiersze = wybranezapisydosumowania!=null?wybranezapisydosumowania:new ArrayList<StronaWiersza>();
+                    boolean zapisy = true;
+                    if (zachowaneWiersze.isEmpty()) {
+                        zapisy = false;
+                        zachowaneWiersze = naniessaldo(listasum, wybranekonto);
+                    }
+                    if (zapisy&&listasum.get(0).getSumaWnPLN()!=0.0&&listasum.get(0).getSumaMaPLN()!=0.0) {
+                        czyobrotytylkopojednej = false;
+                    }
+                    if (czyobrotytylkopojednej) {
+                        String seriadokumentu = "BZ";
+                        Dokfk dok = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), seriadokumentu, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                        if (dok == null) {
+                            dok = BilansBean.stworznowydokument(1, zachowaneWiersze, seriadokumentu, wpisView, klienciDAO, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, pokaztransakcje);
+                            if (dok.getListawierszy() != null) {
+                                dok.przeliczKwotyWierszaDoSumyDokumentu();
+                            }
+                            dokDAOfk.create(dok);
+                            Msg.msg("Wygenerowano dokument BZ i naniesiono zapisy");
+                        } else {
+                            BilansBean.edytujnowydokument(dok, zachowaneWiersze, seriadokumentu, wpisView, pokaztransakcje);
+                            if (dok.getListawierszy() != null) {
+                                dok.przeliczKwotyWierszaDoSumyDokumentu();
+                            }
+                            dokDAOfk.edit(dok);
+                            Msg.msg("Wedytowano dokument BZ i zaktualizowano zapisy");
+                        }
+                    } else {
+                        Msg.msg("e","Błąd. Wybrano zapisy po obydwu stronach dokumentu");
+                    }
                 }
-                dokDAOfk.create(dok);
-                Msg.msg("Wygenerowano dokument BZ");
             } else {
-                BilansBean.edytujnowydokument(dok, zachowaneWiersze, seriadokumentu, wpisView);
-                if (dok.getListawierszy() != null) {
-                    dok.przeliczKwotyWierszaDoSumyDokumentu();
-                }
-                dokDAOfk.edit(dok);
-                Msg.msg("Wedytowano dokument BZ");
+                Msg.msg("e","Brak dokumentu typu BZ. Proszę otworzyć parametry i aktywne dokumenty podatnika. Dokument się załaduje automatycznie");
             }
+        } else {
+            Msg.msg("e","Pobrano zapisy za niewłaściwe miesiące. Proszę ustawiść od 01 do 12");
         }
     }
     

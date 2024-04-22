@@ -320,6 +320,17 @@ public class StronaWiersza implements Serializable {
         this.wiersz.setTabelanbp(tabela);
     }
 
+    public StronaWiersza(StronaWiersza starastrona) {
+        this.konto = starastrona.konto;
+        this.kwota = starastrona.kwota;
+        this.kwotaPLN = starastrona.kwotaPLN;
+        this.kwotaWaluta = starastrona.kwotaWaluta;
+        this.wnma = starastrona.wnma;
+        this.nowatransakcja = starastrona.nowatransakcja;
+        this.typStronaWiersza = starastrona.typStronaWiersza == 1?1:0;
+        
+    }
+
     public String getColor() {
         String zwrot = "initial";
         if (this.isTylkopodatkowo()) {

@@ -867,7 +867,7 @@ public class BilansWprowadzanieNowyView implements Serializable {
             isteniejeDokBO = true;
         } else {
             isteniejeDokBO = false;
-            dok = BilansBean.stworznowydokument(1, zachowaneWiersze, seriadokumentu, wpisView, klienciDAO, rodzajedokDAO, tabelanbpDAO, walutyDAOfk);
+            dok = BilansBean.stworznowydokument(1, zachowaneWiersze, seriadokumentu, wpisView, klienciDAO, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, false);
             dok.przeliczKwotyWierszaDoSumyDokumentu();
             dokDAOfk.create(dok);
             dokumentBO = dok;

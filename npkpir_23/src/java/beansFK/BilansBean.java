@@ -114,7 +114,7 @@ public class BilansBean {
     }
     
     public static Dokfk stworznowydokument(int nrkolejny, List<StronaWiersza> zachowaneWiersze, String seriadokumentu, WpisView wpisView, 
-            KlienciDAO klienciDAO, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk) {
+            KlienciDAO klienciDAO, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk, boolean pokaztransakcje) {
         Dokfk nd = new Dokfk(nrkolejny, wpisView.getRokWpisuSt());
         ustawdaty(nd, wpisView, seriadokumentu);
         ustawkontrahenta(nd, wpisView, klienciDAO);
@@ -130,14 +130,18 @@ public class BilansBean {
         nd.setWprowadzil(wpisView.getUzer().getLogin());
         ustawrodzajedok(nd, seriadokumentu, wpisView, rodzajedokDAO);
         ustawtabelenbp(nd, tabelanbpDAO, walutyDAOfk);
-        ustawwiersze(nd, zachowaneWiersze, wpisView, seriadokumentu);
+        if (seriadokumentu.equals("BZ")) {
+            ustawwierszeBZ(nd, zachowaneWiersze, wpisView, seriadokumentu, pokaztransakcje);
+        } else {
+            ustawwiersze(nd, zachowaneWiersze, wpisView, seriadokumentu);
+        }
         return nd;
     }
     
-    public static Dokfk edytujnowydokument(Dokfk nd, List<StronaWiersza> zachowaneWiersze, String seriadokumentu, WpisView wpisView) {
+    public static Dokfk edytujnowydokument(Dokfk nd, List<StronaWiersza> zachowaneWiersze, String seriadokumentu, WpisView wpisView, boolean pokaztransakcje) {
         if (seriadokumentu.equals("BZ")) {
             usunwiersze(nd, zachowaneWiersze, wpisView, seriadokumentu);
-            ustawwierszeBZ(nd, zachowaneWiersze, wpisView, seriadokumentu);
+            ustawwierszeBZ(nd, zachowaneWiersze, wpisView, seriadokumentu, pokaztransakcje);
         } else {
             ustawwiersze(nd, zachowaneWiersze, wpisView, seriadokumentu);
         }
@@ -195,18 +199,15 @@ public class BilansBean {
         nd.setListawierszy(new ArrayList<Wiersz>());
         int idporzadkowy = 1;
         if (listabiezaca != null && listabiezaca.size() > 0) {
-            for (StronaWiersza starastrona : listabiezaca) {
-                StronaWiersza p = serialclone.SerialClone.clone(starastrona);
-                p.setId(null);
-                p.setNowetransakcje(null);
-                p.setPlatnosci(null);
+            for (StronaWiersza p : listabiezaca) {
                 //bo sa takie co sa zapisane w bazie i sa generowane jako saldo i te nie maja id
                 boolean warunek = true;
                 if (seriadokumentu.equals("BO")) {
                     warunek = p.getWiersz().getIdwiersza()==null;
                 }
                 //przetwarzamy tylko wiersze ktorych nie ma w bazie
-                if (p != null && warunek && (p.getKwotaWn() != 0.0 || p.getKwotaMa() != 0.0 || p.getKwotaPLN() != 0.0 || p.getKwotaPLN() != 0.0)) {
+                boolean sakwotynakontach = p.getKwotaWn() != 0.0 || p.getKwotaMa() != 0.0 || p.getKwotaPLN() != 0.0 || p.getKwotaPLN() != 0.0;
+                if (p != null && warunek && sakwotynakontach) {
                     Wiersz wierszstary = p.getWiersz();
                     Wiersz w = new Wiersz();
                     Tabelanbp tabela = wierszstary!=null?wierszstary.getTabelanbp():p.getTabelanbp();
@@ -240,14 +241,30 @@ public class BilansBean {
         }
     }
     
-    public static void ustawwierszeBZ(Dokfk nd, List<StronaWiersza> listabiezaca, WpisView wpisView, String seriadokumentu) {
+    public static void ustawwierszeBZ(Dokfk nd, List<StronaWiersza> listabiezaca, WpisView wpisView, String seriadokumentu, boolean pokaztransakcje) {
         int idporzadkowy = 1;
+        if (nd.getListawierszy()==null) {
+            nd.setListawierszy(new ArrayList<Wiersz>());
+        }
         if (listabiezaca != null && listabiezaca.size() > 0) {
-            for (StronaWiersza p : listabiezaca) {
+            for (StronaWiersza starastrona : listabiezaca) {
 //                boolean warunek = p.getWiersz()!=null?p.getWiersz().getIdwiersza()==null:true;
 //                if (seriadokumentu.equals("BZ")) {
 //                    warunek = p.getWiersz()!=null?p.getWiersz().getIdwiersza()!=null:false;
 //                }
+                StronaWiersza p = new StronaWiersza(starastrona);
+                if (pokaztransakcje) {
+                    double kwotawaluta = starastrona.getRozliczono();
+                    double kwotapoln = starastrona.getRozliczono();
+                    if (p.isNowatransakcja()) {
+                        kwotawaluta = starastrona.getPozostalo();
+                        kwotapoln = starastrona.getPozostaloPLN();
+                    }
+                    p.setKwota(kwotawaluta);
+                    p.setKwotaWaluta(kwotawaluta);
+                    p.setKwotaPLN(kwotapoln);
+                }
+                p.setBilanszamkniecia(true);
                 //przetwarzamy tylko wiersze ktorych nie ma w bazie
                 if (p != null && (p.getKwotaWn() != 0.0 || p.getKwotaMa() != 0.0 || p.getKwotaPLN() != 0.0 || p.getKwotaPLN() != 0.0)) {
                     Wiersz wierszstary = p.getWiersz();
