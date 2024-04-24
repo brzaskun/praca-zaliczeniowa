@@ -21,7 +21,7 @@
         };
         /* ]]> */
     </script>
-    <p:dialog id="dialogewidencjevat" header="Zestawienie ewidencji vat - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogewidencjevat"  
+    <p:dialog id="dialogewidencjevat" header="Zestawienie ewidencji vat - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogewidencjevat"  appendTo="@(body)"
               maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1400,750);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
               resizable="true" dynamic="true">
         <p:ajax event="open" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty(WpisView.getPodatnikObiekt())}" global="false" update="form"/>
