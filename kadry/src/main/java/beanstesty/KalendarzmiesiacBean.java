@@ -544,9 +544,9 @@ public class KalendarzmiesiacBean {
         }
     }
 
-    public static void naliczskladnikipotraceniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double wolneodzajecia) {
+    public static void naliczskladnikipotraceniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double wolneodzajecia, double wolneodzajeciazasilek) {
         for (Skladnikpotracenia p : kalendarz.getAngaz().getSkladnikpotraceniaList()) {
-            Naliczeniepotracenie naliczeniepotracenie = NaliczeniepotracenieBean.createPotracenieDB(pasekwynagrodzen, p, wolneodzajecia);
+            Naliczeniepotracenie naliczeniepotracenie = NaliczeniepotracenieBean.createPotracenieDB(pasekwynagrodzen, p, wolneodzajecia, wolneodzajeciazasilek);
             if (naliczeniepotracenie != null) {
                 pasekwynagrodzen.getNaliczeniepotracenieList().add(naliczeniepotracenie);
             }

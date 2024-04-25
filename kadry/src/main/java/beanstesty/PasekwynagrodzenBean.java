@@ -193,12 +193,13 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.netto(pasek);
             double wolneodzajeciabrutto = wynagrodzenieminimalne.getKwotabrutto();
             double wolneodzajecia = wynagrodzenieminimalne.getKwotanetto();
+            double wolneodzajeciazasilek = wynagrodzenieminimalne.getLimitzajeciazasilki();
             if (pobierzetat != null) {
                 wolneodzajeciabrutto = Z.z(wolneodzajeciabrutto * pobierzetat.getEtat1() / pobierzetat.getEtat2());
                 wolneodzajecia = PasekwynagrodzenBean.obliczminimalna(kalendarz, definicjalistaplac, stawkipodatkowe, 0, wolneodzajeciabrutto, datawyplaty);
             }
             pasek.setWolneodzajecia(wolneodzajecia);
-            KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek, wolneodzajecia);
+            KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek, wolneodzajecia, wolneodzajeciazasilek);
             PasekwynagrodzenBean.potracenia(pasek);
             PasekwynagrodzenBean.dowyplaty(pasek);
             if (swiadczeniarzeczowe) {
@@ -218,12 +219,14 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.netto(pasek);
             double wolneodzajeciabrutto = wynagrodzenieminimalne.getKwotabrutto();
             double wolneodzajecia = wynagrodzenieminimalne.getKwotanetto();
+            double wolneodzajeciazasilek = wynagrodzenieminimalne.getLimitzajeciazasilki();
             if (pobierzetat != null) {
                 wolneodzajeciabrutto = Z.z(wolneodzajeciabrutto * pobierzetat.getEtat1() / pobierzetat.getEtat2());
                 wolneodzajecia = PasekwynagrodzenBean.obliczminimalna(kalendarz, definicjalistaplac, stawkipodatkowe, 0, wolneodzajeciabrutto, datawyplaty);
             }
             pasek.setWolneodzajecia(wolneodzajecia);
-            KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek, wolneodzajecia);
+            pasek.setWolneodzajeciazasilek(wolneodzajeciazasilek);
+            KalendarzmiesiacBean.naliczskladnikipotraceniaDB(kalendarz, pasek, wolneodzajecia, wolneodzajeciazasilek);
             PasekwynagrodzenBean.potracenia(pasek);
             PasekwynagrodzenBean.dowyplaty(pasek);
             if (swiadczeniarzeczowe) {

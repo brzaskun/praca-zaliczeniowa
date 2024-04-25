@@ -886,6 +886,8 @@
                         <bcf:inputplid id="pstawka2" value="#{wynagrodzenieMinimalneView.selected.kwotanetto}"/>
                         <p:outputLabel value="limit podstawy świadczeń chorobowych"/>
                         <bcf:inputplid id="pstawka3" value="#{wynagrodzenieMinimalneView.selected.limitswiadczenchorobowych}"/>
+                        <p:outputLabel value="limit zajęcia zasiłki"/>
+                        <bcf:inputplid id="pstawka3" value="#{wynagrodzenieMinimalneView.selected.limitzajeciazasilki}"/>
                         <p:outputLabel value="data od" for="dataode" />
                         <p:inputText id="dataode" value="#{wynagrodzenieMinimalneView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
                         <p:outputLabel value="data do" for="datadoe" />
@@ -897,7 +899,7 @@
                     <p:dataTable value="#{wynagrodzenieMinimalneView.lista}" var="itemwynmin" rowIndexVar="indexekwiw" rowKey="#{itemwynmin.id}"
                                  selection="#{wynagrodzenieMinimalneView.selected}" selectionMode="single"  sortBy="#{itemwynmin.rok}"
                                  scrollable="true" scrollHeight="700" scrollRows="30" 
-                                 style="width: 600px;margin-top: 30px;" emptyMessage="Nie wprowadzono wartości">
+                                 style="width: 650px;margin-top: 30px;" emptyMessage="Nie wprowadzono wartości">
                         <p:ajax event="rowSelect" partialSubmit="true"/>
                         <p:column width="30" style="text-align: center;">
                             <f:facet name="header">
@@ -928,6 +930,12 @@
                                 <h:outputText value="limit podstawy świadczeń chorobowych"/>
                             </f:facet>
                                <bcf:outputpl value="#{itemwynmin.limitswiadczenchorobowych}"/>
+                        </p:column>
+                         <p:column width="50" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="limit zajęcia zasiłki"/>
+                            </f:facet>
+                             <bcf:outputpl value="#{itemwynmin.limitzajeciazasilki}"/>
                         </p:column>
                          <p:column width="50" style="text-align: center;" sortBy="#{itemwynmin.rok}">
                             <f:facet name="header">

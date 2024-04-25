@@ -65,6 +65,9 @@ public class Wynagrodzenieminimalne implements Serializable {
     @Size(max = 255)
     @Column(name = "dataod")
     private String dataod;
+    @Column(name = "limitzajeciazasilki")
+    private double limitzajeciazasilki;
+    
 
     public Wynagrodzenieminimalne() {
     }
@@ -133,6 +136,14 @@ public class Wynagrodzenieminimalne implements Serializable {
 
     public void setLimitswiadczenchorobowych(double limitswiadczenchorobowych) {
         this.limitswiadczenchorobowych = limitswiadczenchorobowych;
+    }
+
+    public double getLimitzajeciazasilki() {
+        return limitzajeciazasilki;
+    }
+
+    public void setLimitzajeciazasilki(double limitzajeciazasilki) {
+        this.limitzajeciazasilki = limitzajeciazasilki;
     }
     
     

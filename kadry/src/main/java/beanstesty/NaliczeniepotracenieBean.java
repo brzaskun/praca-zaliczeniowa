@@ -33,23 +33,24 @@ public class NaliczeniepotracenieBean {
         return naliczeniepotracenie;
     }
 
-    static Naliczeniepotracenie createPotracenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikpotracenia skladnikpotracenia, double wolneodzajeciaustawa) {
+    static Naliczeniepotracenie createPotracenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikpotracenia skladnikpotracenia, double wolneodzajeciaustawa, double wolneodzajeciazasilek) {
         Kalendarzmiesiac kalendarz = pasekwynagrodzen.getKalendarzmiesiac();
         Naliczeniepotracenie zwrot = new Naliczeniepotracenie();
         List<Zmiennapotracenia> zmiennawynagrodzeniaList = skladnikpotracenia.getZmiennapotraceniaList();
         for (Zmiennapotracenia p : zmiennawynagrodzeniaList) {
             if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), p.getDataod(), p.getDatado())) {
-                double ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
+                double ilemoznaprocent = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
                 double wolneodzajecia = wolneodzajeciaustawa;
                 if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")) {
-                    ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
+                    ilemoznaprocent = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
                 }
                 if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("ZA")) {
-                    ilemozna = skladnikpotracenia.getRodzajpotracenia().getLimitzasilki();
+                    wolneodzajecia = wolneodzajeciazasilek;
+                    ilemoznaprocent = skladnikpotracenia.getRodzajpotracenia().getLimitzasilki();
                 }
                 if (p.isMaxustawowy()==false) {
                     wolneodzajecia = 0.0;
-                    ilemozna = 100;
+                    ilemoznaprocent = 100;
                 }
                 int dzienodzmienna = DataBean.dataod(p.getDataod(), kalendarz.getRok(), kalendarz.getMc());
                 int dziendozmienna = DataBean.datado(p.getDatado(), kalendarz.getRok(), kalendarz.getMc());
@@ -67,7 +68,7 @@ public class NaliczeniepotracenieBean {
                 } else if (p.getKwotakomornicza()>0.0) {
                     if (p.getKwotakomornicza()>juzrozliczono) {
                        
-                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
+                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemoznaprocent/100.0));
                         if (juzrozliczono+potracenie>p.getKwotakomornicza()) {
                             potracenie = Z.z(p.getKwotakomornicza()-juzrozliczono);
                         }
@@ -93,7 +94,7 @@ public class NaliczeniepotracenieBean {
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
                 } else if (p.isMaxustawowy()&&p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()!=1) {
                     if (pasekwynagrodzen.getNettoprzedpotraceniami()>wolneodzajecia) {
-                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
+                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemoznaprocent/100.0));
                         double nowenetto = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()-potracenie);
                         if (nowenetto>wolneodzajecia) {
                             zwrot.setKwota(potracenie);
@@ -107,19 +108,19 @@ public class NaliczeniepotracenieBean {
                     }
 
                 } else if (p.isMaxustawowy()&&p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()==1 && pasekwynagrodzen.isPraca()) {
-                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
+                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemoznaprocent/100.0));
                         zwrot.setKwota(potracenie);
                         p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
 
                 }  else if (p.isMaxustawowy()&&p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()==1) {
-                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
+                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemoznaprocent/100.0));
                         zwrot.setKwota(potracenie);
                         p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);    
 
                 }  else if (p.getSkladnikpotracenia().getRodzajpotracenia().getNumer()==14) {
-                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemozna/100.0));
+                        double potracenie = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemoznaprocent/100.0));
                         zwrot.setKwota(potracenie);
                         p.setKwotakomorniczarozliczona(Z.z(juzrozliczono+zwrot.getKwota()));
                         zwrot.setPasekwynagrodzen(pasekwynagrodzen);    

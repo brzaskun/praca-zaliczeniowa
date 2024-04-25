@@ -327,7 +327,7 @@ public class PasekwynagrodzenView implements Serializable {
                     pasek.setPodatekdochodowyzagranicawaluta(pasekzmiany.getPodatekdochodowyzagranicawaluta());
                     pasek.setPodatekdochodowyzagranica(Z.z(pasek.getPodatekdochodowyzagranicawaluta()*pasek.getKurs()));
                     pasek.setNettoprzedpotraceniami(Z.z(pasek.getNettoprzedpotraceniamisafe()-pasek.getPodatekdochodowyzagranica()));
-                    KalendarzmiesiacBean.naliczskladnikipotraceniaDB(pasek.getKalendarzmiesiac(), pasek, pasek.getWolneodzajecia());
+                    KalendarzmiesiacBean.naliczskladnikipotraceniaDB(pasek.getKalendarzmiesiac(), pasek, pasek.getWolneodzajecia(), pasek.getWolneodzajeciazasilek());
                     PasekwynagrodzenBean.potracenia(pasek);
                     PasekwynagrodzenBean.dowyplaty(pasek);
                     PasekwynagrodzenBean.przelicznawalute(pasek);

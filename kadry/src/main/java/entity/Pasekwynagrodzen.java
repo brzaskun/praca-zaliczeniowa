@@ -291,6 +291,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double przychodzagranicasuperplace;
     @Column(name = "wolneodzajecia")
     private double wolneodzajecia;
+    @Column(name = "wolneodzajeciazasilek")
+    private double wolneodzajeciazasilek;
     @Column(name = "fpprzekroczeniewiek")
     private boolean fpprzekroczeniewiek;
     @Column(name = "fppowrotmacierzynski")
@@ -703,6 +705,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setPodstawaopodatkowaniazagranicawaluta(double podstawaopodatkowaniazagranicawaluta) {
         this.podstawaopodatkowaniazagranicawaluta = podstawaopodatkowaniazagranicawaluta;
+    }
+
+    public double getWolneodzajeciazasilek() {
+        return wolneodzajeciazasilek;
+    }
+
+    public void setWolneodzajeciazasilek(double wolneodzajeciazasilek) {
+        this.wolneodzajeciazasilek = wolneodzajeciazasilek;
     }
     
 

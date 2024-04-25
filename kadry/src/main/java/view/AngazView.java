@@ -112,6 +112,7 @@ public class AngazView  implements Serializable {
         //UmowaBean.naniesDatezasilkunaimportowane(lista, umowaFacade);
         listafirm = firmaFacade.findAll();
         listapracownikow = pracownikFacade.findAll();
+        selected.setRok(wpisView.getRokWpisu());
         if (wpisView.getFirma()!=null) {
             lista = angazFacade.findByFirma(wpisView.getFirma());
             pobierzpracownikow();
