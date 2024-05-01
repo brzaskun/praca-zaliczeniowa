@@ -42,7 +42,7 @@ import view.WpisView;
 
 public class PlanKontFKBean {
    
-     public static int dodajsyntetyczne(Podatnik podatnik, List<Konto> wykazkont, Konto nowekonto, KontoDAOfk kontoDAOfk, Integer rokwpisu) {
+     public static Konto dodajsyntetyczne(Podatnik podatnik, List<Konto> wykazkont, Konto nowekonto, KontoDAOfk kontoDAOfk, Integer rokwpisu) {
          nowekonto.setSyntetyczne("syntetyczne");
          nowekonto.setPodatnik(podatnik);
          nowekonto.setRok(rokwpisu);
@@ -51,7 +51,14 @@ public class PlanKontFKBean {
          nowekonto.setKontomacierzyste(null);
          nowekonto.setMapotomkow(false);
          nowekonto.setPelnynumer(nowekonto.getNrkonta());
-         return zachowajkonto(wykazkont, nowekonto, kontoDAOfk);
+         if (nowekonto.isDwasalda()) {
+             nowekonto.setZwyklerozrachszczegolne("szczególne");
+         } else if (nowekonto.isRozrachunkowe()) {
+             nowekonto.setZwyklerozrachszczegolne("rozrachunkowe");
+         } else {
+             nowekonto.setZwyklerozrachszczegolne("zwykłe");
+         }
+         return zachowajkontonowasyntetyka(wykazkont, nowekonto, kontoDAOfk);
      }
      
         
@@ -74,6 +81,8 @@ public class PlanKontFKBean {
          nowekonto.setLevel(obliczlevel(macierzyste.getPelnynumer()));
          nowekonto.setPelnynumer(macierzyste.getPelnynumer() + "-" + nowekonto.getNrkonta());
          nowekonto.setWnma0wm1ma2(macierzyste.getWnma0wm1ma2());
+         nowekonto.setDwasalda(macierzyste.isDwasalda());
+         nowekonto.setRozrachunkowe(macierzyste.isRozrachunkowe());
          return zachowajkonto(wykazkont, nowekonto, kontoDAOfk);
     }
      
@@ -119,6 +128,8 @@ public class PlanKontFKBean {
          nowekonto.setLevel(obliczlevel(nowekonto.getKontomacierzyste().getPelnynumer()));
          nowekonto.setPelnynumer(nowekonto.getKontomacierzyste().getPelnynumer() + "-" + nowekonto.getNrkonta());
          nowekonto.setWnma0wm1ma2(macierzyste.getWnma0wm1ma2());
+         nowekonto.setDwasalda(macierzyste.isDwasalda());
+         nowekonto.setRozrachunkowe(macierzyste.isRozrachunkowe());
          return zachowajkonto(wykazkont, nowekonto, kontoDAOfk);
     }
     
@@ -176,6 +187,8 @@ public class PlanKontFKBean {
          nowekonto.setSlownikowe(true);
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
+         nowekonto.setDwasalda(macierzyste.isDwasalda());
+         nowekonto.setRozrachunkowe(macierzyste.isRozrachunkowe());
          nowekonto.setNrkonta("0");
          nowekonto.setMapotomkow(false);
          nowekonto.setMacierzysty(macierzyste.getLp());
@@ -728,6 +741,16 @@ public class PlanKontFKBean {
                 kontoDAOfk.edit(konto);
             return 1;
         }
+    }
+    
+    private static Konto zachowajkontonowasyntetyka(List<Konto> wykazkont, Konto nowekonto, KontoDAOfk kontoDAOfk) {
+        Konto konto = znajdzduplikat(wykazkont, nowekonto);
+        if (konto == null) {
+            kontoDAOfk.create(nowekonto);
+        } else {
+            nowekonto = null;
+        }
+        return nowekonto;
     }
     
     public static int przetworzkonto(List<Konto> wykazkont, Konto nowekonto) {

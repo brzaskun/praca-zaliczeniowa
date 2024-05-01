@@ -30,9 +30,9 @@ public class StronaWierszaBean {
     
     public static boolean czyKontoJestRozrachunkowe(StronaWiersza aktualnyWierszDlaRozrachunkow, String stronawiersza) {
         if (stronawiersza.equals("Wn")) {
-                return (aktualnyWierszDlaRozrachunkow).getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe");
+                return (aktualnyWierszDlaRozrachunkow).getKonto().isRozrachunkowe();
             } else {
-                return (aktualnyWierszDlaRozrachunkow).getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe");
+                return (aktualnyWierszDlaRozrachunkow).getKonto().isRozrachunkowe();
             }
     }
        

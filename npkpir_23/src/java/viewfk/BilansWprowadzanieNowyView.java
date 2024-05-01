@@ -432,7 +432,7 @@ public class BilansWprowadzanieNowyView implements Serializable {
         } else if (selected.getKwotaWn() != 0.0 && selected.getKwotaMa() != 0.0) {
             Msg.msg("e", "Występują salda po dwóch stronach konta. Nie można zapisać");
         } else {
-             if (selected.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+             if (selected.getKonto().isRozrachunkowe()) {
                 selected.setNowatransakcja(true);
             }
             selected.setSymbolWalutyBO(selected.getSymbolWalutyBO());
@@ -953,7 +953,7 @@ public class BilansWprowadzanieNowyView implements Serializable {
 //        } else {
 //            st = new StronaWiersza(w, wnma, Z.z(p.getKwotaMa()), p.getKonto());
 //        }
-//        if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+//        if (p.getKonto().isRozrachunkowe()) {
 //            st.setNowatransakcja(true);
 //        }
 //        //st.setWierszbo(p);
@@ -1022,7 +1022,7 @@ public class BilansWprowadzanieNowyView implements Serializable {
     private void generujStronaWierszaWn(StronaWiersza p, Wiersz w) {
         w.setTypWiersza(1);
         StronaWiersza st = new StronaWiersza(w, "Wn", p.getKwotaWn(), p.getKonto());
-        if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+        if (p.getKonto().isRozrachunkowe()) {
             st.setNowatransakcja(true);
         }
         //st.setKursBO(p.getKurs());
@@ -1037,7 +1037,7 @@ public class BilansWprowadzanieNowyView implements Serializable {
     private void generujStronaWierszaMa(StronaWiersza p, Wiersz w) {
         w.setTypWiersza(2);
         StronaWiersza st = new StronaWiersza(w, "Ma", p.getKwotaMa(), p.getKonto());
-        if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+        if (p.getKonto().isRozrachunkowe()) {
             st.setNowatransakcja(true);
         }
         //st.setKursBO(p.getKurs());

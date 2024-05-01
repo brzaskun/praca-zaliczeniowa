@@ -997,7 +997,7 @@ public class Dokfk extends DokSuper implements Serializable {
     public int sprawdzczynaniesionorozrachunki() {
         int brakrozrachunkow = 0;
         for (StronaWiersza p : this.getStronyWierszy()) {
-            boolean jestrozrachunkowe = p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe");
+            boolean jestrozrachunkowe = p.getKonto().isRozrachunkowe();
             boolean jestnowatransakcja = p.isNowatransakcja();
             boolean saplatnosci = p.getRozliczono() > 0;
             if (jestrozrachunkowe == true) {

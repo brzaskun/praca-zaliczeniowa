@@ -289,8 +289,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "zwyklerozrachszczegolne")
     private String zwyklerozrachszczegolne;
+    //typ konta
+    @Column(name = "dwasalda")
+    private boolean dwasalda;
+    @Column(name = "rozrachunkowe")
+    private boolean rozrachunkowe;
     @Column(name = "wynik0bilans1")
     protected boolean wynik0bilans1;
+    @Column(name = "kontovat")
+    protected boolean kontovat;
     //dawne KontoBO
     @Transient
     private double saldorokpopWn;
@@ -328,6 +335,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.nazwaskrocona = old.nazwaskrocona;
         this.bilansowewynikowe = old.bilansowewynikowe;
         this.zwyklerozrachszczegolne = old.zwyklerozrachszczegolne;
+        this.dwasalda = old.dwasalda;
+        this.rozrachunkowe = old.rozrachunkowe;
+        this.kontovat = old.kontovat;
         this.macierzysty = old.macierzysty;
         this.kontomacierzyste = old.kontomacierzyste;
         this.pelnynumer = old.pelnynumer;
@@ -361,7 +371,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public Konto(Integer id, Podatnik podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, 
             String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin, int rok,
-            String syntetycznenumer) {
+            String syntetycznenumer, boolean dwasalda, boolean rozrachunkowe, boolean kontovat) {
         this.id = id;
         this.podatnik = podatnik;
         this.nrkonta = nrkonta;
@@ -371,6 +381,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.nazwaskrocona = nazwaskrocona;
         this.bilansowewynikowe = bilansowewynikowe;
         this.zwyklerozrachszczegolne = zwyklerozrachszczegolne;
+        this.dwasalda = dwasalda;
+        this.rozrachunkowe = rozrachunkowe;
+         this.kontovat = kontovat;
         this.pelnynumer = pelnynumer;
         this.rozwin = rozwin;
         this.rok = rok;
@@ -875,6 +888,32 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setPozycjaMaRU(String pozycjaMaRU) {
         this.pozycjaMaRU = pozycjaMaRU;
     }
+
+    public boolean isDwasalda() {
+        return dwasalda;
+    }
+
+    public void setDwasalda(boolean dwasalda) {
+        this.dwasalda = dwasalda;
+    }
+
+    public boolean isRozrachunkowe() {
+        return rozrachunkowe;
+    }
+
+    public void setRozrachunkowe(boolean rozrachunkowe) {
+        this.rozrachunkowe = rozrachunkowe;
+    }
+
+    public boolean isKontovat() {
+        return kontovat;
+    }
+
+    public void setKontovat(boolean kontovat) {
+        this.kontovat = kontovat;
+    }
+    
+    
     
     
     public boolean getRozBOWn() {

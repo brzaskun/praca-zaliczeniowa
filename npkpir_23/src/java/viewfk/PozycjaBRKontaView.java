@@ -28,17 +28,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.apache.commons.lang3.StringUtils;
+import javax.inject.Named;
+import msg.Msg;
+import org.apache.commons.lang3.StringUtils;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.treetable.TreeTable;
 import org.primefaces.model.TreeNode;
 import pdffk.PdfBilans;
 import pdffk.PdfRZiS;
-import view.WpisView; import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 /**
  *
@@ -240,7 +241,7 @@ public class PozycjaBRKontaView implements Serializable {
         } else {
             Podatnik podatnik = wybranyuklad.getPodatnik();
             boxNaKonto = konto;
-            if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("szczególne") || konto.getZwyklerozrachszczegolne().equals("vat")) {
+            if (konto.isRozrachunkowe() || konto.getZwyklerozrachszczegolne().equals("szczególne") || konto.isKontovat()) {
                 if (konto.getPozycjaWn() == null && konto.getPozycjaMa()==null) {
                     PrimeFaces.current().ajax().update("kontownmawybor");
                     PrimeFaces.current().executeScript("PF('kontownmawybor').show();");
@@ -312,7 +313,7 @@ public class PozycjaBRKontaView implements Serializable {
                     przyporzadkowanekonta.remove(konto);
             }
             //to duperele porzadkujace sytuacje w okienkach
-            if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("vat")) {
+            if (konto.isRozrachunkowe() || konto.isKontovat()) {
                 PlanKontFKBean.przyporzadkujBilans_kontoszczegolne(wybranapozycja,konto, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1,"rozrachunkowe/vat", podatnik, wybranyuklad, kontopozycjaZapisDAO);
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
@@ -334,7 +335,7 @@ public class PozycjaBRKontaView implements Serializable {
    
     public void onKontoRemoveB(Konto konto, String br) {
         Podatnik podatnik = wybranyuklad.getPodatnik();
-        if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("vat")) {
+        if (konto.isRozrachunkowe() || konto.isKontovat()) {
             przyporzadkowanekonta.remove(konto);
             String wnma = "";
             if (konto.getPozycjaWn() != null && konto.getPozycjaWn().equals(wybranapozycja)) {

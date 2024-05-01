@@ -423,6 +423,8 @@ public class PozycjaRZiSFKBean {
             for (Konto p : potomki) {
                 try {
                     p.setZwyklerozrachszczegolne(konto.getZwyklerozrachszczegolne());
+                    p.setDwasalda(konto.isDwasalda());
+                    p.setRozrachunkowe(konto.isRozrachunkowe());
                     p.kopiujPozycje(konto, wnma);
                     p.setSyntetykaanalityka("syntetyka");
                     kontoDAO.edit(p);

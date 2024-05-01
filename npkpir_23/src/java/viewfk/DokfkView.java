@@ -2501,7 +2501,7 @@ public class DokfkView implements Serializable {
             if (aktualnyWierszDlaRozrachunkow != wybranastronawiersza || wybranastronawiersza.getTypStronaWiersza() == 0) {
                 String wnma = wybranastronawiersza.getWnma();
                 wnmadoprzeniesienia = wybranastronawiersza.getWnma();
-                if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().isRozrachunkowe()) {
                     biezacetransakcje = new ArrayList<>();
                     aktualnyWierszDlaRozrachunkow = wybranastronawiersza;
                     potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
@@ -2543,7 +2543,7 @@ public class DokfkView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        if (wybranastronawiersza.getKonto() != null && !wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+        if (wybranastronawiersza.getKonto() != null && !wybranastronawiersza.getKonto().isRozrachunkowe()) {
             potraktujjakoNowaTransakcje = false;
             biezacetransakcje = Collections.synchronizedList(new ArrayList<>());
             wybranastronawiersza.setTypStronaWiersza(0);
@@ -4995,7 +4995,7 @@ public void oznaczjakonkup() {
                 p.setImportowany(false);
                 if (p.getRodzajedok().getKategoriadokumentu()==1 || p.getRodzajedok().getKategoriadokumentu()==2) {
                     for (StronaWiersza s : p.getStronyWierszy()) {
-                        if (s.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")&&  s.getKonto().getPelnynumer().startsWith("20")) {
+                        if (s.getKonto().isRozrachunkowe()&&  s.getKonto().getPelnynumer().startsWith("20")) {
                             s.setNowatransakcja(true);
                             s.setTypStronaWiersza(1);
                             p.setZablokujzmianewaluty(true);

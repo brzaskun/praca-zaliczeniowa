@@ -77,7 +77,7 @@ public class RozrachunkiPrzegladKontrahenciView implements Serializable{
         List<StronaWiersza> wierszezzapisami = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         Set<Konto> zawartekontawzapisach = new HashSet<>();
         for (StronaWiersza p : wierszezzapisami) {
-            if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+            if (p.getKonto().isRozrachunkowe()) {
                 zawartekontawzapisach.add(p.getKonto());
             }
         }

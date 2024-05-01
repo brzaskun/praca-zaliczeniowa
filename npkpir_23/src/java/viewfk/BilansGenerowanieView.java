@@ -618,9 +618,9 @@ public class BilansGenerowanieView implements Serializable {
 //             if (p.getKonto().getPelnynumer().startsWith("149")) {
 //                nowalista.addAll(przetworzPojedyncze(p));
 //            } else
-            if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==false) {
+            if (p.getKonto().isRozrachunkowe() && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==false) {
                 nowalista.addAll(przetworzPojedyncze(p));
-            } else if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==true) {
+            } else if (p.getKonto().isRozrachunkowe() && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==true) {
                 Set<Waluty> waluty = pobierzWalutySaldoKonto(p, false);
                 waluty.add(listawalut.get("PLN"));
                 List<SaldoKonto> wierszeSumWalutaPLN = Collections.synchronizedList(new ArrayList<>());
@@ -659,7 +659,7 @@ public class BilansGenerowanieView implements Serializable {
         for (SaldoKonto p : listaSaldoKonto) {
              if (p.getKonto().getPelnynumer().startsWith("149")) {
                 nowalista.addAll(przetworzPojedyncze(p));
-            } else if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==true) {
+            } else if (p.getKonto().isRozrachunkowe() && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==true) {
                 Set<Waluty> waluty = pobierzWalutySaldoKonto(p, false);
                 waluty.add(listawalut.get("PLN"));
                 List<SaldoKonto> wierszeSumWalutaPLN = Collections.synchronizedList(new ArrayList<>());

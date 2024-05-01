@@ -547,7 +547,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                                     }
                                                 }
                                         }
-                                    } else if (kontopobrane.getZwyklerozrachszczegolne().equals("rozrachunkowe") || kontopobrane.getZwyklerozrachszczegolne().equals("vat")) {
+                                    } else if (kontopobrane.isRozrachunkowe() || kontopobrane.isKontovat()) {
                                         double kwotapierwotna = Z.z(pozycja.getKwota());
                                         if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
                                             if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
@@ -660,7 +660,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                             }
                                         }
                                     }
-                                } else if (kontopobrane.getZwyklerozrachszczegolne().equals("rozrachunkowe") || kontopobrane.getZwyklerozrachszczegolne().equals("vat")) {
+                                } else if (kontopobrane.isRozrachunkowe() || kontopobrane.isKontovat()) {
                                     double kwotapierwotna = pozycja.getKwotabo();
                                     if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
                                         if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
@@ -773,7 +773,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                             }
                                         }
                                 }
-                            } else if (kontopobrane.getZwyklerozrachszczegolne().equals("rozrachunkowe") || kontopobrane.getZwyklerozrachszczegolne().equals("vat")) {
+                            } else if (kontopobrane.isRozrachunkowe() || kontopobrane.isKontovat()) {
                                 double kwotapierwotna = Z.z(pozycja.getKwota());
                                 if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
                                     if (stronaWn==false && stronaMa==false) {

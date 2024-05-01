@@ -95,7 +95,7 @@ public class WierszeView implements Serializable {
                 boolean kmabrak = false;
                 if (kwn != null) {
                     sumawn += p.getKwotaWnPLN();
-                    if (kwn.getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                    if (kwn.isRozrachunkowe()) {
                         if (p.getStronaWn().getTypStronaWiersza() == 0) {
                             kwnbrak = true;
                         }
@@ -103,7 +103,7 @@ public class WierszeView implements Serializable {
                 }
                 if (kma != null) {
                     sumama += p.getKwotaMaPLN();
-                    if (kma.getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                    if (kma.isRozrachunkowe()) {
                         if (p.getStronaMa().getTypStronaWiersza() == 0) {
                             kwnbrak = true;
                         }

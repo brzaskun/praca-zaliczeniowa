@@ -1149,7 +1149,7 @@ public class KontoZapisFKView implements Serializable{
     public void odszukajsparowanerozrachunki() {
         try {
             StronaWiersza wybranyrozrachunek = wybranezapisydosumowania.get(0);
-            if (wybranyrozrachunek.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+            if (wybranyrozrachunek.getKonto().isRozrachunkowe()) {
                 List<Transakcja> listytransakcjiNT = transakcjaDAO.findByNowaTransakcja(wybranyrozrachunek);
                 List<Transakcja> listytransakcjiR = transakcjaDAO.findByRozliczajacy(wybranyrozrachunek);
                 zapisydopodswietlenia = Collections.synchronizedList(new ArrayList<>());

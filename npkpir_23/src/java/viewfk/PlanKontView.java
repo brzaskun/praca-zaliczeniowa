@@ -489,15 +489,19 @@ public class PlanKontView implements Serializable {
     public void dodajsyntetyczne() {
         Podatnik podatnik = ustawpodatnika();
         if (noweKonto.getBilansowewynikowe() != null) {
-            int wynikdodaniakonta = 1;
+            Konto nowododane = null;
             if (czyoddacdowzorca == true) {
-                wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczne(podatnik,wykazkontwzor, noweKonto, kontoDAOfk, wpisView.getRokWpisu());
-                wykazkontwzor = planBezSlownikowychSyntetyczne(podatnik);
+                nowododane = PlanKontFKBean.dodajsyntetyczne(podatnik,wykazkontwzor, noweKonto, kontoDAOfk, wpisView.getRokWpisu());
+                //wykazkontwzor = planBezSlownikowychSyntetyczne(podatnik);
+                wykazkont.add(nowododane);
+                Collections.sort(wykazkont, new Kontocomparator());
             } else {
-                wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczne(podatnik,wykazkont, noweKonto, kontoDAOfk, wpisView.getRokWpisu());
-                wykazkont = planBezSlownikowychSyntetyczne(podatnik);
+                nowododane = PlanKontFKBean.dodajsyntetyczne(podatnik,wykazkont, noweKonto, kontoDAOfk, wpisView.getRokWpisu());
+                //wykazkont = planBezSlownikowychSyntetyczne(podatnik);
+                wykazkont.add(nowododane);
+                Collections.sort(wykazkont, new Kontocomparator());
             }
-            if (wynikdodaniakonta == 0) {
+            if (nowododane !=null) {
                 noweKonto = new Konto();
                 Msg.msg("i", "Dodano konto syntetyczne", "formX:messages");
             } else {
@@ -1304,7 +1308,7 @@ public class PlanKontView implements Serializable {
 //                        } else {
 //                            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p, kontoDAOfk, podatnik, "wynik");
 //                        }
-//                    } else if (p.getZwyklerozrachszczegolne().equals("rozrachunkowe") || p.getZwyklerozrachszczegolne().equals("vat") || p.getZwyklerozrachszczegolne().equals("szczególne")) {
+//                    } else if (p.isRozrachunkowe() || p..isKontovat() || p.getZwyklerozrachszczegolne().equals("szczególne")) {
 //                        PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(p,kontoDAOfk, podatnik, "wnma");
 //                    } else {
 //                        PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p, kontoDAOfk, podatnik, "bilans");
@@ -1363,7 +1367,7 @@ public class PlanKontView implements Serializable {
                         } else {
                             PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykleNowe(p, kontadoporzadkowania);
                         }
-                    } else if (p.getZwyklerozrachszczegolne().equals("rozrachunkowe") || p.getZwyklerozrachszczegolne().equals("vat") || p.getZwyklerozrachszczegolne().equals("szczególne")) {
+                    } else if (p.isRozrachunkowe() || p.isKontovat() || p.getZwyklerozrachszczegolne().equals("szczególne")) {
                         PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(p,kontoDAOfk, podatnik, "wnma");
                     } else {
                         PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykleNowe(p, kontadoporzadkowania);
@@ -1653,6 +1657,8 @@ public class PlanKontView implements Serializable {
                 for (Konto p : kontapotomne) {
                     if (p != null) {
                         p.setZwyklerozrachszczegolne(selectednodekontoL.getZwyklerozrachszczegolne());
+                        p.setDwasalda(selectednodekontoL.isDwasalda());
+                        p.setRozrachunkowe(selectednodekontoL.isRozrachunkowe());
                         if (selectednodekontoL.isWynik0bilans1()==false) {
                             p.setSyntetykaanalityka("syntetyczne");
                         }
@@ -1707,6 +1713,8 @@ public class PlanKontView implements Serializable {
         List<Konto> kontapotomne = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), konto, konto.getBilansowewynikowe());
         for (Konto p : kontapotomne) {
             p.setZwyklerozrachszczegolne(konto.getZwyklerozrachszczegolne());
+            p.setDwasalda(konto.isDwasalda());
+            p.setRozrachunkowe(konto.isRozrachunkowe());
             kontoDAOfk.edit(p);
         }
         wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
@@ -1996,6 +2004,8 @@ public class PlanKontView implements Serializable {
             List<Konto> potomki = pobierzpotomkowWzorcowy(p);
             for (Konto r : potomki) {
                 r.setWnma0wm1ma2(p.getWnma0wm1ma2());
+                r.setDwasalda(p.isDwasalda());
+                r.setRozrachunkowe(p.isRozrachunkowe());
                 nanieswnmaWzorcowy(r);
             }
             kontoDAOfk.edit(potomki);
@@ -2052,6 +2062,8 @@ public class PlanKontView implements Serializable {
             List<Konto> potomki = pobierzpotomkowImpl(p, kontapodatnika);
             for (Konto r : potomki) {
                 r.setWnma0wm1ma2(p.getWnma0wm1ma2());
+                r.setDwasalda(p.isDwasalda());
+                r.setRozrachunkowe(p.isRozrachunkowe());
                 nanieswnmaImpl(r,wnma0wn1ma2, kontapodatnika);
             }
         }
@@ -2439,13 +2451,14 @@ public class PlanKontView implements Serializable {
                                     }
                                     nowekonto.setSyntetyczne("analityczne");
                                     nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
-                                    nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
                                     nowekonto.setNrkonta(oblicznumerkonta(macierzyste, obecnyplantkont));
                                     nowekonto.setPrzychod0koszt1(macierzyste.isPrzychod0koszt1());
                                     nowekonto.setMapotomkow(false);
                                     nowekonto.setLevel(PlanKontFKBean.obliczlevel(macierzyste.getPelnynumer()));
                                     nowekonto.setPelnynumer(macierzyste.getPelnynumer() + "-" + nowekonto.getNrkonta());
                                     nowekonto.setWnma0wm1ma2(macierzyste.getWnma0wm1ma2());
+                                    nowekonto.setDwasalda(macierzyste.isDwasalda());
+                                    nowekonto.setRozrachunkowe(macierzyste.isRozrachunkowe());
                                     int przetworzkonto = PlanKontFKBean.przetworzkonto(obecnyplantkont, nowekonto);
                                     if (przetworzkonto==0) {
                                         obecnyplantkont.add(nowekonto);
@@ -2514,6 +2527,9 @@ public class PlanKontView implements Serializable {
         }
     }
 
-   
+    
+     
+    
+  
 }
 

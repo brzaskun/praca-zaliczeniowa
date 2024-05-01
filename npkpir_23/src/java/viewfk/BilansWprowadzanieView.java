@@ -1115,7 +1115,7 @@ public class BilansWprowadzanieView implements Serializable {
         } else {
             st = new StronaWiersza(w, wnma, Z.z(p.getKwotaMa()), p.getKonto());
         }
-        if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+        if (p.getKonto().isRozrachunkowe()) {
             st.setNowatransakcja(true);
         }
         st.setWierszbo(p);
@@ -1183,7 +1183,7 @@ public class BilansWprowadzanieView implements Serializable {
     private void generujStronaWierszaWn(WierszBO p, Wiersz w) {
         w.setTypWiersza(1);
         StronaWiersza st = new StronaWiersza(w, "Wn", p.getKwotaWn(), p.getKonto());
-        if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+        if (p.getKonto().isRozrachunkowe()) {
             st.setNowatransakcja(true);
         }
         st.setKursBO(p.getKurs());
@@ -1198,7 +1198,7 @@ public class BilansWprowadzanieView implements Serializable {
     private void generujStronaWierszaMa(WierszBO p, Wiersz w) {
         w.setTypWiersza(2);
         StronaWiersza st = new StronaWiersza(w, "Ma", p.getKwotaMa(), p.getKonto());
-        if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+        if (p.getKonto().isRozrachunkowe()) {
             st.setNowatransakcja(true);
         }
         st.setKursBO(p.getKurs());
