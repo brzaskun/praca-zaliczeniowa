@@ -1687,12 +1687,24 @@ public class PlanKontView implements Serializable {
                 if (kontapotomne.isEmpty()==false) {
                     selectednodekontoL.setMapotomkow(true);
                 }
+                        czykontomapotomkow(selectednodekontoL, kontoDAOfk, wpisView.getPodatnikObiekt());
                 kontoDAOfk.edit(selectednodekontoL);
                 usunprzyporzadkowanie = false;
             } catch (Exception e) {
                 E.e(e);
             }
         }
+    }
+
+    private boolean czykontomapotomkow(Konto konto, KontoDAOfk kontoDAO, Podatnik podatnik) {
+        boolean zwrot = false;
+         List<Konto> kontaPotomneByPodatnik = kontoDAO.findKontaPotomneByPodatnik(podatnik, konto);
+         if (kontaPotomneByPodatnik!=null&&kontaPotomneByPodatnik.size()>0) {
+             zwrot = true;
+         }
+         konto.setMapotomkow(zwrot);
+         kontoDAO.edit(konto);
+         return zwrot;
     }
 
 
