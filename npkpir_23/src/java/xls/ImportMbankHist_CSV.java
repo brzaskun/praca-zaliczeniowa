@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Locale;
 import msg.Msg;
 import org.apache.commons.text.WordUtils;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -108,6 +107,9 @@ public class ImportMbankHist_CSV implements Serializable {
                             kwota = Math.abs(kwota);
                             x.setKwota(kwota);
                             x.setWaluta(pn.getWyciagwaluta());
+                            if (pn.getWyciagwaluta().equals("PLN")==false) {
+                                x.setKurs(4.5);
+                            }
                             x.setNrtransakji(baza.get(2));
                             x.setTyptransakcji(oblicztyptransakcji(x));
                             x.setNaglowek(pn);
