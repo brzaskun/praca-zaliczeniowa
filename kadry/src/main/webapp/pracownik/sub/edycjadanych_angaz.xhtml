@@ -35,10 +35,9 @@
                             </f:facet>
                         </p:autoComplete>
                         <p:outputLabel value="rok" for="rok" />
-                        <h:outputText value="#{angazView.selected.rok}"/>
-<!--                        <p:inputText id="rok" value="#{angazView.selected.rok}" title="rok angażu" >
+                        <p:inputText id="rok" value="#{angazView.selected.rok}" title="rok angażu" >
                             <p:ajax event="blur" listener="#{angazView.sprawdzrok()}" update="@this"/>
-                        </p:inputText>-->
+                        </p:inputText>
                         <p:outputLabel value="miesiąc angażu" for="mc" />
                         <p:selectOneMenu id="mc" value="#{angazView.selected.mc}"  style="width: 100px;">
                             <f:selectItems value="#{mce.mceList}"/>
