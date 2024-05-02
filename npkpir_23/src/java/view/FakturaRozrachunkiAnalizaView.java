@@ -30,6 +30,7 @@ import entity.Fakturadodelementy;
 import entity.Fakturywystokresowe;
 import entity.Klienci;
 import entity.Podatnik;
+import entity.SMTPSettings;
 import entity.Uz;
 import error.E;
 import java.io.Serializable;
@@ -51,6 +52,7 @@ import javax.faces.component.UISelectOne;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import mail.MailAdmin;
 import mail.MailFaktRozrach;
 import msg.Msg;
 import pdf.PdfFaktRozrach;
@@ -1132,6 +1134,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             Klienci klientposzukiwany = klienciDAO.findKlientById(szukanyklient.getId());
             klientposzukiwany.setAktywny(podatnik.isPodmiotaktywny());
             klienciDAO.edit(klientposzukiwany);
+            SMTPSettings ogolne = SMTPBean.pobierzSMTPDef(sMTPSettingsDAO);
+            MailAdmin.dezaktywacjaPodanikamail(podatnik, ogolne, "w.daniluk@taxman.biz.pl", szukanyklient.getKsiegowa().getEmail());
             Msg.msg("Zmieniono aktywacje podatnika");
         } else {
             Msg.msg("e","Nie pobrano podatnika");

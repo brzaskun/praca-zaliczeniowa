@@ -6,6 +6,7 @@ package mail;
 
 import data.Data;
 import entity.Pismoadmin;
+import entity.Podatnik;
 import entity.SMTPSettings;
 import entity.Sprawa;
 import entity.Uz;
@@ -13,9 +14,11 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import javax.activation.DataHandler;
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -108,6 +111,36 @@ public class MailAdmin implements Serializable {
                      + "zablokowano usera o IP:</p>"
                      + "<p style=\"color: green;\">"+ip+"</p>"
                      + "<p>Z poważaniem</p>"
+                     + "<br/>"
+                     + "<p>Serwer Programu</p>", "text/html; charset=utf-8");
+             // create the Multipart and add its parts to it
+             Multipart mp = new MimeMultipart();
+             mp.addBodyPart(mbp1);
+             // add the Multipart to the message
+             message.setContent(mp);
+             Transport.send(message);
+             
+         } catch (MessagingException e) {
+             throw new RuntimeException(e);
+        } 
+        
+    }
+     
+     public static void dezaktywacjaPodanikamail(Podatnik podatnik, SMTPSettings ogolne, String wiolettamail, String bcc) {
+        try {
+             MailSetUp mailSetUp = new MailSetUp();
+             MimeMessage message = mailSetUp.logintoMailAdmin(wiolettamail, null, ogolne);
+             message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse(bcc));
+             message.setSubject("Wypowiedzenie umowy z powodu braku platności","UTF-8");
+             // create and fill the first message part
+             MimeBodyPart mbp1 = new MimeBodyPart();
+             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
+             mbp1.setContent("W związku z tym, że klient "+podatnik.getPrintnazwa()+" nip "+podatnik.getNip()
+                     + "permanentnie zalega z platnościami"
+                     + "wdrażamy procedurę wypowiedzenia umowy"
+                     + "<p style=\"color: green;\">Proszę do niego zadzwonić i postawić ultimatum</p>"
+                     + "<p>Albo zapłaci zaległości w ciągu 14 dni, albo wypowiadamy umowę i oddajemy wydruki jedynie za czas opłacony</p>"
                      + "<br/>"
                      + "<p>Serwer Programu</p>", "text/html; charset=utf-8");
              // create the Multipart and add its parts to it
