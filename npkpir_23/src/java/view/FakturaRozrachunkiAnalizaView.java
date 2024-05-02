@@ -241,6 +241,20 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
      
+    public void resetrozliczonych() {
+        List<Klienci> wykazklientow = fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
+        for (Iterator<Klienci> it = wykazklientow.iterator(); it.hasNext();) {
+            Klienci k = it.next();
+           if (k!=null&&k.isRozliczonynakoniecroku() == true) {
+               k.setRozliczonynakoniecroku(false);
+            } else if (k==null) {
+                it.remove();
+            }
+        }
+        klienciDAO.editList(wykazklientow);
+        klienci = wykazklientow;
+        Msg.msg("Zresetowano klientów");
+    }
    
      
     private Collection<? extends Klienci> pobierzkontrahentow() {
