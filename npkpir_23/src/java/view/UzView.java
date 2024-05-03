@@ -182,6 +182,7 @@ public class UzView implements Serializable {
         if (validateData()) {
             try {
                 selUzytkownik.setHaslo(haszuj(selUzytkownik.getHaslo()));
+                selUzytkownik.setWmagajresetuhasla(false);
                 uzDAO.edit(selUzytkownik);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reset hasła udany.", selUzytkownik.getLogin());
                 FacesContext.getCurrentInstance().addMessage(null, msg);

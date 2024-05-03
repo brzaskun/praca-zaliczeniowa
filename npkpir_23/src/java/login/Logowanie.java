@@ -61,17 +61,17 @@ public class Logowanie implements Serializable {
     private UzDAO uzFacade;
 
     public Logowanie() {
-       
+
     }
 
     @PostConstruct
     private void init() { //E.m(this);
         try {
-                ipusera = IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
-            if (ipusera!=null) {
+            ipusera = IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
+            if (ipusera != null) {
                 liczniklogowan = Liczniklogowan.pobierzIloscLogowan(ipusera, rejestrlogowanDAO);
             }
-            
+
             invalidatesession();
         } catch (Exception e) {
             E.e(e);
@@ -82,24 +82,27 @@ public class Logowanie implements Serializable {
         //invalidatesession();
         String navto = "";
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Uz uzer = null;
         try {
-            if (haslo.equals("haslo")) {
+            try {
+                request.login(uzytkownik, haslo);
+                uzer = uzFacade.findUzByLogin(uzytkownik);
+
+            } catch (ServletException e) {
+                E.e(e);
+            }
+            if (uzer != null && uzer.isWmagajresetuhasla()) {
                 navto = "nowehaslo";
             } else {
-                try {
-                    request.login(uzytkownik, haslo);
-                } catch (ServletException e) {
-                    E.e(e);
-                }
                 request.setAttribute("user", uzytkownik);
-                String lo = request.getRemoteUser(); 
+                String lo = request.getRemoteUser();
                 if (request.isUserInRole("Administrator")) {
                     navto = "Administrator";
                 } else if (request.isUserInRole("Manager")) {
                     navto = "Manager";
                 } else if (request.isUserInRole("HumanResources")) {
                     navto = "kadry";
-                }else if (request.isUserInRole("ZUS")) {
+                } else if (request.isUserInRole("ZUS")) {
                     navto = "ZUS";
                 } else if (request.isUserInRole("Bookkeeper")) {
                     navto = "Bookkeeper";
@@ -117,7 +120,7 @@ public class Logowanie implements Serializable {
                         return "failure";
                     }
                     navto = "Guest";
-                } else if (request.isUserInRole("GuestFK")||request.isUserInRole("GuestFKBook")) {
+                } else if (request.isUserInRole("GuestFK") || request.isUserInRole("GuestFKBook")) {
                     String nip = uzDAO.findUzByLogin(uzytkownik).getFirma();
                     Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
                     if (p == null) {
@@ -152,13 +155,13 @@ public class Logowanie implements Serializable {
                 } else if (request.isUserInRole("Noobie")) {
                     navto = "Noobie";
                 }
-                Uz uzer = uzFacade.findUzByLogin(uzytkownik);
                 request.setAttribute("uzer", uzer);
                 dodajInfoDoSesji();
                 if (liczniklogowan < 5) {
                     Liczniklogowan.resetujLogowanie(ipusera, rejestrlogowanDAO);
                 }
             }
+
             ustawLocale(uzytkownik);
             return navto;
         } catch (Exception exp) {
@@ -205,8 +208,8 @@ public class Logowanie implements Serializable {
         session.setAttribute("id", session.getId());
         String nrsesji = session.getId();
         Sesja czyjestjuzsesja = sesjaDAO.find(nrsesji);
-        if (czyjestjuzsesja!=null) {
-            
+        if (czyjestjuzsesja != null) {
+
         } else {
             sesja.setNrsesji(nrsesji);
             sesja.setUzytkownik(principal.getName());
@@ -252,7 +255,7 @@ public class Logowanie implements Serializable {
         if (session != null) {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             Principal principal = request.getUserPrincipal();
-            if (principal!=null) {
+            if (principal != null) {
                 session.invalidate();
             }
         }
@@ -262,11 +265,11 @@ public class Logowanie implements Serializable {
     public void autologin() {
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml?faces-redirect=true");
     }
-    
+
     public void uniewaznijsesje() {
         invalidatesession();
     }
-    
+
 //    public void sprawdzciasteczka() {
 //        try {
 //            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -284,8 +287,6 @@ public class Logowanie implements Serializable {
 //            E.e(e);
 //        }
 //    }
-
-    
 //    public String savelogin() {
 //        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
 //        StringBuilder p = new StringBuilder();
@@ -341,7 +342,6 @@ public class Logowanie implements Serializable {
 //    public void setWpisView(WpisView wpisView) {
 //        this.wpisView = wpisView;
 //    }
-
     public LocaleChanger getLocaleChanger() {
         return localeChanger;
     }

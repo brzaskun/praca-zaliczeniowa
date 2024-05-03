@@ -129,6 +129,8 @@ public class Uz implements Serializable {
     private String fakturanumeracja;
     @Column(name = "fakturagrupa")
     private String fakturagrupa;
+    @Column(name = "wmagajresetuhasla")
+    private boolean wmagajresetuhasla;
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
     @Transient
@@ -377,6 +379,15 @@ public class Uz implements Serializable {
         this.sumafakturkadry = sumafakturkadry;
     }
 
+    public boolean isWmagajresetuhasla() {
+        return wmagajresetuhasla;
+    }
+
+    public void setWmagajresetuhasla(boolean wmagajresetuhasla) {
+        this.wmagajresetuhasla = wmagajresetuhasla;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 7;

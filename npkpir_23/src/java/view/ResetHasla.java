@@ -57,6 +57,7 @@ public class ResetHasla implements Serializable {
         } else {
             String generatedString = RandomStringUtils.random(7, false, true);
             user.setHaslo(haszuj(generatedString));//haslo :)
+            user.setWmagajresetuhasla(true);
             uzDAO.edit(user);
             Mail.resetowaniehasla(user.getEmail(), user.getLogin(), null, sMTPSettingsDAO.findSprawaByDef(), generatedString);
             pokazreset = false;
