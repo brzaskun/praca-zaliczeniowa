@@ -20,9 +20,7 @@
         <h:body style="background-color: #FFFFFF">
             
             <h:form id="formlog0">
-                <p:outputPanel style="text-align: center;">
-                    <p:messages id="logowanie" style="margin-top: 20px;height: 180px; width: 400px; margin-left: auto; margin-right: auto;"  ><p:autoUpdate/></p:messages>
-                </p:outputPanel>
+               
                 <p:panelGrid columns="3" style="margin-top: 5px; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
                     
                    <p:column >
@@ -38,7 +36,7 @@
             </h:form>
             <h:form id="formlog1">
                 <p:panel style="text-align: center; margin-left: auto; margin-right: auto;  width: 450px">
-                        <h:outputLabel value="Prosze wpisać w pole poniżej swój login uzytkownika. Nowe hasło zostanie wysłane na adres mailowy podany przy rejestracji"/>
+                        <h:outputLabel value="Prosze wpisać w pole poniżej swój login uzytkownika. Hasło tymczasowe zostanie wysłane na adres mailowy podany przy rejestracji"/>
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2" style="text-align: center; margin-left: auto; margin-right: auto; height: 75px;">
                         <h:outputText value="twój login"/>
@@ -46,8 +44,11 @@
                     </p:panelGrid>
                     <br/>
                     <p:panelGrid columns="1" style="text-align: center; margin-left: auto; margin-right: auto;">
-                        <p:commandButton value="Resetuj" actionListener="#{resetHasla.reset}" update=":formlog0:logowanie" style="width: 120px;"/>
+                        <p:commandButton value="Resetuj" actionListener="#{resetHasla.reset}" update=":formlog0:logowanie" style="width: 120px;" rendered="#{resetHasla.pokazreset}" update="@this"/>
                     </p:panelGrid>
+                     <p:outputPanel style="text-align: center;">
+                    <p:messages id="logowanie" style="margin-top: 10px;height: 100px; width: 400px; margin-left: auto; margin-right: auto;"  ><p:autoUpdate/></p:messages>
+                </p:outputPanel>
                 </p:panel>
             </h:form>
         </h:body>

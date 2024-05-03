@@ -218,7 +218,7 @@ public class Mail {
         }
     }
       
-       public static void resetowaniehasla(String adres, String login, SMTPSettings settings, SMTPSettings ogolne) {
+       public static void resetowaniehasla(String adres, String login, SMTPSettings settings, SMTPSettings ogolne, String nowehaslo) {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
@@ -230,7 +230,7 @@ public class Mail {
             message.setContent("Szanowny Użytkowniku,"
                     + "<p>Administrator własnie zresetował Ci hasło"
                     + "w naszym serwisie</p>"
-                    + "<p>Nowe hasło brzmi po prostu - <strong>haslo</strong></p>"
+                    + "<p>Nowe hasło brzmi: <strong>"+nowehaslo+"</strong></p>"
                     + "<p>Teraz powinieneś zalogować się do naszego serwisu <a href=\"https://taxman.pl:8181\">https://taxman.pl:8181</a><br/>"
                     + "używając swojego loginu: "+login+" i nowego hasła nadanego przez administratora</p>"
                     + "<p><strong>oraz zmienić je niezwłocznie(!!!) na swoje własne.</strong></p>"
