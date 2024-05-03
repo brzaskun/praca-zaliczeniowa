@@ -26,11 +26,12 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import mail.Mail;
 import msg.B;
 import msg.Msg;
- import org.primefaces.PrimeFaces;
-import params.Params;
+import org.primefaces.PrimeFaces;
+ import params.Params;
 
 /**
  *
@@ -170,6 +171,8 @@ public class UzView implements Serializable {
 
     public String dodajnowe() {
         try {
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            String login = (String) session.getAttribute("user");
             selUzytkownik = uzDAO.findUzByLogin(login);
             selUzytkownik.setHaslo(firstPassword);
             selUzytkownik.setData(new Date());

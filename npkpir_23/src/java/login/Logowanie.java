@@ -92,6 +92,8 @@ public class Logowanie implements Serializable {
                 E.e(e);
             }
             if (uzer != null && uzer.isWmagajresetuhasla()) {
+              HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+              session.setAttribute("user", uzytkownik);
                 navto = "nowehaslo";
             } else {
                 request.setAttribute("user", uzytkownik);
