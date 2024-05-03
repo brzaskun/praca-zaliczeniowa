@@ -16,7 +16,7 @@
             }
         </style>
         <h:form id="fakturaanaliza">
-            <p:panelGrid columns="3">
+            <p:panelGrid columns="4">
                 <p:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" 
                                     required="true" style="width: 500px;"  converter="#{klientConvNoRO}"
                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" binding="#{fakturaRozrachunkiAnalizaView.selectOneUI}"
@@ -27,6 +27,7 @@
                             update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>
                 </p:selectOneListbox>
                 <p:commandButton icon="fa fa-print" actionListener="#{fakturaRozrachunkiAnalizaView.drukujKlienci()}" style="width: 120px;margin-left: 15px;"/>
+                <p:commandButton value="reset rozliczonych" actionListener="#{fakturaRozrachunkiAnalizaView.resetrozliczonych()}" style="width: 120px;margin-left: 5px;" update=":akordeon:fakturaanaliza:wyborklienta"/>
                 <p:panelGrid columns="1" style="margin-left: 15px;">
                 <h:outputText value="dodatkowa wiadomość do maila z wezwaniem"/>
                 <p:inputTextarea cols="90" rows="7" value="#{fakturaRozrachunkiAnalizaView.tekstwiadomosci}">
@@ -115,10 +116,10 @@
                    
                       
                     
-                <p:column width="35" style="text-align: center;">
+<!--                <p:column width="35" style="text-align: center;">
                         <p:commandButton icon="fa fa-bomb" actionListener="#{fakturaRozrachunkiAnalizaView.mailKliencitest()}"
                                          update=":akordeon:fakturaanaliza:tablicaanaliza"/>
-                </p:column>
+                </p:column>-->
                 </p:panelGrid>
                     <p:panelGrid columns="7">
                         <p:column width="35" style="text-align: center;">
