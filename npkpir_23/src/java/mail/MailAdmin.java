@@ -130,8 +130,10 @@ public class MailAdmin implements Serializable {
         try {
              MailSetUp mailSetUp = new MailSetUp();
              MimeMessage message = mailSetUp.logintoMailAdmin(wiolettamail, null, ogolne);
+             if (bcc!=null) {
              message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse(bcc));
+             }
              message.setSubject("Wypowiedzenie umowy z powodu braku platności","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();

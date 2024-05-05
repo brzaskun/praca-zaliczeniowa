@@ -150,7 +150,7 @@
                     </p:panelGrid>
             </p:panelGrid>
             <h:outputText value="Aby zarchiwizować wszystkie należy wybrać po lewej i wcisnąć przycisk 'archiwizuj'. Archiwizowanie pojedyncze i odarchiwizowanie - wciskamy czekboksy po prawej" style="color: green;"/>
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1600px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1680px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          rowIndexVar="row" editable="true" styleClass="compact" rowSelectMode="add"
                          rowStyleClass="#{item.mc mod 2 eq 0 ? 'parzyste':null}"
@@ -205,6 +205,12 @@
                                 <h:outputText value="Nie można zmieniać kontrahenta w fakturze"  rendered="#{item.rozliczenie eq null}"/>
                             </f:facet>
                         </p:cellEditor>
+                </p:column>
+                 <p:column width="60">
+                    <f:facet name="header">
+                        <h:outputText value="gotówka"/>
+                    </f:facet>
+                    <bcf:outputpl value="#{item.faktura.sposobzaplaty}" rendered="#{item.faktura0rozliczenie1 eq false}"/>
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">
