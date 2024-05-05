@@ -7,16 +7,20 @@ package viewfk;
 import beansFK.BilansBean;
 import beansFK.DokumentFKBean;
 import beansFK.KontaFKBean;
+import beansFK.PlanKontFKBean;
 import beansFK.RozliczTransakcjeBean;
+import beansFK.UkladBRBean;
 import comparator.Kontocomparator;
 import dao.CechazapisuDAOfk;
 import dao.DokDAOfk;
 import dao.KlienciDAO;
 import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
 import dao.TabelanbpDAO;
 import dao.TransakcjaDAO;
+import dao.UkladBRDAO;
 import dao.WalutyDAOfk;
 import dao.WierszBODAO;
 import dao.WierszDAO;
@@ -29,6 +33,7 @@ import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
+import entityfk.UkladBR;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
@@ -275,6 +280,9 @@ public class KontoZapisFKView implements Serializable{
                 }
                 sumazapisow();
                 sumazapisowpln();
+                if (wybraneKontoNode!=null&&(wybraneKontoNode.getPozycjaWn()==null||wybraneKontoNode.getPozycjaMa()==null)) {
+                    weryfikujprzyporzadkowanie(wybraneKontoNode);
+                }
                 //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
                 Msg.msg("Pobrano zapisy dla konta "+wybraneKontoNode.getPelnynumer());
             }
@@ -282,6 +290,25 @@ public class KontoZapisFKView implements Serializable{
             E.e(e);
         }
         PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
+    }
+    
+    @Inject
+    KontopozycjaZapisDAO kontopozycjaZapisDAO;
+    @Inject
+    UkladBRDAO ukladBRDAO;
+    
+    private void weryfikujprzyporzadkowanie(Konto wybraneKontoNode) {
+        try {
+            Konto kontomacierzyste = wybraneKontoNode.getKontomacierzyste();
+            if (kontomacierzyste.getSyntetykaanalityka().equals("analityka")&&kontomacierzyste.getPozycjaWn()!=null&&kontomacierzyste.getPozycjaMa()!=null) {
+                wybraneKontoNode.kopiujPozycje(kontomacierzyste);
+                kontoDAOfk.edit(wybraneKontoNode);
+                List<UkladBR> listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
+                UkladBR wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
+                PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKontoPorzadek(kontomacierzyste, wybraneKontoNode, kontopozycjaZapisDAO, wybranyuklad);
+                Msg.msg("Zweryfikowano przyporządkowanie konta");
+            }
+        } catch (Exception e) {}
     }
     
     public void pobierzZapisyNaKoncieRokPop() {
@@ -2077,6 +2104,8 @@ public class KontoZapisFKView implements Serializable{
     public void setSymboleWalut(List<String> symboleWalut) {
         this.symboleWalut = symboleWalut;
     }
+
+    
 
     
     

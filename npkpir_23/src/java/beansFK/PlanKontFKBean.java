@@ -851,6 +851,43 @@ public class PlanKontFKBean {
         }
         
     }
+    
+    public static void naniesPrzyporzadkowaniePojedynczeKontoPorzadek(Konto macierzyste, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
+        try {
+            KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBR);
+            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto, ukladBR);
+            noweKonto.naniesPozycje(kpo);
+            if (kp == null) {
+                kp = new KontopozycjaZapis();
+                kp.setPozycjaWn(kpo.getPozycjaWn());
+                kp.setPozycjaMa(kpo.getPozycjaMa());
+                kp.setStronaWn(kpo.getStronaWn());
+                kp.setStronaMa(kpo.getStronaMa());
+                kp.setSyntetykaanalityka(noweKonto.getSyntetykaanalityka());
+                kp.setKontoID(noweKonto);
+                kp.setUkladBR(kpo.getUkladBR());
+                kp.setWynik0bilans1(kpo.isWynik0bilans1());
+                kontopozycjaZapisDAO.create(kp);
+                //wywalam to bo to oczywste 23092023
+                //kontoDAOfk.edit(noweKonto);
+                //nie moge wywalic bo to jest takze do dodawania w i jak tego nie ma to nie zachowuje pozycji na koncie mimo ze jest kontopozycja
+            } else {
+                kp.setPozycjaWn(kpo.getPozycjaWn());
+                kp.setPozycjaMa(kpo.getPozycjaMa());
+                kp.setStronaWn(kpo.getStronaWn());
+                kp.setStronaMa(kpo.getStronaMa());
+                kp.setSyntetykaanalityka(noweKonto.getSyntetykaanalityka());
+                kp.setUkladBR(kpo.getUkladBR());
+                kp.setWynik0bilans1(kpo.isWynik0bilans1());
+                kontopozycjaZapisDAO.edit(kp);
+                //wywalam to bo to oczywste 23092023 za czesto zapis i dlugo trwa
+                //kontoDAOfk.edit(noweKonto);
+            }
+        } catch (Exception e) {
+            System.out.println(E.e(e));
+        }
+        
+    }
 
     public static Konto wyszukajmacierzyste(WpisView wpisView, KontoDAOfk kontoDAOfk, String pelnynumer) {
         Konto konto = kontoDAOfk.findKonto(pelnynumer, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());

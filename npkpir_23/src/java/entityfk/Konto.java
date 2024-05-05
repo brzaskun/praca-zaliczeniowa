@@ -266,6 +266,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     //99 rzis
     @Column(length = 10, name = "stronaMa")
     protected String stronaMa;
+    //nie ma numerow sa opisy trzeba to zmienic
     //zwykłe = 0
     //syntetyka = 1
     //analityka = 2
