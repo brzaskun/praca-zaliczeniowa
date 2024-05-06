@@ -235,9 +235,12 @@ function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
        var testw = dataWyst.value;
         if (!testw.match(re)){
             dataWyst.value = "b\u0142ędna data";
+            r("formkursrecznie:dataKursReczny:0:datakurs").select();
             r("formkursrecznie:dataKursReczny:0:zapiswalutarecznie").hide();
         } else if (testw.split("-")[0] != rokwpisu) {
+            //nie moze byc !== bo nie rzutuje wtedy a to jest string!=integer
             dataWyst.value = "b\u0142ędny rok";
+            r("formkursrecznie:dataKursReczny:0:datakurs").select();
             r("formkursrecznie:dataKursReczny:0:zapiswalutarecznie").hide();
         } else {
             r("formkursrecznie:dataKursReczny:0:zapiswalutarecznie").show();
