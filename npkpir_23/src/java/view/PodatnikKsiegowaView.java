@@ -116,7 +116,7 @@ public class PodatnikKsiegowaView implements Serializable{
         for (Iterator<Podatnik> it=listapodatnikow.iterator(); it.hasNext();) {
            Podatnik p = it.next();
            if (p.getCena() == 0&&p.isNiesprawdzajfaktury()==false) {
-               p.setPodmiotaktywny(false);
+              // p.setPodmiotaktywny(false);
            } else {
                List<Dok> znalezionedok = pkpir.stream().filter(pd->pd.getPodatnik().equals(p)).collect(Collectors.toList());
                if (znalezionedok!=null&&znalezionedok.isEmpty()==false) {
