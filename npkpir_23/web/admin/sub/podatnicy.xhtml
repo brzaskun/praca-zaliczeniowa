@@ -8,6 +8,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
      <p:outputPanel style="padding: 10px;">
+         <p:panel header="Statystyka księgowych" style="width:1200px;"/>
          <p:panelGrid columns="4">
         <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
         <p:selectOneMenu id="rokWpisu" value="#{podatnikKsiegowaView.rok}" style="width: 70px;">
@@ -43,7 +44,7 @@
             <p:column headerText="ksiegowa" width="100">
                 <h:outputText value="#{it.login}"/>
             </p:column>
-             <p:column headerText="nazw. i imię" width="150">
+            <p:column headerText="nazw. i imię" width="150" filterBy="#{it.imieNazwisko}" filterMatchMode="contains" sortBy="#{it.imieNazwisko}">
                  <h:outputText value="#{it.imieNazwisko}"/>
             </p:column>
             <p:column headerText="suma fakt. księg." width="70" sortBy="#{it.sumafaktur}">
