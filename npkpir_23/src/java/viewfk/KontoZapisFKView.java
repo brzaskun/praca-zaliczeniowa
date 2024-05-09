@@ -302,6 +302,7 @@ public class KontoZapisFKView implements Serializable{
             Konto kontomacierzyste = wybraneKontoNode.getKontomacierzyste();
             if (kontomacierzyste.getSyntetykaanalityka().equals("analityka")&&kontomacierzyste.getPozycjaWn()!=null&&kontomacierzyste.getPozycjaMa()!=null) {
                 wybraneKontoNode.kopiujPozycje(kontomacierzyste);
+                wybraneKontoNode.setSyntetykaanalityka("rozrachunkowe");
                 kontoDAOfk.edit(wybraneKontoNode);
                 List<UkladBR> listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
                 UkladBR wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);

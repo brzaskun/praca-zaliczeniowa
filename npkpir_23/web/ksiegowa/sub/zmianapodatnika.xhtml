@@ -31,7 +31,7 @@
             </p:panelGrid>
         </p:panel>
          <p:panel id="wiadomoscfaktury">
-             <h:outputText value="Brak faktury Taxmana wystawionej dla podatnika. Dostęp jest zablokowany." rendered="#{WpisView.biuroiszef eq false}" style="font-weight: 800; color: red;"/>
+             <h:outputText value="Brak faktury Taxmana wystawionej dla podatnika!!!" rendered="#{sprawdzOkresowaWpis.brakOkresowej() eq true}" style="font-weight: 900; color: red; font-size: xx-large"/>
         </p:panel>
         <p:panel>
             <h:outputText value="nie wprowadzono danych tego podatnika na nowy rok podatkowy - program nie będzie działał poprawnie" rendered="#{WpisView.czegosbrakuje}" style="font-weight: 800; color: red;"/>
