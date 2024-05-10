@@ -50,7 +50,7 @@
                 <p:column headerText="wiersz" style="width: 350px;">
                     <h:outputText value="#{itemikjpk.numerkolejny}"/>
                 </p:column>
-                <p:column headerText="kod">
+                <p:column headerText="kod" sortBy="#{itemikjpk.kodtowaru}" filterBy="#{itemikjpk.kodtowaru}" filterMatchMode="startsWidth">
                     <h:outputText value="#{itemikjpk.kodtowaru}"/>
                 </p:column>
                 <p:column headerText="waga" width="50">

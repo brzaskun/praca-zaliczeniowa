@@ -65,6 +65,7 @@ public class AmazonImportIntrastat implements Serializable {
         try {
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
+            boolean bladkodtowaru = false;
              try {
             InputStream is = uploadedFile.getInputstream();
             Workbook workbook = WorkbookFactory.create(is);
@@ -85,8 +86,12 @@ public class AmazonImportIntrastat implements Serializable {
                         w.setMasanettokg(waga);
                         double cena = Double.valueOf(row.getCell(13).getStringCellValue());
                         w.setWartoscfaktury((int)cena);
-                        String kod = row.getCell(27).getStringCellValue();
-                        w.setKodtowaru(Integer.parseInt(kod));
+                        String kod = xls.X.xString(row.getCell(27));
+                        int kodint = kod.equals("")? 99999999:Integer.parseInt(kod);
+                        if (kodint==99999999) {
+                            bladkodtowaru = true;
+                        }
+                        w.setKodtowaru(kodint);
                         w.setRodzajtransakcji(11);
                         String opis = row.getCell(59)!=null&&!row.getCell(59).getStringCellValue().equals("") ? row.getCell(59).getStringCellValue().replace("\"", ""):"towar";
                         w.setOpistowaru(opis);
@@ -105,7 +110,12 @@ public class AmazonImportIntrastat implements Serializable {
             E.e(ex);
         }
             //dokumenty = stworzdokumenty(amazonCSV);
-            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+            if (bladkodtowaru) {
+                Msg.msg("w","Uwaga. Plik " + filename + " załadowany z błędami");
+                Msg.msg("w","sprawdz kolumne nr 28 z kodami");
+            } else {
+                Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+            }
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
