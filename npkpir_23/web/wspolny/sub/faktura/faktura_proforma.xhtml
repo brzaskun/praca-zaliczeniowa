@@ -66,7 +66,7 @@
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
             </p:panel>
             <p:dataTable id="dokumentyListaPro" value="#{fakturaView.fakturypro}" var="wpispro" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFilteredpro}" 
-                         selection="#{fakturaView.gosciwybralpro}" rowKey="#{wpispro.numerkolejny}" widgetVar="dokTableFakturyPro" rowSelectMode="add" style="max-width: 1400px;"
+                         selection="#{fakturaView.gosciwybralpro}" rowKey="#{wpispro.numerkolejny}" widgetVar="dokTableFakturyPro" rowSelectMode="add" style="max-width: 1400px;height: 900px;overflow-y: scroll;"
                          sortBy="#{wpispro.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowanych faktur proforma w roku #{WpisView.rokWpisuSt} " />  

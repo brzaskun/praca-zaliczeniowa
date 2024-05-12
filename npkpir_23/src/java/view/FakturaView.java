@@ -254,6 +254,7 @@ public class FakturaView implements Serializable {
         fakturyarchiwum = Collections.synchronizedList(new ArrayList<>());
         fakturyokresoweFiltered = null;
         fakturyFiltered = null;
+        fakturyFilteredarchiwum = null;
         aktywnytab = 1;
         mailplussms = false;
         if (pokazzawieszone == true) {
@@ -2759,10 +2760,12 @@ public class FakturaView implements Serializable {
     }
     
     
-
+     //zmiena miesiac wyswietlanych faktur dla ksiegowego pipir
     public void aktualizujTabeleTabela()  {
         fakturyarchiwum.clear();
-        aktualizuj();
+        PrimeFaces.current().executeScript("try{PF(\"dokTableFaktury\").clearFilters()}catch(e){}");
+        PrimeFaces.current().executeScript("try{PF(\"okresTable\").clearFilters()}catch(e){}");
+       aktualizuj();
         init();
         Msg.msg("i", "Udana zamiana klienta. Aktualny klient to: " + wpisView.getPodatnikWpisu() + " okres rozliczeniowy: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu());
     }

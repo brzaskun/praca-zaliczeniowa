@@ -15,7 +15,7 @@
                                         filter="true" filterMatchMode="contains"
                                         >
                         <f:selectItems value="#{fakturaZestView.klienci}" var="klient" itemLabel="#{klient.nazwabezCudzy}"/>
-                        <p:ajax event="change" global="false" listener="#{fakturaZestView.pobierzwszystkoKlienta()}" 
+                         <p:ajax event="change" global="false" listener="#{fakturaZestView.pobierzwszystkoKlienta()}" 
                                 update="formzestawienie:dokumentyZestawienie akordeon:formzestawienie:panelinfo"/>
                     </p:selectOneListbox>
                     <p:panelGrid columns="3">

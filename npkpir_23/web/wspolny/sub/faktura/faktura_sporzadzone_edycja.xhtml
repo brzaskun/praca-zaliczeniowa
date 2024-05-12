@@ -63,7 +63,7 @@
                 </p:panelGrid>
             </p:panel>
             <p:dataTable id="dokumentyLista_edit" value="#{fakturaView.faktury_edit}" var="wpis" filteredValue="#{fakturaView.faktury_edit_filter}" 
-                         selection="#{fakturaView.faktury_edit_select}" rowKey="#{wpis.numerkolejny}" widgetVar="dokTableFakturyedit" rowSelectMode="add" style="max-width: 1400px;"
+                         selection="#{fakturaView.faktury_edit_select}" rowKey="#{wpis.numerkolejny}" widgetVar="dokTableFakturyedit" rowSelectMode="add" style="max-width: 1400px;height: 900px;overflow-y: scroll;"
                          sortBy="#{wpis.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu"
                          rowIndexVar="iindex">
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych2(fakturaView.faktury_edit_select)}" update="akordeon:formsporzadzone_edit:dokumentyLista_edit :akordeon:formsporzadzone_edit:panelsum_edit confirmDialog" global="false"/>
