@@ -1514,6 +1514,10 @@ public class PdfFP {
                     table.addCell(ustawfraze(" ", 6, 0));
                 } else if (p.getEstawka().equals("-2.0")) {
                     table.addCell(ustawfraze(" ", 6, 0));
+                }  else if (p.getEstawka().equals("-2.0")) {
+                     table.addCell(ustawfrazeAF("MWSt", 4, 0, Element.ALIGN_RIGHT, 9));
+                    table.addCell(ustawfrazeAlign(" ", "center", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 9));
                 } else {
                     table.addCell(ustawfrazeAF("MWSt", 4, 0, Element.ALIGN_RIGHT, 9));
                     table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 9));
