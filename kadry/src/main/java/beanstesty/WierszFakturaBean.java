@@ -19,7 +19,6 @@ import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
-import view.WpisView;
 import webservice.WierszFaktury;
 
 /**
@@ -79,15 +78,21 @@ public class WierszFakturaBean {
      
       public static void naniesusluge(WierszFaktury wierszpobrany, Fakturaopisuslugi opisuslugi, List<Pasekwynagrodzen> paski) {
         wierszpobrany.setIlosc(0);
-        if (opisuslugi.isListawz()) {
+        if (opisuslugi.isListawz()||opisuslugi.isListaza()) {
             List<Pasekwynagrodzen> paskitmp = new ArrayList<>(paski);
-            Predicate<Pasekwynagrodzen> isQualified = item->item.isPraca();
+            Predicate<Pasekwynagrodzen> isQualified = item->(item.isPraca()||item.isZasilek());
             paskitmp.removeIf(isQualified.negate());
             wierszpobrany.setIlosc(wierszpobrany.getIlosc()+paskitmp.size());
         } 
         if (opisuslugi.isListauz()) {
             List<Pasekwynagrodzen> paskitmp = new ArrayList<>(paski);
             Predicate<Pasekwynagrodzen> isQualified = item->item.isZlecenie();
+            paskitmp.removeIf(isQualified.negate());
+            wierszpobrany.setIlosc(wierszpobrany.getIlosc()+paskitmp.size());
+        }
+        if (opisuslugi.isListaos()) {
+            List<Pasekwynagrodzen> paskitmp = new ArrayList<>(paski);
+            Predicate<Pasekwynagrodzen> isQualified = item->item.isFunkcja();
             paskitmp.removeIf(isQualified.negate());
             wierszpobrany.setIlosc(wierszpobrany.getIlosc()+paskitmp.size());
         }

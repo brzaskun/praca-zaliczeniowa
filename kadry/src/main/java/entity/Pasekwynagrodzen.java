@@ -1820,6 +1820,14 @@ public class Pasekwynagrodzen implements Serializable {
         return zwrot;
     }
     
+    public boolean isZasilek() {
+        boolean zwrot = false;
+        if (this.definicjalistaplac!=null) {
+            zwrot = this.definicjalistaplac.getRodzajlistyplac().getTyp()==4;
+        }
+        return zwrot;
+    }
+    
     public boolean isFunkcja() {
         boolean zwrot = false;
         if (this.definicjalistaplac!=null) {
