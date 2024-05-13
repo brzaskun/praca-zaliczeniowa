@@ -24,7 +24,7 @@
             <p:dataTable id="datalist" value="#{oddelegowanieView.tabela}" var="itemodd" widgetVar="datalistodd"
                                  selectionMode="single" selection="#{oddelegowanieView.selected}" rowIndexVar="indexodd"
                                  rowKey="#{itemodd.hashCode()}" sortBy="#{itemodd.angaz.pracownik.nazwiskoImie}"
-                                 style="height: 300px; overflow-y: scroll; width: 1400px; margin-top: 10px; margin-left: 10px;"
+                                 style="height: 300px; overflow-y: scroll; width: 1450px; margin-top: 10px; margin-left: 10px;"
                                  emptyMessage="nie pobrano danych"
                                  >
                 <p:ajax event="filter" global="false"/>
@@ -33,6 +33,9 @@
                 </f:facet>
                 <p:column headerText="pracownik" width="150" sortBy="#{itemodd.angaz.pracownik.nazwiskoImie}" sortOrder="asc" sortPriority="1" filterBy="#{itemodd.angaz.pracownik.nazwisko}" filterMatchMode="contains" filterable="true">
                     <h:outputText value="#{itemodd.angaz.pracownik.nazwiskoImie}"/>
+                </p:column>
+                <p:column headerText="data ur." width="60" sortBy="#{itemodd.angaz.pracownik.dataurodzenia}"  filterBy="#{itemodd.angaz.pracownik.dataurodzenia}" filterMatchMode="contains" filterable="true">
+                    <h:outputText value="#{itemodd.angaz.pracownik.dataurodzenia}"/>
                 </p:column>
                 <p:column headerText="rok" width="50" style="text-align: center;" sortBy="#{itemodd.rok}" sortOrder="asc" sortPriority="2" filterBy="#{itemodd.rok}" filterMatchMode="contains">
                     <h:outputText value="#{itemodd.rok}" style="color: green" rendered="#{itemodd.rok eq 2022}"/>
