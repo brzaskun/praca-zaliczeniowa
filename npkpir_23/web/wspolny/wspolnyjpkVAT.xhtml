@@ -5,6 +5,9 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:bcf="http://brzaskun.com/facelets">
     <h:form id="form_dialog_jpk_vat" >
+        <p:outputPanel rendered="#{jpk_VAT2NView.wpisView.vatokres eq 0}" style="padding: 5px;">
+            <h:outputText value="Podatnik nie jest zgodnie z ustawieniami podatnikiem VAT. Proszę to sprawdzić" style="color: red;"/>
+        </p:outputPanel>
         <p:outputPanel rendered="#{jpk_VAT2NView.jpkrazemzdeklaracja}" style="padding: 5px;">
             <h:outputText value="#{jpk_VAT2NView.wynikszukaniadeklaracji}" style="color: blue;"/>
         </p:outputPanel>
