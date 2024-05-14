@@ -113,10 +113,19 @@ public class PdfZaswiadczenieZarobki {
      public static void drukujPasekMini(List<Pasekwynagrodzen> paski,Document document, FirmaKadry firma, String nazwiskoiimie, String pesel) {
         try {
             if (document != null) {
+                String ktoto = "Pracownik";
+                if (paski.isEmpty()==false) {
+                    for (Pasekwynagrodzen pas : paski) {
+                        if (pas.isZlecenie()) {
+                            ktoto = "Zleceniobiorca";
+                            break;
+                        }
+                    }
+                }
                 document.setPageSize(PageSize.A4.rotate());
                 document.newPage();
                 PdfMain.dodajLinieOpisu(document, "Załącznik do zaświadczenia o zarobkach z dnia "+Data.aktualnaData(), Element.ALIGN_CENTER, 3);
-                PdfMain.dodajLinieOpisu(document, "Pracownik: "+nazwiskoiimie+", Pesel: "+pesel, Element.ALIGN_CENTER, 3);
+                PdfMain.dodajLinieOpisu(document, ktoto+": "+nazwiskoiimie+", Pesel: "+pesel, Element.ALIGN_CENTER, 3);
                 PdfListaPlac.dodajtabeleglownaMini(paski, document, firma);
             } else {
                 Msg.msg("w", "Nie ma Paska do wydruku");
