@@ -11,13 +11,13 @@
         <h:form styleClass="formumowa" id="UmowaListForm">
                 <p:panel header="Wykaz umów o pracę / Gdy jest pusta sprawdź w parametrach przyporządkowanie kodu do umowy">
                 <p:dataTable id="datalist" value="#{umowaView.listapraca}" var="itemumowa" widgetVar="dataListumowa"
-                             selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
-                             rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
+                             selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów" 
+                             rowKey="#{itemumowa.id}" sortMode="single"
                              style="height: 220px; overflow-y: scroll; width: 1800px;"
                              >
-                    <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north @(form)"/>
-                    <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north @(form)"/>
-                    <p:column width="40" selectionMode="single" selectRow="true" style="text-align: center;"/>
+                    <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" />
+                    <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" />
+                    <p:column width="40" selectionMode="single" selectRow="true" style="text-align: center;" />
                     <!--                         <p:column>
                                                 <f:facet name="header">
                                                     <h:outputText value="angaz"/>
@@ -150,10 +150,10 @@
                     </p:column>
                 </p:dataTable>
             </p:panel>
-            <p:contextMenu for="datalist" style="width: 200px;">
-<!--                <p:menuitem value="oznacz jako aktywną" icon="pi pi-star" actionListener="#{umowaView.oznaczjakoaktywna()}" update="@form"/>-->
+<!--            <p:contextMenu for="datalist" style="width: 200px;">
+                <p:menuitem value="oznacz jako aktywną" icon="pi pi-star" actionListener="#{umowaView.oznaczjakoaktywna()}" update="@form"/>
                 <p:menuitem value="przedłuż umowę" icon="pi pi-step-forward-alt" actionListener="#{umowaView.przedluz()}" update="@form akordeon akordeon:UmowaCreateForm"/>
-            </p:contextMenu>
+            </p:contextMenu>-->
         </h:form>
     </p:outputPanel>
 </ui:composition>

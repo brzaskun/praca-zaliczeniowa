@@ -208,18 +208,21 @@ public class PdfSwiadectwo {
                 document.add(Chunk.NEWLINE);
                 czydodano = false;
                 String urlop3 = "4) korzystał z urlopu bezpłatnego: ";
-                
+                int dniurlopubezplatnego = 0;
                 for (Swiadectwodni s : dnidoswiadectwa) {
-                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("X")) {
-                        PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop3, Element.ALIGN_LEFT, 2);
+                    if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("X")&&s.getDnirobocze()>0) {
+                        dniurlopubezplatnego = dniurlopubezplatnego+(int)s.getDnirobocze();
                         czydodano = true;
                         break;
                     }
                 }
                 if (czydodano == false) {
                     urlop3 = urlop3+" nie dotyczy";
-                    PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop3, Element.ALIGN_LEFT, 2);
+                    
+                } else {
+                    urlop3 = urlop3+" "+dniurlopubezplatnego+" dni";
                 }
+                PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop3, Element.ALIGN_LEFT, 2);
                  for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("X")) {
                         //jak to bylo to byla zdublowana tresc punktu drugiego

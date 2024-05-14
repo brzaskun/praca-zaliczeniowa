@@ -75,8 +75,9 @@ public class UmowaView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Umowa selected;
-    @Inject
     private Umowa selectedlista;
+    private Umowa selectedlistzlecenie;
+    private Umowa selectedlistafumkcja;
     private List<Umowa> wybraneumowy;
     @Inject
     private EtatPrac etat;
@@ -605,6 +606,27 @@ public class UmowaView implements Serializable {
         }
     }
     
+    public void aktywujzlecenie() {
+        if (selectedlista != null) {
+            wpisView.setUmowa(selectedlistzlecenie);
+            wpisView.setFirma(selectedlistzlecenie.getAngaz().getFirma());
+            wpisView.setPracownik(selectedlistzlecenie.getAngaz().getPracownik());
+            updateClassView.updateUmowa();
+            Msg.msg("Aktywowano umowę");
+        }
+    }
+    
+    public void aktywujfunkcja() {
+        if (selectedlista != null) {
+            wpisView.setUmowa(selectedlistafumkcja);
+            wpisView.setFirma(selectedlistafumkcja.getAngaz().getFirma());
+            wpisView.setPracownik(selectedlistafumkcja.getAngaz().getPracownik());
+            updateClassView.updateUmowa();
+            Msg.msg("Aktywowano umowę");
+        }
+    }
+    
+    
     public void aktywuj(Angaz angaz) {
         if (angaz!=null) {
             wpisView.setAngaz(angaz);
@@ -1091,6 +1113,22 @@ public class UmowaView implements Serializable {
 
     public void setListafunkcja(List<Umowa> listafunkcja) {
         this.listafunkcja = listafunkcja;
+    }
+
+    public Umowa getSelectedlistzlecenie() {
+        return selectedlistzlecenie;
+    }
+
+    public void setSelectedlistzlecenie(Umowa selectedlistzlecenie) {
+        this.selectedlistzlecenie = selectedlistzlecenie;
+    }
+
+    public Umowa getSelectedlistafumkcja() {
+        return selectedlistafumkcja;
+    }
+
+    public void setSelectedlistafumkcja(Umowa selectedlistafumkcja) {
+        this.selectedlistafumkcja = selectedlistafumkcja;
     }
 
     public static void main(String[] args) {

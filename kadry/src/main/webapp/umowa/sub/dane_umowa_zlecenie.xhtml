@@ -10,171 +10,171 @@
     <p:outputPanel style="margin-top: 10px;">
         <h:form styleClass="formumowa" id="UmowaListFormZlecenie">
             <p:panel header="Wykaz umów zleceń i o dzieło / Gdy jest pusta sprawdź w parametrach przyporządkowanie kodu do umowy">
-                <p:dataTable id="datalist" value="#{umowaView.listazlecenia}" var="itemumowa" widgetVar="dataListumowazlecenie"
-                             selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów"
-                             rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
+                <p:dataTable id="datalist" value="#{umowaView.listazlecenia}" var="itemumowazlec" widgetVar="dataListumowazlecenie"
+                             selection="#{umowaView.selectedlistzlecenie}" emptyMessage="Brak zawartych umów"
+                             rowKey="#{itemumowazlec.id}" sortBy="#{itemumowazlec.dataod}" sortMode="single"
                              style="height: 220px; overflow-y: scroll; width: 1800px;"
                              >
-                    <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
-                    <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
+                    <p:ajax event="rowSelect" listener="#{umowaView.aktywujzlecenie}" partialSubmit="true" global="false" update="north, @(form)"/>
+                    <p:ajax event="rowSelectRadio" listener="#{umowaView.aktywujzlecenie}" partialSubmit="true" global="false" update="north, @(form)"/>
                     <p:column width="20" selectionMode="single" selectRow="true" style="text-align: center;"/>
                     <p:column width="90">
                         <f:facet name="header">
                             <h:outputText value="umowa"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.slownikszkolazatrhistoria.opis}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                        <h:outputText value="#{itemumowazlec.slownikszkolazatrhistoria.opis}" style="color: #{itemumowazlec.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
 <!--                    <p:column width="200">
                         <f:facet name="header">
                             <h:outputText value="rodzaj umowy ZUS"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.umowakodzus.opiswybor}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                        <h:outputText value="#{itemumowazlec.umowakodzus.opiswybor}" style="color: #{itemumowazlec.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>-->
 <p:column style="text-align: center;" width="120">
                         <f:facet name="header">
                             <h:outputText value="numer"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.nrkolejny}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                        <h:outputText value="#{itemumowazlec.nrkolejny}" style="color: #{itemumowazlec.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="zlecenie"/>
                         </f:facet>
-                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.umowakodzus.zlecenie eq true}"/>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowazlec.umowakodzus.zlecenie eq true}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="dzieło"/>
                         </f:facet>
-                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.umowakodzus.dzielo eq true}"/>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowazlec.umowakodzus.dzielo eq true}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="odliczac ulge pod."/>
                         </f:facet>
-                        <h:outputText value="&#x2714;" rendered="#{itemumowa.angaz.odliczaculgepodatkowa eq true}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
+                        <h:outputText value="&#x2714;" rendered="#{itemumowazlec.angaz.odliczaculgepodatkowa eq true}" style="color: #{itemumowazlec.aktywna eq true ? 'green':'initial'}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="chor."/>
                         </f:facet>
-                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.chorobowe eq true}"/>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowazlec.chorobowe eq true}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="chor. dobr."/>
                         </f:facet>
-                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.chorobowedobrowolne eq true}"/>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowazlec.chorobowedobrowolne eq true}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="emeryt."/>
                         </f:facet>
-                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.emerytalne eq true}"/>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowazlec.emerytalne eq true}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="bez FGSP"/>
                         </f:facet>
-                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.nieliczFGSP eq true}"/>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowazlec.nieliczFGSP eq true}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="bez FP"/>
                         </f:facet>
-                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.nieliczFP eq true}"/>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowazlec.nieliczFP eq true}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="rent."/>
                         </f:facet>
-                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.rentowe eq true}"/>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowazlec.rentowe eq true}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="wypad."/>
                         </f:facet>
-                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.wypadkowe eq true}"/>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowazlec.wypadkowe eq true}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="zdrow."/>
                         </f:facet>
-                        <h:outputText value="&#x2714;"  rendered="#{itemumowa.zdrowotne eq true}"/>
+                        <h:outputText value="&#x2714;"  rendered="#{itemumowazlec.zdrowotne eq true}"/>
                     </p:column>
-                    <p:column width="60" style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}" sortOrder="desc" sortBy="#{itemumowa.dataod}">
+                    <p:column width="60" style="text-align: center;color: #{itemumowazlec.aktywna eq true ? 'green':'initial'}" sortOrder="desc" sortBy="#{itemumowazlec.dataod}">
                         <f:facet name="header">
                             <h:outputText value="data od"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.dataod}"/>
+                        <h:outputText value="#{itemumowazlec.dataod}"/>
                     </p:column>
-                    <p:column width="60" style="text-align: center;color: #{itemumowa.aktywna eq true ? 'green':'initial'}">
+                    <p:column width="60" style="text-align: center;color: #{itemumowazlec.aktywna eq true ? 'green':'initial'}">
                         <f:facet name="header">
                             <h:outputText value="data do"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.datado}"/>
+                        <h:outputText value="#{itemumowazlec.datado}"/>
                     </p:column>
 
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="zas. chor. od "/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.pierwszydzienzasilku}"/>
+                        <h:outputText value="#{itemumowazlec.pierwszydzienzasilku}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="koszty uzyskania"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.angaz.kosztyuzyskaniaprocent}"/>
+                        <h:outputText value="#{itemumowazlec.angaz.kosztyuzyskaniaprocent}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="kod ubezpieczenia"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.umowakodzus.kod}"/>
+                        <h:outputText value="#{itemumowazlec.umowakodzus.kod}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="kod zawodu"/>
                         </f:facet>
-                        <h:outputText value="#{itemumowa.kodzawodu.symbolkzis}"/>
+                        <h:outputText value="#{itemumowazlec.kodzawodu.symbolkzis}"/>
                     </p:column>
                       <p:column width="40" style="text-align: center;">
                          <f:facet name="header">
                             <h:outputText value="akt."/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-sun" actionListener="#{umowaView.aktywujUmowe(itemumowa)}" update="north, @(form)"/>
+                        <p:commandButton icon="pi pi-sun" actionListener="#{umowaView.aktywujUmowe(itemumowazlec)}" update="north, @(form)"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="edy."/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-pencil" actionListener="#{umowaView.edytuj(itemumowa)}" update="north akordeon @(.formumowa)  akordeon:UmowaListFormZlecenie"/>
+                        <p:commandButton icon="pi pi-pencil" actionListener="#{umowaView.edytuj(itemumowazlec)}" update="north akordeon @(.formumowa)  akordeon:UmowaListFormZlecenie"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                          <f:facet name="header">
                             <h:outputText value="przed."/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-copy" actionListener="#{umowaView.przedluz(itemumowa)}" update="north akordeon akordeon:UmowaCreateForm">
+                        <p:commandButton icon="pi pi-copy" actionListener="#{umowaView.przedluz(itemumowazlec)}" update="north akordeon akordeon:UmowaCreateForm">
                         </p:commandButton>
                     </p:column>
 <!--                    <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowa)}" onclick="PF('dialogumowatresc').show();" update="north akordeon:UmowaListFormZlecenie @(form)"/>
+                        <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowazlec)}" onclick="PF('dialogumowatresc').show();" update="north akordeon:UmowaListFormZlecenie @(form)"/>
                     </p:column>-->
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="pdf"/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-print"  actionListener="#{umowaView.drukujzlecenie(itemumowa)}" update="north akordeon:UmowaListFormZlecenie"/>
+                        <p:commandButton icon="pi pi-print"  actionListener="#{umowaView.drukujzlecenie(itemumowazlec)}" update="north akordeon:UmowaListFormZlecenie"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="mail"/>
                         </f:facet>
-                        <p:commandButton icon="pi pi-cloud-upload"  actionListener="#{umowaView.mailUmowaZlecenia(itemumowa)}" update="north akordeon:UmowaListFormZlecenie"/>
+                        <p:commandButton icon="pi pi-cloud-upload"  actionListener="#{umowaView.mailUmowaZlecenia(itemumowazlec)}" update="north akordeon:UmowaListFormZlecenie"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
-                        <p:commandButton icon="pi pi-trash" actionListener="#{umowaView.usunzlecenie(itemumowa)}" update="north @(form)  akordeon:UmowaListFormZlecenie">
+                        <p:commandButton icon="pi pi-trash" actionListener="#{umowaView.usunzlecenie(itemumowazlec)}" update="north @(form)  akordeon:UmowaListFormZlecenie">
                             <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną umowę?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>
