@@ -51,6 +51,7 @@ public class PodatnikWyborView implements Serializable {
         listaPodatnikow = podatnikDAO.findAktywny();
         Collections.sort(listaPodatnikow, new Podatnikcomparator());
         listaPodatnikowNowi = podatnikDAO.findNowi();
+        Collections.sort(listaPodatnikowNowi, new Podatnikcomparator());
         if (wpisView.getUzer()!=null&&wpisView.getUzer().getLogin().equals("Amelka")) {
             listaPodatnikow = listaPodatnikow.stream().filter(p->p.getKsiegowa()!=null&&p.getKsiegowa().equals(wpisView.getUzer())).collect(Collectors.toList());
         }
