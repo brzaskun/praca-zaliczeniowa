@@ -29,7 +29,7 @@
                     </p:panelGrid>
                     <p:outputPanel style="padding: 10px;">
                         <h:outputText value="Wybrane są tylko umowy, które zachowują ciągłośc co do dnia"/>
-                        <p:dataTable id="umowalist" value="#{rozwiazanieumowyView.umowykontynuacja}" var="itemumowa" widgetVar="dataListumowa"
+                        <p:dataTable id="umowalist" value="#{rozwiazanieumowyView.umowykontynuacja}" var="itemumowa" widgetVar="dataListumowaswiadectwoedycja"
                               emptyMessage="Brak zawartych umów" 
                              rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortMode="single"
                              style="height: 150px; overflow-y: scroll; width: 1000px;"

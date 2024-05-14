@@ -12,7 +12,7 @@
             <p:panel header="Wykaz umów zleceń i o dzieło / Gdy jest pusta sprawdź w parametrach przyporządkowanie kodu do umowy">
                 <p:dataTable id="datalist" value="#{umowaView.listazlecenia}" var="itemumowazlec" widgetVar="dataListumowazlecenie"
                              selection="#{umowaView.selectedlistzlecenie}" emptyMessage="Brak zawartych umów"
-                             rowKey="#{itemumowazlec.id}" sortBy="#{itemumowazlec.dataod}" sortMode="single"
+                             rowKey="#{itemumowazlec.hashCode()}" sortBy="#{itemumowazlec.dataod}" sortMode="single"
                              style="height: 220px; overflow-y: scroll; width: 1800px;"
                              >
                     <p:ajax event="rowSelect" listener="#{umowaView.aktywujzlecenie}" partialSubmit="true" global="false" update="north, @(form)"/>
@@ -139,7 +139,7 @@
                         </f:facet>
                         <h:outputText value="#{itemumowazlec.kodzawodu.symbolkzis}"/>
                     </p:column>
-                      <p:column width="40" style="text-align: center;">
+<!--                      <p:column width="40" style="text-align: center;">
                          <f:facet name="header">
                             <h:outputText value="akt."/>
                         </f:facet>
@@ -158,9 +158,9 @@
                         <p:commandButton icon="pi pi-copy" actionListener="#{umowaView.przedluz(itemumowazlec)}" update="north akordeon akordeon:UmowaCreateForm">
                         </p:commandButton>
                     </p:column>
-<!--                    <p:column width="40" style="text-align: center;">
+                    <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowazlec)}" onclick="PF('dialogumowatresc').show();" update="north akordeon:UmowaListFormZlecenie @(form)"/>
-                    </p:column>-->
+                    </p:column>
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="pdf"/>
@@ -177,7 +177,7 @@
                         <p:commandButton icon="pi pi-trash" actionListener="#{umowaView.usunzlecenie(itemumowazlec)}" update="north @(form)  akordeon:UmowaListFormZlecenie">
                             <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną umowę?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
-                    </p:column>
+                    </p:column>-->
                 </p:dataTable>
             </p:panel>
             <p:contextMenu for="datalist" style="width: 200px;">

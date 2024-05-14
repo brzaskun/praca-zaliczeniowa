@@ -12,7 +12,7 @@
                 <p:panel header="Wykaz umów o pracę / Gdy jest pusta sprawdź w parametrach przyporządkowanie kodu do umowy">
                 <p:dataTable id="datalist" value="#{umowaView.listapraca}" var="itemumowa" widgetVar="dataListumowa"
                              selection="#{umowaView.selectedlista}" emptyMessage="Brak zawartych umów" 
-                             rowKey="#{itemumowa.id}" sortMode="single"
+                             rowKey="#{itemumowa.hashCode()}" sortMode="single"
                              style="height: 220px; overflow-y: scroll; width: 1800px;"
                              >
                     <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" />
@@ -108,7 +108,7 @@
                         </f:facet>
                         <h:outputText value="#{itemumowa.nfz}"/>
                     </p:column>-->
-                    <p:column width="40" style="text-align: center;">
+<!--                    <p:column width="40" style="text-align: center;">
                          <f:facet name="header">
                             <h:outputText value="akt."/>
                         </f:facet>
@@ -128,9 +128,9 @@
                         </p:commandButton>
                     </p:column>
                     
-<!--                    <p:column width="40" style="text-align: center;">
+                    <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="pi pi-user-edit"  actionListener="#{umowaView.edytuj(itemumowa)}" oncomplete="PF('dialogumowatresc').show();" update="north, @(form)" async="true"/>
-                    </p:column>-->
+                    </p:column>
                     <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="pdf"/>
@@ -147,7 +147,7 @@
                         <p:commandButton icon="pi pi-trash" actionListener="#{umowaView.usun(itemumowa)}" update="north, @(form)">
                             <p:confirm type="popup" header="Potwierdzenie" message="Usunąć daną umowę?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
-                    </p:column>
+                    </p:column>-->
                 </p:dataTable>
             </p:panel>
 <!--            <p:contextMenu for="datalist" style="width: 200px;">
