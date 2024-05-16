@@ -116,23 +116,25 @@ public class ImportEbayView  implements Serializable {
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
             InputStream is = uploadedFile.getInputstream();
-            if (wpisView.getRokWpisu()<2022) {
+            if (wpisView.getRokWpisu() < 2022) {
                 faktury = ImportCSVEbay.pobierz(is);
+            } else if (data.Data.czyjestpomc("03", "2024", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt())) {
+                faktury = ImportCSVEbay.pobierz2022(is, "2024");
             } else {
-               faktury = ImportCSVEbay.pobierz2022(is);
+                faktury = ImportCSVEbay.pobierz2022(is, "2022");
             }
             sumuj();
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
-            if (faktury.size()==0) {
+            if (faktury.size() == 0) {
                 Msg.msg("e", "Brak dokumentów w pliku json wg zadanych kruteriów");
             }
         } catch (Exception ex) {
             E.e(ex);
-            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
+            Msg.msg("e", "Wystąpił błąd. Nie udało się załadowanać pliku");
         }
         PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
     }
-    
+
     
     public void drukuj() {
         List<FakturaEbay> pobrane = fakturyfiltered !=null ? fakturyfiltered: faktury;

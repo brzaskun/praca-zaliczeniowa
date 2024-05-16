@@ -102,7 +102,7 @@ public class ImportCSVEbay {
         return zwrot;
     }    
     
-    public static List<FakturaEbay> pobierz2022(InputStream is) {
+    public static List<FakturaEbay> pobierz2022(InputStream is, String symbol) {
         List<FakturaEbay> zwrot = new ArrayList<>();
         FakturaEbay tmpzwrot = null;
         String line = "";
@@ -132,12 +132,23 @@ public class ImportCSVEbay {
                                 numertransakcjiold = numertransakcjiold == null ? tmpline[2]:numertransakcjiold;
                                 if (numertransakcjinew.equals(numertransakcjiold)) {
                                     if (licznikwierszy==0) {
-                                        tmpzwrot = new FakturaEbay(tmpline, typ);
-                                        wierszefaktury.add(tmpzwrot);
-                                        licznikwierszy++;
+                                        if (symbol.equals("2022")) {
+                                            tmpzwrot = new FakturaEbay(tmpline, typ);
+                                            wierszefaktury.add(tmpzwrot);
+                                            licznikwierszy++;
+                                        } else {
+                                            tmpzwrot = new FakturaEbay(tmpline, typ, true);
+                                            wierszefaktury.add(tmpzwrot);
+                                            licznikwierszy++;
+                                        }
                                     } else {
-                                        tmpzwrot = new FakturaEbay(tmpline, typ);
-                                        wierszefaktury.add(tmpzwrot);
+                                         if (symbol.equals("2022")) {
+                                            tmpzwrot = new FakturaEbay(tmpline, typ);
+                                            wierszefaktury.add(tmpzwrot);
+                                         } else {
+                                             tmpzwrot = new FakturaEbay(tmpline, typ, true);
+                                            wierszefaktury.add(tmpzwrot);
+                                         }
                                     }
                                 } else {
                                     licznikwierszy = 0;
@@ -146,7 +157,11 @@ public class ImportCSVEbay {
                                         zwrot.add(tmpzwrot);
                                     }
                                     wierszefaktury = new ArrayList<>();
-                                    tmpzwrot = new FakturaEbay(tmpline, typ);
+                                    if (symbol.equals("2022")) {
+                                        tmpzwrot = new FakturaEbay(tmpline, typ);
+                                     } else {
+                                         tmpzwrot = new FakturaEbay(tmpline, typ);
+                                     }
                                     wierszefaktury.add(tmpzwrot);
                                     numertransakcjiold = tmpline[2];
                                     licznikwierszy++;
