@@ -144,7 +144,7 @@ public class FakturaEbay {
         this.VerpackungundVersand = tmpline[34];//chodzi o walute
         this.Versicherung = "";
         this.voneBayeinbehalteneSteuer = "";
-        this.Gesamtpreis = tmpline[33];
+        this.Gesamtpreis = tmpline[33].equals("--")?"0.0":tmpline[33];
         this.Zahlungsmethode = tmpline[14];
         this.PayPalTransaktionsID = tmpline[2];
         this.Rechnungsnummer = tmpline[2];
@@ -323,6 +323,7 @@ public class FakturaEbay {
             zwrot = zwrot.replace("EUR ", "");
             zwrot = zwrot.replace(",", ".");
             zwrot = zwrot.replace("\"","");
+            //zwrot = zwrot.replace("--","0.0");
         }
         return zwrot;
     }

@@ -160,7 +160,7 @@ public class ImportCSVEbay {
                                     if (symbol.equals("2022")) {
                                         tmpzwrot = new FakturaEbay(tmpline, typ);
                                      } else {
-                                         tmpzwrot = new FakturaEbay(tmpline, typ);
+                                         tmpzwrot = new FakturaEbay(tmpline, typ, true);
                                      }
                                     wierszefaktury.add(tmpzwrot);
                                     numertransakcjiold = tmpline[2];
