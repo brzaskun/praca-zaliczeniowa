@@ -36,6 +36,7 @@ import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import view.WpisView;
+import z.Z;
 
 /**
  *
@@ -63,7 +64,7 @@ public class WriteXLSFile {
 //        //zachowajXLS(l, WpisView);
 //    }
     
-    public static Workbook listaplacXLS(List paski, WpisView wpisView, Definicjalistaplac wybranalistaplac){
+    public static Workbook listaplacXLS(List paski, WpisView wpisView, Definicjalistaplac wybranalistaplac, double kursdlalisty){
         Workbook workbook = null;
         try {
             List headerpasekwyn = headerpasek();
@@ -72,7 +73,7 @@ public class WriteXLSFile {
             Sheet sheet = workbook.createSheet(wybranalistaplac.getDatasporzadzenia());
             insertPrintHeader(sheet, wpisView);
             int rowIndex = 0;
-            rowIndex = drawATable(workbook, sheet, rowIndex, headerpasekwyn, paski, "Lista płac "+wybranalistaplac.getNrkolejny(), 0, "wynikmcepop", wpisView.getFirma().getNazwa());
+            rowIndex = drawATable(workbook, sheet, rowIndex, headerpasekwyn, paski, "Lista płac "+wybranalistaplac.getNrkolejny(), 0, "wynikmcepop", wpisView.getFirma().getNazwa(), kursdlalisty);
             sheet.createRow(rowIndex++);
     //         workbook.setPrintArea(
     //        0, //sheet index
@@ -115,10 +116,10 @@ public class WriteXLSFile {
         headersListPrzychodKoszt.add("bez społ.");
         headersListPrzychodKoszt.add("bez zus");
         headersListPrzychodKoszt.add("bez zus i pod.");
-        headersListPrzychodKoszt.add("w tym kraj");
+        headersListPrzychodKoszt.add("za oddeleg. w pln");
+        headersListPrzychodKoszt.add("brutto kraj");
         headersListPrzychodKoszt.add("za oddeleg. w wal.");
         headersListPrzychodKoszt.add("kurs");
-        headersListPrzychodKoszt.add("za oddeleg. w pln");
         headersListPrzychodKoszt.add("dieta waluta");
         headersListPrzychodKoszt.add("dieta pln");
         headersListPrzychodKoszt.add("limit bez zus");
@@ -128,15 +129,19 @@ public class WriteXLSFile {
         headersListPrzychodKoszt.add("emerytalne");
         headersListPrzychodKoszt.add("rentowe");
         headersListPrzychodKoszt.add("razem społ. prac.");
+        headersListPrzychodKoszt.add("razem społ. prac. Polska");
         headersListPrzychodKoszt.add("brutto-zus");
         headersListPrzychodKoszt.add("1/3 diet");
         headersListPrzychodKoszt.add("koszty uzyskania");
         headersListPrzychodKoszt.add("podstawa opodatk.");
+        headersListPrzychodKoszt.add("podstawa korekta");
         headersListPrzychodKoszt.add("podatek");
+        headersListPrzychodKoszt.add("podatek wst. korekta");
         headersListPrzychodKoszt.add("kwota wolna");
         headersListPrzychodKoszt.add("pod. ubezp zdrow.");
         headersListPrzychodKoszt.add("prac zdrowotne");
         headersListPrzychodKoszt.add("podatek dochodowy");
+        headersListPrzychodKoszt.add("podatek korekta");
         headersListPrzychodKoszt.add("podatek zagr. wal.");
         headersListPrzychodKoszt.add("podatek zagr. pln");
         headersListPrzychodKoszt.add("netto");
@@ -171,7 +176,7 @@ public class WriteXLSFile {
         return zwrot;
     }
 
-    private static <T> int drawATable(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<T> elements, String tableheader, int typ, String nazwasumy, String firma) {
+    private static <T> int drawATable(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<T> elements, String tableheader, int typ, String nazwasumy, String firma, double kursdlalisty) {
         int startindex = rowIndex+3;
         int columnIndex = 0;
         Row rowTH = sheet.createRow(rowIndex++);
@@ -193,7 +198,7 @@ public class WriteXLSFile {
             T st = (T) it.next();
             Row row = sheet.createRow(rowIndex++);
             columnIndex = 0;
-            ustawWiersz(workbook, row, columnIndex, st, rowIndex, styletext, styletextcenter, styledouble);
+            ustawWiersz(workbook, row, columnIndex, st, rowIndex, styletext, styletextcenter, styledouble, kursdlalisty);
         }
 //        sheet.createRow(rowIndex++);//pusty row
 //        if (headers.size()> 3) {
@@ -204,7 +209,7 @@ public class WriteXLSFile {
         return rowIndex;
     }
     
-    private static <T> void ustawWiersz(Workbook workbook, Row row, int columnIndex, T ob, int rowIndex, CellStyle styletext, CellStyle styletextcenter, CellStyle styledouble) {
+    private static <T> void ustawWiersz(Workbook workbook, Row row, int columnIndex, T ob, int rowIndex, CellStyle styletext, CellStyle styletextcenter, CellStyle styledouble, double kursdlalisty) {
         Class c = ob.getClass();
         if (c.getName().contains("Pasekwynagrodzen")) {
             Pasekwynagrodzen st = (Pasekwynagrodzen) ob;
@@ -214,16 +219,19 @@ public class WriteXLSFile {
             createTextCell(styletext, row, (short) columnIndex++, st.getWiekpasek());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getBrutto());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttozus());
-//            createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttobezzusbezpodatek());
-            createDoubleCell(styledouble, row, (short) columnIndex++, -1000);
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttobezzusbezpodatek());
+            //createDoubleCell(styledouble, row, (short) columnIndex++, -1000);
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttobezspolecznych());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttobezzus());
-//            createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttobezzusbezpodatek());
-            createDoubleCell(styledouble, row, (short) columnIndex++, -1000);
-            createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttozuskraj());
-            createDoubleCell(styledouble, row, (short) columnIndex++, st.getOddelegowaniewaluta());
-            createDoubleCell(styledouble, row, (short) columnIndex++, st.getKurs());
-            createDoubleCell(styledouble, row, (short) columnIndex++, st.getOddelegowaniepln());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttobezzusbezpodatek());
+            //createDoubleCell(styledouble, row, (short) columnIndex++, -1000);
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getOddelegowanieplnToczek());
+            double bruttokraj = st.getBruttozuskraj()>0.0?st.getBruttozuskraj():st.getBrutto()-st.getOddelegowanieplnToczek();
+            createDoubleCell(styledouble, row, (short) columnIndex++, bruttokraj);
+            double oddelegowaniewaluta = Z.z(st.getOddelegowaniepln()/kursdlalisty);
+            createDoubleCell(styledouble, row, (short) columnIndex++, oddelegowaniewaluta);
+            double kursdowstawienia = st.getKurs()>0.0?st.getKurs():kursdlalisty;
+            createDoubleCell(styledouble, row, (short) columnIndex++, kursdowstawienia);
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getDietawaluta());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getDieta());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getLimitzus());
@@ -233,15 +241,21 @@ public class WriteXLSFile {
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getPracemerytalne());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getPracrentowe());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getRazemspolecznepracownik());
+            double porcentskladek = bruttokraj/st.getPodstawaskladkizus();
+            double skladkipolska = Z.z(st.getRazemspolecznepracownik()*porcentskladek);
+            createDoubleCell(styledouble, row, (short) columnIndex++, skladkipolska);
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getBruttominusspoleczne());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getDietaodliczeniepodstawaop());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getKosztyuzyskania());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getPodstawaopodatkowania());
+            createDoubleCell(styledouble, row, (short) columnIndex++, Z.z0(bruttokraj-skladkipolska-st.getKosztyuzyskania()));
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getPodatekwstepny());
+            createDoubleCell(styledouble, row, (short) columnIndex++, 0.0);
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getKwotawolna());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getPodstawaubezpzdrowotne());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getPraczdrowotne());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getPodatekdochodowy());
+            createDoubleCell(styledouble, row, (short) columnIndex++, 0.0);
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getPodatekdochodowyzagranicawaluta());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getPodatekdochodowyzagranica());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getNettoprzedpotraceniami());

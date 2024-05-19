@@ -59,6 +59,8 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
         dialogOtwarty = true;
     }
     public void close() {
+        selectedpracownik = null;
+        paskiwybranego = null;
         dialogOtwarty = false;
     }
     
@@ -103,10 +105,10 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
             paskiwybranego = pracownicyzpaskami.get(selectedpracownik);
             List<Podatki> stawkipodatkowe = podatkiFacade.findByRokUmowa(wpisView.getRokWpisu(), "P");
             pitKorektaNiemcy = new PitKorektaNiemcy();
-            Pasekwynagrodzen paseksuma = new Pasekwynagrodzen("2023","13");
+            Pasekwynagrodzen paseksuma = new Pasekwynagrodzen(wpisView.getRokWpisu(),"13");
             for (Iterator<Pasekwynagrodzen> it = paskiwybranego.iterator(); it.hasNext();) {
                 Pasekwynagrodzen p = it.next();
-                if (p.getRodzajWynagrodzenia()==1006) {
+                if (p==null||p.getRodzajWynagrodzenia()==1006) {
                     it.remove();
                 }
             }

@@ -83,7 +83,8 @@ public class WalutyFKBean {
         }
        
     }
-     @Schedule(hour = "*", minute = "1", persistent = false)
+    //Bylo potrzeben dla Toczek za 2020 korekta pobrano euro tabele
+     //@Schedule(hour = "*", minute = "1", persistent = false)
      public void pobierzkursyImport() {
         String datawstepna = "2020-01-01";
         List<Waluty> pobranewaluty = walutyFacade.findAll();

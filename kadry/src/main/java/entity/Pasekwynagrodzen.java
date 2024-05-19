@@ -1005,13 +1005,38 @@ public class Pasekwynagrodzen implements Serializable {
         return oddelegowaniewaluta;
     }
 
+    public double getOddelegowaniepln() {
+        return oddelegowaniepln;
+    }
+    
+
+    public double getOddelegowaniewalutaToczek() {
+        double zwrot = oddelegowaniewaluta;
+        if (this.isImportowany()) {
+            List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList1 = this.naliczenieskladnikawynagrodzeniaList;
+            if (naliczenieskladnikawynagrodzeniaList1!=null) {
+                zwrot = naliczenieskladnikawynagrodzeniaList1.stream().filter(nala->nala.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isOddelegowanie()).mapToDouble(nal->nal.getKwotadolistyplacwaluta()).sum();
+            }
+        }
+        return zwrot;
+    }
+
     public void setOddelegowaniewaluta(double oddelegowaniewaluta) {
         this.oddelegowaniewaluta = oddelegowaniewaluta;
     }
 
-    public double getOddelegowaniepln() {
-        return oddelegowaniepln;
+    public double getOddelegowanieplnToczek() {
+         double zwrot = oddelegowaniepln;
+        if (this.isImportowany()) {
+            List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList1 = this.naliczenieskladnikawynagrodzeniaList;
+            if (naliczenieskladnikawynagrodzeniaList1!=null) {
+                zwrot = naliczenieskladnikawynagrodzeniaList1.stream().filter(nala->nala.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isOddelegowanie()).mapToDouble(nal->nal.getKwotadolistyplac()).sum();
+            }
+        }
+        return zwrot;
     }
+    
+    
 
     public void setOddelegowaniepln(double oddelegowaniepln) {
         this.oddelegowaniepln = oddelegowaniepln;

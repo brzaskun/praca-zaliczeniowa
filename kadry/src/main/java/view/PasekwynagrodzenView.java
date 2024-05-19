@@ -824,6 +824,9 @@ public class PasekwynagrodzenView implements Serializable {
                 datawyplaty = zrobdatawyplaty(wybranalistaplac.getMc(), wybranalistaplac.getRok(), wpisView.getFirma());
             }
             Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
+            if (lista.isEmpty()==false) {
+                korektaToczek();
+            }
         }
     }
 
@@ -886,7 +889,32 @@ public class PasekwynagrodzenView implements Serializable {
                 } catch (Exception e) {
                 }
             }
+           
         }
+    }
+    
+    private void korektaToczek() {
+        for (Pasekwynagrodzen pasek : lista) {
+            if (pasek.isImportowany()) {
+                pasek.setKurs(kursdlalisty);
+                double oddelegowaniepln = pasek.getOddelegowanieplnToczek();
+                pasek.setOddelegowaniepln(oddelegowaniepln);
+                double bruttokraj = pasek.getBruttozuskraj()>0.0?pasek.getBruttozuskraj():pasek.getBrutto()-oddelegowaniepln;
+                pasek.setBruttozuskraj(bruttokraj);
+                double oddelegowaniewaluta = Z.z(oddelegowaniepln/kursdlalisty);
+                pasek.setOddelegowaniewaluta(oddelegowaniewaluta);
+                pasek.setPrzychodypodatekpolska(bruttokraj);
+                pasek.setPodatekdochodowyzagranica(oddelegowaniepln);
+                Kalendarzmiesiac kalendarz = pasek.getKalendarzmiesiac();
+                String rok = kalendarz.getAngaz().getPrzekroczenierok();
+                String mc = kalendarz.getAngaz().getPrzekroczeniemc()!=null?kalendarz.getAngaz().getPrzekroczeniemc():"01";
+                if (rok!=null&&mc!=null&&data.Data.czyjestpomc(mc, rok, pasek.getRokwypl(), pasek.getMcwypl())) {
+                    pasek.setPrzekroczenieoddelegowanie(true);
+                }
+                
+            }
+        }
+        pasekwynagrodzenFacade.editList(lista);
     }
 
     public void pobierzpracownika() {
@@ -898,6 +926,26 @@ public class PasekwynagrodzenView implements Serializable {
             }
             Msg.msg("Pobrano pracownika");
         }
+    }
+    
+    public double ustawtabelenbpXls(String datawyplaty) {
+            double zwrot = 0.0;
+            if (datawyplaty!=null && datawyplaty.length()==10) {
+                String data = datawyplaty;
+                boolean znaleziono = false;
+                int zabezpieczenie = 0;
+                while (!znaleziono && (zabezpieczenie < 365)) {
+                    data = Data.odejmijdni(data, 1);
+                    Tabelanbp tabelanbppobrana = tabelanbpFacade.findByDateWaluta(data, "EUR");
+                    if (tabelanbppobrana instanceof Tabelanbp) {
+                        znaleziono = true;
+                        zwrot = tabelanbppobrana.getKurssredni();
+                        break;
+                    }
+                    zabezpieczenie++;
+                }
+            }
+            return zwrot;
     }
     
     public void ustawtabelenbp(String datawyplaty) {
@@ -934,7 +982,7 @@ public class PasekwynagrodzenView implements Serializable {
     
     public void generujXLS() {
         try {
-            Workbook workbook = WriteXLSFile.listaplacXLS(lista, wpisView, wybranalistaplac);
+            Workbook workbook = WriteXLSFile.listaplacXLS(lista, wpisView, wybranalistaplac, kursdlalisty);
             // Prepare response.
             FacesContext facesContext = FacesContext.getCurrentInstance();
             ExternalContext externalContext = facesContext.getExternalContext();
@@ -1157,5 +1205,7 @@ public class PasekwynagrodzenView implements Serializable {
     public void setPozwalamusunacpasek(boolean pozwalamusunacpasek) {
         this.pozwalamusunacpasek = pozwalamusunacpasek;
     }
+
+    
 
 }

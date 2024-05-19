@@ -148,6 +148,8 @@ public class FirmaKadry implements Serializable {
     private String bankpodatki;
     @Column(name = "bankzus")
     private String bankzus;
+    @Column(name = "samozatrudnienie")
+    private boolean samozatrudnienie;
     @Column(name = "aktywna")
     private boolean aktywna;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "firma")
@@ -383,6 +385,14 @@ public class FirmaKadry implements Serializable {
 
     public void setImie(String imie) {
         this.imie = imie;
+    }
+
+    public boolean isSamozatrudnienie() {
+        return samozatrudnienie;
+    }
+
+    public void setSamozatrudnienie(boolean samozatrudnienie) {
+        this.samozatrudnienie = samozatrudnienie;
     }
 
     public String getNazwisko() {

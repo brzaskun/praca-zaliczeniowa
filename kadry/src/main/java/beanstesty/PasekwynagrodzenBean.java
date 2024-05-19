@@ -746,7 +746,8 @@ public class PasekwynagrodzenBean {
                         bruttooddelegowanie = Z.z(bruttooddelegowanie + p.getKwotadolistyplac());
                         bruttooddelegowaniewaluta = Z.z(bruttooddelegowaniewaluta + p.getKwotadolistyplacwaluta());
                         if (p.getKwotadolistyplacwaluta()==0.0) {
-                            bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + Z.z(p.getKwotadolistyplac()/4.68);
+                            double kurs = pasek.getKurs()>0.0?pasek.getKurs():4.68;
+                            bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + Z.z(p.getKwotadolistyplac()/kurs);
                         }
                     } else if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
                         bruttooddelegowanie = Z.z(bruttooddelegowanie + p.getKwotadolistyplac());
