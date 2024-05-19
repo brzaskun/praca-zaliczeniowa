@@ -56,7 +56,7 @@ public class TabelanbpFacade extends DAO  implements Serializable {
          try {
             return (Tabelanbp)  getEntityManager().createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getSingleResult();
         } catch (Exception e) { 
-            E.e(e); 
+            //E.e(e); 
             return null;
         }
     }
