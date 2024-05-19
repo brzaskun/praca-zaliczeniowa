@@ -83,6 +83,41 @@ public class WalutyFKBean {
         }
        
     }
+     @Schedule(hour = "*", minute = "1", persistent = false)
+     public void pobierzkursyImport() {
+        String datawstepna = "2020-01-01";
+        List<Waluty> pobranewaluty = walutyFacade.findAll();
+        Iterator<Waluty> it = pobranewaluty.iterator();
+        while(it.hasNext()) {
+            Waluty w = it.next();
+            if(w.getSymbolwaluty().equals("EUR")==false) {
+                it.remove();
+            }
+        }
+        String datakoncowa = datawstepna;
+        while (data.Data.czyjestpo("2022-01-01", datawstepna)==false) {
+            for (Waluty w : pobranewaluty) {
+                Tabelanbp wiersz = tabelanbpFacade.findByDateWaluta(datawstepna, w.getSymbolwaluty());
+                if (wiersz == null) {
+                    List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
+                    try {
+                        wierszepobranezNBP.addAll(pobierzpliknbp(datawstepna, datakoncowa, w));
+                    } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
+                        //mail.Mail.nadajMailWystapilBlad(E.e(e), null, sMTPSettingsDAO.findSprawaByDef());
+
+                    }
+                    for (Tabelanbp p : wierszepobranezNBP) {
+                       tabelanbpFacade.create(p);
+                    }
+                }
+                datawstepna = Data.dodajdzien(datawstepna,1);
+                datakoncowa = datawstepna;
+                System.out.println(datakoncowa);
+                //Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
+            }
+        }
+       
+    }
     
    public List<Tabelanbp> pobierzpliknbp(String datapoczatkowa, String datakoncowa, Waluty waluta) throws MalformedURLException, IOException, ParserConfigurationException, SAXException, ParseException {
         List<Tabelanbp> wynik = Collections.synchronizedList(new ArrayList<>());
