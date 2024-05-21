@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
-  <services/>
+  <services>
+    <service name="Podatnikkadryinfo">
+      <implementation-class>webservice.Podatnikkadryinfo</implementation-class>
+    </service>
+  </services>
   <clients>
     <client name="checkVATService">
       <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/checkVATService.wsdl</wsdl-url>
@@ -98,7 +102,7 @@
         </wsimport-option>
       </wsimport-options>
     </client>
-    <client name="wsdlnipvat">
+    <client name="">
       <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wsdlnipvat.wsdl</wsdl-url>
       <local-wsdl-file>wsdlnipvat.wsdl</local-wsdl-file>
       <package-name>pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat.2018.03.01</package-name>

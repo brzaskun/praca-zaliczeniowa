@@ -2,13 +2,13 @@
 <InitUpload xmlns="http://e-dokumenty.mf.gov.pl">
     <DocumentType>JPK</DocumentType>
     <Version>01.02.01.20160617</Version>
-    <EncryptionKey algorithm="RSA" mode="ECB" padding="PKCS#1" encoding="Base64">k6oqVWvP8E5Ufj6QrhJ6Fm+8AkMDdp3AAZzGDk9fqyCsUo9CTPPtN8/0fmfVsZfhfq8hMuX0caybVfwQhBr/0dXqko7arhysUsx8rHTLPZG8FvLRo2p3le57TkjCAQ1z2V59b5zaDIWiqQ9rwVXHiAPnkSTEA6ViO5G4BWmTns7gh93rCH98Nso1Na0N6zuOQp7+AABRU8c+9vidq+mWkgVJu3PQz4W1ybC9/txl+LkbOJbGr4i4gOkfZNLB3r24sk4zbYtIl9dDzGRD7ztBpp+i8tj9+IwMnqY+C0IOZuskLAQ6oPCJOByWM2pAsaH0I3sTT/mqPqNbh1cJ6wlVsg==</EncryptionKey>
+    <EncryptionKey algorithm="RSA" mode="ECB" padding="PKCS#1" encoding="Base64">PNLNAXhOx8SJJaqVOfrfNFj/IjiH18lNqL0lRt61X09FAUqka2zW2PzGm1iFyMfYW9I0H4r9P9i/HdFZGWRehJuGov5PN7zHNF3K0z0/KVAphYxla3yDavjexOmDnsTrP+QkCBClhAlx2GSTbZvE4pUoCXq/sToGy/kzxAFAbb9LnNtDf/blO9is9gPnwq7EDEXxvaWW5YHuUr+emnrVgCLte3n2jkT2gL2nbwhj0L9C3jtepo8IpsH/AsBqqE5Iqf4Ij6dnjqEQqyhnTV32pLwPRpc+DvYR/EV2Ic/PVm4tr2L+cIUs3ZYKbcYocMv1easE5gpkhvoW1nBqcYWDTw==</EncryptionKey>
     <DocumentList>
         <Document>
             <FormCode systemCode="JPK_V7K (2)" schemaVersion="1-0E">JPK_VAT</FormCode>
             <FileName>jpk8511005008mcrok092023.xml</FileName>
             <ContentLength>156688</ContentLength>
-            <HashValue algorithm="SHA-256" encoding="Base64">kOj52Xe5MtTrmcu0AIVQWg2uEe/jFyGE5hm+fhyCumY=</HashValue>
+            <HashValue algorithm="SHA-256" encoding="Base64">bfpPRTcU+PLWN6bVLN+oePCqV7myL7A4tVJpsOL3W10=</HashValue>
             <FileSignatureList filesNumber="1">
                 <Packaging>
                     <SplitZip type="split" mode="zip"/>
@@ -22,7 +22,7 @@
                     <OrdinalNumber>1</OrdinalNumber>
                     <FileName>jpk8511005008mcrok092023.xml.zip.aes</FileName>
                     <ContentLength>13616</ContentLength>
-                    <HashValue algorithm="MD5" encoding="Base64">txNxBB47sNCUk1jxewQZCw==</HashValue>
+                    <HashValue algorithm="MD5" encoding="Base64">aU4eEUJzIK2trOQe4gxaLQ==</HashValue>
                 </FileSignature>
             </FileSignatureList>
         </Document>
