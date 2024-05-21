@@ -324,6 +324,24 @@
                         <id>wsimport-generate-dokumenty</id>
                         <phase>generate-sources</phase>
                     </execution>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlFiles>
+                                <wsdlFile>localhost_8080/Podatnikkadryinfo/Podatnikkadryinfo.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>webserviceksiegowa</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>http://localhost:8080/Podatnikkadryinfo/Podatnikkadryinfo?wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/Podatnikkadryinfo.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-Podatnikkadryinfo</id>
+                        <phase>generate-sources</phase>
+                    </execution>
                 </executions>
                 <dependencies>
                     <dependency>
