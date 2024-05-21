@@ -908,6 +908,9 @@ public class PasekwynagrodzenView implements Serializable {
                 Kalendarzmiesiac kalendarz = pasek.getKalendarzmiesiac();
                 String rok = kalendarz.getAngaz().getPrzekroczenierok();
                 String mc = kalendarz.getAngaz().getPrzekroczeniemc()!=null?kalendarz.getAngaz().getPrzekroczeniemc():"01";
+                if (kalendarz.getAngaz().getPrzekroczeniemc()!=null&&kalendarz.getAngaz().getPrzekroczeniemc().equals("")) {
+                    mc = "01";
+                }
                 if (rok!=null&&mc!=null&&data.Data.czyjestpomc(mc, rok, pasek.getRokwypl(), pasek.getMcwypl())) {
                     pasek.setPrzekroczenieoddelegowanie(true);
                 }
