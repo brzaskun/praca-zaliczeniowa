@@ -94,7 +94,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         }
     }
 
-    public void drukuj(Faktura selected, int row, Podatnik podatnik) throws DocumentException, FileNotFoundException, IOException {
+    public void drukuj(Faktura selected, int row, Podatnik podatnik)  {
         try {
             if (podatnik.getNip().equals("9552340951")||podatnik.getNip().equals("9552339497")) {
                 String[] numer = selected.getNumerkolejny().split("/");
@@ -116,7 +116,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             Msg.msg("Wydruk faktury");
 
         } catch (DocumentException | IOException e) {
-            E.e(e);
+            System.out.println(E.e(e));
             Msg.msg("e", "Błąd - nie wybrano faktury");
 
         }
