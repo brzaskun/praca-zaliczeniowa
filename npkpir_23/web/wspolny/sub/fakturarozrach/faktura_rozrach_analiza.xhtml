@@ -150,7 +150,7 @@
                     </p:panelGrid>
             </p:panelGrid>
             <h:outputText value="Aby zarchiwizować wszystkie należy wybrać po lewej i wcisnąć przycisk 'archiwizuj'. Archiwizowanie pojedyncze i odarchiwizowanie - wciskamy czekboksy po prawej" style="color: green;"/>
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1680px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1680px; margin-top: 20px;height: 600px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          rowIndexVar="row" editable="true" styleClass="compact" rowSelectMode="add"
                          rowStyleClass="#{item.mc mod 2 eq 0 ? 'parzyste':null}"
