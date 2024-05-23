@@ -148,6 +148,8 @@ public class FirmaKadry implements Serializable {
     private String bankpodatki;
     @Column(name = "bankzus")
     private String bankzus;
+    @Column(name = "ksiegowa")
+    private String ksiegowa;
     @Column(name = "samozatrudnienie")
     private boolean samozatrudnienie;
     @Column(name = "aktywna")
@@ -495,6 +497,15 @@ public class FirmaKadry implements Serializable {
         this.m7 = m7;
     }
 
+    public String getKsiegowa() {
+        return ksiegowa;
+    }
+
+    public void setKsiegowa(String ksiegowa) {
+        this.ksiegowa = ksiegowa;
+    }
+
+    
     public int getM8() {
         return m8;
     }
