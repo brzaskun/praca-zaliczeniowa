@@ -1030,7 +1030,8 @@ public class Pasekwynagrodzen implements Serializable {
         if (this.isImportowany()) {
             List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList1 = this.naliczenieskladnikawynagrodzeniaList;
             if (naliczenieskladnikawynagrodzeniaList1!=null) {
-                zwrot = naliczenieskladnikawynagrodzeniaList1.stream().filter(nala->nala.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isOddelegowanie()).mapToDouble(nal->nal.getKwotadolistyplac()).sum();
+                zwrot = naliczenieskladnikawynagrodzeniaList1.stream().filter(nala->nala.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isOddelegowanie()||
+                        (nala.getSkl_dod_1()!=null&&nala.getSkl_dod_1().equals('T'))).mapToDouble(nal->nal.getKwotadolistyplac()).sum();
             }
         }
         return zwrot;

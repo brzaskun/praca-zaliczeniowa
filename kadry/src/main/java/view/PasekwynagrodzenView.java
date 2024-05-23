@@ -914,7 +914,9 @@ public class PasekwynagrodzenView implements Serializable {
                 if (rok!=null&&mc!=null&&data.Data.czyjestpomc(mc, rok, pasek.getRokwypl(), pasek.getMcwypl())) {
                     pasek.setPrzekroczenieoddelegowanie(true);
                 }
-                
+                //podobno niepoczebne
+                //PasekwynagrodzenBean.obliczdietedoodliczeniaToczek(pasek);
+                data.Data.obliczwiekNaniesnapasek(pasek.getAngaz().getPracownik().getDataurodzenia(), pasek);
             }
         }
         pasekwynagrodzenFacade.editList(lista);

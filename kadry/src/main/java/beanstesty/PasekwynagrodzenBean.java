@@ -2003,6 +2003,24 @@ public class PasekwynagrodzenBean {
                 }
             }
     }
+    
+     public static void obliczdietedoodliczeniaToczek(Pasekwynagrodzen pasek) {
+            Kalendarzmiesiac kalendarz = pasek.getKalendarzmiesiac();
+            double dnioddelegowanie = 0.0;
+            double dietawaluta = 0.0;
+            for (Dzien p : kalendarz.getDzienList()) {
+                if (p.getKod() != null && p.getKod().equals("Z")) {
+                    dnioddelegowanie++;
+                    double dietakwotanorma = p.getNieobecnosc().getDietaoddelegowanie()>0.0?p.getNieobecnosc().getDietaoddelegowanie():49.0;
+                    dietawaluta = dietawaluta + dietakwotanorma;
+                }
+            }
+            double dietypln = Z.z(dietawaluta * pasek.getKurs());
+            pasek.setDietawaluta(dietawaluta);
+            pasek.setDieta(dietypln);
+            double dietyplnpodatek = Z.z(dietypln * 0.3);
+            pasek.setDietaodliczeniepodstawaop(dietyplnpodatek);
+    }
 
     private static void naniesrobocze(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz) {
         int[] robocze = kalendarz.robocze();
