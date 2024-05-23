@@ -15,7 +15,7 @@ import javax.jws.WebService;
 
 /**
  *
- * @author Osito
+ * @author Ositosss
  */
 @WebService(serviceName = "Podatnikkadryinfo")
 @Stateless()
