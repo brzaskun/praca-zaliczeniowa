@@ -35,8 +35,10 @@ public class Podatnikkadryinfo {
         Podatnik findPodatnikByNIP = podatnikDAO.findPodatnikByNIP(nip);
         if (findPodatnikByNIP!=null) {
             zwrot.setNip(nip);
-            zwrot.setNazwa(findPodatnikByNIP.getPrintnazwa());
-            zwrot.setKsiegowa(findPodatnikByNIP.getKsiegowa().getEmail());
+            String nazwa = findPodatnikByNIP.getPrintnazwa()!=null?findPodatnikByNIP.getPrintnazwa():"braknazwy";
+            zwrot.setNazwa(nazwa);
+            String email = findPodatnikByNIP.getKsiegowa()!=null&&findPodatnikByNIP.getKsiegowa().getEmail()!=null?findPodatnikByNIP.getKsiegowa().getEmail():null;
+            zwrot.setKsiegowa(email);
         }
         return zwrot;
     }
