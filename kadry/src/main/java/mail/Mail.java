@@ -156,6 +156,12 @@ public class Mail {
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
+            if (firma.getKsiegowa()!=null&&firma.getKsiegowa().equals("")==false) {
+                adresBCC = adresBCC+","+firma.getKsiegowa();
+            }
+            if (firma.getKsiegowa()!=null&&firma.getKsiegowa().equals("")==false) {
+                adresBCC = adresBCC+","+firma.getKsiegowa();
+            }
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse(adresBCC));
             MimeBodyPart mbp1 = new MimeBodyPart();
@@ -283,6 +289,9 @@ public class Mail {
             String adresybcc = adresBCC;
             if (adresemaillista!=null) {
                 adresybcc = adresybcc+","+adresemaillista;
+            }
+            if (firma.getKsiegowa()!=null&&firma.getKsiegowa().equals("")==false) {
+                adresBCC = adresybcc+","+firma.getKsiegowa();
             }
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse(adresybcc));
