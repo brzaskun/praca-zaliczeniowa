@@ -755,6 +755,8 @@ public class PasekwynagrodzenBean {
                         if (p.getKwotadolistyplacwaluta()==0.0) {
                             bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + Z.z(p.getKwotadolistyplac()/p.getPasekwynagrodzen().getKurs());
                         }
+                    } else if (p.getSkl_dod_1()!=null&&p.getSkl_dod_1().equals('T')) {
+                        bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + Z.z(p.getKwotadolistyplac()/p.getPasekwynagrodzen().getKurs());
                     } else {
                         bruttokraj = bruttokraj + p.getKwotadolistyplac();
                     }
