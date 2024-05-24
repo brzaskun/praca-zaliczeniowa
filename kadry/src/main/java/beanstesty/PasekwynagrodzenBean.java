@@ -2287,7 +2287,7 @@ public class PasekwynagrodzenBean {
                 double zagranicapln = 0.0;
                 double zagranicawaluta = 0.0;
                 for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
-                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getWks_serial().equals(1072)) {
+                    if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("13")||p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getWks_serial().equals(1072)||(p.getSkl_dod_1()!=null&&p.getSkl_dod_1().equals('T'))) {
                         zagranicawaluta = zagranicawaluta + p.getKwotadolistyplacwaluta();
                         zagranicapln = zagranicapln + p.getKwotadolistyplac();
                     }
