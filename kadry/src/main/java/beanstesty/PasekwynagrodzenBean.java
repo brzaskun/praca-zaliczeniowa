@@ -756,7 +756,12 @@ public class PasekwynagrodzenBean {
                             bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + Z.z(p.getKwotadolistyplac()/p.getPasekwynagrodzen().getKurs());
                         }
                     } else if (p.getSkl_dod_1()!=null&&p.getSkl_dod_1().equals('T')) {
-                        bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + Z.z(p.getKwotadolistyplac()/p.getPasekwynagrodzen().getKurs());
+                        bruttooddelegowanie = Z.z(bruttooddelegowanie + p.getKwotadolistyplac());
+                        bruttooddelegowaniewaluta = Z.z(bruttooddelegowaniewaluta + p.getKwotadolistyplacwaluta());
+                        if (p.getKwotadolistyplacwaluta()==0.0) {
+                            double kurs = pasek.getKurs()>0.0?pasek.getKurs():4.68;
+                            bruttooddelegowaniewaluta = bruttooddelegowaniewaluta + Z.z(p.getKwotadolistyplac()/kurs);
+                        }
                     } else {
                         bruttokraj = bruttokraj + p.getKwotadolistyplac();
                     }
