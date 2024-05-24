@@ -899,12 +899,12 @@ public class PasekwynagrodzenView implements Serializable {
                 pasek.setKurs(kursdlalisty);
                 double oddelegowaniepln = pasek.getOddelegowanieplnToczek();
                 pasek.setOddelegowaniepln(oddelegowaniepln);
-                double bruttokraj = pasek.getBrutto()-oddelegowaniepln;
+                double bruttokraj = Z.z(pasek.getBrutto()-oddelegowaniepln);
                 pasek.setBruttozuskraj(bruttokraj);
                 double oddelegowaniewaluta = Z.z(oddelegowaniepln/kursdlalisty);
                 pasek.setOddelegowaniewaluta(oddelegowaniewaluta);
                 pasek.setPrzychodypodatekpolska(bruttokraj);
-                pasek.setPodatekdochodowyzagranica(oddelegowaniepln);
+                pasek.setPrzychodypodatekzagranica(oddelegowaniepln);
                 Kalendarzmiesiac kalendarz = pasek.getKalendarzmiesiac();
                 String rok = kalendarz.getAngaz().getPrzekroczenierok();
                 String mc = kalendarz.getAngaz().getPrzekroczeniemc()!=null?kalendarz.getAngaz().getPrzekroczeniemc():"01";
