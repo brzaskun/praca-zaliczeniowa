@@ -899,7 +899,7 @@ public class PasekwynagrodzenView implements Serializable {
                 pasek.setKurs(kursdlalisty);
                 double oddelegowaniepln = pasek.getOddelegowanieplnToczek();
                 pasek.setOddelegowaniepln(oddelegowaniepln);
-                double bruttokraj = pasek.getBruttozuskraj()>0.0?pasek.getBruttozuskraj():pasek.getBrutto()-oddelegowaniepln;
+                double bruttokraj = pasek.getBrutto()-oddelegowaniepln;
                 pasek.setBruttozuskraj(bruttokraj);
                 double oddelegowaniewaluta = Z.z(oddelegowaniepln/kursdlalisty);
                 pasek.setOddelegowaniewaluta(oddelegowaniewaluta);
