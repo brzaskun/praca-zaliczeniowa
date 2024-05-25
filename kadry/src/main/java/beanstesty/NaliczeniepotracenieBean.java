@@ -41,7 +41,7 @@ public class NaliczeniepotracenieBean {
             if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), p.getDataod(), p.getDatado())) {
                 double ilemoznaprocent = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
                 double wolneodzajecia = wolneodzajeciaustawa;
-                if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")) {
+                if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")&&p.isMaxustawowy()==false) {
                     ilemoznaprocent = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
                 }
                 if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("ZA")) {
@@ -58,7 +58,12 @@ public class NaliczeniepotracenieBean {
                 if (p.getKwotastala()!=0.0) {
                     if (p.getDatado()==null || Data.czyjestprzed(p.getDatado(), pasekwynagrodzen.getRok(), pasekwynagrodzen.getMc())) {
                         if (p.getKwotastala()<pasekwynagrodzen.getNettoprzedpotraceniami()) {
-                            zwrot.setKwota(Z.z(p.getKwotastala()));
+                            double potracenieograniczone = Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()*(ilemoznaprocent/100.0));
+                            if (p.isMaxustawowy()&&Z.z(p.getKwotastala())>potracenieograniczone) {
+                                zwrot.setKwota(potracenieograniczone);
+                            } else {
+                                zwrot.setKwota(Z.z(p.getKwotastala()));
+                            }
                             zwrot.setPasekwynagrodzen(pasekwynagrodzen);
                         } else {
                             zwrot.setKwota(Z.z(pasekwynagrodzen.getNettoprzedpotraceniami()));

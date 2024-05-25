@@ -52,6 +52,8 @@ public class Rodzajlistyplac implements Serializable {
 //    2,"umowa zlecenia i o dzieło",2
 //    3,"pełnienie obowiązków",3
 //    4,zasiłki,4
+//    5, ryczałt osoby zagraniczne
+//    6, wynagrodzenie w naturze
 
     @Column(name = "typ")
     private Integer typ;

@@ -1768,7 +1768,7 @@ public class PasekwynagrodzenBean {
                     //zmniana 29052023
                     //bylo if (zdrowotne > limitdlazdrowotnej && Z.z(pasek.getKwotawolna()) > 0.0) {
                     //wyjasnic dlaczego tu jets ten emeryt
-                   if (zdrowotneskladka > limitdlazdrowotnej && pasek.isEmeryt()==false) {
+                   if (zdrowotneskladka > limitdlazdrowotnej && pasek.isEmeryt()==false&&pasek.isSwiadczeniarzeczowe()==false) {
                         pasek.setPraczdrowotne(limitdlazdrowotnej);
                         pasek.setPraczdrowotnedoodliczenia(0.0);
                         pasek.setPraczdrowotnedopotracenia(limitdlazdrowotnej);

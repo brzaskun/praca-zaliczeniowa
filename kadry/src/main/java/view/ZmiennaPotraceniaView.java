@@ -136,6 +136,13 @@ public class ZmiennaPotraceniaView  implements Serializable {
             Msg.msg("e","Nie wybrano zmiennej");
         }
     }
+    
+    public void anulujustawowe(Zmiennapotracenia zmienna) {
+        if (zmienna.getKwotastala()>0.0) {
+            zmienna.setMaxustawowy(false);
+            Msg.msg("w","Odhaczono max ustawowy");
+        } 
+    }
 
     public Zmiennapotracenia getSelected() {
         return selected;
