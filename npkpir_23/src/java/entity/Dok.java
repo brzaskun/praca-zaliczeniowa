@@ -806,7 +806,13 @@ public class Dok extends DokSuper implements Serializable {
         }
         return zwrot;
     }
-     
+     public boolean isNiemcy() {
+        boolean zwrot = false;
+        if (this.rodzajedok!=null&&this.rodzajedok.getRodzajtransakcji().contains("Niemcy")) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
       public String pobierzsymbole() {
         String zwrot = null;
         StringBuilder sb = new StringBuilder();

@@ -462,7 +462,8 @@ public class ImportSprzedazyView  implements Serializable {
             error.E.s("");
         }
         Dok tmp = null;
-        tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt(), selD.getRodzajedok().getSkrot());
+        String rok = data.Data.getRok(selD.getDataWyst());
+        tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt(), selD.getRodzajedok().getSkrot(), rok);
         return tmp;
     }
     

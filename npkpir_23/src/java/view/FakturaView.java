@@ -1509,13 +1509,18 @@ public class FakturaView implements Serializable {
     
     public void zaksieguj(List<Faktura> lista) throws Exception {
         boolean vatowiec = nievat0vat1(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        boolean ksiazka = wpisView.isKsiegaryczalt();
         if (wpisView.getPodatnikObiekt().getFirmafk() == 1) {
             for (Faktura p : lista) {
                 ksiegowanieFK(p, p.getWystawca(), p.getKontrahent(),0, vatowiec);
             }
         } else if (wpisView.getPodatnikObiekt().getFirmafk() == 0) {
             for (Faktura p : lista) {
-                ksiegowaniePkpirVAT(p, p.getWystawca(), p.getKontrahent(),0, "SZ");
+                if (ksiazka) {
+                    ksiegowaniePkpirVAT(p, p.getWystawca(), p.getKontrahent(),0, "SZ");
+                } else {
+                    ksiegowaniePkpirVAT(p, p.getWystawca(), p.getKontrahent(),0, "SPRY");
+                }
             }
         } else {
             if (wpisView.isKsiegirachunkowe() == true) {
@@ -1524,7 +1529,11 @@ public class FakturaView implements Serializable {
                 }
             } else {
                 for (Faktura p : lista) {
-                    ksiegowaniePkpirVAT(p, p.getWystawca(), p.getKontrahent(),0, "SZ");
+                    if (ksiazka) {
+                        ksiegowaniePkpirVAT(p, p.getWystawca(), p.getKontrahent(),0, "SZ");
+                    } else {
+                        ksiegowaniePkpirVAT(p, p.getWystawca(), p.getKontrahent(),0, "SPRY");
+                    }
                 }
             }
         }

@@ -310,8 +310,8 @@
     </h:form>
     <!--EDYCJA faktur z tabeli-->
     <p:dialog id="dialogEdycja" header="Dane dokumentu:" widgetVar="dialogEdycjaZaksiegowanychDokumentow" resizable="true"
-              modal="true" appendTo="@(body)" style="overflow-y: scroll;"
-              onShow="ustawdialogWindow('dialogEdycja',1080,900)" onHide="resetujdialog('dialogEdycja')">
+              modal="true" appendTo="@(body)" style="overflow-y: hidden;"
+              onShow="ustawdialogWindow('dialogEdycja',1080,600)" onHide="resetujdialog('dialogEdycja')">
         <ui:include src="dokument_edycja.xhtml" />
     </p:dialog>
 </ui:composition>   

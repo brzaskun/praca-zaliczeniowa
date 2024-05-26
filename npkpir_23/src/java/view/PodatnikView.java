@@ -1346,7 +1346,9 @@ public class PodatnikView implements Serializable {
             try {
                 selectedDokKsi.setPodatnikObj(wpisView.getPodatnikObiekt());
                 selectedDokKsi.setSkrot(selectedDokKsi.getSkrotNazwyDok().toUpperCase(new Locale("pl")));
-                selectedDokKsi.setSkrotNazwyDok(selectedDokKsi.getSkrot().toUpperCase(new Locale("pl")));
+                String skrtonazwy = selectedDokKsi.getSkrot().toUpperCase(new Locale("pl")).trim();
+                skrtonazwy = skrtonazwy.trim().replaceAll("\\s+", "");
+                selectedDokKsi.setSkrotNazwyDok(skrtonazwy);
                 selectedDokKsi.setNazwa(selectedDokKsi.getNazwa().toLowerCase(new Locale("pl")));
                 selectedDokKsi.setRok(wpisView.getRokWpisuSt());
                 rodzajedokDAO.create(selectedDokKsi);
@@ -1369,7 +1371,9 @@ public class PodatnikView implements Serializable {
     public void editdok() {
         try {
             selectedDokKsi.setSkrot(selectedDokKsi.getSkrotNazwyDok().toUpperCase(new Locale("pl")));
-            selectedDokKsi.setSkrotNazwyDok(selectedDokKsi.getSkrotNazwyDok().toUpperCase(new Locale("pl")));
+            String skrtonazwy = selectedDokKsi.getSkrot().toUpperCase(new Locale("pl")).trim();
+            skrtonazwy = skrtonazwy.trim().replaceAll("\\s+", "");
+            selectedDokKsi.setSkrotNazwyDok(skrtonazwy);
             rodzajedokDAO.edit(selectedDokKsi);
             selectedDokKsi = new Rodzajedok();
             Msg.msg("i", "Wyedytowano wzorce dokumentów");

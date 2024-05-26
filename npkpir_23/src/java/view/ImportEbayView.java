@@ -291,7 +291,8 @@ public class ImportEbayView  implements Serializable {
     }
     public Dok sprawdzCzyNieDuplikat(Dok selD) {
         Dok tmp = null;
-        tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt(), selD.getRodzajedok().getSkrot());
+        String rok = data.Data.getRok(selD.getDataWyst());
+        tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt(), selD.getRodzajedok().getSkrot(), rok);
         return tmp;
     }
     

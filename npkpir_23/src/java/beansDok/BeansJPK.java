@@ -30,7 +30,8 @@ public class BeansJPK {
 
     public static Dok sprawdzCzyNieDuplikat(Dok selD, Podatnik podatnik, DokDAO dokDAO) {
         Dok tmp = null;
-        tmp = dokDAO.znajdzDuplikatwtrakcie(selD, podatnik, selD.getRodzajedok().getSkrot());
+        String rok = data.Data.getRok(selD.getDataWyst());
+        tmp = dokDAO.znajdzDuplikatwtrakcie(selD, podatnik, selD.getRodzajedok().getSkrot(), rok);
         return tmp;
     }
 

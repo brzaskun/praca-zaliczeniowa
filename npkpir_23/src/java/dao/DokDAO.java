@@ -71,10 +71,11 @@ public class DokDAO extends DAO implements Serializable {
     }
     
     
-    public Dok znajdzDuplikatwtrakcie(Dok selD, Podatnik podatnik, String typdokumentu) {
+    public Dok znajdzDuplikatwtrakcie(Dok selD, Podatnik podatnik, String typdokumentu, String rok) {
          List<Dok> wynik = null;
         try {
-            wynik =  getEntityManager().createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("nip", selD.getKontr().getNip()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", podatnik).setParameter("typdokumentu", typdokumentu).getResultList();
+            wynik =  getEntityManager().createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("nip", selD.getKontr()
+                    .getNip()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("rok", rok).setParameter("podatnik", podatnik).setParameter("typdokumentu", typdokumentu).getResultList();
             if (!wynik.isEmpty()) {
                 return wynik.get(wynik.size() - 1);
             } else {
@@ -85,6 +86,22 @@ public class DokDAO extends DAO implements Serializable {
             return null;
         }
     }
+    
+//    public Dok znajdzDuplikatwtrakcieRok(Dok selD, Podatnik podatnik, String typdokumentu, String rok) {
+//         List<Dok> wynik = null;
+//        try {
+//            wynik =  getEntityManager().createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("nip", selD.getKontr()
+//                    .getNip()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("rok", rok).setParameter("podatnik", podatnik).setParameter("typdokumentu", typdokumentu).getResultList();
+//            if (!wynik.isEmpty()) {
+//                return wynik.get(wynik.size() - 1);
+//            } else {
+//                return null;
+//            }
+//        } catch (Exception e) {
+//            E.e(e);
+//            return null;
+//        }
+//    }
 
     public List<Dok> zwrocBiezacegoKlienta(Podatnik pod) {
         List<Dok> zwrot = null;
