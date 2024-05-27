@@ -606,7 +606,7 @@ public class KalendarzmiesiacBean {
                         naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                         naliczenienieobecnosc.setJakiskladnikredukowalny(naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpispelny());
                         double skladnikistalenetto = 0.0;
-                        if (nieobecnosc.getSredniazmiennerecznie() > 0.0) {
+                         if (nieobecnosc.getSredniazmiennerecznie() > 0.0) {
                             double sredniadopodstawy = nieobecnosc.getSredniazmiennerecznie();
                             naliczenienieobecnosc.setPodstawadochoroby(sredniadopodstawy);
                             double procentzazwolnienie = Z.z4(nieobecnosc.getZwolnienieprocent() / 100.0);

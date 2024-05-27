@@ -1280,7 +1280,8 @@ private static final long serialVersionUID = 1L;
         if (pasek!=null) {
             for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
                 if (p.getSkladnikwynagrodzenia().equals(skladnikwynagrodzenia)) {
-                    if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("CH")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("ZC")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("W")) {
+                    if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("CH")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("ZC")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("W")
+                            ||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UM")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UR")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UO")) {
                         kwota = p.getPodstawadochoroby();
                     }
                 }
@@ -1298,7 +1299,8 @@ private static final long serialVersionUID = 1L;
         if (pasek!=null) {
             for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
                 if (p.getSkladnikwynagrodzenia().equals(skladnikwynagrodzenia)) {
-                    if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("CH")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("ZC")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("W")) {
+                    if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("CH")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("ZC")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("W")
+                            ||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UM")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UR")||p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UO")) {
                         kwota = p.getSumakwotdosredniej();
                     }
                 }
