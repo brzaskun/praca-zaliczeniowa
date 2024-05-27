@@ -29,7 +29,7 @@
                 <f:selectItems value="#{roki.rokiList}"/>
             </p:selectOneMenu>
         </p:panelGrid>
-        <p:panelGrid columns="1" style="max-width: 1850px">
+        <p:panelGrid columns="1" style="max-width: 1880px">
             <h:outputText value="brak listy dokumentów domyślnych na ten rok" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="color: green;"/>
             <p:commandButton value="generuj" actionListener="#{rodzajedokView.generujliste}" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="width: 120px;;" update="@form"/>
             <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  rows="15"
@@ -126,12 +126,12 @@
                         <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
                     </p:selectBooleanCheckbox>
                 </p:column>
-                 <p:column headerText="wnt" style="text-align: center;">
+                 <p:column headerText="wnt wdt" style="text-align: center;">
                     <p:selectBooleanCheckbox value="#{loop.rdwdtwnt}">
                         <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
                     </p:selectBooleanCheckbox>
                 </p:column>
-                 <p:column headerText="export" style="text-align: center;">
+                 <p:column headerText="export import" style="text-align: center;">
                     <p:selectBooleanCheckbox value="#{loop.rdimportexport}">
                         <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
                     </p:selectBooleanCheckbox>
@@ -143,6 +143,11 @@
                 </p:column>
                  <p:column headerText="niemcy" style="text-align: center;">
                     <p:selectBooleanCheckbox value="#{loop.rdniemcy}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                 <p:column headerText="aktywny" style="text-align: center;">
+                     <p:selectBooleanCheckbox value="#{loop.aktywny}">
                         <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
                     </p:selectBooleanCheckbox>
                 </p:column>

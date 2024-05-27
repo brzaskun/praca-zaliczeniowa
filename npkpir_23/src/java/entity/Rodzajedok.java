@@ -83,6 +83,8 @@ public class Rodzajedok implements Serializable {
     private boolean rdimportexport;
     @Column(name = "rdimportexportuslugi")
     private boolean rdimportexportuslugi;
+    @Column(name = "aktywny")
+    private boolean aktywny;
     @Size(max = 255)
     @Column(name = "wzorzec")
     private String wzorzec;
@@ -167,6 +169,7 @@ public class Rodzajedok implements Serializable {
         this.tylkovat = rodzajedok.isTylkovat();
         this.tylkojpk = rodzajedok.isTylkojpk();
         this.tylkopodatkowo = rodzajedok.isTylkopodatkowo();
+        this.aktywny = rodzajedok.isAktywny();
         this.setRdprzychod(rodzajedok.isRdprzychod());
         this.setRdkoszt(rodzajedok.isRdkoszt());
         this.setRdplatnosc(rodzajedok.isRdplatnosc());
@@ -248,6 +251,14 @@ public class Rodzajedok implements Serializable {
 
     public void setRdprosty(boolean rdprosty) {
         this.rdprosty = rdprosty;
+    }
+
+    public boolean isAktywny() {
+        return aktywny;
+    }
+
+    public void setAktywny(boolean aktywny) {
+        this.aktywny = aktywny;
     }
 
     

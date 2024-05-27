@@ -1462,6 +1462,10 @@ public class PodatnikView implements Serializable {
                                         r.setRdprosty(tmp.isRdprosty());
                                         zachowaj = true;
                                     }
+                                     if (r.isAktywny()!=tmp.isAktywny()) {
+                                        r.setAktywny(tmp.isAktywny());
+                                        zachowaj = true;
+                                    }
                                     if (zachowaj) {
                                         rodzajedokDAO.edit(r);
                                     }
@@ -1488,6 +1492,7 @@ public class PodatnikView implements Serializable {
                                 nowy.setRdimportexportuslugi(tmp.isRdimportexportuslugi());
                                 nowy.setRdniemcy(tmp.isRdniemcy());
                                 nowy.setRdprosty(tmp.isRdprosty());
+                                nowy.setAktywny(tmp.isAktywny());
                                 rodzajedokDAO.create(nowy);
                                 dokumentyBiezacegoPodatnika.add(nowy);
                             }

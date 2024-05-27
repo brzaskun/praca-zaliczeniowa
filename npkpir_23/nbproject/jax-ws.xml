@@ -102,7 +102,7 @@
         </wsimport-option>
       </wsimport-options>
     </client>
-    <client name="">
+    <client name="wsdlnipvat">
       <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wsdlnipvat.wsdl</wsdl-url>
       <local-wsdl-file>wsdlnipvat.wsdl</local-wsdl-file>
       <package-name>pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat.2018.03.01</package-name>
