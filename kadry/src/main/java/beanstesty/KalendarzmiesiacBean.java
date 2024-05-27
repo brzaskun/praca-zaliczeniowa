@@ -180,7 +180,8 @@ public class KalendarzmiesiacBean {
         } else if (nieobecnosc.getRodzajnieobecnosci().isNieplatny()) {
             naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "X");
         } else if (nieobecnosc.getKod().equals("D")) {
-            naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "D");
+            //to jest chyba zbede bo teraz zmienne inaczej sie wyliczaja
+           // naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "D");
         }
     }
 
@@ -217,7 +218,8 @@ public class KalendarzmiesiacBean {
                     naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, kod);
                 } else if (kod.equals("D")) {
                     //rozpoczęcie umowy w trakcie meisiąca
-                    naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "D");
+                    // ta funkcja i tak nie działa na "D"
+                    //naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "D");
                 } else if (kod.equals("Z")) {
                     //oddelegowanie
                     naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen, "Z");
