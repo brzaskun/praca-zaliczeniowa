@@ -10,7 +10,7 @@
         <h:form id="form6" >
             <h:outputText value="Rodzaje dokumentów księgowych" style="font-size: 15px"/>
             <p:growl life="3600"  id="messages" />
-            <p:panelGrid columns="1" style="width: 1250px">
+            <p:panelGrid columns="1" style="width: 1350px">
                 <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
                              style="height: 300px; overflow-y: scroll" selectionMode="single" rowKey="#{loop.id}"
                              sortBy="#{loop.skrotNazwyDok}"
@@ -67,10 +67,37 @@
                     <p:column headerText="konto RZiS" style="text-align: center;" width="50" rendered="#{WpisView.ksiegirachunkowe}">
                         <h:outputText value="#{loop.kontoRZiS.pelnynumer}" />
                     </p:column>
+                    <p:column headerText="przych." style="text-align: center;" width="30">
+                        <h:outputText value="&#x2713;" style="color: green;background-color: lightgreen; font-weight: 900;" rendered="#{loop.rdprzychod}"/>
+                    </p:column>
+                    <p:column headerText="koszt" style="text-align: center;" width="30">
+                        <h:outputText value="&#x2713;" style="color: green;background-color: lightgreen; font-weight: 900;" rendered="#{loop.rdkoszt}"/>
+                    </p:column>
+                    <p:column headerText="płat." style="text-align: center;" width="30">
+                        <h:outputText value="&#x2713;" style="color: green;background-color: lightgreen; font-weight: 900;" rendered="#{loop.rdplatnosc}"/>
+                    </p:column>
+                    <p:column headerText="prost." style="text-align: center;" width="30">
+                        <h:outputText value="&#x2713;" style="color: green;background-color: lightgreen; font-weight: 900;" rendered="#{loop.rdprosty}"/>
+                    </p:column>
+                    <p:column headerText="vat" style="text-align: center;" width="30">
+                        <h:outputText value="&#x2713;" style="color: green;background-color: lightgreen; font-weight: 900;" rendered="#{loop.rdvat}"/>
+                    </p:column>
+                    <p:column headerText="wnt" style="text-align: center;" width="30">
+                        <h:outputText value="&#x2713;" style="color: green;background-color: lightgreen; font-weight: 900;" rendered="#{loop.rdwdtwnt}"/>
+                    </p:column>
+                    <p:column headerText="imp." style="text-align: center;" width="30">
+                        <h:outputText value="&#x2713;" style="color: green;background-color: lightgreen; font-weight: 900;" rendered="#{loop.rdimportexport}"/>
+                    </p:column>
+                    <p:column headerText="im.usł" style="text-align: center;" width="30">
+                        <h:outputText value="&#x2713;" style="color: green;background-color: lightgreen; font-weight: 900;" rendered="#{loop.rdimportexportuslugi}"/>
+                    </p:column>
+                     <p:column headerText="DE" style="text-align: center;" width="30">
+                        <h:outputText value="&#x2713;" style="color: green;background-color: lightgreen; font-weight: 900;" rendered="#{loop.rdniemcy}"/>
+                    </p:column>
                     <p:column id="deleteColumn" headerText="usuń" style="text-align: center; width: 50px;">
                         <p:commandButton actionListener="#{podatnikView.usunDokKsi(loop)}" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
                     </p:column>
-                    <br/>
+                    
                 </p:dataTable>
             </p:panelGrid>
         </h:form>

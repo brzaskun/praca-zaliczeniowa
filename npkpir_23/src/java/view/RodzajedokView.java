@@ -147,6 +147,16 @@ public class RodzajedokView implements Serializable {
 
     }
     
+    public void edytujwiersz(Rodzajedok wprowadzany) {
+        try {
+            rodzajedokDAO.edit(wprowadzany);
+            Msg.msg("Wyedytowano rodzaj dokumentu: " + wprowadzany.getNazwa());
+        } catch (Exception e) { E.e(e); 
+            Msg.msg("e", "Niewyedytowano rodzaju dokumentu. Wystąpił błąd");
+        }
+
+    }
+    
     public void resetuj() {
         try {
             wprowadzany = new Rodzajedok();

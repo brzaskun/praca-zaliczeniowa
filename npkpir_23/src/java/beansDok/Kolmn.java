@@ -28,6 +28,7 @@ public class Kolmn implements Serializable{
     private static final List<String> kolumnST;
     private static final List<String> kolumnSTsprz;
     private static final List<String> kolumnRyczalt;
+    private static final List<String> kolumnNiemcy;
 
     static{
         kolumnList = Collections.synchronizedList(new ArrayList<>());
@@ -42,6 +43,10 @@ public class Kolmn implements Serializable{
         //kolumnList.add("wynik");
         kolumnList.add("inwestycje");
         kolumnList.add("uwagi");
+        
+        kolumnNiemcy = Collections.synchronizedList(new ArrayList<>());
+        kolumnNiemcy.add("przychody Niemcy");
+        kolumnNiemcy.add("koszty Niemcy");
         
         kolumnZest = Collections.synchronizedList(new ArrayList<>());
         kolumnZest.add("przych. sprz");

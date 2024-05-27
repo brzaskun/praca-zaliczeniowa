@@ -65,6 +65,24 @@ public class Rodzajedok implements Serializable {
     @Size(max = 255)
     @Column(name = "rodzajtransakcji")
     private String rodzajtransakcji;
+    @Column(name = "rdprzychod")
+    private boolean rdprzychod;
+    @Column(name = "rdkoszt")
+    private boolean rdkoszt;
+    @Column(name = "rdplatnosc")
+    private boolean rdplatnosc;
+    @Column(name = "rdprosty")
+    private boolean rdprosty;
+    @Column(name = "rdvat")
+    private boolean rdvat;
+    @Column(name = "rdniemcy")
+    private boolean rdniemcy;
+    @Column(name = "rdwdtwnt")
+    private boolean rdwdtwnt;
+    @Column(name = "rdimportexport")
+    private boolean rdimportexport;
+    @Column(name = "rdimportexportuslugi")
+    private boolean rdimportexportuslugi;
     @Size(max = 255)
     @Column(name = "wzorzec")
     private String wzorzec;
@@ -149,6 +167,87 @@ public class Rodzajedok implements Serializable {
         this.tylkovat = rodzajedok.isTylkovat();
         this.tylkojpk = rodzajedok.isTylkojpk();
         this.tylkopodatkowo = rodzajedok.isTylkopodatkowo();
+        this.setRdprzychod(rodzajedok.isRdprzychod());
+        this.setRdkoszt(rodzajedok.isRdkoszt());
+        this.setRdplatnosc(rodzajedok.isRdplatnosc());
+        this.setRdvat(rodzajedok.isRdvat());
+        this.setRdwdtwnt(rodzajedok.isRdwdtwnt());
+        this.setRdimportexport(rodzajedok.isRdimportexport());
+        this.setRdimportexportuslugi(rodzajedok.isRdimportexportuslugi());
+        this.setRdniemcy(rodzajedok.isRdniemcy());
+        this.setRdprosty(rodzajedok.isRdprosty());
+    }
+
+    public boolean isRdprzychod() {
+        return rdprzychod;
+    }
+
+    public void setRdprzychod(boolean rdprzychod) {
+        this.rdprzychod = rdprzychod;
+    }
+
+    public boolean isRdkoszt() {
+        return rdkoszt;
+    }
+
+    public void setRdkoszt(boolean rdkoszt) {
+        this.rdkoszt = rdkoszt;
+    }
+
+    public boolean isRdplatnosc() {
+        return rdplatnosc;
+    }
+
+    public void setRdplatnosc(boolean rdplatnosc) {
+        this.rdplatnosc = rdplatnosc;
+    }
+
+    public boolean isRdvat() {
+        return rdvat;
+    }
+
+    public void setRdvat(boolean rdvat) {
+        this.rdvat = rdvat;
+    }
+
+    public boolean isRdniemcy() {
+        return rdniemcy;
+    }
+
+    public void setRdniemcy(boolean rdniemcy) {
+        this.rdniemcy = rdniemcy;
+    }
+
+    public boolean isRdwdtwnt() {
+        return rdwdtwnt;
+    }
+
+    public void setRdwdtwnt(boolean rdwdtwnt) {
+        this.rdwdtwnt = rdwdtwnt;
+    }
+
+    public boolean isRdimportexport() {
+        return rdimportexport;
+    }
+
+    public void setRdimportexport(boolean rdimportexport) {
+        this.rdimportexport = rdimportexport;
+    }
+
+    public boolean isRdimportexportuslugi() {
+        return rdimportexportuslugi;
+    }
+
+    public void setRdimportexportuslugi(boolean rdimportexportuslugi) {
+        this.rdimportexportuslugi = rdimportexportuslugi;
+    }
+
+    public boolean isRdprosty() {
+        return rdprosty;
+    }
+
+    public void setRdprosty(boolean rdprosty) {
+        this.rdprosty = rdprosty;
     }
 
     

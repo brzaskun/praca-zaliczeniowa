@@ -29,11 +29,13 @@
                 <f:selectItems value="#{roki.rokiList}"/>
             </p:selectOneMenu>
         </p:panelGrid>
-        <p:panelGrid columns="1" style="max-width: 1450px">
+        <p:panelGrid columns="1" style="max-width: 1850px">
             <h:outputText value="brak listy dokumentów domyślnych na ten rok" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="color: green;"/>
             <p:commandButton value="generuj" actionListener="#{rodzajedokView.generujliste}" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="width: 120px;;" update="@form"/>
-            <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  style="height: 500px;overflow-y: scroll" 
-                         selection="#{rodzajedokView.selected}" rowKey="#{loop.skrotNazwyDok}" selectionMode="single" rendered="#{rodzajedokView.listaWspolnych.size() gt 0}">
+            <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  rows="15"
+                         selection="#{rodzajedokView.selected}" rowKey="#{loop.skrotNazwyDok}" selectionMode="single" rendered="#{rodzajedokView.listaWspolnych.size() gt 0}"
+                         paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                                     rowsPerPageTemplate="15,30,45,60" paginatorPosition="top" paginator="true">
                 <p:ajax event="rowSelect" listener="#{rodzajedokView.skopiujwierszdoedycji}"/>
                 <f:facet name="header">
                     <h:outputText value="Lista utworzonych dokumentów"/>
@@ -47,7 +49,7 @@
                 <p:column headerText="rok dokumentu">
                     <h:outputText value="#{loop.rok}" />
                 </p:column>
-                <p:column headerText="rodzaj transakcji">
+                <p:column headerText="rodzaj transakcji" sortBy="#{loop.rodzajtransakcji}" filterBy="#{loop.rodzajtransakcji}" filterMatchMode="contains">
                     <h:outputText value="#{loop.rodzajtransakcji}" />
                 </p:column>
                 <p:column headerText="zastosowany wzorzec" style="text-align: center;">
@@ -99,7 +101,55 @@
                 <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                     <p:commandButton actionListener="#{rodzajedokView.destroy(loop)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
                 </p:column>
-                <br/>
+                <p:column headerText="przychód" style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{loop.rdprzychod}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column headerText="koszt" style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{loop.rdkoszt}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column headerText="płatność" style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{loop.rdprzychod}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column headerText="prosty" style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{loop.rdprosty}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column headerText="vat" style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{loop.rdvat}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                 <p:column headerText="wnt" style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{loop.rdwdtwnt}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                 <p:column headerText="export" style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{loop.rdimportexport}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                 <p:column headerText="exp.usł." style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{loop.rdimportexportuslugi}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                 <p:column headerText="niemcy" style="text-align: center;">
+                    <p:selectBooleanCheckbox value="#{loop.rdniemcy}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{rodzajedokView.edytujwiersz(loop)}"/>
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column headerText="skrót" sortBy="#{loop.skrotNazwyDok}"  style="text-align: center;">
+                    <h:outputText value="#{loop.skrotNazwyDok}" />
+                </p:column>
+                
             </p:dataTable>
         </p:panelGrid>
         <br/> 

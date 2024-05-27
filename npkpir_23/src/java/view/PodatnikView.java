@@ -1426,6 +1426,42 @@ public class PodatnikView implements Serializable {
                                         r.setOznaczenie2(tmp.getOznaczenie2());
                                         zachowaj = true;
                                     }
+                                    if (r.isRdprzychod()!=tmp.isRdprzychod()) {
+                                        r.setRdprzychod(tmp.isRdprzychod());
+                                        zachowaj = true;
+                                    }
+                                    if (r.isRdkoszt()!=tmp.isRdkoszt()) {
+                                        r.setRdkoszt(tmp.isRdkoszt());
+                                        zachowaj = true;
+                                    }
+                                    if (r.isRdplatnosc()!=tmp.isRdplatnosc()) {
+                                        r.setRdplatnosc(tmp.isRdplatnosc());
+                                        zachowaj = true;
+                                    }
+                                    if (r.isRdvat()!=tmp.isRdvat()) {
+                                        r.setRdvat(tmp.isRdvat());
+                                        zachowaj = true;
+                                    }
+                                    if (r.isRdwdtwnt()!=tmp.isRdwdtwnt()) {
+                                        r.setRdwdtwnt(tmp.isRdwdtwnt());
+                                        zachowaj = true;
+                                    }
+                                    if (r.isRdimportexport()!=tmp.isRdimportexport()) {
+                                        r.setRdimportexport(tmp.isRdimportexport());
+                                        zachowaj = true;
+                                    }
+                                    if (r.isRdimportexportuslugi()!=tmp.isRdimportexportuslugi()) {
+                                        r.setRdimportexportuslugi(tmp.isRdimportexportuslugi());
+                                        zachowaj = true;
+                                    }
+                                    if (r.isRdniemcy()!=tmp.isRdniemcy()) {
+                                        r.setRdniemcy(tmp.isRdniemcy());
+                                        zachowaj = true;
+                                    }
+                                    if (r.isRdprosty()!=tmp.isRdprosty()) {
+                                        r.setRdprosty(tmp.isRdprosty());
+                                        zachowaj = true;
+                                    }
                                     if (zachowaj) {
                                         rodzajedokDAO.edit(r);
                                     }
@@ -1443,6 +1479,15 @@ public class PodatnikView implements Serializable {
                                 nowy.setOznaczenie2(tmp.getOznaczenie2());
                                 nowy.setTylkojpk(tmp.isTylkojpk());
                                 nowy.setTylkopodatkowo(tmp.isTylkopodatkowo());
+                                nowy.setRdprzychod(tmp.isRdprzychod());
+                                nowy.setRdkoszt(tmp.isRdkoszt());
+                                nowy.setRdplatnosc(tmp.isRdplatnosc());
+                                nowy.setRdvat(tmp.isRdvat());
+                                nowy.setRdwdtwnt(tmp.isRdwdtwnt());
+                                nowy.setRdimportexport(tmp.isRdimportexport());
+                                nowy.setRdimportexportuslugi(tmp.isRdimportexportuslugi());
+                                nowy.setRdniemcy(tmp.isRdniemcy());
+                                nowy.setRdprosty(tmp.isRdprosty());
                                 rodzajedokDAO.create(nowy);
                                 dokumentyBiezacegoPodatnika.add(nowy);
                             }
