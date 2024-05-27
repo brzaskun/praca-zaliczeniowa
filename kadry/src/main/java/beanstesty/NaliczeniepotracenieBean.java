@@ -41,8 +41,12 @@ public class NaliczeniepotracenieBean {
             if (DataBean.czysiemiesci(kalendarz.getPierwszyDzien(), kalendarz.getOstatniDzien(), p.getDataod(), p.getDatado())) {
                 double ilemoznaprocent = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
                 double wolneodzajecia = wolneodzajeciaustawa;
-                if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")&&p.isMaxustawowy()==false) {
+                if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("UZ")) {
                     ilemoznaprocent = skladnikpotracenia.getRodzajpotracenia().getLimitumowazlecenia();
+                    wolneodzajecia = 0.0;
+                    if (p.isMaxustawowy())  {
+                        ilemoznaprocent = skladnikpotracenia.getRodzajpotracenia().getLimitumowaoprace();
+                    }
                 }
                 if (pasekwynagrodzen.getDefinicjalistaplac().getRodzajlistyplac().getSymbol().equals("ZA")) {
                     wolneodzajecia = wolneodzajeciazasilek;
