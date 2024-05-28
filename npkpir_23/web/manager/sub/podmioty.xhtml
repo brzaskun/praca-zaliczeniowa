@@ -155,8 +155,10 @@
             <h1><h:outputText value="Dodaj nowy podmiot"/></h1>
             <p:panelGrid columns="2">
                 <h:form id="formbuton">
-                    <p:commandButton value="osoba fizyczna"  actionListener="#{podmiotView.setOsobafizyczna(true)}" update="akordeon:formdodaj:panel" style="width: 120px;" onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
-                    <p:commandButton value="osoba prawna" actionListener="#{podmiotView.setOsobafizyczna(false)}" update="akordeon:formdodaj:panel" style="width: 120px;" onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
+                    <p:commandButton value="osoba fizyczna"  actionListener="#{podmiotView.setOsobafizyczna(true)}" update="akordeon:formdodaj:panel" style="width: 120px;"
+                                     onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
+                    <p:commandButton value="osoba prawna" actionListener="#{podmiotView.setOsobafizyczna(false)}" update="akordeon:formdodaj:panel" 
+                                     style="width: 120px;" onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
                 </h:form>
             </p:panelGrid>
             <h:form id="formdodaj">

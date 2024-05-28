@@ -311,7 +311,7 @@ public class PodmiotView implements Serializable {
     }
     
     public void dodajnowy() {
-        if (nowy!=null && nowy.getNazwa().equals("TAKI PODMIOT JUŻ ISTNIEJE")) {
+        if (nowy!=null && nowy.getNazwa().equals("TAKI PODMIOT JUŻ ISTNIEJE")==false) {
             if (nowy.getNip()==null&&nowy.getPesel()!=null) {
                 Msg.msg("e","Błąd. Należy wprowadzić albo NIP albo Pesel");
             } else {
@@ -401,6 +401,9 @@ public class PodmiotView implements Serializable {
 
     public void setOsobafizyczna(boolean osobafizyczna) {
         this.osobafizyczna = osobafizyczna;
+        nowy = new Podmiot();
+        nowy.setPin("1234");
+        nowy.setKrajrezydencji("PL");
     }
 
     public List<PodatnikUdzialy> getPodatnikUdzialy() {
