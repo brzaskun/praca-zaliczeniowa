@@ -1207,9 +1207,11 @@ public class PlanKontView implements Serializable {
                         }
                         kontoDAOfk.editList(kontapotomnePorzadek);
                         kontopozycjaZapisDAO.editList(nowepozycje);
+                        Msg.msg("Przejrzano potomków");
                     } else {
                         selectednodekonto.setMapotomkow(false);
                         kontoDAOfk.edit(selectednodekonto);
+                        Msg.msg("Konto bez potomków");
                     }
                 }
             } else {
