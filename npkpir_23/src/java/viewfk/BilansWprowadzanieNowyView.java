@@ -533,6 +533,9 @@ public class BilansWprowadzanieNowyView implements Serializable {
             } else {
                 podsumujWnMa(listaBO, listaBOsumy);
             }
+            if (wierszBO.getId()!=null) {
+                wierszDAO.remove(wierszBO);
+            }
             Msg.msg("Usunięto zapis BO z tabeli");
         } catch (Exception e) {
             E.e(e);

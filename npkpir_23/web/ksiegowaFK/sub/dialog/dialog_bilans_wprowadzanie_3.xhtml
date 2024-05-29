@@ -39,7 +39,7 @@
     <p:dialog id="bilanswprowadzanienowy" header="Bilans otwarcia/Obroty rozpoczęcia - wprowadzanie sald - #{WpisView.podatnikObiekt.nazwapelnaPDF}"
               widgetVar="bilanswprowadzanienowy"
               appendTo="@(body)" style="overflow-y: hidden;"
-              resizable="false" onShow="ustawdialog('bilanswprowadzanienowy','menubilanse', 1700, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanienowy');"
+              resizable="false" onShow="ustawdialog('bilanswprowadzanienowy','menudokumenty', 1700, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanienowy');"
               maximizable="true">
         <h:form id="formbilanswprowadzanienowy_wiersz">
             <p:outputPanel rendered="#{bilansWprowadzanieNowyView.tojestbilanslikwidacyjny}" id="uwaga">
@@ -239,7 +239,7 @@
                     <f:facet name="header">
                         <h:outputText value="kurs"/>
                     </f:facet>
-                    <bcf:outputkurs value="#{item.kursBO}"  rendered="#{item.kursBO ne 'PLN'}"/>
+                    <bcf:outputkurs value="#{item.wiersz.tabelanbp.kurssredni}"  rendered="#{item.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <f:facet name="header">
@@ -292,7 +292,7 @@
                 </p:column>
                 <p:column style="text-align: center;" width="40">
                     <f:facet name="header">
-                        <h:outputText value="usuń tym."/>
+                        <h:outputText value="usuń"/>
                     </f:facet>
                     <p:commandButton icon="fa fa-trash" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieNowyView.usunwierszN(item)}"
                                      update="formbilanswprowadzanienowy "

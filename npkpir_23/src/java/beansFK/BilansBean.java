@@ -267,19 +267,19 @@ public class BilansBean {
                 p.setBilanszamkniecia(true);
                 //przetwarzamy tylko wiersze ktorych nie ma w bazie
                 if (p != null && (p.getKwotaWn() != 0.0 || p.getKwotaMa() != 0.0 || p.getKwotaPLN() != 0.0 || p.getKwotaPLN() != 0.0)) {
-                    Wiersz wierszstary = p.getWiersz();
-                    Wiersz w = new Wiersz();
+                    Wiersz wierszstary = starastrona.getWiersz();
+                    Wiersz nowywiersz = new Wiersz();
                     if (wierszstary!=null) {
-                        w.setTabelanbp(wierszstary.getTabelanbp());
+                        nowywiersz.setTabelanbp(wierszstary.getTabelanbp());
                     } else {
-                        w.setTabelanbp(p.getTabelanbp());
+                        nowywiersz.setTabelanbp(p.getTabelanbp());
                     }
                     if (p.getWnma().equals("Wn")) {
-                        w.setStronaWn(p);
+                        nowywiersz.setStronaWn(p);
                     } else {
-                        w.setStronaMa(p);
+                        nowywiersz.setStronaMa(p);
                     }
-                    uzupelnijwiersz(w, nd, idporzadkowy++);
+                    uzupelnijwiersz(nowywiersz, nd, idporzadkowy++);
                     String opiswiersza = "";
                     String opiswstepny = p.getWiersz()!=null?p.getWiersz().getOpisWiersza():"";
                     if (opiswstepny!=null) {
@@ -295,8 +295,9 @@ public class BilansBean {
                     } else if (seriadokumentu.equals("BZ")) {
                         opiswiersza = "zapis BZ: " + opiswstepny;
                     }
-                    w.setOpisWiersza(opiswiersza);
-                    nd.getListawierszy().add(w);
+                    nowywiersz.setOpisWiersza(opiswiersza);
+                    p.setWiersz(nowywiersz);
+                    nd.getListawierszy().add(nowywiersz);
                 }
             }
         }
