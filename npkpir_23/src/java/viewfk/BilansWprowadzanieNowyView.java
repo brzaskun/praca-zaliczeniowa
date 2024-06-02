@@ -526,15 +526,13 @@ public class BilansWprowadzanieNowyView implements Serializable {
     
     public void usunwierszN(StronaWiersza wierszBO) {
         try {
-            usuwaniejeden(listaBO, wierszBO);
+            dokumentBO = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), seriadokumentu, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            usuwaniejeden(listaBO, dokumentBO, wierszBO);
             if (listaBOFiltered != null) {
                 listaBOFiltered.remove(wierszBO);
                 podsumujWnMa(listaBOFiltered, listaBOsumy);
             } else {
                 podsumujWnMa(listaBO, listaBOsumy);
-            }
-            if (wierszBO.getId()!=null) {
-                wierszDAO.remove(wierszBO);
             }
             Msg.msg("Usunięto zapis BO z tabeli");
         } catch (Exception e) {
@@ -569,9 +567,16 @@ public class BilansWprowadzanieNowyView implements Serializable {
     
     
        //usuwanie w filtrowanych jest tak gdzie wywolujaca
-    private void usuwaniejeden(List<StronaWiersza> l, StronaWiersza wierszBO) {
+    private void usuwaniejeden(List<StronaWiersza> stronyBOlista ,Dokfk dokument, StronaWiersza stronaBO) {
         try {
-            l.remove(wierszBO);
+            List<Wiersz> listawierszy = dokument.getListawierszy();
+            stronyBOlista.remove(stronaBO);
+            for (Wiersz w : listawierszy) {
+                if (stronaBO.getWiersz().equals(w)) {
+                    listawierszy.remove(w);
+                    dokDAOfk.edit(dokument);
+                }
+            }
         } catch (Exception e) {
 
         }
