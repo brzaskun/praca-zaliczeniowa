@@ -1661,8 +1661,8 @@ public class PlanKontView implements Serializable {
                         p.setZwyklerozrachszczegolne(selectednodekontoL.getZwyklerozrachszczegolne());
                         p.setDwasalda(selectednodekontoL.isDwasalda());
                         p.setRozrachunkowe(selectednodekontoL.isRozrachunkowe());
-                        if (selectednodekontoL.isWynik0bilans1()==false) {
-                            p.setSyntetykaanalityka("syntetyczne");
+                        if (selectednodekontoL.isWynik0bilans1()==true&&selectednodekontoL.getSyntetykaanalityka().equals("zwykłe")) {
+                            p.setSyntetykaanalityka("syntetyka");
                         }
                         p.setBilansowewynikowe(selectednodekontoL.getBilansowewynikowe());
                         if (usunprzyporzadkowanie) {

@@ -291,6 +291,8 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Column(name = "zwyklerozrachszczegolne")
     private String zwyklerozrachszczegolne;
     //typ konta
+    @Column(name = "saldodosprawozdania")
+    private boolean saldodosprawozdania;
     @Column(name = "dwasalda")
     private boolean dwasalda;
     @Column(name = "rozrachunkowe")
