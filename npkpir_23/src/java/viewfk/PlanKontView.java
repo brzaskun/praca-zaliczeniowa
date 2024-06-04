@@ -1656,6 +1656,7 @@ public class PlanKontView implements Serializable {
             try {
                 List<Konto> kontapotomne = wykazkont.stream().filter(p->p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(selectednodekontoL)).collect(Collectors.toList());
                 List<KontopozycjaZapis> pozycjedousuniecia = new ArrayList<>();
+                List<KontopozycjaZapis> pozycjedoedycji = new ArrayList<>();
                 for (Konto p : kontapotomne) {
                     if (p != null) {
                         p.setZwyklerozrachszczegolne(selectednodekontoL.getZwyklerozrachszczegolne());
@@ -1663,8 +1664,18 @@ public class PlanKontView implements Serializable {
                         p.setRozrachunkowe(selectednodekontoL.isRozrachunkowe());
                         if (selectednodekontoL.isWynik0bilans1()==true&&selectednodekontoL.getSyntetykaanalityka().equals("zwykłe")) {
                             p.setSyntetykaanalityka("syntetyka");
+                            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, wybranyukladL);
+                            if (kp != null) {
+                                kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
+                                pozycjedoedycji.add(kp);
+                            }
                         } else if (selectednodekontoL.isWynik0bilans1()==true&&selectednodekontoL.getSyntetykaanalityka().equals("analityka")) {
                             p.setSyntetykaanalityka("zwykłe");
+                            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, wybranyukladL);
+                            if (kp != null) {
+                                kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
+                                pozycjedoedycji.add(kp);
+                            }
                         }
                         p.setBilansowewynikowe(selectednodekontoL.getBilansowewynikowe());
                         if (usunprzyporzadkowanie) {
@@ -1673,6 +1684,9 @@ public class PlanKontView implements Serializable {
                                 pozycjedousuniecia.add(kp);
                             }
                             p.czyscPozycje();
+                        }
+                        if (pozycjedoedycji.isEmpty()==false) {
+                            kontopozycjaZapisDAO.editList(pozycjedoedycji);
                         }
                     }
                 }
