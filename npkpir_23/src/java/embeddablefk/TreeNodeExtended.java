@@ -318,6 +318,10 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         List<TreeNodeExtended> finallNodes = Collections.synchronizedList(new ArrayList<>());
         this.getChildrenTreeNode(finallNodestmp, finallNodes);
         for (StronaWiersza stronaWiersza : zapisynakontach) {
+            System.out.println(stronaWiersza.toString());
+            if (stronaWiersza.getId()==4207575) {
+                System.out.println("kuku");
+            }
             String mc = stronaWiersza.getDokfk().getMiesiac();
             if (Mce.getMiesiacToNumber().get(mc) <= Mce.getMiesiacToNumber().get(mckoncowy)) {
                 addNumbersloopNar(stronaWiersza, finallNodes, mc);

@@ -726,6 +726,10 @@ public class DokfkWeryfikacjaView implements Serializable {
             zwrot = false;
             listabrakidaty.add(p);
         }
+        if (p.getMc()==null) {
+            zwrot = false;
+            listabrakidaty.add(p);
+        }
         return zwrot;
     }
 

@@ -213,7 +213,7 @@
                                 </p:column>
                                   <p:column style="text-align: center">
                                     <p:inputText id="miesiac" value="#{dokfkView.selected.miesiac}" style="text-align: center; width: 30px;"
-                                                 maxlength="2" size="3">
+                                                 maxlength="2" size="3" required="true" requiredMessage="Brak miesiaca CIT">
                                         <p:ajax event="change" partialSubmit="true" global="false" />
                                         <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanie}" update="formwpisdokument:miesiac"/>
                                     </p:inputText>
@@ -221,13 +221,13 @@
                                 <p:column style="text-align: center">
                                     <p:inputText id="rok" value="#{dokfkView.selected.rok}" style="text-align: center; width: 40px;"
                                                  onblur="sprawdzmiesiacDialogWpisywanie('#{WpisView.miesiacWpisu}');"
-                                                 maxlength="4" size="5">
+                                                 maxlength="4" size="5" required="true" requiredMessage="Brak rok CIT">
                                         <p:ajax event="change" partialSubmit="true" global="false"/>
                                     </p:inputText>
                                 </p:column>
                                 <p:column style="text-align: center">
                                     <p:inputText id="miesiacVAT" value="#{dokfkView.selected.vatM}" style="text-align: center; width: 30px;"
-                                                 maxlength="2" size="3">
+                                                 maxlength="2" size="3" required="true" requiredMessage="Brak miesiaca VAT">
                                         <p:ajax event="change" partialSubmit="true" global="false" />
                                         <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanievat}" update="formwpisdokument:miesiacVAT"/>
                                     </p:inputText>
@@ -235,7 +235,7 @@
                                 <p:column style="text-align: center">
                                     <p:inputText id="rokVAT" value="#{dokfkView.selected.vatR}" style="text-align: center; width: 40px;"
                                                  onblur="sprawdzmiesiacDialogWpisywanie('#{WpisView.miesiacWpisu}');"
-                                                 maxlength="4" size="5">
+                                                 maxlength="4" size="5" required="true" requiredMessage="Brak rok VAT">
                                         <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanievat}" update="formwpisdokument:rokVAT"/>
                                         <p:ajax event="change" partialSubmit="true" global="false"/>
                                     </p:inputText>
