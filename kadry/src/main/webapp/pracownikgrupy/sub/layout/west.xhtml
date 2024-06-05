@@ -9,7 +9,7 @@
     >
     
         <h:form>
-            <<p:outputPanel><p:panelGrid columns="2"><h:outputText value="tylko moje"/>
+            <p:outputPanel><p:panelGrid columns="2"><h:outputText value="tylko moje"/>
                     <p:selectBooleanCheckbox value="#{firmaView.ukryj}">
                         <p:ajax event="change" listener="#{firmaView.init()}" global="false"  update="@form"/>
                     </p:selectBooleanCheckbox>
