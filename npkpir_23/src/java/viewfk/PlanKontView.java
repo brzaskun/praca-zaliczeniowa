@@ -1657,6 +1657,7 @@ public class PlanKontView implements Serializable {
                 List<Konto> kontapotomne = wykazkont.stream().filter(p->p.getKontomacierzyste()!=null&&p.getKontomacierzyste().equals(selectednodekontoL)).collect(Collectors.toList());
                 List<KontopozycjaZapis> pozycjedousuniecia = new ArrayList<>();
                 List<KontopozycjaZapis> pozycjedoedycji = new ArrayList<>();
+                List<KontopozycjaZapis> pozycjerok = kontopozycjaZapisDAO.findByUklad(wybranyukladL);
                 for (Konto p : kontapotomne) {
                     if (p != null) {
                         p.setZwyklerozrachszczegolne(selectednodekontoL.getZwyklerozrachszczegolne());
@@ -1664,19 +1665,27 @@ public class PlanKontView implements Serializable {
                         p.setRozrachunkowe(selectednodekontoL.isRozrachunkowe());
                         if (selectednodekontoL.isWynik0bilans1()==true&&selectednodekontoL.getSyntetykaanalityka().equals("zwykłe")) {
                             p.setSyntetykaanalityka("syntetyka");
-                            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, wybranyukladL);
+                            KontopozycjaZapis kp = pozycjerok.stream().filter(r->r.getKontoID().equals(p)).findFirst().get();
                             if (kp != null) {
                                 kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
                                 pozycjedoedycji.add(kp);
                             }
                         } else if (selectednodekontoL.isWynik0bilans1()==true&&selectednodekontoL.getSyntetykaanalityka().equals("analityka")) {
                             p.setSyntetykaanalityka("zwykłe");
-                            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, wybranyukladL);
+                            KontopozycjaZapis kp = pozycjerok.stream().filter(r->r.getKontoID().equals(p)).findFirst().get();
+                            if (kp != null) {
+                                kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
+                                pozycjedoedycji.add(kp);
+                            }
+                        }  else if (selectednodekontoL.isWynik0bilans1()==true&&selectednodekontoL.getSyntetykaanalityka().equals("syntetyka")) {
+                            p.setSyntetykaanalityka("syntetyka");
+                            KontopozycjaZapis kp = pozycjerok.stream().filter(r->r.getKontoID().equals(p)).findFirst().get();
                             if (kp != null) {
                                 kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
                                 pozycjedoedycji.add(kp);
                             }
                         }
+                        
                         p.setBilansowewynikowe(selectednodekontoL.getBilansowewynikowe());
                         if (usunprzyporzadkowanie) {
                             KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, wybranyukladL);
