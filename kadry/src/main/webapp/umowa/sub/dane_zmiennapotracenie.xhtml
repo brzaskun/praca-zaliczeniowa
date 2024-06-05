@@ -72,7 +72,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="kwota stała"/>
                                 </f:facet>
-                                <p:inputNumber id="urloplp" value="#{itemzmiennapotr.kwotastala}"  size="10"  maxlength="10" decimalPlaces="1" decimalSeparator="," inputStyle="text-align: right">
+                                <p:inputNumber id="urloplp" value="#{itemzmiennapotr.kwotastala}"  size="10"  maxlength="10" decimalPlaces="2" decimalSeparator="," inputStyle="text-align: right">
                                     <p:ajax event="blur" partialSubmit="true" global="false" update="@parent:@parent" listener="#{zmiennaPotraceniaView.anulujustawowe(itemzmiennapotr)}"/>
                                 </p:inputNumber>
                             </p:column>
