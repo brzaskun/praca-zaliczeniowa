@@ -99,64 +99,66 @@ public class KsiegaBean {
     }
 
     public static void rozliczkolumny(DokKsiega dk, KwotaKolumna1 tmpX, DokKsiega podsumowanie) {
-        switch (tmpX.getNazwakolumny()) {
-                    case "przych. sprz":
-                        try {
-                            dk.setKolumna7(dk.getKolumna7()+tmpX.getNetto());
-                        } catch (Exception e) { 
-                            dk.setKolumna7(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna7(podsumowanie.getKolumna7() + tmpX.getNetto());
-                        break;
-                    case "pozost. przych.":
-                        try {
-                            dk.setKolumna8(dk.getKolumna8()+tmpX.getNetto());
-                        } catch (Exception e) {
-                            dk.setKolumna8(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna8(podsumowanie.getKolumna8() + tmpX.getNetto());
-                        break;
-                    case "zakup tow. i mat.":
-                        try {
-                            dk.setKolumna10(dk.getKolumna10()+tmpX.getNetto());
-                        } catch (Exception e) {
-                            dk.setKolumna10(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna10(podsumowanie.getKolumna10() + tmpX.getNetto());
-                        break;
-                    case "koszty ub.zak.":
-                        try {
-                            dk.setKolumna11(dk.getKolumna11()+tmpX.getNetto());
-                        } catch (Exception e) { 
-                            dk.setKolumna11(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna11(podsumowanie.getKolumna11() + tmpX.getNetto());
-                        break;
-                    case "wynagrodzenia":
-                        try {
-                            dk.setKolumna12(dk.getKolumna12()+tmpX.getNetto());
-                        } catch (Exception e) {
-                            dk.setKolumna12(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna12(podsumowanie.getKolumna12() + tmpX.getNetto());
-                        break;
-                    case "poz. koszty":
-                        try {
-                            dk.setKolumna13(dk.getKolumna13()+tmpX.getNetto());
-                        } catch (Exception e) {
-                            dk.setKolumna13(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna13(podsumowanie.getKolumna13() + tmpX.getNetto());
-                        break;
-                    case "inwestycje":
-                        try {
-                            dk.setKolumna15(dk.getKolumna15()+tmpX.getNetto());
-                        } catch (Exception e) {
-                            dk.setKolumna15(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna15(podsumowanie.getKolumna15() + tmpX.getNetto());
-                        break;
+        if (tmpX != null) {
+            switch (tmpX.getNazwakolumny()) {
+                case "przych. sprz":
+                            try {
+                    dk.setKolumna7(dk.getKolumna7() + tmpX.getNetto());
+                } catch (Exception e) {
+                    dk.setKolumna7(tmpX.getNetto());
                 }
+                podsumowanie.setKolumna7(podsumowanie.getKolumna7() + tmpX.getNetto());
+                break;
+                case "pozost. przych.":
+                            try {
+                    dk.setKolumna8(dk.getKolumna8() + tmpX.getNetto());
+                } catch (Exception e) {
+                    dk.setKolumna8(tmpX.getNetto());
+                }
+                podsumowanie.setKolumna8(podsumowanie.getKolumna8() + tmpX.getNetto());
+                break;
+                case "zakup tow. i mat.":
+                            try {
+                    dk.setKolumna10(dk.getKolumna10() + tmpX.getNetto());
+                } catch (Exception e) {
+                    dk.setKolumna10(tmpX.getNetto());
+                }
+                podsumowanie.setKolumna10(podsumowanie.getKolumna10() + tmpX.getNetto());
+                break;
+                case "koszty ub.zak.":
+                            try {
+                    dk.setKolumna11(dk.getKolumna11() + tmpX.getNetto());
+                } catch (Exception e) {
+                    dk.setKolumna11(tmpX.getNetto());
+                }
+                podsumowanie.setKolumna11(podsumowanie.getKolumna11() + tmpX.getNetto());
+                break;
+                case "wynagrodzenia":
+                            try {
+                    dk.setKolumna12(dk.getKolumna12() + tmpX.getNetto());
+                } catch (Exception e) {
+                    dk.setKolumna12(tmpX.getNetto());
+                }
+                podsumowanie.setKolumna12(podsumowanie.getKolumna12() + tmpX.getNetto());
+                break;
+                case "poz. koszty":
+                            try {
+                    dk.setKolumna13(dk.getKolumna13() + tmpX.getNetto());
+                } catch (Exception e) {
+                    dk.setKolumna13(tmpX.getNetto());
+                }
+                podsumowanie.setKolumna13(podsumowanie.getKolumna13() + tmpX.getNetto());
+                break;
+                case "inwestycje":
+                            try {
+                    dk.setKolumna15(dk.getKolumna15() + tmpX.getNetto());
+                } catch (Exception e) {
+                    dk.setKolumna15(tmpX.getNetto());
+                }
+                podsumowanie.setKolumna15(podsumowanie.getKolumna15() + tmpX.getNetto());
+                break;
+            }
+        }
     }
 
     public static void rozliczkolumnysumaryczne(DokKsiega dk, DokKsiega podsumowanie) {

@@ -213,7 +213,7 @@
                                 </p:column>
                                   <p:column style="text-align: center">
                                     <p:inputText id="miesiac" value="#{dokfkView.selected.miesiac}" style="text-align: center; width: 30px;"
-                                                 maxlength="2" size="3" required="true" requiredMessage="Brak miesiaca CIT">
+                                                 maxlength="2" size="3" required="true" requiredMessage="Brak miesiaca CIT" >
                                         <p:ajax event="change" partialSubmit="true" global="false" />
                                         <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanie}" update="formwpisdokument:miesiac"/>
                                     </p:inputText>
