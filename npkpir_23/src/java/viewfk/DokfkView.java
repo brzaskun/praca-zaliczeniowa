@@ -1180,18 +1180,24 @@ public class DokfkView implements Serializable {
                 } else {
                     selected.getListawierszy().remove(0);
                 }
-                selected.setDataujecia(new Date());
-                dokDAOfk.create(selected);
-                dodajdolistyostatnich(selected);
-                biezacetransakcje = null;
-                //Dokfk dodany = dokDAOfk.findDokfkObj(selected);
-                wykazZaksiegowanychDokumentow.add(selected);
-                resetujDokument();
-                Msg.msg("i", "Dokument dodany");
-                PrimeFaces.current().ajax().update("wpisywaniefooter");
-                PrimeFaces.current().ajax().update("rozrachunki");
-                PrimeFaces.current().ajax().update("formwpisdokument");
-                PrimeFaces.current().executeScript("r('formwpisdokument:data2DialogWpisywanie').select();");
+                if (selected.getMc()!=null&&selected.getMc().isEmpty()==false&&selected.getMc().isBlank()==false) {
+                    selected.setDataujecia(new Date());
+                     dokDAOfk.create(selected);
+                     dodajdolistyostatnich(selected);
+                     biezacetransakcje = null;
+                     //Dokfk dodany = dokDAOfk.findDokfkObj(selected);
+                     wykazZaksiegowanychDokumentow.add(selected);
+                     resetujDokument();
+                     Msg.msg("i", "Dokument dodany");
+                     PrimeFaces.current().ajax().update("wpisywaniefooter");
+                     PrimeFaces.current().ajax().update("rozrachunki");
+                     PrimeFaces.current().ajax().update("formwpisdokument");
+                     PrimeFaces.current().executeScript("r('formwpisdokument:data2DialogWpisywanie').select();");
+                } else {
+                    komunikatywpisdok = "Brak miesiąca w dokumencie. Nie można zapisać dokumentu.";
+                    PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
+                    Msg.msg("e", "Brak miesiąca w dokumencie. Nie można zapisać dokumentu.");
+                }
             } catch (Exception e) {
                 E.e(e);
                 komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
