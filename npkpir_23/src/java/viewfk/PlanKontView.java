@@ -1694,10 +1694,11 @@ public class PlanKontView implements Serializable {
                             }
                             p.czyscPozycje();
                         }
-                        if (pozycjedoedycji.isEmpty()==false) {
-                            kontopozycjaZapisDAO.editList(pozycjedoedycji);
-                        }
+                       
                     }
+                }
+                if (pozycjedoedycji.isEmpty()==false) {
+                    kontopozycjaZapisDAO.editList(pozycjedoedycji);
                 }
                 if (kontapotomne.isEmpty()==false) {
                     kontopozycjaZapisDAO.removeList(pozycjedousuniecia);
