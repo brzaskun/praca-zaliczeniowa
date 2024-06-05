@@ -1665,21 +1665,21 @@ public class PlanKontView implements Serializable {
                         p.setRozrachunkowe(selectednodekontoL.isRozrachunkowe());
                         if (selectednodekontoL.isWynik0bilans1()==true&&selectednodekontoL.getSyntetykaanalityka().equals("zwykłe")) {
                             p.setSyntetykaanalityka("syntetyka");
-                            KontopozycjaZapis kp = pozycjerok.stream().filter(r->r.getKontoID().equals(p)).findFirst().get();
+                            KontopozycjaZapis kp = pozycjerok.stream().filter(r->r.getKontoID().equals(p)).findFirst().orElse(null);
                             if (kp != null) {
                                 kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
                                 pozycjedoedycji.add(kp);
                             }
                         } else if (selectednodekontoL.isWynik0bilans1()==true&&selectednodekontoL.getSyntetykaanalityka().equals("analityka")) {
                             p.setSyntetykaanalityka("zwykłe");
-                            KontopozycjaZapis kp = pozycjerok.stream().filter(r->r.getKontoID().equals(p)).findFirst().get();
+                            KontopozycjaZapis kp = pozycjerok.stream().filter(r->r.getKontoID().equals(p)).findFirst().orElse(null);
                             if (kp != null) {
                                 kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
                                 pozycjedoedycji.add(kp);
                             }
                         }  else if (selectednodekontoL.isWynik0bilans1()==true&&selectednodekontoL.getSyntetykaanalityka().equals("syntetyka")) {
                             p.setSyntetykaanalityka("syntetyka");
-                            KontopozycjaZapis kp = pozycjerok.stream().filter(r->r.getKontoID().equals(p)).findFirst().get();
+                            KontopozycjaZapis kp = pozycjerok.stream().filter(r->r.getKontoID().equals(p)).findFirst().orElse(null);
                             if (kp != null) {
                                 kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
                                 pozycjedoedycji.add(kp);
