@@ -32,6 +32,7 @@ import waluty.Z;
  */
 @Entity
 @NamedQueries({
+    @NamedQuery(name = "WierszBO.findByListaa", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.rok = :rok AND w.mc = :mc"),
     @NamedQuery(name = "WierszBO.findByLista", query = "SELECT w FROM WierszBO w WHERE w.konto.pelnynumer LIKE :grupakonta AND  w.podatnik = :podatnik AND w.rok = :rok AND w.mc = :mc"),
     @NamedQuery(name = "WierszBO.findByListaLikwidacja", query = "SELECT w FROM WierszBO w WHERE w.konto.pelnynumer LIKE :grupakonta AND  w.podatnik = :podatnik AND w.rok = :rok AND w.mc = :mc AND w.otwarcielikwidacji = true"),
     @NamedQuery(name = "WierszBO.findByListaObroty", query = "SELECT w FROM WierszBO w WHERE w.konto.pelnynumer LIKE :grupakonta AND  w.podatnik = :podatnik AND w.rok = :rok AND w.mc = :mc AND w.obrotyrozpoczecia = true"),

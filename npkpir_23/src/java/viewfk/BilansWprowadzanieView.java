@@ -204,54 +204,55 @@ public class BilansWprowadzanieView implements Serializable {
         String rok = wpisView.getRokWpisuSt();
         String mc = wpisView.getMiesiacWpisu();
         walutadomyslna = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+        List<WierszBO> findPodatnikRok = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         this.listaW = Collections.synchronizedList(new ArrayList<>());
         if (wpisView.getPodatnikObiekt().getDataotwarcialikwidacji()!=null && !wpisView.getPodatnikObiekt().getDataotwarcialikwidacji().equals("")) {
             String mcl = Data.getMc(wpisView.getPodatnikObiekt().getDataotwarcialikwidacji());
             wpisView.setMiesiacWpisu(mcl);
         }
-        this.lista0.addAll(wierszBODAO.lista("0%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
+        this.lista0.addAll(findPodatnikRok.stream().filter(p->p.getKonto().getPelnynumer().startsWith("0")==true).collect(Collectors.toList()));
         if (lista0.isEmpty()) {
             this.lista0.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista0);
         }
-        this.lista1.addAll(wierszBODAO.lista("1%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
+        this.lista1.addAll(findPodatnikRok.stream().filter(p->p.getKonto().getPelnynumer().startsWith("1")==true).collect(Collectors.toList()));
         if (lista1.isEmpty()) {
             this.lista1.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista1);
         }
-        this.lista2.addAll(wierszBODAO.lista("2%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
+        this.lista2.addAll(findPodatnikRok.stream().filter(p->p.getKonto().getPelnynumer().startsWith("2")==true).collect(Collectors.toList()));
         if (lista2.isEmpty()) {
             this.lista2.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista2);
         }
-        this.lista3.addAll(wierszBODAO.lista("3%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
+        this.lista3.addAll(findPodatnikRok.stream().filter(p->p.getKonto().getPelnynumer().startsWith("3")==true).collect(Collectors.toList()));
         if (lista3.isEmpty()) {
             this.lista3.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista3);
         }
-        this.lista4.addAll(wierszBODAO.lista("4%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
+        this.lista4.addAll(findPodatnikRok.stream().filter(p->p.getKonto().getPelnynumer().startsWith("4")==true).collect(Collectors.toList()));
         if (lista4.isEmpty()) {
             this.lista4.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista4);
         }
-        this.lista6.addAll(wierszBODAO.lista("6%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
+        this.lista6.addAll(findPodatnikRok.stream().filter(p->p.getKonto().getPelnynumer().startsWith("6")==true).collect(Collectors.toList()));
         if (lista6.isEmpty()) {
             this.lista6.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista6);
         }
-        this.lista7.addAll(wierszBODAO.lista("7%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
+        this.lista7.addAll(findPodatnikRok.stream().filter(p->p.getKonto().getPelnynumer().startsWith("7")==true).collect(Collectors.toList()));
         if (lista7.isEmpty()) {
             this.lista7.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
             this.listaW.addAll(this.lista7);
         }
-        this.lista8.addAll(wierszBODAO.lista("8%", wpisView, tojestbilanslikwidacyjny, tojestgenerowanieobrotow));
+        this.lista8.addAll(findPodatnikRok.stream().filter(p->p.getKonto().getPelnynumer().startsWith("8")==true).collect(Collectors.toList()));
         if (lista8.isEmpty()) {
             this.lista8.add(new WierszBO(podatnik, rok, walutadomyslna, mc));
         } else {
