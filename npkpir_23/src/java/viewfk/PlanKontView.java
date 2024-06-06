@@ -1205,6 +1205,7 @@ public class PlanKontView implements Serializable {
                                 nowepozycje.add(new KontopozycjaZapis(p, wybranyuklad));
                             }
                         }
+                        selectednodekonto.setMapotomkow(true);
                         kontoDAOfk.editList(kontapotomnePorzadek);
                         kontopozycjaZapisDAO.editList(nowepozycje);
                         Msg.msg("Przejrzano potomków");
