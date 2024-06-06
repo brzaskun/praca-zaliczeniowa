@@ -1173,7 +1173,9 @@ public class PlanKontView implements Serializable {
                     boolean kontozwykle = selectednodekonto.getSyntetykaanalityka().equals("zwykłe");
                     boolean bilansowe= selectednodekonto.isWynik0bilans1();
                     boolean analityka = selectednodekonto.getSyntetykaanalityka().equals("analityka");
-                    List<Konto> kontapotomne = wykazkont.stream().filter(p -> p.getKontomacierzyste() != null && p.getKontomacierzyste().equals(selectednodekonto) && (p.getPozycjaWn()==null || p.getPozycjaMa()==null)).collect(Collectors.toList());
+                    //bylo tak, ale nie nanosilo innego przyporzadkowania jak byly inne niz systetyki
+                    //List<Konto> kontapotomne = wykazkont.stream().filter(p -> p.getKontomacierzyste() != null && p.getKontomacierzyste().equals(selectednodekonto) && (p.getPozycjaWn()==null || p.getPozycjaMa()==null)).collect(Collectors.toList());
+                    List<Konto> kontapotomne = wykazkont.stream().filter(p -> p.getKontomacierzyste() != null && p.getKontomacierzyste().equals(selectednodekonto)).collect(Collectors.toList());
                     if (kontapotomne.isEmpty() == false) {
                         selectednodekonto.setMapotomkow(true);
                         kontoDAOfk.edit(selectednodekonto);
@@ -1183,27 +1185,25 @@ public class PlanKontView implements Serializable {
                             zapisanepozycje = kontopozycjaZapisDAO.findByUklad(wybranyuklad);
                         }
                         for (Konto p : kontapotomne) {
-                            if (p.getPozycjaWn() == null || p.getPozycjaMa() == null) {
-                                p.kopiujPozycje(selectednodekonto);
-                                if (bilansowe==false && analityka==false) {
-                                    p.setSyntetykaanalityka("wynikowe");
-                                } else if (kontozwykle) {
-                                   p.setSyntetykaanalityka("syntetyka");
-                                } else {
-                                    p.setSyntetykaanalityka(selectednodekonto.getSyntetykaanalityka());
-                                }
-                                kontapotomnePorzadek.add(p);
+                            p.kopiujPozycje(selectednodekonto);
+                            if (bilansowe==false && analityka==false) {
+                                p.setSyntetykaanalityka("wynikowe");
+                            } else if (kontozwykle) {
+                                p.setSyntetykaanalityka("syntetyka");
                                 if (zapisanepozycje.isEmpty() == false) {
                                     zapisanepozycje.stream().forEach(pz -> {
                                         for (Konto pa : kontapotomnePorzadek) {
                                             if (pa.equals(pz.getKontoID())) {
                                                 kontopozycjaZapisDAO.remove(pz);
                                             }
-                                        }
-                                    });
-                                }
-                                nowepozycje.add(new KontopozycjaZapis(p, wybranyuklad));
+                                         }
+                                     });
+                                 }
+                                 nowepozycje.add(new KontopozycjaZapis(p, wybranyuklad));
+                            } else {
+                                p.setSyntetykaanalityka(selectednodekonto.getSyntetykaanalityka());
                             }
+                            kontapotomnePorzadek.add(p);
                         }
                         selectednodekonto.setMapotomkow(true);
                         kontoDAOfk.editList(kontapotomnePorzadek);
@@ -1222,6 +1222,8 @@ public class PlanKontView implements Serializable {
             Msg.msg("e", "Nie wybrano konta");
         }
     }
+    
+    
     
     
     //stare
