@@ -503,6 +503,16 @@ public class WierszBO implements Serializable {
         }
         return Z.z(zwrot);
     }
+    
+    public double getKwotaPLN() {
+        double zwrot = 0.0;
+        if (this.kwotaWnPLN != 0.0) {
+            zwrot = this.kwotaWnPLN;
+        } else {
+            zwrot = this.kwotaMaPLN;
+        }
+        return Z.z(zwrot);
+    }
 
     
 }

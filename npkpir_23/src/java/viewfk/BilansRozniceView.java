@@ -91,7 +91,7 @@ public class BilansRozniceView implements Serializable {
             WierszBO wbo = it.next();
             for (StronaWiersza sw : wierszeDok) {
                 if (sw.getWierszbo().equals(wbo)) {
-                    if (sw.getKwota() == wbo.getKwota()) {
+                    if (sw.getKwota() == wbo.getKwota()&&sw.getKwotaPLN() == wbo.getKwotaPLN()) {
                         if (sw.getKonto().getPelnynumer().equals(wbo.getKonto().getPelnynumer())) {
                             jest = true;
                             break;
@@ -112,7 +112,7 @@ public class BilansRozniceView implements Serializable {
             StronaWiersza wbo = it.next();
             for (WierszBO sw : wierszeBO) {
                 if (sw.equals(wbo.getWierszbo())) {
-                    if (sw.getKwota() == wbo.getKwota()) {
+                    if (sw.getKwota() == wbo.getKwota()&&sw.getKwotaPLN() == wbo.getKwotaPLN()) {
                          if (sw.getKonto().getPelnynumer().equals(wbo.getKonto().getPelnynumer())) {
                             jest = true;
                             break;
