@@ -6,8 +6,6 @@
 package beansFK;
 
 import comparator.SaldoKontocomparator;
-import dao.StronaWierszaDAO;
-import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entityfk.Konto;
@@ -19,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import msg.Msg;
 import waluty.Z;
 
 /**
@@ -150,9 +147,13 @@ public class SaldoAnalitykaBean  {
                 if (p.getKonto().getLevel()==level) {
                     for (SaldoKonto r : lista2) {
                         if (r.getKonto().getLevel()==level-1) {
-                            Konto macierzyste = p.getKonto().getKontomacierzyste();
-                            if (r.getKonto().getPelnynumer().equals(macierzyste.getPelnynumer())) {
-                                sumuj(p,r);
+                            try {
+                                Konto macierzyste = p.getKonto().getKontomacierzyste();
+                                if (r.getKonto().getPelnynumer().equals(macierzyste.getPelnynumer())) {
+                                    sumuj(p,r);
+                                }
+                            } catch (Exception e) {
+                                System.out.println("brak konta macierzystego dla konto "+p.getKonto().getPelnynumer());
                             }
                         }
                     }
