@@ -118,7 +118,7 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell"
-                             style="width: 1700px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             style="width: 1750px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              rowsPerPageTemplate="150,250,500,1000,1500" paginatorPosition="top" paginator="true" rows="150"
                              rowIndexVar="index" 
                              >
@@ -195,6 +195,9 @@
                     </p:column>
                     <p:column headerText="P/K" style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.przychod0koszt1 eq true ? 'K' : 'P'}" rendered="#{loop.bilansowewynikowe eq 'wynikowe'}"/> 
+                    </p:column>
+                    <p:column headerText="mac." style="width: 40px; text-align: center;">
+                        <h:outputText value="!" style="color: red;font-weight: 900;" rendered="#{loop.pelnynumer.contains('-') and loop.kontomacierzyste eq null}"/> 
                     </p:column>
                     <p:column headerText="saldo" style="width: 40px; text-align: center;">
                         <p:cellEditor>

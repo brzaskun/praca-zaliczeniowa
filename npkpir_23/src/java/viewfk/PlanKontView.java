@@ -1188,6 +1188,15 @@ public class PlanKontView implements Serializable {
                             p.kopiujPozycje(selectednodekonto);
                             if (bilansowe==false && analityka==false) {
                                 p.setSyntetykaanalityka("wynikowe");
+                                if (zapisanepozycje.isEmpty() == false) {
+                                    zapisanepozycje.stream().forEach(pz -> {
+                                        for (Konto pa : kontapotomnePorzadek) {
+                                            if (pa.equals(pz.getKontoID())) {
+                                                kontopozycjaZapisDAO.remove(pz);
+                                            }
+                                         }
+                                     });
+                                 }
                             } else if (kontozwykle) {
                                 p.setSyntetykaanalityka("syntetyka");
                                 if (zapisanepozycje.isEmpty() == false) {
@@ -1700,6 +1709,17 @@ public class PlanKontView implements Serializable {
                        
                     }
                 }
+                if (selectednodekontoL.getKontomacierzyste()==null&&selectednodekontoL.getPelnynumer().indexOf("-")>=-1) {
+                    int lastIndex = selectednodekontoL.getPelnynumer().lastIndexOf("-");
+                        String macierzyste = selectednodekontoL.getPelnynumer().substring(0, lastIndex);
+                        Konto kontomacierzyste = kontoDAOfk.findKonto(macierzyste, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                        if (kontomacierzyste!=null) {
+                            selectednodekontoL.setKontomacierzyste(kontomacierzyste);
+                            selectednodekontoL.setMacierzysty(kontomacierzyste.getId());
+                            kontomacierzyste.setMapotomkow(true);
+                            kontoDAOfk.edit(kontomacierzyste);
+                        }
+                }
                 if (pozycjedoedycji.isEmpty()==false) {
                     kontopozycjaZapisDAO.editList(pozycjedoedycji);
                 }
@@ -1718,7 +1738,7 @@ public class PlanKontView implements Serializable {
                 if (kontapotomne.isEmpty()==false) {
                     selectednodekontoL.setMapotomkow(true);
                 }
-                        czykontomapotomkow(selectednodekontoL, kontoDAOfk, wpisView.getPodatnikObiekt());
+                czykontomapotomkow(selectednodekontoL, kontoDAOfk, wpisView.getPodatnikObiekt());
                 kontoDAOfk.edit(selectednodekontoL);
                 usunprzyporzadkowanie = false;
             } catch (Exception e) {
