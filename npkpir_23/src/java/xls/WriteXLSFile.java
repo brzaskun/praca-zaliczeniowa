@@ -13,6 +13,7 @@ import entity.Rodzajedok;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.PozycjaRZiSBilans;
+import entityfk.StronaWiersza;
 import error.E;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -271,6 +272,41 @@ public class WriteXLSFile {
         return workbook;
     }
     
+    public static Workbook zachowajSinkosXLS(Map<String, List<StronaWiersza>> listy, WpisView wpisView){
+        List<StronaWiersza> stronywiersza =  listy.get("xlssinkos");
+        List headersList = headersinkos();
+        // Using XSSF for xlsx format, for xls use HSSF
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Zapisy");
+        insertPrintHeader(sheet, wpisView);
+        int rowIndex = 0;
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersList, stronywiersza, "Zapisy", 1, "zapisynakontach");
+        workbook.setPrintArea(
+        0, //sheet index
+        0, //start column
+        3, //end column
+        0, //start row
+        rowIndex //end row
+        );
+      //set paper size
+        sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+        sheet.setFitToPage(true);
+        //write this workbook in excel file.
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String FILE_PATH = realPath+FILE_PATH1;
+        try {
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
+            workbook.write(fos);
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return workbook;
+    }
     
     public static Workbook zachowajRodzajedokXLS(Map<String, List> listy, WpisView wpisView){
         List rodzajedok = listy.get("rodzajedok");
@@ -633,6 +669,22 @@ public class WriteXLSFile {
         return headers;
     }
     
+    public static List headersinkos() {
+        List headers = new ArrayList();
+        headers.add("ID");
+        headers.add("d_year");
+        headers.add("d_month");
+        headers.add("d_cost_unit_symbol");
+        headers.add("d_account_symbol");
+        headers.add("d_value");
+        headers.add("d_date");
+        headers.add("d_description");
+        headers.add("d_sign");
+        headers.add("Nrdkr");
+        headers.add("NrFak");
+        return headers;
+    }
+    
     public static List kontrahenci() {
         List headers = new ArrayList();
         headers.add("lp");
@@ -903,6 +955,20 @@ public class WriteXLSFile {
             createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));
             createTextCell(styletext, row, (short) columnIndex++, st.getNazwa());
             createTextCell(styletext, row, (short) columnIndex++, st.getNip());
+        } else if (c.getName().contains("StronaWiersza")) {
+            StronaWiersza st = (StronaWiersza) ob;
+            createTextCell(styletext, row, (short) columnIndex++, String.valueOf(st.getId()));
+            createTextCell(styletext, row, (short) columnIndex++, st.getRok());
+            createTextCell(styletext, row, (short) columnIndex++, st.getMc());
+            String projekt = st.getKonto().getNazwapelna().split("\\s")[0];
+            createTextCell(styletext, row, (short) columnIndex++, projekt);
+            createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getPelnynumer());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getKwota());
+            createTextCell(styletext, row, (short) columnIndex++, st.getDataOperacji());
+            createTextCell(styletext, row, (short) columnIndex++, st.getOpisWiersza(100));
+            createTextCell(styletext, row, (short) columnIndex++, st.getNumerwlasnydokfk());
+            createTextCell(styletext, row, (short) columnIndex++, st.getDokfk().toString2());
+            createTextCell(styletext, row, (short) columnIndex++, st.getDokfk().getNrewidencyjnyfirmy());
         } else if (c.getName().contains("Klienci")) {
             Klienci st = (Klienci) ob;
             createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));

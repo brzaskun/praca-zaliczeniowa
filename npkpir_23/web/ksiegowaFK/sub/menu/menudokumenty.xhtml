@@ -100,6 +100,14 @@
                     <p:menuitem value="ustawienia importu banki" oncomplete="PF('ustawieniabanki').show();" actionListener="#{bankImportWzoryView.init()}" update="ustawieniabankiimport ustawieniabankidodaj"></p:menuitem>
                 </p:menu>
             </h:form>
+            </p:tab>
+            <p:tab title="export faktur">
+            <h:form>
+                <p:menu id="d1m7" styleClass="d1m" style="width: 400px; text-align: center; height: 150px;">
+                    <p:menuitem value="Sinkos export xls" oncomplete="PF('dialog_sinkosxls').show();" ></p:menuitem>
+                </p:menu>
+            </h:form>      
+        
                
 <!--            <h:form>
                 <p:commandButton value="nanies srodkitrw dokfk" actionListener="#{dokfkView.oznaczdokumentysrodkitrwale()}" />
