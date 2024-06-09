@@ -681,10 +681,15 @@ public class FakturaView implements Serializable {
 
     public void dodaj() {
         try {
-            FakturaBean.dodajtabelenbp(selected, tabelanbpDAO);
-            FakturaBean.ewidencjavat(selected, evewidencjaDAO);
-            if (fakturakorekta) {
-                FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+            if (selected.getNumerkolejny().equals("wpisz numer")) {
+                Msg.msg("e", "Nie wpisano numeru faktury. Nie zachowano faktury");
+                return;
+            } else {
+                FakturaBean.dodajtabelenbp(selected, tabelanbpDAO);
+                FakturaBean.ewidencjavat(selected, evewidencjaDAO);
+                if (fakturakorekta) {
+                    FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+                }
             }
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
