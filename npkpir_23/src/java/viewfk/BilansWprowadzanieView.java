@@ -138,10 +138,10 @@ public class BilansWprowadzanieView implements Serializable {
 
     @Inject
     private WpisView wpisView;
+    private String rok;
+    private String mc;
 
     public BilansWprowadzanieView() {
-         ////E.m(this);
-
     }
     
     public void rozpocznijBO() {
@@ -177,6 +177,9 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     public void init() { //E.m(this);
+        rok = wpisView.getRokWpisuSt();
+        mc = wpisView.getMiesiacWpisu();
+        System.out.println("rok "+rok+" "+"mc "+mc);
         this.miesiacWpisu = wpisView.getMiesiacWpisu();
         this.lista0 = Collections.synchronizedList(new ArrayList<>());
         this.lista1 = Collections.synchronizedList(new ArrayList<>());
@@ -922,7 +925,7 @@ public class BilansWprowadzanieView implements Serializable {
 //        int nrkolejny = oblicznumerkolejny();
 //        if (nrkolejny > 1) {
 //        zachowajtransakcje(typ);
-        usundokumentztegosamegomiesiaca(typ);
+        usundokumentztegosamegomiesiaca(typ, rok, mc);
 //        }
         Dokfk dok = stworznowydokument(1, zachowaneWiersze, typ);
         dok.przeliczKwotyWierszaDoSumyDokumentu();
@@ -1013,22 +1016,22 @@ public class BilansWprowadzanieView implements Serializable {
 //            TransakcjaAku nowa = new TransakcjaAku(lp++,p);
 //        }
 //    }
-    private void usundokumentztegosamegomiesiaca(String typ) {
-        Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), typ, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+    private void usundokumentztegosamegomiesiaca(String typ, String rok, String mc) {
+        Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), typ, rok, mc);
         if (popDokfk != null) {
             dokDAOfk.remove(popDokfk);
         }
     }
 
     private Dokfk stworznowydokument(int nrkolejny, List<WierszBO> zachowaneWiersze, String typ) {
-        Dokfk nd = new Dokfk(nrkolejny, wpisView.getRokWpisuSt());
+        Dokfk nd = new Dokfk(nrkolejny, rok);
         ustawdaty(nd);
         ustawkontrahenta(nd);
         ustawnumerwlasny(nd, nrkolejny);
         if (typ.equals("BO")) {
-            nd.setOpisdokfk("bilans otwarcia roku: " + wpisView.getRokWpisuSt());
+            nd.setOpisdokfk("bilans otwarcia roku: " + rok);
         } else {
-            nd.setOpisdokfk("obroty rozpoczęcia na koniec: " + wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu());
+            nd.setOpisdokfk("obroty rozpoczęcia na koniec: " + rok+"/"+mc);
         }
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         nd.setWprowadzil(wpisView.getUzer().getLogin());
@@ -1039,15 +1042,15 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     private void ustawdaty(Dokfk nd) {
-        String datadokumentu = wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu() + "-01";
+        String datadokumentu = rok + "-" + mc + "-01";
         nd.setDatadokumentu(datadokumentu);
         nd.setDataoperacji(datadokumentu);
         nd.setDatawplywu(datadokumentu);
         nd.setDatawystawienia(datadokumentu);
         nd.setDataujecia(new Date());
-        nd.setMiesiac(wpisView.getMiesiacWpisu());
-        nd.setVatM(wpisView.getMiesiacWpisu());
-        nd.setVatR(wpisView.getRokWpisuSt());
+        nd.setMiesiac(mc);
+        nd.setVatM(mc);
+        nd.setVatR(rok);
     }
 
     private void ustawkontrahenta(Dokfk nd) {

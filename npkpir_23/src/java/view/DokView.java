@@ -348,11 +348,7 @@ public class DokView implements Serializable {
     public void podepnijListe() {
         String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
         if (wpisView.isKsiegaryczalt()) {
-            if (selDokument.isNiemcy()==false) {
-                kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
-            } else {
-                kolumny = null;
-            }
+            kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
             selDokument.setDokumentProsty(selDokument.getRodzajedok().isDokProsty());
         } else {
             //bo dodalismy rozliczenia niemieckie w ryczalcie a tam jest Rachde, wnt itp

@@ -1387,15 +1387,14 @@ public class KontoZapisFKView implements Serializable{
                     Msg.msg("e", "Konto źródłowe jest tożsame z docelowym, przerywam przeksięgowanie");
                     return;
                 }
-                if ((wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty()) && (kontozapisyfiltered == null || kontozapisyfiltered.isEmpty())) {
+                if ((wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty())) {
                     Msg.msg("e", "Nie wybrano pozycji do przeksięgowania. Nie można wykonać przeksięgowania");
                     return;
                 }
                 if (!wybranekonto.equals(kontodoprzeksiegowania) && wybranekonto.isMapotomkow() == true && wybranekonto.getIdslownika() == kontodoprzeksiegowania.getIdslownika()) {
                     przeksiegujslownikowe();
                 } else {
-                    List<StronaWiersza> lista = wybranezapisydosumowania!=null&&wybranezapisydosumowania.size()>0?wybranezapisydosumowania:kontozapisyfiltered;
-                    przeksiegujanalityke(lista);
+                    przeksiegujanalityke(wybranezapisydosumowania);
                     Msg.msg("w", "Konto żrółowe/docelowe ma analitykę. Być może trzeba ją usunąć");
                 }
             } else {
@@ -1447,15 +1446,13 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
-    private void przeksiegujanalityke(List<StronaWiersza> lista) {
+    private void przeksiegujanalityke(List<StronaWiersza> wierszedoprzeksiegowania) {
         int rozrachunkowe = 0;
         int bo = 0;
-        for (StronaWiersza p : lista) {
+        for (StronaWiersza p : wierszedoprzeksiegowania) {
             if (p.getWierszbo()==null) {
                 if (p.getNowetransakcje().isEmpty() && p.getPlatnosci().isEmpty()) {
                     p.setKonto(kontodoprzeksiegowania);
-                    stronaWierszaDAO.edit(p);
-                    kontozapisy.remove(p);
                 } else {
                     rozrachunkowe++;
                 }
@@ -1464,13 +1461,13 @@ public class KontoZapisFKView implements Serializable{
                     p.getWierszbo().setKonto(kontodoprzeksiegowania);
                     wierszBODAO.edit(p.getWierszbo());
                     p.setKonto(kontodoprzeksiegowania);
-                    stronaWierszaDAO.edit(p);
-                    kontozapisy.remove(p);
                 } else {
                     rozrachunkowe++;
                 }
             }
         }
+        stronaWierszaDAO.editList(wierszedoprzeksiegowania);
+        kontozapisy.removeAll(wierszedoprzeksiegowania);
         if (rozrachunkowe > 0) {
             Msg.msg("w", "Nie przeksiegowano pozycji z rozrachunkami w liczbie " + rozrachunkowe);
         }

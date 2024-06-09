@@ -99,7 +99,7 @@ public class KsiegaBean {
     }
 
     public static void rozliczkolumny(DokKsiega dk, KwotaKolumna1 tmpX, DokKsiega podsumowanie) {
-        if (tmpX != null) {
+        if (tmpX != null&&tmpX.getNazwakolumny()!=null) {
             switch (tmpX.getNazwakolumny()) {
                 case "przych. sprz":
                             try {

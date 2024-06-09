@@ -220,7 +220,7 @@
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
                                  selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="width: 100%;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
-                                 rowIndexVar="rowindex" styleClass="walkingtable" rowSelectMode="add"
+                                 rowIndexVar="rowindex" styleClass="walkingtable" rowSelectMode="add" widgetVar="tabelastronyzapisy"
                                  rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{kontoZapisFKView.kontozapisy.size() gt 150 ? 'true':'false'}" rows="150"
                                  >
                         <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" />
@@ -372,8 +372,10 @@
                                 <p:ajax event="itemSelect" global="false"/>
                             </p:autoComplete>
                             <p:splitButton value="przeksięguj" actionListener="#{kontoZapisFKView.przeksieguj}" 
-                                             update="tabelazzapisami:tabela">
-                                <p:menuitem global="false" value="zaksięguj PK" actionListener="#{kontoZapisFKView.zaksiegujpk}" icon="ui-icon-arrow"/>  
+                                           oncomplete="PF('tabelastronyzapisy').clearFilters();PF('tabelastronyzapisy').unselectAllRows();"
+                                            update="tabelazzapisami:tabela">
+                                <p:menuitem global="false" value="zaksięguj PK" actionListener="#{kontoZapisFKView.zaksiegujpk}" icon="ui-icon-arrow" oncomplete="PF('tabelastronyzapisy').clearFilters();PF('tabelastronyzapisy').unselectAllRows();"
+                                            update="tabelazzapisami:tabela"/>  
                             </p:splitButton>
                         </p:panelGrid>
                         <p:panelGrid columns="3" rendered="#{WpisView.rokzamkniety}" style="width: 500px;">
