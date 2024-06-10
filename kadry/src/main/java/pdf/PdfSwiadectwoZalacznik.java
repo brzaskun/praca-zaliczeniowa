@@ -61,7 +61,7 @@ public class PdfSwiadectwoZalacznik {
             document.add(Chunk.NEWLINE);
             String data = umowa.getRozwiazanieumowy().getDatauplywuokresuwyp()!=null?umowa.getRozwiazanieumowy().getDatauplywuokresuwyp():umowa.getDatado();
             Integer rokI = Data.getRokI(data);
-            rokI = rokI+10;
+            rokI = rokI+11;
             text = "2.	Ma Pani/Pan możliwość odbioru dokumentacji pracowniczej do końca miesiąca kalendarzowego następującego po upływie okresu przechowywania dokumentacji pracowniczej, o którym mowa w art. 94 pkt 9b/art. 945 § 2 tj. 31.01."+rokI+"r.";
             PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, text, Element.ALIGN_LEFT, 2);
             document.add(Chunk.NEWLINE);
