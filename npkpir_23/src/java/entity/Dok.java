@@ -683,9 +683,11 @@ public class Dok extends DokSuper implements Serializable {
 
     public boolean jestniemcy() {
         boolean zwrot = false;
-        for (EVatwpis1 p : this.ewidencjaVAT1) {
-            if (p.ewidencja.isNiemcy()) {
-               zwrot = true;
+        if (this.ewidencjaVAT1!=null) {
+            for (EVatwpis1 p : this.ewidencjaVAT1) {
+                if (p.ewidencja.isNiemcy()) {
+                   zwrot = true;
+                }
             }
         }
         return zwrot;
