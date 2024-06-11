@@ -25,7 +25,7 @@ import waluty.Z;
 public class DokFKWalutyBean implements Serializable{
     
     public static void przewalutujzapisy(String staranazwa, String nazwawaluty, Dokfk selected, WalutyDAOfk walutyDAOfk) {
-        if (selected.isNieprzeliczaj() == false) {
+        if (selected.isNieprzeliczaj() == false || selected.getId()>0) {
             double kurs;
             if (staranazwa.equals("PLN")) {
                 Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);

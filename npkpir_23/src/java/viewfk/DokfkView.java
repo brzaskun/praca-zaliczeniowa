@@ -2982,7 +2982,7 @@ public class DokfkView implements Serializable {
             if (stara!=null) {
                 staranazwa = stara.getSymbolwaluty();
             }
-            if (selected.isNieprzeliczaj()==true) {
+            if (selected.isNieprzeliczaj()==true&&selected.getId()==0) {
                 Msg.msg("w", "Dokument z ręcznie wyliczonym kursem, nie można zmieniać waluty");
             } else if (staranazwa!=null && !staranazwa.equals("PLN") && !nazwawaluty.equals("PLN") && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
                 Msg.msg("w", "Prosze przewalutowywać do PLN");
