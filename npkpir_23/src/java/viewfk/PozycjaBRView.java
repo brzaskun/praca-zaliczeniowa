@@ -312,7 +312,7 @@ public class PozycjaBRView implements Serializable {
 //        FacesContext context = FacesContext.getCurrentInstance();
 //        PozycjaBRBOView bean = context.getApplication().evaluateExpressionGet(context, "#{pozycjaBRBOView}", PozycjaBRBOView.class);
 //        bean.obliczBilansNaDzien();
-        if (uklad.getUklad() == null) {
+        if (uklad == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycjeaktywa = Collections.synchronizedList(new ArrayList<>());
