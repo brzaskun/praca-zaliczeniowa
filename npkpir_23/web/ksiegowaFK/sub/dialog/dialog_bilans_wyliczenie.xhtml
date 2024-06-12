@@ -31,17 +31,19 @@
             </script>
              <p:panelGrid columns="6">
                 <p:panelGrid columns="4">
-                    <h:outputText value="#{mgs.nazwaukładu}"/>
+<!--                    <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="#{ukladBRConv}">
                         <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" listener="#{pozycjaBRView.zmianaukladprzegladBilans()}" update=":formprzegladbilans"/>
-                    </p:selectOneMenu>
+                    </p:selectOneMenu>-->
                     <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{pozycjaBRView.odswiezbilansdwiestrony()}" update=":formprzegladbilans" />
                         <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                     </p:column>
+                     <h:outputText value="#{pozycjaBRView.uklad.uklad}" style="color: green;" rendered="#{ukladBRView.listarokbiezacy.isEmpty() eq false}"/>
+                    <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.obliczBilansNaDzien()}" update=":formprzegladbilans"/>
                 </p:panelGrid>
 <!--                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootBilansAktywa)}" update=":formprzegladbilans:dataList" style="float: left;" />

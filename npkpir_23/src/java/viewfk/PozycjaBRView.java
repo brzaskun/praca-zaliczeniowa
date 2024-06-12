@@ -622,12 +622,12 @@ public class PozycjaBRView implements Serializable {
 //        }
 //    }
 //    
-    public void zmianaukladprzegladBilansBO() {
-        bilansnadzien = Data.ostatniDzien(wpisView);
-        PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        obliczBilansOtwarciaBilansDataWybierz();
-        bilansnadzien = Data.ostatniDzien(wpisView);
-    }
+//    public void zmianaukladprzegladBilansBO() {
+//        bilansnadzien = Data.ostatniDzien(wpisView);
+//        PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+//        obliczBilansOtwarciaBilansDataWybierz();
+//        bilansnadzien = Data.ostatniDzien(wpisView);
+//    }
     
      public void zmianaukladprzegladRZiS() {
         bilansnadzien = Data.ostatniDzien(wpisView);
@@ -636,12 +636,12 @@ public class PozycjaBRView implements Serializable {
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
-    public void zmianaukladprzegladBilans() {
-        bilansnadzien = Data.ostatniDzien(wpisView);
-        PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        pobierzukladprzegladBilans("aktywa");
-        bilansnadzien = Data.ostatniDzien(wpisView);
-    }
+//    public void zmianaukladprzegladBilans() {
+//        bilansnadzien = Data.ostatniDzien(wpisView);
+//        PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+//        pobierzukladprzegladBilans("aktywa");
+//        bilansnadzien = Data.ostatniDzien(wpisView);
+//    }
     
     
     

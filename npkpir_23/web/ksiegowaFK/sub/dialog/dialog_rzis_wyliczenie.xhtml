@@ -32,13 +32,16 @@
             </script>
             <p:panelGrid columns="7" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
                 <p:panelGrid columns="3">
-                    <h:outputText value="#{mgs.nazwaukładu}"/>
+<!--                    <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="#{ukladBRConv}">
                         <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" listener="#{pozycjaBRView.zmianaukladprzegladRZiS()}" update="formprzeglad"/>
-                    </p:selectOneMenu>
+                    </p:selectOneMenu>-->
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladRZiS()}" update=":formprzeglad"/>
                 </p:panelGrid>
+                 <h:outputText value="układ: " style="margin-left: 20px;" rendered="#{ukladBRView.listarokbiezacy.isEmpty() eq false}"/>
+                    <h:outputText value="#{pozycjaBRView.uklad.uklad}" style="color: green;" rendered="#{ukladBRView.listarokbiezacy.isEmpty() eq false}"/>
+                    <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{pozycjaBRView.odswiezrzis()}" update="formprzeglad" />

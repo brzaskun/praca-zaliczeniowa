@@ -36,6 +36,9 @@
                         <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" listener="#{pozycjaBRView.zmianaukladprzegladBilans()}"/>
                     </p:selectOneMenu>-->
+                     <h:outputText value="układ: " style="margin-left: 20px;" rendered="#{ukladBRView.listarokbiezacy.isEmpty() eq false}"/>
+                    <h:outputText value="#{pozycjaBRView.uklad.uklad}" style="color: green;" rendered="#{ukladBRView.listarokbiezacy.isEmpty() eq false}"/>
+                    <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
                     <p:commandButton value="oblicz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans('aktywa')}" update=":formprzegladbilanszapisy"/>
                     <p:commandButton value="pokaż aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pokazukladprzegladBilans('aktywa')}" update=":formprzegladbilanszapisy"/>
                     <p:commandButton value="pokaż pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pokazukladprzegladBilans('pasywa')}" update=":formprzegladbilanszapisy"/>
