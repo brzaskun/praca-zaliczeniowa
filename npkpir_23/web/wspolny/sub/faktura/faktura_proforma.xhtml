@@ -66,7 +66,7 @@
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
             </p:panel>
             <p:dataTable id="dokumentyListaPro" value="#{fakturaView.fakturypro}" var="wpispro" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFilteredpro}" 
-                         selection="#{fakturaView.gosciwybralpro}" rowKey="#{wpispro.numerkolejny}" widgetVar="dokTableFakturyPro" rowSelectMode="add" style="max-width: 1400px;height: 900px;overflow-y: scroll;"
+                         selection="#{fakturaView.gosciwybralpro}" rowKey="#{wpispro.numerkolejny}" widgetVar="dokTableFakturyPro" rowSelectMode="add" style="max-width: 1500px;height: 900px;overflow-y: scroll;"
                          sortBy="#{wpispro.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowanych faktur proforma w roku #{WpisView.rokWpisuSt} " />  
@@ -126,6 +126,16 @@
                     <h:outputText value="#{wpispro.rodzajdokumentu}" style="#{wpispro.pozycjepokorekcie.size() gt 0  or wpispro.gutschrift ? 'color:red;' : null}"/>
                     <h:outputText value=" korekta" rendered="#{wpispro.pozycjepokorekcie.size() gt 0 or wpispro.gutschrift}" style="color: red;"/>
                     <h:outputText value=" +duplikaty" rendered="#{wpispro.duplikaty.size() gt 0}" style="color: green;"/>
+                </p:column>
+                  <p:column styleClass="data2" headerText="sporządził" sortBy="#{wpispro.autor}" filterBy="#{wpispro.autor}" filterMatchMode="contains"  
+                          style="text-align: left;"  width="80">
+                    <h:outputText value="#{wpispro.autor}"/>
+                </p:column>
+                <p:column styleClass="data2" headerText="data" sortBy="#{wpispro.datasporzadzenia}" filterBy="#{wpispro.datasporzadzenia}" filterMatchMode="contains"  
+                          style="text-align: center;"  width="70">
+                    <h:outputText value="#{wpispro.datasporzadzenia}">
+                        <f:convertDateTime  pattern="yyy-MM-dd HH:mm"/>
+                    </h:outputText>
                 </p:column>
                 <p:column  headerText="edytuj" style="text-align: center;"  width="40">
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycjiZwykla(wpispro)}" 
