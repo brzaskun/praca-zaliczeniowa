@@ -150,6 +150,13 @@ public class Rodzajlistyplac implements Serializable {
         this.aktywna = aktywna;
     }
 
+    public boolean isPraca() {
+        boolean zwrot = false;
+        if (this.typ!=null&&typ==1||this.typ!=null&&typ==6) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
     
 
    

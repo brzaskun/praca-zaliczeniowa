@@ -42,6 +42,9 @@
                         <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{draNView.mailListaDRAFirma()}" global="true">
                             <p:confirm type="popup" header="Potwierdzenie" message="Wysłać DRA do firmy?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
+                        <p:commandButton value="mail do księgowej" styleClass="buttonnorm" actionListener="#{draNksiegowaView.mailListaDRAKsiegowa()}" global="true">
+                            <p:confirm type="popup" header="Potwierdzenie" message="Wysłać DRA do firmy?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
                     </p:panelGrid>
                 </h:panelGroup>
             </h:form>

@@ -156,6 +156,9 @@ public class Mail {
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
+            if (adresBCC==null) {
+                adresBCC = "";
+            }
             if (firma.getKsiegowa()!=null&&firma.getKsiegowa().equals("")==false) {
                 adresBCC = adresBCC+","+firma.getKsiegowa();
             }

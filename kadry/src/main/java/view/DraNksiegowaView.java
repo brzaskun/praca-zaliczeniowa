@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,7 +42,7 @@ import z.Z;
  */
 @Named
 @ViewScoped
-public class DraNView  implements Serializable {
+public class DraNksiegowaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Pasekwynagrodzen selected;
@@ -101,14 +102,19 @@ public class DraNView  implements Serializable {
     
     public void init() {
         mcdra = wpisView.getMiesiacWpisu();
-        pobierzlisty();
-        Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
     }
 
-    public void pobierzlisty() {
+    public void pobierzlisty(boolean praca0reszta1) {
         if (mcdra != null) {
             listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), mcdra);
             if (listadefinicjalistaplac.isEmpty()==false) {
+                if (praca0reszta1) {
+                    Predicate<Definicjalistaplac> isQualified = item->(item.getRodzajlistyplac().isPraca()==false);
+                    listadefinicjalistaplac.removeIf(isQualified.negate());
+                } else {
+                    Predicate<Definicjalistaplac> isQualified = item->(item.getRodzajlistyplac().isPraca()==true);
+                    listadefinicjalistaplac.removeIf(isQualified.negate());
+                }
                 for (Iterator<Definicjalistaplac> it = listadefinicjalistaplac.iterator(); it.hasNext();) {
                     Definicjalistaplac d = it.next();
                     if (d.getPasekwynagrodzenList() == null ||d.getPasekwynagrodzenList().isEmpty()) {
@@ -117,20 +123,21 @@ public class DraNView  implements Serializable {
                 }
                 Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
                 listywybrane = listadefinicjalistaplac;
-                Msg.msg("Pobrano listy płac");
+                //Msg.msg("Pobrano listy płac");
                 pobierzpaski();
-                List<Angaz> angazelista = pobierzangaze(paskiwynagrodzen);
+                //List<Angaz> angazelista = pobierzangaze(paskiwynagrodzen);
                 listanieobecnosci = new ArrayList<>();
-                if (angazelista!=null) {
-                    for (Angaz angaz : angazelista) {
-                        List<Nieobecnosc> nieobecnoscilista = nieobecnoscFacade.findByAngaz(angaz);
-                        if (nieobecnoscilista!=null&&nieobecnoscilista.size()>0) {
-                            listanieobecnosci.addAll(pobierznieobecnosci(wpisView.getRokWpisu(), mcdra, nieobecnoscilista));
-                        }
-                    }
-                }
+//                if (angazelista!=null) {
+//                    for (Angaz angaz : angazelista) {
+//                        List<Nieobecnosc> nieobecnoscilista = nieobecnoscFacade.findByAngaz(angaz);
+//                        if (nieobecnoscilista!=null&&nieobecnoscilista.size()>0) {
+//                            listanieobecnosci.addAll(pobierznieobecnosci(wpisView.getRokWpisu(), mcdra, nieobecnoscilista));
+//                        }
+//                    }
+//                }
             }
         }
+        Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
     }
     
     private static List<Nieobecnosc> pobierznieobecnosci(String rok, String mc, List<Nieobecnosc> nieobecnosci) {
@@ -207,7 +214,13 @@ public class DraNView  implements Serializable {
     }
     
     
-     public void mailListaDRAFirma() {
+     public void mailListaDRAKsiegowa() {
+         mailListaDRAFirma(false);
+         mailListaDRAFirma(true);
+     }
+    
+     public void mailListaDRAFirma(boolean praca0reszta1) {
+         pobierzlisty(praca0reszta1);
          if (paskiwynagrodzen!=null && paskiwynagrodzen.size()>0) {
             try {
                 Map<String,Double> danezus = new HashMap<>();
@@ -238,8 +251,8 @@ public class DraNView  implements Serializable {
                     findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
                     findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
                     String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
-                    mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, dra, nazwa, wpisView.getUzer().getEmail());
-                    Msg.msg("Wysłano listę płac do pracodawcy");
+                    mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getUzer().getEmail(), null, findSprawaByDef, dra, nazwa, null);
+                    Msg.msg("Wysłano listę płac do księgowej");
                 } else {
                     Msg.msg("e", "Błąd dwysyki DRA");
                 }

@@ -72,8 +72,7 @@
                                     <p:selectBooleanCheckbox id="ponpiat" value="#{nieobecnoscView.selectedzbiorczo.ponpiatek}" rendered="#{nieobecnoscView.delegacja}"/>
                                   
                                     <p:outputLabel value="Baustelle" for="uwagi" />
-                                    <p:selectOneMenu id="uwagi" value="#{nieobecnoscView.selectedzbiorczo.firmabaustelle}" required="true" 
-                                                     requiredMessage="Wybierz baustelle" converter="#{firmabaustelleConverter}">
+                                    <p:selectOneMenu id="uwagi" value="#{nieobecnoscView.selectedzbiorczo.firmabaustelle}" converter="#{firmabaustelleConverter}">
                                         <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                         <f:selectItems value="#{nieobecnoscView.listabaustelle}" 
                                                        var="bsItem"
