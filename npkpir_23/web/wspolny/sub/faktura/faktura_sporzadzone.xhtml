@@ -79,7 +79,7 @@
             </p:panel>
             <p:remoteCommand name="przeliczfiltersporzadzone" actionListener="#{fakturaView.sumawartoscifiltered()}" update=":akordeon:formsporzadzone:panelsum"/>
             <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis"  filteredValue="#{fakturaView.fakturyFiltered}" 
-                         selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1420px;height: 900px;overflow-y: scroll;"
+                         selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1550px;height: 900px;overflow-y: scroll;"
                          sortBy="#{wpis.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowanych faktur w mc #{WpisView.miesiacWpisu} #{fakturaView.gosciwybral.size()}" />  
@@ -160,6 +160,12 @@
                 <p:column  headerText="edytuj" style="text-align: center;"  width="40">
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycjiZwykla(wpis)}" 
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
+                </p:column>
+                 <p:column styleClass="data1" headerText="sporz" sortBy="#{wpis.datasporzadzenia}" filterBy="#{wpis.datasporzadzenia}" 
+                          filterMatchMode="contains"  width="60">
+                     <h:outputText value="#{wpis.datasporzadzenia}">
+                          <f:convertDateTime  pattern="yyy-MM-dd HH:mm"/>
+                     </h:outputText>
                 </p:column>
                 <p:column  headerText="PDF" style="text-align: center;"  width="40">
                     <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView.podatnikObiekt)}" icon="ui-icon-print" />
