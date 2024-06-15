@@ -164,9 +164,10 @@ public class KalendarzmiesiacBean {
         for (int i = dzienod; i < dziendo + 1; i++) {
             for (Dzien p : kalendarz.getDzienList()) {
                 if (p.getNrdnia() == i) {
-                    if (nieobecnosc.getKod().equals("D")) {
-                        p.setNormagodzin(0.0);
-                    }
+                    //to jest niepotrzebne, norma jest potrzebna jak zwolnienie z pracy spotka sie z choroba
+//                    if (nieobecnosc.getKod().equals("D")) {
+//                        p.setNormagodzin(0.0);
+//                    }
                     p.setPrzepracowano(0.0);
                     p.setKod(nieobecnosc.getKod());
                     break;
@@ -901,6 +902,7 @@ public class KalendarzmiesiacBean {
         Collections.sort(zmiennawynagrodzeniaList, new ZmiennaWynagrodzeniaDownUpcomparator());
         String dataodzmiennej = null;
         String datadozmiennej = null;
+        double dniroboczezmsuma = 0.0;
         for (Zmiennawynagrodzenia zmiennawynagrodzenia : zmiennawynagrodzeniaList) {
                 double dniroboczezm = 0.0;
                 int dzienodzmienna = DataBean.dataod(zmiennawynagrodzenia.getDataod(), kalendarz.getRok(), kalendarz.getMc());
@@ -932,6 +934,7 @@ public class KalendarzmiesiacBean {
                     }
                      double stawkadziennazm=  Z.z4(skladnikistale / dniroboczewmiesiacu);
                     sredniadopodstawystale = sredniadopodstawystale + Z.z(stawkadziennazm * dniroboczezm);
+                    dniroboczezmsuma = dniroboczezmsuma + dniroboczezm;
                     zwrot.setWaluta(waluta);
                     if (zmiennawynagrodzenia.getWaluta()!=null) {
                         zwrot.setWaluta(zmiennawynagrodzenia.getWaluta());
@@ -939,6 +942,9 @@ public class KalendarzmiesiacBean {
                 } 
             }
          zwrot.setKwota(sredniadopodstawystale);
+         double stawkadziennazmredukcja = sredniadopodstawystale/dniroboczezmsuma;
+         double sredniadopodstawystaleredukcja = stawkadziennazmredukcja*dniroboczewmiesiacu;
+         zwrot.setKwotadoredukcji(sredniadopodstawystaleredukcja);
          zwrot.setDataod(dataod);
          zwrot.setDatado(datado);
          return zwrot;

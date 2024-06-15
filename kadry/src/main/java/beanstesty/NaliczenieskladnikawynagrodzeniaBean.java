@@ -116,6 +116,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             Zmiennawynagrodzenia zmiennawyn = KalendarzmiesiacBean.usrednijZmienna(skladnikwynagrodzenia, kalendarz);
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
                 double kwotazmiennej = 0.0;
+                double kwotazmiennejdoredukcji = 0.0;
                 double stawkadzienna = 0.0;
                 double stawkagodzinowa = 0.0;
                 double dowyplatyzaczasprzepracowany = 0.0;
@@ -148,6 +149,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     if (zmiennawyn.isMinimalneustatowe()) {
                         kwotazmiennej = wynagrodzenieminimalne;
                     }
+                    kwotazmiennejdoredukcji = zmiennawyn.getKwotadoredukcji();
                     double dnichorobyrobocze = 0.0;
                     List<Dzien> biezacedni = kalendarz.getDzienList();
                     Collections.sort(biezacedni, new Dziencomparator());
@@ -186,14 +188,26 @@ public class NaliczenieskladnikawynagrodzeniaBean {
 //                              dniredukcji_pozaumowa = dniredukcji_pozaumowa+1;
 //                           }
 //                           godzinyredukcji_pozaumowa = godzinyredukcji_pozaumowa+s.getNormagodzin();
-                       } else if (s.getTypdnia()!=-1 && (s.getKod()!=null&&!s.getKod().equals("D"))){
+                         //zabieram to z dolu i przywracam tutaj ale modyfikuje musi zliczac to d do niektorych celow
+                         if (s.getTypdnia()==0 && (s.getKod()!=null&&s.getKod().equals("D"))){
                            //zmienilem to bo w dalszym ciagu zaciagalo "D"
+                           //mapobieraz d bo jest to potrzbene jak jest choroba inaczej nie wie ile dni obcinac
                            dniredukcji_12 = dniredukcji_12+1;
                            godzinyredukcji_12 = godzinyredukcji_12+s.getNormagodzin();
                            if (s.getNormagodzin()>0.0) {
                               dniredukcji_pozaumowa = dniredukcji_pozaumowa+1;
                            }
                            godzinyredukcji_pozaumowa = godzinyredukcji_pozaumowa+s.getNormagodzin();
+                       }
+//                       } else if (s.getTypdnia()!=-1 && (s.getKod()!=null&&s.getKod().equals("D"))){
+//                           //zmienilem to bo w dalszym ciagu zaciagalo "D"
+//                           //mapobieraz d bo jest to potrzbene jak jest choroba inaczej nie wie ile dni obcinac
+//                           dniredukcji_12 = dniredukcji_12+1;
+//                           godzinyredukcji_12 = godzinyredukcji_12+s.getNormagodzin();
+//                           if (s.getNormagodzin()>0.0) {
+//                              dniredukcji_pozaumowa = dniredukcji_pozaumowa+1;
+//                           }
+//                           godzinyredukcji_pozaumowa = godzinyredukcji_pozaumowa+s.getNormagodzin();
                        }
                     }
                     double dniredukcjiIurlopu = dniredukcji_12+dniurlopu;
@@ -231,6 +245,38 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                                 stawkagodzinowa = 0.0;
                             }
                             dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji11;
+                        } else if (dniredukcji_11>0.0 && dniredukcji_pozaumowa>0.0)  {
+                            redukcja_11 = redukcja_11 + (kwotazmiennejdoredukcji /30.0*dniredukcji_11);
+                            dnipoza11 = kalendarz.getDniroboczewmiesiacu()-dniredukcji_11;
+                            kwotazmiennejporedukcji11 = kwotazmiennejdoredukcji-redukcja_11;
+                            godzinypoza11 = kalendarz.getGodzinyroboczewmiesiacu()-godzinyredukcji_11;
+                            //tu bylo kiedys tak ale to jest niepoprawne
+                            //double stawkagodzinowadlaredukcji_12 = kwotazmiennej/kalendarz.getGodzinyroboczewmiesiacu();
+                            //to tez zle dziala bo jak jest np. tylko urlop i 27 dni choroby to nie widzi
+                            //double stawkagodzinowadlaredukcji_12 = kwotazmiennejporedukcji11/godzinypoza11;
+                            //double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/dnipoza11;
+                            //jak cos nie dziala to przemyslec potrzebe oznaczania §12
+                            if (godzinypracyurlopu>0.0) {
+                                //bylo tak ale zawodzilo jak bylo zwolnienie pracownika
+                                //double stawkagodzinowadlaredukcji_12 = kwotazmiennejporedukcji11/godzinypracyurlopu;
+                                //double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/dnipracyurlopu;
+                                //zmienilem 13062023 na
+                                double stawkagodzinowadlaredukcji_12 = kwotazmiennejporedukcji11/(godzinypracyurlopu+godzinyredukcji_pozaumowa);
+                                double stawkadziennedlaredukcji_12 = kwotazmiennejporedukcji11/(dnipracyurlopu+dniredukcji_pozaumowa);
+                                //redukcja_12 = redukcja_12 + (stawkagodzinowadlaredukcji_12*godzinyredukcji_12);
+                                double kwotazmiennejporedukcji =kwotazmiennejporedukcji11<0.0?0.0:kwotazmiennejporedukcji11;
+                                if (stawkadziennedlaredukcji_12>0.0) {
+                                    stawkadzienna = Z.z6(stawkadziennedlaredukcji_12);
+                                    stawkagodzinowa = Z.z6(stawkagodzinowadlaredukcji_12);
+                                } else {
+                                    stawkadzienna = 0.0;
+                                    stawkagodzinowa = 0.0;
+                                }
+                                //double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
+                                dowyplatyzaczasprzepracowany = stawkadzienna*dnipracyurlopu;
+                            } else {
+                                dowyplatyzaczasprzepracowany = 0.0;
+                            }
                         } else if (dniredukcji_11>0.0 && dniredukcjiIurlopu>0.0)  {
                             redukcja_11 = redukcja_11 + (kwotazmiennej /30.0*dniredukcji_11);
                             dnipoza11 = kalendarz.getDniroboczewmiesiacu()-dniredukcji_11;
@@ -258,7 +304,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                                     stawkadzienna = 0.0;
                                     stawkagodzinowa = 0.0;
                                 }
-                                double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
+                                //double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
+                                double redukcja_urlop = stawkadzienna*dniredukcjiIurlopu;
                                 dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji-redukcja_urlop;
                             } else {
                                 dowyplatyzaczasprzepracowany = 0.0;

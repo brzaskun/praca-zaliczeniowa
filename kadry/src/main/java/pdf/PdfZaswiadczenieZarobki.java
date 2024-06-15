@@ -46,7 +46,7 @@ public class PdfZaswiadczenieZarobki {
                 PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy, czyjesttytulkomorniczy);
+                dodajtresc(firma, document, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy, czyjesttytulkomorniczy);
                 if (zarobki) {
                     drukujPasek(paskiwynagrodzen, document);
                 }
@@ -75,7 +75,7 @@ public class PdfZaswiadczenieZarobki {
                 PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
                 naglowekStopkaP(writer);
                 otwarcieDokumentu(document, nazwa);
-                dodajtresc(firma, document, paskiwynagrodzen, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy, czyjesttytulkomorniczy);
+                dodajtresc(firma, document, pracownik, dataod, datado, zatrudnienie, zarobki, rodzajumowy, czastrwania, stanowisko, etat, bruttosrednia, nettosrednia, czyjestkomornik, datarozpoczeciaostatnieumowy, datazakonczeniaostatnieumowy, czyjesttytulkomorniczy);
                 if (zarobki) {
                     drukujPasekMini(paskiwynagrodzen, document, firma, pracownik.getNazwiskoImie(), pracownik.getPesel());
                 }
@@ -135,8 +135,9 @@ public class PdfZaswiadczenieZarobki {
         }
     }
     
-    private static void dodajtresc(FirmaKadry firma, Document document, List<Pasekwynagrodzen> paskiwynagrodzen, Pracownik pracownik, String dataod, String datado, boolean zatrudnienie, 
-            boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik, String datarozpoczeciaostatnieumowy, String datazakonczeniaostatnieumowy, boolean czyjesttytulkomorniczy) {
+    private static void dodajtresc(FirmaKadry firma, Document document, Pracownik pracownik, String dataod, String datado, boolean zatrudnienie, 
+            boolean zarobki, String rodzajumowy, String czastrwania, String stanowisko, String etat, double bruttosrednia, double nettosrednia, boolean czyjestkomornik,
+            String datarozpoczeciaostatnieumowy, String datazakonczeniaostatnieumowy, boolean czyjesttytulkomorniczy) {
         try {
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, 11);
@@ -225,7 +226,11 @@ public class PdfZaswiadczenieZarobki {
             }
             Paragraph p = new Paragraph();
             if (czyustalozatrudnienie) {
-                p.add(new Phrase("Stosunek pracy został zakończony dnia "+datazakonczeniaostatnieumowy, fontM));
+                if (rodzajumowy.contains("prac")) {
+                    p.add(new Phrase("Stosunek pracy został zakończony dnia "+datazakonczeniaostatnieumowy, fontM));
+                } else {
+                    p.add(new Phrase("Stosunek zlecenia został zakończony dnia "+datazakonczeniaostatnieumowy, fontM));
+                }
             } else {
                 if (pracownik.getPlec().equals("K")) {
                     p.add(new Phrase("Wyżej wymieniona zatrudniona nie znajduje się w okresie wypowiedzenia ani w okresie próbnym.", fontM));
