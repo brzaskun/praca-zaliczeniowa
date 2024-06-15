@@ -16,7 +16,7 @@
         <p:outputPanel style="height: 100px">
             <h:form  styleClass="formadmin" id="DRACreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2">
+                    <p:panelGrid columns="3">
                         <p:panelGrid columns="2" rendered="#{draNView.listadefinicjalistaplac ne null}">
                             <p:outputLabel value="okres rozliczeniowy" for="okresdra" />
                             <p:selectOneMenu id="okresdra" value="#{draNView.mcdra}" required="true" requiredMessage="Wybierz miesiąc" >
@@ -38,6 +38,7 @@
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{draNView.pobierzpaski}" update="DRAListForm DRASumaForm"/>
                             </p:selectManyCheckbox>
                         </p:panelGrid>
+                        <h:outputText value=" "/>
                         <p:commandButton styleClass="buttonnorm2" actionListener="#{draNView.drukujliste}" value="druk lista"/>
                         <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{draNView.mailListaDRAFirma()}" global="true">
                             <p:confirm type="popup" header="Potwierdzenie" message="Wysłać DRA do firmy?" icon="pi pi-exclamation-triangle"/>
