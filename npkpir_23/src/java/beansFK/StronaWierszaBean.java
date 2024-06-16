@@ -15,10 +15,11 @@ import entityfk.Wiersz;
 import error.E;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 import javax.inject.Named;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -149,12 +150,8 @@ public class StronaWierszaBean {
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         StronaWiersza p = null;
         try {
-            for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
-                p = it.next();
-                if ((p.getDokfk().getRodzajedok().getSkrot().equals("BO"))) {
-                    it.remove();
-                }
-            }
+            Predicate<StronaWiersza> isQualified = item->item.getDokfk().getRodzajedok().getSkrot().equals("BO");
+            pobranezapisy.removeIf(isQualified);
         } catch (Exception e) {
             E.e(e);
         }
@@ -165,12 +162,8 @@ public class StronaWierszaBean {
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokBilans(podatnik, rok, mc);
         StronaWiersza p = null;
         try {
-            for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
-                p = it.next();
-                if (p.getDokfk().getRodzajedok().getSkrot().equals("BO")) {
-                    it.remove();
-                }
-            }
+            Predicate<StronaWiersza> isQualified = item->item.getDokfk().getRodzajedok().getSkrot().equals("BO");
+            pobranezapisy.removeIf(isQualified);
         } catch (Exception e) {
             E.e(e);
         }

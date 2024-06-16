@@ -171,7 +171,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @NotNull
     @Column(name = "macierzysty")
     private int macierzysty;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "kontomacierzyste",referencedColumnName = "id")
     private Konto kontomacierzyste;
     @Basic(optional = false)

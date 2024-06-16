@@ -178,6 +178,7 @@ public class PozycjaBRView implements Serializable {
     }
     
 // to jest uruchamiane po wyborze ukladu pierwsza funkcja
+    //to jest faktycznie podczas projektowania
     public void pobierzProjektUkladu(String br, TreeNodeExtended root, String aktywapasywa) {
         try {
             pozycje = Collections.synchronizedList(new ArrayList<>());
@@ -981,17 +982,17 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void odswiezrzis() {
-        wpisView.wpisAktualizuj();
+        wpisView.wpisAktualizujMini();
         pobierzukladprzegladRZiS();
     }
     
     public void odswiezbilans() {
-        wpisView.wpisAktualizuj();
+        wpisView.wpisAktualizujMini();
         pobierzukladprzegladBilans("aktywa");
     }
     
     public void odswiezbilansdwiestrony() {
-        wpisView.wpisAktualizuj();
+        wpisView.wpisAktualizujMini();
         obliczBilansNaDzien();
     }
     

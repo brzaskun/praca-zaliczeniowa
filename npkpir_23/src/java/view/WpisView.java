@@ -260,11 +260,41 @@ public class WpisView implements Serializable {
     public void wpisAktualizuj() {
         naniesDaneDoWpis();
     }
+    
+    public void wpisAktualizujMini() {
+        naniesDaneDoWpisMini();
+    }
 
     public void wpisAktualizujZmianadaty() {
         miesiacWpisu = new String(zmianaokresuMc);
         rokWpisu = zmianaokresuRok;
         naniesDaneDoWpis();
+    }
+    
+    public void naniesDaneDoWpisMini() {
+        czegosbrakuje = false;
+        if (uzer==null) {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            uzer = (Uz) request.getAttribute("uzer");
+        }
+        if (uzer.getPodatnik()==null || !uzer.getPodatnik().equals(podatnikObiekt)) {
+            uzer.setPodatnik(podatnikObiekt);
+            //error.E.s("zmiana podatnika na "+podatnikObiekt.getPrintnazwa());
+        }
+        if (!miesiacWpisu.equals("CR")) {
+            uzer.setMiesiacWpisu(miesiacWpisu);
+            miesiacWpisuArchiwum = miesiacWpisu;
+        } else if (miesiacWpisu.equals("CR")){
+            uzer.setMiesiacWpisu(Data.aktualnyMc());
+        }
+        uzer.setRokWpisu(rokWpisu);
+        uzer.setMiesiacOd(miesiacOd);
+        uzer.setMiesiacDo(miesiacDo);
+        uzDAO.edit(uzer);
+//        uzupelnijdanepodatnika();
+//        czyniegosc();
+//       czytojetsbiuroiszef();
+//       jakitobedziejpk2020();
     }
     
     public void naniesDaneDoWpis() {

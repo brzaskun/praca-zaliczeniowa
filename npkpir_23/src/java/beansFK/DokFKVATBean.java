@@ -229,12 +229,14 @@ public class DokFKVATBean {
                     throw new Exception();
                 }
                 Konto kontoprzyporzadkowaneDoRodzajuDok = selected.getRodzajedok().getKontorozrachunkowe();
-                for (Konto p : listakont) {
-                    if (kontoprzyporzadkowaneDoRodzajuDok.equals(p.getKontomacierzyste())) {
-                        konto = p;
-                        break;
-                    }
-                }
+//                for (Konto p : listakont) {
+//                    if (kontoprzyporzadkowaneDoRodzajuDok.equals(p.getKontomacierzyste())) {
+//                        konto = p;
+//                        break;
+//                    }
+//                }
+                //16.06.2024
+                 konto = listakont.parallelStream().filter(item->kontoprzyporzadkowaneDoRodzajuDok.equals(item.getKontomacierzyste())).findAny().orElse(null);
             }
         } catch (Exception e) {  
             Msg.msg("e", "Brak w kontach słownikowych danego kontrahenta. Zweryfikuj plan kont czy sa podpiete slowniki");

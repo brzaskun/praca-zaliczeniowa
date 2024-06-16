@@ -63,21 +63,28 @@ public class BilansPodgladView  implements Serializable{
         List<Konto> listakontRokPop = kontoDAO.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
         List<Konto> listakontbo = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<Konto> it = listakont.iterator(); it.hasNext(); ) {
-            Konto k = it.next();
+            Konto kontobilansowe = it.next();
             if (listakontRokPop != null) {
-                for (Iterator<Konto> ita = listakontRokPop.iterator(); ita.hasNext();) {
-                    Konto kontoRokPop = ita.next();
-                    if (kontoRokPop.getPelnynumer().equals(k.getPelnynumer())) {
-                        k.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
-                        k.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
-                        k.setPozycjaWnRU(kontoRokPop.getPozycjaWn());
-                        k.setPozycjaMaRU(kontoRokPop.getPozycjaMa());
-                        ita.remove();
-                        break;
-                    }
+//                for (Iterator<Konto> ita = listakontRokPop.iterator(); ita.hasNext();) {
+//                    Konto kontoRokPop = ita.next();
+//                    if (kontoRokPop.getPelnynumer().equals(k.getPelnynumer())) {
+//                        k.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
+//                        k.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
+//                        k.setPozycjaWnRU(kontoRokPop.getPozycjaWn());
+//                        k.setPozycjaMaRU(kontoRokPop.getPozycjaMa());
+//                        ita.remove();
+//                        break;
+//                    }
+//                }
+                Konto kontoRokPop = listakontRokPop.parallelStream().filter(kontoRokP->kontoRokP.getPelnynumer().equals(kontobilansowe.getPelnynumer())).findAny().orElse(null);
+                if (kontoRokPop!=null) {
+                    kontobilansowe.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
+                    kontobilansowe.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
+                    kontobilansowe.setPozycjaWnRU(kontoRokPop.getPozycjaWn());
+                    kontobilansowe.setPozycjaMaRU(kontoRokPop.getPozycjaMa());
                 }
             }
-            listakontbo.add(k);
+            listakontbo.add(kontobilansowe);
         }
         level = root.ustaldepthDT(listakontbo)-1;
         //podsumujkonta(listakont, level);
@@ -96,14 +103,19 @@ public class BilansPodgladView  implements Serializable{
             Konto k = it.next();
             Konto kontopo = new Konto(k);
             if (listakontRokPop != null) {
-                for (Iterator<Konto> ita = listakontRokPop.iterator(); ita.hasNext();) {
-                    Konto kontoRokPop = ita.next();
-                    if (kontoRokPop.getPelnynumer().equals(k.getPelnynumer())) {
-                        kontopo.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
-                        kontopo.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
-                        ita.remove();
-                        break;
-                    }
+//                for (Iterator<Konto> ita = listakontRokPop.iterator(); ita.hasNext();) {
+//                    Konto kontoRokPop = ita.next();
+//                    if (kontoRokPop.getPelnynumer().equals(k.getPelnynumer())) {
+//                        kontopo.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
+//                        kontopo.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
+//                        ita.remove();
+//                        break;
+//                    }
+//                }
+            Konto kontoRokPop = listakontRokPop.parallelStream().filter(kontoRokP->kontoRokP.getPelnynumer().equals(k.getPelnynumer())).findAny().orElse(null);
+                if (kontoRokPop!=null) {
+                     kontopo.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
+                     kontopo.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
                 }
             }
             listakontbo.add(kontopo);
