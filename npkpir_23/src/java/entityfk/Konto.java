@@ -366,6 +366,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.zaksiegowane = old.zaksiegowane;
         this.niewidoczne = old.niewidoczne;
         this.sprawdzono = old.sprawdzono;
+        this.saldodosprawozdania = old.saldodosprawozdania;
     }
 
 
@@ -914,6 +915,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public void setKontovat(boolean kontovat) {
         this.kontovat = kontovat;
+    }
+
+    public boolean isSaldodosprawozdania() {
+        return saldodosprawozdania;
+    }
+
+    public void setSaldodosprawozdania(boolean saldodosprawozdania) {
+        this.saldodosprawozdania = saldodosprawozdania;
     }
     
     

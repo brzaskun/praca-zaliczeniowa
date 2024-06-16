@@ -50,7 +50,7 @@
                         }
                     }
             </script>-->
-              <p:panelGrid columns="11">
+              <p:panelGrid columns="12">
 <!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
@@ -94,6 +94,8 @@
                         <p:ajax event="change" update="form_dialog_plankont:dataList" partialSubmit="true" listener="#{planKontView.zmienuklad()}"/>
                     </p:selectOneMenu>
                    <p:commandButton value="nanieś pozycje" actionListener="#{planKontView.naniespozycjeNakontaZbazy}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                   <p:commandButton value="porządki" actionListener="#{planKontView.porzadkujCzterySiedemUzer}"
+                                    onclick="document.body.style.cursor = 'wait'" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                    <p:commandButton value="miotełka" actionListener="#{planKontView.porzadkujCzterySiedem}"
                                     onclick="document.body.style.cursor = 'wait'" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                    <p:commandButton value="importuj bilansowe" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('b')}" icon="fa fa-sign-in" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
@@ -118,7 +120,7 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell"
-                             style="width: 1750px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             style="width: 1800px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              rowsPerPageTemplate="150,250,500,1000,1500" paginatorPosition="top" paginator="true" rows="150"
                              rowIndexVar="index" 
                              >
@@ -160,14 +162,17 @@
                     <p:column headerText="zwykle rozrach szczegolne" style="width: 70px; text-align: center;">
                         <h:outputText value="#{loop.zwyklerozrachszczegolne.length() gt 4 ? loop.zwyklerozrachszczegolne.substring(0,4) : loop.zwyklerozrachszczegolne}" style="text-align: center;"/>
                     </p:column>
+                    <p:column headerText="bilans" style="width: 40px; text-align: center;">
+                        <h:outputText value="&#x2713;" rendered="#{loop.saldodosprawozdania eq true}" style="color: green;font-weight: 900;"/>
+                    </p:column>
                      <p:column headerText="dwa salda" style="width: 40px; text-align: center;">
-                         <h:outputText value="&#x2713;" rendered="#{loop.dwasalda eq true}" style="color: green;"/>
+                         <h:outputText value="&#x2713;" rendered="#{loop.dwasalda eq true}" style="color: green;font-weight: 900;"/>
                     </p:column>
                     <p:column headerText="rorach." style="width: 40px; text-align: center;">
-                        <h:outputText value="&#x2713;" rendered="#{loop.rozrachunkowe eq true}" style="color: green;"/>
+                        <h:outputText value="&#x2713;" rendered="#{loop.rozrachunkowe eq true}" style="color: green;font-weight: 900;"/>
                     </p:column>
                       <p:column headerText="vat" style="width: 40px; text-align: center;">
-                        <h:outputText value="&#x2713;" rendered="#{loop.kontovat eq true}" style="color: green;"/>
+                        <h:outputText value="&#x2713;" rendered="#{loop.kontovat eq true}" style="color: green;font-weight: 900;"/>
                     </p:column>
 <!--                    <p:column headerText="poziom" style="width: 50px; text-align: center;">
                         <h:outputText value="#{loop.level}" /> 

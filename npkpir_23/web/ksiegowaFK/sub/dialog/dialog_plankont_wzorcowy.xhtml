@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
    
     <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura" widgetVar="dialogplankontwzorcowy" 
-              resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1450, 750);ustalmaxlevel('formwzorcowy:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
+              resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1620, 750);ustalmaxlevel('formwzorcowy:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
             <p:contextMenu id="contextforplankontwzorcowy" for="dataListwzorcowy" style="width: 200px;">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="PF('nowekontosyntetyczne').show();" />
@@ -69,7 +69,7 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont"
-                             style="width: 1410px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             style="width: 1600px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
                              >
                     <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkontawzorcowy, :formedycjanazwwzorcowy" global="false" listener="#{planKontView.selrowwzorcowy()}"/>
@@ -80,15 +80,17 @@
                             <p:column colspan="1" headerText="nazwa pełna" width="300"/>
                             <p:column colspan="1" headerText="nazwa skrócona" width="200"/>
                             <p:column colspan="1" headerText="b/w" width="20"/>
-                            <p:column colspan="1" headerText="przyp." width="50"/>
-                            <p:column colspan="1" headerText="rozrach." width="50"/>
+<!--                            <p:column colspan="1" headerText="przyp." width="50"/>
+                            <p:column colspan="1" headerText="rozrach." width="50"/>-->
                             <p:column colspan="1" headerText="potom." width="40"/>
                             <p:column colspan="1" headerText="pozycja Wn" width="60"/>
                             <p:column colspan="1" headerText="pozycja Ma" width="60"/>
-                            <p:column colspan="1" headerText="blok" width="40"/>
+                            <p:column colspan="1" headerText="bilans" width="40"/>
+                            <p:column colspan="1" headerText="dwa salda" width="40"/>
+                            <p:column colspan="1" headerText="rozrach." width="40"/>
+                            <p:column colspan="1" headerText="vat" width="40"/>
                             <p:column colspan="1" headerText="słow" width="40"/>
                             <p:column colspan="1" headerText="P/K" width="40"/>
-                            <p:column colspan="1" headerText="rok" width="40"/>
                             <p:column colspan="1" headerText="saldo" width="40"/>
                         </p:row>
                     </p:columnGroup>
@@ -110,12 +112,12 @@
                     <p:column  style="width: 20px; text-align: center;">
                         <h:outputText value="#{loop.bilansowewynikowe eq 'bilansowe' ? 'B' : 'R'}" /> 
                     </p:column>
-                     <p:column style="width: 80px;">
+<!--                     <p:column style="width: 80px;">
                         <h:outputText value="#{loop.syntetykaanalityka}"/> 
                     </p:column>
                     <p:column  style="width: 120px; text-align: center;">
                         <h:outputText value="#{loop.zwyklerozrachszczegolne.length() gt 4 ? loop.zwyklerozrachszczegolne.substring(0,4) : loop.zwyklerozrachszczegolne}" style="text-align: center;"/>
-                    </p:column>
+                    </p:column>-->
 <!--                    <p:column headerText="poziom" style="width: 50px; text-align: center;">
                         <h:outputText value="#{loop.level}" /> 
                     </p:column>-->
@@ -123,7 +125,9 @@
                         <h:outputText value="#{loop.macierzyste}" /> 
                     </p:column>-->
                     <p:column  style="width: 50px; text-align: center;">
-                        <h:outputText value="#{loop.mapotomkow}" /> 
+                        <p:selectBooleanCheckbox value="#{loop.mapotomkow}">
+                            <p:ajax event="change" listener="#{planKontView.edytujkontowzorcowe(loop)}" global="false"/>
+                        </p:selectBooleanCheckbox>
                     </p:column>
                      <p:column  style="width: 100px;">
                          <h:outputText value="#{loop.pozycjaWn != null ? loop.pozycjaWn : 'nieprzyp.'}" /> 
@@ -131,17 +135,32 @@
                      <p:column  style="width: 100px;">
                         <h:outputText value="#{loop.pozycjaMa != null ? loop.pozycjaMa : 'nieprzyp.'}" /> 
                     </p:column>
-                    <p:column  style="width: 60px; text-align: center;">
-                        <h:outputText value="#{loop.blokada eq 'true' ? 'blok' : null}" /> 
+                <p:column headerText="bilans" style="width: 40px; text-align: center;">
+                        <p:selectBooleanCheckbox value="#{loop.saldodosprawozdania}">
+                            <p:ajax event="change" listener="#{planKontView.edytujkontowzorcowe(loop)}" global="false"/>
+                        </p:selectBooleanCheckbox>
+                                                          
+                    </p:column>
+                     <p:column headerText="dwa salda" style="width: 40px; text-align: center;">
+                         <p:selectBooleanCheckbox value="#{loop.dwasalda}">
+                            <p:ajax event="change" listener="#{planKontView.edytujkontowzorcowe(loop)}" global="false"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                    <p:column headerText="rozrach." style="width: 40px; text-align: center;">
+                        <p:selectBooleanCheckbox value="#{loop.rozrachunkowe}">
+                            <p:ajax event="change" listener="#{planKontView.edytujkontowzorcowe(loop)}" global="false"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                    <p:column headerText="vat" style="width: 40px; text-align: center;">
+                          <p:selectBooleanCheckbox value="#{loop.kontovat}">
+                            <p:ajax event="change" listener="#{planKontView.edytujkontowzorcowe(loop)}" global="false"/>
+                        </p:selectBooleanCheckbox>
                     </p:column>
                     <p:column style="width: 60px; text-align: center;">
                         <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownik' : null}" /> 
                     </p:column>
                     <p:column style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.przychod0koszt1 eq true ? 'K' : 'P'}" rendered="#{loop.bilansowewynikowe eq 'wynikowe'}"/> 
-                    </p:column>
-                    <p:column style="width: 40px; text-align: center;">
-                        <h:outputText value="#{loop.rok}" /> 
                     </p:column>
                     <p:column style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.wnma0wm1ma2S}" /> 
