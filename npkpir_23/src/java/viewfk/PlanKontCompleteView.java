@@ -102,7 +102,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
                         query = query.substring(0, 3) + "-" + query.substring(3, 5);
                     }
                     String[] ql = {query};
-                    results = listakontOstatniaAnalitykaklienta.parallelStream().filter((p)->(p.getPelnynumer().startsWith(ql[0]) && !p.isNiewidoczne())).collect(Collectors.toList()); 
+                    results = listakontOstatniaAnalitykaklienta.stream().filter((p)->(p.getPelnynumer().startsWith(ql[0]) && !p.isNiewidoczne())).collect(Collectors.toList()); 
                     //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
                     if (nazwa != null && nazwa.length() > 2) {
                         for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
@@ -114,7 +114,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
                     }
                 } catch (NumberFormatException e) {
                     String[] ql = {query.toLowerCase()};
-                    results = listakontOstatniaAnalitykaklienta.parallelStream().filter((p)->(p.getNazwapelna().toLowerCase().contains(ql[0]) && !p.isNiewidoczne())).collect(Collectors.toList()); 
+                    results = listakontOstatniaAnalitykaklienta.stream().filter((p)->(p.getNazwapelna().toLowerCase().contains(ql[0]) && !p.isNiewidoczne())).collect(Collectors.toList()); 
                 } catch (Exception e) {
                     E.e(e);
                 }
@@ -249,7 +249,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
             Konto zwrot = null;
             try {
                 int submittedValue = Integer.parseInt(sub);
-                zwrot = konta.parallelStream().filter(p->p.getId()==submittedValue).findFirst().get();
+                zwrot = konta.stream().filter(p->p.getId()==submittedValue).findFirst().get();
 //                for (Konto p : konta) {
 //                    if (p.getId()== submittedValue) {
 //                        return p;

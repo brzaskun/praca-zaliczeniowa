@@ -236,7 +236,7 @@ public class DokFKVATBean {
 //                    }
 //                }
                 //16.06.2024
-                 konto = listakont.parallelStream().filter(item->kontoprzyporzadkowaneDoRodzajuDok.equals(item.getKontomacierzyste())).findAny().orElse(null);
+                 konto = listakont.stream().filter(item->kontoprzyporzadkowaneDoRodzajuDok.equals(item.getKontomacierzyste())).findAny().orElse(null);
             }
         } catch (Exception e) {  
             Msg.msg("e", "Brak w kontach słownikowych danego kontrahenta. Zweryfikuj plan kont czy sa podpiete slowniki");

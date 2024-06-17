@@ -76,7 +76,7 @@ public class BilansPodgladView  implements Serializable{
 //                        break;
 //                    }
 //                }
-                Konto kontoRokPop = listakontRokPop.parallelStream().filter(kontoRokP->kontoRokP.getPelnynumer().equals(kontobilansowe.getPelnynumer())).findAny().orElse(null);
+                Konto kontoRokPop = listakontRokPop.stream().filter(kontoRokP->kontoRokP.getPelnynumer().equals(kontobilansowe.getPelnynumer())).findAny().orElse(null);
                 if (kontoRokPop!=null) {
                     kontobilansowe.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
                     kontobilansowe.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
@@ -112,7 +112,7 @@ public class BilansPodgladView  implements Serializable{
 //                        break;
 //                    }
 //                }
-            Konto kontoRokPop = listakontRokPop.parallelStream().filter(kontoRokP->kontoRokP.getPelnynumer().equals(k.getPelnynumer())).findAny().orElse(null);
+            Konto kontoRokPop = listakontRokPop.stream().filter(kontoRokP->kontoRokP.getPelnynumer().equals(k.getPelnynumer())).findAny().orElse(null);
                 if (kontoRokPop!=null) {
                      kontopo.setSaldorokpopWn(Z.z(kontoRokPop.getSaldoWnksiegi()));
                      kontopo.setSaldorokpopMa(Z.z(kontoRokPop.getSaldoMaksiegi()));
