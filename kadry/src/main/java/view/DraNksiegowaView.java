@@ -99,7 +99,7 @@ public class DraNksiegowaView  implements Serializable {
             init();
         }
     }
-    
+    //to sie nie robi bo jest w innym pliku DRANView
     public void init() {
         mcdra = wpisView.getMiesiacWpisu();
     }
@@ -214,7 +214,8 @@ public class DraNksiegowaView  implements Serializable {
     }
     
     
-     public void mailListaDRAKsiegowa() {
+     public void mailListaDRAKsiegowa(String mc) {
+         mcdra = mc;
          mailListaDRAFirma(false);
          mailListaDRAFirma(true);
      }
@@ -234,6 +235,7 @@ public class DraNksiegowaView  implements Serializable {
                 danezus.put("zus", zus);
                 danezus.put("pit4", pit4);
                 danezus.put("pit4przekroczenie", pit4przekroczenie);
+                danezus.put("pit4N", pit4N);
                 danezus.put("pit8AR", pit8AR);
                 danezus.put("brutto", brutto);
                 danezus.put("bruttopraca", bruttopraca);

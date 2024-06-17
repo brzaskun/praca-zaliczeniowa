@@ -38,12 +38,12 @@
                                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{draNView.pobierzpaski}" update="DRAListForm DRASumaForm"/>
                             </p:selectManyCheckbox>
                         </p:panelGrid>
-                        <h:outputText value=" "/>
+                        <h:outputText value="księgowa #{wpisView.firma.ksiegowa}"/>
                         <p:commandButton styleClass="buttonnorm2" actionListener="#{draNView.drukujliste}" value="druk lista"/>
                         <p:commandButton value="mail do firmy" styleClass="buttonnorm" actionListener="#{draNView.mailListaDRAFirma()}" global="true">
                             <p:confirm type="popup" header="Potwierdzenie" message="Wysłać DRA do firmy?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
-                        <p:commandButton value="mail do księgowej" styleClass="buttonnorm" actionListener="#{draNksiegowaView.mailListaDRAKsiegowa()}" global="true">
+                        <p:commandButton value="mail do księgowej" styleClass="buttonnorm" actionListener="#{draNksiegowaView.mailListaDRAKsiegowa(draNView.mcdra)}" global="true">
                             <p:confirm type="popup" header="Potwierdzenie" message="Wysłać DRA do księgowej?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:panelGrid>

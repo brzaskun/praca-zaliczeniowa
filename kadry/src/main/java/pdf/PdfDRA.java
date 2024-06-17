@@ -182,7 +182,7 @@ public class PdfDRA {
             String nip, String mc, Map<String,Double> danezus, String nazwafirmy, FirmaKadry firma) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
-            String nazwa = nip + "_" + mc + "_" + "DRA.pdf";
+            String nazwa = nip + "_" + mc + "_" + "DRA"+def.hashCode()+".pdf";
             if (lista != null) {
                 Document document = PdfMain.inicjacjaA4Landscape(40,20,40,40);
                 PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);

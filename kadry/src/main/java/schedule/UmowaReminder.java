@@ -44,17 +44,22 @@ public class UmowaReminder {
     public void oznaczumowy() {
         List<Angaz> angaze = angazFacade.findAll();
         List<Umowa> listaumowy = new ArrayList<>();
-        for (Iterator<Angaz> it = angaze.iterator(); it.hasNext();) {
-                Angaz angaz = it.next();
-                if (angaz.jestumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu())==false) {
-                    it.remove();
-                }
-        }
-        for (Angaz a : angaze) {
-            Umowa umowaAktywna = a.pobierzumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-            if (umowaAktywna!=null) {
-                listaumowy.add(umowaAktywna);
+        try {
+            for (Iterator<Angaz> it = angaze.iterator(); it.hasNext();) {
+                    Angaz angaz = it.next();
+                    if (angaz.jestumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu())==false) {
+                        it.remove();
+                    }
             }
+            for (Angaz a : angaze) {
+                Umowa umowaAktywna = a.pobierzumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                if (umowaAktywna!=null) {
+                    listaumowy.add(umowaAktywna);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("blad umowareminder.java oznaczumowy");
+            System.out.println("nie ma roku ani miesiaca we wpisview");
         }
         if (listaumowy!=null) {
             for (Umowa u : listaumowy) {

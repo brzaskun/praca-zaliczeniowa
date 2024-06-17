@@ -580,9 +580,10 @@ public class KalendarzmiesiacBean {
                 if (p.getTypdnia() == 0 && p.getNrdnia() >= dzienod && p.getNrdnia() <= dziendo) {
                     liczbagodzinchoroby = liczbagodzinchoroby + p.getWynagrodzeniezachorobe() + p.getZasilek();
                 }
-                if (p.getNieobecnosc()!=null&&p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("D")) {
-                    godzinypozazatrudnieniem = godzinypozazatrudnieniem+p.getNormagodzin();
-                }
+                //tego ma nie byc bo waloryzacja jest niezalezna od zwolneinia 17.06.2024
+//                if (p.getNieobecnosc()!=null&&p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("D")) {
+//                    godzinypozazatrudnieniem = godzinypozazatrudnieniem+p.getNormagodzin();
+//                }
             }
             double wymiarproporcja = kalendarz.getGodzinyroboczewmiesiacu()-godzinypozazatrudnieniem;
             double dnikalendarzoweniechoroby = Data.iletodniKalendarzowych(dataod, datado);
