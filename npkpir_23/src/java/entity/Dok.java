@@ -157,7 +157,7 @@ public class Dok extends DokSuper implements Serializable {
 //    @Size(max = 45)
 //    @Column(name = "rodz_trans")
 //    private String rodzTrans;
-    @Size(max = 45)
+    @Size(max = 145)
     @Column(name = "opis")
     private String opis;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
