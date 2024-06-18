@@ -103,7 +103,7 @@ public class ReadCSVAmznJsonFile {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
             List<FakturaCis> faktury = ImportJsonCislowski.pobierz(file);
              //Create Workbook instance holding reference to .xlsx file  TYLKO NOWE XLSX
-            if (faktury!=null) {
+            if (faktury!=null&&faktury.size()>0) {
                 int i =1;
                 Map<String, Klienci> znalezieni = new HashMap<>();
                 for (FakturaCis row :faktury) {
@@ -137,7 +137,7 @@ public class ReadCSVAmznJsonFile {
                     }
                 }
             } else {
-                
+                Msg.msg("e","Błąd w strukturze pliku");
             }
             file.close();
         } catch (Exception e) {

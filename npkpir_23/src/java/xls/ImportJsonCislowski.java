@@ -15,11 +15,7 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +60,7 @@ public class ImportJsonCislowski {
             Map<String, FakturaCis> map = gson.fromJson(bufferedReader, type);
             zwrot.addAll(map.values());
         } catch (Exception e) {
-            E.e(e);
+            E.m(e);
         }
         return zwrot;
     }
