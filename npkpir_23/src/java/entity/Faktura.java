@@ -1398,6 +1398,14 @@ public class Faktura implements Serializable {
         return "Faktura{" + "numerkolejny=" + numerkolejny + ", wystawca=" + wystawca.getPrintnazwa() + ", kontrahent=" + kontrahent.getNskrocona() + '}';
     }
 
+    public boolean isKorekta() {
+        boolean zwrot = false;
+        if (this.przyczynakorekty!=null||this.przyczynakorekty.equals("")==true) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+
 
     
    
