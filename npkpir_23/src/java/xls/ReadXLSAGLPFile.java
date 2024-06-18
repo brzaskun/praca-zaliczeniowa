@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
@@ -91,8 +92,12 @@ public class ReadXLSAGLPFile {
         return listafaktur;
     }
     
-     public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String mc) {
-        List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
+     public static Object[] getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String mc) {
+         Object[] zwrot = new Object[4];
+         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
+        List<CSVRecord> innyokres = new ArrayList<>();
+        List<CSVRecord> przerwanyimport = new ArrayList<>();
+        List<InterpaperXLS> importyzbrakami = Collections.synchronizedList(new ArrayList<>());
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
              //Create Workbook instance holding reference to .xlsx file  TYLKO NOWE XLSX
@@ -105,8 +110,10 @@ public class ReadXLSAGLPFile {
             Map<String, Klienci> znalezieni = new HashMap<>();
             while (rowIterator.hasNext()) {
                  Row row = rowIterator.next();
+                 InterpaperXLS interpaperXLS = new InterpaperXLS();
+                 interpaperXLS.setOpis("błąd w imporcie");
+                 interpaperXLS.setNrfaktury("nr wierdsza "+row.getRowNum());
                     try {
-                        InterpaperXLS interpaperXLS = new InterpaperXLS();
                         //String nip = row.getCell(2).getStringCellValue().replace("-", "").trim();
                         if (rodzajdok.contains("zakup")) {
                             String mcdok = Data.getMc(Data.zmienkolejnosc(Data.data_yyyyMMdd(row.getCell(6).getDateCellValue())));
@@ -128,6 +135,7 @@ public class ReadXLSAGLPFile {
 //                            }
                         }
                     } catch (Exception e){
+                        importyzbrakami.add(interpaperXLS);
                         E.e(e);
                     }
             }
@@ -136,7 +144,33 @@ public class ReadXLSAGLPFile {
         catch (Exception e) {
             E.e(e);
         }
-        return listafaktur;
+         zwrot[0] = listafaktur;
+        zwrot[2] = importyzbrakami;
+//        List<InterpaperXLS> zlefakturylista = new ArrayList<>();
+//        Map<String, Klienci> znalezieni = new HashMap<>();
+//        int i =1;
+//        for (CSVRecord row :przerwanyimport) {
+//            try {
+//                InterpaperXLS interpaperXLS = new InterpaperXLS();
+//                uzupelnijsprzedaz2(interpaperXLS, row, k, klienciDAO, znalezieni);
+//                interpaperXLS.setNr(i++);
+//                zlefakturylista.add(interpaperXLS);
+//            } catch (Exception e){}
+//        }
+        zwrot[1] = null;
+//        List<InterpaperXLS> zlefakturylista2 = new ArrayList<>();
+//        Map<String, Klienci> znalezieni2 = new HashMap<>();
+//        i =1;
+//        for (CSVRecord row :innyokres) {
+//            try {
+//                InterpaperXLS interpaperXLS = new InterpaperXLS();
+//                uzupelnijsprzedaz2(interpaperXLS, row, k, klienciDAO, znalezieni2);
+//                interpaperXLS.setNr(i++);
+//                zlefakturylista2.add(interpaperXLS);
+//            } catch (Exception e){}
+//        }
+        zwrot[3] = null;
+        return zwrot;
     }
      
    private static void uzupelnijzakup(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {

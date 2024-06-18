@@ -299,7 +299,11 @@ public class ImportDokumentowGlownyView implements Serializable {
                     innyokres = (List<InterpaperXLS>) zwrot4[3];
                     break;
                 case 12:
-                    pobranefaktury = ReadXLSAGLPFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
+                    Object[] zwrot4a = ReadXLSAGLPFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
+                    pobranefaktury = (List<InterpaperXLS>) zwrot4a[0];
+                    przerwanyimport = (List<InterpaperXLS>) zwrot4a[1];
+                    importyzbrakami = (List<InterpaperXLS>) zwrot4a[2];
+                    innyokres = (List<InterpaperXLS>) zwrot4a[3];
                     break;
                 case 13:
                     pobranefaktury = ReadXLSDomeguruFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
