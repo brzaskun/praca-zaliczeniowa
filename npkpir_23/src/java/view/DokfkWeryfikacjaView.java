@@ -468,7 +468,8 @@ public class DokfkWeryfikacjaView implements Serializable {
                     if (wn.getKwota() > 0.0 && wn.getKwotaPLN() == 0.0) {
                         brakwpln = true;
                     }
-                    if (r.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                    //musialem to dodac bo nie sprawdzal dok BO bo tam nie ma tabeli ale jest kurs BO dlatego sie wysypywal 23.6.2024 wizyta w Rozbrat 20
+                    if (r.getTabelanbp()!=null&&r.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
                         if (wn.getKwota() != wn.getKwotaPLN()) {
                             brakwpln = true;
                         }
@@ -488,7 +489,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                     if (ma.getKwota() > 0.0 && ma.getKwotaPLN() == 0.0) {
                         brakwpln = true;
                     }
-                    if (r.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                    if (r.getTabelanbp()!=null&&r.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
                         if (ma.getKwota() != ma.getKwotaPLN()) {
                             brakwpln = true;
                         }

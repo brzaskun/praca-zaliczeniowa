@@ -146,6 +146,7 @@ public class KontoZapisFKView implements Serializable{
 
     public void init() { //E.m(this);
         ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        Collections.sort(ostatniaanalityka,new Kontocomparator());
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         wszystkiekonta = new ArrayList<>(wykazkont);
         wpisView.setMiesiacOd(wpisView.getMiesiacOd());
