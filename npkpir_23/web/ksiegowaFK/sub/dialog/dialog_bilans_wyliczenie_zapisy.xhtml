@@ -102,7 +102,7 @@
                                      style="height: 200px; margin-top: 0%; width: 850px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}"
                                      rowKey="#{loop.id}" selection="#{pozycjaBRView.wybranokonto}"
                                      >
-                            <p:ajax event="rowSelectRadio"  global="false" update=":formprzegladbilanszapisy:podpietepozycje" listener="#{pozycjaBRView.pobierzdanezkonta}" />
+                            <p:ajax event="rowSelectRadio" partialSubmit="true"  global="false" update=":formprzegladbilanszapisy:podpietepozycje" listener="#{pozycjaBRView.pobierzdanezkonta}" />
                             <f:facet  name="header">
                                 <h:outputText value="#{mgs.podpiętesaldakont}"/>
                             </f:facet>

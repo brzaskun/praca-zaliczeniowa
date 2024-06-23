@@ -956,7 +956,7 @@ public class PozycjaBRView implements Serializable {
     public void pobierzdanezkonta() {
         if (wybranokonto!=null) {
             podpieteStronyWiersza = new ArrayList<>();
-            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkie(wpisView.getPodatnikObiekt(), wybranokonto, wpisView.getRokWpisuSt());
             for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext(); ) {   
                 StronaWiersza r = (StronaWiersza) it.next();
                 if (r.getKonto().equals(wybranokonto)) {
