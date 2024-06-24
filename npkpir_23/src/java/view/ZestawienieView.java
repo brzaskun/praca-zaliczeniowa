@@ -46,7 +46,6 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -1111,7 +1110,7 @@ public class ZestawienieView implements Serializable {
     public Pitpoz skumulujpity(String mcDo, PodatnikUdzialy udzialowiec) {
         Pitpoz tmp = new Pitpoz("zus");
         try {
-            Collection c = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu(), wybranacechadok);
+            List<Pitpoz> c = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu(), wybranacechadok);
             Iterator it = c.iterator();
             int poprzednimc = Mce.getMiesiacToNumber().get(mcDo);
             if (wpisView.isMc0kw1()) {
@@ -1128,7 +1127,7 @@ public class ZestawienieView implements Serializable {
                         tmp.setNalzalodpoczrok(tmp.getNalzalodpoczrok().add(tmpX.getNaleznazal()));
                     }
                 }
-                if (tmpX.getPkpirM().equals(starymcS) && tmpX.getUdzialowiec().equals(udzialowiec.getNazwiskoimie())) {
+                if (tmpX.getPkpirM().equals(starymcS) && (tmpX.getUdzialowiec().equals(udzialowiec.getNazwiskoimie())||(tmp.getPodmiot()!=null&&tmp.getPodmiot().equals(udzialowiec.getPodmiot())))) {
                     if (tmpX.getZus51() != null) {
                         tmp.setZus51(tmp.getZus51().add(tmpX.getZus51()));
                     } else {

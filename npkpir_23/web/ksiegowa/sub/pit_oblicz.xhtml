@@ -35,6 +35,7 @@
                             <f:selectItems value="#{zestawienieView.listawybranychudzialowcow}" var="ytem" itemLabel="#{ytem.nazwiskoimie}" itemValue="#{ytem}"/>
                             <p:ajax event="change" update=":akordeon:formpit" listener="#{zestawienieView.obliczPit()}" partialSubmit="true"/>
                         </p:selectOneMenu>
+                        <h:outputText value="udziałowiec nie zdefiniowany jako podatnik!" style="color: red; font-weight:900" rendered="#{zestawienieView.wybranyudzialowiec.podmiot eq null}"/>
                         <p:panel header="imię nazwisko przedsiębiorcy: " style="width: 250px;" rendered="#{zestawienieView.listawybranychudzialowcow.size() eq 1}"/>
                         <h:outputText value="#{zestawienieView.wybranyudzialowiec.nazwiskoimie}"/>
                         <p:panel header="opodatkowanie: "/>
