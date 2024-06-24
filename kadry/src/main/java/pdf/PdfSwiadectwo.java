@@ -399,6 +399,10 @@ public class PdfSwiadectwo {
                             String opis = skl.getRodzajpotracenia().getOpis()+" komornik: "+skl.getKomornik()+" nr sprawy: "+skl.getNrsprawy()+" kwota potrącona: "+poz;
                             PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, opis, Element.ALIGN_LEFT, 2);
                             czydodano = true;
+                        } else {
+                            String opis = skl.getRodzajpotracenia().getOpis()+" komornik: "+skl.getKomornik()+" nr sprawy: "+skl.getNrsprawy()+" kwota potrącona: 0.00";
+                            PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, opis, Element.ALIGN_LEFT, 2);
+                            czydodano = true;
                         }
                     }
                 }
