@@ -31,7 +31,7 @@
                     <p:commandButton value="XLS" style="width: 200px;margin: 10px;">
                         <p:dataExporter type="xls" target="formpodatnicy:tabelapodatnicy" fileName="lista" />
                     </p:commandButton>
-                    <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 1350px;" 
+                    <p:dataTable id="tabelapodatnicy" value="#{podatnikKsiegowaShortView.listapodatnikow}" var="item" style="width: 1550px;" 
                                  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="30"
                                  rowIndexVar="index" 
                                  rowStyleClass="#{item.ksiegowa.login.startsWith('mar') ? 'rmarta' : item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
@@ -48,6 +48,10 @@
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{podatnikKsiegowaShortView.listaksiegowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
                             </p:selectOneMenu>
+                        </p:column>
+                        <p:column headerText="księgowa email" width="300" style="text-align: left;">
+                            <h:outputText value="#{item.ksiegowa.email}" />
+                                    
                         </p:column>
                         <p:column headerText="aktywny" width="60" style="text-align: center;">
 <!--                            <h:outputText value="tak" rendered="#{item.podmiotaktywny}"/>-->
