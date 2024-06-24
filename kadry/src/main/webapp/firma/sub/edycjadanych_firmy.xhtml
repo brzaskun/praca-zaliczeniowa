@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:outputPanel style="height: 90%;overflow-y: scroll;width: 1700px">
+    <p:outputPanel style="height: 90%;overflow-y: scroll;width: 1800px">
     <p:panelGrid columns="2" columnClasses="thirty-percent seventy-percent" style="height: 200px;width: 500px;">
         <p:outputPanel style="width: 400px;">
             <h:form id="FirmaCreateForm">
@@ -62,7 +62,7 @@
                     <p:dataTable id="datalist" value="#{firmaImportView.lista}" var="item1"
                                  selectionMode="single" selection="#{firmaImportView.selectedlista}"
                                  rowKey="#{item1.id}"  sortBy="#{item1.nazwa}"
-                                 style="height: 250px; width: 1100px; overflow-y: scroll;"
+                                 style="height: 250px; width: 1300px; overflow-y: scroll;"
                                  > 
                         <p:ajax event="rowSelect" update="FirmaUzupelnijForm" listener="#{firmaImportView.pobierzinfo}"/>
                         <p:column width="40" style="text-align: center;">
@@ -94,6 +94,14 @@
                                 <h:outputText value="email"/>
                             </f:facet>
                              <p:inputText value="#{item1.email}">
+                                 <p:ajax event="blur" partialSubmit="true" global="false" listener="#{firmaImportView.edytuj(item1)}"/>
+                             </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="księgowa"/>
+                            </f:facet>
+                            <p:inputText value="#{item1.ksiegowa}">
                                  <p:ajax event="blur" partialSubmit="true" global="false" listener="#{firmaImportView.edytuj(item1)}"/>
                              </p:inputText>
                         </p:column>
