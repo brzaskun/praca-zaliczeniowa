@@ -22,10 +22,10 @@
 <!--                    <h:form>
                         <p:growl life="3600"   ><p:autoUpdate/></p:growl>
                     </h:form>-->
-                        <p:confirmDialog id="confirmDialog" message="Usunąć wybrany JPK?"  appendTo="@(body)"
-                                             header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmation">  
+                        <p:confirmDialog id="confirmationJPK" message="Usunąć wybrany JPK?"  appendTo="@(body)"
+                                             header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmationJPK">  
                             <h:form>
-                            <p:commandButton id="confirm" value="Tak, usunąć" update=":form_dialog_jpk_vat" oncomplete="PF('confirmation').hide()"  
+                            <p:commandButton id="confirm" value="Tak, usunąć" update=":form_dialog_jpk_vat" oncomplete="PF('confirmationJPK').hide()"  
                                              actionListener="#{jpk_VAT2NView.usunUPO()}" global="false"/>  
                             <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" global="false" />   
                             </h:form>
