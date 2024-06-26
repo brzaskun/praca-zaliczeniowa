@@ -46,22 +46,22 @@ public class UkladBRBean {
     public static List<PozycjaRZiSBilans> pobierzpozycje(PozycjaRZiSDAO pozycjaRZiSDAO, PozycjaBilansDAO pozycjaBilansDAO, UkladBR uklad, String aktywapasywa, String br) {
         List pozycje = Collections.synchronizedList(new ArrayList<>());
         if (br.equals("r")) {
-                pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
-                if (pozycje.isEmpty()) {
-                   pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-                    Msg.msg("i", "Dodaje pusta pozycje");
-                }
-            } else {
-                if (aktywapasywa.equals("aktywa")) {
-                    pozycje.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
-                } else {
-                    pozycje.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
-                }
-                if (pozycje.isEmpty()) {
-                   pozycje.add(new PozycjaBilans(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-                    Msg.msg("i", "Dodaje pusta pozycje");
-                }
+            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
+            if (pozycje.isEmpty()) {
+                pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
             }
+        } else {
+            if (aktywapasywa.equals("aktywa")) {
+                pozycje.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
+            } else {
+                pozycje.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
+            }
+            if (pozycje.isEmpty()) {
+                pozycje.add(new PozycjaBilans(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
+            }
+        }
         return pozycje;
     }
     

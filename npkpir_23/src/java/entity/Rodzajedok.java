@@ -540,7 +540,7 @@ public class Rodzajedok implements Serializable {
 
     @Override
     public String toString() {
-        return "Rodzajedok{" + "skrotNazwyDok=" + skrotNazwyDok + ", kategoriadokumentu=" + kategoriadokumentu + ", podatnikObj=" + podatnikObj + '}';
+        return "Rodzajedok{"+ id + " skrotNazwyDok=" + skrotNazwyDok + ", kategoriadokumentu=" + kategoriadokumentu + ", podatnikObj=" + podatnikObj + '}';
     }
     
     

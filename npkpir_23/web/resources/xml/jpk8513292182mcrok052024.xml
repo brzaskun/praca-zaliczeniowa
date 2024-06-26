@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2024-06-25T07:09:31.436Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2024</Rok>
+        <Miesiac>5</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8513292182</NIP>
+            <PelnaNazwa>D.E.S. OFFSHORE sp. z o.o.</PelnaNazwa>
+            <Email>info@taxman.biz.pl</Email>
+            <Telefon>605586176</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_11>126528</P_11>
+            <P_12>31535</P_12>
+            <P_19>6494</P_19>
+            <P_20>1494</P_20>
+            <P_35>0</P_35>
+            <P_37>133022</P_37>
+            <P_38>1494</P_38>
+            <P_39>0</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>61570</P_42>
+            <P_43>14161</P_43>
+            <P_48>14161</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>12667</P_53>
+            <P_54>6454</P_54>
+            <P_57>1</P_57>
+            <P_59>1</P_59>
+            <P_60>6454</P_60>
+            <P_61>cit-8 za 05/2024</P_61>
+            <P_62>6213</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552031799</NrKontrahenta>
+            <NazwaKontrahenta>"NAVICOR" sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>16/2024</DowodSprzedazy>
+            <DataWystawienia>2024-05-31</DataWystawienia>
+            <DataSprzedazy>2024-05-07</DataSprzedazy>
+            <K_19>6494.10</K_19>
+            <K_20>1493.64</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>US</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000011670</NrKontrahenta>
+            <NazwaKontrahenta>BV Steel Technology Inc.</NazwaKontrahenta>
+            <DowodSprzedazy>18/2024</DowodSprzedazy>
+            <DataWystawienia>2024-05-31</DataWystawienia>
+            <DataSprzedazy>2024-05-31</DataSprzedazy>
+            <K_11>94993.05</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>123771431</NrKontrahenta>
+            <NazwaKontrahenta>ROS Rollentechnik </NazwaKontrahenta>
+            <DowodSprzedazy>17/2024</DowodSprzedazy>
+            <DataWystawienia>2024-05-31</DataWystawienia>
+            <DataSprzedazy>2024-05-31</DataSprzedazy>
+            <K_11>31535.25</K_11>
+            <K_12>31535.25</K_12>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>3</LiczbaWierszySprzedazy>
+            <PodatekNalezny>1493.64</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>F0083979866/005/24</DowodZakupu>
+            <DataZakupu>2024-05-01</DataZakupu>
+            <DataWplywu>2024-05-31</DataWplywu>
+            <K_42>56.91</K_42>
+            <K_43>13.09</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>9/2024/D.E.18</DowodZakupu>
+            <DataZakupu>2024-05-06</DataZakupu>
+            <DataWplywu>2024-05-31</DataWplywu>
+            <K_42>3465.84</K_42>
+            <K_43>797.14</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>10/2024/D.E.18</DowodZakupu>
+            <DataZakupu>2024-05-06</DataZakupu>
+            <DataWplywu>2024-05-31</DataWplywu>
+            <K_42>160.00</K_42>
+            <K_43>36.8</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6722092316</NrDostawcy>
+            <NazwaDostawcy>DRÄGER PALETTENHANDEL sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FS-24/5/3</DowodZakupu>
+            <DataZakupu>2024-05-07</DataZakupu>
+            <DataWplywu>2024-05-31</DataWplywu>
+            <K_42>500.00</K_42>
+            <K_43>115.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>1/2024/D.E/KOR</DowodZakupu>
+            <DataZakupu>2024-05-14</DataZakupu>
+            <DataWplywu>2024-05-31</DataWplywu>
+            <K_42>-206.29</K_42>
+            <K_43>-47.45</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8510207075</NrDostawcy>
+            <NazwaDostawcy>MUEHLHAN POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>S240191</DowodZakupu>
+            <DataZakupu>2024-05-20</DataZakupu>
+            <DataWplywu>2024-05-31</DataWplywu>
+            <K_42>1952.00</K_42>
+            <K_43>448.96</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5832790417</NrDostawcy>
+            <NazwaDostawcy>"DKS" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FS/0075/USZC/05/24</DowodZakupu>
+            <DataZakupu>2024-05-23</DataZakupu>
+            <DataWplywu>2024-05-31</DataWplywu>
+            <K_42>183.83</K_42>
+            <K_43>42.28</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6722022439</NrDostawcy>
+            <NazwaDostawcy>KACPER Skrzyniarz Solutions</NazwaDostawcy>
+            <DowodZakupu>1/05/2024</DowodZakupu>
+            <DataZakupu>2024-05-31</DataZakupu>
+            <DataWplywu>2024-05-31</DataWplywu>
+            <K_42>32003.07</K_42>
+            <K_43>7360.71</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8521932880</NrDostawcy>
+            <NazwaDostawcy>Dominik Gabryś Doradztwo Techniczne</NazwaDostawcy>
+            <DowodZakupu>F/5/2024</DowodZakupu>
+            <DataZakupu>2024-05-31</DataZakupu>
+            <DataWplywu>2024-05-31</DataWplywu>
+            <K_42>23454.74</K_42>
+            <K_43>5394.59</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>9</LiczbaWierszyZakupow>
+            <PodatekNaliczony>14161.12</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>
