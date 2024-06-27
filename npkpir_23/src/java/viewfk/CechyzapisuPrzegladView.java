@@ -11,7 +11,6 @@ import dao.DokDAOfk;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.StronaWiersza;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,18 +18,19 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import pdffk.PdfCechyZapisow;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import view.WpisView;
+ import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class CechyzapisuPrzegladView implements Serializable{
     private static final long serialVersionUID = 1L;

@@ -18,18 +18,20 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import javax.xml.parsers.ParserConfigurationException;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.xml.sax.SAXException;
 import view.WpisView;
 import waluty.WalutyNBP;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class WalutyKursRecznieView implements Serializable{
     private static final long serialVersionUID = 1L;

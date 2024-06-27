@@ -4,8 +4,8 @@
  */
 package viewfk;
 
-import dao.StronaWierszaDAO;
 import dao.KontoDAOfk;
+import dao.StronaWierszaDAO;
 import dao.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.ListaSum;
@@ -19,19 +19,22 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import pdf.PdfKontoObroty;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import pdf.PdfKontoObroty;
+ import view.WpisView;
 import waluty.Z;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class KontoObrotyFKView implements Serializable{
     private static final long serialVersionUID = 1L;

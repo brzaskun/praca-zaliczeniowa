@@ -8,14 +8,16 @@ package viewfk;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.List;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class PrzyporzadkowanieKontView implements Serializable {
     private static final long serialVersionUID = 1L;

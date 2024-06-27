@@ -16,15 +16,17 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import org.apache.poi.ss.usermodel.Workbook;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 import xls.WriteXLSFile;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class XLSBilansView implements Serializable{
     private static final long serialVersionUID = 1L;

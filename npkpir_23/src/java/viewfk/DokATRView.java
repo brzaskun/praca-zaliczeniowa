@@ -6,31 +6,32 @@
 package viewfk;
 
 import beansFK.DokumentFKBean;
-import dao.KlienciDAO;
-import dao.RodzajedokDAO;
 import dao.CechazapisuDAOfk;
 import dao.DokDAOfk;
+import dao.KlienciDAO;
 import dao.KontoDAOfk;
+import dao.RodzajedokDAO;
 import dao.TabelanbpDAO;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import msg.Msg;
+import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class DokATRView  implements Serializable{
     private static final long serialVersionUID = 1L;

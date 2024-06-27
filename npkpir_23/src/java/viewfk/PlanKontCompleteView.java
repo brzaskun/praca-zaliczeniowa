@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
@@ -28,13 +29,15 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.Msg;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class PlanKontCompleteView implements javax.faces.convert.Converter, Serializable {
     private static final long serialVersionUID = 1L;
@@ -63,13 +66,15 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
     
   @PostConstruct
   public void init() { //E.m(this);
-      listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-      if (listakontOstatniaAnalitykaklienta!=null) {
-        Collections.sort(listakontOstatniaAnalitykaklienta, new Kontocomparator());
-      }
       konta = kontoDAOfk.findWszystkieKontaPodatnikaRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
       if (konta!=null) {
         Collections.sort(konta, new Kontocomparator());
+      }
+      Predicate<Konto> predicate = item -> item.isMapotomkow()==false;
+      //listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+      listakontOstatniaAnalitykaklienta = konta.parallelStream().filter(predicate).collect(Collectors.toList());
+      if (listakontOstatniaAnalitykaklienta!=null) {
+        Collections.sort(listakontOstatniaAnalitykaklienta, new Kontocomparator());
       }
   }
     

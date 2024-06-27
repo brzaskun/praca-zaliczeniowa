@@ -9,10 +9,10 @@ package viewfk;
 import beansFK.MiejsceKosztowBean;
 import beansFK.PlanKontFKBean;
 import beansFK.SlownikiBean;
-import dao.StronaWierszaDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
 import dao.MiejsceKosztowDAO;
+import dao.StronaWierszaDAO;
 import dao.UkladBRDAO;
 import embeddablefk.MiejsceZest;
 import entityfk.Konto;
@@ -26,17 +26,19 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import pdf.PdfMiejsceKosztow;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import msg.Msg;
+import pdf.PdfMiejsceKosztow;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class MiejsceKosztowView  implements Serializable{
     private static final long serialVersionUID = 1L;

@@ -25,15 +25,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import pdf.PdfKontaNarastajaco;
 import view.WpisView;
 import waluty.Z;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class SaldoAnalitykaNarastajacoView implements Serializable {
     private static final long serialVersionUID = 1L;

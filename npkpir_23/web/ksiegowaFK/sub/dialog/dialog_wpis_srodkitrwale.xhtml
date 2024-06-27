@@ -16,6 +16,7 @@
     <p:dialog id="dialogwpissrodkitrwale" header="Wpisywanie nowego środka trwałego dla dok #{srodkiTrwaleView.dokfk.dokfkSN}" widgetVar="dialogwpissrodkitrwale"  modal="true" appendTo="@(body)"
               resizable="false"  onShow="ustawdialogWindow('dialogwpissrodkitrwale',1200,400);" 
               closeOnEscape="true" onHide="resetujdialog('dialogwpissrodkitrwale');" >
+        <p:ajax event="open" listener="#{planKontSrTrw.init()}" global="false" update="srodkiwpis"/>
         <h:form id="srodkiwpis"> 
             <!--pola ewidencji SRODKOW TRWALYCH-->
             <p:panel id="panelwyszukiwarki" style="height: 50px;" >

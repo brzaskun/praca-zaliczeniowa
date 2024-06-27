@@ -59,6 +59,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
 import msg.Msg;
@@ -72,6 +73,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import pdffk.PdfPlanKont;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 import xls.WriteXLSFile;
 import xls.X;
 
@@ -79,7 +81,7 @@ import xls.X;
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class PlanKontView implements Serializable {
 

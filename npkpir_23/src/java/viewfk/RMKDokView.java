@@ -7,28 +7,29 @@
 package viewfk;
 
 import beansFK.KontaFKBean;
-import dao.StronaWierszaDAO;
 import dao.KontoDAOfk;
+import dao.StronaWierszaDAO;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import org.primefaces.PrimeFaces;
+ import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class RMKDokView implements Serializable {
     private static final long serialVersionUID = 1L;

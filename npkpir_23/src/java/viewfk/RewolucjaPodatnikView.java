@@ -25,13 +25,15 @@ import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import session.SessionFacade;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 public class RewolucjaPodatnikView  implements Serializable {
     private static final long serialVersionUID = 1L;
     

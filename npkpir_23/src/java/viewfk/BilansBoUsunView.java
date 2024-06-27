@@ -14,15 +14,17 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
  import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class BilansBoUsunView  implements Serializable {
     private static final long serialVersionUID = 1L;

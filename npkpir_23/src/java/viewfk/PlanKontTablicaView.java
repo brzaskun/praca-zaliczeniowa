@@ -8,18 +8,19 @@ package viewfk;
 import beansFK.PlanKontTablicaBean;
 import dao.KontoDAOfk;
 import entityfk.Konto;
-import error.E;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
+@Interceptors(ConstructorInterceptor.class)
 public class PlanKontTablicaView {
     private static final long serialVersionUID = 1L;
     @Inject

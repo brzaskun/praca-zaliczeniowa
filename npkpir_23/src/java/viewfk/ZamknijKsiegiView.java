@@ -19,16 +19,18 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.Msg;
 import view.PodatnikView;
 import view.WpisView;
 import waluty.Z;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class ZamknijKsiegiView  implements Serializable {
     private static final long serialVersionUID = 1L;

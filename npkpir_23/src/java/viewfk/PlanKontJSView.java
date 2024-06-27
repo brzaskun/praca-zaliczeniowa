@@ -5,22 +5,22 @@
 package viewfk;
 
 import dao.KontoDAOfk;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
 @ViewScoped
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 public class PlanKontJSView implements Serializable {
     private static final long serialVersionUID = 1L;
     

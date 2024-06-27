@@ -15,16 +15,18 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import msg.Msg;
+import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @RequestScoped
 public class SkladkaStowarzyszenieView implements Serializable {
     @Inject

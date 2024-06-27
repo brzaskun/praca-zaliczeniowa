@@ -10,6 +10,7 @@
     <p:dialog id="dialog_srodki_dodaj" header="Dodanie środka trwałego z pominięciem dokumentu" widgetVar="dialog_srodki_dodaj" 
               resizable="false"  onShow="ustawdialog('dialog_srodki_dodaj','formbuttonsrodki:buttonsrodki',850,480);r('formdialogsrodki:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodki_dodaj');">
         <!--pola ewidencji SRODKOW TRWALYCH-->
+        <p:ajax event="open" listener="#{planKontSrTrw.init()}" global="false" update="formdialogsrodki"/>
         <h:form id="formdialogsrodki">
             <p:panel id="panelwyszukiwarki" style="width: 300px; height: 80px;" >
                 <p:panel header="wyszukiwarka środka trw." style="width: 300px;" />

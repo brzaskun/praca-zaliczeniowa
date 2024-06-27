@@ -7,11 +7,11 @@ package viewfk;
 
 import beansFK.DokumentFKBean;
 import comparator.Kontocomparator;
-import dao.KlienciDAO;
-import dao.RodzajedokDAO;
 import dao.DokDAOfk;
+import dao.KlienciDAO;
 import dao.KontoDAOfk;
 import dao.MiejscePrzychodowDAO;
+import dao.RodzajedokDAO;
 import dao.SkladkaCzlonekDAO;
 import dao.StowNaliczenieDAO;
 import dao.TabelanbpDAO;
@@ -30,16 +30,18 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import msg.Msg;
+import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class StowNaliczenieView  implements Serializable {
     private static final long serialVersionUID = 1L;

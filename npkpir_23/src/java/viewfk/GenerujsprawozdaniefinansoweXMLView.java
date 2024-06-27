@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -37,12 +38,13 @@ import sprawozdania.rok2018.SprawozdanieFinOP2018BilansBean;
 import sprawozdania.rok2018.SprawozdanieFinOP2018DodInfoBean;
 import sprawozdania.rok2018.SprawozdanieFinOP2018RZiSBean;
  import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
     private static final long serialVersionUID = 1L;

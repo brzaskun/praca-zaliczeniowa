@@ -40,17 +40,19 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.B;
 import msg.Msg;
 import pdf.PdfSymulacjaWyniku;
 import view.WpisView;
 import waluty.Z;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class SymulacjaWynikuView implements Serializable {
 

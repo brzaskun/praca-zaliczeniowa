@@ -8,11 +8,11 @@ package viewfk;
 
 import beansFK.KontaFKBean;
 import dao.AmoDokDAO;
+import dao.DokDAOfk;
 import dao.KlienciDAO;
+import dao.KontoDAOfk;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
-import dao.DokDAOfk;
-import dao.KontoDAOfk;
 import dao.TabelanbpDAO;
 import dao.WalutyDAOfk;
 import data.Data;
@@ -36,18 +36,21 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+ import view.WpisView;
 import waluty.Z;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class SrodkiTrwaleAMOView implements Serializable {
     private static final long serialVersionUID = 1L;

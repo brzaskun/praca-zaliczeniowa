@@ -16,17 +16,19 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.Msg;
 import pdf.PdfKonta;
 import pdffk.PdfBilans;
 import pdffk.PdfPlanKont;
 import pdffk.PdfZaksiegowaneView;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class DrukujsprawozdaniefinansoweView  implements Serializable {
     private static final long serialVersionUID = 1L;

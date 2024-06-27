@@ -26,19 +26,20 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.Msg;
 import org.primefaces.event.NodeUnselectEvent;
 import pdffk.PDFRozrachunki;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class RozrachunkiPrzegladView implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -74,7 +75,7 @@ public class RozrachunkiPrzegladView implements Serializable{
         wybranyRodzajTransakcji = "transakcje";
     }
     
-    @PostConstruct
+
     public void init() { //E.m(this);
         wykazkont = Collections.synchronizedList(new ArrayList<>());
         //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());

@@ -8,11 +8,11 @@ import beansFK.PozycjaRZiSFKBean;
 import beansFK.StronaWierszaBean;
 import beansFK.UkladBRBean;
 import converter.RomNumb;
-import dao.StronaWierszaDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
 import dao.PozycjaBilansDAO;
 import dao.PozycjaRZiSDAO;
+import dao.StronaWierszaDAO;
 import dao.UkladBRDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
@@ -29,21 +29,24 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.apache.commons.io.FilenameUtils;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import msg.Msg;
+import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.UploadedFile;
-import view.WpisView;import xls.ReadCSVInterpaperFile;
+import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
+import xls.ReadCSVInterpaperFile;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class PozycjaBRWzorcowyView implements Serializable {
     private static final long serialVersionUID = 1L;

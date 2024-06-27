@@ -7,9 +7,9 @@
 package viewfk;
 
 import beansFK.KontaFKBean;
-import dao.StronaWierszaDAO;
 import dao.DokDAOfk;
 import dao.KontoDAOfk;
+import dao.StronaWierszaDAO;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
@@ -20,19 +20,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import pdf.PdfKonta;
 import sortfunction.KontoSortBean;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class SaldoSyntetykaView implements Serializable {
     private static final long serialVersionUID = 1L;

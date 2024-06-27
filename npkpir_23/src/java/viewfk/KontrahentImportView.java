@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Row;
@@ -28,12 +29,13 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class KontrahentImportView implements Serializable {
 

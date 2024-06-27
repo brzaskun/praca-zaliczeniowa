@@ -60,6 +60,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.datatable.DataTable;
@@ -67,12 +68,13 @@ import org.primefaces.model.TreeNode;
 import pdf.PdfKontoZapisy;
  import view.WpisView;
 import waluty.Z;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class KontoZapisFKView implements Serializable{
     private static final long serialVersionUID = 1L;

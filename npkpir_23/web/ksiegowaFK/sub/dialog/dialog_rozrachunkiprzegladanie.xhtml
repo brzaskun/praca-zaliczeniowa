@@ -29,10 +29,11 @@
 doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
               minimizable="true"
               >
+        <p:ajax event="open" listener="#{rozrachunkiPrzegladView.init()}" update="@(.formwpisrozrachunki"/>
         <p:layout fullPage="false" style="width: 600px; height: 700px;" >  
             <p:layoutUnit position="north" >
                 <p:panelGrid columns="4" columnClasses="kontaGrid1, kontaGrid2" >
-                    <h:form id="formwpisrozrachunki">
+                    <h:form id="formwpisrozrachunki" class="formwpisrozrachunki">
                         <p:autoComplete id="wyborkonta" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{rozrachunkiPrzegladView.complete}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" 
                                         minQueryLength="1" maxResults="15" maxlength="10" converter="#{kontoConv}" queryDelay="10" 
@@ -46,14 +47,14 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                         <h:outputText value=" #{mgs.wybranekonto}:"/>
                         <h:outputText id="nazwawybranegokonta" value=" #{rozrachunkiPrzegladView.wybranekonto.nazwapelna}" style="font-weight: 900;" />
                     </h:form>
-                    <h:form id="walutyrozrachunki">
+                    <h:form id="walutyrozrachunki" class="formwpisrozrachunki">
                         <h:selectOneMenu id="wybranawaluta" value="#{rozrachunkiPrzegladView.wybranaWalutaDlaKont}">
                             <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaWaluty}" update=":tabelanowerozrachunki:tabela, sumy" />
                             <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
                             <f:selectItems value="#{walutyViewSimple.symboleWalut}"/>
                         </h:selectOneMenu>
                     </h:form>
-                    <h:form id="typrozrachunki">
+                    <h:form id="typrozrachunki" class="formwpisrozrachunki">
                         <h:outputText value="trans/rozl." style="text-align: right; margin-left: 10px;"/>
                         <h:selectOneMenu id="wybranyrodzaj" value="#{rozrachunkiPrzegladView.wybranyRodzajTransakcji}">
                             <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaTransakcji}" update=":tabelanowerozrachunki:tabela, sumy" />
@@ -62,7 +63,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                             <f:selectItem itemValue="rozliczenia" itemLabel="rozliczenia"/>
                         </h:selectOneMenu>
                     </h:form>
-                    <h:form>
+                    <h:form  class="formwpisrozrachunki">
                         <p:panelGrid columns="5" style="margin-left: 15px;">
                             <h:outputText value="od"/>
                             <p:column>
@@ -85,7 +86,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
             </p:layoutUnit>  
             <!--            lewa strona z drzewem kont-->
             <p:layoutUnit id="westtree1" position="west" size="350" >
-                <h:form id="form1">
+                <h:form id="form1"  class="formwpisrozrachunki">
 
                     
                     <p:outputPanel id="kontenertabeli">
@@ -165,7 +166,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                         width: 20px;
                     }
                 </style>
-                <h:form id="tabelanowerozrachunki">
+                <h:form id="tabelanowerozrachunki"  class="formwpisrozrachunki">
                      
                     <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" style="height: 525px; overflow-y: scroll; width: 1215px;"
                                  emptyMessage="Nie ma rozrachunków na koncie" sortBy="#{loop.id}" selection="#{rozrachunkiPrzegladView.stronyWierszawybrane}"
@@ -276,7 +277,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
             </p:layoutUnit>  
             <p:layoutUnit position="south">  
                 <p:panelGrid id="sumy" columns="4" style="width: 1350px;">
-                    <h:form >
+                    <h:form  class="formwpisrozrachunki">
                         <p:selectOneMenu label="stan" value="#{rozrachunkiPrzegladView.coWyswietlacRozrachunkiPrzeglad}" style="width: 200px; float: left; margin-left: 30px;" >
                             <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaZakresu}" update=":tabelanowerozrachunki:tabela" partialSubmit="true"/>
                             <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
@@ -288,7 +289,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                     </h:form>
 
              
-                    <h:form id="tabelazsumamirozrach">
+                    <h:form id="tabelazsumamirozrach"  class="formwpisrozrachunki">
                         <p:panelGrid columns="4" style="float: left; width: 400px;margin-left: 20px;">
                             <h:outputText value="suma w walucie dokumentu: " rendered="#{rozrachunkiPrzegladView.sumawaluta ne 0.0}"/>
                             <bcf:outputpl value="#{rozrachunkiPrzegladView.sumawaluta}" rendered="#{rozrachunkiPrzegladView.sumawaluta ne 0.0}"
@@ -298,7 +299,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                                           style="font-weight: 700;"/>
                         </p:panelGrid>
                     </h:form>
-                    <h:form>
+                    <h:form  class="formwpisrozrachunki">
                         <p:commandButton value="sprawdz" style="float: right; width: 100px;" actionListener="#{rozrachunkiPrzegladView.weryfikujtransakcje}" update="tabelanowerozrachunki,sumy"/>
                     </h:form>
                 </p:panelGrid>

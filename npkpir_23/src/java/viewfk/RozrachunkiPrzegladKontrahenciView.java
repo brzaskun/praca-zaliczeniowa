@@ -6,13 +6,12 @@
 
 package viewfk;
 
-import dao.StronaWierszaDAO;
 import dao.KontoDAOfk;
+import dao.StronaWierszaDAO;
 import dao.TransakcjaDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,18 +20,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class RozrachunkiPrzegladKontrahenciView implements Serializable{
     private static final long serialVersionUID = 1L;

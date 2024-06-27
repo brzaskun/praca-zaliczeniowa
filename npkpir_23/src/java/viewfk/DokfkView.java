@@ -94,6 +94,7 @@ import javax.faces.model.DataModel;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
@@ -114,12 +115,13 @@ import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class DokfkView implements Serializable {
 

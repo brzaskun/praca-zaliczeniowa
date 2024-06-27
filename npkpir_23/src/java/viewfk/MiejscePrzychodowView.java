@@ -11,10 +11,10 @@ import beansFK.MiejscePrzychodowBean;
 import beansFK.PlanKontFKBean;
 import beansFK.SlownikiBean;
 import comparator.MiejscePrzychodowcomparator;
-import dao.StronaWierszaDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
 import dao.MiejscePrzychodowDAO;
+import dao.StronaWierszaDAO;
 import dao.UkladBRDAO;
 import embeddablefk.MiejsceZest;
 import entityfk.Konto;
@@ -29,17 +29,19 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import pdf.PdfMiejscePrzychodow;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import msg.Msg;
+import pdf.PdfMiejscePrzychodow;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class MiejscePrzychodowView  implements Serializable{
     private static final long serialVersionUID = 1L;

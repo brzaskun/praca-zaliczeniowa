@@ -8,10 +8,10 @@ package viewfk;
 import beansFK.BilansBean;
 import beansFK.PozycjaRZiSFKBean;
 import beansFK.StronaWierszaBean;
-import dao.StronaWierszaDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
 import dao.PozycjaRZiSDAO;
+import dao.StronaWierszaDAO;
 import dao.UkladBRDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
@@ -21,17 +21,19 @@ import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import pdffk.PdfRZiS;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import msg.Msg;
+import pdffk.PdfRZiS;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class PozycjaRZiSPorMcyView  implements Serializable {
     private static final long serialVersionUID = 1L;

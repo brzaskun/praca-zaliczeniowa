@@ -6,9 +6,9 @@
 package viewfk;
 
 import comparator.Kontocomparator;
-import dao.StronaWierszaDAO;
 import dao.KontoDAOfk;
 import dao.MiejscePrzychodowDAO;
+import dao.StronaWierszaDAO;
 import entityfk.Konto;
 import entityfk.MiejscePrzychodow;
 import entityfk.StronaWiersza;
@@ -19,17 +19,18 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import pdffk.PdfStowRozrachunki;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @RequestScoped
 public class StowRozrachCzlonkZbiorczeView implements Serializable {
 

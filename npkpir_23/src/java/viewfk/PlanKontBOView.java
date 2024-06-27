@@ -19,13 +19,15 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
 @ViewScoped
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 public class PlanKontBOView implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -16,18 +16,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.Msg;
 import pdffk.PdfWiersz;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class WierszeView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -72,13 +73,13 @@ public class WierszeView implements Serializable {
 //            Msg.msg("Zakończono usuwanie starych kont");
 //        }
 //    }
-    @PostConstruct
-    public void inita() {
-        pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
-    }
+//    @PostConstruct
+//    public void inita() {
+//       pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
+//    }
     
     public void init() { //E.m(this);
-        
+         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
         sumawn = 0.0;
         sumama = 0.0;
         if (wpisView.getMiesiacWpisu().equals("CR")) {

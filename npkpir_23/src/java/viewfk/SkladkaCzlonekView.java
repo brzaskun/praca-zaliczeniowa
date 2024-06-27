@@ -11,7 +11,6 @@ import dao.SkladkaStowarzyszenieDAO;
 import entityfk.MiejscePrzychodow;
 import entityfk.SkladkaCzlonek;
 import entityfk.SkladkaStowarzyszenie;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,16 +18,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import msg.Msg;
+import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @RequestScoped
 public class SkladkaCzlonekView implements Serializable {
     @Inject

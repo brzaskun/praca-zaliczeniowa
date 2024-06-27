@@ -32,6 +32,7 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.Msg;
  import org.apache.commons.io.IOUtils;
 import org.primefaces.PrimeFaces;
@@ -39,12 +40,13 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import plik.Plik;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class SprFinKwotyInfDodView  implements Serializable{
     private static final long serialVersionUID = 1L;

@@ -10,6 +10,7 @@
     <p:dialog id="dialog_srodkitrwale_zmianawartosci" header="Edycja danych posiadanego środka trwałego" widgetVar="dialog_srodkitrwale_zmianawartosci" 
               resizable="false"  onShow="ustawdialog('dialog_srodkitrwale_zmianawartosci','formbuttonsrodki:buttonsrodki',1400,850);r('form_dialog_srodkitrwale_zmianawartosci:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodkitrwale_zmianawartosci');">
         <!--pola ewidencji SRODKOW TRWALYCH-->
+        <p:ajax event="open" listener="#{planKontSrTrw.init()}" global="false" update="form_dialog_srodkitrwale_zmianawartosci"/>
         <h:form id="form_dialog_srodkitrwale_zmianawartosci">
             <p:panel id="nowypanelsrodki" style="width: 840px; height: 870px;">
                 <p:panelGrid id="tabelasrodkitrwaleOT" columns="4" style="width: 650px;">

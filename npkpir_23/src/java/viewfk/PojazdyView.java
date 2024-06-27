@@ -9,10 +9,10 @@ package viewfk;
 import beansFK.PlanKontFKBean;
 import beansFK.PojazdyBean;
 import beansFK.SlownikiBean;
-import dao.StronaWierszaDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
 import dao.PojazdyDAO;
+import dao.StronaWierszaDAO;
 import dao.UkladBRDAO;
 import embeddablefk.PojazdyZest;
 import entityfk.Konto;
@@ -26,17 +26,19 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import pdf.PdfPojazdy;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import msg.Msg;
+import pdf.PdfPojazdy;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 @ViewScoped
 public class PojazdyView  implements Serializable{
     private static final long serialVersionUID = 1L;

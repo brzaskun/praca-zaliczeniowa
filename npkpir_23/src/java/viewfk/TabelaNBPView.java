@@ -7,20 +7,21 @@ package viewfk;
 
 import dao.TabelanbpDAO;
 import entityfk.Tabelanbp;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
+import wydajnosc.ConstructorInterceptor;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 public class TabelaNBPView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject

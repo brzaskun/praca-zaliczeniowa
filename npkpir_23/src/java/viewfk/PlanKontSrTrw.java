@@ -6,22 +6,21 @@ package viewfk;
 
 import dao.KontoDAOfk;
 import entityfk.Konto;
-import error.E;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import view.WpisView;
+import wydajnosc.ConstructorInterceptor;
 /**
  *
  * @author Osito
  */
 @ViewScoped
-@Named
+@Named @Interceptors(ConstructorInterceptor.class)
 public class PlanKontSrTrw implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,7 +36,7 @@ public class PlanKontSrTrw implements Serializable {
          ////E.m(this);
     }
 
-    @PostConstruct
+   
     public void init() { //E.m(this);
         if (wpisView instanceof WpisView) {
             listakontSrodkiTrwale = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
