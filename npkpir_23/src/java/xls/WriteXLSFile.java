@@ -880,7 +880,15 @@ public class WriteXLSFile {
             T st = (T) it.next();
             Row row = sheet.createRow(rowIndex++);
             columnIndex = 0;
-            ustawWiersz(workbook, row, columnIndex, st, rowIndex, styletext, styletextcenter, styledouble);
+            StronaWiersza strona = (StronaWiersza) st;
+            String projekt = strona.getKonto().getNazwapelna().split("\\s")[0];
+            //duplikowanie wierszy dla sikosa
+            if (projekt.matches("^[0-9].*")) {
+                ustawWiersz(workbook, row, columnIndex, st, rowIndex, styletext, styletextcenter, styledouble,1);
+                row = sheet.createRow(rowIndex++);
+                columnIndex = 0;
+            }
+            ustawWiersz(workbook, row, columnIndex, st, rowIndex, styletext, styletextcenter, styledouble,0);
         }
 //        sheet.createRow(rowIndex++);//pusty row
         if (headers.size()> 3) {
@@ -926,7 +934,7 @@ public class WriteXLSFile {
         return rowIndex;
     }
     
-    private static <T> void ustawWiersz(Workbook workbook, Row row, int columnIndex, T ob, int rowIndex, CellStyle styletext, CellStyle styletextcenter, CellStyle styledouble) {
+    private static <T> void ustawWiersz(Workbook workbook, Row row, int columnIndex, T ob, int rowIndex, CellStyle styletext, CellStyle styletextcenter, CellStyle styledouble, int modyfikator) {
         Class c = ob.getClass();
         if (c.getName().contains("PozycjaPrzychodKoszt")) {
             PozycjaPrzychodKoszt st = (PozycjaPrzychodKoszt) ob;
@@ -956,14 +964,23 @@ public class WriteXLSFile {
             createTextCell(styletext, row, (short) columnIndex++, st.getNazwa());
             createTextCell(styletext, row, (short) columnIndex++, st.getNip());
         } else if (c.getName().contains("StronaWiersza")) {
+            //Sinkos
             StronaWiersza st = (StronaWiersza) ob;
             createTextCell(styletext, row, (short) columnIndex++, String.valueOf(st.getId()));
             createTextCell(styletext, row, (short) columnIndex++, st.getRok());
             createTextCell(styletext, row, (short) columnIndex++, st.getMc());
             String projekt = st.getKonto().getNazwapelna().split("\\s")[0];
-            createTextCell(styletext, row, (short) columnIndex++, projekt);
-            createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getPelnynumer());
-            createDoubleCell(styledouble, row, (short) columnIndex++, st.getKwota());
+            if (modyfikator==0) {
+                createTextCell(styletext, row, (short) columnIndex++, "");
+                createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getPelnynumer());
+            } else {
+                createTextCell(styletext, row, (short) columnIndex++, projekt);
+                createTextCell(styletext, row, (short) columnIndex++, "");
+            }
+//            createDoubleCell(styledouble, row, (short) columnIndex++, st.getKwota());
+            //zmienilem formatowanie na tekst bo tak jest w ich pliku
+            String kwotastring = String.valueOf(st.getKwota()).replace(",", ".");
+            createTextCell(styletext, row, (short) columnIndex++, kwotastring);
             createTextCell(styletext, row, (short) columnIndex++, st.getDataOperacji());
             createTextCell(styletext, row, (short) columnIndex++, st.getOpisWiersza(100));
             createTextCell(styletext, row, (short) columnIndex++, st.getNumerwlasnydokfk());
