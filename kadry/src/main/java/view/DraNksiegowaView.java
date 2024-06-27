@@ -206,7 +206,7 @@ public class DraNksiegowaView  implements Serializable {
             findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
             findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
             String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
-            mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(),  wpisView.getUzer().getEmail(), null, findSprawaByDef, dra, nazwa,"info@taxman.biz.pl");
+            mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(),  wpisView.getUzer().getEmail(), null, findSprawaByDef, dra, nazwa,null);
             Msg.msg("Wysłano listę płac do pracodawcy");
         } else {
             Msg.msg("e", "Błąd dwysyki DRA");

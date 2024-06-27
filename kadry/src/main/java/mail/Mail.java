@@ -158,13 +158,14 @@ public class Mail {
                     InternetAddress.parse(adres));
             if (adresBCC==null) {
                 adresBCC = "";
+                if (firma.getKsiegowa()!=null&&firma.getKsiegowa().equals("")==false) {
+                   adresBCC = adresBCC+","+firma.getKsiegowa();
+               }
+               if (firma.getKsiegowa()!=null&&firma.getKsiegowa().equals("")==false) {
+                   adresBCC = adresBCC+","+firma.getKsiegowa();
+               }
             }
-            if (firma.getKsiegowa()!=null&&firma.getKsiegowa().equals("")==false) {
-                adresBCC = adresBCC+","+firma.getKsiegowa();
-            }
-            if (firma.getKsiegowa()!=null&&firma.getKsiegowa().equals("")==false) {
-                adresBCC = adresBCC+","+firma.getKsiegowa();
-            }
+        
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse(adresBCC));
             MimeBodyPart mbp1 = new MimeBodyPart();
