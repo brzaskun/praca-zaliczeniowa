@@ -304,8 +304,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                                     stawkadzienna = 0.0;
                                     stawkagodzinowa = 0.0;
                                 }
-                                //double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
-                                double redukcja_urlop = stawkadzienna*dniredukcjiIurlopu;
+                                double redukcja_urlop = stawkagodzinowa*godzinyurlopu;
+                                //27.06.2024 zniana z 13.06 zle obliczalo prace w pollsce bo sumowalo oddelegowanie takze w niedziele o iilre godziny uropu sa robione normatywnie, a dni kalendarzow
+                                //double redukcja_urlop = stawkadzienna*dniredukcjiIurlopu;
                                 dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji-redukcja_urlop;
                             } else {
                                 dowyplatyzaczasprzepracowany = 0.0;
