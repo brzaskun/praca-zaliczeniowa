@@ -967,9 +967,9 @@ public class KalendarzmiesiacBean {
                     skladnikistale = r.getKwota();
                     for (Dzien s : kalendarz.getDzienList()) {
                         //daje norma godzin a nie z uwzglednieniem zwolnien bo przeciez rewdukcja bedzie pozniej
-                        if (s.getTypdnia() == 0 && s.getNormagodzin() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
+                        if (s.getTypdnia() == 0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                             dniroboczeprzepracowanezm++;
-                            godzinyobecnosciroboczezm = godzinyobecnosciroboczezm + s.getNormagodzin();
+                            godzinyobecnosciroboczezm = godzinyobecnosciroboczezm + s.getNormagodzinwzorcowa();
                         }
                         if (s.getTypdnia() == 0 && s.getPrzepracowano() > 0.0 && s.getNrdnia() >= dzienodzmienna && s.getNrdnia() <= dziendozmienna) {
                             dniroboczeprzepracowanestat++;
@@ -977,8 +977,8 @@ public class KalendarzmiesiacBean {
                     }
                 }
                 godzinyobecnoscirobocze = godzinyobecnoscirobocze + godzinyobecnosciroboczezm;
-                double stawkadziennazm = Z.z4(skladnikistale / godzinyroboczewmiesiacu);
-                sredniadopodstawystale = sredniadopodstawystale + Z.z(stawkadziennazm * godzinyobecnosciroboczezm);
+                double stawkagodzinowazm = Z.z4(skladnikistale / kalendarz.getGodzinyroboczewmiesiacu());
+                sredniadopodstawystale = sredniadopodstawystale + Z.z(stawkagodzinowazm * kalendarz.getGodzinyroboczewmiesiacu());
                 boolean skladnikstaly = true;
                 Sredniadlanieobecnosci srednia = new Sredniadlanieobecnosci(kalendarz.getRok(), kalendarz.getMc(), sredniadopodstawystale, skladnikstaly, naliczenienieobecnosc, godzinyobecnosciroboczezm,
                         naliczenieskladnikawynagrodzenia.getGodzinypracyurlopu(), naliczenieskladnikawynagrodzenia.getDnipracyurlopu(), naliczenieskladnikawynagrodzenia.getGodzinynalezne(), naliczenieskladnikawynagrodzenia.getDninalezne(), 0.0);

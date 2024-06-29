@@ -18,21 +18,24 @@
               resizable="false"  onShow="ustawdialog('dialogbiorczezmienne','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogbiorczezmienne');" 
               fitViewport="true">
         <p:ajax event="open" listener="#{zmienneZbiorczoView.init()}" update="ZmiennezbiorczeCreateForm" global="false"/>
+        <p:ajax event="close" listener="#{zmienneZbiorczoView.close()}" global="false"/>
         <p:outputPanel style="height: 680px">
             <p:panelGrid columns="1">
                 <h:form  styleClass="formadmin" id="ZmiennezbiorczeCreateForm">
                     <h:panelGroup id="display">
-                        <h:outputText value="Po wybraniu rodzaju zmkiennej pokazywane są tylko te osobny, które mają taką zmienną i zmienna ta nie ma już wprowadzonej wartości za dany okres. Program naniesie tylko te osoby, które mają wartość zmiennej różną od zera"
+                        <h:outputText value="Po wybraniu rodzaju zmkiennej ORAZ waluty pokazywane są tylko te osobny, które mają taką zmienną w tej walucie i zmienna ta nie ma już wprowadzonej wartości za dany okres. Program naniesie tylko te osoby, które mają wartość zmiennej różną od zera"
                                       style="color: green;"/>
-                        <p:panelGrid columns="1" style="margin-top: 20px;width: 600px;">
+                   
+                        <p:panelGrid columns="1" style="margin-top: 20px;width: 1000px;">
                             <p:panelGrid columns="4">
                                 <p:outputLabel value="rodzaj składnika wyn." for="skladnik" />
                                 <p:selectOneMenu id="skladnik" value="#{zmienneZbiorczoView.wybranyrodzaj}" required="true" requiredMessage="wybierz rodzaj składnika wynagrodzenia"  converter="#{rodzajwynagrodzeniaConverter}" filter="true" filterMatchMode="contains">
+                                     <p:ajax event="change" partialSubmit="true"/>
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                     <f:selectItems value="#{zmienneZbiorczoView.rodzajewynagrodzen}" 
                                                    var="rodzajItem"
                                                    itemValue="#{rodzajItem}" itemLabel="#{rodzajItem.kod} #{rodzajItem.opispelny}"/>
-                                    <p:ajax event="change" partialSubmit="true" listener="#{zmienneZbiorczoView.tworzzmienne()}" update="ZmiennezbiorczeCreateForm:datalist"/>
+                                   
                                 </p:selectOneMenu>
                                 <p:outputLabel value="nazwa zmiennej" for="nazwa" />
                                 <p:inputText id="nazwa" value="#{zmienneZbiorczoView.nazwazmiennej}" title="nazwa"  required="true"/>
@@ -40,6 +43,7 @@
                             <p:panelGrid columns="6" style="width: 600px;">
                                 <p:outputLabel value="waluta" for="umowaskladnik" />
                                 <p:selectOneMenu id="umowaskladnik" value="#{zmienneZbiorczoView.walutazmiennej}" required="true">
+                                     <p:ajax event="change" partialSubmit="true" listener="#{zmienneZbiorczoView.tworzzmienne()}" update="ZmiennezbiorczeCreateForm:datalist"/>
                                    <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
                                    <f:selectItems value="#{waluty.listawalut}"/>
                                </p:selectOneMenu>
@@ -62,16 +66,18 @@
                                     <p:messages><p:autoUpdate/></p:messages>
                                 </p:panelGrid>
                             </p:panelGrid>
-                            <p:commandButton styleClass="buttonnorm" actionListener="#{zmienneZbiorczoView.createzbiorczo()}" value="#{bundle.Save}"  update="display, ZmiennezbiorczeCreateForm:datalist">
-                                <p:confirm type="popup" header="Potwierdzenie" message="Nanieść nowe zmienne?" icon="pi pi-exclamation-triangle"/>
-                            </p:commandButton>
-                            <p:commandButton value="#{bundle.Cancel}" onclick="dialogbiorczezmienne.hide()" styleClass="buttonnorm2" />
+                             <p:panelGrid columns="2" style="width: 600px;">
+                                <p:commandButton styleClass="buttonnorm" actionListener="#{zmienneZbiorczoView.createzbiorczo()}" value="#{bundle.Save}"  update="display, ZmiennezbiorczeCreateForm:datalist">
+                                    <p:confirm type="popup" header="Potwierdzenie" message="Nanieść nowe zmienne?" icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
+                                <p:commandButton value="#{bundle.Cancel}" onclick="dialogbiorczezmienne.hide()" styleClass="buttonnorm2" />
+                             </p:panelGrid>
                         </p:panelGrid>
                         <p:panelGrid columns="1">
                             <p:dataTable id="datalist" value="#{zmienneZbiorczoView.pracownikzmienna}" var="itemdra"
                                          selectionMode="single" selection="#{zmienneZbiorczoView.selectedlista}" rowIndexVar="indexdra"
                                          rowKey="#{itemdra.pracownik.id}" sortBy="#{itemdra.pracownik.nazwiskoImie}"
-                                         style="height: 500px; overflow-y: scroll;width: 500px;"
+                                         style="height: 500px; overflow-y: scroll;width: 800px;"
                                          emptyMessage="nie pobrano danych"
                                          >
                                 <p:column width="10">
@@ -79,6 +85,15 @@
                                 </p:column>
                                 <p:column width="150" headerText="nazwisko i imie">
                                     <h:outputText value="#{itemdra.pracownik.nazwiskoImie}"/>
+                                </p:column>
+                                  <p:column headerText="ostatnia zmienna nazwa">
+                                      <bcf:outputpl value="#{itemdra.ostatniazmienna.nazwa}" rendered="#{itemdra.ostatniazmienna ne null}"/>
+                                </p:column>
+                                <p:column headerText="ostatnia zmienna kwota">
+                                    <bcf:outputpl value="#{itemdra.ostatniazmienna.kwota}" rendered="#{itemdra.ostatniazmienna ne null}"/>
+                                </p:column>
+                                <p:column headerText="data ostatnie zmiennej">
+                                    <h:outputText value="#{itemdra.ostatniazmienna.datado}" rendered="#{itemdra.ostatniazmienna ne null}"/>
                                 </p:column>
                                 <p:column headerText="kwota">
                                     <bcf:inputpl value="#{itemdra.zmienna.kwota}" rendered="#{itemdra.zmienna.id eq null}"/>

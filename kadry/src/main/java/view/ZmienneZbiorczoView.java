@@ -20,9 +20,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.PostConstruct;
+import java.util.function.Predicate;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -54,15 +55,29 @@ public class ZmienneZbiorczoView implements Serializable {
     private boolean netto0brutto1;
     private  boolean minimalneustatowe;
     
-    @PostConstruct
+    
     public void init() {
         angazList = wpisView.getFirma().getAngazListAktywne();
+        for (Iterator<Angaz> it = angazList.iterator(); it.hasNext();) {
+                Angaz angaz = it.next();
+                if (angaz.jestumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu())==false) {
+                    it.remove();
+                }
+            }
         List<Pracownik> listapracownikow = pobierzpracownikow ();
         Collections.sort(listapracownikow, new Pracownikcomparator());
         dataod = Data.dzienpierwszy(wpisView);
         datado = Data.ostatniDzien(wpisView);
         rodzajewynagrodzen = pobierzrodzajewyn();
         netto0brutto1 = true;
+    }
+    
+    public void close() {
+        nazwazmiennej = null;
+        walutazmiennej = null;
+        pracownikzmienna = null;
+        wybranyrodzaj = null;
+        
     }
     
     private List<Pracownik> pobierzpracownikow() {
@@ -92,11 +107,13 @@ public class ZmienneZbiorczoView implements Serializable {
          if (wybranyrodzaj!=null) {
              for (Angaz p : angazList) {
                  List<Skladnikwynagrodzenia> skladnikiangaz = skladnikWynagrodzeniaFacade.findByAngaz(p);
+                 Predicate<Skladnikwynagrodzenia> isQualified = item->(item.getRodzajwynagrodzenia().equals(wybranyrodzaj));
+                 skladnikiangaz.removeIf(isQualified.negate());
                     List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = skladnikiangaz;
                     if (skladnikwynagrodzeniaList!=null) {
                         for (Skladnikwynagrodzenia skl : skladnikwynagrodzeniaList) {
                             Zmiennawynagrodzenia ostatniaZmienna = skl.getOstatniaZmienna();
-                            if (skl.getRodzajwynagrodzenia().equals(wybranyrodzaj) && ostatniaZmienna!=null && !ostatniaZmienna.getDataod().equals(dataod)) {
+                            if (skl.getRodzajwynagrodzenia().equals(wybranyrodzaj) && ostatniaZmienna!=null && ostatniaZmienna.getWaluta().equals(walutazmiennej) && !ostatniaZmienna.getDataod().equals(dataod)) {
                                 ZmiennaZbiorcze zmiennaZbiorcze = new ZmiennaZbiorcze();
                                 zmiennaZbiorcze.setPracownik(p.getPracownik());
                                 Zmiennawynagrodzenia zmiennawynagrodzenia = new Zmiennawynagrodzenia();
@@ -115,7 +132,7 @@ public class ZmienneZbiorczoView implements Serializable {
                                 zmiennaZbiorcze.setZmienna(zmiennawynagrodzenia);
                                 
                                 pracownikzmienna.add(zmiennaZbiorcze);
-                            } else if (skl.getRodzajwynagrodzenia().equals(wybranyrodzaj) && ostatniaZmienna==null) {
+                            } else if (skl.getRodzajwynagrodzenia().equals(wybranyrodzaj) && ostatniaZmienna==null ) {
                                 ZmiennaZbiorcze zmiennaZbiorcze = new ZmiennaZbiorcze();
                                 zmiennaZbiorcze.setPracownik(p.getPracownik());
                                 Zmiennawynagrodzenia zmiennawynagrodzenia = new Zmiennawynagrodzenia();
