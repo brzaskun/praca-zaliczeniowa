@@ -11,9 +11,7 @@ import dao.KontoDAOfk;
 import embeddable.Roki;
 import entity.Podatnik;
 import entityfk.Konto;
-import error.E;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -93,7 +91,7 @@ public class PlanKontKopiujView implements Serializable {
                 List<Konto> macierzyste = PlanKontFKKopiujBean.skopiujlevel0(kontoDAOfk, wpisView.getPodatnikwzorcowy(), wykazkont, rokdocelowy);
                 int maxlevel = kontoDAOfk.findMaxLevelPodatnik(wpisView.getPodatnikwzorcowy(), Integer.parseInt(rokzrodlowy));
                 for (int i = 1; i <= maxlevel; i++) {
-                    macierzyste = skopiujlevelWzorcowy(wpisView.getPodatnikwzorcowy(), wykazkont, macierzyste, i, rokdocelowy);
+                    macierzyste = PlanKontFKKopiujBean.skopiujlevelWzorcowy(kontoDAOfk, wpisView.getPodatnikwzorcowy(), wykazkont, macierzyste, i, rokdocelowy);
                 }
                 kopiujSlownikowe = false;
                 Msg.msg("Skopiowano wzorcowy plan kont");
@@ -171,27 +169,7 @@ public class PlanKontKopiujView implements Serializable {
 
     
 
-    private List<Konto> skopiujlevelWzorcowy(Podatnik docelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int i, String rokdocelowy) {
-        List<Konto> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
-        for (Konto p : wykazkont) {
-            if (p.getLevel() == i) {
-                try {
-                    Konto r = serialclone.SerialClone.clone(p);
-                    r.setPodatnik(docelowy);
-                    r.setRok(Integer.parseInt(rokdocelowy));
-                    Konto macierzyste = PlanKontFKKopiujBean.wyszukajmacierzyste(r.getKontomacierzyste().getPelnynumer(), macierzystelista);
-                    r.setMacierzysty(macierzyste.getId());
-                    r.setKontomacierzyste(macierzyste);
-                    kontoDAOfk.create(r);
-                    nowemacierzyste.add(r);
-                } catch (Exception e) {
-                    E.e(e);
-
-                }
-            }
-        }
-        return nowemacierzyste;
-    }
+   
 
     
 

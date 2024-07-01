@@ -58,6 +58,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
     private String elementslownika_nazwaskrocona;
     private String elementslownika_numerkonta;
     private List<Konto> konta;
+    private UkladBR wybranyuklad;
 
     public PlanKontCompleteView() {
          ////E.m(this);
@@ -76,6 +77,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
       if (listakontOstatniaAnalitykaklienta!=null) {
         Collections.sort(listakontOstatniaAnalitykaklienta, new Kontocomparator());
       }
+      wybranyuklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
   }
     
     public List<Konto> complete(String qr) {
@@ -163,12 +165,11 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
             wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wpisView.getPodatnikObiekt(), wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView.getRokWpisu());
             if (wynikdodaniakonta == 0) {
                 try {
-                    UkladBR wybranyuklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-                    KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste, wybranyuklad);
-                    if (kpo.getSyntetykaanalityka().equals("analityka")) {
+                    KontopozycjaZapis kpomacierzyste = kontopozycjaZapisDAO.findByKonto(kontomacierzyste, wybranyuklad);
+                    if (kpomacierzyste.getSyntetykaanalityka().equals("analityka")) {
                         Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
                     } else {
-                        PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpo, noweKonto, kontopozycjaZapisDAO, "syntetyka");
+                        PlanKontFKBean.naniesPrzyporzadkowaniePojedynczeKonto(kpomacierzyste, noweKonto, kontopozycjaZapisDAO, "syntetyka");
                         kontoDAOfk.edit(noweKonto);
                     }
                 } catch (Exception e) {

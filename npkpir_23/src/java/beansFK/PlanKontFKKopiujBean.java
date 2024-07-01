@@ -43,6 +43,28 @@ public class PlanKontFKKopiujBean {
         return macierzyste;
     }
     
+     public static List<Konto> skopiujlevelWzorcowy(KontoDAOfk kontoDAOfk, Podatnik docelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int i, String rokdocelowy) {
+        List<Konto> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
+        for (Konto p : wykazkont) {
+            if (p.getLevel() == i) {
+                try {
+                    Konto r = serialclone.SerialClone.clone(p);
+                    r.setPodatnik(docelowy);
+                    r.setRok(Integer.parseInt(rokdocelowy));
+                    Konto macierzyste = PlanKontFKKopiujBean.wyszukajmacierzyste(r.getKontomacierzyste().getPelnynumer(), macierzystelista);
+                    r.setMacierzysty(macierzyste.getId());
+                    r.setKontomacierzyste(macierzyste);
+                    kontoDAOfk.create(r);
+                    nowemacierzyste.add(r);
+                } catch (Exception e) {
+                    E.e(e);
+
+                }
+            }
+        }
+        return nowemacierzyste;
+    }
+    
     private static void zeruDanekontaBO(Konto p) {
         try {
             p.setId(null);

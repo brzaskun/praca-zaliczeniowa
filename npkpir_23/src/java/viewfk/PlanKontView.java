@@ -146,6 +146,7 @@ public class PlanKontView implements Serializable {
     private String wybranapozycja_wiersz;
     private int wybranaseriakont;
     private boolean bezprzyporzadkowania;
+    private String rok;
     
 
     public PlanKontView() {
@@ -153,16 +154,27 @@ public class PlanKontView implements Serializable {
         kontadowyswietlenia = "wszystkie";
         ////E.m(this);
         wybranaseriakont = 9;
+    
     }
 
+    public void aktualizuj() {
+        wpisView.setRokWpisuSt(rok);
+        wpisView.naniesDaneDoWpisMini();
+        init();
+    }
+    
     @PostConstruct
-    public void init() { //E.m(this);
-//        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        listaukladow = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+    public void init() {
+        if (rok==null) {
+            rok =wpisView.getRokWpisuSt();
+        }
+//E.m(this);
+//        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), rok);
+        listaukladow = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), rok);
         wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
 //        if (wybranyuklad != null) {
-//            PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-//            PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+//            PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk, wpisView.getPodatnikObiekt(), rok);
+//            PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk, wpisView.getPodatnikObiekt(), rok);
 //        }
 //<editor-fold defaultstate="collapsed" desc="comment">
 //        int czysaslownikowe = sprawdzkonta();
@@ -176,19 +188,19 @@ public class PlanKontView implements Serializable {
 //            infozebrakslownikowych = "";
 //        }
 //</editor-fold>
-        //wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        wykazkontZapas = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        //wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), rok);
+        wykazkontZapas = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), rok);
         Collections.sort(wykazkontZapas, new Kontocomparator());
         wykazkont = wykazkontZapas.stream().collect(Collectors.toList());
         //wykazkontlazy = new LazyKontoDataModel(wykazkont);
         //root = rootInit(wykazkont);
-        listaukladowwzorcowy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
+        listaukladowwzorcowy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), rok);
       wybranyukladwzorcowy = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladowwzorcowy);
 //        if (wybranyukladwzorcowy != null) {
-//            PozycjaRZiSFKBean.zmianaukladuwzorcowy("bilansowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk,  wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
-//            PozycjaRZiSFKBean.zmianaukladuwzorcowy("wynikowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk,   wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
+//            PozycjaRZiSFKBean.zmianaukladuwzorcowy("bilansowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk,  wpisView.getPodatnikwzorcowy(), rok);
+//            PozycjaRZiSFKBean.zmianaukladuwzorcowy("wynikowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk,   wpisView.getPodatnikwzorcowy(), rok);
 //        }
-        wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
+        wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikwzorcowy(), rok);
         styltabeliplankont = opracujstylwierszatabeli();
         //rootwzorcowy = rootInit(wykazkontwzor);
     }
@@ -216,7 +228,25 @@ public class PlanKontView implements Serializable {
         }
     }
     
-    
+    public void korygujpozycje() {
+        if (wykazkontwzor!=null) {
+            List<KontopozycjaZapis> listadousuniecia = new ArrayList<>();
+            List<KontopozycjaZapis> listabaza = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, rok);
+            wykazkontwzor.parallelStream().forEach(obj->{
+                if (obj.isSaldodosprawozdania()==false) {
+                    obj.setPozycjaWn(null);
+                    obj.setPozycjaMa(null);
+                    KontopozycjaZapis kpozycja = listabaza.parallelStream().filter(p->p.getKontoID().equals(obj)).findFirst().orElse(null);
+                    if (kpozycja!=null) {
+                        listadousuniecia.add(kpozycja);
+                    }
+                }
+            });
+            kontoDAOfk.editList(wykazkontwzor);
+            kontopozycjaZapisDAO.removeList(listadousuniecia);
+            Msg.msg("Zakonczono porządkowanie pozycji");
+        }
+    }
     
     private Podatnik ustawpodatnika() {
         Podatnik podatnik = wpisView.getPodatnikObiekt();
@@ -2666,6 +2696,14 @@ public class PlanKontView implements Serializable {
             }
             Msg.msg("Zachowano listę kont");
         }
+    }
+
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
     }
 
     

@@ -816,33 +816,33 @@ public class PlanKontFKBean {
     }
 
     
-    public static void naniesPrzyporzadkowaniePojedynczeKonto(KontopozycjaZapis kpo, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, String syntetykaanalityka) {
+    public static void naniesPrzyporzadkowaniePojedynczeKonto(KontopozycjaZapis kpomacierzyste, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, String syntetykaanalityka) {
         try {
-            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto, kpo.getUkladBR());
-            noweKonto.naniesPozycje(kpo);
-            if (kp == null) {
-                kp = new KontopozycjaZapis();
-                kp.setPozycjaWn(kpo.getPozycjaWn());
-                kp.setPozycjaMa(kpo.getPozycjaMa());
-                kp.setStronaWn(kpo.getStronaWn());
-                kp.setStronaMa(kpo.getStronaMa());
-                kp.setSyntetykaanalityka(syntetykaanalityka);
-                kp.setKontoID(noweKonto);
-                kp.setUkladBR(kpo.getUkladBR());
-                kp.setWynik0bilans1(kpo.isWynik0bilans1());
-                kontopozycjaZapisDAO.create(kp);
+            KontopozycjaZapis kpnowekonto = kontopozycjaZapisDAO.findByKonto(noweKonto, kpomacierzyste.getUkladBR());
+            noweKonto.naniesPozycje(kpomacierzyste);
+            if (kpnowekonto == null) {
+                kpnowekonto = new KontopozycjaZapis();
+                kpnowekonto.setPozycjaWn(kpomacierzyste.getPozycjaWn());
+                kpnowekonto.setPozycjaMa(kpomacierzyste.getPozycjaMa());
+                kpnowekonto.setStronaWn(kpomacierzyste.getStronaWn());
+                kpnowekonto.setStronaMa(kpomacierzyste.getStronaMa());
+                kpnowekonto.setSyntetykaanalityka(syntetykaanalityka);
+                kpnowekonto.setKontoID(noweKonto);
+                kpnowekonto.setUkladBR(kpomacierzyste.getUkladBR());
+                kpnowekonto.setWynik0bilans1(kpomacierzyste.isWynik0bilans1());
+                kontopozycjaZapisDAO.create(kpnowekonto);
                 //wywalam to bo to oczywste 23092023
                 //kontoDAOfk.edit(noweKonto);
                 //nie moge wywalic bo to jest takze do dodawania w i jak tego nie ma to nie zachowuje pozycji na koncie mimo ze jest kontopozycja
             } else {
-                kp.setPozycjaWn(kpo.getPozycjaWn());
-                kp.setPozycjaMa(kpo.getPozycjaMa());
-                kp.setStronaWn(kpo.getStronaWn());
-                kp.setStronaMa(kpo.getStronaMa());
-                kp.setSyntetykaanalityka(syntetykaanalityka);
-                kp.setUkladBR(kpo.getUkladBR());
-                kp.setWynik0bilans1(kpo.isWynik0bilans1());
-                kontopozycjaZapisDAO.edit(kp);
+                kpnowekonto.setPozycjaWn(kpomacierzyste.getPozycjaWn());
+                kpnowekonto.setPozycjaMa(kpomacierzyste.getPozycjaMa());
+                kpnowekonto.setStronaWn(kpomacierzyste.getStronaWn());
+                kpnowekonto.setStronaMa(kpomacierzyste.getStronaMa());
+                kpnowekonto.setSyntetykaanalityka(syntetykaanalityka);
+                kpnowekonto.setUkladBR(kpomacierzyste.getUkladBR());
+                kpnowekonto.setWynik0bilans1(kpomacierzyste.isWynik0bilans1());
+                kontopozycjaZapisDAO.edit(kpnowekonto);
                 //wywalam to bo to oczywste 23092023 za czesto zapis i dlugo trwa
                 //kontoDAOfk.edit(noweKonto);
             }
