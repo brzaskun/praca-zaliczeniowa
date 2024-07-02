@@ -33,7 +33,7 @@
         }
     </style>
     <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisynakoncie" appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1730,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
+              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1850,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true" 
               >
         <p:ajax event="open" listener="#{kontoZapisFKView.init()}" update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta walutazapisynakoncie"/>
@@ -60,7 +60,7 @@
                         <h:outputText value="rok"/>
                             <p:selectOneMenu id="rokWpisu" value="#{kontoZapisFKView.rokdopobrania}" style="width: 60px;">
                                         <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieRokPop}" partialSubmit="true"
-                                            update=":tabelazzapisami :tabelazsumami" />
+                                            update=":form :tabelazzapisami :tabelazsumami" />
                                         <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
                                         <f:selectItems value="#{roki.rokiList}"/>
                             </p:selectOneMenu>
@@ -108,7 +108,7 @@
                 <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia"  style="display: none;"/>
             </p:layoutUnit>  
             <!--            lewa strona z drzewem kont-->
-            <p:layoutUnit id="westtree" position="west" size="450" >
+            <p:layoutUnit id="westtree" position="west" size="520" >
                 <p:panelGrid columns="2" >
 <!--                    <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form:dataList_data');" global="false" style="float: left;" />
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form:dataList_data');"  global="false" style="float: left;" />-->
@@ -186,6 +186,9 @@
                                 <h:outputText value="#{loop1.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
                                 <h:outputText value="#{loop1.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                             </p:column>
+                            <p:column headerText="spr." width="20">
+                                 <h:outputText value="&#x2713;" rendered="#{loop1.saldodosprawozdania}"/>
+                            </p:column>
                         </p:dataTable>
                     <p:contextMenu for="dataList" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
                         <p:menuitem icon="fa fa-check-square" value="sprawdzono" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(1)}" oncomplete="zmienkolor()" global="false"/>
@@ -206,7 +209,7 @@
                         height: 35px !important;
                     }
                     #centertree {
-                        width: 1220px !important;
+                        width: 1350px !important;
                     }
                     .lolo {
                         width: 20px;
@@ -236,8 +239,8 @@
                         <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center;">
                             <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="dt" width="20" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
-                            <h:outputText value="#{loop.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
+                        <p:column headerText="dt" width="40" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
+                            <h:outputText value="#{loop.wiersz.dokfk.datadokumentu}"/>
                         </p:column>
                         <p:column headerText="dok." width="50" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.seriadokfk}" filterBy="#{loop.dokfkS}" filterMatchMode="contains">
                             <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}" rendered="#{kontoZapisFKView.pokaztransakcje eq false}"/>
@@ -254,7 +257,7 @@
                                   rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20')}">
                             <h:outputText value="#{loop.getKontrahetZapisy(WpisView.podatnikObiekt.nip)}" />
                         </p:column>
-                        <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains" rendered="#{kontoZapisFKView.kolumnaopis}"
+                        <p:column headerText="#{mgs.opis}" width="190" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains" rendered="#{kontoZapisFKView.kolumnaopis}"
                                   style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
                             <h:outputText value="#{loop.wiersz.opisWiersza}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;" />
                         </p:column>

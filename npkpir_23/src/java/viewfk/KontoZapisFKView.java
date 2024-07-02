@@ -317,6 +317,8 @@ public class KontoZapisFKView implements Serializable{
     
     public void pobierzZapisyNaKoncieRokPop() {
         if (wybranekonto instanceof Konto) {
+             wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+             usunkontabezsald();
             if (rokdopobrania!=null) {
 //                pobierzzapisy(rokdopobrania);
                 pobierzZapisyNaKoncieNode(wybranekonto);
