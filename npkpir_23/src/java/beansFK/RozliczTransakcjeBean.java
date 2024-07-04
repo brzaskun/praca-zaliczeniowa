@@ -100,7 +100,7 @@ public class RozliczTransakcjeBean {
             for (Iterator<StronaWiersza> it = w.iterator(); it.hasNext();) {
                 StronaWiersza s = it.next();
                 if (s.getKwota() < 0.0) {
-                    brakkorekty = !brakkorekty;
+                    brakkorekty = false;
                 }
             }
             if (brakkorekty == false) {
@@ -193,7 +193,7 @@ public class RozliczTransakcjeBean {
                             for (Iterator<StronaWiersza> it = rozliczenia.iterator(); it.hasNext();) {
                                 StronaWiersza platnosc = it.next();
                                 double dorozliczenia = obliczkwotedorozliczenia(limitNowejTransakcji, platnosc);
-                                if (dorozliczenia > 0.0) {
+                                if (dorozliczenia > 0.0 && nowatransakcja.equals(platnosc)==false) {
                                     Transakcja transakcja = new Transakcja(platnosc, nowatransakcja);
                                     transakcja.setDatarozrachunku(wyliczdatetransakcji(platnosc));
                                     transakcja.setKwotatransakcji(dorozliczenia);

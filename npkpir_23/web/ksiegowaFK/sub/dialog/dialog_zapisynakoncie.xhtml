@@ -66,13 +66,18 @@
                             </p:selectOneMenu>
                         </p:panelGrid>
                      </h:form>
-                    <h:form id="walutazapisynakoncie">
+                      <h:form id="walutazapisynakoncie">
+                    <p:panelGrid columns="2" style="width: 150px;">
+                    <h:outputText value="waluta"/>
+                  
                         <p:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}" style="width: 100px; margin-left: 5px;" label="#{mgs.walutadokumentu}">
                             <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyZmianaWaluty}" update=":tabelazzapisami, :tabelazsumami" />
                             <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
                             <f:selectItems value="#{kontoZapisFKView.symboleWalut}"/>
                         </p:selectOneMenu>
+                     </p:panelGrid>
                     </h:form>
+                   
                     <h:form id="miesiacezapisykonta">
                         <p:panelGrid columns="8" style="margin-left: 15px; width: 800px;">
                             <h:outputText value="od"/>
@@ -335,7 +340,7 @@
                                     }
                                 </style>
                                     <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci.size() gt 0 ? loop.platnosci : loop.nowetransakcje}" emptyMessage="brak transakcji"
-                                                 resizableColumns="true" style="width: 90%; float: right;">
+                                                 resizableColumns="true" style="width: 90%; float: right;"   id="tablicastronatransakcje" rowIndexVar="indextabeli">
                                     <p:column headerText="kwota trans." >
                                         <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
                                             <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -371,6 +376,10 @@
                                     </p:column>
                                     <p:column headerText="opis wiersza" width="280">
                                         <h:outputText value="#{subwpis.rozliczajacy.wiersz.opisWiersza}"/>
+                                    </p:column>
+                                    <p:column width="30" style="text-align: center">
+                                        <p:commandButton icon="fa fa-trash" global="false" actionListener="#{kontoZapisFKView.usuntransakcje(subwpis, loop)}" 
+                                                         update="tabelazzapisami:tabela"/>
                                     </p:column>
                                 </p:dataTable>
                             </p:column>

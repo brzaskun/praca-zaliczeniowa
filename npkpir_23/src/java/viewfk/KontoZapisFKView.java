@@ -998,10 +998,24 @@ public class KontoZapisFKView implements Serializable{
         return new double[]{roznicawn,roznicama};
     }
     
+    public void usuntransakcje(Transakcja transakcjadousuniecia, StronaWiersza sw) {
+        if (transakcjadousuniecia!=null) {
+            if (sw.getPlatnosci().isEmpty()==false) {
+                sw.getPlatnosci().remove(transakcjadousuniecia);
+            }
+            if (sw.getNowetransakcje().isEmpty()==false) {
+                sw.getNowetransakcje().remove(transakcjadousuniecia);
+            }
+            stronaWierszaDAO.edit(sw);
+            Msg.msg("Usunięto transakcje");
+        }
+    }
+    
     public void rozliczzaznaczone() {
         if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 1) {
             if (wybranezapisydosumowania.size()==2 && RozliczTransakcjeBean.sprawdzczyjestkorekta(wybranezapisydosumowania)==null) {
-                Msg.msg("e", "Jedna z pozyji to korekta, naniesiono oznaczenia");
+                stronaWierszaDAO.editList(wybranezapisydosumowania);
+                Msg.msg("w", "Jedna z pozyji to korekta, naniesiono oznaczenia");
             }
             if (wybranezapisydosumowania.size()==2 && RozliczTransakcjeBean.sprawdznowatransakcje(wybranezapisydosumowania)==null) {
                 RozliczTransakcjeBean.wybierzjednatransakcje(wybranezapisydosumowania);
@@ -1014,11 +1028,11 @@ public class KontoZapisFKView implements Serializable{
                 Msg.msg("Rozliczam wzjemnie zaznaczone pozycje");
                 List<StronaWiersza> listapoedycji = RozliczTransakcjeBean.naniestransakcjeRozne(wybranezapisydosumowania);
                 stronaWierszaDAO.editList(listapoedycji);
-                for (StronaWiersza p : wybranezapisydosumowania) {
-                    if (Z.z(p.getPozostalo()) == 0.0) {
-                        kontozapisy.remove(p);
-                    }
-                }
+//                for (StronaWiersza p : wybranezapisydosumowania) {
+//                    if (Z.z(p.getPozostalo()) == 0.0) {
+//                        kontozapisy.remove(p);
+//                    }
+//                }
             }
         } else {
             Msg.msg("e", "Należy wybrać przynajmniej dwa zapisy po różnych stronach konta w celu rozliczenia transakcji");

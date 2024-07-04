@@ -624,7 +624,7 @@ public class StronaWiersza implements Serializable {
     }
 
     public double getPozostalookres(String rok, String mc) {
-        String ostatnidzien = Data.ostatniDzien(rok, mc);
+        String ostatnidzien = Data.pierwszyDzienNastepnegoOkresu(rok, mc);
         this.rozliczono = 0.0;
         if (this.platnosci != null) {
             for (Transakcja p : this.platnosci) {

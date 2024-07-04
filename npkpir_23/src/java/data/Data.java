@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -59,6 +60,41 @@ public class Data implements Serializable {
             default:
                 return rok + "-" + mc + "-30";
         }
+    }
+    
+    public static String pierwszyDzienNastepnegoOkresu(String rok, String mc) {
+        Year currentYear = Year.of(Integer.parseInt(rok));
+        String zwrot = null;
+        switch (mc) {
+            case "01":
+            case "03":
+            case "05":
+            case "07":
+            case "08":
+            case "10":
+            case "12":
+                zwrot =  rok + "-" + mc + "-31";
+                break;
+            case "02":
+                if (currentYear.isLeap()) {
+                    zwrot = rok + "-" + mc + "-29";
+                    break;
+                } else {
+                    zwrot =  rok + "-" + mc + "-28";
+                    break;
+                }
+                
+            default:
+                zwrot =  rok + "-" + mc + "-30";
+                break;
+        }
+        // Utworzenie obiektu LocalDate z podanego ciągu znaków
+        LocalDate date = LocalDate.parse(zwrot, DateTimeFormatter.ISO_LOCAL_DATE);
+        // Dodanie jednego dnia do daty
+        LocalDate newDate = date.plusDays(1);
+        // Sformatowanie nowej daty do formatu 'yyyy-MM-dd'
+        zwrot = newDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        return zwrot;
     }
     
     public static String ostatniDzien(WpisView wpisView) {
