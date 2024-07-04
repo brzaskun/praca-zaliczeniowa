@@ -33,7 +33,7 @@
         }
     </style>
     <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisynakoncie" appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1850,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
+              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',2000,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true" 
               >
         <p:ajax event="open" listener="#{kontoZapisFKView.init()}" update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta walutazapisynakoncie"/>
@@ -209,7 +209,7 @@
                         height: 35px !important;
                     }
                     #centertree {
-                        width: 1350px !important;
+                        width: 1400px !important;
                     }
                     .lolo {
                         width: 20px;
@@ -238,6 +238,9 @@
                         </p:column>-->
                         <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center;">
                             <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
+                        </p:column>
+                        <p:column style="height: 19px; text-align: center;" width="20"  rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
+                            <p:rowToggler rendered="#{loop.platnosci.size() gt 0 or loop.nowetransakcje.size() gt 0}"/>
                         </p:column>
                         <p:column headerText="dt" width="40" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
                             <h:outputText value="#{loop.wiersz.dokfk.datadokumentu}"/>
@@ -323,6 +326,55 @@
                         <!--                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="9{loop.loop.kontoprzeciwstawne}">
                                                     <h:outputText value="9{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>
                                                 </p:column>-->
+                        <p:rowExpansion rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
+                            <p:column  headerText="wykaz transakcji" resizable="true" rendered="#{loop.platnosci.size() gt 0 or loop.nowetransakcje.size() gt 0}">
+                                <style>
+                                    .dokumentyZestawienie tr td {
+                                        padding: 0px !important;
+                                        margin: 0px !important;
+                                    }
+                                </style>
+                                    <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci.size() gt 0 ? loop.platnosci : loop.nowetransakcje}" emptyMessage="brak transakcji"
+                                                 resizableColumns="true" style="width: 90%; float: right;">
+                                    <p:column headerText="kwota trans." >
+                                        <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="data trans.">
+                                        <h:outputText value="#{subwpis.datarozrachunku}" style="float: right;">
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="kwota rozl.">
+                                        <h:outputText value="#{subwpis.rozliczajacy.kwotaR}" style="float: right;">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="kurs" sortBy="#{subwpis.rozliczajacy.kursWalutyBOSW}" width="40" rendered="#{loop.symbolWalutBOiSW ne 'PLN'}">
+                                        <h:outputText value="#{subwpis.rozliczajacy.kursWalutyBOSW}"/>
+                                    </p:column>
+                                    <p:column headerText="różnice kurs." rendered="#{loop.symbolWalutBOiSW ne 'PLN'}">
+                                        <h:outputText value="#{subwpis.roznicekursowe}" style="float: right;">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="nr dok rozl." style="text-align: center;">
+                                        <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfkS}"/>
+                                    </p:column>
+                                    <p:column headerText="w wal.rach." style="text-align: center;">
+                                        <h:outputText value="#{subwpis.kwotawwalucierachunku}" style="float: right;">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="nr wlasny">
+                                        <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}"/>
+                                    </p:column>
+                                    <p:column headerText="opis wiersza" width="280">
+                                        <h:outputText value="#{subwpis.rozliczajacy.wiersz.opisWiersza}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:column>
+                        </p:rowExpansion>
                     </p:dataTable>
                     
                     <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}" class="menuzapisy">
