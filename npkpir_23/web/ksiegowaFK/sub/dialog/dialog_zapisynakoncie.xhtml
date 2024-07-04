@@ -37,7 +37,7 @@
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true" 
               >
         <p:ajax event="open" listener="#{kontoZapisFKView.init()}" update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta walutazapisynakoncie"/>
-        <p:layout fullPage="false" style="height: 720px;width: 730px;" >  
+        <p:layout fullPage="false" style="height: 720px;width: 820px;" >  
             <p:layoutUnit position="north">
                 <p:panelGrid columns="4" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
@@ -56,7 +56,7 @@
                         <h:outputText id="nazwawybranegokonta" value=" #{kontoZapisFKView.wybranekonto.nazwapelna}" style="font-weight: 900;" />-->
                     </h:form>
                     <h:form>
-                        <p:panelGrid columns="2" style="width: 150px;">
+                        <p:panelGrid columns="2" style="width: 180px;">
                         <h:outputText value="rok"/>
                             <p:selectOneMenu id="rokWpisu" value="#{kontoZapisFKView.rokdopobrania}" style="width: 60px;">
                                         <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieRokPop}" partialSubmit="true"
@@ -67,7 +67,7 @@
                         </p:panelGrid>
                      </h:form>
                       <h:form id="walutazapisynakoncie">
-                    <p:panelGrid columns="2" style="width: 150px;">
+                    <p:panelGrid columns="2" style="width: 180px;">
                     <h:outputText value="waluta"/>
                   
                         <p:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}" style="width: 100px; margin-left: 5px;" label="#{mgs.walutadokumentu}">
@@ -79,7 +79,7 @@
                     </h:form>
                    
                     <h:form id="miesiacezapisykonta">
-                        <p:panelGrid columns="8" style="margin-left: 15px; width: 800px;">
+                        <p:panelGrid columns="11" style="margin-left: 15px; width: 850px;">
                             <h:outputText value="od"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
@@ -98,10 +98,15 @@
                                 <p:menuitem global="false" value="druk poziomy" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
                                 <p:menuitem global="false" value="druk poziomy duży" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
                             </p:splitButton>
-                            <p:selectBooleanCheckbox value="#{kontoZapisFKView.kolumnaopis}" itemLabel="pokaż opis" label="pokaż opis"  style="width: 120px;margin-left: 200px;" >
+                            <h:outputText value="pokaż opis" style="margin-left: 35px;"/>
+                            <p:selectBooleanCheckbox value="#{kontoZapisFKView.kolumnaopis}" style="width: 30px;margin-left: 5px;" >
                                 <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true" global="false"  update=":tabelazzapisami :tabelazsumami" />
                             </p:selectBooleanCheckbox>
-                            <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" 
+                             <h:outputText value="pokaż rozliczone"/>
+                            <p:selectBooleanCheckbox value="#{kontoZapisFKView.pokazrozliczone}" style="width: 30px;margin-left: 5px;" >
+                                <p:ajax event="change" listener="#{kontoZapisFKView.usunPozycjeRozliczone}" partialSubmit="true" global="false"  update=":tabelazzapisami :tabelazsumami" />
+                            </p:selectBooleanCheckbox>
+                            <p:commandButton value="rozrachunki" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" 
                                              style="width: 120px; margin-left: 20px;"
                                              update="tabelazzapisami, :tabelazsumami:sumy" />
                             <p:commandButton value="wszystkie" icon="fa fa-file-text" actionListener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" 
@@ -255,7 +260,7 @@
                             <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}" rendered="#{kontoZapisFKView.pokaztransakcje eq true}" 
                                           style="#{loop.dokfkS.startsWith('WB') or loop.dokfkS.startsWith('RK') ? 'color: blue': 'color: initial'}"/>
                         </p:column>
-                        <p:column headerText="nr wl" width="100" styleClass="filter60"  style="text-align: left; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
+                        <p:column headerText="nr wl" width="100" styleClass="filter120"  style="text-align: left; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
                                   filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
                             <h:outputText value="#{loop.dokfk.numerwlasnydokfk}" id="opisa" rendered="#{loop.dokfk.importowany eq false}"/>
                             <h:outputText value="uwaga, niedokończony import!" rendered="#{loop.dokfk.importowany}" style="color:red;"/>

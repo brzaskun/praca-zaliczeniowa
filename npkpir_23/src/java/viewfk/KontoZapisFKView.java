@@ -128,6 +128,7 @@ public class KontoZapisFKView implements Serializable{
     private List<Konto> ostatniaanalityka;
     private String rokdopobrania;
     private boolean kolumnaopis;
+    private boolean pokazrozliczone;
     private List<String> symboleWalut;
     private List<Waluty> pobraneRodzajeWalut;
     @Inject
@@ -1354,7 +1355,9 @@ public class KontoZapisFKView implements Serializable{
                 StronaWiersza sw = it.next();
                 if (!wybranaWalutaDlaKont.equals("wszystkie") && !sw.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
                     it.remove();
-                } else if (Z.z(sw.getPozostalookres(wpisView.getRokWpisuSt(), wpisView.getMiesiacDo())) == 0.0 || sw.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
+                } else if (pokazrozliczone&&sw.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
+                    it.remove();
+                } else if (pokazrozliczone==false&&Z.z(sw.getPozostalookres(wpisView.getRokWpisuSt(), wpisView.getMiesiacDo())) == 0.0 || sw.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
                     it.remove();
                 }
             }
@@ -2120,6 +2123,14 @@ public class KontoZapisFKView implements Serializable{
 
     public void setSymboleWalut(List<String> symboleWalut) {
         this.symboleWalut = symboleWalut;
+    }
+
+    public boolean isPokazrozliczone() {
+        return pokazrozliczone;
+    }
+
+    public void setPokazrozliczone(boolean pokazrozliczone) {
+        this.pokazrozliczone = pokazrozliczone;
     }
 
     
