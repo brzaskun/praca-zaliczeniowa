@@ -97,7 +97,7 @@ public class Transakcja  implements Serializable {
    
    public boolean czymoznaedytowac() {
        boolean zwrot = false;
-       if (Z.z(this.nowaTransakcja.getPozostalo())==0.0 && Z.z(this.kwotatransakcji)==0.0) {
+       if (this.nowaTransakcja!=null&&Z.z(this.nowaTransakcja.getPozostalo())==0.0 && Z.z(this.kwotatransakcji)==0.0) {
            zwrot = true;
        }
        return zwrot;

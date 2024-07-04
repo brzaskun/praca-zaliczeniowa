@@ -40,7 +40,7 @@ private DokDAOfk dokDAOfk;
 
 public void naprawdokumenty() {
     List<Podatnik> podatnicy = podatnikDAO.findAktywny();
-    String rok = "2023";
+    String rok = "2024";
     for (Podatnik poda : podatnicy) {
         List<Dokfk> dokumentyrok = dokDAOfk.findDokfkPodatnikRok(poda, rok);
         if (dokumentyrok!=null&&dokumentyrok.size()>0) {
