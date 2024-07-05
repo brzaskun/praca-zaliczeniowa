@@ -2813,7 +2813,7 @@ public class DokfkView implements Serializable {
                 }
                 stronyWierszazDokumentu = (DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(wybranastronawiersza.getKonto().getPelnynumer(), stronawiersza, wybranastronawiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
                 stronyWierszazBazy = DokFKTransakcjeBean.pobierzStronaWierszazBazy(wybranastronawiersza, stronawiersza, stronaWierszaDAO, transakcjaDAO);
-                transakcje = (DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(stronyWierszazDokumentu, stronyWierszazBazy, wybranastronawiersza, wpisView.getPodatnikWpisu()));
+                transakcje = DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(stronyWierszazDokumentu, stronyWierszazBazy, wybranastronawiersza, wpisView.getPodatnikWpisu(), stronaWierszaDAO);
                 DokFKTransakcjeBean.naniesKwotyZTransakcjiwPowietrzu(wybranastronawiersza, transakcje, selected.getListawierszy(), stronawiersza);
                 Collections.sort(transakcje, new TransakcjacomparatorKwota());
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

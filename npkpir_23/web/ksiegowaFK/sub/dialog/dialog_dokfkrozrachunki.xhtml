@@ -22,7 +22,7 @@
 
     </style>
 
-    <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
+    <p:dialog id="dialogdrugi" header="Rozrachunki z kontrahentami wprowadzanie i edycja" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
               resizable="false" 
               onShow="rozrachunkiOnShow(1250,650);setTimeout(znadzpasujacepolerozrachunku2(),1000);" 
               closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki:dataList" closable="true"
@@ -238,6 +238,7 @@
                 </p:panel>
                 <!--                </div>-->
                 <p:outputPanel style="margin-top: 20px;">
+                    <h:outputText  value="Rozliczono ponad kwotę płatności. Nie można zapisać rozliczeń" style="color: red;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.getPozostalo() lt 0.0}"/>
                     <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="#{dokfkView.zapistransakcji}" 
                                      type="submit"
                                      oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();" 

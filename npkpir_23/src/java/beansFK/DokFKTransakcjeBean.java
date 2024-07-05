@@ -38,7 +38,8 @@ public class DokFKTransakcjeBean implements Serializable{
         List<StronaWiersza> listaStronaWierszazBazy =new ArrayList<>();
 // stare = pobiera tylko w walucie dokumentu rozliczeniowego        
 //      listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMaWaluta(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
-// nowe pobiera wszystkie waluty        
+// nowe pobiera wszystkie waluty      
+//bierzez zapisy z bazy bo przeciez rozliczasz saldo konta i dana platnosc moze byc za dowolny zapis na koncie z dowolnego okresu w roku
         listaStronaWierszazBazy = stronaWierszaDAO.findStronaByKontoWnMa(stronaWiersza.getKonto(), wnma);
         //stronaWierszaDAO.refresh(listaStronaWierszazBazy);
         if (listaStronaWierszazBazy != null && !listaStronaWierszazBazy.isEmpty()) {
@@ -64,6 +65,7 @@ public class DokFKTransakcjeBean implements Serializable{
                             itx.remove();
                         }
                     }
+                    //nie wiem po co to jest czyz nie zaciagaja sie z bazy?
                     for (Transakcja ta : zachowaneTransakcje) {
                         if (!stronaWierszaZbazy.getPlatnosci().contains(ta)) {
                             stronaWierszaZbazy.getPlatnosci().add(ta);
@@ -107,7 +109,8 @@ public class DokFKTransakcjeBean implements Serializable{
     }
     
     public static List<StronaWiersza> pobierzStronaWierszazDokumentu(String nrkonta, String wnma, String waluta,List<Wiersz> wiersze) {
-        List<StronaWiersza> listaNowychRozrachunkowDokument = new ArrayList<>();
+        //to jest po to bo w danym dokumencie moga juz byc wiersze z tym kontem, dokument nie jest jeszcze zachowany wiec tych rozrachunkow nie ma jeszcze w bazie nie ma tych transakcji
+        List<StronaWiersza> listaWierszyzTymSamymKontem = new ArrayList<>();
         if (wnma.equals("Wn")) {
             for (Wiersz p : wiersze) {
                 StronaWiersza r = null;
@@ -119,7 +122,7 @@ public class DokFKTransakcjeBean implements Serializable{
                     r = p.getStronaWn();
                 }
                 if (r != null && r.getKonto().getPelnynumer().equals(nrkonta) && r.getTypStronaWiersza() == 1 && r.getPozostalo() !=0.0) {
-                    listaNowychRozrachunkowDokument.add(r);
+                    listaWierszyzTymSamymKontem.add(r);
                 }
             }
         } else if (wnma.equals("Ma")) {
@@ -131,11 +134,11 @@ public class DokFKTransakcjeBean implements Serializable{
                     r = p.getStronaMa();
                 }
                 if (r != null && r.getKonto().getPelnynumer().equals(nrkonta) && r.getTypStronaWiersza() == 1 && r.getPozostalo() !=0.0) {
-                    listaNowychRozrachunkowDokument.add(r);
+                    listaWierszyzTymSamymKontem.add(r);
                 }
             }
         }
-        return listaNowychRozrachunkowDokument;
+        return listaWierszyzTymSamymKontem;
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
     
@@ -164,12 +167,21 @@ public class DokFKTransakcjeBean implements Serializable{
 //        //pobrano wiersze - a teraz z nich robie rozrachunki
 //    }
     
-    public static List<Transakcja> stworznowetransakcjezeZapisanychStronWierszy(List<StronaWiersza> pobranezDokumentu, List<StronaWiersza> inneStronaWierszazBazy, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
+    public static List<Transakcja> stworznowetransakcjezeZapisanychStronWierszy(List<StronaWiersza> pobranezDokumentu, List<StronaWiersza> inneStronaWierszazBazy, StronaWiersza aktualnywierszdorozrachunkow, String podatnik, StronaWierszaDAO stronaWierszaDAO) {
         //sprawdzam, czy transakcje z bazy nie sa d okumnecie, a poniewaz te w dokumencie sa bardziej aktualne to usuwamy duplikaty z bazy
         List<Transakcja> transakcjeZAktualnego = Collections.synchronizedList(new ArrayList<>());
         transakcjeZAktualnego = ((aktualnywierszdorozrachunkow).getNowetransakcje());
+        //czasa,i trafia sie zerowa transakcje nie wiem dlaczego nie ma pozycji nowaTransakcja usune to
+        for (Iterator<Transakcja> it = transakcjeZAktualnego.iterator(); it.hasNext();) {
+            Transakcja p = it.next();
+            if (p.getNowaTransakcja()==null) {
+                aktualnywierszdorozrachunkow.getNowetransakcje().remove(p);
+                stronaWierszaDAO.edit(aktualnywierszdorozrachunkow);
+                it.remove();
+            } 
+        }
         for (Transakcja p : transakcjeZAktualnego) {
-            if (inneStronaWierszazBazy.contains(p.getNowaTransakcja())) {
+                 if (inneStronaWierszazBazy.contains(p.getNowaTransakcja())) {
                 inneStronaWierszazBazy.remove(p.getNowaTransakcja());
             }
             //jesli to bedzie nowe to nie bedzie usuniete, ale poniewaz pobiera wszystkie to trzeba usunac te co sa juz w transakcjach
@@ -187,6 +199,15 @@ public class DokFKTransakcjeBean implements Serializable{
         //laczymy te stare z bazy i nowe z dokumentu
         listaZbiorcza.addAll(pobranezDokumentu);
         listaZbiorcza.addAll(inneStronaWierszazBazy);
+        for (Iterator<Transakcja> it = transakcjeZAktualnego.iterator(); it.hasNext();) {
+            Transakcja p = it.next();
+            if (p.getNowaTransakcja()==null) {
+               
+            } else if (p.getKwotatransakcji()==0.0&&p.getNowaTransakcja().getPozostalo()==0.0) {
+                 it.remove();
+            }
+            
+        }
         //z pobranych StronWiersza tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         // nie bedzie duplikatow bo wczesniej je usunelismmy po zaktualizowaniu wartosci w zalaczonych juz transakcjach
         for (StronaWiersza rachunek : listaZbiorcza) {
