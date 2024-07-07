@@ -76,7 +76,7 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont"
-                             style="width: 1700px; height: 700px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             style="width: 1700px; height: 800px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
                              >
                     <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkontawzorcowy, :formedycjanazwwzorcowy" global="false" listener="#{planKontView.selrowwzorcowy()}"/>
@@ -137,10 +137,10 @@
                         </p:selectBooleanCheckbox>
                     </p:column>
                      <p:column  style="width: 100px;">
-                         <h:outputText value="#{loop.pozycjaWn != null ? loop.pozycjaWn : 'nieprzyp.'}" /> 
+                         <h:outputText value="#{loop.pozycjaWn != null ? loop.pozycjaWn : '.'}" /> 
                     </p:column>
                      <p:column  style="width: 100px;">
-                        <h:outputText value="#{loop.pozycjaMa != null ? loop.pozycjaMa : 'nieprzyp.'}" /> 
+                        <h:outputText value="#{loop.pozycjaMa != null ? loop.pozycjaMa : '.'}" /> 
                     </p:column>
                 <p:column headerText="bil/rzis" style="width: 40px; text-align: center;">
                         <p:selectBooleanCheckbox value="#{loop.saldodosprawozdania}">

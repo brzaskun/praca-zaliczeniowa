@@ -231,8 +231,16 @@ public class PlanKontView implements Serializable {
     public void korygujpozycje() {
         if (wykazkontwzor!=null) {
             List<KontopozycjaZapis> listadousuniecia = new ArrayList<>();
-            List<KontopozycjaZapis> listabaza = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, rok);
-            wykazkontwzor.parallelStream().forEach(obj->{
+            List<KontopozycjaZapis> listabaza = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, "wynikowe");
+            listabaza.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, "bilansowe"));
+            wykazkontwzor.stream().forEach(obj->{
+                if (obj.isMapotomkow()==false&&obj.getKontomacierzyste()==null) {
+               
+                   obj.setSaldodosprawozdania(true);
+                }
+            });
+            kontoDAOfk.editList(wykazkontwzor);
+            wykazkontwzor.stream().forEach(obj->{
                 if (obj.isSaldodosprawozdania()==false) {
                     obj.setPozycjaWn(null);
                     obj.setPozycjaMa(null);
@@ -244,6 +252,23 @@ public class PlanKontView implements Serializable {
             });
             kontoDAOfk.editList(wykazkontwzor);
             kontopozycjaZapisDAO.removeList(listadousuniecia);
+            Podatnik podatnik = podatnikDAO.findPodatnikByNIP("8513169524");
+            List<UkladBR>  listaukladow1 = ukladBRDAO.findPodatnikRok(podatnik, rok);
+            UkladBR wybranyuklad1 = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow1);
+            List<KontopozycjaZapis> listabazapodatnik = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad1, "wynikowe");
+            listabazapodatnik.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, "bilansowe"));
+            List<KontopozycjaZapis> listadododania = new ArrayList<>();
+             wykazkontwzor.stream().forEach(obj->{
+                if (obj.isSaldodosprawozdania()==true&&(obj.getPozycjaWn()==null||obj.getPozycjaMa()==null||obj.getPozycjaWn().equals("")||obj.getPozycjaMa().equals(""))) {
+                    KontopozycjaZapis kpozycja = listabazapodatnik.stream().filter(p->p.getKontoID().getPelnynumer().equals(obj.getPelnynumer())).findFirst().orElse(null);
+                    if (kpozycja!=null) {
+                        obj.naniesPozycje(kpozycja);
+                        listadododania.add(kpozycja);
+                    }
+                }
+            });
+             kontoDAOfk.editList(wykazkontwzor);
+             kontopozycjaZapisDAO.createList(listadododania);
             Msg.msg("Zakonczono porządkowanie pozycji");
         }
     }
