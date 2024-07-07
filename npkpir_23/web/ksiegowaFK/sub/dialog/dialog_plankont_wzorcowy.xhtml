@@ -44,7 +44,7 @@
                 <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />-->
-<p:commandButton id="koryguj pozycje" value="koryguj pozycje" actionListener="#{planKontView.korygujpozycje}"  global="false" style="float: left; width: 130px;" />
+<p:commandButton id="korygujpozycje" value="korygujpozycje" actionListener="#{planKontView.korygujpozycje}"  global="false" style="float: left; width: 130px;" />
                 <p:spacer width="50"/>
                  <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikwzorcowy)}" update="formwzorcowy:dataListwzorcowy"/>
