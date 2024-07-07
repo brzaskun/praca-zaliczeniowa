@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
    
     <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura" widgetVar="dialogplankontwzorcowy" 
-              resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1700, 750);ustalmaxlevel('formwzorcowy:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
+              resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1750, 950);ustalmaxlevel('formwzorcowy:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
             <p:contextMenu id="contextforplankontwzorcowy" for="dataListwzorcowy" style="width: 200px;">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="PF('nowekontosyntetyczne').show();" />
@@ -76,7 +76,7 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont"
-                             style="width: 1650px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             style="width: 1700px; height: 700px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
                              >
                     <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkontawzorcowy, :formedycjanazwwzorcowy" global="false" listener="#{planKontView.selrowwzorcowy()}"/>
