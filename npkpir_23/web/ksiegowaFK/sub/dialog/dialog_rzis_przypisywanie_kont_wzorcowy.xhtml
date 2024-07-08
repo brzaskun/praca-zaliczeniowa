@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogrzisukladwzorcowy" header="Wzorcowy Układ Rachunku Zysków i Strat - przypisywanie kont" widgetVar="rzisukladwzorcowy" 
-              resizable="false" onShow="ustawdialog('dialogrzisukladwzorcowy','menuustawienia', 1350, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisukladwzorcowy');"  >
+              resizable="false" onShow="ustawdialog('dialogrzisukladwzorcowy','menuustawienia', 1500, 850);" closeOnEscape="true" onHide="resetujdialog('dialogrzisukladwzorcowy');"  >
         <h:form id="formrzisuklad">
             <!--            <p:contextMenu for="dataList">
                             <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":formrzisuklad" onclick="PF('nowekontosyntetyczne').show();"/>
@@ -23,10 +23,10 @@
                     </p:selectOneMenu>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":formrzisuklad:dataList :formrzisuklad:dostepnekonta :formrzisuklad:selected"/>
                 </p:panelGrid>
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaView.rozwinwszystkie(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
+<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaView.rozwinwszystkie(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaView.rozwin(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaView.zwinwszystkie(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaView.zwin(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaView.zwin(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />-->
 <!--                <p:spacer width="40"/>
                 <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r',pozycjaBRKontaView.wybranyuklad)}" icon="ui-icon-locked" update=":formrzisuklad"/>-->
                 <p:commandButton value="resetuj" actionListener="#{pozycjaBRKontaView.resetujprzyporzadkowanie('r')}" icon="ui-icon-locked" update=":formrzisuklad" style="margin-left: 10px;"/>
@@ -36,7 +36,7 @@
             </p:panelGrid>
             <p:panelGrid columns="3">
                 <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKontaRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
-                             styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
+                             styleClass="tablicaplankont" style="height: 750px; margin-top: 0%; margin-bottom: 50px; width: 550px; overflow-y: scroll;"
                              emptyMessage="Brak pozycji RZiS">
                     <p:ajax event="select" global="false" listener="#{pozycjaBRKontaView.wybranopozycjeRZiS}" update=":formrzisuklad:selected"/>
                     <f:facet name="header">
@@ -54,7 +54,7 @@
                 <p:column>
                     <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaView.kontabezprzydzialu}"
                                  emptyMessage="wszystkie konta przyporządkowane"
-                                 style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
+                                 style="margin-top: -13%; height: 750px; width: 450px; overflow-y: scroll" >
                         <f:facet name="header">
                             <h:outputText value="konta nieprzypisane"/>
                         </f:facet>
@@ -84,7 +84,7 @@
                 <p:column>
                     <p:dataTable id="selected" var="konto" value="#{pozycjaBRKontaView.przyporzadkowanekonta}"
                                  emptyMessage="brak przyporządkowanych kont"
-                                 style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
+                                 style="margin-top: -13%; height: 750px; width: 450px; overflow-y: scroll" >
                         <f:facet name="header">
                             <h:outputText value="konta przypisane do #{pozycjaBRKontaView.wybranapozycja}"/>
                         </f:facet>
