@@ -139,6 +139,8 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
                                 double nowapodstawaumowaoprace = Z.z(pasek.getPrzychodypodatekpolska()-nowespoleczne-pasek.getKosztyuzyskania());
                                 pasek.setPrzekroczeniekorektapodstawypolska(nowapodstawaumowaoprace);
                                 obliczpodatekwstepnyDBStandard(pasek, nowapodstawaumowaoprace, stawkipodatkowe, 0.0);
+                                 String umowakodzus = pasek.getKodZus();
+                                 naliczzdrowotaKorekta(pasek, pasek.isNierezydent(), true, umowakodzus);
                             } else if (pasek.isDo26lat()==false) {
                                 double nowapodstawaumowazlecenia = Z.z(pasek.getPrzychodypodatekpolska()-nowespoleczne);
                                 double przekroczeniekoszt = Z.z(nowapodstawaumowazlecenia*0.2);
@@ -178,6 +180,121 @@ public class PasekwynagrodzenkorektaView  implements Serializable {
         }
     }
 
+    public static void naliczzdrowotaKorekta(Pasekwynagrodzen pasek, boolean nierezydent, boolean praca, String umowakodzus) {
+        boolean funkcja = pasek.isFunkcja();
+        double podstawazdrowotnawstepna = Z.z(pasek.getPrzychodyzus52()-pasek.getRazemspolecznepracownik());
+        double podstawazdrowotna = zdrowotnakorektaograniczeniepodstawyspolecznych(pasek, podstawazdrowotnawstepna);
+        //usuwamy z podstawy zasilki chorobowe
+        //to jest chyba juz niepotrzebmne 24.03.2024
+//        List<Naliczenienieobecnosc> nieobecnoscilist = pasek.getNaliczenienieobecnoscList();
+//        for (Naliczenienieobecnosc n : nieobecnoscilist) {
+//            if (n.getNieobecnosc().getSwiadczeniekodzus() != null && n.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne() == false && !n.getNieobecnosc().getSwiadczeniekodzus().getRodzajnieobecnosci().getKod().equals("ZC")) {
+//                podstawazdrowotna = Z.z(podstawazdrowotna - n.getKwota());
+//            }
+//        }
+        double zdrowotneskladka = Z.z(podstawazdrowotna * 0.09);
+        double zdrowotneodliczane = Z.z(podstawazdrowotna * 0.0775);
+        if (nierezydent) {
+            zdrowotnakorektanierezydent(pasek);
+        } else {
+            if (Integer.parseInt(pasek.getRokwypl()) < 2022) {
+                zdrowotnarokprzed2023(pasek, zdrowotneskladka, zdrowotneodliczane);
+            } else if (umowakodzus.equals("0511")) {
+                zdrowotnakorektaosobawspolpracujaca(pasek);
+            } else if (pasek.isDo26lat()) { 
+                //oosby do 26 roku
+                if ( pasek.isPraca() == false && pasek.isStudent()) {
+                    zdrowotnakorektazleceniestudent(pasek);
+                } else if (pasek.isPraca() == false) {
+                    zdrowotnakorektazlecenieNiestudent(pasek, zdrowotneskladka);
+                } else {
+                    //26 lat umowa o prace
+                    zdrowotnakorektaumowaoprace26(pasek, zdrowotneskladka, zdrowotneodliczane);
+                }
+            } else {
+                if (praca) {
+                    double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
+                    //zmniana 29052023
+                    //bylo if (zdrowotne > limitdlazdrowotnej && Z.z(pasek.getKwotawolna()) > 0.0) {
+                    //wyjasnic dlaczego tu jets ten emeryt
+                   if (zdrowotneskladka > limitdlazdrowotnej && pasek.isEmeryt()==false&&pasek.isSwiadczeniarzeczowe()==false) {
+                        pasek.setPraczdrowotne(limitdlazdrowotnej);
+                        pasek.setPrzekroczenienowazdrowotnadoodliczenia(0.0);
+                        pasek.setPraczdrowotnedopotracenia(limitdlazdrowotnej);
+                    } else {
+                        pasek.setPrzekroczenienowazdrowotnadoodliczenia(0.0);
+                        pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotneskladka));
+                    }
+                } else if (funkcja) {
+                    zdrowotnakorektafunkcja(pasek, zdrowotneskladka);
+                } else {
+                    pasek.setPrzekroczenienowazdrowotnadoodliczenia(0.0);
+                    pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotneskladka));
+                }
+            }
+        }
+        //trzeba zrobic tez inne opcje
+    }
+    static void zdrowotnakorektaosobawspolpracujaca(Pasekwynagrodzen pasek) {
+        pasek.setPrzekroczenienowazdrowotnadoodliczenia(0.0);
+      }
+
+    static void zdrowotnakorektanierezydent(Pasekwynagrodzen pasek) {
+        pasek.setPrzekroczenienowazdrowotnadoodliczenia(0.0);
+    }
+
+    static double zdrowotnakorektaograniczeniepodstawyspolecznych(Pasekwynagrodzen pasek, double podstawazdrowotnawstepna) {
+        double nowapodstawa = podstawazdrowotnawstepna;
+        if (pasek.getPodstawaskladkizus()<pasek.getPrzychodyzus51()) {
+            nowapodstawa = pasek.getPodstawaskladkizus()-pasek.getRazemspolecznepracownik();
+        }
+        return nowapodstawa;
+    }
+    
+    static void zdrowotnarokprzed2023(Pasekwynagrodzen pasek, double zdrowotneskladka, double zdrowotneodliczane) {
+        double podstawahipotetyczna = pasek.getBruttominusspolecznehipotetyczne()-pasek.getKosztyuzyskania();
+        double limitdlazdrowotnej = Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
+        //spawa
+        if (zdrowotneodliczane > limitdlazdrowotnej && Z.z(pasek.getKwotawolna()) > 0.0) {
+            pasek.setPrzekroczenienowazdrowotnadoodliczenia(limitdlazdrowotnej);
+   
+        } else {
+            pasek.setPrzekroczenienowazdrowotnadoodliczenia(zdrowotneodliczane);
+           
+        }
+    }
+
+    static void zdrowotnakorektazleceniestudent(Pasekwynagrodzen pasek) {
+        pasek.setPrzekroczenienowazdrowotnadoodliczenia(0.0);
+
+    }
+
+    static void zdrowotnakorektazlecenieNiestudent(Pasekwynagrodzen pasek, double zdrowotneskladka) {
+        double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
+        if (Z.z(pasek.getKwotawolna()) > 0.0) {
+            zdrowotneskladka = zdrowotneskladka > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneskladka;
+        }
+        pasek.setPrzekroczenienowazdrowotnadoodliczenia(0.0);
+
+    }
+
+    static void zdrowotnakorektaumowaoprace26(Pasekwynagrodzen pasek, double zdrowotneskladka, double zdrowotneodliczane) {
+        double podstawahipotetyczna = pasek.getPodstawaopodatkowania();
+        if (podstawahipotetyczna>0.0) {
+            double limitdlazdrowotnej = Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
+            zdrowotneskladka = zdrowotneskladka > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneskladka;
+            zdrowotneodliczane = zdrowotneodliczane > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneodliczane;
+        }
+
+        zdrowotneodliczane = Integer.parseInt(pasek.getRokwypl()) < 2022 ? zdrowotneodliczane : 0.0;
+        pasek.setPrzekroczenienowazdrowotnadoodliczenia(zdrowotneodliczane);
+        
+    }
+
+    static void zdrowotnakorektafunkcja(Pasekwynagrodzen pasek, double zdrowotneskladka) {
+        pasek.setPrzekroczenienowazdrowotnadoodliczenia(0.0);
+   
+    }
     private static void obliczpodatekwstepnyDBStandard(Pasekwynagrodzen pasek, double podstawaopodatkowania, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
         //double kwotawolna = pasek.getKwotawolna()>0.0? stawkipodatkowe.get(0).getWolnamc():0.0;
         double kwotawolna = stawkipodatkowe.get(0).getWolnamc();

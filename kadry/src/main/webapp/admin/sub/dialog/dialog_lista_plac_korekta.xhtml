@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     >
     <p:dialog id="dialoglistaplackorekta" header="Korekta list płac przekroczenie" widgetVar="dialoglistaplackorekta"  maximizable="true"
-              resizable="true"  onShow="ustawdialog('dialoglistaplackorekta','centertile',1800,820);" closeOnEscape="true"
+              resizable="true"  onShow="ustawdialog('dialoglistaplackorekta','centertile',1860,820);" closeOnEscape="true"
               onHide="resetujdialog('dialoglistaplackorekta');" 
               fitViewport="true" >
         <p:ajax event="open" listener="#{pasekwynagrodzenkorektaView.init()}" update="akordeon1:listaplackorekta" global="true"/>
@@ -34,7 +34,7 @@
                         <p:dataTable id="datalist3" value="#{pasekwynagrodzenkorektaView.paskiwybranego}" var="itempasekpod" emptyMessage="Brak listy za dany okres"  styleClass="listaplac"
                                      selectionMode="single" selection="#{pasekwynagrodzenkorektaView.selectedpasek}" rowIndexVar="indexpasekpod"
                                      rowKey="#{itempasekpod.kalendarzmiesiac.id}" sortBy="#{itempasekpod.nazwiskoImie}"
-                                     style="height: 430px; overflow-y: scroll; width: 1600px;"
+                                     style="height: 430px; overflow-y: scroll; width: 1680px;"
 
                                      >
                             <f:facet name="header">
@@ -97,6 +97,12 @@
                                 <bcf:outputpl value="#{itempasekpod.przekroczenienowypodatek}"/>
                             </p:column>
                              <p:column headerText="zdrowotna">
+                                 <bcf:outputpl value="#{itempasekpod.praczdrowotne}"/>
+                            </p:column>
+                             <p:column headerText="zdrowotna do potrącenia">
+                                 <bcf:outputpl value="#{itempasekpod.przekroczenienowazdrowotnadoodliczenia}"/>
+                            </p:column>
+                            <p:column headerText="zdrowotna">
                                  <bcf:outputpl value="#{itempasekpod.praczdrowotne}"/>
                             </p:column>
                             <p:column headerText="nowa podst. oddel. wal.">

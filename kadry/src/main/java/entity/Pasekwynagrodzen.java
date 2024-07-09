@@ -320,6 +320,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double przekroczeniekorektapodstawypolska;
     @Column(name="przekroczenienowypodatek")
     private double przekroczenienowypodatek;
+    @Column(name="przekroczenienowazdrowotnadoodliczenia")
+    private double przekroczenienowazdrowotnadoodliczenia;
     @Column(name="przekroczeniepodstawaniemiecka")
     private double przekroczeniepodstawaniemiecka;
     @Column(name="przekroczeniepodatekniemiecki")
@@ -569,6 +571,15 @@ public class Pasekwynagrodzen implements Serializable {
         this.przekroczeniepodstawaniemiecka = przekroczeniepodstawaniemiecka;
     }
 
+    public double getPrzekroczenienowazdrowotnadoodliczenia() {
+        return przekroczenienowazdrowotnadoodliczenia;
+    }
+
+    public void setPrzekroczenienowazdrowotnadoodliczenia(double przekroczenienowazdrowotnadoodliczenia) {
+        this.przekroczenienowazdrowotnadoodliczenia = przekroczenienowazdrowotnadoodliczenia;
+    }
+
+    
     public double getPrzekroczeniepodatekniemiecki() {
         return przekroczeniepodatekniemiecki;
     }

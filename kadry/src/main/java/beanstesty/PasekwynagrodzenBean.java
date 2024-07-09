@@ -1729,7 +1729,7 @@ public class PasekwynagrodzenBean {
 
     }
 
-    private static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent, boolean praca, String umowakodzus) {
+    public static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent, boolean praca, String umowakodzus) {
         boolean funkcja = pasek.isFunkcja();
         double podstawazdrowotnawstepna = Z.z(pasek.getPrzychodyzus52()-pasek.getRazemspolecznepracownik());
         double podstawazdrowotna = PasekwynagrodzenBeanDetail.zdrowotnakorektaograniczeniepodstawyspolecznych(pasek, podstawazdrowotnawstepna);
