@@ -163,7 +163,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             } else if (s.getNieobecnosc()!=null && s.getNieobecnosc().isRozliczanapar12()) {
                                 dniredukcji_12 = dniredukcji_12+1;
                                 godzinyredukcji_12 = godzinyredukcji_12+s.getNormagodzin();
-                            } else if (s.getNieobecnosc()!=null){
+                            } else if (s.getNieobecnosc()!=null && s.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("D")==false){
                                 dniurlopu = dniurlopu +1;
                                 godzinyurlopu = godzinyurlopu+s.getNormagodzin();
                             }
@@ -220,6 +220,16 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_12);
                             stawkadzienna = Z.z6(kwotazmiennej/dnipracyurlopu);
                             stawkagodzinowa = Z.z6(kwotazmiennej/godzinypracyurlopu);
+                            dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji;
+                        }  else if (dniredukcji_11==0.0 && dniredukcjiIurlopu>0.0 && dniredukcji_pozaumowa>0.0) {
+                            //jest tylko urlop badz koniec umowy
+                            //redukcja_12 = redukcja_12 + (kwotazmiennej /kalendarz.getGodzinyroboczewmiesiacu()*godzinyredukcji_12);
+                            //to jues zbedne bo zmienna jest juz zredukowana o refukcje
+                            //redukcja_12 = redukcja_12 + (kwotazmiennej /kalendarz.getGodzinyroboczewmiesiacu()*godzinyredukcji_12);
+                            stawkadzienna = Z.z6(kwotazmiennejdoredukcji/wymiardzien);
+                            stawkagodzinowa = wymiargodzina>0 ? Z.z6(kwotazmiennejdoredukcji/wymiargodzina):0.0;
+                            redukcja_12 = redukcja_12 + stawkagodzinowa*godzinyurlopu;
+                            double kwotazmiennejporedukcji = (kwotazmiennej-redukcja_12);
                             dowyplatyzaczasprzepracowany = kwotazmiennejporedukcji;
                         } else if (dniredukcji_11==0.0 && dniredukcjiIurlopu>0.0) {
                             //jest tylko urlop badz koniec umowy
