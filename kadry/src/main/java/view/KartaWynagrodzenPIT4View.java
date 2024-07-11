@@ -55,6 +55,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
     private TreeMap<String, Kartawynagrodzen> sumaUmowapelnieniefunkcji;
     private TreeMap<String, Kartawynagrodzen> sumaUmowazlecenia;
     private TreeMap<String, Kartawynagrodzen> sumaUmowazlecenia26zwolnione;
+    private List<Kartawynagrodzen> sumapracownik;
     private Kartawynagrodzen wybranakarta;
     private double podatekrazem;
     private boolean tojestkorekta;
@@ -62,6 +63,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
     private Pit4RView pit4RView;
     @Inject
     private AngazFacade angazFacade;
+    private List<Kartawynagrodzen> kartawynagrodzenlist;
     
    
 
@@ -114,6 +116,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
      public void pobierzdaneAll() {
         List<Angaz> pracownicy = angazFacade.findByFirma(wpisView.getFirma());
         podatekrazem = 0.0;
+        sumapracownik = new ArrayList<>();
         for (Angaz p: pracownicy) {
             if (p!=null) {
                List<Kartawynagrodzen> kartawynagrodzenlist = pobierzkartywynagrodzen(p, wpisView.getRokWpisu());
@@ -122,6 +125,7 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
                     Map<String,Kartawynagrodzen> sumy = new HashMap<>();
                     Kartawynagrodzen sumal = sumuj(kartawynagrodzenlist, paski, p.getPracownik().getNazwiskoImie(), sumy, p);
                     podatekrazem = podatekrazem+sumal.getPodatekdochodowy();
+                    sumapracownik.add(sumal);
                 }
            }
         }
@@ -319,6 +323,12 @@ public class KartaWynagrodzenPIT4View  implements Serializable {
         this.podatekrazem = podatekrazem;
     }
 
+    public List<Kartawynagrodzen> getSumapracownik() {
+        return sumapracownik;
+    }
     
+    public void setSumapracownik(List<Kartawynagrodzen> sumapracownik) {
+        this.sumapracownik = sumapracownik;
+    }
     
 }
