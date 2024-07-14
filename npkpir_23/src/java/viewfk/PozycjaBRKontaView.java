@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -167,8 +168,20 @@ public class PozycjaBRKontaView implements Serializable {
     private void drugiinit() {
         Podatnik podatnik = wybranyuklad.getPodatnik();
         kontabezprzydzialu.clear();
-        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(podatnik, wpisView.getRokWpisu(), null, "wynikowe");
-        PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalitykiRZiS(pobraneKontaSyntetyczne, kontabezprzydzialu, kontoDAO, podatnik, Integer.parseInt(wybranyuklad.getRok()));
+        if (podatnik.equals(wpisView.getPodatnikwzorcowy())) {
+            List<Konto> pobranekonta = kontoDAO.findWszystkieKontaPodatnika(podatnik, wpisView.getRokWpisuSt());
+            Predicate<Konto> isQualified = item->item.isWynik0bilans1()==true;
+            pobranekonta.removeIf(isQualified);
+            Predicate<Konto> isQualified1 = item->item.isSaldodosprawozdania()==true&&(item.getPozycjaWn()!=null&&item.getPozycjaMa()!=null);
+            pobranekonta.removeIf(isQualified1);
+            Predicate<Konto> isQualified2 = item->item.isSaldodosprawozdania()==false;
+            pobranekonta.removeIf(isQualified2);
+            kontabezprzydzialu = pobranekonta;
+            //PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalitykiRZiSNowe(pobraneKontaSyntetyczne, kontabezprzydzialu, kontoDAO, podatnik, Integer.parseInt(wybranyuklad.getRok()));
+        } else {
+            List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(podatnik, wpisView.getRokWpisu(), null, "wynikowe");
+            PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalitykiRZiS(pobraneKontaSyntetyczne, kontabezprzydzialu, kontoDAO, podatnik, Integer.parseInt(wybranyuklad.getRok()));
+        }
         Collections.sort(kontabezprzydzialu, new Kontocomparator());
     }
 

@@ -7,7 +7,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:bcf="http://brzaskun.com/facelets">
    
-    <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura" widgetVar="dialogplankontwzorcowy" 
+    <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura podstawowa" widgetVar="dialogplankontwzorcowy" 
               resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1750, 950);ustalmaxlevel('formwzorcowy:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
             <p:contextMenu id="contextforplankontwzorcowy" for="dataListwzorcowy" style="width: 200px;">
@@ -19,6 +19,7 @@
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun('W')}" icon="ui-icon-trash" update=":formwzorcowy:dataListwzorcowy"/>
                 <p:menuitem value="Usuń wszystkie" actionListener="#{planKontView.usunieciewszystkichKontWzorcowy()}" global="false" icon="ui-icon-trash" update=":formwzorcowy"/>
                 <p:separator/>
+                <p:menuitem value="Nowe porządki" actionListener="#{planKontView.implementacjaNowePorzadki()}" icon="ui-icon-trash" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Implem. konto" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowegoZAnalitykom()}" icon="ui-icon-tag" update=" :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Implem. konto u bieżącego" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowegoBiezacy()}" icon="ui-icon-trash" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
@@ -45,7 +46,8 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />-->
 <!--3dd-->
-<p:commandButton id="korygujpozycje" value="korygujpozycje" actionListener="#{planKontView.korygujpozycje}"  global="false" style="float: left; width: 130px;" />
+                <p:commandButton id="korygujpozycje" value="korygujpozycje" actionListener="#{planKontView.korygujpozycje}"  global="false" style="float: left; width: 130px;" />
+                <p:commandButton id="korektapodatnik" value="zmianypodatnik" actionListener="#{planKontView.zmianypodatnik}"  global="false" style="float: left; width: 130px;margin-left: 10px;" />
                 <p:spacer width="50"/>
                  <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikwzorcowy)}" update="formwzorcowy:dataListwzorcowy"/>
@@ -80,44 +82,29 @@
                              sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
                              >
                     <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkontawzorcowy, :formedycjanazwwzorcowy" global="false" listener="#{planKontView.selrowwzorcowy()}"/>
-                    <p:columnGroup type="header">
-                        <p:row>
-                            <p:column colspan="1" headerText="" width="1" />
-                            <p:column colspan="1" headerText="numerkonts" width="80" />
-                            <p:column colspan="1" headerText="nazwa pełna" width="300"/>
-                            <p:column colspan="1" headerText="nazwa skrócona" width="200"/>
-                            <p:column colspan="1" headerText="b/w" width="20"/>
-<!--                            <p:column colspan="1" headerText="przyp." width="50"/>
-                            <p:column colspan="1" headerText="rozrach." width="50"/>-->
-                            <p:column colspan="1" headerText="potom." width="40"/>
-                            <p:column colspan="1" headerText="pozycja Wn" width="60"/>
-                            <p:column colspan="1" headerText="pozycja Ma" width="60"/>
-                            <p:column colspan="1" headerText="bilans" width="40"/>
-                            <p:column colspan="1" headerText="dwa salda" width="40"/>
-                            <p:column colspan="1" headerText="rozrach." width="40"/>
-                            <p:column colspan="1" headerText="vat" width="40"/>
-                            <p:column colspan="1" headerText="słow" width="40"/>
-                            <p:column colspan="1" headerText="P/K" width="40"/>
-                            <p:column colspan="1" headerText="saldo" width="40"/>
-                        </p:row>
-                    </p:columnGroup>
-                    <p:column>
+                
+                    <p:column width="10">
                         <h:outputText value="#{loop.level}" style="font-size: 0.5pt;"/>
                     </p:column>
-                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}" >
+                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}" width="70">
                         <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
                     </p:column>
-                   <p:column  style="width: 200px;">
+                   <p:column  style="width: 240px;">
                         <h:outputText value="#{loop.nazwapelna}" /> 
                     </p:column>
-                    <p:column style="width: 100px;">
+                    <p:column style="width: 150px;">
                         <h:outputText value="#{loop.nazwaskrocona.length() lt 37 ? loop.nazwaskrocona : loop.nazwaskrocona.substring(0,37)}" /> 
                     </p:column>
-                    <p:column  style="width: 20px; text-align: center;">
+                    <p:column  headerText="bil." style="width: 20px; text-align: center;">
                         <h:outputText value="#{loop.bilansowewynikowe eq 'bilansowe' ? 'B' : 'R'}" /> 
+                    </p:column>
+                      <p:column  headerText="bil.n."  style="width: 20px; text-align: center;">
+                         <p:selectBooleanCheckbox value="#{loop.bilansowe}">
+                            <p:ajax event="change" listener="#{planKontView.edytujkontowzorcowe(loop)}" global="false"/>
+                        </p:selectBooleanCheckbox> 
                     </p:column>
 <!--                     <p:column style="width: 80px;">
                         <h:outputText value="#{loop.syntetykaanalityka}"/> 
@@ -131,23 +118,19 @@
 <!--                    <p:column headerText="macierz." style="width: 50px;">
                         <h:outputText value="#{loop.macierzyste}" /> 
                     </p:column>-->
-                    <p:column  style="width: 50px; text-align: center;">
-                        <p:selectBooleanCheckbox value="#{loop.mapotomkow}">
-                            <p:ajax event="change" listener="#{planKontView.edytujkontowzorcowe(loop)}" global="false"/>
-                        </p:selectBooleanCheckbox>
-                    </p:column>
-                     <p:column  style="width: 100px;">
-                         <h:outputText value="#{loop.pozycjaWn != null ? loop.pozycjaWn : '.'}" /> 
-                    </p:column>
-                     <p:column  style="width: 100px;">
-                        <h:outputText value="#{loop.pozycjaMa != null ? loop.pozycjaMa : '.'}" /> 
-                    </p:column>
-                <p:column headerText="bil/rzis" style="width: 40px; text-align: center;">
+                            <p:column headerText="spraw." style="width: 40px; text-align: center;">
                         <p:selectBooleanCheckbox value="#{loop.saldodosprawozdania}">
                             <p:ajax event="change" listener="#{planKontView.edytujkontowzorcowe(loop)}" global="false"/>
                         </p:selectBooleanCheckbox>
                                                           
+                    </p:column>      
+                <p:column headerText="poz. Wn" style="width: 100px;">
+                         <h:outputText value="#{loop.pozycjaWn != null ? loop.pozycjaWn : '.'}" /> 
                     </p:column>
+                     <p:column headerText="poz. Ma"  style="width: 100px;">
+                        <h:outputText value="#{loop.pozycjaMa != null ? loop.pozycjaMa : '.'}" /> 
+                    </p:column>
+
                      <p:column headerText="dwa salda" style="width: 40px; text-align: center;">
                          <p:selectBooleanCheckbox value="#{loop.dwasalda}">
                             <p:ajax event="change" listener="#{planKontView.edytujkontowzorcowe(loop)}" global="false"/>
@@ -163,13 +146,18 @@
                             <p:ajax event="change" listener="#{planKontView.edytujkontowzorcowe(loop)}" global="false"/>
                         </p:selectBooleanCheckbox>
                     </p:column>
-                    <p:column style="width: 60px; text-align: center;">
+                    <p:column  headerText="potom." style="width: 50px; text-align: center;">
+                        <p:selectBooleanCheckbox value="#{loop.mapotomkow}">
+                            <p:ajax event="change" listener="#{planKontView.edytujkontowzorcowe(loop)}" global="false"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column> 
+<!--                    <p:column headerText="słow." style="width: 60px; text-align: center;">
                         <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownik' : null}" /> 
-                    </p:column>
-                    <p:column style="width: 40px; text-align: center;">
+                    </p:column>-->
+                    <p:column headerText="przych/koszt" style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.przychod0koszt1 eq true ? 'K' : 'P'}" rendered="#{loop.bilansowewynikowe eq 'wynikowe'}"/> 
                     </p:column>
-                    <p:column style="width: 40px; text-align: center;">
+                <p:column headerText="wn/ma" style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.wnma0wm1ma2S}" /> 
                     </p:column>
                 </p:dataTable>

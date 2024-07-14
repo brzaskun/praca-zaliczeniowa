@@ -52,6 +52,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -233,15 +235,22 @@ public class PlanKontView implements Serializable {
             List<KontopozycjaZapis> listadousuniecia = new ArrayList<>();
             List<KontopozycjaZapis> listabaza = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, "wynikowe");
             listabaza.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, "bilansowe"));
-            wykazkontwzor.stream().forEach(obj->{
-                if (obj.isMapotomkow()==false&&obj.getKontomacierzyste()==null) {
-               
-                   obj.setSaldodosprawozdania(true);
+            wykazkontwzor.stream().forEach(new Consumer<Konto>() {
+                @Override
+                public void accept(Konto obj) {
+                    //                if (obj.isMapotomkow()==false&&obj.getKontomacierzyste()==null) {
+//
+//                   obj.setSaldodosprawozdania(true);
+//                }
+                    if (obj.getBilansowewynikowe().equals("bilansowe")) {
+                        obj.setBilansowe(true);
+                    }
+                   
                 }
             });
             kontoDAOfk.editList(wykazkontwzor);
             wykazkontwzor.stream().forEach(obj->{
-                if (obj.isSaldodosprawozdania()==false) {
+                if (obj.isSaldodosprawozdania()==false&&(obj.getPozycjaWn()!=null||obj.getPozycjaMa()!=null)) {
                     obj.setPozycjaWn(null);
                     obj.setPozycjaMa(null);
                     KontopozycjaZapis kpozycja = listabaza.parallelStream().filter(p->p.getKontoID().equals(obj)).findFirst().orElse(null);
@@ -257,21 +266,120 @@ public class PlanKontView implements Serializable {
             UkladBR wybranyuklad1 = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow1);
             List<KontopozycjaZapis> listabazapodatnik = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad1, "wynikowe");
             listabazapodatnik.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, "bilansowe"));
-            List<KontopozycjaZapis> listadododania = new ArrayList<>();
-             wykazkontwzor.stream().forEach(obj->{
-                if (obj.isSaldodosprawozdania()==true&&(obj.getPozycjaWn()==null||obj.getPozycjaMa()==null||obj.getPozycjaWn().equals("")||obj.getPozycjaMa().equals(""))) {
-                    KontopozycjaZapis kpozycja = listabazapodatnik.stream().filter(p->p.getKontoID().getPelnynumer().equals(obj.getPelnynumer())).findFirst().orElse(null);
-                    if (kpozycja!=null) {
+            List<KontopozycjaZapis> listadoedycji = new ArrayList<>();
+            wykazkontwzor.stream()
+                .filter(obj -> obj != null && obj.isSaldodosprawozdania() &&
+                               (obj.getPozycjaWn() == null || obj.getPozycjaMa() == null || 
+                                obj.getPozycjaWn().isEmpty() || obj.getPozycjaMa().isEmpty()))
+                .forEach(obj -> {
+                    KontopozycjaZapis kpozycja = listabazapodatnik.stream()
+                        .filter(p -> p != null && p.getKontoID() != null && 
+                                     p.getKontoID().getPelnynumer() != null &&
+                                     p.getKontoID().getPelnynumer().equals(obj.getPelnynumer()))
+                        .findFirst()
+                        .orElse(null);
+
+                    if (kpozycja != null) {
                         obj.naniesPozycje(kpozycja);
-                        listadododania.add(kpozycja);
+                        listadoedycji.add(kpozycja);
                     }
-                }
-            });
+                });
+
              kontoDAOfk.editList(wykazkontwzor);
-             kontopozycjaZapisDAO.createList(listadododania);
+             kontopozycjaZapisDAO.editList(listadoedycji);
+             System.out.println("Koniec");
             Msg.msg("Zakonczono porządkowanie pozycji");
         }
     }
+    
+    public void zmianypodatnik() {
+        List<UkladBR> listaukladow1 = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), rok);
+        UkladBR wybranyuklad1 = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow1);
+        List<Konto> kontapodatnika = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<KontopozycjaZapis> listabazapodatnik = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad1, "wynikowe");
+        listabazapodatnik.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad1, "bilansowe"));
+        List<UkladBR> listaukladow1wzorcowy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), rok);
+        UkladBR wybranyukladwzorcowy = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow1wzorcowy);
+        List<KontopozycjaZapis> listabaza = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyukladwzorcowy, "wynikowe");
+        listabaza.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, "bilansowe"));
+        List<KontopozycjaZapis> listadoedycji = new ArrayList<>();
+        List<KontopozycjaZapis> listadododania = new ArrayList<>();
+        List<KontopozycjaZapis> listadousuniecia = new ArrayList<>();
+
+        wykazkontwzor.stream().forEach(kontowzorcowe -> {
+            if (kontowzorcowe != null) {
+                Konto kontopodatnika = kontapodatnika.stream()
+                        .filter(item -> kontowzorcowe.getPelnynumer().equals(item.getPelnynumer()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (kontopodatnika != null) {
+                    kontopodatnika.setDwasalda(kontowzorcowe.isDwasalda());
+                    kontopodatnika.setRozrachunkowe(kontowzorcowe.isRozrachunkowe());
+                    kontopodatnika.setKontovat(kontowzorcowe.isKontovat());
+                    kontopodatnika.setSaldodosprawozdania(kontowzorcowe.isSaldodosprawozdania());
+                    kontopodatnika.setBilansowe(kontowzorcowe.isBilansowe());
+
+                    if (kontowzorcowe.isSaldodosprawozdania()) {
+                        KontopozycjaZapis kpozycjawzorcowa = listabaza.stream()
+                                .filter(p -> p.getKontoID()!=null&&p.getKontoID().equals(kontowzorcowe))
+                                .findFirst()
+                                .orElse(null);
+
+                        KontopozycjaZapis kpozycjapodatnik = listabazapodatnik.stream()
+                                .filter(p ->  p.getKontoID()!=null&&p.getKontoID().equals(kontopodatnika))
+                                .findFirst()
+                                .orElse(null);
+
+                        if (kpozycjawzorcowa!=null&&kpozycjapodatnik != null) {
+                            kpozycjapodatnik.edytujzmianywzorzec(kpozycjawzorcowa);
+                            listadoedycji.add(kpozycjapodatnik);
+                        } else if (kpozycjawzorcowa != null&&kpozycjapodatnik == null) {
+                            KontopozycjaZapis nowapozycja = KontoPozycjaBean.kopiujpozycjeWzorNowe(kpozycjawzorcowa, wybranyukladwzorcowy, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontopodatnika);
+                            listadododania.add(nowapozycja);
+                        } else if (kpozycjawzorcowa == null&&kpozycjapodatnik != null) {
+                            listadousuniecia.add(kpozycjapodatnik);
+                        }
+                    } else {
+                        kontopodatnika.setPozycjaWn(null);
+                        kontopodatnika.setPozycjaMa(null);
+                        kontopodatnika.setStronaWn(null);
+                        kontopodatnika.setStronaMa(null);
+                        KontopozycjaZapis kpozycja = listabazapodatnik.stream()
+                                .filter(p -> p.getKontoID()!=null&&p.getKontoID().equals(kontopodatnika))
+                                .findFirst()
+                                .orElse(null);
+                        if (kpozycja != null) {
+                             listadousuniecia.add(kpozycja);
+                        }
+                    }
+                }
+                
+            }
+        });
+        kontapodatnika.stream().forEach(kontopodatnika -> {
+            if (kontopodatnika.isSaldodosprawozdania()==false) {
+                kontopodatnika.setPozycjaWn(null);
+                kontopodatnika.setPozycjaMa(null);
+                kontopodatnika.setStronaWn(null);
+                kontopodatnika.setStronaMa(null);
+                KontopozycjaZapis kpozycja = listabazapodatnik.stream()
+                        .filter(p -> p.getKontoID()!=null&&p.getKontoID().equals(kontopodatnika))
+                        .findFirst()
+                        .orElse(null);
+                if (kpozycja != null) {
+                     listadousuniecia.add(kpozycja);
+                }
+            }
+        });
+        kontoDAOfk.editList(kontapodatnika);
+        kontopozycjaZapisDAO.removeList(listadousuniecia);
+        kontopozycjaZapisDAO.editList(listadoedycji);
+        kontopozycjaZapisDAO.createList(listadododania);
+        System.out.println("Zakonczono nanoszenie zmian plan kont podatnika");
+        Msg.msg("Zakonczono nanoszenie zmian plan kont podatnika");
+    }
+
     
     private Podatnik ustawpodatnika() {
         Podatnik podatnik = wpisView.getPodatnikObiekt();
@@ -825,6 +933,29 @@ public class PlanKontView implements Serializable {
             } catch (Exception e) {
                 E.e(e);
             }
+        }
+    }
+    
+      public void implementacjaNowePorzadki() {
+        if (!wykazkontwzor.isEmpty()&&wybranyuklad!=null) {
+            List<Konto> kontapodatnika = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            List<KontopozycjaZapis> pozycjewzorcowe = kontopozycjaZapisDAO.findByUklad(wybranyuklad);
+            for (Konto p : wykazkontwzor) {
+                if (wpisView.isParamCzworkiPiatki() == false && p.getPelnynumer().startsWith("5")) {
+                } else {
+                   Predicate<Konto> isQ = item->item.getPelnynumer().equals(p.getPelnynumer());
+                   Konto znalezionepodatnika = kontapodatnika.stream().filter(isQ).findFirst().orElse(null);
+                   znalezionepodatnika.setSaldodosprawozdania(p.isSaldodosprawozdania());
+                   znalezionepodatnika.setDwasalda(p.isDwasalda());
+                   znalezionepodatnika.setRozrachunkowe(p.isRozrachunkowe());
+                   znalezionepodatnika.setKontovat(p.isKontovat());
+                }
+            }
+            kontoDAOfk.editList(kontapodatnika);
+            PrimeFaces.current().ajax().update("form:dataList");
+            Msg.msg("Zakonczono z sukcesem implementacje kont wzorcowych u bieżącego podatnika");
+        } else {
+            Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");
         }
     }
 

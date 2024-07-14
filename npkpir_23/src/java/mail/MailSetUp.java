@@ -72,7 +72,7 @@ public class MailSetUp implements Serializable{
         }
         if (!wpisView.getUzer().getUprawnienia().equals("Guest")){
         try {
-            if (udw!=null&&udw.contains("@")) {
+            if (udw!=null&&udw.contains("@")&&udw.equals("brzaskun@o2.pl")==false) {
                 message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(udw));
             }
         } catch (Exception e){

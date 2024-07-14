@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogrzisukladwzorcowy" header="Wzorcowy Układ Rachunku Zysków i Strat - przypisywanie kont" widgetVar="rzisukladwzorcowy" 
-              resizable="false" onShow="ustawdialog('dialogrzisukladwzorcowy','menuustawienia', 1500, 850);" closeOnEscape="true" onHide="resetujdialog('dialogrzisukladwzorcowy');"  >
+              resizable="false" onShow="ustawdialog('dialogrzisukladwzorcowy','menuustawienia', 1700, 850);" closeOnEscape="true" onHide="resetujdialog('dialogrzisukladwzorcowy');"  >
         <h:form id="formrzisuklad">
             <!--            <p:contextMenu for="dataList">
                             <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":formrzisuklad" onclick="PF('nowekontosyntetyczne').show();"/>
@@ -54,7 +54,7 @@
                 <p:column>
                     <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaView.kontabezprzydzialu}"
                                  emptyMessage="wszystkie konta przyporządkowane"
-                                 style="margin-top: -13%; height: 750px; width: 450px; overflow-y: scroll" >
+                                 style="margin-top: -13%; height: 750px; width: 550px; overflow-y: scroll" >
                         <f:facet name="header">
                             <h:outputText value="konta nieprzypisane"/>
                         </f:facet>
@@ -73,18 +73,21 @@
                                              rendered="#{konto.mapotomkow == false ? (konto.level == 0 ? true : false) : null}">
                             </p:commandButton>
                         </p:column>
+                         <p:column headerText="pot." style="text-align: center;">
+                             <h:outputText value="#{konto.mapotomkow eq true ? '&#x2713;' : ''}"/>
+                        </p:column>
                         <p:column headerText="Wn" style="text-align: center;">
-                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaWn ne null ? '&#x2713;' : ''}"/>
                         </p:column>
                         <p:column headerText="Ma" style="text-align: center;">
-                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaMa ne null ? '&#x2713;' : ''}"/>
                         </p:column>
                     </p:dataTable>
                 </p:column>
                 <p:column>
                     <p:dataTable id="selected" var="konto" value="#{pozycjaBRKontaView.przyporzadkowanekonta}"
                                  emptyMessage="brak przyporządkowanych kont"
-                                 style="margin-top: -13%; height: 750px; width: 450px; overflow-y: scroll" >
+                                 style="margin-top: -13%; height: 750px; width: 550px; overflow-y: scroll" >
                         <f:facet name="header">
                             <h:outputText value="konta przypisane do #{pozycjaBRKontaView.wybranapozycja}"/>
                         </f:facet>
@@ -92,11 +95,14 @@
                             <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" global="global"
                                              actionListener="#{pozycjaBRKontaView.onKontoRemoveR(konto,'r')}" update=":formrzisuklad:dostepnekonta :formrzisuklad:selected"/>
                         </p:column>
+                          <p:column headerText="pot." style="text-align: center;">
+                             <h:outputText value="#{konto.mapotomkow eq true ? '&#x2713;' : ''}"/>
+                        </p:column>
                         <p:column headerText="Wn" style="text-align: center;">
-                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaWn ne null ? '&#x2713;' : ''}"/>
                         </p:column>
                         <p:column headerText="Ma" style="text-align: center;">
-                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaMa ne null ? '&#x2713;' : ''}"/>
                         </p:column>
                     </p:dataTable>
                 </p:column>

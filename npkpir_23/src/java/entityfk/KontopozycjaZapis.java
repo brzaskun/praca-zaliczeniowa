@@ -187,6 +187,15 @@ public class KontopozycjaZapis extends KontopozycjaSuper implements Serializable
             return "KontopozycjaZapis{"+ ", ukladBR=" + ukladBR.getRok()+"/ "+ukladBR.getUklad()+"/ "+kontoID.getId() + ", konto=" + kontoID.getPelnynumer()+" rok "+kontoID.getRok()+" pod "+kontoID.getPodatnik().getPrintnazwaShort() + "pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka ;
         }
     }
+
+    public void edytujzmianywzorzec(KontopozycjaZapis kpozycjawzorcowa) {
+        this.pozycjaMa = kpozycjawzorcowa.pozycjaMa;
+        this.pozycjaWn = kpozycjawzorcowa.pozycjaWn;
+        this.stronaMa = kpozycjawzorcowa.stronaMa;
+        this.stronaWn = kpozycjawzorcowa.stronaWn;
+        this.syntetykaanalityka = kpozycjawzorcowa.syntetykaanalityka;
+        this.wynik0bilans1 = kpozycjawzorcowa.wynik0bilans1;
+    }
     
     
     

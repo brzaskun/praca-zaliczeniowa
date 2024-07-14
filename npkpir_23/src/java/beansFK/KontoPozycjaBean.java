@@ -45,8 +45,16 @@ public class KontoPozycjaBean {
         return zwrot;
     }
     
-    private static KontopozycjaZapis kopiujpozycje(KontopozycjaZapis starapozycja, UkladBRDAO ukladBRDAO, String nazwadomyslna, Podatnik podatnik, String rok, Konto nowekonto) {
-        UkladBR ukladdomyslny = pobierzUkladDomyslny(ukladBRDAO, nazwadomyslna, podatnik, rok);
+    private static KontopozycjaZapis kopiujpozycje(KontopozycjaZapis starapozycja, UkladBRDAO ukladBRDAO, String nazwadomyslanukladu, Podatnik podatnik, String rok, Konto nowekonto) {
+        UkladBR ukladdomyslny = pobierzUkladDomyslny(ukladBRDAO, nazwadomyslanukladu, podatnik, rok);
+        KontopozycjaZapis zwrot = null;
+        if (nowekonto != null && ukladdomyslny != null) {
+            zwrot = new KontopozycjaZapis(starapozycja, nowekonto, ukladdomyslny);
+        }
+        return zwrot;
+    }
+    
+    public static KontopozycjaZapis kopiujpozycjeWzorNowe(KontopozycjaZapis starapozycja, UkladBR ukladdomyslny, Podatnik podatnik, String rok, Konto nowekonto) {
         KontopozycjaZapis zwrot = null;
         if (nowekonto != null && ukladdomyslny != null) {
             zwrot = new KontopozycjaZapis(starapozycja, nowekonto, ukladdomyslny);

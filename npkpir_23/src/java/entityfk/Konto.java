@@ -301,6 +301,8 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     protected boolean wynik0bilans1;
     @Column(name = "kontovat")
     protected boolean kontovat;
+    @Column(name = "bilansowe")
+    protected boolean bilansowe;
     //dawne KontoBO
     @Transient
     private double saldorokpopWn;
@@ -367,6 +369,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.niewidoczne = old.niewidoczne;
         this.sprawdzono = old.sprawdzono;
         this.saldodosprawozdania = old.saldodosprawozdania;
+        this.bilansowe = old.bilansowe;
     }
 
 
@@ -375,7 +378,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public Konto(Integer id, Podatnik podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, 
             String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin, int rok,
-            String syntetycznenumer, boolean dwasalda, boolean rozrachunkowe, boolean kontovat) {
+            String syntetycznenumer, boolean dwasalda, boolean rozrachunkowe, boolean kontovat, boolean bilansowe) {
         this.id = id;
         this.podatnik = podatnik;
         this.nrkonta = nrkonta;
@@ -396,6 +399,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.slownikowe = false;
         this.idslownika = 0;
         this.syntetycznenumer = syntetycznenumer;
+        this.bilansowe = bilansowe;
     }   
 
     public Konto(String podsumowanie, double wn, double ma, double z, double z0, double z1, double z2) {
@@ -923,6 +927,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public void setSaldodosprawozdania(boolean saldodosprawozdania) {
         this.saldodosprawozdania = saldodosprawozdania;
+    }
+
+    public boolean isBilansowe() {
+        return bilansowe;
+    }
+
+    public void setBilansowe(boolean bilansowe) {
+        this.bilansowe = bilansowe;
     }
     
     
