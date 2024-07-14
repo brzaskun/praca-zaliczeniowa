@@ -33,7 +33,7 @@ import javax.interceptor.Interceptors;
 import msg.Msg;
 import pdf.PdfMiejsceKosztow;
 import view.WpisView;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 /**
  *
  * @author Osito

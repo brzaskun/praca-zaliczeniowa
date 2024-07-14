@@ -23,7 +23,7 @@ import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import org.primefaces.PrimeFaces;
  import view.WpisView;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

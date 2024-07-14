@@ -34,10 +34,7 @@
             <p:panelGrid columns="9" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
-                    <p:selectOneMenu value="#{pozycjaBRZestawienieView.uklad}" converter="#{ukladBRConv}">
-                        <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
-                        <p:ajax event="change" listener="#{pozycjaBRZestawienieView.zmianaukladprzegladRZiSBO()}" update="form_dialog_rzis_porownanie"/>
-                    </p:selectOneMenu>
+                    <h:outputText value="#{pozycjaBRZestawienieView.uklad.uklad}"/>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSData()}" update=":form_dialog_rzis_porownanie"/>
                 </p:panelGrid>
                 <p:column>

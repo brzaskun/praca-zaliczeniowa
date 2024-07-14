@@ -40,7 +40,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import plik.Plik;
 import view.WpisView;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

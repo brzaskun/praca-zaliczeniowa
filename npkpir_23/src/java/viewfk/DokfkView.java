@@ -115,7 +115,7 @@ import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

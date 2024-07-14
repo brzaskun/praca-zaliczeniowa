@@ -34,7 +34,7 @@ import msg.Msg;
 import org.primefaces.event.NodeUnselectEvent;
 import pdffk.PDFRozrachunki;
 import view.WpisView;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 /**
  *
  * @author Osito

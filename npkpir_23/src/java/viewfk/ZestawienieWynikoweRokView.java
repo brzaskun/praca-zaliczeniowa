@@ -23,7 +23,7 @@ import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

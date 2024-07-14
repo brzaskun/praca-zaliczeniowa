@@ -38,7 +38,7 @@ import sprawozdania.rok2018.SprawozdanieFinOP2018BilansBean;
 import sprawozdania.rok2018.SprawozdanieFinOP2018DodInfoBean;
 import sprawozdania.rok2018.SprawozdanieFinOP2018RZiSBean;
  import view.WpisView;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

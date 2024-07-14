@@ -25,7 +25,7 @@ import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import pdffk.PdfStowRozrachunki;
 import view.WpisView;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 /**
  *
  * @author Osito

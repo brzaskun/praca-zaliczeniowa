@@ -50,7 +50,7 @@ import static testobjects.testobjects.getPodatnik;
 import static testobjects.testobjects.getRodzajedok;
 import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

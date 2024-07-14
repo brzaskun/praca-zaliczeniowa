@@ -24,7 +24,7 @@ import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import pdffk.PdfCechyZapisow;
 import view.WpisView;
- import wydajnosc.ConstructorInterceptor;
+ import interceptor.ConstructorInterceptor;
 
 /**
  *

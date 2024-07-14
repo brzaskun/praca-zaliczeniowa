@@ -24,7 +24,7 @@ import msg.Msg;
 import org.apache.poi.ss.usermodel.Workbook;
 import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 import xls.PozycjaObliczenia;
 import xls.PozycjaPrzychodKoszt;
 import xls.WriteXLSFile;

@@ -14,7 +14,7 @@ import javax.interceptor.Interceptors;
 import msg.Msg;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 import xml.XMLValid;
 
 /**

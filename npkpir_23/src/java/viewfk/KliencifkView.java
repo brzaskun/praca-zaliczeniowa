@@ -33,7 +33,7 @@ import javax.interceptor.Interceptors;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
  import view.WpisView;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

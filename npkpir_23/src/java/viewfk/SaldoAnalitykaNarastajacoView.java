@@ -29,7 +29,7 @@ import javax.interceptor.Interceptors;
 import pdf.PdfKontaNarastajaco;
 import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

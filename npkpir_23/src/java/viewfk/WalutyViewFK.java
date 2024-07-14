@@ -31,7 +31,7 @@ import org.primefaces.event.RowEditEvent;
 import view.WpisView;
  import waluty.WalutyNBP;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

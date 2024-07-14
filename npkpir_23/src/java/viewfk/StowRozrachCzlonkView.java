@@ -28,7 +28,7 @@ import javax.interceptor.Interceptors;
 import pdffk.PDFStowRozrachCzlonk;
 import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

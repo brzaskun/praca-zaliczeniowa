@@ -42,7 +42,7 @@ import org.primefaces.model.TreeNode;
 import pdffk.PdfBilans;
 import pdffk.PdfRZiS;
  import view.WpisView;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

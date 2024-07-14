@@ -30,7 +30,7 @@ import msg.Msg;
 import org.primefaces.model.TreeNode;
 import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

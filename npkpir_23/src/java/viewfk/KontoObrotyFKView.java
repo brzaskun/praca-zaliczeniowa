@@ -28,7 +28,7 @@ import org.primefaces.PrimeFaces;
 import pdf.PdfKontoObroty;
  import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

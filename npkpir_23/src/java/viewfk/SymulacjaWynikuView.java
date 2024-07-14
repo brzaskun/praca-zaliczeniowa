@@ -46,7 +46,7 @@ import msg.Msg;
 import pdf.PdfSymulacjaWyniku;
 import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

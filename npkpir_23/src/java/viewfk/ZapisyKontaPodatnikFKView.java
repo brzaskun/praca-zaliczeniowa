@@ -31,7 +31,7 @@ import org.primefaces.PrimeFaces;
 import pdffk.PdfKontoZapisyLista;
  import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

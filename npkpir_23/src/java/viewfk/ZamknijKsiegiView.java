@@ -24,7 +24,7 @@ import msg.Msg;
 import view.PodatnikView;
 import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

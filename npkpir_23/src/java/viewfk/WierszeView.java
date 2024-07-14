@@ -23,7 +23,7 @@ import javax.interceptor.Interceptors;
 import msg.Msg;
 import pdffk.PdfWiersz;
 import view.WpisView;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 /**
  *
  * @author Osito

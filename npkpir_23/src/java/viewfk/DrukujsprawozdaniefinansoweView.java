@@ -23,7 +23,7 @@ import pdffk.PdfBilans;
 import pdffk.PdfPlanKont;
 import pdffk.PdfZaksiegowaneView;
 import view.WpisView;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 /**
  *
  * @author Osito

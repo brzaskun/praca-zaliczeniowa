@@ -11,7 +11,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import sortfunction.KontoSortBean;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

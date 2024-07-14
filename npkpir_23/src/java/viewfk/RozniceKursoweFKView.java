@@ -27,7 +27,7 @@ import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdffk.PdfRRK;
  import view.WpisView;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

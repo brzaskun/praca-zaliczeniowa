@@ -46,7 +46,7 @@ import view.EwidencjaVatView;
 import view.ParametrView;
 import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

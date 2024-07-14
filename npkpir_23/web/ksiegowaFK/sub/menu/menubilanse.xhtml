@@ -27,6 +27,9 @@
                 <p:tab title="#{mgs.RZiS}" >
                     <h:form id="dialog1menu3">
                         <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="Nowy RZiS porównanie z rokiem pop." onclick="PF('dialog_rzis_porownanie_nowy').show();" 
+                                        actionListener="#{pozycjaBRZestawienieNowyView.obliczRZiSOtwarciaRZiSData()}"
+                                        update=":form_dialog_rzis_porownanie_nowy"></p:menuitem>
                             <p:menuitem value="przegladaj RZiS porównanie z rokiem pop." onclick="PF('dialog_rzis_porownanie').show();" 
                                         actionListener="#{pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSData()}"
                                         update=":form_dialog_rzis_porownanie"></p:menuitem>

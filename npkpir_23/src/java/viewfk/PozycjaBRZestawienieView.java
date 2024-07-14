@@ -45,7 +45,7 @@ import pdffk.PdfBilans;
 import pdffk.PdfRZiS;
 import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

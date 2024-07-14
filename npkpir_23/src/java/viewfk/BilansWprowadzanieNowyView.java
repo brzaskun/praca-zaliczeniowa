@@ -49,7 +49,7 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.component.datatable.DataTable;
  import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

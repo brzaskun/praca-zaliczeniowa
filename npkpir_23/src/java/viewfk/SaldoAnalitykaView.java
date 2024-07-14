@@ -40,7 +40,7 @@ import pdf.PdfKontaPorownanie;
 import sortfunction.KontoSortBean;
  import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

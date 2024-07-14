@@ -36,7 +36,7 @@ import pdf.PdfSymulacjaWynikuNarastajaco;
 import view.StrataView;
 import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

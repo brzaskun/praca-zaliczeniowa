@@ -24,7 +24,7 @@ import org.primefaces.model.TreeNode;
 import pdffk.PdfBilansPodgladKonta;
 import view.WpisView;
 import waluty.Z;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

@@ -25,7 +25,7 @@ import org.joda.time.DateTime;
 import org.xml.sax.SAXException;
 import view.WpisView;
 import waluty.WalutyNBP;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 
 /**
  *

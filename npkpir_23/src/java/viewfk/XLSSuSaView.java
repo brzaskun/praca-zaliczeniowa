@@ -21,7 +21,7 @@ import javax.interceptor.Interceptors;
 import msg.Msg;
 import org.apache.poi.ss.usermodel.Workbook;
 import view.WpisView;
-import wydajnosc.ConstructorInterceptor;
+import interceptor.ConstructorInterceptor;
 import xls.WriteXLSFile;
 
 /**
