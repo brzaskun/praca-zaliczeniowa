@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import beansFK.PlanKontFKBean;
 import beansFK.StronaWierszaBean;
 import beansFK.UkladBRBean;
 import comparator.PozycjaRZiSBilanscomparator;
@@ -118,9 +119,11 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
             kontabilansowebezprzyporzadkowania = pustekonta.stream().map(Konto::getPelnynumer).collect(Collectors.toList()).toString();
         }
         List<Konto> plankon = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        Konto kontowyniku = PlanKontFKBean.findKonto860(plankon);
         List<Konto> plankonBO = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         sumujObrotyNaKontach(zapisy, plankon);
         sumujObrotyNaKontach(zapisyRokPop, plankonBO);
+        naniesKwoteWynikFinansowy(kontowyniku);
         try {
            plankon.stream().forEach(new Consumer<Konto>() {
                @Override
@@ -288,6 +291,8 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
                     }
                 }
            });
+            sumaaktywapasywaoblicz("aktywa");
+            sumaaktywapasywaoblicz("pasywa");
             Msg.msg("i", "Pobrano dane ");
         } catch (Exception e) {
             E.e(e);
@@ -296,6 +301,53 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
+    private void sumaaktywapasywaoblicz(String aktywapasywa) {
+        if (aktywapasywa.equals("aktywa")) {
+            List<PozycjaRZiSBilans> wezly = rootBilansAktywa.stream().filter(item->item.getLevel()==0).collect(Collectors.toList());
+            double suma = 0.0;
+            double sumaBO = 0.0;
+            for (Iterator<PozycjaRZiSBilans> it = wezly.iterator(); it.hasNext();) {
+                PozycjaRZiSBilans p = it.next();
+                suma += p.getKwota();
+                sumaBO += p.getKwotabo();
+            }
+            sumabilansowaaktywa = Z.z(suma);
+            sumabilansowaaktywaBO = Z.z(sumaBO);
+        } else {
+            List<PozycjaRZiSBilans> wezly = rootBilansPasywa.stream().filter(item->item.getLevel()==0).collect(Collectors.toList());
+            double suma = 0.0;
+            double sumaBO = 0.0;
+            for (Iterator<PozycjaRZiSBilans> it = wezly.iterator(); it.hasNext();) {
+                 PozycjaRZiSBilans p = it.next();
+                suma += p.getKwota();
+                sumaBO += p.getKwotabo();
+            }
+            sumabilansowapasywa = Z.z(suma);
+            sumabilansowapasywaBO = Z.z(sumaBO);
+        }
+    }
+    
+    private void naniesKwoteWynikFinansowy(Konto kontowyniku) {
+        //usunalem 27.10.2023 bo czysci pozycje przy kazdym robieniu bo!!!
+        obliczRZiSOtwarciaRZiSData();
+        PozycjaRZiSBilans pozycjawynikfin = pozycje.get(pozycje.size() - 1);
+        if (Z.z(pozycjawynikfin.getKwota())==0.0) {
+            pozycjawynikfin = pozycje.get(pozycje.size() - 2);
+        }
+        double wynikfinansowy = pozycjawynikfin.getKwota();
+        double wf = Z.z(Math.abs(wynikfinansowy));
+        if (wynikfinansowy > 0) {//zysk
+            kontowyniku.setObrotyMa(kontowyniku.getObrotyMa()+wf);
+        } else {//strata
+            kontowyniku.setObrotyWn(kontowyniku.getObrotyWn()+wf);
+        }
+        double wynikkwota = kontowyniku.getObrotyWn()-kontowyniku.getObrotyMa();
+        if ( wynikkwota > 0) {
+            kontowyniku.setSaldoWn(wynikkwota);
+        } else {
+            kontowyniku.setSaldoMa(Math.abs(wynikkwota));
+        }
+    }
     public static void sumujObrotyNaKontach(List<StronaWiersza> zapisy, List<Konto> plankont) {
         for (StronaWiersza p : zapisy) {
             //pobiermay dane z poszczegolnego konta
