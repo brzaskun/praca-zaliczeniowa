@@ -169,6 +169,12 @@ public class StronaWierszaBean {
         }
         return pobranezapisy;
     }
+     
+     public static List<StronaWiersza> pobraniezapisowbilansoweNowe(StronaWierszaDAO stronaWierszaDAO, String mc, String rok, Podatnik podatnik) {
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokBilans(podatnik, rok, mc);
+        
+        return pobranezapisy;
+    }
     
     public static boolean niemacech(List<StronaWiersza> sw) {
         boolean zwrot = true;

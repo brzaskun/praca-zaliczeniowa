@@ -1400,7 +1400,7 @@ public class Faktura implements Serializable {
 
     public boolean isKorekta() {
         boolean zwrot = false;
-        if (this.przyczynakorekty!=null||this.przyczynakorekty.equals("")==true) {
+        if (this.przyczynakorekty!=null||(this.przyczynakorekty!=null&&this.przyczynakorekty.equals("")==true)) {
             zwrot = true;
         }
         return zwrot;

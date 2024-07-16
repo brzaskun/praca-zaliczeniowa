@@ -1166,4 +1166,21 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         return nowa;
     }
     
+    public boolean isJednoSaldo() {
+        boolean zwrot = true;
+        if (this.pozycjaWn!=null&&this.pozycjaMa!=null) {
+            if (this.pozycjaWn.equals(this.pozycjaMa)==false) {
+                zwrot = false;
+            }
+        }
+        return zwrot;
+    }
+
+    public boolean isAktywa() {
+       boolean zwrot = true;
+       if (this.stronaWn!=null&&this.stronaWn.equals("1")) {
+           zwrot = false;
+       }
+       return zwrot;
+    }
 }

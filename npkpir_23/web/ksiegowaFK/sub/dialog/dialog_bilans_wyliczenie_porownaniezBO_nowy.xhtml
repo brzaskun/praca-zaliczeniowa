@@ -1,0 +1,144 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
+
+    <p:dialog id="dialogbilansporownanie_nowy" header="Bilans za okres rozliczeniowy wyliczenie z porównaniem - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogbilansporownanie_nowy" 
+              resizable="false" onShow="ustawdialog('dialogbilansporownanie_nowy','menubilanse', 1450, 800);" closeOnEscape="true" onHide="resetujdialog('dialogbilansporownanie_nowy');"  >
+        <h:form id="form_dialogbilansporownanie_nowy">
+             <p:panelGrid columns="11">
+                <p:panelGrid columns="4" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
+                    <p:column>
+                        <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{pozycjaBRZestawienieNowyView.obliczBilansOtwarciaBilansDataWybierz()}" update=":form_dialogbilansporownanie_nowy" />
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                    </p:column>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRZestawienieNowyView.obliczBilansOtwarciaBilansDataWybierz()}" update=":form_dialogbilansporownanie_nowy"/>
+                    <h:outputText value="układ: " style="margin-left: 20px;" rendered="#{ukladBRView.listarokbiezacy.isEmpty() eq false}"/>
+                    <h:outputText value="#{pozycjaBRZestawienieNowyView.uklad.uklad}" style="color: green;" rendered="#{ukladBRView.listarokbiezacy.isEmpty() eq false}"/>
+                    <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
+                </p:panelGrid>
+                    
+                    <p:panelGrid columns="9" style="margin-left: 150px;" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
+<!--                     <p:commandButton value="#{mgs.drukuj}" styleClass="nb"  style="margin-left: 30px;" type="submit" action="#{sesjaView.dodajwydruk()}" 
+                                      actionListener="#{pozycjaBRZestawienieNowyView.drukujBilansBODataAP('x', pozycjaBRZestawienieNowyView.sumabilansowapasywaBO, pozycjaBRZestawienieNowyView.sumabilansowaaktywa, pozycjaBRZestawienieNowyView.sumabilansowapasywa)}">
+                      </p:commandButton>-->
+                     <h:outputText value="opis dodatkowy"/>
+                        <p:inputText value="#{pozycjaBRZestawienieNowyView.opisdodatkowy}"/>
+                     <p:outputLabel for="laczlata" value="łącz lata "  style="margin-left: 10px;"/>
+                     <p:selectBooleanCheckbox id="laczlata" value="#{pozycjaBRZestawienieNowyView.laczlata}">
+                         <p:ajax event="change" partialSubmit="true" global="false"/>
+                     </p:selectBooleanCheckbox>
+                     <h:outputText value="bilans od dnia" style="margin-left: 5px;"/>
+                     <p:inputText value="#{pozycjaBRZestawienieNowyView.bilansoddnia}" maxlength="10" size="10"> 
+                         <p:ajax event="blur" partialSubmit="true" global="false"/>
+                     </p:inputText>
+                     <h:outputText value="bilans na dzień" style="margin-left: 5px;"/>
+                     <p:inputText value="#{pozycjaBRZestawienieNowyView.bilansnadzien}" maxlength="10" size="10"> 
+                         <p:ajax event="blur" partialSubmit="true" global="false"/>
+                     </p:inputText>
+                </p:panelGrid>
+            </p:panelGrid>
+            <p:panelGrid columns="2" >
+                <p:dataTable id="dataList" value="#{pozycjaBRZestawienieNowyView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieNowyView.selectedNodes}" 
+                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" rowKey="#{loop.lp}"
+                             scrollable="true" style="width: 700px; max-height: 600px;" >
+                    <f:facet name="header">
+                        <p:panelGrid columns="3" columnClasses="seventy-percent seventy-percent">
+                            <p:column>
+                                <h:outputText value="#{mgs.aktywa} "/>
+                            </p:column>
+                            <p:column>
+                                <bcf:outputpl value="#{pozycjaBRZestawienieNowyView.sumabilansowaaktywa}"/>
+                            </p:column>
+                            <p:column>
+                                <bcf:outputpl value="#{pozycjaBRZestawienieNowyView.sumabilansowaaktywaBO}"/>
+                            </p:column>
+                            
+                        </p:panelGrid>
+                    </f:facet>
+                    <p:column style="width: 440px;">
+                         <h:outputText value="#{loop.pozycjaSymbol}" rendered="#{loop.level eq '0' ? true : false}" style="margin-left: 5px;"/> 
+                            <h:outputText value="#{loop.pozycjaSymbol}" rendered="#{loop.level eq '1' ? true : false}" style="margin-left: 20px;"/> 
+                            <h:outputText value="#{loop.pozycjaSymbol}" rendered="#{loop.level eq '2' ? true : false}" style="margin-left: 40px;"/> 
+                            <h:outputText value="#{loop.pozycjaSymbol}" rendered="#{loop.level eq '3' ? true : false}" style="margin-left: 60px;"/> 
+                             <h:outputText value="#{loop.pozycjaSymbol}" rendered="#{loop.level eq '4' ? true : false}" style="margin-left: 80px;"/>
+                               <h:outputText value=" " /> 
+                            <h:outputText value="#{loop.nazwa}" /> 
+                    </p:column>
+                    <p:column headerText="bz" style="height: 20px;">
+                        <h:outputText id="kww1" value="#{loop.kwota}" style="float: right; padding-right: 15%; color: #{loop.kwota lt 0.0 ? 'red':'initial'}" rendered="#{loop.kwota != 0.0}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                        <p:tooltip for="kww1" value="#{loop.getNumeryKont()}"/>
+                    </p:column>
+                    <p:column headerText="bo">
+                        <h:outputText id="kww2" value="#{loop.kwotabo}" style="float: right; padding-right: 15%; color: #{loop.kwotabo lt 0.0 ? 'red':'initial'}" rendered="#{loop.kwotabo != 0.0}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                        <p:tooltip  for="kww2" value="#{loop.getNumeryKont()}"/>
+                    </p:column>
+                    
+                </p:dataTable>
+                <p:dataTable id="dataList2" value="#{pozycjaBRZestawienieNowyView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieNowyView.selectedNodes}" 
+                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}"  rowKey="#{loop.lp}"
+                             scrollable="true" style="width: 700px; max-height: 600px;">
+                    <f:facet name="header">
+                        <p:panelGrid columns="3" columnClasses="seventy-percent seventy-percent">
+                            <p:column>
+                                <h:outputText value="#{mgs.pasywa} "/>
+                            </p:column>
+                            <p:column>
+                                <bcf:outputpl value="#{pozycjaBRZestawienieNowyView.sumabilansowapasywa}"/>
+                            </p:column>
+                            <p:column>
+                                <bcf:outputpl value="#{pozycjaBRZestawienieNowyView.sumabilansowapasywaBO}"/>
+                            </p:column>
+                            
+                        </p:panelGrid>
+                    </f:facet>
+                    <p:column style="width: 440px;">
+                    <h:outputText value="#{loop.pozycjaSymbol}" rendered="#{loop.level eq '0' ? true : false}" style="margin-left: 5px;"/> 
+                            <h:outputText value="#{loop.pozycjaSymbol}" rendered="#{loop.level eq '1' ? true : false}" style="margin-left: 20px;"/> 
+                            <h:outputText value="#{loop.pozycjaSymbol}" rendered="#{loop.level eq '2' ? true : false}" style="margin-left: 40px;"/> 
+                            <h:outputText value="#{loop.pozycjaSymbol}" rendered="#{loop.level eq '3' ? true : false}" style="margin-left: 60px;"/> 
+                             <h:outputText value="#{loop.pozycjaSymbol}" rendered="#{loop.level eq '4' ? true : false}" style="margin-left: 80px;"/>
+                               <h:outputText value=" " /> 
+                            <h:outputText value="#{loop.nazwa}" />  
+                    </p:column>
+                    <p:column headerText="bz" style="height: 20px;">
+                         <h:outputText id="kww3" value="#{loop.kwota}" style="float: right; padding-right: 15%; color: #{loop.kwota lt 0.0 ? 'red':'initial'}" rendered="#{loop.kwota!= 0.0}">
+                             <p:tooltip value="#{loop.przyporzadkowanekonta.size()}"/>
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                        <p:tooltip for="kww3" value="#{loop.getNumeryKont()}"/>
+                    </p:column>
+                    <p:column headerText="bo">
+                        <h:outputText id="kww4" value="#{loop.kwotabo}" style="float: right; padding-right: 15%; color: #{loop.kwotabo lt 0.0 ? 'red':'initial'}" rendered="#{loop.kwotabo != 0.0}" >
+                            <p:tooltip value="#{loop.przyporzadkowanekonta.size()}"/>
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                        <p:tooltip for="kww4" value="#{loop.getNumeryKont()}"/>
+                    </p:column>
+                    
+                </p:dataTable>
+            </p:panelGrid>
+            <p:panel style="width: 300px;" >
+            <h:outputText value="Różnica sum bilansowych"/>
+            <bcf:outputpl value="#{pozycjaBRZestawienieNowyView.sumabilansowaaktywa-pozycjaBRZestawienieNowyView.sumabilansowapasywa}"/>
+            </p:panel>
+            <p:panel>
+                <h:outputText value="konta bez przyporządkowania: #{pozycjaBRZestawienieNowyView.kontabilansowebezprzyporzadkowania}" rendered="#{pozycjaBRZestawienieNowyView.kontabilansowebezprzyporzadkowania ne null}"
+                              style="color:red;margin-top: 10px;"/>
+    
+            </p:panel>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+

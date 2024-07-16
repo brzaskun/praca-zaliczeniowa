@@ -41,6 +41,7 @@ import entityfk.UkladBR;
 import entityfk.WierszBO;
 import enumy.Slownik;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,7 +76,6 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import pdffk.PdfPlanKont;
 import view.WpisView;
-import interceptor.ConstructorInterceptor;
 import xls.WriteXLSFile;
 import xls.X;
 
@@ -293,15 +293,15 @@ public class PlanKontView implements Serializable {
     }
     
     public void zmianypodatnik() {
-        List<UkladBR> listaukladow1 = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), rok);
-        UkladBR wybranyuklad1 = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow1);
+        List<UkladBR> listaukladow1podatnika = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), rok);
+        UkladBR wybranyukladpodatnika = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow1podatnika);
         List<Konto> kontapodatnika = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        List<KontopozycjaZapis> listabazapodatnik = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad1, "wynikowe");
-        listabazapodatnik.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad1, "bilansowe"));
+        List<KontopozycjaZapis> listabazapodatnik = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyukladpodatnika, "wynikowe");
+        listabazapodatnik.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyukladpodatnika, "bilansowe"));
         List<UkladBR> listaukladow1wzorcowy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), rok);
         UkladBR wybranyukladwzorcowy = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow1wzorcowy);
         List<KontopozycjaZapis> listabaza = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyukladwzorcowy, "wynikowe");
-        listabaza.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, "bilansowe"));
+        listabaza.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(wybranyukladwzorcowy, "bilansowe"));
         List<KontopozycjaZapis> listadoedycji = new ArrayList<>();
         List<KontopozycjaZapis> listadododania = new ArrayList<>();
         List<KontopozycjaZapis> listadousuniecia = new ArrayList<>();
@@ -335,7 +335,7 @@ public class PlanKontView implements Serializable {
                             kpozycjapodatnik.edytujzmianywzorzec(kpozycjawzorcowa);
                             listadoedycji.add(kpozycjapodatnik);
                         } else if (kpozycjawzorcowa != null&&kpozycjapodatnik == null) {
-                            KontopozycjaZapis nowapozycja = KontoPozycjaBean.kopiujpozycjeWzorNowe(kpozycjawzorcowa, wybranyukladwzorcowy, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontopodatnika);
+                            KontopozycjaZapis nowapozycja = KontoPozycjaBean.kopiujpozycjeWzorNowe(kpozycjawzorcowa, wybranyukladpodatnika, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontopodatnika);
                             listadododania.add(nowapozycja);
                         } else if (kpozycjawzorcowa == null&&kpozycjapodatnik != null) {
                             listadousuniecia.add(kpozycjapodatnik);
@@ -658,7 +658,7 @@ public class PlanKontView implements Serializable {
             if (czyoddacdowzorca == true) {
                 nowododane = PlanKontFKBean.dodajsyntetyczne(podatnik,wykazkontwzor, noweKonto, kontoDAOfk, wpisView.getRokWpisu());
                 //wykazkontwzor = planBezSlownikowychSyntetyczne(podatnik);
-                wykazkont.add(nowododane);
+                wykazkontwzor.add(nowododane);
                 Collections.sort(wykazkont, new Kontocomparator());
             } else {
                 nowododane = PlanKontFKBean.dodajsyntetyczne(podatnik,wykazkont, noweKonto, kontoDAOfk, wpisView.getRokWpisu());
@@ -673,6 +673,7 @@ public class PlanKontView implements Serializable {
                 noweKonto = new Konto();
                 Msg.msg("e", "Konto syntetyczne o takim numerze juz istnieje!", "formX:messages");
             }
+                       
         }
     }
 

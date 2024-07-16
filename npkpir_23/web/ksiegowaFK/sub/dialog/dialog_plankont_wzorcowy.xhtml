@@ -47,7 +47,7 @@
                 <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />-->
 <!--3dd-->
                 <p:commandButton id="korygujpozycje" value="korygujpozycje" actionListener="#{planKontView.korygujpozycje}"  global="false" style="float: left; width: 130px;" />
-                <p:commandButton id="korektapodatnik" value="zmianypodatnik" actionListener="#{planKontView.zmianypodatnik}"  global="false" style="float: left; width: 130px;margin-left: 10px;" />
+                <p:commandButton id="korektapodatnik" value="zmianypodatnik" actionListener="#{planKontView.zmianypodatnik}"  global="true" style="float: left; width: 130px;margin-left: 10px;" />
                 <p:spacer width="50"/>
                  <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikwzorcowy)}" update="formwzorcowy:dataListwzorcowy"/>

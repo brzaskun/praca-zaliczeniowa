@@ -69,8 +69,10 @@ public class UkladBRBean {
         try {
            for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
                 PozycjaRZiS p = (PozycjaRZiS) it.next();
-                p.setPrzyporzadkowanekonta(null);
-                p.setPrzyporzadkowanestronywiersza(null);
+                if (p!=null) {
+                    p.setPrzyporzadkowanekonta(null);
+                    p.setPrzyporzadkowanestronywiersza(null);
+                }
             }
         } catch (Exception e) {  
             E.e(e);
