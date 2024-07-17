@@ -14,16 +14,14 @@
             <p:panelGrid columns="7">
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
-                    <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="#{ukladBRConv}">
-                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
-                    </p:selectOneMenu>
-                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladRZiS()}" update="akordeonBilans:formprzegladRZiS"/>
+                    <h:outputText value="#{pozycjaBRView.uklad.uklad}"/>
                 </p:panelGrid>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{pozycjaBRView.odswiezrzis()}" update="akordeonBilans:formprzegladRZiS" />
+                        <p:ajax event="change" listener="#{pozycjaBRView.odswiezrzis()}"  />
                         <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
+                    <p:commandButton value="pobierz dane" actionListener="#{pozycjaBRView.odswiezrzis()}" update="akordeonBilans:formprzegladRZiS"/>
                 </p:column>
                 <p:column>
                 <h:outputText value="bilans od dnia" style="margin-left: 5px;"/>
@@ -109,31 +107,29 @@
         </p:tab>
         <p:tab title="#{mgs.Bilans}">
              <h:form id="formprzegladbilans">
-<!--            <p:contextMenu for="dataList">
-                <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
-                <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontoanalityczne').show();"/>
-                <p:menuitem value="Usuń" actionListener="{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
-            </p:contextMenu>
--->            <script>
-
-                    document.onkeypress = wcisnij;
-                    function wcisnij() {
-                        if (event.keyCode == 43) {
-                            $('#form\\:rozwinwsz').click();
-                        } else if (event.keyCode == 45) {
-                            $('#form\\:zwinwsz').click();
-                        } else {
-                            return event;
-                        }
-                    }
-            </script>
              <p:panelGrid columns="6">
                 <p:panelGrid columns="3">
+                <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
-                    <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="#{ukladBRConv}">
-                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
+                    <h:outputText value="#{pozycjaBRView.uklad.uklad}"/>
+                </p:panelGrid>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{pozycjaBRView.obliczBilansNaDzien()}"  />
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.obliczBilansNaDzien()}" update="akordeonBilans:formprzegladbilans"/>
+                    <p:commandButton value="pobierz dane" actionListener="#{pozycjaBRView.obliczBilansNaDzien()}" update="akordeonBilans:formprzegladbilans"/>
+                </p:column>
+                <p:column>
+                <h:outputText value="bilans od dnia" style="margin-left: 5px;"/>
+                     <p:inputText value="#{pozycjaBRView.bilansoddnia}" maxlength="10" size="10"> 
+                         <p:ajax event="blur" partialSubmit="true" global="false"/>
+                     </p:inputText>
+                     <h:outputText value="bilans na dzień" style="margin-left: 5px;"/>
+                     <p:inputText value="#{pozycjaBRView.bilansnadzien}" maxlength="10" size="10"> 
+                         <p:ajax event="blur" partialSubmit="true" global="false"/>
+                     </p:inputText>
+                </p:column>
                 </p:panelGrid>
                  <p:column>
                       <p:splitButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a',pozycjaBRView.sumabilansowaaktywa)}">
@@ -144,10 +140,12 @@
                       </p:splitButton>
                 </p:column>
             </p:panelGrid>
-            <p:panelGrid columns="2" >
+            <p:panelGrid columns="3" >
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
                              scrollable="true" style="width: 600px; max-height: 600px;" >
+                     <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update="akordeonBilans:formprzegladbilans:podpietekonta akordeonBilans:formprzegladbilans:podpietepozycje"/>
+                        <p:ajax event="unselect" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update="akordeonBilans:formprzegladbilans:podpietekonta akordeonBilans:formprzegladbilans:podpietepozycje"/>
                     <f:facet name="header">
                         <h:outputText value="#{mgs.aktywa} "/>
                         <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa}"/>
@@ -167,6 +165,8 @@
                 <p:treeTable id="dataList2" value="#{pozycjaBRView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}" 
                              scrollable="true" style="width: 600px; max-height: 600px;">
+                     <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update="akordeonBilans:formprzegladbilans:podpietekonta, akordeonBilans:formprzegladbilans:podpietepozycje"/>
+                        <p:ajax event="unselect" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update="akordeonBilans:formprzegladbilans:podpietekonta, akordeonBilans:formprzegladbilans:podpietepozycje"/>
                     <f:facet name="header">
                         <h:outputText value="#{mgs.pasywa} "/>
                         <bcf:outputpl value="#{pozycjaBRView.sumabilansowapasywa}"/>
@@ -183,6 +183,54 @@
                     </h:outputText>
                     </p:column>
                 </p:treeTable>
+                <p:panelGrid columns="1" >
+                        <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
+                                     style="height: 200px; margin-top: 0%; width: 700px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}"
+                                     rowKey="#{loop.id}" selection="#{pozycjaBRView.wybranokonto}"
+                                     >
+                            <p:ajax event="rowSelectRadio" partialSubmit="true"  global="false" update="akordeonBilans:formprzegladbilans:podpietepozycje" listener="#{pozycjaBRView.pobierzdanezkonta}" />
+                            <f:facet  name="header">
+                                <h:outputText value="#{mgs.podpiętesaldakont}"/>
+                            </f:facet>
+                            <p:column selectionMode="single"  width="30" style="text-align: center;"/>
+                            <p:column width="60">
+                                <h:outputText value="#{loop.pelnynumer}"/>
+                            </p:column>
+                            <p:column width="350">
+                                <h:outputText value="#{loop.nazwapelna}"/>
+                            </p:column>
+                            <p:column >
+                                <bcf:outputpl value="#{loop.kwota}" />
+                            </p:column>
+                            <p:column width="50">
+                                 <h:outputText value="#{loop.pozycjaWn}"/>
+                            </p:column>
+                            <p:column width="50">
+                                 <h:outputText value="#{loop.pozycjaMa}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
+                                     style="height: 400px; margin-top: 0%; width: 700px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
+                            <f:facet  name="header">
+                                <h:outputText value="#{mgs.podpiętezapisy}"/>
+                            </f:facet>
+                            <p:column width="30" sortBy="#{loop.konto.pelnynumer}">
+                                <h:outputText value="#{loop.konto.pelnynumer}"/>
+                            </p:column>
+                            <p:column width="50" sortBy="#{loop.wiersz.dataDokumentu}">
+                                <h:outputText value="#{loop.wiersz.dataDokumentu}"/>
+                            </p:column>
+                            <p:column width="180">
+                                <h:outputText value="#{loop.wiersz.opisWiersza.length() gt 38 ? loop.wiersz.opisWiersza.subSequence(0, 38) : loop.wiersz.opisWiersza}"/>
+                            </p:column>
+                            <p:column width="50" sortBy="#{loop.kwota}">
+                                <bcf:outputpl value="#{loop.kwota}" />
+                            </p:column>
+                            <p:column style="text-align: left;" width="40">
+                                <h:outputText value="#{loop.wiersz.dokfk.seriadokfk}/#{loop.wiersz.dokfk.nrkolejnywserii} z #{loop.wiersz.dokfk.miesiac}"/>
+                            </p:column>
+                        </p:dataTable>
+                </p:panelGrid>
             </p:panelGrid>
            
         </h:form>

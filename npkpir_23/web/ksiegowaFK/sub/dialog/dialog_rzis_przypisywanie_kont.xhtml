@@ -14,17 +14,11 @@
                     <p:selectOneMenu value="#{pozycjaBRKontaView.wybranyuklad}" converter="#{ukladBRConv}" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
-                        <p:ajax event="change" listener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":formrzisuklad"/>
+                        <p:ajax event="change" listener="#{pozycjaBRKontaView.zmienukladkontoR()}" update=":formrzisuklad"/>
                     </p:selectOneMenu>
                     <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
-                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":formrzisuklad" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.zmienukladkontoR()}" update=":formrzisuklad" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>
                 </p:panelGrid>
-<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaView.rozwinwszystkie(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaView.rozwin(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaView.zwinwszystkie(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaView.zwin(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />-->
-<!--                <p:spacer width="40"/>
-                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r',pozycjaBRKontaView.wybranyuklad)}" icon="fa fa-lock" update=":formrzisuklad" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>-->
                 <p:spacer width="40"/>
                 <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}" update=":formrzisuklad:" icon="fa fa-sign-in" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>
                 <p:column>

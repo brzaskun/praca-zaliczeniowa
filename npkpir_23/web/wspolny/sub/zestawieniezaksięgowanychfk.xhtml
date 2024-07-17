@@ -84,7 +84,7 @@
          
             <p:dataTable id="dataList" value="#{dokfkGuestView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkGuestView.selected}" rowKey="#{item}" selectionMode="single" 
-                         style="width: 1250px;" filteredValue="#{dokfkGuestView.filteredValue}"
+                         style="width: 1350px;" filteredValue="#{dokfkGuestView.filteredValue}" 
                          emptyMessage="#{mgs.niepobrano}" styleClass="gridZaksiegowane" 
                          rowsPerPageTemplate="150,300,500,1000" paginatorPosition="top" paginator="#{dokfkGuestView.wykazZaksiegowanychDokumentow.size() gt 150 ? 'true':'false'}" rows="150"
                          >
@@ -99,6 +99,9 @@
                 </p:column>
                 <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.datadokumentu}"/>
+                </p:column>
+                 <p:column headerText="data sprzedaży" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.dataoperacji}" filterBy="#{item.dataoperacji}" filterMatchMode="contains" >
+                     <h:outputText value="#{item.dataoperacji}"/>
                 </p:column>
                 <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkLP}" filterBy="#{item.dokfkLP}">
                      <h:outputText value="#{item.dokfkLP}"/>
