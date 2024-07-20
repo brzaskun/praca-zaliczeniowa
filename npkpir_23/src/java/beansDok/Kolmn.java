@@ -29,6 +29,7 @@ public class Kolmn implements Serializable{
     private static final List<String> kolumnSTsprz;
     private static final List<String> kolumnRyczalt;
     private static final List<String> kolumnNiemcy;
+    private static final List<String> stawkiRyczalt;
 
     static{
         kolumnList = Collections.synchronizedList(new ArrayList<>());
@@ -91,6 +92,18 @@ public class Kolmn implements Serializable{
         kolumnRyczalt.add("3%");
         kolumnRyczalt.add("2%");
         kolumnRyczalt.add("razem");
+        
+        stawkiRyczalt = Collections.synchronizedList(new ArrayList<>());
+        stawkiRyczalt.add("17%");
+        stawkiRyczalt.add("15%");
+        stawkiRyczalt.add("14%");
+        stawkiRyczalt.add("12.5%");
+        stawkiRyczalt.add("12%");
+        stawkiRyczalt.add("10%");
+        stawkiRyczalt.add("8.5%");
+        stawkiRyczalt.add("5.5%");
+        stawkiRyczalt.add("3%");
+        stawkiRyczalt.add("2%");
     }
     
     public static List<String> zwrockolumny(String transakcjiRodzaj) {
@@ -187,6 +200,10 @@ public class Kolmn implements Serializable{
     
     public List<String> getKolumnSTsprz(){
         return kolumnSTsprz;
+    }
+
+    public List<String> getStawkiRyczalt() {
+        return stawkiRyczalt;
     }
     
 }

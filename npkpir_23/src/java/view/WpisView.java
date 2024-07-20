@@ -55,6 +55,8 @@ public class WpisView implements Serializable {
     private String miesiacDo;
     private boolean srodkTrw;
     private String rodzajopodatkowania;
+    //ryczałt jest false
+    //ksiega jest true
     private boolean ksiegaryczalt;
     private boolean mc0kw1;
     private boolean ksiegirachunkowe;

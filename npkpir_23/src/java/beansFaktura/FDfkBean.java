@@ -59,7 +59,7 @@ public class FDfkBean {
         nd.setPodatnikObj(podatnik);
         nd.setWprowadzil(wpisView.getUzer().getLogin());
         ustawrodzajedok(nd, rodzajdok, rodzajedokDAO, wpisView, podatnik);
-        ustawtabelenbp(nd,tabelanbpDAO, walutyDAOfk);
+        ustawtabelenbp(nd,tabelanbpDAO, walutyDAOfk, faktura.getTabelanbp());
         podepnijEwidencjeVat(nd, faktura, evewidencjaDAO, podatnik0kontrahent);
         ustawwiersze(nd, faktura, kontoDAOfk, wpisView, tabelanbpDAO,kliencifkDAO, podatnik0kontrahent, poprzedni);
         nd.przeliczKwotyWierszaDoSumyDokumentu();
@@ -79,7 +79,7 @@ public class FDfkBean {
         nd.setPodatnikObj(podatnik);
         nd.setWprowadzil(wpisView.getUzer().getLogin());
         ustawrodzajedok(nd, rodzajdok, rodzajedokDAO, wpisView, podatnik);
-        ustawtabelenbp(nd,tabelanbpDAO, walutyDAOfk);
+        ustawtabelenbp(nd,tabelanbpDAO, walutyDAOfk, faktura.getTabelanbp());
         nd.setEwidencjaVAT(null);
         ustawwiersze(nd, faktura, kontoDAOfk, wpisView, tabelanbpDAO,kliencifkDAO, podatnik0kontrahent, poprzedni);
         nd.przeliczKwotyWierszaDoSumyDokumentu();
@@ -93,6 +93,7 @@ public class FDfkBean {
         nd.setDatadokumentu(datadokumentu);
         nd.setDataoperacji(datasprzedazy);
         nd.setDatawplywu(datadokumentu);
+        nd.setTerminPlatnosci(faktura.getTerminzaplaty());
         nd.setDataujecia(new Date());
         nd.setDatawystawienia(datadokumentu);
         nd.setMiesiac(datadokumentu.split("-")[1]);
@@ -134,11 +135,17 @@ public class FDfkBean {
         }
     }
     
-    private static void ustawtabelenbp(Dokfk nd, TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk) {
-        Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
-        nd.setTabelanbp(t);
-        Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
-        nd.setWalutadokumentu(w);
+    
+    private static void ustawtabelenbp(Dokfk nd, TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk, Tabelanbp tabelanbp) {
+        if (tabelanbp!=null) {
+            nd.setTabelanbp(tabelanbp);
+            nd.setWalutadokumentu(tabelanbp.getWaluta());
+        } else {
+            Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
+            nd.setTabelanbp(t);
+            Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+            nd.setWalutadokumentu(w);
+        }
     }
     
     private static void podepnijEwidencjeVat(Dokfk nd, Faktura faktura, EvewidencjaDAO evewidencjaDAO, int podatnik0kontrahent) {
@@ -147,6 +154,9 @@ public class FDfkBean {
                 List<EVatwpisFK> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
                 for (EVatwpis r : faktura.getEwidencjavat()) {
                     Evewidencja odnalezionaewidencja = evewidencjaDAO.znajdzponazwie(r.getEwidencja().getNazwa());
+                    if (nd.getSeriadokfk().equals("WDT")) {
+                        odnalezionaewidencja = evewidencjaDAO.znajdzponazwie("rejestr WDT");
+                    }
                     if (podatnik0kontrahent==1) {
                         odnalezionaewidencja = evewidencjaDAO.znajdzponazwie("zakup");
                     }

@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansDok.Kolmn;
 import beansDok.ListaEwidencjiVat;
 import beansFK.DokFKBean;
 import beansFaktura.FDfkBean;
@@ -235,6 +236,7 @@ public class FakturaView implements Serializable {
     private boolean pokaztylkoniewyslane;
     private boolean mailplussms;
     List<String> listakontawwalucie;
+    private String stawkaryczaltuksiegowanie;
         
 
     public FakturaView() {
@@ -1521,11 +1523,13 @@ public class FakturaView implements Serializable {
             }
         } else if (wpisView.getPodatnikObiekt().getFirmafk() == 0) {
             for (Faktura p : lista) {
+                String rodzajdok = "SZ";
                 if (ksiazka) {
-                    ksiegowaniePkpirVAT(p, p.getWystawca(), p.getKontrahent(),0, "SZ");
+                    rodzajdok = "SZ";
                 } else {
-                    ksiegowaniePkpirVAT(p, p.getWystawca(), p.getKontrahent(),0, "SPRY");
+                    rodzajdok = "SPRY";
                 }
+                ksiegowaniePkpirVAT(p, p.getWystawca(), p.getKontrahent(),0, rodzajdok);
             }
         } else {
             if (wpisView.isKsiegirachunkowe() == true) {
@@ -1534,11 +1538,13 @@ public class FakturaView implements Serializable {
                 }
             } else {
                 for (Faktura p : lista) {
-                    if (ksiazka) {
-                        ksiegowaniePkpirVAT(p, p.getWystawca(), p.getKontrahent(),0, "SZ");
-                    } else {
-                        ksiegowaniePkpirVAT(p, p.getWystawca(), p.getKontrahent(),0, "SPRY");
-                    }
+                    String rodzajdok = "SZ";
+                if (ksiazka) {
+                    rodzajdok = "SZ";
+                } else {
+                    rodzajdok = "SPRY";
+                }
+                ksiegowaniePkpirVAT(p, p.getWystawca(), p.getKontrahent(),0, rodzajdok);
                 }
             }
         }
@@ -1604,13 +1610,17 @@ public class FakturaView implements Serializable {
         }
         try {
             if (podatnik0kontrahent==0) {
-                Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("SZ", dokDAOfk, podatnik, wpisView.getRokWpisuSt()),faktura, "SZ", podatnik, kontrahent, wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO, evewidencjaDAO,podatnik0kontrahent, null);
+                String rodzajdok = "SZ";
+                if (Z.z(faktura.getVat())==0.0) {
+                    rodzajdok= "WDT";
+                }
+                Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny(rodzajdok, dokDAOfk, podatnik, wpisView.getRokWpisuSt()),faktura, rodzajdok, podatnik, kontrahent, wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO, evewidencjaDAO,podatnik0kontrahent, null);
                 dokument.setImportowany(true);
                 dokument.setFaktura(faktura);
                 dokDAOfk.create(dokument);
                 faktura.setZaksiegowana(true);
                 fakturaDAO.edit(faktura);
-                Msg.msg("Zaksięgowano dokument SZ o nr własnym"+dokument.getNumerwlasnydokfk());
+                Msg.msg("Zaksięgowano dokument "+rodzajdok+" o nr własnym"+dokument.getNumerwlasnydokfk());
             } else {
                 Dokfk poprzedni = dokDAOfk.findDokfkLastofaTypeKontrahent(podatnik, "ZZ", kontrahent, wpisView.getRokWpisuSt(), null);
                 try {
@@ -1690,6 +1700,14 @@ public class FakturaView implements Serializable {
             tmpX.setVatwaluta(faktura.getVatPrzeliczWal());
             tmpX.setVat(faktura.getVatPrzelicz());
             tmpX.setNazwakolumny("przych. sprz");
+            if (wpisView.isKsiegaryczalt()==false) {
+                if (stawkaryczaltuksiegowanie!=null) {
+                    String kolumnanazwa = Kolmn.zwrockolumnyR("ryczałt").stream().filter(item->item.contains(stawkaryczaltuksiegowanie)).findFirst().orElse(null);
+                    if (kolumnanazwa!=null) {
+                        tmpX.setNazwakolumny(kolumnanazwa);
+                    }
+                }
+            }
             if (podatnik0kontrahent==1) {
                 tmpX.setNazwakolumny("poz. koszty");
             }
@@ -4039,6 +4057,14 @@ public class FakturaView implements Serializable {
 
     public void setPokazzawieszone(boolean pokazzawieszone) {
         this.pokazzawieszone = pokazzawieszone;
+    }
+
+    public String getStawkaryczaltuksiegowanie() {
+        return stawkaryczaltuksiegowanie;
+    }
+
+    public void setStawkaryczaltuksiegowanie(String stawkaryczaltuksiegowanie) {
+        this.stawkaryczaltuksiegowanie = stawkaryczaltuksiegowanie;
     }
 
 
