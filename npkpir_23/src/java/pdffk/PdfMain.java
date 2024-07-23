@@ -466,6 +466,29 @@ public class PdfMain {
         }
     }
     
+    public static void dodajOpisWstepnyZapisynakoncie(Document document, String opis, Podatnik podatnik, String rokod, String mcod, String rokdo, String mcdo) {
+        try {
+            StringBuilder s = new StringBuilder();
+            s.append(podatnik.getFirmaForma());
+            s.append(" ");
+            s.append(podatnik.getPrintnazwa());
+            s.append(" NIP ");
+            s.append(podatnik.getNip());
+            Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            s = new StringBuilder();
+            s.append(opis);
+            opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " od: "+rokod+"/"+mcod+" do "+rokdo+"/"+mcdo, ft[1]));
+            document.add(opiswstepny);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+    
     public static void dodajOpisWstepnySF(Document document, String opis, Podatnik podatnik, String bilansnadzien, String bilansoddnia, String rok) {
         try {
             StringBuilder s = new StringBuilder();
