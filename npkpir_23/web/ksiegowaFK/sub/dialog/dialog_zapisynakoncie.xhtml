@@ -36,7 +36,7 @@
               resizable="false" onShow="ustawdialog('zapisy','menudokumenty',2000,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true" 
               >
-        <p:ajax event="open" listener="#{kontoZapisFKView.init()}" update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta walutazapisynakoncie"/>
+        <p:ajax event="open" listener="#{kontoZapisFKView.init()}" update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta walutazapisynakoncie formwpiskontarok"/>
         <p:layout fullPage="false" style="height: 720px;width: 820px;" >  
             <p:layoutUnit position="north">
                 <p:panelGrid columns="4" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
@@ -49,15 +49,15 @@
                                         styleClass="kontoinput, autoCompleteBig" onfocus="usunspacje(this)"
                                         >
                             <p:ajax event="query" global="false"/>
-                            <p:ajax event="itemSelect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy" 
+                            <p:ajax event="itemSelect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskontarok" 
                                     oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" global="false"/>
                         </p:autoComplete>
 <!--                        <h:outputText value=" #{mgs.wybranekonto}:"/>
                         <h:outputText id="nazwawybranegokonta" value=" #{kontoZapisFKView.wybranekonto.nazwapelna}" style="font-weight: 900;" />-->
                     </h:form>
-                    <h:form>
+                    <h:form  id="formwpiskontarok">
                         <p:panelGrid columns="2" style="width: 180px;">
-                        <h:outputText value="rok"/>
+                        <h:outputText value="rok planu kont"/>
                             <p:selectOneMenu id="rokWpisu" value="#{kontoZapisFKView.rokdopobrania}" style="width: 60px;">
                                         <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieRokPop}" partialSubmit="true"
                                             update=":form :tabelazzapisami :tabelazsumami" />
@@ -79,7 +79,14 @@
                     </h:form>
                    
                     <h:form id="miesiacezapisykonta">
-                        <p:panelGrid columns="11" style="margin-left: 15px; width: 850px;">
+                        <p:panelGrid columns="15" style="margin-left: 15px; width: 850px;">
+                             <h:outputText value="rok"/>
+                            <p:selectOneMenu id="rokWpisuod" value="#{kontoZapisFKView.rokdopobraniaod}" style="width: 60px;">
+                                        <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true"
+                                            update=":tabelazzapisami :tabelazsumami"  oncomplete="przeliczfilterzapisy()" />
+                                        <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
+                                        <f:selectItems value="#{roki.rokiList}"/>
+                            </p:selectOneMenu>
                             <h:outputText value="od"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
@@ -87,6 +94,13 @@
                                     <f:selectItems value="#{mce.mceList}"/>
                                 </p:selectOneMenu>
                             </p:column>
+                             <h:outputText value="rok"/>
+                            <p:selectOneMenu id="rokWpisudo" value="#{kontoZapisFKView.rokdopobraniado}" style="width: 60px;">
+                                        <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true"
+                                            update=":tabelazzapisami :tabelazsumami"  oncomplete="przeliczfilterzapisy()" />
+                                        <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
+                                        <f:selectItems value="#{roki.rokiList}"/>
+                            </p:selectOneMenu>
                             <h:outputText value="do"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">

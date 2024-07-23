@@ -55,7 +55,7 @@ import plik.Plik;
 public class PdfKontoZapisy {
 
     public static void drukujzapisy(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto, List<ListaSum> listasum, 
-            boolean duzy0maly1, boolean pokaztransakcje)  throws DocumentException, FileNotFoundException, IOException {
+            boolean duzy0maly1, boolean pokaztransakcje, String rokod, String mcod, String rokdo, String mcdo)  throws DocumentException, FileNotFoundException, IOException {
         Podatnik pod = wpisView.getPodatnikObiekt();
         Konto konto = wybranekonto;
         final String rok = wpisView.getRokWpisuSt();
@@ -97,12 +97,12 @@ public class PdfKontoZapisy {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
                 table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 4, 0));
                 table.addCell(ustawfraze("firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 6, 0));
-                table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
+                table.addCell(ustawfraze("za okres od: "+rokod+"/"+mcod+" do "+rokdo+"/"+mcdo, 2, 0));
             } else {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
                 table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 3, 0));
                 table.addCell(ustawfraze("firma: "+wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 4, 0));
-                table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
+                table.addCell(ustawfraze("za okres od: "+rokod+"/"+mcod+" do "+rokdo+"/"+mcdo, 2, 0));
             }
             table.addCell(ustawfraze("lp", 0, 1));
             table.addCell(ustawfraze("Data wystawienia", 0, 1));
@@ -333,7 +333,7 @@ public class PdfKontoZapisy {
     }
     
     public static void drukujzapisyKompakt(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto, List<ListaSum> listasum, 
-            int opcja, boolean nierenderujkolumnnywalut, boolean pokaztransakcje)  {
+            int opcja, boolean nierenderujkolumnnywalut, boolean pokaztransakcje, String rokod, String mcod, String rokdo, String mcdo)  {
         final String rok = wpisView.getRokWpisuSt();
         final String mc = wpisView.getMiesiacDo();
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"plankont";
@@ -356,8 +356,7 @@ public class PdfKontoZapisy {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            String mce = "od "+wpisView.getMiesiacOd()+" do "+wpisView.getMiesiacDo();
-            dodajOpisWstepny(document, "Zapisy na koncie "+wybranekonto.getNumerNazwa(), wpisView.getPodatnikObiekt(),mce, wpisView.getRokWpisuSt());
+            PdfMain.dodajOpisWstepnyZapisynakoncie(document, "Zapisy na koncie "+wybranekonto.getNumerNazwa(), wpisView.getPodatnikObiekt(), rokod, mcod, rokdo, mcdo);
             if (wybranekonto.getKontomacierzyste()!=null) {
                 PdfMain.dodajLinieOpisuCenter(document, wybranekonto.getNumerNazwaMacierzyste());
             }

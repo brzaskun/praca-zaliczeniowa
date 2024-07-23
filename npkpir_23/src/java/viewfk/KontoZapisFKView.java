@@ -133,6 +133,8 @@ public class KontoZapisFKView implements Serializable{
     private List<Waluty> pobraneRodzajeWalut;
     @Inject
     private WalutyDAOfk walutyDAOfk;
+    private String rokdopobraniaod;
+    private String rokdopobraniado;
 
     
 
@@ -166,6 +168,9 @@ public class KontoZapisFKView implements Serializable{
         for (Waluty w : pobraneRodzajeWalut) {
             symboleWalut.add(w.getSymbolwaluty());
         }
+        rokdopobraniaod = wpisView.getRokWpisuSt();
+        rokdopobraniado = wpisView.getRokWpisuSt();
+        rokdopobrania = wpisView.getRokWpisuSt();
     }
     
     public void publicinit() {
@@ -177,6 +182,9 @@ public class KontoZapisFKView implements Serializable{
         }
         wybierzgrupekont();
         kolumnaopis = true;
+        rokdopobraniaod = wpisView.getRokWpisuSt();
+        rokdopobraniado = wpisView.getRokWpisuSt();
+        rokdopobrania = wpisView.getRokWpisuSt();
     }
     
     private void wybierzgrupekont() {
@@ -260,7 +268,12 @@ public class KontoZapisFKView implements Serializable{
             kontozapisy = Collections.synchronizedList(new ArrayList<>());
             String rok = rokdopobrania !=null ? rokdopobrania : wpisView.getRokWpisuSt();
             List<StronaWiersza> zapisyshort = null;
-            zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(wpisView.getPodatnikObiekt(), wybranekonto, rok, wpisView.getMiesiacOd(), wpisView.getMiesiacDo());
+            if (rok!=null&&rokdopobraniaod.equals(rokdopobraniado)) {
+                zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(wpisView.getPodatnikObiekt(), wybranekonto, rokdopobraniaod, wpisView.getMiesiacOd(), wpisView.getMiesiacDo());
+            } else {
+                zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(wpisView.getPodatnikObiekt(), wybranekonto, rokdopobraniaod, wpisView.getMiesiacOd(), "12");
+                zapisyshort.addAll(stronaWierszaDAO.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(wpisView.getPodatnikObiekt(), wybranekonto, rokdopobraniado, wpisView.getMiesiacOd(), wpisView.getMiesiacDo()));
+            }
             if (zapisyshort!=null) {
                 List<Konto> kontapotomnetmp = Collections.synchronizedList(new ArrayList<>());
                 List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
@@ -320,7 +333,7 @@ public class KontoZapisFKView implements Serializable{
         if (wybranekonto instanceof Konto) {
              wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
              usunkontabezsald();
-            if (rokdopobrania!=null) {
+            if (rokdopobrania!=null&&rokdopobraniaod!=null&&rokdopobraniado!=null) {
 //                pobierzzapisy(rokdopobrania);
                 pobierzZapisyNaKoncieNode(wybranekonto);
                 Msg.msg("Rok "+rokdopobrania);
@@ -1297,13 +1310,13 @@ public class KontoZapisFKView implements Serializable{
             if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisyfiltered, wybranekonto, listasum, true, pokaztransakcje);
+                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisyfiltered, wybranekonto, listasum, true, pokaztransakcje, rokdopobraniaod, wpisView.getMiesiacOd(), rokdopobraniado, wpisView.getMiesiacDo());
             } else if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisy(wpisView, wybranezapisydosumowania, wybranekonto, listasum, true, pokaztransakcje);
+                PdfKontoZapisy.drukujzapisy(wpisView, wybranezapisydosumowania, wybranekonto, listasum, true, pokaztransakcje, rokdopobraniaod, wpisView.getMiesiacOd(), rokdopobraniado, wpisView.getMiesiacDo());
             } else {
-                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, true, pokaztransakcje);
+                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, true, pokaztransakcje, rokdopobraniaod, wpisView.getMiesiacOd(), rokdopobraniado, wpisView.getMiesiacDo());
             }
         } catch (Exception e) {  
             E.e(e);
@@ -1315,13 +1328,13 @@ public class KontoZapisFKView implements Serializable{
             if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisyfiltered, wybranekonto, listasum, 2, nierenderujkolumnnywalut, pokaztransakcje);
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisyfiltered, wybranekonto, listasum, 2, nierenderujkolumnnywalut, pokaztransakcje, rokdopobraniaod, wpisView.getMiesiacOd(), rokdopobraniado, wpisView.getMiesiacDo());
             } else if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisyKompakt(wpisView, wybranezapisydosumowania, wybranekonto, listasum, 2, nierenderujkolumnnywalut, pokaztransakcje);
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, wybranezapisydosumowania, wybranekonto, listasum, 2, nierenderujkolumnnywalut, pokaztransakcje, rokdopobraniaod, wpisView.getMiesiacOd(), rokdopobraniado, wpisView.getMiesiacDo());
             } else {
-                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisy, wybranekonto, listasum, 2, nierenderujkolumnnywalut, pokaztransakcje);
+                PdfKontoZapisy.drukujzapisyKompakt(wpisView, kontozapisy, wybranekonto, listasum, 2, nierenderujkolumnnywalut, pokaztransakcje, rokdopobraniaod, wpisView.getMiesiacOd(), rokdopobraniado, wpisView.getMiesiacDo());
             }
         } catch (Exception e) {  
             E.e(e);
@@ -1334,13 +1347,13 @@ public class KontoZapisFKView implements Serializable{
              if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisyfiltered, wybranekonto, listasum, false, pokaztransakcje);
+                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisyfiltered, wybranekonto, listasum, false, pokaztransakcje, rokdopobraniaod, wpisView.getMiesiacOd(), rokdopobraniado, wpisView.getMiesiacDo());
             } else if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
                 sumazapisow();
                 sumazapisowpln();
-                PdfKontoZapisy.drukujzapisy(wpisView, wybranezapisydosumowania, wybranekonto, listasum, false, pokaztransakcje);
+                PdfKontoZapisy.drukujzapisy(wpisView, wybranezapisydosumowania, wybranekonto, listasum, false, pokaztransakcje, rokdopobraniaod, wpisView.getMiesiacOd(), rokdopobraniado, wpisView.getMiesiacDo());
             } else {
-                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, false, pokaztransakcje);
+                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, false, pokaztransakcje, rokdopobraniaod, wpisView.getMiesiacOd(), rokdopobraniado, wpisView.getMiesiacDo());
             }
         } catch (Exception e) {  E.e(e);
 
@@ -2133,7 +2146,23 @@ public class KontoZapisFKView implements Serializable{
         this.pokazrozliczone = pokazrozliczone;
     }
 
-    
+    public String getRokdopobraniaod() {
+        return rokdopobraniaod;
+    }
+
+    public void setRokdopobraniaod(String rokdopobraniaod) {
+        this.rokdopobraniaod = rokdopobraniaod;
+    }
+
+    public String getRokdopobraniado() {
+        return rokdopobraniado;
+    }
+
+    public void setRokdopobraniado(String rokdopobraniado) {
+        this.rokdopobraniado = rokdopobraniado;
+    }
+
+     
 
     
     
