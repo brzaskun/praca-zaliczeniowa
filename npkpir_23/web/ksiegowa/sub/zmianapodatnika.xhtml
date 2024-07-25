@@ -9,7 +9,7 @@
     
     <h:form id="form">
         <p:focus for="form:podatnikWpisu"/>
-        <p:panel menuTitle="Zmien na:" header="Zmień na:" style="max-width: 800px; height: 310px;">
+        <p:panel menuTitle="Zmien na:" header="Zmień na:" style="max-width: 800px; height: 290px;">
             <p:panelGrid columns="4" style="margin-left: 0%; height: 100px;">
                 <h:outputLabel value="#{mgs['nazwa.podatnika']}"/>
                 <h:outputLabel value="#{mgs.rok}"/>
@@ -43,7 +43,7 @@
         <p:messages id="wiadnr1" style="width: 700px; margin-left: 2%;">
             <p:autoUpdate/>
         </p:messages>
-        <p:panel id="panellimity" header="limity" style="width: 200px;">
+        <p:panel style="width: 500px; padding: 10px;" header="limity na rok 2024" id="panellimity">
             <h:outputText value="kwota obrotu od pocz.roku"/>
             <bcf:outputpl value="#{granicaObliczView.obrot}"/>
             <p:separator/>
@@ -58,7 +58,7 @@
             <p:progressBar value="#{granicaObliczView.progreskasa}" labelTemplate="#{granicaObliczView.progreskasa}%"   rendered="#{WpisView.podatnikObiekt.kasafiskalna eq false}"/>
             <h:outputText value="podatnik przekroczył limit do kasy fiskalnej"  rendered="#{WpisView.podatnikObiekt.kasafiskalna eq false and granicaObliczView.progreskasa gt 99}" style="color: red;"/>
         </p:panel>
-        
+        <p:panel style="width: 800px" header="Wersja wstępna rozliczeń. Informujemy szefa jak faktur jest więcej niż 3"/>
         <p:outputPanel style="padding: 10px;">
             <p:dataTable lazy="false"  id="dokumentyLista" value="#{rozrachunkiKlientTaxmanView.faktury}" var="wpis"  
                          rowKey="#{wpis.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1150px;height: 300px;overflow-y: scroll;"

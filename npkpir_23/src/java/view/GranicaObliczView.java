@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -25,7 +26,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@RequestScope
+@ViewScoped
 public class GranicaObliczView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -72,18 +73,18 @@ public class GranicaObliczView  implements Serializable {
         if (wpisView.isKsiegaryczalt()) {
             List<Pitpoz> pitlList = pitDAO.findList(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu());
             if (pitlList != null && pitlList.size() == 1) {
-                obrot = pitlList.get(0).getPrzychody().doubleValue();
+                obrot = pitlList.get(0).getPrzychodyudzial().doubleValue();
             } else if (pitlList != null && pitlList.size() > 1) {
                 int i = 0;
                 for (Pitpoz pp : pitlList) {
-                    obrot = pitlList.get(i++).getPrzychody().doubleValue();
+                    obrot = pitlList.get(i++).getPrzychodyudzial().doubleValue();
                 }
             }
         } else {
             ryczaltpitlist = ryczDAO.findRyczPod(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
             if (ryczaltpitlist != null) {
                 for (Ryczpoz s : ryczaltpitlist) {
-                    obrot += s.getPrzychody().doubleValue();
+                    obrot += s.getPrzychodyudzial().doubleValue();
                 }
             }
         }
