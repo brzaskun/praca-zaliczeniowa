@@ -3,8 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .wyborkontrahenta input  {
             width: 400px !important;
@@ -40,9 +40,9 @@
             </p:panelGrid>
         </h:form>
         <h:form id="miejscakosztowlista">
-            <p:dataTable value="#{miejsceKosztowView.miejscakosztow}" var="item"  resizableColumns="true" style="width: 900px;"
+            <p:dataTable lazy="false"  value="#{miejsceKosztowView.miejscakosztow}" var="item"  resizableColumns="true" style="width: 900px;"
                          scrollable="true" scrollHeight="440"  emptyMessage="brak zdefiniowanych miejsc kosztów"
-                         sortBy="#{item}"  sortFunction="#{miejsceKosztowView.sortMiejsceKosztow}"
+                         sortBy="#{item}"  
                          widgetVar="listamiejscakosztow">
                 <p:ajax event="filter" global="false"/>
                 <p:column headerText="#{mgs.nr}" style="width: 40px;">

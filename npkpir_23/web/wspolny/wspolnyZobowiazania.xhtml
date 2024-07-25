@@ -4,7 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/templateFK.xhtml">
         
         <ui:define name="title">
@@ -13,10 +13,10 @@
         <ui:define name="body">
             <f:view>
                 <bcf:ajaxs/>
-                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj" >
+                <pe:layout fullPage="true"  >
                     <ui:include src="sub/layoutRozrachunki/north.xhtml"/>  <!-- panel polnocny-->
                     <ui:include src="sub/layoutRozrachunki/west.xhtml"/>   <!-- panel zachodni-->
-                    <p:layoutUnit position="center" >
+                    <pe:layoutPane position="center" >
                         <p:panel toggleable="true" closable="true" style="width: 90%;" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do przeglądania zobowiązań firmy #{WpisView.podatnikObiekt.nazwapelnaPDF}"/>
@@ -24,8 +24,8 @@
                         </p:panel>
                         <ui:include src="sub/menu_wiad.xhtml"/> 
                         <ui:include src="sub/rozrachunki_zobowiazania.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                    </p:layoutUnit>
-                </p:layout>
+                    </pe:layoutPane>
+                </pe:layout>
             </f:view>
         </ui:define>
     </ui:composition>

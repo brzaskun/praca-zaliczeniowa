@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:tab  title="Pobierz wyciągi" >
         <style>
@@ -36,7 +36,7 @@
             <p:panelGrid  columns="2" columnClasses="sixty-percent forty-percent" rendered="false" binding="#{bankImportKsiazkaView.grid0}">
                     <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
                         <h:outputText value="plik/pliki CSV/XML z dokumentami źródłowymi " style="font-weight: bold;"/>
-                        <p:fileUpload fileUploadListener="#{bankImportKsiazkaView.zachowajplik}" auto="true"
+                        <p:fileUpload chooseIcon="fa fa-upload" listener="#{bankImportKsiazkaView.zachowajplik}" auto="true"
                                       mode="advanced" dragDropSupport="true" multiple="true"
                                       update="messages1 akordeon:panelprzyciskowbankall akordeon:form_importbankall" sizeLimit="10000000"   
                                       fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
@@ -88,7 +88,7 @@
  
             <h:form id="form_importbankall">
                 <p:panelGrid columns="1" rendered="false" binding="#{bankImportKsiazkaView.grid3}" style="height: 580px;">
-            <p:dataTable id="dataListImportall" value="#{bankImportKsiazkaView.pobranefaktury}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimportall" 
+            <p:dataTable lazy="false"  id="dataListImportall" value="#{bankImportKsiazkaView.pobranefaktury}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimportall" 
                          selection="#{bankImportKsiazkaView.selected}" rowKey="#{itemimp.nr}"  
                          style="width: 1650px; height: 540px; overflow-y: scroll; margin-top: 15px;margin-bottom: 5px;" filteredValue="#{bankImportKsiazkaView.pobranefakturyfilter}"
                          emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane"

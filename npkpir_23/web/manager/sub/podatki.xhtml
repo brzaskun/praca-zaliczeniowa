@@ -5,7 +5,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
    
     <h:form id="formzus" >
         <p:growl life="3600"  id="msgzus" showDetail="true"/>
@@ -13,7 +14,7 @@
         <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
             <br/>
         <p:panelGrid columns="1" style="width: 1200px">
-            <p:dataTable value="#{podStawkiView.listapobranychstawek}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
+            <p:dataTable lazy="false"  value="#{podStawkiView.listapobranychstawek}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
                  <f:facet name="header">
                     <h:outputText value="Lista wprowadzonych stawek"/>
                 </f:facet>

@@ -7,7 +7,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <h:outputScript library="js_fk" name="jquery.countdown.js"/>
     
     
@@ -37,7 +37,7 @@
     </script>
      <p:outputPanel id="wrapper">
         <h:form>
-            <p:dataTable  var="wpis" value="#{sesjaView.wykazsesjiZalogowani}" id="lista" sortOrder="descending"
+            <p:dataTable lazy="false"   var="wpis" value="#{sesjaView.wykazsesjiZalogowani}" id="lista"
                           paginator="true" paginatorAlwaysVisible="true" rows="20" sortBy="#{wpis.zalogowanie}"
                           paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                           rowsPerPageTemplate="20,50,100" 
@@ -64,6 +64,47 @@
                         <f:convertDateTime locale="pl" pattern="EEE, d MMM yyyy HH:mm:ss"/>
                     </h:outputText>
                 </p:column>
+            </p:dataTable>
+             </h:form>
+            <h:form>
+            <p:dataTable lazy="false"   var="wpis" value="#{sesjaView.wykazsesjiZalogowani}" id="lista"
+                         sortBy="#{wpis.zalogowanie}" style="max-width: 1200px;padding: 50px;"
+                scrollRows="60" scrollable="true"
+                     virtualScroll="true" scrollHeight="600" rows="100" 
+                          rowKey="#{wpis.nrsesji}"> 
+                <f:facet name="header">  
+                    <h:outputText value="Wykaz zalogowanych osób" />  
+                </f:facet>
+                <p:columnGroup type="header">
+                    <p:row>
+                        <p:column headerText="nr sesji"  style="max-width: 10%;"/>
+                        <p:column headerText="login" style="max-width: 20%;"/>
+                        <p:column headerText="ip"  style="max-width: 40%;"/>
+                        <p:column headerText="login"/>
+                        <p:column headerText="logout"/>
+                        
+                    </p:row>
+                </p:columnGroup>
+                <p:column headerText="nr sesji" style="max-width: 10%">  
+                    <h:outputText value="#{wpis.nrsesji}" />
+                </p:column>
+                <p:column headerText="login" style="max-width: 20%">  
+                    <h:outputText value="#{wpis.uzytkownik}" />
+                </p:column>
+                <p:column headerText="ip" style="max-width: 40%">  
+                    <h:outputText value="#{wpis.ip}" />
+                </p:column>
+                <p:column headerText="login">  
+                    <h:outputText value="#{wpis.zalogowanie}" >
+                        <f:convertDateTime locale="pl" pattern="EEE, d MMM yyyy HH:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="logout" >  
+                    <h:outputText value="#{wpis.wylogowanie}" >
+                        <f:convertDateTime locale="pl" pattern="EEE, d MMM yyyy HH:mm:ss"/>
+                    </h:outputText>
+                </p:column>
+
             </p:dataTable>
         </h:form>
     </p:outputPanel>
@@ -217,7 +258,7 @@ c
                 <h:outputText value="Uwaga! Nie można dodawać kont analitycznych do zablokowanych kont syntetycznych"/>
             </p:outputPanel>
             <p:panelGrid columns="2" >
-                <p:dataTable id="dataList" value="#{planKontView.wykazkontlazy}" var="loop"
+                <p:dataTable lazy="false"  id="dataList" value="#{planKontView.wykazkontlazy}" var="loop"
                              emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              scrollRows="20" scrollable="true" virtualScroll="true" scrollHeight="200" lazy="true" rows="40" style="margin-bottom:0"
                              rowIndexVar="index"
@@ -341,7 +382,7 @@ c
     <p:commandButton value="Export as PDF" ajax="false" >
 <p:dataExporter type="pdf" target="klienci" fileName="adresy"/>
 </p:commandButton>
-     <p:dataTable value="#{podatnicyView.podatnicy}" var="loop" rowIndexVar="index" style="width: 1100px;"
+     <p:dataTable lazy="false"  value="#{podatnicyView.podatnicy}" var="loop" rowIndexVar="index" style="width: 1100px;"
                   sortBy="#{loop.nazwapelna}" id="klienci">
          <f:facet name="header">
              <h:outputText value="wykaz klientów biura"/>

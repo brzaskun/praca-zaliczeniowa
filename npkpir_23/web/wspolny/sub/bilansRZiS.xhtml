@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     
     <p:tabView id="akordeonBilans" style="max-width: 1300px; min-width: 1000px;" activeIndex="#{fakturaView.aktywnytab}" >
         <p:tab title="#{mgs.RZiS}" >
@@ -63,7 +63,7 @@
                 </p:column>
                 <p:column>
                     <p:panelGrid columns="1" >
-                        <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
+                        <p:dataTable lazy="false"  id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
                                      style="height: 200px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}">
                             <f:facet  name="header">
                                 <h:outputText value="#{mgs.podpiętesaldakont}"/>
@@ -79,7 +79,7 @@
                                 <bcf:outputpl value="#{loop.kwota}" />
                             </p:column>
                         </p:dataTable>
-                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
+                        <p:dataTable lazy="false"  id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
                                      style="height: 400px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
                             <f:facet  name="header">
                                 <h:outputText value="#{mgs.podpiętezapisy}"/>
@@ -184,7 +184,7 @@
                     </p:column>
                 </p:treeTable>
                 <p:panelGrid columns="1" >
-                        <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
+                        <p:dataTable lazy="false"  id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
                                      style="height: 200px; margin-top: 0%; width: 700px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}"
                                      rowKey="#{loop.id}" selection="#{pozycjaBRView.wybranokonto}"
                                      >
@@ -209,7 +209,7 @@
                                  <h:outputText value="#{loop.pozycjaMa}"/>
                             </p:column>
                         </p:dataTable>
-                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
+                        <p:dataTable lazy="false"  id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
                                      style="height: 400px; margin-top: 0%; width: 700px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
                             <f:facet  name="header">
                                 <h:outputText value="#{mgs.podpiętezapisy}"/>

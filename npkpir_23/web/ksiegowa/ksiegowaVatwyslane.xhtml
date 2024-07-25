@@ -3,7 +3,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/template.xhtml">
 
         <ui:define name="title">
@@ -23,16 +23,16 @@
                     </p:confirmDialog>  
                 </h:form>
                 <f:view>
-                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <pe:layout fullPage="true" >
                         <ui:include src="sub/layoutVat/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutVat/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutVat/west.xhtml"/>   <!-- panel zachodni-->
                         <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
-                        <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                        <pe:layoutPane position="center">
                              <f:event type="preRenderView" listener="#{deklaracjevatView.init()}"/>
                             <ui:include src="../wspolny/sub/vatwyslane.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                        </p:layoutUnit>
-                    </p:layout>
+                        </pe:layoutPane>
+                    </pe:layout>
                 </f:view>
             
         </ui:define>

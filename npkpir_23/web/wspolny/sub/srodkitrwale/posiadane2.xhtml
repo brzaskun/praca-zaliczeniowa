@@ -7,15 +7,15 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab id="zestawienieposiadane2" title="posiadane2">
         <h:form id="str_posiadane2">
             <p:contextMenu for="srodkiLista2" style="width: 220px;">
                 <p:menuitem value="Edytuj dane środka trw." update="form_dialog_srodkitrwale_zmianawartosci" actionListener="#{sTRTabView.kopiujwybrany(sTRTabView.wybranysrodektrwalyPosiadane2)}" oncomplete="PF('dialog_srodkitrwale_zmianawartosci').show()" icon="ui-icon-wrench" />
             </p:contextMenu>
-                <p:dataTable  var="wpis" value="#{sTRTabView.posiadane2}" id="srodkiLista2" 
+                <p:dataTable lazy="false"   var="wpis" value="#{sTRTabView.posiadane2}" id="srodkiLista2" 
                               widgetVar="srodkiLista2" style="width: 1400px; overflow-y: scroll; height: 390px;" 
-                              rowKey="#{wpis.id}" rowIndexVar="index1"  sortBy="#{wpis.dataprzek}" sortOrder="descending"
+                              rowKey="#{wpis.id}" rowIndexVar="index1"  sortBy="#{wpis.dataprzek}"
                               selection="#{sTRTabView.wybranysrodektrwalyPosiadane2}" selectionMode="single"> 
                     <p:ajax event="rowSelect" global="false" update="form_dialog_srodkitrwale_zmianawartosci akordeon:str_posiadane:srodkiLista"/>
                     <p:ajax event="filter" global="false"/>

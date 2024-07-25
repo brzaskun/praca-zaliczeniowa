@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .ui-datatable .dokumorzeniowe .ui-column-filter {
             width: 50px !important;
@@ -38,7 +38,7 @@
             <p:contextMenu for="dokumsrodkiLista" style="width: 250px;">
                 <p:menuitem value="O(d)znacz jako zaksięgowane" actionListener="#{amodokView.oznaczjakozaksiegowane()}" update="formSTRUmorzenie:dokumsrodkiLista" icon="ui-icon-locked" />
             </p:contextMenu>
-            <p:dataTable  var="wpis" value="#{amodokView.amodoklist}" id="dokumsrodkiLista"
+            <p:dataTable lazy="false"   var="wpis" value="#{amodokView.amodoklist}" id="dokumsrodkiLista"
                           selection="#{amodokView.amodoklistselected}" styleClass="dokumorzeniowe"
                           scrollable="true" scrollHeight="500" scrollRows="15"
                           style="width: 1000px; height: 600px;" rowKey="#{wpis.amodokPK.mc}"
@@ -64,7 +64,7 @@
                 </p:column>
                 <p:column id="Column4" headerText="zaksięgowane odpisy"  style="width: 450px;">  
 
-                    <p:dataTable var="subwpisX" value="#{wpis.planumorzen}" emptyMessage="Brak środków trwałych do umorzenia" styleClass="dokumorzeniowe"
+                    <p:dataTable lazy="false"  var="subwpisX" value="#{wpis.planumorzen}" emptyMessage="Brak środków trwałych do umorzenia" styleClass="dokumorzeniowe"
                                  sortBy="#{subwpisX.nrUmorzenia}"
                                  rowIndexVar="index">
                         <p:column id="SubColumn1X" headerText="id"  style="text-align: center; width: 20px;">  

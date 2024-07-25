@@ -2,7 +2,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/template.xhtml">
 
         <ui:define name="title">
@@ -23,11 +24,11 @@
                     </p:confirmDialog>  
                 </h:form>
                 <f:view>
-                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <pe:layout fullPage="true" >
                         <ui:include src="sub/layoutNiezaplacone/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutNiezaplacone/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutNiezaplacone/west.xhtml"/>   <!-- panel zachodni-->
-                        <p:layoutUnit position="center">
+                        <pe:layoutPane position="center">
 
                             <p:panel toggleable="true" closable="true" style="width: 1000px;">
                                 <f:facet name="header">
@@ -42,8 +43,8 @@
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/niezaplacone.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                             </h:form>
-                        </p:layoutUnit>
-                    </p:layout>
+                        </pe:layoutPane>
+                    </pe:layout>
                 </f:view>
             
         </ui:define>

@@ -6,12 +6,12 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
         
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <bcf:ajaxs/>
         <h:form>
             <p:growl ><p:autoUpdate/></p:growl>
             <p:panel header="Wykaz podatników, dla których nie wysłano jeszcze plików JPK"/>
-            <p:dataTable value="#{jPKListaView.jpkmoznarobic}" var="item1" style="width: 890px;" emptyMessage="Nie ma podatników oczekujących na jpk za miesiąc"
+            <p:dataTable lazy="false"  value="#{jPKListaView.jpkmoznarobic}" var="item1" style="width: 890px;" emptyMessage="Nie ma podatników oczekujących na jpk za miesiąc"
                          sortBy="#{item1.printnazwa}" rowIndexVar="index">
                 <p:column  width="20">
                     <h:outputText value="#{index+1}"/>
@@ -27,7 +27,7 @@
                 </p:column>
             </p:dataTable>
             <p:commandButton value="pobierz 120" actionListener="#{jpk_VAT2NView.pobierzwszystkie(jPKListaView.jpkzrobione)}" style="padding: 10px;margin: 10px; width: 120px;" update="@form"/>
-            <p:dataTable value="#{jPKListaView.jpkzrobione}" var="item" rowIndexVar="index" id="tabela" style="width: 1450px; margin-top: 10px;"
+            <p:dataTable lazy="false"  value="#{jPKListaView.jpkzrobione}" var="item" rowIndexVar="index" id="tabela" style="width: 1450px; margin-top: 10px;"
                          sortBy="#{item.podatnik.printnazwa}" filteredValue="#{jPKListaView.jpkzrobionefiltered}"
                      selectionMode="single" rowKey="#{item.id}"
                      emptyMessage="nie wysłano jeszcze plików jpk">
@@ -103,7 +103,7 @@
             <p:rowExpansion>
                 <p:panelGrid columns="1">
                     <h:outputText value="#{item.getJpkNaglowek()}"/>
-                <p:dataTable value="#{item}" var="itemik">
+                <p:dataTable lazy="false"  value="#{item}" var="itemik">
                         <p:column headerText="data jpk" width="80">
                             <h:outputText value="#{itemik.datajpk}">
                                 <f:convertDateTime pattern="dd/MM/yyy HH:mm"/>

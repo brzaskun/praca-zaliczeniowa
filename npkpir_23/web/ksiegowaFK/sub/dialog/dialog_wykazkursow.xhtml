@@ -5,12 +5,12 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialogkursy" header="Zestawienie kursów walut NBP" widgetVar="wykazkursow"  
               resizable="false"  onShow="ustawdialog('dialogkursy','menukartoteki',900,700);" closeOnEscape="true" onHide="resetujdialog('dialogkursy');" >
         <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false" update="wprowadzonekursy"/>
         <h:form id="wprowadzonekursy">
-            <p:dataTable id="dataTablekursy" var="wpisT" value="#{walutyViewFK.pobranekursyRok}"  emptyMessage="Nie ma wprowadzonych kursow" 
+            <p:dataTable lazy="false"  id="dataTablekursy" var="wpisT" value="#{walutyViewFK.pobranekursyRok}"  emptyMessage="Nie ma wprowadzonych kursow" 
                          widgetVar="dataTablekursyT"  rowKey="#{wpisT.idtabelanbp}" sortBy="#{wpisT.datatabeli}"
                          style="overflow-y: scroll; height: 600px;" 
                          rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"

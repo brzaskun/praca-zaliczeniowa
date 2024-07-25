@@ -11,7 +11,7 @@
             <h:outputText value="Rodzaje dokumentów księgowych" style="font-size: 15px"/>
             <p:growl life="3600"  id="messages" />
             <p:panelGrid columns="1" style="width: 1350px">
-                <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
+                <p:dataTable lazy="false"  id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
                              style="height: 300px; overflow-y: scroll" selectionMode="single" rowKey="#{loop.id}"
                              sortBy="#{loop.skrotNazwyDok}"
                              emptyMessage="nie wygenerowano dokumentów/brak planu kont na bieżacy rok"

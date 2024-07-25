@@ -4,12 +4,12 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    
+    xmlns:pe="http://primefaces.org/ui/extensions"
     >
     <f:event  type="preRenderView" listener="#{kontoZapisFKView.init}"/>
     <p:outputPanel style="width: 1600px;">
-        <p:layout fullPage="false" style="height: 760px;width: 1200px;" >  
-            <p:layoutUnit position="north">
+        <pe:layout fullPage="false" style="height: 760px;width: 1200px;" >  
+            <pe:layoutPane position="north">
                 <p:panelGrid columns="3" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
                         <h:outputText value="#{mgs.wybierzkonto}: "/>
@@ -61,9 +61,9 @@
                     </h:form>
                 </p:panelGrid>
                 <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia"  style="display: none;"/>
-            </p:layoutUnit>  
+            </pe:layoutPane>  
             <!--            lewa strona z drzewem kont-->
-            <p:layoutUnit id="westtree" position="west" size="370" >
+            <pe:layoutPane id="westtree" position="west" size="370" >
                 <p:panelGrid columns="2" >
                     <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form:dataList_data');" global="false" style="float: left;" />
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form:dataList_data');"  global="false" style="float: left;" />
@@ -90,10 +90,10 @@
                                     padding: 0px 0px  !important;
                                 }
                           </style>
-                        <p:dataTable id="dataList" value="#{kontoZapisFKView.wykazkont}" var="loop1" selectionMode="single" 
+                        <p:dataTable lazy="false"  id="dataList" value="#{kontoZapisFKView.wykazkont}" var="loop1" selectionMode="single" 
                                      selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
                                      styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" 
-                                     sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" >
+                                      >
                             <p:ajax event="rowSelect" global="false" update="tabelazzapisami:tabela tabelazsumami:sumy  formwpiskonta:wyborkonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" />
                             <p:ajax event="rowUnselect" global="false" update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:wyborkonta" 
@@ -104,7 +104,7 @@
                             <p:column  style="width: 50px; text-align: center;" width="10">
                                 <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
                             </p:column>
-                            <p:column headerText="nr konta" styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;">
+                            <p:column headerText="nr konta" styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;" sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}">
                                 <h:outputText value="#{loop1.nrkonta}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '0' ? true : false)}" style="font-weight: 900;"/> 
                                 <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
                                 <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
@@ -117,9 +117,9 @@
                         </p:dataTable>
                     </p:outputPanel>
                 </h:form>
-            </p:layoutUnit>  
+            </pe:layoutPane>  
 
-            <p:layoutUnit position="center" >
+            <pe:layoutPane position="center" >
                 <style>
                     .grid1 td {
                         height: 40px!important;
@@ -127,10 +127,10 @@
                 </style>
                 <h:form id="tabelazzapisami">
                     <p:remoteCommand actionListener="#{kontoZapisFKView.sumazapisowtotal}" name="przeliczfilterzapisy" update=":tabelazsumami:sumy" global="false"/>
-                    <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
+                    <p:dataTable lazy="false"  id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
-                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="width: 1190px;"
-                                 sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
+                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" style="width: 1190px;"
+                                 emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1" rowSelectMode="add"
                                  rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{kontoZapisFKView.kontozapisy.size() gt 150 ? 'true':'false'}" rows="150"
                                  >
@@ -147,7 +147,7 @@
 <!--                        <p:column headerText="id" width="20"  >
                             <h:outputText value="#{loop.id}"/>
                         </p:column>-->
-                        <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center;">
+                        <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center;" sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}"  sortBy="#{loop}">
                             <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                         </p:column>
                         <p:column headerText="#{mgs.data}" width="20" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
@@ -206,8 +206,8 @@
                                                 </p:column>-->
                     </p:dataTable>
                 </h:form>  
-            </p:layoutUnit> 
-            <p:layoutUnit position="south" style="height: 70px;">
+            </pe:layoutPane> 
+            <pe:layoutPane position="south" maxHeight="70">
                 <p:panelGrid columns="3">
                 <h:form>
                     <p:panelGrid columns="2">
@@ -241,7 +241,7 @@
                         </p:panelGrid>
                     </h:form>
                 <h:form id="tabelazsumami">
-                    <p:dataTable id="sumy" value="#{kontoZapisFKView.listasum}" var="loop"
+                    <p:dataTable lazy="false"  id="sumy" value="#{kontoZapisFKView.listasum}" var="loop"
                                  style="float: right; margin-left: 30px; width: 800px; height: 70px;" emptyMessage="#{mgs.niewybranokonta}">
                         <p:column headerText="#{mgs.sumaWnwal}">
                             <h:outputText value="#{loop.sumaWn}" style="float: right; font-weight: 700;">
@@ -286,8 +286,8 @@
                     </p:dataTable>
                 </h:form>
                     </p:panelGrid>
-            </p:layoutUnit>  
-        </p:layout>
+            </pe:layoutPane>  
+        </pe:layout>
         <h:form id="zestawieniezapisownakontachpola1">
             <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
         </h:form>

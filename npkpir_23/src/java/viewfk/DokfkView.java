@@ -72,6 +72,7 @@ import entityfk.Wiersz;
 import entityfk.WierszBO;
 import error.E;
 import gus.GUSView;
+import interceptor.ConstructorInterceptor;
 import java.io.File;
 import java.io.Serializable;
 import java.text.NumberFormat;
@@ -115,7 +116,6 @@ import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
-import interceptor.ConstructorInterceptor;
 
 /**
  *
@@ -5034,7 +5034,17 @@ public void oznaczjakonkup() {
         ostatniedokumenty.add(selected);
     }
 
-    
+private StronaWiersza swwierszakalkulator;
+
+    public StronaWiersza getSwwierszakalkulator() {
+        return swwierszakalkulator;
+    }
+
+    public void setSwwierszakalkulator(StronaWiersza swwierszakalkulator) {
+        this.swwierszakalkulator = swwierszakalkulator;
+    }
+
+
 
     
 

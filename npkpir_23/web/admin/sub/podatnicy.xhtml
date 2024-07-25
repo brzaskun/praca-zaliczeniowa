@@ -6,7 +6,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
      <p:outputPanel style="padding: 10px;">
          <p:panel header="Statystyka księgowych" style="width:1200px;"/>
          <p:panelGrid columns="4">
@@ -34,7 +34,7 @@
         </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel style="padding: 10px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}">
-        <p:dataTable value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 1100px" rowIndexVar="indx">
+        <p:dataTable lazy="false"  value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 1100px" rowIndexVar="indx">
              <p:column style="height: 19px; text-align: center;" width="20">
                     <p:rowToggler rendered="#{it.przyporzadkowanipodatnicy.size() gt 0 }"/>
             </p:column>
@@ -76,7 +76,7 @@
                 <bcf:outputpl value="#{it.wynagrodzenieprocentowe}"/>
             </p:column>
             <p:rowExpansion>
-                <p:dataTable value="#{it.przyporzadkowanipodatnicy}" var="ita" style="width: 650px" rowIndexVar="indxa">
+                <p:dataTable lazy="false"  value="#{it.przyporzadkowanipodatnicy}" var="ita" style="width: 650px" rowIndexVar="indxa">
                     <p:column width="20">
                         <h:outputText value="#{indxa+1}"/>
                     </p:column>
@@ -101,7 +101,7 @@
     </p:outputPanel>
     <p:outputPanel>
         <p:commandButton value="zapisz podatnicy" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaView.zapisz}"/>
-        <p:dataTable value="#{podatnikKsiegowaView.listapodatnikow}" var="item" style="width: 800px;" rowIndexVar="index" 
+        <p:dataTable lazy="false"  value="#{podatnikKsiegowaView.listapodatnikow}" var="item" style="width: 800px;" rowIndexVar="index" 
                      filteredValue="#{podatnikKsiegowaView.listapodatnikowfilter}" sortBy="#{item.ksiegowa.grupa}"
                      rowStyleClass="#{item.ksiegowa.grupa.startsWith('kadr') ? 'rmarta' : item.ksiegowa.grupa.startsWith('wio') ? 'rwioletta' : item.ksiegowa.grupa.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
             <p:ajax event="filter" global="false"/>

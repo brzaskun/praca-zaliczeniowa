@@ -3,12 +3,12 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tabView id="akordeon">
         <p:tab title="rozpoczęte">
            
-           <p:dataTable id="dataList" value="#{inwestycjeView.inwestycjerozpoczete}" style="width: 1550px;" emptyMessage="Nie ma żadnych rozpoczętych inwestycji w firmie" var="item"
+           <p:dataTable lazy="false"  id="dataList" value="#{inwestycjeView.inwestycjerozpoczete}" style="width: 1550px;" emptyMessage="Nie ma żadnych rozpoczętych inwestycji w firmie" var="item"
                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                          rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true"  selection="#{inwestycjeView.wybrany}" selectionMode="single"
                          rowKey="#{item.id}">
@@ -58,7 +58,7 @@
                     <f:facet name="header">
                         <h:outputText value="Suma za lata"/>
                     </f:facet>
-                    <p:dataTable value="#{item.sumazalata}" var="loop" emptyMessage="Brak wpisów">
+                    <p:dataTable lazy="false"  value="#{item.sumazalata}" var="loop" emptyMessage="Brak wpisów">
                         <p:column>
                             <h:outputText value="#{loop.rok}"/>
                         </p:column>
@@ -74,7 +74,7 @@
                         <f:facet name="header">
                             <h:outputText value="Dokumenty"/>
                         </f:facet>
-                        <p:dataTable value="#{item.dokumenty}" var="wpis" emptyMessage="Brak wpisów" 
+                        <p:dataTable lazy="false"  value="#{item.dokumenty}" var="wpis" emptyMessage="Brak wpisów" 
                                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                                      rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" style="width: 1100px;">
 
@@ -126,7 +126,7 @@
         <p:tab title="zakończone">
             <p:contextMenu for="zakonczoneList">
             </p:contextMenu>
-            <p:dataTable id="zakonczoneList" value="#{inwestycjeView.inwestycjezakonczone}" style="width: 1600px;" emptyMessage="Nie ma żadnych zakończonych inwestycji w firmie" var="item"
+            <p:dataTable lazy="false"  id="zakonczoneList" value="#{inwestycjeView.inwestycjezakonczone}" style="width: 1600px;" emptyMessage="Nie ma żadnych zakończonych inwestycji w firmie" var="item"
                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                          rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true"  selection="#{inwestycjeView.wybrany}" selectionMode="single"
                          rowKey="#{item.id}">
@@ -176,7 +176,7 @@
                     <f:facet name="header">
                         <h:outputText value="Suma za lata"/>
                     </f:facet>
-                    <p:dataTable value="#{item.sumazalata}" var="loop" emptyMessage="Brak wpisów">
+                    <p:dataTable lazy="false"  value="#{item.sumazalata}" var="loop" emptyMessage="Brak wpisów">
                         <p:column>
                             <h:outputText value="#{loop.rok}"/>
                         </p:column>
@@ -192,7 +192,7 @@
                         <f:facet name="header">
                             <h:outputText value="Dokumenty"/>
                         </f:facet>
-                        <p:dataTable value="#{item.dokumenty}" var="wpis" emptyMessage="Brak wpisów" 
+                        <p:dataTable lazy="false"  value="#{item.dokumenty}" var="wpis" emptyMessage="Brak wpisów" 
                                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                                      rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" style="width: 1100px;">
 

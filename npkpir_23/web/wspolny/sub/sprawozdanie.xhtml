@@ -12,7 +12,7 @@
         <f:event type="preRenderView" listener="#{saldoAnalitykaView.sprawozdanie()}"/>
         <p:panelGrid columns="1">
             <p:panel header="majątek firmy"></p:panel>
-            <p:dataTable value="#{saldoAnalitykaView.listaSaldoKonto}" var="item" nativeElements="true">
+            <p:dataTable lazy="false"  value="#{saldoAnalitykaView.listaSaldoKonto}" var="item" nativeElements="true">
                 <f:facet name="header">
                     <h:outputText value="środki trwałe w firmie wg cen zakupu, dokonane umorzenia i wartość netto w wypadku sprzedaży"/>
                 </f:facet>

@@ -9,10 +9,10 @@
     <p:outputPanel id="wrapper">
         <h:form id="form">
             <p:commandButton value="#{mgs.pobierz}" actionListener="#{sesjaView.pobierzsesje()}" update=":form" style="width: 120px; "/>
-            <p:dataTable  var="wpis" value="#{sesjaView.wykazsesji}" id="lista" sortOrder="descending"
-                          paginator="true" paginatorAlwaysVisible="true" rows="20" sortBy="#{wpis.wylogowanie}"
+            <p:dataTable  var="wpis" value="#{sesjaView.wykazsesji}" id="lista" style="padding: 10px;" 
+                          paginator="true" paginatorAlwaysVisible="true" rows="30" sortBy="#{wpis.wylogowanie}"
                           paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                          rowsPerPageTemplate="20,50,100" 
+                          rowsPerPageTemplate="30,100,200" 
                           rowKey="#{wpis.nrsesji}"> 
                 <f:facet name="header">  
                     <h:outputText value="Wykaz sesji" />  
@@ -31,7 +31,7 @@
                         <f:convertDateTime locale="pl" pattern="EEE, d MMM yyyy HH:mm:ss"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="logout" filterBy="#{wpis.wylogowanie}" filterMatchMode="contains" sortBy="#{wpis.wylogowanie}">  
+                <p:column headerText="logout" filterBy="#{wpis.wylogowanie}" filterMatchMode="contains" sortBy="#{wpis.wylogowanie}" sortPriority="1" sortable="true">  
                     <h:outputText value="#{wpis.wylogowanie}" >
                         <f:convertDateTime locale="pl" pattern="EEE, d MMM yyyy HH:mm:ss"/>
                     </h:outputText>

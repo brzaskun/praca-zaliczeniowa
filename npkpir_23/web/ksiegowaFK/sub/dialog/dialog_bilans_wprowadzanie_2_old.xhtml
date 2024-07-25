@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .ui-autocomplete-input {
             width: 240px;
@@ -273,7 +273,7 @@
             </p:panelGrid>
             <p:panelGrid columns="1" style="width: 100%">
             <p:remoteCommand name="przeliczfilter" actionListener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOselected, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0" global="false"/>
-            <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item" binding="#{bilansWprowadzanieView.listaBOdatatable}" widgetVar="tab0prosta"
+            <p:dataTable lazy="false"  value="#{bilansWprowadzanieView.listaBO}" var="item" binding="#{bilansWprowadzanieView.listaBOdatatable}" widgetVar="tab0prosta"
                          style="overflow-y: scroll; height: 400px; width: 1480px !important;  margin-top: 5px;"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}"
@@ -372,7 +372,7 @@
                 <p:menuitem value="Usuń z pominięciem dok. BO" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwielebezBO(bilansWprowadzanieView.listaBOselected)}" icon="ui-icon-disk" />
             </p:contextMenu>
             
-            <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item"
+            <p:dataTable lazy="false"  value="#{bilansWprowadzanieView.listaBO}" var="item"
                          style="overflow-y: scroll; height: 400px; width: 98%; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}"

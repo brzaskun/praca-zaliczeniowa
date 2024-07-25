@@ -4,11 +4,11 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     
         <p:panel header="Wczytaj plik XML zawierający zapisy VAT" rendered="#{eVatDedraView.wiersze.size() eq 0}" style="width: 1250px;"/>
         <h:form id="form_dialog_ewvat_dedra" >
-            <p:fileUpload fileUploadListener="#{eVatDedraView.zachowajZaladowanyPlik}" update="form_dialog_ewvat_dedra form_dialog_ewvat_dedra_tabela:tabela"
+            <p:fileUpload chooseIcon="fa fa-upload" listener="#{eVatDedraView.zachowajZaladowanyPlik}" update="form_dialog_ewvat_dedra form_dialog_ewvat_dedra_tabela:tabela"
                           mode="advanced" fileLimit="1" auto="true" 
                           sizeLimit="400000"   
                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
@@ -18,7 +18,7 @@
             </p:fileUpload>
         </h:form>
         <h:form id="form_dialog_ewvat_dedra_tabela" >
-            <p:dataTable value="#{eVatDedraView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1300px;"
+            <p:dataTable lazy="false"  value="#{eVatDedraView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1300px;"
                          scrollable="true" scrollHeight="550" scrollRows="20" sortBy="#{item.faktura}"
                          emptyMessage="#{mgs.niepobranowierszy}">
                 <f:facet name="header">

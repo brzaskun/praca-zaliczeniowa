@@ -3,8 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .wyborkontrahenta input  {
             width: 400px !important;
@@ -37,7 +37,7 @@
                 </p:autoComplete>
         </h:form>
         <h:form id="kontoformV">
-            <p:dataTable id="infokonta" value="#{kliencifkView.klientMaKonto}" var="wpis"  rendered="#{kliencifkView.klientMaKonto.nrkonta eq null ? false : true}"
+            <p:dataTable lazy="false"  id="infokonta" value="#{kliencifkView.klientMaKonto}" var="wpis"  rendered="#{kliencifkView.klientMaKonto.nrkonta eq null ? false : true}"
                          style="margin-top: 2%;">
                 <f:facet name="header">
                     <h:outputText value="Klient ma już przyporządkowane konto"/>
@@ -54,7 +54,7 @@
         </p:dataTable>
          </h:form>
         <h:form id="kontoformE">
-            <p:dataTable id="infokonta" value="#{kliencifkView.klientBezKonta}" var="wpis"  rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}"
+            <p:dataTable lazy="false"  id="infokonta" value="#{kliencifkView.klientBezKonta}" var="wpis"  rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}"
                          style="margin-top: 2%;">
                 <f:facet name="header">
                     <h:outputText value="Przyporządkuj kontrahenta do konta"/>

@@ -15,7 +15,7 @@
             </p:selectBooleanCheckbox>
         </p:panelGrid>
         <p:outputPanel style="margin-top: 15px;">
-            <p:dataTable id="rzadrach" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
+            <p:dataTable lazy="false"  id="rzadrach" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
                          style="width: 830px;"
                          >
                 <f:facet name="header" >
@@ -74,7 +74,7 @@
         </p:outputPanel>
         <!--                panel korekty-->
         <p:outputPanel id="panelkorektyrach" style="margin-top: 15px;" rendered="#{fakturaView.fakturakorekta}">
-            <p:dataTable id="rzadkorektyrach" value="#{fakturaView.selected.pozycjepokorekcie}" 
+            <p:dataTable lazy="false"  id="rzadkorektyrach" value="#{fakturaView.selected.pozycjepokorekcie}" 
                          var="row" rowIndexVar="rowStat" 
                          style="width: 790px;"
                          >

@@ -37,7 +37,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 import view.WpisView;
 import waluty.Z;
 
@@ -88,7 +88,7 @@ public class AmazonImportNazwy implements Serializable {
 //        String cvsSplitBy = ",";
         try {
             String filename = uploadedFile.getFileName();
-            InputStream is = uploadedFile.getInputstream();
+            InputStream is = uploadedFile.getInputStream();
                     Workbook workbook = WorkbookFactory.create(is);
             Sheet sheet = workbook.getSheet("Template");
             Map<String,Integer> naglowki = pobierznaglowki(sheet);

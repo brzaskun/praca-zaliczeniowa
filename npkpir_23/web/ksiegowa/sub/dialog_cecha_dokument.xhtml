@@ -10,7 +10,7 @@
               onShow="ustawdialogWindow('dialogCechyDokumentu',500,500);" focus=":formCH" modal="true" appendTo="@(body)" 
               closeOnEscape="true">
         <h:form id="formCH" >
-            <p:dataTable  value="#{DokumentView.pobranecechypodatnik}" var="item"  style="height: 270px; overflow-y: scroll;"
+            <p:dataTable lazy="false"   value="#{DokumentView.pobranecechypodatnik}" var="item"  style="height: 270px; overflow-y: scroll;"
                           emptyMessage="cechy nie zostały zdefiniowane" rowKey="#{item}" styleClass="walkingtable" >
                 <p:column selectionMode="single" width="20"  styleClass="checkwiersza" style="text-align: center;">
                 </p:column>
@@ -25,7 +25,7 @@
                 </p:column>
             </p:dataTable>
             <p:separator/>
-            <p:dataTable  value="#{DokumentView.selDokument.cechadokumentuLista}" var="item" rows="6" style="height: 170px;"
+            <p:dataTable lazy="false"   value="#{DokumentView.selDokument.cechadokumentuLista}" var="item" rows="6" style="height: 170px;"
                           emptyMessage="dokument bez cech">
                 <p:column headerText="nazwa cechy przyporządkowanej">
                     <h:outputText value="#{item.nazwacechy}"/>

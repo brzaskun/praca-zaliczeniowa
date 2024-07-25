@@ -6,14 +6,14 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:accordionPanel id="akordeon">
         <p:tab title="limit do VAT">  
             <h:form id="form_limitdovat">
                 <p:growl life="3600"  ><p:autoUpdate/></p:growl>
-                <p:dataTable value="#{granicaView.granicevat}" var="item" style="width: 480px;" rowIndexVar="index"
+                <p:dataTable lazy="false"  value="#{granicaView.granicevat}" var="item" style="width: 480px;" rowIndexVar="index"
                              emptyMessage="nie ma zdefiniowanych limitów do vat" id="wykazschem" rowKey="#{item.id}"
-                             selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}" sortOrder="descending">
+                             selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}">
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="rowSelect" global="false" listener="#{granicaView.skopiuj()}" update="akordeon:form_limitdovat:panelwprowadzania"/>
                     <f:facet name="header">
@@ -22,7 +22,7 @@
                     <p:column width="30" style="text-align: center;">
                         <h:outputText value="#{index+1}"/>
                     </p:column>
-                    <p:column width="100">
+                    <p:column width="100" sortBy="#{item.rok}" sortOrder="ascending" sortPriority="1" sortable="true">
                         <f:facet name="header">
                             <h:outputText value="rok"/>
                         </f:facet>
@@ -62,9 +62,9 @@
         <p:tab title="limit do pkpir">  
             <h:form id="form_limitdopkpir">
                 <p:growl life="3600"  ><p:autoUpdate/></p:growl>
-                <p:dataTable value="#{granicaView.granicepkpir}" var="item" style="width: 480px;" rowIndexVar="index"
+                <p:dataTable lazy="false"  value="#{granicaView.granicepkpir}" var="item" style="width: 480px;" rowIndexVar="index"
                              emptyMessage="nie ma zdefiniowanych limitów do pkpir" id="wykazschem" rowKey="#{item.id}"
-                             selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}" sortOrder="descending">
+                             selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}">
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="rowSelect" global="false" listener="#{granicaView.skopiuj()}" update="akordeon:form_limitdopkpir:panelwprowadzania"/>
                     <f:facet name="header">
@@ -73,7 +73,7 @@
                     <p:column width="30" style="text-align: center;">
                         <h:outputText value="#{index+1}"/>
                     </p:column>
-                    <p:column width="100">
+                    <p:column width="100" sortBy="#{item.rok}" sortOrder="ascending" sortPriority="1" sortable="true">
                         <f:facet name="header">
                             <h:outputText value="rok"/>
                         </f:facet>
@@ -113,9 +113,9 @@
         <p:tab title="limit do księgi">  
             <h:form id="form_limitdoksiegi">
                 <p:growl life="3600"  ><p:autoUpdate/></p:growl>
-                <p:dataTable value="#{granicaView.graniceksiegi}" var="item" style="width: 480px;" rowIndexVar="index"
+                <p:dataTable lazy="false"  value="#{granicaView.graniceksiegi}" var="item" style="width: 480px;" rowIndexVar="index"
                              emptyMessage="nie ma zdefiniowanych limitów do księgi" id="wykazschem" rowKey="#{item.id}"
-                             selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}" sortOrder="descending">
+                             selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}">
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="rowSelect" global="false" listener="#{granicaView.skopiuj()}" update="akordeon:form_limitdoksiegi:panelwprowadzania"/>
                     <f:facet name="header">
@@ -124,7 +124,7 @@
                     <p:column width="30" style="text-align: center;">
                         <h:outputText value="#{index+1}"/>
                     </p:column>
-                    <p:column width="100">
+                    <p:column width="100"  sortBy="#{item.rok}" sortOrder="ascending" sortPriority="1" sortable="true">
                         <f:facet name="header">
                             <h:outputText value="rok"/>
                         </f:facet>
@@ -164,9 +164,9 @@
         <p:tab title="limit do kasa">  
             <h:form id="form_limitdokasa">
                 <p:growl life="3600"  ><p:autoUpdate/></p:growl>
-                <p:dataTable value="#{granicaView.granicekasa}" var="item" style="width: 480px;" rowIndexVar="index"
+                <p:dataTable lazy="false"  value="#{granicaView.granicekasa}" var="item" style="width: 480px;" rowIndexVar="index"
                              emptyMessage="nie ma zdefiniowanych limitów do kasa" id="wykazschem" rowKey="#{item.id}"
-                             selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}" sortOrder="descending">
+                             selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}">
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="rowSelect" global="false" listener="#{granicaView.skopiuj()}" update="akordeon:form_limitdokasa:panelwprowadzania"/>
                     <f:facet name="header">
@@ -175,7 +175,7 @@
                     <p:column width="30" style="text-align: center;">
                         <h:outputText value="#{index+1}"/>
                     </p:column>
-                    <p:column width="100">
+                    <p:column width="100" sortBy="#{item.rok}" sortOrder="ascending" sortPriority="1" sortable="true">
                         <f:facet name="header">
                             <h:outputText value="rok"/>
                         </f:facet>

@@ -3,8 +3,9 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="220" header="Bieżący podatnik" collapsible="true" resizable="true" style="box-shadow: 10px 10px 5px #888;">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+    <pe:layoutPane position="west" size="220"  resizable="true">
         <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
           
@@ -63,6 +64,6 @@
                     <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-top: 10px;"/>
             </p:panel>
         </h:form>
-    </p:layoutUnit>
+    </pe:layoutPane>
 </ui:composition>   
 

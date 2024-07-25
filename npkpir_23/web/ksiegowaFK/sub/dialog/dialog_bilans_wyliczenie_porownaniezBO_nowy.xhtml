@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
         
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:dialog id="dialogbilansporownanie_nowy" header="Bilans za okres rozliczeniowy wyliczenie z porównaniem - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogbilansporownanie_nowy" 
               resizable="false" onShow="ustawdialog('dialogbilansporownanie_nowy','menubilanse', 1450, 800);" closeOnEscape="true" onHide="resetujdialog('dialogbilansporownanie_nowy');"  >
@@ -46,7 +46,7 @@
                 </p:panelGrid>
             </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:dataTable id="dataList" value="#{pozycjaBRZestawienieNowyView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieNowyView.selectedNodes}" 
+                <p:dataTable lazy="false"  id="dataList" value="#{pozycjaBRZestawienieNowyView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieNowyView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" rowKey="#{loop.lp}"
                              scrollable="true" style="width: 700px; max-height: 600px;" >
                     <f:facet name="header">
@@ -86,7 +86,7 @@
                     </p:column>
                     
                 </p:dataTable>
-                <p:dataTable id="dataList2" value="#{pozycjaBRZestawienieNowyView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieNowyView.selectedNodes}" 
+                <p:dataTable lazy="false"  id="dataList2" value="#{pozycjaBRZestawienieNowyView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieNowyView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}"  rowKey="#{loop.lp}"
                              scrollable="true" style="width: 700px; max-height: 600px;">
                     <f:facet name="header">

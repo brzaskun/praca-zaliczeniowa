@@ -10,7 +10,7 @@
         <h:form id="form_sprawozdanie_projekt_wzorcowy">
             <p:panelGrid columns="2" style="width: 720px;">
                 <p:panelGrid columns="1" style="width: 550px;">
-                    <p:dataTable id="dataList" value="#{sprawozdanieUkladView.zachowaneuklady}" var="loop" selectionMode="single" selection="#{sprawozdanieUkladView.selected}" 
+                    <p:dataTable lazy="false"  id="dataList" value="#{sprawozdanieUkladView.zachowaneuklady}" var="loop" selectionMode="single" selection="#{sprawozdanieUkladView.selected}" 
                                  styleClass="tablicaplankont" style="width: 550px; margin-top: 0%; margin-bottom: 50px;" rowKey="#{loop.lp}" scrollable="true" scrollHeight="500"
                              emptyMessage="Brak układów Sprawozdań">
                     <p:ajax event="rowSelect" listener="#{sprawozdanieUkladView.wybranouklad}" global="false"/>

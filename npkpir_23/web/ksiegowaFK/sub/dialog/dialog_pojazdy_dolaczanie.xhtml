@@ -3,8 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .wyborkontrahenta input  {
             width: 400px !important;
@@ -36,14 +36,14 @@
             </p:panelGrid>
         </h:form>
         <h:form id="pojazdylista">
-            <p:dataTable value="#{pojazdyView.pojazdy}" var="item" style="width: 850px;"  scrollable="true" scrollHeight="400"
+            <p:dataTable lazy="false"  value="#{pojazdyView.pojazdy}" var="item" style="width: 850px;"  scrollable="true" scrollHeight="400"
                          emptyMessage="brak zdefiniowanych pojazdów" widgetVar="listapojazdywykaz"
-                         sortBy="#{item}"  sortFunction="#{pojazdyView.sortPojazdy}">
+                         >
                 <p:ajax event="filter" global="false"/>
                 <p:column headerText="#{mgs.nr}" style="width: 40px;">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
-                <p:column headerText="nr rejestracyjny" style="width: 110px;"  filterBy="#{item.nrrejestracyjny}" filterMatchMode="contains" styleClass="filter80">
+                <p:column headerText="nr rejestracyjny" style="width: 110px;"  filterBy="#{item.nrrejestracyjny}" filterMatchMode="contains" styleClass="filter80" sortBy="#{item}"  sortFunction="#{pojazdyView.sortPojazdy}">
                     <h:outputText value="#{item.nrrejestracyjny}"/>
                 </p:column>
                 <p:column headerText="nazwa pojazdu"  style="width: 300px;">

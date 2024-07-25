@@ -10,7 +10,7 @@
               onShow="ustawdialogWindow('dialogCechyDokumentuZbiorcze',550,800);" focus=":formCH"  appendTo="@(body)"
               closeOnEscape="true">
         <h:form id="formCH" >
-            <p:dataTable  value="#{DokumentView.pobranecechypodatnik}" var="item"   style="height: 500px; width: 500px;"
+            <p:dataTable lazy="false"   value="#{DokumentView.pobranecechypodatnik}" var="item"   style="height: 500px; width: 500px;"
                           emptyMessage="cechy nie zostały zdefiniowane">
                 <p:column headerText="nazwa cechy do wyboru">
                     <h:outputText value="#{item.nazwacechy}"/>

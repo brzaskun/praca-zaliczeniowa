@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab  title="#{mgs.przychodyikoszty}" id="symulacjawyniku" >
         <style>
             .gridtablicasyntetyczne .ui-datatable-odd td{
@@ -86,7 +86,7 @@
                 <h:outputText value="Uwaga. Wyliczanie podatku działa prawidłowo pod warunkiem wybrania tego samego miesiąca jako mcod i mcdo" style="color: green"/>
             </p:panelGrid>
             <p:panelGrid columns="2">
-                <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}" rowIndexVar="indexa"
+                <p:dataTable lazy="false"  id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}" rowIndexVar="indexa"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoPrzychody}"
                          styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 1200px; height: 400px; overflow-y: scroll;"
                          
@@ -151,7 +151,7 @@
                     <h:outputText value="#{loop.getTopKontoOpis()}" />
                 </p:column>
                 <f:facet name="footer">
-                    <p:panelGrid style="padding-right: 30px;">
+                    <p:panelGrid style="padding-right: 30px;" columns="4">
                     <p:column colspan="8">
                         <h:outputText value="razem przychody, razem vat"/>
                     </p:column>
@@ -169,7 +169,7 @@
                     </p:panelGrid>
                 </f:facet>
                 <p:rowExpansion>
-                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
+                    <p:dataTable lazy="false"  value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
                         <p:column headerText="#{mgs.dokument}" width="60" style="text-align: right;">
                             <h:outputText value="#{loopik.dokfkS}" style="color: #{loopik.color}"/>
                         </p:column>
@@ -200,7 +200,7 @@
                     <h:outputText value="brak dokumentu AMO - nie naliczono odpisów amortyzacyjnych" rendered="#{zestawienieBrakiView.jestAMO eq false}"/>
                 </p:panelGrid>
                 </p:panelGrid>
-            <p:dataTable id="tablicasymulacjaK" value="#{symulacjaWynikuView.listakontakoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"  rowIndexVar="index1"
+            <p:dataTable lazy="false"  id="tablicasymulacjaK" value="#{symulacjaWynikuView.listakontakoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"  rowIndexVar="index1"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoKoszty}" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1200px; height: 500px; overflow-y: scroll;" widgetVar="tablicasymulacjaK"
                          >
@@ -266,7 +266,7 @@
                 </p:column>
 
                <f:facet name="footer">
-                    <p:panelGrid style="padding-right: 30px;">
+                   <p:panelGrid style="padding-right: 30px;" columns="4">
                     <p:column colspan="8">
                         <h:outputText value="razem koszty, razem vat"/>
                     </p:column>
@@ -285,7 +285,7 @@
                </f:facet>
                 
                 <p:rowExpansion>
-                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
+                    <p:dataTable lazy="false"  value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
                         <p:column headerText="#{mgs.dokument}" width="60">
                             <h:outputText value="#{loopik.dokfkS}" style="color: #{loopik.color}"/>
                         </p:column>
@@ -310,7 +310,7 @@
                     </p:dataTable>
                 </p:rowExpansion>
             </p:dataTable>
-            <p:dataTable id="tabelapodsumowanienowa" value="#{symulacjaWynikuView.pozycjePodsumowaniaWynikuNowe}" var="item2"
+            <p:dataTable lazy="false"  id="tabelapodsumowanienowa" value="#{symulacjaWynikuView.pozycjePodsumowaniaWynikuNowe}" var="item2"
                          style="width: 80%;margin-top: 20px;" rowIndexVar="index2">
                 <p:column width="30" style="text-align: center;">
                     <h:outputText value="#{index2+1}"/>
@@ -340,7 +340,7 @@
                     <bcf:outputpl value="#{item2.wynikPodatkowyWstępny}"/>
                 </p:column>
             </p:dataTable>
-            <p:dataTable id="tabelapodsumowanienowa2" value="#{symulacjaWynikuView.pozycjePodsumowaniaWynikuNowe}" var="item3"
+            <p:dataTable lazy="false"  id="tabelapodsumowanienowa2" value="#{symulacjaWynikuView.pozycjePodsumowaniaWynikuNowe}" var="item3"
                          style="width: 80%;margin-top: 20px;" rowIndexVar="index3">
                 <p:column width="30" style="text-align: center;">
                     <h:outputText value="#{index3+1}"/>

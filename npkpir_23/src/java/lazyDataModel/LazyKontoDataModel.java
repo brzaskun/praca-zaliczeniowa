@@ -7,7 +7,10 @@ package lazyDataModel;
 
 import entityfk.Konto;
 import java.util.List;
+import java.util.Map;
+import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
 
 /**
  *
@@ -45,8 +48,15 @@ public class LazyKontoDataModel extends LazyDataModel<Konto>{
         return zwrot;
     }
    
+ 
+
     @Override
-    public Object getRowKey(Konto konto) {
-        return konto.getId();
+    public List<Konto> load(int i, int i1, Map<String, SortMeta> map, Map<String, FilterMeta> map1) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public int count(Map<String, FilterMeta> map) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

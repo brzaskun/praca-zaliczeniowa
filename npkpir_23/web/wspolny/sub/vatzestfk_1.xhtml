@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.getPodatnikObiekt(), null)}"/>
            <h:form id="form">
             <p:outputPanel deferred="true">
@@ -40,7 +40,7 @@
                                 </p:commandButton>    
                                 <p:commandButton value="Drukuj wszystkie" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 10px;"/>
                             </p:panelGrid>
-                            <p:dataTable id="tabela#{numer.index}" value="#{item}" var="itemik" 
+                            <p:dataTable lazy="false"  id="tabela#{numer.index}" value="#{item}" var="itemik" 
                                          rowKey="#{itemik.id}" selection="#{ewidencjaVatView.goscwybral}" widgetVar="dokTable#{numer.index}"
                                          rowStyleClass="#{itemik.netto lt 0 ? 'korekta' : null}" filterDelay="600" scrollable="true" scrollHeight="500"
                                          >
@@ -101,7 +101,7 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText><br/>
                         </p:panelGrid>
-                        <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
+                        <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
                                      selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 70%;"
                                      >
                             <f:facet name="header">
@@ -127,7 +127,7 @@
                             </p:column>
 
                         </p:dataTable>
-                        <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemik" 
+                        <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemik" 
                                      selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 70%;"
                                      >
                             <f:facet name="header">
@@ -154,7 +154,7 @@
                         </p:dataTable>
                         <p:outputPanel style="margin-top: 10px">
 <!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
-                            <p:dataTable value="#{kontaVatFKView.kontavat}" var="itemkonto" style="width: 80%;" id="saldokontvat">
+                            <p:dataTable lazy="false"  value="#{kontaVatFKView.kontavat}" var="itemkonto" style="width: 80%;" id="saldokontvat">
                                 <p:ajax event="rowToggle" global="false" />
                                 <p:column style="height: 19px; text-align: center;" width="20">
                                     <p:rowToggler />
@@ -176,7 +176,7 @@
                                     </h:outputText>
                                 </p:column>
                                 <p:rowExpansion>
-                                    <p:dataTable value="#{itemkonto.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" paginator="true" rows="2" paginatorPosition="top">
+                                    <p:dataTable lazy="false"  value="#{itemkonto.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" paginator="true" rows="2" paginatorPosition="top">
                                         <p:ajax event="page" global="false"/>
                                     <p:column headerText="#{mgs.dokument}" width="70">
                                         <h:outputText value="#{loopik.dokfkS}"/>
@@ -219,7 +219,7 @@
                 <h:outputText value="suma"/>
                 <bcf:outputpl value="#{klientJPKView.suma}"/>
             </p:panelGrid>
-            <p:dataTable value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk" id="tabelapozycjedlajpk"
+            <p:dataTable lazy="false"  value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk" id="tabelapozycjedlajpk"
                          style="width: 1100px;"
                          >
                 <p:column style="width: 50px;">

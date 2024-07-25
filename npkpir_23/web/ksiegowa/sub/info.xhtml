@@ -11,7 +11,7 @@
     <p:outputPanel deferred="true">
      <p:panelGrid columns="4">
         <p:column>
-            <p:dataTable  value="#{infoView.rodzajopodatkowania}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.rodzajopodatkowania}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="wybór opodatkowania"/>
                 </f:facet>
@@ -21,7 +21,7 @@
             </p:dataTable>
         </p:column>
         <p:column>
-            <p:dataTable  value="#{infoView.vatnievat}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.vatnievat}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="opodatkowanie vat"/>
                 </f:facet>
@@ -31,7 +31,7 @@
             </p:dataTable>
         </p:column>
         <p:column>
-            <p:dataTable  value="#{infoView.zusniezus}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.zusniezus}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="kwoty ZUS"/>
                 </f:facet>
@@ -41,7 +41,7 @@
             </p:dataTable>
         </p:column>
         <p:column>
-            <p:dataTable  value="#{infoView.pole47niepole47}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.pole47niepole47}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="pole47"/>
                 </f:facet>
@@ -53,7 +53,7 @@
     </p:panelGrid>
      <p:panelGrid columns="4">
         <p:column>
-            <p:dataTable  value="#{infoView.udzialy}" var="wpis" style="width: 250px; padding: 10px;" emptyMessage="Brak wprowadzonych udziałów!. Program nie będzie działał poprawnie." >
+            <p:dataTable lazy="false"   value="#{infoView.udzialy}" var="wpis" style="width: 250px; padding: 10px;" emptyMessage="Brak wprowadzonych udziałów!. Program nie będzie działał poprawnie." >
                 <f:facet name="header">
                     <h:outputText value="udziały"/>
                 </f:facet>
@@ -66,7 +66,7 @@
             </p:dataTable>
         </p:column>
         <p:column>
-            <p:dataTable  value="#{infoView.remnierem}" var="wpis" style="width: 250px; padding: 10px;" emptyMessage="Nie wprowadzono remanentu! Program nie będzie funkcjonował poprawnie">
+            <p:dataTable lazy="false"   value="#{infoView.remnierem}" var="wpis" style="width: 250px; padding: 10px;" emptyMessage="Nie wprowadzono remanentu! Program nie będzie funkcjonował poprawnie">
                 <f:facet name="header">
                     <h:outputText value="inwentaryzacja"/>
                 </f:facet>
@@ -76,7 +76,7 @@
             </p:dataTable>
         </p:column>
         <p:column>
-            <p:dataTable  value="#{infoView.kwotaautor}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.kwotaautor}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="kwota autoryzująca"/>
                 </f:facet>
@@ -86,7 +86,7 @@
             </p:dataTable>
         </p:column>
         <p:column>
-            <p:dataTable  value="#{infoView.vatokres}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.vatokres}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="vatokres"/>
                 </f:facet>
@@ -98,7 +98,7 @@
     </p:panelGrid>
     <p:panelGrid columns="4">
         <p:column>
-            <p:dataTable  value="#{infoView.liczbapit}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.liczbapit}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="PIT-5"/>
                 </f:facet>
@@ -108,7 +108,7 @@
             </p:dataTable>
         </p:column>
         <p:column>
-            <p:dataTable  value="#{infoView.liczbavatwyslane}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.liczbavatwyslane}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="VAT-y wysłane"/>
                 </f:facet>
@@ -118,7 +118,7 @@
             </p:dataTable>
         </p:column>
         <p:column>
-            <p:dataTable  value="#{infoView.liczbavatdopotw}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.liczbavatdopotw}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="brakujące potwierdzenia"/>
                 </f:facet>
@@ -128,7 +128,7 @@
             </p:dataTable>
         </p:column>
         <p:column>
-            <p:dataTable  value="#{infoView.liczbavatdowyslania}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.liczbavatdowyslania}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="oczekujace wysyłki"/>
                 </f:facet>
@@ -140,7 +140,7 @@
     </p:panelGrid> 
     <p:panelGrid columns="4" >
         <p:column>
-            <p:dataTable  value="#{infoView.osobawprowadzajaca}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.osobawprowadzajaca}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="osoby wprowadzające"/>
                 </f:facet>
@@ -150,7 +150,7 @@
             </p:dataTable>
         </p:column>
         <p:column>
-            <p:dataTable  value="#{infoView.liczbawprowadzonychdok}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.liczbawprowadzonychdok}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="liczba wprowadzonych dok"/>
                 </f:facet>
@@ -160,7 +160,7 @@
             </p:dataTable>
         </p:column>
         <p:column>
-            <p:dataTable  value="#{infoView.selectedDok.dataK}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.selectedDok.dataK}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="ostatnie księgowanie"/>
                 </f:facet>
@@ -170,7 +170,7 @@
             </p:dataTable>
         </p:column>
         <p:column>
-            <p:dataTable  value="#{infoView.rodzajedok}" var="wpis" style="width: 250px; padding: 10px;">
+            <p:dataTable lazy="false"   value="#{infoView.rodzajedok}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
                     <h:outputText value="rodzaje dokumentów"/>
                 </f:facet>

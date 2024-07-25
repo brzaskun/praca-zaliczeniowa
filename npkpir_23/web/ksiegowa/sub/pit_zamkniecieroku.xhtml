@@ -6,9 +6,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
         <h:form>
-            <p:dataTable value="#{zamkniecieRokuRozliczenieView.lista}" var="item" style="width: 1050px; overflow-y: scroll; height: 400px;"
+            <p:dataTable lazy="false"  value="#{zamkniecieRokuRozliczenieView.lista}" var="item" style="width: 1050px; overflow-y: scroll; height: 400px;"
                          emptyMessage="nie pobrano wartości" rowIndexVar="index" sortBy="#{item.zamkniecieRokuEtap.kolejnosc}">
                 <f:facet name="header">
                     <h:outputText value="rozliczenie etapów zamknięcia roku podatkowego w firmie #{WpisView.podatnikObiekt.nazwapelnaPDF} za rok #{WpisView.rokWpisuSt}"/>

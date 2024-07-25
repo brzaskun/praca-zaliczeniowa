@@ -2,27 +2,29 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/templateFK.xhtml">
         <ui:define name="title">
             <h:outputText value="Rozliczenia VAT"></h:outputText>
         </ui:define>
         <ui:define name="body">
             <f:view>
-                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                <pe:layout fullPage="true" >
                     <ui:include src="sub/layout_1/north.xhtml"/>  <!-- panel polnocny-->
                     <ui:include src="sub/layout_1/south.xhtml"/>   <!-- panel poludniowy-->
                     <ui:include src="sub/layout_1/west.xhtml"/>   <!-- panel zachodni-->
-<!--                    <p:layoutUnit position="center">
+<!--                    <pe:layoutPane position="center">
                         <h:form id="form">
                             <ui:include src="sub/menu_wiad.xhtml"/>    menu contextowe i pole wiadomosci growl
                         </h:form>
                                 <ui:include src="../wspolny/sub/vatPrzygotowanieDeklaracjiN.xhtml"/>
-                    </p:layoutUnit>-->
-                    <p:layoutUnit id="centralna" position="center" style="box-shadow: 10px 10px 5px #888888; padding-right: 45px;">
+                    </pe:layoutPane>-->
+<!--<pe:layoutPane id="centralna" position="center">-->
+                    <pe:layoutPane id="centralna" position="center">
                         <ui:include src="../ksiegowaFK/sub/podstrony/firma/edit_firma.xhtml"/>
-                    </p:layoutUnit>
-                </p:layout>
+                    </pe:layoutPane>
+                </pe:layout>
             </f:view>
         </ui:define>
     </ui:composition>

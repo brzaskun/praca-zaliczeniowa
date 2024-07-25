@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .waluta input {
             width: 40px !important;
@@ -47,7 +47,7 @@
                     <p:ajax event="itemSelect" partialSubmit="true" />
                 </p:selectOneMenu>
             </p:panelGrid>
-            <p:fileUpload fileUploadListener="#{importFakturyView.importujsprzedazfk}" 
+            <p:fileUpload chooseIcon="fa fa-upload" listener="#{importFakturyView.importujsprzedazfk}" 
                           mode="advanced" dragDropSupport="true" fileLimit="1"
                           update="importtabelafafa" sizeLimit="2000000"  auto="true"
                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
@@ -65,7 +65,7 @@
                 <h:outputText value=" | brutto: "/>
                 <bcf:outputpl value="#{importFakturyView.brutto}"/>
             </p:panelGrid>
-            <p:dataTable id="dokumentyLista" value="#{importFakturyView.dokumentyfk}" var="item" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
+            <p:dataTable lazy="false"  id="dokumentyLista" value="#{importFakturyView.dokumentyfk}" var="item" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
                          rowKey="#{item.id}" 
                          style="width: 1450px; height: 590px; overflow-y: scroll"
                          emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane walkingtable"

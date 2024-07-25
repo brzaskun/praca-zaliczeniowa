@@ -5,13 +5,13 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialogrmkdok" header="Zestawienie dla dokumentów RMK - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogrmkdok"  
               resizable="false"  onShow="ustawdialog('dialogrmkdok','menurmk',1410,700);" closeOnEscape="true" onHide="resetujdialog('dialogrmkdok');" >
         <bcf:ajaxs/>
         <h:form id="formrmk">
             <p:outputPanel style="margin-top: 10px">
-                <p:dataTable value="#{rMKDokView.kontarmk}" var="item" style="width: 750px;" id="saldokontasrodkitrw" emptyMessage="Brak kont rmk">
+                <p:dataTable lazy="false"  value="#{rMKDokView.kontarmk}" var="item" style="width: 750px;" id="saldokontasrodkitrw" emptyMessage="Brak kont rmk">
                     <p:ajax event="rowToggle" global="false"/>
                     <p:column style="text-align: center;" width="10">
                         <p:rowToggler/>
@@ -34,7 +34,7 @@
                     </p:column>
                     <p:rowExpansion>
                     <p:column  >  
-                        <p:dataTable var="subwpis" value="#{item.zapisy}" emptyMessage="brak zapisów"  resizableColumns="true" style="width: 98%;"
+                        <p:dataTable lazy="false"  var="subwpis" value="#{item.zapisy}" emptyMessage="brak zapisów"  resizableColumns="true" style="width: 98%;"
                                      scrollable="true" scrollHeight="150" scrollRows="20">
                             <p:column headerText="opis" width="450">  
                                 <h:outputText value="#{subwpis.wiersz.opisWiersza}" style="width: 300px;"/>
@@ -61,7 +61,7 @@
                 </p:dataTable>
             </p:outputPanel>
             <p:outputPanel style="margin-top: 10px">
-                <p:dataTable id="infokontarmk" value="#{rMKView.listarmk}" var="item"  emptyMessage="Brak rozrachunków międzyokresowych"
+                <p:dataTable lazy="false"  id="infokontarmk" value="#{rMKView.listarmk}" var="item"  emptyMessage="Brak rozrachunków międzyokresowych"
                          style="margin-top: 2%;" sortBy="#{item.id}" paginator="true" rows="10"  rowIndexVar="number">
                 <f:facet name="header">
                     <h:outputText value="Wykaz rozliczeń międzyokresowych podatnika"/>

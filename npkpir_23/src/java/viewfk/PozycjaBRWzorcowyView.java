@@ -23,6 +23,7 @@ import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.UkladBR;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,9 +38,8 @@ import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.TreeNode;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 import view.WpisView;
-import interceptor.ConstructorInterceptor;
 import xls.ReadCSVInterpaperFile;
 
 /**
@@ -279,7 +279,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("xlsx")) {
-                byte[] contents = uploadedFile.getContents();
+                byte[] contents = uploadedFile.getContent();
                 ReadCSVInterpaperFile.updateRZiSInter(pozycjaRZiSDAO, wpisView, contents);
                 pobierzuklad("r", rootProjektRZiS, "");
             }
@@ -295,7 +295,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("xlsx")) {
-                byte[] contents = uploadedFile.getContents();
+                byte[] contents = uploadedFile.getContent();
                 ReadCSVInterpaperFile.updateBilansInter(pozycjaBilansDAO, wpisView, contents);
                 pobierzuklad("b", rootProjektRZiS, "aktywa");
             }
@@ -333,7 +333,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 nowyelementRZiS.setLevel(0);
                 nowyelementRZiS.setMacierzysta(null);
             } else {
-                String poprzednialitera = ((PozycjaRZiS) rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1).getData()).getPozycjaSymbol();
+                String poprzednialitera = ((PozycjaRZiS) ((TreeNode)rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1)).getData()).getPozycjaSymbol();
                 String nowalitera = RomNumb.alfaInc(poprzednialitera);
                 nowyelementRZiS.setPozycjaSymbol(nowalitera);
                 nowyelementRZiS.setPozycjaString(nowalitera);
@@ -427,7 +427,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 nowyelementBilans.setLevel(0);
                 nowyelementBilans.setMacierzysta(null);
             } else {
-                String poprzednialitera = ((PozycjaBilans) rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1).getData()).getPozycjaSymbol();
+                String poprzednialitera = ((PozycjaBilans) ((TreeNode)rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1)).getData()).getPozycjaSymbol();
                 String nowalitera = RomNumb.alfaInc(poprzednialitera);
                 nowyelementBilans.setPozycjaSymbol(nowalitera);
                 nowyelementBilans.setPozycjaString(nowalitera);
@@ -679,8 +679,8 @@ public class PozycjaBRWzorcowyView implements Serializable {
                     p.setPozycjaString(ps + poprzednisymbol);
                     pozycjaBilansDAO.edit(p);
                     if (wybranynodekonta.getChildCount() > 0) {
-                        for (TreeNode child : parent.getChildren()) {
-                            przenumerujdzieci(child);
+                        for (Object child : parent.getChildren()) {
+                            przenumerujdzieci((TreeNode)child);
                         }
                     }
                     rootProjektRZiS = new TreeNodeExtended("root", null);
@@ -707,9 +707,9 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 p.setPozycjaSymbol(nastepnysymbol);
                 pozycjaBilansDAO.edit(p);
                 if (wybranynodekonta.getChildCount() > 0) {
-                    for (TreeNode child : parent.getChildren()) {
-                        przenumerujdzieci(child);
-                    }
+                    for (Object child : parent.getChildren()) {
+                            przenumerujdzieci((TreeNode)child);
+                        }
                 }
                 rootProjektRZiS = new TreeNodeExtended("root", null);
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
@@ -727,9 +727,9 @@ public class PozycjaBRWzorcowyView implements Serializable {
         p.setPozycjaString(((PozycjaRZiSBilans) parent.getData()).getPozycjaString() + "." + p.getPozycjaSymbol());
         pozycjaBilansDAO.edit(p);
         if (superchild.getChildren()!= null) {
-           for (TreeNode r : superchild.getChildren()) {
-               przenumerujdzieci(r);
-           }
+          for (Object child : superchild.getChildren()) {
+                przenumerujdzieci((TreeNode)child);
+            }
         }
     }
     
@@ -749,9 +749,9 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 String pierwszysymbol = PozycjaRZiSFKBean.zwrocPierwszySymbol(level);
                 TreeNode parent = wybranynodekonta.getParent();
                 if (parent != null) {
-                    for (TreeNode child : parent.getChildren()) {
+                    for (Object child : parent.getChildren()) {
                         if (!child.equals(wybranynodekonta)) {
-                            PozycjaRZiSBilans chd = (PozycjaRZiSBilans) child.getData();
+                            PozycjaRZiSBilans chd = (PozycjaRZiSBilans) ((TreeNode)child).getData();
                             chd.setPozycjaSymbol(pierwszysymbol);
                             chd.setPozycjaString(((PozycjaRZiSBilans) parent.getData()).getPozycjaString() + "." + pierwszysymbol);
                             pierwszysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level, pierwszysymbol);

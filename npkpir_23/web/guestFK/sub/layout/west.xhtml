@@ -5,8 +5,9 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="240" header="#{mgs['guest.west.zmianaokresu']}" collapsible="true">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+    <pe:layoutPane position="west" size="240" >
          <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
               <p:panelGrid  columns="2" >
@@ -65,6 +66,6 @@
             </p:panel>
 
         </h:form>
-    </p:layoutUnit>
+    </pe:layoutPane>
 </ui:composition>   
 

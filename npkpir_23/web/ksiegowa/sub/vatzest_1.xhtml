@@ -42,7 +42,7 @@
                 </p:panel>
 
                 <p:separator/>
-                <p:dataTable id="tabela#{numer.index}" value="#{item}" var="itemik" 
+                <p:dataTable lazy="false"  id="tabela#{numer.index}" value="#{item}" var="itemik" 
                              rowKey="#{itemik.id}" selection="#{ewidencjaVatView.goscwybral}" widgetVar="dokTable#{numer.index}"
                              rowStyleClass="#{itemik.netto lt 0 ? 'korekta' : null}" filterDelay="600"
                              >
@@ -98,7 +98,7 @@
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText><br/>
             </p:panelGrid>
-            <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
+            <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
                          selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
                          >
                 <f:facet name="header">
@@ -124,7 +124,7 @@
                 </p:column>
                
             </p:dataTable>
-             <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemik" 
+             <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemik" 
                          selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
                          >
                 <f:facet name="header">

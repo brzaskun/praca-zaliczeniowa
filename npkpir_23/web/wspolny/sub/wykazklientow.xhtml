@@ -81,7 +81,7 @@
 <!--    Wykaz wprowadzonych kontrahentów-->
     <h:form id="formY">
         <p:growl life="3600" />
-        <p:dataTable var="wpis" value="#{KlView.kl1}"  id="tabelaKontr" editable="true"
+        <p:dataTable lazy="false"  var="wpis" value="#{KlView.kl1}"  id="tabelaKontr" editable="true"
                  paginator="true" paginatorAlwaysVisible="true" rows="12"
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                  rowsPerPageTemplate="12, 20,28,36,50" filteredValue="#{KlView.klienciFiltered}"

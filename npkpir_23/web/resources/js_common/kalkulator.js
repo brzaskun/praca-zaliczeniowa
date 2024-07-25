@@ -169,10 +169,22 @@ var kalkulator_reset = function() {
 var kalkulator_close = function() {
     PF('dialog_kalkulator').hide();
     $(MYAPP.kalkulator_cel).val(parseFloat(MYAPP.kalkulator_suma).toFixed(2));
-    $(MYAPP.kalkulator_cel).next().val(parseFloat(MYAPP.kalkulator_suma).toFixed(2));
+    var pole1 = $(MYAPP.kalkulator_cel).next();
+    pole1.val(parseFloat(MYAPP.kalkulator_suma).toFixed(2));
     $(MYAPP.kalkulator_cel).click();
+    var event = new Event('change');
+    var hiddenInput = document.getElementById(MYAPP.kalkulator_cel.id);
+    hiddenInput.dispatchEvent(event);
+    var hiddenInput1 = document.getElementById(pole1.get(0).id);
+    var event1 = new Event('change');
+    hiddenInput1.dispatchEvent(event1);
     $(MYAPP.kalkulator_cel).select();
     kalkulator_reset();
+    var adresdocelowy = "parametrykalkulator:aktualnaswkalkulator";
+    $(adresdocelowy).val(parseFloat(MYAPP.kalkulator_suma).toFixed(2));
+    var hiddenInput2 = document.getElementById(MYAPP.kalkulator_cel.id);
+    var event2 = new Event('change');
+    hiddenInput2.dispatchEvent(event2);
 };
 
 var kalkulator_pobierzwiersz = function(pole) {

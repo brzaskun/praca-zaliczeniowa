@@ -6,7 +6,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     //tu jest kalkulacja księgowych
     <p:outputPanel style="padding: 10px;">
         <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
@@ -19,7 +19,7 @@
         <p:commandButton value="przeliczaj" actionListener="#{statisticAdminView.init()}" update="@form"/>
     </p:outputPanel>
     <p:outputPanel id="wrapper">
-        <p:dataTable  var="wpis" value="#{statisticAdminView.statystyka}" id="lista" style="width: 1200px;"
+        <p:dataTable lazy="false"   var="wpis" value="#{statisticAdminView.statystyka}" id="lista" style="width: 1200px;"
                       paginator="true" paginatorAlwaysVisible="true" rows="20"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="20,50,100" 
@@ -52,7 +52,7 @@
         </p:dataTable>
     </p:outputPanel>
     <p:outputPanel id="wrapper2">
-        <p:dataTable  var="wpis" value="#{statisticAdminView.obrabiani}" id="lista2"  style="width: 400px;" 
+        <p:dataTable lazy="false"   var="wpis" value="#{statisticAdminView.obrabiani}" id="lista2"  style="width: 400px;" 
                       paginator="true" paginatorAlwaysVisible="true" rows="20"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="20,50,100" 

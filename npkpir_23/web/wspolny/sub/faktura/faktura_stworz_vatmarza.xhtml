@@ -35,7 +35,7 @@
             </p:panelGrid>
         </p:outputPanel>
         <p:outputPanel style="margin-top: 15px;">
-            <p:dataTable id="rzadvm" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
+            <p:dataTable lazy="false"  id="rzadvm" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
                          style="width: 790px;"
                          >
                 <f:facet name="header" >
@@ -91,7 +91,7 @@
         </p:outputPanel>
         <!--                panel korekty-->
         <p:outputPanel id="panelkorektyvm" style="margin-top: 15px;" rendered="#{fakturaView.fakturakorekta}">
-            <p:dataTable id="rzadkorektyvm" value="#{fakturaView.selected.pozycjepokorekcie}" 
+            <p:dataTable lazy="false"  id="rzadkorektyvm" value="#{fakturaView.selected.pozycjepokorekcie}" 
                          var="row" rowIndexVar="rowStat" 
                          style="width: 790px;"
                          >

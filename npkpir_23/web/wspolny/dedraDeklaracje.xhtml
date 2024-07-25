@@ -4,10 +4,10 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form_dialog_ewvat_dedra" >
         <p:panel header="#{mgs.wczytajplikzdeklaracja}" style="width: 1250px;"/>
-        <p:fileUpload fileUploadListener="#{eVatDeklaracjaPlikView.zachowajZaladowanyPlik}" update="form_dialog_ewvat_dedra:tabela"
+        <p:fileUpload chooseIcon="fa fa-upload" listener="#{eVatDeklaracjaPlikView.zachowajZaladowanyPlik}" update="form_dialog_ewvat_dedra:tabela"
                       mode="advanced" dragDropSupport="true" fileLimit="3"
                       sizeLimit="6000000"   
                       validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
@@ -15,7 +15,7 @@
                       uploadLabel="#{mgs.wczytaj}" label="#{mgs.wybierz}" cancelLabel="#{mgs.rezygnuj}" 
                       style="height: 100px; width: 500px;">
         </p:fileUpload>
-        <p:dataTable value="#{eVatDeklaracjaPlikView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px;"
+        <p:dataTable lazy="false"  value="#{eVatDeklaracjaPlikView.wiersze}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px;"
                      scrollable="true" scrollHeight="450" scrollRows="20" editable="true"
                      emptyMessage="#{mgs.niepobranowierszy}">
             <p:ajax event="rowEdit" update=":form:messages" listener="#{eVatDeklaracjaPlikView.zachowajzmiany}" global="false"/>

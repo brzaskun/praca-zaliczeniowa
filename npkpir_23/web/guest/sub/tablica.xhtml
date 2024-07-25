@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form">
           <p:panelGrid id="sumawybranychpanel" style="width: 210px; text-align: center;">
               <f:facet name="header">
@@ -66,7 +66,7 @@
 //                });
                 });
             </script>
-            <p:dataTable  var="wpis" value="#{DokTabGuestView.pobranedokumenty}" id="dokumentyLista" editable="true" 
+            <p:dataTable lazy="false"   var="wpis" value="#{DokTabGuestView.pobranedokumenty}" id="dokumentyLista" editable="true" 
                           style="max-width: 1250px; height: 850px; overflow: scroll" rowKey="#{wpis.idDok}" selection="#{DokTabGuestView.selected}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" filteredValue="#{DokTabGuestView.pobranedokumentyFiltered}"
@@ -141,7 +141,7 @@
 
                <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
-                        <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
+                        <p:dataTable lazy="false"  var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
                             <p:column id="SubColumn1" headerText="ewidencja">  
                                 <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
                             </p:column>
@@ -169,7 +169,7 @@
                         </p:dataTable>
                     </p:column>
                     <p:column id="cechy" headerText="cechy zapisu" resizable="true">  
-                        <p:dataTable var="subwpiscecha" value="#{wpis.cechadokumentuLista}" emptyMessage="dokument bez cechy"  resizableColumns="true" style="width: 50%;">
+                        <p:dataTable lazy="false"  var="subwpiscecha" value="#{wpis.cechadokumentuLista}" emptyMessage="dokument bez cechy"  resizableColumns="true" style="width: 50%;">
                             <p:column id="SubColumn1" headerText="nazwa cechy">  
                                 <h:outputText value="#{subwpiscecha.nazwacechy}" />
                             </p:column>

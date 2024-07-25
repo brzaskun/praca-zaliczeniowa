@@ -6,7 +6,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:panelGrid columns="5">
         <p:commandButton value="generuj" actionListener="#{statystykaKalkulacjaView.generuj}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
@@ -18,8 +18,8 @@
         <p:commandButton value="pobierz" actionListener="#{statystykaKalkulacjaView.pobierz}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
         <p:commandButton value="drukuj" actionListener="#{statystykaKalkulacjaView.drukuj}" style="width: 120px; margin-left: 20px;"/>
     </p:panelGrid>
-    <p:dataTable value="#{statystykaKalkulacjaView.podatnikroklista}" var="item" id="datatable" style="width: 1350px; padding: 10px;"
-                 sortBy="#{item.ranking}" sortOrder="descending" rowIndexVar="index"
+    <p:dataTable lazy="false"  value="#{statystykaKalkulacjaView.podatnikroklista}" var="item" id="datatable" style="width: 1350px; padding: 10px;"
+                 sortBy="#{item.ranking}" rowIndexVar="index"
                  emptyMessage="Nie pobrano danych">
         <p:column style="width: 20px;">
             <f:facet name="header">

@@ -76,9 +76,9 @@
                     <p:ajax event="change" partialSubmit="true" global="false"/>
                 </p:selectBooleanCheckbox>
             </p:panelGrid>
-            <p:dataTable id="tablicasaldaanalitycznenarastajaco" value="#{saldoAnalitykaNarastajacoView.listaSaldoKonto}" var="loop1" rowKey="#{loop1.konto.pelnynumer}"
+            <p:dataTable lazy="false"  id="tablicasaldaanalitycznenarastajaco" value="#{saldoAnalitykaNarastajacoView.listaSaldoKonto}" var="loop1" rowKey="#{loop1.konto.pelnynumer}"
                          filteredValue="#{saldoAnalitykaNarastajacoView.listaSaldoKontoSelected}"
-                         sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1.konto}" emptyMessage="#{mgs.niemazapisownakontach}" scrollRows="20"
+                         emptyMessage="#{mgs.niemazapisownakontach}" scrollRows="20"
                          styleClass="grid1"  widgetVar="tablicasaldaanalitycznenarastajaco" frozenColumns="3" 
                          scrollable="true" scrollHeight="625" selectionMode="single" scrollWidth="700"
                          >
@@ -86,7 +86,7 @@
                 <p:column id="idcolumn" styleClass="idfrozen" headerText="#{mgs.lp}" style="width: 20px;" sortBy="#{loop1.id}" >
                     <h:outputText value="#{loop1.id}"/>
                 </p:column>
-                <p:column styleClass="kontofrozen" headerText="#{mgs.numerkonta}" style="width: 90px;" filterBy="#{loop1.konto.pelnynumer}">
+                <p:column styleClass="kontofrozen" headerText="#{mgs.numerkonta}" style="width: 90px;" filterBy="#{loop1.konto.pelnynumer}" sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1.konto}" >
                     <h:outputText value="#{loop1.konto.pelnynumer}"/>
                 </p:column>
                 <p:column  styleClass="opisfrozen" headerText="#{mgs.opis}" style="width: 200px;">

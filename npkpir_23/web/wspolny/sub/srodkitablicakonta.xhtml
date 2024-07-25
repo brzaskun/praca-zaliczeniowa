@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .ui-datatable-scrollable-theadclone {
             display: none !important;
@@ -18,7 +18,7 @@
     <h:form id="formtablicaporownawcza">
         <p:messages id="wiad" ><p:autoUpdate/></p:messages>
         <h:outputText value="brak bilansu otwarcia, dane są niekompletne" rendered="#{srodkiKontaView.brakbo}"/>
-        <p:dataTable value="#{srodkiKontaView.lista}" var="wpisks" rowIndexVar="indxwpisks" style="height: 580px;overflow-y: scroll; width: 1100px;" id="tablicaporownawcza">
+        <p:dataTable lazy="false"  value="#{srodkiKontaView.lista}" var="wpisks" rowIndexVar="indxwpisks" style="height: 580px;overflow-y: scroll; width: 1100px;" id="tablicaporownawcza">
              <p:column style="width: 10px; height: 25px; text-align: center;" >
                     <p:rowToggler />
             </p:column>
@@ -47,7 +47,7 @@
                 <bcf:outputpl value="#{wpisks.roznica}" stylePlus="color: #{wpisks.roznica lt 0.0 ? 'red': 'green'}"/>
             </p:column>
             <p:rowExpansion>
-                <p:dataTable value="#{wpisks.srodkitrwale}" var="wpisks1" rowIndexVar="indxwpisks1" style="height: 200px;overflow-y: scroll;" id="tablicaporownawcza2">
+                <p:dataTable lazy="false"  value="#{wpisks.srodkitrwale}" var="wpisks1" rowIndexVar="indxwpisks1" style="height: 200px;overflow-y: scroll;" id="tablicaporownawcza2">
                     <p:column width="30">
                         <h:outputText value="#{indxwpisks1+1}"/>
                     </p:column>

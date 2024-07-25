@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab  title="PIT-5" >
         <style>
             .gridtablicasyntetyczne .ui-datatable-odd td{
@@ -119,17 +119,17 @@
                         </p:panelGrid>
                     </p:panelGrid>
                     <p:panelGrid  columns="1" >
-                        <p:dataTable value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
+                        <p:dataTable lazy="false"  value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
                                      rows="12" id="datatable" style="width: 400px;"
-                                     sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" 
+                                      
                                      rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
                             <f:facet name="header">
                                 <h:outputText value="Stawki ZUS w bieżącym roku"/>
                             </f:facet>
-                            <p:column headerText="rok"  style="text-align: center" width="40">
+                            <p:column headerText="rok"  style="text-align: center" width="40" sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}">
                                 <h:outputText value="#{loop.zusstawkiPK.rok}"   style="#{loop.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}"/>
                             </p:column>
-                            <p:column headerText="#{mgs.miesiąc}"  style="text-align: center" width="40">
+                            <p:column headerText="#{mgs.miesiąc}"  style="text-align: center" width="40" >
                                 <h:outputText value="#{loop.zusstawkiPK.miesiac}"  style="#{loop.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}"/>
                             </p:column>
                             <p:column headerText="ZUS 51">

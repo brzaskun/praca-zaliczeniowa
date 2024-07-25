@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .saldaanalitycznewiersz {
             height: 15px !important;
@@ -102,10 +102,10 @@
                     
             </p:panelGrid>
             <p:remoteCommand actionListener="#{saldoAnalitykaView.sumujwybranekonta}" name="przeliczfilter" update=":tabelazsumamianalityka:sumy" global="false"/>
-            <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.hashCode()}" 
+            <p:dataTable lazy="false"  id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.hashCode()}" 
                          rowStyleClass="saldaanalitycznewiersz" rowIndexVar="duzyrow"
                           filteredValue="#{saldoAnalitykaView.listaSaldoKontofilter}" selection="#{saldoAnalitykaView.listaSaldoKontowybrane}"
-                          sortBy="#{loop.konto}" sortFunction="#{saldoAnalitykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" rowSelectMode="add"
+                          sortBy="#{loop.konto}" emptyMessage="#{mgs.niemazapisownakontach}" rowSelectMode="add"
                          styleClass="walkingtable"  style="overflow-y: scroll; height: 585px;" widgetVar="tablicasaldaanalityczne"
                          >
                 <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>
@@ -194,7 +194,7 @@
                     <h:outputText value="!!" rendered="#{loop.konto.pozycjaMa eq null}" style="color:red;"/>
                 </p:column>
                 <p:rowExpansion rendered="#{saldoAnalitykaView.zzapisami}">
-                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" rowKey="#{loopik.hashCode()}"
+                    <p:dataTable lazy="false"  value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" rowKey="#{loopik.hashCode()}"
                                  rowSelectMode="add" selection="#{saldoAnalitykaView.wybranezpisykonta}"  rowIndexVar="row" id="zapisynasaldokonto"
                                  sortBy="#{loopik.dokfk.datadokumentu}"  style="overflow-y: scroll; height: 400px;width: 1400px;">
                         <p:ajax event="rowSelectCheckbox" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(saldoAnalitykaView.wybranezpisykonta)}" 
@@ -246,7 +246,7 @@
             </p:dataTable>
         </h:form>
         <h:form id="tabelazsumamianalityka">
-            <p:dataTable id="sumy" value="#{saldoAnalitykaView.sumaSaldoKonto}" var="loop"
+            <p:dataTable lazy="false"  id="sumy" value="#{saldoAnalitykaView.sumaSaldoKonto}" var="loop"
                          style="float: right; margin-right: 20px; width: 1310px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
                 <p:column headerText="#{mgs.boWn}" width="61" >
                     <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">

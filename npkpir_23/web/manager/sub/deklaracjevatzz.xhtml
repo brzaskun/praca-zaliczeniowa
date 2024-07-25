@@ -6,14 +6,14 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:accordionPanel id="akordeon">
         <p:tab title="Schemy załącznika VAT-ZZ">  
             <h:form id="form_deklVATZalSchemaView">
                 <p:growl life="3600"  ><p:autoUpdate/></p:growl>
-                <p:dataTable value="#{deklVATZalSchemaView.schemyDeklaracjiVatZZ}" var="item" style="width: 680px;"
+                <p:dataTable lazy="false"  value="#{deklVATZalSchemaView.schemyDeklaracjiVatZZ}" var="item" style="width: 680px;"
                              emptyMessage="nie ma zdefiniowanych schem ZZ" id="wykazschem" rowKey="#{item.id}"
-                             selection="#{deklVATZalSchemaView.wybranaschemaZZ}" selectionMode="single" sortBy="#{item.nazwaschemy}" sortOrder="descending">
+                             selection="#{deklVATZalSchemaView.wybranaschemaZZ}" selectionMode="single" sortBy="#{item.nazwaschemy}">
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="rowSelect" global="false" listener="#{deklVATZalSchemaView.skopiujschemaZZ()}" update="akordeon:wprowadzanieschemy"/>
                     <f:facet name="header">
@@ -107,7 +107,7 @@
         </p:tab>
         <p:tab title="Lista powodów dla załączników VAT-ZZ">
             <h:form id="formpowodyzz">
-                <p:dataTable value="#{deklaracjaVatZZPowodView.deklracjaVatZZpowody}" var="item" style="width: 550px;" emptyMessage="nie wprowadzono powodów">
+                <p:dataTable lazy="false"  value="#{deklaracjaVatZZPowodView.deklracjaVatZZpowody}" var="item" style="width: 550px;" emptyMessage="nie wprowadzono powodów">
                     <p:column width="40">
                             <f:facet name="header">
                                 <h:outputText value="nr"/>

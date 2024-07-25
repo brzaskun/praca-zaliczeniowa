@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .waluta input {
             width: 40px !important;
@@ -82,7 +82,7 @@
                 /* ]]> */
             </script>-->
          
-            <p:dataTable id="dataList" value="#{dokfkGuestView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
+            <p:dataTable lazy="false"  id="dataList" value="#{dokfkGuestView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkGuestView.selected}" rowKey="#{item}" selectionMode="single" 
                          style="width: 1350px;" filteredValue="#{dokfkGuestView.filteredValue}" 
                          emptyMessage="#{mgs.niepobrano}" styleClass="gridZaksiegowane" 
@@ -132,7 +132,7 @@
                 </p:column>
                  <p:rowExpansion>
                     <p:column>
-                        <p:dataTable value="#{item.listawierszy}" emptyMessage="wystąpił bład nie pobrano wierszy" var="loopik" rowIndexVar="rowindex"
+                        <p:dataTable lazy="false"  value="#{item.listawierszy}" emptyMessage="wystąpił bład nie pobrano wierszy" var="loopik" rowIndexVar="rowindex"
                                      resizableColumns="true" style="width: 900px;" sortBy="#{loopik.idporzadkowy}" >
                             <p:column headerText="#{mgs.numerkolejny}" width="15" style="text-align: center;">
                                 <h:outputText styleClass="lpwiersza"  value="#{loopik.idporzadkowy}"/>

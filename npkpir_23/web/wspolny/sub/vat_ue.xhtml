@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <script>
         var pokazbutony = function() {
             try {
@@ -46,7 +46,7 @@
         
             <p:outputPanel > 
 
-                <p:dataTable  var="wpis1" value="#{vatUeFKView.klienciWDTWNT}" id="dokumentyLista" 
+                <p:dataTable lazy="false"   var="wpis1" value="#{vatUeFKView.klienciWDTWNT}" id="dokumentyLista" 
                               rowKey="#{wpis1.id}" selection="#{vatUeFKView.listawybranych}"
                               emptyMessage="#{vatUeFKView.komunikat}"
                               sortBy="#{wpis1.kontrahent.npelna}" styleClass="upd1"
@@ -125,7 +125,7 @@
                     
                     <p:rowExpansion>
                         <p:column id="ewidencjavat" headerText="dokumenty podsumowane" >  
-                            <p:dataTable var="subwpis" value="#{wpis1.zawierafk}" style="width: 80%;"
+                            <p:dataTable lazy="false"  var="subwpis" value="#{wpis1.zawierafk}" style="width: 80%;"
                                          emptyMessage="brak dokumentów"  resizableColumns="true"   rendered="#{wpis1.zawierafk.size() gt 0}">
                                 <p:column id="SubColumn1" headerText="data wyst" width="70">  
                                     <h:outputText value="#{subwpis.datadokumentu}" />
@@ -161,7 +161,7 @@
                                     <h:outputText value="#{subwpis.vatM}/#{subwpis.vatR}" style="float: right;"/>
                                 </p:column>
                             </p:dataTable>
-                            <p:dataTable var="subwpis1" value="#{wpis1.zawiera}" emptyMessage="brak dokumentów"  resizableColumns="true" rowIndexVar="index1"
+                            <p:dataTable lazy="false"  var="subwpis1" value="#{wpis1.zawiera}" emptyMessage="brak dokumentów"  resizableColumns="true" rowIndexVar="index1"
                                         rendered="#{wpis1.zawiera.size() gt 0}" style="width: 80%;">
                             <p:column id="SubColumn0" headerText="#{mgs.numerkolejny}" style="text-align: center;" width="30">  
                                 <h:outputText value="#{index1+1}" />
@@ -188,7 +188,7 @@
                     </p:rowExpansion>
                 </p:dataTable>
                 <p:separator/>
-                <p:dataTable value="#{vatUeFKView.deklaracjeUE_biezace}" var="row" emptyMessage="brak błędnych lub niepotwierdzonych/niewysłanych deklaracji za okres" style="width: 1210px; overflow-y: scroll; height: 90px;" styleClass="upd3"
+                <p:dataTable lazy="false"  value="#{vatUeFKView.deklaracjeUE_biezace}" var="row" emptyMessage="brak błędnych lub niepotwierdzonych/niewysłanych deklaracji za okres" style="width: 1210px; overflow-y: scroll; height: 90px;" styleClass="upd3"
                              selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.hashCode()}">
                     <p:column style="width: 3%;" >
                         <p:rowToggler/>

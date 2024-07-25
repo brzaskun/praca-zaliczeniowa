@@ -5,11 +5,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:outputPanel deferred="true">
         <p:panel header="Wykaz zobowiązań w roku podatkowym #{WpisView.rokWpisu}" />
         <h:form id="podatkiform">
-            <p:dataTable id="zestawieniepodatkow" value="#{platnosciTablicaView.lista}" var="item" resizableColumns="true" 
+            <p:dataTable lazy="false"  id="zestawieniepodatkow" value="#{platnosciTablicaView.lista}" var="item" resizableColumns="true" 
                          emptyMessage="Brak kwot zobowiązań" style="max-width: 700px; " reflow="true"
                          >
                 <p:columnGroup type="header">

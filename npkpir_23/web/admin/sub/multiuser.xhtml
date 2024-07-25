@@ -5,11 +5,12 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <p:outputPanel id="wrapper">
+    <p:outputPanel id="wrapper" >
         <h:form>
-            <p:dataTable value="#{multiuserView.listamutliuserow}" var="item" style="width: 500px; padding: 10px;"
+            <p:dataTable lazy="false"  value="#{multiuserView.listamutliuserow}" var="item" style="width: 500px; padding: 10px;"
                          selection="#{multiuserView.selected}" selectionMode="single" sortMode="#{item.login}"
                          rowKey="#{item.login}">
                 <p:ajax event="rowSelect" listener="#{multiuserView.pokazpodpietefirmy}" update=":multiuserdodaj, :firmyniepodpiete"/>
@@ -29,7 +30,7 @@
             </p:dataTable>
         </h:form>
         <h:form id="multiuserdodaj">
-            <p:dataTable value="#{multiuserView.listapodpietychfirm}" var="item" style="width: 500px; padding: 10px;"
+            <p:dataTable lazy="false"  value="#{multiuserView.listapodpietychfirm}" var="item" style="width: 500px; padding: 10px;"
                          emptyMessage="brak podpiętych firm" sortBy="#{item.podatnik.nazwapelna}">
                  <f:facet name="header">
                     <h:outputText value="Podpięte firmy"/>
@@ -46,7 +47,7 @@
             </p:dataTable>
         </h:form>
         <h:form id="firmyniepodpiete">
-            <p:dataTable value="#{multiuserView.listafirm}" var="item" style="width: 500px; padding: 10px; height: 500px; overflow-y: scroll"
+            <p:dataTable lazy="false"  value="#{multiuserView.listafirm}" var="item" style="width: 500px; padding: 10px; height: 500px; overflow-y: scroll"
                          emptyMessage="brak niepodpiętych firm" sortBy="#{item.printnazwa}">
                 <f:facet name="header">
                     <h:outputText value="Firmy do podpięcia"/>

@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <style>
         .tabelawierszy td {
@@ -47,7 +47,7 @@
                 <p:menuitem value="Usuń wybrane" global="false" icon="ui-icon-circle-plus" actionListener="#{wierszeView.usunwybranewiersze()}" update="zestawieniezapisownakontach:dataList"  rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:contextMenu>
             <h:outputText value="Wiersz z dokumentu do edycj wybieramy klikając na jeden wybrany czekbox. Inaczej dokument nie zostanie prawidłowo pobrany" style="color: green;"/>
-            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1700px; height: 600px; overflow-y: scroll;" 
+            <p:dataTable lazy="false"  id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1700px; height: 600px; overflow-y: scroll;" 
                          widgetVar="dokwpisTable" emptyMessage="Nie pobrano wierszy" styleClass="tabelawierszy"
                          filteredValue="#{wierszeView.wierszefiltered}" 
                          rowKey="#{loop.idwiersza}" editable="true" selection="#{wierszeView.wierszezestawienie}" sortBy="#{loop.dokfk.datadokumentu}"

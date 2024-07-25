@@ -45,7 +45,7 @@
                 <p:commandButton value="resetuj" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.resetuj}" global="false" update="@form"/>
 <!--                <p:commandButton value="usuń" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.usunwszystko}" global="false" update="@form"/>-->
             </p:panelGrid>
-                  <p:dataTable id="tabelasprawozdania" value="#{sprawozdanieFinansoweView.sprawozdaniapodatnicy}" var="item" rowIndexVar="index"
+                  <p:dataTable lazy="false"  id="tabelasprawozdania" value="#{sprawozdanieFinansoweView.sprawozdaniapodatnicy}" var="item" rowIndexVar="index"
                                sortBy="#{item.podatnik.nazwapelnaPDF}"  >
                         <p:column>
                             <f:facet name="header">

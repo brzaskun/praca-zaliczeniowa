@@ -3,7 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab id="fakturawalutakonto" title="Wykaz kont bankowych">
         <h:form id="form_fakturawalutakonto">
             <p:panelGrid columns="6">
@@ -61,7 +62,7 @@
             </p:panelGrid>
         </h:form>
         <h:form id="form_fakturawalutakonto1">
-            <p:dataTable id="tabela" value="#{fakturaWalutaKontoView.listakont}" var="item" style="width: 1300px;" emptyMessage="Nie wprowadzono numerów kont bankowych">
+            <p:dataTable lazy="false"  id="tabela" value="#{fakturaWalutaKontoView.listakont}" var="item" style="width: 1300px;" emptyMessage="Nie wprowadzono numerów kont bankowych">
                 <p:column width="50">
                     <f:facet name="header">
                         <h:outputText value="waluta"/>

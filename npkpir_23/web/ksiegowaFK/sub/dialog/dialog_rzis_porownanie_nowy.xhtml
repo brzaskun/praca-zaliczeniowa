@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:dialog id="dialog_rzis_porownanie_nowy" header="Rachunek Zysków i Strat za okresy rozliczeniowe" widgetVar="dialog_rzis_porownanie_nowy" 
               resizable="false" onShow="ustawdialog('dialog_rzis_porownanie_nowy','menubilanse', 1250, 780);" closeOnEscape="true" onHide="resetujdialog('dialog_rzis_porownanie_nowy');"  >
@@ -62,7 +62,7 @@
             <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
             <p:panelGrid columns="2" style="height: 600px;">
                 <p:column>
-                    <p:dataTable id="dataList" value="#{pozycjaBRZestawienieNowyView.pozycje}" var="loopnowy" selectionMode="multiple" rowSelectMode="add" selection="#{pozycjaBRZestawienieNowyView.selectedNodes}" 
+                    <p:dataTable lazy="false"  id="dataList" value="#{pozycjaBRZestawienieNowyView.pozycje}" var="loopnowy" selectionMode="multiple" rowSelectMode="add" selection="#{pozycjaBRZestawienieNowyView.selectedNodes}" 
                                  styleClass="tablicaplankont"  emptyMessage="#{mgs.niewybranorzis} NOWY" rowKey="#{loopnowy.lp}"
                                  scrollable="true" style="height: 650px; margin-top: 0px; width: 800px; overflow-y: scroll;">
                         <f:facet  name="header">

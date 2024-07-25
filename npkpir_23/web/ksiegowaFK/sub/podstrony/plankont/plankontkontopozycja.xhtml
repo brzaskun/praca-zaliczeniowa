@@ -11,7 +11,7 @@
                     <h:outputText value="wybrany układ: "/>
                     <h:outputText value="#{kontoPozycjaView.wybranyuklad.uklad}"/>
                 </p:panelGrid>
-                <p:dataTable id="dataList" value="#{kontoPozycjaView.listaKontopozycjaZapis}" var="loop"  
+                <p:dataTable lazy="false"  id="dataList" value="#{kontoPozycjaView.listaKontopozycjaZapis}" var="loop"  
                              styleClass="tablicaplankont" rowHover="true" initMode="immediate" editable="true" editMode="cell"
                              style="width: 1000px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              sortBy="#{loop.kontoID.pelnynumer}">

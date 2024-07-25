@@ -2,7 +2,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/template.xhtml">
         
         <ui:define name="title">
@@ -13,12 +14,12 @@
              
                 <f:view>
             
-                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <pe:layout fullPage="true" >
                                       
                         <ui:include src="sub/layoutKontrahenci/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutKontrahenci/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutKontrahenci/west.xhtml"/>   <!-- panel zachodni-->
-                        <p:layoutUnit position="center">
+                        <pe:layoutPane position="center">
                            <p:panel toggleable="true" closable="true" style="width: 85%;">
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do wyświetlania obrotów za dowolny okres roku podatkowego. Proszę wybrać po lewej miesiące 'od' i 'do', a  następnie wciśnąc przycisk 'ok'"/><br/>
@@ -34,9 +35,9 @@
                             <h:form id="formX">
                                 <ui:include src="sub/obroty.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                             </h:form>
-                        </p:layoutUnit>
+                        </pe:layoutPane>
                         
-                    </p:layout>
+                    </pe:layout>
                 </f:view>
             
         </ui:define>

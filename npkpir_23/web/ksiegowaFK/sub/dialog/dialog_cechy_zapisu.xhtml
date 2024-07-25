@@ -10,7 +10,7 @@
               onShow="ustawdialog('dialogCechyZapisu','menukartoteki',1130,600);" focus=":formCH" 
               closeOnEscape="true">
         <h:form id="formCH" >
-            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechypodatnik}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
+            <p:dataTable lazy="false"  id="dataList" value="#{cechazapisuView.pobranecechypodatnik}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
                         rowKey="#{item.nazwacechy}" style="overflow-y: scroll; height: 400px;"
                         filteredValue="#{cechazapisuView.pobranecechyfiltered}">
                 <p:column filterBy="#{item.nazwacechy}">

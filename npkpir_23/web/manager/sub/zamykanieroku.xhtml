@@ -5,9 +5,10 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form>
-        <p:dataTable value="#{zamkniecieRokuEtapView.lista}" style="width: 850px; overflow-y: scroll; height: 400px; padding: 10px;"
+        <p:dataTable lazy="false"  value="#{zamkniecieRokuEtapView.lista}" style="width: 850px; overflow-y: scroll; height: 400px; padding: 10px;"
                      rowIndexVar="index" sortBy="#{wpis.kolejnosc}"
                      var="wpis" emptyMessage="nie wprowadzono wartości">
             <p:column style="width: 40px;">

@@ -33,7 +33,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie()}" update=":form:dataList" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop" rowIndexVar="row" selectionMode="single" selection="#{planKontView.selected}" rowKey="#{loop.id}"
+                <p:dataTable lazy="false"  id="dataList" value="#{planKontView.wykazkont}" var="loop" rowIndexVar="row" selectionMode="single" selection="#{planKontView.selected}" rowKey="#{loop.id}"
                              sortBy="#{loop.pelnynumer}" rowStyleClass="#{loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
                              scrollable="true" style="width: 1190px; max-height: 600px;">
                     <p:ajax event="rowSelect" update=":formX" />

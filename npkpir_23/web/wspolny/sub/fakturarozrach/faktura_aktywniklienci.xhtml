@@ -7,14 +7,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:tab  title="Aktywacja kontrahentów" >
         <h:form>
             <p:panelGrid columns="1">
                 <p:commandButton value="aktualizuj" actionListener="#{fakturaAktywniKlienci.usunnieaktywnych()}" update="@form"/>
             </p:panelGrid>
-        <p:dataTable value="#{fakturaAktywniKlienci.klienciaktywowanie}" var="wpis"
+        <p:dataTable lazy="false"  value="#{fakturaAktywniKlienci.klienciaktywowanie}" var="wpis"
                      style="width: 580px;" rowIndexVar="idf">
             <p:ajax event="filter" global="false"/>
             <f:facet name="header">

@@ -5,7 +5,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
 
     <p:tabView id="akordeon">
@@ -13,7 +13,7 @@
             <h:form id="formlista">
                 <p:growl life="3600"  id="msgzus" ><p:autoUpdate/></p:growl>
                 <p:panel header="Wykaz podmiotów" style="width: 100%;">
-                    <p:dataTable value="#{podmiotView.podmioty}"  var="item" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="20"
+                    <p:dataTable lazy="false"  value="#{podmiotView.podmioty}"  var="item" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="20"
                                  selection="#{podmiotView.selected}" selectionMode="single" rowKey="#{item.id}" editable="true"
                                  rowIndexVar="row"  style="width: 1750px;" editMode="row"
                                  emptyMessage="Nie wprowadzono stawek">
@@ -216,7 +216,7 @@
                         <p:ajax event="change" partialSubmit="true" update="akordeon:form9:form9tablica"/>
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
-                <p:dataTable value="#{podmiotView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}"  id="form9tablica"
+                <p:dataTable lazy="false"  value="#{podmiotView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}"  id="form9tablica"
                              editable="true" style="width:1700px;" sortBy="#{loop.podatnikObj.printnazwa}">
                     <p:ajax event="rowEdit"  />
                     <p:column headerText="podatnik" style="text-align: left;" width="250" sortBy="#{loop.podatnikObj.printnazwa}" filterBy="#{loop.podatnikObj.printnazwa}" filterMatchMode="contains">
@@ -276,7 +276,7 @@
                         <p:ajax event="change" partialSubmit="true" update="akordeon:form10" listener="#{podmiotView.pobierzpodmioty}"/>
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
-                <p:dataTable value="#{podmiotView.podmioty}"  var="loop11" rowKey="#{loop11.id}"  id="form10tablica"
+                <p:dataTable lazy="false"  value="#{podmiotView.podmioty}"  var="loop11" rowKey="#{loop11.id}"  id="form10tablica"
                              editable="true" style="width:1300px;height: 900px;overflow-y: scroll" sortBy="#{loop11.nazwanazwisko}" >
                     <p:ajax event="rowEdit"  />
                      <p:column width="10">
@@ -323,7 +323,7 @@
                     </p:column>
                         <p:rowExpansion>
                            <p:column id="udziały" headerText="udziały wykaz" width="500" resizable="true">  
-                               <p:dataTable var="subwpis" value="#{loop11.podatnikudzialy}" emptyMessage="brak udziałów!"  resizableColumns="true" style="width: 50%;">
+                               <p:dataTable lazy="false"  var="subwpis" value="#{loop11.podatnikudzialy}" emptyMessage="brak udziałów!"  resizableColumns="true" style="width: 50%;">
                                    <p:column id="SubColumn1" headerText="nazwa">  
                                        <h:outputText value="#{subwpis.podatnikObj.printnazwa}" />
                                    </p:column>

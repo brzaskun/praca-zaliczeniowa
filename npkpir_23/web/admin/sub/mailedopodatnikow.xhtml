@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ck="http://code.google.com/ck-jsf-editor"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form>
         <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
     </h:form>
@@ -17,8 +17,8 @@
                 <p:panelGrid columns="2">
                     <p:column>
                         
-                       <p:editor id="editor"  widgetVar="editorWidget" value="#{adminMailView.zawartoscmaila}" width="1200" height="600">
-                       </p:editor>
+                        <p:textEditor id="editor"  widgetVar="editorWidget" value="#{adminMailView.zawartoscmaila}" height="600" >
+                       </p:p:textEditor>
                        <p:commandButton value="Save" actionListener="#{adminMailView.zachowajMaila}" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-disk"  update=":akordeon:wysylanie"/>
                        <p:commandButton value="Reset" type="button" onclick="PF('editorWidget').clear();" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-close"  update=":akordeon:wysylanie"/>
                     </p:column>
@@ -76,7 +76,7 @@
                 <p:outputPanel>
                     <h:outputText value="w przypadku krótkiej listy sprawdzić oznaczenia faktur okresowych w miesiącu poprzedzającym bieżący" style="padding: 5px;"/>
                 </p:outputPanel>
-                <p:dataTable value="#{adminMailView.klientList}" var="loop" rowIndexVar="index" style="width: 800px;" id="adresy"  sortBy="#{loop.npelna}" rowKey="#{loop.id}" rendered="#{!adminMailView.tylkododatkowe}">
+                <p:dataTable lazy="false"  value="#{adminMailView.klientList}" var="loop" rowIndexVar="index" style="width: 800px;" id="adresy"  sortBy="#{loop.npelna}" rowKey="#{loop.id}" rendered="#{!adminMailView.tylkododatkowe}">
                     <f:facet name="header">
                         <h:outputText value="Wykaz adresatów"/>
                     </f:facet>
@@ -100,7 +100,7 @@
                     </p:selectOneMenu>
                     </p:column>
                 </p:dataTable>
-                <p:dataTable value="#{adminMailView.lista}" var="loop1" rowIndexVar="index1" style="width: 800px;" id="adresy2"  sortBy="#{loop1.mail}" rowKey="#{loop1.id}" rendered="#{adminMailView.tylkododatkowe}">
+                <p:dataTable lazy="false"  value="#{adminMailView.lista}" var="loop1" rowIndexVar="index1" style="width: 800px;" id="adresy2"  sortBy="#{loop1.mail}" rowKey="#{loop1.id}" rendered="#{adminMailView.tylkododatkowe}">
                     <f:facet name="header">
                         <h:outputText value="Wykaz adresatów"/>
                     </f:facet>
@@ -119,7 +119,7 @@
         <p:tab title="załącznik">
             <h:form>
                 <p:panel header="Wczytaj plik, który będzie umieszczony jako załącznik do maila"/>
-                <p:fileUpload fileUploadListener="#{adminMailView.zachowajZalacznik}" 
+                <p:fileUpload chooseIcon="fa fa-upload" listener="#{adminMailView.zachowajZalacznik}" 
                               update="@form" mode="advanced" dragDropSupport="true" fileLimit="3"
                                 sizeLimit="6000000"  
                                 validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
@@ -157,7 +157,7 @@
         </p:tab>
         <p:tab title="wysłane maile">
             <h:form id="formmaile">
-                <p:dataTable id="wyslenemaile" value="#{adminMailView.wyslanemaile}" var="loop" rowIndexVar="index" style="width: 1400px;" sortBy="#{loop.id}" sortOrder="descending">
+                <p:dataTable lazy="false"  id="wyslenemaile" value="#{adminMailView.wyslanemaile}" var="loop" rowIndexVar="index" style="width: 1400px;" sortBy="#{loop.id}">
                 <p:ajax event="rowToggle" global="false" />
                 <p:column style="height: 19px; text-align: center;" width="20">
                     <p:rowToggler />
@@ -184,7 +184,7 @@
                     <h:outputText value="#{loop.maile.size()}"/>
                 </p:column>
                     <p:rowExpansion>
-                        <p:dataTable value="#{loop.podatnicy}" var="loopik" rowIndexVar="index" style="width: 500px;">
+                        <p:dataTable lazy="false"  value="#{loop.podatnicy}" var="loopik" rowIndexVar="index" style="width: 500px;">
                             <p:column width="40">
                                 <h:outputText value="#{index+1}"/>
                             </p:column>
@@ -207,7 +207,7 @@
                 </p:panelGrid>
             </h:form>
             <h:form id="formmailedodatkowe">
-                <p:dataTable  value="#{dodatkoweMaileView.lista}" var="loop" rowIndexVar="index" style="width: 800px;" sortBy="#{loop.id}" sortOrder="descending">
+                <p:dataTable lazy="false"   value="#{dodatkoweMaileView.lista}" var="loop" rowIndexVar="index" style="width: 800px;" sortBy="#{loop.id}">
                 <f:facet name="header">
                     <h:outputText value="dodatkowe adresy mailowe"/>
                 </f:facet>

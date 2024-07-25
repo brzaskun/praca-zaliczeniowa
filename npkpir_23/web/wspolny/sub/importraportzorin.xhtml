@@ -6,14 +6,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
         
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     
    <h:form id="form_raportzorin">
        
             <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent" >
                     <p:panelGrid columns="1" style="margin-top: 20px;">
                         <h:outputText value="Akceptowana wersja pliku xml" style="font-weight: bold;"/>
-                        <p:fileUpload fileUploadListener="#{importRaportZorinView.zachowajplik}" 
+                        <p:fileUpload chooseIcon="fa fa-upload" listener="#{importRaportZorinView.zachowajplik}" 
                                       mode="advanced" dragDropSupport="true" multiple="true" sequential="true" auto="true"
                                       update="messages2 panelprzyciskow akordeon5:form_importinterpaper panelplik:rodzajrach" 
                                       invalidSizeMessage="Plik za duży" allowTypes="/(\.|\/)(csv|xls|xml|xlsx)$/" invalidFileMessage="Niewłaściwy format pliku: "

@@ -7,11 +7,11 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab id="tab5" title="Straty z lat ubiegłych.">
             <h:form id="form1">
                 <p:panel header="Nanoszenie strat możliwe jest jedynie po sporządzeniu PIT-ow za 12 mcy oraz po wybraniu miesiąca stycznia roku następnego"/>
-                <p:dataTable id="tabelastrat" value="#{strataView.stratypodatnika}" emptyMessage="Nie ma nic" var="loop"  editable="true"
+                <p:dataTable lazy="false"  id="tabelastrat" value="#{strataView.stratypodatnika}" emptyMessage="Nie ma nic" var="loop"  editable="true"
                              style="min-width: 500px; max-width: 900px;" expandedRow="true">
                     <p:ajax event="rowEdit" listener="#{strataView.onRowEdit}"/>
                     <p:column style="width: 4%;">
@@ -52,7 +52,7 @@
                     </p:column>
                     <p:rowExpansion>
                         <p:column id="wykorzystanie" headerText="wykorzystanie bieżące" width="300" resizable="true">  
-                            <p:dataTable var="subwpis" value="#{loop.listawykorzystanie}" emptyMessage="strata nie rozliczona"  resizableColumns="true" style="width: 250px;">
+                            <p:dataTable lazy="false"  var="subwpis" value="#{loop.listawykorzystanie}" emptyMessage="strata nie rozliczona"  resizableColumns="true" style="width: 250px;">
                                 <p:column id="SubColumn1" headerText="rok">  
                                     <h:outputText value="#{subwpis.rok}" />
                                 </p:column>

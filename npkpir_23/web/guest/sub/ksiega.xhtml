@@ -15,7 +15,7 @@
                 <p:commandButton id="pkpirwysylka" value="Wyślij na mój mail" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
                 </p:commandButton>
             </p:panel>
-            <p:dataTable  var="wpis" value="#{ksiegaView.lista}" id="dokumentyKsiega" 
+            <p:dataTable lazy="false"   var="wpis" value="#{ksiegaView.lista}" id="dokumentyKsiega" 
                           rowKey="#{wpis.idDok}" selection="#{ksiegaView.selDokument}" selectionMode="single"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           style="max-width: 1700px;" widgetVar="dokKsiega"
@@ -123,7 +123,7 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
-                        <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 600px;">
+                        <p:dataTable lazy="false"  var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 600px;">
                             <p:column id="SubColumn1" headerText="ewidencja">  
                                 <h:outputText value="#{subwpis.ewidencja.nazwa}" />
                             </p:column>

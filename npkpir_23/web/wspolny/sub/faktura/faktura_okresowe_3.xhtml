@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab id="okresowe3" title="Okresowe podw.">
       
         <h:form id="formokresowe3">
@@ -72,8 +72,8 @@
                 <p:commandButton value="pokaż otwarte" actionListener="#{fakturaView.pokazotwarte}" global="false" style="width: 120px; margin-left: 10px;"  update="akordeon:formokresowe3:dokumentyOkresowe"/>
             </p:panelGrid>
             
-            <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}" 
-                         rowKey="#{wpis.hashCode()}" style="max-width: 1200px;height: 900px;overflow-y: scroll;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending"
+            <p:dataTable lazy="false"  id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}" 
+                         rowKey="#{wpis.hashCode()}" style="max-width: 1200px;height: 900px;overflow-y: scroll;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}"
                          rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" paginator="true" rows="40"
                          >
                 
@@ -93,7 +93,7 @@
                     <h:outputText value="#{row+1}"/>
                 </p:column>
                 <p:column selectionMode="multiple"   width="40" style="text-align: center;"/>
-                <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.dokument.kontrahent.npelna}" filterBy="#{wpis.dokument.kontrahent.npelna}" 
+                <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" filterBy="#{wpis.dokument.kontrahent.npelna}"  sortOrder="ascending"
                           filterMatchMode="contains" width="150">
                     <h:outputText value="#{wpis.dokument.kontrahent.nazwabezCudzy}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>

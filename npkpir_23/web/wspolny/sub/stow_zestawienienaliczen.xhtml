@@ -4,7 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
         <h:form id="form_dialog_stowarzyszenie_zestawienienaliczen">
 <!--            <p:panelGrid columns="3">
             <p:selectOneMenu value="#{stowNaliczenieZestView.wybranakategoria}">
@@ -14,7 +14,7 @@
                         />
             </p:selectOneMenu>
             </p:panelGrid>
-            <p:dataTable value="#{stowNaliczenieZestView.lista}" var="wpis" scrollable="true" scrollHeight="500" style="width: 1300px;"
+            <p:dataTable lazy="false"  value="#{stowNaliczenieZestView.lista}" var="wpis" scrollable="true" scrollHeight="500" style="width: 1300px;"
                          sortBy="#{wpis.miejsce.opismiejsca}" rowIndexVar="index" id="tabela">
                 <p:column width="30">
                     <h:outputText value="#{index+1}"/>

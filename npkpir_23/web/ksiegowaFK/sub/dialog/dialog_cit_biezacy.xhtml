@@ -6,14 +6,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:dialog id="citbiezacy" header="Dane do deklaracji CIT-8 za #{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" widgetVar="citbiezacy" 
               resizable="false" onShow="ustawdialog('citbiezacy','menubilanse', 750, 750);" closeOnEscape="true" onHide="resetujdialog('citbiezacy');"  >
         <p:outputPanel style="height: 710px;; overflow-y:  scroll;">
             <h:form id="formcitbiezacy">
                 <p:commandButton value="oblicz cit" style="width: 120px;" actionListener="#{citView.obliczcitbiezacy()}" update=":formcitbiezacy"/>
-                <p:dataTable value="#{citView.listaPrzychody}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
+                <p:dataTable lazy="false"  value="#{citView.listaPrzychody}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
                              sortBy="#{item.przychod0koszt1}">
                     <f:facet name="header">
                         <h:outputText value="przychody"/>
@@ -36,7 +36,7 @@
                         </p:column>
                     </p:summaryRow>
                 </p:dataTable>
-                <p:dataTable value="#{citView.listaKoszty}" var="item" style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis" 
+                <p:dataTable lazy="false"  value="#{citView.listaKoszty}" var="item" style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis" 
                              sortBy="#{item.przychod0koszt1}">
                     <f:facet name="header">
                         <h:outputText value="koszty"/>
@@ -63,7 +63,7 @@
                     <h:outputText value="wynik przed korektami" style="font-weight: 900;"/>
                     <bcf:outputpl value="#{citView.wynikprzedkorektami}"  style="font-weight: 900; float: right;"/>
                 </p:outputPanel>
-                <p:dataTable value="#{citView.zapisycechaprzychod}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
+                <p:dataTable lazy="false"  value="#{citView.zapisycechaprzychod}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
                              sortBy="#{item.dokfk.datadokumentu}" rendered="#{citView.zapisycechaprzychod.size() gt 0}" paginator="true" rows="7" paginatorPosition="top" >
                     <f:facet name="header">
                         <h:outputText value="#{mgs.npup}"/>
@@ -86,7 +86,7 @@
                         </p:column>
                     </f:facet>
                 </p:dataTable>
-                <p:dataTable value="#{citView.zapisycechakoszt}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
+                <p:dataTable lazy="false"  value="#{citView.zapisycechakoszt}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
                              sortBy="#{item.dokfk.datadokumentu}"  rendered="#{citView.zapisycechakoszt.size() gt 0}" paginator="true" rows="7" paginatorPosition="top" >
                     <f:facet name="header">
                         <h:outputText value="#{mgs.nkup}"/>

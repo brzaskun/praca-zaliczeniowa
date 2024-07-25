@@ -7,7 +7,7 @@
     xmlns:p="http://primefaces.org/ui"
     
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:accordionPanel id="akordeon">
         
         <p:tab title="Definiowanie ewidencji VAT">  
@@ -15,7 +15,7 @@
                 
                 <h:outputText value="definiowanie ewidencji VAT" style="font-size: 15px"/>
                 <p:growl life="3600"  id="msg1" showDetail="true"/>
-                <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop4" paginatorAlwaysVisible="true" paginator="true" 
+                <p:dataTable lazy="false"  id="tablica1" value="#{evewidencjaView.lista}"  var="loop4" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="10" selection="#{evewidencjaView.wybrany}" selectionMode="single" rowKey="#{loop4.nazwa}"
                              sortBy="#{loop4.nrpolanetto}"
                              editable="true" resizableColumns="true" paginatorPosition="top" style="width: 1350px;" emptyMessage="nie zdefiniowano ewidencji">
@@ -81,9 +81,9 @@
         </p:tab>
         <p:tab title="Definiowanie wersji JPK">
            <h:form id="form_JPKView">
-                <p:dataTable value="#{jPKVATWersjaView.lista}" var="item2" style="width: 680px;"
+                <p:dataTable lazy="false"  value="#{jPKVATWersjaView.lista}" var="item2" style="width: 680px;"
                              emptyMessage="nie ma zdefiniowanych schem" id="wykazschem" rowKey="#{item2.id}" rowIndexVar="index"
-                             selection="#{jPKVATWersjaView.selected}" selectionMode="single" sortBy="#{item2.nazwa}" sortOrder="descending">
+                             selection="#{jPKVATWersjaView.selected}" selectionMode="single" sortBy="#{item2.nazwa}">
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="rowSelect" global="false" listener="#{jPKVATWersjaView.skopiujschema()}" update="akordeon:wprowadzanieschemy"/>
                     <f:facet name="header">
@@ -168,7 +168,7 @@
                                  rendered="#{jPKvatwersjaEvewidencjaView.lista.size() > 0}"/>
                 </p:panelGrid>
                 <p:growl life="3600"  id="msg1" showDetail="true"/>
-                <p:dataTable id="tablica1" value="#{jPKvatwersjaEvewidencjaView.lista}"  var="loop2" paginatorAlwaysVisible="true" paginator="true" 
+                <p:dataTable lazy="false"  id="tablica1" value="#{jPKvatwersjaEvewidencjaView.lista}"  var="loop2" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="20" selection="#{jPKvatwersjaEvewidencjaView.selected}" selectionMode="single" rowKey="#{loop2.hashCode()}"
                              sortBy="#{loop2.evewidencja.nrpolanetto}" rowIndexVar="index"
                              editable="true" resizableColumns="true" paginatorPosition="top" style="width: 1150px;" emptyMessage="nie zdefiniowano ewidencji">
@@ -242,7 +242,7 @@
             <h:form>
                 <p:commandButton action="#{evewidencjaView.zachowajnowenazwy()}" value="zachowaj" 
                                  update="@form" type="submit" style="width: 120px; margin: 10px;"/>
-                <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
+                <p:dataTable lazy="false"  id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              sortBy="#{loop.nazwa}"
                              pageLinks="12" rows="10" selection="#{evewidencjaView.selected}" selectionMode="single" rowKey="#{loop.nazwa}"
                              editable="true" resizableColumns="true" paginatorPosition="top" style="width: 600px;">
@@ -257,8 +257,8 @@
             <h:form id="form1" >
                 <h:outputText value="Nazwy ewidencji VAT" style="font-size: 15px"/>
 
-                <p:dataTable id="tablica1" value="#{evopisView.lista}"  var="loop5" paginatorAlwaysVisible="true" paginator="true" 
-                             pageLinks="12" rows="10"  rowKey="#{loop5.opis}" sortBy="#{loop5.opis}" sortOrder="ascending"
+                <p:dataTable lazy="false"  id="tablica1" value="#{evopisView.lista}"  var="loop5" paginatorAlwaysVisible="true" paginator="true" 
+                             pageLinks="12" rows="10"  rowKey="#{loop5.opis}" sortBy="#{loop5.opis}" 
                              editable="true" resizableColumns="true" paginatorPosition="top"  style="width: 400px;"
                              >
                     <p:column width="300">
@@ -283,9 +283,9 @@
             <h:form id="form2" >
                 <h:outputText value="Definiowanie wierszy deklaracji VAT" style="font-size: 15px"/>
 
-                <p:dataTable id="tablica1" value="#{evpozycjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
+                <p:dataTable lazy="false"  id="tablica1" value="#{evpozycjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              rows="10" selection="#{evpozycjaView.selected}" selectionMode="single" rowKey="#{loop.nazwapola}" style="width: 980px;"
-                             editable="true" resizableColumns="true" paginatorPosition="top" sortBy="#{loop.nazwapola}" sortOrder="ascending">
+                             editable="true" resizableColumns="true" paginatorPosition="top" sortBy="#{loop.nazwapola}" >
                     <p:ajax event="rowEdit" listener="#{evpozycjaView.edytuj}" />
                     <p:column headerText="nazwa pola" width="500">
                             <h:outputText value="#{loop.nazwapola}" />

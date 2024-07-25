@@ -38,7 +38,7 @@
         <p:messages id="messages"><p:autoUpdate/></p:messages>
     </div>
     </div>
-    <p:dataTable value="#{zamkniecieView.mapaokresowPobrane}" var="wpis"     id="dataTable"
+    <p:dataTable lazy="false"  value="#{zamkniecieView.mapaokresowPobrane}" var="wpis"     id="dataTable"
                  rowKey="#{wpis}" selectionMode="single" 
                  emptyMessage="W danym miesiącu nie było żadnych zapisów" resizableColumns="true" style="width: 500px;">
         <f:facet name="header">  

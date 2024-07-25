@@ -45,6 +45,8 @@
             <h:outputScript library="js_pkpir" name="faktura.js"/>
             <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
             <h:outputScript name="jsf.js" library="javax.faces" target="head" />
+            <h:outputStylesheet library="webjars" name="font-awesome/6.5.2/css/all.min-jsf.css" />
+            <h:outputStylesheet library="webjars" name="font-awesome/6.5.2/css/v4-shims.min-jsf.css" />
 <!--            <script type="text/javascript">
                 function handleMessage(facesmessage) {
                     try {
@@ -74,11 +76,11 @@
             <p:idleMonitor timeout="2400000">  
                 <p:ajax event="idle" listener="#{logowanie.logout()}" />  
             </p:idleMonitor>
-            <p:outputPanel style="margin-left: auto; margin-right: auto; margin-top: 300px; text-align: center;">
+<!--            <p:outputPanel style="margin-left: auto; margin-right: auto; margin-top: 300px; text-align: center;">
                 <h:outputText value="trwa ładowanie strony" style="color: blue; font-size: larger;  font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;"/>
                 <br/>
                 <p:graphicImage value="/resources/images/template-loader.gif" style="margin-top: 30px;"/>
-            </p:outputPanel>
+            </p:outputPanel>-->
             <ui:insert name="body" > 
             </ui:insert>
         </h:body>

@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <script>
         var pokazbutony = function() {
             try {
@@ -31,7 +31,7 @@
         
             <p:outputPanel > 
 
-                <p:dataTable  var="wpisoss" value="#{vatOSSView.lista}" id="dokumentyLista" 
+                <p:dataTable lazy="false"   var="wpisoss" value="#{vatOSSView.lista}" id="dokumentyLista" 
                               rowKey="#{wpisoss.id}" rowIndexVar="wpisossin"
                               emptyMessage="Nie pobrano pozycji"
                               sortBy="#{wpisoss.jurysdykcja}" styleClass="upd1"
@@ -68,7 +68,7 @@
                     </p:column>
                 </p:dataTable>
                 <p:separator/>
-<!--                <p:dataTable value="#{vatOSSView.deklaracjeOSS_biezace}" var="row" emptyMessage="brak błędnych lub niepotwierdzonych/niewysłanych deklaracji za okres" style="width: 1210px;" styleClass="upd3"
+<!--                <p:dataTable lazy="false"  value="#{vatOSSView.deklaracjeOSS_biezace}" var="row" emptyMessage="brak błędnych lub niepotwierdzonych/niewysłanych deklaracji za okres" style="width: 1210px;" styleClass="upd3"
                              selection="#{vatOSSView.deklossselected}" selectionMode="single" rowKey="#{row.hashCode()}">
                     <p:column style="width: 3%;" >
                         <p:rowToggler/>

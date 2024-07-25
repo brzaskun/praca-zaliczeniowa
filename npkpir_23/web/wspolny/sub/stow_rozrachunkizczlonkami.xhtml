@@ -4,7 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
    <h:form id="form_dialog_stowarzyszenie_rozrachunki">
             <p:panelGrid columns="3">
                 <p:selectOneMenu value="#{stowRozrachCzlonkView.wybranyczlonek}" converter="MiejscePrzychodowConv">
@@ -16,7 +16,7 @@
             <p:commandButton value="drukuj" style="width: 120px;" actionListener="#{stowRozrachCzlonkView.drukuj}" global="false"/>
             <p:commandButton value="drukuj wsz" style="width: 120px;" actionListener="#{stowRozrachCzlonkView.drukujwszystkie}"/>
             </p:panelGrid>
-            <p:dataTable value="#{stowRozrachCzlonkView.lista}" var="wpis" style="width: 1300px;"
+            <p:dataTable lazy="false"  value="#{stowRozrachCzlonkView.lista}" var="wpis" style="width: 1300px;"
                          sortBy="#{wpis.konto.pelnynumer}" rowIndexVar="index" id="tabela" emptyMessage="nie wybrano osobby">
                 <p:column width="30">
                     <h:outputText value="#{index+1}"/>
@@ -78,7 +78,7 @@
                 </p:column>
             </p:dataTable>
              <br/>
-             <p:dataTable id="dataList" value="#{stowRozrachCzlonkView.listazapisy}" var="loop"
+             <p:dataTable lazy="false"  id="dataList" value="#{stowRozrachCzlonkView.listazapisy}" var="loop"
                          rowIndexVar="row" style="width: 1150px; height: 340px; overflow-y: scroll;" 
                          widgetVar="dokwpisTable" emptyMessage="Nie pobrano wierszy" styleClass="compact"
                          rowKey="#{loop.idwiersza}" editable="true"  sortBy="#{loop.dokfk.datadokumentu}">

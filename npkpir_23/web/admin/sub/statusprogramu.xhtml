@@ -4,7 +4,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <p:outputPanel id="wrapper">
         <h:form id="form">
             <p:growl life="3600"  ><p:autoUpdate/></p:growl>
@@ -31,7 +32,7 @@
                              update="formtablica" style="margin: 10px; width: 120px;"/>
         </h:form>
         <h:form id="formtablica">
-            <p:dataTable value="#{statusProgramuView.wprowadzanestatusy}" var="item" rowIndexVar="index" id="tablicastatusow"
+            <p:dataTable lazy="false"  value="#{statusProgramuView.wprowadzanestatusy}" var="item" rowIndexVar="index" id="tablicastatusow"
                          style="width: 1100px; padding: 15px;" emptyMessage="Nie wprowadzono żadnych statusów">
                 <f:facet name="header">
                     <h:outputText value="wprowadzone statusy"/>

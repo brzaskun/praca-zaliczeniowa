@@ -3,7 +3,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form_dialog_jpk_vat_pozycje" >
         <p:outputPanel rendered="#{jpk_VAT2NView.jpkrazemzdeklaracja}" style="padding: 5px;">
             <h:outputText value="#{jpk_VAT2NView.wynikszukaniadeklaracji}" style="color: blue;"/>
@@ -22,7 +22,7 @@
             <p:commandButton value="pobierz jpkfk" actionListener="#{jpk_VAT2NView.przygotujXMLFKDL()}" update="@form" style="width: 120px;" rendered="#{jpk_VAT2NView.pkpir0ksiegi1}"/>
             <p:commandButton value="pobierz jpk" actionListener="#{jpk_VAT2NView.przygotujXMLDL()}" update="@form" style="width: 120px;" rendered="#{!jpk_VAT2NView.pkpir0ksiegi1}"/>
             <p:commandButton value="pozycje jpk" actionListener="#{jpk_VAT2NView.przygotujXMLFKDL()}" style="width: 120px;" onclick="PF('dialog_jpk_vat_pozycje').show();"  rendered="#{jpk_VAT2NView.pkpir0ksiegi1}"/>
-            <p:dataTable id="tabeladekalracje" value="#{jpk_VAT2NView.deklaracjadlajpk.schemawierszsumarycznylista}" var="wiersz" rendered="#{jpk_VAT2NView.deklaracjadlajpk ne null}" style="width: 700px; margin-left: 100px;">
+            <p:dataTable lazy="false"  id="tabeladekalracje" value="#{jpk_VAT2NView.deklaracjadlajpk.schemawierszsumarycznylista}" var="wiersz" rendered="#{jpk_VAT2NView.deklaracjadlajpk ne null}" style="width: 700px; margin-left: 100px;">
                 <p:column width="350" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                     <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                 </p:column>
@@ -65,7 +65,7 @@
             </p:selectOneMenu>
         </p:panelGrid>
         <p:messages id="wiadomoscjpk"/>
-        <p:dataTable value="#{jpk_VAT2NView.bledy}" var="itemblad" rowIndexVar="index" id="tabelablad" style="width: 1250px; margin-top: 10px;"
+        <p:dataTable lazy="false"  value="#{jpk_VAT2NView.bledy}" var="itemblad" rowIndexVar="index" id="tabelablad" style="width: 1250px; margin-top: 10px;"
                      sortBy="#{itemblad.miesiac}" rendered="#{jpk_VAT2NView.bledy ne null and jpk_VAT2NView.bledy.size() gt 0}"
                      selection="#{jpk_VAT2NView.selected}" selectionMode="single" rowKey="#{itemblad.hash()}"
                      emptyMessage="brak bledów w dokumentach">
@@ -113,7 +113,7 @@
                 <h:outputText value="#{itemblad.vat}" />
             </p:column>
         </p:dataTable>
-        <p:dataTable value="#{jpk_VAT2NView.lista}" var="item" rowIndexVar="index" id="tabela" style="width: 1500px; margin-top: 10px; height: 400px;overflow-y: scroll;"
+        <p:dataTable lazy="false"  value="#{jpk_VAT2NView.lista}" var="item" rowIndexVar="index" id="tabela" style="width: 1500px; margin-top: 10px; height: 400px;overflow-y: scroll;"
                       sortBy="#{item.miesiac}"
                      selection="#{jpk_VAT2NView.selected}" selectionMode="single" rowKey="#{item.id}"
                      emptyMessage="nie wysłano jeszcze plików jpk">
@@ -215,7 +215,7 @@
             <p:rowExpansion>
                 <p:panelGrid columns="1">
                     <h:outputText value="#{item.getJpkNaglowek()}"/>
-                <p:dataTable value="#{item}" var="itemik">
+                <p:dataTable lazy="false"  value="#{item}" var="itemik">
                         <p:column headerText="data jpk" width="80">
                             <h:outputText value="#{itemik.datajpk}">
                                 <f:convertDateTime pattern="dd/MM/yyy HH:mm"/>

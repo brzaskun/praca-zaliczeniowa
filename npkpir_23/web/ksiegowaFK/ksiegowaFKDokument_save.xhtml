@@ -3,7 +3,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <f:view>
     <ui:composition template="/templateFK.xhtml" >
         
@@ -12,10 +12,10 @@
         </ui:define>
         <ui:define name="body">
             <p:growl life="6000"  ><p:autoUpdate/></p:growl>
-            <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+            <pe:layout fullPage="true" >
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                 <ui:include src="sub/layout/west_dokumenty.xhtml"/> 
-                <p:layoutUnit id="centralna" position="center" >
+                <pe:layoutPane id="centralna" position="center" >
                     <p:outputPanel rendered="#{menu_dokumenty.file1}">
                         <script>
                             $(document).on("keydown", TabKeyDown);
@@ -63,8 +63,8 @@
                         <ui:include src="sub/dialog/dialog_stowarzyszenie_rozrachunki_zbiorcze.xhtml"/>
                     </p:outputPanel>
                 <ui:include src="sub/dialog/dialog_zmiana_okresu.xhtml"/> 
-                </p:layoutUnit><ui:include src="sub/layout/south.xhtml"/> 
-            </p:layout>
+                </pe:layoutPane><ui:include src="sub/layout/south.xhtml"/> 
+            </pe:layout>
         </ui:define>
     </ui:composition>
    </f:view>

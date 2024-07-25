@@ -6,7 +6,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:panelGrid columns="2">
         <p:selectOneListbox id="podatnikWpisu" value="#{statystykaObrotyView.wybranypodatnik}" style="width: 572px;" converter="#{podatConv}">
@@ -19,8 +19,8 @@
         <h:inputText value="#{statystykaObrotyView.oczekiwanywspolczynnik}" label="oczekiwany współczynnik"/>
         <p:commandButton value="przelicz" actionListener="#{statystykaObrotyView.przelicz()}" update="form:datatable" style="width: 120px; margin-left: 10px;"/>
     </p:panelGrid>
-    <p:dataTable value="#{statystykaObrotyView.statssymulacja}" var="item" id="datatable" style="width: 1100px; padding: 10px;"
-                 sortBy="#{item.rok}" sortOrder="descending" rowIndexVar="index">
+    <p:dataTable lazy="false"  value="#{statystykaObrotyView.statssymulacja}" var="item" id="datatable" style="width: 1100px; padding: 10px;"
+                 sortBy="#{item.rok}" rowIndexVar="index">
         <p:column style="width: 20px;">
             <f:facet name="header">
                 <h:outputText value=""/>

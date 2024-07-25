@@ -7,14 +7,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
      <p:tab id="zestawieniestrs" title="sprzedane">
          <h:form id="str_sprzedane">
                 <p:contextMenu for="srodkiListas" style="width: 220px;">
                     <p:menuitem value="Przywróć środek do ewidencji" update=":akordeon:str_posiadane :akordeon:str_sprzedane" actionListener="#{sTRTabView.przywrocsrodki()}" icon="ui-icon-arrowreturnthick-1-w" />
                     <p:menuitem value="Drukuj środek z ewidencji" actionListener="#{sTRTabView.drukujsrodeksprzedaz()}" icon="ui-icon-print" />
                 </p:contextMenu>
-                <p:dataTable  var="wpis" value="#{sTRTabView.sprzedane}" id="srodkiListas" editable="true" 
+                <p:dataTable lazy="false"   var="wpis" value="#{sTRTabView.sprzedane}" id="srodkiListas" editable="true" 
                               scrollable="true" scrollHeight="390"
                               style="max-width: 1400px;"
                               rowKey="#{wpis.id}" selection="#{sTRTabView.wybranysrodektrwalySprzedane}" selectionMode="single"> 
@@ -108,7 +108,7 @@
                 <p:rowExpansion>
                     <p:column id="amortColumn" headerText="zaplanowane miesięczne umorzenia" filterBy="#{wpis.planumorzen}" filterMatchMode="contains" 
                               filterStyle="display : none;" style="width: 350px; text-align: center;">  
-                        <p:dataTable var="subwpis" value="#{wpis.planumorzen}" emptyMessage="Nie naliczono umorzeń"
+                        <p:dataTable lazy="false"  var="subwpis" value="#{wpis.planumorzen}" emptyMessage="Nie naliczono umorzeń"
                                      sortBy="#{subwpis.nrUmorzenia}" 
                                      style="width: 650px; overflow-y: scroll; height: 250px;">
                             <p:column id="SubColumn1" headerText="id" style="width: 20px;">  

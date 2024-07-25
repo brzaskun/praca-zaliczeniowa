@@ -4,7 +4,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:tab id="wykres" title="Wyniki wg cech">
         <h:form id="formcecha">
@@ -24,7 +24,7 @@
                     <p:ajax event="change" update="@form" partialSubmit="true"/>
                 </p:selectBooleanCheckbox>
         </p:panelGrid>
-            <p:dataTable value="#{cechyZestView.pobranecechypodatnik}" var="itemcecha" rowIndexVar="indexcecha" style="width: 1010px;" id="tabelacechy"
+            <p:dataTable lazy="false"  value="#{cechyZestView.pobranecechypodatnik}" var="itemcecha" rowIndexVar="indexcecha" style="width: 1010px;" id="tabelacechy"
                          expandedRow="#{cechyZestView.rozwinwszystkie}">
                 <p:column style="width: 10px;; text-align: center;" >
                     <p:rowToggler/>
@@ -45,7 +45,7 @@
                     <bcf:outputpl value="#{itemcecha.wynik}"/>
                 </p:column>
                 <p:rowExpansion>
-                    <p:dataTable value="#{itemcecha.dokLista}" var="wpis" rowIndexVar="indexcecha2">
+                    <p:dataTable lazy="false"  value="#{itemcecha.dokLista}" var="wpis" rowIndexVar="indexcecha2">
                         <p:column id="idColumn" headerText="#{mgs.numerkolejny}" filterStyle="display: none;" sortBy="#{wpis.idDok}" width="30">  
                             <h:outputText value="#{indexcecha2+1}" />
                         </p:column>

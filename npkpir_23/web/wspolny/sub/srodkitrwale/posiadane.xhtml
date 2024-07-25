@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab id="zestawieniestr" title="posiadane">
         <h:form id="str_posiadane">
             <p:contextMenu for="srodkiLista" style="width: 220px;">
@@ -17,7 +17,7 @@
                 <p:menuitem value="Sprzedaż środka trwałego" update=":akordeon:str_posiadane   :akordeon:str_sprzedane" actionListener="#{sTRSprzedazView.sprzedazsrodkaFK()}" icon="ui-icon-cart" 
                             rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"/>
             </p:contextMenu>
-            <p:dataTable  var="wpis" value="#{sTRTabView.posiadane}" id="srodkiLista" 
+            <p:dataTable lazy="false"   var="wpis" value="#{sTRTabView.posiadane}" id="srodkiLista" 
                           widgetVar="srodkiLista1" style="width: 1450px; overflow-y: scroll; height: 390px;" filteredValue="#{sTRTabView.filtrowaneposiadane}"
                           rowKey="#{wpis.id}" selection="#{sTRTabView.wybranysrodektrwalyPosiadane}" selectionMode="single"> 
                 <p:ajax event="rowSelect" global="false" update="form_dialog_srodkitrwale_zmianawartosci akordeon:str_posiadane2:srodkiLista2"/>
@@ -123,7 +123,7 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:column>
-                        <p:dataTable value="#{wpis.zmianawartosci}" var="item" id="tabelazmian"
+                        <p:dataTable lazy="false"  value="#{wpis.zmianawartosci}" var="item" id="tabelazmian"
                                      emptyMessage="Nie naniesiono wcześniej żadnych zmian" style="width: 600px; margin-top: 10px;"
                                      scrollable="true" scrollHeight="100" rowIndexVar="index">
                             <f:facet name="header">

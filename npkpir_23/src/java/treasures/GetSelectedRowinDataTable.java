@@ -5,20 +5,15 @@
  */
 package treasures;
 
-import entityfk.Wiersz;
-import error.E;
-import javax.faces.context.FacesContext;
-import org.primefaces.component.datatable.DataTable;
-
 /**
  *
  * @author Osito
  */
 public class GetSelectedRowinDataTable {
-    private void init() { //E.m(this);
-        DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
-        Object o = d.getLocalSelection();
-        int wierszRKindex = d.getRowIndex();
-        Wiersz wierszRK = (Wiersz) d.getRowData();
-    }
+//    private void init() { //E.m(this);
+//        DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
+//        Object o = d.getLocalSelection();
+//        int wierszRKindex = d.getRowIndex();
+//        Wiersz wierszRK = (Wiersz) d.getRowData();
+//    }
 }

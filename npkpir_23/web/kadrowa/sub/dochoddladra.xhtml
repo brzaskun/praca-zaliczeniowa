@@ -6,7 +6,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:outputPanel style="padding: 20px;">
         <p:tabView id="akordeon" >
             <p:tab title="Wartości miesięczne">
@@ -41,10 +41,10 @@
                                 </p:selectOneMenu><!-- comment -->
                                 <p:commandButton id="przeliczbutton" value="przelicz" actionListener="#{dochodDlaDRAView.przelicz(null)}"  style="width: 120px;margin-left: 20px;" update="akordeon:formtabela akordeon:formtabela1"/>
                             </p:panelGrid>
-                            <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1850px;padding: 20px;" 
+                            <p:dataTable lazy="false"  value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1850px;padding: 20px;" 
                                          scrollable="true" scrollHeight="750" scrollRows="30" filteredValue="#{dochodDlaDRAView.wierszeFiltered}"
                                          emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.podatnikudzial.podatnikObj.nip}" rowIndexVar="yndex" reflow="true"
-                                         selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.podatnikudzial.podatnikObj.printnazwa}" sortOrder="ascending">
+                                         selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.podatnikudzial.podatnikObj.printnazwa}" >
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
                                         <h:outputText value="id"/>
@@ -215,10 +215,10 @@
                                     background-color: #e4e3e3 !important;
                                 }
                             </style>
-                            <p:dataTable value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1670px;padding: 20px;" reflow="true"
+                            <p:dataTable lazy="false"  value="#{dochodDlaDRAView.wiersze}" var="item" style="width: 1670px;padding: 20px;" reflow="true"
                                          scrollable="true" scrollHeight="750" scrollRows="30" 
                                          emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.podatnikudzial.podatnikObj.nip}" rowIndexVar="yndex"
-                                         selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.podatnikudzial.nazwiskoimie}" sortOrder="ascending">
+                                         selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.podatnikudzial.nazwiskoimie}">
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
                                         <h:outputText value="id"/>
@@ -348,7 +348,7 @@
                                 </p:selectOneMenu>
                                 <p:commandButton id="przeliczbutton1a" value="pobierz" actionListener="#{dochodDlaDRAView.przeliczRok()}"  style="width: 120px;margin-left: 20px;" update="akordeon:formrok"/>
                             </p:panelGrid>
-                            <p:dataTable value="#{dochodDlaDRAView.wierszerok}" var="item2" style="width: 1600px;padding: 20px;max-height: 700px;overflow-y: scroll" reflow="true"
+                            <p:dataTable lazy="false"  value="#{dochodDlaDRAView.wierszerok}" var="item2" style="width: 1600px;padding: 20px;max-height: 700px;overflow-y: scroll" reflow="true"
                                          sortBy="#{item2.rokmc}" id="datalist"
                                              emptyMessage="nie pobrano danych"  rowKey="#{item2.mc}" rowIndexVar="yndex1"
                                              >
@@ -495,10 +495,10 @@
                                 <p:commandButton id="przeliczbutton1" value="pobierz z bazy" actionListener="#{dochodDlaDRAView.podsumujDRA()}"  style="width: 120px;margin-left: 20px;" update="akordeon:formtabeladra"/>
                                 <p:commandButton id="przeliczbutton2" value="aktual. z Płatnika" actionListener="#{dochodDlaDRAView.pobierzzplatnika}"  style="width: 120px;margin-left: 20px;" update="akordeon:formtabeladra"/>
                             </p:panelGrid>
-                            <p:dataTable value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1980px;padding: 20px;"  reflow="true"
+                            <p:dataTable lazy="false"  value="#{dochodDlaDRAView.drasumy}" var="itemdra" style="width: 1980px;padding: 20px;"  reflow="true"
                                          scrollable="true" scrollHeight="750" scrollRows="30" selectionMode="single"
                                          emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.nazwa}" rowIndexVar="yndex1"
-                                         sortBy="#{itemdra.nazwa}" sortOrder="ascending">
+                                         sortBy="#{itemdra.nazwa}" >
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
                                         <h:outputText value="id"/>

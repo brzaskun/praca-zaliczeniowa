@@ -28,6 +28,7 @@ import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.UkladBR;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +46,6 @@ import pdffk.PdfBilans;
 import pdffk.PdfRZiS;
 import view.WpisView;
 import waluty.Z;
-import interceptor.ConstructorInterceptor;
 
 /**
  *
@@ -524,7 +524,7 @@ public class PozycjaBRZestawienieView implements Serializable {
                 nowyelementRZiS.setLevel(0);
                 nowyelementRZiS.setMacierzysta(null);
             } else {
-                String poprzednialitera = ((PozycjaRZiS) rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1).getData()).getPozycjaSymbol();
+                String poprzednialitera = ((PozycjaRZiS) ((TreeNode)rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1)).getData()).getPozycjaSymbol();
                 String nowalitera = RomNumb.alfaInc(poprzednialitera);
                 nowyelementRZiS.setPozycjaSymbol(nowalitera);
                 nowyelementRZiS.setPozycjaString(nowalitera);
@@ -568,7 +568,7 @@ public class PozycjaBRZestawienieView implements Serializable {
                 nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level + 1);
             } else {
                 int index = wybranynodekonta.getChildCount() - 1;
-                PozycjaRZiS lastchild = (PozycjaRZiS) wybranynodekonta.getChildren().get(index).getData();
+                PozycjaRZiS lastchild = (PozycjaRZiS) ((TreeNode)wybranynodekonta.getChildren().get(index)).getData();
                 nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level + 1, lastchild.getPozycjaSymbol());
             }
             nowyelementRZiS.setPozycjaSymbol(nastepnysymbol);
@@ -609,7 +609,7 @@ public class PozycjaBRZestawienieView implements Serializable {
                 nowyelementBilans.setLevel(0);
                 nowyelementBilans.setMacierzysta(null);
             } else {
-                String poprzednialitera = ((PozycjaBilans) rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1).getData()).getPozycjaSymbol();
+                String poprzednialitera = ((PozycjaBilans) ((TreeNode)rootProjektRZiS.getChildren().get(rootProjektRZiS.getChildCount() - 1)).getData()).getPozycjaSymbol();
                 String nowalitera = RomNumb.alfaInc(poprzednialitera);
                 nowyelementBilans.setPozycjaSymbol(nowalitera);
                 nowyelementBilans.setPozycjaString(nowalitera);
@@ -653,7 +653,7 @@ public class PozycjaBRZestawienieView implements Serializable {
                 nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level + 1);
             } else {
                 int index = wybranynodekonta.getChildCount() - 1;
-                PozycjaBilans lastchild = (PozycjaBilans) wybranynodekonta.getChildren().get(index).getData();
+                PozycjaBilans lastchild = (PozycjaBilans) ((TreeNode)wybranynodekonta.getChildren().get(index)).getData();
                 nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level + 1, lastchild.getPozycjaSymbol());
             }
             nowyelementBilans.setPozycjaSymbol(nastepnysymbol);

@@ -5,7 +5,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <!--    <p:tabView id="akordeon">
         <p:tab title="pozycje fakturowane">
@@ -63,7 +63,7 @@
                     <h:outputText value="Generowanie, nie duplikuje wpisów. Aby dodana pozycja została pobrana następnym razem, podatnik musi mieć oznaczoną okresową fakturę jako ręczna do edycji. Kopiowanie do przodu w menu" style="color:green"/>
                 </p:panelGrid>
                 <p:growl life="3600" showDetail="true"><p:autoUpdate/></p:growl>
-                <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1630px;" widgetVar="tabelazwynikami"
+                <p:dataTable lazy="false"   var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1630px;" widgetVar="tabelazwynikami"
                               filteredValue="#{fakturaDodPozycjaKontrahentView.lista_2_filter}" selection="#{fakturaDodPozycjaKontrahentView.lista_2_selected}" selectionMode="multiple"
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_2.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.kontrahent.nazwapodatnika}"
                               paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -174,7 +174,7 @@
             <p:separator/>
             <h:form id="listapozycji2">
                 <p:growl life="3600" showDetail="true"><p:autoUpdate/></p:growl>
-                <p:dataTable  var="zapis1" value="#{fakturaDodPozycjaKontrahentView.lista_3}" id="lista" sortOrder="ascending" style="width: 1300px;" widgetVar="tabelazwynikami1"
+                <p:dataTable lazy="false"   var="zapis1" value="#{fakturaDodPozycjaKontrahentView.lista_3}" id="lista" sortOrder="ascending" style="width: 1300px;" widgetVar="tabelazwynikami1"
                               filteredValue="#{fakturaDodPozycjaKontrahentView.lista_3_filter}" selection="#{fakturaDodPozycjaKontrahentView.lista_3_selected}" selectionMode="multiple"
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_3.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis1.kontrahent.nazwapodatnika}"
                               paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -254,7 +254,7 @@
                 </p:panelGrid>
                 <p:outputPanel>
                     <p:growl life="3600" showDetail="true"/>
-                    <p:dataTable  var="zapis" value="#{fakturaDodatkowaPozycjaView.lista}" id="lista" sortOrder="ascending" style="width: 900px;"
+                    <p:dataTable lazy="false"   var="zapis" value="#{fakturaDodatkowaPozycjaView.lista}" id="lista" sortOrder="ascending" style="width: 900px;"
                                   paginator="true" paginatorAlwaysVisible="#{fakturaDodatkowaPozycjaView.lista.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.nazwa}"
                                   paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                                   rowsPerPageTemplate="20,50,100" rowIndexVar="index"

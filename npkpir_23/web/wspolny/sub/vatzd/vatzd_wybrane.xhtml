@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 <p:tab title="wybrane">
     <h:form id="form3">
     <p:panelGrid columns="5" styleClass="panelvazd">
@@ -25,7 +25,7 @@
             <f:selectItems value="#{mce.mceList}"/>
         </p:selectOneMenu>
      </p:panelGrid>
-                <p:dataTable value="#{vATZDView.pozycje}" var="itemwybr" rowIndexVar="indexw" id="tabelawybrane"
+                <p:dataTable lazy="false"  value="#{vATZDView.pozycje}" var="itemwybr" rowIndexVar="indexw" id="tabelawybrane"
                              style="width: 1240px; height: 550px; overflow-y: scroll;" >
                     <p:column width="30" style="text-align: center;">
                      <f:facet name="header">

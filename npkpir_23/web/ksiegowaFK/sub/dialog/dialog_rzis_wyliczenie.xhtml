@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:dialog id="dialogrzisprzeglad" header="Rachunek Zysków i Strat za okres rozliczeniowy z saldami kont - #{WpisView.podatnikObiekt.printnazwa}" widgetVar="rzisprzeglad" 
               resizable="false" onShow="ustawdialog('dialogrzisprzeglad','menubilanse', 1650, 780);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprzeglad');"  >
@@ -88,7 +88,7 @@
                 </p:column>
                 <p:column>
                     <p:panelGrid columns="1" >
-                        <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
+                        <p:dataTable lazy="false"  id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
                                      style="height: 200px; margin-top: 0%; width: 850px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}"
                                      rowKey="#{loop.id}" selection="#{pozycjaBRView.wybranokonto}">
                             <f:facet  name="header">
@@ -106,7 +106,7 @@
                                 <bcf:outputpl value="#{loop.kwota}" />
                             </p:column>
                         </p:dataTable>
-                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
+                        <p:dataTable lazy="false"  id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
                                      style="height: 400px; margin-top: 0%; width: 850px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
                             <f:facet  name="header">
                                 <h:outputText value="#{mgs.podpiętezapisy}"/>

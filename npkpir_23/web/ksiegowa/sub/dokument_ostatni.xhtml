@@ -35,7 +35,7 @@
                 <h:outputText  value="#{DokumentView.wysDokument.rodzajedok.skrot}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.nrWlDk}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.opis}"/>
-                <p:dataTable var="subwpis" value="#{DokumentView.wysDokument.listakwot1}" emptyMessage="dokument bez zapisu w pkpir"  resizableColumns="true" style="width: 400px;">
+                <p:dataTable lazy="false"  var="subwpis" value="#{DokumentView.wysDokument.listakwot1}" emptyMessage="dokument bez zapisu w pkpir"  resizableColumns="true" style="width: 400px;">
                     <p:column id="SubColumnP1"  headerText="#{mgs.netto}">  
                         <h:outputText value="#{subwpis.netto}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -58,7 +58,7 @@
                 <div style="padding: 10px;">
                     <h:outputText value="zapisy w ewidencji vat" style="font-weight: 500; color: green;"/>
                 </div>
-                <p:dataTable value="#{DokumentView.wysDokument.ewidencjaVAT1}" var="p" emptyMessage="Dokument prosty - bez VAT">
+                <p:dataTable lazy="false"  value="#{DokumentView.wysDokument.ewidencjaVAT1}" var="p" emptyMessage="Dokument prosty - bez VAT">
                     <p:column id="idColumn" headerText="#{wpis.nazwa}">  
                         <f:facet name="header">  
                             <h:outputText value="#{wpis.nazwa}"/>  
@@ -106,7 +106,7 @@
                 <div style="padding: 10px;">
                     <h:outputText value="rozliczenie płatności" style="font-weight: 500"/>
                 </div>
-                <p:dataTable value="#{DokumentView.wysDokument.rozrachunki1}"
+                <p:dataTable lazy="false"  value="#{DokumentView.wysDokument.rozrachunki1}"
                              var="p">
                     <p:column id="idColumn" headerText="data zapłaty">  
                         <f:facet name="header">  

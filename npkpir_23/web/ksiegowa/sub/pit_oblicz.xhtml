@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tabView id="akordeon"  rendered="#{WpisView.biuroiszef eq true}">
         <p:tab id="tab2" title="Oblicz PIT" rendered="#{WpisView.ksiegaryczalt}" >
               <h:outputText value="Uwaga podatnik rozlicza się kwartalnie!" style="font-weight: 900; color: red;" rendered="#{WpisView.mc0kw1}"/>
@@ -152,9 +152,9 @@
                         </p:panelGrid>
                     </p:panelGrid>
                     <!--                    <p:panelGrid  columns="1" >
-                                            <p:dataTable value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
+                                            <p:dataTable lazy="false"  value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
                                                          rows="12" id="datatable" style="width: 400px;"
-                                                         sortFunction="#{zusStawkiZbiorczeNView.sortujZUSstawkinew}"  sortBy="#{loop}" sortOrder="descending" 
+                                                         sortFunction="#{zusStawkiZbiorczeNView.sortujZUSstawkinew}"  sortBy="#{loop}" 
                                                          rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
                                                 <f:facet name="header">
                                                     <h:outputText value="Stawki ZUS w bieżącym roku"/>
@@ -185,7 +185,7 @@
                     <p:panelGrid  columns="1" >
                         <p:panelGrid columns="1" style="width: 700px;">
                             
-                            <p:dataTable value="#{zestawienieView.wybranyudzialowiec.podmiot.podatnikudzialy}"  var="loop" rowKey="#{loop.id}" >
+                            <p:dataTable lazy="false"  value="#{zestawienieView.wybranyudzialowiec.podmiot.podatnikudzialy}"  var="loop" rowKey="#{loop.id}" >
                                 <f:facet name="header">
                                     <h:outputText value="Udziały podmiotu firmach"/>
                                 </f:facet>
@@ -202,7 +202,7 @@
                                     <h:outputText value="#{loop.udzial}" />
                                 </p:column>
                             </p:dataTable>
-                             <p:dataTable id="tablicapita" value="#{zestawienieView.pitydlapita}" var="loop" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 
+                             <p:dataTable lazy="false"  id="tablicapita" value="#{zestawienieView.pitydlapita}" var="loop" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 
                                           emptyMessage="Brak sporządzonych pitów w danym okresie w innych firmach" rendered="#{!zestawienieView.pitydlapita.isEmpty()}">
                                  <f:facet name="header">
                                     <h:outputText value="Zachowane PIT-y inne firmy"/>
@@ -229,10 +229,10 @@
                             </p:dataTable>
                         </p:panelGrid>
                         <p:panel header="dane ZUS pobrane z Płatnika" style="width: 450px;"/>
-                        <p:dataTable value="#{draPIT.drasumy}" var="itemdra" style="width: 500px;padding: 20px;" 
+                        <p:dataTable lazy="false"  value="#{draPIT.drasumy}" var="itemdra" style="width: 500px;padding: 20px;" 
                                      scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
                                      emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.id}" rowIndexVar="yndex1"
-                                     selection="#{draPIT.selected1}" selectionMode="single" sortBy="#{itemdra.okres}" sortOrder="ascending">
+                                     selection="#{draPIT.selected1}" selectionMode="single" sortBy="#{itemdra.okres}" >
                             <p:column style="width: 20px;">
                                 <f:facet name="header">
                                     <h:outputText value="id"/>
@@ -312,7 +312,7 @@
                         <p:panelGrid id="zestawieniepit" columns="2" style="width: 450px;">
                             <p:separator/><p:separator/>
                             <h:outputText value="przychody za mc"/>
-                            <p:dataTable value="#{zestawienieRyczaltView.biezacyPit.listapodatkow}" var="wpis" style="width: 300px;">
+                            <p:dataTable lazy="false"  value="#{zestawienieRyczaltView.biezacyPit.listapodatkow}" var="wpis" style="width: 300px;">
                                 <p:column headerText="stawka">
                                     <h:outputText value="#{wpis.stawkaS}%" style="float: right; font-weight: 700;"/>
                                 </p:column>
@@ -378,9 +378,9 @@
                         </p:panelGrid>
                     </p:panelGrid>
                     <!--                    <p:panelGrid  columns="1" >
-                                            <p:dataTable value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
+                                            <p:dataTable lazy="false"  value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
                                                          rows="12" id="datatable" style="width: 400px;"
-                                                         sortFunction="#{zusStawkiZbiorczeNView.sortujZUSstawkinew}"  sortBy="#{loop}" sortOrder="descending" 
+                                                         sortFunction="#{zusStawkiZbiorczeNView.sortujZUSstawkinew}"  sortBy="#{loop}" 
                                                          rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
                                                 <f:facet name="header">
                                                     <h:outputText value="Stawki ZUS w bieżącym roku"/>
@@ -410,10 +410,10 @@
                                         </p:panelGrid>-->
                     <p:panelGrid  columns="1" >
                         <p:panel header="dane ZUS pobrane z Płatnika" style="width: 450px;"/>
-                        <p:dataTable value="#{draPIT.drasumy}" var="itemdra" style="width: 500px;padding: 20px;" 
+                        <p:dataTable lazy="false"  value="#{draPIT.drasumy}" var="itemdra" style="width: 500px;padding: 20px;" 
                                      scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
                                      emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{itemdra.id}" rowIndexVar="yndex1"
-                                     selection="#{draPIT.selected1}" selectionMode="single" sortBy="#{itemdra.okres}" sortOrder="ascending">
+                                     selection="#{draPIT.selected1}" selectionMode="single" sortBy="#{itemdra.okres}" >
                             <p:column style="width: 20px;">
                                 <f:facet name="header">
                                     <h:outputText value="id"/>
@@ -468,7 +468,7 @@
         <p:tab id="tab5" title="Straty z lat ubiegłych">
             <h:form id="form1">
                 <p:panel header="Nanoszenie strat możliwe jest jedynie po sporządzeniu PIT-ow za 12 mcy oraz po wybraniu miesiąca stycznia roku następnego"/>
-                <p:dataTable id="tabelastrat" value="#{strataView.stratypodatnika}" emptyMessage="Nie ma nic" var="loop"
+                <p:dataTable lazy="false"  id="tabelastrat" value="#{strataView.stratypodatnika}" emptyMessage="Nie ma nic" var="loop"
                              style="min-width: 500px; max-width: 990px;" expandedRow="true">
                     <p:column style="width: 4%;">
                         <p:rowToggler />
@@ -505,7 +505,7 @@
                     </p:column>
                     <p:rowExpansion>
                         <p:column id="wykorzystanie" headerText="wykorzystanie bieżące" width="300" resizable="true">  
-<!--                            <p:dataTable var="subwpis" value="#{loop.listawykorzystanie}" emptyMessage="strata nie rozliczona"  resizableColumns="true" style="width: 250px;">
+<!--                            <p:dataTable lazy="false"  var="subwpis" value="#{loop.listawykorzystanie}" emptyMessage="strata nie rozliczona"  resizableColumns="true" style="width: 250px;">
                                 <p:column id="SubColumn1" headerText="rok">  
                                     <h:outputText value="#{subwpis.rokwykorzystania}" />
                                 </p:column>
@@ -568,7 +568,7 @@
 
                     <p:panel header="wprowadzone PIT-y: " style="margin-top: 15px;"/><br/>
 
-                    <p:dataTable id="tablicapita" value="#{pitView.lista}" var="loop" selectionMode="single" selection="#{pitView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 
+                    <p:dataTable lazy="false"  id="tablicapita" value="#{pitView.lista}" var="loop" selectionMode="single" selection="#{pitView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 
                                  emptyMessage="Brak sporządzonych pitów w danym roku" rowStyleClass="#{loop.wynik lt 0 ? 'korekta' : null}">
                         <p:ajax event="rowSelect" update="akordeon:formpi2" global="false" listener="#{pitView.wybranopit}"/>
                         <p:column headerText="okres rozlicz.: " width="70">
@@ -675,7 +675,7 @@
                     <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
 
                     <p:panel header="wprowadzone PIT-y (ryczałt): " /><br/>
-                    <p:dataTable id="tablicapita1" value="#{ryczView.lista}" var="loop" selectionMode="single" selection="#{ryczView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 
+                    <p:dataTable lazy="false"  id="tablicapita1" value="#{ryczView.lista}" var="loop" selectionMode="single" selection="#{ryczView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 
                                  emptyMessage="Brak sporządzonych pitów w danym roku">
                         <p:ajax event="rowSelect" listener="#{ryczView.inforryczalt}" update="akordeon:formpi3:zestawieniepitview" global="false"/>
                         <p:column headerText="okres rozliczeniowy: ">

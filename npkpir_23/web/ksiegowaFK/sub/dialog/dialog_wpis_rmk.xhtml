@@ -17,7 +17,7 @@
               closeOnEscape="true" onHide="resetujdialog('dialogwpisrmk');" >
         <h:form id="formrmk">
             
-                <p:dataTable id="tabelarmkwprowadzanie" value="#{rMKView.rmk}" var="looprmk"> 
+                <p:dataTable lazy="false"  id="tabelarmkwprowadzanie" value="#{rMKView.rmk}" var="looprmk"> 
                     <p:column headerText="opis wydatku" style="text-align: center; height: 30px;" width="200">
                         <p:inputText id="opiswydatku" value="#{looprmk.opiskosztu}" style="width: 260px;"/>
                     </p:column>

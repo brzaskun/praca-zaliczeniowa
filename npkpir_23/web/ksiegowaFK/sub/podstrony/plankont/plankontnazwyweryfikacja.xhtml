@@ -12,7 +12,7 @@
     <p:outputPanel deferredMode="true">
         <h:form id="form_plankontnazwyweryfikacja">
             <p:panelGrid columns="2" >
-                <p:dataTable id="dataList" value="#{planKontNazwyView.wykazkont}" var="loop"  selectionMode="multiple"  selection="#{planKontNazwyView.wykazkontselected}" 
+                <p:dataTable lazy="false"  id="dataList" value="#{planKontNazwyView.wykazkont}" var="loop"  selectionMode="multiple"  selection="#{planKontNazwyView.wykazkontselected}" 
                              styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell"
                              style="width: 1650px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              scrollRows="1400" 

@@ -12,7 +12,7 @@
         <p:ajax event="open" listener="#{walutyViewFK.init()}" update="formkursrecznie wprowadzonekursyrecznie"/>
         <h:form id="formkursrecznie">
             <p:focus for="formkursrecznie:dataKursReczny"/>
-            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 830px;"
+            <p:dataTable lazy="false"  id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 830px;"
                          rowsPerPageTemplate="15,30,250,500" paginatorPosition="top" paginator="true" rows="15">
                  <p:column headerText="tabela" width="100" style="text-align: center;">
                      <p:selectOneMenu value="#{walutyViewFK.symbolRecznie}" id="polewyboruwaluty" maxlength="3"
@@ -58,9 +58,9 @@
         </h:form>
       <h:form id="wprowadzonekursyrecznie">
       
-            <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.wprowadzonekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych ręcznie kursow" 
+            <p:dataTable lazy="false"  id="dataTablekursy" var="wpis" value="#{walutyViewFK.wprowadzonekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych ręcznie kursow" 
                          style="width: 700px; padding: 10px; height: 330px; overflow-y: scroll;"  widgetVar="dataTablekursy" rowKey="#{wpis.nrtabeli}" selection="#{dokfkView.tabelanbprecznie}"
-                         sortBy="#{wpis.datatabeli}" sortOrder="descending">
+                         sortBy="#{wpis.datatabeli}">
                 
                 <p:ajax event="filter" global="false"/>
                 <p:ajax event="rowEdit" listener="#{walutyViewFK.onRowEdit}" update="formwpisdokument:dataList"/>

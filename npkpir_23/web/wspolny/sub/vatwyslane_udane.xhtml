@@ -6,9 +6,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab title="udane">
-        <p:dataTable value="#{deklaracjevatView.wyslanenormalne}" var="item" sortBy="#{item.miesiac}"  id="dataList" sortOrder="descending"
+        <p:dataTable lazy="false"  value="#{deklaracjevatView.wyslanenormalne}" var="item" sortBy="#{item.miesiac}"  id="dataList"
                      emptyMessage="brak wysłanych deklaracji" style="max-width: 1400px;" rowIndexVar="row">
             <p:column style="width: 3%;">
                 <p:rowToggler/>
@@ -37,7 +37,7 @@
                     </h:panelGrid>
                 </p:dataGrid>
                <p:panelGrid columns="2"  style="height: 150px;" columnClasses="thirty-percent seventy-percent">
-                    <p:dataTable value="#{item.selected.pozycjeszczegolowe.getPozycje()}" var="wiersz" >
+                    <p:dataTable lazy="false"  value="#{item.selected.pozycjeszczegolowe.getPozycje()}" var="wiersz" >
                         <p:column width="100">
                             <h:outputText value="#{wiersz.nazwapola}"/>
                         </p:column>
@@ -45,7 +45,7 @@
                             <bcf:outputpl0 value="#{wiersz.kwota}"/>
                         </p:column>
                     </p:dataTable>
-                    <p:dataTable value="#{item.schemawierszsumarycznylista}" var="wiersz" >
+                    <p:dataTable lazy="false"  value="#{item.schemawierszsumarycznylista}" var="wiersz" >
                         <p:column width="350" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                             <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                         </p:column>
@@ -74,7 +74,7 @@
                 </p:column>
             </p:rowExpansion>
         </p:dataTable>
-<!--        <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" selectionMode="single" rowKey="#{item.id}" rowIndexVar="row"  emptyMessage="brak wysłanych deklaracji">
+<!--        <p:dataTable lazy="false"  id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" selectionMode="single" rowKey="#{item.id}" rowIndexVar="row"  emptyMessage="brak wysłanych deklaracji">
             <p:column style="width: 3%;">
                 <p:rowToggler/>
             </p:column>
@@ -113,7 +113,7 @@
                 <f:facet name="header">
                     <h:outputText value="Dane"/>
                 </f:facet>
-                <p:dataTable value="#{item.selected}" var="loop" rowIndexVar="row" >
+                <p:dataTable lazy="false"  value="#{item.selected}" var="loop" rowIndexVar="row" >
                     <p:column headerText="rodzaj deklaracji">
                         <h:outputText value="#{loop.rodzajdeklaracji}"/>
                     </p:column>
@@ -142,7 +142,7 @@
                         <bcf:outputpl value="#{loop.kwotaautoryzacja}"/>
                     </p:column>
                 </p:dataTable>
-                <p:dataTable value="#{item.schemawierszsumarycznylista}" var="wiersz" style="width: 700px;" emptyMessage="deklaracja sprzed 2015-08">
+                <p:dataTable lazy="false"  value="#{item.schemawierszsumarycznylista}" var="wiersz" style="width: 700px;" emptyMessage="deklaracja sprzed 2015-08">
                     <p:column width="500" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                             <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                         </p:column>

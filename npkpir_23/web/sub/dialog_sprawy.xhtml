@@ -6,7 +6,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .ui-datatable-data tr {
             height: 20px;
@@ -16,9 +16,9 @@
               resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 2010, 840);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');" fitViewport="true" >
         <h:form id="form_dialog_sprawy">
             <p:growl ><p:autoUpdate/></p:growl>
-            <p:dataTable value="#{sprawaView.sprawyOdebrane}" var="item3" style="width: 2000px; overflow-y: scroll; height: 400px;"
+            <p:dataTable lazy="false"  value="#{sprawaView.sprawyOdebrane}" var="item3" style="width: 2000px; overflow-y: scroll; height: 400px;"
                          widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index1" 
-                         sortBy="#{item3.termindo}" sortOrder="ascending" 
+                         sortBy="#{item3.termindo}" 
                          >
                 <f:facet name="header">
                     <h:outputText value="Lista spraw otrzymanych do załatwienia"/>
@@ -126,9 +126,9 @@
              </p:dataTable>
         </h:form>
         <h:form id="form_dialog_sprawy_nadane">
-            <p:dataTable value="#{sprawaView.sprawyNadane}" var="item4" style="width: 2000px; overflow-y: scroll; height: 400px;"
+            <p:dataTable lazy="false"  value="#{sprawaView.sprawyNadane}" var="item4" style="width: 2000px; overflow-y: scroll; height: 400px;"
                          widgetVar="sprawytable" emptyMessage="brak spraw" rowIndexVar="index2" 
-                         sortBy="#{item4.termindo}" sortOrder="ascending" 
+                         sortBy="#{item4.termindo}" 
                          >
                 <f:facet name="header">
                     <h:outputText value="Lista spraw, które przekazałem"/>

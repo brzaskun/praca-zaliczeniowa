@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .ui-widget-content .ui-datatable-odd td{
             height : 20px !important;
@@ -81,7 +81,7 @@
                 <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{zapisyKontaPodatnikFKView.drukujPdfZapisyNaKoncie}"   style="width: 120px; margin-left: 30px;"/>
             </p:panelGrid>
 
-            <p:dataTable id="tabelazapisywmcu" value="#{zapisyKontaPodatnikFKView.kontozapisy}" var="loop" 
+            <p:dataTable lazy="false"  id="tabelazapisywmcu" value="#{zapisyKontaPodatnikFKView.kontozapisy}" var="loop" 
                          rowKey="#{loop.konto.pelnynumer}" selection="#{zapisyKontaPodatnikFKView.wybranekontozapisy}"
                          rowIndexVar="rowindex1" emptyMessage="Nie ma zapisów na koncie" 
                          styleClass="tabelazapisywmcu"  style="overflow-y: scroll; height: 620px;" 
@@ -115,7 +115,7 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:column>
-                        <p:dataTable value="#{loop.stronywiersza}" emptyMessage="dokument bez vat" var="loopik" rowIndexVar="rowindex"
+                        <p:dataTable lazy="false"  value="#{loop.stronywiersza}" emptyMessage="dokument bez vat" var="loopik" rowIndexVar="rowindex"
                                      resizableColumns="true" style="width: 95%;" sortBy="#{loopik.wiersz.dokfk.datadokumentu}" >
                             <p:column headerText="#{mgs.numerkolejny}" width="15" style="text-align: center;">
                                 <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>

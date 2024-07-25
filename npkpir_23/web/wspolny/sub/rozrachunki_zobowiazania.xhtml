@@ -6,11 +6,11 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
         
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
    
     <p:outputPanel style="width: 1600px;">
-    <p:layout fullPage="false" style="width: 1450px; height: 700px;">  
-        <p:layoutUnit position="north" >
+    <pe:layout fullPage="false" style="width: 1450px; height: 700px;">  
+        <pe:layoutPane position="north" >
                 <p:panelGrid columns="4" columnClasses="kontaGrid1, kontaGrid2" >
                     <h:form id="formwpisrozrachunki">
                         <p:autoComplete id="wyborkonta" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{rozrachunkiPrzegladView.complete}"
@@ -62,9 +62,9 @@
                         </p:panelGrid>
                     </h:form>
                 </p:panelGrid>
-            </p:layoutUnit>  
+            </pe:layoutPane>  
             <!--            lewa strona z drzewem kont-->
-            <p:layoutUnit id="westtree1" position="west" size="350" >
+            <pe:layoutPane id="westtree1" position="west" size="350" >
                 <h:form id="form1a">
 
                     
@@ -87,10 +87,10 @@
                                     padding: 0px 0px  !important;
                                 }
                           </style>
-                          <p:dataTable id="dataList" value="#{rozrachunkiPrzegladView.wykazkont}" var="loop1" selectionMode="single" 
+                          <p:dataTable lazy="false"  id="dataList" value="#{rozrachunkiPrzegladView.wykazkont}" var="loop1" selectionMode="single" 
                                      selection="#{rozrachunkiPrzegladView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
                                      styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" rowIndexVar="index"
-                                     sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" >
+                                     >
                             <p:ajax event="rowSelect"  update="tabelanowerozrachunki:tabela sumy formwpisrozrachunki"
                                     listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode(rozrachunkiPrzegladView.wybranekonto)}" 
                                     >
@@ -103,7 +103,7 @@
                             <p:column  style="width: 50px; text-align: center;" width="10">
                                 <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
                             </p:column>
-                            <p:column headerText="nr konta" styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;">
+                            <p:column headerText="nr konta" styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;" sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" >
                                 <h:outputText value="#{loop1.nrkonta}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '0' ? true : false)}" style="font-weight: 900;"/> 
                                 <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
                                 <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
@@ -116,9 +116,9 @@
                         </p:dataTable>
                     </p:outputPanel>
                 </h:form>
-            </p:layoutUnit>  
+            </pe:layoutPane>  
 
-            <p:layoutUnit position="center"  id="centertree1">
+            <pe:layoutPane position="center"  id="centertree1">
                 <style>
                     .grid1 td {
                         height: 40px !important;
@@ -132,7 +132,7 @@
                 </style>
                 <h:form id="tabelanowerozrachunki">
                      
-                    <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" style="height: 525px; overflow-y: scroll; width: 1215px;"
+                    <p:dataTable lazy="false"  id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" style="height: 525px; overflow-y: scroll; width: 1215px;"
                                  emptyMessage="Nie ma rozrachunków na koncie" sortBy="#{loop.id}" selection="#{rozrachunkiPrzegladView.stronyWierszawybrane}"
                                  rowIndexVar="rowindex"  rowSelectMode="add"
                                   styleClass="walkingtable"
@@ -188,7 +188,7 @@
                                         margin: 0px !important;
                                     }
                                 </style>
-                                    <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci.size() gt 0 ? loop.platnosci : loop.nowetransakcje}" emptyMessage="brak transakcji"
+                                    <p:dataTable lazy="false"  styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci.size() gt 0 ? loop.platnosci : loop.nowetransakcje}" emptyMessage="brak transakcji"
                                                  resizableColumns="true" style="width: 90%; float: right;">
                                     <p:column headerText="kwota trans." >
                                         <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
@@ -238,13 +238,13 @@
                          <p:menuitem value="pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();" actionListener="#{dokfkView.edycjazapis()}"/>-->
                      </p:contextMenu>
                 </h:form>  
-            </p:layoutUnit>  
-            <p:layoutUnit position="south">  
+            </pe:layoutPane>  
+            <pe:layoutPane position="south">  
                 <p:panelGrid id="sumy" columns="4" style="width: 1350px;">
                     
                 </p:panelGrid>
-            </p:layoutUnit>  
-    </p:layout>  
+            </pe:layoutPane>  
+    </pe:layout>  
     </p:outputPanel>
 </ui:composition>
 

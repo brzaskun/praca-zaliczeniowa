@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab  title="Zapisy z cechami" id="symulacjawynikunkup" >
         <style>
             .gridtablicasyntetyczne .ui-datatable-odd td{
@@ -27,7 +27,7 @@
                     <h:outputText value="m-c" style="margin-right: 10px;"/>
                     <h:outputText value="#{WpisView.miesiacWpisu}" style="margin-right: 10px;"/>
             </p:panelGrid>
-            <p:dataTable id="tabelacechyzapisow" var="wpis1" value="#{symulacjaWynikuView.zapisyZCecha}"  rowKey="#{wpis1.id}"
+            <p:dataTable lazy="false"  id="tabelacechyzapisow" var="wpis1" value="#{symulacjaWynikuView.zapisyZCecha}"  rowKey="#{wpis1.id}"
                          filteredValue="#{symulacjaWynikuView.zapisyZCechafiltered}"
                          emptyMessage="Nie ma cech zapisów kosztowych w danym miesiącu rozliczeniowym" 
                          style="width: 1050px; height: 350px; overflow-y: scroll;padding: 10px;" 
@@ -72,7 +72,7 @@
                 <h:outputText value="Razem KUPMN mc pop"/>
                 <bcf:outputpl value="#{symulacjaWynikuView.kupmn_mc_pop}"/>
             </p:panelGrid>
-            <p:dataTable id="tabelacechyzapisow1" var="wpis" value="#{symulacjaWynikuView.zapisyZCechaP}" rowKey="#{wpis.id}"
+            <p:dataTable lazy="false"  id="tabelacechyzapisow1" var="wpis" value="#{symulacjaWynikuView.zapisyZCechaP}" rowKey="#{wpis.id}"
                          filteredValue="#{symulacjaWynikuView.zapisyZCechafilteredP}"
                          emptyMessage="Nie ma cech zapisów przychodowych w danym miesiącu rozliczeniowym" 
                          style="width: 1050px; height: 350px; overflow-y: scroll;padding: 10px;" 

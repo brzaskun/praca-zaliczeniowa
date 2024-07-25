@@ -5,8 +5,9 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="north" size="10 0" resizable="true" closable="true" collapsible="true">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+    <pe:layoutPane position="north" size="10 0" resizable="true" closable="true">
         <h:form  id="menubarnorth">
             <p:menubar autoDisplay="true">
                 <p:menuitem icon="fa fa-institution" value="firma" outcome="ksiegowaFKFirma_1"  onclick="zajety();"/>
@@ -36,6 +37,6 @@
             </p:menubar>
         </h:form>
         
-    </p:layoutUnit>
+    </pe:layoutPane>
 </ui:composition>   
 

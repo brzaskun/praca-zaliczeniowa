@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
     <p:tab title="błędne">
-        <p:dataTable id="dataList1" value="#{deklaracjevatView.wyslanezbledem}" var="item" sortBy="#{item.miesiac}"  emptyMessage="brak wysłanych deklaracji">
+        <p:dataTable lazy="false"  id="dataList1" value="#{deklaracjevatView.wyslanezbledem}" var="item" sortBy="#{item.miesiac}"  emptyMessage="brak wysłanych deklaracji">
             <p:column style="width: 2%;">
                 <p:rowToggler/>
             </p:column>
@@ -45,7 +45,7 @@
                 <f:facet name="header">
                     <h:outputText value="Dane"/>
                 </f:facet>
-                <p:dataTable value="#{item.selected}" var="loop">
+                <p:dataTable lazy="false"  value="#{item.selected}" var="loop">
                     <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
                     <p:column headerText="pierw./kor."><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/></p:column>
                     <p:column headerText="nazwa urzędu" width="100"><h:outputText value="#{loop.nazwaurzedu} - #{item.kodurzedu}"/></p:column>

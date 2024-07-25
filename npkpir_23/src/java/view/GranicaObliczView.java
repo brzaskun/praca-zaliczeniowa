@@ -96,10 +96,10 @@ public class GranicaObliczView  implements Serializable {
         progresksiegi = (int) (obrot/graniceksiegi.getKwota()*proporcja);
         proporcja = granicekasa.isProporcja() ? 100.0/12.0*mcedoproporcji : 100.0;
         progreskasa = (int) (obrot/granicekasa.getKwota()*proporcja);
-        progresvat = progresvat > 150 ? 150 : progresvat;
-        progrespkpir = progrespkpir > 150 ? 150 : progrespkpir;
-        progresksiegi = progresksiegi > 150 ? 150 : progresksiegi;
-        progreskasa = progreskasa > 150 ? 150 : progreskasa;
+        progresvat = progresvat > 100 ? 100 : progresvat;
+        progrespkpir = progrespkpir > 100 ? 100 : progrespkpir;
+        progresksiegi = progresksiegi > 100 ? 100 : progresksiegi;
+        progreskasa = progreskasa > 100 ? 100 : progreskasa;
         } catch(Exception e) {
             Msg.msg("e", "Błąd przy generowaniu limitów");
         }

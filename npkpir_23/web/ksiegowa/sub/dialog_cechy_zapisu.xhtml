@@ -10,7 +10,7 @@
               onShow="ustawdialog('dialogCechyZapisu','dodWiad:wprowadzanie',1130,600);" focus=":formCHpkpir" 
               closeOnEscape="true">
         <h:form id="formCHpkpir" >
-            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechypodatnik}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
+            <p:dataTable lazy="false"  id="dataList" value="#{cechazapisuView.pobranecechypodatnik}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
                         rowKey="#{item.nazwacechy}" style="overflow-y: scroll; height: 400px;"
                         filteredValue="#{cechazapisuView.pobranecechyfiltered}">
                 <p:column filterBy="#{item.nazwacechy}">

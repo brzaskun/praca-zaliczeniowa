@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab  title="#{mgs.symulacjawynikurok}" >
         <style>
             .gridtablicasyntetyczne .ui-datatable-odd td{
@@ -45,7 +45,7 @@
             </p:splitButton>
             </p:panelGrid>
             
-            <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop_wyn" rowKey="#{loop_wyn.id}"
+            <p:dataTable lazy="false"  id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop_wyn" rowKey="#{loop_wyn.id}"
                          emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" sortBy="#{loop_wyn.mc}"
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1550px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
                          >
@@ -106,7 +106,7 @@
                                      update="akordeon:formsymulacjanarastajaco:tablicasymulacjasumanar akordeon:formsymulacjanarastajaco:tablicasymulacjasumanar1 akordeon:form1" />
                 </p:column>
             </p:dataTable>
-            <p:dataTable id="tablicasymulacjasumanar1" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop_wyn" rowKey="#{loop_wyn.id}"
+            <p:dataTable lazy="false"  id="tablicasymulacjasumanar1" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop_wyn" rowKey="#{loop_wyn.id}"
                          emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" sortBy="#{loop_wyn.mc}"
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 950px; padding: 10px;" widgetVar="tablicasymulacjasumanar1"
                          >
@@ -154,7 +154,7 @@
             </p:dataTable>
                 
             <p:panelGrid columns="2" >
-              <p:dataTable id="tablicasymulacjasuma" value="#{symulacjaWynikuNarastajacoView.pozycjePodsumowaniaWyniku}" var="loop" rowKey="#{loop.nazwa}"
+              <p:dataTable lazy="false"  id="tablicasymulacjasuma" value="#{symulacjaWynikuNarastajacoView.pozycjePodsumowaniaWyniku}" var="loop" rowKey="#{loop.nazwa}"
                          emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 400px; padding: 10px;" widgetVar="tablicasymulacjasuma"
                          >
@@ -177,7 +177,7 @@
                     <h:outputText style="color: red;" value=" #{symulacjaWynikuNarastajacoView.dodatkoweinfo}"/>
                 </p:panelGrid>
             </p:panelGrid>
-<!--            <p:dataTable id="tablicasymulacjapodatekpopmce" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela}" var="loop2" rowKey="#{loop2.udzialowiec}"
+<!--            <p:dataTable lazy="false"  id="tablicasymulacjapodatekpopmce" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela}" var="loop2" rowKey="#{loop2.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 700px; padding: 10px;" widgetVar="tablicasymulacjapodatekpopmce"
                          >
@@ -201,7 +201,7 @@
                 </p:column>
             </p:dataTable>-->
             <p:panelGrid columns="1" rendered="#{WpisView.rokWpisu lt 2022}">
-            <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuTabela}" var="loop1" rowKey="#{loop1.udzialowiec}"
+            <p:dataTable lazy="false"  id="tablicasymulacjapodatek" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuTabela}" var="loop1" rowKey="#{loop1.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 1200px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
                          >
@@ -240,7 +240,7 @@
                 </p:column>
 
             </p:dataTable>
-            <p:dataTable id="tablicasymulacjawyplata" value="#{symulacjaWynikuNarastajacoView.pozycjeDoWyplatyTablica}" var="loop3" rowKey="#{loop3.udzialowiec}"
+            <p:dataTable lazy="false"  id="tablicasymulacjawyplata" value="#{symulacjaWynikuNarastajacoView.pozycjeDoWyplatyTablica}" var="loop3" rowKey="#{loop3.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 600px; padding: 10px; margin-bottom: 20px;" widgetVar="tablicasymulacjapodatek"
                          >

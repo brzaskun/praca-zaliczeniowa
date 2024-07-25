@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form">
         <p:growl life="3600"  ><p:autoUpdate/></p:growl>
         <p:tabView>
@@ -15,7 +15,7 @@
                     <p:menuitem global="false" value="usuń" actionListener="#{DokTabView.usun}"  icon="ui-icon-closethick"/>
                 </p:contextMenu>
                 <p:outputPanel id="kontenertabeli" deferred="true">
-                    <p:dataTable  var="wpis" value="#{vATZDView.dokumentykp}" id="dokumentyLista" rowIndexVar="index"
+                    <p:dataTable lazy="false"   var="wpis" value="#{vATZDView.dokumentykp}" id="dokumentyLista" rowIndexVar="index"
                                   style="width: 1400px; margin-top: 10px;" rowKey="#{wpis.id}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                                   rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                                   selectionMode="multiple" styleClass="grid" 
@@ -91,7 +91,7 @@
                         </p:column>
                         <p:rowExpansion>
                             <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
-                                <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
+                                <p:dataTable lazy="false"  var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
                                     <p:column id="SubColumn1" headerText="ewidencja">  
                                         <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
                                     </p:column>
@@ -138,7 +138,7 @@
                 </p:outputPanel>
             </p:tab>
             <p:tab title="Zestawienie dok za 180dni">
-                <p:dataTable value="#{vATZDView.wykazdovatzd}" var="item">
+                <p:dataTable lazy="false"  value="#{vATZDView.wykazdovatzd}" var="item">
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="id"/>

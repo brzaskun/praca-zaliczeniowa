@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
      <p:tab title="załącznik">
          <h:form id="form4">
@@ -40,7 +40,7 @@
             <bcf:outputpl0 value="#{vATZDView.wniosekVATZDEntity.naliczonyzwiekszenie}"/>
         </p:panelGrid>
         <p:panelGrid columns="1" rendered="#{vATZDView.wniosekVATZDEntity.deklaracjevat.size() gt 0}"  layout="grid" style="width: 500px;margin-top: 15px;" columnClasses="seventy-percent thirty-percent">
-            <p:dataTable value="#{vATZDView.wniosekVATZDEntity.deklaracjevat}" var="wpisl" id="tabeladekl">
+            <p:dataTable lazy="false"  value="#{vATZDView.wniosekVATZDEntity.deklaracjevat}" var="wpisl" id="tabeladekl">
                 <p:column headerText="załączony do deklaracji">
                 <h:outputText value="#{wpisl.wzorschemy}"/>
                 </p:column>

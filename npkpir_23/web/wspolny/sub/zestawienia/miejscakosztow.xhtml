@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab id="nowa" title="#{mgs.miejscakosztow}" >
         <style>
 
@@ -33,12 +33,12 @@
                 </p:selectBooleanCheckbox>
             </p:panelGrid>
             <p:panel >
-                <p:dataTable value="#{miejsceKosztowView.listasummiejsckosztow}" var="item" rowIndexVar="numer" id="tabelazbiorczakoszty" 
+                <p:dataTable lazy="false"  value="#{miejsceKosztowView.listasummiejsckosztow}" var="item" rowIndexVar="numer" id="tabelazbiorczakoszty" 
                              emptyMessage="#{mgs.niemamiejsckosztow}" rowKey="#{item.id}" style="width: 970px;"
                              selection="#{miejsceKosztowView.listawybranychmiejsckosztow}">
                     <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
                     <p:column>
-                        <p:dataTable id="tabelazapisymiejscakosztowwmcu#{numer}" value="#{item.miejsceKosztowZest}" var="loop"  
+                        <p:dataTable lazy="false"  id="tabelazapisymiejscakosztowwmcu#{numer}" value="#{item.miejsceKosztowZest}" var="loop"  
                                      emptyMessage="Nie ma zapisów na koncie" 
                                      rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="width: 900px; margin-top: 10px; margin-bottom: 10px;" 
                                      skipChildren="true"  expandedRow="#{miejsceKosztowView.rozwinwszystkie}"
@@ -66,7 +66,7 @@
                                 <bcf:outputpl value="#{loop.sumanarastajaco}"/>
                             </p:column>
                             <p:rowExpansion>
-                                <p:dataTable value="#{loop.stronywiersza}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
+                                <p:dataTable lazy="false"  value="#{loop.stronywiersza}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
                                     <p:column headerText="#{mgs.dokument}" width="90">
                                         <h:outputText value="#{loopik.dokfkS}"/>
                                     </p:column>

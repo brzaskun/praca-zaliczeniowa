@@ -13,7 +13,7 @@
             <f:facet name="header">
                 <h:outputText value="#{mgs['guest.mcrok.header']}" style="display: block; text-align: center"/>
             </f:facet>
-<!--            <p:dataTable id="tablicanews" value="#{adminNews.newslist}" var="loop" rowKey="#{loop.id}" resizableColumns="true" >
+<!--            <p:dataTable lazy="false"  id="tablicanews" value="#{adminNews.newslist}" var="loop" rowKey="#{loop.id}" resizableColumns="true" >
             <p:column headerText="#{mgs['login.news']}">
                 <h:outputText value="#{loop.tresc}"/>
             </p:column>

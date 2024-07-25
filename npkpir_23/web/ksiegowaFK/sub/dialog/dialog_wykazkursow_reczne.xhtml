@@ -5,13 +5,13 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialogkursyrecznie" header="Zestawienie kursów walut wprowadzonych ręcznie" widgetVar="wykazkursowrecznie"  
               resizable="false"  onShow="ustawdialog('dialogkursyrecznie','menukartoteki',900,700);" closeOnEscape="true" onHide="resetujdialog('dialogkursyrecznie');" >
         <bcf:ajaxs/>
         <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false" update="wprowadzonekursyrecznie"/>
         <h:form id="wprowadzonekursyrecznie">
-            <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.wprowadzonekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych ręcznie kursow" 
+            <p:dataTable lazy="false"  id="dataTablekursy" var="wpis" value="#{walutyViewFK.wprowadzonekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych ręcznie kursow" 
                           rowKey="#{wpis.idtabelanbp}" widgetVar="dataTablekursy"
                           style="overflow-y: scroll; height: 600px;" 
                          rowsPerPageTemplate="15,30,250,500" paginatorPosition="top" paginator="true" rows="15">

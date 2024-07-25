@@ -63,11 +63,7 @@ import mail.MailOther;
 import msg.Msg;
 import org.apache.commons.collections4.CollectionUtils;
 import org.primefaces.PrimeFaces;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.CategoryAxis;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
+import org.primefaces.model.charts.line.LineChartModel;
 import pdf.PdfDok;
 import pdf.PdfPIT5;
 import pdf.PdfZestRok;
@@ -390,73 +386,73 @@ public class ZestawienieView implements Serializable {
     private void createLinearModel() {
         linearModel = new LineChartModel();
 
-        LineChartSeries series1 = new LineChartSeries();
-        series1.setLabel("przychody");
-        series1.setMarkerStyle("circle");
+//        LineChartSeries series1 = new LineChartSeries();
+//        series1.setLabel("przychody");
+//        series1.setMarkerStyle("circle");
+//
+//        series1.set("styczeń", styczen.getRazemprzychody());
+//        series1.set("luty", luty.getRazemprzychody());
+//        series1.set("marzec", marzec.getRazemprzychody());
+//        series1.set("kwiecień", kwiecien.getRazemprzychody());
+//        series1.set("maj", maj.getRazemprzychody());
+//        series1.set("czerwiec", czerwiec.getRazemprzychody());
+//        series1.set("lipiec", lipiec.getRazemprzychody());
+//        series1.set("sierpień", sierpien.getRazemprzychody());
+//        series1.set("wrzesień", wrzesien.getRazemprzychody());
+//        series1.set("październik", pazdziernik.getRazemprzychody());
+//        series1.set("listopad", listopad.getRazemprzychody());
+//        series1.set("grudzień", grudzien.getRazemprzychody());
 
-        series1.set("styczeń", styczen.getRazemprzychody());
-        series1.set("luty", luty.getRazemprzychody());
-        series1.set("marzec", marzec.getRazemprzychody());
-        series1.set("kwiecień", kwiecien.getRazemprzychody());
-        series1.set("maj", maj.getRazemprzychody());
-        series1.set("czerwiec", czerwiec.getRazemprzychody());
-        series1.set("lipiec", lipiec.getRazemprzychody());
-        series1.set("sierpień", sierpien.getRazemprzychody());
-        series1.set("wrzesień", wrzesien.getRazemprzychody());
-        series1.set("październik", pazdziernik.getRazemprzychody());
-        series1.set("listopad", listopad.getRazemprzychody());
-        series1.set("grudzień", grudzien.getRazemprzychody());
-
-        LineChartSeries series2 = new LineChartSeries();
-        series2.setLabel("koszty");
-        series2.setMarkerStyle("diamond");
-
-        series2.set("styczeń", styczen.getRazemkoszty());
-        series2.set("luty", luty.getRazemkoszty());
-        series2.set("marzec", marzec.getRazemkoszty());
-        series2.set("kwiecień", kwiecien.getRazemkoszty());
-        series2.set("maj", maj.getRazemkoszty());
-        series2.set("czerwiec", czerwiec.getRazemkoszty());
-        series2.set("lipiec", lipiec.getRazemkoszty());
-        series2.set("sierpień", sierpien.getRazemkoszty());
-        series2.set("wrzesień", wrzesien.getRazemkoszty());
-        series2.set("październik", pazdziernik.getRazemkoszty());
-        series2.set("listopad", listopad.getRazemkoszty());
-        series2.set("grudzień", grudzien.getRazemkoszty());
-
-        LineChartSeries series3 = new LineChartSeries();
-        series3.setLabel("wynik");
-        series3.setMarkerStyle("filledSquare");
-
-        series3.set("styczeń", styczen.getRazemdochod());
-        series3.set("luty", luty.getRazemdochod());
-        series3.set("marzec", marzec.getRazemdochod());
-        series3.set("kwiecień", kwiecien.getRazemdochod());
-        series3.set("maj", maj.getRazemdochod());
-        series3.set("czerwiec", czerwiec.getRazemdochod());
-        series3.set("lipiec", lipiec.getRazemdochod());
-        series3.set("sierpień", sierpien.getRazemdochod());
-        series3.set("wrzesień", wrzesien.getRazemdochod());
-        series3.set("październik", pazdziernik.getRazemdochod());
-        series3.set("listopad", listopad.getRazemdochod());
-        series3.set("grudzień", grudzien.getRazemdochod());
-
-        linearModel.addSeries(series1);
-        linearModel.addSeries(series2);
-        linearModel.addSeries(series3);
-        linearModel.setAnimate(true);
-        linearModel.setShadow(true);
-        linearModel.setBreakOnNull(true);
-        Axis yAxis = linearModel.getAxis(AxisType.Y);
-        yAxis.setMin(wyliczminimalna());
-        yAxis.setMax(wyliczmaksymalna());
-        yAxis.setLabel("kwota");
-        linearModel.getAxes().put(AxisType.X, new CategoryAxis("miesiące"));
-        Axis xAxis = linearModel.getAxis(AxisType.X);
-        xAxis.setLabel("miesiące");
-        linearModel.setTitle("Zestawienie za rok");
-        linearModel.setLegendPosition("e");
-        linearModel.setZoom(true);
+//        LineChartSeries series2 = new LineChartSeries();
+//        series2.setLabel("koszty");
+//        series2.setMarkerStyle("diamond");
+//
+//        series2.set("styczeń", styczen.getRazemkoszty());
+//        series2.set("luty", luty.getRazemkoszty());
+//        series2.set("marzec", marzec.getRazemkoszty());
+//        series2.set("kwiecień", kwiecien.getRazemkoszty());
+//        series2.set("maj", maj.getRazemkoszty());
+//        series2.set("czerwiec", czerwiec.getRazemkoszty());
+//        series2.set("lipiec", lipiec.getRazemkoszty());
+//        series2.set("sierpień", sierpien.getRazemkoszty());
+//        series2.set("wrzesień", wrzesien.getRazemkoszty());
+//        series2.set("październik", pazdziernik.getRazemkoszty());
+//        series2.set("listopad", listopad.getRazemkoszty());
+//        series2.set("grudzień", grudzien.getRazemkoszty());
+//
+//        LineChartSeries series3 = new LineChartSeries();
+//        series3.setLabel("wynik");
+//        series3.setMarkerStyle("filledSquare");
+//
+//        series3.set("styczeń", styczen.getRazemdochod());
+//        series3.set("luty", luty.getRazemdochod());
+//        series3.set("marzec", marzec.getRazemdochod());
+//        series3.set("kwiecień", kwiecien.getRazemdochod());
+//        series3.set("maj", maj.getRazemdochod());
+//        series3.set("czerwiec", czerwiec.getRazemdochod());
+//        series3.set("lipiec", lipiec.getRazemdochod());
+//        series3.set("sierpień", sierpien.getRazemdochod());
+//        series3.set("wrzesień", wrzesien.getRazemdochod());
+//        series3.set("październik", pazdziernik.getRazemdochod());
+//        series3.set("listopad", listopad.getRazemdochod());
+//        series3.set("grudzień", grudzien.getRazemdochod());
+//
+//        linearModel.addSeries(series1);
+//        linearModel.addSeries(series2);
+//        linearModel.addSeries(series3);
+//        linearModel.setAnimate(true);
+//        linearModel.setShadow(true);
+//        linearModel.setBreakOnNull(true);
+//        Axis yAxis = linearModel.getAxis(AxisType.Y);
+//        yAxis.setMin(wyliczminimalna());
+//        yAxis.setMax(wyliczmaksymalna());
+//        yAxis.setLabel("kwota");
+//        linearModel.getAxes().put(AxisType.X, new CategoryAxis("miesiące"));
+//        Axis xAxis = linearModel.getAxis(AxisType.X);
+//        xAxis.setLabel("miesiące");
+//        linearModel.setTitle("Zestawienie za rok");
+//        linearModel.setLegendPosition("e");
+//        linearModel.setZoom(true);
     }
 
     private double wyliczmaksymalna() {

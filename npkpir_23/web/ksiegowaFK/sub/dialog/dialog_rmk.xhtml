@@ -3,13 +3,13 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialogrmk" header="Wykaz rozliczeń międzyokresowych - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogrmk" 
               resizable="false"  onShow="ustawdialog('dialogrmk','menurmk',1200,700);" closeOnEscape="true" onHide="resetujdialog('dialogrmk');" >
        
         <h:form id="kontoformLista">
-            <p:dataTable id="infokonta" value="#{rMKView.listarmk}" var="item"  emptyMessage="Klient nie posiada kont z rozliczeniami rmk"
+            <p:dataTable lazy="false"  id="infokonta" value="#{rMKView.listarmk}" var="item"  emptyMessage="Klient nie posiada kont z rozliczeniami rmk"
                          style="margin-top: 2%;height: 650px;" sortBy="#{item.id}" paginator="true" rows="10">
                 <f:facet name="header">
                     <h:outputText value="Wykaz rozliczeń międzyokresowych podatnika"/>

@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="zapisywdokumentachWNT" header="Zestawienie zapisów w dokumentach WNT - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisywdokumentachWNT" 
               resizable="false"  onShow="ustawdialog('zapisywdokumentachWNT','menudokumenty', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('zapisywdokumentachWNT');" maximizable="true">
         <h:form id="formzapisywdokumentachWNT">
@@ -28,7 +28,7 @@
                 <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfWNTWDTView.drukujzaksiegowanydokument(wierszeView.wybranewierszeWNT, wierszeView.wierszeWNT)}" styleClass="fkbutton"
                                       style="margin-left: 100px; width: 120px;" />
             </p:panelGrid>
-            <p:dataTable id="dataList" value="#{wierszeView.wierszeWNT}" var="loop" rowIndexVar="row" style="wheight: 700px; height: 650px; overflow-y: scroll" 
+            <p:dataTable lazy="false"  id="dataList" value="#{wierszeView.wierszeWNT}" var="loop" rowIndexVar="row" style="wheight: 700px; height: 650px; overflow-y: scroll" 
                          widgetVar="zapisywdokumentachWNTdataList"
                          rowKey="#{loop.idwiersza}" editable="true" selection="#{wierszeView.wybranewierszeWNT}"  sortBy="#{loop.dokfk.datadokumentu}"
                          emptyMessage="nie pobrano wierszy/ nie ma wierszy WNT w tym miesiącu">

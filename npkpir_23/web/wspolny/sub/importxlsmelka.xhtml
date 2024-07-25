@@ -11,7 +11,7 @@
             <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
                     <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
                         <h:outputText value="Akceptowana wersja pliku xls,xlsx, xml" style="font-weight: bold;"/>
-                        <p:fileUpload fileUploadListener="#{importMelkaView.zachowajplik}" 
+                        <p:fileUpload chooseIcon="fa fa-upload" listener="#{importMelkaView.zachowajplik}" 
                                       mode="advanced" multiple="true" sequential="true" auto="true"
                                       update="messages2 panelprzyciskow importmelka " 
                                       invalidSizeMessage="Plik za duży" allowTypes="/(\.|\/)(csv|xls|xml|xlsx)$/" invalidFileMessage="Niewłaściwy format pliku: "
@@ -31,7 +31,7 @@
        
             <h:form id="importmelka">
                 <p:panelGrid columns="1" >
-            <p:dataTable id="dataListImport" value="#{importMelkaView.wiersze}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
+            <p:dataTable lazy="false"  id="dataListImport" value="#{importMelkaView.wiersze}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
                          selection="#{importMelkaView.selected}" rowKey="#{itemimp.nr}"  
                          style="width: 1420px; height: 580px; overflow-y: scroll; margin-top: 15px;margin-bottom: 15px;" filteredValue="#{importMelkaView.filter}"
                          emptyMessage="Brak importowanych dokumentów/Sprawdź kolumny w dokumencie xls" styleClass="gridZaksiegowane"

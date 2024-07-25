@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
-        
+    xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets"> 
     <script>
         var doczeplistnerydopol = function() {
@@ -37,8 +37,8 @@
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true" 
               >
         <p:ajax event="open" listener="#{kontoZapisFKView.init()}" update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta walutazapisynakoncie formwpiskontarok"/>
-        <p:layout fullPage="false" style="height: 720px;width: 820px;" >  
-            <p:layoutUnit position="north">
+        <pe:layout fullPage="false" style="height: 720px;width: 820px;" >  
+            <pe:layoutPane position="north">
                 <p:panelGrid columns="4" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
                         <h:outputText value="#{mgs.wybierzkonto}: "/>
@@ -130,9 +130,9 @@
                     </h:form>
                 </p:panelGrid>
                 <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia"  style="display: none;"/>
-            </p:layoutUnit>  
+            </pe:layoutPane>  
             <!--            lewa strona z drzewem kont-->
-            <p:layoutUnit id="westtree" position="west" size="520" >
+            <pe:layoutPane id="westtree" position="west" size="520" >
                 <p:panelGrid columns="2" >
 <!--                    <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form:dataList_data');" global="false" style="float: left;" />
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form:dataList_data');"  global="false" style="float: left;" />-->
@@ -184,7 +184,7 @@
                                      selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
                                      style="width: 100%; height: 500px; overflow-y: scroll;" 
                                      rowIndexVar="wykazkontindex" styleClass="walkingtable"
-                                     sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}"  emptyMessage="Nie ma żadnych księgowac na kontach w wybranym okresie.">
+                                       emptyMessage="Nie ma żadnych księgowac na kontach w wybranym okresie.">
                             <p:ajax event="rowSelect"  update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:wyborkonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" 
                                     oncomplete="fwiersz();"/>
@@ -196,7 +196,8 @@
                             <p:column  style="width: 50px; text-align: center;" width="10">
                                 <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
                             </p:column>
-                            <p:column headerText="nr konta"  styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;  #{loop1.sprawdzono ne null?'background-color: #c2f9d2':null}">
+                            <p:column headerText="nr konta"  styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;  #{loop1.sprawdzono ne null?'background-color: #c2f9d2':null}"
+                                      sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" sortPriority="1">
                                 <p:outputPanel id="kontokolor">
                                 <h:outputText value="#{loop1.nrkonta}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '0' ? true : false)}" style="font-weight: 900;" /> 
                                 <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
@@ -225,9 +226,9 @@
                     </p:contextMenu>
                     </p:outputPanel>
                 </h:form>
-            </p:layoutUnit>  
+            </pe:layoutPane>  
 
-            <p:layoutUnit id="centertree" position="center" style="height: 200px;">
+            <pe:layoutPane id="centertree" position="center" >
                 <style>
                     .grid1 td {
                         height: 35px !important;
@@ -245,8 +246,8 @@
 
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
-                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="width: 100%;"
-                                 sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
+                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}"  style="width: 100%;"
+                                  emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="walkingtable" rowSelectMode="add" widgetVar="tabelastronyzapisy"
                                  rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{kontoZapisFKView.kontozapisy.size() gt 150 ? 'true':'false'}" rows="150"
                                  >
@@ -260,7 +261,7 @@
 <!--                        <p:column headerText="id" width="20"  >
                             <h:outputText value="#{loop.id}" style="font-size: xx-small;"/>
                         </p:column>-->
-                        <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center;">
+                        <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center;"  sortBy="#{loop}" sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" sortPriority="1">
                             <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                         </p:column>
                         <p:column style="height: 19px; text-align: center;" width="20"  rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
@@ -427,8 +428,8 @@
                         <p:menuitem value="rok zamknięty nie można nanosić zmian" />
                     </p:contextMenu>
                 </h:form>  
-            </p:layoutUnit> 
-            <p:layoutUnit position="south" style="height: 70px;">
+            </pe:layoutPane> 
+            <pe:layoutPane position="south" >
                 
                 <p:panelGrid columns="3">
                     <h:form>
@@ -510,8 +511,8 @@
                         </p:dataTable>
                     </h:form>
                 </p:panelGrid>
-            </p:layoutUnit>  
-        </p:layout>
+            </pe:layoutPane>  
+        </pe:layout>
         <h:form id="zestawieniezapisownakontachpola1">
             <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
         </h:form>

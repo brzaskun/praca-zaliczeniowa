@@ -3,7 +3,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/template.xhtml">
 
         <ui:define name="title">
@@ -22,10 +22,10 @@
              
                 <f:view>
                     <bcf:ajaxs value="Trwa przetwarzanie danych"/>
-                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <pe:layout fullPage="true" >
                         <ui:include src="sub/layoutKsiega/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutKsiega/west.xhtml"/>   <!-- panel zachodni-->
-                        <p:layoutUnit position="center">
+                        <pe:layoutPane position="center">
                          <p:panel toggleable="true" closable="true" style="width: 1000px;">
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do wyświetlania poszczególnych zapisów w danym miesiącu w klasycznej formie podatkowej księgi przychodów i rozchodów"/><br/>
@@ -36,9 +36,9 @@
                                 </p:panel>
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/ksiega.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                        </p:layoutUnit>
+                        </pe:layoutPane>
 
-                    </p:layout>
+                    </pe:layout>
                 </f:view>
             
         </ui:define>

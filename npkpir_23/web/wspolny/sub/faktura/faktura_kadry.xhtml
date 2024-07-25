@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:tab title="Naliczenia do faktur">
             <h:form styleClass="kadrypozycja">
@@ -22,7 +22,7 @@
                     <p:commandButton styleClass="buttonnorm" style="width: 120px;margin-left: 10px;" actionListener="#{wsKadryFakturaPozycjaView.usun()}" value="usuń wszystkie" update="@form" />
                 </p:panelGrid>
                 <p:outputPanel style="padding: 10px;">
-                    <p:dataTable id="datalist" value="#{wsKadryFakturaPozycjaView.wierzfakturybazalist}" var="item111"
+                    <p:dataTable lazy="false"  id="datalist" value="#{wsKadryFakturaPozycjaView.wierzfakturybazalist}" var="item111"
                                  selectionMode="single"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" sortBy="#{item111.nazwa}"
                                  style="width: 1300px;"

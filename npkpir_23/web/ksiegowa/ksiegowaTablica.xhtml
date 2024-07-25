@@ -3,7 +3,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/template.xhtml">
 
         <ui:define name="title">
@@ -33,13 +33,13 @@
                 </p:confirmDialog>  
             </h:form>
             <f:view>
-                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                <pe:layout fullPage="true" >
                     <ui:include src="sub/layoutTablica/north.xhtml"/>  <!-- panel polnocny-->
                     <ui:include src="sub/layoutTablica/south.xhtml"/>   <!-- panel poludniowy-->
                     <ui:include src="sub/layoutTablica/west.xhtml"/>   <!-- panel zachodni-->
                     <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
                     
-                    <p:layoutUnit position="center" id="layoutCenter" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                    <pe:layoutPane position="center" id="layoutCenter">
                         
                         <h:form id="formM">
                             <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
@@ -68,9 +68,9 @@
                                          actionListener="#{DokumentView.przygotujrozbicie}" 
                                          update="formdialog_add_wiad_kolumna1rozbicie" style="display: none"/>
                     </h:form>
-                    </p:layoutUnit>
+                    </pe:layoutPane>
 
-                </p:layout>
+                </pe:layout>
             </f:view>
 
         </ui:define>

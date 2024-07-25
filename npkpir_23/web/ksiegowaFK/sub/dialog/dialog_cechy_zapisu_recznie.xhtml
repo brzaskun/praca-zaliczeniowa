@@ -11,7 +11,7 @@
               closeOnEscape="true">
         <h:form id="form_dialog_cechy_zapisu_recznie" >
             
-            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
+            <p:dataTable lazy="false"  id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
                           style="overflow-y: scroll; height: 400px;"
                          rowKey="#{item.nazwacechy}">
                 <p:column>

@@ -357,6 +357,8 @@ public class Podatnik implements Serializable {
     private String domyslnametodaplatnosci;
     @Column(name = "zwolnienievat43")
     private boolean zwolnienievat43;
+    @Column(name = "kasafiskalna")
+    private boolean kasafiskalna;
     
     @JoinColumn(name = "finanzamt", referencedColumnName = "id")
     @ManyToOne
@@ -1354,6 +1356,14 @@ public class Podatnik implements Serializable {
 
     public void setZwolnienievat43(boolean zwolnienievat43) {
         this.zwolnienievat43 = zwolnienievat43;
+    }
+
+    public boolean isKasafiskalna() {
+        return kasafiskalna;
+    }
+
+    public void setKasafiskalna(boolean kasafiskalna) {
+        this.kasafiskalna = kasafiskalna;
     }
 
     

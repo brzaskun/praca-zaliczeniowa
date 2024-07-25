@@ -3,8 +3,9 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="220" header="Bieżący podatnik" collapsible="true" resizable="true" style="box-shadow: 10px 10px 5px #888;">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+    <pe:layoutPane position="west" size="220"  resizable="true">
         <h:form id="westWpis">
             <p:panel header="Tu możesz sprawdzić:">
                 <h:form>
@@ -46,6 +47,6 @@
                 </h:form>
             </p:panel>
         </h:form>
-    </p:layoutUnit>
+    </pe:layoutPane>
 </ui:composition>   
 

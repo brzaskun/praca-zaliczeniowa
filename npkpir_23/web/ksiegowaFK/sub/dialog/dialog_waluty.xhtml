@@ -22,7 +22,7 @@
                 <h:outputText value="data końcowa WYMAGANA!"/>
                 <p:inputText value="#{walutyKursRecznieView.datadotabela}" placeholder="rrrr-mm-dd" maxlength="10" size="10"/>
             </p:panelGrid>
-            <p:dataTable id="dataTablewaluty" var="wpis" value="#{walutyViewFK.pobraneRodzajeWalut}" emptyMessage="Nie ma wprowadzonych walut"
+            <p:dataTable lazy="false"  id="dataTablewaluty" var="wpis" value="#{walutyViewFK.pobraneRodzajeWalut}" emptyMessage="Nie ma wprowadzonych walut"
                          scrollable="true" scrollHeight="400" scrollRows="10" style="width: 650px;">
                 <p:column headerText="skrót waluty" style="text-align: center; height: 25px;" sortBy="#{wpis.symbolwaluty}">
                     <h:outputText value="#{wpis.symbolwaluty}" />

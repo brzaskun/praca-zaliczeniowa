@@ -3,10 +3,11 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab id="elementy" title="Dodatkowe elementy faktury">
         <h:form id="formelementy">
-            <p:dataTable value="#{fakturadodelementyView.fakturadodelementy}" sortBy="#{wpis.fakturadodelementyPK.nazwaelementu}"
+            <p:dataTable lazy="false"  value="#{fakturadodelementyView.fakturadodelementy}" sortBy="#{wpis.fakturadodelementyPK.nazwaelementu}"
                          var="wpis" style="width: 1000px;">
                 <f:facet name="header">
                     <h:outputText value="Wybierze elementy opcjonalne faktury"/>

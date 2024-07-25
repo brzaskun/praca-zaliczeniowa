@@ -3,8 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab title="Edycja danych podatnika">
         <h:form id="form">
             <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk ne 1}">
@@ -142,6 +142,8 @@
             <p:selectBooleanCheckbox value="#{podatnikView.selected.tylkodlaZUS}"/>
             <h:outputLabel value="zatrudnia pracowikow"/>
             <p:selectBooleanCheckbox value="#{podatnikView.selected.zatrudniapracownikow}"/>
+            <h:outputLabel value="ma kasę fiskalną"/>
+            <p:selectBooleanCheckbox value="#{podatnikView.selected.kasafiskalna}"/>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                     <p:commandButton action="#{podatnikView.edytuj()}" value="edytuj podatnika" update="@form" type="submit"/>
@@ -270,6 +272,8 @@
             <p:selectBooleanCheckbox value="#{podatnikView.selected.tylkodlaZUS}"/>
             <h:outputLabel value="zatrudnia pracowikow"/>
             <p:selectBooleanCheckbox value="#{podatnikView.selected.zatrudniapracownikow}"/>
+            <h:outputLabel value="ma kasę fiskalną"/>
+            <p:selectBooleanCheckbox value="#{podatnikView.selected.kasafiskalna}"/>
             <h:outputText value="wysyłać dane o składkach ZUS i PIT4 na mail: #{podatnikView.selected.email ne null ? podatnikView.selected.email : 'brak mail'}"/>
             <p:selectBooleanCheckbox value="#{podatnikView.selected.wysylkazusmail}" label="wysyłać dane o wysokości ZUS i PIT-4"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
             </p:selectBooleanCheckbox>

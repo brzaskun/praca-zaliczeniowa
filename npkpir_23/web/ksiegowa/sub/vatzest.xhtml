@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <script>
         var pobierzxml = function () {
             document.getElementById('link').setAttribute('href', '../resources/xml/testowa#{WpisView.podatnikObiekt.nip}.xml');
@@ -35,7 +35,7 @@
                     </p:commandButton>
                     <p:commandButton value="Drukuj wszyst. data - rok" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieRok()}" style="width: 220px; margin-left: 20px;" action="#{sesjaView.dodajwydruk()}"/>
                     <p:separator/>
-                    <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1200px; overflow-y: scroll; height: 450px;" 
+                    <p:dataTable lazy="false"  id="tabela" value="#{item}" var="itemik" style="width: 1200px; overflow-y: scroll; height: 450px;" 
                                  rowIndexVar="#{itemik.id}"
                                  >
                         <f:facet name="header">  
@@ -103,7 +103,7 @@
             <p:separator/>
             <p:panelGrid id="panelposumowaniavat" columns="2" columnClasses="fifty-percent fifty-percent">
                 <p:panelGrid columns="1">
-                    <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemikpl" 
+                    <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemikpl" 
                                  selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemikpl.ewidencja.nazwa}" style="width: 600px;"
                                  >
                         <f:facet name="header">
@@ -126,7 +126,7 @@
                         </p:column>
 
                     </p:dataTable>
-                    <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemikpl" 
+                    <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemikpl" 
                                  selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemikpl.ewidencja.nazwa}" style="width: 600px;"
                                  >
                         <f:facet name="header">
@@ -154,7 +154,7 @@
             </p:panelGrid>
                 <p:panelGrid id="panelposumowaniavatniemcy" columns="2" columnClasses="fifty-percent fifty-percent" style="margin-top: 10px;">
                 <p:panelGrid columns="1">
-                    <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedazNiemcy}" var="itemik" 
+                    <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniasprzedazNiemcy}" var="itemik" 
                                  selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 600px;"
                                  >
                         <f:facet name="header">
@@ -177,7 +177,7 @@
                         </p:column>
 
                     </p:dataTable>
-                    <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniazakupyNiemcy}" var="itemik" 
+                    <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniazakupyNiemcy}" var="itemik" 
                                  selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 600px;"
                                  >
                         <f:facet name="header">
@@ -221,7 +221,7 @@
                 <h:outputText value="suma"/>
                 <bcf:outputpl value="#{klientJPKView.suma}"/>
             </p:panelGrid>
-            <p:dataTable value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk" id="tabelapozycjedlajpk"
+            <p:dataTable lazy="false"  value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk" id="tabelapozycjedlajpk"
                          style="width: 1200px;" widgetVar="tabelajpk"
                          >
                 <p:column style="width: 50px;">

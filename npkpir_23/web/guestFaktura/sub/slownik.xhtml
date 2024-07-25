@@ -14,7 +14,7 @@
         </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel>
-        <p:dataTable value="#{fakturaslownikView.lista}" var="item" style="width: 600px; margin-top: 2%;" id="dokLista"
+        <p:dataTable lazy="false"  value="#{fakturaslownikView.lista}" var="item" style="width: 600px; margin-top: 2%;" id="dokLista"
                      rowIndexVar="index" rowKey="#{item.id}"
                          widgetVar="table" emptyMessage="Nie wprowadzono jeszcze żadnych opisów" filterDelay="600"
                          paginator="true" rows="12" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 

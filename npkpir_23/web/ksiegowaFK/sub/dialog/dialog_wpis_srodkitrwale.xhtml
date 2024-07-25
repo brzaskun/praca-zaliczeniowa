@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <style>
         .ui-autocomplete input[id="srodkiwpis:acForce1_input"] {
@@ -20,19 +20,9 @@
         <h:form id="srodkiwpis"> 
             <!--pola ewidencji SRODKOW TRWALYCH-->
             <p:panel id="panelwyszukiwarki" style="height: 50px;" >
-                <p:panelGrid>
-                    <f:facet name="header">
-                        <p:row>
-                            <p:column>
-                                <h:outputText value="wyszukiwarka środka trw."/>
-                            </p:column>
-                            <p:column width="100">
-                                <h:outputText value="środek trw/wyposażenie"/>
-                            </p:column>
-                        </p:row>
-                    </f:facet>
+                <p:panelGrid id="wyszukiwarka" columns="2">
                     <p:row>
-                        <p:column>
+                        <p:column headerText="wyszukiwarka środka trw.">
                             <p:autoComplete id="acForce1" value="#{srodkiTrwaleView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
                                             var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
                                             minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom"
@@ -54,7 +44,7 @@
                                 <p:ajax global="false" event="itemSelect" listener="#{srodkiTrwaleView.skopiujSTR}"/>
                             </p:autoComplete>
                         </p:column>
-                        <p:column >
+                        <p:column headerText="środek trw/wyposażenie">
                             <h:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.typ}" 
                                              onblur="$(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');"
@@ -81,7 +71,7 @@
                     }
                 </style>
                     <h:outputText value="Pamiętaj o wybraniu odpowiednich kont. Bez tego środek nie zostanie zaksięgowany" style="color:red;"/>
-                <p:dataTable id="tabelasrodkitrwaleOT" value="#{srodkiTrwaleView.selectedSTR}" var="loop" styleClass="tabelasrodkitrwaleOT"> 
+                <p:dataTable lazy="false"  id="tabelasrodkitrwaleOT" value="#{srodkiTrwaleView.selectedSTR}" var="loop" styleClass="tabelasrodkitrwaleOT"> 
                     <p:column headerText="nazwa środka" style="text-align: center;" width="200">
                         <p:inputText id="nazwasrodka" value="#{loop.nazwa}" style="width: 200px;">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
@@ -138,7 +128,7 @@
                     </p:column>
                 </p:dataTable>
             </p:panel>
-            <p:panelGrid style="padding: 5px; margin-left: 5px;">
+            <p:panelGrid style="padding: 5px; margin-left: 5px;" id="srodki2">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -149,6 +139,7 @@
                         </p:column>
                     </p:row>
                 </f:facet>
+                <p:row>
                 <p:column>
                     <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontonetto}" style="width: 350px;"  converter="#{kontoConv}" required="true"
                                      requiredMessage="wybierz konto środka  ">
@@ -164,6 +155,7 @@
                         <p:ajax event="change" onstart="r('srodkiwpis:buttonsrodektrw').show();" global="false"/>
                     </p:selectOneMenu>
                 </p:column>
+                    </p:row>
             </p:panelGrid>
             <p:commandButton id="buttonsrodektrw" value="dodaj środek" global="false" style="margin-top: 15px; width: 120px; margin-left: 10px; display: none;" 
                              onclick="wprowadzsrodek()"

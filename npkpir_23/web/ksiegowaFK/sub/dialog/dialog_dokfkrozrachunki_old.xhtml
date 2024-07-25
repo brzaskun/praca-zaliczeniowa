@@ -81,7 +81,7 @@
                             </p:column>
                         </p:row>
                     </p:panelGrid>
-                    <p:panelGrid id="paneledycji2"  style="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN' ? 'width: 1000px;' :  'width: 700px;'}" >
+                    <p:panelGrid id="paneledycji2"  style="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN' ? 'width: 1000px;' :  'width: 700px;'}" columns="6">
                         <f:facet name="header">
                             <p:row>
                                 <p:column>
@@ -152,7 +152,7 @@
                                 vertical-align: bottom;
                             }
                         </style>
-                        <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1000px; padding: 0px 10px 10px 10px; " 
+                        <p:dataTable lazy="false"  id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1000px; padding: 0px 10px 10px 10px; " 
                                      emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
                                      scrollRows="22" scrollable="true" scrollHeight="400" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
                                      >

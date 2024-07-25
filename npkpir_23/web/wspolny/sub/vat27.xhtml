@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <bcf:ajaxs rendered="#{!WpisView.ksiegirachunkowe}"/>
     <h:form id="form">
         <p:outputPanel id="wrapper" deferred="true"  styleClass="upd1"> 
@@ -21,7 +21,7 @@
             <h:outputText value="#{vat27View.brakustawienUE}"
                           style="color: red;"/>
             <p:growl life="3600"  id="messages"/>
-            <p:dataTable  var="wpis" value="#{vat27View.klienciWDTWNT}" id="dokumentyLista" editable="true" 
+            <p:dataTable lazy="false"   var="wpis" value="#{vat27View.klienciWDTWNT}" id="dokumentyLista" editable="true" 
                           rowKey="#{wpis.kontrahent.nip}" selection="#{vat27View.listawybranych}"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           style="height: 450px;overflow-y: scroll;width: 1000px;"  widgetVar="dokTable"
@@ -60,7 +60,7 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >  
-                        <p:dataTable var="subwpis" value="#{wpis.zawiera}" emptyMessage="brak dokumentów"  resizableColumns="true" style="width: 90%;">
+                        <p:dataTable lazy="false"  var="subwpis" value="#{wpis.zawiera}" emptyMessage="brak dokumentów"  resizableColumns="true" style="width: 90%;">
                             <p:column id="SubColumn0" headerText="#{mgs.numerkolejny}" style="text-align: center;">  
                                 <h:outputText value="#{subwpis.nrWpkpir}" />
                             </p:column>
@@ -87,7 +87,7 @@
             </p:dataTable>
             <p:messages id="mesydzue" styleClass="upd3"> <p:autoUpdate/></p:messages>
                 <p:separator/>
-                <p:dataTable value="#{vat27View.deklaracjevat27}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1410px;" styleClass="upd3"
+                <p:dataTable lazy="false"  value="#{vat27View.deklaracjevat27}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1410px;" styleClass="upd3"
                              selection="#{vat27View.dekl27selected}" selectionMode="single" rowKey="#{row.hashCode()}">
                     <p:column style="width: 3%;">
                         <p:rowToggler/>

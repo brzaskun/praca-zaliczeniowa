@@ -5,8 +5,9 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="north" size="63" resizable="false" >
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+    <pe:layoutPane position="north" size="63" resizable="false" >
         <h:form id="menubarnorth">
             <p:menubar autoDisplay="true" style="border: none;">
                 <p:menuitem icon="fa fa-institution" value="firma" outcome="ksiegowaFKFirma_1"/>
@@ -47,6 +48,6 @@
                 oncomplete="PF('dialog_zmiana_okresu').show()" global="false"
             />
         </h:form>
-    </p:layoutUnit>
+    </pe:layoutPane>
 </ui:composition>   
 

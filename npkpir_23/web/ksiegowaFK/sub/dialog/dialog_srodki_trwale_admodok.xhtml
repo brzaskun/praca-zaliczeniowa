@@ -5,14 +5,14 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialogsrodkitrwaleadmodok" header="Zestawienie dla dokumentów AMO - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogsrodkitrwaleadmodok"  
               resizable="false"  onShow="ustawdialog('dialogsrodkitrwaleadmodok','menurmk',1150,700);" closeOnEscape="true" onHide="resetujdialog('dialogsrodkitrwaleadmodok');" >
         <bcf:ajaxs/>
         <h:form id="srodkiamo">
             <p:outputPanel style="margin-top: 10px">
 <!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
-                <p:dataTable value="#{srodkiTrwaleAMOView.kontasrodkitrw}" var="item" style="width: 50%;" id="saldokontasrodkitrw">
+                <p:dataTable lazy="false"  value="#{srodkiTrwaleAMOView.kontasrodkitrw}" var="item" style="width: 50%;" id="saldokontasrodkitrw">
                     <p:column headerText="nr konta" width="50">
                         <h:outputText value="#{item.konto.pelnynumer}"/>
                     </p:column>
@@ -32,7 +32,7 @@
                 </p:dataTable>
             </p:outputPanel>
             <p:outputPanel style="margin-top: 10px">
-                <p:dataTable  var="wpis" value="#{sTRTabView.posiadane}" id="srodkiLista" editable="true" 
+                <p:dataTable lazy="false"   var="wpis" value="#{sTRTabView.posiadane}" id="srodkiLista" editable="true" 
                               paginator="true" paginatorAlwaysVisible="true" rows="5"
                               paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                               rowsPerPageTemplate="5,20,40,80"  widgetVar="srodkiLista1" style="max-width: 1400px;"

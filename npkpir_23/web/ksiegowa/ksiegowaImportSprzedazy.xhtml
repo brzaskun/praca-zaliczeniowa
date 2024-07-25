@@ -3,25 +3,25 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
             <f:view>
-                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                <pe:layout fullPage="true" >
                     <ui:include src="sub/layoutImporty/north.xhtml"/>  <!-- panel polnocny-->
                     <ui:include src="sub/layoutImporty/south.xhtml"/>   <!-- panel poludniowy-->
                     <ui:include src="sub/layoutImporty/west.xhtml"/>   <!-- panel zachodni-->
                     <ui:include src="sub/layoutImporty/east.xhtml"/>   <!-- panel wchodni-->
-                    <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                    <pe:layoutPane position="center">
                         <bcf:ajaxs/>
                         <h:outputText value="import dokumentów z pliku JPK_VAT"/>
                         <h:form>
                             <p:growl life="3600"  id="messages1"/>
                             <p:panelGrid columns="3">
-                            <p:fileUpload fileUploadListener="#{importSprzedazyView.importujsprzedaz}"
+                            <p:fileUpload chooseIcon="fa fa-upload" listener="#{importSprzedazyView.importujsprzedaz}"
                                           mode="advanced" dragDropSupport="true" fileLimit="1" 
                                           update="messages1 importtabela @form" sizeLimit="4000000"  
                                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
@@ -47,7 +47,7 @@
                                 <h:outputText value="brutto"/>
                                 <bcf:outputpl value="#{importSprzedazyView.brutto}"/>
                             </p:panelGrid>
-                            <p:dataTable  var="wpis" value="#{importSprzedazyView.dokumenty}" id="dokumentyLista" 
+                            <p:dataTable lazy="false"   var="wpis" value="#{importSprzedazyView.dokumenty}" id="dokumentyLista" 
                                           rowIndexVar="index" 
                                           style="width: 1400px; margin-top: 10px; height: 600px; overflow-y: scroll;" 
                                           widgetVar="dokTable" 
@@ -122,7 +122,7 @@
                                 </p:column>
                                 <p:rowExpansion>
                                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
-                                        <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
+                                        <p:dataTable lazy="false"  var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
                                             <p:column id="SubColumn1" headerText="ewidencja">  
                                                 <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
                                             </p:column>
@@ -150,7 +150,7 @@
                                         </p:dataTable>
                                     </p:column>
                                     <p:column id="cechy" headerText="cechy zapisu" resizable="true">  
-                                        <p:dataTable var="subwpiscecha" value="#{wpis.cechadokumentuLista}" emptyMessage="dokument bez cechy"  resizableColumns="true" style="width: 50%;">
+                                        <p:dataTable lazy="false"  var="subwpiscecha" value="#{wpis.cechadokumentuLista}" emptyMessage="dokument bez cechy"  resizableColumns="true" style="width: 50%;">
                                             <p:column id="SubColumn1" headerText="nazwa cechy">  
                                                 <h:outputText value="#{subwpiscecha.nazwacechy}" />
                                             </p:column>
@@ -174,8 +174,8 @@
                                               style="margin-top: 10px; width: 120px;" update="@form" rendered="#{importSprzedazyView.dokumenty.size() gt 0}"/>
                             <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importSprzedazyView.drukuj()}" global="false" rendered="#{importSprzedazyView.dokumenty.size() gt 0}"/>
                         </h:form>
-                    </p:layoutUnit>
-                </p:layout>
+                    </pe:layoutPane>
+                </pe:layout>
             </f:view>
         </ui:define>
     </ui:composition>

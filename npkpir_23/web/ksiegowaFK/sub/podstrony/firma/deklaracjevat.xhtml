@@ -6,11 +6,11 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
         
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <bcf:ajaxs/>
         <h:form>
             <p:panel header="deklaracje VAT"/>
-            <p:dataTable value="#{deklaracjeListaView.oczekujaceVAT7}" var="item1" style="width: 1390px;" emptyMessage="Nie ma deklaracji oczekujących na sprawdzenie">
+            <p:dataTable lazy="false"  value="#{deklaracjeListaView.oczekujaceVAT7}" var="item1" style="width: 1390px;" emptyMessage="Nie ma deklaracji oczekujących na sprawdzenie">
                 <p:column headerText="rok/mc" width="80">
                     <h:outputText value="#{item1.rok}/#{item1.miesiac}"/>
                 </p:column>
@@ -38,7 +38,7 @@
         </h:form>
         <h:form>
             <p:panel header="deklaracje VAT-UE"/>
-            <p:dataTable value="#{deklaracjeListaView.oczekujaceVATUE}" var="item2" style="width: 1390px;" emptyMessage="Nie ma deklaracji oczekujących na sprawdzenie">
+            <p:dataTable lazy="false"  value="#{deklaracjeListaView.oczekujaceVATUE}" var="item2" style="width: 1390px;" emptyMessage="Nie ma deklaracji oczekujących na sprawdzenie">
                 <p:column headerText="rok/mc" width="80">
                     <h:outputText value="#{item2.rok}/#{item2.miesiac}"/>
                 </p:column>
@@ -66,7 +66,7 @@
         </h:form>
         <h:form>
             <p:panel header="deklaracje VAT-27"/>
-            <p:dataTable value="#{deklaracjeListaView.oczekujaceVAT27}" var="item3" style="width: 1390px;" emptyMessage="Nie ma deklaracji oczekujących na sprawdzenie">
+            <p:dataTable lazy="false"  value="#{deklaracjeListaView.oczekujaceVAT27}" var="item3" style="width: 1390px;" emptyMessage="Nie ma deklaracji oczekujących na sprawdzenie">
                 <p:column headerText="rok/mc" width="80">
                     <h:outputText value="#{item3.rok}/#{item3.miesiac}"/>
                 </p:column>

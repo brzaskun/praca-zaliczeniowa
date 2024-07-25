@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
     .ui-dialog .ui-dialog-content {
             overflow-y: hidden;
@@ -76,7 +76,7 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:dataTable id="tabelacechyzapisow" var="wpiscechy" value="#{cechyzapisuPrzegladView.zapisyZCecha}" rowKey="#{wpiscechy.id}"
+            <p:dataTable lazy="false"  id="tabelacechyzapisow" var="wpiscechy" value="#{cechyzapisuPrzegladView.zapisyZCecha}" rowKey="#{wpiscechy.id}"
                          selection="#{cechyzapisuPrzegladView.wybraneZapisyZCecha}" 
                          filteredValue="#{cechyzapisuPrzegladView.zapisyZCechafilter}" rowSelectMode="add"
                          emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" styleClass="gridtablicasyntetyczne"

@@ -5,8 +5,9 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="255"  collapsible="true" style="box-shadow: 10px 10px 5px #888888;">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+    <pe:layoutPane position="west" size="255">
         <h:form>
             <p:menu style="width: 238px; border: none;">
                 <p:menuitem value="dodaj firmę" outcome="ksiegowaFKFirma" icon="ui-icon-circle-arrow-e" />  
@@ -19,6 +20,6 @@
         <p:panel>
             <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-top: 10px;" /> 
         </p:panel>
-    </p:layoutUnit>
+    </pe:layoutPane>
 </ui:composition>   
 

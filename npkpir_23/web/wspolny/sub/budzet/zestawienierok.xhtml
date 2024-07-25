@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab  title="Zestawienie wynikowe za rok" >
         <style>
             .gridtablicasyntetyczne .ui-datatable-odd td{
@@ -36,7 +36,7 @@
                 <h:outputText value="#{mgs.przetwarzanie}"/>
             </p:panelGrid>
 
-            <p:dataTable id="tablicazestrokP" value="#{zestawienieWynikoweRokView.kontosumyrokPrzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+            <p:dataTable lazy="false"  id="tablicazestrokP" value="#{zestawienieWynikoweRokView.kontosumyrokPrzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" 
                          styleClass="gridtablicasyntetyczne" widgetVar="tablicazestrokP" style="width: 1300px" 
                          >
@@ -86,7 +86,7 @@
                     <bcf:outputpl value="#{loop.grudzien}" />
                 </p:column>
             </p:dataTable>
-            <p:dataTable id="tablicazestrokK" value="#{zestawienieWynikoweRokView.kontosumyrokKoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+            <p:dataTable lazy="false"  id="tablicazestrokK" value="#{zestawienieWynikoweRokView.kontosumyrokKoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1300px" widgetVar="tablicazestrokK"
                          >

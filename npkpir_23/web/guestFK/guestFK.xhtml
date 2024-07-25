@@ -3,7 +3,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/templateFK.xhtml">
 
         <ui:define name="title">
@@ -13,10 +13,10 @@
 
 
             <f:view>
-                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                <pe:layout fullPage="true" >
                     <ui:include src="sub/layoutTablica/north.xhtml"/>  <!-- panel polnocny-->
                     <ui:include src="sub/layoutTablica/west.xhtml"/>   <!-- panel zachodni-->
-                    <p:layoutUnit position="center">
+                    <pe:layoutPane position="center">
                         <p:panel toggleable="true" closable="true" style="width: 90%;">
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do wyświetlania poszczególnych zapisów w danym miesiącu. Zmiana miesiąca możliwa jest w panelu po lewej."/><br/>
@@ -30,8 +30,8 @@
                         </p:panel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                         <ui:include src="sub/tablica.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                    </p:layoutUnit>
-                </p:layout>
+                    </pe:layoutPane>
+                </pe:layout>
             </f:view>
         </ui:define>
     </ui:composition>

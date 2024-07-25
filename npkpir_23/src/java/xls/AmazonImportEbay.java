@@ -55,7 +55,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 import pdf.PdfDok;
 import plik.Plik;
 import view.*;
@@ -141,7 +141,7 @@ public class AmazonImportEbay  implements Serializable {
 //        String line = "";
 //        String cvsSplitBy = ",";
         try {
-           InputStream is = uploadedFile.getInputstream();
+           InputStream is = uploadedFile.getInputStream();
             Workbook workbook = WorkbookFactory.create(is);
             Sheet sheet = workbook.getSheet("Template");
             Iterator<Row> rowIterator = sheet.iterator();

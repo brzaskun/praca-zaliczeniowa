@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:tab id="nowa1" title="Historia" >
         <style>
@@ -27,8 +27,8 @@
             
             <p:remoteCommand name="przeliczfilter1" actionListener="#{fakturaRozrachunkiRozlView.sumuj}" update="akordeon:razemfaktury"/>
             <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{fakturaRozrachunkiRozlView.pobierzplatnosci()}" update="fakturarozliczenia" global="false"/>
-            <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1150px; margin-top: 20px;" filteredValue="#{fakturaRozrachunkiRozlView.wprowadzoneplatnoscifiltered}"
-                         sortBy="#{item.lp}" sortOrder="descending" 
+            <p:dataTable lazy="false"  value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1150px; margin-top: 20px;" filteredValue="#{fakturaRozrachunkiRozlView.wprowadzoneplatnoscifiltered}"
+                         sortBy="#{item.lp}" 
                          emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}" id="wprowadzonetabela"
                          widgetVar="fakturarozliczenia_tablica" editable="true" paginator="true" rows="20" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                          rowsPerPageTemplate="20,40,80,120">

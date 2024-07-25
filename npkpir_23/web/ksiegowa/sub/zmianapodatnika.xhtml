@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     
     <h:form id="form">
         <p:focus for="form:podatnikWpisu"/>
@@ -17,15 +17,18 @@
                 <h:outputLabel value=""/>
                 <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 350px; height: 250px;" converter="#{podatConv}" filter="true" filterMatchMode="contains">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
-                    <p:ajax event="change" partialSubmit="true"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa form:panellimity form:wiadnr1 form:wiadomoscfaktury" global="fasle"/>
+                    <p:ajax event="change" partialSubmit="true"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa form:panellimity form:wiadnr1 form:wiadomoscfaktury form" global="fasle"/>
+                    <p:ajax event="change" partialSubmit="true"  listener="#{rozrachunkiKlientTaxmanView.pobierzwszystkoKlienta()}" update="form:dokumentyLista" global="fasle"/>
                 </p:selectOneListbox>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{roki.rokiList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa form:panellimity form:wiadnr1 form:wiadomoscfaktury"  global="fasle"/>
+                    <p:ajax event="change" partialSubmit="true"  listener="#{rozrachunkiKlientTaxmanView.pobierzwszystkoKlienta()}" update="form:dokumentyLista" global="fasle"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                     <f:selectItems value="#{mce.mceList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa form:panellimity form:wiadnr1 form:wiadomoscfaktury" global="fasle"/>
+                    <p:ajax event="change" partialSubmit="true"  listener="#{rozrachunkiKlientTaxmanView.pobierzwszystkoKlienta()}" update="form:dokumentyLista" global="fasle"/>
                 </p:selectOneMenu>
                 
             </p:panelGrid>
@@ -44,15 +47,79 @@
             <h:outputText value="kwota obrotu od pocz.roku"/>
             <bcf:outputpl value="#{granicaObliczView.obrot}"/>
             <p:separator/>
-            <h:outputText value="limit do vat"/>
-            <p:progressBar value="#{granicaObliczView.progresvat}" labelTemplate="#{granicaObliczView.progresvat}%"/>
+            <h:outputText value="limit do vat" rendered="#{WpisView.vatowiec eq false}"/>
+            <p:progressBar value="#{granicaObliczView.progresvat}" labelTemplate="#{granicaObliczView.progresvat}%" rendered="#{WpisView.vatowiec eq false}"/>
+            <h:outputText value="podatnik przekroczył limit do VAT"  rendered="#{WpisView.vatowiec eq false and granicaObliczView.progresvat gt 99}" style="color: red;"/>
             <h:outputText value="limit do pkpir"/>
             <p:progressBar value="#{granicaObliczView.progrespkpir}" labelTemplate="#{granicaObliczView.progrespkpir}%"/>
             <h:outputText value="limit do ksiąg rachunkowych"/>
             <p:progressBar value="#{granicaObliczView.progresksiegi}" labelTemplate="#{granicaObliczView.progresksiegi}%"/>
-            <h:outputText value="limit do kasy fiskalnej"/>
-            <p:progressBar value="#{granicaObliczView.progreskasa}" labelTemplate="#{granicaObliczView.progreskasa}%"/>
+            <h:outputText value="limit do kasy fiskalnej"  rendered="#{WpisView.podatnikObiekt.kasafiskalna eq false}"/>
+            <p:progressBar value="#{granicaObliczView.progreskasa}" labelTemplate="#{granicaObliczView.progreskasa}%"   rendered="#{WpisView.podatnikObiekt.kasafiskalna eq false}"/>
+            <h:outputText value="podatnik przekroczył limit do kasy fiskalnej"  rendered="#{WpisView.podatnikObiekt.kasafiskalna eq false and granicaObliczView.progreskasa gt 99}" style="color: red;"/>
         </p:panel>
+        
+        <p:outputPanel style="padding: 10px;">
+            <p:dataTable lazy="false"  id="dokumentyLista" value="#{rozrachunkiKlientTaxmanView.faktury}" var="wpis"  
+                         rowKey="#{wpis.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1150px;height: 300px;overflow-y: scroll;"
+                           emptyMessage="Brak nieopłaconych faktur">
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie nieopłaconych faktur Taxmana" />  
+                </f:facet>
+                <p:ajax event="filter" global="false" />
+                        <p:column styleClass="nrkolejny" headerText="nr kolejny" width="90" sortBy="#{wpis.numerkolejny}" filterBy="#{wpis.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}"
+                          filterMatchMode="contains" sortable="true" sortPriority="1">
+                    <h:outputText value="#{wpis.numerkolejny}" style="line-break: loose;word-break: break-all;word-wrap: break-word !important; color: #{wpis.kolor(WpisView.rokWpisu, WpisView.miesiacWpisu)}"/>
+                </p:column>
+                <p:column styleClass="opis" headerText="#{mgs.opis}" filterBy="#{wpis.opisFaktury}" filterMatchMode="contains"  width="200" 
+                          >
+                    <h:outputText value="#{wpis.opisFaktury}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
+                </p:column>
+                <p:column styleClass="data1" headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 
+                          filterMatchMode="contains"  width="60">
+                    <h:outputText value="#{wpis.datawystawienia.substring(2)}"/>
+                </p:column>
+                <p:column styleClass="data1" headerText="termin płatności" sortBy="#{wpis.terminzaplaty}" filterBy="#{wpis.terminzaplaty}" 
+                          filterMatchMode="contains"  width="60">
+                    <h:outputText value="#{wpis.terminzaplaty.substring(2)}"/>
+                </p:column>
+                <p:column styleClass="data2" headerText="brutto"  sortBy="#{wpis.bruttoFakturaView}" filterBy="#{wpis.bruttoFakturaView}" filterMatchMode="contains"   width="70" >
+                    <bcf:outputpl value="#{wpis.bruttoFakturaView}"/>
+                    <h:outputText value=" #{wpis.walutafaktury}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
+                    <bcf:outputpl value="#{wpis.bruttoFakturaViewPLN}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
+                    <h:outputText value=" PLN" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
+                </p:column>
+                <p:column styleClass="data31" headerText="jedn." sortBy="#{wpis.idfakturaokresowa}" filterBy="#{wpis.idfakturaokresowa eq null ? 'tak' : 'nie'}" filterMatchMode="contains"  
+                          style="text-align: center;"  width="40">
+                    <h:outputText value="tak" rendered="#{wpis.idfakturaokresowa eq null}" style="color: green;"/>
+                </p:column>
+                <p:column styleClass="data3" headerText="wys." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? wpis.datawysylki : 'nie'}" filterMatchMode="contains"  
+                          style="text-align: center;"  width="40">
+                    <h:outputText value="#{wpis.datawysylki}" rendered="#{wpis.wyslana}">
+                        <f:convertDateTime  pattern="dd-MM"/>
+                    </h:outputText>
+                    <h:outputText value="nie" rendered="#{!wpis.wyslana}" style="color: green;"/>
+                </p:column>
+                <p:column styleClass="data1" headerText="typ" sortBy="#{wpis.rodzajdokumentu}" filterBy="#{wpis.rodzajdokumentu}" filterMatchMode="contains" 
+                          style="text-align: center;" width="60">
+                    <h:outputText value="#{wpis.rodzajdokumentu}" style="#{wpis.pozycjepokorekcie.size() gt 0  or wpis.gutschrift ? 'color:red;' : null}"/>
+                    <h:outputText value=" korekta" rendered="#{wpis.pozycjepokorekcie.size() gt 0 or wpis.gutschrift}" style="color: red;"/>
+                    <h:outputText value=" +duplikaty" rendered="#{wpis.duplikaty.size() gt 0}" style="color: green;"/>
+                    <h:outputText value=" zalicz." rendered="#{wpis.zaliczkowa}" style="color: orange;"/>
+                    <h:outputText value=" część. #{wpis.projektnumer}" rendered="#{wpis.projektnumer ne null and wpis.projektnumer.length() gt 0 and wpis.koncowa eq false}" style="color: coral;"/>
+                    <h:outputText value=" końcowa" rendered="#{wpis.koncowa}" style="color: coral;"/>
+                </p:column>
+                  <p:column styleClass="data1" headerText="sporz" sortBy="#{wpis.datasporzadzenia}" filterBy="#{wpis.datasporzadzenia}" 
+                          filterMatchMode="contains"  width="60">
+                     <h:outputText value="#{wpis.datasporzadzenia}">
+                          <f:convertDateTime  pattern="yyy-MM-dd HH:mm"/>
+                     </h:outputText>
+                </p:column>
+                <p:column  headerText="PDF" style="text-align: center;"  width="40">
+                    <p:commandButton   actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView.podatnikObiekt)}" icon="ui-icon-print" />
+                </p:column>
+            </p:dataTable>
+        </p:outputPanel>
 <!--        <h:form>
             <p:commandButton value="Trasformacja" style="width: 150px;" actionListener="{transformacjaView.ewidencjewDekalracji}"/>
         </h:form>-->

@@ -6,10 +6,10 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <p:dataTable value="#{statystykaFakturyView.lista}" var="item" id="datatable" style="width: 1200px; padding: 10px;"
-                 sortBy="#{item.podatnik.printnazwa}" sortOrder="ascending" rowIndexVar="index" selectionMode="single"
+    <p:dataTable lazy="false"  value="#{statystykaFakturyView.lista}" var="item" id="datatable" style="width: 1200px; padding: 10px;"
+                 sortBy="#{item.podatnik.printnazwa}"  rowIndexVar="index" selectionMode="single"
                  rowKey="#{item.id}">
         <p:column style="width: 20px;" sortBy="#{item.id}">
             <f:facet name="header">
@@ -17,7 +17,7 @@
             </f:facet>
             <h:outputText value="#{index+1}"/>
         </p:column>
-        <p:column style="width: 300px;" sortBy="#{item.podatnik.printnazwa}">
+        <p:column style="width: 300px;" sortBy="#{item.podatnik.printnazwa}" sortOrder="ascending">
             <f:facet name="header">
                 <h:outputText value="podatnik"/>
             </f:facet>

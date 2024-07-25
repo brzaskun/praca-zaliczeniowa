@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .ui-inputfield .ui-inputtext {
             padding: 0px !important;
@@ -55,7 +55,7 @@
                         <p:ajax event="change" listener="#{platnosciWalutyView.zmienliste()}" global="false" partialSubmit="true" update="akordeon:form_dokument_wpis_platnosci:dokumentyLista"/>
                     </p:selectBooleanCheckbox>
                 </p:outputPanel>
-                <p:dataTable  var="wpis" value="#{platnosciWalutyView.dokumenty}" id="dokumentyLista"  filteredValue="#{platnosciWalutyView.dokumentyFiltered}" rowIndexVar="index"
+                <p:dataTable lazy="false"   var="wpis" value="#{platnosciWalutyView.dokumenty}" id="dokumentyLista"  filteredValue="#{platnosciWalutyView.dokumentyFiltered}" rowIndexVar="index"
                               style="width: 1400px; margin-top: 10px; overflow-y: scroll; height: 400px;" rowKey="#{wpis.idDok}" selection="#{platnosciWalutyView.selected}" widgetVar="dokTable"
                               emptyMessage="W danym miesiącu nie było żadnych zapisów"
                               selectionMode="single" styleClass="grid" 
@@ -232,7 +232,7 @@
                 <p:focus for="akordeon:form_dokument_wpis_platnosci1:polepoczatekplatnosc"/>
             </h:form>
             <h:form id="form_dokument_wpis_platnosci2">
-                <p:dataTable value="#{platnosciWalutyView.platnosci}" var="wpis1" id="dokumentyLista1" 
+                <p:dataTable lazy="false"  value="#{platnosciWalutyView.platnosci}" var="wpis1" id="dokumentyLista1" 
                              emptyMessage="brak płatności" style="margin-top: 20px; width: 940px;" rowIndexVar="index1"
                              >
                     <f:facet name="header">
@@ -278,7 +278,7 @@
             <p:commandButton value="pobierz" actionListener="#{platnosciWalutyView.pobierzwszystkie()}" style="width: 120px;"
                              global="false" update="akordeon:form_zestawienieroznic"/>
             <h:form id="form_zestawienieroznic">
-                <p:dataTable value="#{platnosciWalutyView.wszystkieplatnosci}" var="wpis1" id="dokumentyLista1" 
+                <p:dataTable lazy="false"  value="#{platnosciWalutyView.wszystkieplatnosci}" var="wpis1" id="dokumentyLista1" 
                              emptyMessage="brak płatności" style="margin-top: 20px; width: 1200px;" rowIndexVar="index1"
                              sortBy="#{wpis1.dokument.podatnik}"
                              >

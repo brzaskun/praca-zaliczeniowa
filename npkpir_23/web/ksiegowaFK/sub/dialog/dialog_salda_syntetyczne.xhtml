@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .ui-widget-content .ui-datatable-odd td{
             height : 20px !important;
@@ -76,9 +76,9 @@
                 </p:column> 
                     <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSSuSaView.zachowajSuSawXLS(saldoSyntetykaView.listaSaldoKonto)}" style=" margin-left: 5px;" global="false" ajax="false"/>
             </p:panelGrid>
-            <p:dataTable id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+            <p:dataTable lazy="false"  id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          filteredValue="#{saldoSyntetykaView.listaSaldoKontofilter}" selection="#{saldoSyntetykaView.listaSaldoKontowybrane}"
-                         sortBy="#{loop.konto}" sortFunction="#{saldoSyntetykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" 
+                          emptyMessage="#{mgs.niemazapisownakontach}" 
                          styleClass="gridtablicasyntetyczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldasyntetyczne"
                          >
                           <p:ajax event="filter" global="false"/>
@@ -91,7 +91,7 @@
                 <p:ajax event="rowSelect" update=":tabelazzapisami:tabela" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}"/>-->-->
                 <!--            <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>-->
                 <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
-                <p:column styleClass="kontosyntetyczne" headerText="#{mgs.konto}" width="40" filterBy="#{loop.konto.pelnynumer}">
+                <p:column styleClass="kontosyntetyczne" headerText="#{mgs.konto}" width="40" filterBy="#{loop.konto.pelnynumer}" sortBy="#{loop.konto}" sortFunction="#{saldoSyntetykaView.compare}">
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="140" >
@@ -153,7 +153,7 @@
             </p:dataTable>
         </h:form>
         <h:form id="tabelazsumamisyntetyka">
-            <p:dataTable id="sumy" value="#{saldoSyntetykaView.sumaSaldoKonto}" var="loop"
+            <p:dataTable lazy="false"  id="sumy" value="#{saldoSyntetykaView.sumaSaldoKonto}" var="loop"
                          style="float: right; margin-right: 100px; width: 1110px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
                 <p:column headerText="#{mgs.boWn}" width="60" >
                     <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">

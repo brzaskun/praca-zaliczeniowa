@@ -5,8 +5,9 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="north" size="50" resizable="true" closable="true" collapsible="true">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+    <pe:layoutPane position="north" size="50" resizable="true" closable="true">
         <p:panelGrid columns="3" style="width: 90%">
             <h:outputText value="Biuro Rachunkowe Taxman Grzegorz Grzelczyk - Panel Ksiegowej" style="width: 50%; font-size: 15px"/>
              <h:form id="formNorth">
@@ -14,6 +15,6 @@
                  <p:commandButton id="en" value="en" actionListener="#{localeChanger.englishAction}" type="submit" ajax="false"/>
             </h:form>
         </p:panelGrid>
-    </p:layoutUnit>
+    </pe:layoutPane>
 </ui:composition>   
 

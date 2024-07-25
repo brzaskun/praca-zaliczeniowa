@@ -6,17 +6,17 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
         
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tabView id="akordeon">
         <p:tab title="Wpisy">
             <h:form id="formX">
                 <p:growl life="3600"  id="msg" ><p:autoUpdate/></p:growl>
                 <p:panel header="Wykaz wysłanych deklaracji"/>
-                <p:dataTable value="#{vatKorektaView.deklaracjeWyslane}" var="item" sortBy="#{item.miesiac}" rowIndexVar="row"
+                <p:dataTable lazy="false"  value="#{vatKorektaView.deklaracjeWyslane}" var="item" sortBy="#{item.miesiac}" rowIndexVar="row"
                              id="dokumentyLista" emptyMessage="brak deklaracji do wyslania" selection="#{vatKorektaView.deklaracjaVAT}"
                              paginator="true" paginatorAlwaysVisible="true" rows="1" rowKey="#{item.id}"
                              paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                             rowsPerPageTemplate="1, 6,12,18,24,32,50" sortOrder="descending" style="width: 1300px;"
+                             rowsPerPageTemplate="1, 6,12,18,24,32,50" style="width: 1300px;"
                              >
                     <p:ajax event="rowSelectRadio" listener="#{vatKorektaView.wybranoDeklaracje}" update=":akordeon:wprowadzDokument, :akordeon:formprzedkorekta, :akordeon:listadodanychdok"/>
                     <p:column selectionMode="single" style="width: 20px;"/>
@@ -99,7 +99,7 @@
                                 <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
                             </p:autoComplete>
                         </p:panelGrid>
-                        <p:dataTable id="tablicavat" value="#{vatKorektaView.vatKorektaDok.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="min-width: 800px; width: 50%;"
+                        <p:dataTable lazy="false"  id="tablicavat" value="#{vatKorektaView.vatKorektaDok.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="min-width: 800px; width: 50%;"
                                      rowIndexVar="row">
                             <p:column headerText="rodzaj ewidencji" style="width: 25%;">
                                 <h:outputText value="#{item.evewidencja}"/>
@@ -132,7 +132,7 @@
             </h:form>
             <h:form id="listadodanychdok">
                 <p:panel header="Wykaz dodanych pozycji" style="padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
-                    <p:dataTable value="#{vatKorektaView.listadokumentowDoKorekty}" var="item" emptyMessage="Nie wprowadzono żadnych dokumentów korygujących"
+                    <p:dataTable lazy="false"  value="#{vatKorektaView.listadokumentowDoKorekty}" var="item" emptyMessage="Nie wprowadzono żadnych dokumentów korygujących"
                                  selection="#{vatKorektaView.vatKorektaDok}" selectionMode="single" rowKey="#{item.id}" style="width: 900px;">
                         <p:ajax event="rowSelect" update=":akordeon:wprowadzDokument"/>
                         <p:column headerText="#{mgs.numerkolejny}" width="30" style="text-align: center;">

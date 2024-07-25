@@ -6,14 +6,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab title="Wartości inwentaryzacji na koniec roku podatkowego">  
         <h:form id="form4" >
             <h:outputText value="Wartości inwentaryzacji na koniec roku podatkowego" style="font-size: 15px"/>
             <p:growl life="3600"  showDetail="true"/>
             <p:focus for="parametrypodatnika3"/><br/>
             <p:panelGrid columns="4" style="width: 300px">
-                <p:dataTable value="#{remanentView.remanentypodatnika}"  var="loop" >
+                <p:dataTable lazy="false"  value="#{remanentView.remanentypodatnika}"  var="loop" >
                     <f:facet name="header">
                     <h:outputText value="Dane historyczne"/>
                 </f:facet>

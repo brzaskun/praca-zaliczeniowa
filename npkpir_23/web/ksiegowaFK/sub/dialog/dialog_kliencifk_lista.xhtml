@@ -3,8 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialog_kliencifk_lista" header="Przyporządkowanie klientów do kont - lista" widgetVar="dialog_kliencifk_lista" 
               resizable="false"  onShow="ustawdialog('dialog_kliencifk_lista','menukartoteki',1200,600);" closeOnEscape="true" onHide="resetujdialog('dialog_kliencifk_lista');" >
         <h:form id="kliencifkform">
@@ -19,12 +19,13 @@
         </h:form>
         <h:form id="kliencifkformLista">
              <p:commandButton id="xlsbutton"  value="dane w formacie XLS" actionListener="#{xlsKontrahenciView.zachowajwXLS(kliencifkView.listawszystkichklientowFk)}" style="width: 120px;" global="false" ajax="false"/>
-            <p:dataTable id="infokonta" value="#{kliencifkView.listawszystkichklientowFk}" var="item"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
+            <p:dataTable lazy="false"  id="infokonta" value="#{kliencifkView.listawszystkichklientowFk}" var="item"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
                          style="margin-top: 1%; width: 1050px;" 
                          scrollable="true" scrollHeight="400" 
-                         sortBy="#{item}"  sortFunction="#{kliencifkView.sortKliencifk}"
+
                          rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" rows="40"
                          paginator="#{kliencifkView.listawszystkichklientowFk.size() gt 150 ? 'true':'false'}">
+                <!--                         sortBy="#{item}"  sortFunction="#{kliencifkView.sortKliencifk}"-->
                 <p:ajax event="filter" global="false"/>
                 <f:facet name="header">
                     <h:outputText value="Wykaz przyporządkowanych kont"/>

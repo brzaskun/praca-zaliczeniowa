@@ -2,7 +2,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <ui:composition template="/template.xhtml">
 
         <ui:define name="title">
@@ -21,19 +22,19 @@
                 </h:form>
              
                 <f:view>
-                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <pe:layout fullPage="true" >
                         <ui:include src="sub/layoutZestawienie/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutZestawienie/south.xhtml"/>   <!-- panel poludniowy-->
                         <ui:include src="sub/layoutZestawienie/west.xhtml"/>   <!-- panel zachodni-->
-                        <p:layoutUnit position="center">
+                        <pe:layoutPane position="center">
                                
                          
                                 <ui:include src="sub/menu_wiad.xhtml"/> 
                                 <ui:include src="sub/zestawienieRok.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
 
-                        </p:layoutUnit>
+                        </pe:layoutPane>
 
-                    </p:layout>
+                    </pe:layout>
                 </f:view>
             
         </ui:define>

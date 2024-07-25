@@ -8,7 +8,7 @@
   
     <p:outputPanel id="wrapper" deferred="true">
         
-        <p:dataTable  var="wpis" value="#{rozrachunkiView.zaplacone}" id="dokumentyLista" editable="true" 
+        <p:dataTable lazy="false"   var="wpis" value="#{rozrachunkiView.zaplacone}" id="dokumentyLista" editable="true" 
                       paginator="true" paginatorAlwaysVisible="true" rows="12"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                       rowsPerPageTemplate="12,18,24,32,50" 
@@ -50,7 +50,7 @@
                 </p:cellEditor>
             </p:column>
             <p:column id="platnosci" headerText="data platnosci - kwota wpłaty -  pozostalo do zapł " width="300">  
-                <p:dataTable var="subwpis" value="#{wpis.rozrachunki1}" style="width: 300px;" emptyMessage="dokument bez płatności częściowych" >
+                <p:dataTable lazy="false"  var="subwpis" value="#{wpis.rozrachunki1}" style="width: 300px;" emptyMessage="dokument bez płatności częściowych" >
                     <p:column id="SubColumn1" >  
                         <h:outputText value="#{subwpis.dataplatnosci}" />
                     </p:column>
@@ -79,7 +79,7 @@
               </p:column>
             
             <p:column id="storno" headerText="data storno - kwota storno -  pozostalo do rozl ">  
-                <p:dataTable var="subwpis" value="#{wpis.storno}" emptyMessage="dokument bez storna" >
+                <p:dataTable lazy="false"  var="subwpis" value="#{wpis.storno}" emptyMessage="dokument bez storna" >
                     <p:column id="SubColumn1" >  
                         <h:outputText value="#{subwpis.dataplatnosci}" />
                     </p:column>

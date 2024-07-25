@@ -3,8 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialogbilansukladwzorcowy" header="Układ Bilansu wzorcowy - przypisywanie kont " 
               widgetVar="dialogbilansukladwzorcowy" 
               resizable="false" onShow="ustawdialog('dialogbilansukladwzorcowy','menuustawienia', 1400, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansukladwzorcowy');"  >
@@ -55,7 +55,7 @@
                 </p:column>
                 <p:column>
                     <!--                    <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 350px;">-->
-                    <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaView.kontabezprzydzialu}" emptyMessage="wszystkie konta przyporządkowane"
+                    <p:dataTable lazy="false"  id="dostepnekonta" var="konto" value="#{pozycjaBRKontaView.kontabezprzydzialu}" emptyMessage="wszystkie konta przyporządkowane"
                                  style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" rowIndexVar="index">
                         <f:facet name="header">
                             <h:outputText value="konta nieprzypisane"/>
@@ -88,7 +88,7 @@
                     </p:dataTable>
                 </p:column>
                 <p:column>
-                    <p:dataTable id="selected" var="konto" value="#{pozycjaBRKontaView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont"
+                    <p:dataTable lazy="false"  id="selected" var="konto" value="#{pozycjaBRKontaView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont"
                                  style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
                         <f:facet name="header">
                             <h:outputText value="konta przypisane do #{pozycjaBRKontaView.wybranapozycja}"/>

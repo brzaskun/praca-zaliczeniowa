@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialog_srodkitrwale_zmianawartosci" header="Edycja danych posiadanego środka trwałego" widgetVar="dialog_srodkitrwale_zmianawartosci" 
               resizable="false"  onShow="ustawdialog('dialog_srodkitrwale_zmianawartosci','formbuttonsrodki:buttonsrodki',1400,850);r('form_dialog_srodkitrwale_zmianawartosci:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodkitrwale_zmianawartosci');">
         <!--pola ewidencji SRODKOW TRWALYCH-->
@@ -116,7 +116,7 @@
                     <p:commandButton id="dodajsrodekbutton2" value="anuluj zmiany" update=":akordeon:str_posiadane:srodkiLista :akordeon:str_posiadane2:srodkiLista2 :form_dialog_srodkitrwale_zmianawartosci" 
                                      style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
                 </p:panelGrid>
-                <p:dataTable value="#{sTRTabView.edytowanysrodek.zmianawartosci}" var="item" id="tabelazmian"
+                <p:dataTable lazy="false"  value="#{sTRTabView.edytowanysrodek.zmianawartosci}" var="item" id="tabelazmian"
                              emptyMessage="Nie naniesiono wcześniej żadnych zmian" style="width: 600px; margin-top: 10px; overflow-y: scroll;height: 100px;"
                              rowIndexVar="index">
                     <f:facet name="header">
@@ -150,7 +150,7 @@
                 </p:dataTable>
 
                 <p:outputPanel>
-                    <p:dataTable  var="subwpisX" value="#{sTRTabView.edytowanysrodek.planumorzen}"
+                    <p:dataTable lazy="false"   var="subwpisX" value="#{sTRTabView.edytowanysrodek.planumorzen}"
                                   styleClass="dokumorzeniowe" rowIndexVar="index"
                                   scrollable="true" scrollHeight="270" scrollRows="15"
                                   style="width: 800px; height: 400px; overflow-y: scroll" rowKey="#{subwpisX.srodekTrw.nazwa}"

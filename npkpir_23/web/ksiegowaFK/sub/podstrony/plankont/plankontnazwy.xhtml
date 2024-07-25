@@ -18,11 +18,11 @@
                   <p:commandButton id="implementuj" value="implementuj" actionListener="#{planKontInterView.implementuj()}"   style="float: left; margin-left: 20px;width: 120px;" update=":form_dialog_plankont_nazwy"/>
             </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:dataTable id="dataList" value="#{planKontInterView.wykazkont}" var="loop"  selectionMode="single" 
+                <p:dataTable lazy="false"  id="dataList" value="#{planKontInterView.wykazkont}" var="loop"  selectionMode="single" 
                              rowStyleClass="#{loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')}" 
                              styleClass="tablicaplankont"
                              style="max-width: 1200px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
-                             sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
+                             
                              >
                     <p:columnGroup type="header">
                         <p:row>
@@ -35,7 +35,7 @@
                     <p:column>
                         <h:outputText value="#{loop.level}" style="font-size: 0.5pt;"/>
                     </p:column>
-                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}">
+                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}" sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}">
                         <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 

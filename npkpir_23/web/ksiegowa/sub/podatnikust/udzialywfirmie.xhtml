@@ -16,7 +16,7 @@
             <p:growl life="3600"  id="messages"/>
             <p:focus for="parametryp9"/>
             <p:panelGrid columns="4" style="width: 1200px; padding: 5px;">
-                <p:dataTable value="#{podatnikView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}" id="form9tablica" widgetVar="tabelaudzialy"
+                <p:dataTable lazy="false"  value="#{podatnikView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}" id="form9tablica" widgetVar="tabelaudzialy"
                               editable="true">
                     <p:ajax event="rowEdit" update=":akordeon:form9:messages" listener="#{podatnikView.editUdzialy}" />
                     <p:ajax event="rowSelectRadio" global="false" listener="#{podatnikView.skopiujudzialy()}" update="akordeon:form9"/>

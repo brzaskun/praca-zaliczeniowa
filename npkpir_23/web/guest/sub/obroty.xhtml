@@ -22,7 +22,7 @@
     <p:separator/>
     <p:outputPanel id="wrapper" deferred="true">
         
-        <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" 
+        <p:dataTable lazy="false"   var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" 
                       selection="#{obrotyView.goscwybral}"  widgetVar="dokTable" 
                       rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
                       style="max-width: 1200px;" 

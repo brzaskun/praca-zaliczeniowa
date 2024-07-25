@@ -18,10 +18,10 @@
             </p:panelGrid>
         </h:form>
         <h:form id="wykazpism">
-            <p:dataTable value="#{pismoAdminView.listapism}" var="item" style="width: 1000px; margin-top: 2%;"
+            <p:dataTable lazy="false"  value="#{pismoAdminView.listapism}" var="item" style="width: 1000px; margin-top: 2%;"
                          widgetVar="table" emptyMessage="Nikt nie niepokoił jeszcze admina"
                          paginator="true" rows="12" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                         rowsPerPageTemplate="12,16,20,50"  sortBy="#{item.datawiadomosci}" sortOrder="descending"
+                         rowsPerPageTemplate="12,16,20,50"  sortBy="#{item.datawiadomosci}"
                          >
                 <f:facet name="header">
                     <h:outputText value="Wysłane wiadomości"/><br/>

@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:tab id="gotowe" title="Faktury sporządzone" >
         <style>
@@ -58,16 +58,16 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:panelGrid rendered="#{sMTPSettingsView.selected eq nukl}">
+            <p:panelGrid rendered="#{sMTPSettingsView.selected eq nukl}" columns="1">
                 <h:outputText value="Nie skonfigurowano maila firmy. Faktury będą wysyłane z domyślnego maila programu: info@taxman.biz.pl" style="font-weight: 800; color: red;"/>
             </p:panelGrid>
             <p:panel header="dołącz krótką wiadomość do wysyłanego maila" id="panelwiadomosc" >
                 <p:panelGrid columns="4">
                 <p:commandButton value="+" actionListener="#{fakturaView.pokazedytor(1)}" update="@parent" rendered="#{!fakturaView.podazedytorvar}"/>
                 <p:commandButton value="-" actionListener="#{fakturaView.pokazedytor(0)}" update="@parent" rendered="#{fakturaView.podazedytorvar}"/>
-                <p:editor id="editor"  widgetVar="editorWidget" value="#{fakturaView.wiadomoscdodatkowa}" width="800" height="300" rendered="#{fakturaView.podazedytorvar}">
+                <p:textEditor id="editor"  widgetVar="editorWidget" value="#{fakturaView.wiadomoscdodatkowa}" style="width:800px;" height="300" rendered="#{fakturaView.podazedytorvar}">
                     
-                </p:editor>
+                </p:textEditor>
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"  rendered="#{WpisView.biuroiszef eq true}"/>
                 <p:selectBooleanCheckbox value="#{fakturaView.pokaztylkoniewyslane}" itemLabel="tylko niewysłane" style="margin-left: 100px;">
                     <p:ajax event="change" listener="#{fakturaView.init()}" partialSubmit="true" update=":akordeon:formsporzadzone akordeon:formsporzadzone:dokumentyLista"/>
@@ -78,9 +78,9 @@
                 </p:panelGrid>
             </p:panel>
             <p:remoteCommand name="przeliczfiltersporzadzone" actionListener="#{fakturaView.sumawartoscifiltered()}" update=":akordeon:formsporzadzone:panelsum"/>
-            <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis"  filteredValue="#{fakturaView.fakturyFiltered}" 
+            <p:dataTable lazy="false"  id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis"  filteredValue="#{fakturaView.fakturyFiltered}" 
                          selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1650px;height: 900px;overflow-y: scroll;"
-                         sortBy="#{wpis.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
+                         sortBy="#{wpis.numerkolejny}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowanych faktur w mc #{WpisView.miesiacWpisu} #{fakturaView.gosciwybral.size()}" />  
                     <!--                    <h:outputText value="- wyszukiwanie: " />  
@@ -97,7 +97,7 @@
                 <p:column width="20">
                     <p:rowToggler />
                 </p:column>
-                <p:column styleClass="nrkolejny" headerText="nr kolejny" width="90" sortBy="#{wpis.numerkolejny}" filterBy="#{wpis.numerkolejny}" 
+                <p:column styleClass="nrkolejny" headerText="nr kolejny" width="90" sortBy="#{wpis.numerkolejny}" filterBy="#{wpis.numerkolejny}"  sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" 
                           filterMatchMode="contains" >
                     <h:outputText value="#{wpis.numerkolejny}" style="line-break: loose;word-break: break-all;word-wrap: break-word !important; color: #{wpis.kolor(WpisView.rokWpisu, WpisView.miesiacWpisu)}"/>
                 </p:column>
@@ -214,7 +214,7 @@
                         </p:column>
                         <p:column>
                         <p:panelGrid columns="1">
-                            <p:dataTable id="tabeladuplikatow" value="#{wpis.duplikaty}" styleClass="tabduplikaty"
+                            <p:dataTable lazy="false"  id="tabeladuplikatow" value="#{wpis.duplikaty}" styleClass="tabduplikaty"
                                          var="loopdupl" emptyMessage="nie wystawiono duplikatów" >
                                 <f:facet name="header">
                                     <h:outputText value="duplikaty"/>
@@ -244,7 +244,7 @@
                     </p:panelGrid>
                     <p:panelGrid  columns="1"  style="width: 900px;">
                           <p:column>
-                        <p:dataTable value="#{wpis.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
+                        <p:dataTable lazy="false"  value="#{wpis.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
                              style="width: 800px;"
                              >
                             <p:column headerText="nazwa" width="150" style="text-align: center;">
@@ -271,7 +271,7 @@
                         </p:dataTable>
                             </p:column>
                         <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" >  
-                            <p:dataTable var="subwpis" value="#{wpis.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 600px;">
+                            <p:dataTable lazy="false"  var="subwpis" value="#{wpis.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 600px;">
                                 <p:column id="SubColumn1" headerText="ewidencja" width="150">  
                                 <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
                             </p:column>

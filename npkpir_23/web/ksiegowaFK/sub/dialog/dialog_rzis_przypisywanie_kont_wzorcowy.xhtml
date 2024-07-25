@@ -3,8 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <p:dialog id="dialogrzisukladwzorcowy" header="Wzorcowy Układ Rachunku Zysków i Strat - przypisywanie kont" widgetVar="rzisukladwzorcowy" 
               resizable="false" onShow="ustawdialog('dialogrzisukladwzorcowy','menuustawienia', 1700, 850);" closeOnEscape="true" onHide="resetujdialog('dialogrzisukladwzorcowy');"  >
         <h:form id="formrzisuklad">
@@ -49,7 +49,7 @@
                     </p:column>
                 </p:treeTable>
                 <p:column>
-                    <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaView.kontabezprzydzialu}"
+                    <p:dataTable lazy="false"  id="dostepnekonta" var="konto" value="#{pozycjaBRKontaView.kontabezprzydzialu}"
                                  emptyMessage="wszystkie konta przyporządkowane"
                                  style="margin-top: -13%; height: 750px; width: 550px; overflow-y: scroll" >
                         <f:facet name="header">
@@ -82,7 +82,7 @@
                     </p:dataTable>
                 </p:column>
                 <p:column>
-                    <p:dataTable id="selected" var="konto" value="#{pozycjaBRKontaView.przyporzadkowanekonta}"
+                    <p:dataTable lazy="false"  id="selected" var="konto" value="#{pozycjaBRKontaView.przyporzadkowanekonta}"
                                  emptyMessage="brak przyporządkowanych kont"
                                  style="margin-top: -13%; height: 750px; width: 550px; overflow-y: scroll" >
                         <f:facet name="header">

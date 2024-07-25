@@ -12,7 +12,7 @@
             <p:growl life="3600"  showDetail="true"/>
             <p:focus for="parametrypodatnika"/><br/>
             <p:panelGrid columns="4" style="width: 500px">
-                <p:dataTable value="#{podatnikView.selected.zawieszeniedzialalnosci}"  
+                <p:dataTable lazy="false"  value="#{podatnikView.selected.zawieszeniedzialalnosci}"  
                             var="loop"   emptyMessage="Brak okresów zawieszenia">
                     <f:facet name="header">
                     <h:outputText value="Dane historyczne"/>

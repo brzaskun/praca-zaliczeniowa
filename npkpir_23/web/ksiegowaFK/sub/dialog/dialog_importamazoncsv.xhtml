@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .waluta input {
             width: 40px !important;
@@ -28,7 +28,7 @@
                             <p:growl life="3600"  id="messages1"/>
                             <p:panelGrid columns="3">
                                 <p:panelGrid columns="1">
-                                    <p:fileUpload fileUploadListener="#{importCSVView.importujsprzedaz}" 
+                                    <p:fileUpload chooseIcon="fa fa-upload" listener="#{importCSVView.importujsprzedaz}" 
                                                   mode="advanced" fileLimit="1"
                                                   update="messages1 importtabela" 
                                                   validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
@@ -53,7 +53,7 @@
                             </p:panelGrid>
                         </h:form>
                         <h:form id="importtabela">
-                            <p:dataTable  var="wpisama" value="#{importCSVView.listafk}" id="dokumentyLista" 
+                            <p:dataTable lazy="false"   var="wpisama" value="#{importCSVView.listafk}" id="dokumentyLista" 
                                           rowIndexVar="index" filteredValue="#{importCSVView.listafkfilter}"
                                           style="width: 1400px; margin-top: 10px;" rowKey="#{wpisama.id}" 
                                           paginator="true" paginatorAlwaysVisible="true" rows="12"
@@ -124,7 +124,7 @@
                                
                                 <p:rowExpansion>
                                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
-                                        <p:dataTable var="subwpis" value="#{wpisama.ewidencja}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
+                                        <p:dataTable lazy="false"  var="subwpis" value="#{wpisama.ewidencja}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
                                             <p:column id="SubColumn1" headerText="ewidencja">  
                                                 <h:outputText value="#{subwpisama.ewidencja.nazwa}" rendered="#{subwpisama.vat ne 0 ? true : subwpisama.netto ne 0 ? true : false}" />
                                             </p:column>

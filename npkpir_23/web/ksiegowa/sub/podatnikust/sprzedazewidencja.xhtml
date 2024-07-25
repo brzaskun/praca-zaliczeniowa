@@ -3,12 +3,12 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab title="Rejestry sprzedaży">  
         <h:form>
             <p:panel header="wybrane ewidencje sprzedaży" style="width: 450px;"></p:panel>
-            <p:dataTable value="#{podatnikEwidencjaDokView.lista}" var="item" style="width: 450px;" rowIndexVar="index" 
+            <p:dataTable lazy="false"  value="#{podatnikEwidencjaDokView.lista}" var="item" style="width: 450px;" rowIndexVar="index" 
                          emptyMessage="wystąpił błąd przy pobieraniu ewidencji" >
                 <p:column width="20">
                     <f:facet name="header">

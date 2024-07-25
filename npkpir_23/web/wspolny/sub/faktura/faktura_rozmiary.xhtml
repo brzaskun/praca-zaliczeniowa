@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab id="elementywymiary" title="wymiary podstawowych elementów faktury">
         <p:outputPanel>
                   <h:outputText value="Rozmiar strony 595x842"/>
@@ -15,7 +15,7 @@
             </p:panelGrid>
         </h:form>
         <h:form id="formelementywymiary">
-            <p:dataTable value="#{pozycjeNaFakturzeView.pozycjefakturapodatniklista}" sortBy="#{wpiswym.nazwa}"
+            <p:dataTable lazy="false"  value="#{pozycjeNaFakturzeView.pozycjefakturapodatniklista}" sortBy="#{wpiswym.nazwa}"
                          var="wpiswym" style="width: 800px;" rowKey="#{wpiswym.nazwa}">
                 <f:facet name="header">
                     <h:outputText value="Wpisz rozmiary elementów"/>

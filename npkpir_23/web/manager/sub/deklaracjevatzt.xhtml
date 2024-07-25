@@ -6,14 +6,14 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:accordionPanel id="akordeon">
         <p:tab title="Schemy załącznika VAT-ZT">  
             <h:form id="form_deklVATZalSchemaView">
                 <p:growl life="3600"  ><p:autoUpdate/></p:growl>
-                <p:dataTable value="#{deklVATZalSchemaView.schemyDeklaracjiVatZT}" var="item" style="width: 680px;"
+                <p:dataTable lazy="false"  value="#{deklVATZalSchemaView.schemyDeklaracjiVatZT}" var="item" style="width: 680px;"
                              emptyMessage="nie ma zdefiniowanych schem ZT" id="wykazschem" rowKey="#{item.id}"
-                             selection="#{deklVATZalSchemaView.wybranaschemaZT}" selectionMode="single" sortBy="#{item.nazwaschemy}" sortOrder="descending">
+                             selection="#{deklVATZalSchemaView.wybranaschemaZT}" selectionMode="single" sortBy="#{item.nazwaschemy}">
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="rowSelect" global="false" listener="#{deklVATZalSchemaView.skopiujschemaZT()}" update="akordeon:wprowadzanieschemy"/>
                     <f:facet name="header">

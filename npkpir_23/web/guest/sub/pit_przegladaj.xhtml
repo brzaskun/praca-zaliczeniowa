@@ -20,7 +20,7 @@
                 </p:panel>
                     <br/>
 
-                <p:dataTable id="tablicapit" value="#{pitView.lista}" var="loop" selectionMode="single" selection="#{pitView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 
+                <p:dataTable lazy="false"  id="tablicapit" value="#{pitView.lista}" var="loop" selectionMode="single" selection="#{pitView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 
                              emptyMessage="Brak sporządzonych pitów w danym roku" rowStyleClass="#{loop.wynik lt 0 ? 'korekta' : null}">
                     <p:ajax event="rowSelect" update=":formpi2" global="false" listener="#{pitView.wybranopit}"/>
                     <p:column headerText="okres rozlicz.: " width="70">
@@ -115,7 +115,7 @@
                     <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
 
                     <p:panel header="wprowadzone PIT-y (ryczałt): " /><br/>
-                    <p:dataTable id="tablicapit" value="#{ryczView.lista}" var="loop" selectionMode="single" selection="#{ryczView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 
+                    <p:dataTable lazy="false"  id="tablicapit" value="#{ryczView.lista}" var="loop" selectionMode="single" selection="#{ryczView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 
                                  emptyMessage="Brak sporządzonych pitów w danym roku">
                         <p:ajax event="rowSelect" listener="#{ryczView.inforryczalt}" update=":formpi3:zestawieniepitview" global="false"/>
                         <p:column headerText="okres rozliczeniowy: ">

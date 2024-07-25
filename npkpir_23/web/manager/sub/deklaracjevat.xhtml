@@ -5,14 +5,15 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <p:growl life="3600"  ><p:autoUpdate/></p:growl>
     <p:accordionPanel id="akordeon">
         <p:tab title="Schemy deklaracji">  
             <h:form id="form_deklaracjaVatSchemaView">
-                <p:dataTable value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" style="width: 680px;"
+                <p:dataTable lazy="false"  value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" style="width: 680px;"
                              emptyMessage="nie ma zdefiniowanych schem" id="wykazschem" rowKey="#{item.id}"
-                             selection="#{deklaracjaVatSchemaView.wybranaschema}" selectionMode="single" sortBy="#{item.nazwaschemy}" sortOrder="descending">
+                             selection="#{deklaracjaVatSchemaView.wybranaschema}" selectionMode="single" sortBy="#{item.nazwaschemy}">
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="rowSelect" global="false" listener="#{deklaracjaVatSchemaView.skopiujschema()}" update="akordeon:wprowadzanieschemy"/>
                     <f:facet name="header">
@@ -134,7 +135,7 @@
                                   rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
                 <p:commandButton value="zachowaj" actionListener="#{deklaracjaVatSchemaView.zachowaj()}" update="akordeon:definowaniepozycji" style="width: 120px; margin: 10px;"
                                  rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
-                <p:dataTable value="#{deklaracjaVatSchemaView.schemaewidencjalista}" var="item" style="width: 1160px;" id="tabela"
+                <p:dataTable lazy="false"  value="#{deklaracjaVatSchemaView.schemaewidencjalista}" var="item" style="width: 1160px;" id="tabela"
                              emptyMessage="Nie pobrano schemy/Nie zdefinowano jeszcze schem" sortBy="#{item.polenetto}">
                     <p:column width="70">
                         <f:facet name="header">
@@ -210,7 +211,7 @@
                                   rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
                 <p:commandButton value="zachowaj" actionListener="#{deklaracjaVatSchemaView.zachowajsumaryczne()}" update="akordeon:definowaniewierszysumarycznych" style="width: 120px; margin: 10px;"
                                  rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
-                <p:dataTable value="#{deklaracjaVatSchemaView.schemawierszlista}" var="item" style="width: 960px;"
+                <p:dataTable lazy="false"  value="#{deklaracjaVatSchemaView.schemawierszlista}" var="item" style="width: 960px;"
                              emptyMessage="Nie pobrano wierszy/Nie zdefinowano jeszcze wierszy" sortBy="#{item.polenetto}"
                              >
                     <p:column width="70">
@@ -266,7 +267,7 @@
         </p:tab>
         <p:tab title="Definiowanie nazw pozycji sumarycznych">
             <h:form id="definowanienazwpozycjisum">
-                <p:dataTable value="#{deklaracjaVatWierszeSumaryczneView.wierszesumarycznelista}" var="item" style="width: 500px;"
+                <p:dataTable lazy="false"  value="#{deklaracjaVatWierszeSumaryczneView.wierszesumarycznelista}" var="item" style="width: 500px;"
                              emptyMessage="Nie zdefiniowano wierszy" id="tabelawierszy">
                     <p:column>
                         <f:facet name="header">
@@ -296,7 +297,7 @@
                                   rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
                 <p:commandButton value="zachowaj" actionListener="#{deklaracjaVatSchemaView.zachowajpozycjekoncowe()}" update="akordeon:definowaniewierszykoncowych" style="width: 120px; margin: 10px;"
                                  rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
-                <p:dataTable value="#{deklaracjaVatSchemaView.schemapozycjekoncowe}" var="item" style="width: 960px;"
+                <p:dataTable lazy="false"  value="#{deklaracjaVatSchemaView.schemapozycjekoncowe}" var="item" style="width: 960px;"
                              emptyMessage="Nie pobrano wierszy/Nie zdefinowano jeszcze wierszy" sortBy="#{item.polenetto}"
                              >
                     <p:column width="70">
@@ -340,7 +341,7 @@
         </p:tab>
          <p:tab title="Definiowanie nazw pozycji końcowych">
             <h:form id="definowanienazwpozycjikoncowe">
-                <p:dataTable value="#{deklaracjaVatPozycjeKoncoweView.wierszesumarycznelista}" var="item" style="width: 500px;"
+                <p:dataTable lazy="false"  value="#{deklaracjaVatPozycjeKoncoweView.wierszesumarycznelista}" var="item" style="width: 500px;"
                              emptyMessage="Nie zdefiniowano wierszy" id="tabelawierszy">
                     <p:column>
                         <f:facet name="header">

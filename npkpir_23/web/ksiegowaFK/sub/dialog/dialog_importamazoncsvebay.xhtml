@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .waluta input {
             width: 40px !important;
@@ -26,7 +26,7 @@
         <h:form id="importtabelaebayinit">
             <p:growl life="3600"  id="messages1"/>
             <p:panelGrid columns="1">
-                <p:fileUpload fileUploadListener="#{amazonImportEbay.importujsprzedaz}" 
+                <p:fileUpload chooseIcon="fa fa-upload" listener="#{amazonImportEbay.importujsprzedaz}" 
                               mode="advanced" dragDropSupport="true" fileLimit="1"
                               update="messages1 importtabelaebay" 
                               validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
@@ -37,7 +37,7 @@
             </p:panelGrid>
         </h:form>
         <h:form id="importtabelaebay">
-            <p:dataTable  var="wpisama" value="#{amazonImportEbay.listafk}" id="dokumentyLista" 
+            <p:dataTable lazy="false"   var="wpisama" value="#{amazonImportEbay.listafk}" id="dokumentyLista" 
                           rowIndexVar="index" 
                           style="width: 1400px; margin-top: 10px;" rowKey="#{wpisama.id}" 
                           paginator="true" paginatorAlwaysVisible="true" rows="12"

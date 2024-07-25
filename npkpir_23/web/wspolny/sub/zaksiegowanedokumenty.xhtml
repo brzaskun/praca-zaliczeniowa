@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab  title="#{mgs.zestawienieanalityczne}" >
         <style>
             .gridtablicaanalityczne .ui-datatable-odd td{
@@ -45,17 +45,17 @@
                     <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{saldoAnalitykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>-->
             </p:panelGrid>
             
-            <p:dataTable id="dataList" value="#{guestFKDokumenty.dokumenty}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
+            <p:dataTable lazy="false"  id="dataList" value="#{guestFKDokumenty.dokumenty}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          rowKey="#{item}" selectionMode="single" 
                          style="width: 1250px;" skipChildren="true"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
-                         sortBy="#{item}" sortFunction="#{dokfkSortView.sortZaksiegowaneDok}" >
+                          >
                 <p:ajax event="filter" global="false"/>
                 <p:ajax event="rowToggle" global="false"/>
                 <p:column width="20">
                     <p:rowToggler/>
                 </p:column>
-                <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
+                <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;" sortBy="#{item}" sortFunction="#{dokfkSortView.sortZaksiegowaneDok}">
                     <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
                 </p:column>
                 <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
@@ -82,7 +82,7 @@
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
                 </p:column>
                 <p:rowExpansion>
-                    <p:dataTable value="#{item.listawierszy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" style="width: 95%;" rowIndexVar="index">
+                    <p:dataTable lazy="false"  value="#{item.listawierszy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" style="width: 95%;" rowIndexVar="index">
                         <p:column style="width: 20px;">
                             <h:outputText value="#{index+1}"/>
                         </p:column>

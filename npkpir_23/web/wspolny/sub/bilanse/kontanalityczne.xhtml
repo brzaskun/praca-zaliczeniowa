@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab  title="#{mgs.zestawienieanalityczne}" >
         <style>
             .gridtablicaanalityczne tr{
@@ -60,10 +60,10 @@
                         </p:column>
             </p:panelGrid>
             
-            <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loopka" rowKey="#{loopka.hashCode()}"
+            <p:dataTable lazy="false"  id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loopka" rowKey="#{loopka.hashCode()}"
                          rowStyleClass="saldaanalitycznewiersz"
                          filteredValue="#{saldoAnalitykaView.listaSaldoKontofilter}" selection="#{saldoAnalitykaView.listaSaldoKontowybrane}"
-                         sortBy="#{loopka.konto}" sortFunction="#{saldoAnalitykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}"  rowSelectMode="add"
+                          emptyMessage="#{mgs.niemazapisownakontach}"  rowSelectMode="add"
                          styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldaanalityczne"
                          >
                 <p:ajax event="filter" global="false"/>
@@ -75,7 +75,7 @@
                 <p:column width="20">
                     <p:rowToggler  rendered="#{saldoAnalitykaView.zzapisami}"/>
                 </p:column>
-                 <p:column styleClass="konto" headerText="#{mgs.konto}" width="60" filterBy="#{loopka.konto.pelnynumer}" >
+                 <p:column styleClass="konto" headerText="#{mgs.konto}" width="60" filterBy="#{loopka.konto.pelnynumer}" sortBy="#{loopka.konto}" sortFunction="#{saldoAnalitykaView.compare}">
                     <h:outputText value="#{loopka.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="120" sortBy="#{loopka.konto.nazwapelna}">
@@ -136,7 +136,7 @@
                     <h:outputText value="#{loopka.konto.kontomacierzyste.nazwapelna}" />
                 </p:column>
                 <p:rowExpansion>
-                    <p:dataTable value="#{loopka.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
+                    <p:dataTable lazy="false"  value="#{loopka.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
                         <p:column headerText="#{mgs.dokument}" width="60" style="height: 35px !important">
                             <h:outputText value="#{loopik.dokfkS}" />
                         </p:column>
@@ -172,7 +172,7 @@
             </p:dataTable>
         </h:form>
         <h:form id="tabelazsumamianalityka">
-            <p:dataTable id="sumy" value="#{saldoAnalitykaView.sumaSaldoKonto}" var="loopka1" styleClass="gridtablicaanalityczne"
+            <p:dataTable lazy="false"  id="sumy" value="#{saldoAnalitykaView.sumaSaldoKonto}" var="loopka1" styleClass="gridtablicaanalityczne"
                          style="float: right; margin-right: 200px; width: 890px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
                 <p:column headerText="#{mgs.boWn}" width="45" >
                     <bcf:outputpl value="#{loopka1.boWn}"/>

@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab  title="Odchylenia kwot za rok" >
         <style>
             .gridtablicasyntetyczne .ui-datatable-odd td{
@@ -21,7 +21,7 @@
 
         </style>
         <h:form id="formzestkontarokprocent">
-            <p:dataTable id="tablicazestrokPprocent" value="#{zestawienieWynikoweRokView.kontosumyrokPrzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+            <p:dataTable lazy="false"  id="tablicazestrokPprocent" value="#{zestawienieWynikoweRokView.kontosumyrokPrzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" 
                          styleClass="gridtablicasyntetyczne" widgetVar="tablicazestrokPprocent" style="width: 1300px" 
                          >
@@ -74,7 +74,7 @@
                     <bcf:outputplprocent value="#{loop.grudzienP}" style="#{loop.grudzienP gt 1 ? 'color: red;' : null} float: right;"/>
                 </p:column>
             </p:dataTable>
-            <p:dataTable id="tablicazestrokKprocent" value="#{zestawienieWynikoweRokView.kontosumyrokKoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+            <p:dataTable lazy="false"  id="tablicazestrokKprocent" value="#{zestawienieWynikoweRokView.kontosumyrokKoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1300px" widgetVar="tablicazestrokKprocent"
                          >

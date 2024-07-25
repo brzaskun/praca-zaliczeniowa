@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:tab id="nowa" title="Nanieś płatności" >
         <style>
@@ -132,8 +132,8 @@
                 <h:outputText value="suma: " style="margin-right: 10px;"/><bcf:outputpl value="#{fakturaRozrachunkiView.suma}" stylePlus="margin-right: 200px;"/>
             </p:outputPanel>
             <p:remoteCommand name="przeliczfilter" actionListener="#{fakturaRozrachunkiView.sumuj}" update="@form"/>
-                <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1170px; margin-top: 20px;"
-                             emptyMessage="niczego dzisiaj nie zaksięgowano"  sortOrder="descending" filteredValue="#{fakturaRozrachunkiView.wprowadzoneplatnoscifiltered}"
+                <p:dataTable lazy="false"  value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1170px; margin-top: 20px;"
+                             emptyMessage="niczego dzisiaj nie zaksięgowano"  filteredValue="#{fakturaRozrachunkiView.wprowadzoneplatnoscifiltered}"
                              editable="true" widgetVar="form_wprowadzoneplatnosci" sortBy="#{item.lp}"
                              paginator="true" rows="10" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                          rowsPerPageTemplate="10,20,50,100" >

@@ -5,7 +5,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <p:accordionPanel id="akordeon">  
         <p:tab title="Terminy płatności zobowiązań">  
            
@@ -15,11 +16,11 @@
                 <br/>
                 <h:form id="formzob" >
                 <p:panelGrid columns="1" style="width: 900px">
-                    <p:dataTable value="#{zobowiazanieView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
+                    <p:dataTable lazy="false"  value="#{zobowiazanieView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
                                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                                 rowsPerPageTemplate="12,50,100" 
                                  sortBy="#{loop.zobowiazaniePK.getRokMc()}"
-                                 sortOrder="descending">
+                                >
                          <f:facet name="header">
                     <h:outputText value="Lista wprowadzonych terminów płatności #{WpisView.rokWpisuSt} "/>
                 </f:facet>
@@ -76,7 +77,7 @@
                 <p:growl life="3600"  showDetail="true"/>
                 <p:focus for="parametryp1"/><br/>
                 <p:panelGrid id="historia" columns="4" style="width: 500px">
-                    <p:dataTable value="#{odsetkiView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
+                    <p:dataTable lazy="false"  value="#{odsetkiView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
                          <f:facet name="header">
                     <h:outputText value="Lista wprowadzonych stóp odsetek"/>
                 </f:facet>

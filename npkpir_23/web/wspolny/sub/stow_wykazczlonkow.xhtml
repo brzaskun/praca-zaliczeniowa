@@ -4,14 +4,14 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form_dialog_stowarzyszenie_wykaz_czlonkow">
             <p:outputPanel style="margin: 10px;">
                 <p:commandButton value="drukuj" actionListener="#{miejscePrzychodowView.drukujczlonkowie}" style="width: 120px;"/>
             </p:outputPanel>
         </h:form>
         <h:form id="form_dialog_stowarzyszenie_wykaz_czlonkow_lista">
-            <p:dataTable value="#{miejscePrzychodowView.czlonkowiestowarzyszenia}" var="item" style="width: 1130px;" rowIndexVar="index"
+            <p:dataTable lazy="false"  value="#{miejscePrzychodowView.czlonkowiestowarzyszenia}" var="item" style="width: 1130px;" rowIndexVar="index"
                          scrollable="true" scrollHeight="450"  emptyMessage="brak zdefiniowanych członków stowarzyszenia"
                          sortBy="#{item.opismiejsca}">
                 <p:ajax event="filter" global="false"/>

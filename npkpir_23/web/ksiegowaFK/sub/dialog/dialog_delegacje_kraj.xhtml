@@ -3,8 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .wyborkontrahenta input  {
             width: 400px !important;
@@ -26,10 +26,10 @@
                              update=":delegacje, :delegacjelista" rendered="#{delegacjeView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="delegacjelista">
-            <p:dataTable value="#{delegacjeView.delegacjekrajowe}" var="item" style="width: 850px;height: 500px;overflow-y: scroll;"
+            <p:dataTable lazy="false"  value="#{delegacjeView.delegacjekrajowe}" var="item" style="width: 850px;height: 500px;overflow-y: scroll;"
                          emptyMessage="brak zdefiniowanych delegacji krajowych" rowIndexVar="index"
-                         rowKey="#{item.id}"  sortOrder="descending"
-                         sortBy="#{item}"  sortFunction="#{delegacjeView.sortDelegacje}">
+                         rowKey="#{item.id}" 
+                         sortBy="#{item}"  >
                 <p:column headerText="#{mgs.nr}" width="30">
                     <h:outputText value="#{index+1}"/>
                 </p:column>

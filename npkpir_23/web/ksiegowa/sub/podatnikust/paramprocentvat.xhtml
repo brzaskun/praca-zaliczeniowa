@@ -6,19 +6,19 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab title="Procent VAT do odliczenia">  
             <h:form>
                 <h:outputText value="Procent VAT naliczonego do odliczenia - struktura" style="font-size: 15px"/>
                 <p:growl life="3600"  showDetail="true"/>
                 <p:focus for="parametryp1"/><br/>
                 <p:panelGrid columns="5" style="width: 500px">
-                    <p:dataTable value="#{podatnikView.selected.paramProcentVat}"  var="loop" emptyMessage="nie wprowadzono parametrów"
-                                 sortBy="#{loop}" sortFunction="#{podatnikView.sortparamsuper}">
+                    <p:dataTable lazy="false"  value="#{podatnikView.selected.paramProcentVat}"  var="loop" emptyMessage="nie wprowadzono parametrów"
+                                 >
                         <f:facet name="header">
                     <h:outputText value="Dane historyczne"/>
                 </f:facet>
-                        <p:column headerText="od">
+                        <p:column headerText="od" sortBy="#{loop}" sortFunction="#{podatnikView.sortparamsuper}">
                             <h:outputText value="#{loop.mcOd}-" />
                             <h:outputText value="#{loop.rokOd}" />
                         </p:column>

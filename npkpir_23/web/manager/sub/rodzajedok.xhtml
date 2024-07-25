@@ -6,7 +6,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <bcf:ajaxs/>
 <!--    dezaktywanacja, generuje u wszystkich na nowy rok ale zapomina o kontach!!!-->
 <!--     <p:outputPanel style="margin-top: 50px;margin-left: 50px;">
@@ -32,7 +32,7 @@
         <p:panelGrid columns="1" style="max-width: 1880px">
             <h:outputText value="brak listy dokumentów domyślnych na ten rok" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="color: green;"/>
             <p:commandButton value="generuj" actionListener="#{rodzajedokView.generujliste}" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="width: 120px;;" update="@form"/>
-            <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  rows="15"
+            <p:dataTable lazy="false"  id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  rows="15"
                          selection="#{rodzajedokView.selected}" rowKey="#{loop.skrotNazwyDok}" selectionMode="single" rendered="#{rodzajedokView.listaWspolnych.size() gt 0}"
                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                                      rowsPerPageTemplate="15,30,45,60" paginatorPosition="top" paginator="true">

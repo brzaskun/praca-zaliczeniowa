@@ -4,7 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:bcf="http://brzaskun.com/facelets">
+      xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form_skladka">
         <style>
             .opismiejsca input  {
@@ -36,7 +36,7 @@
                          update="form_skladka form_skladka_lista:skladka_lista" rendered="#{skladkaStowarzyszenieView.zapisz0edytuj1 == true}"/>
     </h:form>
     <h:form id="form_skladka_lista">
-        <p:dataTable value="#{skladkaStowarzyszenieView.skladkaStowarzyszenieLista}" var="item" rowIndexVar="index"
+        <p:dataTable lazy="false"  value="#{skladkaStowarzyszenieView.skladkaStowarzyszenieLista}" var="item" rowIndexVar="index"
                      scrollable="true" scrollHeight="350" style="width: 860px;"  emptyMessage="brak zdefiniowanych składek"
                      sortBy="#{item.rodzajCzlonkostwa.nazwa}" id="skladka_lista">
             <p:column headerText="#{mgs.nr}" style="width: 40px; text-align: center;">

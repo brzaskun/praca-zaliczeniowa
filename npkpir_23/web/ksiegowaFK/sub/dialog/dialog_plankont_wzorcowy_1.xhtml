@@ -5,7 +5,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
     xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
    
     <p:dialog id="dialogpierwszywzorcowy1" header="Plan kont WZORCOWY - struktura1" widgetVar="dialogplankontwzorcowy1" 
               resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy1','menuustawienia', 1350, 750);ustalmaxlevel('formwzorcowy1:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy1');"  >
@@ -55,14 +55,14 @@
                 <p:commandButton value="implementuj ust."  actionListener="#{planKontView.implementujwmma0mn1ma0}" style="float: left; width: 130px; margin-left: 20px;" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:dataTable id="dataListwzorcowy" value="#{planKontView.wykazkontwzor}" var="loop"  selectionMode="single"
+                <p:dataTable lazy="false"  id="dataListwzorcowy" value="#{planKontView.wykazkontwzor}" var="loop"  selectionMode="single"
                              rowStyleClass="#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
                                               (loop.zwyklerozrachszczegolne eq 'zwykłe' ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : loop.zwyklerozrachszczegolne eq 'vat' ? 'rowb_vat' : 'rowb_rozrachunkowe') :
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont"
                              style="width: 750px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
-                             sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
+                             
                              >
                     <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkontawzorcowy, :formedycjanazwwzorcowy" global="false" listener="#{planKontView.selrowwzorcowy()}"/>
                     <p:columnGroup type="header">
@@ -82,7 +82,7 @@
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
                     </p:column>
-                   <p:column  style="width: 200px;">
+                   <p:column  style="width: 200px;" sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}">
                         <h:outputText value="#{loop.nazwapelna}" /> 
                     </p:column>
                     <p:column style="width: 40px; text-align: center;">

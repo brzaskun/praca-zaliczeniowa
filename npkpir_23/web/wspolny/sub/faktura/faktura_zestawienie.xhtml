@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:tab id="zestawienie" title="Faktury wystawione wg kontrahentow" >
         <h:form id="formzestawienie">
@@ -101,8 +101,8 @@
 <!--            <p:panelGrid>
                 <h:outputText value="#{fakturaZestView.fakturaWaloryzacja.kontrahent.email}" style=color:blue;"/>
             </p:panelGrid>-->
-            <p:dataTable id="dokumentyZestawienie"  value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
-                         rowKey="#{item.kontrahent.npelna}" style="width: 1350px;height: 800px; overflow-y: scroll;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}" sortOrder="descending"
+            <p:dataTable lazy="false"  id="dokumentyZestawienie"  value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
+                         rowKey="#{item.kontrahent.npelna}" style="width: 1350px;height: 800px; overflow-y: scroll;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}"
                          rowSelectMode="add"  emptyMessage="nie pobrano wierszy" >
                 <p:column>
                     <style>
@@ -111,7 +111,7 @@
                             margin: 0px !important;
                         }
                     </style>
-                    <p:dataTable value="#{item.trescfaktury}" var="loop" sortBy="#{loop.data}" sortOrder="descending" rowIndexVar="rowA"
+                    <p:dataTable lazy="false"  value="#{item.trescfaktury}" var="loop" sortBy="#{loop.data}" rowIndexVar="rowA"
                                  rowKey="#{loop.toString()}"
                                  filteredValue="#{fakturaZestView.filtertresc}"
                                  styleClass="dokumentyZestawienie" >

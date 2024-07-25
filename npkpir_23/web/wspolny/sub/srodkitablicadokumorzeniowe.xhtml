@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .ui-datatable .dokumorzeniowe .ui-column-filter {
             width: 50px !important;
@@ -29,7 +29,7 @@
 <bcf:ajaxs/>
     <h:form id="formSTRUmorzenie">
         <p:outputPanel id="wrapper2">
-            <p:dataTable  var="subwpisX" value="#{sTRTabView.umorzeniazamiesiaclista}" id="dokumsrodkiLista"
+            <p:dataTable lazy="false"   var="subwpisX" value="#{sTRTabView.umorzeniazamiesiaclista}" id="dokumsrodkiLista"
                           styleClass="dokumorzeniowe" rowIndexVar="index"
                           scrollable="true" scrollHeight="500" scrollRows="15"
                           style="width: 1100px; height: 600px;" rowKey="#{subwpisX.srodekTrw.nazwa}"

@@ -1023,9 +1023,9 @@
         <validator-class>validator.PasswordValidator</validator-class>
     </validator>
     <application>
-        <action-listener>
+        <action->
             org.primefaces.application.DialogActionListener
-        </action-listener>
+        </action->
         <navigation-handler>
             org.primefaces.application.DialogNavigationHandler
         </navigation-handler>

@@ -7,7 +7,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <!--        <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
                 <p:commandButton action="{zusStawkiNView.usunzus()}" value="usun parametr" update="@form" type="submit" />
@@ -25,7 +25,7 @@
                     <p:ajax event="click" partialSubmit="true" update="@form"/>
                 </p:commandButton>
                 <h1><h:outputText value="Wykaz firm"/></h1>
-                <p:dataTable value="#{aktywacjaPodatnikow.listapodatnikow}" var="item" style="max-width: 1100px;"  sortBy="#{item.printnazwa}">
+                <p:dataTable lazy="false"  value="#{aktywacjaPodatnikow.listapodatnikow}" var="item" style="max-width: 1100px;"  sortBy="#{item.printnazwa}">
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Nip"/>

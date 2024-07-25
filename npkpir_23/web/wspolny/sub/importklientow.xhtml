@@ -11,7 +11,7 @@
     <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
             <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
                 <h:outputText value="Akceptowana wersja pliku xls,xlsx" style="font-weight: bold;"/>
-                <p:fileUpload fileUploadListener="#{kontrahentImportView.zachowajplik}" 
+                <p:fileUpload chooseIcon="fa fa-upload" listener="#{kontrahentImportView.zachowajplik}" 
                               mode="advanced" dragDropSupport="true" multiple="false" sequential="true" auto="true"
                               update="formimportklientow2 formimportklientow" 
                               invalidSizeMessage="Plik za duży" allowTypes="/(\.|\/)(xls|xlsx)$/" invalidFileMessage="Niewłaściwy format pliku: "
@@ -27,7 +27,7 @@
     </h:form>
     <h:form id="formimportklientow2">
         <p:growl life="3600" />
-        <p:dataTable var="wpis" value="#{kontrahentImportView.lista}"  id="tabelaKontr" editable="true"
+        <p:dataTable lazy="false"  var="wpis" value="#{kontrahentImportView.lista}"  id="tabelaKontr" editable="true"
                  paginator="true" paginatorAlwaysVisible="true" rows="10"
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                  rowsPerPageTemplate="10, 20,28,36,50" 

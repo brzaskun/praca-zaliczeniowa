@@ -12,7 +12,7 @@
                 <p:growl life="3600"  showDetail="true"/>
                 <p:focus for="parametryp1"/><br/>
                 <p:panelGrid columns="4" style="width: 500px">
-                    <p:dataTable value="#{podatnikView.selected.vatokres}"  var="loop" 
+                    <p:dataTable lazy="false"  value="#{podatnikView.selected.vatokres}"  var="loop" 
                                  >
                         <f:facet name="header">
                         <h:outputText value="Dane historyczne"/>

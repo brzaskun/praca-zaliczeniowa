@@ -11,7 +11,7 @@
             <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
                     <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
                         <h:outputText value="Akceptowana wersja pliku xls,xlsx" style="font-weight: bold;"/>
-                        <p:fileUpload fileUploadListener="#{planKontView.zachowajplik}" 
+                        <p:fileUpload chooseIcon="fa fa-upload" listener="#{planKontView.zachowajplik}" 
                                       mode="advanced" dragDropSupport="true" multiple="true" sequential="true" auto="true"
                                       update="form_dialog_plankont_imp panelplik:mes" 
                                       invalidSizeMessage="Plik za duży" allowTypes="/(\.|\/)(xls|xlsx)$/" invalidFileMessage="Niewłaściwy format pliku: "
@@ -30,7 +30,7 @@
         <h:form id="form_dialog_plankont_imp">
         
             <p:panelGrid columns="2" >
-                <p:dataTable id="dataList" value="#{planKontView.kontalista}" var="loop"  
+                <p:dataTable lazy="false"  id="dataList" value="#{planKontView.kontalista}" var="loop"  
                              rowStyleClass="#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
                                               (loop.zwyklerozrachszczegolne eq 'zwykłe' ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : loop.zwyklerozrachszczegolne eq 'vat' ? 'rowb_vat' : 'rowb_rozrachunkowe') :
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 

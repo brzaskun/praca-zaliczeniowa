@@ -4,7 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
         .waluta input {
             width: 40px !important;
@@ -180,7 +180,7 @@
                 
             </p:contextMenu>
 
-            <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
+            <p:dataTable lazy="false"  id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
                          style="width: 100%; height: 450px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
                          rowsPerPageTemplate="50,100,300,500, 1500, 3000" paginatorPosition="top"
@@ -289,7 +289,7 @@
                 <p:rowExpansion>
                     <p:panelGrid columns="2">
                         <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" resizable="true">  
-                            <p:dataTable var="subwpis" value="#{item.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 700px;">
+                            <p:dataTable lazy="false"  var="subwpis" value="#{item.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 700px;">
                                 <p:column id="SubColumn1" headerText="ewidencja" width="250">  
                                     <h:outputText value="#{subwpis.ewidencja.nazwa}" style="width: 300px;"
                                                   rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />

@@ -5,16 +5,17 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
     
-    <p:layoutUnit header="info" position="south" size="150" closable="true" collapsible="true" gutter="6" >
+    <pe:layoutPane  position="south" size="150" closable="true"  >
             <p:feedReader value="http://podatki.wp.pl/rss.xml" var="feed" size="1" >  
                 <h:outputText value="#{feed.title}" style="font-weight: bold"/>  
                 <br />  
                 <h:outputText value="#{feed.description.value}" escape="false" />  
                 <p:separator />  
             </p:feedReader>  
-    </p:layoutUnit>
+    </pe:layoutPane>
 </ui:composition>   
 

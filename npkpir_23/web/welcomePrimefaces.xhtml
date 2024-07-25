@@ -3,7 +3,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
     <f:view contentType="text/html">
         <h:head>
@@ -15,17 +16,17 @@
 
         <h:body>
 
-            <p:layout fullPage="true">
+            <pe:layout fullPage="true">
 
-                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                <pe:layoutPane position="north" size="100" resizable="true" closable="true" >
                     Header
-                </p:layoutUnit>
+                </pe:layoutPane>
 
-                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                <pe:layoutPane position="south" size="100" closable="true" >
                     Footer
-                </p:layoutUnit>
+                </pe:layoutPane>
 
-                <p:layoutUnit position="west" size="175" header="Left" collapsible="true">
+                <pe:layoutPane position="west" size="175"  >
                     <p:menu>
                         <p:submenu label="Resources">
                             <p:menuitem value="Demo" url="http://www.primefaces.org/showcase-labs/ui/home.jsf" />
@@ -36,13 +37,13 @@
                         </p:submenu>
 
                     </p:menu>
-                </p:layoutUnit>
+                </pe:layoutPane>
 
-                <p:layoutUnit position="center">
+                <pe:layoutPane position="center">
                     Welcome to PrimeFaces
-                </p:layoutUnit>
+                </pe:layoutPane>
 
-            </p:layout>
+            </pe:layout>
 
         </h:body>
 
