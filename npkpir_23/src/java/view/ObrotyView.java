@@ -108,7 +108,7 @@ public class ObrotyView implements Serializable{
                         obiektDOKmrjsfSelX.add(tmpx);
                         dokumentyl.add(tmpx.getRodzajedok().getSkrot());
                         rodzaje.add(tmpx.getRodzajedok().getRodzajtransakcji());
-                        kontrahenty.add(tmpx.getKontr().getNpelna());
+                        kontrahenty.add(tmpx.getKontr().getNazwabezCudzy());
                     }
                 }
                 Collections.sort(obiektDOKmrjsfSelX, new Dokcomparator());
