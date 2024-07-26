@@ -294,6 +294,12 @@ public class DokView implements Serializable {
 
     }
     
+    public void zmianaokresuwpisywanie() {
+        wpisView.naniesDaneDoWpisOkres();
+        init();
+        Msg.msg("Udana zmiana okresu");
+    }
+    
     public void dodajcechedodokumentu(Cechazapisu c) {
         selDokument.getCechadokumentuLista().add(c);
         //c.getDokLista().add(selDokument);

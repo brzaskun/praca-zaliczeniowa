@@ -790,7 +790,10 @@
                                  actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" oncomplete="PF('dialogCechyStronaWiersza').show();"
                                  global="false"/>
                 <p:commandButton id="cechazapisudef" value="CechyZap(A)" styleClass="fkbutton" style="display: none;" 
-                                 actionListener="#{dokfkView.wybranoStronaWierszaCechaDef()}" accesskey="a" 
+                                 actionListener="#{dokfkView.wybranoStronaWierszaCechaDef(1)}" accesskey="a" 
+                                 global="false"/>
+                 <p:commandButton id="cechazapisudef1" value="CechyZap(B)" styleClass="fkbutton" style="display: none;" 
+                                 actionListener="#{dokfkView.wybranoStronaWierszaCechaDef(2)}" accesskey="b" 
                                  global="false"/>
                 <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
                                  actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
@@ -819,6 +822,7 @@
                 <h:inputText id="lpwierszaWpisywanie" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>
                 <p:panelGrid columns="14" id="panelinfo" style="width: 80%">
                     <h:outputText value="domyślna cecha NKUP - Alt-A" style="width: 80px; color: green;" />
+                     <h:outputText value="domyślna cecha KUPMN - Alt-B" style="width: 80px; color: green;" />
                     <p:spacer width="20"/>
                     <h:outputText value="ręczny kurs - Alt-L  " style="width: 80px; color: green;" />
                     <p:spacer width="70"/>

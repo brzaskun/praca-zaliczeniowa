@@ -2584,10 +2584,13 @@ public class DokfkView implements Serializable {
     }
     
     //dodawanie domyslnej cechy nkup
-    public void wybranoStronaWierszaCechaDef() {
+    public void wybranoStronaWierszaCechaDef(int nr) {
         Cechazapisu cechankup = null;
         for (Cechazapisu c : pobranecechypodatnik) {
-            if (c.getNazwacechy().equals("NKUP")) {
+            if (nr ==1  && c.getNazwacechy().equals("NKUP")) {
+                cechankup = c;
+                break;
+            } else if (nr ==2  && c.getNazwacechy().equals("KUPMN")) {
                 cechankup = c;
                 break;
             }

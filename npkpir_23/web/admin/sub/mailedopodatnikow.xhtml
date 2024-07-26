@@ -17,8 +17,8 @@
                 <p:panelGrid columns="2">
                     <p:column>
                         
-                        <p:textEditor id="editor"  widgetVar="editorWidget" value="#{adminMailView.zawartoscmaila}" height="600" >
-                       </p:p:textEditor>
+                        <p:textEditor id="editor"  widgetVar="editorWidget" value="#{adminMailView.zawartoscmaila}" height="600"  secure="false" >
+                       </p:textEditor>
                        <p:commandButton value="Save" actionListener="#{adminMailView.zachowajMaila}" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-disk"  update=":akordeon:wysylanie"/>
                        <p:commandButton value="Reset" type="button" onclick="PF('editorWidget').clear();" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-close"  update=":akordeon:wysylanie"/>
                     </p:column>

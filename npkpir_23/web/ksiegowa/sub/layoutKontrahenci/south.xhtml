@@ -8,8 +8,13 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <pe:layoutPane position="south" size="50" closable="true" styleClassContent="southpane">
-            <h:outputText value="#{WpisView.podatnikObiekt.printnazwa}" style="font-weight: 900; font-size: xx-large"/>
+   <pe:layoutPane position="south"  closable="true" styleClassContent="southpane">
+        <h:form id="form_southpane" class="form_southpane">
+            <p:panelGrid columns="2">
+                <h:outputText value="#{WpisView.podatnikObiekt.printnazwa}" style="font-weight: 900; font-size: xx-large"/>
+                <h:outputText value="#{WpisView.okreswpisuString}" style="font-weight: 900; font-size: xx-large; margin-left:20px;"/>
+            </p:panelGrid>
+        </h:form>
     </pe:layoutPane>
 </ui:composition>   
 

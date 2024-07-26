@@ -65,7 +65,7 @@
                 <p:panelGrid columns="6">
                 <p:commandButton value="+" actionListener="#{fakturaView.pokazedytor(1)}" update="@parent" rendered="#{!fakturaView.podazedytorvar}"/>
                 <p:commandButton value="-" actionListener="#{fakturaView.pokazedytor(0)}" update="@parent" rendered="#{fakturaView.podazedytorvar}"/>
-                <p:textEditor id="editor"  widgetVar="editorWidget" value="#{fakturaView.wiadomoscdodatkowa}" style="width:800px" height="300" rendered="#{fakturaView.podazedytorvar}">
+                <p:textEditor secure="false" id="editor"  widgetVar="editorWidget" value="#{fakturaView.wiadomoscdodatkowa}" style="width:800px" height="300" rendered="#{fakturaView.podazedytorvar}">
                     
                 </p:textEditor>
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"  rendered="#{WpisView.biuroiszef eq true}"/>

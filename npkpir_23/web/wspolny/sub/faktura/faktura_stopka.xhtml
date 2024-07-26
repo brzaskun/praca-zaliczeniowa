@@ -10,7 +10,7 @@
            <h:form id="formmailstopka">
                 <p:panelGrid columns="2">
                     <p:column>
-                        <p:textEditor id="editor"  widgetVar="editorWidget" value="#{fakturadodelementyView.mailfakturastopka}" style="width:1200px;" height="600"/>
+                        <p:textEditor id="editor"  secure="false" widgetVar="editorWidget" value="#{fakturadodelementyView.mailfakturastopka}" style="width:1200px;" height="600"/>
                         <p:commandButton value="Zachowaj" actionListener="#{fakturadodelementyView.zachowajstopke}" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-disk"/>
                         <p:commandButton value="Kasuj" type="button" onclick="PF('editorWidget').clear();" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-close"/>
                     </p:column>

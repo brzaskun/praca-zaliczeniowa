@@ -41,6 +41,11 @@
                            <p:panel style="width: 1000px; margin-top: -10px;" >
                                 <h:form id="auto">
                                     <p:growl life="3600"  id="fifi2"/>
+                                    <h:outputText value="okres"/>
+                                <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
+                                        <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+                                        <p:ajax event="change" listener="#{DokumentView.zmianaokresuwpisywanie}" update="dodWiad:wprowadzanie @(.form_southpane)"  global="false"/>
+                                </p:selectOneMenu>
                                     <p:commandButton id="wprowadzenieNowegoAut" actionListener="#{DokumentView.dodajNowyWpisAutomatyczny()}" value="amortyzacja" global="false" style="width: 150px;"/>  
                                     <p:commandButton id="cechadokumentu" value="cechy dok(V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" 
                                                      onclick="PF('dialogCechyDokumentu').show();" accesskey="v" update="dodWiad:panelcechy"

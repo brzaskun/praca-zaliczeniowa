@@ -33,6 +33,7 @@
 
     </style>
     <h:form id="dodWiad">
+        
         <!--                te batony zostaja, sa wywolywane przez javascript-->
         <p:commandButton id="dodkol" value="dodajkolumne" actionListener="#{DokumentView.dodajwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
         <p:commandButton id="usunkol" value="usunkolumne" actionListener="#{DokumentView.usunwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="t" style="display: none;"/>
@@ -245,7 +246,7 @@
                     <p:column headerText="kwota w walucie"  width="105" rendered="#{DokumentView.selDokument.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
                         <p:inputNumber id="kwotaPkpir1" value="#{row.nettowaluta}" symbol=" #{DokumentView.selDokument.tabelanbp.waluta.skrotsymbolu}" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" 
-                                        symbolPosition="s" signPosition="p" signPosition="p"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" 
+                                        symbolPosition="s" signPosition="p" inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" thousandSeparator="&#160;" >
                             <p:ajax event="blur" listener="#{DokumentView.przewalutuj(index)}" global="false" partialSubmit="true"
                                     update="dodWiad:sumbrutto"/>
