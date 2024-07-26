@@ -38,6 +38,7 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
 import extclass.ReverseIterator;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -65,10 +66,9 @@ import msg.Msg;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.TreeNode;
-import pdf.PdfKontoZapisy;
- import view.WpisView;
+ import pdf.PdfKontoZapisy;
+import view.WpisView;
 import waluty.Z;
-import interceptor.ConstructorInterceptor;
 
 /**
  *
@@ -171,6 +171,7 @@ public class KontoZapisFKView implements Serializable{
         rokdopobraniaod = wpisView.getRokWpisuSt();
         rokdopobraniado = wpisView.getRokWpisuSt();
         rokdopobrania = wpisView.getRokWpisuSt();
+        Collections.sort(wykazkont, new Kontocomparator());
     }
     
     public void publicinit() {
@@ -185,6 +186,7 @@ public class KontoZapisFKView implements Serializable{
         rokdopobraniaod = wpisView.getRokWpisuSt();
         rokdopobraniado = wpisView.getRokWpisuSt();
         rokdopobrania = wpisView.getRokWpisuSt();
+        Collections.sort(wykazkont, new Kontocomparator());
     }
     
     private void wybierzgrupekont() {

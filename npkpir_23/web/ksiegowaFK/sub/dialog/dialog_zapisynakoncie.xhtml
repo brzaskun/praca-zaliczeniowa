@@ -197,7 +197,7 @@
                                 <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
                             </p:column>
                             <p:column headerText="nr konta"  styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;  #{loop1.sprawdzono ne null?'background-color: #c2f9d2':null}"
-                                      sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" sortPriority="1">
+                                      sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" sortable="true" sortPriority="1">
                                 <p:outputPanel id="kontokolor">
                                 <h:outputText value="#{loop1.nrkonta}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '0' ? true : false)}" style="font-weight: 900;" /> 
                                 <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
