@@ -25,11 +25,8 @@
                     <ui:include src="sub/layoutKsiega/south.xhtml"/>   <!-- panel poludniowy-->
                     <ui:include src="sub/layoutKsiega/west.xhtml"/>   <!-- panel zachodni-->
                     <ui:include src="sub/layoutKsiega/east.xhtml"/>   <!-- panel wchodni-->
-                    <pe:layoutPane position="center">  rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
-                        <ui:include src="sub/ksiega.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                    </pe:layoutPane>
-                    <pe:layoutPane position="center">  rendered="#{czyBiuroiSzefView.biuroiszef eq false}">
-                        
+                    <pe:layoutPane position="center" rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
+                        <ui:include src="./sub/ksiega.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                     </pe:layoutPane>
                 </pe:layout>
             </f:view>

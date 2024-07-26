@@ -12,7 +12,7 @@
             <p:panelGrid id="westKsiegowaWidok" columns="2" style="margin-left: 7%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.podatnikObiekt.nazwapelnaPDF}"/>
-                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
+<!--                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
                  <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
                     <f:selectItems value="#{roki.rokiList}"/>
                     <p:ajax event="change" listener="#{ksiegaView.aktualizujTabeleTabela}" update=":form:wrapper westKsiegowa:linki form:cechydokuk"/>
@@ -21,7 +21,7 @@
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
                     <f:selectItems value="#{mce.mceList}"/>
                     <p:ajax event="change" listener="#{ksiegaView.aktualizujTabeleTabela}" update=":form:wrapper westKsiegowa:linki form:cechydokuk"/>
-                </p:selectOneMenu>
+                </p:selectOneMenu>-->
             </p:panelGrid>
            <p:panel id="linki" header="linki">
                   <p:menu >
@@ -35,7 +35,8 @@
                     </p:menu>
                     <p:menu rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
                         <p:menuitem global="false" value="wykaz dokumentów"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem global="false" value="podatkowa ksiega"  outcome="ksiega" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ksiegaryczalt == true}"/>                         <p:menuitem global="false" value="ewid. przychodów"  outcome="ewidencjaprzychodow" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ksiegaryczalt == false}"/>
+                        <p:menuitem global="false" value="podatkowa ksiega"  outcome="ksiega" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ksiegaryczalt == true}"/>  
+                        <p:menuitem global="false" value="ewid. przychodów"  outcome="ewidencjaprzychodow" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ksiegaryczalt == false}"/>
 <!--                    <p:menuitem global="false" value="faktury miesieczne"  outcome="fakturymiesieczne" icon="ui-icon-circle-arrow-e"/> 
                         <p:menuitem global="false" value="niezaplacone"  outcome="niezaplacone" icon="ui-icon-circle-arrow-e"/>  
                         <p:menuitem global="false" value="zaplacone"  outcome="zaplacone" icon="ui-icon-circle-arrow-e"/>  -->

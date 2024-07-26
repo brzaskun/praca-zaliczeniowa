@@ -76,7 +76,7 @@ public class EwidencjaPrzychodowView implements Serializable {
     }
      
        private void aktualizuj(){
-        wpisView.naniesDaneDoWpis();
+        wpisView.naniesDaneDoWpisOkres();
     }
     
      public void aktualizujGuest(String strona) throws IOException {

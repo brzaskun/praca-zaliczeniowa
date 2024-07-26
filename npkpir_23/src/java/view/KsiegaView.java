@@ -27,11 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import mail.MailOther;
 import msg.Msg;
@@ -191,7 +190,7 @@ private static final long serialVersionUID = 1L;
     }
      
     private void aktualizuj(){
-        wpisView.naniesDaneDoWpis();
+        wpisView.naniesDaneDoWpisOkres();
     }
     
      public void aktualizujGuest(String strona) throws IOException {
