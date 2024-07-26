@@ -496,7 +496,7 @@
                     </p:column>
                     <p:column headerText="proc./rok" style="text-align: center;">
                          <p:inputNumber id="sumbrutto" value="#{loop.limitroczny}"  required="true" requiredMessage="Brak procentu - uzupełnij" size="6"
-                                        style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="0" minValue="0" styleClass="wiersznetto"> 
+                                        style="text-align: right;" symbolPosition="s"    inputStyle="text-align: right;" decimalPlaces="0" minValue="0" styleClass="wiersznetto"> 
                              <p:ajax event="change" listener="#{strataView.editstrate(loop)}"/>
                          </p:inputNumber>
                     </p:column>
@@ -542,7 +542,7 @@
                             </p:column>
                             <p:column>
                             <p:inputNumber id="sumbrutto" value="#{strataView.selected.limitroczny}"  required="true" requiredMessage="Brak procentu - uzupełnij" size="6"
-                                        style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="0" minValue="0" styleClass="wiersznetto"> 
+                                        style="text-align: right;" symbolPosition="s"    inputStyle="text-align: right;" decimalPlaces="0" minValue="0" styleClass="wiersznetto"> 
                             </p:inputNumber>
                                 </p:column>
                         </p:row>
