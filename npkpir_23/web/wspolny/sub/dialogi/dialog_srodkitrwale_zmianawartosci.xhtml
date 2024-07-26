@@ -96,6 +96,7 @@
                             </p:column>
                         </p:row>
                     </f:facet>
+                    <p:row>
                     <p:column>
                         <p:selectOneMenu value="#{sTRTabView.edytowanysrodek.kontonetto}" style="width: 350px;"  converter="#{kontoConv}">
                             <f:selectItem noSelectionOption="true" itemValue="" itemLabel="wybierz"/>
@@ -108,6 +109,7 @@
                             <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
                         </p:selectOneMenu>
                     </p:column>
+                        </p:row>
                 </p:panelGrid>
                 <p:panelGrid columns="3" >
                     <p:commandButton id="dodajsrodekbutton" value="zachowaj" actionListener="#{sTRTabView.edytujSrodekTrwaly()}" 

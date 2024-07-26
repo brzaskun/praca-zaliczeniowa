@@ -59,7 +59,7 @@
             </p:column>
             <p:column id="kontrColumn" width="270" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" style="width: 14%;">  
                  <f:facet name="filter">
-                     <p:selectOneMenu style="width: 250px;" filter="true"  filterMatchMode="contains" >
+                     <p:selectOneMenu style="width: 250px;" filter="true"  filterMatchMode="contains" onchange="PF('dokTable').filter()" >
                          <f:selectItem itemLabel="wybierz kontrahenta" itemValue="#{null}" noSelectionOption="true"/>
                         <f:selectItems value="#{obrotyView.kontrahentypodatnika}" />
                         <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
@@ -69,7 +69,7 @@
             </p:column>
             <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzajedok.rodzajtransakcji}" filterMatchMode="exact" filterStyle="display: none;" sortBy="#{wpis.rodzajedok.rodzajtransakcji}" style="width: 9%; text-align: center;">  
                 <f:facet name="filter">
-                    <p:selectOneMenu >
+                    <p:selectOneMenu onchange="PF('dokTable').filter()" >
                         <f:selectItem itemLabel="rodz" itemValue="#{null}" />
                         <f:selectItems value="#{obrotyView.rodzajetransakcji}" />
                         <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
@@ -79,7 +79,7 @@
             </p:column>
             <p:column id="typDokColumn" headerText="symbol dok" filterBy="#{wpis.rodzajedok.skrot}" filterMatchMode="exact" sortBy="#{wpis.rodzajedok.skrot}" style="width: 8%; text-align: center;">  
                  <f:facet name="filter">
-                    <p:selectOneMenu >
+                    <p:selectOneMenu  onchange="PF('dokTable').filter()" >
                         <f:selectItem itemLabel="dok" itemValue="#{null}" />
                         <f:selectItems value="#{obrotyView.dokumentypodatnika}" />
                         <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>

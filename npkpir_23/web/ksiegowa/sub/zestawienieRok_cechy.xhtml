@@ -25,7 +25,7 @@
                 </p:selectBooleanCheckbox>
         </p:panelGrid>
             <p:dataTable lazy="false"  value="#{cechyZestView.pobranecechypodatnik}" var="itemcecha" rowIndexVar="indexcecha" style="width: 1010px;" id="tabelacechy"
-                         expandedRow="#{cechyZestView.rozwinwszystkie}">
+                         expandedRow="#{cechyZestView.rozwinwszystkie}" rowKey="#{itemcecha.id}">
                 <p:column style="width: 10px;; text-align: center;" >
                     <p:rowToggler/>
                 </p:column>
