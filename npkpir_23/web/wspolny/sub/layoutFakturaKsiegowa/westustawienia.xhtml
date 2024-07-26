@@ -28,10 +28,10 @@
                     <p:menuitem value="info podatnik"  outcome="info" icon="ui-icon-circle-arrow-e" />
                     <p:menuitem value="parametry" outcome="parampodatnika" icon="ui-icon-circle-arrow-e" />
                 </p:menu>
-                <p:menu  rendered="#{WpisView.biuroiszef eq true}">
+                <p:menu  rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
                     <p:menuitem value="wpisywanie" rendered="#{!zamkniecieView.moznaksiegowac}"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
                 </p:menu>
-                <p:menu rendered="#{WpisView.biuroiszef eq true}">
+                <p:menu rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
                     <p:menuitem value="wykaz dokumentów"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
                     <p:menuitem value="podatkowa ksiega"  outcome="ksiega" icon="ui-icon-circle-arrow-e" />
                     <p:menuitem value="faktury miesieczne"  outcome="fakturymiesieczne" icon="ui-icon-circle-arrow-e"/> 
@@ -40,13 +40,13 @@
                     <p:menuitem value="kontrahenci fakt." outcome="klienci"  icon="ui-icon-circle-arrow-e"/>  
                     <p:menuitem value="zestaw. sumaryczne"  outcome="zestawienie" icon="ui-icon-circle-arrow-e"/>  
                 </p:menu>
-                <p:menu rendered="#{WpisView.biuroiszef eq true}">
+                <p:menu rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
                     <p:menuitem value="środki trwałe"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  
                 </p:menu>
-                 <p:menu rendered="#{WpisView.biuroiszef eq true}">
+                 <p:menu rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
                         <p:menuitem global="false" value="niemcy"  outcome="niemcy" icon="ui-icon-circle-arrow-e"/>  
                     </p:menu>
-                <p:menu rendered="#{WpisView.biuroiszef eq true}">
+                <p:menu rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
                     <p:menuitem value="PIT"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>
                     <p:menuitem value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" action="#{ewidencjaVatView.przekierowanieEwidencji()}" update="westWpis" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                         <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}"/>
@@ -66,8 +66,8 @@
                     </p:menu>
                 <p:menu>
                     <p:menuitem value="faktury - panel"  outcome="faktura" icon="ui-icon-circle-arrow-e"/>
-                    <p:menuitem global="false" value="faktury - ustawienia"  outcome="fakturaustawienia" icon="ui-icon-circle-arrow-e"  rendered="#{WpisView.biuroiszef eq true}"/>
-                    <p:menuitem global="false" value="faktury - rozrach"  outcome="fakturarozrachunki"   icon="ui-icon-circle-arrow-e" rendered="#{WpisView.biuroiszef eq true}"/><p:menuitem global="false" value="faktury - kadry"  outcome="fakturakadry"   icon="ui-icon-circle-arrow-e"/>
+                    <p:menuitem global="false" value="faktury - ustawienia"  outcome="fakturaustawienia" icon="ui-icon-circle-arrow-e"  rendered="#{czyBiuroiSzefView.biuroiszef eq true}"/>
+                    <p:menuitem global="false" value="faktury - rozrach"  outcome="fakturarozrachunki"   icon="ui-icon-circle-arrow-e" rendered="#{czyBiuroiSzefView.biuroiszef eq true}"/><p:menuitem global="false" value="faktury - kadry"  outcome="fakturakadry"   icon="ui-icon-circle-arrow-e"/>
                 </p:menu>
                 <p:menu>
                     <p:menuitem value="napisz do admina"  outcome="pismoadmin" icon="ui-icon-circle-arrow-e"/>

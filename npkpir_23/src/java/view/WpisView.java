@@ -5,7 +5,6 @@
 package view;
 
 import beansPodatnik.PodatnikBean;
-import dao.FakturaDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.UzDAO;
@@ -14,7 +13,6 @@ import embeddable.Mce;
 import embeddable.Okres;
 import embeddable.Parametr;
 import embeddable.Roki;
-import entity.Faktura;
 import entity.ParamCzworkiPiatki;
 import entity.ParamVatUE;
 import entity.Podatnik;
@@ -72,8 +70,6 @@ public class WpisView implements Serializable {
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
-    private FakturaDAO fakturaDAO;
-    @Inject
     private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
     private boolean czegosbrakuje;
     private String formaprawna;
@@ -86,12 +82,10 @@ public class WpisView implements Serializable {
     private boolean rokpoprzednizamkniety;
     private Podatnik podatnikwzorcowy;
     private String odjakiegomcdok;
-    private boolean biuroiszef;
     private boolean jpk2020M;
     private boolean jpk2020K;
     private boolean jpk2020M2;
     private boolean jpk2020K2;
-    private Podatnik taxman;
     private Okres okreswpisu;
     private Okres okreswpisupoprzedni;
 
@@ -103,7 +97,6 @@ public class WpisView implements Serializable {
     @PostConstruct
     private void init() { //E.m(this);
         ustawMceOdDo();
-        taxman = podatnikDAO.findPodatnikByNIP("8511005008");
         uzer = pobierzWpisBD();
         odjakiegomcdok = "01";
         formaprawna = null;
@@ -134,7 +127,6 @@ public class WpisView implements Serializable {
             uzupelnijdanepodatnika();
             czyniegosc();
             podatnikwzorcowy = podatnikDAO.findByNazwaPelna("Wzorcowy");
-            czytojetsbiuroiszef();
             jakitobedziejpk2020();
             okreswpisu = new Okres(rokWpisuSt, miesiacWpisu);
         }
@@ -327,7 +319,6 @@ public class WpisView implements Serializable {
         uzDAO.edit(uzer);
         uzupelnijdanepodatnika();
         czyniegosc();
-       czytojetsbiuroiszef();
        jakitobedziejpk2020();
        okreswpisu = new Okres(rokWpisuSt, miesiacWpisu);
     }
@@ -357,7 +348,6 @@ public class WpisView implements Serializable {
         uzDAO.edit(uzer);
         uzupelnijdanepodatnika();
         czyniegosc();
-       czytojetsbiuroiszef();
        jakitobedziejpk2020();
        
     }
@@ -374,46 +364,6 @@ public class WpisView implements Serializable {
         return zwrot;
     }
     
-    private void czytojetsbiuroiszef() {
-        try {
-            biuroiszef = true;
-            boolean czybiuro = getPodatnikObiekt().getNip().equals("8511005008");
-            if (czybiuro) {
-                biuroiszef = false;
-                boolean czyszef = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("szef");
-                boolean czyrenata = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("renata");
-                if (czyszef || czyrenata) {
-                    biuroiszef = true;
-                }
-            } else {
-                try {
-                    String[] nastepnyOkres = Data.nastepnyOkres(miesiacWpisu, rokWpisuSt);
-//                    System.out.println("podatnik "+podatnikObiekt.getPrintnazwa());
-//                    System.out.println("okres biezacy "+rokWpisuSt+"/"+miesiacWpisu);
-//                    System.out.println("okres nastepny "+nastepnyOkres[0]+"/"+nastepnyOkres[1]);
-                    List<Faktura> findOkresoweBiezace = fakturaDAO.findbyKontrahentNipRokMc(podatnikObiekt.getNip(), taxman, rokWpisuSt,miesiacWpisu);
-//                    if (findOkresoweBiezace!=null) {
-//                        System.out.println("biezacy "+findOkresoweBiezace.size());
-//                    }
-                    List<Faktura> findOkresoweOstatnie = fakturaDAO.findbyKontrahentNipRokMc(podatnikObiekt.getNip(), taxman, nastepnyOkres[1], nastepnyOkres[0]);
-//                    if (findOkresoweOstatnie!=null) {
-//                        System.out.println("nastepny "+findOkresoweOstatnie.size());
-//                    }
-                    String biezacyrok = Data.aktualnyRok();
-                    boolean innyrok = this.rokWpisuSt.equals(biezacyrok)?false:true;
-                    if (podatnikObiekt.isNiesprawdzajfaktury()==true||innyrok) {
-                        biuroiszef = true;
-                    } else if ((findOkresoweBiezace==null||findOkresoweBiezace.isEmpty())&&(findOkresoweOstatnie==null||findOkresoweOstatnie.isEmpty())) {
-                        biuroiszef = false;
-//                        System.out.println("blokuje");
-                    }
-                } catch (Exception e){
-                    System.out.println("BŁAD*********************");
-                    System.out.println(E.e(e));
-                }
-            }
-        } catch (Exception e) {}
-    }
     
      public void aktualizuj(){
         uzer.setMiesiacWpisu(miesiacWpisu);
@@ -987,15 +937,8 @@ public class WpisView implements Serializable {
         this.odjakiegomcdok = odjakiegomcdok;
     }
 
-    public boolean isBiuroiszef() {
-        return biuroiszef;
-    }
 
-    public void setBiuroiszef(boolean biuroiszef) {
-        this.biuroiszef = biuroiszef;
-    }
-
-    private void jakitobedziejpk2020() {
+      private void jakitobedziejpk2020() {
         jpk2020M = false;
         jpk2020K = false;
         jpk2020M2 = false;

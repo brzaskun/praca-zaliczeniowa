@@ -26,7 +26,7 @@
         </style>
         <h:form id="formsporzadzone">
            
-            <p:panelGrid id="panelsum" style="height: 40px;" rendered="#{WpisView.biuroiszef eq true}">
+            <p:panelGrid id="panelsum" style="height: 40px;" rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -68,7 +68,7 @@
                 <p:textEditor secure="false" id="editor"  widgetVar="editorWidget" value="#{fakturaView.wiadomoscdodatkowa}" style="width:800px" height="300" rendered="#{fakturaView.podazedytorvar}">
                     
                 </p:textEditor>
-                <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"  rendered="#{WpisView.biuroiszef eq true}"/>
+                <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"  rendered="#{czyBiuroiSzefView.biuroiszef eq true}"/>
                 <p:selectBooleanCheckbox value="#{fakturaView.pokaztylkoniewyslane}" itemLabel="tylko niewysłane" style="margin-left: 100px;">
                     <p:ajax event="change" listener="#{fakturaView.init()}" partialSubmit="true" update=":akordeon:formsporzadzone akordeon:formsporzadzone:dokumentyLista"/>
                 </p:selectBooleanCheckbox>
