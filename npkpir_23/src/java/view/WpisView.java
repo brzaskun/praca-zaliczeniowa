@@ -11,6 +11,7 @@ import dao.PodatnikOpodatkowanieDAO;
 import dao.UzDAO;
 import data.Data;
 import embeddable.Mce;
+import embeddable.Okres;
 import embeddable.Parametr;
 import embeddable.Roki;
 import entity.Faktura;
@@ -91,6 +92,8 @@ public class WpisView implements Serializable {
     private boolean jpk2020M2;
     private boolean jpk2020K2;
     private Podatnik taxman;
+    private Okres okreswpisu;
+    private Okres okreswpisupoprzedni;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -133,6 +136,7 @@ public class WpisView implements Serializable {
             podatnikwzorcowy = podatnikDAO.findByNazwaPelna("Wzorcowy");
             czytojetsbiuroiszef();
             jakitobedziejpk2020();
+            okreswpisu = new Okres(rokWpisuSt, miesiacWpisu);
         }
     }
     
@@ -177,6 +181,7 @@ public class WpisView implements Serializable {
         uzer.setRokWpisu(Integer.parseInt(Data.aktualnyRok()));
         miesiacWpisuArchiwum = Data.aktualnyMc();
         uzer.setRokWpisu(Roki.getRokiListS().get(Roki.getRokiListS().size() - 1));
+        this.okreswpisu = new Okres(String.valueOf(rokWpisu), miesiacWpisu);
         String nipfirmy;
         Podatnik podatnik;
         try {
@@ -293,6 +298,7 @@ public class WpisView implements Serializable {
         uzer.setMiesiacOd(miesiacOd);
         uzer.setMiesiacDo(miesiacDo);
         uzDAO.edit(uzer);
+        okreswpisu = new Okres(rokWpisuSt, miesiacWpisu);
 //        uzupelnijdanepodatnika();
 //        czyniegosc();
 //       czytojetsbiuroiszef();
@@ -323,6 +329,37 @@ public class WpisView implements Serializable {
         czyniegosc();
        czytojetsbiuroiszef();
        jakitobedziejpk2020();
+       okreswpisu = new Okres(rokWpisuSt, miesiacWpisu);
+    }
+    
+    public void naniesDaneDoWpisOkres() {
+        rokWpisu = okreswpisu.getRokI();
+        rokWpisuSt = okreswpisu.getRok();
+        miesiacWpisu = okreswpisu.getMc();
+        czegosbrakuje = false;
+        if (uzer==null) {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            uzer = (Uz) request.getAttribute("uzer");
+        }
+        if (uzer.getPodatnik()==null || !uzer.getPodatnik().equals(podatnikObiekt)) {
+            uzer.setPodatnik(podatnikObiekt);
+            //error.E.s("zmiana podatnika na "+podatnikObiekt.getPrintnazwa());
+        }
+        if (!miesiacWpisu.equals("CR")) {
+            uzer.setMiesiacWpisu(miesiacWpisu);
+            miesiacWpisuArchiwum = miesiacWpisu;
+        } else if (miesiacWpisu.equals("CR")){
+            uzer.setMiesiacWpisu(Data.aktualnyMc());
+        }
+        uzer.setRokWpisu(rokWpisu);
+        uzer.setMiesiacOd(miesiacOd);
+        uzer.setMiesiacDo(miesiacDo);
+        uzDAO.edit(uzer);
+        uzupelnijdanepodatnika();
+        czyniegosc();
+       czytojetsbiuroiszef();
+       jakitobedziejpk2020();
+       
     }
     
     public boolean isVatowiecPlde() {
@@ -915,9 +952,32 @@ public class WpisView implements Serializable {
     public void setJpk2020K2(boolean jpk2020K2) {
         this.jpk2020K2 = jpk2020K2;
     }
+
+    public Okres getOkreswpisu() {
+        return okreswpisu;
+    }
     
-    
+    public String getOkreswpisuString() {
+        return okreswpisu.getRok()+"-"+okreswpisu.getMc();
+    }
+
+    public void setOkreswpisu(Okres okreswpisu) {
+        rokWpisu = Integer.parseInt(okreswpisu.getRok());
+        rokWpisuSt = okreswpisu.getRok();
+        miesiacWpisu = okreswpisu.getMc();
+        this.okreswpisu = okreswpisu;
+    }
+
+    public Okres getOkreswpisupoprzedni() {
+       String[] poprzedniOkres = Data.poprzedniOkres(this.miesiacWpisu, this.rokWpisuSt);
+        this.okreswpisupoprzedni = new Okres(poprzedniOkres[1], poprzedniOkres[0]);
+        return okreswpisupoprzedni;
+    }
+
 //</editor-fold>
+    public void setOkreswpisupoprzedni(Okres okreswpisupoprzedni) {
+        this.okreswpisupoprzedni = okreswpisupoprzedni;
+    }
 
     public String getOdjakiegomcdok() {
         return odjakiegomcdok;

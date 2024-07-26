@@ -81,7 +81,13 @@
           <script>
         $(document).on("keydown", TabKeyFa);
      </script>
-        <p:panelGrid columns="5" id="panelprzyciskow">
+        <p:panelGrid columns="7" id="panelprzyciskow">
+        <h:outputText value="okres:" />
+        <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
+            <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+            <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" oncomplete="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
+                    update=":form:dokumentyLista :form:cechydokuk westKsiegowa:linki"/>
+        </p:selectOneMenu>
         <p:commandButton  icon="fa fa-print" style="width: 120px;" actionListener="#{DokTabView.drukujdokumentyuproszczona()}" global="false"/>
         <h:outputText value="dok z cechami"/>
         <p:selectOneMenu value="#{DokTabView.wybranacechadok}" id="cechydokuk"
