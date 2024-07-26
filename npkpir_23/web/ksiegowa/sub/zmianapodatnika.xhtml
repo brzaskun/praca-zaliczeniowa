@@ -18,7 +18,7 @@
                 <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 350px; height: 250px;" 
                                     converter="#{podatConv}" filter="true" filterMatchMode="contains">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
-                    <p:ajax event="change" partialSubmit="true"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa form:panellimity form:wiadnr1 form:wiadomoscfaktury form" global="fasle"/>
+                    <p:ajax event="change" partialSubmit="true"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa form:panellimity form:wiadnr1 form:wiadomoscfaktury form @(.form_southpane)" global="fasle"/>
                     <p:ajax event="change" partialSubmit="true"  listener="#{rozrachunkiKlientTaxmanView.pobierzwszystkoKlienta()}" update="form:dokumentyLista" global="fasle"/>
                 </p:selectOneListbox>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">

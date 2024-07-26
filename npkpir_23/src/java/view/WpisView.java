@@ -150,7 +150,7 @@ public class WpisView implements Serializable {
         String zwrot = "/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true";
         try {
             if (zrodlo != null) {
-                zwrot = zrodlo.toString();
+                zwrot = zrodlo;
                 zrodlo = null;
             }
         } catch (Exception e) {

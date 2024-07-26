@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab title="udane">
         <p:dataTable lazy="false"  value="#{deklaracjevatView.wyslanenormalne}" var="item" sortBy="#{item.miesiac}"  id="dataList"
-                     emptyMessage="brak wysłanych deklaracji" style="max-width: 1400px;" rowIndexVar="row">
+                     emptyMessage="brak wysłanych deklaracji" style="max-width: 1400px;" rowIndexVar="row" rowKey="#{item.id}">
             <p:column style="width: 3%;">
                 <p:rowToggler/>
             </p:column>

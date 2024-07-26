@@ -9,7 +9,7 @@
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab title="bez UPO">
         <p:dataTable lazy="false"  value="#{deklaracjevatView.wyslaneniepotwierdzone}" var="item" sortBy="#{item.miesiac}"  id="dokumentyLista" 
-                     emptyMessage="brak deklaracji oczekujących a upo" style="max-width: 1400px;">
+                     emptyMessage="brak deklaracji oczekujących a upo" style="max-width: 1400px;"  rowKey="#{item.id}">
             <p:column style="width: 3%;">
                 <p:rowToggler/>
             </p:column>
