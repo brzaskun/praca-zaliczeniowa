@@ -7,6 +7,7 @@
 package viewfk;
 
 import beansFK.KontaFKBean;
+import comparator.SaldoKontocomparator;
 import dao.DokDAOfk;
 import dao.KontoDAOfk;
 import dao.StronaWierszaDAO;
@@ -15,6 +16,7 @@ import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +30,6 @@ import pdf.PdfKonta;
 import sortfunction.KontoSortBean;
 import view.WpisView;
 import waluty.Z;
-import interceptor.ConstructorInterceptor;
 
 /**
  *
@@ -77,6 +78,7 @@ public class SaldoSyntetykaView implements Serializable {
              }
             }
             listaSaldoKonto = przygotowanalistasald(kontaklienta);
+            Collections.sort(listaSaldoKonto, new SaldoKontocomparator());
         } catch (Exception e) {
             E.e(e);
         }

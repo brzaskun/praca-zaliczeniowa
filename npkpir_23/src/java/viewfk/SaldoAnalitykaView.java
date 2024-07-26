@@ -8,6 +8,7 @@ package viewfk;
 import beansFK.BOFKBean;
 import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
+import comparator.SaldoKontocomparator;
 import dao.CechazapisuDAOfk;
 import dao.DokDAOfk;
 import dao.KontoDAOfk;
@@ -22,6 +23,7 @@ import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Waluty;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,10 +39,9 @@ import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdf.PdfKonta;
 import pdf.PdfKontaPorownanie;
-import sortfunction.KontoSortBean;
- import view.WpisView;
+ import sortfunction.KontoSortBean;
+import view.WpisView;
 import waluty.Z;
-import interceptor.ConstructorInterceptor;
 
 /**
  *
@@ -104,6 +105,7 @@ public class SaldoAnalitykaView implements Serializable {
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta);
+        Collections.sort(listaSaldoKonto, new SaldoKontocomparator());
     }
     
      public void initbo() {
@@ -128,6 +130,7 @@ public class SaldoAnalitykaView implements Serializable {
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlityka( wpisView.getPodatnikObiekt(), wpisView.getRokUprzedni());
         przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta, wpisView.getRokWpisuSt(),"12");
+        Collections.sort(listaSaldoKonto, new SaldoKontocomparator());
     }
      
      

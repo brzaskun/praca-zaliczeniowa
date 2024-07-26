@@ -8,6 +8,7 @@ package viewfk;
 import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
 import beansFK.StronaWierszaBean;
+import comparator.SaldoKontocomparator;
 import dao.CechazapisuDAOfk;
 import dao.KontoDAOfk;
 import dao.PodatnikUdzialyDAO;
@@ -27,6 +28,7 @@ import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import entityfk.WynikFKRokMc;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,7 +48,6 @@ import msg.Msg;
 import pdf.PdfSymulacjaWyniku;
 import view.WpisView;
 import waluty.Z;
-import interceptor.ConstructorInterceptor;
 
 /**
  *
@@ -153,6 +154,8 @@ public class SymulacjaWynikuView implements Serializable {
         tylkokontasyntetyczneoblicz();
         sumazapisowPrzychody1();
         sumazapisowKoszty1();
+        Collections.sort(listakontaprzychody, new SaldoKontocomparator());
+        Collections.sort(listakontakoszty, new SaldoKontocomparator());
     }
 
     public void odswiezsymulacjewynikuanalityczne() {

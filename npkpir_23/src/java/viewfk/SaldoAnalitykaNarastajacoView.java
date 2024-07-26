@@ -7,6 +7,7 @@
 package viewfk;
 
 import beansFK.BOFKBean;
+import comparator.SaldoKontoNarastajacocomparator;
 import dao.DokDAOfk;
 import dao.KontoDAOfk;
 import dao.StronaWierszaDAO;
@@ -15,6 +16,7 @@ import embeddablefk.SaldoKontoNarastajaco;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +31,6 @@ import javax.interceptor.Interceptors;
 import pdf.PdfKontaNarastajaco;
 import view.WpisView;
 import waluty.Z;
-import interceptor.ConstructorInterceptor;
 
 /**
  *
@@ -77,6 +78,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp);
+        Collections.sort(listaSaldoKonto, new SaldoKontoNarastajacocomparator());
        } catch (Exception e) {
            E.e(e);
        }
