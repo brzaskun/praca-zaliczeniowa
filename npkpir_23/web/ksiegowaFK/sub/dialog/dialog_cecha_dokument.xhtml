@@ -11,8 +11,8 @@
               closeOnEscape="true">
         <h:form id="formCH" >
             <p:dataTable lazy="false"   value="#{dokfkView.pobranecechypodatnik}" var="item" rows="6" style="height: 270px;"
-                          selection="#{dokfkView.wbranacechawpisywanie}" id="tablicacech"
-                          emptyMessage="cechy nie zostały zdefiniowane" rowKey="#{item}" styleClass="walkingtable" >
+                          selection="#{dokfkView.wbranacechawpisywanie}" id="tablicacech"  selectionMode="single"
+                          emptyMessage="cechy nie zostały zdefiniowane" rowKey="#{item.id}" styleClass="walkingtable" >
                 <p:ajax event="rowSelectRadio" partialSubmit="true"/>
                 <p:column selectionMode="single" width="20"  styleClass="checkwiersza" style="text-align: center;">
                 </p:column>

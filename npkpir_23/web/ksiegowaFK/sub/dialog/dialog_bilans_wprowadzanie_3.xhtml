@@ -105,7 +105,7 @@
                  
                         <p:inputNumber  value="#{bilansWprowadzanieNowyView.selected.kursBO}"  required="true"
                                          requiredMessage="Brak kwoty - uzupełnij" id="polekurs"
-                                         style="text-align: right;" symbolPosition="s"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="4" 
+                                         style="text-align: right;" symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="4" 
                                          styleClass="kurswaluta">
                             <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieNowyView.przeliczkursN()}"
                                     update="formbilanswprowadzanienowy_wiersz:Wnpln"/>
@@ -145,28 +145,28 @@
                     </p:column>
                     <p:column style="text-align: center;">
                         <p:inputNumber value="#{bilansWprowadzanieNowyView.selected.kwota}" symbol=" #{bilansWprowadzanieNowyView.selected.wiersz.walutaWiersz}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Wnwal"
-                                        style="width: 70px;" symbolPosition="s"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto">
+                                        style="width: 70px;" symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto">
                             <p:ajax event="change" global="false" partialSubmit="true"
                                     listener="#{bilansWprowadzanieNowyView.przewalutujN(bilansWprowadzanieNowyView.selected.kursBO, bilansWprowadzanieNowyView.selected.kwota)}" />
                         </p:inputNumber>
                     </p:column>
                     <p:column>
                         <p:inputNumber value="#{bilansWprowadzanieNowyView.selected.kwotaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Wnpln" symbol=" zł"
-                                        style="width: 80%;" symbolPosition="s"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto">
+                                        style="width: 80%;" symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto">
                             <p:ajax event="change" global="false" partialSubmit="true"
                                     listener="#{bilansWprowadzanieNowyView.obliczkursN(bilansWprowadzanieNowyView.selected.kursBO, bilansWprowadzanieNowyView.selected.kwota, bilansWprowadzanieNowyView.selected.kwotaWnPLN)}"/>
                         </p:inputNumber>
                     </p:column>
 <!--                    <p:column style="text-align: center;">
                         <p:inputNumber  value="#{bilansWprowadzanieNowyView.selected.kwotaMa}" symbol=" #{bilansWprowadzanieNowyView.selected.wiersz.walutaWiersz}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Mawal"
-                                         style="width: 70px;" symbolPosition="s"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto">
+                                         style="width: 70px;" symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto">
                             <p:ajax event="change" global="false" partialSubmit="true"
                                     listener="#{bilansWprowadzanieNowyView.przewalutujN(bilansWprowadzanieNowyView.selected.kursBO, bilansWprowadzanieNowyView.selected.kwota, 'Ma')}" />
                         </p:inputNumber>
                     </p:column>
                     <p:column>
                         <p:inputNumber  value="#{bilansWprowadzanieNowyView.selected.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Mapln" symbol=" zł"
-                                         style="width: 80%;" symbolPosition="s"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto">
+                                         style="width: 80%;" symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto">
                             <p:ajax event="change" global="false" partialSubmit="true"
                                     listener="#{bilansWprowadzanieNowyView.obliczkursN(bilansWprowadzanieNowyView.selected.kursBO, bilansWprowadzanieNowyView.selected.kwota, bilansWprowadzanieNowyView.selected.kwotaMaPLN, 'Ma')}"/>
                         </p:inputNumber>
