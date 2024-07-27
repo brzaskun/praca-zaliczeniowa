@@ -38,7 +38,7 @@ public class OkresBean implements Serializable{
     
     static List<Okres> generujokresy() {
         List<Okres> zwrot = new ArrayList<>();
-        Integer rokod = 2020;
+        Integer rokod = 2014;
         Integer rokdo = 2043;
         Integer mcod = 1;
         Integer mcdo = 12;

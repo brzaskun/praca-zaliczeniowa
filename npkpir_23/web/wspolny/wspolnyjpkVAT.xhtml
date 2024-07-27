@@ -215,8 +215,7 @@
                 <p:commandButton icon="fa fa-trash" onclick="PF('confirmationJPK').show()" global="false" 
                                  rendered="#{item.code.toString().startsWith('4') or facesContext.externalContext.remoteUser eq '4' or facesContext.externalContext.remoteUser eq 'szef'}"
                                  >
-                      <p:confirm type="popup" header="Potwierdzenie" message="Usunąć wybrany jpk?" icon="pi pi-exclamation-triangle" />
-                </p:commandButton>
+               </p:commandButton>
             </p:column>
             <p:rowExpansion>
                 <p:panelGrid columns="1">
