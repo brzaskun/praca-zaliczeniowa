@@ -15,6 +15,13 @@
         }
     </script>
     <p:growl ><p:autoUpdate/></p:growl>
+     <p:panelGrid columns="2">
+        <h:outputText value="okres"/>
+        <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
+                <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+                <p:ajax event="change" listener="#{ewidencjaVatView.aktualizujTabeleTabela}" update="formVatZestKsiegowa westWpis:linki @(.form_southpane)"  global="true"/>
+        </p:selectOneMenu>
+        </p:panelGrid>
     <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}" rendered="#{!WpisView.ksiegirachunkowe}"/>
     <f:event type="preRenderView" listener="#{deklaracjevatView.init()}" rendered="#{!WpisView.ksiegirachunkowe}"/>
 <!--    <p:commandButton value="sporządź" actionListener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}" update="formVatZestKsiegowa" style="width: 120px; padding: 5px;"/>-->

@@ -171,7 +171,7 @@ public class EwidencjaVatView implements Serializable {
     }
     
     private void aktualizuj(){
-         wpisView.naniesDaneDoWpis();
+         wpisView.naniesDaneDoWpisOkres();
     }
     
     public void wybranewierszeewidencjiczysc() {

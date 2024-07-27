@@ -62,9 +62,9 @@
                 <p:panelGrid columns="1">
                     <p:commandButton value="Pdf" actionListener="#{deklaracjevatView.drukujdeklaracje(item,row)}"  style="width: 100px;"/>
                     <p:commandButton id="mailbutton" value="Mail" actionListener="#{deklaracjevatView.mailvat7(row)}"
-                                 update="formwyslane:akordeon" style="width: 100px; display: none;"  />
+                                 update="akordeon:formwyslane:akordeon" style="width: 100px; display: none;"  />
                 <p:commandButton id="mailbuttonN" value="MailN" actionListener="#{deklaracjevatView.mailvat7N(row)}"
-                                 update="formwyslane:akordeon" style="width: 100px; display: none;"  />
+                                 update="akordeon:formwyslane:akordeon" style="width: 100px; display: none;"  />
                 </p:panelGrid>
                 <p:commandButton actionListener="#{deklaracjevatView.destroywyslane(item)}" id="delete" icon="ui-icon ui-icon-trash" type="submit"  style="width: 80px;" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
             </p:column>

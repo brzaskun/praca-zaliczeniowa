@@ -9,6 +9,8 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
+             <f:event type="preRenderView" listener="#{jpk_VAT2NView.init()}"/>
+            <f:event type="preRenderView" listener="#{deklaracjevatView.init()}"/>
             <bcf:ajaxs/>
                 <f:view>
                     <pe:layout fullPage="true" >
@@ -21,15 +23,22 @@
                             <p:confirmDialog id="confirmDialog" message="Usunąć wybrany JPK?"  
                                              header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmationJPK">  
 
-                                <p:commandButton id="confirm" value="Tak, usunąć" update="form_dialog_jpk_vat" oncomplete="PF('confirmationJPK').hide()"  
+                                <p:commandButton id="confirm" value="Tak, usunąć" update="akordeon:form_dialog_jpk_vat" oncomplete="PF('confirmationJPK').hide()"  
                                                  actionListener="#{jpk_VAT2NView.usunUPO}" />  
                                 <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmationJPK').hide()" type="button" />   
 
                             </p:confirmDialog>  
                         </h:form>
                         <pe:layoutPane position="center">
-                            <f:event type="preRenderView" listener="#{jpk_VAT2NView.init()}"/>
+                           
+                            <p:tabView id="akordeon">
+                                <p:tab title="JPK tabela">
                                 <ui:include src="../wspolny/wspolnyjpkVAT.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                                </p:tab>
+                                <p:tab title="Deklaracje">
+                                <ui:include src="../wspolny/sub/vatwyslane.xhtml"/> 
+                                </p:tab>
+                            </p:tabView>
                         </pe:layoutPane>
                     </pe:layout>
                 </f:view>
