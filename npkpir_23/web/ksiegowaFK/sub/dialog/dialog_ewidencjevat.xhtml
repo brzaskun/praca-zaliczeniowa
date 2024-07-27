@@ -7,12 +7,12 @@
 
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
-      <script>
-        var doczeplistnerydopol = function() {
-                /* <![CDATA[ */
-                //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+    <script>
+        var doczeplistnerydopol = function () {
+            /* <![CDATA[ */
+            //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
             $(document).on("click", '.walkingtable tr', function (event) {
-            try {
+                try {
                     zachowajobiekt(this, event);
                 } catch (ex) {
                     alert('error dialog zapisynakoncie' + ex.toString());
@@ -22,10 +22,21 @@
         /* ]]> */
     </script>
     <p:dialog id="dialogewidencjevat" header="Zestawienie ewidencji vat - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogewidencjevat"  appendTo="@(body)"
-              maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1400,750);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
+              maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1500,800);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
               resizable="true" dynamic="true">
-        <p:ajax event="open" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty(WpisView.getPodatnikObiekt())}" global="false" update="form"/>
+        <p:ajax event="open" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty(WpisView.getPodatnikObiekt())}" global="true" update="form"/>
         <p:ajax event="open" listener="#{kontaVatFKView.init()}" global="true" update="form"/>
+        <h:form id="formokresvat"> 
+            <p:panelGrid columns="2" style="float: right;">
+                <p:column>
+                    <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
+                        <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+                        <p:ajax event="change" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty(WpisView.getPodatnikObiekt())}" update="form @(.form_southpane)"  global="true"/>
+                        <p:ajax event="change" listener="#{kontaVatFKView.init()}" update="form @(.form_southpane)"  global="true"/>
+                    </p:selectOneMenu>
+                </p:column>
+            </p:panelGrid>
+        </h:form>
         <h:form id="form"> 
             <style>
                 .ui-datatable .mc .ui-column-filter {
@@ -71,8 +82,8 @@
                 <ui:include src="ewidencjavat/przychodypoznmce.xhtml"/>
                 <ui:include src="ewidencjavat/kosztynastmc.xhtml"/>
                 <ui:include src="ewidencjavat/kosztypoznmce.xhtml"/>
-                
-           </p:tabView>
+
+            </p:tabView>
         </h:form>
         <h:form id="zestawieniezapisownakontachpola">
             <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>

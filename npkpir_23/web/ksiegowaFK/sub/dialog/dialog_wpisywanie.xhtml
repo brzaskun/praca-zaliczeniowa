@@ -115,8 +115,17 @@
         <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen()}" global="false" oncomplete="pokazwierszoznaczony()"/>
 <!--        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false" />-->
         <p:focus for="formwpisdokument">
+          <h:form id="formokreswpisywanie"> 
+            <p:panelGrid columns="2" style="float: right;">
+                <p:column>
+                    <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
+                        <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+                        <p:ajax event="change" listener="#{dokfkView.resetujDokumentOpen}" update="formwpisdokument @(.form_southpane)"  global="true"/>
+                    </p:selectOneMenu>
+                </p:column>
+            </p:panelGrid>
+        </h:form>
             <h:form id="formwpisdokument" >
-
                 <!--                nagłówek dokumentu-->
                 <p:panelGrid id="panelzkwotami" columns="2" >
                     <p:panelGrid  columns="1"  >
