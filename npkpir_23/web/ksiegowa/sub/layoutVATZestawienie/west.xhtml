@@ -29,12 +29,9 @@
                 <p:panelGrid columns="1">
                     <p:menu >
                     <p:menuitem global="false" value="powrót"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
-                       <p:menuitem global="false" value="ewidencje" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westWpis" rendered="#{WpisView.vatowiecPlde}">
+                       <p:menuitem global="false" value="VAT ewidencje" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westWpis" rendered="#{WpisView.vatowiecPlde}"/>
                             
-                            
-                            
-                        </p:menuitem>
-                    
+                   
 <!--                    <p:menuitem global="false" value="wysyłka"  outcome="vatydowyslania" icon="ui-icon-circle-arrow-e"  rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>  -->
 <!--                    <p:menuitem global="false" value="potwierdzenia"  outcome="vatywyslane" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>-->
 <!--                    <p:menuitem global="false" value="korekty"  outcome="korektavat" icon="ui-icon-circle-arrow-e"  rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>  -->

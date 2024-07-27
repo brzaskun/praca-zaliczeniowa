@@ -1,0 +1,2466 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2023-03-14T13:22:46.336Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2023</Rok>
+        <Miesiac>1</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <Email>m.zmuda@taxman.biz.pl</Email>
+            <Telefon>539034444</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_15>1029</P_15>
+            <P_16>51</P_16>
+            <P_17>16048</P_17>
+            <P_18>1284</P_18>
+            <P_19>165203</P_19>
+            <P_20>37997</P_20>
+            <P_21>4175</P_21>
+            <P_23>43098</P_23>
+            <P_24>9913</P_24>
+            <P_29>404</P_29>
+            <P_30>93</P_30>
+            <P_35>0</P_35>
+            <P_37>229957</P_37>
+            <P_38>49338</P_38>
+            <P_39>0</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>326556</P_42>
+            <P_43>72741</P_43>
+            <P_48>72741</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>23403</P_53>
+            <P_62>23403</P_62>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000010747</NrKontrahenta>
+            <NazwaKontrahenta>Olivia Cebulla</NazwaKontrahenta>
+            <DowodSprzedazy>1/1/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-01</DataWystawienia>
+            <DataSprzedazy>2023-01-01</DataSprzedazy>
+            <K_17>1870.37</K_17>
+            <K_18>149.63</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>812733821</NrKontrahenta>
+            <NazwaKontrahenta>MAGURA Bosch Parts &amp; Services GmbH &amp; Co. KG</NazwaKontrahenta>
+            <DowodSprzedazy>92653850</DowodSprzedazy>
+            <DataWystawienia>2023-01-03</DataWystawienia>
+            <DataSprzedazy>2023-01-03</DataSprzedazy>
+            <K_23>6162.01</K_23>
+            <K_24>1417.26</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9151820639</NrKontrahenta>
+            <NazwaKontrahenta>DRO-KOM sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 1/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-04</DataWystawienia>
+            <DataSprzedazy>2023-01-04</DataSprzedazy>
+            <K_19>247.96</K_19>
+            <K_20>57.03</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6342019879</NrKontrahenta>
+            <NazwaKontrahenta>"KALLA" sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 2/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-04</DataWystawienia>
+            <DataSprzedazy>2023-01-04</DataSprzedazy>
+            <K_19>41.46</K_19>
+            <K_20>9.54</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5242495143</NrKontrahenta>
+            <NazwaKontrahenta>AKADEMICKIE Inkubatory Przedsiębiorczości</NazwaKontrahenta>
+            <DowodSprzedazy>FS 3/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-04</DataWystawienia>
+            <DataSprzedazy>2023-01-04</DataSprzedazy>
+            <K_19>137.40</K_19>
+            <K_20>31.6</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522343654</NrKontrahenta>
+            <NazwaKontrahenta>SOL Mariusz Smolibocki</NazwaKontrahenta>
+            <DowodSprzedazy>FS 5/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-04</DataWystawienia>
+            <DataSprzedazy>2023-01-04</DataSprzedazy>
+            <K_19>518.70</K_19>
+            <K_20>119.3</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000010515</NrKontrahenta>
+            <NazwaKontrahenta>Przemysław Trochimiak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 4/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-04</DataWystawienia>
+            <DataSprzedazy>2023-01-04</DataSprzedazy>
+            <K_19>66.24</K_19>
+            <K_20>15.23</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000010515</NrKontrahenta>
+            <NazwaKontrahenta>Przemysław Trochimiak</NazwaKontrahenta>
+            <DowodSprzedazy>KFS 1/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-11</DataWystawienia>
+            <DataSprzedazy>2023-01-04</DataSprzedazy>
+            <K_19>-58.93</K_19>
+            <K_20>-13.55</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>288845969</NrKontrahenta>
+            <NazwaKontrahenta>Endura LT</NazwaKontrahenta>
+            <DowodSprzedazy>sin930859</DowodSprzedazy>
+            <DataWystawienia>2023-01-04</DataWystawienia>
+            <DataSprzedazy>2023-01-04</DataSprzedazy>
+            <K_23>318.60</K_23>
+            <K_24>73.28</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>10</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>257380941</NrKontrahenta>
+            <NazwaKontrahenta>Lupine lighting systems GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>181537</DowodSprzedazy>
+            <DataWystawienia>2023-01-04</DataWystawienia>
+            <DataSprzedazy>2023-01-04</DataSprzedazy>
+            <K_23>454.57</K_23>
+            <K_24>104.55</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>11</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8951981007</NrKontrahenta>
+            <NazwaKontrahenta>Nextbike Polska SA</NazwaKontrahenta>
+            <DowodSprzedazy>FS 6/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-05</DataWystawienia>
+            <DataSprzedazy>2023-01-05</DataSprzedazy>
+            <K_19>4171.66</K_19>
+            <K_20>959.48</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>12</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9860095045</NrKontrahenta>
+            <NazwaKontrahenta>Łukasz Marciszek - Usługi Zarządzania</NazwaKontrahenta>
+            <DowodSprzedazy>FS 7/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-05</DataWystawienia>
+            <DataSprzedazy>2023-01-05</DataSprzedazy>
+            <K_19>3449.59</K_19>
+            <K_20>793.41</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>13</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522322267</NrKontrahenta>
+            <NazwaKontrahenta>NZOZ PRYWATNA PRAKTYKA STOMATOLOGICZNA MAREK GRODEK Joanna Grodek</NazwaKontrahenta>
+            <DowodSprzedazy>FS 8/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-05</DataWystawienia>
+            <DataSprzedazy>2023-01-05</DataSprzedazy>
+            <K_17>258.33</K_17>
+            <K_18>20.67</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>14</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>812169929</NrKontrahenta>
+            <NazwaKontrahenta>Engelbert Wiener Bike Parts GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>2096372770</DowodSprzedazy>
+            <DataWystawienia>2023-01-05</DataWystawienia>
+            <DataSprzedazy>2023-01-05</DataSprzedazy>
+            <K_23>2150.54</K_23>
+            <K_24>494.62</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>15</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>812169929</NrKontrahenta>
+            <NazwaKontrahenta>Engelbert Wiener Bike Parts GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>2096372699</DowodSprzedazy>
+            <DataWystawienia>2023-01-05</DataWystawienia>
+            <DataSprzedazy>2023-01-05</DataSprzedazy>
+            <K_23>1809.17</K_23>
+            <K_24>416.11</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>16</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000010748</NrKontrahenta>
+            <NazwaKontrahenta>Michaela Helm</NazwaKontrahenta>
+            <DowodSprzedazy>2/1/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-06</DataWystawienia>
+            <DataSprzedazy>2023-01-06</DataSprzedazy>
+            <K_17>1245.37</K_17>
+            <K_18>99.63</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>17</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>7631184763</NrKontrahenta>
+            <NazwaKontrahenta>AGRO LAS FINANSE Agnieszka Kubiak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 9/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-07</DataWystawienia>
+            <DataSprzedazy>2023-01-07</DataSprzedazy>
+            <K_19>77.24</K_19>
+            <K_20>17.76</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>18</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513140294</NrKontrahenta>
+            <NazwaKontrahenta>PROCOSMETIC GROUP MARTA Muhammed Yusuf</NazwaKontrahenta>
+            <DowodSprzedazy>FS 10/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-09</DataWystawienia>
+            <DataSprzedazy>2023-01-09</DataSprzedazy>
+            <K_19>10000.00</K_19>
+            <K_20>2300.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>19</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>812169929</NrKontrahenta>
+            <NazwaKontrahenta>Engelbert Wiener Bike Parts GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>2096373570</DowodSprzedazy>
+            <DataWystawienia>2023-01-09</DataWystawienia>
+            <DataSprzedazy>2023-01-09</DataSprzedazy>
+            <K_23>6020.51</K_23>
+            <K_24>1384.72</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>20</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0000010516</NrKontrahenta>
+            <NazwaKontrahenta>Mario Brand</NazwaKontrahenta>
+            <DowodSprzedazy>FS 11/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-10</DataWystawienia>
+            <DataSprzedazy>2023-01-10</DataSprzedazy>
+            <K_19>5853.66</K_19>
+            <K_20>1346.34</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>21</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521337611</NrKontrahenta>
+            <NazwaKontrahenta>TRUST T-SHIRT.PL Tomasz Andrysiak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 12/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-11</DataWystawienia>
+            <DataSprzedazy>2023-01-11</DataSprzedazy>
+            <K_19>23.58</K_19>
+            <K_20>5.42</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>22</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521337611</NrKontrahenta>
+            <NazwaKontrahenta>TRUST T-SHIRT.PL Tomasz Andrysiak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 12/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-11</DataWystawienia>
+            <DataSprzedazy>2023-01-11</DataSprzedazy>
+            <K_17>83.33</K_17>
+            <K_18>6.67</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>23</LpSprzedazy>
+            <KodKrajuNadaniaTIN>CZ</KodKrajuNadaniaTIN>
+            <NrKontrahenta>26958317</NrKontrahenta>
+            <NazwaKontrahenta>Aspire sports</NazwaKontrahenta>
+            <DowodSprzedazy>202300798</DowodSprzedazy>
+            <DataWystawienia>2023-01-11</DataWystawienia>
+            <DataSprzedazy>2023-01-11</DataSprzedazy>
+            <K_23>95.00</K_23>
+            <K_24>21.85</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>24</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551871847</NrKontrahenta>
+            <NazwaKontrahenta>Goniec rowerowy Melchilor Czerniak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 13/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-12</DataWystawienia>
+            <DataSprzedazy>2023-01-12</DataSprzedazy>
+            <K_19>76.42</K_19>
+            <K_20>17.58</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>25</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5881766695</NrKontrahenta>
+            <NazwaKontrahenta>Frodo Piotr Klawitter</NazwaKontrahenta>
+            <DowodSprzedazy>FS 14/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-12</DataWystawienia>
+            <DataSprzedazy>2023-01-12</DataSprzedazy>
+            <K_19>60.97</K_19>
+            <K_20>14.02</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>26</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511576337</NrKontrahenta>
+            <NazwaKontrahenta>SHIP PROJECT Konrad Klimiuk</NazwaKontrahenta>
+            <DowodSprzedazy>FS 16/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-13</DataWystawienia>
+            <DataSprzedazy>2023-01-13</DataSprzedazy>
+            <K_19>3252.03</K_19>
+            <K_20>747.97</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>27</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581796239</NrKontrahenta>
+            <NazwaKontrahenta>NIERUCHOMOŚCI Wieczorek Tomasz</NazwaKontrahenta>
+            <DowodSprzedazy>FS 17/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-13</DataWystawienia>
+            <DataSprzedazy>2023-01-13</DataSprzedazy>
+            <K_19>457.72</K_19>
+            <K_20>105.28</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>28</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581796239</NrKontrahenta>
+            <NazwaKontrahenta>NIERUCHOMOŚCI Wieczorek Tomasz</NazwaKontrahenta>
+            <DowodSprzedazy>FS 17/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-13</DataWystawienia>
+            <DataSprzedazy>2023-01-13</DataSprzedazy>
+            <K_17>262.96</K_17>
+            <K_18>21.04</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>29</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>290668692</NrKontrahenta>
+            <NazwaKontrahenta>LFB Beratung, Handel und Dienstleitsung Jens Werner</NazwaKontrahenta>
+            <DowodSprzedazy>FS 15/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-13</DataWystawienia>
+            <DataSprzedazy>2023-01-13</DataSprzedazy>
+            <K_21>4174.81</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>30</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>7122451612</NrKontrahenta>
+            <NazwaKontrahenta>Dariusz Sulowski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 18/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-14</DataWystawienia>
+            <DataSprzedazy>2023-01-14</DataSprzedazy>
+            <K_19>53.66</K_19>
+            <K_20>12.34</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>31</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522490119</NrKontrahenta>
+            <NazwaKontrahenta>SANATORIUM SAN sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 19/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-14</DataWystawienia>
+            <DataSprzedazy>2023-01-14</DataSprzedazy>
+            <K_19>403.51</K_19>
+            <K_20>92.81</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>32</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522490119</NrKontrahenta>
+            <NazwaKontrahenta>SANATORIUM SAN sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 19/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-14</DataWystawienia>
+            <DataSprzedazy>2023-01-14</DataSprzedazy>
+            <K_17>488.28</K_17>
+            <K_18>39.06</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>33</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5971564541</NrKontrahenta>
+            <NazwaKontrahenta>RASTBUD Radosław Steblewski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 20/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-14</DataWystawienia>
+            <DataSprzedazy>2023-01-14</DataSprzedazy>
+            <K_17>184.26</K_17>
+            <K_18>14.74</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>34</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5971564541</NrKontrahenta>
+            <NazwaKontrahenta>RASTBUD Radosław Steblewski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 20/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-14</DataWystawienia>
+            <DataSprzedazy>2023-01-14</DataSprzedazy>
+            <K_19>88.62</K_19>
+            <K_20>20.38</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>35</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8561562567</NrKontrahenta>
+            <NazwaKontrahenta>K.P. INVEST Hubert Pędziwiatr</NazwaKontrahenta>
+            <DowodSprzedazy>FS 21/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-16</DataWystawienia>
+            <DataSprzedazy>2023-01-16</DataSprzedazy>
+            <K_19>352.85</K_19>
+            <K_20>81.15</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>36</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8561562567</NrKontrahenta>
+            <NazwaKontrahenta>K.P. INVEST Hubert Pędziwiatr</NazwaKontrahenta>
+            <DowodSprzedazy>FS 21/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-16</DataWystawienia>
+            <DataSprzedazy>2023-01-16</DataSprzedazy>
+            <K_17>415.74</K_17>
+            <K_18>33.26</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>37</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>811309641</NrKontrahenta>
+            <NazwaKontrahenta>BBF GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>1232213835</DowodSprzedazy>
+            <DataWystawienia>2023-01-16</DataWystawienia>
+            <DataSprzedazy>2023-01-16</DataSprzedazy>
+            <K_23>2829.91</K_23>
+            <K_24>650.88</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>38</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>296070274</NrKontrahenta>
+            <NazwaKontrahenta>ASSOS of Switzerland GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>INV-FR23000416</DowodSprzedazy>
+            <DataWystawienia>2023-01-16</DataWystawienia>
+            <DataSprzedazy>2023-01-16</DataSprzedazy>
+            <K_23>21510.06</K_23>
+            <K_24>4947.31</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>39</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512945908</NrKontrahenta>
+            <NazwaKontrahenta>DONWIL-IMPORT-EKSPORT S.C.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 24/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-17</DataWystawienia>
+            <DataSprzedazy>2023-01-17</DataSprzedazy>
+            <K_19>145.53</K_19>
+            <K_20>33.47</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>40</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551883916</NrKontrahenta>
+            <NazwaKontrahenta>JERZY SZPARADOWSKI - Architekt</NazwaKontrahenta>
+            <DowodSprzedazy>FS 22/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-17</DataWystawienia>
+            <DataSprzedazy>2023-01-17</DataSprzedazy>
+            <K_17>183.33</K_17>
+            <K_18>14.67</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>41</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551883916</NrKontrahenta>
+            <NazwaKontrahenta>JERZY SZPARADOWSKI - Architekt</NazwaKontrahenta>
+            <DowodSprzedazy>FS 22/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-17</DataWystawienia>
+            <DataSprzedazy>2023-01-17</DataSprzedazy>
+            <K_19>32.52</K_19>
+            <K_20>7.48</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>42</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512945908</NrKontrahenta>
+            <NazwaKontrahenta>DONWIL-IMPORT-EKSPORT S.C.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 23/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-17</DataWystawienia>
+            <DataSprzedazy>2023-01-17</DataSprzedazy>
+            <K_17>282.41</K_17>
+            <K_18>22.59</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>43</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512945908</NrKontrahenta>
+            <NazwaKontrahenta>DONWIL-IMPORT-EKSPORT S.C.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 23/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-17</DataWystawienia>
+            <DataSprzedazy>2023-01-17</DataSprzedazy>
+            <K_19>2217.89</K_19>
+            <K_20>510.11</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>44</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>288845969</NrKontrahenta>
+            <NazwaKontrahenta>Endura LT</NazwaKontrahenta>
+            <DowodSprzedazy>sin932816</DowodSprzedazy>
+            <DataWystawienia>2023-01-17</DataWystawienia>
+            <DataSprzedazy>2023-01-17</DataSprzedazy>
+            <K_23>360.91</K_23>
+            <K_24>83.01</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>45</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>288845969</NrKontrahenta>
+            <NazwaKontrahenta>Endura LT</NazwaKontrahenta>
+            <DowodSprzedazy>sin932815</DowodSprzedazy>
+            <DataWystawienia>2023-01-17</DataWystawienia>
+            <DataSprzedazy>2023-01-17</DataSprzedazy>
+            <K_23>1827.37</K_23>
+            <K_24>420.3</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>46</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512575989</NrKontrahenta>
+            <NazwaKontrahenta>F.G.U. Wioletta Mąkowska</NazwaKontrahenta>
+            <DowodSprzedazy>FS 25/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-18</DataWystawienia>
+            <DataSprzedazy>2023-01-18</DataSprzedazy>
+            <K_17>46.30</K_17>
+            <K_18>3.7</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>47</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512432899</NrKontrahenta>
+            <NazwaKontrahenta>"H2O POLSKA" KACZMAREK Mirosława,kaczmarek Wojciech</NazwaKontrahenta>
+            <DowodSprzedazy>FS 26/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-19</DataWystawienia>
+            <DataSprzedazy>2023-01-19</DataSprzedazy>
+            <K_19>2268.29</K_19>
+            <K_20>521.71</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>48</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8510302690</NrKontrahenta>
+            <NazwaKontrahenta>GRUPA BUDOWLANA ENERGETYCZNA SŁONECZNA ENERGIA Tomasz Cesarczyk</NazwaKontrahenta>
+            <DowodSprzedazy>FS 27/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-20</DataWystawienia>
+            <DataSprzedazy>2023-01-20</DataSprzedazy>
+            <K_19>234.96</K_19>
+            <K_20>54.04</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>49</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522599589</NrKontrahenta>
+            <NazwaKontrahenta>B3TECH INDUSTRIAL SERVICES sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 30/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-20</DataWystawienia>
+            <DataSprzedazy>2023-01-20</DataSprzedazy>
+            <K_19>6015.45</K_19>
+            <K_20>1383.55</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>50</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521029387</NrKontrahenta>
+            <NazwaKontrahenta>ARTE AGENCJA REKLAMOWA Dariusz Rosik</NazwaKontrahenta>
+            <DowodSprzedazy>FS 31/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-20</DataWystawienia>
+            <DataSprzedazy>2023-01-20</DataSprzedazy>
+            <K_19>463.41</K_19>
+            <K_20>106.59</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>51</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513140294</NrKontrahenta>
+            <NazwaKontrahenta>PROCOSMETIC GROUP MARTA Muhammed Yusuf</NazwaKontrahenta>
+            <DowodSprzedazy>FS 29/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-20</DataWystawienia>
+            <DataSprzedazy>2023-01-20</DataSprzedazy>
+            <K_19>30.36</K_19>
+            <K_20>6.98</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>52</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513140294</NrKontrahenta>
+            <NazwaKontrahenta>PROCOSMETIC GROUP MARTA Muhammed Yusuf</NazwaKontrahenta>
+            <DowodSprzedazy>FS 29/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-20</DataWystawienia>
+            <DataSprzedazy>2023-01-20</DataSprzedazy>
+            <K_15>1029.26</K_15>
+            <K_16>51.46</K_16>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>53</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513140294</NrKontrahenta>
+            <NazwaKontrahenta>PROCOSMETIC GROUP MARTA Muhammed Yusuf</NazwaKontrahenta>
+            <DowodSprzedazy>FS 29/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-20</DataWystawienia>
+            <DataSprzedazy>2023-01-20</DataSprzedazy>
+            <K_17>970.92</K_17>
+            <K_18>77.67</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>54</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581542591</NrKontrahenta>
+            <NazwaKontrahenta>USŁUGI Z ZAKRESU FIZJOTERAPII Rafał Wokrój</NazwaKontrahenta>
+            <DowodSprzedazy>FS 32/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-21</DataWystawienia>
+            <DataSprzedazy>2023-01-21</DataSprzedazy>
+            <K_17>276.85</K_17>
+            <K_18>22.15</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>55</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522295524</NrKontrahenta>
+            <NazwaKontrahenta>NASKAR Norbert Karbownik</NazwaKontrahenta>
+            <DowodSprzedazy>FS 33/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-21</DataWystawienia>
+            <DataSprzedazy>2023-01-21</DataSprzedazy>
+            <K_19>56.10</K_19>
+            <K_20>12.9</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>56</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522295524</NrKontrahenta>
+            <NazwaKontrahenta>NASKAR Norbert Karbownik</NazwaKontrahenta>
+            <DowodSprzedazy>FS 33/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-21</DataWystawienia>
+            <DataSprzedazy>2023-01-21</DataSprzedazy>
+            <K_17>37.04</K_17>
+            <K_18>2.96</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>57</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6641151428</NrKontrahenta>
+            <NazwaKontrahenta>MIERZYŃSKI RAFAŁ PPHU "RECORD Ii "</NazwaKontrahenta>
+            <DowodSprzedazy>FS 34/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-23</DataWystawienia>
+            <DataSprzedazy>2023-01-23</DataSprzedazy>
+            <K_19>161.79</K_19>
+            <K_20>37.21</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>58</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8581542591</NrKontrahenta>
+            <NazwaKontrahenta>USŁUGI Z ZAKRESU FIZJOTERAPII Rafał Wokrój</NazwaKontrahenta>
+            <DowodSprzedazy>FS 35/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-23</DataWystawienia>
+            <DataSprzedazy>2023-01-23</DataSprzedazy>
+            <K_19>137.39</K_19>
+            <K_20>31.6</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>59</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5472076763</NrKontrahenta>
+            <NazwaKontrahenta>FITNESS CLUB 24 sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 36/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-23</DataWystawienia>
+            <DataSprzedazy>2023-01-23</DataSprzedazy>
+            <K_19>66.95</K_19>
+            <K_20>15.4</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>60</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>811309641</NrKontrahenta>
+            <NazwaKontrahenta>BBF GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>1232215338</DowodSprzedazy>
+            <DataWystawienia>2023-01-24</DataWystawienia>
+            <DataSprzedazy>2023-01-24</DataSprzedazy>
+            <K_23>2031.03</K_23>
+            <K_24>467.14</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>61</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521799406</NrKontrahenta>
+            <NazwaKontrahenta>MC Serwis 1 D. Cymer</NazwaKontrahenta>
+            <DowodSprzedazy>FS 38/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-25</DataWystawienia>
+            <DataSprzedazy>2023-01-25</DataSprzedazy>
+            <K_17>63.89</K_17>
+            <K_18>5.11</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>62</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511576337</NrKontrahenta>
+            <NazwaKontrahenta>SHIP PROJECT Konrad Klimiuk</NazwaKontrahenta>
+            <DowodSprzedazy>FS 39/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-26</DataWystawienia>
+            <DataSprzedazy>2023-01-26</DataSprzedazy>
+            <K_19>23.58</K_19>
+            <K_20>5.42</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>63</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9721259307</NrKontrahenta>
+            <NazwaKontrahenta>CARNOT CORPORATION sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 40/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-27</DataWystawienia>
+            <DataSprzedazy>2023-01-27</DataSprzedazy>
+            <K_19>810.44</K_19>
+            <K_20>186.4</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>64</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9721259307</NrKontrahenta>
+            <NazwaKontrahenta>CARNOT CORPORATION sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 40/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-27</DataWystawienia>
+            <DataSprzedazy>2023-01-27</DataSprzedazy>
+            <K_17>603.85</K_17>
+            <K_18>48.31</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>65</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>288845969</NrKontrahenta>
+            <NazwaKontrahenta>Endura LT</NazwaKontrahenta>
+            <DowodSprzedazy>scr119706</DowodSprzedazy>
+            <DataWystawienia>2023-01-27</DataWystawienia>
+            <DataSprzedazy>2023-01-27</DataSprzedazy>
+            <K_23>-321.30</K_23>
+            <K_24>-73.9</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>66</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6721882559</NrKontrahenta>
+            <NazwaKontrahenta>INDYWIDUALNA PRAKTYKA LEKARSKA Katarzyna Skoczny-paszel</NazwaKontrahenta>
+            <DowodSprzedazy>FS 41/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-28</DataWystawienia>
+            <DataSprzedazy>2023-01-28</DataSprzedazy>
+            <K_19>13054.76</K_19>
+            <K_20>3002.59</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>67</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522609891</NrKontrahenta>
+            <NazwaKontrahenta>KONSTRUKTOR sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 42/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-28</DataWystawienia>
+            <DataSprzedazy>2023-01-28</DataSprzedazy>
+            <K_19>47.97</K_19>
+            <K_20>11.03</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>68</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>7282852857</NrKontrahenta>
+            <NazwaKontrahenta>BESTBUD BARANIECKI, SAJDA SP.J.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 43/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-28</DataWystawienia>
+            <DataSprzedazy>2023-01-28</DataSprzedazy>
+            <K_19>2709.43</K_19>
+            <K_20>623.17</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>69</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513158029</NrKontrahenta>
+            <NazwaKontrahenta>Nieruchomości i Opłaty Lokalne Sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 44/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-30</DataWystawienia>
+            <DataSprzedazy>2023-01-30</DataSprzedazy>
+            <K_19>3646.34</K_19>
+            <K_20>838.66</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>70</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8951981007</NrKontrahenta>
+            <NazwaKontrahenta>Nextbike Polska SA</NazwaKontrahenta>
+            <DowodSprzedazy>FS 45/D/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-30</DataWystawienia>
+            <DataSprzedazy>2023-01-30</DataSprzedazy>
+            <K_19>7048.29</K_19>
+            <K_20>1621.11</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>71</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>812169929</NrKontrahenta>
+            <NazwaKontrahenta>Engelbert Wiener Bike Parts GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>2100244676</DowodSprzedazy>
+            <DataWystawienia>2023-01-30</DataWystawienia>
+            <DataSprzedazy>2023-01-30</DataSprzedazy>
+            <K_23>-2150.54</K_23>
+            <K_24>-494.62</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>72</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521011364</NrKontrahenta>
+            <NazwaKontrahenta>Kadrzyński Wojciech</NazwaKontrahenta>
+            <DowodSprzedazy>01/01/23</DowodSprzedazy>
+            <DataWystawienia>2023-01-31</DataWystawienia>
+            <DataSprzedazy>2023-01-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_17>6083.29</K_17>
+            <K_18>486.66</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>73</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521011364</NrKontrahenta>
+            <NazwaKontrahenta>Kadrzyński Wojciech</NazwaKontrahenta>
+            <DowodSprzedazy>01/01/23</DowodSprzedazy>
+            <DataWystawienia>2023-01-31</DataWystawienia>
+            <DataSprzedazy>2023-01-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_19>41243.42</K_19>
+            <K_20>9485.96</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>74</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521011364</NrKontrahenta>
+            <NazwaKontrahenta>Kadrzyński Wojciech</NazwaKontrahenta>
+            <DowodSprzedazy>02/01/23</DowodSprzedazy>
+            <DataWystawienia>2023-01-31</DataWystawienia>
+            <DataSprzedazy>2023-01-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_19>5294.31</K_19>
+            <K_20>1217.69</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>75</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521011364</NrKontrahenta>
+            <NazwaKontrahenta>Kadrzyński Wojciech</NazwaKontrahenta>
+            <DowodSprzedazy>03/01/23</DowodSprzedazy>
+            <DataWystawienia>2023-01-31</DataWystawienia>
+            <DataSprzedazy>2023-01-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_17>2691.67</K_17>
+            <K_18>215.33</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>76</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521011364</NrKontrahenta>
+            <NazwaKontrahenta>Kadrzyński Wojciech</NazwaKontrahenta>
+            <DowodSprzedazy>03/01/23</DowodSprzedazy>
+            <DataWystawienia>2023-01-31</DataWystawienia>
+            <DataSprzedazy>2023-01-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_19>58210.13</K_19>
+            <K_20>13388.32</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>77</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521011364</NrKontrahenta>
+            <NazwaKontrahenta>Kadrzyński Wojciech</NazwaKontrahenta>
+            <DowodSprzedazy>01/2023</DowodSprzedazy>
+            <DataWystawienia>2023-01-31</DataWystawienia>
+            <DataSprzedazy>2023-01-31</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_19>-7990.68</K_19>
+            <K_20>-1837.85</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>78</LpSprzedazy>
+            <KodKrajuNadaniaTIN>NL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>805734958B01</NrKontrahenta>
+            <NazwaKontrahenta>Booking.com B.V.</NazwaKontrahenta>
+            <DowodSprzedazy>1586055695</DowodSprzedazy>
+            <DataWystawienia>2023-02-03</DataWystawienia>
+            <DataSprzedazy>2023-01-31</DataSprzedazy>
+            <K_29>403.80</K_29>
+            <K_30>92.87</K_30>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>78</LiczbaWierszySprzedazy>
+            <PodatekNalezny>49337.32</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513052029</NrDostawcy>
+            <NazwaDostawcy>CAMP Tomasz Przybylski</NazwaDostawcy>
+            <DowodZakupu>147/11/2022</DowodZakupu>
+            <DataZakupu>2022-11-21</DataZakupu>
+            <DataWplywu>2023-01-01</DataWplywu>
+            <K_42>4756.10</K_42>
+            <K_43>1093.9</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522574201</NrDostawcy>
+            <NazwaDostawcy>NAM LIFT s.c.</NazwaDostawcy>
+            <DowodZakupu>114/11/2022</DowodZakupu>
+            <DataZakupu>2022-11-23</DataZakupu>
+            <DataWplywu>2023-01-24</DataWplywu>
+            <K_42>350.00</K_42>
+            <K_43>80.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522574201</NrDostawcy>
+            <NazwaDostawcy>NAM LIFT s.c.</NazwaDostawcy>
+            <DowodZakupu>115/12/2022</DowodZakupu>
+            <DataZakupu>2022-12-15</DataZakupu>
+            <DataWplywu>2023-01-24</DataWplywu>
+            <K_42>350.00</K_42>
+            <K_43>80.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9551482063</NrDostawcy>
+            <NazwaDostawcy>ART TOP PIĘKNE MEBLE Urszula Nowacka</NazwaDostawcy>
+            <DowodZakupu>743/TOP/MAG/12/2022</DowodZakupu>
+            <DataZakupu>2022-12-20</DataZakupu>
+            <DataWplywu>2023-01-01</DataWplywu>
+            <K_42>6504.07</K_42>
+            <K_43>1495.93</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8520014018</NrDostawcy>
+            <NazwaDostawcy>"REMONDIS SZCZECIN" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>4152178805</DowodZakupu>
+            <DataZakupu>2022-12-31</DataZakupu>
+            <DataWplywu>2022-12-31</DataWplywu>
+            <K_42>330.00</K_42>
+            <K_43>26.4</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>I22149B03003132</DowodZakupu>
+            <DataZakupu>2022-12-31</DataZakupu>
+            <DataWplywu>2022-12-31</DataWplywu>
+            <K_42>361.13</K_42>
+            <K_43>14.45</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513194806</NrDostawcy>
+            <NazwaDostawcy>wąski.net sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>lms/10/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-01</DataZakupu>
+            <DataWplywu>2023-01-01</DataWplywu>
+            <K_42>478.69</K_42>
+            <K_43>110.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>6K1/4134/23</DowodZakupu>
+            <DataZakupu>2023-01-01</DataZakupu>
+            <DataWplywu>2023-01-01</DataWplywu>
+            <K_42>122.04</K_42>
+            <K_43>14.03</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522285520</NrDostawcy>
+            <NazwaDostawcy>Altcom Skowroński Błauciak,Werkowski Sp. J.</NazwaDostawcy>
+            <DowodZakupu>37/MAG/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-02</DataZakupu>
+            <DataWplywu>2023-01-02</DataWplywu>
+            <K_42>500.00</K_42>
+            <K_43>115.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6342374592</NrDostawcy>
+            <NazwaDostawcy>SOLID GROUP sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>2023/01/181815/sp/2</DowodZakupu>
+            <DataZakupu>2023-01-02</DataZakupu>
+            <DataWplywu>2023-01-02</DataWplywu>
+            <K_42>55.00</K_42>
+            <K_43>12.65</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7251735694</NrDostawcy>
+            <NazwaDostawcy>PKO LEASING S.A.</NazwaDostawcy>
+            <DowodZakupu>lm/23/01/129502</DowodZakupu>
+            <DataZakupu>2023-01-02</DataZakupu>
+            <DataWplywu>2023-01-02</DataWplywu>
+            <K_42>1569.94</K_42>
+            <K_43>361.09</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513158029</NrDostawcy>
+            <NazwaDostawcy>Nieruchomości i Opłaty Lokalne Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>01/2/2023</DowodZakupu>
+            <DataZakupu>2023-01-03</DataZakupu>
+            <DataWplywu>2023-01-03</DataWplywu>
+            <K_42>5144.56</K_42>
+            <K_43>1183.25</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6793108059</NrDostawcy>
+            <NazwaDostawcy>INPOST sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>28095/2023/nfk/01</DowodZakupu>
+            <DataZakupu>2023-01-03</DataZakupu>
+            <DataWplywu>2023-01-03</DataWplywu>
+            <K_42>247.45</K_42>
+            <K_43>56.92</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5540083357</NrDostawcy>
+            <NazwaDostawcy>PHU UNIBIKE SPÓŁKA JAWNA</NazwaDostawcy>
+            <DowodZakupu>61/01/23</DowodZakupu>
+            <DataZakupu>2023-01-03</DataZakupu>
+            <DataWplywu>2023-01-03</DataWplywu>
+            <K_42>34604.25</K_42>
+            <K_43>7958.98</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513158029</NrDostawcy>
+            <NazwaDostawcy>Nieruchomości i Opłaty Lokalne Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>fvk/01/1/2023</DowodZakupu>
+            <DataZakupu>2023-01-03</DataZakupu>
+            <DataWplywu>2023-01-27</DataWplywu>
+            <K_42>614.61</K_42>
+            <K_43>141.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8510306564</NrDostawcy>
+            <NazwaDostawcy>Maqsimum sp.j.</NazwaDostawcy>
+            <DowodZakupu>23010040</DowodZakupu>
+            <DataZakupu>2023-01-04</DataZakupu>
+            <DataWplywu>2023-01-04</DataWplywu>
+            <K_42>5283.74</K_42>
+            <K_43>1215.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9551480472</NrDostawcy>
+            <NazwaDostawcy>UNIKAS Andrzej Górecki</NazwaDostawcy>
+            <DowodZakupu>19/G/2023</DowodZakupu>
+            <DataZakupu>2023-01-04</DataZakupu>
+            <DataWplywu>2023-01-04</DataWplywu>
+            <K_42>687.49</K_42>
+            <K_43>158.12</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522285520</NrDostawcy>
+            <NazwaDostawcy>Altcom Skowroński Błauciak,Werkowski Sp. J.</NazwaDostawcy>
+            <DowodZakupu>64/MAG/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-04</DataZakupu>
+            <DataWplywu>2023-01-04</DataWplywu>
+            <K_42>700.00</K_42>
+            <K_43>161.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7770020640</NrDostawcy>
+            <NazwaDostawcy>ENEA S.A.</NazwaDostawcy>
+            <DowodZakupu>p/20440919/1/23</DowodZakupu>
+            <DataZakupu>2023-01-05</DataZakupu>
+            <DataWplywu>2023-01-05</DataWplywu>
+            <K_42>2573.60</K_42>
+            <K_43>128.68</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9451972201</NrDostawcy>
+            <NazwaDostawcy>Morele.net Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>663/1/2023/dir</DowodZakupu>
+            <DataZakupu>2023-01-05</DataZakupu>
+            <DataWplywu>2023-01-05</DataWplywu>
+            <K_42>564.37</K_42>
+            <K_43>129.81</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5941426366</NrDostawcy>
+            <NazwaDostawcy>Antosiewicz Radosław</NazwaDostawcy>
+            <DowodZakupu>2023/1/6</DowodZakupu>
+            <DataZakupu>2023-01-05</DataZakupu>
+            <DataWplywu>2023-01-05</DataWplywu>
+            <K_42>280.00</K_42>
+            <K_43>64.4</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5540083357</NrDostawcy>
+            <NazwaDostawcy>PHU UNIBIKE SPÓŁKA JAWNA</NazwaDostawcy>
+            <DowodZakupu>122/01/23</DowodZakupu>
+            <DataZakupu>2023-01-05</DataZakupu>
+            <DataWplywu>2023-01-05</DataWplywu>
+            <K_42>2106.90</K_42>
+            <K_43>484.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5540083357</NrDostawcy>
+            <NazwaDostawcy>PHU UNIBIKE SPÓŁKA JAWNA</NazwaDostawcy>
+            <DowodZakupu>126/01/23</DowodZakupu>
+            <DataZakupu>2023-01-05</DataZakupu>
+            <DataWplywu>2023-01-05</DataWplywu>
+            <K_42>1651.58</K_42>
+            <K_43>379.86</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5540083357</NrDostawcy>
+            <NazwaDostawcy>PHU UNIBIKE SPÓŁKA JAWNA</NazwaDostawcy>
+            <DowodZakupu>129/01/23</DowodZakupu>
+            <DataZakupu>2023-01-05</DataZakupu>
+            <DataWplywu>2023-01-05</DataWplywu>
+            <K_42>569.48</K_42>
+            <K_43>130.98</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6311990396</NrDostawcy>
+            <NazwaDostawcy>VELO SPÓŁKA ZO.O.</NazwaDostawcy>
+            <DowodZakupu>110/23/fv/01</DowodZakupu>
+            <DataZakupu>2023-01-05</DataZakupu>
+            <DataWplywu>2023-01-05</DataWplywu>
+            <K_42>1691.12</K_42>
+            <K_43>388.96</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5540083357</NrDostawcy>
+            <NazwaDostawcy>PHU UNIBIKE SPÓŁKA JAWNA</NazwaDostawcy>
+            <DowodZakupu>fk/7/01/23</DowodZakupu>
+            <DataZakupu>2023-01-05</DataZakupu>
+            <DataWplywu>2023-01-20</DataWplywu>
+            <K_42>-187.48</K_42>
+            <K_43>-43.12</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>234K2/4134/23</DowodZakupu>
+            <DataZakupu>2023-01-06</DataZakupu>
+            <DataWplywu>2023-01-06</DataWplywu>
+            <K_42>123.54</K_42>
+            <K_43>14.21</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8510309634</NrDostawcy>
+            <NazwaDostawcy>ŚRÓDMIEŚCIE SPÓŁDZIELNIA MIESZKANIOWA</NazwaDostawcy>
+            <DowodZakupu>cz/166/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-09</DataZakupu>
+            <DataWplywu>2023-01-09</DataWplywu>
+            <K_42>3549.94</K_42>
+            <K_43>485.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5270103385</NrDostawcy>
+            <NazwaDostawcy>"IKEA RETAIL" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>E/583/2023/4151</DowodZakupu>
+            <DataZakupu>2023-01-09</DataZakupu>
+            <DataWplywu>2023-01-09</DataWplywu>
+            <K_42>486.99</K_42>
+            <K_43>112.01</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261040567</NrDostawcy>
+            <NazwaDostawcy>T mobile Polska SA</NazwaDostawcy>
+            <DowodZakupu>506123650123</DowodZakupu>
+            <DataZakupu>2023-01-09</DataZakupu>
+            <DataWplywu>2023-01-09</DataWplywu>
+            <K_42>212.49</K_42>
+            <K_43>48.87</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5241062979</NrDostawcy>
+            <NazwaDostawcy>PAWEŁ Kos Azymut</NazwaDostawcy>
+            <DowodZakupu>210/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-09</DataZakupu>
+            <DataWplywu>2023-01-09</DataWplywu>
+            <K_42>68.30</K_42>
+            <K_43>15.71</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513219009</NrDostawcy>
+            <NazwaDostawcy>GRUPA SIENICCY Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>180/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-09</DataZakupu>
+            <DataWplywu>2023-01-09</DataWplywu>
+            <K_42>24.37</K_42>
+            <K_43>5.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>325K1/4102/23</DowodZakupu>
+            <DataZakupu>2023-01-09</DataZakupu>
+            <DataWplywu>2023-01-09</DataWplywu>
+            <K_42>244.03</K_42>
+            <K_43>28.06</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>566K1/7407/23</DowodZakupu>
+            <DataZakupu>2023-01-09</DataZakupu>
+            <DataWplywu>2023-01-09</DataWplywu>
+            <K_42>130.95</K_42>
+            <K_43>15.06</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>35</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7291048304</NrDostawcy>
+            <NazwaDostawcy>ACOMP Robert Partyka</NazwaDostawcy>
+            <DowodZakupu>133/1/2023</DowodZakupu>
+            <DataZakupu>2023-01-10</DataZakupu>
+            <DataWplywu>2023-01-10</DataWplywu>
+            <K_42>80.49</K_42>
+            <K_43>18.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>36</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6751728550</NrDostawcy>
+            <NazwaDostawcy>MOTOSTACJA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>20745/23</DowodZakupu>
+            <DataZakupu>2023-01-10</DataZakupu>
+            <DataWplywu>2023-01-10</DataWplywu>
+            <K_42>195.01</K_42>
+            <K_43>22.43</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>37</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522285520</NrDostawcy>
+            <NazwaDostawcy>Altcom Skowroński Błauciak,Werkowski Sp. J.</NazwaDostawcy>
+            <DowodZakupu>112/MAG/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-10</DataZakupu>
+            <DataWplywu>2023-01-10</DataWplywu>
+            <K_42>89.43</K_42>
+            <K_43>20.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>38</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822122307</NrDostawcy>
+            <NazwaDostawcy>Shimano Polska Bicycle Parts Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>23000695</DowodZakupu>
+            <DataZakupu>2023-01-10</DataZakupu>
+            <DataWplywu>2023-01-10</DataWplywu>
+            <K_42>512.27</K_42>
+            <K_43>117.82</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>39</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7621999021</NrDostawcy>
+            <NazwaDostawcy>LOVEBIKE sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>03/01/23</DowodZakupu>
+            <DataZakupu>2023-01-10</DataZakupu>
+            <DataWplywu>2023-01-10</DataWplywu>
+            <K_42>165.86</K_42>
+            <K_43>38.14</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>40</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5851003662</NrDostawcy>
+            <NazwaDostawcy>SCOTT SPORTECH POLAND SP ZO.O.</NazwaDostawcy>
+            <DowodZakupu>94/01/23</DowodZakupu>
+            <DataZakupu>2023-01-10</DataZakupu>
+            <DataWplywu>2023-01-10</DataWplywu>
+            <K_42>18886.04</K_42>
+            <K_43>4343.79</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>41</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>86932/0146</DowodZakupu>
+            <DataZakupu>2023-01-10</DataZakupu>
+            <DataWplywu>2023-01-10</DataWplywu>
+            <K_42>219.54</K_42>
+            <K_43>50.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>42</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5540083357</NrDostawcy>
+            <NazwaDostawcy>PHU UNIBIKE SPÓŁKA JAWNA</NazwaDostawcy>
+            <DowodZakupu>225/01/23</DowodZakupu>
+            <DataZakupu>2023-01-11</DataZakupu>
+            <DataWplywu>2023-01-11</DataWplywu>
+            <K_42>119.75</K_42>
+            <K_43>27.54</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>43</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7791011327</NrDostawcy>
+            <NazwaDostawcy>JERONIMO MARTINS POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>4705230111662612</DowodZakupu>
+            <DataZakupu>2023-01-11</DataZakupu>
+            <DataWplywu>2023-01-11</DataWplywu>
+            <K_42>58.34</K_42>
+            <K_43>13.42</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>44</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5270005984</NrDostawcy>
+            <NazwaDostawcy>EURO-NET Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>fav/38596</DowodZakupu>
+            <DataZakupu>2023-01-12</DataZakupu>
+            <DataWplywu>2023-01-12</DataWplywu>
+            <K_42>60.89</K_42>
+            <K_43>14.01</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>45</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1231422500</NrDostawcy>
+            <NazwaDostawcy>EUROOFFICE sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>1031/2023</DowodZakupu>
+            <DataZakupu>2023-01-12</DataZakupu>
+            <DataWplywu>2023-01-12</DataWplywu>
+            <K_42>1954.48</K_42>
+            <K_43>449.52</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>46</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8520500500</NrDostawcy>
+            <NazwaDostawcy>Beta Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>14/05</DowodZakupu>
+            <DataZakupu>2023-01-12</DataZakupu>
+            <DataWplywu>2023-01-12</DataWplywu>
+            <K_42>158.56</K_42>
+            <K_43>36.47</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>47</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5540083357</NrDostawcy>
+            <NazwaDostawcy>PHU UNIBIKE SPÓŁKA JAWNA</NazwaDostawcy>
+            <DowodZakupu>304/01/23</DowodZakupu>
+            <DataZakupu>2023-01-12</DataZakupu>
+            <DataWplywu>2023-01-12</DataWplywu>
+            <K_42>9483.12</K_42>
+            <K_43>2181.12</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>48</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811897358</NrDostawcy>
+            <NazwaDostawcy>LIDL sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>1662/143/120123/81</DowodZakupu>
+            <DataZakupu>2023-01-12</DataZakupu>
+            <DataWplywu>2023-01-12</DataWplywu>
+            <K_42>105.47</K_42>
+            <K_43>24.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>49</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>276108/0845</DowodZakupu>
+            <DataZakupu>2023-01-12</DataZakupu>
+            <DataWplywu>2023-01-12</DataWplywu>
+            <K_42>93.90</K_42>
+            <K_43>21.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>50</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5170420494</NrDostawcy>
+            <NazwaDostawcy>ASAHI DOROTA DZIOPAK, ARKADIUSZ PODOLEC S.C.</NazwaDostawcy>
+            <DowodZakupu>9396/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-13</DataZakupu>
+            <DataWplywu>2023-01-13</DataWplywu>
+            <K_42>92.85</K_42>
+            <K_43>21.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>51</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8722067124</NrDostawcy>
+            <NazwaDostawcy>Dorota Ćwik Firma Handlowo Usługowa Active Computer</NazwaDostawcy>
+            <DowodZakupu>102/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-13</DataZakupu>
+            <DataWplywu>2023-01-13</DataWplywu>
+            <K_42>44.63</K_42>
+            <K_43>10.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>52</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8521254285</NrDostawcy>
+            <NazwaDostawcy>OPTIMA USŁUGI REKLAMOWE TOMASZ NOWICKI</NazwaDostawcy>
+            <DowodZakupu>41/2023</DowodZakupu>
+            <DataZakupu>2023-01-13</DataZakupu>
+            <DataWplywu>2023-01-13</DataWplywu>
+            <K_42>6200.00</K_42>
+            <K_43>1426.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>53</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8520500500</NrDostawcy>
+            <NazwaDostawcy>Beta Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>18/05</DowodZakupu>
+            <DataZakupu>2023-01-13</DataZakupu>
+            <DataWplywu>2023-01-13</DataWplywu>
+            <K_42>85.37</K_42>
+            <K_43>19.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>54</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7871213346</NrDostawcy>
+            <NazwaDostawcy>MIKADO</NazwaDostawcy>
+            <DowodZakupu>150/01/2023/pl</DowodZakupu>
+            <DataZakupu>2023-01-13</DataZakupu>
+            <DataWplywu>2023-01-13</DataWplywu>
+            <K_42>230.29</K_42>
+            <K_43>52.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>55</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6311990396</NrDostawcy>
+            <NazwaDostawcy>VELO SPÓŁKA ZO.O.</NazwaDostawcy>
+            <DowodZakupu>287/23/fv/01</DowodZakupu>
+            <DataZakupu>2023-01-13</DataZakupu>
+            <DataWplywu>2023-01-13</DataWplywu>
+            <K_42>492.43</K_42>
+            <K_43>113.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>56</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5830202066</NrDostawcy>
+            <NazwaDostawcy>SAKS s. j,.</NazwaDostawcy>
+            <DowodZakupu>186/P/2023</DowodZakupu>
+            <DataZakupu>2023-01-13</DataZakupu>
+            <DataWplywu>2023-01-13</DataWplywu>
+            <K_42>4885.50</K_42>
+            <K_43>1123.67</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>57</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6570081085</NrDostawcy>
+            <NazwaDostawcy>MISTAMA Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>7382/2023</DowodZakupu>
+            <DataZakupu>2023-01-14</DataZakupu>
+            <DataWplywu>2023-01-14</DataWplywu>
+            <K_42>732.52</K_42>
+            <K_43>168.48</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>58</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5830202066</NrDostawcy>
+            <NazwaDostawcy>SAKS s. j,.</NazwaDostawcy>
+            <DowodZakupu>213/p/2023</DowodZakupu>
+            <DataZakupu>2023-01-16</DataZakupu>
+            <DataWplywu>2023-01-16</DataWplywu>
+            <K_42>3458.10</K_42>
+            <K_43>795.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>59</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822122307</NrDostawcy>
+            <NazwaDostawcy>Shimano Polska Bicycle Parts Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>23001436</DowodZakupu>
+            <DataZakupu>2023-01-16</DataZakupu>
+            <DataWplywu>2023-01-16</DataWplywu>
+            <K_42>3731.44</K_42>
+            <K_43>858.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>60</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7371797410</NrDostawcy>
+            <NazwaDostawcy>MG BIKE Marta Ziaja</NazwaDostawcy>
+            <DowodZakupu>101/2023</DowodZakupu>
+            <DataZakupu>2023-01-16</DataZakupu>
+            <DataWplywu>2023-01-16</DataWplywu>
+            <K_42>1670.58</K_42>
+            <K_43>384.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>61</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8321874161</NrDostawcy>
+            <NazwaDostawcy>"ZASADA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>230100090</DowodZakupu>
+            <DataZakupu>2023-01-16</DataZakupu>
+            <DataWplywu>2023-01-16</DataWplywu>
+            <K_42>1833.10</K_42>
+            <K_43>421.61</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>62</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8790258701</NrDostawcy>
+            <NazwaDostawcy>Kwiatkowski Tadeusz</NazwaDostawcy>
+            <DowodZakupu>3/2023</DowodZakupu>
+            <DataZakupu>2023-01-16</DataZakupu>
+            <DataWplywu>2023-01-16</DataWplywu>
+            <K_42>211.39</K_42>
+            <K_43>48.62</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>63</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7543346491</NrDostawcy>
+            <NazwaDostawcy>CYKLOMANIA PIOTR GEBAUER SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>183/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-16</DataZakupu>
+            <DataWplywu>2023-01-16</DataWplywu>
+            <K_42>781.63</K_42>
+            <K_43>179.77</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>64</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5851003662</NrDostawcy>
+            <NazwaDostawcy>SCOTT SPORTECH POLAND SP ZO.O.</NazwaDostawcy>
+            <DowodZakupu>210/01/23</DowodZakupu>
+            <DataZakupu>2023-01-16</DataZakupu>
+            <DataWplywu>2023-01-16</DataWplywu>
+            <K_42>1685.40</K_42>
+            <K_43>387.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>65</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5851003662</NrDostawcy>
+            <NazwaDostawcy>SCOTT SPORTECH POLAND SP ZO.O.</NazwaDostawcy>
+            <DowodZakupu>194/01/23</DowodZakupu>
+            <DataZakupu>2023-01-16</DataZakupu>
+            <DataWplywu>2023-01-16</DataWplywu>
+            <K_42>286.90</K_42>
+            <K_43>65.99</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>66</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>11-153454-01239</DowodZakupu>
+            <DataZakupu>2023-01-17</DataZakupu>
+            <DataWplywu>2023-01-17</DataWplywu>
+            <K_42>140.00</K_42>
+            <K_43>32.2</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>67</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9492198193</NrDostawcy>
+            <NazwaDostawcy>SOLO-KOLOS Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>3555/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-17</DataZakupu>
+            <DataWplywu>2023-01-17</DataWplywu>
+            <K_42>209.76</K_42>
+            <K_43>48.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>68</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6311990396</NrDostawcy>
+            <NazwaDostawcy>VELO SPÓŁKA ZO.O.</NazwaDostawcy>
+            <DowodZakupu>371/23/fv/01</DowodZakupu>
+            <DataZakupu>2023-01-17</DataZakupu>
+            <DataWplywu>2023-01-17</DataWplywu>
+            <K_42>184.40</K_42>
+            <K_43>42.41</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>69</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822122307</NrDostawcy>
+            <NazwaDostawcy>Shimano Polska Bicycle Parts Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>23001716</DowodZakupu>
+            <DataZakupu>2023-01-17</DataZakupu>
+            <DataWplywu>2023-01-17</DataWplywu>
+            <K_42>74.93</K_42>
+            <K_43>17.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>70</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>I23225B03001079</DowodZakupu>
+            <DataZakupu>2023-01-17</DataZakupu>
+            <DataWplywu>2023-01-17</DataWplywu>
+            <K_42>243.93</K_42>
+            <K_43>28.05</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>71</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513219009</NrDostawcy>
+            <NazwaDostawcy>GRUPA SIENICCY Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>691/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-18</DataZakupu>
+            <DataWplywu>2023-01-18</DataWplywu>
+            <K_42>97.54</K_42>
+            <K_43>22.43</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>72</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522574201</NrDostawcy>
+            <NazwaDostawcy>NAM LIFT s.c.</NazwaDostawcy>
+            <DowodZakupu>60/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-18</DataZakupu>
+            <DataWplywu>2023-01-18</DataWplywu>
+            <K_42>350.00</K_42>
+            <K_43>80.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>73</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5223004888</NrDostawcy>
+            <NazwaDostawcy>SKI TEAM POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>21/sek/2023/23</DowodZakupu>
+            <DataZakupu>2023-01-18</DataZakupu>
+            <DataWplywu>2023-01-18</DataWplywu>
+            <K_42>379.55</K_42>
+            <K_43>87.3</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>74</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822122307</NrDostawcy>
+            <NazwaDostawcy>Shimano Polska Bicycle Parts Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>23001863</DowodZakupu>
+            <DataZakupu>2023-01-18</DataZakupu>
+            <DataWplywu>2023-01-18</DataWplywu>
+            <K_42>57.45</K_42>
+            <K_43>13.21</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>75</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513052029</NrDostawcy>
+            <NazwaDostawcy>CAMP Tomasz Przybylski</NazwaDostawcy>
+            <DowodZakupu>4/1/2023</DowodZakupu>
+            <DataZakupu>2023-01-19</DataZakupu>
+            <DataWplywu>2023-01-19</DataWplywu>
+            <K_42>7504.07</K_42>
+            <K_43>632.03</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>76</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6461322644</NrDostawcy>
+            <NazwaDostawcy>GRZEGORZ Pikuła Motochemica</NazwaDostawcy>
+            <DowodZakupu>125/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-19</DataZakupu>
+            <DataWplywu>2023-01-19</DataWplywu>
+            <K_42>102.26</K_42>
+            <K_43>23.52</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>77</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252463854</NrDostawcy>
+            <NazwaDostawcy>Garmin polska sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>SRI-0014392</DowodZakupu>
+            <DataZakupu>2023-01-19</DataZakupu>
+            <DataWplywu>2023-01-19</DataWplywu>
+            <K_42>465.47</K_42>
+            <K_43>107.06</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>78</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8321874161</NrDostawcy>
+            <NazwaDostawcy>"ZASADA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>230100125</DowodZakupu>
+            <DataZakupu>2023-01-19</DataZakupu>
+            <DataWplywu>2023-01-19</DataWplywu>
+            <K_42>8982.84</K_42>
+            <K_43>2066.05</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>79</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1416K1/7407/23</DowodZakupu>
+            <DataZakupu>2023-01-19</DataZakupu>
+            <DataWplywu>2023-01-19</DataWplywu>
+            <K_42>67.92</K_42>
+            <K_43>7.81</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>80</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7790001083</NrDostawcy>
+            <NazwaDostawcy>CIRCLE K POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>0016623071051100</DowodZakupu>
+            <DataZakupu>2023-01-20</DataZakupu>
+            <DataWplywu>2023-01-20</DataWplywu>
+            <K_42>471.99</K_42>
+            <K_43>108.56</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>81</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261037737</NrDostawcy>
+            <NazwaDostawcy>NETTO INDYGO Sp. z o. o.</NazwaDostawcy>
+            <DowodZakupu>2886250</DowodZakupu>
+            <DataZakupu>2023-01-20</DataZakupu>
+            <DataWplywu>2023-01-20</DataWplywu>
+            <K_42>229.94</K_42>
+            <K_43>43.17</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>82</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511960308</NrDostawcy>
+            <NazwaDostawcy>MOTO-TEST MECHANIKA POJAZDOWA PIOTR GŁAŻEWSKI</NazwaDostawcy>
+            <DowodZakupu>20/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-21</DataZakupu>
+            <DataWplywu>2023-01-21</DataWplywu>
+            <K_42>934.96</K_42>
+            <K_43>215.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>83</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5851003662</NrDostawcy>
+            <NazwaDostawcy>SCOTT SPORTECH POLAND SP ZO.O.</NazwaDostawcy>
+            <DowodZakupu>292/01/23</DowodZakupu>
+            <DataZakupu>2023-01-21</DataZakupu>
+            <DataWplywu>2023-01-21</DataWplywu>
+            <K_42>2247.18</K_42>
+            <K_43>516.85</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>84</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8821746704</NrDostawcy>
+            <NazwaDostawcy>"KRASKA" Szymon Kraska</NazwaDostawcy>
+            <DowodZakupu>539/1/2023</DowodZakupu>
+            <DataZakupu>2023-01-22</DataZakupu>
+            <DataWplywu>2023-01-22</DataWplywu>
+            <K_42>42.10</K_42>
+            <K_43>4.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>85</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>785K2/4113/23</DowodZakupu>
+            <DataZakupu>2023-01-22</DataZakupu>
+            <DataWplywu>2023-01-22</DataWplywu>
+            <K_42>130.26</K_42>
+            <K_43>14.98</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>86</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5540083357</NrDostawcy>
+            <NazwaDostawcy>PHU UNIBIKE SPÓŁKA JAWNA</NazwaDostawcy>
+            <DowodZakupu>680/01/23</DowodZakupu>
+            <DataZakupu>2023-01-23</DataZakupu>
+            <DataWplywu>2023-01-23</DataWplywu>
+            <K_42>3160.00</K_42>
+            <K_43>726.8</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>87</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5851003662</NrDostawcy>
+            <NazwaDostawcy>SCOTT SPORTECH POLAND SP ZO.O.</NazwaDostawcy>
+            <DowodZakupu>299/01/23</DowodZakupu>
+            <DataZakupu>2023-01-23</DataZakupu>
+            <DataWplywu>2023-01-23</DataWplywu>
+            <K_42>224.42</K_42>
+            <K_43>51.62</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>88</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5540083357</NrDostawcy>
+            <NazwaDostawcy>PHU UNIBIKE SPÓŁKA JAWNA</NazwaDostawcy>
+            <DowodZakupu>700/01/23</DowodZakupu>
+            <DataZakupu>2023-01-23</DataZakupu>
+            <DataWplywu>2023-01-23</DataWplywu>
+            <K_42>46281.19</K_42>
+            <K_43>10644.67</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>89</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>771K3/1458/23</DowodZakupu>
+            <DataZakupu>2023-01-23</DataZakupu>
+            <DataWplywu>2023-01-23</DataWplywu>
+            <K_42>162.94</K_42>
+            <K_43>18.74</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>90</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>1/2023/KAW</DowodZakupu>
+            <DataZakupu>2023-01-24</DataZakupu>
+            <DataWplywu>2023-01-24</DataWplywu>
+            <K_42>1512.00</K_42>
+            <K_43>347.76</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>91</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1132816957</NrDostawcy>
+            <NazwaDostawcy>METLER.PL M. KUROWSKA Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>5964/23</DowodZakupu>
+            <DataZakupu>2023-01-24</DataZakupu>
+            <DataWplywu>2023-01-24</DataWplywu>
+            <K_42>39.00</K_42>
+            <K_43>8.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>92</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7010969640</NrDostawcy>
+            <NazwaDostawcy>IDISPORT sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>91/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-24</DataZakupu>
+            <DataWplywu>2023-01-24</DataWplywu>
+            <K_42>1298.00</K_42>
+            <K_43>298.54</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>93</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822122307</NrDostawcy>
+            <NazwaDostawcy>Shimano Polska Bicycle Parts Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>23002914</DowodZakupu>
+            <DataZakupu>2023-01-24</DataZakupu>
+            <DataWplywu>2023-01-24</DataWplywu>
+            <K_42>471.88</K_42>
+            <K_43>108.53</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>94</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9441340741</NrDostawcy>
+            <NazwaDostawcy>FHU PORĘBA</NazwaDostawcy>
+            <DowodZakupu>223/1/23/hb</DowodZakupu>
+            <DataZakupu>2023-01-24</DataZakupu>
+            <DataWplywu>2023-01-24</DataWplywu>
+            <K_42>229.07</K_42>
+            <K_43>52.69</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>95</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5851003662</NrDostawcy>
+            <NazwaDostawcy>SCOTT SPORTECH POLAND SP ZO.O.</NazwaDostawcy>
+            <DowodZakupu>319/01/23</DowodZakupu>
+            <DataZakupu>2023-01-24</DataZakupu>
+            <DataWplywu>2023-01-24</DataWplywu>
+            <K_42>12109.72</K_42>
+            <K_43>2785.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>96</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5882360995</NrDostawcy>
+            <NazwaDostawcy>"JMB DESIGN" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>41/203/s</DowodZakupu>
+            <DataZakupu>2023-01-24</DataZakupu>
+            <DataWplywu>2023-01-24</DataWplywu>
+            <K_42>8593.50</K_42>
+            <K_43>1976.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>97</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>76822/0284</DowodZakupu>
+            <DataZakupu>2023-01-25</DataZakupu>
+            <DataWplywu>2023-01-25</DataWplywu>
+            <K_42>27.63</K_42>
+            <K_43>6.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>98</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5481558059</NrDostawcy>
+            <NazwaDostawcy>FH Gregorio Grzegorz Zowada</NazwaDostawcy>
+            <DowodZakupu>179/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-25</DataZakupu>
+            <DataWplywu>2023-01-25</DataWplywu>
+            <K_42>362.63</K_42>
+            <K_43>62.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>99</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6311990396</NrDostawcy>
+            <NazwaDostawcy>VELO SPÓŁKA ZO.O.</NazwaDostawcy>
+            <DowodZakupu>595/23/fv/01</DowodZakupu>
+            <DataZakupu>2023-01-25</DataZakupu>
+            <DataWplywu>2023-01-25</DataWplywu>
+            <K_42>6250.83</K_42>
+            <K_43>1437.69</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>100</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5542106542</NrDostawcy>
+            <NazwaDostawcy>VELOMANIA Jakub Lorek</NazwaDostawcy>
+            <DowodZakupu>6/FOR/2023</DowodZakupu>
+            <DataZakupu>2023-01-25</DataZakupu>
+            <DataWplywu>2023-01-25</DataWplywu>
+            <K_42>1201.95</K_42>
+            <K_43>276.45</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>101</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8821783639</NrDostawcy>
+            <NazwaDostawcy>Fijak Piotr ''piomar-pphu''</NazwaDostawcy>
+            <DowodZakupu>338/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-26</DataZakupu>
+            <DataWplywu>2023-01-26</DataWplywu>
+            <K_42>96.75</K_42>
+            <K_43>22.25</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>102</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822122307</NrDostawcy>
+            <NazwaDostawcy>Shimano Polska Bicycle Parts Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>23003268</DowodZakupu>
+            <DataZakupu>2023-01-26</DataZakupu>
+            <DataWplywu>2023-01-26</DataWplywu>
+            <K_42>12130.00</K_42>
+            <K_43>2789.9</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>103</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5540083357</NrDostawcy>
+            <NazwaDostawcy>PHU UNIBIKE SPÓŁKA JAWNA</NazwaDostawcy>
+            <DowodZakupu>817/01/23</DowodZakupu>
+            <DataZakupu>2023-01-26</DataZakupu>
+            <DataWplywu>2023-01-26</DataWplywu>
+            <K_42>3759.07</K_42>
+            <K_43>864.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>104</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811897358</NrDostawcy>
+            <NazwaDostawcy>LIDL sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>1662/676/260123/01</DowodZakupu>
+            <DataZakupu>2023-01-26</DataZakupu>
+            <DataWplywu>2023-01-26</DataWplywu>
+            <K_42>61.17</K_42>
+            <K_43>14.07</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>105</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6762580648</NrDostawcy>
+            <NazwaDostawcy>JAMICOOP sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>494/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-27</DataZakupu>
+            <DataWplywu>2023-01-27</DataWplywu>
+            <K_42>151.21</K_42>
+            <K_43>34.78</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>106</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822122307</NrDostawcy>
+            <NazwaDostawcy>Shimano Polska Bicycle Parts Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>23003565</DowodZakupu>
+            <DataZakupu>2023-01-27</DataZakupu>
+            <DataWplywu>2023-01-27</DataWplywu>
+            <K_42>855.04</K_42>
+            <K_43>196.66</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>107</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5223004888</NrDostawcy>
+            <NazwaDostawcy>SKI TEAM POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>43/sek/2023/23</DowodZakupu>
+            <DataZakupu>2023-01-27</DataZakupu>
+            <DataWplywu>2023-01-27</DataWplywu>
+            <K_42>2478.13</K_42>
+            <K_43>569.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>108</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5223004888</NrDostawcy>
+            <NazwaDostawcy>SKI TEAM POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>44/sek/2023/23</DowodZakupu>
+            <DataZakupu>2023-01-27</DataZakupu>
+            <DataWplywu>2023-01-27</DataWplywu>
+            <K_42>2590.13</K_42>
+            <K_43>595.73</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>109</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5540083357</NrDostawcy>
+            <NazwaDostawcy>PHU UNIBIKE SPÓŁKA JAWNA</NazwaDostawcy>
+            <DowodZakupu>898/01/23</DowodZakupu>
+            <DataZakupu>2023-01-27</DataZakupu>
+            <DataWplywu>2023-01-27</DataWplywu>
+            <K_42>2637.81</K_42>
+            <K_43>606.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>110</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5540083357</NrDostawcy>
+            <NazwaDostawcy>PHU UNIBIKE SPÓŁKA JAWNA</NazwaDostawcy>
+            <DowodZakupu>886/01/23</DowodZakupu>
+            <DataZakupu>2023-01-27</DataZakupu>
+            <DataWplywu>2023-01-27</DataWplywu>
+            <K_42>1128.68</K_42>
+            <K_43>259.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>111</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6311990396</NrDostawcy>
+            <NazwaDostawcy>VELO SPÓŁKA ZO.O.</NazwaDostawcy>
+            <DowodZakupu>689/23/fv/01</DowodZakupu>
+            <DataZakupu>2023-01-27</DataZakupu>
+            <DataWplywu>2023-01-27</DataWplywu>
+            <K_42>200.42</K_42>
+            <K_43>46.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>112</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1346K2/4102/23</DowodZakupu>
+            <DataZakupu>2023-01-28</DataZakupu>
+            <DataWplywu>2023-01-28</DataWplywu>
+            <K_42>308.98</K_42>
+            <K_43>35.53</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>113</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>I23149B03000208</DowodZakupu>
+            <DataZakupu>2023-01-28</DataZakupu>
+            <DataWplywu>2023-01-28</DataWplywu>
+            <K_42>341.48</K_42>
+            <K_43>39.27</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>114</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>1409385</DowodZakupu>
+            <DataZakupu>2023-01-28</DataZakupu>
+            <DataWplywu>2023-01-28</DataWplywu>
+            <K_42>27.64</K_42>
+            <K_43>3.18</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>115</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>2463980</DowodZakupu>
+            <DataZakupu>2023-01-29</DataZakupu>
+            <DataWplywu>2023-01-29</DataWplywu>
+            <K_42>27.64</K_42>
+            <K_43>3.18</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>116</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511960308</NrDostawcy>
+            <NazwaDostawcy>MOTO-TEST MECHANIKA POJAZDOWA PIOTR GŁAŻEWSKI</NazwaDostawcy>
+            <DowodZakupu>27/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-30</DataZakupu>
+            <DataWplywu>2023-01-30</DataWplywu>
+            <K_42>325.20</K_42>
+            <K_43>37.4</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>117</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2479K1/7407/23</DowodZakupu>
+            <DataZakupu>2023-01-30</DataZakupu>
+            <DataWplywu>2023-01-30</DataWplywu>
+            <K_42>127.66</K_42>
+            <K_43>14.68</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>118</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9720865431</NrDostawcy>
+            <NazwaDostawcy>BP Europa SE Oddział w Polsce</NazwaDostawcy>
+            <DowodZakupu>I23225B03002005</DowodZakupu>
+            <DataZakupu>2023-01-30</DataZakupu>
+            <DataWplywu>2023-01-30</DataWplywu>
+            <K_42>243.93</K_42>
+            <K_43>28.05</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>119</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8133611149</NrDostawcy>
+            <NazwaDostawcy>Centru Rozliczeń Elektronicznych SA</NazwaDostawcy>
+            <DowodZakupu>fw-19344/2023/OBX</DowodZakupu>
+            <DataZakupu>2023-01-31</DataZakupu>
+            <DataWplywu>2023-01-31</DataWplywu>
+            <K_42>60.00</K_42>
+            <K_43>13.8</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>120</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260204110</NrDostawcy>
+            <NazwaDostawcy>DPD Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>BC8577545</DowodZakupu>
+            <DataZakupu>2023-01-31</DataZakupu>
+            <DataWplywu>2023-01-31</DataWplywu>
+            <K_42>298.74</K_42>
+            <K_43>68.71</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>121</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513219009</NrDostawcy>
+            <NazwaDostawcy>GRUPA SIENICCY Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>1307/01/2023</DowodZakupu>
+            <DataZakupu>2023-01-31</DataZakupu>
+            <DataWplywu>2023-01-31</DataWplywu>
+            <K_42>125.97</K_42>
+            <K_43>28.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>122</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1010001102</NrDostawcy>
+            <NazwaDostawcy>FX SPORT sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2023/34</DowodZakupu>
+            <DataZakupu>2023-01-31</DataZakupu>
+            <DataWplywu>2023-01-31</DataWplywu>
+            <K_42>3500.97</K_42>
+            <K_43>805.22</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>123</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252674798</NrDostawcy>
+            <NazwaDostawcy>ALLEGRO.PL sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>98015/pl/n/pln/2023/01</DowodZakupu>
+            <DataZakupu>2023-01-31</DataZakupu>
+            <DataWplywu>2023-01-31</DataWplywu>
+            <K_42>2050.66</K_42>
+            <K_43>471.65</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>124</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6311990396</NrDostawcy>
+            <NazwaDostawcy>VELO SPÓŁKA ZO.O.</NazwaDostawcy>
+            <DowodZakupu>755/23/fv/01</DowodZakupu>
+            <DataZakupu>2023-01-31</DataZakupu>
+            <DataWplywu>2023-01-31</DataWplywu>
+            <K_42>7708.89</K_42>
+            <K_43>1773.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>125</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822122307</NrDostawcy>
+            <NazwaDostawcy>Shimano Polska Bicycle Parts Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>23003898</DowodZakupu>
+            <DataZakupu>2023-01-31</DataZakupu>
+            <DataWplywu>2023-01-31</DataWplywu>
+            <K_42>1622.16</K_42>
+            <K_43>373.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>126</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>812733821</NrDostawcy>
+            <NazwaDostawcy>MAGURA Bosch Parts &amp; Services GmbH &amp; Co. KG</NazwaDostawcy>
+            <DowodZakupu>92653850</DowodZakupu>
+            <DataZakupu>2023-01-03</DataZakupu>
+            <DataWplywu>2023-01-03</DataWplywu>
+            <K_42>6162.01</K_42>
+            <K_43>1417.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>127</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>288845969</NrDostawcy>
+            <NazwaDostawcy>Endura LT</NazwaDostawcy>
+            <DowodZakupu>sin930859</DowodZakupu>
+            <DataZakupu>2023-01-04</DataZakupu>
+            <DataWplywu>2023-01-04</DataWplywu>
+            <K_42>318.60</K_42>
+            <K_43>73.28</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>128</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>257380941</NrDostawcy>
+            <NazwaDostawcy>Lupine lighting systems GmbH</NazwaDostawcy>
+            <DowodZakupu>181537</DowodZakupu>
+            <DataZakupu>2023-01-04</DataZakupu>
+            <DataWplywu>2023-01-04</DataWplywu>
+            <K_42>454.57</K_42>
+            <K_43>104.55</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>129</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>812169929</NrDostawcy>
+            <NazwaDostawcy>Engelbert Wiener Bike Parts GmbH</NazwaDostawcy>
+            <DowodZakupu>2096372770</DowodZakupu>
+            <DataZakupu>2023-01-05</DataZakupu>
+            <DataWplywu>2023-01-05</DataWplywu>
+            <K_42>2150.54</K_42>
+            <K_43>494.62</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>130</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>812169929</NrDostawcy>
+            <NazwaDostawcy>Engelbert Wiener Bike Parts GmbH</NazwaDostawcy>
+            <DowodZakupu>2096372699</DowodZakupu>
+            <DataZakupu>2023-01-05</DataZakupu>
+            <DataWplywu>2023-01-05</DataWplywu>
+            <K_42>1809.17</K_42>
+            <K_43>416.11</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>131</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>812169929</NrDostawcy>
+            <NazwaDostawcy>Engelbert Wiener Bike Parts GmbH</NazwaDostawcy>
+            <DowodZakupu>2096373570</DowodZakupu>
+            <DataZakupu>2023-01-09</DataZakupu>
+            <DataWplywu>2023-01-09</DataWplywu>
+            <K_42>6020.51</K_42>
+            <K_43>1384.72</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>132</LpZakupu>
+            <KodKrajuNadaniaTIN>CZ</KodKrajuNadaniaTIN>
+            <NrDostawcy>26958317</NrDostawcy>
+            <NazwaDostawcy>Aspire sports</NazwaDostawcy>
+            <DowodZakupu>202300798</DowodZakupu>
+            <DataZakupu>2023-01-11</DataZakupu>
+            <DataWplywu>2023-01-11</DataWplywu>
+            <K_42>95.00</K_42>
+            <K_43>21.85</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>133</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>811309641</NrDostawcy>
+            <NazwaDostawcy>BBF GmbH</NazwaDostawcy>
+            <DowodZakupu>1232213835</DowodZakupu>
+            <DataZakupu>2023-01-16</DataZakupu>
+            <DataWplywu>2023-01-16</DataWplywu>
+            <K_42>2829.91</K_42>
+            <K_43>650.88</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>134</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>296070274</NrDostawcy>
+            <NazwaDostawcy>ASSOS of Switzerland GmbH</NazwaDostawcy>
+            <DowodZakupu>INV-FR23000416</DowodZakupu>
+            <DataZakupu>2023-01-16</DataZakupu>
+            <DataWplywu>2023-01-16</DataWplywu>
+            <K_42>21510.06</K_42>
+            <K_43>4947.31</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>135</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>288845969</NrDostawcy>
+            <NazwaDostawcy>Endura LT</NazwaDostawcy>
+            <DowodZakupu>sin932816</DowodZakupu>
+            <DataZakupu>2023-01-17</DataZakupu>
+            <DataWplywu>2023-01-17</DataWplywu>
+            <K_42>360.91</K_42>
+            <K_43>83.01</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>136</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>288845969</NrDostawcy>
+            <NazwaDostawcy>Endura LT</NazwaDostawcy>
+            <DowodZakupu>sin932815</DowodZakupu>
+            <DataZakupu>2023-01-17</DataZakupu>
+            <DataWplywu>2023-01-17</DataWplywu>
+            <K_42>1827.37</K_42>
+            <K_43>420.3</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>137</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>811309641</NrDostawcy>
+            <NazwaDostawcy>BBF GmbH</NazwaDostawcy>
+            <DowodZakupu>1232215338</DowodZakupu>
+            <DataZakupu>2023-01-24</DataZakupu>
+            <DataWplywu>2023-01-24</DataWplywu>
+            <K_42>2031.03</K_42>
+            <K_43>467.14</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>138</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>288845969</NrDostawcy>
+            <NazwaDostawcy>Endura LT</NazwaDostawcy>
+            <DowodZakupu>scr119706</DowodZakupu>
+            <DataZakupu>2023-01-27</DataZakupu>
+            <DataWplywu>2023-01-27</DataWplywu>
+            <K_42>-321.30</K_42>
+            <K_43>-73.9</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>139</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>812169929</NrDostawcy>
+            <NazwaDostawcy>Engelbert Wiener Bike Parts GmbH</NazwaDostawcy>
+            <DowodZakupu>2100244676</DowodZakupu>
+            <DataZakupu>2023-01-30</DataZakupu>
+            <DataWplywu>2023-01-30</DataWplywu>
+            <K_42>-2150.54</K_42>
+            <K_43>-494.62</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>140</LpZakupu>
+            <KodKrajuNadaniaTIN>NL</KodKrajuNadaniaTIN>
+            <NrDostawcy>805734958B01</NrDostawcy>
+            <NazwaDostawcy>Booking.com B.V.</NazwaDostawcy>
+            <DowodZakupu>1586055695</DowodZakupu>
+            <DataZakupu>2023-01-31</DataZakupu>
+            <DataWplywu>2023-02-03</DataWplywu>
+            <K_42>403.80</K_42>
+            <K_43>92.87</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>140</LiczbaWierszyZakupow>
+            <PodatekNaliczony>72741.39</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

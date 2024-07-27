@@ -25,9 +25,9 @@
                 <f:view>
                     <f:event type="preRenderView" listener="#{deklaracjevatView.init()}"/>
                     <pe:layout fullPage="true" >
-                        <ui:include src="sub/layoutVat/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutVat/south.xhtml"/>   <!-- panel poludniowy-->
-                        <ui:include src="sub/layoutVat/west.xhtml"/>   <!-- panel zachodni-->
+                        <ui:include src="sub/layoutZmianapodatnika/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="sub/layoutZmianapodatnika/south.xhtml"/>   <!-- panel poludniowy-->
+                        <ui:include src="sub/layoutZmianapodatnika/west.xhtml"/>   <!-- panel zachodni-->
                         <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
                         <pe:layoutPane position="center">
                             <f:event type="preRenderView" listener="#{podpisView.sprawdzczymozna(WpisView)}"/>

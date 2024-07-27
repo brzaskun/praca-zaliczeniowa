@@ -19,7 +19,7 @@
         <h:outputText value="okres"/>
         <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
                 <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
-                <p:ajax event="change" listener="#{ewidencjaVatView.aktualizujTabeleTabela}" update="formVatZestKsiegowa westWpis:linki @(.form_southpane)"  global="true"/>
+                <p:ajax event="change" listener="#{ewidencjaVatView.aktualizujTabeleTabela}" update="formVatZestKsiegowa westKsiegowa:linki @(.form_southpane)"  global="true"/>
         </p:selectOneMenu>
         </p:panelGrid>
     <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}" rendered="#{!WpisView.ksiegirachunkowe}"/>
@@ -28,7 +28,7 @@
     <h:outputText value="Rozliczenia vat są miesięczne. Zebrano dane z miesiąca." rendered="#{WpisView.vatokres eq 1}"/>
     <h:outputText value="Rozliczenia vat są kwartalne. Zebrano dane z całego kwartału." rendered="#{WpisView.vatokres eq 2}"/>
     <p:tabView id="akordeon">
-        <p:tab id="ewid1" title="ewidencje">
+        <p:tab id="ewid1" title="VAT ewidencje">
             <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >
                 <p:tab title="#{item[0].nazwaewidencji.nazwa}">
                     <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}"  action="#{sesjaView.dodajwydruk()}"

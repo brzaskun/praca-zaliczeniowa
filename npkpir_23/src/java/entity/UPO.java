@@ -64,9 +64,6 @@ public class UPO  implements Serializable {
     @Lob
     @Column (name = "potwierdzenie")
     private Potwierdzenie potwierdzenie;
-    @Lob
-    @Column (name = "jpk")
-    private JPKSuper jpk;
     @JoinColumn(name = "jpkblob", referencedColumnName = "id")
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Jpkblob jpkblob;
@@ -102,7 +99,6 @@ public class UPO  implements Serializable {
     
     public UPO(WpisView wpisView, JPK jpk) {
         this.jpkblob = new Jpkblob(jpk,this);
-        this.jpk = jpk;
         this.podatnik = wpisView.getPodatnikObiekt();
         this.miesiac = wpisView.getMiesiacWpisu();
         this.rok = wpisView.getRokWpisuSt();
@@ -222,7 +218,6 @@ public class UPO  implements Serializable {
     public void uzupelnij(Podatnik podatnik, WpisView wpisView, JPKSuper jpk) {
         try {
             this.jpkblob = new Jpkblob(jpk,this);
-            this.jpk = jpk;
             this.podatnik = podatnik;
             this.miesiac = wpisView.getMiesiacWpisu();
             this.rok = wpisView.getRokWpisuSt();

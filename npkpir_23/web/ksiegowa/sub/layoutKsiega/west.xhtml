@@ -53,11 +53,11 @@
                     </p:menu>
                    <p:menu rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
                         <p:menuitem global="false" value="PIT"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem global="false" value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westKsiegowa" rendered="#{WpisView.vatowiecPlde}">
-                            
-                            
-                            
-                        </p:menuitem>
+<!--                    <p:menuitem global="false" value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westWpis" rendered="#{WpisView.vatowiecPlde}"/>-->
+                        <p:menuitem global="false" value="VAT ewidencje" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westWpis" rendered="#{WpisView.vatowiecPlde}"/>
+                        <p:menuitem global="false" value="JPK VAT"  outcome="vatjpk" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
+                        <p:menuitem global="false" value="VAT-UE"  outcome="vatue" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
+
                         <p:menuitem global="false" value="zamknięcie miesiąca"  outcome="zamkniecie" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>
                     <p:menu>
