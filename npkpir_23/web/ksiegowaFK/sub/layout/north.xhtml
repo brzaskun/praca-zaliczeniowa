@@ -36,6 +36,8 @@
                 <p:menuitem  value=" | " />
                 <p:menuitem id="menuopis" value="#{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" style="font-weight: 900; font-size: large;">
                 </p:menuitem>
+                <p:menuitem icon="fa fa-toggle-off" value="test" outcome="stronatestowa"  rendered="#{WpisView.uzer.login eq '4'}"/>
+                <p:menuitem  value=" | " />
                 <p:menuitem>
                     <p:commandButton styleClass="languagebutton" value="pl" actionListener="#{localeChanger.polishAction}"  update="@(form)"/>
                     <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}" update="@(form)"/>

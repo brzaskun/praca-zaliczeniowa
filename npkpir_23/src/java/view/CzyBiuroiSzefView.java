@@ -10,10 +10,10 @@ import data.Data;
 import entity.Faktura;
 import entity.Podatnik;
 import error.E;
-import jakarta.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,7 +23,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class CzyBiuroiSzefView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -36,7 +36,7 @@ public class CzyBiuroiSzefView implements Serializable {
     private Podatnik taxman;
 
     public boolean isBiuroiszef() {
-        return biuroiszef;
+        return true;
     }
 
     @PostConstruct
