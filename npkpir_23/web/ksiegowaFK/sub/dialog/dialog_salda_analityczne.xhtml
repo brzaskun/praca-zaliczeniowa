@@ -45,15 +45,14 @@
                                 </p:selectOneMenu>
                             </p:column>-->
                 <p:column>
-                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="formtablicaanalityczne tablicasaldaanalityczne tabelazsumamianalityka:sumy"/>
-                        <f:selectItems value="#{mce.mceList}"/>
-                    </p:selectOneMenu>
-
-                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 40px;">
-                    <f:selectItems value="#{roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="formtablicaanalityczne tablicasaldaanalityczne tabelazsumamianalityka:sumy"/>
-                </p:selectOneMenu>
+                    <p:panelGrid columns="2" style="float: right;">
+                        <p:column>
+                            <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
+                                <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+                                <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="formtablicaanalityczne tablicasaldaanalityczne tabelazsumamianalityka:sumy @(.form_southpane)  menubarnorth"  global="true"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:panelGrid>
                 </p:column>
                 <p:column>
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="formtablicaanalityczne tabelazsumamianalityka:sumy"/>

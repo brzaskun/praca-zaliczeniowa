@@ -31,8 +31,8 @@
                 <p:column>
                     <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
                         <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
-                        <p:ajax event="change" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty(WpisView.getPodatnikObiekt())}" update="form @(.form_southpane)"  global="true"/>
-                        <p:ajax event="change" listener="#{kontaVatFKView.init()}" update="form @(.form_southpane)"  global="true"/>
+                        <p:ajax event="change" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty(WpisView.getPodatnikObiekt())}" update="form @(.form_southpane)  menubarnorth"  global="true"/>
+                        <p:ajax event="change" listener="#{kontaVatFKView.init()}" update="form @(.form_southpane)  menubarnorth"  global="true"/>
                     </p:selectOneMenu>
                 </p:column>
             </p:panelGrid>

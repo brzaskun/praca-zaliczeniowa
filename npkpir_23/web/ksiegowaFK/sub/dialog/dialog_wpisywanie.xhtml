@@ -120,7 +120,7 @@
                 <p:column>
                     <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
                         <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
-                        <p:ajax event="change" listener="#{dokfkView.resetujDokumentOpen}" update="formwpisdokument @(.form_southpane)"  global="true"/>
+                        <p:ajax event="change" listener="#{dokfkView.resetujDokumentOpen}" update="formwpisdokument @(.form_southpane)  menubarnorth"  global="true"/>
                     </p:selectOneMenu>
                 </p:column>
             </p:panelGrid>
