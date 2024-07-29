@@ -11,6 +11,7 @@ import beansFK.PlanKontFKBean;
 import beansFK.RozliczTransakcjeBean;
 import beansFK.UkladBRBean;
 import comparator.Kontocomparator;
+import comparator.StronaWierszacomparator;
 import dao.CechazapisuDAOfk;
 import dao.DokDAOfk;
 import dao.KlienciDAO;
@@ -304,6 +305,7 @@ public class KontoZapisFKView implements Serializable{
                 }
                 //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
                 Msg.msg("Pobrano zapisy dla konta "+wybraneKontoNode.getPelnynumer());
+                Collections.sort(kontozapisy, new StronaWierszacomparator());
             }
         } catch (Exception e) {
             E.e(e);

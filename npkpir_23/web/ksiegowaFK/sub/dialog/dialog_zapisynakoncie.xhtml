@@ -33,10 +33,10 @@
         }
     </style>
     <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisynakoncie" appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',2000,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
+              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',2000,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).focus();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true" 
               >
-        <p:ajax event="open" listener="#{kontoZapisFKView.init()}" update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta walutazapisynakoncie formwpiskontarok"/>
+        <p:ajax event="open" listener="#{kontoZapisFKView.init()}" onsuccess="$(document.getElementById('formwpiskonta:wyborkonta_input')).focus();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();" update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta walutazapisynakoncie formwpiskontarok"/>
         <pe:layout fullPage="false" style="height: 720px;width: 820px;" >  
             <pe:layoutPane position="north">
                 <p:panelGrid columns="4" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
@@ -267,7 +267,7 @@
                         <p:column style="height: 19px; text-align: center;" width="20"  rendered="#{kontoZapisFKView.pokaztransakcje eq true}">
                             <p:rowToggler rendered="#{loop.platnosci.size() gt 0 or loop.nowetransakcje.size() gt 0}"/>
                         </p:column>
-                        <p:column headerText="dt" width="40" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
+                        <p:column headerText="dt" width="40" style="text-align: center;" sortBy="#{loop}"  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" sortable="true" sortPriority="1">
                             <h:outputText value="#{loop.wiersz.dokfk.datadokumentu}"/>
                         </p:column>
                         <p:column headerText="dok." width="50" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.seriadokfk}" filterBy="#{loop.dokfkS}" filterMatchMode="contains">
