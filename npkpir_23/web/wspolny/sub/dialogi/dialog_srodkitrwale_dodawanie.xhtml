@@ -102,26 +102,16 @@
                         </h:selectOneMenu>
                     </p:column>
                 </p:panelGrid>
-                <p:panelGrid style="padding: 5px; margin-left: 5px;" rendered="#{WpisView.ksiegirachunkowe eq true}">
-                <f:facet name="header">
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="konto środka"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="konto umorzeń"/>
-                        </p:column>
-                    </p:row>
-                </f:facet>
-
-                <p:column>
+                <p:panelGrid style="padding: 5px; margin-left: 5px;" rendered="#{WpisView.ksiegirachunkowe eq true}" columns="2">
+        
+                    <p:column headerText="konto środka">
                     <p:selectOneMenu value="#{sTRTabView.kontonetto}" style="width: 350px;"  converter="#{kontoConv}" required="true"
                                      requiredMessage="wybierz konto środka  ">
                         <f:selectItem itemLabel="wybierz konto środka" itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:column>
+                    <p:column headerText="konto umorzeń">
                     <p:selectOneMenu value="#{sTRTabView.kontoumorzenie}" style="width: 350px;"  converter="#{kontoConv}"  required="true"
                                      requiredMessage="wybierz konto umorzeń">
                         <f:selectItem itemLabel="wybierz konto umorzeń" itemValue="" noSelectionOption="true"/>

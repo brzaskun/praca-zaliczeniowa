@@ -157,7 +157,8 @@
         </p:tab>
         <p:tab title="wysłane maile">
             <h:form id="formmaile">
-                <p:dataTable lazy="false"  id="wyslenemaile" value="#{adminMailView.wyslanemaile}" var="loop" rowIndexVar="index" style="width: 1400px;" sortBy="#{loop.id}">
+                <p:dataTable lazy="false"  id="wyslenemaile" value="#{adminMailView.wyslanemaile}" var="loop" rowIndexVar="index" 
+                             style="width: 1400px;" sortBy="#{loop.id}" rowKey="#{loop.id}">
                 <p:ajax event="rowToggle" global="false" />
                 <p:column style="height: 19px; text-align: center;" width="20">
                     <p:rowToggler />
