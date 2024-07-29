@@ -180,15 +180,15 @@
                 <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dataWyst}"  style="width: 50px; min-width: 70px;">  
                     <h:outputText value="#{wpis.dataWyst.substring(2)}"/>
                 </p:column>
-                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" width="220"
-                          filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
+                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.nazwabezCudzy}" width="220"
+                          filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.kontr.nazwabezCudzy}">  
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 200px;" autoWidth="false" filter="true" filterMatchMode="contains">
                             <f:selectItem itemLabel="kontrahent" itemValue="#{null}" />
                             <f:selectItems value="#{DokTabView.kontrahentypodatnika}" />
                         </p:selectOneMenu>
                     </f:facet>
-                    <h:outputText style="font-weight: bold;" value="#{wpis.kontr.npelna}"  />
+                    <h:outputText style="font-weight: bold;" value="#{wpis.kontr.nazwabezCudzy}"  />
                     <h:outputText value=" #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}"  rendered="#{!(wpis.kontr.nip eq '0000000000')}"/>
                     <h:outputText value=" #{wpis.kontr.miejscowosc}"  rendered="#{wpis.kontr.nip eq '0000000000'}"/>
                 </p:column>
