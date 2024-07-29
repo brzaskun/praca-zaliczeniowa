@@ -34,7 +34,7 @@
         </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel style="padding: 10px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}">
-        <p:dataTable lazy="false"  value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 1100px" rowIndexVar="indx">
+        <p:dataTable lazy="false"  value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 1150px" rowIndexVar="indx" rowKey="#{it.login}">
              <p:column style="height: 19px; text-align: center;" width="20">
                     <p:rowToggler rendered="#{it.przyporzadkowanipodatnicy.size() gt 0 }"/>
             </p:column>
@@ -76,7 +76,7 @@
                 <bcf:outputpl value="#{it.wynagrodzenieprocentowe}"/>
             </p:column>
             <p:rowExpansion>
-                <p:dataTable lazy="false"  value="#{it.przyporzadkowanipodatnicy}" var="ita" style="width: 650px" rowIndexVar="indxa">
+                <p:dataTable lazy="false"  value="#{it.przyporzadkowanipodatnicy}" var="ita" style="width: 800px" rowIndexVar="indxa">
                     <p:column width="20">
                         <h:outputText value="#{indxa+1}"/>
                     </p:column>

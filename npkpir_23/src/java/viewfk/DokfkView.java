@@ -3829,35 +3829,35 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Wystapił błąd poczad usuwania wszystkich dokumentów. Spróbuj usunąć je pojedynczo");
         }
     }
-
-public void oznaczjakonkup() {
-    List<Cechazapisu> cechazapisuLista = selectedStronaWiersza.getCechazapisuLista();
-    if (cechazapisuLista==null) {
-        selectedStronaWiersza.setCechazapisuLista(new ArrayList<Cechazapisu>());
-    }
-    Cechazapisu p = null;
-    for (Iterator<Cechazapisu> it=selectedStronaWiersza.getCechazapisuLista().iterator();it.hasNext();) {
-        Cechazapisu cz = it.next();
-        if (cz.getNazwacechy().equals("NKUP")) {
-            p = cz;
-            it.remove();
-            break;
-        }
-    }
-    if (p==null) {
-        for (Cechazapisu r : pobranecechypodatnik) {
-            if (r.getNazwacechy().equals("NKUP")) {
-                p = r;
-                selectedStronaWiersza.getCechazapisuLista().add(p);
-                break;
-            }
-        }
-    }
-    
-    String update = "formwpisdokument:dataList";
-    PrimeFaces.current().ajax().update(update);
-    error.E.s("");
-}
+//dwa razy takiie samorozwiazanie
+//public void oznaczjakonkup() {
+//    List<Cechazapisu> cechazapisuLista = selectedStronaWiersza.getCechazapisuLista();
+//    if (cechazapisuLista==null) {
+//        selectedStronaWiersza.setCechazapisuLista(new ArrayList<Cechazapisu>());
+//    }
+//    Cechazapisu p = null;
+//    for (Iterator<Cechazapisu> it=selectedStronaWiersza.getCechazapisuLista().iterator();it.hasNext();) {
+//        Cechazapisu cz = it.next();
+//        if (cz.getNazwacechy().equals("NKUP")) {
+//            p = cz;
+//            it.remove();
+//            break;
+//        }
+//    }
+//    if (p==null) {
+//        for (Cechazapisu r : pobranecechypodatnik) {
+//            if (r.getNazwacechy().equals("NKUP")) {
+//                p = r;
+//                selectedStronaWiersza.getCechazapisuLista().add(p);
+//                break;
+//            }
+//        }
+//    }
+//    
+//    String update = "formwpisdokument:dataList";
+//    PrimeFaces.current().ajax().update(update);
+//    error.E.s("");
+//}
     
     
     public void usunspecjalne() {
