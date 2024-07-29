@@ -146,7 +146,7 @@
         <p:hotkey bind="down"  onstart="przejdzwiersz();" global="false"/>
         <p:hotkey bind="up"   onstart="wrocwiersz();" global="false"/>
         
-        <p:outputPanel id="kontenertabeli"  rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
+        <p:outputPanel id="kontenertabeli"  rendered="#{WpisView.biuroiszef eq true}">
             <p:dataTable lazy="false"   var="wpis" value="#{DokTabView.dokumentylista}" id="dokumentyLista"  filteredValue="#{DokTabView.dokumentyFiltered}" 
                           rowIndexVar="index" 
                           style="width: 1650px; margin-top: 10px; height: 900px; overflow-y: scroll" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" 

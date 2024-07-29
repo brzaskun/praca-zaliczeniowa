@@ -25,11 +25,11 @@
                         <p:menuitem global="false" value="info podatnik"  outcome="info" icon="ui-icon-circle-arrow-e" />
                         <p:menuitem global="false" value="parametry" outcome="parampodatnika" icon="ui-icon-circle-arrow-e" />
                     </p:menu>
-                    <p:menu  rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
+                    <p:menu  rendered="#{WpisView.biuroiszef eq true}">
                         <p:menuitem global="false" value="wpisywanie" rendered="#{!zamkniecieView.moznaksiegowac}"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
                         <p:menuitem global="false" value="płatności" rendered="#{!zamkniecieView.moznaksiegowac}"  outcome="ksiegowawaluty"  icon="ui-icon-circle-arrow-e" />
                     </p:menu>
-                    <p:menu rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
+                    <p:menu rendered="#{WpisView.biuroiszef eq true}">
                         <p:menuitem global="false" value="wykaz dokumentów"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem global="false" value="podatkowa ksiega"  outcome="ksiega" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ksiegaryczalt == true}"/>                         <p:menuitem global="false" value="ewid. przychodów"  outcome="ewidencjaprzychodow" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ksiegaryczalt == false}"/>
                         <!--                    <p:menuitem global="false" value="faktury miesieczne"  outcome="fakturymiesieczne" icon="ui-icon-circle-arrow-e"/> 
@@ -47,7 +47,7 @@
                <p:menu>
                         <p:menuitem global="false" value="niemcy"  outcome="niemcy" icon="ui-icon-circle-arrow-e"/>  
                     </p:menu>
-                    <p:menu rendered="#{czyBiuroiSzefView.biuroiszef eq true}">
+                    <p:menu rendered="#{WpisView.biuroiszef eq true}">
                         <p:menuitem global="false" value="PIT"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>
 <!--                    <p:menuitem global="false" value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westWpis" rendered="#{WpisView.vatowiecPlde}"/>-->
                         <p:menuitem global="false" value="VAT ewidencje" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westWpis" rendered="#{WpisView.vatowiecPlde}"/>
@@ -58,8 +58,8 @@
                     </p:menu>
                     <p:menu>
                         <p:menuitem global="false" value="faktury - panel"  outcome="faktura" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem global="false" value="faktury - ustawienia"  outcome="fakturaustawienia" icon="ui-icon-circle-arrow-e" rendered="#{czyBiuroiSzefView.biuroiszef eq true}"/>
-                        <p:menuitem global="false" value="faktury - rozrach"  outcome="fakturarozrachunki"   icon="ui-icon-circle-arrow-e" rendered="#{czyBiuroiSzefView.biuroiszef eq true}"/><p:menuitem global="false" value="faktury - kadry"  outcome="fakturakadry"   icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem global="false" value="faktury - ustawienia"  outcome="fakturaustawienia" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.biuroiszef eq true}"/>
+                        <p:menuitem global="false" value="faktury - rozrach"  outcome="fakturarozrachunki"   icon="ui-icon-circle-arrow-e" rendered="#{WpisView.biuroiszef eq true}"/><p:menuitem global="false" value="faktury - kadry"  outcome="fakturakadry"   icon="ui-icon-circle-arrow-e"/>
                     </p:menu>
                <p:menu>
                     <p:menuitem global="false" value="napisz do admina"  outcome="pismoadmin" icon="ui-icon-circle-arrow-e"/>
