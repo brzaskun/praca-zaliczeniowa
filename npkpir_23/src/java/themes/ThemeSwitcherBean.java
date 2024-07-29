@@ -38,7 +38,7 @@ public class ThemeSwitcherBean implements Serializable {
     }
 
     public void setTheme(String theme) {
-        this.theme = theme;
+        this.theme = "redmond";
     }
 
     @PostConstruct
