@@ -21,7 +21,7 @@
                 <p:column >
                     <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 572px;" scrollHeight="300" converter="#{podatConv}" filter="true" filterMatchMode="contains">
                         <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
-                        <p:ajax event="change" partialSubmit="true" global="false"/>
+<!--                        <p:ajax event="change" partialSubmit="true" global="false"/>-->
                     </p:selectOneListbox>
                 </p:column>
             </p:panelGrid>

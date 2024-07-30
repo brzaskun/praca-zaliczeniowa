@@ -76,7 +76,7 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid id="paneledycji2" columns="7" 
+                <p:panelGrid id="paneledycji2"
                              style="#{dokfkView.aktualnyWierszDlaRozrachunkow.getSymbolWalutBOiSW() ne 'PLN' ? 'width: 1050px;' :  'width: 750px;'}; height: 40px;" >
                     <f:facet name="header">
                         <p:row>
@@ -104,7 +104,7 @@
                             </p:column>
                         </p:row>
                     </f:facet>
-
+                    <p:row>
                     <p:column style="text-align: right;width: 120px;">
                         <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotaR}" id="dorozliczenia" style="font-weight: bold;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -143,6 +143,7 @@
                         <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.nrtabeli} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.datatabeli}" 
                                       style="float: left; font-weight: bold; color : #{dokfkView.aktualnyWierszDlaRozrachunkow.getSymbolWalutBOiSW() eq 'PLN' ? 'white' : 'black'}"/>
                     </p:column>
+                        </p:row>
                 </p:panelGrid>
                 <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza == 0}" >
                     <h:outputText value="Nowa transakcja czy nowa płatność"/>
