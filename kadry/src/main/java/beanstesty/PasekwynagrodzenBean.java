@@ -1336,7 +1336,7 @@ public class PasekwynagrodzenBean {
 //        double bezzus = pasek.getBruttobezzus();
 //        double bezspolecznych = pasek.getBruttobezspolecznych();
         //to ma znaczenie przy oddelegowaniu i oddelegowaniu plus 26
-        double skladki = pasek.getSpoleczneudzialpolska()>0.0?pasek.getSpoleczneudzialpolska():pasek.getRazemspolecznepracownik();
+        double skladki = pasek.getSpoleczneudzialpolska();
         //zapisek dla kierowcow 27.10.23
         Skladnikwynagrodzenia skladnikZUS51 = pasek.getSkladnikZUS51();
         if (skladnikZUS51!=null) {
