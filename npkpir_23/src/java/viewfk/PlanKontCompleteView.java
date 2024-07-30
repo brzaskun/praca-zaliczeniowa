@@ -16,6 +16,7 @@ import entityfk.KontopozycjaZapis;
 import entityfk.MiejscePrzychodow;
 import entityfk.UkladBR;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +33,6 @@ import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import msg.Msg;
 import view.WpisView;
-import interceptor.ConstructorInterceptor;
 /**
  *
  * @author Osito
@@ -139,11 +139,14 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
                 }
                 if (kontomacierzyste!=null){
                     p.setPelnynumer(kontomacierzyste.getPelnynumer()+"-"+nrkonta);
+                    p.setId(-1);
                     results.add(p);
                     p = new Konto();
+                    p.setId(-2);
                     p.setNazwapelna("dodaj kontrahenta");
                     p.setPelnynumer(kontomacierzyste.getPelnynumer()+"-"+nrkonta);
                     results.add(p);
+                    p.setId(-3);
                     p = new Konto();
                     p.setNazwapelna("dodaj el.słownika");
                     p.setPelnynumer(kontomacierzyste.getPelnynumer()+"-"+nrkonta);
