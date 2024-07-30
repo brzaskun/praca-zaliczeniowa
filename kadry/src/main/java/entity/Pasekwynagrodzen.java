@@ -312,6 +312,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double przychodypodatekzagranica;
     @Column(name = "przychodyzus51")
     private double przychodyzus51;
+    @Column(name = "przychodyzus51Polska")
+    private double przychodyzus51Polska;
     @Column(name = "przychodyzus52")
     private double przychodyzus52;
     @Column(name="przekroczenie26lat")
@@ -508,6 +510,7 @@ public class Pasekwynagrodzen implements Serializable {
         this.przychodypodatekpolska = Z.z(this.przychodypodatekpolska)+p.getPrzychodypodatekpolska();
         this.przychodypodatekzagranica  = Z.z(this.przychodypodatekzagranica)+p.getPrzychodypodatekzagranica();
         this.przychodyzus51 = Z.z(this.przychodyzus51+p.getPrzychodyzus51());
+        this.przychodyzus51Polska = Z.z(this.przychodyzus51Polska+p.getPrzychodyzus51Polska());
         this.przychodyzus52 = Z.z(this.przychodyzus51+p.getPrzychodyzus52());
         this.spoleczneudzialpolska = Z.z(this.spoleczneudzialpolska+p.getSpoleczneudzialpolska());
         this.spoleczneudzialoddelegowanie = Z.z(this.spoleczneudzialoddelegowanie+p.getSpoleczneudzialoddelegowanie());
@@ -708,6 +711,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public double getPrzychodyzus51Polska() {
+        return przychodyzus51Polska;
+    }
+
+    public void setPrzychodyzus51Polska(double przychodyzus51Polska) {
+        this.przychodyzus51Polska = przychodyzus51Polska;
     }
 
     public double getPodstawaopodatkowaniazagranicawaluta() {
@@ -2122,6 +2133,7 @@ public class Pasekwynagrodzen implements Serializable {
          this.oddelegowaniepln = sumujprzychodyzlisty.getBruttooddelegowanie();
          this.oddelegowaniewaluta = sumujprzychodyzlisty.getBruttooddelegowaniewaluta();
          this.przychodyzus51 = sumujprzychodyzlisty.getPrzychodyzus51();
+         this.przychodyzus51Polska = sumujprzychodyzlisty.getPrzychodyzus51Polska();
          this.przychodyzus52 = sumujprzychodyzlisty.getPrzychodyzus52();
          this.brutto = sumujprzychodyzlisty.getBrutto();
     }

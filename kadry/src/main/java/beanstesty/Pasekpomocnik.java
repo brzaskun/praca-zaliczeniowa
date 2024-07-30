@@ -14,6 +14,7 @@ public class Pasekpomocnik {
     double bruttooddelegowaniewaluta;
     double bezzusbezpodatek;
     double przychodyzus51;
+    double przychodyzus51Polska;
     double przychodyzus51emerytalna;
     double przychodyzus51rentowa;
     double przychodyzus51chorobowa;
@@ -60,6 +61,14 @@ public class Pasekpomocnik {
 
     public void setPrzychodyzus51(double przychodyzus51) {
         this.przychodyzus51 = przychodyzus51;
+    }
+
+    public double getPrzychodyzus51Polska() {
+        return przychodyzus51Polska;
+    }
+
+    public void setPrzychodyzus51Polska(double przychodyzus51Polska) {
+        this.przychodyzus51Polska = przychodyzus51Polska;
     }
 
     public double getBrutto() {

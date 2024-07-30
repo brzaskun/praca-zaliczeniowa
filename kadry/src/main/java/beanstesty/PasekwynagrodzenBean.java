@@ -716,6 +716,7 @@ public class PasekwynagrodzenBean {
         double bruttooddelegowaniewaluta = 0.0;
         double bezzusbezpodatek = 0.0;
         double przychodyzus51 = 0.0;
+        double przychodyzus51Polska = 0.0;
         double przychodyzus51emerytalna = 0.0;
         double przychodyzus51rentowa = 0.0;
         double przychodyzus51chorobowa = 0.0;
@@ -725,6 +726,12 @@ public class PasekwynagrodzenBean {
             for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
                 //to nie ma sensu, gdyz skladnik40 zlecenie jako taki jest oznacozny jako ozusowany
     //            if (p.isZus0bezzus1() == false && p.isPodatek0bezpodatek1() == false) {
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkaemerytalna()&&p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isOddelegowanie()==false) {
+                    przychodyzus51Polska = przychodyzus51Polska + p.getKwotadolistyplac();
+                }
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkaemerytalna()) {
+                        przychodyzus51 = przychodyzus51 + p.getKwotadolistyplac();
+                }
                 if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkaemerytalna()) {
                         przychodyzus51emerytalna = przychodyzus51emerytalna + p.getKwotadolistyplac();
                 }
@@ -798,12 +805,13 @@ public class PasekwynagrodzenBean {
                 brutto = brutto+p.getKwota();
             }
         }
-        przychodyzus51 = przychodyzus51emerytalna;
+
         //double skladnikppk = KalendarzmiesiacBean.naliczskladnikiPPKDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny);
         zwrot.setBruttokraj(Z.z(bruttokraj));
         zwrot.setBruttooddelegowanie(Z.z(bruttooddelegowanie));
         zwrot.setBruttooddelegowaniewaluta(Z.z(bruttooddelegowaniewaluta));
         zwrot.setPrzychodyzus51(Z.z(przychodyzus51));
+        zwrot.setPrzychodyzus51Polska(Z.z(przychodyzus51Polska));
         zwrot.setPrzychodyzus52(Z.z(przychodyzus52));
         zwrot.setBrutto(Z.z(brutto));
         zwrot.setBezzusbezpodatek(Z.z(bezzusbezpodatek));
@@ -822,6 +830,7 @@ public class PasekwynagrodzenBean {
             przychodyBiezacyMiesiacPolska = sumyprzychodow.getBruttokraj();
             przychodyBiezacyMiesiacZagranica = sumyprzychodow.getBruttooddelegowanie();
         }
+        pasek.setPrzychodyzus51Polska(sumyprzychodow.przychodyzus51Polska);
         pasek.setPrzychodyzus51(sumyprzychodow.przychodyzus51);
         pasek.setPrzychodyzus52(sumyprzychodow.przychodyzus52);
         pasek.setBruttobezzusbezpodatek(sumyprzychodow.bezzusbezpodatek);
@@ -864,6 +873,7 @@ public class PasekwynagrodzenBean {
             przychodyBiezacyMiesiacPolska = sumyprzychodow.getBruttokraj();
             przychodyBiezacyMiesiacZagranica = sumyprzychodow.getBruttooddelegowanie();
         }
+        pasek.setPrzychodyzus51Polska(sumyprzychodow.przychodyzus51Polska);
         pasek.setPrzychodyzus51(sumyprzychodow.przychodyzus51);
         pasek.setPrzychodyzus52(sumyprzychodow.przychodyzus52);
         pasek.setPodstawaskladkizusemerytalna(sumyprzychodow.przychodyzus51emerytalna);
@@ -885,6 +895,7 @@ public class PasekwynagrodzenBean {
             przychodyBiezacyMiesiacPolska = sumyprzychodow.getBruttokraj();
             przychodyBiezacyMiesiacZagranica = sumyprzychodow.getBruttooddelegowanie();
         }
+        pasek.setPrzychodyzus51Polska(sumyprzychodow.przychodyzus51Polska);
         pasek.setPrzychodyzus51(sumyprzychodow.getPrzychodyzus51());
         pasek.setPrzychodyzus52(sumyprzychodow.getPrzychodyzus52());
         pasek.setPrzychodypodatekpolska(przychodyBiezacyMiesiacPolska);
@@ -1249,10 +1260,8 @@ public class PasekwynagrodzenBean {
         double spolecznepracownik = Z.z(pasek.getPracemerytalne() + pasek.getPracrentowe() + pasek.getPracchorobowe());
         pasek.setRazemspolecznepracownik(Z.z(spolecznepracownik));
         pasek.setSpoleczneudzialpolska(Z.z(spolecznepracownik));
-        if (pasek.getPrzychodypodatekpolska()>0.0&&pasek.getPodstawaskladkizus()>0.0) {
-            double czescpolskapodstawy = Z.z(pasek.getPodstawaskladkizus()-pasek.getPrzychodypodatekzagranica());
-            if (czescpolskapodstawy>0.0) {
-                double proporcjaprzychodow = pasek.getPrzychodypodatekpolska()/czescpolskapodstawy;
+         if (pasek.getPrzychodypodatekpolska()>0.0&&pasek.getPodstawaskladkizus()>0.0) {
+            double proporcjaprzychodow = pasek.getPrzychodyzus51Polska()/pasek.getPodstawaskladkizus();
                 //to musi byc bo jest przeciez ograniczenie wysokosci skladki zus
                 if (proporcjaprzychodow>1.0) {
                     proporcjaprzychodow = 1.0;
@@ -1260,13 +1269,8 @@ public class PasekwynagrodzenBean {
                 double zusproporcjonalnie = spolecznepracownik*proporcjaprzychodow;
                 pasek.setSpoleczneudzialpolska(zusproporcjonalnie);
                 pasek.setSpoleczneudzialoddelegowanie(spolecznepracownik-zusproporcjonalnie);
-            } else {
-                double zusproporcjonalnie = 0.0;
-                pasek.setSpoleczneudzialpolska(zusproporcjonalnie);
-                pasek.setSpoleczneudzialoddelegowanie(spolecznepracownik-zusproporcjonalnie);
             }
         }
-    }
     
     public static void razemspolecznepracownikkorektalp(Pasekwynagrodzen pasek) {
         pasek.setRazemspolecznepracownik(Z.z(pasek.getPracemerytalne() + pasek.getPracrentowe() + pasek.getPracchorobowe()));
