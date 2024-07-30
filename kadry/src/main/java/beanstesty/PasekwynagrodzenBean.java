@@ -792,6 +792,9 @@ public class PasekwynagrodzenBean {
                     bruttokraj = bruttokraj + p.getKwota();
                 }
                 if (p.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy()==false) {
+                    if (p.getNieobecnosc().getRodzajnieobecnosci().getKodzbiorczy().equals("UD")==false) {
+                        przychodyzus51Polska = przychodyzus51Polska + p.getKwotazus();
+                    }
                     przychodyzus51 = przychodyzus51+p.getKwotazus();
                     przychodyzus51emerytalna = przychodyzus51emerytalna + p.getKwotazus();
                     przychodyzus51rentowa = przychodyzus51rentowa + p.getKwotazus();
