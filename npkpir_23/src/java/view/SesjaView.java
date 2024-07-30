@@ -4,12 +4,14 @@
  */
 package view;
 
+import comparator.Sesjacomparator;
 import dao.SesjaDAO;
 import entity.Sesja;
 import error.E;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -57,6 +59,9 @@ public class SesjaView implements Serializable {
                     }
                 }
             }
+            if (wykazsesjiZalogowani!=null) {
+                Collections.sort(wykazsesjiZalogowani, new Sesjacomparator());
+            }
         } catch (Exception e) { 
             E.e(e); 
         }
@@ -83,6 +88,7 @@ public class SesjaView implements Serializable {
                     it.remove();
                 }
             }
+            Collections.sort(wykazsesji, new Sesjacomparator());
         } catch (Exception e) { 
             E.e(e); 
         }
