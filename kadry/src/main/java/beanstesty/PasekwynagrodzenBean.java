@@ -1265,7 +1265,7 @@ public class PasekwynagrodzenBean {
         pasek.setSpoleczneudzialpolska(Z.z(spolecznepracownik));
          if (pasek.getPrzychodypodatekpolska()>0.0&&pasek.getPodstawaskladkizus()>0.0) {
              double mnoznik = .1371;
-            if (pasek.getPracchorobowe()==0.0&&pasek.getPracchoroboweOddelegowanieEuro()>0.0) {
+            if (pasek.getPracchorobowe()==0.0) {
                 mnoznik = .1126;
             }
             double zusproporcjonalnie = pasek.getPrzychodyzus51Polska()*mnoznik<=pasek.getPodstawaskladkizus()?pasek.getPrzychodyzus51Polska()*mnoznik:pasek.getPodstawaskladkizus();
