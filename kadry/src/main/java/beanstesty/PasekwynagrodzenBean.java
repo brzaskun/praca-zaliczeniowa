@@ -1250,14 +1250,21 @@ public class PasekwynagrodzenBean {
         pasek.setRazemspolecznepracownik(Z.z(spolecznepracownik));
         pasek.setSpoleczneudzialpolska(Z.z(spolecznepracownik));
         if (pasek.getPrzychodypodatekpolska()>0.0&&pasek.getPodstawaskladkizus()>0.0) {
-            double proporcjaprzychodow = pasek.getPrzychodypodatekpolska()/pasek.getPodstawaskladkizus();
-            //to musi byc bo jest przeciez ograniczenie wysokosci skladki zus
-            if (proporcjaprzychodow>1.0) {
-                proporcjaprzychodow = 1.0;
+            double czescpolskapodstawy = Z.z(pasek.getPodstawaskladkizus()-pasek.getPrzychodypodatekzagranica());
+            if (czescpolskapodstawy>0.0) {
+                double proporcjaprzychodow = pasek.getPrzychodypodatekpolska()/czescpolskapodstawy;
+                //to musi byc bo jest przeciez ograniczenie wysokosci skladki zus
+                if (proporcjaprzychodow>1.0) {
+                    proporcjaprzychodow = 1.0;
+                }
+                double zusproporcjonalnie = spolecznepracownik*proporcjaprzychodow;
+                pasek.setSpoleczneudzialpolska(zusproporcjonalnie);
+                pasek.setSpoleczneudzialoddelegowanie(spolecznepracownik-zusproporcjonalnie);
+            } else {
+                double zusproporcjonalnie = 0.0;
+                pasek.setSpoleczneudzialpolska(zusproporcjonalnie);
+                pasek.setSpoleczneudzialoddelegowanie(spolecznepracownik-zusproporcjonalnie);
             }
-            double zusproporcjonalnie = spolecznepracownik*proporcjaprzychodow;
-            pasek.setSpoleczneudzialpolska(zusproporcjonalnie);
-            pasek.setSpoleczneudzialoddelegowanie(spolecznepracownik-zusproporcjonalnie);
         }
     }
     
