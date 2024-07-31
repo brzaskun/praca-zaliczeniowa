@@ -363,6 +363,8 @@ public class JPK_VAT2020M2_Bean {
             p.setOsobaFizyczna(zrobFizyczna(wv, telefon, email));
         } else if (wv.getPesel().equals("00000000000")) {
             p.setOsobaNiefizyczna(zrobNiefizyczn(wv, telefon, email));
+        } else if (wv.getFormaPrawna().toString().equals("SPOLKA_CYWILNA")||wv.getFormaPrawna().toString().equals("SPOLKA_JAWNA")) {
+            p.setOsobaNiefizyczna(zrobNiefizyczn(wv, telefon, email));
         } else {
             p.setOsobaFizyczna(zrobFizyczna(wv, telefon, email));
         }
