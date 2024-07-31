@@ -41,13 +41,9 @@
             <p:outputPanel style="padding: 20px;">
             <h:outputText value="wersja jpk (1 - jpk pierwotne, 2 korekta)"/>
             <p:selectOneMenu value="#{jpk_VAT2NView.werjsajpkrecznie}" label="wersja jpk" style="margin-left: 20px;">
-                <f:selectItem itemValue="0" itemLabel="0"/>
                 <f:selectItem itemValue="1" itemLabel="1"/>
                 <f:selectItem itemValue="2" itemLabel="2"/>
-                <f:selectItem itemValue="3" itemLabel="3"/>
-                <f:selectItem itemValue="4" itemLabel="4"/>
-                <f:selectItem itemValue="5" itemLabel="5"/>
-                <p:ajax event="change" partialSubmit="true"/>
+                <p:ajax event="blur" partialSubmit="true" global="false"/>
             </p:selectOneMenu>
             </p:outputPanel>
         </p:panelGrid>
@@ -58,13 +54,8 @@
             <p:commandButton value="pobierz jpk" actionListener="#{jpk_VAT2NView.przygotujXMLDedraDL()}" update="@form" style="width: 120px;" />
             <h:outputText value="wersja jpk (1 - jpk pierwotne, 2 korekta)" style="margin-left: 200px;"/>
             <p:selectOneMenu value="#{jpk_VAT2NView.werjsajpkrecznie}" label="wersja jpk">
-                <f:selectItem itemValue="0" itemLabel="0"/>
                 <f:selectItem itemValue="1" itemLabel="1"/>
                 <f:selectItem itemValue="2" itemLabel="2"/>
-                <f:selectItem itemValue="3" itemLabel="3"/>
-                <f:selectItem itemValue="4" itemLabel="4"/>
-                <f:selectItem itemValue="5" itemLabel="5"/>
-                <p:ajax event="change" partialSubmit="true"/>
             </p:selectOneMenu>
         </p:panelGrid>
         <p:messages id="wiadomoscjpk"/>
