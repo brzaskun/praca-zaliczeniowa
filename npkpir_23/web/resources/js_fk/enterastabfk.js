@@ -125,9 +125,13 @@ var TabKeyDown;
                                     limitrachunku = limitrachunku/kursplatnosci;
                                     limitrachunku = limitrachunku.round(2);
                                 }
+                                limitrachunku = limitrachunku.toString();
+                                limitrachunku = limitrachunku.replace(".", ",");
                                 r(kom1).val(limitrachunku);
                                 r(kom2).val(limitrachunku);
                             } else {
+                                limitplatnosci = limitplatnosci.toString();
+                                limitplatnosci = limitplatnosci.replace(".", ",");
                                 r(kom1).val(limitplatnosci);
                                 r(kom2).val(limitplatnosci);
                             }

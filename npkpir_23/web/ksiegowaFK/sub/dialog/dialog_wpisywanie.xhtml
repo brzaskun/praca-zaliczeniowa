@@ -480,17 +480,10 @@
                                                 symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" 
                                                 >
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatebrutto(item,'formwpisdokument', rowindex)}" partialSubmit="true"/>
-                                    <p:ajax global="false" event="blur" listener="#{dokfkView.dolaczWierszeZKwotami(item, rowindex)}" partialSubmit="true"/>
+                                  
                                 </p:inputNumber>
                             </p:column>
-                            <p:column headerText="op/zw" style="width: 45px; text-align: center;">
-                                <h:selectOneMenu value="#{item.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
-                                                 onfocus="$(this).addClass('ui-state-focus');" 
-                                                 onblur="$(this).removeClass('ui-state-focus');" style="width: 45px; height: 20px;">
-                                    <f:selectItem itemLabel="op" itemValue="sprz.op"/>
-                                    <f:selectItem itemLabel="op.izw." itemValue="sprzed.op.izw."/>
-                                </h:selectOneMenu>
-                            </p:column>
+                          
                             <p:column style="width: 25px; text-align: center;" rendered="#{!item.nieduplikuj}">
                                 <f:facet name="header">
                                     <h:outputText value="#{dokfkView.sprawdzjakiokresvat() eq 'kwartalne' ? '+kw' : '+mc'}" rendered="#{!item.nieduplikuj}"/>
@@ -502,7 +495,16 @@
                                     <p:ajax global="false" event="keyup" partialSubmit="true"/>
                                     <p:ajax global="false" event="change" listener="#{dokfkView.zmienmiesiac(item.innyokres)}" 
                                             update="formwpisdokument:dataList formwpisdokument:miesiacVAT formwpisdokument:rokVAT"/>
+                                      <p:ajax global="false" event="blur" listener="#{dokfkView.dolaczWierszeZKwotami(item, rowindex)}" partialSubmit="true"/>
                                 </p:inputText>
+                            </p:column>
+                            <p:column headerText="op/zw" style="width: 45px; text-align: center;">
+                                <h:selectOneMenu value="#{item.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                                 onfocus="$(this).addClass('ui-state-focus');" 
+                                                 onblur="$(this).removeClass('ui-state-focus');" style="width: 45px; height: 20px;">
+                                    <f:selectItem itemLabel="op" itemValue="sprz.op"/>
+                                    <f:selectItem itemLabel="op.izw." itemValue="sprzed.op.izw."/>
+                                </h:selectOneMenu>
                             </p:column>
                             <p:column style="width: 20px; text-align: center;" rendered="#{!item.nieduplikuj}">
                                 <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVat(1)}" global="false" update="formwpisdokument:panelzewidencjavat"

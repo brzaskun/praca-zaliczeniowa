@@ -2768,6 +2768,7 @@ public class DokfkView implements Serializable {
             //PrimeFaces.current().ajax().update("formcheckbox:znaczniktransakcji");
         } else {
         }
+        Collections.sort(biezacetransakcje, new Transakcjacomparator());
     }
 
     public void oznaczJakoPlatnosc() {

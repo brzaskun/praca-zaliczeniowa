@@ -180,7 +180,7 @@
                                 <h:outputText value="kwota rozlicz. - bieżący dok." />
                             </f:facet>
                             <p:inputNumber id="kwotarozliczenia" value="#{iteracja.kwotatransakcji}" symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" 
-                                            decimalPlaces="2"  emptyValue="sign"  readonly="#{iteracja.czymoznaedytowac()}"
+                                           decimalPlaces="2"   readonly="#{iteracja.czymoznaedytowac()}" emptyValue="zero"
                                             styleClass="kwotarozrachunku" onfocus="doklejfocuswprowadzonych(this)" size="13">
                                 <p:ajax event="blur" listener="#{dokfkView.przetworzwprowadzonakwote(iteracja, row)}" partialSubmit="true" global="false"
                                         update=":rozrachunki:dataList:#{row}:pozostaloWn :rozrachunki:dataList:#{row}:roznicakursowa :rozrachunki:dataList:#{row}:kwotawwalucierachunku :rozrachunki:juzrozliczono :rozrachunki:pozostalodorozliczenia"/>
@@ -230,7 +230,7 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="data dok." style="width: 50px;">
+                        <p:column headerText="data dok." style="width: 50px;" sortBy="#{iteracja.nowaTransakcja.dokfk.datadokumentu}" sortable="true" sortFunction="1">
                             <h:outputText value="#{iteracja.nowaTransakcja.dokfk.datadokumentu}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
