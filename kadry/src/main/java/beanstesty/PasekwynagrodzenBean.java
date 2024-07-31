@@ -792,7 +792,7 @@ public class PasekwynagrodzenBean {
                     bruttokraj = bruttokraj + p.getKwota();
                 }
                 if (p.getNieobecnosc().getRodzajnieobecnosci().isNieskladkowy()==false) {
-                    if (p.getNieobecnosc().getRodzajnieobecnosci().getKodzbiorczy().equals("UD")==false) {
+                    if (p.getNieobecnosc().getRodzajnieobecnosci().getKod().equals("UD")==false) {
                         przychodyzus51Polska = przychodyzus51Polska + p.getKwotazus();
                     }
                     przychodyzus51 = przychodyzus51+p.getKwotazus();
@@ -1268,7 +1268,7 @@ public class PasekwynagrodzenBean {
             if (pasek.getPracchorobowe()==0.0) {
                 mnoznik = .1126;
             }
-            double zusproporcjonalnie = pasek.getPrzychodyzus51Polska()*mnoznik<=pasek.getPodstawaskladkizus()?pasek.getPrzychodyzus51Polska()*mnoznik:pasek.getPodstawaskladkizus();
+            double zusproporcjonalnie = pasek.getPrzychodyzus51Polska()<=pasek.getPodstawaskladkizus()?pasek.getPrzychodyzus51Polska()*mnoznik:pasek.getPodstawaskladkizus();
             pasek.setSpoleczneudzialpolska(zusproporcjonalnie);
             pasek.setSpoleczneudzialoddelegowanie(spolecznepracownik-zusproporcjonalnie);
             }
