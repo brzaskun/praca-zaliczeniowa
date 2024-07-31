@@ -1263,11 +1263,12 @@ public class PasekwynagrodzenBean {
         double spolecznepracownik = Z.z(pasek.getPracemerytalne() + pasek.getPracrentowe() + pasek.getPracchorobowe());
         pasek.setRazemspolecznepracownik(Z.z(spolecznepracownik));
         pasek.setSpoleczneudzialpolska(Z.z(spolecznepracownik));
-         if (pasek.getPrzychodypodatekpolska()>0.0&&pasek.getPodstawaskladkizus()>0.0) {
+         if (pasek.getPrzychodypodatekpolska()>0.0&&pasek.getPodstawaskladkizus()>0.0 && pasek.isPrzekroczenieoddelegowanie()==true) {
              double mnoznik = .1371;
             if (pasek.getPracchorobowe()==0.0) {
                 mnoznik = .1126;
             }
+            double przychodydoozusowaniawpolsce = pasek.getPrzychodyzus51Polska()<=pasek.getPodstawaskladkizus()?pasek.getPrzychodyzus51Polska()*mnoznik:pasek.getPodstawaskladkizus();
             double zusproporcjonalnie = pasek.getPrzychodyzus51Polska()<=pasek.getPodstawaskladkizus()?pasek.getPrzychodyzus51Polska()*mnoznik:pasek.getPodstawaskladkizus();
             pasek.setSpoleczneudzialpolska(zusproporcjonalnie);
             pasek.setSpoleczneudzialoddelegowanie(spolecznepracownik-zusproporcjonalnie);
