@@ -4,6 +4,7 @@
  */
 package view;
 
+import comparator.Pismoadmincomparator;
 import dao.PismoadminDAO;
 import dao.SMTPSettingsDAO;
 import dao.UzDAO;
@@ -18,13 +19,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import mail.MailAdmin;
 import msg.Msg;
 /**
@@ -137,6 +137,7 @@ public class PismoAdminView implements Serializable{
         collator.setStrength(Collator.PRIMARY);
         Collections.sort(listamenu, collator);
         Collections.sort(listamenu_fk, collator);
+        Collections.sort(listapismwszytskie, new Pismoadmincomparator());
     }
     
      public void molestujadmina() {
