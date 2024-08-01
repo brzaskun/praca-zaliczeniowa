@@ -269,7 +269,7 @@ public class PracownikAneksyView  implements Serializable {
     }
     
     public void nanieskwote() {
-        if (kwotaaneksu>0.0) {
+        if (kwotaaneksu>=0.0) {
             List<Umowa> lysta = listaumowyselected;
             if (lysta==null||lysta.isEmpty()) {
                 lysta = CollectionUtils.isNotEmpty(listaumowyfiltered)? listaumowyfiltered: listaumowy;

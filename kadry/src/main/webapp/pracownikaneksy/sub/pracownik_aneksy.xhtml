@@ -24,6 +24,8 @@
                         <p:inputText id="dataaneksu1" value="#{pracownikAneksyView.dataaneksu}" placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę aneksu"/>
                         <p:outputLabel for="dataaneksu" value="od kiedy zmiana" />
                         <p:inputText id="dataaneksu" value="#{pracownikAneksyView.odkiedyzmiana}" placeholder="____-__-__" maxlength="10" required="true" requiredMessage="Wprowadź datę zmiany"/>
+                        <h:outputText value="Przed wprowadzeniem kwoty "  style="color:blue;"/>
+                        <h:outputText value=" prosze wybrać, jeśli to konieczne, pracowników do zmiany" style="color:blue;"/>
                         <p:outputLabel for="kwotaaneksu" value="nowa kwota zmiennej dla wszystk." />
                         <p:inputNumber id="kwotaaneksu" value="#{pracownikAneksyView.kwotaaneksu}"  size="14"  maxlength="7" decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right">
                             <p:ajax event="change" listener="#{pracownikAneksyView.nanieskwote}" update="akordeon:AneksForm:datalist"/>
@@ -43,6 +45,8 @@
                                  emptyMessage="Nie pobrano listy"
                                  >
                         <p:ajax event="rowSelect" partialSubmit="true" global="false" />
+                         <p:ajax event="rowSelectCheckbox" partialSubmit="true"  global="false"/>
+                        <p:ajax event="rowUnselectCheckbox" partialSubmit="true"  global="false" />
                         <f:facet name="header">
                             <h:outputText value="Czas trwania umów na czas określony"/>
                         </f:facet>
