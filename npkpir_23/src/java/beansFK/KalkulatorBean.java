@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Stack;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import msg.Msg;
 import org.primefaces.PrimeFaces;
 
 /**
@@ -67,7 +66,7 @@ public class KalkulatorBean implements Serializable {
         if (wyrazenie != null && !wyrazenie.isEmpty()) {
             try {
                 wynik = eval(wyrazenie);
-                Msg.msg("nowy wynik "+wynik);
+                //Msg.msg("nowy wynik "+wynik);
             } catch (Exception e) {
                 wynik = 0.0; // lub obsłuż błąd odpowiednio
             }
@@ -166,6 +165,7 @@ public class KalkulatorBean implements Serializable {
         update = "formwpisdokument:dataList:"+lpWierszaWpisywanie+":"+wnma+"_input";
         String skrypt = "$(document.getElementById('"+update+"')).trigger('select')";
         PrimeFaces.current().executeScript(skrypt);
+        wyrazenie = null;
     }
     
     

@@ -469,7 +469,7 @@
             <h:form id="form1">
                 <p:panel header="Nanoszenie strat możliwe jest jedynie po sporządzeniu PIT-ow za 12 mcy oraz po wybraniu miesiąca stycznia roku następnego"/>
                 <p:dataTable lazy="false"  id="tabelastrat" value="#{strataView.stratypodatnika}" emptyMessage="Nie ma nic" var="loop"
-                             style="min-width: 500px; max-width: 990px;" expandedRow="true">
+                             style="min-width: 500px; max-width: 990px;" expandedRow="true" rowKey="#{loop.id}">
                     <p:column style="width: 4%;">
                         <p:rowToggler />
                     </p:column>

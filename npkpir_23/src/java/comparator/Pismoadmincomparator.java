@@ -24,9 +24,9 @@ public class Pismoadmincomparator implements Comparator<Pismoadmin>{
         Date datao2date = o2.getDatawiadomosci();;
         try {
             if (datao1date.before(datao2date)) {
-                return -1;
-            } else if (datao1date.after(datao2date)) {
                 return 1;
+            } else if (datao1date.after(datao2date)) {
+                return -1;
             } else {
                 return 0;
             }
