@@ -63,7 +63,7 @@
                     <h:outputText value="Generowanie, nie duplikuje wpisów. Aby dodana pozycja została pobrana następnym razem, podatnik musi mieć oznaczoną okresową fakturę jako ręczna do edycji. Kopiowanie do przodu w menu" style="color:green"/>
                 </p:panelGrid>
                 <p:growl life="3600" showDetail="true"><p:autoUpdate/></p:growl>
-                <p:dataTable lazy="false"   var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista"style="width: 1630px;" widgetVar="tabelazwynikami"
+                <p:dataTable lazy="false"   var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" style="width: 1630px;" widgetVar="tabelazwynikami"
                               filteredValue="#{fakturaDodPozycjaKontrahentView.lista_2_filter}" selection="#{fakturaDodPozycjaKontrahentView.lista_2_selected}" selectionMode="multiple"
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_2.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.kontrahent.nazwapodatnika}"
                               paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 

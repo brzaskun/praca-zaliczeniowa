@@ -52,12 +52,12 @@
         </p:column>
         <p:column id="zamkniety" headerText="zamkniety" style="text-align: center;">  
             <h:selectBooleanCheckbox value="#{wpis.zamkniety}" readonly="#{wpis.edytuj eq true ? false : true}"  >
-                <p:ajax event="change" global="false" listener="#{zamkniecieView.zapisokresy()}" partialSubmit="true" update=":westWpis" />
+                <p:ajax event="change" global="false" listener="#{zamkniecieView.zapisokresy()}" partialSubmit="true" update=":westKsiegowa" />
             </h:selectBooleanCheckbox>
         </p:column>
         <p:column id="edytuj" headerText="edytuj" style="text-align: center;">  
             <h:selectBooleanCheckbox value="#{wpis.edytuj}" >
-                <p:ajax event="change" listener="#{zamkniecieView.zapisokresyedit}" partialSubmit="true" update="form:dataTable :westWpis"/>
+                <p:ajax event="change" listener="#{zamkniecieView.zapisokresyedit}" partialSubmit="true" update="form:dataTable :westKsiegowa"/>
             </h:selectBooleanCheckbox>
         </p:column>
     </p:dataTable>
