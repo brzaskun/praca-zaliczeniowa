@@ -40,11 +40,9 @@
         <p:panelGrid columns="1">
             <p:outputPanel style="padding: 20px;">
             <h:outputText value="wersja jpk (1 - jpk pierwotne, 2 korekta)"/>
-            <p:selectOneMenu value="#{jpk_VAT2NView.werjsajpkrecznie}" label="wersja jpk" style="margin-left: 20px;">
-                <f:selectItem itemValue="1" itemLabel="1"/>
-                <f:selectItem itemValue="2" itemLabel="2"/>
-                <p:ajax event="blur" partialSubmit="true" global="false"/>
-            </p:selectOneMenu>
+            <p:inputText value="#{jpk_VAT2NView.werjsajpkrecznie}" label="wersja jpk" style="margin-left: 20px;" size="4" maxlength="1">
+                <p:ajax event="change" partialSubmit="true" global="false"/>
+            </p:inputText>
             </p:outputPanel>
         </p:panelGrid>
         <p:panelGrid columns="6" rendered="#{WpisView.podatnikObiekt.nip eq '5263158333'}">
@@ -53,10 +51,9 @@
             <p:commandButton value="podgląd jpk" actionListener="#{jpk_VAT2NView.przygotujXMLPodgladDedra()}" update="@form" style="width: 120px;" />
             <p:commandButton value="pobierz jpk" actionListener="#{jpk_VAT2NView.przygotujXMLDedraDL()}" update="@form" style="width: 120px;" />
             <h:outputText value="wersja jpk (1 - jpk pierwotne, 2 korekta)" style="margin-left: 200px;"/>
-            <p:selectOneMenu value="#{jpk_VAT2NView.werjsajpkrecznie}" label="wersja jpk">
-                <f:selectItem itemValue="1" itemLabel="1"/>
-                <f:selectItem itemValue="2" itemLabel="2"/>
-            </p:selectOneMenu>
+             <p:inputText value="#{jpk_VAT2NView.werjsajpkrecznie}" label="wersja jpk" style="margin-left: 20px;" size="4" maxlength="1">
+                <p:ajax event="change" partialSubmit="true" global="false"/>
+            </p:inputText>
         </p:panelGrid>
         <p:messages id="wiadomoscjpk"/>
         <p:dataTable lazy="false"  value="#{jpk_VAT2NView.bledy}" var="itemblad" rowIndexVar="index" id="tabelablad" style="width: 1250px; margin-top: 10px;"
