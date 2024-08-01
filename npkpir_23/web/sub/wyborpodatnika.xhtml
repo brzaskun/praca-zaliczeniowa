@@ -7,68 +7,61 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
-        <p:focus id="focus" context="panelwyboru"/>
-        <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 600px; margin-left: auto; margin-right: auto;">
+
+    <div class="flex align-items-center justify-content-center h-4rem font-bold border-round m-2">
+        <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" >
             <f:facet name="header">
                 <h:outputText value="#{mgs['guest.mcrok.header']}" style="display: block; text-align: center"/>
             </f:facet>
-<!--            <p:dataTable lazy="false"  id="tablicanews" value="#{adminNews.newslist}" var="loop" rowKey="#{loop.id}" resizableColumns="true" >
-            <p:column headerText="#{mgs['login.news']}">
-                <h:outputText value="#{loop.tresc}"/>
-            </p:column>
-        </p:dataTable>-->
-            <p:panelGrid columns="1"  >
-                <p:column >
-                    <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 572px;" scrollHeight="300" converter="#{podatConv}" filter="true" filterMatchMode="contains">
-                        <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
-<!--                        <p:ajax event="change" partialSubmit="true" global="false"/>-->
-                    </p:selectOneListbox>
-                </p:column>
-            </p:panelGrid>
-            <p:panelGrid columns="2"   style="float: right;">
-                <p:column>
-                     <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
-                        <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
-                    </p:selectOneMenu>
-                </p:column>
-                <p:column>
-                    <p:commandButton  action="#{WpisView.wrocupr()}"  ajax="false"
-                                      style="width: 150px;" id="okbutton"
-                                      actionListener="#{WpisView.naniesDaneDoWpisOkres()}" value="#{mgs.wybierzmcrok}"/>
-                </p:column>
-                <p:defaultCommand target="okbutton" />
-            </p:panelGrid>
-        </p:panel>
-        <!--        <p:panel header="Nie działa wprowadzanie dokumentów prostych(na razie). Modyfikuje ustawienia" style="width: 400px; margin-left: 30%"/>-->
-        <br/>
-        <p:panel style="margin-top: 1px;  margin-left: auto; margin-right: auto; width: 450px">
-            <h:outputText value="Przygotowane deklaracje VAT oczekujące na wysyłkę:" rendered="#{infoViewAll.deklaracjeniewyslane.size()>0}"/>
-            <p:dataList value="#{infoViewAll.deklaracjeniewyslane}" var="loop" rendered="#{infoViewAll.deklaracjeniewyslane.size()>0}">
-                <h:outputText value="#{loop}"/>
-            </p:dataList>
-        </p:panel>
-        <p:panel style="margin-top: 1px;  margin-left: auto; margin-right: auto; width: 450px">
-            <h:outputText value="Nie pobrano potwierdzeń następujących deklaracji:" rendered="#{infoViewAll.deklaracjeniebezupo.size()>0}"/>
-            <p:dataList value="#{infoViewAll.deklaracjeniebezupo}" var="loop" rendered="#{infoViewAll.deklaracjeniebezupo.size()>0}">
-                <h:outputText value="#{loop}"/>
-            </p:dataList>
-        </p:panel>
-        <!--        <p:panel style="margin-top: 1px; margin-left: auto; margin-right: auto; width: 450px">
-                    <h:outputText value="Klienci bez zaksięgowanych dok (#{infoViewAll.kliencinieruszeni.size()}) - rozliczenia bieżące: " rendered="#{infoViewAll.kliencinieruszeni.size()>0}"/>
-                    <p:dataList value="#{infoViewAll.kliencinieruszeni}" var="loop" rendered="#{infoViewAll.kliencinieruszeni.size()>0}">
-                        <h:outputText value="#{loop}, "/>
-                    </p:dataList>
-                </p:panel>-->
-        <p:panel style="margin-top: 30px; margin-left: 60%; width: 120px">
-            <h:commandLink id="openPopUp" value="#{mgs['login.mojeustawienia']}" onclick="window.open('ksiegowa/ustawienia.xhtml', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=300,top=150,left=300');" />
-            <!--            <h:outputLink value="./ksiegowa/ksiegowaUstawienia.xhtml?faces-redirect=true">
-                            <h:outputText value="tu bed amoje ustawienia" id="dokumentyLista"/>
-                        </h:outputLink>-->
-        </p:panel>
-        <p:panel style="margin-top: 5px; margin-left: auto; margin-right: auto; width: 600px">
-            <f:facet name="footer" >
-                <h:outputText style="display: block; text-align: center; color: red;" value="#{mgs['guest.mcrok.uwaga']}"/>
-            </f:facet>
-        </p:panel>
+          </p:panel>
+    </div>
+    <div id="panelwyboru" class="flex align-items-center justify-content-center font-bold border-round m-2 ">
 
+        <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="min-width: 100px;max-width: 450px;"  
+                            styleClass="w-screen flex-column align-items-center justify-content-center"  scrollHeight="300" converter="#{podatConv}" filter="true" filterMatchMode="contains">
+            <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
+            <!--                        <p:ajax event="change" partialSubmit="true" global="false"/>-->
+        </p:selectOneListbox>
+    </div>
+     <div id="panelwyboru" class="flex align-items-center justify-content-center w-screen  font-bold border-round m-2 flex-grow-1 ">
+            <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
+                <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+            </p:selectOneMenu>
+            <p:commandButton  action="#{WpisView.wrocupr()}"  ajax="false"
+                              style="width: 150px;" id="okbutton"
+                              actionListener="#{WpisView.naniesDaneDoWpisOkres()}" value="#{mgs.wybierzmcrok}"/>
+        <p:defaultCommand target="okbutton" />
+     </div>
+
+     <br/>
+    <p:panel style="margin-top: 1px;  margin-left: auto; margin-right: auto;max-width: 450px;">
+        <h:outputText value="Przygotowane deklaracje VAT oczekujące na wysyłkę:" rendered="#{infoViewAll.deklaracjeniewyslane.size()>0}"/>
+        <p:dataList value="#{infoViewAll.deklaracjeniewyslane}" var="loop" rendered="#{infoViewAll.deklaracjeniewyslane.size()>0}">
+            <h:outputText value="#{loop}"/>
+        </p:dataList>
+    </p:panel>
+    <p:panel style="margin-top: 1px;  margin-left: auto; margin-right: auto;max-width: 450px;">
+        <h:outputText value="Nie pobrano potwierdzeń następujących deklaracji:" rendered="#{infoViewAll.deklaracjeniebezupo.size()>0}"/>
+        <p:dataList value="#{infoViewAll.deklaracjeniebezupo}" var="loop" rendered="#{infoViewAll.deklaracjeniebezupo.size()>0}">
+            <h:outputText value="#{loop}"/>
+        </p:dataList>
+    </p:panel>
+    <!--        <p:panel style="margin-top: 1px; margin-left: auto; margin-right: auto; width: 450px">
+                <h:outputText value="Klienci bez zaksięgowanych dok (#{infoViewAll.kliencinieruszeni.size()}) - rozliczenia bieżące: " rendered="#{infoViewAll.kliencinieruszeni.size()>0}"/>
+                <p:dataList value="#{infoViewAll.kliencinieruszeni}" var="loop" rendered="#{infoViewAll.kliencinieruszeni.size()>0}">
+                    <h:outputText value="#{loop}, "/>
+                </p:dataList>
+            </p:panel>-->
+    <p:panel style="margin-top: 30px; margin-left: 60%; width: 120px">
+        <h:commandLink id="openPopUp" value="#{mgs['login.mojeustawienia']}" onclick="window.open('ksiegowa/ustawienia.xhtml', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=300,top=150,left=300');" />
+        <!--            <h:outputLink value="./ksiegowa/ksiegowaUstawienia.xhtml?faces-redirect=true">
+                        <h:outputText value="tu bed amoje ustawienia" id="dokumentyLista"/>
+                    </h:outputLink>-->
+    </p:panel>
+    <p:panel style="margin-top: 5px; margin-left: auto; margin-right: auto;max-width: 600px; ">
+        <f:facet name="footer" >
+            <h:outputText style="display: block; text-align: center; color: red;" value="#{mgs['guest.mcrok.uwaga']}"/>
+        </f:facet>
+    </p:panel>
+    
 </ui:composition>  
