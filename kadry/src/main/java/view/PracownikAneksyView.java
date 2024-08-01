@@ -255,7 +255,6 @@ public class PracownikAneksyView  implements Serializable {
                     zmienna.setDatado(Data.odejmijdni(odkiedyzmiana,1));
                     zmiennaWynagrodzeniaFacade.edit(zmienna);
                     naniesc = true;
-                    break;
                 }
             }
             if (naniesc) {
