@@ -123,10 +123,10 @@ public class Jpk_VAT2NView implements Serializable {
                 lista = Collections.synchronizedList(new ArrayList<>());
             } else {
                 for (UPO p : lista) {
-                    werjsajpkrecznie = 0;
+                    werjsajpkrecznie = 1;
                     if (p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && p.getCode()==200) {
                         nowa0korekta1 = true;
-                        werjsajpkrecznie = pobierznumerkorekty();
+                        werjsajpkrecznie = 2;
                         break;
                     }
                 }
