@@ -10,7 +10,7 @@
    <p:dialog id="dialog_kalkulator" header="kalkulator" widgetVar="dialog_kalkulator" 
           appendTo="@(body)"
           resizable="false" onShow="ustawdialogCenter('dialog_kalkulator',MYAPP.wywolujacy, 320, 200);" closeOnEscape="true" onHide="resetujdialog('dialog_kalkulator');">
-    
+    <p:ajax event="close" listener="#{kalkulatorBean.close()}" global="false"  update="formKalkulator"/>
     
     <div class="flex flex-column align-items-center justify-content-center h-full">
         <div class="flex w-full p-3 align-items-center justify-content-center">
@@ -29,7 +29,7 @@
         </div>
         <div class="flex w-full p-3 align-items-center justify-content-center">
             <h:form id="formkalkulatorbutton">
-                <p:commandButton id="kopiuj" value="kopiuj" styleClass="fkbutton" actionListener="#{kalkulatorBean.close()}" update="formKalkulator" style="width: 120px;" global="false" type="button" onclick="PF('dialog_kalkulator').hide()" />
+                <p:commandButton id="kopiuj" value="kopiuj" styleClass="fkbutton" style="width: 120px;" global="false" type="button" onclick="PF('dialog_kalkulator').hide()" />
             </h:form>
         </div>
     </div>
