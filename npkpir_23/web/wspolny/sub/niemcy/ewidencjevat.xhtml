@@ -1,0 +1,72 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >
+        <p:tab title="#{item[0].nazwaewidencji.nazwa}">
+            <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}"  action="#{sesjaView.dodajwydruk()}"
+                             onsuccess="wydrukewidencje('#{WpisView.podatnikObiekt.nip}','#{item[0].nazwaewidencji.nazwa}');pokazwyslijbutton(this);"  style="width: 120px;"/>
+            <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji.nazwa)}" action="#{sesjaView.dodajwydruk()}"
+                             onsuccess="wydrukewidencje('#{WpisView.podatnikObiekt.nip}','#{item[0].nazwaewidencji.nazwa}');pokazwyslijbutton(this);"  style="width: 120px;"/>
+            <p:commandButton value="Wyślij" id="wyslijvatbutton" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" 
+                             actionListener="#{sesjaView.dodajmail()}" widgetVar="wydrukbuttonvat"
+                             style="width: 170px; margin-left: 2%; display: none;">
+                <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji.nazwa))}"/>
+            </p:commandButton>
+            <p:commandButton value="Drukuj wszyst. data - rok" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieRok()}" style="width: 220px; margin-left: 20px;" action="#{sesjaView.dodajwydruk()}"/>
+            <p:separator/>
+            <p:dataTable lazy="false"  id="tabela" value="#{item}" var="itemik" style="width: 1200px; overflow-y: scroll; height: 450px;" 
+                         rowIndexVar="#{itemik.id}"
+                         >
+                <f:facet name="header">  
+                    <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji.nazwa}" />  
+                </f:facet>
+                <p:column headerText="id" style="width: 40px; text-align: center;" sortBy="#{itemik.id}">
+                    <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
+                </p:column>
+
+                <p:column headerText="data wyst." style="width: 100px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">
+                    <h:outputText value="#{itemik.dataWyst}"/>
+                </p:column>
+                <p:column headerText="data sprz." style="width: 100px; text-align: center;" sortBy="#{itemik.dataSprz}" filterMatchMode="contains" filterBy="#{itemik.dataSprz}">
+                    <h:outputText value="#{itemik.dataSprz}"/>
+                </p:column>
+                <p:column headerText="nr własny" style="width: 130px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains">
+                    <h:outputText value="#{itemik.nrWlDk}"/>
+                </p:column>
+                <p:column headerText="nazwa kontrhenta" style="width: 190px;" sortBy="#{itemik.kontr.npelna}" filterBy="#{itemik.kontr.npelna}" filterMatchMode="contains">
+                    <h:outputText value="#{itemik.kontr.npelna}"/>
+                </p:column>
+                <p:column headerText="opis trans." style="width: 170px;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains">
+                    <h:outputText value="#{itemik.opis}"/>
+                </p:column>
+                <p:column headerText="#{mgs.netto}" style="width: 100px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains">
+                    <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%; color:#{itemik.netto lt 0.0?'red':null}"  rendered="#{itemik.ewidencja.niemcy eq false}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    <h:outputText value="#{itemik.netto} €" style="float: right; padding-right: 3%; color:#{itemik.netto lt 0.0?'red':null}"  rendered="#{itemik.ewidencja.niemcy eq true}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.VAT}" style="width: 100px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains">
+                    <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%; color:#{itemik.netto lt 0.0?'red':null}" rendered="#{itemik.ewidencja.niemcy eq false}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    <h:outputText value="#{itemik.vat} €" style="float: right; padding-right: 3%; color:#{itemik.netto lt 0.0?'red':null}" rendered="#{itemik.ewidencja.niemcy eq true}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="WNT" style="width: 40px;" sortBy="#{itemik.duplikat}" filterBy="#{itemik.duplikat}" rendered="#{item[0].nazwaewidencji.nazwa eq 'zakup'}">
+                    <h:outputText value="#{itemik.duplikat eq true ? 't' : null}"/>
+                </p:column>
+                <!--                        <p:column  style="width: 40px;" >
+                                            <p:commandButton icon="fa fa-trash" actionListener="#{ewidencjaVatView.usunpozycje(item,itemik)}" update="@parent:@parent"/>
+                                        </p:column>-->
+            </p:dataTable>
+        </p:tab>
+    </p:tabView>
+</ui:composition>

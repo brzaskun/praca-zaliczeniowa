@@ -39,12 +39,10 @@ public class LazyWierszDataModel extends LazyDataModel<Wiersz>{
 //    };
 //    
 
-    @Override
     public List<Wiersz> load(int i, int i1, Map<String, SortMeta> map, Map<String, FilterMeta> map1) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
     public int count(Map<String, FilterMeta> map) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

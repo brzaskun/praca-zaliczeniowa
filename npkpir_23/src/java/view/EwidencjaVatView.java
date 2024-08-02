@@ -35,7 +35,6 @@ import entityfk.EVatwpisFK;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import error.E;
-import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -51,11 +50,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -63,9 +63,9 @@ import mail.MailOther;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.tabview.TabView;
- import org.primefaces.event.UnselectEvent;
+import org.primefaces.event.UnselectEvent;
 import pdf.PdfVAT;
-import pdf.PdfVATsuma;
+ import pdf.PdfVATsuma;
 import waluty.Z;
 
 /**
@@ -163,10 +163,9 @@ public class EwidencjaVatView implements Serializable {
        }
     }
 
-    public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
-        aktualizuj();
+    public void aktualizujTabeleTabela(boolean polska0niemcy1) {
         init();
-        stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
+        stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt(), polska0niemcy1);
         Msg.msg("i","Udana zamiana mieiąca");
     }
     
@@ -328,7 +327,7 @@ public class EwidencjaVatView implements Serializable {
     
     
 
-    public void stworzenieEwidencjiZDokumentow(Podatnik podatnik) {
+    public void stworzenieEwidencjiZDokumentow(Podatnik podatnik, boolean polska0niemcy1) {
         try {
             ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
             zerujListy();
@@ -340,13 +339,21 @@ public class EwidencjaVatView implements Serializable {
                 vatokres = 1;
             }
             pobierzEVATwpis1zaOkres(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-             if (listadokvatprzetworzona != null) {
-                for (Iterator<EVatwpisSuper> it = listadokvatprzetworzona.iterator(); it.hasNext();) {
-                    EVatwpis1 p = (EVatwpis1) it.next();
-                    if (p.getDok() != null && p.getDok().getRodzajedok().isTylkojpk()) {
-                        it.remove();
-                    }
-                }
+            ReentrantLock lock = new ReentrantLock();
+            if (listadokvatprzetworzona != null) {
+                List<EVatwpisSuper> synchronizedList = Collections.synchronizedList(listadokvatprzetworzona);
+
+                listadokvatprzetworzona = synchronizedList.parallelStream()
+                    .filter(it -> {
+                        EVatwpis1 p = (EVatwpis1) it;
+                        lock.lock();
+                        try {
+                            return p.getDok() == null || !p.getDok().getRodzajedok().isTylkojpk();
+                        } finally {
+                            lock.unlock();
+                        }
+                    })
+                    .collect(Collectors.toList());
             }
             przejrzyjEVatwpis1Lista();
             stworzenieEwidencjiCzescWspolna();
@@ -357,14 +364,15 @@ public class EwidencjaVatView implements Serializable {
                 ewidencje.add(p);
             }
             pobierzmiesiacdlajpk = false;
-            //PrimeFaces.current().ajax().update("formVatZestKsiegowa");
-            //Msg.msg("Sporządzono ewidencje");
+
         } catch (Exception e) { 
             Msg.msg("e","Błąd przy tworzeniu ewidencji z dokumentów");
             E.e(e);
         }
         //drukuj ewidencje
     }
+    
+    
     
      public void stworzenieEwidencjiZDokumentowJPK(Podatnik podatnik) {
         try {

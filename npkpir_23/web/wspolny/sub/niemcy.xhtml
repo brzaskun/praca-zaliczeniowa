@@ -6,41 +6,34 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
-    <style>
-        .ui-datatable .dokumorzeniowe .ui-column-filter {
-            width: 50px !important;
-        }
-        .ui-inputfield .dokumorzeniowe .ui-inputtext {
-            padding: 0px !important;
-            margin: 0px !important;
-        }
-
-        .ui-datatable-data .dokumorzeniowe tr td {
-            padding: 0px !important;
-            margin: 0px !important;
-        }
-        /*        dzieki temu nie mamy ramek przy wpisywani danych do dokumentu*/
-        .ui-inputfield .dokumorzeniowe  .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
-            border: none;
-            outline: none;
-            box-shadow: none;
-        }
-    </style>
-<bcf:ajaxs/>
-    <h:form id="formSTRUmorzenie">
+    <bcf:ajaxs/>
+    <h:form id="formokresniemcy">
+        <p:panel style="padding: 10px;">
+        <h:outputText value="okres:" />
+        <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
+            <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+            <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" global="true" oncomplete="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
+                    update="formNiemcyRok"/>
+        </p:selectOneMenu>
+        </p:panel>
+    </h:form>
+    <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt, true)}"/>
+    <h:form id="formNiemcyRok">
         <p:outputPanel id="wrapper2">
             <p:tabView>
-                <p:tab title="Umst">
-                    
+                <p:tab title="Ewidencje">
+                    <ui:include src="niemcy/ewidencjevat.xhtml"/>
+                </p:tab>
+                <p:tab title="UMSt">
+                    <ui:include src="niemcy/danedodeklaracji.xhtml"/>
                 </p:tab>
                 <p:tab title="rejestracja">
-                    
                 </p:tab>
                 <p:tab title="freistellung">
-                    
+
                 </p:tab>
                 <p:tab title="uberprufung">
-                    
+
                 </p:tab>
             </p:tabView>
         </p:outputPanel>

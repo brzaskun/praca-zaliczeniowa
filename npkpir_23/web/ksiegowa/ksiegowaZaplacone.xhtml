@@ -10,8 +10,8 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-
-             
+<!--tego chyba nie uzywamy-->
+<!--             
                 <h:form>
                     <p:growl life="3600"  id="fifi"/>
                     <p:confirmDialog id="confirmDialog" message="Usunąć wybrany dokument?"  
@@ -25,21 +25,21 @@
                 </h:form>
                 <f:view>
                     <pe:layout fullPage="true" >
-                        <ui:include src="sub/layoutNiezaplacone/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutNiezaplacone/south.xhtml"/>   <!-- panel poludniowy-->
-                        <ui:include src="sub/layoutNiezaplacone/west.xhtml"/>   <!-- panel zachodni-->
-                        <ui:include src="sub/layoutZmianapodatnika/east.xhtml"/>   <!-- panel wchodni-->
+                        <ui:include src="/sub/layoutNiezaplacone/north.xhtml"/>   panel polnocny
+                        <ui:include src="sub/layoutNiezaplacone/south.xhtml"/>    panel poludniowy
+                        <ui:include src="sub/layoutNiezaplacone/west.xhtml"/>    panel zachodni
+                        <ui:include src="sub/layoutZmianapodatnika/east.xhtml"/>    panel wchodni
                         <pe:layoutPane position="center">
                             <h:form id="form">
                                
-                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                                <ui:include src="sub/zaplacone.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                                <ui:include src="sub/menu_wiad.xhtml"/>    menu contextowe i pole wiadomosci growl
+                                <ui:include src="sub/zaplacone.xhtml"/>    właściwa tablica z danymi z księgi
                             </h:form>
                         </pe:layoutPane>
 
                     </pe:layout>
                 </f:view>
-            
+            -->
         </ui:define>
     </ui:composition>
 </html>

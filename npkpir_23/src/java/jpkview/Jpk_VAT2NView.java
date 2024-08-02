@@ -402,7 +402,7 @@ public class Jpk_VAT2NView implements Serializable {
     public void przygotujXMLPodgladAll(Podatnik podatnik) {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         if (podatnik.getFormaPrawna()==null) {
-            ewidencjaVatView.stworzenieEwidencjiZDokumentow(podatnik);
+            ewidencjaVatView.stworzenieEwidencjiZDokumentow(podatnik, false);
         } else {
             ewidencjaVatView.stworzenieEwidencjiZDokumentowFKJPK(podatnik, null);
         }
