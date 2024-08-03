@@ -13,9 +13,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 import javax.inject.Named;
 import viewfk.CechyzapisuPrzegladView;
 
@@ -136,38 +137,78 @@ public class CechazapisuBean {
         return lista;
     }
     
+    //gtp 03082024
     public static void luskaniezapisowZCechami(String wybranacechadok, List<StronaWiersza> zapisyRok) {
-        if (wybranacechadok != null) {
-                for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
-                StronaWiersza p = it.next();
-                if (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0) {
-                    boolean usun = true;
+    if (wybranacechadok != null) {
+        ReentrantLock lock = new ReentrantLock();
+
+        List<StronaWiersza> filteredList = zapisyRok.parallelStream().filter(p -> {
+            boolean usun = true;
+            lock.lock();
+            try {
+                if (p.getDokfk().getCechadokumentuLista() != null && !p.getDokfk().getCechadokumentuLista().isEmpty()) {
                     for (Cechazapisu cz : p.getDokfk().getCechadokumentuLista()) {
                         if (cz.getNazwacechy().equals(wybranacechadok)) {
                             usun = false;
                             break;
                         }
                     }
-                    if (usun) {
-                        it.remove();
-                    }
-                } else if (p.getCechazapisuLista() != null && p.getCechazapisuLista().size() > 0) {
-                    boolean usun = true;
+                } else if (p.getCechazapisuLista() != null && !p.getCechazapisuLista().isEmpty()) {
                     for (Cechazapisu cz : p.getCechazapisuLista()) {
                         if (cz.getNazwacechy().equals(wybranacechadok)) {
                             usun = false;
                             break;
                         }
                     }
-                    if (usun) {
-                        it.remove();
-                    }
-                } else {
-                    it.remove();
                 }
+            } finally {
+                lock.unlock();
             }
+            return !usun;
+        }).collect(Collectors.toList());
+
+        lock.lock();
+        try {
+            zapisyRok.clear();
+            zapisyRok.addAll(filteredList);
+        } finally {
+            lock.unlock();
         }
     }
+}
+    
+//    public static void luskaniezapisowZCechami(String wybranacechadok, List<StronaWiersza> zapisyRok) {
+//        if (wybranacechadok != null) {
+//                for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
+//                StronaWiersza p = it.next();
+//                if (p.getDokfk().getCechadokumentuLista() != null && p.getDokfk().getCechadokumentuLista().size() > 0) {
+//                    boolean usun = true;
+//                    for (Cechazapisu cz : p.getDokfk().getCechadokumentuLista()) {
+//                        if (cz.getNazwacechy().equals(wybranacechadok)) {
+//                            usun = false;
+//                            break;
+//                        }
+//                    }
+//                    if (usun) {
+//                        it.remove();
+//                    }
+//                } else if (p.getCechazapisuLista() != null && p.getCechazapisuLista().size() > 0) {
+//                    boolean usun = true;
+//                    for (Cechazapisu cz : p.getCechazapisuLista()) {
+//                        if (cz.getNazwacechy().equals(wybranacechadok)) {
+//                            usun = false;
+//                            break;
+//                        }
+//                    }
+//                    if (usun) {
+//                        it.remove();
+//                    }
+//                } else {
+//                    it.remove();
+//                }
+//            }
+//        }
+//    }
     
     public static void main(String[] args) {
         ForkJoinPool commonPool = ForkJoinPool.commonPool();

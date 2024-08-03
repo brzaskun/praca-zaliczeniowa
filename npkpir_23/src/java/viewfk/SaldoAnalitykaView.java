@@ -31,6 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -84,29 +86,23 @@ public class SaldoAnalitykaView implements Serializable {
         wybranyRodzajKonta = "wszystkie";
     }
 
-    public void init() { //E.m(this);
-        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        if (wybranyRodzajKonta != null) {
-            if (wybranyRodzajKonta.equals("bilansowe")) {
-                for (Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
-                    if (it.next().getBilansowewynikowe().equals("wynikowe")) {
-                        it.remove();
-                    }
-                }
-            } else if (wybranyRodzajKonta.equals("wynikowe")) {
-                for (Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
-                    if (it.next().getBilansowewynikowe().equals("bilansowe")) {
-                        it.remove();
-                    }
-                }
-            }
-        }
-        pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta);
-        Collections.sort(listaSaldoKonto, new SaldoKontocomparator());
+    public void init() {
+    // E.m(this);  // Assuming this is a debugging or logging statement, uncomment if needed
+
+    List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+    if (wybranyRodzajKonta != null&&wybranyRodzajKonta.equals("wszystkie")==false) {
+        kontaklienta = kontaklienta.stream()
+                .filter(konto -> !konto.getBilansowewynikowe().equals(wybranyRodzajKonta.equals("bilansowe") ? "wynikowe" : "bilansowe"))
+                .collect(Collectors.toList());
     }
+    pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
+    List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+    List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+
+    przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta);
+    Collections.sort(listaSaldoKonto, new SaldoKontocomparator());
+}
+
     
      public void initbo() {
         List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
@@ -280,48 +276,82 @@ public class SaldoAnalitykaView implements Serializable {
         p.sumujBOZapisy();
         p.wyliczSaldo();
     }
-
+//    ***************************************************************************************
     public void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String rodzajkonta) {
-        try {
-            if (kontaklienta!=null) {
-                listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
-                List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-                CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
-                CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
-                Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
-                List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
-                kontaklienta.stream().forEach((p) -> {
-                    SaldoKonto saldoKonto = new SaldoKonto();
-                    saldoKonto.setKonto(p);
-                    przygotowanalista.put(p.getPelnynumer(), saldoKonto);
-                });
-                naniesBOnaKonto(przygotowanalista, zapisyBO);
-                naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
-                naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);
-                przygotowanalista.values().stream().map((s) -> {
-                    s.sumujBOZapisy();
-                    return s;
-                }).forEachOrdered(SaldoKonto::wyliczSaldo);
-        //        for (int i = 1; i < przygotowanalista.size()+1; i++) {
-        //            przygotowanalista.get(i-1).setId(i);
-        //        }
-                sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
-                sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
-                for (StronaWiersza t : wierszenieuzupelnione) {
-                    Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());
-                }
-                listaSaldoKonto.addAll(przygotowanalista.values());
-                for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
-                    SaldoKonto skn = it.next();
-                    if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0 && skn.getBoWn()==0.0 &&skn.getBoMa()==0.0) {
-                        it.remove();
-                    }
-                }
-            }
-        } catch (Exception e){
-            E.e(e);
+    try {
+        if (kontaklienta != null) {
+            listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
+            List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
+            CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
+            Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
+            List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
+            kontaklienta.parallelStream().forEach(p -> {
+                SaldoKonto saldoKonto = new SaldoKonto();
+                saldoKonto.setKonto(p);
+                przygotowanalista.put(p.getPelnynumer(), saldoKonto);
+            });
+            naniesBOnaKonto(przygotowanalista, zapisyBO);
+            naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
+            naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);
+            przygotowanalista.values().parallelStream().forEach(s -> {
+                s.sumujBOZapisy();
+                s.wyliczSaldo();
+            });
+            sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
+            sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
+            wierszenieuzupelnione.forEach(t -> Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS()));
+
+            listaSaldoKonto.addAll(przygotowanalista.values());
+
+            listaSaldoKonto.removeIf(skn -> skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0 && skn.getBoWn() == 0.0 && skn.getBoMa() == 0.0);
         }
+    } catch (Exception e) {
+        E.e(e);
     }
+}
+
+//    public void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String rodzajkonta) {
+//        try {
+//            if (kontaklienta!=null) {
+//                listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
+//                List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//                CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
+//                CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
+//                Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
+//                List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
+//                kontaklienta.stream().forEach((p) -> {
+//                    SaldoKonto saldoKonto = new SaldoKonto();
+//                    saldoKonto.setKonto(p);
+//                    przygotowanalista.put(p.getPelnynumer(), saldoKonto);
+//                });
+//                naniesBOnaKonto(przygotowanalista, zapisyBO);
+//                naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
+//                naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);
+//                przygotowanalista.values().stream().map((s) -> {
+//                    s.sumujBOZapisy();
+//                    return s;
+//                }).forEachOrdered(SaldoKonto::wyliczSaldo);
+//        //        for (int i = 1; i < przygotowanalista.size()+1; i++) {
+//        //            przygotowanalista.get(i-1).setId(i);
+//        //        }
+//                sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
+//                sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
+//                for (StronaWiersza t : wierszenieuzupelnione) {
+//                    Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());
+//                }
+//                listaSaldoKonto.addAll(przygotowanalista.values());
+//                for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
+//                    SaldoKonto skn = it.next();
+//                    if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0 && skn.getBoWn()==0.0 &&skn.getBoMa()==0.0) {
+//                        it.remove();
+//                    }
+//                }
+//            }
+//        } catch (Exception e){
+//            E.e(e);
+//        }
+//    }
 
     private void przygotowanalistasaldBO(List<Konto> kontaklienta, List<StronaWiersza> zapisyRok) {
         Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
@@ -497,11 +527,15 @@ public class SaldoAnalitykaView implements Serializable {
         });
     }
 
+    
+    //gto 03.08.2024
     private void naniesBOnaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyBO) {
-        zapisyBO.stream().forEach((r) -> {
-            //System.out.println(r.getKonto().getPelnynumer());
-            SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
-            if (p != null) {
+    ReentrantLock lock = new ReentrantLock();
+    zapisyBO.parallelStream().forEach(r -> {
+        SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
+        if (p != null) {
+            lock.lock();
+            try {
                 if (tylkozapisywalutowe && !r.getSymbolWalutBOiSW().equals("PLN")) {
                     if (r.getWnma().equals("Wn")) {
                         p.setBoWn(Z.z(p.getBoWn() + r.getKwota()));
@@ -517,26 +551,74 @@ public class SaldoAnalitykaView implements Serializable {
                     }
                     p.getZapisy().add(r);
                 }
+            } finally {
+                lock.unlock();
             }
-            //System.out.println("bez bledu");
-        });
-    }
+        }
+    });
+}
+//    private void naniesBOnaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyBO) {
+//        zapisyBO.stream().forEach((r) -> {
+//            //System.out.println(r.getKonto().getPelnynumer());
+//            SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
+//            if (p != null) {
+//                if (tylkozapisywalutowe && !r.getSymbolWalutBOiSW().equals("PLN")) {
+//                    if (r.getWnma().equals("Wn")) {
+//                        p.setBoWn(Z.z(p.getBoWn() + r.getKwota()));
+//                    } else {
+//                        p.setBoMa(Z.z(p.getBoMa() + r.getKwota()));
+//                    }
+//                    p.getZapisy().add(r);
+//                } else if (!tylkozapisywalutowe) {
+//                    if (r.getWnma().equals("Wn")) {
+//                        p.setBoWn(Z.z(p.getBoWn() + r.getKwotaPLN()));
+//                    } else {
+//                        p.setBoMa(Z.z(p.getBoMa() + r.getKwotaPLN()));
+//                    }
+//                    p.getZapisy().add(r);
+//                }
+//            }
+//            //System.out.println("bez bledu");
+//        });
+//    }
 
-    private void naniesZapisyNaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione, boolean obroty0zapisy1) {
-        int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
-        zapisyRok.stream().forEach(r-> {
-            if (obroty0zapisy1 == true && !r.getDokfk().getSeriadokfk().equals("BO")) {
-                if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
-                    nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione);
-                }
-            } else if (obroty0zapisy1 == false && r.getDokfk().getSeriadokfk().equals("BO")) {
-                if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
-                    nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione);
-                }
-            }
-        });
-    }
+//    private void naniesZapisyNaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione, boolean obroty0zapisy1) {
+//        int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+//        zapisyRok.stream().forEach(r-> {
+//            if (obroty0zapisy1 == true && !r.getDokfk().getSeriadokfk().equals("BO")) {
+//                if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
+//                    nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione);
+//                }
+//            } else if (obroty0zapisy1 == false && r.getDokfk().getSeriadokfk().equals("BO")) {
+//                if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
+//                    nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione);
+//                }
+//            }
+//        });
+//    }
+    //gtp 03082024
+   private void naniesZapisyNaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione, boolean obroty0zapisy1) {
+    int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+    ReentrantLock lock = new ReentrantLock();
 
+    List<StronaWiersza> filteredZapisyRok = zapisyRok.parallelStream()
+        .filter(r -> {
+            boolean isBO = r.getDokfk().getSeriadokfk().equals("BO");
+            int monthNumber = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+            return (obroty0zapisy1 && !isBO && monthNumber <= granicamca) || (!obroty0zapisy1 && isBO && monthNumber <= granicamca);
+        })
+        .collect(Collectors.toList());
+
+    filteredZapisyRok.forEach(r -> {
+        lock.lock();
+        try {
+            nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione);
+        } finally {
+            lock.unlock();
+        }
+    });
+}
+    
     private void nanieskonkretnyzapis(StronaWiersza r, Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> wierszenieuzupelnione) {
         try {
             String mc = wpisView.getMiesiacWpisu();
