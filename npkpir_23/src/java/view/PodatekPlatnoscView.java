@@ -60,6 +60,7 @@ public class PodatekPlatnoscView implements Serializable {
         PodatekPlatnosc editedPodatekPlatnosc = (PodatekPlatnosc) event.getObject();
         try {
             podatekPlatnoscDAO.edit(editedPodatekPlatnosc);
+            sumujkwoty();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Podatek Platnosc zaktualizowany"));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd", "Nie udało się zaktualizować podatku"));
@@ -74,6 +75,7 @@ public class PodatekPlatnoscView implements Serializable {
         try {
             podatekPlatnoscDAO.remove(podatekPlatnosc);
             listaPodatekPlatnosc.remove(podatekPlatnosc);
+            sumujkwoty();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Podatek Platnosc usunięty"));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd", "Nie udało się usunąć podatku"));

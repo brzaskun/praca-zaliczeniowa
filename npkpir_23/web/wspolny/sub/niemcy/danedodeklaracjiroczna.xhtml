@@ -104,7 +104,7 @@
                 <p:outputPanel style="padding: 10px;">
                     <p:dataTable id="dataTable" value="#{podatekPlatnoscView.listaPodatekPlatnosc}" var="item" editable="true" editMode="cell" class="p-datatable-responsive"
                                  style="max-width: 500px;">
-                        <p:ajax event="rowEdit" listener="#{podatekPlatnoscView.onRowEdit}" update=":akordeon:formNiemcyPlatnosci:messages"/>
+                        <p:ajax event="rowEdit" listener="#{podatekPlatnoscView.onRowEdit}" update=":akordeon:formNiemcyPlatnosci:messages :akordeon:formNiemcyPlatnosci" />
                         <p:ajax event="rowEditCancel" listener="#{podatekPlatnoscView.onRowEditCancel}" update=":akordeon:formNiemcyPlatnosci:messages"/>
 
                         <p:column headerText="Rok">
