@@ -10,6 +10,7 @@ import dao.EVatwpis1DAO;
 import dao.EVatwpisDedraDAO;
 import dao.EVatwpisFKDAO;
 import dao.EVatwpisIncydentalniDAO;
+import dao.EVatwpisSumaDAO;
 import dao.EvewidencjaDAO;
 import dao.PlatnoscWalutaDAO;
 import dao.RodzajedokDAO;
@@ -18,13 +19,13 @@ import dao.StronaWierszaDAO;
 import dao.TransakcjaDAO;
 import dao.WniosekVATZDEntityDAO;
 import data.Data;
-import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Mce;
 import embeddable.Parametr;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.EVatwpisKJPK;
+import entity.EVatwpisSuma;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.PlatnoscWaluta;
@@ -86,7 +87,11 @@ public class EwidencjaVatView implements Serializable {
     private List<EVatwpisSuma> sumydowyswietleniazakupy;
     private List<EVatwpisSuma> sumydowyswietleniasprzedazNiemcy;
     private List<EVatwpisSuma> sumydowyswietleniazakupyNiemcy;
+    private List<EVatwpisSuma> sumydowyswietleniasprzedazNiemcyRok;
+    private List<EVatwpisSuma> sumydowyswietleniazakupyNiemcyRok;
     private BigDecimal wynikOkresu;
+    private BigDecimal wynikOkresuNiemcy;
+    private BigDecimal wynikOkresuNiemcyRok;
     private List<EVatwpisSuper> listadokvatprzetworzona;
     private List<EVatwpisFK> listaprzesunietychKoszty;
     private List<EVatwpisFK> listaprzesunietychPrzychody;
@@ -110,6 +115,8 @@ public class EwidencjaVatView implements Serializable {
     private EVatwpisFKDAO eVatwpisFKDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
+    @Inject
+    private EVatwpisSumaDAO eVatwpisSumaDAO;
     @Inject
     private WpisView wpisView;
     private List<EVatwpisSuper> goscwybral;
@@ -348,7 +355,7 @@ public class EwidencjaVatView implements Serializable {
                         EVatwpis1 p = (EVatwpis1) it;
                         lock.lock();
                         try {
-                            return p.getDok() == null || !p.getDok().getRodzajedok().isTylkojpk();
+                            return (p.getDok() == null || !p.getDok().getRodzajedok().isTylkojpk() && p.getEwidencja().isNiemcy()==polska0niemcy1) ;
                         } finally {
                             lock.unlock();
                         }
@@ -453,13 +460,21 @@ public class EwidencjaVatView implements Serializable {
                 wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
                 sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
             }
+           ReentrantLock lock = new ReentrantLock();
             if (listadokvatprzetworzona != null) {
-                for (Iterator<EVatwpisSuper> it = listadokvatprzetworzona.iterator(); it.hasNext();) {
-                    EVatwpisFK p = (EVatwpisFK) it.next();
-                    if (p.getDokfk() != null && p.getDokfk().getRodzajedok().isTylkojpk()) {
-                        it.remove();
-                    }
-                }
+                List<EVatwpisSuper> synchronizedList = Collections.synchronizedList(listadokvatprzetworzona);
+
+                listadokvatprzetworzona = synchronizedList.parallelStream()
+                    .filter(it -> {
+                        EVatwpis1 p = (EVatwpis1) it;
+                        lock.lock();
+                        try {
+                            return p.getDok() == null || !p.getDok().getRodzajedok().isTylkojpk();
+                        } finally {
+                            lock.unlock();
+                        }
+                    })
+                    .collect(Collectors.toList());
             }
             //w uproszczonej tego nie ma
             //ale musi byc bo w fk sa faktury wdt wnt np vintis
@@ -529,7 +544,6 @@ public class EwidencjaVatView implements Serializable {
             //listadokvatprzetworzona.addAll(pobierzEVatIncydentalni(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             przejrzyjEVatwpis1Lista();
             //dodajwierszeVATZD(wniosekVATZDEntity);
-            
             stworzenieEwidencjiCzescWspolnaFK();
             for (String k : listaewidencji.keySet()) {
                 nazwyewidencji.add(k);
@@ -773,6 +787,7 @@ public class EwidencjaVatView implements Serializable {
     
     private void obliczwynikokresu() {
         wynikOkresu = new BigDecimal(BigInteger.ZERO);
+        wynikOkresuNiemcy = new BigDecimal(BigInteger.ZERO);
         for (EVatwpisSuma p : sumaewidencji.values()) {
             if (p.getEwidencja().isNiemcy()==false) {
                 switch (p.getEwidencja().getTypewidencji()) {
@@ -786,6 +801,48 @@ public class EwidencjaVatView implements Serializable {
                         wynikOkresu = wynikOkresu.add(p.getVat());
                         break;
                 }
+            } else {
+                switch (p.getEwidencja().getTypewidencji()) {
+                    case "s":
+                        wynikOkresuNiemcy = wynikOkresuNiemcy.add(p.getVat());
+                        break;
+                    case "z":
+                        wynikOkresuNiemcy = wynikOkresuNiemcy.subtract(p.getVat());
+                        break;
+                    case "sz":
+                        wynikOkresuNiemcy = wynikOkresuNiemcy.add(p.getVat());
+                        break;
+                }
+            }
+        }
+    }
+    
+    private void obliczwynikokresuRok() {
+        wynikOkresuNiemcyRok = new BigDecimal(BigInteger.ZERO);
+        for (EVatwpisSuma p : sumydowyswietleniasprzedazNiemcyRok) {
+            switch (p.getEwidencja().getTypewidencji()) {
+                case "s":
+                    wynikOkresuNiemcyRok = wynikOkresuNiemcyRok.add(p.getVat());
+                    break;
+                case "z":
+                    wynikOkresuNiemcyRok = wynikOkresuNiemcyRok.subtract(p.getVat());
+                    break;
+                case "sz":
+                    wynikOkresuNiemcyRok = wynikOkresuNiemcyRok.add(p.getVat());
+                    break;
+            }
+        }
+        for (EVatwpisSuma p : sumydowyswietleniazakupyNiemcyRok) {
+            switch (p.getEwidencja().getTypewidencji()) {
+                case "s":
+                    wynikOkresuNiemcyRok = wynikOkresuNiemcyRok.add(p.getVat());
+                    break;
+                case "z":
+                    wynikOkresuNiemcyRok = wynikOkresuNiemcyRok.subtract(p.getVat());
+                    break;
+                case "sz":
+                    wynikOkresuNiemcyRok = wynikOkresuNiemcyRok.add(p.getVat());
+                    break;
             }
         }
     }
@@ -1077,8 +1134,8 @@ public class EwidencjaVatView implements Serializable {
     }
 
     private void uzupelnijSumyEwidencji() {
-        EVatwpisSuma sumauptk = new EVatwpisSuma(new Evewidencja("suma upkt"), BigDecimal.ZERO, BigDecimal.ZERO, "");
-        EVatwpisSuma sumasprzedaz = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "");
+        EVatwpisSuma sumauptk = new EVatwpisSuma(new Evewidencja("suma upkt"), BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        EVatwpisSuma sumasprzedaz = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         for (EVatwpisSuma ew : sumydowyswietleniasprzedaz) {
             sumasprzedaz.setNetto(sumasprzedaz.getNetto().add(ew.getNetto()));
             sumasprzedaz.setVat(sumasprzedaz.getVat().add(ew.getVat()));
@@ -1088,7 +1145,7 @@ public class EwidencjaVatView implements Serializable {
         }
         sumydowyswietleniasprzedaz.add(sumasprzedaz);
         sumydowyswietleniasprzedaz.add(sumauptk);
-        EVatwpisSuma sumazakup = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "");
+        EVatwpisSuma sumazakup = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         for (EVatwpisSuma ew : sumydowyswietleniazakupy) {
             sumazakup.setNetto(sumazakup.getNetto().add(ew.getNetto()));
             sumazakup.setVat(sumazakup.getVat().add(ew.getVat()));
@@ -1097,8 +1154,8 @@ public class EwidencjaVatView implements Serializable {
     }
     
     private void uzupelnijSumyEwidencjiNiemcy() {
-        EVatwpisSuma sumauptk = new EVatwpisSuma(new Evewidencja("suma upkt"), BigDecimal.ZERO, BigDecimal.ZERO, "");
-        EVatwpisSuma sumasprzedaz = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "");
+        EVatwpisSuma sumauptk = new EVatwpisSuma(new Evewidencja("suma upkt"), BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        EVatwpisSuma sumasprzedaz = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         for (EVatwpisSuma ew : sumydowyswietleniasprzedazNiemcy) {
             sumasprzedaz.setNetto(sumasprzedaz.getNetto().add(ew.getNetto()));
             sumasprzedaz.setVat(sumasprzedaz.getVat().add(ew.getVat()));
@@ -1108,7 +1165,7 @@ public class EwidencjaVatView implements Serializable {
         }
         sumydowyswietleniasprzedazNiemcy.add(sumasprzedaz);
         sumydowyswietleniasprzedazNiemcy.add(sumauptk);
-        EVatwpisSuma sumazakup = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "");
+        EVatwpisSuma sumazakup = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         for (EVatwpisSuma ew : sumydowyswietleniazakupyNiemcy) {
             sumazakup.setNetto(sumazakup.getNetto().add(ew.getNetto()));
             sumazakup.setVat(sumazakup.getVat().add(ew.getVat()));
@@ -1116,30 +1173,81 @@ public class EwidencjaVatView implements Serializable {
         sumydowyswietleniazakupyNiemcy.add(sumazakup);
     }
 
+//    private void rozdzielEVatwpis1NaEwidencje() {
+//        Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMap();
+//        Map<String, List<EVatwpisSuper>> listaewidencji = new ConcurrentHashMap<>();
+//        Map<String, EVatwpisSuma> sumaewidencji = new ConcurrentHashMap<>();
+//        listadokvatprzetworzona.stream().forEach(vatwiersz->{
+//            if (vatwiersz.getNetto() != 0.0 || vatwiersz.getVat() != 0.0) {
+//                //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
+//                String nazwaewidencji = vatwiersz.getNazwaewidencji().getNazwa();
+//                if (!listaewidencji.containsKey(nazwaewidencji)) {
+//                    listaewidencji.put(nazwaewidencji, new ArrayList<EVatwpisSuper>());
+//                    Evewidencja nowaEv = ewidencje.get(nazwaewidencji);
+//                    sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, vatwiersz.getOpizw()));
+//                }
+//                listaewidencji.get(nazwaewidencji).add(vatwiersz);
+//                EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
+//                BigDecimal sumanetto = ew.getNetto().add(BigDecimal.valueOf(vatwiersz.getNetto()).setScale(2, RoundingMode.HALF_EVEN));
+//                ew.setNetto(sumanetto);
+//                BigDecimal sumavat = ew.getVat().add(BigDecimal.valueOf(vatwiersz.getVat()).setScale(2, RoundingMode.HALF_EVEN));
+//                ew.setVat(sumavat);
+//            }
+//        });
+//        this.listaewidencji = new HashMap<String, List<EVatwpisSuper>>(listaewidencji);
+//        this.sumaewidencji = new HashMap<String, EVatwpisSuma>(sumaewidencji);
+//    }
+    
     private void rozdzielEVatwpis1NaEwidencje() {
         Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMap();
         Map<String, List<EVatwpisSuper>> listaewidencji = new ConcurrentHashMap<>();
         Map<String, EVatwpisSuma> sumaewidencji = new ConcurrentHashMap<>();
-        listadokvatprzetworzona.stream().forEach(vatwiersz->{
-            if (vatwiersz.getNetto() != 0.0 || vatwiersz.getVat() != 0.0) {
-                //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
-                String nazwaewidencji = vatwiersz.getNazwaewidencji().getNazwa();
-                if (!listaewidencji.containsKey(nazwaewidencji)) {
-                    listaewidencji.put(nazwaewidencji, new ArrayList<EVatwpisSuper>());
-                    Evewidencja nowaEv = ewidencje.get(nazwaewidencji);
-                    sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, vatwiersz.getOpizw()));
-                }
-                listaewidencji.get(nazwaewidencji).add(vatwiersz);
-                EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
-                BigDecimal sumanetto = ew.getNetto().add(BigDecimal.valueOf(vatwiersz.getNetto()).setScale(2, RoundingMode.HALF_EVEN));
-                ew.setNetto(sumanetto);
-                BigDecimal sumavat = ew.getVat().add(BigDecimal.valueOf(vatwiersz.getVat()).setScale(2, RoundingMode.HALF_EVEN));
-                ew.setVat(sumavat);
-            }
-        });
-        this.listaewidencji = new HashMap<String, List<EVatwpisSuper>>(listaewidencji);
-        this.sumaewidencji = new HashMap<String, EVatwpisSuma>(sumaewidencji);
+
+        listadokvatprzetworzona.stream()
+                .filter(vatwiersz -> vatwiersz.getNetto() != 0.0 || vatwiersz.getVat() != 0.0)
+                .forEach(vatwiersz -> {
+                    String nazwaewidencji = vatwiersz.getNazwaewidencji().getNazwa();
+
+                    // Synchronizuj operacje na mapie sumaewidencji
+                    synchronized (sumaewidencji) {
+                        listaewidencji.computeIfAbsent(nazwaewidencji, k -> {
+                            Evewidencja nowaEv = ewidencje.get(k);
+                            sumaewidencji.put(k, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, vatwiersz.getOpizw(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                            return Collections.synchronizedList(new ArrayList<>());
+                        }).add(vatwiersz);
+
+                        EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
+                        ew.setNetto(ew.getNetto().add(BigDecimal.valueOf(vatwiersz.getNetto()).setScale(2, RoundingMode.HALF_EVEN)));
+                        ew.setVat(ew.getVat().add(BigDecimal.valueOf(vatwiersz.getVat()).setScale(2, RoundingMode.HALF_EVEN)));
+                    }
+                });
+
+        this.listaewidencji = new HashMap<>(listaewidencji);
+        this.sumaewidencji = new HashMap<>(sumaewidencji);
     }
+//    private void rozdzielEVatwpis1NaEwidencje() {
+//        Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMap();
+//        Map<String, List<EVatwpisSuper>> listaewidencji = new ConcurrentHashMap<>();
+//        Map<String, EVatwpisSuma> sumaewidencji = new ConcurrentHashMap<>();
+//
+//        listadokvatprzetworzona.parallelStream()
+//                .filter(vatwiersz -> vatwiersz.getNetto() != 0.0 || vatwiersz.getVat() != 0.0)
+//                .forEach(vatwiersz -> {
+//                    String nazwaewidencji = vatwiersz.getNazwaewidencji().getNazwa();
+//                    listaewidencji.computeIfAbsent(nazwaewidencji, k -> {
+//                        Evewidencja nowaEv = ewidencje.get(k);
+//                        sumaewidencji.put(k, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, vatwiersz.getOpizw()));
+//                        return new ArrayList<>();
+//                    }).add(vatwiersz);
+//
+//                    EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
+//                    ew.setNetto(ew.getNetto().add(BigDecimal.valueOf(vatwiersz.getNetto()).setScale(2, RoundingMode.HALF_EVEN)));
+//                    ew.setVat(ew.getVat().add(BigDecimal.valueOf(vatwiersz.getVat()).setScale(2, RoundingMode.HALF_EVEN)));
+//                });
+//
+//        this.listaewidencji = new HashMap<>(listaewidencji);
+//        this.sumaewidencji = new HashMap<>(sumaewidencji);
+//    }
     
     private void rozdzielEVatwpisDedraNaEwidencje() {
         Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMap();
@@ -1150,7 +1258,7 @@ public class EwidencjaVatView implements Serializable {
                 if (!listaewidencji.containsKey(nazwaewidencji)) {
                     listaewidencji.put(nazwaewidencji, new ArrayList<EVatwpisSuper>());
                     Evewidencja nowaEv = ewidencje.get(nazwaewidencji);
-                    sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw()));
+                    sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
                 }
                 listaewidencji.get(nazwaewidencji).add(wierszogolny);
                 EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
@@ -1162,96 +1270,46 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
-    private  Map<String, Evewidencja> przejrzyjEVatwpis1Lista() {
-        Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMapByPole();
-        List<EVatwpisSuper> wierszedodatkowe = Collections.synchronizedList(new ArrayList<>());
-        List<EVatwpisSuper> dousuniecia = new ArrayList<>();
-        for (EVatwpisSuper ewid : listadokvatprzetworzona) {
-            if (ewid.getNazwaewidencji().getTypewidencji().equals("sz") && !ewid.isNieduplikuj()) {
-                wierszedodatkowe.add(beansVAT.EwidencjaVATSporzadzanie.duplikujEVatwpisSuper(ewid,ewidencjazakupu));
-            }
-//            if (dlaewidencja && ewid.getDokfk().getRodzajedok() != null &&  ewid.getDokfk().getRodzajedok().isTylkovat()) {
-//                dousuniecia.add(ewid);
+//     private  Map<String, Evewidencja> przejrzyjEVatwpis1Lista() {
+//        Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMapByPole();
+//        List<EVatwpisSuper> wierszedodatkowe = Collections.synchronizedList(new ArrayList<>());
+//        List<EVatwpisSuper> dousuniecia = new ArrayList<>();
+//        for (EVatwpisSuper ewid : listadokvatprzetworzona) {
+//            if (ewid.getNazwaewidencji().getTypewidencji().equals("sz") && !ewid.isNieduplikuj()) {
+//                wierszedodatkowe.add(beansVAT.EwidencjaVATSporzadzanie.duplikujEVatwpisSuper(ewid,ewidencjazakupu));
 //            }
-// to nie ma prawa dzialac funkcja ta jest w miejscyu beansvat vatdeklaracja przyporzadkujPozycjeSzczegoloweNowe            
-//            if (ewid.getNazwaewidencji().getNazwapola() != null && ewid.getNazwaewidencji().getNazwapola().getMacierzysty() != null){
-//                wierszedodatkowe.add(duplikujsubwiersze(ewid, ewidencje));
-//            }
-        }
-        listadokvatprzetworzona.removeAll(dousuniecia);
-        listadokvatprzetworzona.addAll(wierszedodatkowe);
-        return ewidencje;
-    }
-    
-    //*****************DOZROBIENIA
-    //duplikjowanie do deklaraccji ???
-//     private EVatwpisSuper duplikujsubwiersze(EVatwpisSuper wiersz, Map<String, Evewidencja> ewidencje) {
-//        Evpozycja macierzysty = wiersz.getNazwaewidencji().getNazwapola().getMacierzysty();
-//        Evewidencja ewidencja = ewidencje.get(macierzysty.getNazwapola());
-//         EVatwpisSuper duplikat = null;
-//        if (wiersz instanceof EVatwpis1) {
-//            duplikat = new EVatwpis1((EVatwpis1) wiersz);
-//        } else {
-//            duplikat = new EVatwpisFK((EVatwpisFK) wiersz);
+////            if (dlaewidencja && ewid.getDokfk().getRodzajedok() != null &&  ewid.getDokfk().getRodzajedok().isTylkovat()) {
+////                dousuniecia.add(ewid);
+////            }
+//// to nie ma prawa dzialac funkcja ta jest w miejscyu beansvat vatdeklaracja przyporzadkujPozycjeSzczegoloweNowe            
+////            if (ewid.getNazwaewidencji().getNazwapola() != null && ewid.getNazwaewidencji().getNazwapola().getMacierzysty() != null){
+////                wierszedodatkowe.add(duplikujsubwiersze(ewid, ewidencje));
+////            }
 //        }
-//        //wpisuje pola zakupu
-//        duplikat.setNazwaewidencji(ewidencja);
-//        duplikat.setDuplikat(true);
-//        return duplikat;
+//        listadokvatprzetworzona.removeAll(dousuniecia);
+//        listadokvatprzetworzona.addAll(wierszedodatkowe);
+//        return ewidencje;
 //    }
 //    
-     
+    
+    
+    //era chatgtp 03.08.2024. gdzie te czasy gdy googlalo sie jakies forma po angielsku
+    private Map<String, Evewidencja> przejrzyjEVatwpis1Lista() {
+      Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMapByPole();
 
-//    private List transferujEVatwpisFKDoEVatwpisSuper(List<EVatwpisFK> listaprzetworzona, String vatokres) throws Exception {
-//        List<EVatwpisSuper> przetransferowane = Collections.synchronizedList(new ArrayList<>());
-//        int k = 1;
-//        for (EVatwpisFK ewidwiersz : listaprzetworzona) {
-//            if (ewidwiersz.getVat() != 0 || ewidwiersz.getNetto() != 0) {
-//                EVatwpisSuper eVatViewPole = new EVatwpisSuper();
-//                if (ewidwiersz.getWiersz() != null) {
-//                    eVatViewPole.setDataSprz(ewidwiersz.getDataoperacji());
-//                    eVatViewPole.setNumerwlasnydokfk(ewidwiersz.getNumerwlasnydokfk());
-//                    eVatViewPole.setDataWyst(ewidwiersz.getDatadokumentu());
-//                    eVatViewPole.setKontr(ewidwiersz.getKlient());
-//                    String nrdok = ewidwiersz.getDokfk().toString2() + ", poz: " + ewidwiersz.getWiersz().getIdporzadkowy();
-//                    eVatViewPole.setNrKolejny(nrdok);
-//                    eVatViewPole.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
-//                    eVatViewPole.setOpis(ewidwiersz.getWiersz().getOpisWiersza());
-//                } else {
-//                    eVatViewPole.setDataSprz(ewidwiersz.getDokfk().getDataoperacji());
-//                    eVatViewPole.setNumerwlasnydokfk(ewidwiersz.getNumerwlasnydokfk());
-//                    eVatViewPole.setDataWyst(ewidwiersz.getDokfk().getDatadokumentu());
-//                    eVatViewPole.setKontr(ewidwiersz.getDokfk().getKontr());
-//                    String nrdok = ewidwiersz.getDokfk().toString2();
-//                    eVatViewPole.setNrKolejny(nrdok);
-//                    eVatViewPole.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
-//                    eVatViewPole.setOpis(ewidwiersz.getDokfk().getOpisdokfk());
-//                    
-//                }
-//                eVatViewPole.setDokfk(ewidwiersz.getDokfk());
-//                eVatViewPole.setProcentvat(ewidwiersz.getDokfk().getRodzajedok().getProcentvat());
-//                if (ewidwiersz.isPaliwo()) {
-//                    eVatViewPole.setProcentvat(50.0);
-//                }
-//                eVatViewPole.setId(k++);
-//                eVatViewPole.setNazwaewidencji(ewidwiersz.getEwidencja());
-//                eVatViewPole.setNrpolanetto(ewidwiersz.getEwidencja().getNrpolanetto());
-//                eVatViewPole.setNrpolavat(ewidwiersz.getEwidencja().getNrpolavat());
-//                eVatViewPole.setNetto(ewidwiersz.getNetto());
-//                eVatViewPole.setVat(ewidwiersz.getVat());
-//                eVatViewPole.setOpizw(ewidwiersz.getEstawka());
-//                eVatViewPole.setInnymc(ewidwiersz.getDokfk().getVatM());
-//                eVatViewPole.setInnyrok(ewidwiersz.getDokfk().getVatR());
-//                przetransferowane.add(eVatViewPole);
-//                if (eVatViewPole.getNazwaewidencji().getTypewidencji().equals("sz")) {
-//                    EVatwpisSuper eVatViewPoleD = duplikujEVatwpisSuper(eVatViewPole);
-//                    eVatViewPoleD.setId(k++);
-//                    przetransferowane.add(eVatViewPoleD);
-//                }
-//            }
-//        }
-//        return przetransferowane;
-//    }
+      List<EVatwpisSuper> wierszedodatkowe = listadokvatprzetworzona.parallelStream()
+          .filter(ewid -> ewid.getNazwaewidencji().getTypewidencji().equals("sz") && !ewid.isNieduplikuj())
+          .map(ewid -> beansVAT.EwidencjaVATSporzadzanie.duplikujEVatwpisSuper(ewid, ewidencjazakupu))
+          .collect(Collectors.toList());
+
+//      listadokvatprzetworzona = listadokvatprzetworzona.parallelStream()
+//          .filter(ewid -> !(ewid.getNazwaewidencji().getTypewidencji().equals("sz") && !ewid.isNieduplikuj()))
+//          .collect(Collectors.toList());
+
+      listadokvatprzetworzona.addAll(wierszedodatkowe);
+      return ewidencje;
+  }
+    
     
     private double sumujprzesuniete(List<EVatwpisFK> l ) {
         double suma = 0.0;
@@ -1272,7 +1330,7 @@ public class EwidencjaVatView implements Serializable {
             wiersz.setId(9999);
             wiersz.setKontr(null);
             wiersz.setOpis("podsumowanie");
-            wiersz.setNazwaewidencji(null);
+            wiersz.setNazwaewidencji(sumaewidencji.get(p).getEwidencja());
             wiersz.setNetto(sumaewidencji.get(p).getNetto().doubleValue());
             wiersz.setVat(sumaewidencji.get(p).getVat().doubleValue());
             listaewidencji.get(p).add(wiersz);
@@ -1286,7 +1344,7 @@ public class EwidencjaVatView implements Serializable {
             wiersz.setId(9999);
             wiersz.setKontr(null);
             wiersz.setOpis("podsumowanie");
-            wiersz.setNazwaewidencji(null);
+            wiersz.setNazwaewidencji(sumaewidencji.get(p).getEwidencja());
             wiersz.setNetto(sumaewidencji.get(p).getNetto().doubleValue());
             wiersz.setVat(sumaewidencji.get(p).getVat().doubleValue());
             listaewidencji.get(p).add(wiersz);
@@ -1376,6 +1434,92 @@ public class EwidencjaVatView implements Serializable {
         } catch (Exception e) { E.e(e); 
 
         }
+    }
+    //kom
+    public void pobierzEwidSumabazaNiemcyRoczna() {
+        List<EVatwpisSuma> lista = eVatwpisSumaDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        rozdzielsumeEwidencjiNaPodlistyNiemcyRok(lista);
+        sumujIZastapListy(sumydowyswietleniasprzedazNiemcyRok);
+        sumujIZastapListy(sumydowyswietleniazakupyNiemcyRok);
+        obliczwynikokresuRok();
+    }
+    
+    private void sumujIZastapListy(List<EVatwpisSuma> lista) {
+        if (lista == null || lista.isEmpty()) {
+            return;
+        }
+
+        BigDecimal sumaNetto = BigDecimal.ZERO;
+        BigDecimal sumaVat = BigDecimal.ZERO;
+        Evewidencja ewidencja = null;
+        Podatnik podatnik = null;
+        String rok = null;
+        String mc = null;
+
+        for (EVatwpisSuma ew : lista) {
+            sumaNetto = sumaNetto.add(ew.getNetto());
+            sumaVat = sumaVat.add(ew.getVat());
+            if (ewidencja == null) {
+                ewidencja = ew.getEwidencja();
+            }
+            if (podatnik == null) {
+                podatnik = ew.getPodatnik();
+            }
+            if (rok == null) {
+                rok = ew.getRok();
+            }
+            if (mc == null) {
+                mc = ew.getMc();
+            }
+        }
+
+        lista.clear();
+
+        EVatwpisSuma suma = new EVatwpisSuma(ewidencja, sumaNetto, sumaVat, "suma", podatnik, rok, mc);
+        lista.add(suma);
+    }
+    
+    private void rozdzielsumeEwidencjiNaPodlistyNiemcyRok(List<EVatwpisSuma> lista) {
+        sumydowyswietleniasprzedazNiemcyRok = Collections.synchronizedList(new ArrayList<>());
+        sumydowyswietleniazakupyNiemcyRok = Collections.synchronizedList(new ArrayList<>());
+        for (EVatwpisSuma ew : sumaewidencji.values()) {
+            String typeewidencji = ew.getEwidencja().getTypewidencji();
+            if (ew.getEwidencja().isNiemcy()==true) {
+                switch (typeewidencji) {
+                    case "s":
+                        sumydowyswietleniasprzedazNiemcyRok.add(ew);
+                        break;
+                    case "z":
+                        sumydowyswietleniazakupyNiemcyRok.add(ew);
+                        break;
+                    case "sz":
+                        sumydowyswietleniasprzedazNiemcyRok.add(ew);
+                        break;
+                }
+            }
+        }
+    }
+    
+    public void zachowajEwidSumabazaNiemcy() {
+        if (sumydowyswietleniasprzedazNiemcy.isEmpty()==false) {
+            eVatwpisSumaDAO.usunPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            try {
+                sumydowyswietleniasprzedazNiemcy.removeIf(it->it.getEwidencja().getNazwa().equals("podsumowanie"));
+                sumydowyswietleniasprzedazNiemcy.removeIf(it->it.getEwidencja().getNazwa().equals("suma upkt"));
+                eVatwpisSumaDAO.createEditList(sumydowyswietleniasprzedazNiemcy);
+            } catch (Exception ex){
+                E.m(ex);
+            }
+        }
+        if (sumydowyswietleniazakupyNiemcy.isEmpty()==false) {
+            try {
+                sumydowyswietleniazakupyNiemcy.removeIf(it->it.getEwidencja().getNazwa().equals("podsumowanie"));
+                eVatwpisSumaDAO.createEditList(sumydowyswietleniazakupyNiemcy);
+            } catch (Exception ex){
+                E.m(ex);
+            }
+        }
+        Msg.msg("Zachowano sumy ewidencji do deklaracji");
     }
     
      public void drukujPdfSumaNiemcy() {
@@ -1888,6 +2032,38 @@ public class EwidencjaVatView implements Serializable {
 
     public void setPobierzmiesiacdlajpk(boolean pobierzmiesiacdlajpk) {
         this.pobierzmiesiacdlajpk = pobierzmiesiacdlajpk;
+    }
+
+    public BigDecimal getWynikOkresuNiemcy() {
+        return wynikOkresuNiemcy;
+    }
+
+    public void setWynikOkresuNiemcy(BigDecimal wynikOkresuNiemcy) {
+        this.wynikOkresuNiemcy = wynikOkresuNiemcy;
+    }
+
+    public List<EVatwpisSuma> getSumydowyswietleniasprzedazNiemcyRok() {
+        return sumydowyswietleniasprzedazNiemcyRok;
+    }
+
+    public void setSumydowyswietleniasprzedazNiemcyRok(List<EVatwpisSuma> sumydowyswietleniasprzedazNiemcyRok) {
+        this.sumydowyswietleniasprzedazNiemcyRok = sumydowyswietleniasprzedazNiemcyRok;
+    }
+
+    public List<EVatwpisSuma> getSumydowyswietleniazakupyNiemcyRok() {
+        return sumydowyswietleniazakupyNiemcyRok;
+    }
+
+    public void setSumydowyswietleniazakupyNiemcyRok(List<EVatwpisSuma> sumydowyswietleniazakupyNiemcyRok) {
+        this.sumydowyswietleniazakupyNiemcyRok = sumydowyswietleniazakupyNiemcyRok;
+    }
+
+    public BigDecimal getWynikOkresuNiemcyRok() {
+        return wynikOkresuNiemcyRok;
+    }
+
+    public void setWynikOkresuNiemcyRok(BigDecimal wynikOkresuNiemcyRok) {
+        this.wynikOkresuNiemcyRok = wynikOkresuNiemcyRok;
     }
 
     

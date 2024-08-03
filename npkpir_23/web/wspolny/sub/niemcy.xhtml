@@ -12,21 +12,29 @@
         <h:outputText value="okres:" />
         <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
             <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
-            <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" global="true" oncomplete="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
-                    update="formNiemcyRok"/>
+            <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" global="true" 
+                    update="akordeon:formNiemcyEwidencje akordeon:formNiemcyDekalracje"/>
         </p:selectOneMenu>
         </p:panel>
     </h:form>
     <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt, true)}"/>
-    <h:form id="formNiemcyRok">
+    
         <p:outputPanel id="wrapper2">
-            <p:tabView>
-                <p:tab title="Ewidencje">
-                    <ui:include src="niemcy/ewidencjevat.xhtml"/>
-                </p:tab>
-                <p:tab title="UMSt">
-                    <ui:include src="niemcy/danedodeklaracji.xhtml"/>
-                </p:tab>
+            <p:tabView id="akordeon">
+                    <p:tab title="Ewidencje">
+                        <h:form id="formNiemcyEwidencje">
+                            <ui:include src="niemcy/ewidencjevat.xhtml"/>
+                        </h:form>
+                    </p:tab>
+                    <p:tab title="VStA">
+                        <h:form id="formNiemcyDekalracje">
+                            <ui:include src="niemcy/danedodeklaracji.xhtml"/>
+                        </h:form>
+                    </p:tab>
+                    <p:tab title="UMSt Rok">
+<!--                        <h:form>w srodku sa dwa-->
+                            <ui:include src="niemcy/danedodeklaracjiroczna.xhtml"/>
+                    </p:tab>
                 <p:tab title="rejestracja">
                 </p:tab>
                 <p:tab title="freistellung">
@@ -37,6 +45,6 @@
                 </p:tab>
             </p:tabView>
         </p:outputPanel>
-    </h:form>
+    
 </ui:composition>   
 

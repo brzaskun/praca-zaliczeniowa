@@ -5,6 +5,30 @@
 <facelet-taglib>
     <namespace>http://brzaskun.com/facelets</namespace>
     <tag>
+        <tag-name>inputwaluta</tag-name>
+        <source>tags/inputwaluta.xhtml</source>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.math.BigDecimal</type>
+        </attribute>
+        <attribute>
+            <name>style</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>stylePlus</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>currency</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+    <tag>
         <tag-name>inputpl</tag-name>
         <source>tags/inputpl.xhtml</source>
         <attribute>

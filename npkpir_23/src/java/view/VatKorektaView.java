@@ -20,7 +20,6 @@ import dao.RodzajedokDAO;
 import dao.VATDeklaracjaKorektaDokDAO;
 import dao.WniosekVATZDEntityDAO;
 import deklaracjaVAT7_13.VAT713;
-import embeddable.EVatwpisSuma;
 import embeddable.EwidencjaAddwiad;
 import embeddable.Kwartaly;
 import embeddable.Parametr;
@@ -30,6 +29,7 @@ import embeddable.VatKorektaDok;
 import embeddable.Vatpoz;
 import entity.DeklaracjaVatSchema;
 import entity.Deklaracjevat;
+import entity.EVatwpisSuma;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Evpozycja;
@@ -222,14 +222,14 @@ public class VatKorektaView implements Serializable {
         EwidencjaVATSporzadzanie.transferujDokdoEVatwpis(listadokumentowDoKorekty, listadokvatprzetworzona, wpisView.getRokWpisuSt() , wpisView.getMiesiacWpisu());
         HashMap<String, List<EVatwpisSuper>> listaewidencji = new HashMap<>();
         HashMap<String, EVatwpisSuma> sumaewidencjiPierwotna = new HashMap<>();
-        EwidencjaVATSporzadzanie.rozdzielEVatwpisNaEwidencje(listadokvatprzetworzona, listaewidencji, sumaewidencjiPierwotna, evewidencjaDAO);
+        EwidencjaVATSporzadzanie.rozdzielEVatwpisNaEwidencje(listadokvatprzetworzona, listaewidencji, sumaewidencjiPierwotna, evewidencjaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         ArrayList<EVatwpisSuma> ewidencjeUzupelniane = new ArrayList<>(sumaewidencjiPierwotna.values());
         /**
          * pobiera stowrzone ewidencje i robi pozycje szczegolowe korekta zeby wyswietlic
          */
-        VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane);
+        VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane, wpisView);
         Evpozycja evpozycja = evpozycjaDAO.find("Nabycie towarów i usług pozostałych");
-        VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane,evpozycja);
+        VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane,evpozycja, wpisView);
         VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, pozycjeSzczegoloweVATKorekta, nowaWartoscVatZPrzeniesienia);
         /**
          * tworze nowa deklaracje kopiujac stara binarnie
@@ -239,14 +239,14 @@ public class VatKorektaView implements Serializable {
         /**
          * sklejam dwie ewidencje: z pierwotnej deklaracji i z korekt
          */
-        EwidencjaVATSporzadzanie.dodajDoEwidencjiPozycjeKorekt(sumaewidencjiNowakorekta, sumaewidencjiPierwotna, evewidencjaDAO);
+        EwidencjaVATSporzadzanie.dodajDoEwidencjiPozycjeKorekt(sumaewidencjiNowakorekta, sumaewidencjiPierwotna, evewidencjaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         /**
          * ze sklejonej ewidencji robie pozycje szczegolowe nowej deklaracji
          */
         ewidencjeUzupelniane.clear();
         ewidencjeUzupelniane.addAll(sumaewidencjiNowakorekta.values());
-        VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane);
-        VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane,evpozycja);
+        VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane, wpisView);
+        VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane,evpozycja, wpisView);
         VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, deklaracjaVATPoKorekcie.getSelected().getPozycjeszczegolowe(), nowaWartoscVatZPrzeniesienia);
         /**
          * robie podsumowanie szczegolowych oraz uzupelniam pozycje nowej deklaracji, usuwam jakies statusy i wpisy

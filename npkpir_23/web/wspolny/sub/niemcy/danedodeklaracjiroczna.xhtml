@@ -4,28 +4,30 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-        
-    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab title="podsumowanie">
+        <h:form id="formNiemcyDekalracjeRoczna">
             <p:panel header="firma nie będąca płatnikiem podatku VAT" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>
             <p:panel header="VAT rozliczany #{WpisView.podatnikObiekt.vatokres.size() gt 0 ? WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr : ''}" 
                      rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
-            <h:outputText value="Wynik za okres rozliczeniowy: #{ewidencjaVatView.wynikOkresuNiemcy gt 0 ? 'do zapłaty ' : 'do zwrotu '}"/> 
-            <h:outputText value="#{ewidencjaVatView.wynikOkresuNiemcy}" style="#{ewidencjaVatView.wynikOkresuNiemcy gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" 
+            <h:outputText value="Wynik za okres rozliczeniowy: #{ewidencjaVatView.wynikOkresuNiemcyRok gt 0 ? 'do zapłaty ' : 'do zwrotu '}"/> 
+            <h:outputText value="#{ewidencjaVatView.wynikOkresuNiemcyRok}" style="#{ewidencjaVatView.wynikOkresuNiemcyRok gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" 
                           rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                 <f:convertNumber minFractionDigits="0" locale="PL" />
             </h:outputText>
-            <p:commandButton value="zapisz do dekl." icon="pi pi-save" actionListener="#{ewidencjaVatView.zachowajEwidSumabazaNiemcy}" style="width: 120px;margin-left: 10px;"/>
+            <p:commandButton value="pobierz" icon="pi pi-download" actionListener="#{ewidencjaVatView.pobierzEwidSumabazaNiemcyRoczna}" style="width: 120px;margin-left: 10px;" update="akordeon:formNiemcyDekalracjeRoczna"/>
             <p:commandButton value="druk Niemcy" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSumaNiemcy()}" onsuccess="wydruksumavat('#{WpisView.podatnikObiekt.nip}');" style="width: 120px;margin-left: 10px;"/>
             <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 100px;"/>
             <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 10px;"/>
-<!--                    <p:commandButton value="generuj jpk" icon="ui-icon-play" actionListener="#{jpk_VAT2NView.przygotujXML()}"
+    <!--                    <p:commandButton value="generuj jpk" icon="ui-icon-play" actionListener="#{jpk_VAT2NView.przygotujXML()}"
                              oncomplete="pobierzxml()" update="formVatZestKsiegowa"
                      style="width: 120px; margin-left: 10px;"/>-->
             <p:separator/>
-                <p:panelGrid id="panelposumowaniavatniemcy" columns="2" columnClasses="fifty-percent fifty-percent" style="margin-top: 10px;">
+            <p:panelGrid id="panelposumowaniavatniemcy" columns="2" columnClasses="fifty-percent fifty-percent" style="margin-top: 10px;">
                 <p:panelGrid columns="1">
-                    <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniasprzedazNiemcy}" var="itemik" 
+                    <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniasprzedazNiemcyRok}" var="itemik" 
                                  selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 600px;"
                                  >
                         <f:facet name="header">
@@ -48,7 +50,7 @@
                         </p:column>
 
                     </p:dataTable>
-                    <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniazakupyNiemcy}" var="itemik" 
+                    <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniazakupyNiemcyRok}" var="itemik" 
                                  selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 600px;"
                                  >
                         <f:facet name="header">
@@ -73,18 +75,66 @@
 
                     </p:dataTable>
                 </p:panelGrid>
-                     </p:panelGrid>
-                <!--                        <p:panelGrid id="paneljpk" columns="4">
-                                            <p:panelGrid rendered="#{jpk_VAT2NView.jpk ne null}" style="width: 300px;" columns="2">
-                                                <h:outputText value="jpk sprzedaż"/><bcf:outputpl value="#{jpk_VAT2NView.jpk.sprzedazCtrl.podatekNalezny}"/>
-                                                <h:outputText value="jpk sprzedaż wiersze"/><h:outputText value="#{jpk_VAT2NView.jpk.sprzedazCtrl.liczbaWierszySprzedazy}"/>
-                                                <h:outputText value="jpk zakup"/><bcf:outputpl value="#{jpk_VAT2NView.jpk.zakupCtrl.podatekNaliczony}"/>
-                                                <h:outputText value="jpk zakup wiersze"/><h:outputText value="#{jpk_VAT2NView.jpk.zakupCtrl.liczbaWierszyZakupow}"/>
-                                            </p:panelGrid>
-                                        </p:panelGrid>
-                <a  download='jpkvat' id="link"></a>-->
+            </p:panelGrid>
+        </h:form>
+        <h:form id="formNiemcyPlatnosci">
+            <p:outputPanel style="padding: 10px;margin-top: 10px;">
+                <p:growl id="messages" showDetail="true"/>
+                <p:panel header="Dodawanie nowej zapłaty" style="max-width: 600px;"/>
+                <div class="p-grid p-formgrid">
+
+                    <div class="p-col-12 p-md-3">
+                        <h:outputLabel for="kwota" value="Kwota:"/>
+                    </div>
+                    <div class="p-col-12 p-md-9">
+                        <bcf:inputwaluta id="kwota" value="#{podatekPlatnoscView.podatekPlatnosc.kwota}" currency="EUR"/>
+                    </div>
 
 
-        </p:tab>
-     
+                    <div class="p-col-12 p-md-3">
+                        <h:outputLabel for="terminzaplaty" value="Termin Zaplaty:"/>
+                    </div>
+                    <div class="p-col-12 p-md-9">
+                        <p:inputMask id="terminzaplaty" value="#{podatekPlatnoscView.podatekPlatnosc.terminzaplaty}" mask="9999-99-99" placeholder="yyyy-mm-dd"/>
+                    </div>
+                </div>
+                <div class="p-mt-3">
+                    <p:commandButton value="Dodaj" action="#{podatekPlatnoscView.create}" update="akordeon:formNiemcyPlatnosci:messages akordeon:formNiemcyPlatnosci:dataTable"/>
+                </div>
+                <p:outputPanel style="padding: 10px;">
+                    <p:dataTable id="dataTable" value="#{podatekPlatnoscView.listaPodatekPlatnosc}" var="item" editable="true" editMode="cell" class="p-datatable-responsive"
+                                 style="max-width: 500px;">
+                        <p:ajax event="rowEdit" listener="#{podatekPlatnoscView.onRowEdit}" update=":akordeon:formNiemcyPlatnosci:messages"/>
+                        <p:ajax event="rowEditCancel" listener="#{podatekPlatnoscView.onRowEditCancel}" update=":akordeon:formNiemcyPlatnosci:messages"/>
+
+                        <p:column headerText="Rok">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.rok}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.rok}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Kwota"  footerText="#{podatekPlatnoscView.sumawplat}">
+                            <p:cellEditor>
+                                <f:facet name="output"><bcf:outputwal value="#{item.kwota}"/></f:facet>
+                                <f:facet name="input"><bcf:inputwaluta value="#{item.kwota}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+
+                        <p:column headerText="Termin Zaplaty">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.terminzaplaty}"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.terminzaplaty}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column width="30">
+                            <p:commandButton icon="pi pi-times" action="#{podatekPlatnoscView.delete(item)}" update="akordeon:formNiemcyPlatnosci:dataTable akordeon:formNiemcyPlatnosci:messages"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:outputPanel>
+        </h:form>
+    </p:tab>
+
 </ui:composition>   

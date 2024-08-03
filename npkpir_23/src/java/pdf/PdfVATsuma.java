@@ -16,7 +16,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import data.Data;
-import embeddable.EVatwpisSuma;
+import entity.EVatwpisSuma;
 import entity.Podatnik;
 import entity.Uz;
 import java.io.FileNotFoundException;

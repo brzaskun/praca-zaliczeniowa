@@ -14,7 +14,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
 import dao.PodatnikDAO;
 import dao.SchemaEwidencjaDAO;
-import embeddable.EVatwpisSuma;
+import entity.EVatwpisSuma;
 import embeddable.SchemaEwidencjaSuma;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;

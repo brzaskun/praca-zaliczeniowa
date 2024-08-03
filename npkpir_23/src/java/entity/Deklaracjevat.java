@@ -5,7 +5,6 @@
 package entity;
 
 import beansVAT.EwidPoz;
-import embeddable.EVatwpisSuma;
 import embeddable.Vatpoz;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;

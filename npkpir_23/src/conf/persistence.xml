@@ -40,6 +40,7 @@
     <class>entity.EVatOpis</class>
     <class>entity.EVatwpis1</class>
     <class>entity.EVatwpisKJPK</class>
+    <class>entity.EVatwpisSuma</class>
     <class>entity.Evewidencja</class>
     <class>entity.Evopis</class>
     <class>entity.Evpozycja</class>
@@ -82,6 +83,7 @@
     <class>entity.Podatnik</class>
     <class>entity.PlatnoscWaluta</class>
     <class>entityfk.MiejsceSuper</class>
+    <class>entity.PodatekPlatnosc</class>
     <class>entity.PodatnikEwidencjaDok</class>
     <class>entity.PodatnikOpodatkowanieD</class>
     <class>entity.PodatnikUdzialy</class>

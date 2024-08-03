@@ -7,12 +7,12 @@ package beansVAT;
 
 import data.Data;
 import embeddable.Daneteleadresowe;
-import embeddable.EVatwpisSuma;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.SchemaEwidencjaSuma;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.DeklaracjaVatWierszSumaryczny;
+import entity.EVatwpisSuma;
 import entity.Evewidencja;
 import entity.Evpozycja;
 import entity.Podatnik;
@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
+import view.WpisView;
 import waluty.Z;
 
 /**
@@ -226,14 +227,13 @@ public class VATDeklaracja implements Serializable {
         return s;
     }
 
-    public static void duplikujZapisyDlaTransakcji(ArrayList<EVatwpisSuma> ewidencjeDoPrzegladu) {
+    public static void duplikujZapisyDlaTransakcji(ArrayList<EVatwpisSuma> ewidencjeDoPrzegladu, WpisView wpisView) {
         List<EVatwpisSuma> ewidencjeUzupelniane = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<EVatwpisSuma> it = ewidencjeDoPrzegladu.iterator(); it.hasNext();) {
             EVatwpisSuma ew = (EVatwpisSuma) it.next();
             //dodaje wartosci ujete pierwotnie jako przychod, drugi raz jako koszt 1 "import usług",3 "rejestr WNT",17"odwrotne obciążenie", 24 "import towarów"
             if (ew.getEwidencja().getId()==1 || ew.getEwidencja().getId()==3 || ew.getEwidencja().getId()==17 || ew.getEwidencja().getId()==24) {
-                EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka());
-                //pobieram i kopiuje stara ewidencje
+                EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 Evewidencja tmp = new Evewidencja(ew.getEwidencja().getNazwa(), ew.getEwidencja().getNazwapola(), ew.getEwidencja().getNrpolanetto(), ew.getEwidencja().getNrpolavat(), ew.getEwidencja().getRodzajzakupu(), ew.getEwidencja().getTransakcja(), ew.getEwidencja().isTylkoNetto());
                 //wpisuje pola zakupu
                 tmp.setNrpolanetto("51");
@@ -244,7 +244,7 @@ public class VATDeklaracja implements Serializable {
                 ewidencjeUzupelniane.add(suma);
             }
             if (ew.getEwidencja().getId()==1) {
-                EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka());
+                EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 //pobieram i kopiuje stara ewidencje
                 Evewidencja tmp = new Evewidencja(ew.getEwidencja().getNazwa(), ew.getEwidencja().getNazwapola(), ew.getEwidencja().getNrpolanetto(), ew.getEwidencja().getNrpolavat(), ew.getEwidencja().getRodzajzakupu(), ew.getEwidencja().getTransakcja(), ew.getEwidencja().isTylkoNetto());
                 //wpisuje pola zakupu
@@ -259,9 +259,9 @@ public class VATDeklaracja implements Serializable {
         ewidencjeDoPrzegladu.addAll(ewidencjeUzupelniane);
     }
 
-    public static void agregacjaEwidencjiZakupowych5152(ArrayList<EVatwpisSuma> ewidencjeUzupelniane, Evpozycja evpozycjanabycie) {
+    public static void agregacjaEwidencjiZakupowych5152(ArrayList<EVatwpisSuma> ewidencjeUzupelniane, Evpozycja evpozycjanabycie, WpisView wpisView) {
         Evewidencja ewidencjaSumarycznaZakupy = new Evewidencja("sumaryczna", evpozycjanabycie, "51", "52", "opodatkowane", "zakup suma", false);
-        EVatwpisSuma zakupyVatwpis = new EVatwpisSuma(ewidencjaSumarycznaZakupy, BigDecimal.ZERO, BigDecimal.ZERO, "");
+        EVatwpisSuma zakupyVatwpis = new EVatwpisSuma(ewidencjaSumarycznaZakupy, BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         for (Iterator<EVatwpisSuma> it = ewidencjeUzupelniane.iterator(); it.hasNext();) {
             EVatwpisSuma ew = it.next();
             if (ew.getEwidencja().getNrpolanetto().equals("51")) {
