@@ -38,6 +38,7 @@ import org.eclipse.persistence.annotations.CacheType;
     @NamedQuery(name = "EVatwpisFK.findEwidencjaNUll", query = "SELECT k FROM EVatwpisFK k WHERE k.ewidencja IS NULL"),
     @NamedQuery(name = "EVatwpisFK.findByKlient", query = "SELECT k FROM EVatwpisFK k WHERE k.klient = :klient"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRok", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok"),
+    @NamedQuery(name = "EVatwpisFK.findByRokUlgaNaZleDlugi", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok AND (k.dokfk.ulganazledlugidatapierwsza IS NOT NULL OR k.dokfk.ulganazledlugidatadruga IS NOT NULL)"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRokMcodMcdo", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw >= :mcod AND k.mcEw <= :mcdo"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRokInnyOkres", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok AND k.innyokres != 0"),
     @NamedQuery(name = "EVatwpisFK.findEVatwpisFKPodatnikKlient", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.klient = :klient AND k.dokfk.rok = :rok ORDER BY k.dokfk.nrkolejnywserii DESC"),
@@ -125,7 +126,12 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
         this.setRokEw(selected.getVatR());
         this.setInnyokres(0);
     }
-
+    
+// Metoda zmieniająca znak zmiennych typu double na przeciwny
+    public void zmienZnak() {
+        this.netto = -this.netto;
+        this.vat = -this.vat;
+    }
         
     
 

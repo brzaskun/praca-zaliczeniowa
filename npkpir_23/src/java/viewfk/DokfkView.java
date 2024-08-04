@@ -244,7 +244,6 @@ public class DokfkView implements Serializable {
     private String komunikatywpisdok;
     private Integer lpwierszaRK;
     private Klienci klientdlaPK;
-    private DataTable dataTablezaksiegowane;
     private StronaWiersza selectedStronaWiersza;
     private Double podsumowaniewybranych;
     private boolean totylkoedycjazapis;
@@ -279,6 +278,7 @@ public class DokfkView implements Serializable {
     //wybeana cecha przy wpisie
     @Inject
     private Cechazapisu wbranacechawpisywanie;
+    private boolean robulganazledlugi;
 
      
     
@@ -1338,6 +1338,22 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji rozrachunkow " + e.toString());
         }
     }
+    
+    public void edycjaUlgaNaZleDlugi(Dokfk dokfk) {
+        try {
+            if (dokfk.getUlganazledlugidatapierwsza()!=null&&dokfk.getUlganazledlugidatapierwsza().length()<10) {
+                dokfk.setUlganazledlugidatapierwsza(null);
+            }
+            if (dokfk.getUlganazledlugidatadruga()!=null&&dokfk.getUlganazledlugidatadruga().length()<10) {
+                dokfk.setUlganazledlugidatadruga(null);
+            }
+            dokDAOfk.edit(dokfk);
+            Msg.msg("i", "Pomyślnie zaktualizowano dokument o daty UZD");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji UZD " + e.toString());
+        }
+    }
 
     public void przygotujdousuniecia(Dokfk dousuniecia) {
         dokumentdousuniecia = dousuniecia;
@@ -2346,7 +2362,7 @@ public class DokfkView implements Serializable {
                             pokazsrodkitrwale = false;
                         } else {
                             wpisView.setMiesiacWpisu(miesiacWpisuPokaz);
-                            wpisView.wpisAktualizuj();
+                            wpisView.naniesDaneDoWpisOkres();
                             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
                             pokazrmk = false;
                             pokazsrodkitrwale = false;
@@ -2356,7 +2372,7 @@ public class DokfkView implements Serializable {
                     wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wybranakategoriadok);
                 } else {
                     wpisView.setMiesiacWpisu(miesiacWpisuPokaz);
-                    wpisView.wpisAktualizuj();
+                    wpisView.naniesDaneDoWpisOkres();
                     wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
                 }
                 if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0) {
@@ -4467,17 +4483,21 @@ public class DokfkView implements Serializable {
     }
 
     private List znajdzrodzajedokaktualne(List<Dokfk> wykazZaksiegowanychDokumentow) {
+        List<Rodzajedok> t = new ArrayList<>();
         if (wybranakategoriadok == null || wybranakategoriadok.equals("wszystkie")) {
-            List<Rodzajedok> lista =  Collections.synchronizedList(new ArrayList<>());
-            wykazZaksiegowanychDokumentow.forEach((p) -> {
-                lista.add(p.getRodzajedok());
-            });
-            List<Rodzajedok> t = new ArrayList<>(new HashSet(lista));
-            Collections.sort(t, new Rodzajedokcomparator());
-            return t;
+            if (wykazZaksiegowanychDokumentow!=null) {
+                List<Rodzajedok> lista =  Collections.synchronizedList(new ArrayList<>());
+                wykazZaksiegowanychDokumentow.forEach((p) -> {
+                    lista.add(p.getRodzajedok());
+                });
+                t = new ArrayList<>(new HashSet(lista));
+                Collections.sort(t, new Rodzajedokcomparator());
+                return t;
+            }
         } else {
-            return rodzajedokumentowPodatnika;
+            t = rodzajedokumentowPodatnika;
         }
+        return t;
     }
 
     private List znajdzcechy(List<Dokfk> wykazZaksiegowanychDokumentow) {
@@ -4497,17 +4517,7 @@ public class DokfkView implements Serializable {
     }
     
     
-    public void powiekszliste() {
-        dataTablezaksiegowane.setStyle("height: 800px;");
-    }
-
-    public DataTable getDataTablezaksiegowane() {
-        return dataTablezaksiegowane;
-    }
-
-    public void setDataTablezaksiegowane(DataTable dataTablezaksiegowane) {
-        this.dataTablezaksiegowane = dataTablezaksiegowane;
-    }
+  
 
     public int sortujzaksiegowane(Object obP, Object obW) {
         int ret = 0;
@@ -5046,6 +5056,14 @@ private StronaWiersza swwierszakalkulator;
 
     public void setSwwierszakalkulator(StronaWiersza swwierszakalkulator) {
         this.swwierszakalkulator = swwierszakalkulator;
+    }
+
+    public boolean isRobulganazledlugi() {
+        return robulganazledlugi;
+    }
+
+    public void setRobulganazledlugi(boolean robulganazledlugi) {
+        this.robulganazledlugi = robulganazledlugi;
     }
 
 

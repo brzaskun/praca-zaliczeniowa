@@ -60,6 +60,10 @@ public class EVatwpisSuper implements Serializable {
     protected int lp;
     @Transient
     protected double brutto;
+    @Transient
+    private String ulganazledlugidatapierwsza;
+    @Transient
+    private String ulganazledlugidatadruga;
     
 
     public EVatwpisSuper(EVatwpisSuper wiersz) {
@@ -71,6 +75,23 @@ public class EVatwpisSuper implements Serializable {
         this.mcEw = wiersz.mcEw;
         this.rokEw = wiersz.rokEw;
     }
+
+    public String getUlganazledlugidatapierwsza() {
+        String zwrot = null;
+        if (this.getDokfk()!=null) {
+            zwrot = this.getDokfk().getUlganazledlugidatapierwsza();
+        } 
+        return zwrot;
+    }
+
+    public String getUlganazledlugidatadruga() {
+        String zwrot = null;
+        if (this.getDokfk()!=null) {
+            zwrot = this.getDokfk().getUlganazledlugidatadruga();
+        } 
+        return zwrot;
+    }
+
 
     
     
@@ -254,6 +275,8 @@ public class EVatwpisSuper implements Serializable {
     public void setTylkodlajpk(boolean tylkodlajpk) {
         this.tylkodlajpk = tylkodlajpk;
     }
+    
+    
 
     @Override
     public int hashCode() {

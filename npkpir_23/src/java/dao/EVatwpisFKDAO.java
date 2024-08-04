@@ -184,6 +184,10 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
         return getEntityManager().createNamedQuery("EVatwpisFK.findByRok").setParameter("rok", rokWpisuSt).getResultList();
     }
     
+     public List<EVatwpisFK> zwrocRoPodatnikkUlgaNaZleDlugi(Podatnik podatnik,String rokWpisuSt) {
+        return getEntityManager().createNamedQuery("EVatwpisFK.findByRokUlgaNaZleDlugi").setParameter("podatnik", podatnik).setParameter("rok", rokWpisuSt).getResultList();
+    }
+    
     public List<EVatwpisFK> zwrocNULL() {
         return getEntityManager().createNamedQuery("EVatwpisFK.findEwidencjaNUll").getResultList();
     }

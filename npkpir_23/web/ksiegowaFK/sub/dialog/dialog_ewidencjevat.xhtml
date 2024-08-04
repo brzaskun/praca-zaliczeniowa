@@ -26,8 +26,9 @@
               resizable="true" dynamic="true">
         <p:ajax event="open" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty(WpisView.getPodatnikObiekt())}" global="true" update="form"/>
         <p:ajax event="open" listener="#{kontaVatFKView.init()}" global="true" update="form"/>
+        <p:panelGrid columns="1">
         <h:form id="formokresvat"> 
-            <p:panelGrid columns="2" style="float: right;">
+            <p:panelGrid columns="2" style="float: left;">
                 <p:column>
                     <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
                         <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
@@ -72,7 +73,7 @@
                     document.getElementById('link').click();
                 }
             </script>
-            <p:tabView id="akordeon" style="height: 720px;">
+            <p:tabView id="akordeon" style="height: 720px;width: 1450px;">
                 <ui:include src="ewidencjavat/ewidencje.xhtml"/>
                 <ui:include src="ewidencjavat/podsumowanie.xhtml"/>
                 <ui:include src="ewidencjavat/klienciJPK.xhtml"/>
@@ -85,6 +86,7 @@
 
             </p:tabView>
         </h:form>
+            </p:panelGrid>
         <h:form id="zestawieniezapisownakontachpola">
             <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
         </h:form>

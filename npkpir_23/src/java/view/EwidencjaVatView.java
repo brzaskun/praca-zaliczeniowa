@@ -52,6 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -446,6 +447,7 @@ public class EwidencjaVatView implements Serializable {
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
             } else {
                 listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), false));
+                listadokvatprzetworzona.addAll(pobierzEVatRokFKUlgaNaZleDlugi(podatnik, vatokres, wpisView.getRokWpisuSt(),wpisView.getRokUprzedniSt() , wpisView.getMiesiacWpisu()));
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
                 listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
                 wyluskajzlisty(listaprzesunietychKoszty, "koszty");
@@ -460,32 +462,24 @@ public class EwidencjaVatView implements Serializable {
                 wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
                 sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
             }
-           ReentrantLock lock = new ReentrantLock();
             if (listadokvatprzetworzona != null) {
-                List<EVatwpisSuper> synchronizedList = Collections.synchronizedList(listadokvatprzetworzona);
-
-                listadokvatprzetworzona = synchronizedList.parallelStream()
-                    .filter(it -> {
-                        EVatwpis1 p = (EVatwpis1) it;
-                        lock.lock();
-                        try {
-                            return p.getDok() == null || !p.getDok().getRodzajedok().isTylkojpk();
-                        } finally {
-                            lock.unlock();
+                for (Iterator<EVatwpisSuper> it = listadokvatprzetworzona.iterator(); it.hasNext();) {
+                    EVatwpisFK p = (EVatwpisFK) it.next();
+                    if (p.getDokfk() != null && p.getDokfk().getRodzajedok().isTylkojpk()) {
+                        it.remove();
                         }
-                    })
-                    .collect(Collectors.toList());
+            }
             }
             //w uproszczonej tego nie ma
             //ale musi byc bo w fk sa faktury wdt wnt np vintis
             listadokvatprzetworzona.addAll(pobierzEVatIncydentalni(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             przejrzyjEVatwpis1Lista();
             dodajwierszeVATZD(wniosekVATZDEntity);
-            
-            stworzenieEwidencjiCzescWspolnaFK();
-            for (String k : listaewidencji.keySet()) {
-                nazwyewidencji.add(k);
-            }
+
+                stworzenieEwidencjiCzescWspolnaFK();
+                for (String k : listaewidencji.keySet()) {
+                    nazwyewidencji.add(k);
+                }
             Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
             String l = locale.getLanguage();
             for (List p : listaewidencji.values()) {
@@ -1017,6 +1011,75 @@ public class EwidencjaVatView implements Serializable {
                     it.remove();
                 }
             }
+        }
+        return zwrot;
+    }
+    
+    private List<EVatwpisFK> pobierzEVatRokFKUlgaNaZleDlugi(Podatnik podatnik, String vatokres, String rok, String rokuprzedni, String mc) {
+        List<EVatwpisFK>  zwrot = new ArrayList<>();
+        try {
+            List<EVatwpisFK> rokbiezacy = eVatwpisFKDAO.zwrocRoPodatnikkUlgaNaZleDlugi(podatnik, rok);
+            List<EVatwpisFK> rokubiegly = eVatwpisFKDAO.zwrocRoPodatnikkUlgaNaZleDlugi(podatnik, rokuprzedni);
+            switch (vatokres) {
+                case "blad":
+                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+                    zwrot = new ArrayList<>();
+                case "miesięczne": 
+                    Predicate<EVatwpisFK> datazbiezacegomiesiaca = item->Data.czydatajestwmcu(item.getUlganazledlugidatapierwsza(),rok,mc);
+                    if (rokbiezacy!=null) {
+                        rokbiezacy.removeIf(datazbiezacegomiesiaca.negate());
+                        rokbiezacy.parallelStream().forEach(EVatwpisFK::zmienZnak);
+                        zwrot.addAll(rokbiezacy);
+                    }
+                    if (rokubiegly!=null) {
+                        rokubiegly.removeIf(datazbiezacegomiesiaca.negate());
+                        rokubiegly.parallelStream().forEach(EVatwpisFK::zmienZnak);
+                        zwrot.addAll(rokubiegly);
+                    }
+                    break;
+                default:
+                    Predicate<EVatwpisFK> datazbiezacegomiesiaca2 = item->Data.czydatajestwkwartale(item.getUlganazledlugidatapierwsza(),rok,mc);
+                    if (rokbiezacy!=null) {
+                        rokbiezacy.removeIf(datazbiezacegomiesiaca2.negate());
+                        rokbiezacy.parallelStream().forEach(EVatwpisFK::zmienZnak);
+                        zwrot.addAll(rokbiezacy);
+                    }
+                    if (rokubiegly!=null) {
+                        rokubiegly.removeIf(datazbiezacegomiesiaca2.negate());
+                        rokubiegly.parallelStream().forEach(EVatwpisFK::zmienZnak);
+                        zwrot.addAll(rokubiegly);
+                    }
+                    break;
+            }
+            switch (vatokres) {
+                case "blad":
+                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+                    zwrot = new ArrayList<>();
+                case "miesięczne": 
+                    Predicate<EVatwpisFK> datazbiezacegomiesiaca = item->Data.czydatajestwmcu(item.getUlganazledlugidatadruga(),rok,mc);
+                    if (rokbiezacy!=null) {
+                        rokbiezacy.removeIf(datazbiezacegomiesiaca.negate());
+                        zwrot.addAll(rokbiezacy);
+                    }
+                    if (rokubiegly!=null) {
+                        rokubiegly.removeIf(datazbiezacegomiesiaca.negate());
+                        zwrot.addAll(rokubiegly);
+                    }
+                    break;
+                default:
+                    Predicate<EVatwpisFK> datazbiezacegomiesiaca2 = item->Data.czydatajestwkwartale(item.getUlganazledlugidatadruga(),rok,mc);
+                    if (rokbiezacy!=null) {
+                        rokbiezacy.removeIf(datazbiezacegomiesiaca2.negate());
+                        zwrot.addAll(rokbiezacy);
+                    }
+                    if (rokubiegly!=null) {
+                        rokubiegly.removeIf(datazbiezacegomiesiaca2.negate());
+                        zwrot.addAll(rokubiegly);
+                    }
+                    break;
+            }
+        } catch (Exception e) { E.e(e); 
+            
         }
         return zwrot;
     }

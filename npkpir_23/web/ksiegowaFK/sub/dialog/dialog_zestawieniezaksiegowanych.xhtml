@@ -41,13 +41,13 @@
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" 
               widgetVar="zestawieniezaksiegowanych" style="overflow-y: hidden;" appendTo="@(body)" minimizable="true"
               
-              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1780, 580);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
+              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1780, 700);" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
         <p:ajax event="maximize" listener="#{dokfkView.powiekszliste}" update="zestawieniedokumentow"/>
         <p:ajax event="open" listener="#{dokfkView.odswiezzaksiegowaneInit}"
-                update=":zestawieniedokumentow:dataList zestawieniedokumentow:kategoriadokumentu zestawieniedokumentow:miesiacWpisu"/>
+                update=":zestawieniedokumentow:dataList zestawieniedokumentow:kategoriadokumentu zestawieniedokumentow:okreswpisu"/>
         <h:form id="zestawieniedokumentow">
             <p:growl life="6000" id="wiadomoscisprawdzanie" sticky="true" ><p:autoUpdate/></p:growl>
             <p:panelGrid id="sumawybranych" columns="2" style="padding: 5px;">
@@ -56,26 +56,17 @@
             </p:panelGrid>
             <p:panelGrid id="panelprzyciskowzestdok" style="margin-left: 2%;" >
                 <p:row>
-                    <p:column>
-                        <h:outputText value="miesiąc: "/>
-                    </p:column>
-                    <p:column>
-                        <p:selectOneMenu id="miesiacWpisu" value="#{dokfkView.miesiacWpisuPokaz}" style="width: 40px;">
-                            <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" partialSubmit="true"
-                                    onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
-                                    update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth" />
-                            <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR" />
-                            <f:selectItems value="#{mce.mceList}"/>
-                        </p:selectOneMenu>
-                    </p:column>
-                    <p:column>
-                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 40px;">
-                                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowaneRok}" partialSubmit="true"
-                                            onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
-                                    update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu :menubarnorth" />
-                                    <f:selectItems value="#{roki.rokiList}"/>
-                                </p:selectOneMenu>
-                    </p:column>
+            <p:panelGrid columns="2" style="float: left;" id="okreswpisu">
+                <p:column>
+                    <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
+                        <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" partialSubmit="true"
+                                onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                                update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu @(.form_southpane)  menubarnorth"  global="true"/>
+                    </p:selectOneMenu>
+                </p:column>
+            </p:panelGrid>
+                    
                     <p:column>
                         <p:commandButton id="pobierzzaksiegowane" value="#{mgs.pobierz}" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px; margin-left: 10px;" 
                                          update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu  :menubarnorth"
@@ -153,6 +144,12 @@
                             <p:ajax event="change" global="false" partialSubmit="tue" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
                         </p:selectBooleanCheckbox>
                     </p:column>
+                    <p:column>
+                        <p:outputLabel for="pokazulgazle" value="ulga na złe długi" style="margin-left: 10px;"/>
+                        <p:selectBooleanCheckbox id="pokazulgazle" value="#{dokfkView.robulganazledlugi}">
+                            <p:ajax event="change" global="false" partialSubmit="tue" update=":zestawieniedokumentow:dataList"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
                 </p:row>
             </p:panelGrid>
           
@@ -180,9 +177,9 @@
                 
             </p:contextMenu>
 
-            <p:dataTable lazy="false"  id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
-                         selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
-                         style="width: 100%; height: 450px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
+            <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
+                         selection="#{dokfkView.selectedlist}" rowKey="#{item.id}"
+                         style="width: 100%; height: 550px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
                          rowsPerPageTemplate="50,100,300,500, 1500, 3000" paginatorPosition="top"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="walkingtable" rowSelectMode="add"
                          rows="50" paginator="true"
@@ -261,26 +258,39 @@
                         <f:convertDateTime pattern="yy/MM/dd HH:mm:ss" />
                     </h:outputText>
                 </p:column>
-                <p:column headerText="wprow." width="60" style="text-align: center;">
+                <p:column headerText="wprow." width="60" style="text-align: center;" rendered="#{dokfkView.robulganazledlugi eq false}">
                     <h:outputText value=" #{item.wprowadzil}"/>
                 </p:column>
-                <p:column width="20" style="text-align: center;" >
+                <p:column headerText="UZD termin płatności" width="60" style="text-align: center;" sortBy="#{item.ulganazledlugidatapierwsza}" sortable="true" rendered="#{dokfkView.robulganazledlugi eq true}">
+                    <p:inputMask value="#{item.ulganazledlugidatapierwsza}" size="10" maxlength="10"  mask="9999-99-99"  validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
+                            <p:ajax event="change" listener="#{dokfkView.edycjaUlgaNaZleDlugi(item)}" partialSubmit="true" global="false"/>
+                        </p:inputMask>
+                </p:column>
+                <p:column headerText="UZD data zapłaty" width="60" style="text-align: center;" sortBy="#{item.ulganazledlugidatadruga}" sortable="true" rendered="#{dokfkView.robulganazledlugi eq true}">
+                    <p:inputMask value="#{item.ulganazledlugidatadruga}" size="10" maxlength="10"  mask="9999-99-99"   validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd" required="false">
+                            <p:ajax event="change" listener="#{dokfkView.edycjaUlgaNaZleDlugi(item)}" partialSubmit="true" global="false"/>
+                        </p:inputMask>
+                </p:column>
+                 <p:inputMask value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.dataod}" size="10" maxlength="10"  mask="9999-99-99"  validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd" required="false">
+                            <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
+                        </p:inputMask>
+                <p:column width="20" style="text-align: center;"  rendered="#{dokfkView.robulganazledlugi eq false}">
                     <p:commandButton id="drukujbutton" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
                                       style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
                 </p:column>
-                <p:column width="20" style="text-align: center;" >
+                <p:column width="20" style="text-align: center;"  rendered="#{dokfkView.robulganazledlugi eq false}">
                     <p:commandButton id="drukujbutton2" icon="fa fa-file-pdf-o" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfFaktura.drukuj(item.fakturakontrahent, row, item.fakturakontrahent.wystawca)}" styleClass="fkbutton"
                                      style="width: 30px;"  rendered="#{item.fakturakontrahent ne null}"/>
                 </p:column>
 
-                <p:column width="20" style="text-align: center;" >
+                <p:column width="20" style="text-align: center;" rendered="#{dokfkView.robulganazledlugi eq false}">
                     <p:commandButton id="edytujbutton" icon="fa fa-pencil-square-o"
                                      actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" 
                                      styleClass="fkbutton" 
                                       style="width: 30px;"  onsuccess="PF('wpisywanie').show();"
                                       rendered="#{item.dataksiegowania eq null and !WpisView.rokzamkniety}"/>
                 </p:column>
-                <p:column width="20" style="text-align: center;">
+                <p:column width="20" style="text-align: center;" rendered="#{dokfkView.robulganazledlugi eq false}">
                     <p:commandButton actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="fa fa-trash-o" 
                                      oncomplete="PF('confirm3').show();" global="false"  style="width: 30px;"
                                      rendered="#{item.dataksiegowania eq null and !WpisView.rokzamkniety}"

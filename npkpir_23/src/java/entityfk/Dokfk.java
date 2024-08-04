@@ -248,6 +248,10 @@ public class Dokfk extends DokSuper implements Serializable {
     private boolean nieprzeliczaj;
     @OneToMany(mappedBy = "dokfk", orphanRemoval = false, fetch = FetchType.LAZY)
     private List<UmorzenieN> umorzenia;
+    @Column(name = "ulganazledlugidatapierwsza")
+    private String ulganazledlugidatapierwsza;
+    @Column(name = "ulganazledlugidatadruga")
+    private String ulganazledlugidatadruga;
   
     
 
@@ -842,6 +846,22 @@ public class Dokfk extends DokSuper implements Serializable {
 
     public void setUmorzenia(List<UmorzenieN> umorzenia) {
         this.umorzenia = umorzenia;
+    }
+
+    public String getUlganazledlugidatapierwsza() {
+        return ulganazledlugidatapierwsza;
+    }
+
+    public void setUlganazledlugidatapierwsza(String ulganazledlugidatapierwsza) {
+        this.ulganazledlugidatapierwsza = ulganazledlugidatapierwsza;
+    }
+
+    public String getUlganazledlugidatadruga() {
+        return ulganazledlugidatadruga;
+    }
+
+    public void setUlganazledlugidatadruga(String ulganazledlugidatadruga) {
+        this.ulganazledlugidatadruga = ulganazledlugidatadruga;
     }
 
    

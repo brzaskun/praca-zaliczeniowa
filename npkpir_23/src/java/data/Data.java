@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.WeekFields;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -461,6 +462,64 @@ public class Data implements Serializable {
         return wynikporównania > -1;
     }
     
+    //grp 04.08.2024
+    public static boolean czydatajestwkwartale(String data, String rok, String mc) {
+        boolean zwrot = false;
+        try {
+            LocalDate date = LocalDate.parse(data, DateTimeFormatter.ISO_DATE);
+            int year = date.getYear();
+            int month = date.getMonthValue();
+
+            int monthInput = Integer.parseInt(mc);
+            int kwartal;
+
+            if (monthInput >= 1 && monthInput <= 3) {
+                kwartal = 1;
+            } else if (monthInput >= 4 && monthInput <= 6) {
+                kwartal = 2;
+            } else if (monthInput >= 7 && monthInput <= 9) {
+                kwartal = 3;
+            } else if (monthInput >= 10 && monthInput <= 12) {
+                kwartal = 4;
+            } else {
+                throw new IllegalArgumentException("Invalid month: " + mc);
+            }
+
+            if (String.valueOf(year).equals(rok)) {
+                switch (kwartal) {
+                    case 1:
+                        if (month >= 1 && month <= 3) {
+                            zwrot = true;
+                        }
+                        break;
+                    case 2:
+                        if (month >= 4 && month <= 6) {
+                            zwrot = true;
+                        }
+                        break;
+                    case 3:
+                        if (month >= 7 && month <= 9) {
+                            zwrot = true;
+                        }
+                        break;
+                    case 4:
+                        if (month >= 10 && month <= 12) {
+                            zwrot = true;
+                        }
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid quarter: " + kwartal);
+                }
+            }
+        } catch (DateTimeParseException e) {
+            // Handle the exception if needed
+            System.err.println("Invalid date format: " + data);
+        } catch (Exception e) {
+            // Handle other exceptions if needed
+            e.printStackTrace();
+        }
+        return zwrot;
+    }
      public static boolean czydatajestwmcu(String data, String rok, String mc) {
         boolean zwrot = false;
         try {
