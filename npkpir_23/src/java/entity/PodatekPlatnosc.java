@@ -18,18 +18,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Osito
  */
 @Entity
-@Table(name = "podatekplatnosc", uniqueConstraints = {
-    @UniqueConstraint(columnNames={"ewidencja,podid,rok,mc"})
-})
+@Table(name = "podatekplatnosc")
 @NamedQueries({
-    @NamedQuery(name = "EVatwpisSuma.findAll", query = "SELECT d FROM EVatwpisSuma d")
+    @NamedQuery(name = "PodatekPlatnosc.findAll", query = "SELECT d FROM PodatekPlatnosc d")
 })
 
 public class PodatekPlatnosc implements Serializable {
