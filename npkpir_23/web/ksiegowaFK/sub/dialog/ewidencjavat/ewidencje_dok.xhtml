@@ -94,10 +94,10 @@
                               rendered="#{item[0].nazwaewidencji.nazwa eq 'zakup'}">
                         <h:outputText value="#{itemik.duplikat eq true ? 'duplikat' : null}"/>
                     </p:column>
-                      <p:column headerText="UZD termin" style="width: 50px; text-align: center;" sortBy="#{itemik.ulganazledlugidatapierwsza}" sortable="true">
+                      <p:column headerText="UZD termin" style="width: 60px; text-align: center;" sortBy="#{itemik.ulganazledlugidatapierwsza}" sortable="true">
                          <h:outputText value="#{itemik.ulganazledlugidatapierwsza}" style="color: blue;"/>
                     </p:column>
-                    <p:column headerText="UZD zapłata" style="width: 50px; text-align: center;" sortBy="#{itemik.ulganazledlugidatadruga}"  sortable="true">
+                    <p:column headerText="UZD zapłata" style="width: 60px; text-align: center;" sortBy="#{itemik.ulganazledlugidatadruga}"  sortable="true">
                         <h:outputText value="#{itemik.ulganazledlugidatadruga}" style="color: green;"/>
                     </p:column>
                 </p:dataTable>
