@@ -2337,6 +2337,7 @@ public class DokfkView implements Serializable {
             if (pokazwszystkiedokumenty) {
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView);
             } else {
+               
                 if (wybranakategoriadok == null) {
                     wybranakategoriadok = "wszystkie";
                 }
@@ -2369,8 +2370,10 @@ public class DokfkView implements Serializable {
                         }
                     }
                 } else if (miesiacWpisuPokaz.equals("CR")) {
+                    robulganazledlugi = false;
                     wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wybranakategoriadok);
                 } else {
+                    robulganazledlugi = false;
                     wpisView.setMiesiacWpisu(miesiacWpisuPokaz);
                     wpisView.naniesDaneDoWpisOkres();
                     wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);

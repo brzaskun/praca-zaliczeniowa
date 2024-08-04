@@ -921,27 +921,30 @@ public class Data implements Serializable {
 //            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //}
+    public static void main(String[] args) {
+        czydatajestwkwartale("2024-10-01", "2024", "10");
+    }
     
-     public static void main(String[] args) {
-        String zladata = "15. Jun 2020";
-        zladata = zladata.replace(".", "");
-        String[] data = zladata.split("\\s+");
-        String rok = data[2];
-        String mc = data[1];
-        mc = Mce.getMce_de_short_pl().get(mc);
-        String dzien = data[0];
-        if (dzien.length()==1) {
-            dzien = "0"+dzien;
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append(rok);
-        sb.append("-");
-        sb.append(mc);
-        sb.append("-");
-        sb.append(dzien);
-        String dobradata = sb.toString();
-        System.out.println(dobradata);
-     }
+//     public static void main(String[] args) {
+//        String zladata = "15. Jun 2020";
+//        zladata = zladata.replace(".", "");
+//        String[] data = zladata.split("\\s+");
+//        String rok = data[2];
+//        String mc = data[1];
+//        mc = Mce.getMce_de_short_pl().get(mc);
+//        String dzien = data[0];
+//        if (dzien.length()==1) {
+//            dzien = "0"+dzien;
+//        }
+//        StringBuilder sb = new StringBuilder();
+//        sb.append(rok);
+//        sb.append("-");
+//        sb.append(mc);
+//        sb.append("-");
+//        sb.append(dzien);
+//        String dobradata = sb.toString();
+//        System.out.println(dobradata);
+//     }
     
 //   public static void main(String[] args) {
 //        String dzien = null;

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11149/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7K (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2024-08-04T15:41:59.739Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2024</Rok>
+        <Miesiac>10</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8513169524</NIP>
+            <PelnaNazwa>GCO SP. Z O.O. SP. K.</PelnaNazwa>
+            <Email>info@taxman.biz.pl</Email>
+            <Telefon>605586176</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>0</LiczbaWierszySprzedazy>
+            <PodatekNalezny>0</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>0</LiczbaWierszyZakupow>
+            <PodatekNaliczony>0</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

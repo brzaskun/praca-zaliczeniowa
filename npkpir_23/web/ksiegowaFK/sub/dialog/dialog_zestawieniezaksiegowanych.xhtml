@@ -24,7 +24,7 @@
             overflow-y: hidden;
         }
     </style>
-    <script>
+<!--    <script>
         var doczeplistnerydopol = function() {
                 /* <![CDATA[ */
                 //dziekia tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
@@ -37,7 +37,7 @@
             });
         };
         /* ]]> */
-    </script>
+    </script>-->
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" 
               widgetVar="zestawieniezaksiegowanych" style="overflow-y: hidden;" appendTo="@(body)" minimizable="true"
               
@@ -61,7 +61,6 @@
                     <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
                         <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
                         <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" partialSubmit="true"
-                                onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
                                 update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu @(.form_southpane)  menubarnorth"  global="true"/>
                     </p:selectOneMenu>
                 </p:column>
@@ -76,9 +75,9 @@
                     <p:column>
                         <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" id="kategoriadokumentu"
                                          style="width: 200px; margin-left: 20px;" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0}">
-                            <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" 
+                            <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" partialSubmit="true"
                                     onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
-                                    update=":zestawieniedokumentow:dataList"/>
+                                    update=":zestawieniedokumentow:dataList :zestawieniedokumentow:pokazulgazle"/>
                             <f:selectItem itemLabel="wybierz rodz.dok." itemValue="wszystkie"/>
                             <f:selectItems value="#{dokfkView.rodzajedokumentowPodatnika}" var="item" itemLabel="#{item.skrot} - #{item.nazwa}" itemValue="#{item.skrot}"/>
                         </p:selectOneMenu>
@@ -260,20 +259,19 @@
                 </p:column>
                 <p:column headerText="wprow." width="60" style="text-align: center;" rendered="#{dokfkView.robulganazledlugi eq false}">
                     <h:outputText value=" #{item.wprowadzil}"/>
-                </p:column>
-                <p:column headerText="UZD termin płatności" width="60" style="text-align: center;" sortBy="#{item.ulganazledlugidatapierwsza}" sortable="true" rendered="#{dokfkView.robulganazledlugi eq true}">
-                    <p:inputMask value="#{item.ulganazledlugidatapierwsza}" size="10" maxlength="10"  mask="9999-99-99"  validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
-                            <p:ajax event="change" listener="#{dokfkView.edycjaUlgaNaZleDlugi(item)}" partialSubmit="true" global="false"/>
-                        </p:inputMask>
-                </p:column>
-                <p:column headerText="UZD data zapłaty" width="60" style="text-align: center;" sortBy="#{item.ulganazledlugidatadruga}" sortable="true" rendered="#{dokfkView.robulganazledlugi eq true}">
-                    <p:inputMask value="#{item.ulganazledlugidatadruga}" size="10" maxlength="10"  mask="9999-99-99"   validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd" required="false">
-                            <p:ajax event="change" listener="#{dokfkView.edycjaUlgaNaZleDlugi(item)}" partialSubmit="true" global="false"/>
-                        </p:inputMask>
-                </p:column>
-                 <p:inputMask value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.dataod}" size="10" maxlength="10"  mask="9999-99-99"  validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd" required="false">
-                            <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
-                        </p:inputMask>
+                 </p:column>
+              <p:column headerText="UZD termin płatności" width="60" style="text-align: center;" rendered="#{dokfkView.robulganazledlugi eq true}" 
+                        filterBy="#{item.ulganazledlugidatapierwsza}" filterMatchMode="contains" sortable="true" sortBy="#{item.ulganazledlugidatapierwsza}">
+                  <p:inputMask value="#{item.ulganazledlugidatapierwsza}" size="10" maxlength="10" mask="9999-99-99" validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
+                      <p:ajax event="change" listener="#{dokfkView.edycjaUlgaNaZleDlugi(item)}" partialSubmit="true" global="false"/>
+                  </p:inputMask>
+              </p:column>
+              <p:column headerText="UZD data zapłaty" width="60" style="text-align: center;" rendered="#{dokfkView.robulganazledlugi eq true}" 
+                        filterBy="#{item.ulganazledlugidatadruga}" filterMatchMode="contains" sortable="true" sortBy="#{item.ulganazledlugidatadruga}">
+                  <p:inputMask value="#{item.ulganazledlugidatadruga}" size="10" maxlength="10" mask="9999-99-99" validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd" required="false">
+                      <p:ajax event="change" listener="#{dokfkView.edycjaUlgaNaZleDlugi(item)}" partialSubmit="true" global="false"/>
+                  </p:inputMask>
+              </p:column>
                 <p:column width="20" style="text-align: center;"  rendered="#{dokfkView.robulganazledlugi eq false}">
                     <p:commandButton id="drukujbutton" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
                                       style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
