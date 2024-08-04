@@ -8,11 +8,11 @@ package beansVAT;
 
 import dao.EvewidencjaDAO;
 import data.Data;
+import embeddable.EVatwpisSuma;
 import embeddable.EwidencjaAddwiad;
 import embeddable.VatKorektaDok;
 import entity.EVatwpis1;
 import entity.EVatwpisKJPK;
-import entity.EVatwpisSuma;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Podatnik;
@@ -80,7 +80,7 @@ public class EwidencjaVATSporzadzanie {
                     try {
                         listaewidencji.put(nazwaewidencji, new ArrayList<EVatwpisSuper>());
                         Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(nazwaewidencji);
-                        sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw(), podatnik, rok, mc));
+                        sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw()));
                     } catch (Exception ex) {
                         // Logger.getLogger(EwidencjaVatView.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -109,7 +109,7 @@ public class EwidencjaVATSporzadzanie {
             } else {
                 try {
                     Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(p);
-                    sumaewidencji.put(p, new EVatwpisSuma(nowaEv, sumaewidencjikorekta.get(p).getNetto(), sumaewidencjikorekta.get(p).getVat(), sumaewidencjikorekta.get(p).getEwidencja().getRodzajzakupu(), podatnik, rok, mc));
+                    sumaewidencji.put(p, new EVatwpisSuma(nowaEv, sumaewidencjikorekta.get(p).getNetto(), sumaewidencjikorekta.get(p).getVat(), sumaewidencjikorekta.get(p).getEwidencja().getRodzajzakupu()));
                 } catch (Exception ex) {
                     // Logger.getLogger(EwidencjaVATSporzadzanie.class.getName()).log(Level.SEVERE, null, ex);
                 }

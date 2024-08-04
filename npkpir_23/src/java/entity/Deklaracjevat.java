@@ -5,6 +5,7 @@
 package entity;
 
 import beansVAT.EwidPoz;
+import embeddable.EVatwpisSuma;
 import embeddable.Vatpoz;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -61,9 +62,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Deklaracjevat extends DeklSuper implements Serializable {
    private static final long serialVersionUID = 1L;
    
-//    @Lob
-//    @Column(name = "podsumowanieewidencji")
-//    private HashMap<String, entity.EVatwpisSuma>  podsumowanieewidencji;
+    @Lob
+    @Column(name = "podsumowanieewidencji")
+    private HashMap<String, EVatwpisSuma>  podsumowanieewidencji;
     @Lob
     @Column(name = "selected")
     private Vatpoz selected;
@@ -205,24 +206,14 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
         this.podatnik = podatnik;
     }
 
-//    public HashMap<String, EVatwpisSuma> getPodsumowanieewidencji() {
-//        return new HashMap<String, EVatwpisSuma>();
-//    }
-//
-//    public void setPodsumowanieewidencji(HashMap<String, EVatwpisSuma> podsumowanieewidencji) {
-//        
-//    }
-
     public HashMap<String, EVatwpisSuma> getPodsumowanieewidencji() {
-         return   new HashMap<String, EVatwpisSuma>();
+        return podsumowanieewidencji;
     }
 
     public void setPodsumowanieewidencji(HashMap<String, EVatwpisSuma> podsumowanieewidencji) {
-    
+        this.podsumowanieewidencji = podsumowanieewidencji;
     }
     
-    
-
     public String getRok() {
         return rok;
     }

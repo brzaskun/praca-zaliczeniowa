@@ -14,7 +14,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
 import dao.PodatnikDAO;
 import dao.SchemaEwidencjaDAO;
-import entity.EVatwpisSuma;
+import embeddable.EVatwpisSuma;
 import embeddable.SchemaEwidencjaSuma;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
@@ -27,8 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.primefaces.PrimeFaces;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
@@ -38,7 +37,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import testobjects.testobjects;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import view.WpisView;
 
 /**
  *

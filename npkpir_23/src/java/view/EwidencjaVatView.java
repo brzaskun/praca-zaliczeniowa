@@ -10,7 +10,7 @@ import dao.EVatwpis1DAO;
 import dao.EVatwpisDedraDAO;
 import dao.EVatwpisFKDAO;
 import dao.EVatwpisIncydentalniDAO;
-import dao.EVatwpisSumaDAO;
+import dao.EVatwpisSumaNDAO;
 import dao.EvewidencjaDAO;
 import dao.PlatnoscWalutaDAO;
 import dao.RodzajedokDAO;
@@ -19,13 +19,14 @@ import dao.StronaWierszaDAO;
 import dao.TransakcjaDAO;
 import dao.WniosekVATZDEntityDAO;
 import data.Data;
+import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Mce;
 import embeddable.Parametr;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.EVatwpisKJPK;
-import entity.EVatwpisSuma;
+import entity.EVatwpisSumaN;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.PlatnoscWaluta;
@@ -67,8 +68,8 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.event.UnselectEvent;
 import pdf.PdfVAT;
- import pdf.PdfVATsuma;
-import waluty.Z;
+import pdf.PdfVATsuma;
+ import waluty.Z;
 
 /**
  *
@@ -88,8 +89,8 @@ public class EwidencjaVatView implements Serializable {
     private List<EVatwpisSuma> sumydowyswietleniazakupy;
     private List<EVatwpisSuma> sumydowyswietleniasprzedazNiemcy;
     private List<EVatwpisSuma> sumydowyswietleniazakupyNiemcy;
-    private List<EVatwpisSuma> sumydowyswietleniasprzedazNiemcyRok;
-    private List<EVatwpisSuma> sumydowyswietleniazakupyNiemcyRok;
+    private List<EVatwpisSumaN> sumydowyswietleniasprzedazNiemcyRok;
+    private List<EVatwpisSumaN> sumydowyswietleniazakupyNiemcyRok;
     private BigDecimal wynikOkresu;
     private BigDecimal wynikOkresuNiemcy;
     private BigDecimal wynikOkresuNiemcyRok;
@@ -117,7 +118,7 @@ public class EwidencjaVatView implements Serializable {
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
     @Inject
-    private EVatwpisSumaDAO eVatwpisSumaDAO;
+    private EVatwpisSumaNDAO eVatwpisSumaNDAO;
     @Inject
     private WpisView wpisView;
     private List<EVatwpisSuper> goscwybral;
@@ -815,7 +816,7 @@ public class EwidencjaVatView implements Serializable {
     
     private void obliczwynikokresuRok() {
         wynikOkresuNiemcyRok = new BigDecimal(BigInteger.ZERO);
-        for (EVatwpisSuma p : sumydowyswietleniasprzedazNiemcyRok) {
+        for (EVatwpisSumaN p : sumydowyswietleniasprzedazNiemcyRok) {
             switch (p.getEwidencja().getTypewidencji()) {
                 case "s":
                     wynikOkresuNiemcyRok = wynikOkresuNiemcyRok.add(p.getVat());
@@ -828,7 +829,7 @@ public class EwidencjaVatView implements Serializable {
                     break;
             }
         }
-        for (EVatwpisSuma p : sumydowyswietleniazakupyNiemcyRok) {
+        for (EVatwpisSumaN p : sumydowyswietleniazakupyNiemcyRok) {
             switch (p.getEwidencja().getTypewidencji()) {
                 case "s":
                     wynikOkresuNiemcyRok = wynikOkresuNiemcyRok.add(p.getVat());
@@ -1204,8 +1205,8 @@ public class EwidencjaVatView implements Serializable {
     }
 
     private void uzupelnijSumyEwidencji() {
-        EVatwpisSuma sumauptk = new EVatwpisSuma(new Evewidencja("suma upkt"), BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        EVatwpisSuma sumasprzedaz = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        EVatwpisSuma sumauptk = new EVatwpisSuma(new Evewidencja("suma upkt"), BigDecimal.ZERO, BigDecimal.ZERO, "");
+        EVatwpisSuma sumasprzedaz = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "");
         for (EVatwpisSuma ew : sumydowyswietleniasprzedaz) {
             sumasprzedaz.setNetto(sumasprzedaz.getNetto().add(ew.getNetto()));
             sumasprzedaz.setVat(sumasprzedaz.getVat().add(ew.getVat()));
@@ -1215,7 +1216,7 @@ public class EwidencjaVatView implements Serializable {
         }
         sumydowyswietleniasprzedaz.add(sumasprzedaz);
         sumydowyswietleniasprzedaz.add(sumauptk);
-        EVatwpisSuma sumazakup = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        EVatwpisSuma sumazakup = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "");
         for (EVatwpisSuma ew : sumydowyswietleniazakupy) {
             sumazakup.setNetto(sumazakup.getNetto().add(ew.getNetto()));
             sumazakup.setVat(sumazakup.getVat().add(ew.getVat()));
@@ -1224,8 +1225,8 @@ public class EwidencjaVatView implements Serializable {
     }
     
     private void uzupelnijSumyEwidencjiNiemcy() {
-        EVatwpisSuma sumauptk = new EVatwpisSuma(new Evewidencja("suma upkt"), BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        EVatwpisSuma sumasprzedaz = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        EVatwpisSuma sumauptk = new EVatwpisSuma(new Evewidencja("suma upkt"), BigDecimal.ZERO, BigDecimal.ZERO, "");
+        EVatwpisSuma sumasprzedaz = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "");
         for (EVatwpisSuma ew : sumydowyswietleniasprzedazNiemcy) {
             sumasprzedaz.setNetto(sumasprzedaz.getNetto().add(ew.getNetto()));
             sumasprzedaz.setVat(sumasprzedaz.getVat().add(ew.getVat()));
@@ -1235,7 +1236,7 @@ public class EwidencjaVatView implements Serializable {
         }
         sumydowyswietleniasprzedazNiemcy.add(sumasprzedaz);
         sumydowyswietleniasprzedazNiemcy.add(sumauptk);
-        EVatwpisSuma sumazakup = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        EVatwpisSuma sumazakup = new EVatwpisSuma(new Evewidencja("podsumowanie"), BigDecimal.ZERO, BigDecimal.ZERO, "");
         for (EVatwpisSuma ew : sumydowyswietleniazakupyNiemcy) {
             sumazakup.setNetto(sumazakup.getNetto().add(ew.getNetto()));
             sumazakup.setVat(sumazakup.getVat().add(ew.getVat()));
@@ -1282,7 +1283,7 @@ public class EwidencjaVatView implements Serializable {
                     synchronized (sumaewidencji) {
                         listaewidencji.computeIfAbsent(nazwaewidencji, k -> {
                             Evewidencja nowaEv = ewidencje.get(k);
-                            sumaewidencji.put(k, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, vatwiersz.getOpizw(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                            sumaewidencji.put(k, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, vatwiersz.getOpizw()));
                             return Collections.synchronizedList(new ArrayList<>());
                         }).add(vatwiersz);
 
@@ -1328,7 +1329,7 @@ public class EwidencjaVatView implements Serializable {
                 if (!listaewidencji.containsKey(nazwaewidencji)) {
                     listaewidencji.put(nazwaewidencji, new ArrayList<EVatwpisSuper>());
                     Evewidencja nowaEv = ewidencje.get(nazwaewidencji);
-                    sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                    sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw()));
                 }
                 listaewidencji.get(nazwaewidencji).add(wierszogolny);
                 EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
@@ -1507,14 +1508,14 @@ public class EwidencjaVatView implements Serializable {
     }
     //kom
     public void pobierzEwidSumabazaNiemcyRoczna() {
-        List<EVatwpisSuma> lista = eVatwpisSumaDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<EVatwpisSumaN> lista = eVatwpisSumaNDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         rozdzielsumeEwidencjiNaPodlistyNiemcyRok(lista);
         sumujIZastapListy(sumydowyswietleniasprzedazNiemcyRok);
         sumujIZastapListy(sumydowyswietleniazakupyNiemcyRok);
         obliczwynikokresuRok();
     }
     
-    private void sumujIZastapListy(List<EVatwpisSuma> lista) {
+    private void sumujIZastapListy(List<EVatwpisSumaN> lista) {
         if (lista == null || lista.isEmpty()) {
             return;
         }
@@ -1526,7 +1527,7 @@ public class EwidencjaVatView implements Serializable {
         String rok = null;
         String mc = null;
 
-        for (EVatwpisSuma ew : lista) {
+        for (EVatwpisSumaN ew : lista) {
             sumaNetto = sumaNetto.add(ew.getNetto());
             sumaVat = sumaVat.add(ew.getVat());
             if (ewidencja == null) {
@@ -1545,14 +1546,15 @@ public class EwidencjaVatView implements Serializable {
 
         lista.clear();
 
-        EVatwpisSuma suma = new EVatwpisSuma(ewidencja, sumaNetto, sumaVat, "suma", podatnik, rok, mc);
+        EVatwpisSumaN suma = new EVatwpisSumaN(ewidencja, sumaNetto, sumaVat, "suma", podatnik, rok, mc);
         lista.add(suma);
     }
     
-    private void rozdzielsumeEwidencjiNaPodlistyNiemcyRok(List<EVatwpisSuma> lista) {
+    private void rozdzielsumeEwidencjiNaPodlistyNiemcyRok(List<EVatwpisSumaN> lista) {
         sumydowyswietleniasprzedazNiemcyRok = Collections.synchronizedList(new ArrayList<>());
         sumydowyswietleniazakupyNiemcyRok = Collections.synchronizedList(new ArrayList<>());
-        for (EVatwpisSuma ew : sumaewidencji.values()) {
+        for (EVatwpisSuma ewold : sumaewidencji.values()) {
+            EVatwpisSumaN ew = new EVatwpisSumaN(ewold);
             String typeewidencji = ew.getEwidencja().getTypewidencji();
             if (ew.getEwidencja().isNiemcy()==true) {
                 switch (typeewidencji) {
@@ -1572,11 +1574,11 @@ public class EwidencjaVatView implements Serializable {
     
     public void zachowajEwidSumabazaNiemcy() {
         if (sumydowyswietleniasprzedazNiemcy.isEmpty()==false) {
-            eVatwpisSumaDAO.usunPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            eVatwpisSumaNDAO.usunPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             try {
                 sumydowyswietleniasprzedazNiemcy.removeIf(it->it.getEwidencja().getNazwa().equals("podsumowanie"));
                 sumydowyswietleniasprzedazNiemcy.removeIf(it->it.getEwidencja().getNazwa().equals("suma upkt"));
-                eVatwpisSumaDAO.createEditList(sumydowyswietleniasprzedazNiemcy);
+                eVatwpisSumaNDAO.createEditList(sumydowyswietleniasprzedazNiemcy);
             } catch (Exception ex){
                 E.m(ex);
             }
@@ -1584,7 +1586,7 @@ public class EwidencjaVatView implements Serializable {
         if (sumydowyswietleniazakupyNiemcy.isEmpty()==false) {
             try {
                 sumydowyswietleniazakupyNiemcy.removeIf(it->it.getEwidencja().getNazwa().equals("podsumowanie"));
-                eVatwpisSumaDAO.createEditList(sumydowyswietleniazakupyNiemcy);
+                eVatwpisSumaNDAO.createEditList(sumydowyswietleniazakupyNiemcy);
             } catch (Exception ex){
                 E.m(ex);
             }
@@ -2112,19 +2114,19 @@ public class EwidencjaVatView implements Serializable {
         this.wynikOkresuNiemcy = wynikOkresuNiemcy;
     }
 
-    public List<EVatwpisSuma> getSumydowyswietleniasprzedazNiemcyRok() {
+    public List<EVatwpisSumaN> getSumydowyswietleniasprzedazNiemcyRok() {
         return sumydowyswietleniasprzedazNiemcyRok;
     }
 
-    public void setSumydowyswietleniasprzedazNiemcyRok(List<EVatwpisSuma> sumydowyswietleniasprzedazNiemcyRok) {
+    public void setSumydowyswietleniasprzedazNiemcyRok(List<EVatwpisSumaN> sumydowyswietleniasprzedazNiemcyRok) {
         this.sumydowyswietleniasprzedazNiemcyRok = sumydowyswietleniasprzedazNiemcyRok;
     }
 
-    public List<EVatwpisSuma> getSumydowyswietleniazakupyNiemcyRok() {
+    public List<EVatwpisSumaN> getSumydowyswietleniazakupyNiemcyRok() {
         return sumydowyswietleniazakupyNiemcyRok;
     }
 
-    public void setSumydowyswietleniazakupyNiemcyRok(List<EVatwpisSuma> sumydowyswietleniazakupyNiemcyRok) {
+    public void setSumydowyswietleniazakupyNiemcyRok(List<EVatwpisSumaN> sumydowyswietleniazakupyNiemcyRok) {
         this.sumydowyswietleniazakupyNiemcyRok = sumydowyswietleniazakupyNiemcyRok;
     }
 

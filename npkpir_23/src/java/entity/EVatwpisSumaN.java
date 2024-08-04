@@ -4,6 +4,7 @@
  */
 package entity;
 
+import embeddable.EVatwpisSuma;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -26,15 +27,15 @@ import javax.persistence.UniqueConstraint;
  * @author Osito
  */
 @Entity
-@Table(name = "EVatwpisSuma", uniqueConstraints = {
+@Table(name = "EVatwpisSumaN", uniqueConstraints = {
     @UniqueConstraint(columnNames={"ewidencja,podid,rok,mc"})
 })
 @NamedQueries({
-    @NamedQuery(name = "EVatwpisSuma.findAll", query = "SELECT d FROM EVatwpisSuma d"),
-    @NamedQuery(name = "EVatwpisSuma.usunByMcRok", query = "DELETE FROM EVatwpisSuma a WHERE a.podatnik = :podatnik AND a.rok = :rok AND a.mc = :mc"),
-    @NamedQuery(name = "EVatwpisSuma.findByPodatnikRok", query = "SELECT a FROM EVatwpisSuma a WHERE a.podatnik = :podatnik AND a.rok = :rok")
+    @NamedQuery(name = "EVatwpisSumaN.findAll", query = "SELECT d FROM EVatwpisSumaN d"),
+    @NamedQuery(name = "EVatwpisSumaN.usunByMcRok", query = "DELETE FROM EVatwpisSumaN a WHERE a.podatnik = :podatnik AND a.rok = :rok AND a.mc = :mc"),
+    @NamedQuery(name = "EVatwpisSumaN.findByPodatnikRok", query = "SELECT a FROM EVatwpisSumaN a WHERE a.podatnik = :podatnik AND a.rok = :rok")
 })
-public class EVatwpisSuma implements Serializable {
+public class EVatwpisSumaN implements Serializable {
     private static final long serialVersionUID = 609846542238933045L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,7 +61,7 @@ public class EVatwpisSuma implements Serializable {
     @Column(name = "mc")
     private String mc;
 
-    public EVatwpisSuma(Evewidencja ewidencja, BigDecimal netto, BigDecimal vat, String estawka, Podatnik podatnik, String rok, String mc) {
+    public EVatwpisSumaN(Evewidencja ewidencja, BigDecimal netto, BigDecimal vat, String estawka, Podatnik podatnik, String rok, String mc) {
         this.ewidencja = ewidencja;
         this.netto = netto;
         this.vat = vat;
@@ -69,8 +70,16 @@ public class EVatwpisSuma implements Serializable {
         this.mc = mc;
         this.podatnik = podatnik;
     }
+    
+    public EVatwpisSumaN(EVatwpisSuma eVatwpisSuma) {
+        this.ewidencja = eVatwpisSuma.getEwidencja();
+        this.netto = eVatwpisSuma.getNetto();
+        this.vat = eVatwpisSuma.getVat();
+        this.estawka = eVatwpisSuma.getEstawka();
+        this.niesumuj = eVatwpisSuma.isNiesumuj();
+    }
 
-    public EVatwpisSuma() {
+    public EVatwpisSumaN() {
     }
 
     public boolean isNiesumuj() {
@@ -152,7 +161,7 @@ public class EVatwpisSuma implements Serializable {
     
     @Override
     public String toString() {
-        return "EVatwpisSuma{" + "ewidencja=" + ewidencja.getNazwa() + ",pole netto "+ ewidencja.getNrpolanetto() + ", netto=" + netto + ", vat=" + vat + ", estawka=" + estawka + '}';
+        return "EVatwpisSumaN{" + "ewidencja=" + ewidencja.getNazwa() + ",pole netto "+ ewidencja.getNrpolanetto() + ", netto=" + netto + ", vat=" + vat + ", estawka=" + estawka + '}';
     }
 
     @Override
@@ -177,7 +186,7 @@ public class EVatwpisSuma implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final EVatwpisSuma other = (EVatwpisSuma) obj;
+        final EVatwpisSumaN other = (EVatwpisSumaN) obj;
         if (!Objects.equals(this.rok, other.rok)) {
             return false;
         }

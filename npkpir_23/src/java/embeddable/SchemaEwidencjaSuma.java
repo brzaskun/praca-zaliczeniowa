@@ -5,7 +5,6 @@
  */
 package embeddable;
 
-import entity.EVatwpisSuma;
 import entity.SchemaEwidencja;
 import java.io.Serializable;
 import java.util.Objects;

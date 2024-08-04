@@ -4,7 +4,7 @@
  */
 package dao;
 
-import entity.EVatwpisSuma;
+import entity.EVatwpisSumaN;
 import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
@@ -21,7 +21,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class EVatwpisSumaDAO extends DAO implements Serializable {
+public class EVatwpisSumaNDAO extends DAO implements Serializable {
 
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
@@ -39,23 +39,23 @@ public class EVatwpisSumaDAO extends DAO implements Serializable {
         return em;
     }
 
-    public EVatwpisSumaDAO() {
-        super(EVatwpisSuma.class);
+    public EVatwpisSumaNDAO() {
+        super(EVatwpisSumaN.class);
         super.em = this.em;
     }
 
     public void usunPodatnikRokMc(Podatnik podatnik, String rok, String mc) {
         try {
-           getEntityManager().createNamedQuery("EVatwpisSuma.usunByMcRok").setParameter("podatnik",podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
+           getEntityManager().createNamedQuery("EVatwpisSumaN.usunByMcRok").setParameter("podatnik",podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
         } catch (Exception e) {
             E.e(e);
         }
     }
     
-    public List<EVatwpisSuma> findPodatnikRok(Podatnik podatnik, String rok) {
-        List<EVatwpisSuma> zwrot = null;
+    public List<EVatwpisSumaN> findPodatnikRok(Podatnik podatnik, String rok) {
+        List<EVatwpisSumaN> zwrot = null;
         try {
-           zwrot = getEntityManager().createNamedQuery("EVatwpisSuma.findByPodatnikRok").setParameter("podatnik",podatnik).setParameter("rok", rok).getResultList();
+           zwrot = getEntityManager().createNamedQuery("EVatwpisSumaN.findByPodatnikRok").setParameter("podatnik",podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
             E.e(e);
         }

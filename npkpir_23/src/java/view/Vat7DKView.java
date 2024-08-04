@@ -18,6 +18,7 @@ import dao.SchemaEwidencjaDAO;
 import dao.WniosekVATZDEntityDAO;
 import deklaracjaVAT7_13.VAT713;
 import deklaracje.vat18m.Deklaracja;
+import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Mce;
 import embeddable.Parametr;
@@ -30,7 +31,6 @@ import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaPozKoncowe;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
-import entity.EVatwpisSuma;
 import entity.Evewidencja;
 import entity.Podatnik;
 import entity.SchemaEwidencja;
@@ -589,7 +589,7 @@ public class Vat7DKView implements Serializable {
                             }
                         }
                         if (nieznaleziono) {
-                            ewidencjenowe.add(new EVatwpisSuma(ewm, r.getNetto(), r.getVat(), "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                            ewidencjenowe.add(new EVatwpisSuma(ewm, r.getNetto(), r.getVat(), ""));
                         }
                     }
                 }

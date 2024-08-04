@@ -7,12 +7,12 @@ package beansVAT;
 
 import data.Data;
 import embeddable.Daneteleadresowe;
+import embeddable.EVatwpisSuma;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.SchemaEwidencjaSuma;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.DeklaracjaVatWierszSumaryczny;
-import entity.EVatwpisSuma;
 import entity.Evewidencja;
 import entity.Evpozycja;
 import entity.Podatnik;
@@ -233,7 +233,7 @@ public class VATDeklaracja implements Serializable {
             EVatwpisSuma ew = (EVatwpisSuma) it.next();
             //dodaje wartosci ujete pierwotnie jako przychod, drugi raz jako koszt 1 "import usług",3 "rejestr WNT",17"odwrotne obciążenie", 24 "import towarów"
             if (ew.getEwidencja().getId()==1 || ew.getEwidencja().getId()==3 || ew.getEwidencja().getId()==17 || ew.getEwidencja().getId()==24) {
-                EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka());
                 Evewidencja tmp = new Evewidencja(ew.getEwidencja().getNazwa(), ew.getEwidencja().getNazwapola(), ew.getEwidencja().getNrpolanetto(), ew.getEwidencja().getNrpolavat(), ew.getEwidencja().getRodzajzakupu(), ew.getEwidencja().getTransakcja(), ew.getEwidencja().isTylkoNetto());
                 //wpisuje pola zakupu
                 tmp.setNrpolanetto("51");
@@ -244,7 +244,7 @@ public class VATDeklaracja implements Serializable {
                 ewidencjeUzupelniane.add(suma);
             }
             if (ew.getEwidencja().getId()==1) {
-                EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka());
                 //pobieram i kopiuje stara ewidencje
                 Evewidencja tmp = new Evewidencja(ew.getEwidencja().getNazwa(), ew.getEwidencja().getNazwapola(), ew.getEwidencja().getNrpolanetto(), ew.getEwidencja().getNrpolavat(), ew.getEwidencja().getRodzajzakupu(), ew.getEwidencja().getTransakcja(), ew.getEwidencja().isTylkoNetto());
                 //wpisuje pola zakupu
@@ -261,7 +261,7 @@ public class VATDeklaracja implements Serializable {
 
     public static void agregacjaEwidencjiZakupowych5152(ArrayList<EVatwpisSuma> ewidencjeUzupelniane, Evpozycja evpozycjanabycie, WpisView wpisView) {
         Evewidencja ewidencjaSumarycznaZakupy = new Evewidencja("sumaryczna", evpozycjanabycie, "51", "52", "opodatkowane", "zakup suma", false);
-        EVatwpisSuma zakupyVatwpis = new EVatwpisSuma(ewidencjaSumarycznaZakupy, BigDecimal.ZERO, BigDecimal.ZERO, "", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        EVatwpisSuma zakupyVatwpis = new EVatwpisSuma(ewidencjaSumarycznaZakupy, BigDecimal.ZERO, BigDecimal.ZERO, "");
         for (Iterator<EVatwpisSuma> it = ewidencjeUzupelniane.iterator(); it.hasNext();) {
             EVatwpisSuma ew = it.next();
             if (ew.getEwidencja().getNrpolanetto().equals("51")) {

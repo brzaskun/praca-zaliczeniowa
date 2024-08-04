@@ -40,7 +40,7 @@
     <class>entity.EVatOpis</class>
     <class>entity.EVatwpis1</class>
     <class>entity.EVatwpisKJPK</class>
-    <class>entity.EVatwpisSuma</class>
+    <class>entity.EVatwpisSumaN</class>
     <class>entity.Evewidencja</class>
     <class>entity.Evopis</class>
     <class>entity.Evpozycja</class>

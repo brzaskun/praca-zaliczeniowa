@@ -16,14 +16,13 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import data.Data;
-import entity.EVatwpisSuma;
+import embeddable.EVatwpisSuma;
 import entity.Podatnik;
 import entity.Uz;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,8 +31,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import plik.Plik;
-import view.WpisView;import waluty.Z;
-
+import view.WpisView;
+import waluty.Z;
 /**
  *
  * @author Osito
