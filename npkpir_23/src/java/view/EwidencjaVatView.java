@@ -575,6 +575,7 @@ public class EwidencjaVatView implements Serializable {
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
             } else {
                 listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), true));
+                listadokvatprzetworzona.addAll(pobierzEVatRokFKUlgaNaZleDlugi(podatnik, vatokres, wpisView.getRokWpisuSt(),wpisView.getRokUprzedniSt() , wpisView.getMiesiacWpisu()));
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
                 listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
                 wyluskajzlisty(listaprzesunietychKoszty, "koszty");

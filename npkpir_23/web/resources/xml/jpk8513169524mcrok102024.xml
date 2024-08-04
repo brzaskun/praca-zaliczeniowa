@@ -3,7 +3,7 @@
     <Naglowek>
         <KodFormularza kodSystemowy="JPK_V7K (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
         <WariantFormularza>2</WariantFormularza>
-        <DataWytworzeniaJPK>2024-08-04T15:41:59.739Z</DataWytworzeniaJPK>
+        <DataWytworzeniaJPK>2024-08-04T19:20:08.335Z</DataWytworzeniaJPK>
         <NazwaSystemu>Taxman</NazwaSystemu>
         <CelZlozenia poz="P_7">1</CelZlozenia>
         <KodUrzedu>3215</KodUrzedu>
@@ -23,9 +23,20 @@
             <LiczbaWierszySprzedazy>0</LiczbaWierszySprzedazy>
             <PodatekNalezny>0</PodatekNalezny>
         </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5211295779</NrDostawcy>
+            <NazwaDostawcy>SANTANDER LEASING S.A.</NazwaDostawcy>
+            <DowodZakupu>2024/01/FWAL/B/003405/C</DowodZakupu>
+            <DataZakupu>2024-01-03</DataZakupu>
+            <DataWplywu>2024-01-31</DataWplywu>
+            <K_42>2598.74</K_42>
+            <K_43>298.86</K_43>
+        </ZakupWiersz>
         <ZakupCtrl>
-            <LiczbaWierszyZakupow>0</LiczbaWierszyZakupow>
-            <PodatekNaliczony>0</PodatekNaliczony>
+            <LiczbaWierszyZakupow>1</LiczbaWierszyZakupow>
+            <PodatekNaliczony>298.86</PodatekNaliczony>
         </ZakupCtrl>
     </Ewidencja>
 </JPK>
