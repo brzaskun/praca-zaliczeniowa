@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -130,6 +131,7 @@ public class RozwiazanieumowyView  implements Serializable {
             }
             if (wpisView.getUmowa()!=null && selectedlista!=null) {
                     umowykontynuacja = umowaFacade.findByAngaz(wpisView.getAngaz());
+                    usunzlecenia(umowykontynuacja);
                     UmowaBean.oznaczumowyciaglosc(umowykontynuacja);
                     int grupaumow = wybranaumowa.getGrupaumow();
                     if (umowykontynuacja!=null&&umowykontynuacja.size()>1) {
@@ -155,6 +157,12 @@ public class RozwiazanieumowyView  implements Serializable {
         }
     }
     
+     private void usunzlecenia(List<Umowa> umowykontynuacja) {
+        if (umowykontynuacja!=null) {
+            Predicate<Umowa> pred = item->item.isPraca()==true;
+            umowykontynuacja.removeIf(pred.negate());
+        }
+    }
      private List<Swiadectwodni>  naniesnieobecnoscinascheme(List<Nieobecnosc> listanieob, List<Nieobecnoscswiadectwoschema> listanieobecschema, Rozwiazanieumowy rozwiazanieumowy, String rok) {
         //urlopy
         List<Swiadectwodni> swiadectwodnilista = new ArrayList<>();
@@ -435,6 +443,8 @@ public class RozwiazanieumowyView  implements Serializable {
     public void setDatagraniczna(String datagraniczna) {
         this.datagraniczna = datagraniczna;
     }
+
+   
 
     
 
