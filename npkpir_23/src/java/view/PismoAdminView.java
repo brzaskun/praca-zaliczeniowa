@@ -138,6 +138,7 @@ public class PismoAdminView implements Serializable{
         Collections.sort(listamenu, collator);
         Collections.sort(listamenu_fk, collator);
         Collections.sort(listapismwszytskie, new Pismoadmincomparator());
+        Collections.sort(listapism, new Pismoadmincomparator());
     }
     
      public void molestujadmina() {

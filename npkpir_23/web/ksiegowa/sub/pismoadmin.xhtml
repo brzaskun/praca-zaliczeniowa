@@ -34,7 +34,7 @@
                     </f:facet>
                     <h:outputText value="#{item.lp}"/>
                 </p:column>
-                <p:column width="80">
+                <p:column width="80" sortable="true" sortPriority="1" sortOrder="descending" sortBy="#{item.datawiadomosci}">
                     <f:facet name="header">
                         <h:outputText value="Data nadania"/>
                     </f:facet>
