@@ -64,6 +64,11 @@
                                 update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu @(.form_southpane)  menubarnorth"  global="true"/>
                     </p:selectOneMenu>
                 </p:column>
+                <p:column>
+                    <p:selectBooleanCheckbox label="cały rok" value="#{dokfkView.calyrokdokumenty}">
+                        <p:ajax event="change" partialSubmit="true" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu" />
+                    </p:selectBooleanCheckbox>
+                </p:column>
             </p:panelGrid>
                     
                     <p:column>

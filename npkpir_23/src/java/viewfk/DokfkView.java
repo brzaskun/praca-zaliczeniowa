@@ -164,6 +164,7 @@ public class DokfkView implements Serializable {
     @Inject
     private UmorzenieNDAO umorzenieNDAO;
     private boolean zapisz0edytuj1;
+    private boolean calyrokdokumenty;
 //    private String wierszid;
 //    private String wnlubma;
     private List<Dokfk> wykazZaksiegowanychDokumentow;
@@ -2352,7 +2353,7 @@ public class DokfkView implements Serializable {
                     wybranakategoriadok = "wszystkie";
                 }
                 if (wybranakategoriadok.equals("wszystkie")) {
-                    if (miesiacWpisuPokaz.equals("CR")) {
+                    if (calyrokdokumenty) {
                         if (pokazsrodkitrwale) {
                             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
                             pokazrmk = false;
@@ -5077,6 +5078,14 @@ private StronaWiersza swwierszakalkulator;
 
     public void setRobulganazledlugi(boolean robulganazledlugi) {
         this.robulganazledlugi = robulganazledlugi;
+    }
+
+    public boolean isCalyrokdokumenty() {
+        return calyrokdokumenty;
+    }
+
+    public void setCalyrokdokumenty(boolean calyrokdokumenty) {
+        this.calyrokdokumenty = calyrokdokumenty;
     }
 
 
