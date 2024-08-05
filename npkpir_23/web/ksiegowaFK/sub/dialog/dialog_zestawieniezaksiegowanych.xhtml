@@ -56,13 +56,16 @@
             </p:panelGrid>
             <p:panelGrid id="panelprzyciskowzestdok" style="margin-left: 2%;" >
                 <p:row>
-            <p:panelGrid columns="2" style="float: left;" id="okreswpisu">
+            <p:panelGrid columns="3" style="float: left;" id="okreswpisu">
                 <p:column>
                     <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
                         <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
                         <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" partialSubmit="true"
                                 update=":zestawieniedokumentow:dataList :zestawieniedokumentow:kategoriadokumentu @(.form_southpane)  menubarnorth"  global="true"/>
                     </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <h:outputText value="CR" style="margin-left: 5px;"/>
                 </p:column>
                 <p:column>
                     <p:selectBooleanCheckbox label="cały rok" value="#{dokfkView.calyrokdokumenty}">
