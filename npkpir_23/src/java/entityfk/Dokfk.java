@@ -250,6 +250,8 @@ public class Dokfk extends DokSuper implements Serializable {
     private List<UmorzenieN> umorzenia;
     @Column(name = "ulganazledlugidatapierwsza")
     private String ulganazledlugidatapierwsza;
+    @Column(name = "ulganazledlugidatapierwszaplus90")
+    private String ulganazledlugidatapierwszaplus90;
     @Column(name = "ulganazledlugidatadruga")
     private String ulganazledlugidatadruga;
   
@@ -862,6 +864,14 @@ public class Dokfk extends DokSuper implements Serializable {
 
     public void setUlganazledlugidatadruga(String ulganazledlugidatadruga) {
         this.ulganazledlugidatadruga = ulganazledlugidatadruga;
+    }
+
+    public String getUlganazledlugidatapierwszaplus90() {
+        return ulganazledlugidatapierwszaplus90;
+    }
+
+    public void setUlganazledlugidatapierwszaplus90(String ulganazledlugidatapierwszaplus90) {
+        this.ulganazledlugidatapierwszaplus90 = ulganazledlugidatapierwszaplus90;
     }
 
    

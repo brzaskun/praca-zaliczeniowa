@@ -1033,7 +1033,7 @@ public class EwidencjaVatView implements Serializable {
                     Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
                     zwrot = new ArrayList<>();
                 case "miesięczne": 
-                    Predicate<EVatwpisFK> datazbiezacegomiesiaca = item->Data.czydatajestwmcu(item.getUlganazledlugidatapierwsza(),rok,mc);
+                    Predicate<EVatwpisFK> datazbiezacegomiesiaca = item->Data.czydatajestwmcu(item.getUlganazledlugidatapierwszaplus90(),rok,mc);
                     if (rokbiezacy!=null) {
                         rokbiezacy.removeIf(datazbiezacegomiesiaca.negate());
                         rokbiezacy.parallelStream().forEach(EVatwpisFK::zmienZnak);
@@ -1046,7 +1046,7 @@ public class EwidencjaVatView implements Serializable {
                     }
                     break;
                 default:
-                    Predicate<EVatwpisFK> datazbiezacegomiesiaca2 = item->Data.czydatajestwkwartale(item.getUlganazledlugidatapierwsza(),rok,mc);
+                    Predicate<EVatwpisFK> datazbiezacegomiesiaca2 = item->Data.czydatajestwkwartale(item.getUlganazledlugidatapierwszaplus90(),rok,mc);
                     if (rokbiezacy!=null) {
                         rokbiezacy.removeIf(datazbiezacegomiesiaca2.negate());
                         rokbiezacy.parallelStream().forEach(EVatwpisFK::zmienZnak);

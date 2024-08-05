@@ -76,6 +76,8 @@ import interceptor.ConstructorInterceptor;
 import java.io.File;
 import java.io.Serializable;
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -1343,6 +1345,14 @@ public class DokfkView implements Serializable {
         try {
             if (dokfk.getUlganazledlugidatapierwsza()!=null&&dokfk.getUlganazledlugidatapierwsza().length()<10) {
                 dokfk.setUlganazledlugidatapierwsza(null);
+            } else if (dokfk.getUlganazledlugidatapierwsza()!=null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate date = LocalDate.parse(dokfk.getUlganazledlugidatapierwsza(), formatter);
+                // Dodanie 90 dni
+                LocalDate newDate = date.plusDays(90);
+                // Konwersja LocalDate na String
+                String newDateString = newDate.format(formatter);
+                dokfk.setUlganazledlugidatapierwszaplus90(newDateString);
             }
             if (dokfk.getUlganazledlugidatadruga()!=null&&dokfk.getUlganazledlugidatadruga().length()<10) {
                 dokfk.setUlganazledlugidatadruga(null);
