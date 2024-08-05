@@ -414,7 +414,7 @@ public class VATDeklaracja implements Serializable {
                 n += Z.zUD(netto);
                 v += Z.zUD(netto);
             }
-            if (wierszsumaryczny.getNazwapozycji().equals("Wysokość korekty podstawy opodatkowania, o której mowa w art. 89a ust.1 ustawy")) {
+            if (wierszsumaryczny.getNazwapozycji().equals("Wysokość korekty podatku należnego, o której mowa w art. 89a ust.1 ustawy")) {
                 n += Z.zUD(vat);
                 v += Z.zUD(vat);
             }
