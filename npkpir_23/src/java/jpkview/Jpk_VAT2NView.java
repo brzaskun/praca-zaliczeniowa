@@ -252,8 +252,9 @@ public class Jpk_VAT2NView implements Serializable {
         List<EVatwpisSuper> bledy = weryfikujwiersze(lista);
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         duplikujjpkwnt(kliencijpk);
+        double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
         if (bledy.size()==0 && (wiersze!=null||kliencijpk!=null)) {
-            String[] sciezka = generujXML(kliencijpk, lista, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie);
+            String[] sciezka = generujXML(kliencijpk, lista, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
             if (sciezka[1]==null) {
                 Msg.msg("e","Błąd generowania/walidacji JPK. Wstrzymuje przetwarzanie danych");
             } else if (wiersze==null) {
@@ -275,8 +276,9 @@ public class Jpk_VAT2NView implements Serializable {
         List<EVatwpisSuper> bledy = weryfikujwiersze(lista);
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         duplikujjpkwnt(kliencijpk);
+        double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
         if (bledy.size()==0 && (wiersze!=null||kliencijpk!=null)) {
-            String[] sciezka = generujXML(kliencijpk, lista, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie);
+            String[] sciezka = generujXML(kliencijpk, lista, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
             String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
             PrimeFaces.current().executeScript(polecenie);
         } else if (wiersze==null) {
@@ -290,12 +292,13 @@ public class Jpk_VAT2NView implements Serializable {
     public void przygotujXML() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowJPK(wpisView.getPodatnikObiekt());
+        double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         duplikujjpkwnt(kliencijpk);
         if (bledy.size()==0 && (wiersze!=null||kliencijpk!=null)) {
-            String[] sciezka = generujXML(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie);
+            String[] sciezka = generujXML(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
             if (sciezka[1]==null) {
                 Msg.msg("e","Błąd generowania/walidacji JPK. Wstrzymuje przetwarzanie danych");
             } else {
@@ -319,12 +322,13 @@ public class Jpk_VAT2NView implements Serializable {
      public void przygotujXMLDL() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowJPK(wpisView.getPodatnikObiekt());
+        double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         duplikujjpkwnt(kliencijpk);
         if (bledy.size()==0 && (wiersze!=null||kliencijpk!=null)) {
-            String[] sciezka = generujXML(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie);
+            String[] sciezka = generujXML(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
             if (sciezka[2]!=null) {
                 Msg.msg("e",sciezka[2]);
             } else if (sciezka[0]!=null){
@@ -345,10 +349,11 @@ public class Jpk_VAT2NView implements Serializable {
         } else {
             ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null);
         }
+        double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         duplikujjpkwnt(kliencijpk);
-        String[] sciezka = generujXML(kliencijpk, wiersze, podatnik, nowa0korekta1, werjsajpkrecznie);
+        String[] sciezka = generujXML(kliencijpk, wiersze, podatnik, nowa0korekta1, werjsajpkrecznie, nettovatuzd);
         if (sciezka[1]==null) {
                 Msg.msg("e","Błąd generowania/walidacji JPK. Wstrzymuje przetwarzanie danych");
         } else {
@@ -363,12 +368,13 @@ public class Jpk_VAT2NView implements Serializable {
     public void przygotujXMLPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowJPK(wpisView.getPodatnikObiekt());
+        double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         duplikujjpkwnt(kliencijpk);
         if (bledy.size()==0 && (wiersze!=null||kliencijpk!=null)) {
-            generujXMLPodglad(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie);
+            generujXMLPodglad(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
         } else if (wiersze==null) {
            Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
@@ -387,11 +393,12 @@ public class Jpk_VAT2NView implements Serializable {
     }
     
     public void przygotujXMLPodgladDedra() {
+        double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
         List<EVatwpisDedra> wiersze =  eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
         List<EVatwpisSuper> bledy = weryfikujwierszeDedra(wiersze);
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (bledy.size()==0 && (wiersze!=null||kliencijpk!=null)) {
-            generujXMLPodgladDedra(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie);
+            generujXMLPodgladDedra(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
         } else if (wiersze==null) {
             Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
@@ -406,20 +413,22 @@ public class Jpk_VAT2NView implements Serializable {
         } else {
             ewidencjaVatView.stworzenieEwidencjiZDokumentowFKJPK(podatnik, null);
         }
+        double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        generujXMLPodglad(kliencijpk, wiersze, podatnik, nowa0korekta1, werjsajpkrecznie);
+        generujXMLPodglad(kliencijpk, wiersze, podatnik, nowa0korekta1, werjsajpkrecznie, nettovatuzd);
     }
     
     public void przygotujXMLFK() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFKJPK(wpisView.getPodatnikObiekt(), null);
+        double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         duplikujjpkwnt(kliencijpk);
         if (bledy.size()==0 && (wiersze!=null||kliencijpk!=null)) {
-            String[] sciezka = generujXML(kliencijpk, wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie);
+            String[] sciezka = generujXML(kliencijpk, wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
             if (sciezka[1]==null) {
                 Msg.msg("e","Błąd generowania/walidacji JPK. Wstrzymuje przetwarzanie danych");
             } else {
@@ -443,12 +452,13 @@ public class Jpk_VAT2NView implements Serializable {
     public void przygotujXMLFKDL() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFKJPK(wpisView.getPodatnikObiekt(), null);
+        double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         duplikujjpkwnt(kliencijpk);
         if (bledy.size()==0 && (wiersze!=null||kliencijpk!=null)) {
-            String[] sciezka = generujXML(kliencijpk, wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie);
+            String[] sciezka = generujXML(kliencijpk, wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
             String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
             PrimeFaces.current().executeScript(polecenie);
         } else if (wiersze==null) {
@@ -462,12 +472,13 @@ public class Jpk_VAT2NView implements Serializable {
     public void przygotujXMLFKPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFKJPK(wpisView.getPodatnikObiekt(), null);
+        double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         duplikujjpkwnt(kliencijpk);
         if (bledy.size()==0 && (wiersze!=null||kliencijpk!=null)) {
-            generujXMLPodglad(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie);
+            generujXMLPodglad(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
         } else if (wiersze==null) {
             Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
@@ -584,7 +595,7 @@ public class Jpk_VAT2NView implements Serializable {
     }
 
     
-    private JPKSuper genJPK(List<KlientJPK> kliencijpk, List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1, int werjsajpkrecznie1pierowtna2korekta) {
+    private JPKSuper genJPK(List<KlientJPK> kliencijpk, List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1, int werjsajpkrecznie1pierowtna2korekta, double[] nettovatuzd) {
         JPKSuper zwrot = null;
         try {
             if (wpisView.isJpk2020M2()||podatnik.getNip().equals("5263158333")) {
@@ -1139,9 +1150,9 @@ public class Jpk_VAT2NView implements Serializable {
     }
     
     
-    public void generujXMLPodgladDedra(List<KlientJPK> kliencijpk, List<EVatwpisDedra> wiersze, Podatnik podatnik, boolean nowa0korekta1, int werjsajpkrecznie1pierowtna2korekta) {
+    public void generujXMLPodgladDedra(List<KlientJPK> kliencijpk, List<EVatwpisDedra> wiersze, Podatnik podatnik, boolean nowa0korekta1, int werjsajpkrecznie1pierowtna2korekta, double[] nettovatuzd) {
         List<EVatwpisSuper> lista = new ArrayList<>(wiersze);
-        JPKSuper jpk = genJPK(kliencijpk, lista, podatnik, nowa0korekta1, werjsajpkrecznie1pierowtna2korekta);
+        JPKSuper jpk = genJPK(kliencijpk, lista, podatnik, nowa0korekta1, werjsajpkrecznie1pierowtna2korekta, nettovatuzd);
         try {
             if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
                 PdfUPO.drukujJPK2020M(jpk, wpisView, podatnik);
@@ -1158,8 +1169,8 @@ public class Jpk_VAT2NView implements Serializable {
         }
     }
     
-    public void generujXMLPodglad(List<KlientJPK> kliencijpk, List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1, int werjsajpkrecznie1pierowtna2korekta) {
-        JPKSuper jpk = genJPK(kliencijpk, wiersze, podatnik, nowa0korekta1, werjsajpkrecznie1pierowtna2korekta);
+    public void generujXMLPodglad(List<KlientJPK> kliencijpk, List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1, int werjsajpkrecznie1pierowtna2korekta, double[] nettovatuzd) {
+        JPKSuper jpk = genJPK(kliencijpk, wiersze, podatnik, nowa0korekta1, werjsajpkrecznie1pierowtna2korekta, nettovatuzd);
         try {
              if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
                 PdfUPO.drukujJPK2022M(jpk, wpisView, podatnik);
@@ -1181,9 +1192,9 @@ public class Jpk_VAT2NView implements Serializable {
     }
     
     
-    public String[] generujXML(List<KlientJPK> kliencijpk, List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1, int werjsajpkrecznie1pierowtna2korekta) {
+    public String[] generujXML(List<KlientJPK> kliencijpk, List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1, int werjsajpkrecznie1pierowtna2korekta, double[] nettovatuzd) {
         String[] zwrot = new String[3];
-        JPKSuper jpk = genJPK(kliencijpk, wiersze, podatnik, nowa0korekta1, werjsajpkrecznie1pierowtna2korekta);
+        JPKSuper jpk = genJPK(kliencijpk, wiersze, podatnik, nowa0korekta1, werjsajpkrecznie1pierowtna2korekta, nettovatuzd);
         String sciezka = null;
         if (jpk!=null) {
             try {

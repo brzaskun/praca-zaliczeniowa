@@ -75,6 +75,14 @@ public class EVatwpisSuper implements Serializable {
         this.mcEw = wiersz.mcEw;
         this.rokEw = wiersz.rokEw;
     }
+    
+     public String getUlganazledlugidatapierwsza() {
+        String zwrot = null;
+        if (this.getDokfk()!=null) {
+            zwrot = this.getDokfk().getUlganazledlugidatapierwsza();
+        } 
+        return zwrot;
+    }
 
     public String getUlganazledlugidatapierwszaplus90() {
         String zwrot = null;

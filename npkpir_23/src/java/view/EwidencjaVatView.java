@@ -145,6 +145,7 @@ public class EwidencjaVatView implements Serializable {
     private EVatwpisIncydentalniDAO eVatwpisIncydentalniDAO;
     @Inject
     private WniosekVATZDEntityDAO wniosekVATZDEntityDAO;
+    private double[] nettovatuzd;
 
     public EwidencjaVatView() {
         nazwyewidencji = Collections.synchronizedList(new ArrayList<>());
@@ -157,6 +158,7 @@ public class EwidencjaVatView implements Serializable {
         suma1 = 0.0;
         suma2 = 0.0;
         suma3 = 0.0;
+        nettovatuzd = new double[2];
     }
 
     @PostConstruct
@@ -364,6 +366,15 @@ public class EwidencjaVatView implements Serializable {
                     })
                     .collect(Collectors.toList());
             }
+            nettovatuzd[0] = listadokvatprzetworzona.stream()
+                    .filter(item->item.getUlganazledlugidatapierwsza()!=null&&item.getNetto()<0.0)
+                    .mapToDouble(EVatwpisSuper::getNetto)
+                    .sum();
+            nettovatuzd[1] = listadokvatprzetworzona.stream()
+                    .filter(item->item.getUlganazledlugidatapierwsza()!=null&&item.getNetto()<0.0)
+                    .mapToDouble(EVatwpisSuper::getVat)
+                    .sum();
+            
             przejrzyjEVatwpis1Lista();
             stworzenieEwidencjiCzescWspolna();
             for (String k : listaewidencji.keySet()) {
@@ -471,6 +482,15 @@ public class EwidencjaVatView implements Serializable {
                         }
             }
             }
+            nettovatuzd[0] = listadokvatprzetworzona.stream()
+                    .filter(item->item.getUlganazledlugidatapierwsza()!=null&&item.getNetto()<0.0)
+                    .mapToDouble(EVatwpisSuper::getNetto)
+                    .sum();
+            nettovatuzd[1] = listadokvatprzetworzona.stream()
+                    .filter(item->item.getUlganazledlugidatapierwsza()!=null&&item.getNetto()<0.0)
+                    .mapToDouble(EVatwpisSuper::getVat)
+                    .sum();
+            
             //w uproszczonej tego nie ma
             //ale musi byc bo w fk sa faktury wdt wnt np vintis
             listadokvatprzetworzona.addAll(pobierzEVatIncydentalni(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
@@ -2136,6 +2156,14 @@ public class EwidencjaVatView implements Serializable {
 
     public void setWynikOkresuNiemcyRok(BigDecimal wynikOkresuNiemcyRok) {
         this.wynikOkresuNiemcyRok = wynikOkresuNiemcyRok;
+    }
+
+    public double[] getNettovatuzd() {
+        return nettovatuzd;
+    }
+
+    public void setNettovatuzd(double[] nettovatuzd) {
+        this.nettovatuzd = nettovatuzd;
     }
 
     

@@ -297,6 +297,11 @@ public class Vat7DKView implements Serializable {
             korektanaliczonyzwiekszajaca = (int) wniosekVATZDEntity.getNaliczonyzwiekszenie();
         }
         int jestschema0niema1 = wygenerujwierszesumaryczne(schemaewidencjalista, pobraneewidencje, schemawierszsumarycznylista);
+        double nettouzd = ewidencjaVatView.getNettovatuzd()[0];
+        double vatuzd = ewidencjaVatView.getNettovatuzd()[1];
+        for (DeklaracjaVatSchemaWierszSum p : schemawierszsumarycznylista) {
+            VATDeklaracja.podsumujewidencjeUlgaZleDlugi(nettouzd, vatuzd, p);
+        }
         if (jestschema0niema1 == 0) {
             //tutaj trzeba zrobic nowa deklaracje po nowemu.
             pozycjeSzczegoloweNowe = VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null, korektanaliczonyzmniejszajaca, korektanaliczonyzwiekszajaca);

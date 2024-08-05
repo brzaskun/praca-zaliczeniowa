@@ -405,6 +405,22 @@ public class VATDeklaracja implements Serializable {
         }
         return pasujaca;
     }
+     
+     public static void podsumujewidencjeUlgaZleDlugi(double netto, double vat, DeklaracjaVatSchemaWierszSum p) {
+        DeklaracjaVatWierszSumaryczny wierszsumaryczny = p.getDeklaracjaVatWierszSumaryczny();
+        int n = 0;
+        int v = 0;
+            if (wierszsumaryczny.getNazwapozycji().equals("Wysokość korekty podstawy opodatkowania, o której mowa w art. 89a ust.1 ustawy")) {
+                n += Z.zUD(netto);
+                v += Z.zUD(netto);
+            }
+            if (wierszsumaryczny.getNazwapozycji().equals("Wysokość korekty podstawy opodatkowania, o której mowa w art. 89a ust.1 ustawy")) {
+                n += Z.zUD(vat);
+                v += Z.zUD(vat);
+            }
+            wierszsumaryczny.setSumanetto(n);
+            wierszsumaryczny.setSumavat(v);
+    }
 
     public static void podsumujewidencje(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> pobraneewidencje, DeklaracjaVatSchemaWierszSum p) {
         DeklaracjaVatWierszSumaryczny wierszsumaryczny = p.getDeklaracjaVatWierszSumaryczny();
