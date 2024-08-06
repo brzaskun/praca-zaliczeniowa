@@ -7,7 +7,29 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:bcf="http://brzaskun.com/facelets"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
-    
+    <p:panelGrid columns="6" style="padding: 10px;">
+        <h:outputText value="rok"></h:outputText>
+        <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisuSt}">
+                   <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
+                    <p:ajax event="change" listener="#{obrotyView.init()}"  update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
+                    <f:selectItems value="#{roki.rokiList}"/>
+        </p:selectOneMenu>
+        <h:outputText value=" mc od"/>
+                <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
+                     <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
+                    <p:ajax event="change" listener="#{obrotyView.init()}"  update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
+                    <f:selectItems value="#{mce.mceList}"/>
+                </p:selectOneMenu>
+         
+        <h:outputText value="mc do"/>
+                            
+                <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">
+                    <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
+                    <p:ajax event="change" listener="#{obrotyView.init()}"  update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
+                    <f:selectItems value="#{mce.mceList}"/>
+                </p:selectOneMenu>
+                            
+    </p:panelGrid>
     <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{obrotyView.drukujObroty()}" >
     </p:commandButton>
     <p:commandButton id="obrotywysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
