@@ -300,7 +300,10 @@ public class Vat7DKView implements Serializable {
         double nettouzd = ewidencjaVatView.getNettovatuzd()[0];
         double vatuzd = ewidencjaVatView.getNettovatuzd()[1];
         for (DeklaracjaVatSchemaWierszSum p : schemawierszsumarycznylista) {
-            VATDeklaracja.podsumujewidencjeUlgaZleDlugi(nettouzd, vatuzd, p);
+            if (p.getDeklaracjaVatWierszSumaryczny().getNazwapozycji().equals("Wysokość korekty podstawy opodatkowania, o której mowa w art. 89a ust.1 ustawy")
+                    ||p.getDeklaracjaVatWierszSumaryczny().getNazwapozycji().equals("Wysokość korekty podatku należnego, o której mowa w art. 89a ust.1 ustawy")) {
+                VATDeklaracja.podsumujewidencjeUlgaZleDlugi(nettouzd, vatuzd, p);
+            }
         }
         if (jestschema0niema1 == 0) {
             //tutaj trzeba zrobic nowa deklaracje po nowemu.

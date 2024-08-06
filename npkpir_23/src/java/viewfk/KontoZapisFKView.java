@@ -50,6 +50,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.DoubleAccumulator;
@@ -192,19 +193,11 @@ public class KontoZapisFKView implements Serializable{
     
     private void wybierzgrupekont() {
          if (wybranyRodzajKonta != null) {
-            if (wybranyRodzajKonta.equals("bilansowe")) {
-                for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
-                    if (it.next().getBilansowewynikowe().equals("wynikowe")) {
-                        it.remove();
-                    }
-                }
-            } else if (wybranyRodzajKonta.equals("wynikowe")) {
-                for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
-                    if (it.next().getBilansowewynikowe().equals("bilansowe")) {
-                        it.remove();
-                    }
-                }
+            if (wybranyRodzajKonta != null) {
+                String typDoUsuniecia = wybranyRodzajKonta.equals("bilansowe") ? "wynikowe" : "bilansowe";
+                wykazkont.removeIf(konto -> konto.getBilansowewynikowe().equals(typDoUsuniecia));
             }
+
         }
     }
     
@@ -221,21 +214,20 @@ public class KontoZapisFKView implements Serializable{
         wykazkont.addAll(listamacierzyste);
     }
     
-    private Set<Konto> wyluskajmacierzyste(List<Konto> listakont) {
+   private Set<Konto> wyluskajmacierzyste(List<Konto> listakont) {
         Set<Konto> listamacierzyste = new HashSet<>();
-        for (Iterator<Konto> it = listakont.iterator();it.hasNext();) {
-            if (it.next()==null) {
-                it.remove();
-            }
-        }
-        listakont.stream().map((p) -> p.getKontomacierzyste()).forEachOrdered((m) -> {
+        listakont.removeIf(Objects::isNull);
+        listakont.forEach(konto -> {
+            Konto m = konto.getKontomacierzyste();
             while (m != null) {
                 listamacierzyste.add(m);
                 m = m.getKontomacierzyste();
             }
         });
+
         return listamacierzyste;
     }
+
     
 //    public void pobierzzapisy(String rok) {
 //        List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());

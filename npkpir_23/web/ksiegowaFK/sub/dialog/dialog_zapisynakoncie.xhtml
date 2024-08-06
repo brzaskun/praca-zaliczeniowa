@@ -33,8 +33,9 @@
         }
     </style>
     <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisynakoncie" appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1900,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).focus();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
+              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1980,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).focus();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true" focus="formwpiskonta:wyborkonta"
+              style="overflow-x: hidden"
               >
         <p:ajax event="open" global="true" listener="#{kontoZapisFKView.init()}" oncomplete="$(document.getElementById('formwpiskonta:wyborkonta_input')).focus();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();" 
                 update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta walutazapisynakoncie formwpiskontarok"/>
@@ -197,7 +198,7 @@
                             <p:column  style="width: 50px; text-align: center;" width="10">
                                 <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
                             </p:column>
-                            <p:column headerText="nr konta"  styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;  #{loop1.sprawdzono ne null?'background-color: #c2f9d2':null}"
+                            <p:column headerText="nr konta"  styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 90px; height: 30px;  #{loop1.sprawdzono ne null?'background-color: #c2f9d2':null}"
                                       sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" sortable="true" sortPriority="1">
                                 <p:outputPanel id="kontokolor">
                                 <h:outputText value="#{loop1.nrkonta}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '0' ? true : false)}" style="font-weight: 900;" /> 

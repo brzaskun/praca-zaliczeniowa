@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2024-08-06T12:32:31.545Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <KodUrzedu>1203</KodUrzedu>
+        <Rok>2024</Rok>
+        <Miesiac>4</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaFizyczna>
+            <ns2:NIP>8692004997</ns2:NIP>
+            <ns2:ImiePierwsze>ARTUR</ns2:ImiePierwsze>
+            <ns2:Nazwisko>KĘDROŃ</ns2:Nazwisko>
+            <ns2:DataUrodzenia>1998-06-23</ns2:DataUrodzenia>
+            <Email>brzaskun@o2.pl</Email>
+            <Telefon>603133396</Telefon>
+        </OsobaFizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_11>45411</P_11>
+            <P_12>770</P_12>
+            <P_35>0</P_35>
+            <P_37>0</P_37>
+            <P_38>0</P_38>
+            <P_39>783</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>0</P_42>
+            <P_43>0</P_43>
+            <P_48>783</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>783</P_53>
+            <P_62>783</P_62>
+            <P_68>0</P_68>
+            <P_69>0</P_69>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>5/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-08</DataWystawienia>
+            <DataSprzedazy>2024-04-08</DataSprzedazy>
+            <K_11>771.89</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>5/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-08</DataWystawienia>
+            <DataSprzedazy>2024-04-08</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>3/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-09</DataWystawienia>
+            <DataSprzedazy>2024-04-09</DataSprzedazy>
+            <K_11>770.49</K_11>
+            <K_12>770.49</K_12>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>4/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-10</DataWystawienia>
+            <DataSprzedazy>2024-04-10</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>4/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-10</DataWystawienia>
+            <DataSprzedazy>2024-04-10</DataSprzedazy>
+            <K_11>1149.88</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>2/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-12</DataWystawienia>
+            <DataSprzedazy>2024-04-12</DataSprzedazy>
+            <K_11>4094.30</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>2/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-12</DataWystawienia>
+            <DataSprzedazy>2024-04-12</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>1/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-12</DataWystawienia>
+            <DataSprzedazy>2024-04-12</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>1/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-12</DataWystawienia>
+            <DataSprzedazy>2024-04-12</DataSprzedazy>
+            <K_11>6397.35</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>10</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>7/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-16</DataWystawienia>
+            <DataSprzedazy>2024-04-16</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>11</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>7/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-16</DataWystawienia>
+            <DataSprzedazy>2024-04-16</DataSprzedazy>
+            <K_11>2571.06</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>12</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>10/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-17</DataWystawienia>
+            <DataSprzedazy>2024-04-17</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>13</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>10/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-17</DataWystawienia>
+            <DataSprzedazy>2024-04-17</DataSprzedazy>
+            <K_11>1101.52</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>14</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>6/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-19</DataWystawienia>
+            <DataSprzedazy>2024-04-19</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>15</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>6/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-19</DataWystawienia>
+            <DataSprzedazy>2024-04-19</DataSprzedazy>
+            <K_11>6496.35</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>16</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>8/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-19</DataWystawienia>
+            <DataSprzedazy>2024-04-19</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>17</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>8/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-19</DataWystawienia>
+            <DataSprzedazy>2024-04-19</DataSprzedazy>
+            <K_11>2858.39</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>18</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>9/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-21</DataWystawienia>
+            <DataSprzedazy>2024-04-21</DataSprzedazy>
+            <K_11>5457.82</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>19</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>9/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-21</DataWystawienia>
+            <DataSprzedazy>2024-04-21</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>20</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>12/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-23</DataWystawienia>
+            <DataSprzedazy>2024-04-23</DataSprzedazy>
+            <K_11>1814.53</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>21</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>12/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-23</DataWystawienia>
+            <DataSprzedazy>2024-04-23</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>22</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>11/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-26</DataWystawienia>
+            <DataSprzedazy>2024-04-26</DataSprzedazy>
+            <K_11>4924.57</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>23</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>11/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-26</DataWystawienia>
+            <DataSprzedazy>2024-04-26</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>24</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>13/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-27</DataWystawienia>
+            <DataSprzedazy>2024-04-27</DataSprzedazy>
+            <K_11>4279.27</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>25</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>13/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-27</DataWystawienia>
+            <DataSprzedazy>2024-04-27</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>26</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>14/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-28</DataWystawienia>
+            <DataSprzedazy>2024-04-28</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>27</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>14/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-28</DataWystawienia>
+            <DataSprzedazy>2024-04-28</DataSprzedazy>
+            <K_11>1426.42</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>28</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>15/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-29</DataWystawienia>
+            <DataSprzedazy>2024-04-29</DataSprzedazy>
+            <K_11>1296.75</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>29</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>328044237</NrKontrahenta>
+            <NazwaKontrahenta>ISO DEAL 24</NazwaKontrahenta>
+            <DowodSprzedazy>15/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-04-29</DataWystawienia>
+            <DataSprzedazy>2024-04-29</DataSprzedazy>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>15</LiczbaWierszySprzedazy>
+            <PodatekNalezny>0</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5272698282</NrDostawcy>
+            <NazwaDostawcy>LEASELINK sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>04331/04/2024/UL</DowodZakupu>
+            <DataZakupu>2024-04-02</DataZakupu>
+            <DataWplywu>2024-04-02</DataWplywu>
+            <K_42>119.00</K_42>
+            <K_43>27.37</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8951794707</NrDostawcy>
+            <NazwaDostawcy>KRAJOWY REJESTR DŁUGÓW BIURO INFORMACJI GOSPODARCZEJ S.A.</NazwaDostawcy>
+            <DowodZakupu>FS-21256/BIG/04/2024</DowodZakupu>
+            <DataZakupu>2024-04-02</DataZakupu>
+            <DataWplywu>2024-04-02</DataWplywu>
+            <K_42>369.00</K_42>
+            <K_43>84.87</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252697262</NrDostawcy>
+            <NazwaDostawcy>NOWEOPONY.PL sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>825/INT/04/2024</DowodZakupu>
+            <DataZakupu>2024-04-03</DataZakupu>
+            <DataWplywu>2024-04-03</DataWplywu>
+            <K_42>1034.15</K_42>
+            <K_43>237.85</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8730005818</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWE "COMPLEX" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>00165924075095200</DowodZakupu>
+            <DataZakupu>2024-04-06</DataZakupu>
+            <DataWplywu>2024-04-06</DataWplywu>
+            <K_42>162.66</K_42>
+            <K_43>37.41</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9570753221</NrDostawcy>
+            <NazwaDostawcy>Prime Car Management S.A. </NazwaDostawcy>
+            <DowodZakupu>22865/M/04/24</DowodZakupu>
+            <DataZakupu>2024-04-10</DataZakupu>
+            <DataWplywu>2024-04-10</DataWplywu>
+            <K_42>1568.75</K_42>
+            <K_43>360.82</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8691975411</NrDostawcy>
+            <NazwaDostawcy>STUDIODELTA.PL  MIROSŁAW MYTNIK, Ryszard Mytnik</NazwaDostawcy>
+            <DowodZakupu>FZA/1/2024/04</DowodZakupu>
+            <DataZakupu>2024-04-12</DataZakupu>
+            <DataWplywu>2024-04-12</DataWplywu>
+            <K_42>500.00</K_42>
+            <K_43>115.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8730005818</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWE "COMPLEX" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>00187524075095200</DowodZakupu>
+            <DataZakupu>2024-04-16</DataZakupu>
+            <DataWplywu>2024-04-16</DataWplywu>
+            <K_42>217.98</K_42>
+            <K_43>25.07</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>4/2024/AKD-99</DowodZakupu>
+            <DataZakupu>2024-04-17</DataZakupu>
+            <DataWplywu>2024-04-17</DataWplywu>
+            <K_42>930.00</K_42>
+            <K_43>213.9</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>F 1984K1/5217/24</DowodZakupu>
+            <DataZakupu>2024-04-23</DataZakupu>
+            <DataWplywu>2024-04-23</DataWplywu>
+            <K_42>121.99</K_42>
+            <K_43>28.06</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8730005818</NrDostawcy>
+            <NazwaDostawcy>PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWE "COMPLEX" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>00206424075095200</DowodZakupu>
+            <DataZakupu>2024-04-24</DataZakupu>
+            <DataWplywu>2024-04-24</DataWplywu>
+            <K_42>48.85</K_42>
+            <K_43>11.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6820004460</NrDostawcy>
+            <NazwaDostawcy>LEMAR R.L.E LEŚNIAK Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>F 878K1/7146/24</DowodZakupu>
+            <DataZakupu>2024-04-25</DataZakupu>
+            <DataWplywu>2024-04-25</DataWplywu>
+            <K_42>166.72</K_42>
+            <K_43>19.17</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6151966270</NrDostawcy>
+            <NazwaDostawcy>"SOLEY - ARECA SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ" SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>F 4831K3/7422/24</DowodZakupu>
+            <DataZakupu>2024-04-25</DataZakupu>
+            <DataWplywu>2024-04-25</DataWplywu>
+            <K_42>203.25</K_42>
+            <K_43>46.75</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>12</LiczbaWierszyZakupow>
+            <PodatekNaliczony>1207.50</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>
