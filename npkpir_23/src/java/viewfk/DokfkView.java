@@ -2380,7 +2380,7 @@ public class DokfkView implements Serializable {
                             pokazsrodkitrwale = false;
                         }
                     }
-                } else if (miesiacWpisuPokaz.equals("CR")) {
+                } else if (calyrokdokumenty) {
                     robulganazledlugi = false;
                     wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wybranakategoriadok);
                 } else {
