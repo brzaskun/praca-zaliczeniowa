@@ -1421,6 +1421,9 @@ public class KontoZapisFKView implements Serializable{
                 List<StronaWiersza> doprzeksiegowania = new ArrayList<>();
                 if (kontozapisyfiltered!=null&&kontozapisyfiltered.isEmpty()==false) {
                     doprzeksiegowania = kontozapisyfiltered;
+                    if ((wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty()==false)) {
+                        doprzeksiegowania = wybranezapisydosumowania;
+                    }
                     Msg.msg("Przeksięgowuję pozycje przefiltrowane");
                 } else  if ((wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty())) {
                     doprzeksiegowania = wybranezapisydosumowania;
