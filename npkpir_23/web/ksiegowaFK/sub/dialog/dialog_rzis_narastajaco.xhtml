@@ -27,7 +27,7 @@
             </p:panelGrid>
             <p:panelGrid columns="2" style="height: 600px;">
                 <p:column>
-                    <p:treeTable id="dataList" value="#{pozycjaRZiSNarView.rootProjektRZiS}" var="loop" 
+                    <p:treeTable id="dataList" value="#{pozycjaRZiSNarView.rootProjektRZiS}" var="loop" selection="#{pozycjaRZiSNarView.selected}" selectionMode="single"
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}" 
                                  scrollable="true" style="height: 650px; margin-top: 0px; overflow-y: scroll; #{pozycjaRZiSNarView.obliczszerkosc()}">
                         <f:facet  name="header">

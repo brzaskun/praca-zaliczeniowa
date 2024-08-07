@@ -19,6 +19,7 @@ import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.UkladBR;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.view.ViewScoped;
@@ -28,7 +29,6 @@ import javax.interceptor.Interceptors;
 import msg.Msg;
 import pdffk.PdfRZiS;
 import view.WpisView;
-import interceptor.ConstructorInterceptor;
 /**
  *
  * @author Osito
@@ -52,6 +52,7 @@ public class PozycjaRZiSNarView  implements Serializable {
     @Inject
     private KontoDAOfk kontoDAO;
     private TreeNodeExtended rootProjektRZiS;
+    private TreeNodeExtended selected;
 
     public PozycjaRZiSNarView() {
         this.rootProjektRZiS = new TreeNodeExtended("root", null);
@@ -137,6 +138,14 @@ public class PozycjaRZiSNarView  implements Serializable {
 
     public void setRootProjektRZiS(TreeNodeExtended rootProjektRZiS) {
         this.rootProjektRZiS = rootProjektRZiS;
+    }
+
+    public TreeNodeExtended getSelected() {
+        return selected;
+    }
+
+    public void setSelected(TreeNodeExtended selected) {
+        this.selected = selected;
     }
     
     
