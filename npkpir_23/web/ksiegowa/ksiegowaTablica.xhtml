@@ -10,18 +10,7 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:form>
-                <p:growl life="3600"  id="fifi"/>
-                <p:confirmDialog id="confirmDialog" message="Usunąć wybrany dokument?"  
-                                 header="" severity="alert" widgetVar="confirmation">
-
-                    <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :form:dokumentyLista" oncomplete="PF('confirmation').hide()"  
-                                     actionListener="#{DokTabView.destroy2()}" />  
-                    <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
-
-                </p:confirmDialog>  
-            </h:form>
-            <h:form>
+             <h:form>
                 <p:growl life="3600"  id="fifi1"/>
                 <p:confirmDialog id="confirmDialog1" message="Usunąć całą grupę dokumentów?"  
                                  header="" severity="alert" widgetVar="confirmation1">
@@ -33,44 +22,53 @@
                 </p:confirmDialog>  
             </h:form>
             <f:view>
-                <pe:layout fullPage="true" >
-                    <ui:include src="sub/layoutZmianapodatnika/north.xhtml"/>  <!-- panel polnocny-->
-                    <ui:include src="sub/layoutZmianapodatnika/south.xhtml"/>   <!-- panel poludniowy-->
-                    <ui:include src="sub/layoutZmianapodatnika/west.xhtml"/>   <!-- panel zachodni-->
-                    <ui:include src="sub/layoutZmianapodatnika/east.xhtml"/>   <!-- panel wchodni-->
-                    
-                    <pe:layoutPane position="center" id="layoutCenter">
-                        
-                        <h:form id="formM">
-                            <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                        </h:form>
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/north.xhtml"/>
+                    </div>
+  
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-3 lg:col-2">
+                            <ui:include src="sub/layoutNowy/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10">
+                            <h:form id="formM">
+                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                            </h:form>
                             <ui:include src="sub/dialog_cecha_dokument_zbiorcze.xhtml" />
                             <ui:include src="sub/dokumentyzaksiegowane.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                             <ui:include src="sub/add_wiad_kolumna1rozbicie.xhtml" />
 
-                             <script>
-                        var pokazdialotczastkowe = function() {
-                            var el = document.activeElement;
-                            var pole = el.id.indexOf('kwotaPkpir');
-                            if (pole > 0) {
-                                MYAPP.rozbicieczastkowefocus = el;
-                                PF('add_wiad_kolumna1rozbicie').show();
-                            }
-                        };
-                         var zachowaldialotczastkowe = function() {
-                            PF('add_wiad_kolumna1rozbicie').hide();
-                            $("#dodWiad\\:opis :input").focus(); 
+                            <script>
+                                var pokazdialotczastkowe = function () {
+                                    var el = document.activeElement;
+                                    var pole = el.id.indexOf('kwotaPkpir');
+                                    if (pole > 0) {
+                                        MYAPP.rozbicieczastkowefocus = el;
+                                        PF('add_wiad_kolumna1rozbicie').show();
+                                    }
+                                };
+                                var zachowaldialotczastkowe = function () {
+                                    PF('add_wiad_kolumna1rozbicie').hide();
+                                    $("#dodWiad\\:opis :input").focus();
 
-                        };
-                    </script>
-                    <h:form>
-                        <p:commandButton value="kolumna1rozbicie" accesskey="r" oncomplete="pokazdialotczastkowe();" 
-                                         actionListener="#{DokumentView.przygotujrozbicie}" 
-                                         update="formdialog_add_wiad_kolumna1rozbicie" style="display: none"/>
-                    </h:form>
-                    </pe:layoutPane>
-
-                </pe:layout>
+                                };</script>
+                            <h:form>
+                                <p:commandButton value="kolumna1rozbicie" accesskey="r" oncomplete="pokazdialotczastkowe();" 
+                                                 actionListener="#{DokumentView.przygotujrozbicie}" 
+                                                 update="formdialog_add_wiad_kolumna1rozbicie" style="display: none"/>
+                            </h:form>
+                        </div>
+                        <!-- panel południowy (footer) -->
+                    </div>
+                    <div class="col-12">
+                            <ui:include src="sub/layoutNowy/south.xhtml"/>
+                    </div>
+                </div>
             </f:view>
 
         </ui:define>

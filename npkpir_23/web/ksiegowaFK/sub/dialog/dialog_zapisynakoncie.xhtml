@@ -243,7 +243,31 @@
                     }
                 </style>
                 <h:form id="tabelazzapisami">
-                    
+                    <!--                dzieki temu toggleselect nie zaznacza juz wszystkich ignorujac filtr-->
+                <script type="text/javascript">
+                    function toggleFilteredSelect(checkbox, tableWidgetVar) {
+                        var tableWidget = PF(tableWidgetVar);
+                        var rows = tableWidget.tbody.find('tr:visible');
+                        var checked = checkbox.checked;
+
+                        rows.each(function() {
+                            var row = $(this);
+                            var checkbox = row.find('td .ui-chkbox-box');
+
+                            if (checked) {
+                                checkbox.addClass('ui-state-active');
+                                row.addClass('ui-state-highlight');
+                                row.find(':checkbox').prop('checked', true);
+                            } else {
+                                checkbox.removeClass('ui-state-active');
+                                row.removeClass('ui-state-highlight');
+                                row.find(':checkbox').prop('checked', false);
+                            }
+                        });
+
+                        tableWidget.updateRowMeta();
+                    }
+                </script>   
                     <p:remoteCommand actionListener="#{kontoZapisFKView.sumazapisowtotal}" name="przeliczfilterzapisy" update=":tabelazsumami:sumy" global="false"/>
 
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
@@ -255,9 +279,9 @@
                                  >
                         <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" />
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" oncomplete="odswietlrozrachunki()"/>
-                        <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false"/>
-                        <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>
-                        <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false"/>
+                        <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" oncomplete="toggleFilteredSelect(this, 'tabelastronyzapisy')"/>
+                        <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"  />
+                        <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false"  />
                         <p:ajax event="filter" global="false" oncomplete="przeliczfilterzapisy()"/>
                         <p:column selectionMode="multiple" styleClass="checkwiersza" width="20" style="text-align: center;"></p:column>
 <!--                        <p:column headerText="id" width="20"  >
@@ -432,7 +456,7 @@
                 </h:form>  
             </pe:layoutPane> 
             <pe:layoutPane position="south" >
-                
+
                 <p:panelGrid columns="3">
                     <h:form>
                         <p:panelGrid columns="2">

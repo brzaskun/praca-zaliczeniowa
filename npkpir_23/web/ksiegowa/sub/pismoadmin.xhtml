@@ -19,7 +19,7 @@
     <f:view>
         <h:form id="wykazpism">
             <p:dataTable lazy="false"  value="#{pismoAdminView.listapism}" var="item" style="width: 70%; margin-top: 2%;"
-                         widgetVar="table" emptyMessage="Nikt nie niepokoił jeszcze admina"
+                         widgetVar="table" emptyMessage="Nikt nie niepokoił jeszcze admina" reflow="true"
                          paginator="true" rows="12" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                          rowsPerPageTemplate="12,16,20,50"  sortBy="#{item.datawiadomosci}"
                          >

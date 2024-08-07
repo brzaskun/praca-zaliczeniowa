@@ -6,7 +6,45 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
+    <style>
+    @media (max-width: 767px) {
+        .ui-datatable thead th:nth-child(2),
+        .ui-datatable tbody td:nth-child(2),
+        .ui-datatable thead th:nth-child(4),
+        .ui-datatable tbody td:nth-child(4),
+        .ui-datatable thead th:nth-child(5),
+        .ui-datatable tbody td:nth-child(5),
+        .ui-datatable thead th:nth-child(6),
+        .ui-datatable tbody td:nth-child(6),
+        .ui-datatable thead th:nth-child(7),
+        .ui-datatable tbody td:nth-child(7) {
+            display: none;
+        }
+    }
     
+    @media (max-width: 767px) {
+        .ui-datatable thead th:nth-child(1)::before {
+            content: "Nr kolejny";
+            display: block;
+            font-weight: bold;
+        }
+        .ui-datatable thead th:nth-child(3)::before {
+            content: "data wyst.";
+            display: block;
+            font-weight: bold;
+        }
+        .ui-datatable thead th:nth-child(8)::before {
+            content: "brutto";
+            display: block;
+            font-weight: bold;
+        }
+        .ui-datatable thead th:nth-child(9)::before {
+            content: "sporz";
+            display: block;
+            font-weight: bold;
+        }
+    }
+</style>
     <h:form id="form">
         <p:focus for="form:podatnikWpisu"/>
         <p:panel menuTitle="Zmien na:" header="Zmień na:" style="max-width: 800px; height: 290px;">

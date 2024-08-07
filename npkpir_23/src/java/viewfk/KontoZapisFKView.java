@@ -1418,14 +1418,19 @@ public class KontoZapisFKView implements Serializable{
                     Msg.msg("e", "Konto źródłowe jest tożsame z docelowym, przerywam przeksięgowanie");
                     return;
                 }
-                if ((wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty())) {
+                List<StronaWiersza> doprzeksiegowania = new ArrayList<>();
+                if (kontozapisyfiltered!=null&&kontozapisyfiltered.isEmpty()==false) {
+                    doprzeksiegowania = kontozapisyfiltered;
+                    Msg.msg("Przeksięgowuję pozycje przefiltrowane");
+                } else  if ((wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty())) {
+                    doprzeksiegowania = wybranezapisydosumowania;
                     Msg.msg("e", "Nie wybrano pozycji do przeksięgowania. Nie można wykonać przeksięgowania");
                     return;
                 }
                 if (!wybranekonto.equals(kontodoprzeksiegowania) && wybranekonto.isMapotomkow() == true && wybranekonto.getIdslownika() == kontodoprzeksiegowania.getIdslownika()) {
                     przeksiegujslownikowe();
                 } else {
-                    przeksiegujanalityke(wybranezapisydosumowania);
+                    przeksiegujanalityke(doprzeksiegowania);
                     Msg.msg("w", "Konto żrółowe/docelowe ma analitykę. Być może trzeba ją usunąć");
                 }
             } else {

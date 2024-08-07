@@ -251,12 +251,7 @@ public class DokTabView implements Serializable {
         Msg.msg("i", "Skończono badanie "+licznik+" dokumenów na obecność duplikatów. Nie znaleziono ani jednego");
     }
 
-    public void destroy(Dok selDok) {
-        dokdoUsuniecia = new Dok();
-        dokdoUsuniecia = selDok;
-    }
-    
-     public void destroygrupa() {
+       public void destroygrupa() {
         grupausun = Collections.synchronizedList(new ArrayList<>());
         grupausun = gosciuwybral;
     }
@@ -264,10 +259,11 @@ public class DokTabView implements Serializable {
      public void destroygrupa2() {
           for(Dok p : grupausun){
               dokdoUsuniecia = p;
-              destroy2();
+              destroy2(p);
           }
       }
-    public void destroy2() {
+    public void destroy2(Dok selDok) {
+        dokdoUsuniecia = selDok;
         if (dokdoUsuniecia.getRodzajedok() == null) {
             try {
                 dokdoUsuniecia.setInwestycja(null);

@@ -44,7 +44,11 @@
                     <p:ajax event="idle" listener="#{logowanie.logout()}"/>  
                     <!--            <p:ajax event="active" listener="{idleMonitorController.activeListener}" update="messageslogout" />  -->
                 </p:idleMonitor>   
-                
+            
+            <p:confirmPopup global="true">
+                <p:commandButton value="Nie" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="Tak" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
                 <ui:insert class="bodi" name="body"> 
                 </ui:insert>
 

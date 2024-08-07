@@ -617,10 +617,6 @@ public class WpisView implements Serializable {
         }
     }
 
-    public void kopiujmiesiac() {
-        zmianaokresuMc = new String(miesiacWpisu);
-    }
-     
     
     
 
