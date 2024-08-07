@@ -8,7 +8,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tabView id="akordeon"  rendered="#{WpisView.biuroiszef eq true}">
-        <p:tab id="tab2" title="Oblicz PIT" rendered="#{WpisView.ryczalt0ksiega1}" >
+        <p:tab id="tab2" title="Oblicz PIT" rendered="#{WpisView.ryczalt0ksiega1 eq true}" >
               <h:outputText value="Uwaga podatnik rozlicza się kwartalnie!" style="font-weight: 900; color: red;" rendered="#{WpisView.mc0kw1}"/>
             <h:form id="formpit">
                 <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
@@ -283,7 +283,7 @@
                 </p:panelGrid>
             </h:form>
         </p:tab>
-        <p:tab id="tab4" title="Oblicz Ryczałt" rendered="#{!WpisVieryczalt0ksiega1lt}">
+        <p:tab id="tab4" title="Oblicz Ryczałt" rendered="#{WpisVieryczalt0ksiega1 eq false}">
             <h:outputText value="Uwaga podatnik rozlicza się kwartalnie!" style="font-weight: 900; color: red;" rendered="#{WpisView.mc0kw1}"/>
             <h:form id="formpit1">
                 <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>

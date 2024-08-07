@@ -24,7 +24,7 @@
 
     <h:form id="westKsiegowa">
         
-        <p:panel id="linki" header="linki" styleClass="flex flex-column" style="max-width: 170px;">
+        <p:panel id="linki" header="linki" styleClass="flex flex-column" style="max-width: 180px;">
 
             <p:menu >
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="zmiana podatnika"  outcome="zmianapodatnika" icon="ui-icon-circle-arrow-e" />
@@ -60,7 +60,7 @@
 <!--                    <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westWpis" rendered="#{WpisView.vatowiecPlde}"/>-->
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="VAT ewidencje" icon="ui-icon-circle-arrow-e" outcome="vatzest" update="westWpis" rendered="#{WpisView.vatowiecPlde}"/>
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="JPK VAT"  outcome="vatjpk" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
-                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="VAT-UE"  outcome="vatue" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.podatnikObiekt.vatue}"/>
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="VAT-UE"  outcome="vatue" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.isVatowiecUE()}"/>
 
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="zamknięcie miesiąca"  outcome="zamkniecie" icon="ui-icon-circle-arrow-e"/>
             </p:menu>

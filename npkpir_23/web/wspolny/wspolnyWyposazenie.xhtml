@@ -10,35 +10,37 @@
             <h:outputText value="Ewidencja środków trwałych"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            
-             
-                <f:view>
-            
-                    <pe:layout fullPage="true" >
-                                      
-                        <ui:include src="sub/layoutTablicaWyposazenie/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutTablicaWyposazenie/south.xhtml"/>   <!-- panel poludniowy-->
-                        <ui:include src="sub/layoutTablicaWyposazenie/west.xhtml"/>   <!-- panel zachodni-->
-                        <pe:layoutPane position="center">
-                           <h:form> 
-                                 <p:panelGrid columns="2">
-                                <p:selectOneMenu value="#{CSSView.css}">
-                                    <f:selectItems value="#{CSSView.cssList}"/>
-                                    <p:ajax event="keyup" update="@all" global="false"/>
-                                </p:selectOneMenu>
-                                <h:commandButton value="ok" actionListener="#{CSSView.checkCSS()}"/>
-                                </p:panelGrid>
-                            </h:form>
-                            <h:form id="formSTR">
+
+              <f:view>
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutTablicaSrodkiKsiegowa/north.xhtml"/>
+                    </div>
+
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-3 lg:col-2"  style="max-width: 200px;">
+                            <ui:include src="sub/layoutTablicaSrodkiKsiegowa/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex">
+                               <h:form id="formSTR">
                                 
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/wyposazenie.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                             </h:form>
-                        </pe:layoutPane>
-                        
-                    </pe:layout>
-                </f:view>
-            
+                         </div>
+                    </div>
+
+                    <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutTablicaSrodkiKsiegowa/south.xhtml"/>
+                    </div>
+                </div>
+            </f:view>
         </ui:define>
     </ui:composition>
 </html>

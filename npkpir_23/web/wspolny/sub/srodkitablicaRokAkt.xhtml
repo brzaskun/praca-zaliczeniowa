@@ -22,7 +22,7 @@
         </p:commandButton>
         <p:separator/>
         <p:dataTable lazy="false"   var="wpis" value="#{STREwidencja.strtabela}" id="dokumsrodkiListaRok" editable="true" 
-                      style="overflow-y: scroll; height: 530px;" styleClass="ewidencjavat" selectionMode="single" selection="#{STREwidencja.selected}"
+                      style="overflow-y: scroll; height: 530px;max-width: 2200px;" styleClass="ewidencjavat" selectionMode="single" selection="#{STREwidencja.selected}"
                       emptyMessage="W firmie nie ma środków trwałych" rowKey="#{wpis.id}"> 
             <p:ajax event="filter" global="false"/>
             <f:facet name="header">  

@@ -366,9 +366,22 @@ public class WpisView implements Serializable {
         if (podatnikObiekt.getVatokres()!=null&&podatnikObiekt.getVatokres().isEmpty()==false) {
             zwrot = true;
         } else if (podatnikObiekt.getVatokres()!=null&&podatnikObiekt.getParamVatUE().isEmpty()==false) {
+            
             zwrot = true;
+        } else if (podatnikObiekt.getParamVatUE().isEmpty()==false) {
+            
+            podatnikObiekt.setVatue(true);
         } else if (podatnikObiekt.getSteuernummer()!=null&&podatnikObiekt.getSteuernummer().isEmpty()==false) {
             zwrot = true;
+        }
+        return zwrot;
+    }
+    
+     public boolean isVatowiecUE() {
+        boolean zwrot = false;
+         if (podatnikObiekt.getParamVatUE().isEmpty()==false) {
+            zwrot = true;
+            podatnikObiekt.setVatue(true);
         }
         return zwrot;
     }

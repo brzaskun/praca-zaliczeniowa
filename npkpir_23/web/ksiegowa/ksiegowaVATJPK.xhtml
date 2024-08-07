@@ -9,40 +9,57 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-             <f:event type="preRenderView" listener="#{jpk_VAT2NView.init()}"/>
+            <f:event type="preRenderView" listener="#{jpk_VAT2NView.init()}"/>
             <f:event type="preRenderView" listener="#{deklaracjevatView.init()}"/>
             <bcf:ajaxs/>
-                <f:view>
-                    <pe:layout fullPage="true" >
-                        <ui:include src="sub/layoutZmianapodatnika/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutZmianapodatnika/south.xhtml"/>   <!-- panel poludniowy-->
-                        <ui:include src="sub/layoutZmianapodatnika/west.xhtml"/>   <!-- panel zachodni-->
-                        <ui:include src="sub/layoutZmianapodatnika/east.xhtml"/>   <!-- panel wchodni-->
-                         <h:form>
-                             <p:growl life="3600"  id="fifi" ><p:autoUpdate/></p:growl>
-                            <p:confirmDialog id="confirmDialog" message="Usunąć wybrany JPK?"  
-                                             header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmationJPK">  
+            <f:view>
 
-                                <p:commandButton id="confirm" value="Tak, usunąć" update="akordeon:form_dialog_jpk_vat" oncomplete="PF('confirmationJPK').hide()"  
-                                                 actionListener="#{jpk_VAT2NView.usunUPO}" />  
-                                <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmationJPK').hide()" type="button" />   
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/north.xhtml"/>
+                    </div>
 
-                            </p:confirmDialog>  
-                        </h:form>
-                        <pe:layoutPane position="center">
-                           
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-3 lg:col-2"  style="max-width: 200px;">
+                            <ui:include src="sub/layoutNowy/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex">
+                            <h:form>
+                                <p:growl life="3600"  id="fifi" ><p:autoUpdate/></p:growl>
+                                <p:confirmDialog id="confirmDialog" message="Usunąć wybrany JPK?"  
+                                                 header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmationJPK">  
+
+                                    <p:commandButton id="confirm" value="Tak, usunąć" update="akordeon:form_dialog_jpk_vat" oncomplete="PF('confirmationJPK').hide()"  
+                                                     actionListener="#{jpk_VAT2NView.usunUPO}" />  
+                                    <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmationJPK').hide()" type="button" />   
+
+                                </p:confirmDialog>  
+                            </h:form>
                             <p:tabView id="akordeon">
                                 <p:tab title="JPK tabela">
-                                <ui:include src="../wspolny/wspolnyjpkVAT.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                                    <ui:include src="../wspolny/wspolnyjpkVAT.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                                 </p:tab>
                                 <p:tab title="Deklaracje">
-                                <ui:include src="../wspolny/sub/vatwyslane.xhtml"/> 
+                                    <ui:include src="../wspolny/sub/vatwyslane.xhtml"/> 
                                 </p:tab>
                             </p:tabView>
-                        </pe:layoutPane>
-                    </pe:layout>
-                </f:view>
-            
+                        </div>
+                    </div>
+
+                    <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/south.xhtml"/>
+                    </div>
+                </div>
+            </f:view>
+
+
+
         </ui:define>
     </ui:composition>
 </html>
