@@ -200,7 +200,7 @@ public class ZestawienieView implements Serializable {
         zebranieMcy = Collections.synchronizedList(new ArrayList<>());
         listapit = Collections.synchronizedList(new ArrayList<>());
         listawybranychudzialowcow = new ArrayList<>();
-        if (wpisView.getPodatnikObiekt() != null && wpisView.isKsiegaryczalt()) {
+        if (wpisView.getPodatnikObiekt() != null && wpisView.isRyczalt0ksiega1()) {
             pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnlyAktywne(wpisView.getPodatnikObiekt());
             Podatnik pod = wpisView.getPodatnikObiekt();
             try {
@@ -250,7 +250,7 @@ public class ZestawienieView implements Serializable {
         pitroczny = false;
     }
     
-    private void sumowaniemiesiecy(Podatnik podatnik, String rokint, String mcints) {
+    private void sumowaniemiesiecy(Podatnik podatnik, String rokint, String miesiacgraniczny) {
         try {
             styczen = new WierszPkpir(1, rokint, "01", "styczeń");
             luty = new WierszPkpir(2, rokint, "02", "luty");
@@ -268,7 +268,7 @@ public class ZestawienieView implements Serializable {
             IIpolrocze = new WierszPkpir(14, rokint, "14", "II półrocze");
             rok = new WierszPkpir(15, rokint, "15", "rok");
             zebranieMcy = Collections.synchronizedList(new ArrayList<>());
-                lista = KsiegaBean.pobierzdokumentyRok(dokDAO, podatnik, Integer.parseInt(rokint), mcints, wpisView.getOdjakiegomcdok());
+                lista = KsiegaBean.pobierzdokumentyRok(dokDAO, podatnik, Integer.parseInt(rokint), miesiacgraniczny, wpisView.getOdjakiegomcdok());
                 if (wybranacechadok != null) {
                     for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
                         Dok p = it.next();
@@ -304,16 +304,16 @@ public class ZestawienieView implements Serializable {
                         if (dokument.getUsunpozornie() == false) {
                             List<KwotaKolumna1> szczegol = dokument.getListakwot1();
                             for (KwotaKolumna1 tmp : szczegol) {
-                                String selekcja = dokument.getPkpirM();
-                                String selekcja2 = tmp.getNazwakolumny();
-                                if (selekcja2 == null) {
+                                String miesiacdokumentu = dokument.getPkpirM();
+                                String nazwakolumnypkpir = tmp.getNazwakolumny();
+                                if (nazwakolumnypkpir == null) {
                                     error.E.s("");
                                 }
                                 Double kwota = tmp.getNetto();
                                 Double temp = 0.0;
-                                int mcint = Mce.getMiesiacToNumber().get(selekcja) - 1;
+                                int mcint = Mce.getMiesiacToNumber().get(miesiacdokumentu) - 1;
                                 WierszPkpir listabiezaca = zebranieMcy.get(mcint);
-                                switch (selekcja2) {
+                                switch (nazwakolumnypkpir) {
                                     case "przych. sprz":
                                         temp = listabiezaca.getKolumna7() + kwota;
                                         listabiezaca.setKolumna7(temp);
@@ -1098,6 +1098,12 @@ public class ZestawienieView implements Serializable {
 
     public void aktualizujGuest(String strona) throws IOException {
         aktualizujGuest();
+        aktualizuj();
+        init();
+        //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
+    }
+    
+     public void aktualizujKsiegowa() {
         aktualizuj();
         init();
         //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);

@@ -2,34 +2,71 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-        
+
     xmlns:bcf="http://brzaskun.com/facelets"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html">
     <bcf:ajaxs/>
-    <h:form>
-            <p:panelGrid id="westWpisWidok" columns="6" style="margin-left: 7%;width: 800px;">
-                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 170px;" converter="#{podatConv}" filter="true" filterMatchMode="contains">
-                    <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
-                    <p:ajax event="change" partialSubmit="true"  listener="#{WpisView.naniesDaneDoWpis()}" update="akordeon:archiwum"/>
-                </p:selectOneMenu><!-- comment -->
-<!--                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>-->
-                <p:selectOneMenu value="#{WpisView.rokWpisu}" style="width: 70px;">
-                    <f:selectItems value="#{roki.rokiList}"/>
-                    <p:ajax event="change" partialSubmit="true" update="akordeon:archiwum"/>
-                </p:selectOneMenu>
-<!--                <h:outputText value="Miesiąc:" style="text-shadow: #6374AB 1px -1px 1px"/>-->
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
-                    <f:selectItems value="#{mce.mceList}"/>
-                    <p:ajax event="change" partialSubmit="true" update="akordeon:archiwum"/>
-                </p:selectOneMenu>
-            </p:panelGrid>
-        </h:form>
-    <p:tabView id="akordeon" style="width: 1500px;" rendered="#{WpisView.biuroiszef eq true}">
-        <ui:include src="zestawienieRok_dane.xhtml" />
-<!--            <ui:include src="zestawienieRok_wykres.xhtml" rendered="#{WpisView.ksiegaryczalt}"/>-->
-            <ui:include src="zestawienieRok_cechy.xhtml" rendered="#{WpisView.ksiegaryczalt}"/>
-    </p:tabView>
+    <style>
+        .vertical-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .vertical-container > div {
+            margin-bottom: 20px; /* Optional: Adds space between divs */
+        }
+    </style>
 
+    <div class="vertical-container">
+        <div class="col-12 md:col-4 lg:col-3" style="max-width: 440px;" >
+            <h:form rendered="#{WpisView.ryczalt0ksiega1 eq true}">
+
+                <p:panelGrid id="westWpisWidok" columns="6" style="margin-left: 7%; max-width: 300px;">
+                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 170px;" converter="#{podatConv}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
+                        <p:ajax event="change" partialSubmit="true"  listener="#{zestawienieView.aktualizujKsiegowa()}" update=":akordeon"/>
+                    </p:selectOneMenu><!-- comment -->
+                    <!--                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>-->
+                    <p:selectOneMenu value="#{WpisView.rokWpisu}" style="max-width: 70px;">
+                        <f:selectItems value="#{roki.rokiList}"/>
+                        <p:ajax event="change" partialSubmit="true"  listener="#{zestawienieView.aktualizujKsiegowa()}" update=":akordeon"/>
+                    </p:selectOneMenu>
+                    <!--                <h:outputText value="Miesiąc:" style="text-shadow: #6374AB 1px -1px 1px"/>-->
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="max-width: 70px;">
+                        <f:selectItems value="#{mce.mceList}"/>
+                        <p:ajax event="change" partialSubmit="true"  listener="#{zestawienieView.aktualizujKsiegowa()}" update=":akordeon"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+            </h:form>
+             <h:form rendered="#{WpisView.ryczalt0ksiega1 eq false}">
+
+                <p:panelGrid id="westWpisWidok" columns="6" style="margin-left: 7%; max-width: 300px;">
+                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 170px;" converter="#{podatConv}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
+                        <p:ajax event="change" partialSubmit="true"  listener="#{zestawienieRyczaltView.aktualizujKsiegowa()}" update=":akordeon"/>
+                    </p:selectOneMenu><!-- comment -->
+                    <!--                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>-->
+                    <p:selectOneMenu value="#{WpisView.rokWpisu}" style="max-width: 70px;">
+                        <f:selectItems value="#{roki.rokiList}"/>
+                        <p:ajax event="change" partialSubmit="true"  listener="#{zestawienieRyczaltView.aktualizujKsiegowa()}" update=":akordeon"/>
+                    </p:selectOneMenu>
+                    <!--                <h:outputText value="Miesiąc:" style="text-shadow: #6374AB 1px -1px 1px"/>-->
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="max-width: 70px;">
+                        <f:selectItems value="#{mce.mceList}"/>
+                        <p:ajax event="change" partialSubmit="true"  listener="#{zestawienieRyczaltView.aktualizujKsiegowa()}" update=":akordeon"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+            </h:form>
+        </div>
+        <div class="col-12 md:col-9 lg:col-10">
+            <p:tabView id="akordeon" style="width: 1500px;" rendered="#{WpisView.biuroiszef eq true}">
+                <ui:include src="zestawienieRok_dane.xhtml"/>
+                <ui:include src="zestawienieRok_daneRyczalt.xhtml"/>
+        <!--            <ui:include src="zestawienieRok_wykres.xhtml" rendered="#{WpisView.ryczalt0ksiega1}"/>-->
+                <ui:include src="zestawienieRok_cechy.xhtml"/>
+            </p:tabView>
+        </div>
+    </div>
 </ui:composition>  
 

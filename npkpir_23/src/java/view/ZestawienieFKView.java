@@ -103,7 +103,7 @@ public class ZestawienieFKView implements Serializable {
 
     @PostConstruct
     public void init() { //E.m(this);
-        if (wpisView.getPodatnikWpisu() != null && wpisView.isKsiegaryczalt()) {
+        if (wpisView.getPodatnikWpisu() != null && wpisView.isRyczalt0ksiega1()) {
             listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
             try {
                 List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());

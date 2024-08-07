@@ -70,7 +70,7 @@ public class GranicaObliczView  implements Serializable {
         double mcedoproporcji = Data.mcedoproporcji(wpisView.getPodatnikObiekt().getDatarozpoczecia(), wpisView);
         obrot = 0.0;
         List<Ryczpoz> ryczaltpitlist = Collections.synchronizedList(new ArrayList<>());
-        if (wpisView.isKsiegaryczalt()) {
+        if (wpisView.isRyczalt0ksiega1()) {
             List<Pitpoz> pitlList = pitDAO.findList(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu());
             if (pitlList != null && pitlList.size() == 1) {
                 obrot = pitlList.get(0).getPrzychodyudzial().doubleValue();

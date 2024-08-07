@@ -89,7 +89,7 @@ public class PlatnosciTablicaView implements Serializable {
         }
         //pobierz PIT-5
         try {
-            if (wpisView.isKsiegaryczalt() == true) {
+            if (wpisView.isRyczalt0ksiega1() == true) {
                 Pitpoz pitpoz = pitDAO.find(rok, mc, biezacyPodatnik.getNazwapelna());
                 platnosci.setPit5(pitpoz.getNaleznazal().doubleValue());
             } else {

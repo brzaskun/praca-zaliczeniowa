@@ -6,7 +6,7 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <p:tab id="wykres" title="Wyniki wg cech">
+    <p:tab id="wykres" title="Wyniki wg cech" rendered="#{WpisView.ryczalt0ksiega1 eq true}">
         <h:form id="formcecha">
         <p:panelGrid columns="8" style="margin-left: 2%;" >
                 <h:outputText value="mc: "/>

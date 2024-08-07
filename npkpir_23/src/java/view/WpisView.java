@@ -58,7 +58,7 @@ public class WpisView implements Serializable {
     private String rodzajopodatkowania;
     //ryczałt jest false
     //ksiega jest true
-    private boolean ksiegaryczalt;
+    private boolean ryczalt0ksiega1;
     private boolean mc0kw1;
     private boolean ksiegirachunkowe;
     private boolean vatowiec;
@@ -507,9 +507,9 @@ public class WpisView implements Serializable {
                 }
                 vatowiecue = sprawdzczyue();
                 if (rodzajopodatkowania.contains("ryczałt")) {
-                    ksiegaryczalt = false;
+                    ryczalt0ksiega1 = false;
                 } else {
-                    ksiegaryczalt = true;
+                    ryczalt0ksiega1 = true;
                 }
                 if (rodzajopodatkowania.contains("księgi rachunkowe")||podatnikObiekt.getFirmafk()!=0) {
                     ksiegirachunkowe = true;
@@ -517,7 +517,7 @@ public class WpisView implements Serializable {
                     ksiegirachunkowe = false;
                 }
             } else {
-                ksiegaryczalt = false;
+                ryczalt0ksiega1 = false;
                 ksiegirachunkowe = false;
                 Msg.msg("e", "Brak wyboru opodatkowania w danym roku");
             }
@@ -794,12 +794,12 @@ public class WpisView implements Serializable {
         this.podatnikObiekt = podatnikObiekt;
     }
     
-    public boolean isKsiegaryczalt() {
-        return ksiegaryczalt;
+    public boolean isRyczalt0ksiega1() {
+        return ryczalt0ksiega1;
     }
     
-    public void setKsiegaryczalt(boolean ksiegaryczalt) {
-        this.ksiegaryczalt = ksiegaryczalt;
+    public void setRyczalt0ksiega1(boolean ryczalt0ksiega1) {
+        this.ryczalt0ksiega1 = ryczalt0ksiega1;
     }
     
     public String getMiesiacNastepny() {

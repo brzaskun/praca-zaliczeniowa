@@ -28,7 +28,7 @@
                         <p:menu style="width: 200px;">
                             <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="dokumenty w roku"  icon="ui-icon-circle-arrow-e" action="#{obrotyView.initGuest()}" update="@form"/>
-                            <p:menuitem global="false" value="ewid. przychodów"  outcome="gewidencjaprzychodow" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ksiegaryczalt == false}"/>
+                            <p:menuitem global="false" value="ewid. przychodów"  outcome="gewidencjaprzychodow" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ryczalt0ksiega1 == false}"/>
                             <p:menuitem value="ewidencja vat" icon="ui-icon-circle-arrow-e" outcome="gewidencja"  rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
                              <p:menuitem value="ewidencja vat" icon="ui-icon-circle-arrow-e" outcome="gewidencja"  rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                                  <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}"/>

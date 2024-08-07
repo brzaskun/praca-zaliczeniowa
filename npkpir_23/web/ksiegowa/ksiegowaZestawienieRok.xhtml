@@ -9,26 +9,33 @@
             <h:outputText value="#{WpisView.podatnikWpisu} - zestawienie kwot z podatkowej księgi przychodów i rozchodów za rok #{WpisView.rokWpisu}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:form>
-                    <p:confirmDialog id="confirmDialog" message="Wysłać zestawienie do wybranego podatnika? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
-                                     header="Mailowanie pkpir" severity="alert" widgetVar="confirmation">
-                        <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="PF('confirmation').hide()"  
-                                         actionListener="#{ksiegaView.mailpkpir()}"  />  
-                        <p:commandButton id="decline" value="Nie wysyłać" onclick="PF('confirmation').hide()" type="button" />   
-                    </p:confirmDialog>  
-                </h:form>
-                <f:view>
-                    <pe:layout fullPage="true" >
-                        <ui:include src="sub/layoutZmianapodatnika/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutZmianapodatnika/south.xhtml"/>   <!-- panel poludniowy-->
-                        <ui:include src="./sub/layoutZmianapodatnika/west.xhtml"/>   <!-- panel zachodni-->
-                        <ui:include src="sub/layoutZmianapodatnika/east.xhtml"/>   <!-- panel wchodni-->
-                        <pe:layoutPane position="center">
-                               <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                               <ui:include src="sub/zestawienieRok.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                        </pe:layoutPane>
-                    </pe:layout>
-                </f:view>
+            <f:view>
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/north.xhtml"/>
+                    </div>
+
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-3 lg:col-2"  style="max-width: 200px;">
+                            <ui:include src="sub/layoutNowy/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex">
+                            <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                            <ui:include src="sub/zestawienieRok.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                        </div>
+                    </div>
+
+                    <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/south.xhtml"/>
+                    </div>
+                </div>
+            </f:view>
         </ui:define>
     </ui:composition>
 </html>

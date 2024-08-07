@@ -144,7 +144,7 @@ public class ZestawienieRyczaltView implements Serializable {
     @PostConstruct
     public void init() { //E.m(this);
         taxman = podatnikDAO.findPodatnikByNIP("8511005008");
-        if (wpisView.getPodatnikWpisu() != null && !wpisView.isKsiegaryczalt()) {
+        if (wpisView.getPodatnikWpisu() != null && !wpisView.isRyczalt0ksiega1()) {
             styczen = new WierszRyczalt(1, wpisView.getRokWpisuSt(), "01", "styczeń");
             luty = new WierszRyczalt(2, wpisView.getRokWpisuSt(), "02", "luty");
             marzec = new WierszRyczalt(3, wpisView.getRokWpisuSt(), "03", "marzec");
@@ -528,6 +528,11 @@ public class ZestawienieRyczaltView implements Serializable {
         wpisView.naniesDaneDoWpis();
     }
 
+    public void aktualizujKsiegowa() {
+        wpisView.naniesDaneDoWpis();
+        init();
+    }
+    
     private void obliczprzychod() {
         List<RyczaltPodatek> podatkibiezace = Collections.synchronizedList(new ArrayList<>());
         String selekcja = wpisView.getMiesiacWpisu();

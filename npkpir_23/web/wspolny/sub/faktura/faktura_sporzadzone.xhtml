@@ -75,8 +75,8 @@
                 <p:selectBooleanCheckbox value="#{fakturaView.mailplussms}" itemLabel="wyślij sms" style="margin-left: 100px;">
                     <p:ajax event="change" partialSubmit="true"/>
                 </p:selectBooleanCheckbox>
-                <h:outputText value="stawka ryczałtu do księgowania"  rendered="#{WpisView.ksiegaryczalt eq false}"/>
-                <p:selectOneMenu value="#{fakturaView.stawkaryczaltuksiegowanie}" style="width: 100px;"  rendered="#{WpisView.ksiegaryczalt eq false}">
+                <h:outputText value="stawka ryczałtu do księgowania"  rendered="#{WpisView.ryczalt0ksiega1 eq false}"/>
+                <p:selectOneMenu value="#{fakturaView.stawkaryczaltuksiegowanie}" style="width: 100px;"  rendered="#{WpisVieryczalt0ksiega1lt eq false}">
                     <f:selectItems value="#{kolmn.stawkiRyczalt}" var="loop" itemLabel="#{loop}" itemValue="#{loop}"/>
                 </p:selectOneMenu>
             

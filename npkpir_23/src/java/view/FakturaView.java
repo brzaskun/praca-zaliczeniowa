@@ -1516,7 +1516,7 @@ public class FakturaView implements Serializable {
     
     public void zaksieguj(List<Faktura> lista) throws Exception {
         boolean vatowiec = nievat0vat1(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-        boolean ksiazka = wpisView.isKsiegaryczalt();
+        boolean ksiazka = wpisView.isRyczalt0ksiega1();
         if (wpisView.getPodatnikObiekt().getFirmafk() == 1) {
             for (Faktura p : lista) {
                 ksiegowanieFK(p, p.getWystawca(), p.getKontrahent(),0, vatowiec);
@@ -1700,7 +1700,7 @@ public class FakturaView implements Serializable {
             tmpX.setVatwaluta(faktura.getVatPrzeliczWal());
             tmpX.setVat(faktura.getVatPrzelicz());
             tmpX.setNazwakolumny("przych. sprz");
-            if (wpisView.isKsiegaryczalt()==false) {
+            if (wpisView.isRyczalt0ksiega1()==false) {
                 if (stawkaryczaltuksiegowanie!=null) {
                     String kolumnanazwa = Kolmn.zwrockolumnyR("ryczałt").stream().filter(item->item.contains(stawkaryczaltuksiegowanie)).findFirst().orElse(null);
                     if (kolumnanazwa!=null) {

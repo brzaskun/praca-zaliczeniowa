@@ -63,8 +63,8 @@ public class ZamkniecieRokuRozliczenieView  implements Serializable {
     }
     
     private void dodajwiersz(ZamkniecieRokuRozliczenie s) {
-        boolean pkpir = wpisView.isKsiegaryczalt();
-        boolean ryczalt = !wpisView.isKsiegaryczalt();
+        boolean pkpir = wpisView.isRyczalt0ksiega1();
+        boolean ryczalt = !wpisView.isRyczalt0ksiega1();
         boolean ksiegi  = wpisView.isKsiegirachunkowe();
         ZamkniecieRokuEtap e = s.getZamkniecieRokuEtap();
         boolean dodaj = false;

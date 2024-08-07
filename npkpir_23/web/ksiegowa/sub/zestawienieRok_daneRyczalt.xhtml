@@ -1,0 +1,211 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+
+    
+    <p:tab id="archiwumryczalt" title="Dane zbiorcze" rendered="#{WpisView.ryczalt0ksiega1 eq false}">
+        <!-- ***************************************************************************************a teraz akapit jak jest ryczałt-->
+        <p:panelGrid id="zestawienieroczne1" columns="8" style="max-width: 1000px;">
+        <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnRyczalt}" id="dokumentyRListaR" > 
+            <p:column headerText="kolumny" id="przychsprz">  
+                <h:outputText value="#{wpis}" />
+            </p:column>
+        </p:dataTable>
+
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wstyczen}" id="dokumentyRstyczen" > 
+            <p:column headerText="styczeń" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wluty}" id="dokumentyRluty" > 
+            <p:column headerText="luty" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wmarzec}" id="dokumentyRmarzec" > 
+            <p:column headerText="marzec" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wkwiecien}" id="dokumentyRkwiecien"> 
+            <p:column headerText="kwiecień" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wmaj}" id="dokumentyRmaj" > 
+            <p:column headerText="maj" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wczerwiec}" id="dokumentyRczerwiec" > 
+            <p:column headerText="czerwiec" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wIpolrocze}" id="dokumentyRIpolrocze" > 
+            <p:column headerText="I półrocze" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnRyczalt}" id="dokumentyRListaR1" > 
+            <p:column headerText="kolumny" id="przychsprz">  
+                <h:outputText value="#{wpis}" />
+            </p:column>
+        </p:dataTable>
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wlipiec}" id="dokumentyRlipiec" > 
+            <p:column headerText="lipiec" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+       
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wsierpien}" id="dokumentyRsierpien" > 
+            <p:column headerText="sierpień" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wwrzesien}" id="dokumentyRwrzesien" > 
+            <p:column headerText="wrzesień" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wpazdziernik}" id="dokumentyRpazdziernik" > 
+            <p:column headerText="pazdziernik" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wlistopad}" id="dokumentyRlistopad" > 
+            <p:column headerText="listopad" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+           <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wgrudzien}" id="dokumentyRgrudzien" > 
+            <p:column headerText="grudzień" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+          <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wIIpolrocze}" id="dokumentyRIIpolrocze" > 
+            <p:column headerText="II półrocze" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;">
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnRyczalt}" id="dokumentyRListaR2" > 
+            <p:column headerText="kolumny" id="przychsprz">  
+                <h:outputText value="#{wpis}" />
+            </p:column>
+        </p:dataTable>
+        <p:dataTable lazy="false"   var="wpis" value="#{zestawienieRyczaltView.wrok}" id="dokumentyRrok" > 
+            <p:column headerText="rok" id="idColumn">  
+                <h:outputText value="#{wpis}" style="float: right;" >
+                    <f:convertNumber maxFractionDigits="2"
+                                     groupingUsed="true"
+                                     currencySymbol=""
+                                     maxIntegerDigits="9"
+                                     type="currency"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+        
+    </p:panelGrid>
+    <div style="margin-top: 15px;">
+        <h:form id="form" rendered="#{!WpisView.ryczalt0ksiega1}">
+            <p:commandButton  value="Zachowaj w pdfa" actionListener="#{sesjaView.dodajwydruk()}" action="#{zestawienieRyczaltView.drukujPodsumowanieRoczne()}" >
+        </p:commandButton>
+            <p:commandButton id="zestawieniewysylka" value="Wyślij podatnikowi" 
+                         style="display: none; margin-left: 50px;" actionListener="#{ksiegaView.mailpkpir()}" >
+            <p:ajax event="click" listener="#{sesjaView.dodajmail()}"/>
+             <p:confirm type="popup" header="Wysyłanie zestawienia" message="Wysłac do podatnika?" icon="pi pi-question-circle" /> 
+        </p:commandButton>
+        </h:form>
+    </div>
+    </p:tab>
+</ui:composition>   
+

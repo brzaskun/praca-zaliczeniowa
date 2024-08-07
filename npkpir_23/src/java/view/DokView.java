@@ -353,7 +353,7 @@ public class DokView implements Serializable {
        
     public void podepnijListe() {
         String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
-        if (wpisView.isKsiegaryczalt()) {
+        if (wpisView.isRyczalt0ksiega1()) {
             kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
             selDokument.setDokumentProsty(selDokument.getRodzajedok().isDokProsty());
         } else {
