@@ -3,7 +3,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:bcf="http://brzaskun.com/facelets">
     <!--      xmlns:ft="http://primefaces.prime.com.tr/facestrace">-->
     <f:view locale="#{localeChanger.locale}">
         <h:head>
@@ -50,6 +51,7 @@
                 <p:commandButton value="Tak" type="button" styleClass="ui-confirm-popup-yes" />
             </p:confirmPopup>
                 <ui:insert class="bodi" name="body"> 
+                    
                 </ui:insert>
 
             </h:body>
