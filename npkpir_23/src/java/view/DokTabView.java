@@ -251,12 +251,10 @@ public class DokTabView implements Serializable {
         Msg.msg("i", "Skończono badanie "+licznik+" dokumenów na obecność duplikatów. Nie znaleziono ani jednego");
     }
 
-       public void destroygrupa() {
-        grupausun = Collections.synchronizedList(new ArrayList<>());
-        grupausun = gosciuwybral;
-    }
+
 
      public void destroygrupa2() {
+         grupausun = gosciuwybral;
           for(Dok p : grupausun){
               dokdoUsuniecia = p;
               destroy2(p);
