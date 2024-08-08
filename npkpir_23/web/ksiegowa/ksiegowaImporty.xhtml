@@ -12,19 +12,33 @@
         <ui:define name="body">
         <bcf:ajaxs value="Trwa przetwarzanie danych"/>
              
-                <f:view>
-                    <pe:layout fullPage="true" >
-                        <ui:include src="sub/layoutImporty/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutImporty/south.xhtml"/>   <!-- panel poludniowy-->
-                        <ui:include src="sub/layoutImporty/west.xhtml"/>   <!-- panel zachodni-->
-                        <ui:include src="sub/layoutImporty/east.xhtml"/>   <!-- panel wchodni-->
-                        <pe:layoutPane position="center">
-                            <h:outputText value="wybierz import"/>
-                        </pe:layoutPane>
+             <f:view>
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutImporty/north.xhtml"/>
+                    </div>
 
-                    </pe:layout>
-                </f:view>
-            
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-3 lg:col-2"  style="max-width: 200px;">
+                            <ui:include src="sub/layoutImporty/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex">
+                            <p:panel header="wybierz rodzaj importu w menu po lewej" style="min-width: 150px;max-width: 800px;padding: 10px;" />
+                        </div>
+                    </div>
+
+                    <!-- panel południowy (footer) -->
+                   <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutImporty/south.xhtml"/>
+                    </div>
+                </div>
+            </f:view>
         </ui:define>
     </ui:composition>
 </html>

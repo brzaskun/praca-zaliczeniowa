@@ -9,17 +9,33 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
+            
             <f:view>
-                <pe:layout fullPage="true" >
-                    <ui:include src="sub/layoutZmianapodatnika/north.xhtml"/>  <!-- panel polnocny-->
-                    <ui:include src="sub/layoutZmianapodatnika/south.xhtml"/>   <!-- panel poludniowy-->
-                    <ui:include src="sub/layoutZmianapodatnika/west.xhtml"/>   <!-- panel zachodni-->
-                    <ui:include src="sub/layoutZmianapodatnikaWaluty/east.xhtml"/>   <!-- panel wchodni-->
-                    <pe:layoutPane position="center">
-                        <ui:include src="sub/menu_wiad.xhtml" />
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/north.xhtml"/>
+                    </div>
+
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-3 lg:col-2"  style="max-width: 200px;">
+                            <ui:include src="sub/layoutNowy/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex">
+                                 <ui:include src="sub/menu_wiad.xhtml" />
                         <ui:include src="sub/dokument_wpis_platnosci.xhtml" />
-                    </pe:layoutPane>
-                </pe:layout>
+                        </div>
+                    </div>
+
+                    <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/south.xhtml"/>
+                    </div>
+                </div>
             </f:view>
         </ui:define>
     </ui:composition>

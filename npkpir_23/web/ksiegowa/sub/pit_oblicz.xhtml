@@ -556,7 +556,7 @@
             </h:form>
         </p:tab>
         <p:tab id="tab6" title="Archiwum PIT">
-            <p:panelGrid columns="4" style="width: 700px" rendered="#{WpisVryczalt0ksiega1zalt and WpisView.biuroiszef eq true}" >
+            <p:panelGrid columns="4" style="width: 700px" rendered="#{WpisView.ryczalt0ksiega1 eq true and WpisView.biuroiszef eq true}" >
                 <h:form id="formpi" style="width: 500px" >
                     <p:panel header="wybierz rozliczenie wg cech: " style="width: 250px;" rendered="#{pitView.pobranecechypodatnik ne null and pitView.pobranecechypodatnik.size() gt 1}"/>
                     <p:selectOneMenu value="#{pitView.wybranacechadok}" style="width: 250px;"  rendered="#{pitView.pobranecechypodatnik ne null and pitView.pobranecechypodatnik.size() gt 1}" converter="#{cechaConv}">
@@ -670,7 +670,7 @@
                     </p:panelGrid>
                 </h:form>
             </p:panelGrid>
-            <p:panelGrid columns="4" style="width: 600px" rendered="#{!WpisVryczalt0ksiega1zalt}">
+            <p:panelGrid columns="4" style="width: 600px" rendered="#{WpisVryczalt0ksiega1 eq false}">
                 <h:form id="formpi1" style="width: 400px" >
                     <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
 

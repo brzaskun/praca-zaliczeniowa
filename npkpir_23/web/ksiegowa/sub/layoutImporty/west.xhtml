@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
     
-    <pe:layoutPane position="west" size="220"  resizable="true">
+   
         <h:form id="westKsiegowa">
                <p:panelGrid id="westWpisWidok" columns="2" style="margin-left: 7%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
@@ -20,10 +20,10 @@
         
            <p:panel id="linki" header="linki">
                
-                    <p:menu  style="width: 160px;">
+                    <p:menu  styleClass="flex flex-column" >
                         <p:menuitem global="false" value="powrót"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>
-               <p:menu style="width: 160px;">
+               <p:menu styleClass="flex flex-column" >
                        <p:menuitem global="false" value="import JPK_VAT" outcome="importsprzedazy"  icon="ui-icon-circle-arrow-e" update="@form" />
                        <p:menuitem global="false" value="import JPK_FA" outcome="importfaktury"  icon="ui-icon-circle-arrow-e" update="@form" />
                        <p:menuitem global="false" value="import Amazon CSV" outcome="importcsv"  icon="ui-icon-circle-arrow-e" update="@form" />
@@ -38,7 +38,7 @@
                     <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-top: 10px;"/>
             </p:panel>
 </h:form>
-    </pe:layoutPane>
+   
          
 </ui:composition>   
 
