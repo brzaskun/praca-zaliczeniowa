@@ -6,7 +6,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     >
-    
+    <div class="vertical-container">
+      <h:outputText value="import dokumentów fiskalizowanych dla JPK - nowy plik"/>
+                         <h:outputText value="Importować jako drugi plik. Nie usuwa danych poprzednio wprowadzonych" style="color:red;"/>
    <h:form id="panelplik">
             <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
                     <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
@@ -96,5 +98,6 @@
             </p:dataTable>
              </p:panelGrid>
         </h:form>
+                         </div>
 </ui:composition>   
 

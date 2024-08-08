@@ -10,22 +10,36 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <f:view>
-                <pe:layout fullPage="true" >
-                    <ui:include src="sub/layoutImporty/north.xhtml"/>  <!-- panel polnocny-->
-                    <ui:include src="sub/layoutImporty/south.xhtml"/>   <!-- panel poludniowy-->
-                    <ui:include src="sub/layoutImporty/west.xhtml"/>   <!-- panel zachodni-->
-                    <ui:include src="sub/layoutImporty/east.xhtml"/>   <!-- panel wchodni-->
-                    <pe:layoutPane position="center">
-                         
-                        <bcf:ajaxs/>
-                         <h:outputText value="import dokumentów fiskalizowanych dla JPK - nowy plik"/>
-                         <h:outputText value="Importować jako drugi plik. Nie usuwa danych poprzednio wprowadzonych" style="color:red;"/>
+             <f:view>
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutImporty/north.xhtml"/>
+                    </div>
+
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-3 lg:col-2"  style="max-width: 200px;">
+                            <ui:include src="sub/layoutImporty/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex">
+                            <bcf:ajaxs/>
+                      
                          <ui:include src="../wspolny/sub/importxlsmatacz2.xhtml"/>
-                    </pe:layoutPane>
-                </pe:layout>
+                        </div>
+                    </div>
+
+                   <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutImporty/south.xhtml"/>
+                    </div>
+                </div>
             </f:view>
-        </ui:define>
+           
+           </ui:define>
     </ui:composition>
 </html>
 

@@ -7,8 +7,9 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
         
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
-    
+     <div class="vertical-container">
    <h:form id="panelplik">
+                                <h:outputText value="wybierz rodzaj pliku"/>
             <p:panelGrid  columns="2" columnClasses="sixty-percent forty-percent" >
                 <p:selectOneMenu  value="#{importDokumentowGlownyView.wybranyrodzajimportu}"  converter="#{importowanyPlikConv}"
                                          style="width: 200px; margin-left: 20px;" >
@@ -421,5 +422,6 @@
         <bcf:outputpl value="#{importDokumentowGlownyView.bruttopln}"/>
     </p:panelGrid>
 </h:form>
+     </div>
 </ui:composition>   
 

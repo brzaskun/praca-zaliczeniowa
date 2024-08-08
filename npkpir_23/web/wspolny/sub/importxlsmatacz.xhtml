@@ -6,8 +6,10 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     >
+    <div class="vertical-container">
     
    <h:form id="panelplik">
+        <h:outputText value="import dokumentów fiskalizowanych dla JPK"/>
             <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
                     <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
                         <h:outputText value="Akceptowana wersja pliku xls,xlsx, xml" style="font-weight: bold;"/>
@@ -86,5 +88,6 @@
             </p:dataTable>
              </p:panelGrid>
         </h:form>
+        </div>
 </ui:composition>   
 
