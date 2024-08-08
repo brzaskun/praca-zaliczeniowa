@@ -5,25 +5,12 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
-    <pe:layoutPane position="west" size="260"  resizable="true">
+    
         <h:form id="west">
-            <p:panelGrid  columns="2" >
-                    <p:column>
-                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
-                    <f:selectItems value="#{roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{guestFKView.aktualizujGuest()}" />
-                </p:selectOneMenu>
-                  </p:column>
-                    <p:column>
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="margin-left: 5%">
-                    <f:selectItems value="#{mce.mceList}"/>
-                    <p:ajax event="change" listener="#{guestFKView.aktualizujGuest()}" />
-                </p:selectOneMenu>
-                    </p:column>
-            </p:panelGrid>
+            
             <p:panel header="Menu:">
                 <p:panelGrid columns="1">
-                        <p:menu style="width: 180px;">
+                        <p:menu style="width: 200px;">
                         <p:menuitem value="#{mgs.faktury}"  outcome="gfakturaFaktura" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="#{mgs.fakturyustawienia}"  outcome="gfakturaFakturaUstawienia" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
                         <p:menuitem value="rozrachunki"  outcome="gfakturaFakturaRozrachunki" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
@@ -40,9 +27,8 @@
                         <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="margin-left: 25%"/>
                     </p:panelGrid>
 
-            </p:panel>
-
+                </p:panel>
         </h:form>
-    </pe:layoutPane>
+  
 </ui:composition>   
 

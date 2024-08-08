@@ -10,21 +10,51 @@
             <h:outputText value="Księgi handlowe"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <f:view>
+     
+               <f:view>
                 <bcf:ajaxs/>
-                <pe:layout fullPage="true"  >
-                        <ui:include src="sub/layoutFaktura/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="#{pozycjeNaFakturzeView.westustawienia}"/>   <!-- panel zachodni-->
-                    <pe:layoutPane position="center">
-                        <p:panel toggleable="true" closable="true" style="width: 1200px;" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/north.xhtml"/>
+                    </div>
+
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-4 lg:col-3"  style="max-width: 260px;">
+                            <ui:include src="#{pozycjeNaFakturzeView.westustawienia}"/>   <!-- panel zachodni-->
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex">
+                            <div class="vertical-container">
+                                 <p:panel toggleable="true" closable="true" style="width: 1200px;" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
                             <f:facet name="header">
                                 <h:outputText value="Raport kasowy firmy #{WpisView.podatnikObiekt.nazwapelnaPDF}"/>
                             </f:facet>
                         </p:panel>
-                        <ui:include src="sub/menu_wiad.xhtml"/> 
-                        <ui:include src="sub/raportkasowy.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                    </pe:layoutPane>
-                </pe:layout>
+                                <h:form id="zmianaokresuguest">
+                                    <p:panelGrid columns="2" style="padding: 10px;">
+                                        <h:outputText value="okres rozliczeniowy: " />
+                                        <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;margin-left: 10px;" converter="#{okresConverter}">
+                                            <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+                                            <p:ajax event="change" partialSubmit="true" listener="#{fakturaRaportKasowyView.aktualizujOkres}" global="true" 
+                                                    update="@(form)"/>
+                                        </p:selectOneMenu>
+                                    </p:panelGrid>
+                                </h:form>
+                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                                 <ui:include src="sub/raportkasowy.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/south.xhtml"/>
+                    </div>
+                </div>
             </f:view>
         </ui:define>
     </ui:composition>

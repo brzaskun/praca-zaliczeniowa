@@ -7,13 +7,14 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
-    <pe:layoutPane position="north" size="50" resizable="true" closable="true">
+
     
-        <p:panelGrid columns="2" style="width: 90%">
-   
-            <h:outputText value="Biuro Rachunkowe Taxman Grzegorz Grzelczyk - Panel Podatnika. Firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" style="width: 50%; font-size: 15px"/>
-            
-        </p:panelGrid>
-    </pe:layoutPane>
+     <h:form id="form_southpane" class="form_southpane">
+            <p:panelGrid columns="2">
+                <h:outputText value="#{WpisView.podatnikObiekt.printnazwa}" style="font-weight: 900; font-size: xx-large"/>
+                <h:outputText value="#{WpisView.okreswpisuString}" style="font-weight: 900; font-size: xx-large; margin-left:20px;"/>
+            </p:panelGrid>
+        </h:form>
+ 
 </ui:composition>   
 

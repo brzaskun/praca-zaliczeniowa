@@ -15,12 +15,11 @@
                 <p:focus for="datazaplaty">
                     <p:inputMask id="datazaplaty" value="#{fakturyPlatnosciView.datazaplaty}" mask="9999-99-99" style="text-align: center;" immediate="true" 
                                  onkeyup="walidacjadatyzaplaty()">
-                        <f:validateLength minimum="8"/>
                         <p:ajax event="blur" partialSubmit="true" global="false"/>
                     </p:inputMask>
                     <div style="padding: 15px;">
                     <p:commandButton id="datazaplatybutton" value="ok" type="submit" actionListener="#{fakturyPlatnosciView.naniesplatnoscfaktury}" style="width: 120px; display: none"
-                                     onsuccess="PF('czynaniescplatnoscfaktury').hide();document.getElementById('formdatazaplaty:datazaplaty').value='';" 
+                                     onsuccess="PF('czynaniescplatnoscfaktury').hide();" 
                                      onfocus="weryfikujdatazaplaty('#{fakturyPlatnosciView.selected.datawystawienia}');" update=":fakturyniezaplacone, :fakturyzaplacone"/>
                     <p:commandButton id="datazaplatycancelbutton" value="anuluj" type="button" onclick="PF('czynaniescplatnoscfaktury').hide();"  style="width: 120px;"/>
                     </div>

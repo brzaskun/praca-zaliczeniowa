@@ -7,12 +7,13 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
-    <pe:layoutPane position="east" size="175">
- <p:panel>
-            <p:growl life="3600"  id="msg" showDetail="true"/>
-         
-            </p:panel>
 
-    </pe:layoutPane>
+   
+     <h:form id="form_southpane" class="form_southpane">
+            <p:panelGrid columns="2">
+                <h:outputText value="#{WpisView.podatnikObiekt.printnazwa}" style="font-weight: 900; font-size: xx-large"/>
+                <h:outputText value="#{WpisView.okreswpisuString}" style="font-weight: 900; font-size: xx-large; margin-left:20px;"/>
+            </p:panelGrid>
+        </h:form>
 </ui:composition>   
 

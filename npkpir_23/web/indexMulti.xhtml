@@ -10,20 +10,24 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-                <f:view>
+
+            
+              <f:view >
+                    <style>
+                         .content {
+                            flex-grow: 1;
+                        }
+                    </style>
                     <bcf:ajaxs/>
-                    <pe:layout fullPage="true" > 
-<!--                       
--->                         <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                            <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
-                           
-                        <pe:layoutPane position="center" >
-                            <h:form id="form">
-                                <ui:include src="sub/wyborMulti.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                            </h:form>
-                        </pe:layoutPane>
-                               
-                    </pe:layout>
+                    <header class="header flex align-items-center justify-content-center">
+                        <ui:include src="sub/layout/north.xhtml"/> <!-- panel północny -->
+                    </header>
+                    <div class="content flex align-items-center justify-content-center font-bold border-round m-2 w-full">
+                        <div class="flex flex-column w-full h-full">
+                                <ui:include src="sub/wyborMulti.xhtml"/>
+                        </div>
+                    </div>
+               
                 </f:view>
             
         </ui:define>

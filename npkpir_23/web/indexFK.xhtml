@@ -10,21 +10,26 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <f:view>
-                <bcf:ajaxs/>
-                <pe:layout fullPage="true" > 
-                    <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                    <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
-                    <pe:layoutPane position="center" >
-                        <ui:include src="sub/wyborpodatnikaFK.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-<!--                        <p:outputPanel rendered="#{WpisView.niegosc}">
-                        <ui:include src="sub/kalendarz.xhtml"/>
-                        <ui:include src="sub/dialog_sprawy.xhtml"/>
-                        <ui:include src="sub/dialog_nowasprawa.xhtml"/> 
-                        </p:outputPanel>-->
-                    </pe:layoutPane>
-                </pe:layout>
-            </f:view>
+
+              <f:view >
+                    <style>
+                         .content {
+                            flex-grow: 1;
+                        }
+                    </style>
+                    <bcf:ajaxs/>
+                    <header class="header flex align-items-center justify-content-center">
+                        <ui:include src="sub/layout/north.xhtml"/> <!-- panel północny -->
+                    </header>
+                    <div class="content flex align-items-center justify-content-center font-bold border-round m-2 w-full">
+                        <div class="flex flex-column w-full h-full">
+                                <ui:include src="sub/wyborpodatnikaFK.xhtml"/>
+                        </div>
+                    </div>
+                    <footer class="footer flex align-items-center justify-content-center">
+                        <ui:include src="sub/layout/south.xhtml"/> <!-- panel południowy -->
+                    </footer>
+                </f:view>
         </ui:define>
     </ui:composition>
 </html>

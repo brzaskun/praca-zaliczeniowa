@@ -21,8 +21,9 @@
                                       style="margin-left: 20px; width: 200px;" />
         <p:commandButton id="drukujbutton2" global="false" value="drukuj zapłacone" actionListener="#{pdfFakturyPlatnosciView.drukujzaksiegowanydokument(fakturyPlatnosciView.fakturyzaplacone,fakturyPlatnosciView.fakturyzaplaconeF, 'zapłaconych')}" styleClass="fkbutton"
                                       style="margin-left: 20px; width: 200px;" />
-        <p:dataTable lazy="false"  id="fakturyniezaplaconedataTable" value="#{fakturyPlatnosciView.fakturyniezaplacone}" var="wpis" emptyMessage="nie ma faktur niezapłaconych" style="width: 1200px; padding: 5px;" rowKey="#{wpis.hashCode()}"
-                     
+        <p:dataTable lazy="false"  id="fakturyniezaplaconedataTable" value="#{fakturyPlatnosciView.fakturyniezaplacone}" 
+                     var="wpis" emptyMessage="nie ma faktur niezapłaconych" rowKey="#{wpis.hashCode()}"
+                     style="max-width: 1200px; padding: 5px; max-height: 800px; overflow-y: scroll;"
                      filteredValue="#{fakturyPlatnosciView.fakturyniezaplaconeF}">
             <p:ajax event="filter" global="false"/>
             <f:facet name="header">
@@ -34,15 +35,15 @@
                       filterBy="#{wpis.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;" width="90">
                 <h:outputText value="#{wpis.datawystawienia}"/>
             </p:column>
-            <p:column headerText="nr kolejny" sortBy="#{wpis.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}"
-                      filterBy="#{wpis.numerkolejny}" filterMatchMode="contains" filterStyle="width:80px;">
+            <p:column headerText="nr kolejny" sortBy="#{wpis}" sortFunction="#{fakturyPlatnosciView.sortZaksiegowaneFaktury}"
+                      filterBy="#{wpis.numerkolejny}" filterMatchMode="contains" filterStyle="width:120px;">
                 <h:outputText value="#{wpis.numerkolejny}" />
             </p:column>
             <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.kontrahent.npelna}" width="200"
                       filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains"  filterStyle="width: 180px;">
                 <h:outputText value="#{wpis.kontrahent.npelna}"/>
             </p:column>
-            <p:column headerText="#{mgs.opis}" sortBy="#{wpis.pozycjenafakturze.get(0).nazwa}" width="400"
+            <p:column headerText="#{mgs.opis}" sortBy="#{wpis.pozycjenafakturze.get(0).nazwa}" width="350"
                       filterBy="#{wpis.pozycjenafakturze.get(0).nazwa}" filterMatchMode="contains" filterStyle="width:280px;">
                 <h:outputText value="#{wpis.pozycjenafakturze.get(0).nazwa}"/>
             </p:column>
@@ -63,7 +64,8 @@
         </p:dataTable>
     </h:form>
     <h:form id="fakturyzaplacone">
-        <p:dataTable lazy="false"  value="#{fakturyPlatnosciView.fakturyzaplacone}" var="wpis" emptyMessage="nie ma faktur zapłaconych" style="width: 1200px; padding: 5px;"
+        <p:dataTable lazy="false"  value="#{fakturyPlatnosciView.fakturyzaplacone}" var="wpis" emptyMessage="nie ma faktur zapłaconych" 
+                     style="max-width: 1200px; padding: 5px; max-height: 800px; overflow-y: scroll;"
                      
                       rowKey="#{wpis.hashCode()}" filteredValue="#{fakturyPlatnosciView.fakturyzaplaconeF}">
             <p:ajax event="filter" global="false"/>
@@ -76,14 +78,14 @@
                 <h:outputText value="#{wpis.datawystawienia}"/>
             </p:column>
             <p:column headerText="nr kolejny" sortBy="#{wpis.numerkolejny}" filterBy="#{wpis.numerkolejny}" filterMatchMode="contains"  sortFunction="#{fakturaView.sortZaksiegowaneFaktury}"
-                      filterStyle="width:80px;">
+                      filterStyle="width:120px;">
                 <h:outputText value="#{wpis.numerkolejny}" />
             </p:column>
             <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.kontrahent.npelna}" width="200"
                       filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="width: 180px;">
                 <h:outputText value="#{wpis.kontrahent.npelna}"/>
             </p:column>
-            <p:column headerText="#{mgs.opis}" sortBy="#{wpis.pozycjenafakturze.get(0).nazwa}" width="400"
+            <p:column headerText="#{mgs.opis}" sortBy="#{wpis.pozycjenafakturze.get(0).nazwa}" width="350"
                       filterBy="#{wpis.pozycjenafakturze.get(0).nazwa}" filterMatchMode="contains" filterStyle="width:280px;">
                 <h:outputText value="#{wpis.pozycjenafakturze.get(0).nazwa}"/>
             </p:column>

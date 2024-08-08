@@ -248,7 +248,7 @@ public class FakturaRozrachunkiView  implements Serializable {
     }
     
     public void aktualizuj(){
-        wpisView.naniesDaneDoWpis();
+        wpisView.naniesDaneDoWpisOkres();
         init();
         fakturaRozrachunkiRozlView.init();
         fakturaRozrachunkiAnalizaView.init();

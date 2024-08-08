@@ -250,6 +250,11 @@ public class FakturaRaportKasowyView  implements Serializable {
         init();
     }
     
+     public void aktualizujOkres(){
+        wpisView.naniesDaneDoWpisOkres();
+        init();
+    }
+    
     private List<FakturaRozrachunki> pobierzplatnosci() {
         List<FakturaRozrachunki> wprowadzoneplatnosci = fakturaRozrachunkiDAO.findByPodatnikrokMc(wpisView);
         return wprowadzoneplatnosci;

@@ -12,21 +12,33 @@
         <ui:define name="body">
 
 
+               <bcf:ajaxs/>
             <f:view>
-                <pe:layout fullPage="true" >
-                    <ui:include src="sub/layoutTablica/north.xhtml"/>  <!-- panel polnocny-->
-                    <ui:include src="sub/layoutTablica/west.xhtml"/>   <!-- panel zachodni-->
-                    <pe:layoutPane position="center">
-                        <p:panel toggleable="true" closable="true" style="width: 90%;">
-                            <f:facet name="header">
-                                <h:outputText value="Strona służy do wpisywania standardowych pozycji na fakturze"/><br/>
-                                <h:outputText value="Można je potem wyszukać podczas wgenerowania faktury"/> <br/>
-                            </f:facet>
-                        </p:panel>
-                        <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                     <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/north.xhtml"/>
+                    </div>
+
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-4 lg:col-3"  style="max-width: 260px;">
+                            <ui:include src="#{pozycjeNaFakturzeView.westustawienia}"/>  
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex">
+                           <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                         <ui:include src="sub/slownik.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                    </pe:layoutPane>
-                </pe:layout>
+                        </div>
+                    </div>
+
+                    <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/south.xhtml"/>
+                    </div>
+                </div>
             </f:view>
         </ui:define>
     </ui:composition>

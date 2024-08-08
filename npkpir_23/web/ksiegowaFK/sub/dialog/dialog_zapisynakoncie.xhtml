@@ -33,7 +33,7 @@
         }
     </style>
     <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisynakoncie" appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1980,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).focus();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
+              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1980,810);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).focus();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true" focus="formwpiskonta:wyborkonta"
               style="overflow-x: hidden"
               >
@@ -541,6 +541,11 @@
         </pe:layout>
         <h:form id="zestawieniezapisownakontachpola1">
             <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
+        </h:form>
+        <h:form>
+        <p:panelGrid  columns="1">
+             <p:messages  id="messages"><p:autoUpdate/></p:messages>
+        </p:panelGrid>
         </h:form>
     </p:dialog>
 </ui:composition>

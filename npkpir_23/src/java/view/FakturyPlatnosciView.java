@@ -17,6 +17,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import sortfunction.FakturaSortBean;
 /**
  *
  * @author Osito
@@ -54,6 +55,21 @@ public class FakturyPlatnosciView  implements Serializable {
         aktualizuj();
         init();
         Msg.msg("i", "Udana zamiana miesiąca. Aktualny okres rozliczeniowy: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu());
+    }
+    
+     public void aktualizujTabeleTabelaGuest() throws IOException {
+        wpisView.naniesDaneDoWpisOkres();
+        init();
+        Msg.msg("i", "Udana zamiana miesiąca. Aktualny okres rozliczeniowy: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu());
+    }
+    
+    public int sortZaksiegowaneFaktury(Object o1, Object o2) {
+        if (wpisView.getPodatnikObiekt().getSchematnumeracji()!=null) {
+            return FakturaSortBean.sortZaksiegowaneDok(o1, o2, wpisView);
+        } else {
+            Msg.msg("e","Brak schematu numerowania faktur");
+            return 0;
+        }
     }
     
     private void aktualizuj() {
