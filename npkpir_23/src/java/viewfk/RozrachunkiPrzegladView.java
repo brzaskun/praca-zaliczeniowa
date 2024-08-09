@@ -19,6 +19,7 @@ import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +35,6 @@ import msg.Msg;
 import org.primefaces.event.NodeUnselectEvent;
 import pdffk.PDFRozrachunki;
 import view.WpisView;
-import interceptor.ConstructorInterceptor;
 /**
  *
  * @author Osito

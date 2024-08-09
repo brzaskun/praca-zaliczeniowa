@@ -13,10 +13,11 @@
                 
                 <p:dataTable lazy="false"  id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" 
                              rowStyleClass="#{loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')}" 
-                             styleClass="tablicaplankont"
+                             styleClass="tablicaplankont" 
                              style="max-width: 1200px; max-height: 700px;overflow-y: scroll;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              >
-                    <f:facet name="header">
+                   
+                  <p:columnGroup type="header">
                         <p:row >
                             <p:column colspan="1" headerText="" width="1" />
                             <p:column colspan="1" headerText="nr konta" width="100" />
@@ -28,7 +29,8 @@
                             <p:column colspan="1" headerText="P/K" width="40"/>
                         </p:row>
 
-                        </f:facet>
+                    </p:columnGroup>
+                        
                     <p:column width="10">
                         <h:outputText value="#{loop.level}" style="font-size: 0.5pt;"/>
                     </p:column>
