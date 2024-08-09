@@ -10,22 +10,39 @@
         </ui:define>
         <ui:define name="body">
             <bcf:ajaxs/>
+
             <f:view>
-                <pe:layout fullPage="true" >
-                    <ui:include src="sub/layoutTablica/north.xhtml"/>  <!-- panel polnocny-->
-                    <ui:include src="sub/layoutTablica/west.xhtml"/>   <!-- panel zachodni-->
-                    <pe:layoutPane position="center">
-                        <p:panel toggleable="true" closable="true" style="width: 90%;">
-                             <f:facet name="header">
-                                <h:outputText value="Strona służy do wyświetlania sum przychodów i kosztów wg kont w miesiącach danego roku obrachunkowego. Zmiana roku możliwa jest w panelu na tabelą pierwszej zakładki."/><br/>
-                                <h:outputText value="Na drugiej zakładce wyliczono śrenią danego kona w roku oraz odchylenia procentowe w każdnym miesiącu od tej średnie."/><br/>
-                                <h:outputText value="Miesiącem granicznym jest miesiąc wybrany przy logowaniu się do programu."/><br/>
-                            </f:facet>
-                        </p:panel>
-                        <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                        <ui:include src="../wspolny/sub/budzet.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                    </pe:layoutPane>
-                </pe:layout>
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/north.xhtml"/>
+                    </div>
+
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-3 lg:col-2"  style="max-width: 220px;">
+                            <ui:include src="sub/layoutNowy/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex flex-column">
+                            <p:panel toggleable="true" closable="true" style="width: 90%;">
+                                <f:facet name="header">
+                                    <h:outputText value="Strona służy do wyświetlania sum przychodów i kosztów wg kont w miesiącach danego roku obrachunkowego. Zmiana roku możliwa jest w panelu na tabelą pierwszej zakładki."/><br/>
+                                    <h:outputText value="Na drugiej zakładce wyliczono śrenią danego kona w roku oraz odchylenia procentowe w każdnym miesiącu od tej średnie."/><br/>
+                                    <h:outputText value="Miesiącem granicznym jest miesiąc wybrany przy logowaniu się do programu."/><br/>
+                                </f:facet>
+                            </p:panel>
+                            <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                            <ui:include src="../wspolny/sub/budzet.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                        </div>
+                    </div>
+                    <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/south.xhtml"/>
+                    </div>
+                </div>
             </f:view>
         </ui:define>
     </ui:composition>

@@ -10,12 +10,24 @@
         </ui:define>
         <ui:define name="body">
             <bcf:ajaxs/>
-            <f:view>
-                <pe:layout fullPage="true" >
-                    <ui:include src="sub/layoutTablica/north.xhtml"/>  <!-- panel polnocny-->
-                    <ui:include src="sub/layoutTablica/west.xhtml"/>   <!-- panel zachodni-->
-                    <pe:layoutPane position="center">
-                        <p:panel toggleable="true" closable="true" style="width: 90%;" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
+
+             <f:view>
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/north.xhtml"/>
+                    </div>
+
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-3 lg:col-2"  style="max-width: 220px;">
+                            <ui:include src="sub/layoutNowy/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex flex-column">
+                            <p:panel toggleable="true" closable="true" style="width: 90%;" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do wyświetlania bilansu, rzis oraz zapisów na kontach w danym miesiącu. Zmiana miesiąca możliwa jest w panelu po lewej."/><br/>
                                 <h:outputText value="Dane po pobraniu mogąć być sortowane. Wystarczy kliknąć na symbol strzałek znajdujących sie obok opisu kolumny."/> <br/>
@@ -24,9 +36,15 @@
                         </p:panel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                         <ui:include src="../wspolny/sub/bilansRZiS.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                    </pe:layoutPane>
-                </pe:layout>
-            </f:view>
+                        </div>
+                    </div>
+
+                   <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/south.xhtml"/>
+                    </div>
+                </div>
+             </f:view>
         </ui:define>
     </ui:composition>
 </html>
