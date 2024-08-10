@@ -5,16 +5,10 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
-    <pe:layoutPane position="west" size="220"  resizable="true">
+    
         <h:form id="westSrodki">
-                <p:panelGrid id="westKsiegowaWidok" columns="2" style="margin-left: 7%">
-                <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.podatnikObiekt.nazwapelnaPDF}"/>
-                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.rokWpisu}"/>
-                <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <h:outputText value="#{WpisView.miesiacWpisu}"/>
-            </p:panelGrid>
+           <p:panelGrid id="westKsiegowaWidok" columns="2" style="margin-left: 7%">
+          
            <p:panel id="linki" header="Tu możesz sprawdzić:">
              
                  <p:panelGrid columns="1">
@@ -29,6 +23,6 @@
         </p:panel>
         </h:form>
        
-        </pe:layoutPane>
+    
 </ui:composition>   
 

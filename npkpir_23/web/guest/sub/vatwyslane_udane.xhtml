@@ -9,7 +9,8 @@
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:tab title="Deklaracje wysłane z otrzymanym potwierdzeniem. Można je wydrukować i wysłać mailem">
-        <p:dataTable lazy="false"  id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" selectionMode="single" rowKey="#{item.id}" rowIndexVar="row">
+        <p:dataTable lazy="false"  id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" selectionMode="single" rowKey="#{item.id}" rowIndexVar="row"
+                     style="max-width: 1400px; max-height: 800px; overflow-y: scroll;">
             <p:column style="width: 3%;">
                 <p:rowToggler/>
             </p:column>
@@ -37,7 +38,7 @@
                     </h:panelGrid>
                 </p:dataGrid>
                 <p:dataGrid columns="1" value="#{item}" var="item2">
-                    <p:dataTable lazy="false"  value="#{item2.schemawierszsumarycznylista}" var="wiersz" style="width: 700px;">
+                    <p:dataTable lazy="false"  value="#{item2.schemawierszsumarycznylista}" var="wiersz" style="max-width: 700px;">
                         <p:column width="500" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                             <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                         </p:column>

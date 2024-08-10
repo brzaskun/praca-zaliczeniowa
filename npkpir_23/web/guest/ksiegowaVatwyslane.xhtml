@@ -10,19 +10,40 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-                <f:view>
-                    <pe:layout fullPage="true" >
-                        <bcf:ajaxs/>
-                        <ui:include src="sub/layoutVatPrzeglad/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutVatPrzeglad/south.xhtml"/>   <!-- panel poludniowy-->
-                        <ui:include src="sub/layoutVatPrzeglad/west.xhtml"/>   <!-- panel zachodni-->
-                        <ui:include src="sub/layoutVatPrzeglad/east.xhtml"/>   <!-- panel wchodni-->
-                        <pe:layoutPane position="center">
-                            <ui:include src="sub/vatwyslane.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                        </pe:layoutPane>
-                    </pe:layout>
-                </f:view>
-            
+            <f:event type="preRenderView" listener="#{deklaracjevatView.init()}"/>
+            <f:view>
+                <bcf:ajaxs/>
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/north.xhtml"/>
+                    </div>
+
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-4 lg:col-3"  style="max-width: 260px;">
+                            <ui:include src="sub/layoutNowy/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex">
+                            <div class="vertical-container">
+
+                             
+                          
+                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                                <ui:include src="sub/vatwyslane.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/south.xhtml"/>
+                    </div>
+                </div>
+            </f:view>
         </ui:define>
     </ui:composition>
 </html>

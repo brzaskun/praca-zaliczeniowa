@@ -193,6 +193,11 @@ private static final long serialVersionUID = 1L;
         wpisView.naniesDaneDoWpisOkres();
     }
     
+     private void aktualizujOkres(){
+        wpisView.naniesDaneDoWpisOkres();
+        init();
+    }
+    
      public void aktualizujGuest(String strona) throws IOException {
         lista = Collections.synchronizedList(new ArrayList<>());
         aktualizujGuest();

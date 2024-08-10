@@ -3,7 +3,8 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:pe="http://primefaces.org/ui/extensions">
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:bcf="http://brzaskun.com/facelets">
     <ui:composition template="/template.xhtml">
 
         <ui:define name="title">
@@ -21,22 +22,38 @@
                     </p:confirmDialog>  
                 </h:form>
              
-                <f:view>
-                    <pe:layout fullPage="true" >
-                        <ui:include src="sub/layoutZestawienie/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutZestawienie/south.xhtml"/>   <!-- panel poludniowy-->
-                        <ui:include src="sub/layoutZestawienie/west.xhtml"/>   <!-- panel zachodni-->
-                        <pe:layoutPane position="center">
-                               
-                         
-                                <ui:include src="sub/menu_wiad.xhtml"/> 
+             
+            <f:view>
+                <bcf:ajaxs/>
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/north.xhtml"/>
+                    </div>
+
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-4 lg:col-3"  style="max-width: 260px;">
+                            <ui:include src="sub/layoutNowy/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex">
+                            <div class="vertical-container">
+
+                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/zestawienieRok.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                            </div>
+                        </div>
+                    </div>
 
-                        </pe:layoutPane>
-
-                    </pe:layout>
-                </f:view>
-            
+                    <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/south.xhtml"/>
+                    </div>
+                </div>
+            </f:view>
         </ui:define>
     </ui:composition>
 </html>

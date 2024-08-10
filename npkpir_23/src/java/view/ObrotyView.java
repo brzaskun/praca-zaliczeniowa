@@ -161,6 +161,13 @@ public class ObrotyView implements Serializable{
           return "/guest/ksiegowaKontrahenci.xhtml?faces-redirect=true";
      }
     
+     
+    public void aktualizujOkres() {
+        wpisView.naniesDaneDoWpisOkres();
+        init();
+        PrimeFaces.current().ajax().update("formX:dokumentyLista");
+        //PrimeFaces.current().ajax().update("westKsiegowa:westKsiegowaWidok");
+    }
       public void aktualizujObrotyX(ActionEvent e) {
         aktualizujGuest();
         PrimeFaces.current().ajax().update("formX:dokumentyLista");

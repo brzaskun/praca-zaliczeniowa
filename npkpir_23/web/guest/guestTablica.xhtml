@@ -11,27 +11,57 @@
         </ui:define>
         <ui:define name="body">
 
-
             <f:view>
-                <pe:layout fullPage="true" >
-                    <ui:include src="sub/layoutTablica/north.xhtml"/>  <!-- panel polnocny-->
-                    <ui:include src="sub/layoutTablica/west.xhtml"/>   <!-- panel zachodni-->
-                    <pe:layoutPane position="center">
-                        <p:panel toggleable="true" closable="true" style="width: 90%;">
-                            <f:facet name="header">
-                                <h:outputText value="Strona służy do wyświetlania poszczególnych zapisów w danym miesiącu. Zmiana miesiąca możliwa jest w panelu po lewej."/><br/>
-                                <h:outputText value="Dane po pobraniu mogąć być sortowane. Wystarczy kliknąć na symbol strzałek znajdujących sie obok opisu kolumny."/> <br/>
-                                <h:outputText value="Można wyszukiwać poszczególne dokumenty wg różnych kryteriów wpisując wyszukiwaną frazę w puste pole nad kolumną. Grosze oddzielamy od złotówek KROPKĄ."/><br/>
-                                <h:outputText value="Po kliknięciu myszą na kółko z białą strzałką rozwinie się informacja o VAT."/><br/>
-                                <h:outputText value="Dokumenty sprzedaży są wyróżnione kolorem niebieskim. Korekty zmniejszające - czerwonym."/><br/>
-                                <h:outputText value="Po zaznaczeniu dokumentu i wciśnięciu prawego przycisku myszy otrzymujemy dostęp do menu kontekstowego umożliwiającego
-                                              m.in drukowanie zaznaczonego dokumentu bądź dodanie go do dokumentów obserwowanych."/>
-                            </f:facet>
-                        </p:panel>
-                        <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                        <ui:include src="sub/tablica.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                    </pe:layoutPane>
-                </pe:layout>
+                <bcf:ajaxs/>
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/north.xhtml"/>
+                    </div>
+
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-4 lg:col-3"  style="max-width: 260px;">
+                            <ui:include src="sub/layoutNowy/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex">
+                            <div class="vertical-container">
+
+                                <p:panel toggleable="true" closable="true" style="width: 90%;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Strona służy do wyświetlania poszczególnych zapisów w danym miesiącu. Zmiana miesiąca możliwa jest w panelu po lewej."/><br/>
+                                        <h:outputText value="Dane po pobraniu mogąć być sortowane. Wystarczy kliknąć na symbol strzałek znajdujących sie obok opisu kolumny."/> <br/>
+                                        <h:outputText value="Można wyszukiwać poszczególne dokumenty wg różnych kryteriów wpisując wyszukiwaną frazę w puste pole nad kolumną. Grosze oddzielamy od złotówek KROPKĄ."/><br/>
+                                        <h:outputText value="Po kliknięciu myszą na kółko z białą strzałką rozwinie się informacja o VAT."/><br/>
+                                        <h:outputText value="Dokumenty sprzedaży są wyróżnione kolorem niebieskim. Korekty zmniejszające - czerwonym."/><br/>
+                                        <h:outputText value="Po zaznaczeniu dokumentu i wciśnięciu prawego przycisku myszy otrzymujemy dostęp do menu kontekstowego umożliwiającego
+                                                      m.in drukowanie zaznaczonego dokumentu bądź dodanie go do dokumentów obserwowanych."/>
+                                    </f:facet>
+                                </p:panel>
+                                <h:form id="zmianaokresuguest">
+                                    <p:panelGrid columns="2" style="padding: 10px;">
+                                        <h:outputText value="okres rozliczeniowy: " />
+                                        <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;margin-left: 10px;" converter="#{okresConverter}">
+                                            <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+                                            <p:ajax event="change" partialSubmit="true" listener="#{DokTabGuestView.aktualizujOkres()}" global="true" 
+                                                    update="@(form)"/>
+                                        </p:selectOneMenu>
+                                    </p:panelGrid>
+                                </h:form>
+                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                                <ui:include src="sub/tablica.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/south.xhtml"/>
+                    </div>
+                </div>
             </f:view>
         </ui:define>
     </ui:composition>

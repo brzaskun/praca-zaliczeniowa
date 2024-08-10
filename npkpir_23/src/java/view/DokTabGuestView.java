@@ -25,10 +25,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import pdf.PdfDok;
 import pdf.PdfPK;
 import waluty.Z;
@@ -115,6 +114,11 @@ public class DokTabGuestView implements Serializable {
         for (Dok tmpxa : pobranedokumenty) {
             tmpxa.setNrWpkpir(numerkolejny++);
         }
+    }
+    
+    public void aktualizujOkres() {
+        wpisView.naniesDaneDoWpisOkres();
+        init();
     }
     
      private void aktualizujGuest(){
