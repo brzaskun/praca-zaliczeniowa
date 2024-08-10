@@ -7,9 +7,10 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
     <f:event  type="preRenderView" listener="#{kontoZapisFKView.init}"/>
-    <p:outputPanel style="width: 1600px;">
-        <pe:layout fullPage="false" style="height: 760px;width: 1200px;" >  
-            <pe:layoutPane position="north">
+    <p:outputPanel style="max-width: 1700px;">
+        <div class="flex flex-column" style="max-height: 760px; max-width: 2100px;">  
+            <!-- North Pane -->
+            <div class="flex-none">
                 <p:panelGrid columns="3" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
                         <h:outputText value="#{mgs.wybierzkonto}: "/>
@@ -61,16 +62,20 @@
                     </h:form>
                 </p:panelGrid>
                 <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia"  style="display: none;"/>
-            </pe:layoutPane>  
-            <!--            lewa strona z drzewem kont-->
-            <pe:layoutPane id="westtree" position="west" size="370" >
+         </div>
+            
+            <!-- Main Content with West and Center Pane -->
+            <div class="flex flex-grow-1" style="overflow: hidden;">
+                
+                <!-- West Pane -->
+                <div class="flex-none" style="width: 400px; display: flex; flex-direction: column; height: 100%;">
                 <p:panelGrid columns="2" >
                     <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form:dataList_data');" global="false" style="float: left;" />
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form:dataList_data');"  global="false" style="float: left;" />
 <!--                    <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />-->
                 </p:panelGrid>
-                <h:form id="form">
+                <h:form id="form" style="flex-grow: 1; overflow-y: auto;">
                     <p:outputPanel id="kontenertabeli">
                           <style>
                                 .grid .ui-widget-content .ui-datatable-odd td{
@@ -92,7 +97,7 @@
                           </style>
                         <p:dataTable lazy="false"  id="dataList" value="#{kontoZapisFKView.wykazkont}" var="loop1" selectionMode="single" 
                                      selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
-                                     styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" 
+                                     styleClass="grid" style="max-width: 390px; max-height: 520px; overflow-y: scroll;overflow-x: hidden" 
                                       >
                             <p:ajax event="rowSelect" global="false" update="tabelazzapisami:tabela tabelazsumami:sumy  formwpiskonta:wyborkonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" />
@@ -117,19 +122,20 @@
                         </p:dataTable>
                     </p:outputPanel>
                 </h:form>
-            </pe:layoutPane>  
+    </div>
 
-            <pe:layoutPane position="center" >
-                <style>
-                    .grid1 td {
-                        height: 40px!important;
-                    }
-                </style>
+                <!-- Center Pane -->
+                <div class="flex-grow-1 overflow-auto">
+                    <style>
+                        .grid1 td {
+                            height: 40px!important;
+                        }
+                    </style>
                 <h:form id="tabelazzapisami">
                     <p:remoteCommand actionListener="#{kontoZapisFKView.sumazapisowtotal}" name="przeliczfilterzapisy" update=":tabelazsumami:sumy" global="false"/>
                     <p:dataTable lazy="false"  id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
-                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" style="width: 1190px;"
+                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" style="width: 1300px;max-height: 520px; overflow-y: scroll;"
                                  emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1" rowSelectMode="add"
                                  rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{kontoZapisFKView.kontozapisy.size() gt 150 ? 'true':'false'}" rows="150"
@@ -150,17 +156,17 @@
                         <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center;" sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}"  sortBy="#{loop}">
                             <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.data}" width="20" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
-                            <h:outputText value="#{loop.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
+                        <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
+                            <h:outputText value="#{loop.wiersz.dokfk.datadokumentu}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.dokument}" width="40" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.seriadokfk}">
+                        <p:column headerText="#{mgs.dokument}" width="50" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.seriadokfk}">
                             <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.nr}" width="70"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
+                        <p:column headerText="#{mgs.nr}" width="80"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
                                   filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
                             <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.kontrahent}" width="100" sortBy="#{loop.dokfk.kontr.npelna}"  rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20')}">
+                        <p:column headerText="#{mgs.kontrahent}" width="120" sortBy="#{loop.dokfk.kontr.npelna}"  rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20')}">
                             <h:outputText value="#{loop.dokfk.kontr.npelna}"/>
                         </p:column>
                         <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains"
@@ -172,7 +178,7 @@
                                 <f:convertNumber minFractionDigits="4" maxFractionDigits="4" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="tab" width="40" sortBy="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3)}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.nierenderujkolumnnywalut eq false}">
+                        <p:column headerText="tab" width="50" sortBy="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3)}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.nierenderujkolumnnywalut eq false}">
                             <h:outputText value="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,9)}" rendered="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3) ne '000'}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kontoWn}" width="40" sortBy="#{loop.kwota}" rendered="#{kontoZapisFKView.nierenderujkolumnnywalut eq false}">
@@ -195,7 +201,7 @@
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="#{mgs.waluta}" width="20" sortBy="#{loop.wiersz.walutaWiersz}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
+                        <p:column headerText="#{mgs.waluta}" width="30" sortBy="#{loop.wiersz.walutaWiersz}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText id="waluta" value="#{loop.wiersz.walutaWiersz}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kontoprzeciwstawne}" width="40" sortBy="#{loop.wnma eq 'Wn' ? loop.wiersz.stronaMa.konto.pelnynumer : loop.wiersz.stronaWn.konto.pelnynumer}">
@@ -206,8 +212,11 @@
                                                 </p:column>-->
                     </p:dataTable>
                 </h:form>  
-            </pe:layoutPane> 
-            <pe:layoutPane position="south" maxHeight="70">
+            </div>
+            </div>
+            
+            <!-- South Pane -->
+            <div class="flex-none" style="max-height: 70px;">
                 <p:panelGrid columns="3">
                 <h:form>
                     <p:panelGrid columns="2">
@@ -286,8 +295,9 @@
                     </p:dataTable>
                 </h:form>
                     </p:panelGrid>
-            </pe:layoutPane>  
-        </pe:layout>
+          </div>
+
+        </div>
         <h:form id="zestawieniezapisownakontachpola1">
             <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
         </h:form>
