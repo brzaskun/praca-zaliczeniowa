@@ -6,8 +6,45 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:pe="http://primefaces.org/ui/extensions">
-        <h:form id="menubarnorth">
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <h:form id="menubarnorth">
+         <style>
+            .ui-menubar .menu-item {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                margin-right: 2px;
+                transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+                text-align: center;
+                color: #333; /* Default text color */
+            }
+
+            .ui-menubar .menu-item:last-child {
+                margin-right: 0;
+            }
+
+            .ui-menubar .menu-item:hover {
+                background-color: red !important; /* Background color change on hover */
+                color: #0056b3; /* Text color change on hover */
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            }
+
+            .languagebutton {
+                border: none;
+                background: none;
+                cursor: pointer;
+            }
+
+            .languagebutton:hover {
+                text-decoration: underline;
+            }
+
+
+        </style>
             <p:menubar autoDisplay="true" style="border: none;">
                 <p:menuitem icon="fa fa-institution" value="firma" outcome="ksiegowaFKFirma_1"/>
                 <p:menuitem icon="fa fa-stack-overflow" value="#{mgs.dokumenty}" outcome="menudokumentyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
@@ -18,12 +55,12 @@
                 <p:menuitem icon="fa fa-wrench" value="plan kont" outcome="menuplankontFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-gear" value="wzorce" outcome="menuustawieniaFK" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem icon="fa fa-building-o" value="#{mgs.bilans}" outcome="bilanseFK" rendered="#{WpisView.czegosbrakuje == false}"/>
-                <p:menuitem icon="fa fa-columns" value="deklaracje"  rendered="#{WpisView.czegosbrakuje == false}"/>
-                <p:menuitem icon="fa fa-pencil" value="stow." outcome="raportyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+<!--                <p:menuitem icon="fa fa-columns" value="deklaracje"  rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-pencil" value="stow." outcome="raportyFK" rendered="#{WpisView.czegosbrakuje == false}"/>-->
                 <p:menuitem icon="fa fa-car" value="środki trw." outcome="srodkitrwaleFK" rendered="#{WpisView.czegosbrakuje == false}">
-                    <f:actionListener binding="#{srodkiTrwaleAMOView.init()}"/>
-                    <f:actionListener binding="#{sTRTabView.init()}"/>
-                </p:menuitem>
+                <f:actionListener binding="#{srodkiTrwaleAMOView.init()}"/>
+                <f:actionListener binding="#{sTRTabView.init()}"/>
+            </p:menuitem>
                 <p:menuitem icon="fa fa-newspaper-o" value="#{mgs.zestawienia}" outcome="guestwynikFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem value=" | "/>
                 <p:menuitem icon="fa fa-exchange" value="inna firma" action="#{WpisView.menustrona()}"/>
@@ -39,15 +76,17 @@
                 <p:menuitem  value=" | " />
                 <p:menuitem>
                     <p:commandButton styleClass="languagebutton" value="pl" actionListener="#{localeChanger.polishAction}"  update="@(form)"/>
-                    <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}" update="@(form)"/>
-                    <p:commandButton styleClass="languagebutton" value="de" actionListener="#{localeChanger.deutschAction}" update="@(form)"/>
-                </p:menuitem>
-            </p:menubar>
-        </h:form>
-        <h:form>
-            <p:commandButton value="zd" accesskey="q" onstart="znajdzdivshown()" style="display: none;"
-                oncomplete="PF('dialog_zmiana_okresu').show()" global="false"
-            />
-        </h:form>
+                <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}" update="@(form)"/>
+                <p:commandButton styleClass="languagebutton" value="de" actionListener="#{localeChanger.deutschAction}" update="@(form)"/>
+            </p:menuitem>
+        </p:menubar>
+    </h:form>
+
+
+    <h:form>
+        <p:commandButton value="zd" accesskey="q" onstart="znajdzdivshown()" style="display: none;"
+                         oncomplete="PF('dialog_zmiana_okresu').show()" global="false"
+                         />
+    </h:form>
 </ui:composition>   
 

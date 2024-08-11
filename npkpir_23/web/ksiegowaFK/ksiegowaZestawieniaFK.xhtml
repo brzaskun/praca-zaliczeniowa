@@ -9,19 +9,26 @@
             <h:outputText value="Księgi rachunkowe"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <pe:layout fullPage="true" >
-                <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                <pe:layoutPane id="centralna" position="center" >
-                    <div id="ramki">
-                    </div>
+            
+            <div class="flex flex-column" style="height: 100vh;"> <!-- Zastąpienie pe:layout -->
+                
+                <!-- North Pane -->
+                <div class="flex-none">
+                    <ui:include src="sub/layoutNowy/north.xhtml"/>  <!-- panel północny -->
+                </div>
+                
+                <!-- Center Pane -->
+                <div class="flex-grow-1 overflow-auto"> <!-- Zastąpienie pe:layoutPane position="center" -->
+                    <div id="ramki"></div>
                     <bcf:ajaxs/>
                     <h:form>
-                        <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+                        <p:growl life="3600"><p:autoUpdate/></p:growl>
                     </h:form>
-                     <p:hotkey bind="down" global="false"  handler="idz('D');" ignoreAutoUpdate="true"/>
+                    <p:hotkey bind="down" global="false" handler="idz('D');" ignoreAutoUpdate="true"/>
                     <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
                     <ui:include src="sub/menu/menuzestawienia.xhtml"/>
                     
+                    <!-- Include various dialog panels -->
                     <ui:include src="sub/dialog/dialog_wpisywanie_czydodackonto.xhtml"/>
                     <ui:include src="sub/dialog/dialog_delegacje_stworz.xhtml"/>
                     <ui:include src="sub/dialog/dialog_wpisywanie.xhtml"/>
@@ -45,10 +52,15 @@
                     <ui:include src="sub/dialog/dialog_zapisy_nakontach_wmcu.xhtml"/>
                     <ui:include src="sub/dialog/dialog_zapisymiejscakosztow_wmcu.xhtml"/>
                     <ui:include src="sub/dialog/dialog_plankont_saldazaksiegowane.xhtml"/>
-                     
-<!--                    <ui:include src="sub/dialog/dialog_rozrachunkiprzegladanie.xhtml"/>-->
-                </pe:layoutPane><ui:include src="sub/layout/south.xhtml"/> 
-            </pe:layout>
+                </div>
+                
+                <!-- South Pane -->
+                <div class="flex-none">
+                    <ui:include src="sub/layoutNowy/south.xhtml"/> <!-- panel południowy -->
+                </div>
+                
+            </div>
+            
         </ui:define>
     </ui:composition>
 </html>

@@ -12,7 +12,7 @@
         </ui:define>
         <ui:define name="body">
             <p:growl life="6000"  ><p:autoUpdate/></p:growl>
-            <pe:layout fullPage="true" >
+            <div class="flex flex-column" style="height: 100vh;"> <!-- Zastąpienie pe:layout -->
                 <p:outputPanel id="potwierdzeniazestawieniedok">
             <p:confirmDialog id="confirmDialog1" message="Dodać środek trwały?"  
                              header="dodawanie środka trwałego z dokumentu" severity="alert" widgetVar="confirm1" width="500" appendTo="@(body)"
@@ -39,20 +39,27 @@
                 </h:form>
             </p:confirmDialog> 
             </p:outputPanel>
-                <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                <pe:layoutPane id="centralna" position="center" >
+                 <!-- North Pane -->
+                <div class="flex-none">
+                    <ui:include src="sub/layoutNowy/north.xhtml"/>  <!-- panel polnocny-->
+                </div>
+              <!-- Center Pane -->
+                <div class="flex-grow-1 overflow-auto"> <!-- Zastąpienie pe:layoutPane position="center" -->
                     <script>
                         $(document).on("keydown", TabKeyDown);
                     </script>
                     <div id="ramki">
                     </div>
-                    <p:hotkey bind="down" global="false"  handler="idz('D');" ignoreAutoUpdate="true"/>
-                    <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
+                    <h:form>
+                        <p:hotkey bind="down" global="false"  handler="idz('D');" ignoreAutoUpdate="true"/>
+                        <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
+                    </h:form>
                     <p:panelGrid columns="2">
                         <p:column>
                             <ui:include src="sub/menu/menudokumenty.xhtml"/>
                         </p:column>
                         <p:column>
+                            <h:form id="formfktaxman">
                             <p:outputPanel style="padding: 10px; margin-left: 50px;">
                                <p:panel id="wiadomoscfaktury">
                                     <h:outputText value="Brak faktury okresowej Taxmana dla podatnika!!!" rendered="#{WpisView.biuroiszef eq false and WpisView.podatnikObiekt.nip ne '8511005008'}" style="font-weight: 900; color: red; font-size: x-large"/>
@@ -119,6 +126,7 @@
                                     </p:column>
                                 </p:dataTable>
                             </p:outputPanel>
+                                </h:form>
                         </p:column>
                     </p:panelGrid>
                     <ui:include src="sub/dialog/dialog_wpisywanie_czydodackonto.xhtml"/>
@@ -170,9 +178,13 @@
                     <ui:include src="sub/dialog/dialog_bilans_wprowadzanie_3.xhtml"/>
                     
                     <ui:include src="sub/dialog/dialog_sinkosxls.xhtml"/> 
+                    </div>
 
-                </pe:layoutPane><ui:include src="sub/layout/south.xhtml"/> 
-            </pe:layout>
+                <!-- South Pane -->
+                <div class="flex-none">
+                    <ui:include src="sub/layoutNowy/south.xhtml"/> 
+                </div>
+            </div>
             
         </ui:define>
     </ui:composition>

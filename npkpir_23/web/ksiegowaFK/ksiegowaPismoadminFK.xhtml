@@ -10,15 +10,34 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-                <f:view>
-                    <p:growl life="3600"  id="messages"  ><p:autoUpdate/></p:growl>
-                    <pe:layout fullPage="true" >
-                        <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                        <pe:layoutPane position="center">
-                                <ui:include src="sub/pismoadmin.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                        </pe:layoutPane><ui:include src="sub/layout/south.xhtml"/> 
-                    </pe:layout>
-                </f:view>
+       
+            <div class="flex flex-column" style="height: 100vh;"> <!-- Zastąpienie pe:layout -->
+                
+                <!-- North Pane -->
+                <div class="flex-none">
+                    <ui:include src="sub/layoutNowy/north.xhtml"/>  <!-- panel północny -->
+                </div>
+                
+                <!-- Center Pane -->
+                <div class="flex-grow-1 overflow-auto"> <!-- Zastąpienie pe:layoutPane position="center" -->
+                    <div id="ramki"></div>
+                     <h:form>
+                        <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+                    </h:form>
+                    
+                                       
+                    
+                    <!-- Include various dialog panels -->
+                    <ui:include src="sub/pismoadmin.xhtml"/>
+
+                </div>
+                
+                <!-- South Pane -->
+                <div class="flex-none">
+                    <ui:include src="sub/layoutNowy/south.xhtml"/> <!-- panel południowy -->
+                </div>
+                
+            </div>
         </ui:define>
     </ui:composition>
 </html>

@@ -177,6 +177,7 @@ public class KontaFKBean implements Serializable{
         return pobranezapisy;
     }
     
+    
     public static SaldoKonto sumujsaldakont(List<SaldoKonto> przygotowanalista) {
         SaldoKonto p = new SaldoKonto();
         DoubleAccumulator  bown = new DoubleAccumulator(Double::sum,0.d);

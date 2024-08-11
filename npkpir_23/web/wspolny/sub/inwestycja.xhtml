@@ -17,11 +17,11 @@
                         <f:selectItems value="#{roki.rokiList}"/>
                     </h:selectOneMenu>
                 </p:panelGrid>
-                <p:dataTable lazy="false"  id="dataList" value="#{inwestycjeView.inwestycjerozpoczete}" style="width: 1550px;" 
+                <p:dataTable lazy="false"  id="dataList" value="#{inwestycjeView.inwestycjerozpoczete}" style="max-width: 1550px;" 
                              emptyMessage="Nie ma żadnych rozpoczętych inwestycji w firmie" var="item"
-                             paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                             paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" rows="20"
                              rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true"  selection="#{inwestycjeView.wybrany}" selectionMode="single"
-                             rowKey="#{item.id}">
+                             rowKey="#{item.id}"> 
                     <p:ajax event="rowSelect" listener="#{inwestycjeView.wybranoinwestycje}"/>
                     <p:column width="10">
                         <p:rowToggler />

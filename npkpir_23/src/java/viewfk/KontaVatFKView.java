@@ -30,13 +30,12 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.DoubleAdder;
-import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -46,7 +45,6 @@ import view.EwidencjaVatView;
 import view.ParametrView;
 import view.WpisView;
 import waluty.Z;
-import interceptor.ConstructorInterceptor;
 
 /**
  *
@@ -146,53 +144,89 @@ public class KontaVatFKView implements Serializable {
 //        }
 //    }
 //
-//    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, String vatokres) {
-//        List<StronaWiersza> zapisyRok  = null;
-//        String okresvat = sprawdzjakiokresvat();
-//        zapisyRok = zmodyfikujlisteMcKw(KontaFKBean.pobierzZapisyVATRok(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), stronaWierszaDAO), okresvat);
-//        double sumawn = 0.0;
-//        double sumama = 0.0;
-//        if (zapisyRok != null) {
-//            for (StronaWiersza r : zapisyRok) {
-//                saldoKonto.getZapisy().add(r);
-//                if (r.getWnma().equals("Wn")) {
-//                    sumawn += r.getKwotaPLN();
-//                } else {
-//                    sumama += r.getKwotaPLN();
-//                }
-//            }
-//        }
-//        saldoKonto.setObrotyWn(sumawn);
-//        saldoKonto.setObrotyMa(sumama);
-//    }
-//    
-    //nowa zaoptymalizowana przec chatgtp
-  private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, String vatokres) {
-    String okresvat = sprawdzjakiokresvat();
-    List<StronaWiersza> zapisyRok = zmodyfikujlisteMcKw(
-            KontaFKBean.pobierzZapisyVATRok(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), stronaWierszaDAO),
-            okresvat
-    );
-
-    if (zapisyRok != null) {
-        DoubleAdder sumawn = new DoubleAdder();
-        DoubleAdder sumama = new DoubleAdder();
-
-        List<StronaWiersza> zapisy = zapisyRok.parallelStream()
-            .peek(r -> {
-                if ("Wn".equals(r.getWnma())) {
-                    sumawn.add(r.getKwotaPLN());
-                } else {
-                    sumama.add(r.getKwotaPLN());
+    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, String vatokres) {
+        List<StronaWiersza> zapisyRok  = null;
+        String okresvat = sprawdzjakiokresvat();
+        zapisyRok = zmodyfikujlisteMcKw(KontaFKBean.pobierzZapisyVATRok(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), stronaWierszaDAO), okresvat);
+        double sumawn = 0.0;
+        double sumama = 0.0;
+        if (zapisyRok != null) {
+            for (StronaWiersza r : zapisyRok) {
+                if (!r.getDokfk().getRodzajedok().getSkrot().equals("VAT")) {
+                    saldoKonto.getZapisy().add(r);
+                    if (r.getWnma().equals("Wn")) {
+                        sumawn += r.getKwotaPLN();
+                    } else {
+                        sumama += r.getKwotaPLN();
+                    }
                 }
-            })
-            .collect(Collectors.toList());
-
-        saldoKonto.getZapisy().addAll(zapisy);
-        saldoKonto.setObrotyWn(sumawn.doubleValue());
-        saldoKonto.setObrotyMa(sumama.doubleValue());
+            }
+        }
+        saldoKonto.setObrotyWn(sumawn);
+        saldoKonto.setObrotyMa(sumama);
     }
-}
+    
+    //nowa zaoptymalizowana przec chatgtp
+    //sa bledy z lock
+// 
+//private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+//private final ReadLock readLock = lock.readLock();
+//private final WriteLock writeLock = lock.writeLock();
+//
+//private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, String vatokres) {
+//    String okresvat = sprawdzjakiokresvat();
+//    List<StronaWiersza> zapisyRok = zmodyfikujlisteMcKw(
+//            KontaFKBean.pobierzZapisyVATRok(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), stronaWierszaDAO),
+//            okresvat
+//    );
+//
+//    if (zapisyRok != null) {
+//        DoubleAdder sumawn = new DoubleAdder();
+//        DoubleAdder sumama = new DoubleAdder();
+//
+//        List<StronaWiersza> zapisy;
+//
+//        // Acquire the read lock before processing the list
+//        readLock.lock();
+//        try {
+//            zapisy = zapisyRok.parallelStream()
+//                .peek(r -> {
+//                    try {
+//                        // Sprawdzamy, czy dokument nie jest typu VAT
+//                        if (!r.getDokfk().getRodzajedok().getSkrot().equals("VAT")) {
+//                            if ("Wn".equals(r.getWnma())) {
+//                                sumawn.add(r.getKwotaPLN());
+//                            } else {
+//                                sumama.add(r.getKwotaPLN());
+//                            }
+//                        }
+//                    } catch (Exception e) {
+//                        // Logowanie w razie błędu
+//                        
+//                    }
+//                })
+//                .collect(Collectors.toList());
+//        } finally {
+//            // Release the read lock
+//            readLock.unlock();
+//        }
+//
+//        // Acquire the write lock before modifying saldoKonto
+//        writeLock.lock();
+//        try {
+//            saldoKonto.getZapisy().addAll(zapisy);
+//            saldoKonto.setObrotyWn(sumawn.doubleValue());
+//            saldoKonto.setObrotyMa(sumama.doubleValue());
+//        } finally {
+//            // Release the write lock
+//            writeLock.unlock();
+//        }
+//    }
+//}
+
+
+  
+  
     private String sprawdzjakiokresvat() {
         Integer rok = wpisView.getRokWpisu();
         Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
@@ -252,13 +286,15 @@ public class KontaVatFKView implements Serializable {
         double sumama = 0.0;
         if (zapisyRok != null) {
             for (StronaWiersza r : zapisyRok) {
-                int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                if (mc >= granicaDolna && mc <=granicaGorna) {
-                    saldoKonto.getZapisy().add(r);
-                    if (r.getWnma().equals("Wn")) {
-                        sumawn += r.getKwotaPLN();
-                    } else {
-                        sumama += r.getKwotaPLN();
+                if (r.getDokfk().getRodzajedok().getSkrot().equals("VAT")==false) {
+                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                    if (mc >= granicaDolna && mc <=granicaGorna) {
+                        saldoKonto.getZapisy().add(r);
+                        if (r.getWnma().equals("Wn")) {
+                            sumawn += r.getKwotaPLN();
+                        } else {
+                            sumama += r.getKwotaPLN();
+                        }
                     }
                 }
             }

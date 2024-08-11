@@ -32,7 +32,7 @@
         <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
             <p:panelGrid id="panelposumowaniavat" columns="1">
                 <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
-                             selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}"
+                             selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 700px;"
                              >
                     <f:facet name="header">
                         <h:outputText value="zestawienie ewidencji vat - sprzedaż"/>
@@ -55,7 +55,7 @@
 
                 </p:dataTable>
                 <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniazakupy}" var="itemik" 
-                             selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" 
+                             selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 700px;"
                              >
                     <f:facet name="header">
                         <h:outputText value="zestawienie ewidencji vat - koszty"/>

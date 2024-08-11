@@ -14,28 +14,34 @@
                 $(document).on("keydown", TabKeyVat);
             </script>
             <bcf:ajaxs/>
-            <pe:layout fullPage="true" >
-                <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                <pe:layoutPane id="centralna" position="center" >
-                    <div id="ramki">
-                    </div>
-<!--                    <h:form>
-                        <p:growl life="3600"   ><p:autoUpdate/></p:growl>
-                    </h:form>-->
-                        <p:confirmDialog id="confirmationJPK" message="Usunąć wybrany JPK?"  appendTo="@(body)"
-                                             header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmationJPK">  
-                            <h:form>
+
+            <div class="flex flex-column" style="height: 100vh;"> <!-- Zastąpienie pe:layout -->
+                
+                <!-- North Pane -->
+                <div class="flex-none">
+                    <ui:include src="sub/layoutNowy/north.xhtml"/>  <!-- panel północny -->
+                </div>
+                
+                <!-- Center Pane -->
+                <div class="flex-grow-1 overflow-auto"> <!-- Zastąpienie pe:layoutPane position="center" -->
+                    <div id="ramki"></div>
+                    <p:confirmDialog id="confirmationJPK" message="Usunąć wybrany JPK?" appendTo="@(body)"
+                                     header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmationJPK">  
+                        <h:form>
                             <p:commandButton id="confirm" value="Tak, usunąć" update=":form_dialog_jpk_vat" oncomplete="PF('confirmationJPK').hide()"  
                                              actionListener="#{jpk_VAT2NView.usunUPO()}" global="false"/>  
                             <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" global="false" />   
-                            </h:form>
-                        </p:confirmDialog>  
-                    <p:hotkey bind="down" global="false"  handler="idz('D');" ignoreAutoUpdate="true"/>
-                    <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
+                        </h:form>
+                    </p:confirmDialog>  
+                    <h:form>
+                        <p:hotkey bind="down" global="false" handler="idz('D');" ignoreAutoUpdate="true"/>
+                        <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
+                    </h:form>
                     <ui:include src="sub/menu/menurejestry.xhtml"/>
-                    <p:growl widgetVar="grmes" />
+                    <p:growl widgetVar="grmes"/>
+                    
+                    <!-- Include various dialog panels -->
                     <ui:include src="sub/dialog/dialog_ewidencjevat.xhtml"/>
-<!--                    <ui:include src="sub/dialog/dialog_ewidencjevat_sprawdzanie.xhtml"/>chodzilo o edycje dok to juz jest w samych ewidencjach-->
                     <ui:include src="sub/dialog/dialog_ewvat_dedra.xhtml"/>
                     <ui:include src="sub/dialog/dialog_jpk_vat.xhtml"/>
                     <ui:include src="sub/dialog/dialog_jpk_vat_pozycje.xhtml"/>
@@ -46,9 +52,6 @@
                     <ui:include src="sub/dialog/dialog_deklaracje_vatue_status.xhtml"/>
                     <ui:include src="sub/dialog/dialog_deklaracje_vatoss_status.xhtml"/>
                     <ui:include src="sub/dialog/dialog_deklaracje_vat27.xhtml"/>
-
-                    
-<!--                    edycjadok-->
                     <ui:include src="sub/dialog/dialog_wpisywanie_czydodackonto.xhtml"/>
                     <ui:include src="sub/dialog/dialog_delegacje_stworz.xhtml"/>
                     <ui:include src="sub/dialog/dialog_wpisywanie.xhtml"/>
@@ -62,11 +65,16 @@
                     <ui:include src="sub/dialog/dialog_cecha_stronawiersza.xhtml"/>
                     <ui:include src="sub/dialog/dialog_wpisywanie_znajdzkontrahenta.xhtml"/>
                     <ui:include src="sub/dialog/dialog_kurs_recznie_wpis.xhtml"/>
-                    
                     <ui:include src="sub/dialog/dialog_kalkulator.xhtml"/>
-<!--                    edycjadok-->
-                </pe:layoutPane><ui:include src="sub/layout/south.xhtml"/> 
-            </pe:layout>
+                </div>
+                
+                <!-- South Pane -->
+                <div class="flex-none">
+                    <ui:include src="sub/layoutNowy/south.xhtml"/> <!-- panel południowy -->
+                </div>
+                
+            </div>
+            
         </ui:define>
     </ui:composition>
 </html>

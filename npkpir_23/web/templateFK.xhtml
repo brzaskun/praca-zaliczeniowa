@@ -8,10 +8,10 @@
     <f:view locale="#{localeChanger.locale}">
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<!--            <meta http-equiv="Pragma" content="no-cache"/>-->
+            <!--            <meta http-equiv="Pragma" content="no-cache"/>-->
             <meta http-equiv="Accept-Encoding" content="gzip"/>
-<!--            <meta http-equiv="Expires" content="0" />-->
-<!--            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>-->
+            <!--            <meta http-equiv="Expires" content="0" />-->
+            <!--            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>-->
             <title><ui:insert name="title">Default Title</ui:insert></title>
             <h:outputStylesheet id="template" name="#{CSSView.css}"/>
             <h:outputStylesheet library="css" name="stylefk.css"/>
@@ -49,16 +49,16 @@
             <h:outputScript name="jsf.js" library="javax.faces" target="head" />
             <h:outputStylesheet library="webjars" name="font-awesome/6.5.2/css/all.min-jsf.css" />
             <h:outputStylesheet library="webjars" name="font-awesome/6.5.2/css/v4-shims.min-jsf.css" />
-<!--            <script type="text/javascript">
-                function handleMessage(facesmessage) {
-                    try {
-                        facesmessage.severity = 'warn';
-                        PF('messageslogout').show([facesmessage]);
-                    } catch (e) {
-
-                    }
-                }
-            </script>-->
+            <!--            <script type="text/javascript">
+                            function handleMessage(facesmessage) {
+                                try {
+                                    facesmessage.severity = 'warn';
+                                    PF('messageslogout').show([facesmessage]);
+                                } catch (e) {
+            
+                                }
+                            }
+                        </script>-->
         </h:head>
         <!-- Ostrzezenie dla uzytkownikow korzystajacych z IE 7 -->
         <!--[if lte IE 7]>
@@ -72,20 +72,22 @@
          </div>
     <![endif]-->
         <h:body>
-<!--            <p:growl  id="messageslogout" showDetail="true" sticky="true" widgetVar="messageslogout"/>-->
-<!--            <p:socket onMessage="handleMessage" channel="/notify" />-->
-<!--            <p:socket onMessage="handleMessage" channel="/ksiegowa" rendered="#{request.isUserInRole('Bookkeeper') or request.isUserInRole('BookkeeperFK')}"/>-->
+            <!--            <p:growl  id="messageslogout" showDetail="true" sticky="true" widgetVar="messageslogout"/>-->
+            <!--            <p:socket onMessage="handleMessage" channel="/notify" />-->
+            <!--            <p:socket onMessage="handleMessage" channel="/ksiegowa" rendered="#{request.isUserInRole('Bookkeeper') or request.isUserInRole('BookkeeperFK')}"/>-->
             <p:idleMonitor timeout="2400000">  
                 <p:ajax event="idle" listener="#{logowanie.logout()}" />  
             </p:idleMonitor>
-<!--            <p:outputPanel style="margin-left: auto; margin-right: auto; margin-top: 300px; text-align: center;">
-                <h:outputText value="trwa ładowanie strony" style="color: blue; font-size: larger;  font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;"/>
-                <br/>
-                <p:graphicImage value="/resources/images/template-loader.gif" style="margin-top: 30px;"/>
-            </p:outputPanel>-->  <p:confirmPopup global="true">
-                <p:commandButton value="Nie" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
-                <p:commandButton value="Tak" type="button" styleClass="ui-confirm-popup-yes" />
-            </p:confirmPopup>
+            <h:form id="formconfirmglobal">
+                <!--            <p:outputPanel style="margin-left: auto; margin-right: auto; margin-top: 300px; text-align: center;">
+                                <h:outputText value="trwa ładowanie strony" style="color: blue; font-size: larger;  font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;"/>
+                                <br/>
+                                <p:graphicImage value="/resources/images/template-loader.gif" style="margin-top: 30px;"/>
+                            </p:outputPanel>-->  <p:confirmPopup global="true">
+                    <p:commandButton value="Nie" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                    <p:commandButton value="Tak" type="button" styleClass="ui-confirm-popup-yes" />
+                </p:confirmPopup>
+            </h:form>
             <ui:insert name="body" > 
             </ui:insert>
         </h:body>

@@ -465,70 +465,74 @@ public class Data implements Serializable {
     //grp 04.08.2024
     public static boolean czydatajestwkwartale(String data, String rok, String mc) {
         boolean zwrot = false;
-        try {
-            LocalDate date = LocalDate.parse(data, DateTimeFormatter.ISO_DATE);
-            int year = date.getYear();
-            int month = date.getMonthValue();
+        if (data!=null) {
+            try {
+                LocalDate date = LocalDate.parse(data, DateTimeFormatter.ISO_DATE);
+                int year = date.getYear();
+                int month = date.getMonthValue();
 
-            int monthInput = Integer.parseInt(mc);
-            int kwartal;
+                int monthInput = Integer.parseInt(mc);
+                int kwartal;
 
-            if (monthInput >= 1 && monthInput <= 3) {
-                kwartal = 1;
-            } else if (monthInput >= 4 && monthInput <= 6) {
-                kwartal = 2;
-            } else if (monthInput >= 7 && monthInput <= 9) {
-                kwartal = 3;
-            } else if (monthInput >= 10 && monthInput <= 12) {
-                kwartal = 4;
-            } else {
-                throw new IllegalArgumentException("Invalid month: " + mc);
-            }
-
-            if (String.valueOf(year).equals(rok)) {
-                switch (kwartal) {
-                    case 1:
-                        if (month >= 1 && month <= 3) {
-                            zwrot = true;
-                        }
-                        break;
-                    case 2:
-                        if (month >= 4 && month <= 6) {
-                            zwrot = true;
-                        }
-                        break;
-                    case 3:
-                        if (month >= 7 && month <= 9) {
-                            zwrot = true;
-                        }
-                        break;
-                    case 4:
-                        if (month >= 10 && month <= 12) {
-                            zwrot = true;
-                        }
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Invalid quarter: " + kwartal);
+                if (monthInput >= 1 && monthInput <= 3) {
+                    kwartal = 1;
+                } else if (monthInput >= 4 && monthInput <= 6) {
+                    kwartal = 2;
+                } else if (monthInput >= 7 && monthInput <= 9) {
+                    kwartal = 3;
+                } else if (monthInput >= 10 && monthInput <= 12) {
+                    kwartal = 4;
+                } else {
+                    throw new IllegalArgumentException("Invalid month: " + mc);
                 }
+
+                if (String.valueOf(year).equals(rok)) {
+                    switch (kwartal) {
+                        case 1:
+                            if (month >= 1 && month <= 3) {
+                                zwrot = true;
+                            }
+                            break;
+                        case 2:
+                            if (month >= 4 && month <= 6) {
+                                zwrot = true;
+                            }
+                            break;
+                        case 3:
+                            if (month >= 7 && month <= 9) {
+                                zwrot = true;
+                            }
+                            break;
+                        case 4:
+                            if (month >= 10 && month <= 12) {
+                                zwrot = true;
+                            }
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Invalid quarter: " + kwartal);
+                    }
+                }
+            } catch (DateTimeParseException e) {
+                // Handle the exception if needed
+                System.err.println("Invalid date format: " + data);
+            } catch (Exception e) {
+                // Handle other exceptions if needed
+                e.printStackTrace();
             }
-        } catch (DateTimeParseException e) {
-            // Handle the exception if needed
-            System.err.println("Invalid date format: " + data);
-        } catch (Exception e) {
-            // Handle other exceptions if needed
-            e.printStackTrace();
         }
         return zwrot;
     }
      public static boolean czydatajestwmcu(String data, String rok, String mc) {
         boolean zwrot = false;
-        try {
-            String rokdaty = pobierzrok(data);
-            String mcdaty = pobierzmc(data);
-            if (rok.equals(rokdaty) && mc.equals(mcdaty)) {
-                zwrot = true;
-            }
-        } catch (Exception e) {}
+        if (data!=null) {
+            try {
+                String rokdaty = pobierzrok(data);
+                String mcdaty = pobierzmc(data);
+                if (rok.equals(rokdaty) && mc.equals(mcdaty)) {
+                    zwrot = true;
+                }
+            } catch (Exception e) {}
+        }
         return zwrot;
      }
 

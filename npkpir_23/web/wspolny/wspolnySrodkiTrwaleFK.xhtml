@@ -10,8 +10,20 @@
         </ui:define>
         <ui:define name="body">
             <bcf:ajaxs/>
-            <f:view>
-                <h:form>
+             <div class="flex flex-column" style="height: 100vh;"> <!-- Zastąpienie pe:layout -->
+                
+                <!-- North Pane -->
+                <div class="flex-none">
+                    <ui:include src="../ksiegowaFK/sub/layoutNowy/north.xhtml"/>  <!-- panel północny -->
+                </div>
+                
+                <!-- Center Pane -->
+                <div class="flex-grow-1 overflow-auto"> <!-- Zastąpienie pe:layoutPane position="center" -->
+                    <div id="ramki"></div>
+                     <h:form>
+                        <p:growl life="3600"  ><p:autoUpdate/></p:growl>
+                    </h:form>
+                     <h:form>
                     <p:growl life="3600"  id="fifi"/>
                     <p:dialog id="confirmDialog" header="Usunąć wybrany środek trwały?"  resizable="false" closable="false"
                                       widgetVar="confirmation">  
@@ -26,10 +38,7 @@
                         </p:panelGrid>
                     </p:dialog>  
                 </h:form>
-                <pe:layout fullPage="true" >
-                    <ui:include src="../ksiegowaFK/sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                    <pe:layoutPane position="center">
-                        <ui:include src="sub/menu/menu_srodkitrwale.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
+                   <ui:include src="sub/menu/menu_srodkitrwale.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
                         <ui:include src="sub/dialogi/dialog_srodkitrwalefk_zestawienie.xhtml"/>
                         <ui:include src="sub/dialogi/dialog_srodkitrwale_dodawanie.xhtml"/>
                         <ui:include src="sub/dialogi/dialog_srodkitrwale_zmianawartosci.xhtml"/>
@@ -38,9 +47,15 @@
                         <ui:include src="sub/dialogi/dialog_srodkitrwalefk_wyposazenie.xhtml"/>
                         <ui:include src="sub/dialogi/dialog_srodkitrwalefk_inwestycja.xhtml"/>
                         <ui:include src="sub/dialogi/dialog_srodkitrwalefk_konta.xhtml"/>
-                    </pe:layoutPane>
-                </pe:layout>
-            </f:view>
+
+                </div>
+                
+                <!-- South Pane -->
+                <div class="flex-none">
+                    <ui:include src="../ksiegowaFK/sub/layoutNowy/south.xhtml"/> <!-- panel południowy -->
+                </div>
+                
+            </div>
         </ui:define>
     </ui:composition>
 </html>
