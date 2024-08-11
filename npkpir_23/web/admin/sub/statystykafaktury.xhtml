@@ -7,8 +7,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
-
-    <p:dataTable lazy="false"  value="#{statystykaFakturyView.lista}" var="item" id="datatable" style="width: 1200px; padding: 10px;"
+    <h:form id="statystykafaktury">
+    <p:dataTable lazy="false"  value="#{statystykaFakturyView.lista}" var="item" id="datatable" style="max-width: 1200px; padding: 10px;max-height: 800px;overflow-y: scroll;"
                  sortBy="#{item.podatnik.printnazwa}"  rowIndexVar="index" selectionMode="single"
                  rowKey="#{item.id}">
         <p:column style="width: 20px;" sortBy="#{item.id}">
@@ -96,4 +96,5 @@
             <bcf:outputpl value="#{item.statFaktRok.get('2016').srednia}"/>
         </p:column>
     </p:dataTable>
+        </h:form>
 </ui:composition>   
