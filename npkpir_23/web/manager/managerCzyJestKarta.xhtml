@@ -9,25 +9,36 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <bcf:ajaxs/>    
-                <f:view>
-                    <pe:layout fullPage="true" >
-<!--                       
--->                         <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                            <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
-                            <ui:include src="sub/layout/west.xhtml"/>   <!-- panel zachodni-->
-                             <ui:include src="sub/layout/east.xhtml"/>   <!-- panel zachodni-->
-                        <pe:layoutPane position="center">
-                        <ui:include src="sub/czyjestkarta.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-<!--                        <ui:include src="/sub/kalendarz.xhtml"/>
-                        <ui:include src="/sub/dialog_sprawy.xhtml"/>
-                        <ui:include src="/sub/dialog_nowasprawa.xhtml"/> -->
-                           
-                        </pe:layoutPane>
-                                
-                    </pe:layout>
-                </f:view>
-            
+
+              <bcf:ajaxs/>
+
+             <f:view>
+                <div class="flex flex-column min-h-screen">
+                    <!-- panel północny -->
+                    <div class="col-12">
+                        <ui:include src="sub/layoutNowy/north.xhtml"/>
+                    </div>
+
+                    <!-- główna zawartość strony -->
+                    <div class="flex-grow-1 grid grid-nogutter">
+                        <!-- panel zachodni -->
+                        <div class="col-12 md:col-3 lg:col-2"  style="max-width: 220px;">
+                            <ui:include src="sub/layoutNowy/west.xhtml"/>
+                        </div>
+
+                        <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex flex-column">
+                     <ui:include src="sub/menu_wiad.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
+                        <ui:include src="sub/czyjestkarta.xhtml"/>     <!-- właściwa tablica z danymi z księgi-->
+                        </div>
+                    </div>
+
+                   <!-- panel południowy (footer) -->
+                    <div class="col-12">
+                         <ui:include src="sub/layoutNowy/south.xhtml"/>
+                    </div>
+                </div>
+             </f:view>
         </ui:define>
     </ui:composition>
 </html>

@@ -21,6 +21,7 @@
             <!--    panel wpisywania osoby fizycznej-->
             <p:panel header="Wykaz nowych podmiotów do uzupełnienia" style="width: 500px;"/>
             <h:selectOneListbox id="podatnikWpisu" value="#{podatnikView.selectedDodedycja}" style="width: 350px; height: 150px;" converter="#{podatConv}" >
+                  <f:selectItem itemLabel="wybierz podatnika" noSelectionOption="true"/>
               <f:selectItems value="#{podatnikWyborView.listaPodatnikowNowi}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>
                 <p:ajax event="change"  update=":formdod2" global="false" listener="#{podatnikView.skopiujdoedycji}"/>
             </h:selectOneListbox>

@@ -18,7 +18,7 @@
         <p:commandButton value="drukuj" actionListener="#{podatnicyView.drukujwszystkich}" style="width: 120px; margin: 10px;"/>
     <p:dataTable lazy="false"  value="#{podatnicyView.podatnicy}" var="podatnik" sortBy="#{podatnik.printnazwa}" rowIndexVar="index" style="width: 1880px;"
                  rowKey="#{podatnik.id}" rowSelectMode="add"
-                 paginator="true" paginatorAlwaysVisible="true" rows="24"
+                 paginator="true" paginatorAlwaysVisible="true" rows="20"
                 paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                  selection="#{podatnicyView.wybranipodatnicy}">
         <f:facet name="header">

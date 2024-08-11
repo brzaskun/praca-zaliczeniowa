@@ -23,8 +23,8 @@
         <p:separator />
         <p:panelGrid columns="2" >
             <h:outputText value="Raport z badania karty"/><h:outputText value=""/>
-<!--            <h:outputText value="czy jest czytnik?"/><h:outputText value="#{czyJestKartaView.czyjestczytnik eq 'tak' ?'TAK':'Nie znaleziono czytnika'}" style="#{czyJestKartaView.czyjestczytnik eq 'tak' ?'color:green':null}"/>-->
-            <h:outputText value="czy jest karta"/><h:outputText value="#{czyJestKartaView.czyjestkarta eq 'tak' ?'TAK':'Nie znaleziono karty'}" style="#{czyJestKartaView.czyjestkarta eq 'tak' ?'color:green':null}"/>
+<!--            <h:outputText value="czy jest czytnik?"/><h:outputText value="#{czyJestKartaView.czyjestczytnik eq 'tak' ?'TAK':'Nie znaleziono czytnika'}" style="#{czyJestKartaView.czyjestczytnik eq 'tak' ?'color:green':'color:red'}"/>-->
+            <h:outputText value="czy jest karta"/><h:outputText value="#{czyJestKartaView.czyjestkarta eq 'tak' ?'TAK':'Nie znaleziono karty w czytniku'}" style="#{czyJestKartaView.czyjestkarta eq 'tak' ?'color:green':'color:red'}"/>
             <h:outputText value="czy wpisano dobre hasło"/><h:outputText value="#{czyJestKartaView.czydobrehaslo eq 'tak' ?'TAK':'UWAGA! Wprowadzono błędne hało. Niebezpieczęństwo zablokowania karty!'}" style="#{czyJestKartaView.czydobrehaslo eq 'tak' ?'color:green':null}" rendered="#{czyJestKartaView.czyjestkarta eq 'tak'}"/> <h:outputText value="" rendered="#{czyJestKartaView.czyjestkarta ne 'tak'}"/>
             <h:outputText value="czy jest aktualny certyfikat"/><h:outputText value="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'TAK':'Nie znaleziono na serwerze certyfikatu dla podanego nr PESEL'}" style="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'color:green':null}" rendered="#{czyJestKartaView.czyjestkarta eq 'tak'}"/> <h:outputText value="" rendered="#{czyJestKartaView.czyjestkarta ne 'tak'}"/>
             <h:outputText value="certyfikat wygasa za dni"/><h:outputText value="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?czyJestKartaView.certyfikatdo:''}" style="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'color:green':null}"/>
