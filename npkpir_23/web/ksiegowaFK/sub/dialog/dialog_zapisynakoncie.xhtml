@@ -39,10 +39,13 @@
               >
         <p:ajax event="open" global="true" listener="#{kontoZapisFKView.init()}" oncomplete="$(document.getElementById('formwpiskonta:wyborkonta_input')).focus();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();" 
                 update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta walutazapisynakoncie formwpiskontarok"/>
-        <pe:layout fullPage="false" style="height: 720px;width: 820px;" >  
-            <pe:layoutPane position="north">
-                <p:panelGrid columns="4" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
+        <!-- Zmieniony layout na PrimeFlex -->
+       <!-- Zmieniony layout na PrimeFlex -->
+        <div class="flex flex-col md:flex-row gap-2">
+            <div class="w-full md:w-1/3 p-2">
+                <div class="grid grid-cols-1 gap-2">
                     <h:form id="formwpiskonta">
+
                         <h:outputText value="#{mgs.wybierzkonto}: "/>
                         <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.wybranekonto}" completeMethod="#{kontoZapisFKView.complete}" widgetVar="zapisynakonciewybor"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" forceSelection="true"
@@ -54,8 +57,7 @@
                             <p:ajax event="itemSelect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskontarok" 
                                     oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" global="false"/>
                         </p:autoComplete>
-<!--                        <h:outputText value=" #{mgs.wybranekonto}:"/>
-                        <h:outputText id="nazwawybranegokonta" value=" #{kontoZapisFKView.wybranekonto.nazwapelna}" style="font-weight: 900;" />-->
+
                     </h:form>
                     <h:form  id="formwpiskontarok">
                         <p:panelGrid columns="2" style="width: 180px;">
@@ -130,17 +132,14 @@
                                              update="tabelazzapisami, :tabelazsumami:sumy" />
                         </p:panelGrid>
                     </h:form>
-                </p:panelGrid>
-                <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia"  style="display: none;"/>
-            </pe:layoutPane>  
-            <!--            lewa strona z drzewem kont-->
-            <pe:layoutPane id="westtree" position="west" size="520" >
-                <p:panelGrid columns="2" >
-<!--                    <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form:dataList_data');" global="false" style="float: left;" />
-                    <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form:dataList_data');"  global="false" style="float: left;" />-->
-<!--                    <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
-                    <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />-->
-                </p:panelGrid>
+                             <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia"  style="display: none;"/>
+           </div>
+
+            <!-- Sekcja dla westtree i centertree obok siebie -->
+            <div class="flex flex-row gap-4">
+                <!-- westtree -->
+                <div id="westtree" class="flex-none w-1/3 p-2">
+
                 <h:form id="form">
                    
                     <p:remoteCommand name="reversetoggle" actionListener="#{kontoZapisFKView.reversetoggle}" 
@@ -184,7 +183,7 @@
                         </style>
                         <p:dataTable id="dataList" value="#{kontoZapisFKView.wykazkont}" var="loop1" selectionMode="single" 
                                      selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
-                                     style="width: 100%; height: 500px; overflow-y: scroll;" 
+                                     style="width: 500px; height: 650px; overflow-y: scroll;" 
                                      rowIndexVar="wykazkontindex" styleClass="walkingtable"
                                        emptyMessage="Nie ma żadnych księgowac na kontach w wybranym okresie.">
                             <p:ajax event="rowSelect"  update="tabelazzapisami:tabela tabelazsumami:sumy formwpiskonta:wyborkonta" 
@@ -227,10 +226,11 @@
                         <p:menuitem icon="fa fa-trash" value="usuń zapisy" actionListener="#{dokfkView.usunzapisy(kontoZapisFKView.wybranekonto, kontoZapisFKView.kontozapisy)}"   global="false" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                     </p:contextMenu>
                     </p:outputPanel>
-                </h:form>
-            </pe:layoutPane>  
+                     </h:form>
+           </div>
 
-            <pe:layoutPane id="centertree" position="center" >
+                <!-- centertree -->
+                <div id="centertree" class="flex-grow p-2">
                 <style>
                     .grid1 td {
                         height: 35px !important;
@@ -272,7 +272,7 @@
 
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
-                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}"  style="width: 100%;"
+                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}"  style="width: 100%;height: 650px;overflow-y: scroll;"
                                   emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="walkingtable" rowSelectMode="add" widgetVar="tabelastronyzapisy"
                                  rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{kontoZapisFKView.kontozapisy.size() gt 150 ? 'true':'false'}" rows="150"
@@ -454,9 +454,11 @@
                         <p:menuitem value="rok zamknięty nie można nanosić zmian" />
                     </p:contextMenu>
                 </h:form>  
-            </pe:layoutPane> 
-            <pe:layoutPane position="south" >
+        </div>
+            </div>
 
+            <!-- Sekcja dla tabeli sum na dole -->
+            <div class="w-full p-2">
                 <p:panelGrid columns="3">
                     <h:form>
                         <p:panelGrid columns="2">
@@ -537,8 +539,8 @@
                         </p:dataTable>
                     </h:form>
                 </p:panelGrid>
-            </pe:layoutPane>  
-        </pe:layout>
+              </div>
+            </div>
         <h:form id="zestawieniezapisownakontachpola1">
             <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
         </h:form>
@@ -547,6 +549,7 @@
              <p:messages  id="messages"><p:autoUpdate/></p:messages>
         </p:panelGrid>
         </h:form>
+        </div>
     </p:dialog>
 </ui:composition>
 
