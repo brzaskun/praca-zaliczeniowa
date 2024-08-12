@@ -1,0 +1,45 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    >
+    <h:form id="form">
+    <p:outputPanel>
+        <p:panelGrid columns="1">
+        <p:inputText size="50" value="#{fakturaslownikView.selected.opis}"/>
+        <p:commandButton value="dodaj" style="width: 120px;margin-top: 10px;" update="form" actionListener="#{fakturaslownikView.dodaj()}"/>
+        </p:panelGrid>
+    </p:outputPanel>
+    <p:outputPanel>
+        <p:dataTable lazy="false"  value="#{fakturaslownikView.lista}" var="item" style="width: 600px; margin-top: 2%;" id="dokLista"
+                     rowIndexVar="index" rowKey="#{item.id}"
+                         widgetVar="table" emptyMessage="Nie wprowadzono jeszcze żadnych opisów" filterDelay="600"
+                         paginator="true" rows="12" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                         rowsPerPageTemplate="12,16,20,50" 
+                         >
+                 <f:facet name="header">
+                    <h:outputText value="Lista pozycji do faktury"/><br/>
+                </f:facet>
+                <p:column width="20">
+                    <f:facet name="header">
+                        <h:outputText value="#{mgs.numerkolejny}"/>
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column width="200">
+                    <f:facet name="header">
+                        <h:outputText value="opis pozycji"/>
+                    </f:facet>
+                    <h:outputText value="#{item.opis}"/>
+                </p:column>
+                 <p:column id="deleteColumn" width="35">
+                    <p:commandButton actionListener="#{fakturaslownikView.destroy(item)}" icon="ui-icon ui-icon-trash" update="form:dokLista"/>
+                 </p:column>
+        </p:dataTable>
+    </p:outputPanel>
+</h:form>
+</ui:composition>   
+

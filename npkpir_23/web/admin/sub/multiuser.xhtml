@@ -13,8 +13,8 @@
             <p:dataTable lazy="false"  value="#{multiuserView.listamutliuserow}" var="item" style="width: 500px; padding: 10px;"
                          selection="#{multiuserView.selected}" selectionMode="single" sortMode="#{item.login}"
                          rowKey="#{item.login}">
-                <p:ajax event="rowSelect" listener="#{multiuserView.pokazpodpietefirmy}" update=":multiuserdodaj, :firmyniepodpiete"/>
-                <p:ajax event="rowUnselect" listener="#{multiuserView.pokazpodpietefirmy}" update=":multiuserdodaj, :firmyniepodpiete"/>
+                <p:ajax event="rowSelect" listener="#{multiuserView.pokazpodpietefirmy()}" update=":multiuserdodaj, :firmyniepodpiete"/>
+                <p:ajax event="rowUnselect" listener="#{multiuserView.pokazpodpietefirmy()}" update=":multiuserdodaj, :firmyniepodpiete"/>
                 <f:facet name="header">
                     <h:outputText value="Wykaz multiuserów"/>
                 </f:facet>

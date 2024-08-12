@@ -606,6 +606,8 @@ public class WpisView implements Serializable {
             } else {
                 return "/ksiegowa/ksiegowaTablica.xhtml?faces-redirect=true";
             }
+        } else if(request.isUserInRole("MultiuserFaktury")){
+            return "/guestFakturaApple/guestFakturaTablica.xhtml?faces-redirect=true";
         } else {
             rodzajopodatkowania = zwrocFormaOpodatkowania(rokWpisuSt).getFormaopodatkowania();
             if (rodzajopodatkowania.contains("księgi rachunkowe")) {
@@ -614,6 +616,8 @@ public class WpisView implements Serializable {
                 return "/guest/guestPodatki.xhtml?faces-redirect=true";
             }
         }
+        
+
     }
     
     private void ustawMceOdDo() {

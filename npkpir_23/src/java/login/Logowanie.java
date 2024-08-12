@@ -114,7 +114,9 @@ public class Logowanie implements Serializable {
                     navto = "Multiuser";
                 } else if (request.isUserInRole("MultiuserBook")) {
                     navto = "MultiuserBook";
-                } else if (request.isUserInRole("Guest")) {
+                } else if (request.isUserInRole("MultiuserFaktury")) {
+                    navto = "MultiuserFaktury";
+                }else if (request.isUserInRole("Guest")) {
                     String nip = uzDAO.findUzByLogin(uzytkownik).getFirma();
                     Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
                     if (p == null) {

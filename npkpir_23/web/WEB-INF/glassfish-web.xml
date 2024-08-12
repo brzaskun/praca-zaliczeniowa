@@ -76,6 +76,11 @@
     <principal-name>MultiuserBook</principal-name>
     <group-name>MultiuserBook</group-name>
   </security-role-mapping>
+   <security-role-mapping>
+    <role-name>MultiuserFaktury</role-name>
+    <principal-name>MultiuserFaktury</principal-name>
+    <group-name>MultiuserFaktury</group-name>
+  </security-role-mapping>
   <class-loader delegate="false"/>
   <!--    <jsp-config>
     <property name="keepgenerated" value="true">

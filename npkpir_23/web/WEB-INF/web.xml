@@ -155,6 +155,9 @@
         <role-name>MultiuserBook</role-name>
     </security-role>
     <security-role>
+        <role-name>MultiuserFaktury</role-name>
+    </security-role>
+    <security-role>
         <role-name>Dedra</role-name>
     </security-role>
     <security-role>
@@ -264,6 +267,15 @@
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
+            <web-resource-name>GuestFakturaApple Area</web-resource-name>
+            <url-pattern>/guestFakturaApple/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>MultiuserFaktury</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
             <web-resource-name>GuestFK Area</web-resource-name>
             <url-pattern>/guestFK/*</url-pattern>
         </web-resource-collection>
@@ -313,6 +325,7 @@
             <role-name>BookkeeperFK</role-name>
             <role-name>Multiuser</role-name>
             <role-name>MultiuserBook</role-name>
+            <role-name>MultiuserFaktury</role-name>
             <role-name>Stowarzyszenie</role-name>
         </auth-constraint>
     </security-constraint>

@@ -1,0 +1,20 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    
+     <h:form id="form_southpane" class="form_southpane">
+            <p:panelGrid columns="2">
+                <h:outputText value="#{WpisView.podatnikObiekt.printnazwa}" style="font-weight: 900; font-size: xx-large"/>
+                <h:outputText value="#{WpisView.okreswpisuString}" style="font-weight: 900; font-size: xx-large; margin-left:20px;"/>
+            </p:panelGrid>
+        </h:form>
+ 
+</ui:composition>   
+

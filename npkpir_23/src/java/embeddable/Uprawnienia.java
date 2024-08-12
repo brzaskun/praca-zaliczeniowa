@@ -34,6 +34,7 @@ public class Uprawnienia implements Serializable{
         listaUprawnien.add("HumanResources");
         listaUprawnien.add("Manager");
         listaUprawnien.add("Multiuser");
+        listaUprawnien.add("MultiuserFaktury");
         listaUprawnien.add("MultiuserBook");
         listaUprawnien.add("Stowarzyszenie");
         listaUprawnien.add("ZUS");
