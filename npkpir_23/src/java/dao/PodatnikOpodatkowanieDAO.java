@@ -7,6 +7,7 @@ package dao;
 
 import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -62,7 +63,7 @@ public class PodatnikOpodatkowanieDAO extends DAO implements Serializable{
         try {
             zwrot = (PodatnikOpodatkowanieD) sessionFacade.getEntityManager().createNamedQuery("PodatnikOpodatkowanieD.findBypodatnikRok").setParameter("podatnik", p).setParameter("rok", rok).getSingleResult();
         } catch(Exception e) {
-            
+            E.m(e);
         }
         return zwrot;
     }
