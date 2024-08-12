@@ -1425,7 +1425,7 @@ public class KontoZapisFKView implements Serializable{
                         doprzeksiegowania = wybranezapisydosumowania;
                     }
                     Msg.msg("Przeksięgowuję pozycje przefiltrowane");
-                } else  if ((wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty())) {
+                } else  if ((wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty()==false)) {
                     doprzeksiegowania = wybranezapisydosumowania;
                     Msg.msg("e", "Nie wybrano pozycji do przeksięgowania. Nie można wykonać przeksięgowania");
                     return;
