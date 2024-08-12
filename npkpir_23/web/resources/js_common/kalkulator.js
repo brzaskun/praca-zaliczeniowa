@@ -168,7 +168,10 @@ var kalkulator_reset = function() {
 
 var kalkulator_close = function() {
     PF('dialog_kalkulator').hide();
-    $(MYAPP.kalkulator_cel).val(parseFloat(MYAPP.kalkulator_suma).toFixed(2));
+    // Oblicz wyliczoną kwotę i zamień kropkę na przecinek chat
+    var wyliczonakwota = parseFloat(MYAPP.kalkulator_suma).toFixed(2);
+    var wyliczonakwotastring = wyliczonakwota.replace('.', ',');
+    $(MYAPP.kalkulator_cel).val(wyliczonakwota);
     var pole1 = $(MYAPP.kalkulator_cel).next();
     pole1.val(parseFloat(MYAPP.kalkulator_suma).toFixed(2));
     $(MYAPP.kalkulator_cel).click();
@@ -181,7 +184,7 @@ var kalkulator_close = function() {
     $(MYAPP.kalkulator_cel).select();
     kalkulator_reset();
     var adresdocelowy = "parametrykalkulator:aktualnaswkalkulator";
-    $(adresdocelowy).val(parseFloat(MYAPP.kalkulator_suma).toFixed(2));
+    $(adresdocelowy).val(wyliczonakwotastring);
     var hiddenInput2 = document.getElementById(MYAPP.kalkulator_cel.id);
     var event2 = new Event('change');
     hiddenInput2.dispatchEvent(event2);

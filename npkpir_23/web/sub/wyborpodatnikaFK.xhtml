@@ -8,7 +8,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <h:form id="westIndex">
-        <p:focus id="focus" context="panelwyboru"/>
+        
         <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 600px; margin-left: auto; margin-right: auto;">
             <f:facet name="header">
                 <h:outputText value="#{mgs['guest.mcrok.header']}" style="display: block; text-align: center"/>
@@ -20,6 +20,7 @@
         </p:dataTable>-->
             <br/>
             <p:panelGrid columns="1"  >
+                <p:focus id="focus" context="podatnikWpisu"/>
                 <p:column >
                     <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 572px;" scrollHeight="300" converter="#{podatConv}" filter="true" filterMatchMode="contains" >
                         <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>

@@ -16,7 +16,7 @@
           </p:panel>
     </div>
     <div id="panelwyboru" class="flex align-items-center justify-content-center font-bold border-round m-2 ">
-
+        <p:focus for="podatnikWpisu"/>
         <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="min-width: 100px;max-width: 450px;"  
                             styleClass="w-screen flex-column align-items-center justify-content-center"  scrollHeight="300" converter="#{podatConv}" filter="true" filterMatchMode="contains">
             <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>

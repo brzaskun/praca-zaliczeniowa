@@ -6,7 +6,7 @@
 
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
-
+<!--
     <p:dialog id="dialog_kalkulator" header="kalkulator" widgetVar="dialog_kalkulator" 
               appendTo="@(body)"
               resizable="false" onShow="ustawdialogCenter('dialog_kalkulator','dodWiad:tabelapkpir', 195, 230);" closeOnEscape="true" onHide="resetujdialog('dialog_kalkulator');"  >
@@ -30,5 +30,33 @@
                 </h:outputText>
             </p:outputPanel>
         </h:form>
-    </p:dialog>
+    </p:dialog>-->
+ <p:dialog id="dialog_kalkulator" header="kalkulator" widgetVar="dialog_kalkulator" 
+          appendTo="@(body)"
+          resizable="false" onShow="ustawdialogCenter('dialog_kalkulator','dodWiad:tabelapkpir', 320, 200);" closeOnEscape="true" onHide="resetujdialog('dialog_kalkulator');">
+    <p:ajax event="close" listener="#{kalkulatorPkpirBean.close()}" global="false"  update="formKalkulator"/>
+    
+    <div class="flex flex-column align-items-center justify-content-center h-full">
+        <div class="flex w-full p-3 align-items-center justify-content-center">
+            <h:form id="formKalkulator">
+                <h:outputLabel value="Wyrażenie:" />
+                <p:inputText value="#{kalkulatorPkpirBean.wyrazenie}" styleClass="flex w-full flex-grow1" size="40" autocomplete="false">
+                    <p:ajax event="keyup" partialSubmit="true" global="false" update="formkalkulatorWynik dodWiad:tabelapkpir"/>
+                </p:inputText>
+            </h:form>
+        </div>
+        <div class="flex w-full p-3 align-items-center justify-content-center">
+            <h:form id="formkalkulatorWynik">
+                <h:outputLabel value="Wynik:" />
+                <bcf:outputpl value="#{kalkulatorPkpirBean.wynik}" />
+            </h:form>
+        </div>
+        <div class="flex w-full p-3 align-items-center justify-content-center">
+            <h:form id="formkalkulatorbutton">
+                <p:commandButton id="kopiuj" value="kopiuj" styleClass="fkbutton" style="width: 120px;" global="false" type="button" onclick="PF('dialog_kalkulator').hide()" />
+            </h:form>
+        </div>
+    </div>
+</p:dialog>
+
 </ui:composition>

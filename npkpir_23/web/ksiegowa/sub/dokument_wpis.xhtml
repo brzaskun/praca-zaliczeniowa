@@ -238,6 +238,7 @@
                                        symbolPosition="s" signPosition="p" thousandSeparator="&#160;"  decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" onfocus="kalkulator_pobierzwiersz(this);dolaczwyliczenieKopiowanie(event);"
                                         > 
+                             <p:ajax event="focus" listener="#{kalkulatorPkpirBean.setKwotaKolumna1(row)}" global="false"/>
                             <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat}" global="false"
                                     update="dodWiad:panelewidencjivat, dodWiad:sumbrutto, dodWiad:dokumentprosty"/>
                             <p:ajax event="change" listener="#{DokumentView.skopiujwartosc(index)}" global="false" partialSubmit="true"/>
@@ -250,7 +251,7 @@
                                         styleClass="wiersznetto" thousandSeparator="&#160;" >
                             <p:ajax event="blur" listener="#{DokumentView.przewalutuj(index)}" global="false" partialSubmit="true"
                                     update="dodWiad:sumbrutto"/>
-                            <p:ajax event="change" listener="#{DokumentView.podepnijEwidencjeVat}" global="false"
+                            <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat}" global="false"
                                     update="dodWiad:panelewidencjivat dodWiad:sumbrutto dodWiad:dokumentprosty"/>
                         </p:inputNumber>
                     </p:column>
