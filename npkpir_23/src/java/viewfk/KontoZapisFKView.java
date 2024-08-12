@@ -1492,6 +1492,10 @@ public class KontoZapisFKView implements Serializable{
             if (p.getWierszbo()==null) {
                 if (p.getNowetransakcje().isEmpty() && p.getPlatnosci().isEmpty()) {
                     p.setKonto(kontodoprzeksiegowania);
+                } else if (p.getNowetransakcje().isEmpty()==false){
+                    p.setNowatransakcja(false);
+                    p.getNowetransakcje().clear();
+                    p.setKonto(kontodoprzeksiegowania);
                 } else {
                     rozrachunkowe++;
                 }
