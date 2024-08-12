@@ -1421,14 +1421,15 @@ public class KontoZapisFKView implements Serializable{
                 List<StronaWiersza> doprzeksiegowania = kontozapisy;
                 if (kontozapisyfiltered!=null&&kontozapisyfiltered.isEmpty()==false) {
                     doprzeksiegowania = kontozapisyfiltered;
-                    if ((wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty()==false)) {
+                    if ((wybranezapisydosumowania != null && wybranezapisydosumowania.isEmpty()==false)) {
                         doprzeksiegowania = wybranezapisydosumowania;
+                        Msg.msg("Przeksięgowuję pozycje wybrane po przefiltrowaniu");
+                    } else {
+                        Msg.msg("Przeksięgowuję pozycje przefiltrowane");
                     }
-                    Msg.msg("Przeksięgowuję pozycje przefiltrowane");
-                } else  if ((wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty()==false)) {
+                } else  if ((wybranezapisydosumowania != null && wybranezapisydosumowania.isEmpty()==false)) {
                     doprzeksiegowania = wybranezapisydosumowania;
-                    Msg.msg("e", "Nie wybrano pozycji do przeksięgowania. Nie można wykonać przeksięgowania");
-                    return;
+                    Msg.msg("Przeksięgowuję pozycje wybrane");
                 }
                 if (!wybranekonto.equals(kontodoprzeksiegowania) && wybranekonto.isMapotomkow() == true && wybranekonto.getIdslownika() == kontodoprzeksiegowania.getIdslownika()) {
                     przeksiegujslownikowe();
