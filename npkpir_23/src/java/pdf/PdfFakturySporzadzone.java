@@ -42,7 +42,7 @@ public class PdfFakturySporzadzone {
     public static void drukujzapisy(WpisView wpisView, List<Faktura> wybranefaktury) throws DocumentException, FileNotFoundException, IOException {
         try {
             Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 25);
-            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("fakturysporzadzone-" + wpisView.getPodatnikWpisu() + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("fakturysporzadzone-" + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
             int liczydlo = 1;
             PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
             writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
@@ -158,7 +158,7 @@ public class PdfFakturySporzadzone {
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
             document.add(table);
             document.close();
-            String funkcja = "wydrukfakturysporzadzone('" + wpisView.getPodatnikWpisu() + "');";
+            String funkcja = "wydrukfakturysporzadzone('" + wpisView.getPodatnikObiekt().getNip() + "');";
             PrimeFaces.current().executeScript(funkcja);
             Msg.msg("i", "Wydrukowano zestawienie wybranych faktur");
         } catch (Exception e) {

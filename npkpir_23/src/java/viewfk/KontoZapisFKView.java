@@ -1418,7 +1418,7 @@ public class KontoZapisFKView implements Serializable{
                     Msg.msg("e", "Konto źródłowe jest tożsame z docelowym, przerywam przeksięgowanie");
                     return;
                 }
-                List<StronaWiersza> doprzeksiegowania = new ArrayList<>();
+                List<StronaWiersza> doprzeksiegowania = kontozapisy;
                 if (kontozapisyfiltered!=null&&kontozapisyfiltered.isEmpty()==false) {
                     doprzeksiegowania = kontozapisyfiltered;
                     if ((wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty()==false)) {
