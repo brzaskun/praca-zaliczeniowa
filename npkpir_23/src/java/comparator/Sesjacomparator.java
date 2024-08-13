@@ -26,7 +26,11 @@ public class Sesjacomparator implements Comparator<Sesja> {
     public int compare(Sesja o1, Sesja o2) {
         Date datao1date = o1.getWylogowanie();
         Date datao2date = o2.getWylogowanie();
-        return (datao1date.before(datao2date) ? 1 : (datao1date.equals(datao2date) ? 0 : -1));
+        int zwrot = 0;
+        if (datao1date!=null&&datao2date!=null) {
+            zwrot = datao1date.before(datao2date) ? 1 : (datao1date.equals(datao2date) ? 0 : -1);
+        }
+        return zwrot;
     }
     
 }

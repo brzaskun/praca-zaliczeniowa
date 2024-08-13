@@ -394,7 +394,8 @@ public class WpisView implements Serializable {
                 biuroiszef = false;
                 boolean czyszef = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("szef");
                 boolean czyrenata = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("renata");
-                if (czyszef || czyrenata) {
+                boolean czywioleta = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("wdaniluk1");
+                if (czyszef || czyrenata || czywioleta) {
                     biuroiszef = true;
                 }
             } else {
