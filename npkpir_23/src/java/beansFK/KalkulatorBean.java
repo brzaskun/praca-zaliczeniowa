@@ -5,13 +5,16 @@
 package beansFK;
 
 import entityfk.StronaWiersza;
+import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
+import viewfk.DokfkView;
 
 /**
  *
@@ -25,6 +28,9 @@ public class KalkulatorBean implements Serializable {
     private String update;
     private double wynik;
     private StronaWiersza stronaWiersza;
+    
+    @Inject
+    private DokfkView dokfkView;
 
     // Gettery i settery
     public String getWyrazenie() {
@@ -162,6 +168,15 @@ public class KalkulatorBean implements Serializable {
     public void close() {
         int lpWierszaWpisywanie = stronaWiersza.getWiersz().getIdporzadkowy() - 1;
         String wnma = stronaWiersza.getWnma().toLowerCase();
+         Wiersz wiersz = dokfkView.getSelected().getListawierszy().get(lpWierszaWpisywanie);
+        if (dokfkView.getWierszzmieniony()==null && stronaWiersza.getKwota()!=0.0) {
+            dokfkView.setWierszzmieniony(wiersz);
+        }
+        // Stworzenie zdarzenia ValueChangeEvent z nową i starą wartością
+//        ValueChangeEvent valueChangeEvent = new ValueChangeEvent(inputComponent, starakwota, wynik);
+//        // Kolejkowanie zdarzenia
+//        inputComponent.queueEvent(valueChangeEvent);
+        stronaWiersza.setKwota(wynik);
         update = "formwpisdokument:dataList:"+lpWierszaWpisywanie+":"+wnma+"_input";
         String skrypt = "$(document.getElementById('"+update+"')).trigger('select')";
         PrimeFaces.current().executeScript(skrypt);

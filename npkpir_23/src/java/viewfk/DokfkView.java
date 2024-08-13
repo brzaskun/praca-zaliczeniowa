@@ -5088,6 +5088,14 @@ private StronaWiersza swwierszakalkulator;
         this.calyrokdokumenty = calyrokdokumenty;
     }
 
+    public Wiersz getWierszzmieniony() {
+        return wierszzmieniony;
+    }
+
+    public void setWierszzmieniony(Wiersz wierszzmieniony) {
+        this.wierszzmieniony = wierszzmieniony;
+    }
+
 
 
     

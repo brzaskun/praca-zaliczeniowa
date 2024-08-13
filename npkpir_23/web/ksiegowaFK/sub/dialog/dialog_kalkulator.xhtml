@@ -9,15 +9,15 @@
 
    <p:dialog id="dialog_kalkulator" header="kalkulator" widgetVar="dialog_kalkulator" 
           appendTo="@(body)"
-          resizable="false" onShow="ustawdialogCenter('dialog_kalkulator',MYAPP.wywolujacy, 320, 200);" closeOnEscape="true" onHide="resetujdialog('dialog_kalkulator');">
-    <p:ajax event="close" listener="#{kalkulatorBean.close()}" global="false"  update="formKalkulator"/>
+          resizable="false" onShow="ustawdialogTopCenter('dialog_kalkulator',MYAPP.wywolujacy, 320, 200);" closeOnEscape="true" onHide="resetujdialog('dialog_kalkulator');">
+    <p:ajax event="close" listener="#{kalkulatorBean.close()}" global="false"  update="formKalkulator :formwpisdokument:dataList"/>
     
     <div class="flex flex-column align-items-center justify-content-center h-full">
         <div class="flex w-full p-3 align-items-center justify-content-center">
             <h:form id="formKalkulator">
                 <h:outputLabel value="Wyrażenie:" />
                 <p:inputText value="#{kalkulatorBean.wyrazenie}" styleClass="flex w-full flex-grow1" size="40" autocomplete="false">
-                    <p:ajax event="keyup" partialSubmit="true" global="false" update="formkalkulatorWynik :formwpisdokument:dataList"/>
+                    <p:ajax event="keyup" partialSubmit="true" global="false" update="formkalkulatorWynik" />
                 </p:inputText>
             </h:form>
         </div>
