@@ -25,7 +25,7 @@
 
                         <!-- panel centralny -->
                         <div class="col-12 md:col-9 lg:col-10 flex">
-                           
+                           <div class="vertical-container">
                         <bcf:ajaxs/>
                         <h:outputText value="import dokumentów z pliku JPK_VAT"/>
                         <h:form>
@@ -185,6 +185,7 @@
                             <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importSprzedazyView.drukuj()}" global="false" rendered="#{importSprzedazyView.dokumenty.size() gt 0}"/>
                         </h:form>
                         </div>                        </div>
+                    </div>
                 
 
                    <!-- panel południowy (footer) -->
