@@ -21,8 +21,8 @@
                 </p:column>
                 <p:commandButton value="#{mgs.pobierz}" actionListener="#{pojazdyView.sumymiesiecy}" update="akordeon:formzapisypojazdywmcu" style="width: 120px;"/>
                 <h:outputText value="#{mgs.przetwarzanie}"/>
-                <p:commandButton value="#{mgs.drukujtab}" actionListener="#{pojazdyView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukpojazdy('#{WpisView.podatnikWpisu}',1)"/>
-                <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{pojazdyView .drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukpojazdy('#{WpisView.podatnikWpisu}',2)"/>
+                <p:commandButton value="#{mgs.drukujtab}" actionListener="#{pojazdyView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukpojazdy('#{WpisView.podatnikObiekt.nip}',1)"/>
+                <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{pojazdyView .drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukpojazdy('#{WpisView.podatnikObiekt.nip}',2)"/>
                 <h:outputText value="rozwiń wszystkie wiersze "/>
                 <p:selectBooleanCheckbox value="#{pojazdyView.rozwinwszystkie}" label="rozwiń wszystko">
                     <p:ajax event="change" update="akordeon:formzapisypojazdywmcu:tabelazbiorczasamochody" partialSubmit="true"/>
@@ -36,7 +36,7 @@
                      <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
                     <p:column>
                         <p:dataTable lazy="false"  id="tabelapojazdywmcu#{numer}" value="#{item.pojazdyZest}" var="loop"  
-                                 emptyMessage="Nie ma zapisów na koncie"
+                                 emptyMessage="Nie ma zapisów na koncie" rowKey="#{loop.kontonumer}"
                                  rowIndexVar="rowindex" styleClass="tabelapojazdywmcu"  style="width: 900px;  margin-top: 10px; margin-bottom: 10px;" 
                                  skipChildren="true" expandedRow="#{pojazdyView.rozwinwszystkie}"
                                  >
@@ -63,7 +63,7 @@
                             <bcf:outputpl value="#{loop.sumanarastajaco}"/>
                         </p:column>
                         <p:rowExpansion>
-                            <p:dataTable lazy="false"  value="#{loop.stronywiersza}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
+                            <p:dataTable lazy="false"  value="#{loop.stronywiersza}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" rowKey="#{loopik.id}}">
                                 <p:column headerText="#{mgs.dokument}" width="90">
                                     <h:outputText value="#{loopik.dokfkS}"/>
                                 </p:column>

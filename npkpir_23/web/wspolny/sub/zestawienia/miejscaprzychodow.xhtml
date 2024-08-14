@@ -26,8 +26,8 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton value="#{mgs.pobierz}" actionListener="#{miejscePrzychodowView.sumymiesiecy}" update="formzapisymiejscaprzychodowwmcu" style="width: 120px;"/>
-                <p:commandButton value="#{mgs.drukujtab}" actionListener="#{miejscePrzychodowView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukmiejscaprzychodow('#{WpisView.podatnikWpisu}',1)"/>
-                <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{miejscePrzychodowView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukmiejscaprzychodow('#{WpisView.podatnikWpisu}',2)"/>
+                <p:commandButton value="#{mgs.drukujtab}" actionListener="#{miejscePrzychodowView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukmiejscaprzychodow('#{WpisView.podatnikObiekt.nip}',1)"/>
+                <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{miejscePrzychodowView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukmiejscaprzychodow('#{WpisView.podatnikObiekt.nip}',2)"/>
                 <h:outputText value="rozwiń wszystkie wiersze "/>
                 <p:selectBooleanCheckbox value="#{miejscePrzychodowView.rozwinwszystkie}" label="rozwiń wszystko">
                     <p:ajax event="change" update="akordeon:formzapisymiejscaprzychodowwmcu:tabelazbiorczaprzychody" partialSubmit="true"/>

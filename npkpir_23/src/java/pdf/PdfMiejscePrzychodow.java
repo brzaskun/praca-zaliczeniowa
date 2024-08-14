@@ -25,9 +25,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import msg.Msg;import static pdf.PdfVAT7.absText;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import static pdf.PdfVAT7.absText;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
@@ -36,9 +36,8 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import view.WpisView;
 import viewfk.MiejscePrzychodowView;
-
 /**
  *
  * @author Osito
@@ -48,7 +47,7 @@ public class PdfMiejscePrzychodow {
 
     public static void drukuj(List<MiejscePrzychodowView.TabelaMiejscePrzychodow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) {
         try {
-            String nazwapliku = "miejscaprzychodow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf";
+            String nazwapliku = "miejscaprzychodow"+rodzajdruku + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
@@ -63,7 +62,7 @@ public class PdfMiejscePrzychodow {
 
     private static void drukujcd(List<MiejscePrzychodowView.TabelaMiejscePrzychodow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("miejscaprzychodow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("miejscaprzychodow"+rodzajdruku + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
         document.addTitle("Zestawienie - miejsce przychodów");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie miejsce kosztów");

@@ -22,10 +22,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import msg.Msg;import plik.Plik;
-import view.WpisView;import viewfk.PojazdyView;
+import msg.Msg;
+import plik.Plik;
+import view.WpisView;
+import viewfk.PojazdyView;
 
 /**
  *
@@ -36,7 +36,7 @@ public class PdfPojazdy {
 
     public static void drukuj(List<PojazdyView.TabelaPojazdy> listapojazdow, WpisView wpisView, int rodzajdruku) {
         try {
-            String nazwapliku = "pojazdy-"+rodzajdruku+ wpisView.getPodatnikWpisu() + ".pdf";
+            String nazwapliku = "pojazdy"+rodzajdruku+ wpisView.getPodatnikObiekt().getNip() + ".pdf";
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
@@ -51,7 +51,7 @@ public class PdfPojazdy {
 
     private static void drukujcd(List<PojazdyView.TabelaPojazdy> listapojazdow, WpisView wpisView, int rodzajdruku) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        PdfWriter.getInstance(document, Plik.plikR("pojazdy-"+ rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter.getInstance(document, Plik.plikR("pojazdy"+ rodzajdruku + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
         document.addTitle("Zestawienie miejsce kosztów");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie miejsce kosztów");
