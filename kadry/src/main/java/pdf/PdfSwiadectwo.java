@@ -230,7 +230,7 @@ public class PdfSwiadectwo {
 //                        PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, urlop3a, Element.ALIGN_LEFT, 2);
                         List<Nieobecnosc> nieobecnoscilista = s.getNieobecnoscilista()!=null?s.getNieobecnoscilista():new ArrayList<>();
                         for (Nieobecnosc nie : nieobecnoscilista) {
-                            String nieobdetal = s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getOpis() + " w okresie od "+nie.getDataod()+" do "+nie.getDatado()+" dni "+nie.getDnikalendarzowe();
+                            String nieobdetal = s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getOpis() + " w okresie od "+nie.getDataod()+" do "+nie.getDatado()+" dni "+nie.getDniroboczenieobecnosci();
                             PdfMain.dodajLinieOpisuBezOdstepuWciecie(document, nieobdetal, Element.ALIGN_LEFT, 2);
                             czydodano = true;
                         }
