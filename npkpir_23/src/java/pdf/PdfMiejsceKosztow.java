@@ -23,12 +23,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import msg.Msg;import static pdf.PdfVAT7.absText;
+import msg.Msg;
+import static pdf.PdfVAT7.absText;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import plik.Plik;
-import view.WpisView;import viewfk.MiejsceKosztowView;
+import view.WpisView;
+import viewfk.MiejsceKosztowView;
 
 /**
  *
@@ -39,7 +39,7 @@ public class PdfMiejsceKosztow {
 
     public static void drukuj(List<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) {
         try {
-            String nazwapliku = "miejscakosztow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf";
+            String nazwapliku = "miejscakosztow"+rodzajdruku + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
@@ -54,7 +54,7 @@ public class PdfMiejsceKosztow {
 
     private static void drukujcd(List<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("miejscakosztow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("miejscakosztow"+rodzajdruku + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
         document.addTitle("Zestawienie miejsce kosztów");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie miejsce kosztów");

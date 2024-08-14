@@ -16,7 +16,7 @@
             }
         </style>
         <h:form id="formzapisymiejscakosztowwmcu">
-            <p:panelGrid columns="8" style="margin-left: 2%;" >
+            <p:panelGrid columns="10" style="margin-left: 2%;" >
                 <h:outputText value="mc: "/>
                 <p:column>
                     <p:selectOneMenu value="#{WpisView.miesiacWpisu}">
@@ -25,8 +25,8 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton value="#{mgs.pobierz}" actionListener="#{miejsceKosztowView.sumymiesiecy}" update="akordeon:formzapisymiejscakosztowwmcu" style="width: 120px;"/>
-                <p:commandButton value="#{mgs.drukujtab}" actionListener="#{miejsceKosztowView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikWpisu}',1)"/>
-                <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{miejsceKosztowView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikWpisu}',2)"/>
+                <p:commandButton value="#{mgs.drukujtab}" actionListener="#{miejsceKosztowView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikObiekt.nip}',1)"/>
+                <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{miejsceKosztowView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikObiekt.nip}',2)"/>
                 <h:outputText value="rozwiń wszystkie wiersze "/>
                 <p:selectBooleanCheckbox value="#{miejsceKosztowView.rozwinwszystkie}" label="rozwiń wszystko">
                     <p:ajax event="change" update="akordeon:formzapisymiejscakosztowwmcu:tabelazbiorczakoszty" partialSubmit="true"/>
@@ -41,7 +41,6 @@
                         <p:dataTable lazy="false"  id="tabelazapisymiejscakosztowwmcu#{numer}" value="#{item.miejsceKosztowZest}" var="loop"  
                                      emptyMessage="Nie ma zapisów na koncie" rowKey="#{loop.kontonumer}"
                                      rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="width: 900px; margin-top: 10px; margin-bottom: 10px;" 
-                                     skipChildren="true"  expandedRow="#{miejsceKosztowView.rozwinwszystkie}"
                                      >
                             <f:facet name="header">
                                 <h:outputText value="#{item.miejsceKosztow.opismiejsca}"/>
