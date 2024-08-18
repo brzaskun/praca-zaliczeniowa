@@ -24,11 +24,13 @@
 
     <p:dialog id="dialogdrugi" header="Rozrachunki z kontrahentami wprowadzanie i edycja" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
               resizable="false" 
-              onShow="rozrachunkiOnShow(1250,650);setTimeout(znadzpasujacepolerozrachunku2(),1000);" 
+              onShow="rozrachunkiOnShow(1250,650);" 
               closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki:dataList" closable="true"
               >
+       <p:ajax event="open" oncomplete="znadzpasujacepolerozrachunku2()" />
         <p:outputPanel style="height: 630px;">
             <h:form id="rozrachunki">
+                 
                 <!--                <div style="height: 585px;width: 1200px;" >-->
                 <p:panelGrid id="paneledycji"  style="width: 1100px; " >
                     <f:facet name="header">
@@ -160,6 +162,7 @@
                             vertical-align: bottom;
                         }
                     </style>
+                    
                     <p:dataTable lazy="false"  id="dataList" value="#{dokfkView.biezacetransakcje}" var="iteracja" rowIndexVar="row"  
                                  emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" 
                                  styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
@@ -181,7 +184,7 @@
                             </f:facet>
                             <p:inputNumber id="kwotarozliczenia" value="#{iteracja.kwotatransakcji}" symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" 
                                            decimalPlaces="2"   readonly="#{iteracja.czymoznaedytowac()}" emptyValue="zero"
-                                            styleClass="kwotarozrachunku" onfocus="doklejfocuswprowadzonych(this)" size="13">
+                                           styleClass="kwotarozrachunku" onfocus="doklejfocuswprowadzonych(this)" size="13" tabindex="1">
                                 <p:ajax event="blur" listener="#{dokfkView.przetworzwprowadzonakwote(iteracja, row)}" partialSubmit="true" global="false"
                                         update=":rozrachunki:dataList:#{row}:pozostaloWn :rozrachunki:dataList:#{row}:roznicakursowa :rozrachunki:dataList:#{row}:kwotawwalucierachunku :rozrachunki:juzrozliczono :rozrachunki:pozostalodorozliczenia"/>
                                 <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzlimity(iteracja, row)}"/>
