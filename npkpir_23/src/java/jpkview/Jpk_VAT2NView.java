@@ -584,7 +584,7 @@ public class Jpk_VAT2NView implements Serializable {
             if (wyslac) {
                 String tresc = String.format(new Locale("pl_PL"), trescmaila, wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getNip(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(),
                         nalezny, naliczony, dozaplaty,dozwrotu);
-                MaiManager.mailManagerZUSPIT(wpisView.getPodatnikObiekt().getEmail(), tytuł, tresc, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+                MaiManager.mailManagerZUSPIT(wpisView.getPodatnikObiekt().getEmail(), tytuł, tresc, null, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
                 msg.Msg.msg("Wysłano do klienta informacje o podatku");
             } else {
                 msg.Msg.msg("e","Nieobsługiwany format JPK");

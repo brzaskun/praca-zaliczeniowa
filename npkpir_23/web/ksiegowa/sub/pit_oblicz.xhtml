@@ -150,6 +150,7 @@
                             </p:splitButton>
                             <p:commandButton value="wyślij do podatnika"  action="#{zestawienieView.wyslijPit()}" type="submit" style="width: 120px"/>
                         </p:panelGrid>
+                        
                     </p:panelGrid>
                     <!--                    <p:panelGrid  columns="1" >
                                             <p:dataTable lazy="false"  value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
@@ -280,7 +281,13 @@
                             </p:column>
                         </p:dataTable>
                     </p:panelGrid>
+                    
                 </p:panelGrid>
+                 <p:panelGrid  columns="1" style="margin-left: auto; margin-right: auto; width: 1300px;">
+                     <p:textEditor allowFormatting="true" placeholder="dodatkowa wiadomośc w mailu do podatnika" height="200" value="#{zestawienieView.dodatkowatresmaila}" style="max-width:1200px;">
+                         <p:ajax event="blur" partialSubmit="true"/>
+                     </p:textEditor>
+                         </p:panelGrid>
             </h:form>
         </p:tab>
         <p:tab id="tab4" title="Oblicz Ryczałt" rendered="#{WpisView.ryczalt0ksiega1 eq false}">

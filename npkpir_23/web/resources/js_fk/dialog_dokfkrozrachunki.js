@@ -165,7 +165,7 @@ var znadzpasujacepolerozrachunku2 = function () {
 //        }
 //    }
             var dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
-            $(document.getElementById(dopasowanywiersz)).focus();
+            //$(document.getElementById(dopasowanywiersz)).focus();
             $(document.getElementById(dopasowanywiersz)).select();
 
 };

@@ -749,7 +749,7 @@ public class ZestawienieRyczaltView implements Serializable {
             String tytuł = String.format("Taxman - zestawienie kwot podatek dochodowy za %s/%s", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             String tresc = String.format(new Locale("pl_PL"), trescmaila, wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getNip(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(),
                     biezacyPit.getPrzychodyudzial().doubleValue(), biezacyPit.getDozaplaty().doubleValue());
-            MaiManager.mailManagerZUSPIT(wpisView.getPodatnikObiekt().getEmail(), tytuł, tresc, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+            MaiManager.mailManagerZUSPIT(wpisView.getPodatnikObiekt().getEmail(), tytuł, tresc, null, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
             msg.Msg.msg("Wysłano do klienta informacje o podatku");
         } catch (Exception e) {
 

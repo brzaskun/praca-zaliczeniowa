@@ -20,6 +20,11 @@
     <param-name>com.sun.faces.enableThreading</param-name>
     <param-value>true</param-value>
 </context-param>
+<context-param>
+    <param-name>primefaces.SECURE_HTML_SANITIZER</param-name>
+    <param-value>true</param-value>
+</context-param>
+
     <filter>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <filter-class>

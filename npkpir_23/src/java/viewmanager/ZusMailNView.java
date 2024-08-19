@@ -232,7 +232,7 @@ public class ZusMailNView implements Serializable {
     
     public void wyslijMailZUS(Zusmail zusmail) {
         try {
-            MaiManager.mailManagerZUSPIT(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+            MaiManager.mailManagerZUSPIT(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), null, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
             usuzpelnijdane(zusmail);
             Msg.msg("i", "Wyslano wiadomość");
         } catch (Exception e) {
@@ -242,7 +242,7 @@ public class ZusMailNView implements Serializable {
     
      public void wyslijMailZUSSilent(Zusmail zusmail) {
         try {
-            MaiManager.mailManagerZUSPIT(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+            MaiManager.mailManagerZUSPIT(zusmail.getAdresmail(), zusmail.getTytul(), zusmail.getTresc(), null, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
             usuzpelnijdane(zusmail);
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());

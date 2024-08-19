@@ -165,6 +165,7 @@ public class ZestawienieView implements Serializable {
     private double remanentPoczRoku;
     private double remanentKoniecRoku;
     private double remanentroznica;
+    private String dodatkowatresmaila;
     @Inject
     private RemanentDAO remanentDAO;
 
@@ -1063,7 +1064,8 @@ public class ZestawienieView implements Serializable {
             String tytuł = String.format("Taxman - zestawienie kwot podatek dochodowy za %s/%s", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             String tresc = String.format(new Locale("pl_PL"), trescmaila, wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getNip(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(),
                     biezacyPit.getPrzychodyudzial().doubleValue(), biezacyPit.getKosztyudzial().doubleValue(), biezacyPit.getPodstawa(),biezacyPit.getDozaplaty().doubleValue());
-            MaiManager.mailManagerZUSPIT(wpisView.getPodatnikObiekt().getEmail(), tytuł, tresc, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+            String wiadomoscodksiegowej = dodatkowatresmaila;
+            MaiManager.mailManagerZUSPIT(wpisView.getPodatnikObiekt().getEmail(), tytuł, tresc, wiadomoscodksiegowej, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
             msg.Msg.msg("Wysłano do klienta informacje o podatku");
         } catch (Exception e){
             
@@ -1766,6 +1768,15 @@ public class ZestawienieView implements Serializable {
         this.remanentPoczRoku = remanentPoczRoku;
     }
 
+    public String getDodatkowatresmaila() {
+        return dodatkowatresmaila;
+    }
+
+    public void setDodatkowatresmaila(String dodatkowatresmaila) {
+        this.dodatkowatresmaila = dodatkowatresmaila;
+    }
+
+    
     public double getRemanentKoniecRoku() {
         return remanentKoniecRoku;
     }
