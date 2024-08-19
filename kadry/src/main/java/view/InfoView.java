@@ -198,6 +198,7 @@ public class InfoView implements Serializable {
     private void przeliczliczbapaskow (List<Pasekwynagrodzen> paski, Rodzajlistyplac rodzajlistyplac) {
         klienciPaski.parallelStream().forEach(u->{
             int suma = 0;
+            double sumakoszt = 0.0;
             for (String mc : Mce.getMceListS()) {
                 try {
                     List<Pasekwynagrodzen> paskimc = paski.stream().filter(p->p.getMc().equals(mc)&&(p.getAngaz().getFirma().equals(u))).collect(Collectors.toList());
@@ -206,59 +207,85 @@ public class InfoView implements Serializable {
                         paskimc.removeIf(isQualified);
                     }
                     int paskimcilosc = paskimc.size();
+                    double paskimckosztpracodawcy = obliczkoszt(paskimc);
                     switch (mc){
                         case "01":
                             u.setM1(paskimcilosc);
                             suma = suma + paskimcilosc;
+                            u.setK1(paskimckosztpracodawcy);
+                            sumakoszt= sumakoszt + paskimckosztpracodawcy;
                             break;
                         case "02":
                             u.setM2(paskimcilosc);
                             suma = suma + paskimcilosc;
+                            u.setK2(paskimckosztpracodawcy);
+                            sumakoszt= sumakoszt + paskimckosztpracodawcy;
                             break;
                         case "03":
                             u.setM3(paskimcilosc);
                             suma = suma + paskimcilosc;
+                            u.setK3(paskimckosztpracodawcy);
+                            sumakoszt= sumakoszt + paskimckosztpracodawcy;
                             break;
                         case "04":
                             u.setM4(paskimcilosc);
                             suma = suma + paskimcilosc;
+                            u.setK4(paskimckosztpracodawcy);
+                            sumakoszt= sumakoszt + paskimckosztpracodawcy;
                             break;
                         case "05":
                             u.setM5(paskimcilosc);
                             suma = suma + paskimcilosc;
+                            u.setK5(paskimckosztpracodawcy);
+                            sumakoszt= sumakoszt + paskimckosztpracodawcy;
                             break;
                          case "06":
                             u.setM6(paskimcilosc);
                             suma = suma + paskimcilosc;
+                            u.setK6(paskimckosztpracodawcy);
+                            sumakoszt= sumakoszt + paskimckosztpracodawcy;
                             break;
                          case "07":
                             u.setM7(paskimcilosc);
                             suma = suma + paskimcilosc;
+                            u.setK7(paskimckosztpracodawcy);
+                            sumakoszt= sumakoszt + paskimckosztpracodawcy;
                             break;
                          case "08":
                             u.setM8(paskimcilosc);
                             suma = suma + paskimcilosc;
+                            u.setK8(paskimckosztpracodawcy);
+                            sumakoszt= sumakoszt + paskimckosztpracodawcy;
                             break;
                          case "09":
                             u.setM9(paskimcilosc);
                             suma = suma + paskimcilosc;
+                            u.setK9(paskimckosztpracodawcy);
+                            sumakoszt= sumakoszt + paskimckosztpracodawcy;
                             break;
                          case "10":
                             u.setM10(paskimcilosc);
                             suma = suma + paskimcilosc;
+                            u.setK10(paskimckosztpracodawcy);
+                            sumakoszt= sumakoszt + paskimckosztpracodawcy;
                             break;
                          case "11":
                             u.setM11(paskimcilosc);
                             suma = suma + paskimcilosc;
+                            u.setK11(paskimckosztpracodawcy);
+                            sumakoszt= sumakoszt + paskimckosztpracodawcy;
                             break;
                         case "12":
                             u.setM12(paskimcilosc);
                             suma = suma + paskimcilosc;
+                            u.setK12(paskimckosztpracodawcy);
+                            sumakoszt= sumakoszt + paskimckosztpracodawcy;
                             break;
                     }
                 } catch (Exception e) {}
             }
             u.setM13(suma);
+            u.setK13(sumakoszt);
         });
     }
 
@@ -301,6 +328,17 @@ public class InfoView implements Serializable {
     public void setRodzajlistyplac(Rodzajlistyplac rodzajlistyplac) {
         this.rodzajlistyplac = rodzajlistyplac;
     }
+
+    private double obliczkoszt(List<Pasekwynagrodzen> paskimc) {
+        double suma = 0.0;
+        if (paskimc!=null) {
+            for (Pasekwynagrodzen p: paskimc) {
+                suma  = suma +p.getKosztpracodawcy();
+            }
+        }
+        return suma;
+    }
+    
     
     
     

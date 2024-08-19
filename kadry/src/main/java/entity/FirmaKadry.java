@@ -186,6 +186,32 @@ public class FirmaKadry implements Serializable {
     private int m12;
     @Transient
     private int m13;
+    @Transient
+    private double k1;
+    @Transient
+    private double k2;
+    @Transient
+    private double k3;
+    @Transient
+    private double k4;
+    @Transient
+    private double k5;
+    @Transient
+    private double k6;
+    @Transient
+    private double k7;
+    @Transient
+    private double k8;
+    @Transient
+    private double k9;
+    @Transient
+    private double k10;
+    @Transient
+    private double k11;
+    @Transient
+    private double k12;
+    @Transient
+    private double k13;
     
 
     public FirmaKadry() {
@@ -552,6 +578,110 @@ public class FirmaKadry implements Serializable {
 
     public void setM13(int m13) {
         this.m13 = m13;
+    }
+
+    public double getK1() {
+        return k1;
+    }
+
+    public void setK1(double k1) {
+        this.k1 = k1;
+    }
+
+    public double getK2() {
+        return k2;
+    }
+
+    public void setK2(double k2) {
+        this.k2 = k2;
+    }
+
+    public double getK3() {
+        return k3;
+    }
+
+    public void setK3(double k3) {
+        this.k3 = k3;
+    }
+
+    public double getK4() {
+        return k4;
+    }
+
+    public void setK4(double k4) {
+        this.k4 = k4;
+    }
+
+    public double getK5() {
+        return k5;
+    }
+
+    public void setK5(double k5) {
+        this.k5 = k5;
+    }
+
+    public double getK6() {
+        return k6;
+    }
+
+    public void setK6(double k6) {
+        this.k6 = k6;
+    }
+
+    public double getK7() {
+        return k7;
+    }
+
+    public void setK7(double k7) {
+        this.k7 = k7;
+    }
+
+    public double getK8() {
+        return k8;
+    }
+
+    public void setK8(double k8) {
+        this.k8 = k8;
+    }
+
+    public double getK9() {
+        return k9;
+    }
+
+    public void setK9(double k9) {
+        this.k9 = k9;
+    }
+
+    public double getK10() {
+        return k10;
+    }
+
+    public void setK10(double k10) {
+        this.k10 = k10;
+    }
+
+    public double getK11() {
+        return k11;
+    }
+
+    public void setK11(double k11) {
+        this.k11 = k11;
+    }
+
+    public double getK12() {
+        return k12;
+    }
+
+    public void setK12(double k12) {
+        this.k12 = k12;
+    }
+
+    public double getK13() {
+        return k13;
+    }
+
+    public void setK13(double k13) {
+        this.k13 = k13;
     }
     
     

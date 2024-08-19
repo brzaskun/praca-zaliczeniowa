@@ -178,6 +178,72 @@
                 </p:outputPanel>
             </h:form>
         </p:tab>
+         <p:tab title="Firma / koszt">
+             <h:form id="firmapaskikosztbutton">
+                 <p:panelGrid columns="2"  style="padding: 15px;">
+                     <p:commandButton value="XLS" styleClass="buttonnorm">
+                         <p:dataExporter type="xls" target="akordeon:firmapaskikoszt:dokumentyOkresowe" fileName="listakosztxls"/>
+                     </p:commandButton>
+<!--                     <p:commandButton value="PDF" styleClass="buttonnorm">
+                         <p:dataExporter type="pdf" target="akordeon:firmapaskikoszt:dokumentyOkresowe"  fileName="listakosztpdf"/>
+                     </p:commandButton>-->
+                 </p:panelGrid>
+             </h:form>
+            <h:form id="firmapaskikoszt">
+                  <p:outputPanel style="padding: 20px;">
+                    <p:panel header="Statystyka kosztów pracowniczych dla firm" style="width: 1100px; padding: 10px;"/>
+                    <p:dataTable id="dokumentyOkresowe" value="#{infoView.klienciPaski}" var="wpis"  rowIndexVar="row" 
+                                 rowKey="#{wpis.id}" style="max-width: 1800px;height: 600px; overflow-y: scroll;" widgetVar="okresTable" 
+                                 >
+                        <p:column headerText="nazwa" width="260" sortBy="#{wpis.nazwa}" filterBy="#{wpis.nazwa}" sortable="true" sortPriority="1" sortOrder="asc" filterMatchMode="contains">  
+                            <h:outputText value="#{wpis.nazwa}" />
+                        </p:column>
+                        <p:column headerText="nip" width="50" sortBy="#{wpis.nip}">  
+                            <h:outputText value="#{wpis.nip}" />
+                        </p:column>
+                        <p:column headerText="01" width="40" sortBy="#{wpis.k1}">  
+                            <bcf:outputpl value="#{wpis.k1}"  rendered="#{wpis.k1 ne 0}"/>
+                        </p:column>
+                        <p:column headerText="02" width="40" sortBy="#{wpis.k2}">  
+                            <bcf:outputpl value="#{wpis.k2}" rendered="#{wpis.k2 ne 0}"/>
+                        </p:column>
+                        <p:column headerText="03" width="40" sortBy="#{wpis.k3}">  
+                            <bcf:outputpl value="#{wpis.k3}" rendered="#{wpis.k3 ne 0}"/>
+                        </p:column>
+                        <p:column headerText="04" width="40" sortBy="#{wpis.k4}">  
+                            <bcf:outputpl value="#{wpis.k4}" rendered="#{wpis.k4 ne 0}"/>
+                        </p:column>
+                        <p:column headerText="05" width="40" sortBy="#{wpis.k5}">  
+                            <bcf:outputpl value="#{wpis.k5}" rendered="#{wpis.k5 ne 0}"/>
+                        </p:column>
+                        <p:column headerText="06" width="40" sortBy="#{wpis.k6}">  
+                            <bcf:outputpl value="#{wpis.k6}" rendered="#{wpis.k6 ne 0}"/>
+                        </p:column>
+                        <p:column headerText="07" width="40" sortBy="#{wpis.k7}">  
+                            <bcf:outputpl value="#{wpis.k7}" rendered="#{wpis.k7 ne 0}"/>
+                        </p:column>
+                        <p:column headerText="08" width="40" sortBy="#{wpis.k8}">  
+                            <bcf:outputpl value="#{wpis.k8}" rendered="#{wpis.k8 ne 0}"/>
+                        </p:column>
+                        <p:column headerText="09" width="40" sortBy="#{wpis.k9}">  
+                            <bcf:outputpl value="#{wpis.k9}"  rendered="#{wpis.k9 ne 0}"/>
+                        </p:column>
+                        <p:column headerText="10" width="40" sortBy="#{wpis.k10}">  
+                            <bcf:outputpl value="#{wpis.k10}" rendered="#{wpis.k10 ne 0}"/>
+                        </p:column>
+                        <p:column headerText="11" width="40" sortBy="#{wpis.k11}">  
+                            <bcf:outputpl value="#{wpis.k11}" rendered="#{wpis.k11 ne 0}"/>
+                        </p:column>
+                        <p:column headerText="12" width="40"  sortBy="#{wpis.k12}">  
+                            <bcf:outputpl value="#{wpis.k12}" rendered="#{wpis.k12 ne 0}"/>
+                        </p:column>
+                        <p:column headerText="razem" width="50"  sortBy="#{wpis.k13}">  
+                            <bcf:outputpl value="#{wpis.k13}" rendered="#{wpis.k13 ne 0}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </h:form>
+        </p:tab>
         <p:tab title="Opis usługi">
             <h:form>
                 <p:outputPanel style="padding: 10px;">
@@ -363,6 +429,7 @@
                 </p:outputPanel>
             </h:form>
         </p:tab>
+       
         <p:tab title="Firma - opis usługi">
             <h:form styleClass="kadrypozycja">
                 <p:outputPanel style="padding: 10px;">
