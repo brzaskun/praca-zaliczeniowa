@@ -207,6 +207,7 @@ public class DokFKVATBean {
                     }
                     selected.getListawierszy().add(wierszdrugi);
                }
+               
                 pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);
                 int index = wierszvatdoc.getLp()-1 < 0 ? 0 : wierszvatdoc.getLp()-1;
                 PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:"+index+":netto");

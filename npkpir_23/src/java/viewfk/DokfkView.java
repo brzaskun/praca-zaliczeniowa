@@ -841,6 +841,22 @@ public class DokfkView implements Serializable {
     }
 
     public void dolaczWierszeZKwotami(EVatwpisFK evatwpis, int rowindex) {
+        if (selected.getKontr().equals(poprzedniDokument.getKontr())==false) {
+              poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt(), ostatniedokumenty);
+                if (poprzedniDokument == null) {
+                    poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokUprzedniSt(), ostatniedokumenty);
+                    if (poprzedniDokument != null) {
+                        poprzedniDokument.getListawierszy().get(0).getStronaWn().setKonto(kontoDAOfk.findKonto(poprzedniDokument.getListawierszy().get(0).getKontoWn().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                        poprzedniDokument.getListawierszy().get(0).getStronaMa().setKonto(kontoDAOfk.findKonto(poprzedniDokument.getListawierszy().get(0).getKontoMa().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                        try {
+                            poprzedniDokument.getListawierszy().get(1).getStronaWn().setKonto(kontoDAOfk.findKonto(poprzedniDokument.getListawierszy().get(1).getKontoWn().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                        } catch (Exception e){}
+                        try {
+                            poprzedniDokument.getListawierszy().get(1).getStronaMa().setKonto(kontoDAOfk.findKonto(poprzedniDokument.getListawierszy().get(1).getKontoMa().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                        } catch (Exception e){}
+                    }
+                }
+        }
         boolean niesumuj = evatwpis.isNieduplikuj() && evatwpis.getEwidencja().getNazwa().equals("zakup");
         if (!selected.iswTrakcieEdycji() && !niesumuj && !selected.getRodzajedok().isTylkovat() && !selected.getRodzajedok().isTylkojpk()){
             Rodzajedok rodzajdok = selected.getRodzajedok();

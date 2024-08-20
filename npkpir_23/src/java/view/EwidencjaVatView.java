@@ -354,7 +354,7 @@ public class EwidencjaVatView implements Serializable {
             if (listadokvatprzetworzona != null) {
                 List<EVatwpisSuper> synchronizedList = Collections.synchronizedList(listadokvatprzetworzona);
 
-                listadokvatprzetworzona = synchronizedList.parallelStream()
+                listadokvatprzetworzona = synchronizedList.stream()
                     .filter(it -> {
                         EVatwpis1 p = (EVatwpis1) it;
                         lock.lock();
@@ -1056,12 +1056,12 @@ public class EwidencjaVatView implements Serializable {
                     Predicate<EVatwpisFK> datazbiezacegomiesiaca = item->Data.czydatajestwmcu(item.getUlganazledlugidatapierwszaplus90(),rok,mc);
                     if (rokbiezacy!=null) {
                         rokbiezacy.removeIf(datazbiezacegomiesiaca.negate());
-                        rokbiezacy.parallelStream().forEach(EVatwpisFK::zmienZnak);
+                        rokbiezacy.stream().forEach(EVatwpisFK::zmienZnak);
                         zwrot.addAll(rokbiezacy);
                     }
                     if (rokubiegly!=null) {
                         rokubiegly.removeIf(datazbiezacegomiesiaca.negate());
-                        rokubiegly.parallelStream().forEach(EVatwpisFK::zmienZnak);
+                        rokubiegly.stream().forEach(EVatwpisFK::zmienZnak);
                         zwrot.addAll(rokubiegly);
                     }
                     break;
@@ -1069,12 +1069,12 @@ public class EwidencjaVatView implements Serializable {
                     Predicate<EVatwpisFK> datazbiezacegomiesiaca2 = item->Data.czydatajestwkwartale(item.getUlganazledlugidatapierwszaplus90(),rok,mc);
                     if (rokbiezacy!=null) {
                         rokbiezacy.removeIf(datazbiezacegomiesiaca2.negate());
-                        rokbiezacy.parallelStream().forEach(EVatwpisFK::zmienZnak);
+                        rokbiezacy.stream().forEach(EVatwpisFK::zmienZnak);
                         zwrot.addAll(rokbiezacy);
                     }
                     if (rokubiegly!=null) {
                         rokubiegly.removeIf(datazbiezacegomiesiaca2.negate());
-                        rokubiegly.parallelStream().forEach(EVatwpisFK::zmienZnak);
+                        rokubiegly.stream().forEach(EVatwpisFK::zmienZnak);
                         zwrot.addAll(rokubiegly);
                     }
                     break;
@@ -1321,7 +1321,7 @@ public class EwidencjaVatView implements Serializable {
 //        Map<String, List<EVatwpisSuper>> listaewidencji = new ConcurrentHashMap<>();
 //        Map<String, EVatwpisSuma> sumaewidencji = new ConcurrentHashMap<>();
 //
-//        listadokvatprzetworzona.parallelStream()
+//        listadokvatprzetworzona.stream()
 //                .filter(vatwiersz -> vatwiersz.getNetto() != 0.0 || vatwiersz.getVat() != 0.0)
 //                .forEach(vatwiersz -> {
 //                    String nazwaewidencji = vatwiersz.getNazwaewidencji().getNazwa();
@@ -1388,12 +1388,12 @@ public class EwidencjaVatView implements Serializable {
     private Map<String, Evewidencja> przejrzyjEVatwpis1Lista() {
       Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMapByPole();
 
-      List<EVatwpisSuper> wierszedodatkowe = listadokvatprzetworzona.parallelStream()
+      List<EVatwpisSuper> wierszedodatkowe = listadokvatprzetworzona.stream()
           .filter(ewid -> ewid.getNazwaewidencji().getTypewidencji().equals("sz") && !ewid.isNieduplikuj())
           .map(ewid -> beansVAT.EwidencjaVATSporzadzanie.duplikujEVatwpisSuper(ewid, ewidencjazakupu))
           .collect(Collectors.toList());
 
-//      listadokvatprzetworzona = listadokvatprzetworzona.parallelStream()
+//      listadokvatprzetworzona = listadokvatprzetworzona.stream()
 //          .filter(ewid -> !(ewid.getNazwaewidencji().getTypewidencji().equals("sz") && !ewid.isNieduplikuj()))
 //          .collect(Collectors.toList());
 

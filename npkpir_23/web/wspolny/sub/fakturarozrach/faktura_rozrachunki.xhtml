@@ -76,6 +76,7 @@
                                 <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaRozrachunkiView.pobierzostatninumer}" update="akordeon:fakturarozrachunki:numerdok"/>
                                 <f:selectItem itemLabel="all" itemValue="" noSelectionOption="true"/>
                             <f:selectItem itemLabel="rk" itemValue="rk"/>
+                            <f:selectItem itemLabel="rke" itemValue="rke"/>
                             <f:selectItem itemLabel="wb" itemValue="wb"/>
                             <f:selectItem itemLabel="wbe" itemValue="wbe"/>
                             <f:selectItem itemLabel="wbm" itemValue="wbm"/>
@@ -188,6 +189,7 @@
                             <p:selectOneMenu onchange="PF('form_wprowadzoneplatnosci').filter()" style="width: 60px;">
                                 <f:selectItem itemLabel="all" itemValue="" noSelectionOption="true"/>
                              <f:selectItem itemLabel="rk" itemValue="rk"/>
+                             <f:selectItem itemLabel="rke" itemValue="rke"/>
                             <f:selectItem itemLabel="wb" itemValue="wb"/>
                             <f:selectItem itemLabel="wbe" itemValue="wbe"/>
                             <f:selectItem itemLabel="wbm" itemValue="wbm"/>

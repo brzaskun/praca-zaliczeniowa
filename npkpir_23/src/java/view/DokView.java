@@ -352,23 +352,25 @@ public class DokView implements Serializable {
     
        
     public void podepnijListe() {
-        String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
-        if (wpisView.isRyczalt0ksiega1()) {
-            kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
-            selDokument.setDokumentProsty(selDokument.getRodzajedok().isDokProsty());
-        } else {
-            //bo dodalismy rozliczenia niemieckie w ryczalcie a tam jest Rachde, wnt itp
-            if (transakcjiRodzaj.equals("ryczałt")||transakcjiRodzaj.equals("usługi poza ter.")) {
-                kolumny = Kolmn.zwrockolumnyR(transakcjiRodzaj);
+        if (selDokument!=null&&selDokument.getRodzajedok()!=null) {
+            String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
+            if (wpisView.isRyczalt0ksiega1()) {
+                kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
+                selDokument.setDokumentProsty(selDokument.getRodzajedok().isDokProsty());
+            } else {
+                //bo dodalismy rozliczenia niemieckie w ryczalcie a tam jest Rachde, wnt itp
+                if (transakcjiRodzaj.equals("ryczałt")||transakcjiRodzaj.equals("usługi poza ter.")) {
+                    kolumny = Kolmn.zwrockolumnyR(transakcjiRodzaj);
+                }
+                selDokument.setDokumentProsty(selDokument.getRodzajedok().isDokProsty());
             }
-            selDokument.setDokumentProsty(selDokument.getRodzajedok().isDokProsty());
-        }
-        if (transakcjiRodzaj.equals("srodek trw sprzedaz")){
-            setPokazEST(true);
-            PrimeFaces.current().ajax().update("dodWiad:panelewidencji");
-        } else {
-            setPokazEST(false);
-            PrimeFaces.current().ajax().update("dodWiad:panelewidencji");
+            if (transakcjiRodzaj.equals("srodek trw sprzedaz")){
+                setPokazEST(true);
+                PrimeFaces.current().ajax().update("dodWiad:panelewidencji");
+            } else {
+                setPokazEST(false);
+                PrimeFaces.current().ajax().update("dodWiad:panelewidencji");
+            }
         }
            
     }
