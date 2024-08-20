@@ -841,7 +841,7 @@ public class DokfkView implements Serializable {
     }
 
     public void dolaczWierszeZKwotami(EVatwpisFK evatwpis, int rowindex) {
-        if (selected.getKontr().equals(poprzedniDokument.getKontr())==false) {
+        if (poprzedniDokument!=null&&selected.getKontr().equals(poprzedniDokument.getKontr())==false) {
               poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt(), ostatniedokumenty);
                 if (poprzedniDokument == null) {
                     poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokUprzedniSt(), ostatniedokumenty);
