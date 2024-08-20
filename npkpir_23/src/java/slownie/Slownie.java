@@ -228,4 +228,9 @@ public class Slownie {
         }
         return strKwotaSl;
     }
+    
+    public static void main(String[] args) {
+        String kwota = "1234.56";
+        System.out.println(slownie(kwota));
+    }
 }

@@ -92,8 +92,8 @@ public class PdfFTablice {
     
     public static PdfPTable wygenerujtabliceDozaplaty(String[] text, String[] text1, int szerokosc, int wysokosc, int czcionkasize) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(2);
-        float x1 = (float) (szerokosc*.4);
-        float x2 = (float) (szerokosc*.6);
+        float x1 = (float) (szerokosc*.2);
+        float x2 = (float) (szerokosc*.8);
         table.setTotalWidth(new float[]{x1,x2});
         table.setLockedWidth(true);
         table.getDefaultCell().setBorder(Rectangle.ALIGN_CENTER);
