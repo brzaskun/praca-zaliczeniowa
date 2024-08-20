@@ -205,6 +205,7 @@ public class PlanKontView implements Serializable {
 //        }
         wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikwzorcowy(), rok);
         styltabeliplankont = opracujstylwierszatabeli();
+        Collections.sort(wykazkontwzor, new Kontocomparator());
         //rootwzorcowy = rootInit(wykazkontwzor);
     }
     

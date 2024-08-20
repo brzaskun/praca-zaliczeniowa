@@ -76,6 +76,7 @@ public class KontaVatFKView implements Serializable {
     @Inject
     private WalutyDAOfk walutyDAOfk;
     private boolean istniejejuzdokumentvat;
+    private boolean pokazvatpk;
 //    boolean dodajBO;
 
     public KontaVatFKView() {
@@ -152,7 +153,7 @@ public class KontaVatFKView implements Serializable {
         double sumama = 0.0;
         if (zapisyRok != null) {
             for (StronaWiersza r : zapisyRok) {
-                if (!r.getDokfk().getRodzajedok().getSkrot().equals("VAT")) {
+                if (r.getDokfk().getRodzajedok().getSkrot().equals("VAT")==false||pokazvatpk) {
                     saldoKonto.getZapisy().add(r);
                     if (r.getWnma().equals("Wn")) {
                         sumawn += r.getKwotaPLN();
@@ -286,7 +287,7 @@ public class KontaVatFKView implements Serializable {
         double sumama = 0.0;
         if (zapisyRok != null) {
             for (StronaWiersza r : zapisyRok) {
-                if (r.getDokfk().getRodzajedok().getSkrot().equals("VAT")==false) {
+                if (r.getDokfk().getRodzajedok().getSkrot().equals("VAT")==false||pokazvatpk) {
                     int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                     if (mc >= granicaDolna && mc <=granicaGorna) {
                         saldoKonto.getZapisy().add(r);
@@ -664,6 +665,14 @@ public class KontaVatFKView implements Serializable {
 
     public void setKontavat(List<SaldoKonto> kontavat) {
         this.kontavat = kontavat;
+    }
+
+    public boolean isPokazvatpk() {
+        return pokazvatpk;
+    }
+
+    public void setPokazvatpk(boolean pokazvatpk) {
+        this.pokazvatpk = pokazvatpk;
     }
 
     public boolean isIstniejejuzdokumentvat() {

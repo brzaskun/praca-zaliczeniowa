@@ -89,6 +89,7 @@
             </p:panelGrid>-->
         </p:panelGrid>
         <p:outputPanel style="margin-top: 10px">
+            <p:panelGrid columns="2">
 <!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
             <p:dataTable lazy="false"  value="#{kontaVatFKView.kontavat}" var="item1" style="width: 700px;" id="saldokontvat"
                          emptyMessage="Brak kont oznaczonych jako konta VAT. Sprawdź plan kont!">
@@ -137,6 +138,10 @@
                     </p:dataTable>
                 </p:rowExpansion>-->
             </p:dataTable>
+                <p:selectBooleanCheckbox value="#{kontaVatFKView.pokazvatpk}" itemLabel="uwzględnij zaksięgowane rozliczenie vat" style="margin-left: 30px;">
+                    <p:ajax event="change" listener="#{kontaVatFKView.init()}" partialSubmit="true" update="form:akordeon:saldokontvat"/>
+                </p:selectBooleanCheckbox>
+                </p:panelGrid>
         </p:outputPanel>
         <p:outputPanel style="margin-top: 10px; width: 690px;">
             <h:outputText value="suma faktur przychodowych z innego okresu rozliczeniowego "/>
