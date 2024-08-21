@@ -37,7 +37,7 @@ public class Rownolegle1 extends Thread {
     private static List<Integer> zrobliste() {
         List<Integer> l = Collections.synchronizedList(new ArrayList<>());
         for (int i = 0; i < 1000000; i++) {
-            l.add(new Integer(i+i*3/5));
+            l.add(i+i*3/5);
         }
         return l;
     }

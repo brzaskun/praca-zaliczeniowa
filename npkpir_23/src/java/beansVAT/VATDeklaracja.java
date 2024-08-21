@@ -171,7 +171,7 @@ public class VATDeklaracja implements Serializable {
             paramString = new Class[1];
             paramString[0] = Integer.class;
             met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpola, paramString);
-            met.invoke(pozycjeSzczegoloweVAT, new Integer(kwotaInt));
+            met.invoke(pozycjeSzczegoloweVAT, kwotaInt);
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             E.e(e);
         }
@@ -188,7 +188,7 @@ public class VATDeklaracja implements Serializable {
             paramString = new Class[1];
             paramString[0] = Integer.class;
             met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpola, paramString);
-            met.invoke(pozycjeSzczegoloweVAT, new Integer(kwotaInt));
+            met.invoke(pozycjeSzczegoloweVAT, kwotaInt);
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             E.e(e);
         }
