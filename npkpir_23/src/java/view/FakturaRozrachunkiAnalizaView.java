@@ -1134,8 +1134,16 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             Klienci klientposzukiwany = klienciDAO.findKlientById(szukanyklient.getId());
             klientposzukiwany.setAktywny(podatnik.isPodmiotaktywny());
             klienciDAO.edit(klientposzukiwany);
+            szukanyklient.setAktywny(podatnik.isPodmiotaktywny());
             SMTPSettings ogolne = SMTPBean.pobierzSMTPDef(sMTPSettingsDAO);
-            MailAdmin.dezaktywacjaPodanikamail(podatnik, ogolne, "w.daniluk@taxman.biz.pl", szukanyklient.getKsiegowa().getEmail());
+             for (Podatnik po : podatnicy) {
+                if (po.getNip().equals(szukanyklient.getNip())) {
+                    szukanyklient.setKsiegowa(po.getKsiegowa());
+                    break;
+                }
+            }
+            String mail = szukanyklient.getKsiegowa()!=null?szukanyklient.getKsiegowa().getEmail():"info@taxman.biz.pl";
+            MailAdmin.dezaktywacjaPodanikamail(podatnik, ogolne, "w.daniluk@taxman.biz.pl", mail);
             Msg.msg("Zmieniono aktywacje podatnika");
         } else {
             Msg.msg("e","Nie pobrano podatnika");

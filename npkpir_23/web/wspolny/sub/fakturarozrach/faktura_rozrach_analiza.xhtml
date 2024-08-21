@@ -127,7 +127,7 @@
                                                 update="akordeon:fakturaanaliza:tablicaanaliza" />
                        </p:column>
                        <p:column width="35" style="text-align: center;">
-                            <p:commandButton value="dezktywuj pod." actionListener="#{fakturaRozrachunkiAnalizaView.dezaktywujpodatnika()}"  update="akordeon:fakturaanaliza:mailklientapanel"
+                            <p:commandButton value="dezktywuj pod." actionListener="#{fakturaRozrachunkiAnalizaView.dezaktywujpodatnika()}"  update="akordeon:fakturaanaliza"
                                                  />
                        </p:column>
                         <p:column width="35" style="text-align: center;">
@@ -150,7 +150,7 @@
                     </p:panelGrid>
             </p:panelGrid>
             <h:outputText value="Aby zarchiwizować wszystkie należy wybrać po lewej i wcisnąć przycisk 'archiwizuj'. Archiwizowanie pojedyncze i odarchiwizowanie - wciskamy czekboksy po prawej" style="color: green;"/>
-            <p:dataTable lazy="false"  id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1680px; margin-top: 20px;height: 600px; overflow-y: scroll"
+            <p:dataTable lazy="false"  id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1700px; margin-top: 20px;height: 600px; overflow-y: scroll"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          rowIndexVar="row" editable="true" styleClass="compact" rowSelectMode="add"
                          rowStyleClass="#{item.mc mod 2 eq 0 ? 'parzyste':null}"
