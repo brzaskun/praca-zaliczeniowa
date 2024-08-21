@@ -1522,10 +1522,7 @@ public class DokView implements Serializable {
             formatka = selectedKlient.getUlica().substring(0, 1).toUpperCase();
             formatka = formatka.concat(selectedKlient.getUlica().substring(1).toLowerCase());
             selectedKlient.setUlica(formatka);
-            try {
-                selectedKlient.getKrajnazwa();
-            } catch (Exception e) {
-                E.e(e);
+            if (selectedKlient.getKrajnazwa()==null){
                 selectedKlient.setKrajnazwa("Polska");
             }
             String kraj = selectedKlient.getKrajnazwa();

@@ -17,7 +17,8 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import javax.inject.Named;
-import view.WpisView;import viewfk.MiejsceKosztowView;
+import view.WpisView;
+import viewfk.MiejsceKosztowView;
 
 /**
  *
@@ -40,11 +41,9 @@ public class MiejsceKosztowBean {
                     for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext();) {
                         StronaWiersza s = it.next();
                         if (s.getKonto().getNazwapelna().equals(p.getOpismiejsca()) && s.getKonto().getKontomacierzyste()!=null && s.getKonto().getKontomacierzyste().equals(r)) {
-                            if (s.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                                 suma += sumuj(s);
                                 listastron.add(s);
                                 it.remove();
-                            }
                         }
                     }
                     total += suma;

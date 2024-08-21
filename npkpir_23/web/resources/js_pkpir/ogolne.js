@@ -287,8 +287,9 @@ var sprawdzczykopiowacklientaarch = function() {
 var skopiujdanenowegoklienta = function() {
     PF('dlg123').hide();
     $('#dodWiad\\:acForce_input').focus();
-    var szukana = document.getElementById('formX:nazwaPole').value;
-    PF('dialogklient').search(szukana);
+//    var szukana = document.getElementById('formX:nazwaPole').value;
+////    PF('dialogklient').search(szukana);
+//    PF('dialogklient').selectItem(szukana);
 
 };
 

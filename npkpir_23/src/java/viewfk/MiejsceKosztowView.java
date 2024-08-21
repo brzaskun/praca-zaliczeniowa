@@ -19,6 +19,7 @@ import entityfk.Konto;
 import entityfk.MiejsceKosztow;
 import entityfk.StronaWiersza;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +34,6 @@ import javax.interceptor.Interceptors;
 import msg.Msg;
 import pdf.PdfMiejsceKosztow;
 import view.WpisView;
-import interceptor.ConstructorInterceptor;
 /**
  *
  * @author Osito
@@ -88,7 +88,7 @@ public class MiejsceKosztowView  implements Serializable{
     
     public void obliczsumymiejsc() {
         List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 2);
-        List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokMcWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokMcOdMcDoWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacOd(), wpisView.getMiesiacDo());
         MiejsceKosztowBean.zsumujkwotyzkont(miejscakosztow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejsckosztow, stronywiersza);
     }
     

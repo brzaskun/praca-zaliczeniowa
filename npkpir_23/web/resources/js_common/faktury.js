@@ -13,9 +13,9 @@ var skopiujdanenowegoklientanowafaktura = function () {
     try {
         $('#akordeon\\:formstworz\\:acForce_input').val(document.getElementById('formnkfaktura:nazwaPole').value);
         $('#akordeon\\:formstworz\\:acForce_hinput').val(document.getElementById('formnkfaktura:nazwaPole').value);
-        $('#akordeon\\:formstworz\\:acForce_input').focus();
+//        $('#akordeon\\:formstworz\\:acForce_input').focus();
         $('#akordeon\\:formstworz\\:acForce_input').select();
-        PF('tworzenieklientapolenazwy').search(szukana);
+//        PF('tworzenieklientapolenazwy').search(szukana);
     } catch (e) {
     }
 };

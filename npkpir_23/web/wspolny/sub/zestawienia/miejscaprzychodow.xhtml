@@ -16,12 +16,26 @@
             }
         </style>
         <h:form id="formzapisymiejscaprzychodowwmcu">
-            <p:panelGrid columns="8" style="margin-left: 2%;" >
-                <h:outputText value="mc: "/>
+            <p:panelGrid columns="10" style="margin-left: 2%;" >
+<!--                <h:outputText value="mc: "/>
                 <p:column>
                     <p:selectOneMenu value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{miejscePrzychodowView.zapisykontmiesiace}" update="formzapisymiejscaprzychodowwmcu"/>
                         <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>-->
+                <h:outputText value="mc od"/>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
+                        <p:ajax event="change" listener="#{miejscePrzychodowView.zapisykontmiesiace}"  partialSubmit="true" update="akordeon:formzapisymiejscakosztowwmcu"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <h:outputText value="mc do"/>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">
+                        <p:ajax event="change" listener="#{miejscePrzychodowView.zapisykontmiesiace}" partialSubmit="true" update="akordeon:formzapisymiejscakosztowwmcu"/>
                         <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>

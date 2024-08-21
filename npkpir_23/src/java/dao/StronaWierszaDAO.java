@@ -15,7 +15,6 @@ import entityfk.StronaWiersza;
 import entityfk.WierszBO;
 import error.E;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -292,6 +291,10 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     
     public List<StronaWiersza> findStronaByPodatnikRokMcWynikSlownik(Podatnik podatnik, String rok, String mc) {
         return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokMcWynikSlownik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+    }
+    
+    public List<StronaWiersza> findStronaByPodatnikRokMcOdMcDoWynikSlownik(Podatnik podatnik, String rok, String mcod, String mcdo) {
+        return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokMcOdMcDoWynikSlownik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mcod", mcod).setParameter("mcdo", mcdo).getResultList();
     }
     
     public List<StronaWiersza> findStronaByPodatnikRokWynikSlownik(Podatnik podatnik, String rok) {

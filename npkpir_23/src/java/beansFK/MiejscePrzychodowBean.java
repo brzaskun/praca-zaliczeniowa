@@ -16,7 +16,8 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import javax.inject.Named;
-import view.WpisView;import viewfk.MiejscePrzychodowView;
+import view.WpisView;
+import viewfk.MiejscePrzychodowView;
 
 /**
  *
@@ -38,13 +39,8 @@ public class MiejscePrzychodowBean {
                     List<StronaWiersza> listastron = Collections.synchronizedList(new ArrayList<>());
                     for (StronaWiersza s : stronywiersza) {
                         if (s.getKonto().getNazwapelna().equals(p.getOpismiejsca()) && s.getKonto().getKontomacierzyste()!=null && s.getKonto().getKontomacierzyste().equals(r)) {
-                            if (!wpisView.getMiesiacWpisu().equals("CR") && s.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
-                                suma += sumuj(s);
-                                listastron.add(s);
-                            } else {
-                                suma += sumuj(s);
-                                listastron.add(s);
-                            }
+                            suma += sumuj(s);
+                            listastron.add(s);
                         }
                     }
                     total += suma;

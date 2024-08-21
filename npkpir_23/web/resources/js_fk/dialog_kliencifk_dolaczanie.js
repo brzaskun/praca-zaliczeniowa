@@ -17,7 +17,7 @@ var skopiujdanenowegoklientafk = function () {
             //$('#kliencifk\\:wyborkontrahenta_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
             //$('#kliencifk\\:wyborkontrahenta_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
             $('#kliencifk\\:wyborkontrahenta_input').focus();
-            $('#kliencifk\\:wyborkontrahenta_input').select();
+//            $('#kliencifk\\:wyborkontrahenta_input').select();
             //PF('dialogklient').search(szukana);
         }
     } catch (e) {
@@ -31,7 +31,7 @@ var skopiujdanenowegoklientafk = function () {
             //$('#formwpisdokument\\:acForce_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
             //PF('poleklientawpisywaniefk').search(szukana);
             $('#formwpisdokument\\:acForce_input').focus();
-            $('#formwpisdokument\\:acForce_input').select();
+//            $('#formwpisdokument\\:acForce_input').select();
 //            r('formwpisdokument:opisdokumentu').focus();
 //            r('formwpisdokument:opisdokumentu').select();
         }

@@ -21,6 +21,7 @@ import entityfk.Konto;
 import entityfk.MiejscePrzychodow;
 import entityfk.StronaWiersza;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +37,6 @@ import javax.interceptor.Interceptors;
 import msg.Msg;
 import pdf.PdfMiejscePrzychodow;
 import view.WpisView;
-import interceptor.ConstructorInterceptor;
 /**
  *
  * @author Osito
@@ -95,13 +95,8 @@ public class MiejscePrzychodowView  implements Serializable{
     
     public void obliczsumymiejsc() {
         List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 7);
-        if (!wpisView.getMiesiacWpisu().equals("CR")) {
-            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokMcWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            MiejscePrzychodowBean.zsumujkwotyzkont(miejscaprzychodow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejscprzychodow, stronywiersza);
-        } else {
-            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            MiejscePrzychodowBean.zsumujkwotyzkont(miejscaprzychodow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejscprzychodow, stronywiersza);
-        }
+        List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokMcOdMcDoWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacOd(), wpisView.getMiesiacDo());
+        MiejscePrzychodowBean.zsumujkwotyzkont(miejscaprzychodow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejscprzychodow, stronywiersza);
     }
     
 
