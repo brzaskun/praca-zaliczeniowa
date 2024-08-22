@@ -29,18 +29,22 @@ public class BOFKBean {
     public static List<StronaWiersza> pobierzZapisyBO(DokDAOfk dokDAOfk, Podatnik podatnik, String rok) {
         List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(podatnik, rok, "BO");
-        dokfk.stream().filter((p) -> (p.getOpisdokfk().contains("bilans otwarcia roku:"))).forEachOrdered((p) -> {
-            zapisy.addAll(p.getStronyWierszy());
-        });
+        if (dokfk!=null) {
+            dokfk.stream().filter((p) -> (p.getOpisdokfk().contains("bilans otwarcia roku:"))).forEachOrdered((p) -> {
+                zapisy.addAll(p.getStronyWierszy());
+            });
+        }
         return zapisy;
     }
     
     public static List<StronaWiersza> pobierzZapisyObrotyRozp(DokDAOfk dokDAOfk, Podatnik podatnik, String rok) {
         List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(podatnik, rok, "BOR");
-        dokfk.stream().filter((p) -> (!p.getOpisdokfk().contains("bilans otwarcia roku:"))).forEachOrdered((p) -> {
-            zapisy.addAll(p.getStronyWierszy());
-        });
+        if (dokfk!=null) {
+            dokfk.stream().filter((p) -> (!p.getOpisdokfk().contains("bilans otwarcia roku:"))).forEachOrdered((p) -> {
+                zapisy.addAll(p.getStronyWierszy());
+            });
+        }
         return zapisy;
     }
     

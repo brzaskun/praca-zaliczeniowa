@@ -42,7 +42,7 @@
                     </p:commandButton>
                     <p:commandButton value="Drukuj wszyst. data - rok" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieRok()}" style="width: 220px; margin-left: 20px;" action="#{sesjaView.dodajwydruk()}"/>
                     <p:separator/>
-                    <p:dataTable lazy="false"  id="tabela" value="#{item}" var="itemik" style="width: 1200px; overflow-y: scroll; height: 450px;" 
+                    <p:dataTable lazy="false"  id="tabela" value="#{item}" var="itemik" style="width: 1400px; overflow-y: scroll; height: 650px;" 
                                  rowIndexVar="#{itemik.id}"
                                  >
                         <f:facet name="header">  
@@ -86,6 +86,12 @@
                         <p:column headerText="WNT" style="width: 40px;" sortBy="#{itemik.duplikat}" filterBy="#{itemik.duplikat}" rendered="#{item[0].nazwaewidencji.nazwa eq 'zakup'}">
                             <h:outputText value="#{itemik.duplikat eq true ? 't' : null}"/>
                         </p:column>
+                        <p:column headerText="UZD termin" style="width: 80px; text-align: center;" sortBy="#{itemik.ulganazledlugidatapierwsza}" sortable="true">
+                         <h:outputText value="#{itemik.ulganazledlugidatapierwsza}" style="color: blue;"/>
+                    </p:column>
+                    <p:column headerText="UZD zapłata" style="width: 80px; text-align: center;" sortBy="#{itemik.ulganazledlugidatadruga}"  sortable="true">
+                        <h:outputText value="#{itemik.ulganazledlugidatadruga}" style="color: green;"/>
+                    </p:column>
                         <!--                        <p:column  style="width: 40px;" >
                                                     <p:commandButton icon="fa fa-trash" actionListener="#{ewidencjaVatView.usunpozycje(item,itemik)}" update="@parent:@parent"/>
                                                 </p:column>-->

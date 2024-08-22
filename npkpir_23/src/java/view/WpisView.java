@@ -63,6 +63,9 @@ public class WpisView implements Serializable {
     private boolean ksiegirachunkowe;
     private boolean vatowiec;
     private boolean vatowiecue;
+    //0 blad
+    //1 miesiecznie
+    //2 kwartalnie
     private int vatokres;
     private boolean paramCzworkiPiatki;
     @Inject

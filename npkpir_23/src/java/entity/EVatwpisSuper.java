@@ -81,6 +81,9 @@ public class EVatwpisSuper implements Serializable {
         if (this.getDokfk()!=null) {
             zwrot = this.getDokfk().getUlganazledlugidatapierwsza();
         } 
+        if (this.getDok()!=null) {
+            zwrot = this.getDok().getUlganazledlugidatapierwsza();
+        } 
         return zwrot;
     }
 
@@ -89,6 +92,9 @@ public class EVatwpisSuper implements Serializable {
         if (this.getDokfk()!=null) {
             zwrot = this.getDokfk().getUlganazledlugidatapierwszaplus90();
         } 
+        if (this.getDok()!=null) {
+            zwrot = this.getDok().getUlganazledlugidatapierwszaplus90();
+        } 
         return zwrot;
     }
 
@@ -96,6 +102,9 @@ public class EVatwpisSuper implements Serializable {
         String zwrot = null;
         if (this.getDokfk()!=null) {
             zwrot = this.getDokfk().getUlganazledlugidatadruga();
+        }
+          if (this.getDok()!=null) {
+            zwrot = this.getDok().getUlganazledlugidatadruga();
         } 
         return zwrot;
     }
@@ -206,6 +215,10 @@ public class EVatwpisSuper implements Serializable {
 
     public Dokfk getDokfk() {
         return new Dokfk();
+    }
+    
+      public Dok getDok() {
+        return new Dok();
     }
 
     public String getDataSprz() {

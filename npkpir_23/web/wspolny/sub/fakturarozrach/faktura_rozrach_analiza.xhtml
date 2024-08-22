@@ -60,32 +60,7 @@
             </style>
                 <p:panelGrid style="margin-top: 10px;" columns="3" id="polesumy">
                     <p:panelGrid columns="1" style="width: 350px;margin-top: 10px;" id="mailklientapanel">
-                    <p:column width="350">
-                        <h:outputText value="ksiegowa: "/>
-                        <h:outputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.ksiegowa.imieNazwisko}" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.ksiegowa ne null}"/>
-                    </p:column>
-                    <p:column width="350">
-                        <h:outputText value="polecający: "/>
-                        <h:outputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.polecajacy}" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.polecajacy ne null}"/>
-                    </p:column>
-                   <p:column width="350">
-                        <h:outputText value="podmiot aktywny: "/>
-                        <h:outputText value="tak" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.aktywny eq true}"/>
-                        <h:outputText value="nie" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.aktywny eq false}" style="color: red;"/>
-                    </p:column>
-                    <p:column width="350">
-                        <h:outputText value="mail: "/>
-                        <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" emptyLabel="brak maila" >
-                            <f:facet name="output">
-                                <h:outputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.email}" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.email ne null}"/>
-                                <h:outputText value="brak maila" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.email eq null}"/>
-                            </f:facet>
-                            <f:facet name="input">
-                                <p:inputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.email}"
-                                              label="text" style="font-weight: bolder;" valueChangeListener="#{fakturaRozrachunkiAnalizaView.zmienmailkontrahenta}"/>  
-                            </f:facet>
-                        </p:inplace>
-                    </p:column>
+                        
                     <p:column width="350">
                         <h:outputText value="telefon: "/>
                         <p:inplace editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" emptyLabel="brak maila" >

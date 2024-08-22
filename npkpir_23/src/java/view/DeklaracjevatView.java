@@ -197,7 +197,7 @@ public class DeklaracjevatView implements Serializable {
     public boolean deklaracjazjpk() {
         boolean zwrot = false;
         oczekujace = deklaracjevatDAO.findDeklaracjeDowyslaniaList(wpisView.getPodatnikWpisu());
-        if (!oczekujace.isEmpty()) {
+        if (oczekujace!=null&&!oczekujace.isEmpty()) {
             try {
                 Deklaracjevat biezaca = oczekujace.get(0);
                 String nazwaschemy = biezaca.getSchemaobj().getNazwaschemy();

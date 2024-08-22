@@ -133,7 +133,6 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
         this.vat = -this.vat;
     }
         
-    
 
     
     //<editor-fold defaultstate="collapsed" desc="getters & setters">\

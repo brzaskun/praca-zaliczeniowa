@@ -268,6 +268,12 @@ public class Dok extends DokSuper implements Serializable {
     @JoinColumn(name = "fakturakontrahent", referencedColumnName = "id")
     @OneToOne
     private Faktura fakturakontrahent;
+     @Column(name = "ulganazledlugidatapierwsza")
+    private String ulganazledlugidatapierwsza;
+    @Column(name = "ulganazledlugidatapierwszaplus90")
+    private String ulganazledlugidatapierwszaplus90;
+    @Column(name = "ulganazledlugidatadruga")
+    private String ulganazledlugidatadruga;
 //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
 //    private List<UmorzenieN> listaumorzen;
     
@@ -763,6 +769,32 @@ public class Dok extends DokSuper implements Serializable {
     public String getEdytowal() {
         return edytowal;
     }
+
+    public String getUlganazledlugidatapierwsza() {
+        return ulganazledlugidatapierwsza;
+    }
+
+    public void setUlganazledlugidatapierwsza(String ulganazledlugidatapierwsza) {
+        this.ulganazledlugidatapierwsza = ulganazledlugidatapierwsza;
+    }
+
+    public String getUlganazledlugidatapierwszaplus90() {
+        return ulganazledlugidatapierwszaplus90;
+    }
+
+    public void setUlganazledlugidatapierwszaplus90(String ulganazledlugidatapierwszaplus90) {
+        this.ulganazledlugidatapierwszaplus90 = ulganazledlugidatapierwszaplus90;
+    }
+
+    public String getUlganazledlugidatadruga() {
+        return ulganazledlugidatadruga;
+    }
+
+    public void setUlganazledlugidatadruga(String ulganazledlugidatadruga) {
+        this.ulganazledlugidatadruga = ulganazledlugidatadruga;
+    }
+    
+    
 
 //    public List<UmorzenieN> getListaumorzen() {
 //        return listaumorzen;

@@ -31,6 +31,8 @@ import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.Collator;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -107,6 +109,7 @@ public class DokTabView implements Serializable {
      private double sumavat;
      private double sumabrutto;
      private boolean dodajdlajpk;
+     private boolean robulganazledlugi;
 
     public DokTabView() {
        inicjalizacjalist();
@@ -813,6 +816,36 @@ public class DokTabView implements Serializable {
         } 
     }
 
-   
+    public boolean isRobulganazledlugi() {
+        return robulganazledlugi;
+    }
+
+    public void setRobulganazledlugi(boolean robulganazledlugi) {
+        this.robulganazledlugi = robulganazledlugi;
+    }
+
+public void edycjaUlgaNaZleDlugi(Dok dok) {
+        try {
+            if (dok.getUlganazledlugidatapierwsza()!=null&&dok.getUlganazledlugidatapierwsza().length()<10) {
+                dok.setUlganazledlugidatapierwsza(null);
+            } else if (dok.getUlganazledlugidatapierwsza()!=null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate date = LocalDate.parse(dok.getUlganazledlugidatapierwsza(), formatter);
+                // Dodanie 90 dni
+                LocalDate newDate = date.plusDays(90);
+                // Konwersja LocalDate na String
+                String newDateString = newDate.format(formatter);
+                dok.setUlganazledlugidatapierwszaplus90(newDateString);
+            }
+            if (dok.getUlganazledlugidatadruga()!=null&&dok.getUlganazledlugidatadruga().length()<10) {
+                dok.setUlganazledlugidatadruga(null);
+            }
+            dokDAO.edit(dok);
+            Msg.msg("i", "Pomyślnie zaktualizowano dokument o daty UZD");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji UZD " + e.toString());
+        }
+    }   
         
 }

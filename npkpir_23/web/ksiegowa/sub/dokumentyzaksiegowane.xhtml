@@ -132,6 +132,12 @@
             <p:selectBooleanCheckbox value="#{DokTabView.dodajdlajpk}" label="+tylko jpk">
                 <p:ajax event="change" partialSubmit="true" global="false" listener="#{DokTabView.init()}" update="form:dokumentyLista"/>
             </p:selectBooleanCheckbox>
+            <p:column>
+                    <p:outputLabel for="pokazulgazle" value="ulga na złe długi" style="margin-left: 10px;"/>
+                    <p:selectBooleanCheckbox id="pokazulgazle" value="#{DokTabView.robulganazledlugi}">
+                        <p:ajax event="change" global="false" partialSubmit="tue" update="form:dokumentyLista"/>
+                    </p:selectBooleanCheckbox>
+            </p:column>
         </p:panelGrid>
         
         <p:hotkey bind="down" onstart="przejdzwiersz();" global="false"/>
@@ -139,7 +145,7 @@
         
         <p:outputPanel id="kontenertabeli" rendered="#{WpisView.biuroiszef eq true}">
             <p:dataTable lazy="false" var="wpis" value="#{DokTabView.dokumentylista}" id="dokumentyLista" filteredValue="#{DokTabView.dokumentyFiltered}" rowIndexVar="index"
-                          style="max-width:  1700px; margin-top: 10px; max-height: 900px; overflow-y: scroll" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
+                          style="max-width:  1850px; margin-top: 10px; max-height: 900px; overflow-y: scroll; overflow-x: hidden;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów" rowSelectMode="add" styleClass="grid" >
                 
@@ -218,10 +224,22 @@
                         </h:outputText><br/>
                     </ui:repeat>
                 </p:column>
-                <p:column headerText="spr" style="text-align: center;" width="20" sortBy="#{wpis.sprawdzony}">  
+                <p:column headerText="spr" style="text-align: center;" width="20" sortBy="#{wpis.sprawdzony}" rendered="#{DokTabView.robulganazledlugi eq false}">  
                     <h:outputText id="polespr" value="#{wpis.sprawdzony eq 2 ? '. .' : (wpis.sprawdzony eq 1 ? '. .' : '.')}" 
                                   style="#{wpis.sprawdzony eq 2 ? 'background-color: red; color: red;' : (wpis.sprawdzony eq 1 ? 'background-color: green; color: green;' : null)}"/>
                 </p:column>
+                 <p:column headerText="UZD termin płatności" width="60" style="text-align: center;" rendered="#{DokTabView.robulganazledlugi eq true}" 
+                        filterBy="#{wpis.ulganazledlugidatapierwsza}" filterMatchMode="contains" sortable="true" sortBy="#{wpis.ulganazledlugidatapierwsza}">
+                  <p:inputMask value="#{wpis.ulganazledlugidatapierwsza}" size="10" maxlength="10" mask="9999-99-99" validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
+                      <p:ajax event="change" listener="#{DokTabView.edycjaUlgaNaZleDlugi(wpis)}" partialSubmit="true" global="false"/>
+                  </p:inputMask>
+                    </p:column>
+                    <p:column headerText="UZD data zapłaty" width="60" style="text-align: center;" rendered="#{DokTabView.robulganazledlugi eq true}" 
+                              filterBy="#{wpis.ulganazledlugidatadruga}" filterMatchMode="contains" sortable="true" sortBy="#{wpis.ulganazledlugidatadruga}">
+                        <p:inputMask value="#{wpis.ulganazledlugidatadruga}" size="10" maxlength="10" mask="9999-99-99" validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd" required="false">
+                            <p:ajax event="change" listener="#{DokTabView.edycjaUlgaNaZleDlugi(wpis)}" partialSubmit="true" global="false"/>
+                        </p:inputMask>
+                    </p:column>
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
                         <p:dataTable lazy="false" var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat" resizableColumns="true" style="width: 65%;">
@@ -262,16 +280,16 @@
                 <p:column id="vatMcColumn" headerText="#{mgs.VAT}" filterBy="#{wpis.vatM}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.vatM}" style="width: 14px; text-align: center;" filterMaxLength="2">  
                     <h:outputText style="#{wpis.vatM eq wpis.pkpirM ? null : 'font-weight: bold; color: red;'}" value="#{wpis.vatM}"/>
                 </p:column>
-                <p:column id="symbol" headerText="symbol" style="width: 7%; text-align: center;color: blue;" sortBy="#{wpis.pobierzsymbole()}">
+                <p:column id="symbol" headerText="symbol" style="width: 7%; text-align: center;color: blue;" sortBy="#{wpis.pobierzsymbole()}" rendered="#{DokTabView.robulganazledlugi eq false}">
                     <h:outputText value="#{wpis.pobierzsymbole()}"/>
                 </p:column>
-                <p:column width="40" id="niemcy" headerText="niemcy" style="text-align: center" sortBy="#{wpis.jestniemcy()}">
+                <p:column width="40" id="niemcy" headerText="niemcy" style="text-align: center" sortBy="#{wpis.jestniemcy()}" rendered="#{DokTabView.robulganazledlugi eq false}">
                     <h:outputText value="&#x2713;" rendered="#{wpis.jestniemcy()}" style="color: green;font-weight: bold"/>
                 </p:column>
-                <p:column width="100" id="wprow" headerText="wprow.">
+                <p:column width="100" id="wprow" headerText="wprow."  rendered="#{DokTabView.robulganazledlugi eq false}">
                     <h:outputText value="#{wpis.wprowadzil}" />
                 </p:column>
-                <p:column id="status" headerText="tab" style="width: 7%; text-align: center;" sortBy="#{wpis.tabelanbp.waluta.symbolwaluty}">
+                <p:column id="status" headerText="tab" style="width: 7%; text-align: center;" sortBy="#{wpis.tabelanbp.waluta.symbolwaluty}"  rendered="#{DokTabView.robulganazledlugi eq false}">
                     <h:outputText value="#{wpis.tabelanbp.nrtabeli}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
                     <h:outputText value="#{wpis.tabelanbp.kurssredni}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
                 </p:column>

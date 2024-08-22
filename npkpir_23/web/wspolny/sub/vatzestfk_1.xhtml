@@ -16,7 +16,7 @@
                 <!--            <h:outputText value="Wynik za okres rozliczeniowy: 9{ewidencjaVatView.wynikOkresu gt 0 ? 'do zapłaty ' : 'do zwrotu '}"/> <h:outputText value="9{ewidencjaVatView.wynikOkresu}" style="9{ewidencjaVatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" rendered="9{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                                 <f:convertNumber minFractionDigits="0" locale="PL" />
                             </h:outputText>-->
-                <p:tabView id="akorderonbis" style="max-width: 1300px; margin-top: -10px;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+                <p:tabView id="akorderonbis" style="max-width: 1350px; margin-top: -10px;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
 
                     <c:forEach  items="#{ewidencjaVatView.listaewidencji.values()}"  var="item" varStatus="numer">
                         <p:tab  title="#{item[0].nazwaewidencji.nazwa}">
@@ -87,7 +87,9 @@
                                     <h:outputText value="#{itemik.innymc}">
                                     </h:outputText>
                                 </p:column>
-
+                        <p:column  style="width: 40px;" sortBy="#{itemik.uzg}" filterBy="#{itemik.uzg}">
+                             <h:outputText value="#{itemik.uzg eq true ? 'uzd' : null}" style="color:red;"/>
+                        </p:column>
                             </p:dataTable>
                         </p:tab>
                     </c:forEach>

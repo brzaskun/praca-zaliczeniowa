@@ -28,6 +28,7 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "EVatwpis1.findByRok", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :rok"),
     @NamedQuery(name = "EVatwpis1.findByMcRok", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :rok AND d.mcEw = :mc"),
     @NamedQuery(name = "EVatwpis1.findByNULL", query = "SELECT d FROM EVatwpis1 d WHERE d.ewidencja IS NULL"),
+    @NamedQuery(name = "EVatwpis1.findByRokUlgaNaZleDlugi", query = "SELECT k FROM EVatwpis1 k WHERE k.dok.podatnik = :podatnik AND k.rokEw = :rok AND (k.dok.ulganazledlugidatapierwsza IS NOT NULL OR k.dok.ulganazledlugidatadruga IS NOT NULL)"),
     @NamedQuery(name = "EVatwpis1.findByRokMcKasowe", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :pkpirR AND d.dok.podatnik = :podatnik AND d.mcEw = :mc AND d.dok.rozliczony = '1'"),
     @NamedQuery(name = "EVatwpis1.findByRokKWKasowe", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :pkpirR AND d.dok.podatnik = :podatnik AND (d.mcEw = :mc1 OR d.mcEw = :mc2 OR d.mcEw = :mc3) AND d.dok.rozliczony = '1'")
 })
@@ -43,8 +44,12 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
         super(wiersz);
         this.dok = wiersz.dok;
     }
-    
-     
+    // Metoda zmieniająca znak zmiennych typu double na przeciwny
+    public void zmienZnak() {
+        this.netto = -this.netto;
+        this.vat = -this.vat;
+    }
+
     
 
     public EVatwpis1(Evewidencja ewidencja, double netto, double vat, String estawka, String mcEw, String rokEw) {
@@ -122,6 +127,7 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
         this.estawka = estawka;
     }
 
+    @Override
     public Dok getDok() {
         return dok;
     }
