@@ -651,7 +651,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                 }
             }
             if (t.getKontoMa()!=null&&t.getKontoMa().getZwyklerozrachszczegolne().equals("vat")) {
-                if (t.getKontoWn()!=null&&t.getKontoWn().getPelnynumer().equals("221-1") || t.getKontoWn().getPelnynumer().equals("221-3")) {
+                if (t.getKontoMa()!=null&&t.getKontoMa().getPelnynumer().equals("221-1") || t.getKontoMa().getPelnynumer().equals("221-3")) {
                     suma += t.getKwotaMaPLN();
                 }
             }

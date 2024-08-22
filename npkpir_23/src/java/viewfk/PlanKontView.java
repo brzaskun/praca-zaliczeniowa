@@ -2282,8 +2282,8 @@ public class PlanKontView implements Serializable {
         try {
             if (selectednodekonto.isSlownikowe()) {
                 List<Konto> kontadousuniecia = kontoDAOfk.findKontaSiostrzanePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), selectednodekonto.getKontomacierzyste());
-                kontoDAOfk.remove(kontadousuniecia);
                 for (Konto p : kontadousuniecia) {
+                    kontoDAOfk.remove(p);
                     wykazkont.remove(p);
                 }
                 Konto macierzyste = kontoDAOfk.findKonto(selectednodekonto.getKontomacierzyste().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
