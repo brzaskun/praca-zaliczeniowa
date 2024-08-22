@@ -409,25 +409,27 @@ public class DokfkWeryfikacjaView implements Serializable {
             }
             for (EVatwpisFK ew : p.getEwidencjaVAT()) {
                 if (p.getListawierszy().size() > 1 && (p.getRodzajedok().getKategoriadokumentu() == 1 || p.getRodzajedok().getKategoriadokumentu() == 2)) {
-                    if (ew.getInnyokres() == 0) {
-                        if (ew.getEwidencja().getTypewidencji().equals("z") && kontown != null && !kontown.equals("221-3")) {
-                            listabrakivat.add(p);
-                        }
-                        if (ew.getEwidencja().getTypewidencji().equals("s") && kontoma != null && !kontoma.equals("221-1")) {
-                            listabrakivat.add(p);
-                        }
-                        if (ew.getEwidencja().getTypewidencji().equals("sz") && kontown != null && kontoma != null && !kontown.equals("221-3") && !kontoma.equals("221-1")) {
-                            listabrakivat.add(p);
-                        }
-                    } else {
-                        if (ew.getEwidencja().getTypewidencji().equals("z") && kontown != null && !kontown.equals("221-4")) {
-                            listabrakivat.add(p);
-                        }
-                        if (ew.getEwidencja().getTypewidencji().equals("s") && kontoma != null && !kontoma.equals("221-2")) {
-                            listabrakivat.add(p);
-                        }
-                        if (ew.getEwidencja().getTypewidencji().equals("sz") && kontown != null && kontoma != null && !kontown.equals("221-4") && !kontoma.equals("221-2")) {
-                            listabrakivat.add(p);
+                    if (ew.getNetto()!=0.0||ew.getVat()!=0.0) {
+                        if (ew.getInnyokres() == 0) {
+                            if (ew.getEwidencja().getTypewidencji().equals("z") && kontown != null && !kontown.equals("221-3")) {
+                                listabrakivat.add(p);
+                            }
+                            if (ew.getEwidencja().getTypewidencji().equals("s") && kontoma != null && !kontoma.equals("221-1")) {
+                                listabrakivat.add(p);
+                            }
+                            if (ew.getEwidencja().getTypewidencji().equals("sz") && kontown != null && kontoma != null && !kontown.equals("221-3") && !kontoma.equals("221-1")) {
+                                listabrakivat.add(p);
+                            }
+                        } else {
+                            if (ew.getEwidencja().getTypewidencji().equals("z") && kontown != null && !kontown.equals("221-4")) {
+                                listabrakivat.add(p);
+                            }
+                            if (ew.getEwidencja().getTypewidencji().equals("s") && kontoma != null && !kontoma.equals("221-2")) {
+                                listabrakivat.add(p);
+                            }
+                            if (ew.getEwidencja().getTypewidencji().equals("sz") && kontown != null && kontoma != null && !kontown.equals("221-4") && !kontoma.equals("221-2")) {
+                                listabrakivat.add(p);
+                            }
                         }
                     }
                 }
