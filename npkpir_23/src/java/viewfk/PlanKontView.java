@@ -1432,6 +1432,7 @@ public class PlanKontView implements Serializable {
     }
     
      public void porzadkowanieWybranegoKontaPodatnika() {
+         wykazkont = wykazkontZapas.stream().collect(Collectors.toList());
          List<KontopozycjaZapis> zapisanepozycje = kontopozycjaZapisDAO.findByUklad(wybranyuklad);
          porzadkowanieWybranegoKontaPodatnika(zapisanepozycje, selectednodekonto);
      }
