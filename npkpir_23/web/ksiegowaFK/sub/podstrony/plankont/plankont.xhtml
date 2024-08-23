@@ -93,9 +93,11 @@
                         <f:selectItems value="#{planKontView.listaukladow}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" update="form_dialog_plankont:dataList" partialSubmit="true" listener="#{planKontView.zmienuklad()}"/>
                     </p:selectOneMenu>
-                   <p:commandButton value="nanieś pozycje" actionListener="#{planKontView.naniespozycjeNakontaZbazy}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                   <p:commandButton value="porządki" actionListener="#{planKontView.porzadkujCzterySiedemUzer}"
-                                    onclick="document.body.style.cursor = 'wait'" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                   <p:commandButton value="nanieś pozycje" actionListener="#{planKontView.naniespozycjeNakontaZbazy}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"
+                                    rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                   <p:commandButton value="porządki 4/7" actionListener="#{planKontView.porzadkujCzterySiedemUzer}"
+                                    onclick="document.body.style.cursor = 'wait'" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"
+                                    rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                    <p:commandButton value="miotełka" actionListener="#{planKontView.porzadkujCzterySiedem}"
                                     onclick="document.body.style.cursor = 'wait'" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                    <p:commandButton value="importuj bilansowe" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('b')}" icon="fa fa-sign-in" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
