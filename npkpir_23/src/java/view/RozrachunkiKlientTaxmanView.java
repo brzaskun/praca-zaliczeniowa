@@ -41,13 +41,15 @@ public class RozrachunkiKlientTaxmanView implements Serializable {
     @PostConstruct
     public void pobierzwszystkoKlienta() {
         Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-        Podatnik taxman = podatnikDAO.findPodatnikByNIP("8511005008");
-        faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), taxman, wpisView.getRokWpisuSt());
-        faktury.addAll(fakturaDAO.findbyKontrahentNipRok(klient.getNip(), taxman, wpisView.getRokUprzedniSt()));
-        for (Iterator<Faktura> it = faktury.iterator(); it.hasNext();) {
-            Faktura f = it.next();
-            if (f.isRozrachunekarchiwalny()) {
-                it.remove();
+        if (klient!=null) {
+            Podatnik taxman = podatnikDAO.findPodatnikByNIP("8511005008");
+            faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), taxman, wpisView.getRokWpisuSt());
+            faktury.addAll(fakturaDAO.findbyKontrahentNipRok(klient.getNip(), taxman, wpisView.getRokUprzedniSt()));
+            for (Iterator<Faktura> it = faktury.iterator(); it.hasNext();) {
+                Faktura f = it.next();
+                if (f.isRozrachunekarchiwalny()) {
+                    it.remove();
+                }
             }
         }
         Msg.msg("Pobrano dane kontrahenta");
