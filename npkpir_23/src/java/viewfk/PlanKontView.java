@@ -1431,6 +1431,11 @@ public class PlanKontView implements Serializable {
         }
     }
     
+     public void porzadkowanieWybranegoKontaPodatnika() {
+         List<KontopozycjaZapis> zapisanepozycje = kontopozycjaZapisDAO.findByUklad(wybranyuklad);
+         porzadkowanieWybranegoKontaPodatnika(zapisanepozycje, selectednodekonto);
+     }
+    
     public void porzadkowanieWybranegoKontaPodatnika(List<KontopozycjaZapis> zapisanepozycje, Konto selectednodekontoL) {
         if (selectednodekontoL != null) {
             Podatnik podatnik = selectednodekontoL.getPodatnik();
