@@ -251,7 +251,7 @@
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
                                  selection="#{kontoZapisFKView.wybranezapisydosumowania}"  style="width: 100%;height: 650px;overflow-y: scroll;"
-                                  emptyMessage="Nie ma zapisów na koncie"
+                                 emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="walkingtable" rowSelectMode="add" widgetVar="tabelastronyzapisy"
                                  rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{kontoZapisFKView.kontozapisy.size() gt 150 ? 'true':'false'}" rows="150"
                                  >
@@ -413,7 +413,7 @@
                     <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}" class="menuzapisy">
                         <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
                                     update="formwpisdokument zestawieniezapisownakontachpola1 wpisywaniefooter"
-                                    actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranezapisydosumowania.get(0))}"
+                                    actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranezapisydosumowania.get(kontoZapisFKView.wybranezapisydosumowania.size()-1))}"
                                     oncomplete="PF('wpisywanie').show();" />
                         <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
                         <p:menuitem value="usuń różnice kursowe" icon="fa fa-minus" actionListener="#{kontoZapisFKView.usunroznicekursowe()}" update=":tabelazzapisami:tabela"/>
