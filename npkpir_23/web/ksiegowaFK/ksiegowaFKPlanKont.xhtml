@@ -47,7 +47,7 @@
                                          >
                             <h:form id="formporzadkowaniekonta">
                                 <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm5').hide();"
-                                                 actionListener="#{planKontView.porzadkowanieWybranegoKontaPodatnika(null)}"
+                                                 actionListener="#{planKontView.porzadkowanieWybranegoKontaPodatnika()}"
                                                  style="float: left; width: 120px; margin-left: 2%;" update="form_dialog_plankont">
                                 </p:commandButton>
                                 <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm5').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
