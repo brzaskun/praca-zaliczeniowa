@@ -169,6 +169,8 @@
                                 }
                             });
                         };
+             
+
                     </script>
                     <p:outputPanel id="kontenertabeli">
                         <style>
@@ -243,31 +245,7 @@
                     }
                 </style>
                 <h:form id="tabelazzapisami">
-                    <!--                dzieki temu toggleselect nie zaznacza juz wszystkich ignorujac filtr-->
-                <script type="text/javascript">
-                    function toggleFilteredSelect(checkbox, tableWidgetVar) {
-                        var tableWidget = PF(tableWidgetVar);
-                        var rows = tableWidget.tbody.find('tr:visible');
-                        var checked = checkbox.checked;
-
-                        rows.each(function() {
-                            var row = $(this);
-                            var checkbox = row.find('td .ui-chkbox-box');
-
-                            if (checked) {
-                                checkbox.addClass('ui-state-active');
-                                row.addClass('ui-state-highlight');
-                                row.find(':checkbox').prop('checked', true);
-                            } else {
-                                checkbox.removeClass('ui-state-active');
-                                row.removeClass('ui-state-highlight');
-                                row.find(':checkbox').prop('checked', false);
-                            }
-                        });
-
-                        tableWidget.updateRowMeta();
-                    }
-                </script>   
+              
                     <p:remoteCommand actionListener="#{kontoZapisFKView.sumazapisowtotal}" name="przeliczfilterzapisy" update=":tabelazsumami:sumy" global="false"/>
 
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
