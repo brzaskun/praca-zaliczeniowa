@@ -10,6 +10,7 @@ import beansFK.KontaFKBean;
 import beansFK.PlanKontFKBean;
 import beansFK.RozliczTransakcjeBean;
 import beansFK.UkladBRBean;
+import comparator.KontoZapisycomparator1;
 import comparator.Kontocomparator;
 import comparator.StronaWierszacomparator;
 import dao.CechazapisuDAOfk;
@@ -297,7 +298,7 @@ public class KontoZapisFKView implements Serializable{
                 }
                 //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
                 Msg.msg("Pobrano zapisy dla konta "+wybraneKontoNode.getPelnynumer());
-                Collections.sort(kontozapisy, new StronaWierszacomparator());
+                Collections.sort(kontozapisy, new KontoZapisycomparator1());
             }
         } catch (Exception e) {
             E.e(e);
