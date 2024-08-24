@@ -322,58 +322,58 @@ public class PlanKontView implements Serializable {
                     kontopodatnika.setSaldodosprawozdania(kontowzorcowe.isSaldodosprawozdania());
                     kontopodatnika.setBilansowe(kontowzorcowe.isBilansowe());
 
-//                    if (kontowzorcowe.isSaldodosprawozdania()) {
-//                        KontopozycjaZapis kpozycjawzorcowa = listabaza.stream()
-//                                .filter(p -> p.getKontoID()!=null&&p.getKontoID().equals(kontowzorcowe))
-//                                .findFirst()
-//                                .orElse(null);
-//
-//                        KontopozycjaZapis kpozycjapodatnik = listabazapodatnik.stream()
-//                                .filter(p ->  p.getKontoID()!=null&&p.getKontoID().equals(kontopodatnika))
-//                                .findFirst()
-//                                .orElse(null);
-//
-//                        if (kpozycjawzorcowa!=null&&kpozycjapodatnik != null) {
-//                            kpozycjapodatnik.edytujzmianywzorzec(kpozycjawzorcowa);
-//                            listadoedycji.add(kpozycjapodatnik);
-//                        } else if (kpozycjawzorcowa != null&&kpozycjapodatnik == null) {
-//                            KontopozycjaZapis nowapozycja = KontoPozycjaBean.kopiujpozycjeWzorNowe(kpozycjawzorcowa, wybranyukladpodatnika, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontopodatnika);
-//                            listadododania.add(nowapozycja);
-//                        } else if (kpozycjawzorcowa == null&&kpozycjapodatnik != null) {
-//                            listadousuniecia.add(kpozycjapodatnik);
-//                        }
-//                    } else {
-//                        kontopodatnika.setPozycjaWn(null);
-//                        kontopodatnika.setPozycjaMa(null);
-//                        kontopodatnika.setStronaWn(null);
-//                        kontopodatnika.setStronaMa(null);
-//                        KontopozycjaZapis kpozycja = listabazapodatnik.stream()
-//                                .filter(p -> p.getKontoID()!=null&&p.getKontoID().equals(kontopodatnika))
-//                                .findFirst()
-//                                .orElse(null);
-//                        if (kpozycja != null) {
-//                             listadousuniecia.add(kpozycja);
-//                        }
-//                    }
+                    if (kontowzorcowe.isSaldodosprawozdania()) {
+                        KontopozycjaZapis kpozycjawzorcowa = listabaza.stream()
+                                .filter(p -> p.getKontoID()!=null&&p.getKontoID().equals(kontowzorcowe))
+                                .findFirst()
+                                .orElse(null);
+
+                        KontopozycjaZapis kpozycjapodatnik = listabazapodatnik.stream()
+                                .filter(p ->  p.getKontoID()!=null&&p.getKontoID().equals(kontopodatnika))
+                                .findFirst()
+                                .orElse(null);
+
+                        if (kpozycjawzorcowa!=null&&kpozycjapodatnik != null) {
+                            kpozycjapodatnik.edytujzmianywzorzec(kpozycjawzorcowa);
+                            listadoedycji.add(kpozycjapodatnik);
+                        } else if (kpozycjawzorcowa != null&&kpozycjapodatnik == null) {
+                            KontopozycjaZapis nowapozycja = KontoPozycjaBean.kopiujpozycjeWzorNowe(kpozycjawzorcowa, wybranyukladpodatnika, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontopodatnika);
+                            listadododania.add(nowapozycja);
+                        } else if (kpozycjawzorcowa == null&&kpozycjapodatnik != null) {
+                            listadousuniecia.add(kpozycjapodatnik);
+                        }
+                    } else {
+                        kontopodatnika.setPozycjaWn(null);
+                        kontopodatnika.setPozycjaMa(null);
+                        kontopodatnika.setStronaWn(null);
+                        kontopodatnika.setStronaMa(null);
+                        KontopozycjaZapis kpozycja = listabazapodatnik.stream()
+                                .filter(p -> p.getKontoID()!=null&&p.getKontoID().equals(kontopodatnika))
+                                .findFirst()
+                                .orElse(null);
+                        if (kpozycja != null) {
+                             listadousuniecia.add(kpozycja);
+                        }
+                    }
                 }
                 
             }
         });
-//        kontapodatnika.stream().forEach(kontopodatnika -> {
-//            if (kontopodatnika.isSaldodosprawozdania()==false) {
-//                kontopodatnika.setPozycjaWn(null);
-//                kontopodatnika.setPozycjaMa(null);
-//                kontopodatnika.setStronaWn(null);
-//                kontopodatnika.setStronaMa(null);
-//                KontopozycjaZapis kpozycja = listabazapodatnik.stream()
-//                        .filter(p -> p.getKontoID()!=null&&p.getKontoID().equals(kontopodatnika))
-//                        .findFirst()
-//                        .orElse(null);
-//                if (kpozycja != null) {
-//                     listadousuniecia.add(kpozycja);
-//                }
-//            }
-//        });
+        kontapodatnika.stream().forEach(kontopodatnika -> {
+            if (kontopodatnika.isSaldodosprawozdania()==false) {
+                kontopodatnika.setPozycjaWn(null);
+                kontopodatnika.setPozycjaMa(null);
+                kontopodatnika.setStronaWn(null);
+                kontopodatnika.setStronaMa(null);
+                KontopozycjaZapis kpozycja = listabazapodatnik.stream()
+                        .filter(p -> p.getKontoID()!=null&&p.getKontoID().equals(kontopodatnika))
+                        .findFirst()
+                        .orElse(null);
+                if (kpozycja != null) {
+                     listadousuniecia.add(kpozycja);
+                }
+            }
+        });
         kontoDAOfk.editList(kontapodatnika);
         kontopozycjaZapisDAO.removeList(listadousuniecia);
         kontopozycjaZapisDAO.editList(listadoedycji);

@@ -128,37 +128,7 @@ public class RemanentView implements Serializable {
         this.wpisView = wpisView;
     }
 
-    @Inject
-    KontoDAOfk kontoDAOfk;
-    public void przenieskonta() {
-        List<Konto> kontacalyswiat = kontoDAOfk.findAll();
-        int size = kontacalyswiat.size();
-        System.out.println("size "+size);
-        for (Konto konto : kontacalyswiat) {
-            String zwyklerozrachszczegolne = konto.getZwyklerozrachszczegolne();
-            if (zwyklerozrachszczegolne!=null) {
-                if (zwyklerozrachszczegolne.equals("zwykłe")) {
-                    konto.setDwasalda(false);
-                    konto.setRozrachunkowe(false);
-                    konto.setKontovat(false);
-                } else if (zwyklerozrachszczegolne.equals("szczególne")) {
-                    konto.setDwasalda(true);
-                    konto.setRozrachunkowe(false);
-                    konto.setKontovat(false);
-                } else if (zwyklerozrachszczegolne.equals("rozrachunkowe")) {
-                    konto.setDwasalda(true);
-                    konto.setRozrachunkowe(true);
-                    konto.setKontovat(false);
-                } else if (zwyklerozrachszczegolne.equals("vat")) {
-                    konto.setDwasalda(false);
-                    konto.setRozrachunkowe(false);
-                    konto.setKontovat(true);
-                }
-            }
-        }
-        kontoDAOfk.editList(kontacalyswiat);
-        System.out.println("KONIEC!!!!!!!!!!");
-    }
+
     
     
 }

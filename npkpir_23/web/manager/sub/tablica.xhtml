@@ -377,7 +377,12 @@ c
 <!--     <p:commandButton value="okresowe podid" actionListener="#{fakturaView.okresowepodid()}"/>-->-->
 <!--    <p:commandButton value="zus pobierz" actionListener="#{draPlatnikTimer.autozus  ()}"/>-->-->
 <!--    <p:commandButton value="remanent" actionListener="#{remanentView.tworzremanent()}"/>-->-->
-     <p:commandButton value="przenies konta" actionListener="#{remanentView.przenieskonta()}"/>-->
+    <h:form>
+         <p:growl />
+         <p:commandButton value="reforma kont" actionListener="#{kontaRewolucjaView.przenieskonta()}"/>-->
+         <p:messages><p:autoUpdate/></p:messages>
+    </h:form>
+     
 <!--    <h:form>
     <p:commandButton value="Export as PDF" ajax="false" >
 <p:dataExporter type="pdf" target="klienci" fileName="adresy"/>

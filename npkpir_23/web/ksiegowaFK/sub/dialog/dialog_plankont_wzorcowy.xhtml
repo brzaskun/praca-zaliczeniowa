@@ -7,7 +7,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
    
-    <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura podstawowa" widgetVar="dialogplankontwzorcowy" 
+    <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura podstawowa" widgetVar="dialogplankontwzorcowy" dynamic="true"
               resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1750, 950);ustalmaxlevel('formwzorcowy:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
             <p:contextMenu id="contextforplankontwzorcowy" for="dataListwzorcowy" style="width: 200px;">

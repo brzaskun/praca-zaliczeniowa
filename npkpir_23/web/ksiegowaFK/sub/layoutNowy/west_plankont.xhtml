@@ -10,15 +10,16 @@
   
         <h:form>
             <p:menu style="width: 238px; border: none;">
-                <p:menuitem value="bieżący plan kont" action="#{menu_plankont.ufile1(true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.file1style}"/>  
-                <p:menuitem value="plan kont - salda"  action="#{menu_plankont.ufile2(true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.file2style}"/>  
-                <p:menuitem value="edycja nazwy kont"  action="#{menu_plankont.ufile3(true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.file3style}"/>  
-                <p:menuitem value="nazwy kont de"  action="#{menu_plankont.ufile4(true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.file4style}"/>  
-                <p:menuitem value="klasyfikacja kont"  action="#{menu_plankont.ufile5(true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.file5style}"/>  
-                <p:menuitem value="implementacje"  action="#{menu_plankont.ufile6(true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.file6style}"/>  
-                <p:menuitem value="porównanie nazw"  action="#{menu_plankont.ufile7(true)}" icon="ui-icon-circle-arrow-e" style="#{menu_plankont.file7style}"/>  
-                <p:menuitem value="import planu kont"  action="#{menu_plankont.ufile8(true)}" icon="ui-icon-circle-arrow-e" style="#{menu_plankont.file8style}"/>  
-                <p:menuitem value="wykaz konto-pozycja"  action="#{menu_plankont.ufile9(true)}" icon="ui-icon-circle-arrow-e" style="#{menu_plankont.file9style}"/>
+                <p:menuitem value="bieżący plan kont" action="#{menu_plankont.updateFile(0, true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.getFileStyle(0)}"/>  
+                <p:menuitem value="nowy plan kont" action="#{menu_plankont.updateFile(1, true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.getFileStyle(1)}"/>  
+                <p:menuitem value="plan kont - salda"  action="#{menu_plankont.updateFile(2, true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.getFileStyle(2)}"/>  
+                <p:menuitem value="edycja nazwy kont"  action="#{menu_plankont.updateFile(3, true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.getFileStyle(3)}"/>  
+                <p:menuitem value="nazwy kont de"  action="#{menu_plankont.updateFile(4, true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.getFileStyle(4)}"/>  
+                <p:menuitem value="klasyfikacja kont"  action="#{menu_plankont.updateFile(5, true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.getFileStyle(5)}"/>  
+                <p:menuitem value="implementacje"  action="#{menu_plankont.updateFile(6, true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.getFileStyle(6)}"/>  
+                <p:menuitem value="porównanie nazw"  action="#{menu_plankont.updateFile(7, true)}" icon="ui-icon-circle-arrow-e" style="#{menu_plankont.getFileStyle(7)}"/>  
+                <p:menuitem value="import planu kont"  action="#{menu_plankont.updateFile(8, true)}" icon="ui-icon-circle-arrow-e" style="#{menu_plankont.getFileStyle(8)}"/>  
+                <p:menuitem value="wykaz konto-pozycja"  action="#{menu_plankont.updateFile(9, true)}" icon="ui-icon-circle-arrow-e" style="#{menu_plankont.getFileStyle(9)}"/>
             </p:menu>
         </h:form>
         <p:panel>

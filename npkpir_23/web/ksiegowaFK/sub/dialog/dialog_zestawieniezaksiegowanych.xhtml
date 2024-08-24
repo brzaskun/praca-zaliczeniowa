@@ -285,7 +285,7 @@
                                       style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
                 </p:column>
                 <p:column width="20" style="text-align: center;"  rendered="#{dokfkView.robulganazledlugi eq false}">
-                    <p:commandButton id="drukujbutton2" icon="fa fa-file-pdf-o" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfFaktura.drukuj(item.fakturakontrahent, row, item.fakturakontrahent.wystawca)}" styleClass="fkbutton"
+                    <p:commandButton id="drukujbutton2" icon="fa fa-file-pdf" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfFaktura.drukuj(item.fakturakontrahent, row, item.fakturakontrahent.wystawca)}" styleClass="fkbutton"
                                      style="width: 30px;"  rendered="#{item.fakturakontrahent ne null}"/>
                 </p:column>
 
