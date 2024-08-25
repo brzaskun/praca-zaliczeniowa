@@ -82,6 +82,8 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
     private double sumabilansowaaktywaBO;
     private double sumabilansowapasywa;
     private double sumabilansowapasywaBO;
+    private String bilansoddniaRokPop;
+    private String bilansnadzienRokPop;
     
     @Inject
     private WpisView wpisView;
@@ -97,8 +99,11 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
     public void init() { //E.m(this);
         try {
             uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            bilansoddniaRokPop = wpisView.getOpodatkowanieRokUprzedni().getDatarozpoczecia();
+            bilansnadzienRokPop = wpisView.getOpodatkowanieRokUprzedni().getDatazakonczenia();
             bilansnadzien = Data.ostatniDzien(wpisView);
-            bilansoddnia = wpisView.getRokUprzedniSt()+"-12-31";
+            bilansoddnia = wpisView.getOpodatkowanieRokBiezacy().getDatarozpoczecia();
+            
         } catch (Exception e){}
     }
     
@@ -111,8 +116,8 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
         pobierzPozycjeAktywaPasywa(rootBilansAktywa, rootBilansPasywa);
         Collections.sort(rootBilansAktywa, new PozycjaRZiSBilanscomparator());
         Collections.sort(rootBilansPasywa, new PozycjaRZiSBilanscomparator());
-        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowbilansoweNowe(stronaWierszaDAO, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
-        List<StronaWiersza> zapisyRokPop = StronaWierszaBean.pobraniezapisowbilansoweNowe(stronaWierszaDAO, "12", wpisView.getRokUprzedniSt(), wpisView.getPodatnikObiekt());
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowbilansoweDzienOdDoNowe(stronaWierszaDAO, bilansoddnia, bilansnadzien, wpisView.getPodatnikObiekt());
+        List<StronaWiersza> zapisyRokPop = StronaWierszaBean.pobraniezapisowbilansoweDzienOdDoNowe(stronaWierszaDAO, bilansoddniaRokPop, bilansnadzienRokPop, wpisView.getPodatnikObiekt());
         List<Konto> pustekonta = kontoDAO.findByPodatnikBilansoweBezPotomkowPuste(wpisView);
         if (pustekonta.isEmpty()==false) {
             pustekonta = pustekonta.parallelStream().filter(item->item.isSaldodosprawozdania()).collect(Collectors.toList());
@@ -794,6 +799,22 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
 
     public void setKontabilansowebezprzyporzadkowania(String kontabilansowebezprzyporzadkowania) {
         this.kontabilansowebezprzyporzadkowania = kontabilansowebezprzyporzadkowania;
+    }
+
+    public String getBilansoddniaRokPop() {
+        return bilansoddniaRokPop;
+    }
+
+    public void setBilansoddniaRokPop(String bilansoddniaRokPop) {
+        this.bilansoddniaRokPop = bilansoddniaRokPop;
+    }
+
+    public String getBilansnadzienRokPop() {
+        return bilansnadzienRokPop;
+    }
+
+    public void setBilansnadzienRokPop(String bilansnadzienRokPop) {
+        this.bilansnadzienRokPop = bilansnadzienRokPop;
     }
     
     

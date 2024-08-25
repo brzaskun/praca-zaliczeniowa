@@ -105,6 +105,11 @@ public class StronaWierszaBean {
         return pobranezapisy;
     }
     
+    public static List<StronaWiersza> pobraniezapisowwynikoweDzienOdDoNowe(StronaWierszaDAO stronaWierszaDAO, String dataod, String datado, Podatnik podatnik) {
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokDataOdDoWynik(podatnik, dataod, datado);
+        return pobranezapisy;
+    }
+    
     public static List<StronaWiersza> pobraniezapisowwynikoweMCRok(StronaWierszaDAO stronaWierszaDAO, Podatnik podatnik, String rok, String mc) {
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokMcWynik(podatnik, rok, mc);
         return pobranezapisy;
@@ -172,6 +177,13 @@ public class StronaWierszaBean {
      
      public static List<StronaWiersza> pobraniezapisowbilansoweNowe(StronaWierszaDAO stronaWierszaDAO, String mc, String rok, Podatnik podatnik) {
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokBilans(podatnik, rok, mc);
+        
+        return pobranezapisy;
+    }
+    
+     
+     public static List<StronaWiersza> pobraniezapisowbilansoweDzienOdDoNowe(StronaWierszaDAO stronaWierszaDAO, String dataod, String datado, Podatnik podatnik) {
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokDzienOdDoBilans(podatnik, dataod, datado);
         
         return pobranezapisy;
     }

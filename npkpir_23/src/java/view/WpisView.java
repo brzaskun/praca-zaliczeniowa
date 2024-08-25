@@ -97,6 +97,8 @@ public class WpisView implements Serializable {
     private Okres okreswpisu;
     private Okres okreswpisupoprzedni;
     private Podatnik taxman;
+    private PodatnikOpodatkowanieD opodatkowanieRokBiezacy;
+    private PodatnikOpodatkowanieD opodatkowanieRokUprzedni;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -501,11 +503,12 @@ public class WpisView implements Serializable {
     
     public void pobierzOpodatkowanie() {
         try {
-            PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(rokWpisuSt);
-            mc0kw1 = opodatkowanie.isMc0kw1();
-            rokzamkniety = opodatkowanie.isZamkniety();
+            opodatkowanieRokBiezacy = zwrocFormaOpodatkowania(rokWpisuSt);
+            opodatkowanieRokUprzedni= zwrocFormaOpodatkowania(rokUprzedniSt);
+            mc0kw1 = opodatkowanieRokBiezacy.isMc0kw1();
+            rokzamkniety = opodatkowanieRokBiezacy.isZamkniety();
             rokpoprzednizamkniety = zwrocrokpoprzednizamkniety();
-            rodzajopodatkowania = opodatkowanie.getFormaopodatkowania();
+            rodzajopodatkowania = opodatkowanieRokBiezacy.getFormaopodatkowania();
             if (rodzajopodatkowania != null) {
                 if (this.podatnikObiekt.getFormaPrawna() != null) {
                     stawkapodatkuospr = stawkapodatkuospr();
@@ -638,9 +641,23 @@ public class WpisView implements Serializable {
         }
     }
 
-    
-    
+    public PodatnikOpodatkowanieD getOpodatkowanieRokBiezacy() {
+        return opodatkowanieRokBiezacy;
+    }
 
+    public void setOpodatkowanieRokBiezacy(PodatnikOpodatkowanieD opodatkowanieRokBiezacy) {
+        this.opodatkowanieRokBiezacy = opodatkowanieRokBiezacy;
+    }
+
+    public PodatnikOpodatkowanieD getOpodatkowanieRokUprzedni() {
+        return opodatkowanieRokUprzedni;
+    }
+
+    public void setOpodatkowanieRokUprzedni(PodatnikOpodatkowanieD opodatkowanieRokUprzedni) {
+        this.opodatkowanieRokUprzedni = opodatkowanieRokUprzedni;
+    }
+
+    
 //<editor-fold defaultstate="collapsed" desc="comment">
     public Integer getRokNastepny() {
         return rokNastepny;

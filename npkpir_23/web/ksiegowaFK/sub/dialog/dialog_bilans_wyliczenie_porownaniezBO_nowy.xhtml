@@ -13,19 +13,19 @@
         <h:form id="form_dialogbilansporownanie_nowy">
              <p:panelGrid columns="11">
                 <p:panelGrid columns="4" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
-                    <p:column>
+<!--                    <p:column>
                         <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{pozycjaBRZestawienieNowyView.obliczBilansOtwarciaBilansDataWybierz()}" update=":form_dialogbilansporownanie_nowy" />
                         <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
-                    </p:column>
-                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRZestawienieNowyView.obliczBilansOtwarciaBilansDataWybierz()}" update=":form_dialogbilansporownanie_nowy"/>
+                    </p:column>-->
+                    <p:commandButton value="pobierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRZestawienieNowyView.obliczBilansOtwarciaBilansDataWybierz()}" update=":form_dialogbilansporownanie_nowy"/>
                     <h:outputText value="układ: " style="margin-left: 20px;" rendered="#{ukladBRView.listarokbiezacy.isEmpty() eq false}"/>
                     <h:outputText value="#{pozycjaBRZestawienieNowyView.uklad.uklad}" style="color: green;" rendered="#{ukladBRView.listarokbiezacy.isEmpty() eq false}"/>
                     <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
                 </p:panelGrid>
                     
-                    <p:panelGrid columns="9" style="margin-left: 150px;" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
+                    <p:panelGrid columns="12" style="margin-left: 20px;" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
 <!--                     <p:commandButton value="#{mgs.drukuj}" styleClass="nb"  style="margin-left: 30px;" type="submit" action="#{sesjaView.dodajwydruk()}" 
                                       actionListener="#{pozycjaBRZestawienieNowyView.drukujBilansBODataAP('x', pozycjaBRZestawienieNowyView.sumabilansowapasywaBO, pozycjaBRZestawienieNowyView.sumabilansowaaktywa, pozycjaBRZestawienieNowyView.sumabilansowapasywa)}">
                       </p:commandButton>-->
@@ -35,15 +35,24 @@
                      <p:selectBooleanCheckbox id="laczlata" value="#{pozycjaBRZestawienieNowyView.laczlata}">
                          <p:ajax event="change" partialSubmit="true" global="false"/>
                      </p:selectBooleanCheckbox>
-                     <h:outputText value="bilans od dnia" style="margin-left: 5px;"/>
+                     <h:outputText value="od dnia" style="margin-left: 10px;"/>
                      <p:inputText value="#{pozycjaBRZestawienieNowyView.bilansoddnia}" maxlength="10" size="10"> 
                          <p:ajax event="blur" partialSubmit="true" global="false"/>
                      </p:inputText>
-                     <h:outputText value="bilans na dzień" style="margin-left: 5px;"/>
+                     <h:outputText value=" na dzień" style="margin-left: 5px;"/>
                      <p:inputText value="#{pozycjaBRZestawienieNowyView.bilansnadzien}" maxlength="10" size="10"> 
                          <p:ajax event="blur" partialSubmit="true" global="false"/>
                      </p:inputText>
+                     <h:outputText value="od dnia RU" style="margin-left: 10px;"/>
+                     <p:inputText value="#{pozycjaBRZestawienieNowyView.bilansoddniaRokPop}" maxlength="10" size="10"> 
+                         <p:ajax event="blur" partialSubmit="true" global="false"/>
+                     </p:inputText>
+                     <h:outputText value=" na dzień RU" style="margin-left: 5px;"/>
+                     <p:inputText value="#{pozycjaBRZestawienieNowyView.bilansnadzienRokPop}" maxlength="10" size="10"> 
+                         <p:ajax event="blur" partialSubmit="true" global="false"/>
+                     </p:inputText>
                 </p:panelGrid>
+                
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:dataTable lazy="false"  id="dataList" value="#{pozycjaBRZestawienieNowyView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieNowyView.selectedNodes}" 

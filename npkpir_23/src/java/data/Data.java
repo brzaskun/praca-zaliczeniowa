@@ -885,6 +885,29 @@ public class Data implements Serializable {
         }
         return zwrot;
     }
+    public static String odejmijrok(String date, int yearsToSubtract) {
+        // Ustawiamy format daty
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Konwertujemy wejściową datę ze String na LocalDate
+        LocalDate localDate = LocalDate.parse(date, formatter);
+
+        // Odejmujemy wskazaną liczbę lat od daty
+        LocalDate newDate = localDate.minusYears(yearsToSubtract);
+
+        // Konwertujemy nową datę z powrotem na String i zwracamy
+        return newDate.format(formatter);
+    }
+
+    public static void main(String[] args) {
+        String date = "2024-08-25";
+        int yearsToSubtract = 5;
+        
+        String newDate = odejmijrok(date, yearsToSubtract);
+        System.out.println("Nowa data: " + newDate); // Powinno zwrócić: 2019-08-25
+    }
+}
+
    
 //    public static void main(String[] args) {
 //        try {
@@ -925,9 +948,9 @@ public class Data implements Serializable {
 //            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //}
-    public static void main(String[] args) {
-        czydatajestwkwartale("2024-10-01", "2024", "10");
-    }
+//    public static void main(String[] args) {
+//        czydatajestwkwartale("2024-10-01", "2024", "10");
+//    }
     
 //     public static void main(String[] args) {
 //        String zladata = "15. Jun 2020";
@@ -998,4 +1021,4 @@ public class Data implements Serializable {
     
 
     
-}
+

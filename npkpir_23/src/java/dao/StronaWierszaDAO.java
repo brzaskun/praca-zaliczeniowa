@@ -247,6 +247,18 @@ public class StronaWierszaDAO extends DAO implements Serializable {
                 
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
     }
+    
+    public List<StronaWiersza> findStronaByPodatnikRokDataOdDoWynik(Podatnik podatnik, String dataod, String datado) {
+         //return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("wiersz.dokfk");
+        return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokDzienOdDoWynik").setParameter("podatnikObj", podatnik).setParameter("dataod", dataod).setParameter("datado", datado)
+                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
+                .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
+                
+                .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
+    }
+    
     public List<StronaWiersza> findStronaByPodatnikRokMetodaKasowa(Podatnik podatnik, String rok, String mc) {
             LoadGroup lg = new LoadGroup();
             lg.addAttribute("wiersz.dokfk");
@@ -350,6 +362,13 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     
     public List<StronaWiersza> findStronaByPodatnikRokBilans(Podatnik podatnik, String rok, String mc) {
          return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc)
+                .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
+                .setHint(QueryHints.REFRESH, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList();
+    }
+    
+    
+    public List<StronaWiersza> findStronaByPodatnikRokDzienOdDoBilans(Podatnik podatnik, String dataod, String datado) {
+         return getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokDzienOdDoBilans").setParameter("podatnikObj", podatnik).setParameter("dataod", dataod).setParameter("datado", datado)
                 .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
                 .setHint(QueryHints.REFRESH, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList();
     }
