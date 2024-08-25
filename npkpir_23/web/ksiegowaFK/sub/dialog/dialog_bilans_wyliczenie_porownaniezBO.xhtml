@@ -107,7 +107,7 @@
                         <h:outputText id="kww2" value="#{loop.kwotabo}" style="float: right; padding-right: 15%; color: #{loop.kwotabo lt 0.0 ? 'red':'initial'}" rendered="#{loop.kwotabo != 0.0}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
-                        <p:tooltip  for="kww2" value="#{loop.getNumeryKont()}"/>
+                        <p:tooltip  for="kww2" value="#{loop.getNumeryKont()}" />
                     </p:column>
                     
                 </p:treeTable>

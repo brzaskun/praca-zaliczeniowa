@@ -283,8 +283,8 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
         String zwrot = "";
         if (this.przyporzadkowanekonta!=null && !this.przyporzadkowanekonta.isEmpty()) {
             for (Konto p : this.przyporzadkowanekonta) {
-                zwrot += p.getPelnynumer();
-                zwrot +=", ";
+                zwrot = zwrot + p.getPelnynumer();
+                zwrot = zwrot + ", ";
             }
         }
         return zwrot;

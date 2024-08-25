@@ -124,6 +124,10 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
         sumujObrotyNaKontach(zapisy, plankon);
         sumujObrotyNaKontach(zapisyRokPop, plankonBO);
         naniesKwoteWynikFinansowy(kontowyniku);
+        Konto kontowynikurokpop = PlanKontFKBean.findKonto860(plankonBO);
+        List<StronaWiersza> zapisyBO860 = zapisy.stream().filter(item->item.getKonto().getPelnynumer().equals("860")).collect(Collectors.toList());
+        zapisyBO860 = zapisyBO860.stream().filter(item->item.getDokfk().getRodzajedok().getSkrot().equals("BO")).collect(Collectors.toList());
+        sumujObrotyNaKontach(zapisyBO860, plankonBO);
         try {
            plankon.stream().forEach(new Consumer<Konto>() {
                @Override
@@ -135,11 +139,13 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
                             PozycjaRZiSBilans pozycjaznaleziona = rootBilansAktywa.parallelStream().filter(item->item.getPozycjaString().equals(konto.getPozycjaWn())).findFirst().orElse(null);
                             if (pozycjaznaleziona!=null) {
                                 pozycjaznaleziona.setKwota(pozycjaznaleziona.getKwota()+kontoprzetwarzane.getSaldoWn()-kontoprzetwarzane.getSaldoMa());
+                                pozycjaznaleziona.obsluzPrzyporzadkowaneKonta(kontoprzetwarzane.getSaldoWn()-kontoprzetwarzane.getSaldoMa(), kontoprzetwarzane);
                             }
                        } else {
                            PozycjaRZiSBilans pozycjaznaleziona = rootBilansPasywa.parallelStream().filter(item->item.getPozycjaString().equals(konto.getPozycjaWn())).findFirst().orElse(null);
                             if (pozycjaznaleziona!=null) {
                                 pozycjaznaleziona.setKwota(pozycjaznaleziona.getKwota()-kontoprzetwarzane.getSaldoWn()+kontoprzetwarzane.getSaldoMa());
+                                pozycjaznaleziona.obsluzPrzyporzadkowaneKonta(kontoprzetwarzane.getSaldoWn()+kontoprzetwarzane.getSaldoMa(), kontoprzetwarzane);
                             }
                        }
                    } else {
@@ -147,11 +153,13 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
                             PozycjaRZiSBilans pozycjaznaleziona = rootBilansAktywa.parallelStream().filter(item->item.getPozycjaString().equals(konto.getPozycjaWn())).findFirst().orElse(null);
                             if (pozycjaznaleziona!=null) {
                                 pozycjaznaleziona.setKwota(pozycjaznaleziona.getKwota()+kontoprzetwarzane.getSaldoWn());
+                                pozycjaznaleziona.obsluzPrzyporzadkowaneKonta(kontoprzetwarzane.getSaldoWn(), kontoprzetwarzane);
                             }
                        } else if (kontoprzetwarzane.getSaldoMa()!=0.0) {
                             PozycjaRZiSBilans pozycjaznaleziona = rootBilansPasywa.parallelStream().filter(item->item.getPozycjaString().equals(konto.getPozycjaMa())).findFirst().orElse(null);
                             if (pozycjaznaleziona!=null) {
                                 pozycjaznaleziona.setKwota(pozycjaznaleziona.getKwota()+kontoprzetwarzane.getSaldoMa());
+                                pozycjaznaleziona.obsluzPrzyporzadkowaneKonta(kontoprzetwarzane.getSaldoMa(), kontoprzetwarzane);
                             }
                        }
                    }
@@ -183,11 +191,13 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
                             PozycjaRZiSBilans pozycjaznaleziona = rootBilansAktywa.parallelStream().filter(item->item.getPozycjaString().equals(konto.getPozycjaWn())).findFirst().orElse(null);
                             if (pozycjaznaleziona!=null) {
                                 pozycjaznaleziona.setKwotabo(pozycjaznaleziona.getKwotabo()+kontoprzetwarzane.getSaldoWn()-kontoprzetwarzane.getSaldoMa());
+                                pozycjaznaleziona.obsluzPrzyporzadkowaneKonta(kontoprzetwarzane.getSaldoWn()-kontoprzetwarzane.getSaldoMa(), kontoprzetwarzane);
                             }
                        } else {
                            PozycjaRZiSBilans pozycjaznaleziona = rootBilansPasywa.parallelStream().filter(item->item.getPozycjaString().equals(konto.getPozycjaWn())).findFirst().orElse(null);
                             if (pozycjaznaleziona!=null) {
                                 pozycjaznaleziona.setKwotabo(pozycjaznaleziona.getKwotabo()-kontoprzetwarzane.getSaldoWn()+kontoprzetwarzane.getSaldoMa());
+                                pozycjaznaleziona.obsluzPrzyporzadkowaneKonta(kontoprzetwarzane.getSaldoWn()+kontoprzetwarzane.getSaldoMa(), kontoprzetwarzane);
                             }
                        }
                    } else {
@@ -195,11 +205,13 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
                             PozycjaRZiSBilans pozycjaznaleziona = rootBilansAktywa.parallelStream().filter(item->item.getPozycjaString().equals(konto.getPozycjaWn())).findFirst().orElse(null);
                             if (pozycjaznaleziona!=null) {
                                 pozycjaznaleziona.setKwotabo(pozycjaznaleziona.getKwotabo()+kontoprzetwarzane.getSaldoWn());
+                                pozycjaznaleziona.obsluzPrzyporzadkowaneKonta(kontoprzetwarzane.getSaldoWn(), kontoprzetwarzane);
                             }
                        } else if (kontoprzetwarzane.getSaldoMa()!=0.0) {
                             PozycjaRZiSBilans pozycjaznaleziona = rootBilansPasywa.parallelStream().filter(item->item.getPozycjaString().equals(konto.getPozycjaMa())).findFirst().orElse(null);
                             if (pozycjaznaleziona!=null) {
                                 pozycjaznaleziona.setKwotabo(pozycjaznaleziona.getKwotabo()+kontoprzetwarzane.getSaldoMa());
+                                pozycjaznaleziona.obsluzPrzyporzadkowaneKonta(kontoprzetwarzane.getSaldoMa(), kontoprzetwarzane);
                             }
                        }
                    }

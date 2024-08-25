@@ -94,6 +94,16 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         }
     }
     
+    public void obsluzPrzyporzadkowaneKontaNowy(double kwota, Konto konto) {
+        if (przyporzadkowanekonta == null && kwota != 0.0) {
+            przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
+        }
+        if (kwota != 0.0) {
+            konto.setKwota(kwota);
+            przyporzadkowanekonta.add(konto);
+        }
+    }
+    
     public void obsluzPrzyporzadkowaneKontaRZiS(double kwota, Konto konto) {
         if (przyporzadkowanekonta == null && kwota != 0.0) {
             przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
@@ -210,6 +220,8 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     public List<Konto> getPrzyporzadkowanekonta() {
         return przyporzadkowanekonta;
     }
+    
+    
     
     public String getPrzyporzadkowanekontaString() {
         StringBuilder sb = new StringBuilder();

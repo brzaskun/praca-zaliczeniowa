@@ -134,8 +134,10 @@
             <bcf:outputpl value="#{pozycjaBRZestawienieNowyView.sumabilansowaaktywa-pozycjaBRZestawienieNowyView.sumabilansowapasywa}"/>
             </p:panel>
             <p:panel>
-                <h:outputText value="konta bez przyporządkowania: #{pozycjaBRZestawienieNowyView.kontabilansowebezprzyporzadkowania}" rendered="#{pozycjaBRZestawienieNowyView.kontabilansowebezprzyporzadkowania ne null}"
+                <h:outputText value="konta bez przyporządkowania: #{pozycjaBRZestawienieNowyView.kontabilansowebezprzyporzadkowania}" rendered="#{pozycjaBRZestawienieNowyView.kontabilansowebezprzyporzadkowania ne null and pozycjaBRZestawienieNowyView.kontabilansowebezprzyporzadkowania.isBlank() eq false}"
                               style="color:red;margin-top: 10px;"/>
+                <h:outputText value="brak nieprzyporzadkowanych kont" rendered="#{pozycjaBRZestawienieNowyView.kontabilansowebezprzyporzadkowania eq null or pozycjaBRZestawienieNowyView.kontabilansowebezprzyporzadkowania.isBlank()}"
+                              style="color:blue;margin-top: 10px;"/>
     
             </p:panel>
         </h:form>
