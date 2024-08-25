@@ -72,6 +72,8 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
     private boolean laczlata;
     private String bilansnadzien;
     private String bilansoddnia;
+     private String bilansoddniaRokPop;
+    private String bilansnadzienRokPop;
     private String opisdodatkowy;
     private String kontabilansowebezprzyporzadkowania;
     private List<PozycjaRZiSBilans> pozycje;
@@ -82,8 +84,7 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
     private double sumabilansowaaktywaBO;
     private double sumabilansowapasywa;
     private double sumabilansowapasywaBO;
-    private String bilansoddniaRokPop;
-    private String bilansnadzienRokPop;
+   
     
     @Inject
     private WpisView wpisView;

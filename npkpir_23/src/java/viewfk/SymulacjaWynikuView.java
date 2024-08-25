@@ -16,6 +16,7 @@ import dao.StronaWierszaDAO;
 import dao.TransakcjaDAO;
 import dao.WierszBODAO;
 import dao.WynikFKRokMcDAO;
+import data.Data;
 import embeddable.Mce;
 import embeddablefk.PozycjeSymulacjiNowe;
 import embeddablefk.SaldoKonto;
@@ -109,6 +110,10 @@ public class SymulacjaWynikuView implements Serializable {
     private List<Dokfk> dokumentyzodliczonymvat;
     private double sumavatprzychody;
     private double sumavatkoszty;
+    private String bilansnadzien;
+    private String bilansoddnia;
+    private String bilansoddniaRokPop;
+    private String bilansnadzienRokPop;
     
 
     public SymulacjaWynikuView() {
@@ -120,9 +125,29 @@ public class SymulacjaWynikuView implements Serializable {
     public void inita() {
         mcod = wpisView.getMiesiacWpisu();
         mcdo = wpisView.getMiesiacWpisu();
+        bilansoddniaRokPop = wpisView.getOpodatkowanieRokUprzedni().getDatarozpoczecia();
+        bilansnadzienRokPop = wpisView.getOpodatkowanieRokUprzedni().getDatazakonczenia();
+        bilansnadzien = Data.ostatniDzien(wpisView);
+        String bilod = bilansoddnia = wpisView.getOpodatkowanieRokBiezacy().getDatarozpoczecia();
+        String pierwszydzien = Data.pierwszyDzien(wpisView);
+        bilansoddnia = pierwszydzien;
+        if (Data.getRok(bilod).equals(Data.getRok(pierwszydzien))&&Data.getMc(bilod).equals(Data.getMc(pierwszydzien))) {
+            bilansoddnia = bilod;
+        }
+        
     }
     
     public void init() { //E.m(this);
+        List<StronaWiersza> zapisyRok = pobierzzapisyRokMc(mcod, mcdo);
+        initcd(zapisyRok);
+    }
+    
+    public void initksiegowa() { //E.m(this);
+        List<StronaWiersza> zapisyRok = pobierzzapisyRokMcKsiegowa(bilansoddnia, bilansnadzien);
+        initcd(zapisyRok);
+    }
+    
+    public void initcd(List<StronaWiersza> zapisyRok) { //E.m(this);
         List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlitykaWynikowe(wpisView);
         List<Konto> kontaklientaprzychody = Collections.synchronizedList(new ArrayList<>());
         List<Konto> kontaklientakoszty = Collections.synchronizedList(new ArrayList<>());
@@ -138,7 +163,6 @@ public class SymulacjaWynikuView implements Serializable {
                 kontaklientaprzychody.add(p);
             }
         }
-        List<StronaWiersza> zapisyRok = pobierzzapisyRokMc(mcod, mcdo);
         pobranewalutypodatnik = pobierzswaluty(zapisyRok);
         dokumentyzodliczonymvat = new ArrayList<>();
         sumaprzychody = 0.0;
@@ -167,6 +191,18 @@ public class SymulacjaWynikuView implements Serializable {
             wpisView.setMiesiacWpisu(this.mcdo);
             wpisView.wpisAktualizuj();
             init();
+        }
+    }
+    
+     public void odswiezsymulacjewynikuanalityczneksiegowa() {
+        Integer mcod = Integer.parseInt(this.mcod);
+        Integer mcdo = Integer.parseInt(this.mcdo);
+        if (mcdo<mcod) {
+            Msg.msg("e","Miesiąc do jest późniejszy od miesiąca od");
+        } else {
+            wpisView.setMiesiacWpisu(this.mcdo);
+            wpisView.wpisAktualizuj();
+            initksiegowa();
         }
     }
 
@@ -304,6 +340,17 @@ public class SymulacjaWynikuView implements Serializable {
             zapisywynikrokmc.addAll(stronaWierszaDAO.findStronaByPodatnikRokMcWynikCIT(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()).stream().filter(p->p.getDokfk().getRodzajedok().getKategoriadokumentu()==0||p.getDokfk().getRodzajedok().getKategoriadokumentu()==5).collect(Collectors.toList()));
         } else {
             zapisywynikrokmc = stronaWierszaDAO.findStronaByPodatnikRokMcodMcdoWynikCIT(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mcod, mcdo);
+        }
+        return zapisywynikrokmc;
+    }
+    
+    private List<StronaWiersza> pobierzzapisyRokMcKsiegowa(String bilansoddnia, String bilansnadzien) {
+        List<StronaWiersza> zapisywynikrokmc = new ArrayList<>();
+        if (wpisView.getPodatnikObiekt().isMetodakasowapit()) {
+            zapisywynikrokmc.addAll(przetworzRozliczenia(wpisView.getPodatnikObiekt(), "", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+            zapisywynikrokmc.addAll(stronaWierszaDAO.findStronaByPodatnikRokMcWynikCIT(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()).stream().filter(p->p.getDokfk().getRodzajedok().getKategoriadokumentu()==0||p.getDokfk().getRodzajedok().getKategoriadokumentu()==5).collect(Collectors.toList()));
+        } else {
+            zapisywynikrokmc = stronaWierszaDAO.findStronaByPodatnikRokDzienOdDziendoWynikCIT(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), bilansoddnia, bilansnadzien);
         }
         return zapisywynikrokmc;
     }
@@ -564,6 +611,73 @@ public class SymulacjaWynikuView implements Serializable {
             wynikFKRokMc.setPodatnikObj(wpisView.getPodatnikObiekt());
             wynikFKRokMc.setRok(wpisView.getRokWpisuSt());
             wynikFKRokMc.setMc(wpisView.getMiesiacWpisu());
+            wynikFKRokMc.setDataod(bilansoddnia);
+            wynikFKRokMc.setDatado(bilansnadzien);
+            wynikFKRokMc.setPrzychody(wszyscy.getPrzychody());
+            wynikFKRokMc.setKoszty(wszyscy.getKoszty());
+            wynikFKRokMc.setWynikfinansowy(wszyscy.getWynikfinansowy());
+            wynikFKRokMc.setPrzychodyPodatkoweKonta(wszyscy.getPrzychodyPodatkowe());
+            wynikFKRokMc.setKosztyPodatkoweKonta(wszyscy.getKosztyPodatkowe());
+            wynikFKRokMc.setWynikPodatkowyWstepny(wszyscy.getWynikPodatkowyWstępny());
+            wynikfinnarastajaco += wynikFKRokMc.getWynikfinansowy();
+            wynikFKRokMc.setWynikfinansowynarastajaco(wynikfinnarastajaco);
+            wynikFKRokMc.setNkup(wszyscy.getNkup()+wszyscy.getKupmn()+wszyscy.getKupmn_poprzedniemce());
+            wynikFKRokMc.setNpup(wszyscy.getNpup()+wszyscy.getPmn()+wszyscy.getPmn_poprzedniemce());
+            wynikFKRokMc.setWynikpodatkowy(wynikFKRokMc.getWynikfinansowy()+wynikFKRokMc.getWynikPodatkowyWstepny()+wynikFKRokMc.getNkup()+wynikFKRokMc.getNpup());
+            wynikpodatkowynarastajaco += wynikFKRokMc.getWynikPodatkowyWstepny();
+            wynikFKRokMc.setWynikPodatkowyWstepnyNarastajaco(wynikpodatkowynarastajaco);
+            wynikFKRokMc.setUdzialowiec("firma");
+    //        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+                wynikFKRokMc.setPodatek(wszyscy.getPmn());
+                wynikFKRokMc.setWynikfinansowynetto(Z.z(wszyscy.getWynikfinansowy()-wszyscy.getPmn()));
+                wynikFKRokMc.setPodatekzaplacono(podatekzaplacony);
+                double dowplaty = wszyscy.getPmn()-podatekzaplacony >0.0?wszyscy.getPmn()-podatekzaplacony:0.0;
+                wynikFKRokMc.setPodatekdowplaty(dowplaty);
+    //        }
+            wynikFKRokMc.setWprowadzil(wpisView.getUzer().getLogin());
+            wynikFKRokMc.setData(new Date());
+            //wywalilem bo ozajmuje za duzo miejsca
+    //        wynikFKRokMc.setListaprzychody(listakontaprzychody);
+    //        wynikFKRokMc.setListakoszty(listakontakoszty);
+            try {
+                WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMcFirma(wynikFKRokMc);
+                if (pobrany!=null) {
+                    wynikFKRokMcDAO.remove(pobrany);
+                }
+            } catch (Exception e) {  
+                E.e(e);
+            }
+            try {
+                wynikFKRokMcDAO.create(wynikFKRokMc);
+                symulacjaWynikuNarastajacoView.init();
+                Msg.msg("Zachowano wynik");
+            } catch (Exception e) {  E.e(e);
+                Msg.msg("e", "Wystąpił błąd. Nie zachowano wyniku.");
+            }
+        } else {
+            Msg.msg("e", "Miesiąc od jest inny o miesiąca do. Nie można zaksięgować");
+        }
+    }
+    
+    public void zaksiegujwynikKsiegowa () {
+        if (Data.getMc(bilansoddnia).equals(Data.getMc(bilansnadzien))) {
+            double wynikfinnarastajaco = 0.0;
+            double wynikpodatkowynarastajaco = 0.0;
+            List<WynikFKRokMc> wynikpoprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokFirma(wpisView);
+            double podatekzaplacony = 0.0;
+            for (WynikFKRokMc p : wynikpoprzedniemce) {
+                if (Mce.getMiesiacToNumber().get(p.getMc()) < Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())) {
+                    wynikfinnarastajaco += p.getWynikfinansowy();
+                    podatekzaplacony += p.getPodatekdowplaty();
+                }
+            }
+            PozycjeSymulacjiNowe wszyscy = pozycjePodsumowaniaWynikuNowe.get(0);
+            WynikFKRokMc wynikFKRokMc = new WynikFKRokMc();
+            wynikFKRokMc.setPodatnikObj(wpisView.getPodatnikObiekt());
+            wynikFKRokMc.setRok(Data.getRok(bilansnadzien));
+            wynikFKRokMc.setMc(Data.getMc(bilansnadzien));
+            wynikFKRokMc.setDataod(bilansoddnia);
+            wynikFKRokMc.setDatado(bilansnadzien);
             wynikFKRokMc.setPrzychody(wszyscy.getPrzychody());
             wynikFKRokMc.setKoszty(wszyscy.getKoszty());
             wynikFKRokMc.setWynikfinansowy(wszyscy.getWynikfinansowy());
@@ -666,6 +780,38 @@ public class SymulacjaWynikuView implements Serializable {
             }
         }
         return zwrot;
+    }
+
+    public String getBilansnadzien() {
+        return bilansnadzien;
+    }
+
+    public void setBilansnadzien(String bilansnadzien) {
+        this.bilansnadzien = bilansnadzien;
+    }
+
+    public String getBilansoddnia() {
+        return bilansoddnia;
+    }
+
+    public void setBilansoddnia(String bilansoddnia) {
+        this.bilansoddnia = bilansoddnia;
+    }
+
+    public String getBilansoddniaRokPop() {
+        return bilansoddniaRokPop;
+    }
+
+    public void setBilansoddniaRokPop(String bilansoddniaRokPop) {
+        this.bilansoddniaRokPop = bilansoddniaRokPop;
+    }
+
+    public String getBilansnadzienRokPop() {
+        return bilansnadzienRokPop;
+    }
+
+    public void setBilansnadzienRokPop(String bilansnadzienRokPop) {
+        this.bilansnadzienRokPop = bilansnadzienRokPop;
     }
     
 

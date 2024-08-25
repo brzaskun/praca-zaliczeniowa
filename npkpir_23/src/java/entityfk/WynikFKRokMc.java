@@ -5,6 +5,7 @@
  */
 package entityfk;
 
+import data.Data;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.Date;
@@ -117,6 +118,10 @@ public class WynikFKRokMc implements Serializable {
     private double dywidendadowyplaty;
     @Column(name = "strata")
     private double strata;
+    @Column(name = "dataod")
+    private String dataod;
+    @Column(name = "datado")
+    private String datado;
    
 //    @Lob()
 //    @Column(name = "listaprzychody")
@@ -133,7 +138,40 @@ public class WynikFKRokMc implements Serializable {
         this.id = id;
     }
 //<editor-fold defaultstate="collapsed" desc="comment">
+
+    public String getDataod() {
+        return dataod;
+    }
     
+    public String getDataodSh() {
+        if (dataod!=null) {
+            return Data.getDzien(dataod);
+        } else {
+            return null;
+        }
+    }
+
+    public void setDataod(String dataod) {
+        this.dataod = dataod;
+    }
+
+    public String getDatado() {
+        return datado;
+    }
+    
+    public String getDatadoSh() {
+        if (datado!=null) {
+            return Data.getDzien(datado);
+        } else {
+            return null;
+        }  
+    }
+
+    public void setDatado(String datado) {
+        this.datado = datado;
+    }
+
+
     public Integer getId() {
         return id;
     }
