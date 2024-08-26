@@ -125,8 +125,8 @@ public class SymulacjaWynikuView implements Serializable {
     public void inita() {
         mcod = wpisView.getMiesiacWpisu();
         mcdo = wpisView.getMiesiacWpisu();
-        bilansoddniaRokPop = wpisView.getOpodatkowanieRokUprzedni().getDatarozpoczecia();
-        bilansnadzienRokPop = wpisView.getOpodatkowanieRokUprzedni().getDatazakonczenia();
+        bilansoddniaRokPop = wpisView.getOpodatkowanieRokUprzedni()!=null?wpisView.getOpodatkowanieRokUprzedni().getDatarozpoczecia():null;
+        bilansnadzienRokPop = wpisView.getOpodatkowanieRokUprzedni()!=null?wpisView.getOpodatkowanieRokUprzedni().getDatazakonczenia():null;
         bilansnadzien = Data.ostatniDzien(wpisView);
         String bilod = bilansoddnia = wpisView.getOpodatkowanieRokBiezacy().getDatarozpoczecia();
         String pierwszydzien = Data.pierwszyDzien(wpisView);

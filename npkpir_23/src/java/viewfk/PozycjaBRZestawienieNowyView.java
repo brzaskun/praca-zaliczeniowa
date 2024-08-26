@@ -100,8 +100,8 @@ public class PozycjaBRZestawienieNowyView implements Serializable {
     public void init() { //E.m(this);
         try {
             uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            bilansoddniaRokPop = wpisView.getOpodatkowanieRokUprzedni().getDatarozpoczecia();
-            bilansnadzienRokPop = wpisView.getOpodatkowanieRokUprzedni().getDatazakonczenia();
+            bilansoddniaRokPop = wpisView.getOpodatkowanieRokUprzedni()!=null?wpisView.getOpodatkowanieRokUprzedni().getDatarozpoczecia():null;
+            bilansnadzienRokPop = wpisView.getOpodatkowanieRokUprzedni()!=null?wpisView.getOpodatkowanieRokUprzedni().getDatazakonczenia():null;
             bilansnadzien = Data.ostatniDzien(wpisView);
             bilansoddnia = wpisView.getOpodatkowanieRokBiezacy().getDatarozpoczecia();
             
