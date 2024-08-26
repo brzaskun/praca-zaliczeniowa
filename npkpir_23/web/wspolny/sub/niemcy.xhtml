@@ -8,39 +8,94 @@
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <bcf:ajaxs/>
     <div class="vertical-container">
-    <h:form id="formokresniemcy">
-        <p:panel style="padding: 10px;">
-        <h:outputText value="okres:" />
-        <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
-            <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
-            <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" global="true" 
-                    update="akordeon:formNiemcyEwidencje akordeon:formNiemcyDekalracje"/>
-        </p:selectOneMenu>
-        </p:panel>
-    </h:form>
-    <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt, true)}"/>
-    
+        <h:form id="formokresniemcy">
+            <p:panel style="padding: 10px;">
+                <h:outputText value="okres:" />
+                <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
+                    <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+                    <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" global="true" 
+                            update="akordeon:formNiemcyEwidencje akordeon:formNiemcyDekalracje"/>
+                </p:selectOneMenu>
+            </p:panel>
+        </h:form>
+        <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt, true)}"/>
+
         <p:outputPanel id="wrapper2">
             <p:tabView id="akordeon">
-                    <p:tab title="Ewidencje">
-                        <h:form id="formNiemcyEwidencje">
-                            <ui:include src="niemcy/ewidencjevat.xhtml"/>
-                        </h:form>
-                    </p:tab>
-                    <p:tab title="VStA">
-                        <h:form id="formNiemcyDekalracje">
-                            <ui:include src="niemcy/danedodeklaracji.xhtml"/>
-                        </h:form>
-                    </p:tab>
-                    <p:tab title="UMSt Rok">
-<!--                        <h:form>w srodku sa dwa-->
-                            <ui:include src="niemcy/danedodeklaracjiroczna.xhtml"/>
-                    </p:tab>
+                <p:tab title="Ewidencje">
+                    <h:form id="formNiemcyEwidencje">
+                        <ui:include src="niemcy/ewidencjevat.xhtml"/>
+                    </h:form>
+                </p:tab>
+                <p:tab title="VStA">
+                    <h:form id="formNiemcyDekalracje">
+                        <ui:include src="niemcy/danedodeklaracji.xhtml"/>
+                    </h:form>
+                </p:tab>
+                <p:tab title="UMSt Rok">
+                    <!--                        <h:form>w srodku sa dwa-->
+                    <ui:include src="niemcy/danedodeklaracjiroczna.xhtml"/>
+                </p:tab>
                 <p:tab title="rejestracja">
                 </p:tab>
                 <p:tab title="freistellung">
+                    <p:outputPanel style="padding: 10px">
+                    <!-- Tabela wyświetlająca dane Freistellung -->
+                    <p:dataTable var="freistellung" value="#{freistellungView.freistellungList}" editable="true" styleClass="myDataTable" editMode="row" 
+                                 id="freistellungTable" rowKey="#{freistellung.id}" sortBy="#{freistellung.datado}" style="max-width: 1000px;">
+                        <p:column headerText="id" width="30">
+                            <h:outputText value="#{freistellung.id}" />
+                        </p:column>
+                        <p:column headerText="podatnik" width="250">
+                            <h:outputText value="#{freistellung.podatnik.printnazwa}" />
+                        </p:column>
+                        <p:column headerText="rok">
+                            <h:outputText value="#{freistellung.rok}" />
+                        </p:column>
+                        <p:column headerText="data do" sortBy="#{freistellung.datado}" sortable="true" sortPriority="1">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{freistellung.datado}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputMask value="#{freistellung.datado}" mask="9999-99-99" placeholder="rrrr-mm-dd" style="width:100%" />
+                                </f:facet>
+
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="mail przypom1">
+                            <h:outputText value="#{freistellung.mailprzypom1}" />
+                        </p:column>
+                        <p:column headerText="mail przypom2">
+                            <h:outputText value="#{freistellung.mailprzypom2}" />
+                        </p:column>
+
+                        <!-- Kolumna akcji - zapisywanie edycji i usuwanie -->
+                        <p:column headerText="">
+                            <p:rowEditor />
+                            <p:commandButton icon="pi pi-trash" update="@form" action="#{freistellungView.deleteFreistellung(freistellung)}" />
+                        </p:column>
+                    </p:dataTable>
+                    </p:outputPanel>
+                    <!-- Formularz do tworzenia nowej encji Freistellung -->
+                    <h:form id="newFreistellungForm">
+                        <p:panelGrid columns="1">
+                        <h:outputText value="Dodaj nowy Freistellung"/>
+
+                        <p:panelGrid columns="2" styleClass="grid" style="padding: 10px;">
+                            <h:outputLabel for="rok" value="Rok:" />
+                            <p:inputText id="rok" value="#{freistellungView.newFreistellung.rok}" />
+
+                            <h:outputLabel for="datado" value="Data do:" />
+                            <p:inputMask value="#{freistellungView.newFreistellung.datado}" mask="9999-99-99" placeholder="rrrr-mm-dd" style="width:100%" />
+                        </p:panelGrid>
+
+                        <p:commandButton value="Dodaj" action="#{freistellungView.createFreistellung}" update="akordeon:freistellungTable" />
+                        </p:panelGrid>
+                    </h:form>
 
                 </p:tab>
+
                 <p:tab title="uberprufung">
 
                 </p:tab>

@@ -898,6 +898,19 @@ public class Data implements Serializable {
         // Konwertujemy nową datę z powrotem na String i zwracamy
         return newDate.format(formatter);
     }
+    // Definicja DateTimeFormatter
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    public static String obliczDateMinusDni(String data, int dni) {
+        LocalDate date = LocalDate.parse(data, FORMATTER);
+        return date.minusDays(dni).format(FORMATTER);
+    }
+
+    public static boolean czyjestpoTerminData(String termin, String dataBiezaca) {
+        LocalDate terminDate = LocalDate.parse(termin, FORMATTER);
+        LocalDate biezacaDate = LocalDate.parse(dataBiezaca, FORMATTER);
+        return !biezacaDate.isBefore(terminDate); // Sprawdza, czy data bieżąca jest równa lub późniejsza niż termin
+    }
 
     public static void main(String[] args) {
         String date = "2024-08-25";
