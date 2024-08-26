@@ -110,6 +110,7 @@
     <class>entity.Strata</class>
     <class>entity.StrataWykorzystanie</class>
     <class>entity.Sumypkpir</class>
+    <class>entity.Uberprufung</class>
     <class>entity.UmorzenieN</class>
     <class>entity.UPO</class>
     <class>entity.Uz</class>

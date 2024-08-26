@@ -40,67 +40,157 @@
                 </p:tab>
                 <p:tab title="freistellung">
                     <p:outputPanel style="padding: 10px">
-                    <!-- Tabela wyświetlająca dane Freistellung -->
-                    <p:dataTable var="freistellung" value="#{freistellungView.freistellungList}" editable="true" styleClass="myDataTable" editMode="row" 
-                                 id="freistellungTable" rowKey="#{freistellung.id}" sortBy="#{freistellung.datado}" style="max-width: 1000px;">
-                        <p:column headerText="id" width="30">
-                            <h:outputText value="#{freistellung.id}" />
-                        </p:column>
-                        <p:column headerText="podatnik" width="350">
-                            <h:outputText value="#{freistellung.podatnik.printnazwa}" />
-                        </p:column>
-                        <p:column headerText="rok">
-                            <h:outputText value="#{freistellung.rok}" />
-                        </p:column>
-                        <p:column headerText="data do" sortBy="#{freistellung.datado}" sortable="true" sortPriority="1">
-                            <p:cellEditor>
-                                <f:facet name="output">
-                                    <h:outputText value="#{freistellung.datado}" />
-                                </f:facet>
-                                <f:facet name="input">
-                                    <p:inputMask value="#{freistellung.datado}" mask="9999-99-99" placeholder="rrrr-mm-dd" style="width:100%" />
-                                </f:facet>
+                        <!-- Tabela wyświetlająca dane Freistellung -->
+                        <p:dataTable var="freistellung" value="#{freistellungView.freistellungList}" editable="true" styleClass="myDataTable" editMode="row" 
+                                     id="freistellungTable" rowKey="#{freistellung.id}" sortBy="#{freistellung.datado}" style="max-width: 700px;">
+                            <p:column headerText="id" width="30">
+                                <h:outputText value="#{freistellung.id}" />
+                            </p:column>
+                             <p:column headerText="rok">
+                                <h:outputText value="#{freistellung.rok}" />
+                            </p:column>
+                            <p:column headerText="data do" sortBy="#{freistellung.datado}" sortable="true" sortPriority="1">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{freistellung.datado}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputMask value="#{freistellung.datado}" mask="9999-99-99" placeholder="rrrr-mm-dd" style="width:100%" />
+                                    </f:facet>
 
-                            </p:cellEditor>
-                        </p:column>
-                        <p:column headerText="mail przypom1" >
-                            <h:outputText value="#{freistellung.mailprzypom1}" />
-                        </p:column>
-                        <p:column headerText="mail przypom2">
-                            <h:outputText value="#{freistellung.mailprzypom2}" />
-                        </p:column>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="mail przypom1" >
+                                <h:outputText value="#{freistellung.mailprzypom1}" />
+                            </p:column>
+                            <p:column headerText="mail przypom2">
+                                <h:outputText value="#{freistellung.mailprzypom2}" />
+                            </p:column>
 
-                        <!-- Kolumna akcji - zapisywanie edycji i usuwanie -->
-                        <p:column headerText="" width="30" style="text-align: center;">
-                            <p:rowEditor />
-                        </p:column>
-                        <p:column headerText="" width="30" style="text-align: center;">
-                            <p:commandButton icon="pi pi-trash" update="akordeon:freistellungTable" action="#{freistellungView.deleteFreistellung(freistellung)}" />
-                        </p:column>
-                    </p:dataTable>
+                            <!-- Kolumna akcji - zapisywanie edycji i usuwanie -->
+                            <p:column headerText="" width="30" style="text-align: center;">
+                                <p:rowEditor />
+                            </p:column>
+                            <p:column headerText="" width="30" style="text-align: center;">
+                                <p:commandButton icon="pi pi-trash" update="akordeon:freistellungTable" action="#{freistellungView.deleteFreistellung(freistellung)}" />
+                            </p:column>
+                        </p:dataTable>
                     </p:outputPanel>
                     <!-- Formularz do tworzenia nowej encji Freistellung -->
                     <h:form id="newFreistellungForm">
                         <p:panelGrid columns="1">
-                        <h:outputText value="Dodaj nowy Freistellung"/>
+                            <h:outputText value="Dodaj nowy Freistellung"/>
 
-                        <p:panelGrid columns="2" styleClass="grid" style="padding: 10px;">
-                            <h:outputLabel for="rok" value="Rok:" />
-                            <p:inputText id="rok" value="#{freistellungView.newFreistellung.rok}" />
+                            <p:panelGrid columns="2" styleClass="grid" style="padding: 10px;">
+                                <h:outputLabel for="rok" value="Rok:" />
+                                <p:inputText id="rok" value="#{freistellungView.newFreistellung.rok}" />
 
-                            <h:outputLabel for="datado" value="Data do:" />
-                            <p:inputMask value="#{freistellungView.newFreistellung.datado}" mask="9999-99-99" placeholder="rrrr-mm-dd" style="width:100%" />
-                        </p:panelGrid>
+                                <h:outputLabel for="datado" value="Data do:" />
+                                <p:inputMask value="#{freistellungView.newFreistellung.datado}" mask="9999-99-99" placeholder="rrrr-mm-dd" style="width:100%" />
+                            </p:panelGrid>
 
-                        <p:commandButton value="Dodaj" action="#{freistellungView.createFreistellung}" update="akordeon:freistellungTable" />
+                            <p:commandButton value="Dodaj" action="#{freistellungView.createFreistellung}" update="akordeon:freistellungTable" />
                         </p:panelGrid>
                     </h:form>
 
                 </p:tab>
 
                 <p:tab title="uberprufung">
+                    <p:outputPanel style="padding: 10px">
+                        <!-- Tabela wyświetlająca dane Uberprufung -->
+                        <p:dataTable var="uberprufung" value="#{uberprufungView.uberprufungList}" editable="true" styleClass="myDataTable" editMode="row"
+                                     id="uberprufungTable" rowKey="#{uberprufung.id}" sortBy="#{uberprufung.datado}" style="max-width: 1000px;">
+                            <p:column headerText="id" width="30">
+                                <h:outputText value="#{uberprufung.id}" />
+                            </p:column>
+                            <p:column headerText="rok">
+                                <h:outputText value="#{uberprufung.rok}" />
+                            </p:column>
+                            <p:column headerText="data do" sortBy="#{uberprufung.datado}" sortable="true" sortPriority="1">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{uberprufung.datado}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputMask value="#{uberprufung.datado}" mask="9999-99-99" placeholder="rrrr-mm-dd" style="width:100%" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="mail przypom1">
+                                <h:outputText value="#{uberprufung.mailprzypom1}" />
+                            </p:column>
+                            <p:column headerText="mail przypom2">
+                                <h:outputText value="#{uberprufung.mailprzypom2}" />
+                            </p:column>
+                            <p:column headerText="data wysłania do urzędu">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{uberprufung.datawyslaniadourzedu}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputMask value="#{uberprufung.datawyslaniadourzedu}" mask="9999-99-99" placeholder="rrrr-mm-dd" style="width:100%" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="telefon do urzędu">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{uberprufung.telefondourzedu}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{uberprufung.telefondourzedu}" style="width:100%" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="data telefonu w sprawie">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{uberprufung.datatelefonuwsprawie}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputMask value="#{uberprufung.datatelefonuwsprawie}" mask="9999-99-99" placeholder="rrrr-mm-dd" style="width:100%" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="powstanie zakładu">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{uberprufung.powstaniezakladu ? 'Tak' : 'Nie'}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectBooleanCheckbox value="#{uberprufung.powstaniezakladu}" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
 
+                            <!-- Kolumna akcji - zapisywanie edycji i usuwanie -->
+                            <p:column headerText="" width="30" style="text-align: center;">
+                                <p:rowEditor />
+                            </p:column>
+                            <p:column headerText="" width="30" style="text-align: center;">
+                                <p:commandButton icon="pi pi-trash" update="akordeon:uberprufungTable" action="#{uberprufungView.deleteUberprufung(uberprufung)}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+
+                    <!-- Formularz do tworzenia nowej encji Uberprufung -->
+                    <h:form id="newUberprufungForm">
+                        <p:panelGrid columns="1">
+                            <h:outputText value="Dodaj nowy Uberprufung" />
+
+                            <p:panelGrid columns="2" styleClass="grid" style="padding: 10px;">
+                                <h:outputLabel for="rok" value="Rok:" />
+                                <p:inputText id="rok" value="#{uberprufungView.newUberprufung.rok}" />
+
+                                <h:outputLabel for="datado" value="Data do:" />
+                                <p:inputMask value="#{uberprufungView.newUberprufung.datado}" mask="9999-99-99" placeholder="rrrr-mm-dd" style="width:100%" />
+                            </p:panelGrid>
+
+                            <p:commandButton value="Dodaj" action="#{uberprufungView.createUberprufung}" update="akordeon:uberprufungTable" />
+                        </p:panelGrid>
+                    </h:form>
                 </p:tab>
+
             </p:tabView>
         </p:outputPanel>
     </div>
