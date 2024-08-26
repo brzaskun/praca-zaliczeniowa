@@ -46,7 +46,7 @@
                         <p:column headerText="id" width="30">
                             <h:outputText value="#{freistellung.id}" />
                         </p:column>
-                        <p:column headerText="podatnik" width="250">
+                        <p:column headerText="podatnik" width="350">
                             <h:outputText value="#{freistellung.podatnik.printnazwa}" />
                         </p:column>
                         <p:column headerText="rok">
@@ -63,7 +63,7 @@
 
                             </p:cellEditor>
                         </p:column>
-                        <p:column headerText="mail przypom1">
+                        <p:column headerText="mail przypom1" >
                             <h:outputText value="#{freistellung.mailprzypom1}" />
                         </p:column>
                         <p:column headerText="mail przypom2">
@@ -71,9 +71,11 @@
                         </p:column>
 
                         <!-- Kolumna akcji - zapisywanie edycji i usuwanie -->
-                        <p:column headerText="">
+                        <p:column headerText="" width="30" style="text-align: center;">
                             <p:rowEditor />
-                            <p:commandButton icon="pi pi-trash" update="@form" action="#{freistellungView.deleteFreistellung(freistellung)}" />
+                        </p:column>
+                        <p:column headerText="" width="30" style="text-align: center;">
+                            <p:commandButton icon="pi pi-trash" update="akordeon:freistellungTable" action="#{freistellungView.deleteFreistellung(freistellung)}" />
                         </p:column>
                     </p:dataTable>
                     </p:outputPanel>
