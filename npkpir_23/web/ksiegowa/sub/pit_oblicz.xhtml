@@ -283,16 +283,19 @@
                     </p:panelGrid>
                     
                 </p:panelGrid>
-                <p:panelGrid  columns="6" style="margin-left: auto; margin-right: auto;">
-                    <p:selectBooleanCheckbox value="#{zestawienieView.dolaczpkpir}" label="dołącz pkpir">
+                <p:panelGrid  columns="3" style="margin-left: auto; margin-right: auto;">
+                    <p:selectBooleanCheckbox value="#{zestawienieView.dolaczpkpir}" label="dołącz pkpir" itemLabel="dołącz pkpir">
                         <p:ajax event="change" partialSubmit="true"/>
                     </p:selectBooleanCheckbox>
-                    <p:selectBooleanCheckbox value="#{zestawienieView.dolaczdeklvat}" label="dołącz dekl.vat">
+                    <p:selectBooleanCheckbox value="#{zestawienieView.dolaczdeklvat}" label="dołącz dekl.vat" itemLabel="dołącz dekl.vat">
                         <p:ajax event="change" partialSubmit="true"/>
                     </p:selectBooleanCheckbox>
-                    <p:selectBooleanCheckbox value="#{zestawienieView.dolaczjpk}" label="dołącz jpk">
+                    <p:selectBooleanCheckbox value="#{zestawienieView.dolaczjpk}" label="dołącz jpk" itemLabel="dołącz jpk">
                         <p:ajax event="change" partialSubmit="true"/>
                     </p:selectBooleanCheckbox>
+                </p:panelGrid>
+                <p:panelGrid  columns="1" style="margin-left: auto; margin-right: auto; width: 1300px;">
+                    <h:outputText value="po zaznaczeniu czekboksów i kliknięciu wyślij należy poczekać aż otworzą się wygenerowane pliki pdf" style="color:green;"/>
                 </p:panelGrid>
                  <p:panelGrid  columns="1" style="margin-left: auto; margin-right: auto; width: 1300px;">
                      <p:textEditor allowFormatting="true" placeholder="dodatkowa wiadomośc w mailu do podatnika" height="200" value="#{zestawienieView.dodatkowatresmaila}" style="max-width:1200px;">

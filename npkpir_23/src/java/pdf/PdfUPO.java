@@ -24,6 +24,7 @@ import entity.Podatnik;
 import entity.UPO;
 import entity.Uz;
 import format.F;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Collections;
@@ -32,6 +33,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
+import pdffk.PdfMain;
 import static pdffk.PdfMain.*;
 import plik.Plik;
  import view.WpisView;
@@ -600,12 +602,13 @@ public class PdfUPO extends Pdf implements Serializable {
         }
     }
     
-    public static void drukujJPK2022M(JPKSuper jpk, WpisView wpisView, Podatnik podatnik) {
+    public static ByteArrayOutputStream drukujJPK2022M(JPKSuper jpk, WpisView wpisView, Podatnik podatnik) {
         String nazwa = podatnik.getNip()+"JPK";
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         if (jpk != null) {
             Uz uz = wpisView.getUzer();
             Document document = inicjacjaA4Portrait();
-            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Plik JPK zestawienie", podatnik,wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
@@ -630,11 +633,13 @@ public class PdfUPO extends Pdf implements Serializable {
                 dodajLinieOpisu(document, "Brak dokumentów zakupu");
             }
             finalizacjaDokumentuQR(document,nazwa);
+            Plik.zapiszBufferdoPlik(nazwa, out);
             String f = "pokazwydruk('"+nazwa+"');";
             PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Pusty plik JPK");
         }
+        return out;
     }
     
     public static void drukujJPK2020K(JPKSuper jpk, WpisView wpisView, Podatnik podatnik) {
@@ -674,12 +679,13 @@ public class PdfUPO extends Pdf implements Serializable {
         }
     }
     
-    public static void drukujJPK2022K(JPKSuper jpk, WpisView wpisView, Podatnik podatnik) {
+    public static ByteArrayOutputStream drukujJPK2022K(JPKSuper jpk, WpisView wpisView, Podatnik podatnik) {
         String nazwa = podatnik.getNip()+"JPK";
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         if (jpk != null) {
             Uz uz = wpisView.getUzer();
             Document document = inicjacjaA4Portrait();
-            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Plik JPK zestawienie", podatnik,wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
@@ -704,11 +710,13 @@ public class PdfUPO extends Pdf implements Serializable {
                 dodajLinieOpisu(document, "Brak dokumentów zakupu");
             }
             finalizacjaDokumentuQR(document,nazwa);
+            Plik.zapiszBufferdoPlik(nazwa, out);
             String f = "pokazwydruk('"+nazwa+"');";
             PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Pusty plik JPK");
         }
+        return out;
     }
 
     private static void getSprzedazWiersz() {

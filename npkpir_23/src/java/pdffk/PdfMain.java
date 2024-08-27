@@ -62,6 +62,7 @@ import entityfk.Transakcja;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
 import error.E;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -217,7 +218,17 @@ public class PdfMain {
             return null;
         }
     }
-    
+public static PdfWriter inicjacjaWriteraOut(Document document, ByteArrayOutputStream out) {
+        try {
+            PdfWriter writer = PdfWriter.getInstance(document, out);
+            writer.setInitialLeading(16);
+            writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+            return writer;
+        } catch (DocumentException ex) {
+            E.e(ex);
+            return null;
+        }
+    }    
     public static void otwarcieDokumentu(Document document, String tytul) {
         document.addTitle(tytul);
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
@@ -1846,17 +1857,19 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020M2(p), "center", 7));
             }
             if (nazwaklasy.equals("pl.gov.crd.wzor._2021._12._27._11149.JPK$Ewidencja$ZakupWiersz")) {
-                pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupWiersz p =  (pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupWiersz) it.next();
-                table.addCell(ustawfrazeAlign(i++, "center", 7));
-                table.addCell(ustawfrazeAlign(p.getNrDostawcy(), "left", 7, 22f));
-                table.addCell(ustawfrazeAlign(p.getNazwaDostawcyShort(), "left", 7));
-                table.addCell(ustawfrazeAlign(p.getDowodZakupu(), "left", 7));
-                table.addCell(ustawfrazeAlign(p.getDataWplywu(), "left", 7));
-                table.addCell(ustawfrazeAlign(p.getDataZakupu(), "left", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
-                table.addCell(ustawfrazeAlign(p.getNettoPole()+" "+p.getVatPole(), "center", 7));
-                table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020K2(p), "center", 7));
+                try {
+                    pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupWiersz p =  (pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupWiersz) it.next();
+                    table.addCell(ustawfrazeAlign(i++, "center", 7));
+                    table.addCell(ustawfrazeAlign(p.getNrDostawcy(), "left", 7, 22f));
+                    table.addCell(ustawfrazeAlign(p.getNazwaDostawcyShort(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getDowodZakupu(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getDataWplywu(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getDataZakupu(), "left", 7));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                    table.addCell(ustawfrazeAlign(p.getNettoPole()+" "+p.getVatPole(), "center", 7));
+                    table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020K2(p), "center", 7));
+                } catch (Exception ex) {}
             }
             if (nazwaklasy.equals("jpk201701.JPK$SprzedazWiersz") || nazwaklasy.equals("jpk201801.JPK$SprzedazWiersz")) {
                 jpkabstract.SprzedazWierszA p = (jpkabstract.SprzedazWierszA) it.next();

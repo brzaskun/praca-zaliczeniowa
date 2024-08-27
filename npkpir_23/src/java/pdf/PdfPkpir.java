@@ -16,16 +16,18 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.DokKsiega;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import msg.Msg;import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import pdffk.PdfMain;
+ import plik.Plik;
+import view.WpisView;
 
 /**
  *
@@ -34,10 +36,11 @@ import view.WpisView; import org.primefaces.PrimeFaces;
 
 public class PdfPkpir {
 
-    public static void drukujksiege(List<DokKsiega> wykaz, WpisView wpisView, String mc) throws DocumentException, FileNotFoundException, IOException {
-        Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 20, 25);
-        String nazwapliku = "pkpir" + wpisView.getPodatnikWpisu().trim() + ".pdf";
-        PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR(nazwapliku));
+    public static ByteArrayOutputStream drukujksiege(List<DokKsiega> wykaz, WpisView wpisView, String mc) throws DocumentException, FileNotFoundException, IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        String nazwapliku = "pkpir" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+        Document pdf = PdfMain.inicjacjaA4Landscape(40,20,40,40);
+        PdfWriter writer = PdfMain.inicjacjaWriteraOut(pdf, out);
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
@@ -54,8 +57,10 @@ public class PdfPkpir {
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
         pdffk.PdfMain.dodajQR(nazwapliku);
-        PrimeFaces.current().executeScript("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
+        Plik.zapiszBufferdoPlik(nazwapliku, out);
+        PrimeFaces.current().executeScript("wydrukpkpir('"+wpisView.getPodatnikObiekt().getNip()+"');");
         Msg.msg("i", "Wydrukowano księgę");
+        return out;
     }
     
     public static void drukujksiegeRok(Map<String, List<DokKsiega>> ksiegimiesieczne, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
@@ -188,6 +193,7 @@ public class PdfPkpir {
             } else {
                 table.addCell(ustawfrazeAlign(rs.getUwagi(), "right",6));
             }
+            System.out.println(rs.getKontr().getNpelna());
         }
     }
 }

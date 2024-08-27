@@ -35,6 +35,7 @@ import entity.UPO;
 import entityfk.EVatwpisDedra;
 import entityfk.EVatwpisFK;
 import error.E;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -365,7 +366,7 @@ public class Jpk_VAT2NView implements Serializable {
         }
     }
     
-    public void przygotujXMLPodglad() {
+    public ByteArrayOutputStream przygotujXMLPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowJPK(wpisView.getPodatnikObiekt());
         double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
@@ -373,8 +374,9 @@ public class Jpk_VAT2NView implements Serializable {
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         duplikujjpkwnt(kliencijpk);
+        ByteArrayOutputStream plikjpk = null;
         if (bledy.size()==0 && (wiersze!=null||kliencijpk!=null)) {
-            generujXMLPodglad(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
+            plikjpk = generujXMLPodglad(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
         } else if (wiersze==null) {
            Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
@@ -390,6 +392,7 @@ public class Jpk_VAT2NView implements Serializable {
                 Msg.msg("e","Wadliwy dokument: data "+data+" nr "+p.getNrWlDk()+" kwota "+p.getNetto(), "form_dialog_jpk_vat:wiadomoscjpk");
             }
         }
+        return plikjpk;
     }
     
     public void przygotujXMLPodgladDedra() {
@@ -1169,13 +1172,14 @@ public class Jpk_VAT2NView implements Serializable {
         }
     }
     
-    public void generujXMLPodglad(List<KlientJPK> kliencijpk, List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1, int werjsajpkrecznie1pierowtna2korekta, double[] nettovatuzd) {
+    public ByteArrayOutputStream generujXMLPodglad(List<KlientJPK> kliencijpk, List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1, int werjsajpkrecznie1pierowtna2korekta, double[] nettovatuzd) {
         JPKSuper jpk = genJPK(kliencijpk, wiersze, podatnik, nowa0korekta1, werjsajpkrecznie1pierowtna2korekta, nettovatuzd);
+        ByteArrayOutputStream plikjpk = null;
         try {
              if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11148.JPK) {
-                PdfUPO.drukujJPK2022M(jpk, wpisView, podatnik);
+                plikjpk = PdfUPO.drukujJPK2022M(jpk, wpisView, podatnik);
             } else if (jpk instanceof pl.gov.crd.wzor._2021._12._27._11149.JPK) {
-                PdfUPO.drukujJPK2022K(jpk, wpisView, podatnik);
+                plikjpk = PdfUPO.drukujJPK2022K(jpk, wpisView, podatnik);
             } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
                 PdfUPO.drukujJPK2020M(jpk, wpisView, podatnik);
             } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
@@ -1189,6 +1193,7 @@ public class Jpk_VAT2NView implements Serializable {
             Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
             E.e(e);
         }
+        return plikjpk;
     }
     
     

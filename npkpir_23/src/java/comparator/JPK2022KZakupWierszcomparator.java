@@ -17,8 +17,10 @@ public class JPK2022KZakupWierszcomparator implements Comparator<pl.gov.crd.wzor
 
     @Override
     public int compare(pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupWiersz o1, pl.gov.crd.wzor._2021._12._27._11149.JPK.Ewidencja.ZakupWiersz o2) {
-        String datao1 = o1.getNazwaDostawcy().toLowerCase(new Locale("pl", "PL"));
-        String datao2 = o2.getNazwaDostawcy().toLowerCase(new Locale("pl", "PL"));
+        String nazwa1 = o1.getNazwaDostawcy()!=null?o1.getNazwaDostawcy().toLowerCase(new Locale("pl", "PL")):"";
+        String nazwa2 = o2.getNazwaDostawcy()!=null?o2.getNazwaDostawcy().toLowerCase(new Locale("pl", "PL")):"";
+        String datao1 = nazwa1;
+        String datao2 = nazwa2;
         return datao1.compareTo(datao2);
    }
     

@@ -18,6 +18,7 @@ import entity.Sumypkpir;
 import entityfk.Cechazapisu;
 import error.E;
 import interceptor.WydrukInterceptor;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -219,12 +220,13 @@ private static final long serialVersionUID = 1L;
     }
     
     @Interceptors(WydrukInterceptor.class)
-    public void drukujPKPIR() {
+    public ByteArrayOutputStream drukujPKPIR() {
         try {
-            PdfPkpir.drukujksiege(lista, wpisView, wpisView.getMiesiacWpisu());
+            return PdfPkpir.drukujksiege(lista, wpisView, wpisView.getMiesiacWpisu());
         } catch (Exception e) { 
             E.e(e); 
         }
+        return null;
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">

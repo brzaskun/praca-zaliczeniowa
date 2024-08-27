@@ -22,6 +22,7 @@ import entity.Deklaracjevat;
 import entity.Podatnik;
 import entity.SchemaEwidencja;
 import entity.Uz;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,9 +34,9 @@ import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.ft;
-import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
+import plik.Plik;
 import testobjects.testobjects;
 import view.WpisView;
 
@@ -47,7 +48,7 @@ import view.WpisView;
 public class PdfVAT7new {
     
 
-    public static void drukujNowaVAT7(PodatnikDAO podatnikDAO, Deklaracjevat d, DeklaracjaVatSchema pasujacaSchema, SchemaEwidencjaDAO schemaEwidencjaDAO, WpisView wpisView) {
+    public static ByteArrayOutputStream drukujNowaVAT7(PodatnikDAO podatnikDAO, Deklaracjevat d, DeklaracjaVatSchema pasujacaSchema, SchemaEwidencjaDAO schemaEwidencjaDAO, WpisView wpisView) {
         List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
         List<SchemaEwidencjaSuma> schematewidencjesprzedazy = null;
         if (d.getPodsumowanieewidencji() != null) {
@@ -62,8 +63,9 @@ public class PdfVAT7new {
             file.delete();
         }
         Uz uz = wpisView.getUzer();
-        Document document = PdfMain.inicjacjaA4Portrait();
-        PdfWriter writer = inicjacjaWritera(document, nazwa);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        Document document = PdfMain.inicjacjaA4Landscape(40,20,40,40);
+        PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
         Podatnik pod = podatnikDAO.findByNazwaPelna(d.getPodatnik());
@@ -78,8 +80,10 @@ public class PdfVAT7new {
         dodajTabele(document, testobjects.getDeklaracjaVatSchemaWierszSum(schemawierszsumarycznylista),97,0);
         uzupelnijDlaVAT7(document, d, wpisView);
         finalizacjaDokumentuQR(document,nazwa);
+        Plik.zapiszBufferdoPlik(nazwa, out);
         String f = "pokazwydruk('"+nazwa+"');";
         PrimeFaces.current().executeScript(f);
+        return out;
     }
 
     private static void uzupelnijDlaVAT7(Document document, Deklaracjevat d, WpisView wpisView) {
