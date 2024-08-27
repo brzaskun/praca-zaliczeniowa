@@ -39,7 +39,7 @@ public class PodatekPlatnoscView implements Serializable {
         podatekPlatnosc = new PodatekPlatnosc();
         podatekPlatnosc.setPodatnik(wpisView.getPodatnikObiekt());
         podatekPlatnosc.setRok(wpisView.getRokWpisuSt());
-        listaPodatekPlatnosc = podatekPlatnoscDAO.findAll();
+        listaPodatekPlatnosc = podatekPlatnoscDAO.findByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         sumujkwoty();
     }
 

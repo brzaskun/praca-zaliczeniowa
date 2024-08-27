@@ -26,7 +26,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "podatekplatnosc")
 @NamedQueries({
-    @NamedQuery(name = "PodatekPlatnosc.findAll", query = "SELECT d FROM PodatekPlatnosc d")
+    @NamedQuery(name = "PodatekPlatnosc.findAll", query = "SELECT d FROM PodatekPlatnosc d"), 
+    @NamedQuery(name = "PodatekPlatnosc.findByPodatnikRok", query = "SELECT d FROM PodatekPlatnosc d where d.podatnik = :podatik AND d.rok = :rok")
 })
 
 public class PodatekPlatnosc implements Serializable {

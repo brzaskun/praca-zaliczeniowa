@@ -5,6 +5,7 @@
 package dao;
 
 import entity.PodatekPlatnosc;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -42,7 +43,7 @@ public class PodatekPlatnoscDAO extends DAO implements Serializable {
         super.em = this.em;
     }
 
-     public List<PodatekPlatnosc> findByPodatnikRok(String podatnik, String rok) {
+     public List<PodatekPlatnosc> findByPodatnikRok(Podatnik podatnik, String rok) {
          List<PodatekPlatnosc> zwrot = null;
          try {
             zwrot = getEntityManager().createNamedQuery("PodatekPlatnosc.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
