@@ -168,6 +168,9 @@ public class ZestawienieView implements Serializable {
     private String dodatkowatresmaila;
     @Inject
     private RemanentDAO remanentDAO;
+    private boolean dolaczpkpir;
+    private boolean dolaczdeklvat;
+    private boolean dolaczjpk;
 
     private int flaga = 0;
 
@@ -1774,6 +1777,30 @@ public class ZestawienieView implements Serializable {
 
     public void setDodatkowatresmaila(String dodatkowatresmaila) {
         this.dodatkowatresmaila = dodatkowatresmaila;
+    }
+
+    public boolean isDolaczpkpir() {
+        return dolaczpkpir;
+    }
+
+    public void setDolaczpkpir(boolean dolaczpkpir) {
+        this.dolaczpkpir = dolaczpkpir;
+    }
+
+    public boolean isDolaczdeklvat() {
+        return dolaczdeklvat;
+    }
+
+    public void setDolaczdeklvat(boolean dolaczdeklvat) {
+        this.dolaczdeklvat = dolaczdeklvat;
+    }
+
+    public boolean isDolaczjpk() {
+        return dolaczjpk;
+    }
+
+    public void setDolaczjpk(boolean dolaczjpk) {
+        this.dolaczjpk = dolaczjpk;
     }
 
     
