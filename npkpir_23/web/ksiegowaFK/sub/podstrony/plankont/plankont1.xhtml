@@ -38,8 +38,8 @@
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 
                                               (loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : (loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w'))))}"
                              styleClass="tablicaplankont" rowHover="true" initMode="immediate" editable="true" editMode="cell"
-                              rowsPerPageTemplate="150,250,500,500,1000,1500" paginatorPosition="top" paginator="true" rows="150" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
-                              style="width: 1000px;"
+                              rowsPerPageTemplate="150,250,500,500,1000,1500" paginatorPosition="top" paginator="true"  emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                              style="margin-left: 10px;max-width: 1800px;max-height: 900px; overflow-y: scroll;" 
                              
                              >
                     <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>

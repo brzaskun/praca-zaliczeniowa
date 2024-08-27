@@ -708,8 +708,8 @@ public class FakturaView implements Serializable {
         }
         try {
             if (selected.getPozycjepokorekcie() != null) {
-                selected.setRok(Data.getCzescDaty(selected.getDatawystawienia(), 0));
-                selected.setMc(Data.getCzescDaty(selected.getDatawystawienia(), 1));
+                selected.setRok(Data.getRok(selected.getDatasprzedazy()));
+                selected.setMc(Data.getMc(selected.getDatasprzedazy()));
             }
             selected.setFakturagrupa(wpisView.getUzer().getFakturagrupa());
             selected.setDatasporzadzenia(new Date());

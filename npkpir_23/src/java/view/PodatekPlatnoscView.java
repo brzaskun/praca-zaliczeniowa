@@ -37,19 +37,20 @@ public class PodatekPlatnoscView implements Serializable {
     @PostConstruct
     public void init() {
         podatekPlatnosc = new PodatekPlatnosc();
+        podatekPlatnosc.setPodatnik(wpisView.getPodatnikObiekt());
+        podatekPlatnosc.setRok(wpisView.getRokWpisuSt());
         listaPodatekPlatnosc = podatekPlatnoscDAO.findAll();
         sumujkwoty();
     }
 
     public void create() {
         try {
-            podatekPlatnosc.setPodatnik(wpisView.getPodatnikObiekt());
-            podatekPlatnosc.setId(1);
-            podatekPlatnosc.setRok(wpisView.getRokWpisuSt());
             podatekPlatnoscDAO.create(podatekPlatnosc);
             listaPodatekPlatnosc.add(podatekPlatnosc);
             sumujkwoty();
             podatekPlatnosc = new PodatekPlatnosc();
+            podatekPlatnosc.setPodatnik(wpisView.getPodatnikObiekt());
+            podatekPlatnosc.setRok(wpisView.getRokWpisuSt());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Podatek Platnosc dodany"));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd", "Nie udało się dodać podatku"));
