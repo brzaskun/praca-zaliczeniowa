@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.Year;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.time.temporal.TemporalAdjusters;
@@ -555,6 +556,29 @@ public class Data implements Serializable {
         return wynikporównania > -1;
     }
     
+   public static boolean isYearMonthInRange(String startDate, String endDate, String year, String month) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Konwersja danych wejściowych na obiekty LocalDate i YearMonth
+        LocalDate start = LocalDate.parse(startDate, dateFormatter);
+        LocalDate end = LocalDate.parse(endDate, dateFormatter);
+        
+        // Parsowanie roku i miesiąca z ciągów znaków
+        int yearInt = Integer.parseInt(year);
+        int monthInt = Integer.parseInt(month);
+        
+        YearMonth targetYearMonth = YearMonth.of(yearInt, monthInt);
+
+        // Konwersja start i end na YearMonth
+        YearMonth startYearMonth = YearMonth.from(start);
+        YearMonth endYearMonth = YearMonth.from(end);
+
+        // Sprawdzanie czy targetYearMonth zawiera się w przedziale
+        return (targetYearMonth.equals(startYearMonth) || targetYearMonth.equals(endYearMonth) 
+                || (targetYearMonth.isAfter(startYearMonth) && targetYearMonth.isBefore(endYearMonth)));
+    }
+
+   
      public static boolean czydatajestwmcu(String data, String rok, String mc) {
         boolean zwrot = false;
         try {
@@ -777,24 +801,24 @@ public class Data implements Serializable {
     }
     
     
-        public static void main(String[] args) {
-//        try {
-//            String termin = "2019-12-29";
-//            String dzis = "2019-12-29";
-//            boolean zwrot = czyjestpoTerminData(termin, dzis);
-//            if (zwrot) {
-//                error.E.s("TRUE");
-//            } else {
-//                error.E.s("FALSE");
-//            }
-//        } catch (Exception ex) {
-//            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        LocalDate datal = LocalDate.parse("2024-02-29");
-        LocalDate tonextmonth = datal.plusMonths(1);  
-        String datawstepna = tonextmonth.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        System.out.println(Data.getCzescDaty(datawstepna, 3)+"01");
-}
+//        public static void main(String[] args) {
+////        try {
+////            String termin = "2019-12-29";
+////            String dzis = "2019-12-29";
+////            boolean zwrot = czyjestpoTerminData(termin, dzis);
+////            if (zwrot) {
+////                error.E.s("TRUE");
+////            } else {
+////                error.E.s("FALSE");
+////            }
+////        } catch (Exception ex) {
+////            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+////        }
+//        LocalDate datal = LocalDate.parse("2024-02-29");
+//        LocalDate tonextmonth = datal.plusMonths(1);  
+//        String datawstepna = tonextmonth.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        System.out.println(Data.getCzescDaty(datawstepna, 3)+"01");
+//}
             
     public static XMLGregorianCalendar dataoddo(String data) {
         String f = "yyyy-MM-dd";

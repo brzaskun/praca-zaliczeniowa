@@ -304,7 +304,7 @@ public class PasekwynagrodzenBean {
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
-        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());
+         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());
         //nie wiem po co on tyu jest
         //KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zasilekchorobowy, pasek, kalendarzlista, kurs, definicjalistaplac);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek, kalendarzlista, kurs, definicjalistaplac, null, wynagrodzenieminimalne.getLimitswiadczenchorobowych(), jestoddelegowanie, wynagrodzenieminimalne.getKwotabrutto());
@@ -1860,13 +1860,11 @@ public class PasekwynagrodzenBean {
     private static List<Nieobecnosc> pobierznieobecnosci(Kalendarzmiesiac kalendarz, List<Nieobecnosc> nieobecnosci) {
         String rok = kalendarz.getRok();
         String mc = kalendarz.getMc();
-        boolean jestod = false;
-        boolean jestdo = false;
+        boolean jestwokresie = false;
         List<Nieobecnosc> zwrot = new ArrayList<>();
         for (Nieobecnosc p : nieobecnosci) {
-            jestod = Data.czydatajestwmcu(p.getDataod(), rok, mc);
-            jestdo = Data.czydatajestwmcu(p.getDatado(), rok, mc);
-            if ((jestod || jestdo) && p.isNaniesiona()) {
+            jestwokresie = Data.isYearMonthInRange(p.getDataod(), p.getDatado(), rok, mc);
+            if (jestwokresie && p.isNaniesiona()) {
                 zwrot.add(p);
             }
         }
