@@ -17,6 +17,8 @@ import entity.StrataWykorzystanie;
 import entityfk.WynikFKRokMc;
 import enumy.FormaPrawna;
 import error.E;
+import interceptor.ConstructorInterceptor;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +38,6 @@ import pdf.PdfSymulacjaWynikuNarastajaco;
 import view.StrataView;
 import view.WpisView;
 import waluty.Z;
-import interceptor.ConstructorInterceptor;
 
 /**
  *
@@ -435,8 +436,8 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
 //        }
 //    }
     
-    public void drukuj() {
-        PdfSymulacjaWynikuNarastajaco.drukuj(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatku, pozycjeDoWyplaty, wpisView);
+    public ByteArrayOutputStream drukuj() {
+        return PdfSymulacjaWynikuNarastajaco.drukuj(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatku, pozycjeDoWyplaty, wpisView);
     }
     
     @Inject

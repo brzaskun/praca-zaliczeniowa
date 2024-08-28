@@ -17,6 +17,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import comparator.WynikFKRokMccomparator;
 import entityfk.WynikFKRokMc;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,6 +25,8 @@ import java.util.Collections;
 import java.util.List;
 import msg.B;
 import msg.Msg;
+import org.primefaces.PrimeFaces;
+import pdffk.PdfMain;
 import plik.Plik;
 import view.WpisView;
 import viewfk.SymulacjaWynikuView;
@@ -35,28 +38,32 @@ import viewfk.SymulacjaWynikuView;
 
 public class PdfSymulacjaWynikuNarastajaco {
     
-    public static void drukuj(List<WynikFKRokMc> listamiesiecy, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
+    public static ByteArrayOutputStream drukuj(List<WynikFKRokMc> listamiesiecy, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, WpisView wpisView) {
+            ByteArrayOutputStream out = null;
         try {
             String nazwapliku = "symulacjawynikunar-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }
-            drukujcd(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatku, pozycjeDoWyplaty, wpisView);
+            out = drukujcd(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatku, pozycjeDoWyplaty, wpisView);
             Msg.msg("Wydruk zestawienia wyniku narastająco");
         } catch (Exception e) {
             Msg.msg("e", "Błąd - nie wydrukowano zestawienia wyniku narastająco");
 
         }
+        return out;
     }
 
-    private static void drukujcd(List<WynikFKRokMc> listamiesiecy, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
+    private static ByteArrayOutputStream drukujcd(List<WynikFKRokMc> listamiesiecy, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
-        Document document = new Document();
-        PdfWriter.getInstance(document, Plik.plikR("symulacjawynikunar-" + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        String nazwapliku = "symulacjawynikunar-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+        Document document = PdfMain.inicjacjaA4Portrait();
+        PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
         document.addTitle("Zestawienie wyniku narastająco");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie wyniku finansowego narastająco");
@@ -70,7 +77,10 @@ public class PdfSymulacjaWynikuNarastajaco {
         document.add(tablica3(pozycjeObliczeniaPodatku, 2));
         document.add(tablica4(pozycjeDoWyplaty, 3));
         document.close();
+        Plik.zapiszBufferdoPlik(nazwapliku, out);
+        PrimeFaces.current().executeScript("wydruksymulacjawynikunar('"+wpisView.getPodatnikObiekt().getNip()+"');");
         Msg.msg("i", "Wydrukowano symulację wyniku finansowego narastająco");
+        return out;
     }
 
     private static PdfPTable tablica(WpisView wpisView, List<WynikFKRokMc> listamiesiecy) throws DocumentException, IOException {

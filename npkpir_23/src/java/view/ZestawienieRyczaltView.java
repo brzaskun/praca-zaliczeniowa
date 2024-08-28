@@ -813,7 +813,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 plikjpk = jpk_VAT2NView.przygotujXMLPodglad();
             }
             MaiManager.mailManagerZUSPITZalaczniki(wpisView.getPodatnikObiekt().getEmail(), tytuł, tresc, wiadomoscodksiegowej, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef()
-                    , ksiega, deklaracjavat, plikjpk);
+                    , ksiega, deklaracjavat, plikjpk, null);
             msg.Msg.msg("Wysłano do klienta informacje o podatku");
         } catch (Exception e){
             

@@ -21,6 +21,7 @@ import embeddablefk.SaldoKonto;
 import entity.Klienci;
 import entityfk.StronaWiersza;
 import error.E;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,6 +30,8 @@ import java.util.Locale;
 import javax.faces.context.FacesContext;
 import msg.B;
 import msg.Msg;
+import org.primefaces.PrimeFaces;
+import pdffk.PdfMain;
 import plik.Plik;
 import view.WpisView;
 import viewfk.SymulacjaWynikuView;
@@ -40,36 +43,49 @@ import viewfk.SymulacjaWynikuView;
 
 public class PdfSymulacjaWyniku {
     
-    public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<PozycjeSymulacjiNowe> listapozycjisymulacji, 
+    public static ByteArrayOutputStream drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<PozycjeSymulacjiNowe> listapozycjisymulacji, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, double sumaprzychody, double sumavatprzychody, double sumakoszty, 
             double sumavatkoszty, String mcod, String mcdo) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             String nazwapliku = null;
             if (rodzajdruku == 1) {
-                nazwapliku = "symulacjawyniku-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                nazwapliku = "symulacjawyniku" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             } else {
-                nazwapliku = "symulacjawynikukonta-" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                nazwapliku = "symulacjawynikukonta" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             }
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }
-            drukujcd(listakontaprzychody, listakontakoszty, listapozycjisymulacji, pozycjeObliczeniaPodatku, wpisView, rodzajdruku, pozycjeDoWyplaty, sumaprzychody, sumavatprzychody, sumakoszty, sumavatkoszty, mcod, mcdo);
+            out = drukujcd(listakontaprzychody, listakontakoszty, listapozycjisymulacji, pozycjeObliczeniaPodatku, wpisView, rodzajdruku, pozycjeDoWyplaty, sumaprzychody, sumavatprzychody, sumakoszty, sumavatkoszty, mcod, mcdo);
+            if (rodzajdruku==1) {
+                PrimeFaces.current().executeScript("wydruksymulacjawyniku('"+wpisView.getPodatnikObiekt().getNip()+"', 1);");
+            } else if (rodzajdruku==2) {
+                PrimeFaces.current().executeScript("wydruksymulacjawyniku('"+wpisView.getPodatnikObiekt().getNip()+"', 2);");
+            }
             Msg.msg("Wydruk zestawienia symulacja wyniku");
         } catch (Exception e) {
             E.e(e);
         }
+        return out;
     }
 
-    private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<PozycjeSymulacjiNowe> listapozycjisymulacji,
+    private static ByteArrayOutputStream drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<PozycjeSymulacjiNowe> listapozycjisymulacji,
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, double sumaprzychody, double sumavatprzychody, double sumakoszty, 
             double sumavatkoszty, String mcod, String mcdo) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
+            String nazwapliku = "";
             if (rodzajdruku == 1) {
-                PdfWriter.getInstance(document, Plik.plikR("symulacjawyniku-" + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
+                nazwapliku = "symulacjawyniku" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                document = PdfMain.inicjacjaA4Portrait();
+                PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
             } else {
-                PdfWriter.getInstance(document, Plik.plikR("symulacjawynikukonta-" + wpisView.getPodatnikObiekt().getNip() + ".pdf"));
+                nazwapliku = "symulacjawynikukonta" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                document = PdfMain.inicjacjaA4Portrait();
+                PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
             }
             document.addTitle(B.b("zestawieniesymulacjawyniku"));
             document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
@@ -87,12 +103,14 @@ public class PdfSymulacjaWyniku {
 //            document.add(tablica4(pozycjeDoWyplaty, 3));
 //        }
             document.close();
+            Plik.zapiszBufferdoPlik(nazwapliku, out);
             Msg.msg("i", "Wydrukowano symulację wyniku finansowego");
         } catch (Exception e) {
             E.e(e);
             document.close();
             Msg.msg("e", "Błąd - nie wydrukowano zestawienia symulacja wyniku");
         }
+        return out;
     }
 
     private static PdfPTable tablica(WpisView wpisView, List<SaldoKonto> listakonta, String pk, int rodzajdruku, double razemnetto, double razemvat, String mcod, String mcdo) throws DocumentException, IOException {

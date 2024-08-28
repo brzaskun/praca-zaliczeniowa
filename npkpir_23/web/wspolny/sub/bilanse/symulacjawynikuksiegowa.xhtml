@@ -50,8 +50,9 @@
                 <p:commandButton value="zaksięguj" actionListener="#{symulacjaWynikuView.zaksiegujwynikKsiegowa}" rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"
                                 style="width: 120px; " update="akordeon:formsymulacjanarastajaco"/>
                 <p:splitButton id="drukujtab" value="#{mgs.drukujtab}"
-                               action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px;margin-left: 10px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)">
-                    <p:menuitem id="drukujszcz" value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>
+                               action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px;margin-left: 10px;" >
+                    <p:menuitem id="drukujszcz" value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px;"
+                               />
                 </p:splitButton>
 <!--                <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)"/>
                 <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>-->

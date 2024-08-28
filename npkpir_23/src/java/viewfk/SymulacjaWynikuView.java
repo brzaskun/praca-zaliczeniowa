@@ -30,6 +30,7 @@ import entityfk.Transakcja;
 import entityfk.WynikFKRokMc;
 import error.E;
 import interceptor.ConstructorInterceptor;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -535,8 +536,8 @@ public class SymulacjaWynikuView implements Serializable {
         }
     }
     
-    public void drukuj(int i) {
-        PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, pozycjePodsumowaniaWynikuNowe, pozycjeObliczeniaPodatku, wpisView, i, pozycjeDoWyplaty, sumaprzychody, sumavatprzychody, sumakoszty, sumavatkoszty, mcod, mcdo);
+    public ByteArrayOutputStream drukuj(int i) {
+        return PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, pozycjePodsumowaniaWynikuNowe, pozycjeObliczeniaPodatku, wpisView, i, pozycjeDoWyplaty, sumaprzychody, sumavatprzychody, sumakoszty, sumavatkoszty, mcod, mcdo);
     }
 
     private void pobierzzapisyzcechami() {

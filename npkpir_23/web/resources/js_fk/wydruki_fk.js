@@ -139,9 +139,9 @@ var wydrukpojazdy = function(kto, nr){
 
 var wydruksymulacjawyniku = function(kto, numer){
     if (numer===1) {
-        window.open('../wydruki/symulacjawyniku-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+        window.open('../wydruki/symulacjawyniku'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     } else {
-        window.open('../wydruki/symulacjawynikukonta-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+        window.open('../wydruki/symulacjawynikukonta'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     }
 };
 

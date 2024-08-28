@@ -90,7 +90,7 @@ public class MaiManager implements Serializable {
     }
 
 public static void mailManagerZUSPITZalaczniki(String adres, String temat, String tresc, String wiadomoscodksiegowej, String wysylajacy, SMTPSettings settings, 
-        SMTPSettings ogolne, ByteArrayOutputStream ksiega, ByteArrayOutputStream deklaracjavat, ByteArrayOutputStream plikjpk) throws MessagingException, UnsupportedEncodingException {
+        SMTPSettings ogolne, ByteArrayOutputStream ksiega, ByteArrayOutputStream deklaracjavat, ByteArrayOutputStream plikjpk, ByteArrayOutputStream czwarty) throws MessagingException, UnsupportedEncodingException {
     // Logowanie do maila
     MimeMessage message = logintoMailZUS(adres, wysylajacy, settings, ogolne);
     try {
@@ -129,6 +129,14 @@ public static void mailManagerZUSPITZalaczniki(String adres, String temat, Strin
             attachmentPart3.setDataHandler(new DataHandler(dataSource3));
             attachmentPart3.setFileName("plikjpk.pdf");
         }
+        
+        // Tworzenie piatej części wiadomości (załącznik - wymgofk)
+        MimeBodyPart attachmentPart4 = new MimeBodyPart();
+        if (czwarty != null) {
+            DataSource dataSource3 = new ByteArrayDataSource(czwarty.toByteArray(), "application/pdf");
+            attachmentPart4.setDataHandler(new DataHandler(dataSource3));
+            attachmentPart4.setFileName("plikjpk.pdf");
+        }
 
         // Tworzenie całej wiadomości z treścią i załącznikami
         Multipart mp = new MimeMultipart();
@@ -141,6 +149,9 @@ public static void mailManagerZUSPITZalaczniki(String adres, String temat, Strin
         }
         if (plikjpk != null) {
             mp.addBodyPart(attachmentPart3);
+        }
+        if (czwarty != null) {
+            mp.addBodyPart(attachmentPart4);
         }
 
         // Ustawienie zawartości wiadomości

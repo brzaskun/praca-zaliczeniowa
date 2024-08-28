@@ -472,7 +472,7 @@ public class Jpk_VAT2NView implements Serializable {
     }
     
        
-    public void przygotujXMLFKPodglad() {
+    public ByteArrayOutputStream przygotujXMLFKPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFKJPK(wpisView.getPodatnikObiekt(), null);
         double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
@@ -480,8 +480,9 @@ public class Jpk_VAT2NView implements Serializable {
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         List<KlientJPK> kliencijpk = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         duplikujjpkwnt(kliencijpk);
+        ByteArrayOutputStream plikjpk = null;
         if (bledy.size()==0 && (wiersze!=null||kliencijpk!=null)) {
-            generujXMLPodglad(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
+            plikjpk = generujXMLPodglad(kliencijpk, wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1, werjsajpkrecznie, nettovatuzd);
         } else if (wiersze==null) {
             Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
@@ -497,6 +498,7 @@ public class Jpk_VAT2NView implements Serializable {
                 Msg.msg("e","Wadliwy dokument: data "+data+" nr "+nr+" kwota "+p.getNetto());
             }
         }
+        return plikjpk;
     }
     
     private UPO wysylkaJPK(Podatnik podatnik) {
