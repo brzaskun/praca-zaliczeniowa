@@ -18,6 +18,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.DokEwidPrzych;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
+import pdffk.PdfMain;
 import plik.Plik;
 import view.WpisView;
 
@@ -36,9 +38,11 @@ import view.WpisView;
 
 public class PdfEwidencjaPrzychodow {
 
-    public static void drukujksiege(List<DokEwidPrzych> wykaz, WpisView wpisView, String mc) throws DocumentException, FileNotFoundException, IOException {
+    public static ByteArrayOutputStream drukujksiege(List<DokEwidPrzych> wykaz, WpisView wpisView, String mc) throws DocumentException, FileNotFoundException, IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
-        PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR("pkpir" + wpisView.getPodatnikWpisu().trim() + ".pdf"));
+        String nazwapliku = "pkpir" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+        PdfWriter writer = PdfMain.inicjacjaWriteraOut(pdf, out);
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
@@ -63,9 +67,10 @@ public class PdfEwidencjaPrzychodow {
         pdf.add(table);
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
-        PrimeFaces.current().executeScript("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
+        Plik.zapiszBufferdoPlik(nazwapliku, out);
+        PrimeFaces.current().executeScript("wydrukpkpir('"+wpisView.getPodatnikObiekt().getNip().trim()+"');");
         Msg.msg("i", "Wydrukowano ewidencję przychodów");
-        
+        return out;
         
     }
     

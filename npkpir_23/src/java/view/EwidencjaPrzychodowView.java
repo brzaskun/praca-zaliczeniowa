@@ -14,6 +14,7 @@ import entity.Dok;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
 import error.E;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class EwidencjaPrzychodowView implements Serializable {
     }
 
     @PostConstruct
-    private void init() { //E.m(this);
+    public void init() { //E.m(this);
         generujksiege(wpisView.getMiesiacWpisu());
        // error.E.s("d");
     }
@@ -99,12 +100,15 @@ public class EwidencjaPrzychodowView implements Serializable {
         }
     }
     
-    public void drukujPKPIR() {
+    
+    public ByteArrayOutputStream drukujPKPIR() {
+        ByteArrayOutputStream zwrot = null;
         try {
-            PdfEwidencjaPrzychodow.drukujksiege(lista, wpisView, wpisView.getMiesiacWpisu());
+            zwrot = PdfEwidencjaPrzychodow.drukujksiege(lista, wpisView, wpisView.getMiesiacWpisu());
         } catch (Exception e) { E.e(e); 
             
         }
+        return zwrot;
     }
     
     public void drukujPKPIRrok() {

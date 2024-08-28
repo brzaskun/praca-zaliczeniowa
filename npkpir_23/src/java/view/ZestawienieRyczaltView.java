@@ -5,6 +5,7 @@
 package view;
 
 import beansDok.KsiegaBean;
+import dao.DeklaracjaVatSchemaDAO;
 import dao.DokDAO;
 import dao.FakturaDAO;
 import dao.PodStawkiDAO;
@@ -12,11 +13,14 @@ import dao.PodatnikDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RyczDAO;
 import dao.SMTPSettingsDAO;
+import dao.SchemaEwidencjaDAO;
 import dao.StrataDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Mce;
 import embeddable.RyczaltPodatek;
 import embeddable.WierszRyczalt;
+import entity.DeklaracjaVatSchema;
+import entity.Deklaracjevat;
 import entity.Dok;
 import entity.Faktura;
 import entity.KwotaKolumna1;
@@ -29,17 +33,20 @@ import entity.StrataWykorzystanie;
 import entity.Zobowiazanie;
 import entity.Zusstawkinew;
 import error.E;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.security.Principal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -48,11 +55,13 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import jpkview.Jpk_VAT2NView;
 import mail.MaiManager;
 import mail.Mail;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdf.PdfPIT28;
+import pdf.PdfVAT7new;
 import pdf.PdfZestRok;
 import waluty.Z;
 
@@ -133,6 +142,10 @@ public class ZestawienieRyczaltView implements Serializable {
     private Podatnik taxman;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
+    private boolean dolaczdeklvat;
+    private boolean dolaczjpk;
+    private boolean dolaczprzychody;
+    private String dodatkowatresmaila;
 
     public ZestawienieRyczaltView() {
         pobierzPity = Collections.synchronizedList(new ArrayList<>());
@@ -729,30 +742,81 @@ public class ZestawienieRyczaltView implements Serializable {
 
         }
     }
-
-    private static final String trescmaila = "<p> Dzień dobry</p> <p> Przesyłamy informacje o naliczonych kwoty zobowiązań z tytułu podatku dochodowego</p> "
+ private static final String trescmaila = "<p> Dzień dobry</p> <p> Przesyłamy informacje o naliczonych kwoty zobowiązań z tytułu podatku dochodowego</p> "
             + "<p> dla firmy <span style=\"color:#008000;\">%s</span> NIP %s</p> "
             + "<p> do zapłaty/przelania w miesiącu <span style=\"color:#008000;\">%s/%s</span></p> "
-            + " <table align=\"left\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"> <caption> zestawienie zobowiązań</caption> <thead> <tr> "
+            + " <table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px; display: block; margin-bottom: 20px;\"> <caption> zestawienie zobowiązań</caption> <thead> <tr> "
             + "<th scope=\"col\"> lp</th> <th scope=\"col\"> tytuł</th> <th scope=\"col\"> kwota</th> </tr> </thead> <tbody> "
-            + "<tr><td style=\"text-align: center;\"> 1</td><td><span style='font-weight: bold'>Sprzedaż za m-c</span></td> <td style=\"text-align: right;\"><span style=\"text-align: right;font-weight: bold\"> %.2f</span></td> </tr> "
-            + "<tr><td style=\"text-align: center;\"> 2</td><td><span style='font-weight: bold'>Ryczałt</span></td> <td style=\"text-align: right;\"><span style=\"text-align: right;font-weight: bold\"> %.2f</span></td> </tr> "
+            + "<tr><td style=\"text-align: center;\"> 1</td><td><span style='font-weight: bold'>Sprzedaż za m-c</span></td> <td style=\"text-align: right;\"><span style=\"text-align: right;font-weight: bold\"> %s</span></td> </tr> "
+            + "<tr><td style=\"text-align: center;\"> 2</td><td><span style='font-weight: bold'>Ryczałt</span></td> <td style=\"text-align: right;\"><span style=\"text-align: right;font-weight: bold\"> %s</span></td> </tr> "
             + "</tbody> </table>"
-            + " <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p><br/> "
-            + "<p> Ważne! Przelew do US jedną kwotą na JEDNO indywidualne konto wskazane przez US.</p>"
-            + "<p> Przypominamy o terminie płatności PIT:</p>"
-            + " <p> do <span style=\"color:#008000;\">20-go</span> &nbsp; następnego miesiąca za miesiąc poprzedni</p>"
+            + "<div style=\"clear: both;\"></div>"
+            + " <p style=\"text-align: left;\">Ważne! Przelew do US jedną kwotą na JEDNO indywidualne konto wskazane przez US.</p>"
+            + "<p style=\"text-align: left;\">Przypominamy o terminie płatności PIT:</p>"
+            + " <p style=\"text-align: left;\">do <span style=\"color:#008000;\">20-go</span> &nbsp; następnego miesiąca za miesiąc poprzedni</p>"
             + " <p> &nbsp;</p>";
-
+    
+    
+    
+    @Inject
+    private DeklaracjevatView deklaracjevatView;
+    @Inject
+    private Jpk_VAT2NView jpk_VAT2NView;
+    @Inject
+    private SchemaEwidencjaDAO schemaEwidencjaDAO;
+    @Inject
+    private DeklaracjaVatSchemaDAO deklaracjaVatSchemaDAO;
+    @Inject
+    private EwidencjaPrzychodowView ewidencjaPrzychodowView;
+    
     public void wyslijPit() {
         try {
-            String tytuł = String.format("Taxman - zestawienie kwot podatek dochodowy za %s/%s", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            String tresc = String.format(new Locale("pl_PL"), trescmaila, wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getNip(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(),
-                    biezacyPit.getPrzychodyudzial().doubleValue(), biezacyPit.getDozaplaty().doubleValue());
-            MaiManager.mailManagerZUSPIT(wpisView.getPodatnikObiekt().getEmail(), tytuł, tresc, null, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef());
+            // Przykład formatowania liczb
+            double przychody = biezacyPit.getPrzychodyudzial().doubleValue();
+            double podatek = biezacyPit.getDozaplaty().doubleValue();
+            // Użyj NumberFormat do formatowania z separatorem tysięcy
+            NumberFormat formatter = NumberFormat.getInstance(Locale.forLanguageTag("pl-PL"));
+            String formattedPrzychody = formatter.format(przychody);
+            String formattedPodatek = formatter.format(podatek);
+            String tytuł = String.format("Taxman - zestawienie kwot na podatek dochodowy za %s/%s", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            String tresc = String.format(new Locale("pl_PL"), trescmaila, wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(),
+                    formattedPrzychody, formattedPodatek);
+            String wiadomoscodksiegowej = dodatkowatresmaila;
+            ByteArrayOutputStream ksiega = null;
+            if (dolaczprzychody) {
+                ewidencjaPrzychodowView.init();
+                ksiega = ewidencjaPrzychodowView.drukujPKPIR();
+            }
+            ByteArrayOutputStream deklaracjavat = null;
+            if (dolaczdeklvat) {
+                deklaracjevatView.init();
+                // Filtruj listę za pomocą streama
+                Optional<Deklaracjevat> result = deklaracjevatView.getWyslanenormalne().stream()
+                .filter(entity -> wpisView.getRokWpisuSt().equals(entity.getRok()) && wpisView.getMiesiacWpisu().equals(entity.getMiesiac()))
+                .findFirst(); // zwraca opcjonalną pierwszą znalezioną encję
+        
+                // Jeśli chcesz zwrócić wynik (jeśli jest obecny) lub null, możesz to zrobić w ten sposób:
+                Deklaracjevat dkl = result.orElse(null);
+                 DeklaracjaVatSchema pasujacaSchema = null;
+                 List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
+                   for (DeklaracjaVatSchema p : schemyLista) {
+                      if (p.getNazwaschemy().equals(dkl.getWzorschemy())) {
+                          pasujacaSchema = p;
+                          break;
+                      }
+                 }
+                deklaracjavat = PdfVAT7new.drukujNowaVAT7(podatnikDAO, dkl, pasujacaSchema, schemaEwidencjaDAO, wpisView);
+            }
+            ByteArrayOutputStream plikjpk = null;
+            if (dolaczjpk) {
+                jpk_VAT2NView.init();
+                plikjpk = jpk_VAT2NView.przygotujXMLPodglad();
+            }
+            MaiManager.mailManagerZUSPITZalaczniki(wpisView.getPodatnikObiekt().getEmail(), tytuł, tresc, wiadomoscodksiegowej, wpisView.getUzer().getEmail(), null, sMTPSettingsDAO.findSprawaByDef()
+                    , ksiega, deklaracjavat, plikjpk);
             msg.Msg.msg("Wysłano do klienta informacje o podatku");
-        } catch (Exception e) {
-
+        } catch (Exception e){
+            
         }
     }
 
@@ -1012,6 +1076,38 @@ public class ZestawienieRyczaltView implements Serializable {
 
     public void setZus52zreki(boolean zus52zreki) {
         this.zus52zreki = zus52zreki;
+    }
+
+    public boolean isDolaczdeklvat() {
+        return dolaczdeklvat;
+    }
+
+    public void setDolaczdeklvat(boolean dolaczdeklvat) {
+        this.dolaczdeklvat = dolaczdeklvat;
+    }
+
+    public boolean isDolaczjpk() {
+        return dolaczjpk;
+    }
+
+    public void setDolaczjpk(boolean dolaczjpk) {
+        this.dolaczjpk = dolaczjpk;
+    }
+
+    public boolean isDolaczprzychody() {
+        return dolaczprzychody;
+    }
+
+    public void setDolaczprzychody(boolean dolaczprzychody) {
+        this.dolaczprzychody = dolaczprzychody;
+    }
+
+    public String getDodatkowatresmaila() {
+        return dodatkowatresmaila;
+    }
+
+    public void setDodatkowatresmaila(String dodatkowatresmaila) {
+        this.dodatkowatresmaila = dodatkowatresmaila;
     }
 
 }

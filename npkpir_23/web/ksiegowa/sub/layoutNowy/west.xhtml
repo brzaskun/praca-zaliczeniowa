@@ -38,7 +38,7 @@
             <p:menu rendered="#{WpisView.biuroiszef eq true}">
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="wykaz dokumentów"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="podatkowa ksiega"  outcome="ksiega" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ryczalt0ksiega1 == true}"/>                        
-                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="ewid. przychodów"  outcome="ewidencjaprzychodow" icon="ui-icon-circle-arrow-e" rendered="#{WpisVieryczalt0ksiega1lt == false}"/>
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="ewid. przychodów"  outcome="ewidencjaprzychodow" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ryczalt0ksiega1 == false}"/>
                 <!--                    <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="faktury miesieczne"  outcome="fakturymiesieczne" icon="ui-icon-circle-arrow-e"/> 
                     <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="niezaplacone"  outcome="niezaplacone" icon="ui-icon-circle-arrow-e"/>  
                     <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="zaplacone"  outcome="zaplacone" icon="ui-icon-circle-arrow-e"/>  -->
