@@ -308,7 +308,7 @@
             <h:outputText value="Uwaga podatnik rozlicza się kwartalnie!" style="font-weight: 900; color: red;" rendered="#{WpisView.mc0kw1}"/>
             <h:form id="formpit1">
                 <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
-                <p:panelGrid  columns="3" >
+                <p:panelGrid  columns="3" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;width: 1700px;">
                     <p:panelGrid  columns="1" >
                         <p:panel header="wybierz osobę: " style="width: 250px;"/>
                         <p:selectOneMenu value="#{zestawienieRyczaltView.wybranyudzialowiec}" style="width: 250px;"  rendered="#{zestawienieRyczaltView.listawybranychudzialowcow.size() gt 1}"  converter="#{podatnikUdzialyConv}">
@@ -482,8 +482,10 @@
                             </p:column>
                         </p:dataTable>
                     </p:panelGrid>
-                     <p:panelGrid  columns="3" style="margin-left: auto; margin-right: auto;">
-                    <p:selectBooleanCheckbox value="#{zestawienieRyczaltView.dolaczpkpir}" label="dołącz ewid.przych." itemLabel="dołącz pkpir">
+                   
+                </p:panelGrid>
+                  <p:panelGrid  columns="3" style="margin-left: auto; margin-right: auto;">
+                         <p:selectBooleanCheckbox value="#{zestawienieRyczaltView.dolaczprzychody}" label="dołącz ewid.przych." itemLabel="dołącz pkpir">
                         <p:ajax event="change" partialSubmit="true"/>
                     </p:selectBooleanCheckbox>
                     <p:selectBooleanCheckbox value="#{zestawienieRyczaltView.dolaczdeklvat}" label="dołącz dekl.vat" itemLabel="dołącz dekl.vat">
@@ -501,7 +503,6 @@
                          <p:ajax event="blur" partialSubmit="true"/>
                      </p:textEditor>
                          </p:panelGrid>
-                </p:panelGrid>
             </h:form>
         </p:tab>
 
