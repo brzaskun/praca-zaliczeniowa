@@ -80,7 +80,7 @@ public class PdfVAT7new {
         dodajTabele(document, testobjects.getDeklaracjaVatSchemaWierszSum(schemawierszsumarycznylista),97,0);
         uzupelnijDlaVAT7(document, d, wpisView);
         finalizacjaDokumentuQR(document,nazwa);
-        Plik.zapiszBufferdoPlik(nazwa, out);
+        Plik.zapiszBufferdoPlik(nazwa+".pdf", out);
         String f = "pokazwydruk('"+nazwa+"');";
         PrimeFaces.current().executeScript(f);
         return out;

@@ -633,7 +633,7 @@ public class PdfUPO extends Pdf implements Serializable {
                 dodajLinieOpisu(document, "Brak dokumentów zakupu");
             }
             finalizacjaDokumentuQR(document,nazwa);
-            Plik.zapiszBufferdoPlik(nazwa, out);
+            Plik.zapiszBufferdoPlik(nazwa+".pdf", out);
             String f = "pokazwydruk('"+nazwa+"');";
             PrimeFaces.current().executeScript(f);
         } else {
@@ -710,7 +710,7 @@ public class PdfUPO extends Pdf implements Serializable {
                 dodajLinieOpisu(document, "Brak dokumentów zakupu");
             }
             finalizacjaDokumentuQR(document,nazwa);
-            Plik.zapiszBufferdoPlik(nazwa, out);
+            Plik.zapiszBufferdoPlik(nazwa+".pdf", out);
             String f = "pokazwydruk('"+nazwa+"');";
             PrimeFaces.current().executeScript(f);
         } else {
