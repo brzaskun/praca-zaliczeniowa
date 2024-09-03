@@ -154,6 +154,10 @@
                     <p:rowEditor style="height: 30px;"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
+                    <p:commandButton icon="fa fa-eye" actionListener="#{fakturaRozrachunkiAnalizaView.pobierzszczegolyWyciag(item)}" 
+                                     update="akordeon akordeon:fakturaanaliza:tablicaanaliza" />
+                </p:column>
+                <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiRozlView.usun(item)}" 
                                      update="akordeon:fakturarozliczenia:wprowadzonetabela akordeon:form_wprowadzoneplatnosci"/>
                 </p:column>

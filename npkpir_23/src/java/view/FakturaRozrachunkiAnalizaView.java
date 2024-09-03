@@ -602,6 +602,27 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         selectedrozliczenia = null;
     }
     
+     public void pobierzszczegolyWyciag(FakturaRozrachunki p) {
+        szukanyklient = p.getKontrahent();
+        for (Podatnik po : podatnicy) {
+            if (po.getNip().equals(szukanyklient.getNip())) {
+                szukanyklient.setNazwapodatnika(po.getPrintnazwa());
+                szukanyklient.setTelefon(po.getTelefonkontaktowy());
+                szukanyklient.setKsiegowa(po.getKsiegowa());
+                szukanyklient.setAktywny(po.isPodmiotaktywny());
+                szukanyklient.setPolecajacy(po.getPolecajacy());
+                break;
+            }
+        }
+        if (szukanyklient.getNazwapodatnika()==null) {
+            szukanyklient.setNazwapodatnika(szukanyklient.getNazwabezCudzy());
+        }
+        pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
+        selectOneUI.setValue(szukanyklient);
+        aktywnytab = 3;
+        selectedrozliczenia = null;
+    }
+    
     public void usunfakture(FakturaPodatnikRozliczenie fakturaPodatnikRozliczenie) {
         Faktura faktura = fakturaPodatnikRozliczenie.getFaktura();
         FakturaRozrachunki rozrachunek = fakturaPodatnikRozliczenie.getRozliczenie();

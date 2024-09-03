@@ -7,8 +7,10 @@ package view;
 
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
+import embeddable.FakturaPodatnikRozliczenie;
 import entity.FakturaRozrachunki;
 import entity.Klienci;
+import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -153,6 +155,7 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
         }
     }
     
+     
 //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Klienci> getKlienci() {
         return klienci;
