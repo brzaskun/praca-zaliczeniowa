@@ -85,10 +85,12 @@ public class PodatekPlatnoscView implements Serializable {
     
     // Metoda sumująca kwoty z listy
     public void sumujkwoty() {
-        sumawplat = listaPodatekPlatnosc.stream()
-                .map(PodatekPlatnosc::getKwota)
-                .filter(kwota -> kwota != null)
-                .reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue();
+        if (listaPodatekPlatnosc!=null) {
+            sumawplat = listaPodatekPlatnosc.stream()
+                    .map(PodatekPlatnosc::getKwota)
+                    .filter(kwota -> kwota != null)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue();
+        }
     }
 
     public List<PodatekPlatnosc> getListaPodatekPlatnosc() {
