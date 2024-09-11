@@ -203,7 +203,8 @@ public class SymulacjaWynikuView implements Serializable {
         } else {
             wpisView.setMiesiacWpisu(this.mcdo);
             wpisView.wpisAktualizuj();
-            initksiegowa();
+            //initksiegowa(); do zrobienia bo dziewczyny maja watpy 11.09.2024 Sitegs
+            init();
         }
     }
 
