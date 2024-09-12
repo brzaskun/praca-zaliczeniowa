@@ -1991,7 +1991,7 @@ public class Pasekwynagrodzen implements Serializable {
         double zwrot = 0.0;
         if (this.naliczeniepotracenieList!=null) {
             for (Naliczeniepotracenie pot : this.naliczeniepotracenieList) {
-                if (pot.getSkladnikpotracenia().getRodzajpotracenia().isPotraceniekomornicze()==false) {
+                if (pot.getSkladnikpotracenia()!=null&&pot.getSkladnikpotracenia().getRodzajpotracenia().isPotraceniekomornicze()==false) {
                     zwrot = zwrot +pot.getKwota();
                 }
             }
@@ -2003,7 +2003,7 @@ public class Pasekwynagrodzen implements Serializable {
         double zwrot = 0.0;
         if (this.naliczeniepotracenieList!=null) {
             for (Naliczeniepotracenie pot : this.naliczeniepotracenieList) {
-                if (pot.getSkladnikpotracenia().getRodzajpotracenia().isPotraceniekomornicze()) {
+                if (pot.getSkladnikpotracenia()!=null&&pot.getSkladnikpotracenia().getRodzajpotracenia().isPotraceniekomornicze()) {
                     zwrot = zwrot +pot.getKwota();
                 }
             }
@@ -2015,7 +2015,7 @@ public class Pasekwynagrodzen implements Serializable {
         double zwrot = 0.0;
         if (this.naliczeniepotracenieList!=null) {
             for (Naliczeniepotracenie pot : this.naliczeniepotracenieList) {
-                if (pot.getSkladnikpotracenia().getRodzajpotracenia().isPotracenieppk()) {
+                if (pot.getSkladnikpotracenia()!=null&&pot.getSkladnikpotracenia().getRodzajpotracenia().isPotracenieppk()) {
                     zwrot = zwrot +pot.getKwota();
                 }
             }
@@ -2039,7 +2039,7 @@ public class Pasekwynagrodzen implements Serializable {
         double zwrot = 0.0;
         if (this.naliczeniepotracenieList!=null) {
             for (Naliczeniepotracenie pot : this.naliczeniepotracenieList) {
-                if (pot.getSkladnikpotracenia().getRodzajpotracenia().isPotraceniezaliczka()) {
+                if (pot.getSkladnikpotracenia()!=null&&pot.getSkladnikpotracenia().getRodzajpotracenia().isPotraceniezaliczka()) {
                     zwrot = zwrot +pot.getKwota();
                 }
             }
