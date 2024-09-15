@@ -33,14 +33,32 @@
         </script>
         <h:form id="formsymulacja">
             <p:panelGrid columns="12" style="margin-left: 2%;" >
-                <h:outputText value="od dnia" style="margin-left: 10px;"/>
+                  <h:outputText value="rok" style="margin-right: 10px;"/>
+                <h:outputText value="#{WpisView.rokWpisuSt}" style="margin-right: 10px;"/>
+                <h:outputText value="m-c od" style="margin-right: 10px;"/>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu1" value="#{symulacjaWynikuView.mcod}">
+                        <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
+                                update="akordeon" oncomplete="pokazprzyciski();"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <h:outputText value="m-c do" style="margin-right: 10px;"/>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu2" value="#{symulacjaWynikuView.mcdo}">
+                        <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
+                                update="akordeon" oncomplete="pokazprzyciski();"/>
+                        <f:selectItems value="#{mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+<!--                <h:outputText value="od dnia" style="margin-left: 10px;"/>
                      <p:inputText value="#{symulacjaWynikuView.bilansoddnia}" maxlength="10" size="10"> 
                          <p:ajax event="blur" partialSubmit="true" global="false"/>
                      </p:inputText>
                      <h:outputText value=" na dzień" style="margin-left: 5px;"/>
                      <p:inputText value="#{symulacjaWynikuView.bilansnadzien}" maxlength="10" size="10"> 
                          <p:ajax event="blur" partialSubmit="true" global="false"/>
-                     </p:inputText>
+                     </p:inputText>-->
                      
                 <p:column>
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczneksiegowa()}" 
