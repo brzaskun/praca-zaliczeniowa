@@ -93,7 +93,7 @@ public class KsiegaBean {
         podsumowanie.setKolumna13(0.0);
         podsumowanie.setKolumna14(0.0);
         podsumowanie.setKolumna15(0.0);
-        podsumowanie.setIdDok(new Long(1222));
+        podsumowanie.setIdDok(1222L);
         podsumowanie.setKontr(new Klienci());
         return podsumowanie;
     }
@@ -214,7 +214,7 @@ public class KsiegaBean {
         sumakoncowa.setKolumna13(0.0);
         sumakoncowa.setKolumna14(0.0);
         sumakoncowa.setKolumna15(0.0);
-        sumakoncowa.setIdDok(new Long(1224));
+        sumakoncowa.setIdDok(1224L);
         sumakoncowa.setKontr(new Klienci());
         return sumakoncowa;
     }
@@ -231,7 +231,7 @@ public class KsiegaBean {
         sumaposrednia.setKolumna13(0.0);
         sumaposrednia.setKolumna14(0.0);
         sumaposrednia.setKolumna15(0.0);
-        sumaposrednia.setIdDok(new Long(1223));
+        sumaposrednia.setIdDok(1223L);
         sumaposrednia.setKontr(new Klienci());
         return sumaposrednia;
     }

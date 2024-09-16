@@ -134,9 +134,9 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
             table.addCell(ustawfraze(B.b("vat"), 0, 1));
             table.addCell(ustawfraze(B.b("kontosyntetyczne"), 0, 1));
-            String podsumowanie = "Razem koszty netto: "+format.F.curr(razemnetto)+" vat: "+format.F.curr(razemvat);
+            String podsumowanie = "Razem koszty netto: "+formatpdf.F.curr(razemnetto)+" vat: "+formatpdf.F.curr(razemvat);
             if (pk.equals("p")) {
-                podsumowanie = "Razem przychody netto: "+format.F.curr(razemnetto)+" vat: "+format.F.curr(razemvat);
+                podsumowanie = "Razem przychody netto: "+formatpdf.F.curr(razemnetto)+" vat: "+formatpdf.F.curr(razemvat);
             }
             table.addCell(ustawfrazeSpanFont(podsumowanie, 9, 0, 8));
             table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie symulacja wyniku finansowego", 9, 0, 6));

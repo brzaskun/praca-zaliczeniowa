@@ -8,7 +8,7 @@ package mail;
 import dao.FakturaDAO;
 import embeddable.FakturaPodatnikRozliczenie;
 import entity.SMTPSettings;
-import format.F;
+import formatpdf.F;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;

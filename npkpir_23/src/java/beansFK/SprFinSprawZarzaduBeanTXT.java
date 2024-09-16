@@ -63,8 +63,8 @@ public class SprFinSprawZarzaduBeanTXT {
     static void podnaglowek2(Document document, String rok, double zyskstrata, double sumabilansowa, String datado) {
         PdfMain.dodajLinieOpisu(document, "II. SPRAWOZDANIE FINANSOWE  ZA "+rok, Element.ALIGN_LEFT,2);
         PdfMain.dodajLinieOpisu(document, "Na sprawozdanie finansowe za "+rok+"r. składa się", Element.ALIGN_JUSTIFIED);
-        PdfMain.dodajLinieOpisu(document, "- rachunek zysków i strat wykazujący zysk w kwocie "+format.F.curr(zyskstrata), Element.ALIGN_JUSTIFIED);
-        PdfMain.dodajLinieOpisu(document, "- bilans sporządzony na dzień "+datado+"r. z sumą bilansową "+format.F.curr(sumabilansowa), Element.ALIGN_JUSTIFIED);
+        PdfMain.dodajLinieOpisu(document, "- rachunek zysków i strat wykazujący zysk w kwocie "+formatpdf.F.curr(zyskstrata), Element.ALIGN_JUSTIFIED);
+        PdfMain.dodajLinieOpisu(document, "- bilans sporządzony na dzień "+datado+"r. z sumą bilansową "+formatpdf.F.curr(sumabilansowa), Element.ALIGN_JUSTIFIED);
     }
 
     static void podnaglowek3(Document document) {

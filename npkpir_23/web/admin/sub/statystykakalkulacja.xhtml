@@ -8,7 +8,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 <h:form id="statystykakalkulacja">
-    <p:panelGrid columns="5">
+    <p:panelGrid columns="6">
         <p:commandButton value="generuj" actionListener="#{statystykaKalkulacjaView.generuj}" update="statystykakalkulacja:datatable" style="width: 120px; margin-left: 10px;"/>
         <p:selectOneMenu id="rokWpisu" value="#{statystykaKalkulacjaView.rok}" style="width: 120px; margin-left: 10px;">
             <p:ajax event="change" partialSubmit="true" global="false" listener="#{statystykaKalkulacjaView.czysclista}" update="statystykakalkulacja:datatable"/>

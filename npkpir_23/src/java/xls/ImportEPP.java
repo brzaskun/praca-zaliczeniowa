@@ -28,7 +28,7 @@ public class ImportEPP {
         try {
             String filename = "D://sprzedaz.epp";
             //FileInputStream file = new FileInputStream(new File(filename));
-            //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(file, Charset.forName("windows-1252")));
+            //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(new InputStreamReader(file, Charset.forName("windows-1252")));
             Path path = Paths.get(filename);
             // Java 8
             List<String> list = Files.readAllLines(path, Charset.forName("cp1250"));

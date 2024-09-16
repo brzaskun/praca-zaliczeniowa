@@ -103,7 +103,7 @@ public class ReadCSVAmazonFile {
         AmazonCSV tmpzwrot = null;
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
-            Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(file, Charset.forName("windows-1252")));
+            Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(new InputStreamReader(file, Charset.forName("windows-1252")));
             for (CSVRecord record : recordss) {
                 tmpzwrot = new AmazonCSV(record);
                 //zwrot.add(tmpzwrot);

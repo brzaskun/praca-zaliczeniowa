@@ -7,7 +7,7 @@ package xls;
 
 import data.Data;
 import error.E;
-import format.F;
+import formatpdf.F;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -43,8 +43,8 @@ public class ImportPekao24_CSV implements Serializable {
         try {
             ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane != null) {
-                //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
-                Iterable<CSVRecord> recordss = CSVFormat.newFormat(';').withQuote('"').withFirstRecordAsHeader().parse(new com.google.gdata.util.io.base.UnicodeReader(file, ("UTF-8")));
+                //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
+                Iterable<CSVRecord> recordss = CSVFormat.newFormat(';').withQuote('"').withHeader().withSkipHeaderRecord(true).parse(new com.google.gdata.util.io.base.UnicodeReader(file, ("UTF-8")));
                 int i = 0;
                 ImportBankWiersz y = new ImportBankWiersz();
                 for (CSVRecord record : recordss) {
@@ -160,7 +160,7 @@ public class ImportPekao24_CSV implements Serializable {
     public static void main(String[] args) throws SAXException, IOException {
        try {
             Path pathToFile = Paths.get("D:\\mil.csv");
-           Iterable<CSVRecord> recordss = CSVFormat.newFormat(',').withFirstRecordAsHeader().parse(Files.newBufferedReader(pathToFile, Charset.forName("UTF-8")));
+           Iterable<CSVRecord> recordss = CSVFormat.newFormat(',').withHeader().withSkipHeaderRecord(true).parse(Files.newBufferedReader(pathToFile, Charset.forName("UTF-8")));
            ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
            String mc = "01";
            String nrwyciagu = "1"+mc;

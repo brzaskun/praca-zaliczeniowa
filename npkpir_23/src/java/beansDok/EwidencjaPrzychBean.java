@@ -35,7 +35,7 @@ public class EwidencjaPrzychBean extends KsiegaBean {
         podsumowanie.setKolumna_3(0.0);
         podsumowanie.setKolumna_2(0.0);
         podsumowanie.setRazem(0.0);
-        podsumowanie.setIdDok(new Long(1222));
+        podsumowanie.setIdDok(1222L);
         podsumowanie.setKontr(new Klienci());
         return podsumowanie;
     }

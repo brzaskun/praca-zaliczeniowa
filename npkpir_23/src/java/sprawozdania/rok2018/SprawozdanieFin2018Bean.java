@@ -9,11 +9,9 @@ import data.Data;
 import entity.Podatnik;
 import entityfk.PozycjaRZiSBilans;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.datatype.DatatypeConfigurationException;
 import waluty.Z;
 
 /**
@@ -172,8 +170,8 @@ public class SprawozdanieFin2018Bean {
             poz = poz.replace(")", "");
             poz = poz.toLowerCase();
             if (poz.equals(pozycjaString)) {
-                kwotaA = new BigDecimal(Z.z(p.getKwota())).setScale(2, BigDecimal.ROUND_HALF_UP);
-                kwotaB = new BigDecimal(Z.z(p.getKwotabo())).setScale(2, BigDecimal.ROUND_HALF_UP);
+                kwotaA = new BigDecimal(Z.z(p.getKwota())).setScale(2, RoundingMode.HALF_UP);
+                kwotaB = new BigDecimal(Z.z(p.getKwotabo())).setScale(2, RoundingMode.HALF_UP);
                 it.remove();
                 break;
             }

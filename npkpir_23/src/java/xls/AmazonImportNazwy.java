@@ -192,8 +192,8 @@ public class AmazonImportNazwy implements Serializable {
                 klientJPK.setAmazontax0additional1(1);
                 String waluta = row.getCell(naglowki.get("TRANSACTION_CURRENCY_CODE")).getStringCellValue();
                 klientJPK.setWaluta(waluta);
-                double brutto = format.F.kwota(row.getCell(naglowki.get("TOTAL_PRICE_OF_ITEMS_VAT_INCL")).getStringCellValue());
-                klientJPK.setNettowaluta(format.F.kwota(row.getCell(naglowki.get("TOTAL_PRICE_OF_ITEMS_AMT_VAT_EXCL")).getStringCellValue()));
+                double brutto = formatpdf.F.kwota(row.getCell(naglowki.get("TOTAL_PRICE_OF_ITEMS_VAT_INCL")).getStringCellValue());
+                klientJPK.setNettowaluta(formatpdf.F.kwota(row.getCell(naglowki.get("TOTAL_PRICE_OF_ITEMS_AMT_VAT_EXCL")).getStringCellValue()));
                 klientJPK.setVatwaluta(Z.z(brutto - klientJPK.getNettowaluta()));
                 double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta);
                 klientJPK.setKurs(kurs);

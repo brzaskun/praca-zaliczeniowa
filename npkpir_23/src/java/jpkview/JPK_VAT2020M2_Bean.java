@@ -589,7 +589,7 @@ public class JPK_VAT2020M2_Bean {
                 w.setDokumentZakupu(TDowoduZakupu.WEW);
             }
             if (pole.equals("IMP")) {
-                w.setIMP(new  Byte("1"));
+                w.setIMP(Byte.valueOf("1"));
             }
         }
 

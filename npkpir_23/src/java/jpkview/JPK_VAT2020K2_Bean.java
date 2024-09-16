@@ -539,7 +539,7 @@ public class JPK_VAT2020K2_Bean {
                 w.setDokumentZakupu(pl.gov.crd.wzor._2021._12._27._11149.TDowoduZakupu.WEW);
             }
             if (pole.equals("IMP")) {
-                w.setIMP(new  Byte("1"));
+                w.setIMP(Byte.valueOf("1"));
             }
         }
 

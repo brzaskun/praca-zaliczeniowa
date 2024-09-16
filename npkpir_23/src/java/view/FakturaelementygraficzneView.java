@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -200,7 +201,7 @@ public class FakturaelementygraficzneView implements Serializable {
         String nazwapliku = "./build/web/logo/logo.txt";
         File targetFile = new File(nazwapliku);
         try {
-             FileUtils.writeStringToFile(targetFile, "lolo");
+             FileUtils.writeStringToFile(targetFile, "lolo", StandardCharsets.UTF_8);
              //FileUtils.copyInputStreamToFile(null, targetFile);
         } catch (IOException ex) {
             // Logger.getLogger(FakturaelementygraficzneView.class.getName()).log(Level.SEVERE, null, ex);

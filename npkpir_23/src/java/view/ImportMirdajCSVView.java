@@ -96,7 +96,7 @@ public class ImportMirdajCSVView  implements Serializable {
          try {
             InputStream is = new ByteArrayInputStream(pobraneplikibytes);
             int i =1;
-                Iterable<CSVRecord> recordss = CSVFormat.newFormat(';').withQuote('"').withFirstRecordAsHeader().parse(new InputStreamReader(is, Charset.forName("windows-1250")));
+                Iterable<CSVRecord> recordss = CSVFormat.newFormat(';').withQuote('"').withHeader().withSkipHeaderRecord(true).parse(new InputStreamReader(is, Charset.forName("windows-1250")));
             for (CSVRecord row : recordss) {
                     String data = Data.zmienkolejnosc(row.get("Data wystawienia"));
                     InterpaperXLS interpaperXLS = new InterpaperXLS();

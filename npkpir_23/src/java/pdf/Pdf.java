@@ -45,7 +45,7 @@ public class Pdf implements Serializable {
         String driver = "com.mysql.jdbc.Driver";
         String userName = "brzaskun";
         String password = "pufikun";
-        Class.forName(driver).newInstance();
+        Class.forName(driver);
         Connection conn = DriverManager.getConnection(url + dbName, userName, password);
         return conn;
     }

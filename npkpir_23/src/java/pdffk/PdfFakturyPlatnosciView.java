@@ -10,7 +10,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import dao.UzDAO;
 import entity.Faktura;
 import entity.Uz;
-import format.F;
+import formatpdf.F;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;

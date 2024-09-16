@@ -289,9 +289,9 @@ public class BilansGenerowanieView implements Serializable {
                     for (RoznicaSaldBO p : kontainnesaldo) {
                         StringBuilder sb = new StringBuilder();
                         sb.append(p.getKonto().getPelnynumer() + " winno być ");
-                        sb.append(format.F.curr(p.getWinnobyc()) + " strona ");
+                        sb.append(formatpdf.F.curr(p.getWinnobyc()) + " strona ");
                         sb.append(p.getWinnobycStrona() + " jest ");
-                        sb.append(format.F.curr(p.getJest()) + " strona ");
+                        sb.append(formatpdf.F.curr(p.getJest()) + " strona ");
                         sb.append(p.getJestStrona() + " roznica ");
                         sb.append(p.getKwotaroznicy());
                         komunikatyerror3.add(sb.toString());
@@ -351,9 +351,9 @@ public class BilansGenerowanieView implements Serializable {
                         for (RoznicaSaldBO p : kontainnesaldo) {
                             StringBuilder sb = new StringBuilder();
                             sb.append(p.getKonto().getPelnynumer() + " winno być ");
-                            sb.append(format.F.curr(p.getWinnobyc()) + " strona ");
+                            sb.append(formatpdf.F.curr(p.getWinnobyc()) + " strona ");
                             sb.append(p.getWinnobycStrona() + " jest ");
-                            sb.append(format.F.curr(p.getJest()) + " strona ");
+                            sb.append(formatpdf.F.curr(p.getJest()) + " strona ");
                             sb.append(p.getJestStrona() + " roznica ");
                             sb.append(p.getKwotaroznicy());
                             komunikatyerror3.add(sb.toString());

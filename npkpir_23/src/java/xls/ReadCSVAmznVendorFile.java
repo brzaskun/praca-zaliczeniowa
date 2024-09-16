@@ -112,7 +112,7 @@ public class ReadCSVAmznVendorFile {
             for (String p : list) {
                 Reader targetReader = new StringReader(p);
                 Iterable<CSVRecord> records = CSVFormat.newFormat(',').withQuote('"').parse(targetReader);
-//                Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(targetReader);
+//                Iterable<CSVRecord> records = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(targetReader);
                 records.forEach(recordss::add);
                 System.out.println("rec "+p.toString());
             }

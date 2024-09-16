@@ -8,7 +8,7 @@ package xls;
 import comparator.ImportBankWierszcomparator;
 import data.Data;
 import error.E;
-import format.F;
+import formatpdf.F;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,8 +45,8 @@ public class ImportNeoBank_CSV implements Serializable {
         try {
             ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane != null) {
-                //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
-                Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(file, Charset.forName("UTF-8")));
+                //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
+                Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(new InputStreamReader(file, Charset.forName("UTF-8")));
                 int i = 0;
                 ImportBankWiersz y = new ImportBankWiersz();
                 for (CSVRecord record : recordss) {
@@ -184,7 +184,7 @@ public class ImportNeoBank_CSV implements Serializable {
     public static void main(String[] args) throws SAXException, IOException {
        try {
             Path pathToFile = Paths.get("D:\\paypal.csv");
-           Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
+           Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
            ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
            String mc = "01";
            String nrwyciagu = "1"+mc;

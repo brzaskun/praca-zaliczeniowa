@@ -38,7 +38,7 @@ import entity.Fakturaelementygraficzne;
 import entity.Podatnik;
 import entity.Pozycjenafakturze;
 import error.E;
-import format.F;
+import formatpdf.F;
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;

@@ -63,8 +63,8 @@ public class ZamknijKsiegiView  implements Serializable {
         saldoAnalitykaView.initzamknijksiegi(podatnik, rok, rokpop);
         List<SaldoKonto> sumaSaldoKonto = saldoAnalitykaView.getSumaSaldoKonto();
         SaldoKonto suma = sumaSaldoKonto.get(0);
-        String wns = format.F.curr(Z.z(suma.getSaldoWn()));
-        String mas = format.F.curr(Z.z(suma.getSaldoMa()));
+        String wns = formatpdf.F.curr(Z.z(suma.getSaldoWn()));
+        String mas = formatpdf.F.curr(Z.z(suma.getSaldoMa()));
         if (Z.z(suma.getSaldoWn())==Z.z(suma.getSaldoMa())) {
             saldoAnalitykaView.zaksiegujsaldakont();
             Msg.msg("Salda rok "+rok+" zgodne - Wn: "+wns+" Ma: "+mas);

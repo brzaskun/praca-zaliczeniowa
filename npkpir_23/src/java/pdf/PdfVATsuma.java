@@ -122,11 +122,11 @@ public class PdfVATsuma {
                 vatsuma += p.getVat().doubleValue();
                 tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(i),"center",10));
                 tableSprzedaz.addCell(ustawfrazeAlign(p.getEwidencja().getNazwa(),"left",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(p.getNetto().doubleValue(), symbolwaluty),"right",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(p.getVat().doubleValue(), symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(formatpdf.F.curr(p.getNetto().doubleValue(), symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(formatpdf.F.curr(p.getVat().doubleValue(), symbolwaluty),"right",10));
                 try {
                     BigDecimal brutto = p.getVat().add(p.getNetto());
-                    tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(brutto.doubleValue(), symbolwaluty),"right",10));
+                    tableSprzedaz.addCell(ustawfrazeAlign(formatpdf.F.curr(brutto.doubleValue(), symbolwaluty),"right",10));
                 } catch (Exception e){
                     tableSprzedaz.addCell(ustawfrazeAlign("","right",10));
                 }
@@ -135,9 +135,9 @@ public class PdfVATsuma {
             if (tableSprzedaz.size() > 1) {
                 tableSprzedaz.addCell(ustawfrazeAlign("","center",10));
                 tableSprzedaz.addCell(ustawfrazeAlign("podsumowanie","left",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(nettosuma, symbolwaluty),"right",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(vatsuma, symbolwaluty),"right",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(Z.z(nettosuma+vatsuma), symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(formatpdf.F.curr(nettosuma, symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(formatpdf.F.curr(vatsuma, symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(formatpdf.F.curr(Z.z(nettosuma+vatsuma), symbolwaluty),"right",10));
             }
             document.add(Chunk.NEWLINE);
             document.add(tableSprzedaz);
@@ -159,11 +159,11 @@ public class PdfVATsuma {
                 vatsuma1 += p.getVat().doubleValue();
                 tableZakup.addCell(ustawfrazeAlign(String.valueOf(j),"center",10));
                 tableZakup.addCell(ustawfrazeAlign(p.getEwidencja().getNazwa(),"left",10));
-                 tableZakup.addCell(ustawfrazeAlign(format.F.curr(p.getNetto().doubleValue(), symbolwaluty),"right",10));
-                tableZakup.addCell(ustawfrazeAlign(format.F.curr(p.getVat().doubleValue(), symbolwaluty),"right",10));
+                 tableZakup.addCell(ustawfrazeAlign(formatpdf.F.curr(p.getNetto().doubleValue(), symbolwaluty),"right",10));
+                tableZakup.addCell(ustawfrazeAlign(formatpdf.F.curr(p.getVat().doubleValue(), symbolwaluty),"right",10));
                 try {
                     BigDecimal brutto = p.getVat().add(p.getNetto());
-                    tableZakup.addCell(ustawfrazeAlign(format.F.curr(brutto.doubleValue(), symbolwaluty),"right",10));
+                    tableZakup.addCell(ustawfrazeAlign(formatpdf.F.curr(brutto.doubleValue(), symbolwaluty),"right",10));
                 } catch (Exception e){
                     tableZakup.addCell(ustawfrazeAlign("","right",10));
                 }
@@ -172,9 +172,9 @@ public class PdfVATsuma {
             if (tableZakup.size()>1) {
                 tableZakup.addCell(ustawfrazeAlign("","center",10));
                 tableZakup.addCell(ustawfrazeAlign("podsumowanie","left",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(nettosuma, symbolwaluty),"right",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(vatsuma, symbolwaluty),"right",10));
-                tableSprzedaz.addCell(ustawfrazeAlign(format.F.curr(Z.z(nettosuma+vatsuma), symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(formatpdf.F.curr(nettosuma, symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(formatpdf.F.curr(vatsuma, symbolwaluty),"right",10));
+                tableSprzedaz.addCell(ustawfrazeAlign(formatpdf.F.curr(Z.z(nettosuma+vatsuma), symbolwaluty),"right",10));
             }
             document.add(Chunk.NEWLINE);
             document.add(tableZakup);

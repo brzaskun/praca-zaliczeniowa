@@ -7,7 +7,7 @@ package xls;
 
 import data.Data;
 import error.E;
-import format.F;
+import formatpdf.F;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -41,7 +41,7 @@ public class ImportMbankBusiness_CSV implements Serializable {
         try {
             ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane != null) {
-                //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
+                //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
                 CSVFormat newFormat = CSVFormat.newFormat(';');
                 newFormat.withSkipHeaderRecord(true);
                 Iterable<CSVRecord> recordss = newFormat.parse(new com.google.gdata.util.io.base.UnicodeReader(file, ("Windows-1250")));
@@ -164,7 +164,7 @@ public class ImportMbankBusiness_CSV implements Serializable {
            FileInputStream is = new FileInputStream("D:\\1001historia.csv");
            BufferedInputStream is2 = new BufferedInputStream(is);
            CSVFormat newFormat = CSVFormat.newFormat(';');
-           newFormat.withFirstRecordAsHeader();
+           newFormat.withHeader().withSkipHeaderRecord(true);
            newFormat.withSkipHeaderRecord(true);
            int lpwiersza = 1;
            Iterable<CSVRecord> recordss = newFormat.parse(new com.google.gdata.util.io.base.UnicodeReader(is2, ("Windows-1250")));

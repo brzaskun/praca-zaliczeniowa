@@ -11,7 +11,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.FakturaEbay;
 import error.E;
-import format.F;
+import formatpdf.F;
 import java.io.File;
 import java.util.HashSet;
 import java.util.List;

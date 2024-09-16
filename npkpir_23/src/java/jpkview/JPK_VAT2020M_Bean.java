@@ -571,10 +571,10 @@ public class JPK_VAT2020M_Bean {
                 w.setDokumentZakupu(TDowoduZakupu.WEW);
             }
             if (pole.equals("MPP")) {
-                w.setMPP(new  Byte("1"));
+                w.setMPP(Byte.valueOf("1"));
             }
             if (pole.equals("IMP")) {
-                w.setIMP(new  Byte("1"));
+                w.setIMP(Byte.valueOf("1"));
             }
         }
 

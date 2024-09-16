@@ -539,10 +539,10 @@ public class JPK_VAT2020K_Bean {
                 w.setDokumentZakupu(pl.gov.crd.wzor._2020._05._08._9394.TDowoduZakupu.WEW);
             }
             if (pole.equals("MPP")) {
-                w.setMPP(new  Byte("1"));
+                w.setMPP(Byte.valueOf("1"));
             }
             if (pole.equals("IMP")) {
-                w.setIMP(new  Byte("1"));
+                w.setIMP(Byte.valueOf("1"));
             }
         }
 

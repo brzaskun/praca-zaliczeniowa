@@ -222,7 +222,7 @@ public class SprFinInfDodBeanTXT {
         wiersze.add("Wyszczególnienie");
         wiersze.add("Kwota");
         wiersze.add("1. Wynik finansowy netto");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getZyskstratanetto()));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getZyskstratanetto()));
         wiersze.add("- korekta o rozliczenie wyniku finansowego z lat ub");
         wiersze.add(pobierz("821", listaSaldoKonto, 0, 0));
         double wynik = Z.z(sprFinKwotyInfDod.getPid1A().doubleValue()+sprFinKwotyInfDod.getPid11A().doubleValue()+pobierzNum("821", listaSaldoKonto, 0, 0));
@@ -230,13 +230,13 @@ public class SprFinInfDodBeanTXT {
             wiersze.add("2. Proponowany sposób podziału dochodu");
             wiersze.add("");
             wiersze.add("Utworzenie kapitału zapasowego");
-            wiersze.add(format.F.curr(sprFinKwotyInfDod.getKapitalrezerwowy()));
+            wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getKapitalrezerwowy()));
             wiersze.add("Pokrycie straty z lat ubiegłych");
-            wiersze.add(format.F.curr(sprFinKwotyInfDod.getStratazlatubieglych()));
+            wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getStratazlatubieglych()));
             wiersze.add("Wypłata wspólnikom");
-            wiersze.add(format.F.curr(sprFinKwotyInfDod.getDopodzialu()));
+            wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getDopodzialu()));
             wiersze.add("3 Wynik finansowy niepodzielony");
-            wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getWynikniepodzielony())));
+            wiersze.add(formatpdf.F.curr(Z.z(sprFinKwotyInfDod.getWynikniepodzielony())));
         } else if (wynik<0.0) {
             wiersze.add("2. Proponowany sposób pokrycia straty");
             wiersze.add("Z zysków lat następnych");
@@ -331,62 +331,62 @@ public class SprFinInfDodBeanTXT {
         wiersze.add("Rok poprzedni");
         wiersze.add("Różnica");
         wiersze.add("A. Zysk (strata) brutto za dany rok");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid1A().doubleValue()));
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid1B().doubleValue()));
-        wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getPid1A().doubleValue()-sprFinKwotyInfDod.getPid1B().doubleValue())));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid1A().doubleValue()));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid1B().doubleValue()));
+        wiersze.add(formatpdf.F.curr(Z.z(sprFinKwotyInfDod.getPid1A().doubleValue()-sprFinKwotyInfDod.getPid1B().doubleValue())));
         wiersze.add("B. Przychody zwolnione z opodatkowania (trwałe różnice pomiędzy zyskiem/stratą dla celów rachunkowych a dochodem/stratą dla celów podatkowych");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid2A().doubleValue()));
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid2B().doubleValue()));
-        wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getPid2A().doubleValue()-sprFinKwotyInfDod.getPid2B().doubleValue())));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid2A().doubleValue()));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid2B().doubleValue()));
+        wiersze.add(formatpdf.F.curr(Z.z(sprFinKwotyInfDod.getPid2A().doubleValue()-sprFinKwotyInfDod.getPid2B().doubleValue())));
         wiersze.add("C. Przychody niepodlegające opodatkowania w roku bieżącym");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid3A().doubleValue()));
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid3B().doubleValue()));
-        wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getPid3A().doubleValue()-sprFinKwotyInfDod.getPid3B().doubleValue())));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid3A().doubleValue()));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid3B().doubleValue()));
+        wiersze.add(formatpdf.F.curr(Z.z(sprFinKwotyInfDod.getPid3A().doubleValue()-sprFinKwotyInfDod.getPid3B().doubleValue())));
         wiersze.add("D. Przychody podlegające opodatkowania w roku bieżącym, ujęte w księgach rachunkowych lat ubiegłych");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid4A().doubleValue()));
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid4B().doubleValue()));
-        wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getPid4A().doubleValue()-sprFinKwotyInfDod.getPid4B().doubleValue())));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid4A().doubleValue()));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid4B().doubleValue()));
+        wiersze.add(formatpdf.F.curr(Z.z(sprFinKwotyInfDod.getPid4A().doubleValue()-sprFinKwotyInfDod.getPid4B().doubleValue())));
         wiersze.add("E. Koszty niestanowiące kosztów uzyskania przychodów (trwałe różnice pomiędzy zyskiem/stratą dla celów rachunkowych a dochodem/stratą dla celów podatkowych)	");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid5A().doubleValue()));
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid5B().doubleValue()));
-        wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getPid5A().doubleValue()-sprFinKwotyInfDod.getPid5B().doubleValue())));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid5A().doubleValue()));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid5B().doubleValue()));
+        wiersze.add(formatpdf.F.curr(Z.z(sprFinKwotyInfDod.getPid5A().doubleValue()-sprFinKwotyInfDod.getPid5B().doubleValue())));
         wiersze.add("F. Koszty nieuznawane za koszty uzyskania przychodów w bieżącym roku");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid6A().doubleValue()));
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid6B().doubleValue()));
-        wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getPid6A().doubleValue()-sprFinKwotyInfDod.getPid6B().doubleValue())));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid6A().doubleValue()));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid6B().doubleValue()));
+        wiersze.add(formatpdf.F.curr(Z.z(sprFinKwotyInfDod.getPid6A().doubleValue()-sprFinKwotyInfDod.getPid6B().doubleValue())));
         wiersze.add("G. Koszty uznawane za koszty uzyskania przychodów w roku bieżącym ujęte w księgach lat ubiegłych");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid7A().doubleValue()));
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid7B().doubleValue()));
-        wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getPid7A().doubleValue()-sprFinKwotyInfDod.getPid7B().doubleValue())));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid7A().doubleValue()));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid7B().doubleValue()));
+        wiersze.add(formatpdf.F.curr(Z.z(sprFinKwotyInfDod.getPid7A().doubleValue()-sprFinKwotyInfDod.getPid7B().doubleValue())));
         wiersze.add("H. Strata z lat ubiegłych");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid8A().doubleValue()));
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid8B().doubleValue()));
-        wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getPid8A().doubleValue()-sprFinKwotyInfDod.getPid8B().doubleValue())));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid8A().doubleValue()));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid8B().doubleValue()));
+        wiersze.add(formatpdf.F.curr(Z.z(sprFinKwotyInfDod.getPid8A().doubleValue()-sprFinKwotyInfDod.getPid8B().doubleValue())));
         wiersze.add("I. Inne zmiany podstawy opodatkowania");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid9A().doubleValue()));
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid9B().doubleValue()));
-        wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getPid9A().doubleValue()-sprFinKwotyInfDod.getPid9B().doubleValue())));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid9A().doubleValue()));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid9B().doubleValue()));
+        wiersze.add(formatpdf.F.curr(Z.z(sprFinKwotyInfDod.getPid9A().doubleValue()-sprFinKwotyInfDod.getPid9B().doubleValue())));
         wiersze.add("J. Podstawa opodatkowania podatkiem dochodowy");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid10A().doubleValue()));
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid10B().doubleValue()));
-        wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getPid10A().doubleValue()-sprFinKwotyInfDod.getPid10B().doubleValue())));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid10A().doubleValue()));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid10B().doubleValue()));
+        wiersze.add(formatpdf.F.curr(Z.z(sprFinKwotyInfDod.getPid10A().doubleValue()-sprFinKwotyInfDod.getPid10B().doubleValue())));
         wiersze.add("K. Podatek dochodowy");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid11A().doubleValue()));
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getPid11B().doubleValue()));
-        wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getPid11A().doubleValue()-sprFinKwotyInfDod.getPid11B().doubleValue())));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid11A().doubleValue()));
+        wiersze.add(formatpdf.F.curr(sprFinKwotyInfDod.getPid11B().doubleValue()));
+        wiersze.add(formatpdf.F.curr(Z.z(sprFinKwotyInfDod.getPid11A().doubleValue()-sprFinKwotyInfDod.getPid11B().doubleValue())));
         return wiersze;
     }
     
     static List<String> wierszeTab11(SprFinKwotyInfDod sprFinKwotyInfDod) {
         List<String> wiersze =  new ArrayList();
         wiersze.add("Pracownicy na umowie o pracę");
-        wiersze.add(format.F.number(sprFinKwotyInfDod.getPracownicy()));
+        wiersze.add(formatpdf.F.number(sprFinKwotyInfDod.getPracownicy()));
         wiersze.add("Zleceniobiorcy");
-        wiersze.add(format.F.number(sprFinKwotyInfDod.getZleceniobiorcy()));
+        wiersze.add(formatpdf.F.number(sprFinKwotyInfDod.getZleceniobiorcy()));
         wiersze.add("Pracownicy przebywający na urlopach macierzyńskich, wychowawczych lub bezpłatnych");
-        wiersze.add(format.F.number(sprFinKwotyInfDod.getInni()));
+        wiersze.add(formatpdf.F.number(sprFinKwotyInfDod.getInni()));
         wiersze.add("Ogółem");
-        wiersze.add(format.F.number(sprFinKwotyInfDod.getPracownicy()+sprFinKwotyInfDod.getZleceniobiorcy()+sprFinKwotyInfDod.getInni()));
+        wiersze.add(formatpdf.F.number(sprFinKwotyInfDod.getPracownicy()+sprFinKwotyInfDod.getZleceniobiorcy()+sprFinKwotyInfDod.getInni()));
         return wiersze;
     }
 
@@ -414,7 +414,7 @@ public class SprFinInfDodBeanTXT {
                 }
             }
         }
-        return format.F.curr(Z.z(kwota));
+        return formatpdf.F.curr(Z.z(kwota));
     }
     
     private static double pobierzNum(String szukane, List<SaldoKonto> listaSaldoKonto, int modyfikatorstrona, int modyfikatorrok) {
@@ -464,7 +464,7 @@ public class SprFinInfDodBeanTXT {
                 }
             }
         }
-        return format.F.curr(Z.z(kwota));
+        return formatpdf.F.curr(Z.z(kwota));
     }
 
     private static String pobierzroznica(String szukane, String szukane1, List<SaldoKonto> listaSaldoKonto,  int modyfikatorrok) {
@@ -498,7 +498,7 @@ public class SprFinInfDodBeanTXT {
             }
         }
         double roznica = Z.z(kwota1-kwota2);
-        return format.F.curr(roznica);
+        return formatpdf.F.curr(roznica);
     }
 
     private static String pobierzprzyrost(String szukane, List<SaldoKonto> listaSaldoKonto, int modyfikatorstrona) {
@@ -526,6 +526,6 @@ public class SprFinInfDodBeanTXT {
             }
         }
         double roznica = Z.z(kwota2-kwota1);
-        return format.F.curr(roznica);
+        return formatpdf.F.curr(roznica);
     }
 }

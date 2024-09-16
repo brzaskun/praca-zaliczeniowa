@@ -120,7 +120,14 @@ public class ImportAmaCSVView  implements Serializable {
 //        String cvsSplitBy = ",";
         try {
             InputStream is = uploadedFile.getInputStream();
-            Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(is, Charset.forName("windows-1252")));
+            CSVFormat format = CSVFormat.DEFAULT.builder()
+            .setHeader() // Use the first record as the header
+            .setSkipHeaderRecord(true) // Skip the header in iteration
+            .build();
+
+        Iterable<CSVRecord> recordss = format.parse(new InputStreamReader(is, Charset.forName("windows-1252")));
+
+        
             for (CSVRecord record : recordss) {
                 tmpzwrot = new AmazonCSV(record);
                 zwrot.add(tmpzwrot);

@@ -34,8 +34,6 @@ import entityfk.Waluty;
 import error.E;
 import f.l;
 import gus.GUSView;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -148,10 +146,20 @@ public class ImportCSVView  implements Serializable {
             Iterable<CSVRecord> recordss = null;
             if (extension.equals("csv")) {
                 InputStream is = uploadedFile.getInputStream();
-                recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(is, Charset.forName("windows-1252")));
+                 CSVFormat format = CSVFormat.DEFAULT.builder()
+                .setHeader() // Use the first record as the header
+                .setSkipHeaderRecord(true) // Skip the header in iteration
+                .build();
+
+                recordss = format.parse(new InputStreamReader(is, Charset.forName("windows-1252")));
             } else {
                 InputStream is = uploadedFile.getInputStream();
-                recordss = CSVFormat.newFormat('\t').withFirstRecordAsHeader().parse(new InputStreamReader(is, Charset.forName("UTF-8")));
+                CSVFormat format = CSVFormat.DEFAULT.builder()
+                .setHeader() // Use the first record as the header
+                .setSkipHeaderRecord(true) // Skip the header in iteration
+                .build();
+
+                recordss = format.parse(new InputStreamReader(is, Charset.forName("UTF-8")));
             }
             Stream<CSVRecord> stream = StreamSupport.stream(recordss.spliterator(), true);
             String rok = wpisView.getRokWpisuSt();
@@ -623,8 +631,8 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 klientJPK.setAmazontax0additional1(amazontax0additional1);
                 String waluta = row.get("TRANSACTION_CURRENCY_CODE");
                 klientJPK.setWaluta(waluta);
-                double brutto = format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
-                klientJPK.setNettowaluta(format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
+                double brutto = formatpdf.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
+                klientJPK.setNettowaluta(formatpdf.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
                 klientJPK.setVatwaluta(Z.z(brutto -klientJPK.getNettowaluta()));
                 double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta, tabelenbp);
                 klientJPK.setKurs(kurs);
@@ -755,61 +763,66 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
 
 
     
-     public static void main(String[] args) {
-        try {
-            String filename = "D://amazonnowy.csv";
-            FileInputStream file = new FileInputStream(new File(filename));
-            Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(file, Charset.forName("windows-1252")));
-            List<KlientJPK> lista = new ArrayList<>();
-            int i = 1;
-            String rok = "2021";
-            String mc = "01";
-            for (CSVRecord row : recordss) {
-                KlientJPK klientJPK = new KlientJPK();
-        String rodzajtransakcji = row.get("TRANSACTION_TYPE");
-        String serial = row.get("TRANSACTION_EVENT_ID");
-        try {
-            if ((rodzajtransakcji.equals("SALE") || rodzajtransakcji.equals("REFUND"))&&!serial.equals("")) {
-                klientJPK.setDowodSprzedazy(rodzajtransakcji);
-                if (serial.equals("203-1765216-3856314")) {
-                    System.out.println("");
-                }
-                klientJPK.setSerial(row.get("TRANSACTION_EVENT_ID"));
-                String data = row.get("TAX_CALCULATION_DATE");
-                String data2 = row.get("TRANSACTION_DEPART_DATE");
-                if (data2.equals("")) {
-                    data2 = data;
-                }
-                klientJPK.setDataSprzedazy(Data.zmienkolejnosc(data));
-                klientJPK.setDataWystawienia(Data.zmienkolejnosc(data2));
-                String krajcdocelowy = row.get("SALE_ARRIVAL_COUNTRY");
-                String krajwysylki = row.get("SALE_DEPART_COUNTRY");
-                String stawka = row.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT").equals("") ? "0.0":row.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT");
-                double stawkavat = Double.valueOf(stawka);
-                klientJPK.setStawkavat(stawkavat);
-                String opodatkowanie = row.get("TAXABLE_JURISDICTION");
-                klientJPK.setJurysdykcja(opodatkowanie);
-                String nip = row.get("BUYER_VAT_NUMBER");
-                klientJPK.setKodKrajuNadania(krajwysylki);
-                klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
-                klientJPK.setNrKontrahenta(nip);
-                klientJPK.setRok("2021");
-                klientJPK.setMc("01");
-                klientJPK.setWaluta(row.get("TRANSACTION_CURRENCY_CODE"));
-                double brutto = format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
-                klientJPK.setNettowaluta(format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
-                klientJPK.setVatwaluta(Z.z(brutto -klientJPK.getNettowaluta()));
-                //System.out.println(klientJPK.getSerial());
-            }
-        } catch (Exception e) {
-        }
-            }
-            file.close();
-            System.out.println("");
-        } catch (Exception e) {
-            E.e(e);
-        }
-    }
+//     public static void main(String[] args) {
+//        try {
+//            String filename = "D://amazonnowy.csv";
+//            FileInputStream file = new FileInputStream(new File(filename));
+//            CSVFormat format = CSVFormat.DEFAULT.builder()
+//                .setHeader() // Use the first record as the header
+//                .setSkipHeaderRecord(true) // Skip the header in iteration
+//                .build();
+//
+//            Iterable<CSVRecord> recordss  = format.parse(new InputStreamReader(file, Charset.forName("windows-1252")));
+//            List<KlientJPK> lista = new ArrayList<>();
+//            int i = 1;
+//            String rok = "2021";
+//            String mc = "01";
+//            for (CSVRecord row : recordss) {
+//                KlientJPK klientJPK = new KlientJPK();
+//        String rodzajtransakcji = row.get("TRANSACTION_TYPE");
+//        String serial = row.get("TRANSACTION_EVENT_ID");
+//        try {
+//            if ((rodzajtransakcji.equals("SALE") || rodzajtransakcji.equals("REFUND"))&&!serial.equals("")) {
+//                klientJPK.setDowodSprzedazy(rodzajtransakcji);
+//                if (serial.equals("203-1765216-3856314")) {
+//                    System.out.println("");
+//                }
+//                klientJPK.setSerial(row.get("TRANSACTION_EVENT_ID"));
+//                String data = row.get("TAX_CALCULATION_DATE");
+//                String data2 = row.get("TRANSACTION_DEPART_DATE");
+//                if (data2.equals("")) {
+//                    data2 = data;
+//                }
+//                klientJPK.setDataSprzedazy(Data.zmienkolejnosc(data));
+//                klientJPK.setDataWystawienia(Data.zmienkolejnosc(data2));
+//                String krajcdocelowy = row.get("SALE_ARRIVAL_COUNTRY");
+//                String krajwysylki = row.get("SALE_DEPART_COUNTRY");
+//                String stawka = row.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT").equals("") ? "0.0":row.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT");
+//                double stawkavat = Double.valueOf(stawka);
+//                klientJPK.setStawkavat(stawkavat);
+//                String opodatkowanie = row.get("TAXABLE_JURISDICTION");
+//                klientJPK.setJurysdykcja(opodatkowanie);
+//                String nip = row.get("BUYER_VAT_NUMBER");
+//                klientJPK.setKodKrajuNadania(krajwysylki);
+//                klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
+//                klientJPK.setNrKontrahenta(nip);
+//                klientJPK.setRok("2021");
+//                klientJPK.setMc("01");
+//                klientJPK.setWaluta(row.get("TRANSACTION_CURRENCY_CODE"));
+//                double brutto = format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
+//                klientJPK.setNettowaluta(format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
+//                klientJPK.setVatwaluta(Z.z(brutto -klientJPK.getNettowaluta()));
+//                //System.out.println(klientJPK.getSerial());
+//            }
+//        } catch (Exception e) {
+//        }
+//            }
+//            file.close();
+//            System.out.println("");
+//        } catch (Exception e) {
+//            E.e(e);
+//        }
+//    }
     
      private double pobierzkurs(String data, String waluta) {
          double zwrot = 0.0;

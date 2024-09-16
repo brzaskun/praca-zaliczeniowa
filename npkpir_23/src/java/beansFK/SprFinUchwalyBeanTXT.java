@@ -59,11 +59,11 @@ public class SprFinUchwalyBeanTXT {
     static void podnaglowek2(Document document, String rok, double zyskstrata, double sumabilansowa) {
         PdfMain.dodajLinieOpisu(document, "§ 1", Element.ALIGN_CENTER);
         if (Z.z(zyskstrata)==0.0) {
-            PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie zatwierdzają przedłożone sprawozdanie finansowe za rok  "+rok+" z sumą bilansową "+format.F.curr(sumabilansowa)+" i wynikiem "+format.F.curr(zyskstrata), Element.ALIGN_JUSTIFIED);
+            PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie zatwierdzają przedłożone sprawozdanie finansowe za rok  "+rok+" z sumą bilansową "+formatpdf.F.curr(sumabilansowa)+" i wynikiem "+formatpdf.F.curr(zyskstrata), Element.ALIGN_JUSTIFIED);
         } else if (zyskstrata>0) {
-            PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie zatwierdzają przedłożone sprawozdanie finansowe za rok  "+rok+" z sumą bilansową "+format.F.curr(sumabilansowa)+" i zyskiem "+format.F.curr(zyskstrata), Element.ALIGN_JUSTIFIED);
+            PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie zatwierdzają przedłożone sprawozdanie finansowe za rok  "+rok+" z sumą bilansową "+formatpdf.F.curr(sumabilansowa)+" i zyskiem "+formatpdf.F.curr(zyskstrata), Element.ALIGN_JUSTIFIED);
         } else {
-            PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie zatwierdzają przedłożone sprawozdanie finansowe za rok  "+rok+" z sumą bilansową "+format.F.curr(sumabilansowa)+" i stratą "+format.F.curr(zyskstrata), Element.ALIGN_JUSTIFIED);
+            PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie zatwierdzają przedłożone sprawozdanie finansowe za rok  "+rok+" z sumą bilansową "+formatpdf.F.curr(sumabilansowa)+" i stratą "+formatpdf.F.curr(zyskstrata), Element.ALIGN_JUSTIFIED);
         }
     }
 
@@ -111,18 +111,18 @@ public class SprFinUchwalyBeanTXT {
      static void podnaglowek21(Document document, SprFinKwotyInfDod sprFinKwotyInfDod, String rok, double zyskstrata, double sumabilansowa) {
         PdfMain.dodajLinieOpisu(document, "§ 1", Element.ALIGN_CENTER);
         if (zyskstrata>0.0) {
-            PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie ustalają, że udziałowcy zysk za rok "+rok+" w wysokości "+format.F.curr(zyskstrata)+" przeznaczają na: ", Element.ALIGN_JUSTIFIED);
+            PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie ustalają, że udziałowcy zysk za rok "+rok+" w wysokości "+formatpdf.F.curr(zyskstrata)+" przeznaczają na: ", Element.ALIGN_JUSTIFIED);
             if (sprFinKwotyInfDod.getDopodzialu()>0.0) {
-               PdfMain.dodajLinieOpisu(document, "- do podziału między wspólników w wysokości "+format.F.curr(sprFinKwotyInfDod.getDopodzialu()), Element.ALIGN_JUSTIFIED); 
+               PdfMain.dodajLinieOpisu(document, "- do podziału między wspólników w wysokości "+formatpdf.F.curr(sprFinKwotyInfDod.getDopodzialu()), Element.ALIGN_JUSTIFIED); 
             }
             if (sprFinKwotyInfDod.getKapitalrezerwowy()>0.0) {
-               PdfMain.dodajLinieOpisu(document, "- do zatrzymania w spółce jako kapitał zapasowy w wysokości "+format.F.curr(sprFinKwotyInfDod.getKapitalrezerwowy()), Element.ALIGN_JUSTIFIED); 
+               PdfMain.dodajLinieOpisu(document, "- do zatrzymania w spółce jako kapitał zapasowy w wysokości "+formatpdf.F.curr(sprFinKwotyInfDod.getKapitalrezerwowy()), Element.ALIGN_JUSTIFIED); 
             }
             if (sprFinKwotyInfDod.getStratazlatubieglych()>0.0) {
-               PdfMain.dodajLinieOpisu(document, "- do pokrycia strat z lat ubiegłych w wysokości "+format.F.curr(sprFinKwotyInfDod.getStratazlatubieglych()), Element.ALIGN_JUSTIFIED); 
+               PdfMain.dodajLinieOpisu(document, "- do pokrycia strat z lat ubiegłych w wysokości "+formatpdf.F.curr(sprFinKwotyInfDod.getStratazlatubieglych()), Element.ALIGN_JUSTIFIED); 
             }
         } else {
-            PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie ustalają, że udziałowcy stratę za rok "+rok+" w wysokości "+format.F.curr(zyskstrata)+" pokryją z zysku lat przyszłych.", Element.ALIGN_JUSTIFIED);
+            PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie ustalają, że udziałowcy stratę za rok "+rok+" w wysokości "+formatpdf.F.curr(zyskstrata)+" pokryją z zysku lat przyszłych.", Element.ALIGN_JUSTIFIED);
         }
     }
      

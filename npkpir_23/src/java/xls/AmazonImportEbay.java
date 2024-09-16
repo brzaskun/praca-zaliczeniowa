@@ -186,8 +186,8 @@ public class AmazonImportEbay  implements Serializable {
                 klientJPK.setMc(wpisView.getMiesiacWpisu());
                 String waluta = row.getCell(26).getStringCellValue();
                 klientJPK.setWaluta(waluta);
-                klientJPK.setNettowaluta(format.F.kwota(row.getCell(14).getStringCellValue()));
-                klientJPK.setVatwaluta(format.F.kwota(row.getCell(18).getStringCellValue()));
+                klientJPK.setNettowaluta(formatpdf.F.kwota(row.getCell(14).getStringCellValue()));
+                klientJPK.setVatwaluta(formatpdf.F.kwota(row.getCell(18).getStringCellValue()));
                 double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta);
                 klientJPK.setKurs(kurs);
                 klientJPK.setNetto(Z.z(klientJPK.getNettowaluta()*kurs));
@@ -568,8 +568,8 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 klientJPK.setMc(wpisView.getMiesiacWpisu());
                 String waluta = row.get("TRANSACTION_CURRENCY_CODE");
                 klientJPK.setWaluta(waluta);
-                double brutto = format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
-                klientJPK.setNettowaluta(format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
+                double brutto = formatpdf.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
+                klientJPK.setNettowaluta(formatpdf.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
                 klientJPK.setVatwaluta(Z.z(brutto -klientJPK.getNettowaluta()));
                 double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta);
                 klientJPK.setKurs(kurs);
@@ -607,8 +607,8 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 klientJPK.setMc(wpisView.getMiesiacWpisu());
                 String waluta = row.get("TRANSACTION_CURRENCY_CODE");
                 klientJPK.setWaluta(waluta);
-                double brutto = format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
-                klientJPK.setNettowaluta(format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
+                double brutto = formatpdf.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
+                klientJPK.setNettowaluta(formatpdf.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
                 klientJPK.setVatwaluta(Z.z(brutto -klientJPK.getNettowaluta()));
                 double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta);
                 klientJPK.setKurs(kurs);
@@ -731,7 +731,14 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
         try {
             String filename = "D://amazonnowy.csv";
             FileInputStream file = new FileInputStream(new File(filename));
-            Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(file, Charset.forName("windows-1252")));
+          
+              CSVFormat format = CSVFormat.DEFAULT.builder()
+                .setHeader() // Use the first record as the header
+                .setSkipHeaderRecord(true) // Skip the header in iteration
+                .build();
+
+            Iterable<CSVRecord> recordss  = format.parse(new InputStreamReader(file, Charset.forName("windows-1252")));
+            
             List<KlientJPK> lista = new ArrayList<>();
             int i = 1;
             String rok = "2021";
@@ -771,8 +778,8 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 klientJPK.setRok("2021");
                 klientJPK.setMc("01");
                 klientJPK.setWaluta(row.get("TRANSACTION_CURRENCY_CODE"));
-                double brutto = format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
-                klientJPK.setNettowaluta(format.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
+                double brutto = formatpdf.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_INCL"));
+                klientJPK.setNettowaluta(formatpdf.F.kwota(row.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
                 klientJPK.setVatwaluta(Z.z(brutto -klientJPK.getNettowaluta()));
                 //System.out.println(klientJPK.getSerial());
             }

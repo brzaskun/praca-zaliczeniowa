@@ -1787,8 +1787,8 @@ public static PdfWriter inicjacjaWriteraOut(Document document, ByteArrayOutputSt
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[3])), "right", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[4])), "right", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[5])), "right", 8));
-                table.addCell(ustawfrazeAlign(format.F.procent((Double)p[6]), "right", 8));
-                table.addCell(ustawfrazeAlign(format.F.kurs6((Double)p[7]), "right", 8));
+                table.addCell(ustawfrazeAlign(formatpdf.F.procent((Double)p[6]), "right", 8));
+                table.addCell(ustawfrazeAlign(formatpdf.F.kurs6((Double)p[7]), "right", 8));
             }
             if (nazwaklasy.equals("embeddablefk.ImportJPKSprzedaz")) {
                 ImportJPKSprzedaz p =  (ImportJPKSprzedaz) it.next();
@@ -2678,7 +2678,7 @@ public static PdfWriter inicjacjaWriteraOut(Document document, ByteArrayOutputSt
 
                         table.addCell(ustawfrazeAlign(p.getJurysdykcja(), "left", 8));
                         if (!p.getWaluta().equals("PLN")) {
-                            table.addCell(ustawfrazeAlign(format.F.kurs6(p.getKurs()), "left", 8));
+                            table.addCell(ustawfrazeAlign(formatpdf.F.kurs6(p.getKurs()), "left", 8));
                         } else {
                             table.addCell(ustawfrazeAlign("", "left", 8));
                         }

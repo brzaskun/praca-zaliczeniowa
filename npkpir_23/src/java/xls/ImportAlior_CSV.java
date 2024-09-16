@@ -8,7 +8,7 @@ package xls;
 import comparator.ImportBankWierszcomparator;
 import data.Data;
 import error.E;
-import format.F;
+import formatpdf.F;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -46,8 +46,8 @@ public class ImportAlior_CSV implements Serializable {
         try {
             ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane != null) {
-                //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
-                Iterable<CSVRecord> recordss = CSVFormat.newFormat(';').withQuote('"').withFirstRecordAsHeader().parse(new InputStreamReader(file, Charset.forName("windows-1250")));
+                //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
+                Iterable<CSVRecord> recordss = CSVFormat.newFormat(';').withQuote('"').withHeader().withSkipHeaderRecord(true).parse(new InputStreamReader(file, Charset.forName("windows-1250")));
                 int i = 0;
                 ImportBankWiersz y = new ImportBankWiersz();
                 for (CSVRecord record : recordss) {
@@ -152,7 +152,17 @@ public class ImportAlior_CSV implements Serializable {
     public static void main(String[] args) throws SAXException, IOException {
        try {
             Path pathToFile = Paths.get("D:\\lala.csv");
-           Iterable<CSVRecord> recordss = CSVFormat.newFormat(';').withQuote('"').withFirstRecordAsHeader().parse(Files.newBufferedReader(pathToFile, Charset.forName("windows-1250")));
+           
+           CSVFormat format = CSVFormat.newFormat(';')
+        .withQuote('"')
+        .builder()
+        .setHeader()
+        .setSkipHeaderRecord(true)
+        .build();
+
+    Iterable<CSVRecord> recordss = format.parse(
+        Files.newBufferedReader(pathToFile, Charset.forName("windows-1250"))
+    );
            ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
            String mc = "01";
            String nrwyciagu = "1"+mc;

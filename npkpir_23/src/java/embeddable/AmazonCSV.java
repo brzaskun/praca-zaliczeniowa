@@ -138,7 +138,7 @@ public class AmazonCSV {
     public String getData() {
         String d2 = "blad konwersji daty";
         if (this.ShipmentDate!=null) {
-            String strypdate = this.ShipmentDate.subSequence(1, this.ShipmentDate.length()-1).toString();
+            d2 = this.ShipmentDate.subSequence(1, this.ShipmentDate.length()-1).toString();
             //"2-Jan-2021 UT" to trzeba przekonwertowac
 //               DateFormat formatter;
 //            formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -148,11 +148,30 @@ public class AmazonCSV {
 //            } catch (ParseException ex) {
 //                Logger.getLogger(AmazonCSV.class.getName()).log(Level.SEVERE, null, ex);
 //            }
-            Date date = new Date(strypdate);
-            d2 = Data.data_yyyyMMdd(date);
+         
         }
         return d2;
     }
+    
+    public String getDataOld() {
+        String d2 = "blad konwersji daty";
+        if (this.ShipmentDate!=null) {
+           d2 = this.ShipmentDate.subSequence(1, this.ShipmentDate.length()-1).toString();
+            //"2-Jan-2021 UT" to trzeba przekonwertowac
+//               DateFormat formatter;
+//            formatter = new SimpleDateFormat("yyyy-MM-dd");
+//            Date date = null;
+//            try {
+//                date = formatter.parse(strypdate);
+//            } catch (ParseException ex) {
+//                Logger.getLogger(AmazonCSV.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            Date date = new Date(strypdate);
+//            d2 = Data.data_yyyyMMdd(date);
+        }
+        return d2;
+    }
+    
     public Waluty getWaluta(List<Waluty> listaWalut, Waluty walutapln) {
         Waluty waluta = walutapln;
         for (Waluty p : listaWalut) {

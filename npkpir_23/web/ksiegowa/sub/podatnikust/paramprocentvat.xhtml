@@ -12,12 +12,12 @@
                 <h:outputText value="Procent VAT naliczonego do odliczenia - struktura" style="font-size: 15px"/>
                 <p:growl life="3600"  showDetail="true"/>
                 <p:focus for="parametryp1"/><br/>
-                <p:panelGrid columns="5" style="width: 500px">
+                <p:panelGrid columns="1" style="width: 500px">
                     <p:dataTable lazy="false"  value="#{podatnikView.selected.paramProcentVat}"  var="loop" emptyMessage="nie wprowadzono parametrów"
                                  >
                         <f:facet name="header">
-                    <h:outputText value="Dane historyczne"/>
-                </f:facet>
+                            <h:outputText value="Dane historyczne"/>
+                        </f:facet>
                         <p:column headerText="od" sortBy="#{loop}" sortFunction="#{podatnikView.sortparamsuper}">
                             <h:outputText value="#{loop.mcOd}-" />
                             <h:outputText value="#{loop.rokOd}" />

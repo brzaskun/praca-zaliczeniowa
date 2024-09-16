@@ -23,7 +23,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.FakturaRozrachunki;
 import entity.Podatnik;
-import format.F;
+import formatpdf.F;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;

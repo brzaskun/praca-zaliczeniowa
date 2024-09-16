@@ -29,7 +29,7 @@ public class ConnectionJDBC {
         String driver = "com.mysql.cj.jdbc.Driver";
         String userName = "brzaskun";
         String password = "pufikun";
-        Class.forName(driver).newInstance();
+        Class.forName(driver);
         Connection conn = DriverManager.getConnection(url + dbName, userName, password);
         return conn;
     }

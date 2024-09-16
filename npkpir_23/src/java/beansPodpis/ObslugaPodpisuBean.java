@@ -212,7 +212,7 @@ public class ObslugaPodpisuBean {
             while (aliasesEnum.hasMoreElements()) {
                 String alias = (String)aliasesEnum.nextElement();
                 X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
-                //FileUtils.writeStringToFile(new File("D:\\cert"+alias+".xml"), cert.toString());
+                //FileUtils.writeStringToFile(new File("D:\\cert"+alias+".xml"), cert.toString(), StandardCharsets.UTF_8);
                 // error.E.s("Certificate: " + cert);
                 if (today.after(cert.getNotBefore()) && today.before(cert.getNotAfter())) {
                     aliasfinal = alias;
@@ -247,7 +247,7 @@ public class ObslugaPodpisuBean {
 //            while (aliasesEnum.hasMoreElements()) {
 //                String alias = (String)aliasesEnum.nextElement();
 //                X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
-//                //FileUtils.writeStringToFile(new File("D:\\cert"+alias+".xml"), cert.toString());
+//                //FileUtils.writeStringToFile(new File("D:\\cert"+alias+".xml"), cert.toString(), StandardCharsets.UTF_8);
 //                // error.E.s("Certificate: " + cert);
 //                if (today.after(cert.getNotBefore()) && today.before(cert.getNotAfter())) {
 //                    aliasfinal = alias;
@@ -502,7 +502,7 @@ public class ObslugaPodpisuBean {
 //        FileInputStream fisTargetFile = new FileInputStream(new File("d:/vat7a.xml"));
 //        String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
 //        String xml = podpiszDeklaracje(targetFileStr);
-//        FileUtils.writeStringToFile(new File("D:/plik.xml"), xml);
+//        FileUtils.writeStringToFile(new File("D:/plik.xml"), xml, StandardCharsets.UTF_8);;
 //        error.E.s("info "+xml);
 //        } catch (IOException ex) {
 //            Logger.getLogger(ObslugaPodpisuBean.class.getName()).log(Level.SEVERE, null, ex);
