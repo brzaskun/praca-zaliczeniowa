@@ -44,10 +44,19 @@ public class ImportAlior_CSV implements Serializable {
         List<ImportBankWiersz> listaswierszy = new ArrayList<>();
         boolean blad = false;
         try {
-            ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
-            if (pobrane != null) {
-                //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
-                Iterable<CSVRecord> recordss = CSVFormat.newFormat(';').withQuote('"').withHeader().withSkipHeaderRecord(true).parse(new InputStreamReader(file, Charset.forName("windows-1250")));
+         ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
+if (pobrane != null) {
+    CSVFormat csvFormat = CSVFormat.newFormat(';')
+        .builder()
+        .setQuote('"')
+        .setHeader()
+        .setSkipHeaderRecord(true)
+        .build();
+
+    Iterable<CSVRecord> recordss = csvFormat.parse(new InputStreamReader(file, Charset.forName("windows-1250")));
+
+
+
                 int i = 0;
                 ImportBankWiersz y = new ImportBankWiersz();
                 for (CSVRecord record : recordss) {
@@ -152,17 +161,18 @@ public class ImportAlior_CSV implements Serializable {
     public static void main(String[] args) throws SAXException, IOException {
        try {
             Path pathToFile = Paths.get("D:\\lala.csv");
-           
-           CSVFormat format = CSVFormat.newFormat(';')
-        .withQuote('"')
-        .builder()
-        .setHeader()
-        .setSkipHeaderRecord(true)
-        .build();
+InputStreamReader reader = new InputStreamReader(Files.newInputStream(pathToFile), Charset.forName("windows-1250"));
 
-    Iterable<CSVRecord> recordss = format.parse(
-        Files.newBufferedReader(pathToFile, Charset.forName("windows-1250"))
-    );
+CSVFormat csvFormat = CSVFormat.newFormat(';')
+    .builder()
+    .setQuote('"')
+    .setHeader()
+    .setSkipHeaderRecord(true)
+    .build();
+
+Iterable<CSVRecord> recordss = csvFormat.parse(reader);
+
+    
            ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
            String mc = "01";
            String nrwyciagu = "1"+mc;

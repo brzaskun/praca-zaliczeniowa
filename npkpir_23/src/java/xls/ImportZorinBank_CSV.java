@@ -170,7 +170,16 @@ public class ImportZorinBank_CSV implements Serializable {
             ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane != null) {
                 //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
-                Iterable<CSVRecord> recordss = CSVFormat.POSTGRESQL_TEXT.withHeader().withSkipHeaderRecord(true).parse(new InputStreamReader(file, Charset.forName("UTF-16LE")));
+               CSVFormat csvFormat = CSVFormat.POSTGRESQL_TEXT
+                .builder()
+                .setHeader()
+                .setSkipHeaderRecord(true)
+                .build();
+
+            Iterable<CSVRecord> recordss = csvFormat
+                .parse(new InputStreamReader(file, Charset.forName("UTF-16LE")));
+
+
                 int i = 0;
                 for (CSVRecord record : recordss) {
                         if (i > 0) {
@@ -287,7 +296,15 @@ public class ImportZorinBank_CSV implements Serializable {
     public static void main(String[] args) throws SAXException, IOException {
        try {
            Path pathToFile = Paths.get("D:\\paypal.csv");
-           Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
+           CSVFormat csvFormat = CSVFormat.DEFAULT
+    .builder()
+    .setHeader()
+    .setSkipHeaderRecord(true)
+    .build();
+
+Iterable<CSVRecord> recordss = csvFormat
+    .parse(Files.newBufferedReader(pathToFile, Charset.forName("UTF-8")));
+
            ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
            String mc = "01";
            String nrwyciagu = "1"+mc;

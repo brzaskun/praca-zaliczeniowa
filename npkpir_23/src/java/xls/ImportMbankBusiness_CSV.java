@@ -39,12 +39,18 @@ public class ImportMbankBusiness_CSV implements Serializable {
         List<ImportBankWiersz> listaswierszy = new ArrayList<>();
         boolean blad = false;
         try {
-            ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
-            if (pobrane != null) {
-                //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
-                CSVFormat newFormat = CSVFormat.newFormat(';');
-                newFormat.withSkipHeaderRecord(true);
-                Iterable<CSVRecord> recordss = newFormat.parse(new com.google.gdata.util.io.base.UnicodeReader(file, ("Windows-1250")));
+           ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
+if (pobrane != null) {
+    // Tworzymy format CSV z separatorami pól i innymi ustawieniami
+    CSVFormat newFormat = CSVFormat.newFormat(';')
+        .builder()
+        .setSkipHeaderRecord(true)
+        .build();
+
+    // Parsowanie CSV z poprawnym ustawieniem kodowania
+    Iterable<CSVRecord> recordss = newFormat.parse(new com.google.gdata.util.io.base.UnicodeReader(file, "Windows-1250"));
+
+    
                 int i = 0;
                 ImportBankWiersz y = new ImportBankWiersz();
                 for (CSVRecord record : recordss) {
@@ -163,11 +169,17 @@ public class ImportMbankBusiness_CSV implements Serializable {
        try {
            FileInputStream is = new FileInputStream("D:\\1001historia.csv");
            BufferedInputStream is2 = new BufferedInputStream(is);
-           CSVFormat newFormat = CSVFormat.newFormat(';');
-           newFormat.withHeader().withSkipHeaderRecord(true);
-           newFormat.withSkipHeaderRecord(true);
-           int lpwiersza = 1;
-           Iterable<CSVRecord> recordss = newFormat.parse(new com.google.gdata.util.io.base.UnicodeReader(is2, ("Windows-1250")));
+
+CSVFormat newFormat = CSVFormat.newFormat(';')
+    .builder()
+    .setHeader()
+    .setSkipHeaderRecord(true)
+    .build();
+
+Iterable<CSVRecord> recordss = 
+    newFormat.parse(new com.google.gdata.util.io.base.UnicodeReader(is2, "Windows-1250"));
+
+            int lpwiersza = 1;
             for (CSVRecord record : recordss) {
                     if (record.getRecordNumber()>1) {
                         if (record.get(5).equals("PLN")) {

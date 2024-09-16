@@ -5,6 +5,7 @@
  */
 package xls;
 
+import data.Data;
 import error.E;
 import formatpdf.F;
 import java.io.ByteArrayInputStream;
@@ -44,7 +45,14 @@ public class ImportMillenium_CSV implements Serializable {
             ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane != null) {
                 //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(true).parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
-                Iterable<CSVRecord> recordss = CSVFormat.newFormat(',').withHeader().withSkipHeaderRecord(true).parse(new InputStreamReader(file, Charset.forName("UTF-8")));
+               CSVFormat csvFormat = CSVFormat.newFormat(',')
+                    .builder()
+                    .setHeader()
+                    .setSkipHeaderRecord(true)
+                    .build();
+
+                Iterable<CSVRecord> recordss = csvFormat.parse(new InputStreamReader(file, Charset.forName("UTF-8")));
+
                 int i = 0;
                 ImportBankWiersz y = new ImportBankWiersz();
                 for (CSVRecord record : recordss) {
@@ -157,46 +165,55 @@ public class ImportMillenium_CSV implements Serializable {
     public static void main(String[] args) throws SAXException, IOException {
        try {
             Path pathToFile = Paths.get("D:\\mil.csv");
-           Iterable<CSVRecord> recordss = CSVFormat.newFormat(',').withHeader().withSkipHeaderRecord(true).parse(Files.newBufferedReader(pathToFile, Charset.forName("UTF-8")));
+           CSVFormat csvFormat = CSVFormat.newFormat(',')
+    .builder()
+    .setHeader()
+    .setSkipHeaderRecord(true)
+    .build();
+
+Iterable<CSVRecord> recordss = csvFormat
+    .parse(Files.newBufferedReader(pathToFile, Charset.forName("UTF-8")));
+
            ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
            String mc = "01";
            String nrwyciagu = "1"+mc;
            int i = 0;
             List<ImportBankWiersz> listaswierszy = new ArrayList<>();
             ImportBankWiersz y = new ImportBankWiersz();
-//            for (CSVRecord record : recordss) {
-//                    if (record.get("Waluta").equals(wybranawaluta)) {
-//                        ImportBankWiersz x = new ImportBankWiersz();
-//                        x.setNr(lpwiersza++);
-//                        x.setDatatransakcji(Data.zmien8na10(record.get("Data księgowania")));
-//                        x.setDatawaluty(Data.zmien8na10(record.get("Data efektywna")));
-//                        String mcwiersz = Data.zmien8na10(record.get("Data efektywna")).split("-")[1];
-//                        if (!mcwiersz.equals(mc)) {
-//                            blad = true;
-//                            break;
-//                        }
-//                        x.setIBAN("");//??
-//                        x.setWaluta(wybranawaluta);
-//                        x.setKontrahent(record.get("Nazwa kontrahenta"));//??
-//                        double kwota = F.kwota(record.get("Kwota"));
-//                        x.setKwota(kwota);
-//                        if (kwota > 0.0) {
-//                            x.setWnma("Wn");
-//                            pn.setWyciagobrotywn(pn.getWyciagobrotywn() + kwota);
-//                        } else {
-//                            x.setWnma("Ma");
-//                            pn.setWyciagobrotyma(pn.getWyciagobrotyma() + Math.abs(kwota));
-//                        }
-//                        x.setNrtransakji(record.get("Tytuł płatności (linia 1)"));
-//                        x.setOpistransakcji(record.get("Typ operacji"));
-//                        x.setTyptransakcji(oblicztyptransakcji(x));
-//                        pn.setWyciagdatado(Data.zmien8na10(record.get("Data efektywna")));
-//                        pn.setWyciagbz(F.kwota(record.get("Saldo po operacji")));
-//                        x.setNaglowek(pn);
-//                        listaswierszy.add(x);
-//                        i++;
-//                    }
-//                }
+            boolean blad = false;
+            for (CSVRecord record : recordss) {
+                    if (record.get("Waluta").equals("PLN")) {
+                        ImportBankWiersz x = new ImportBankWiersz();
+                        x.setNr(i++);
+                        x.setDatatransakcji(Data.zmien8na10(record.get("Data księgowania")));
+                        x.setDatawaluty(Data.zmien8na10(record.get("Data efektywna")));
+                        String mcwiersz = Data.zmien8na10(record.get("Data efektywna")).split("-")[1];
+                        if (!mcwiersz.equals(mc)) {
+                            blad = true;
+                            break;
+                        }
+                        x.setIBAN("");//??
+                        x.setWaluta("PLN");
+                        x.setKontrahent(record.get("Nazwa kontrahenta"));//??
+                        double kwota = F.kwota(record.get("Kwota"));
+                        x.setKwota(kwota);
+                        if (kwota > 0.0) {
+                            x.setWnma("Wn");
+                            pn.setWyciagobrotywn(pn.getWyciagobrotywn() + kwota);
+                        } else {
+                            x.setWnma("Ma");
+                            pn.setWyciagobrotyma(pn.getWyciagobrotyma() + Math.abs(kwota));
+                        }
+                        x.setNrtransakji(record.get("Tytuł płatności (linia 1)"));
+                        x.setOpistransakcji(record.get("Typ operacji"));
+                        x.setTyptransakcji(oblicztyptransakcji(x));
+                        pn.setWyciagdatado(Data.zmien8na10(record.get("Data efektywna")));
+                        pn.setWyciagbz(F.kwota(record.get("Saldo po operacji")));
+                        x.setNaglowek(pn);
+                        listaswierszy.add(x);
+                        i++;
+                    }
+                }
         listaswierszy.add(y);
         } catch (Exception ex) {
             E.e(ex);
