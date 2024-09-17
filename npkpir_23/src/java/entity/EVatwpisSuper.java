@@ -89,10 +89,10 @@ public class EVatwpisSuper implements Serializable {
 
     public String getUlganazledlugidatapierwszaplus90() {
         String zwrot = null;
-        if (this.getDokfk()!=null) {
+        if (this.getDokfk()!=null&&this.getDokfk().getId()>0) {
             zwrot = this.getDokfk().getUlganazledlugidatapierwszaplus90();
         } 
-        if (this.getDok()!=null) {
+        if (this.getDok()!=null&&this.getDok().getIdDok()!=null) {
             zwrot = this.getDok().getUlganazledlugidatapierwszaplus90();
         } 
         return zwrot;
