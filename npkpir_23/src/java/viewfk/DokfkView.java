@@ -3680,12 +3680,25 @@ public class DokfkView implements Serializable {
             String wierszlp = poledlawaluty;
             if (selected.getRodzajedok().getKategoriadokumentu()==0 && !tabelanbprecznie.getWaluta().equals(selected.getWalutadokumentu())) {
                 Msg.msg("e", "Waluta dokumentu WB/RK jest inna niz wybranej tabeli z kursem. Nie zmieniam kursu wiersza");
-            } else if (wierszlp!=null && !wiersz.equals("")) {
+            } else if (selected.getRodzajedok().getKategoriadokumentu()==0 && wierszlp!=null && !wiersz.equals("")) {
                 int wierszid = Integer.parseInt(wierszlp) - 1;
                 Wiersz wiersz = selected.getListawierszy().get(wierszid);
                 wiersz.setTabelanbp(tabelanbprecznie);
                 ObslugaWiersza.przepiszWaluty(wiersz);
                 poledlawaluty = "";
+            } else {
+                selected.setTabelanbp(tabelanbprecznie);
+                selected.setWalutadokumentu(tabelanbprecznie.getWaluta());
+                List<Wiersz> wiersze = selected.getListawierszy();
+                for (Wiersz p : wiersze) {
+                    p.setTabelanbp(tabelanbprecznie);
+                }
+                PrimeFaces.current().ajax().update("formwpisdokument:wybranawaluta");
+                PrimeFaces.current().ajax().update("formwpisdokument:tablicavat");
+                PrimeFaces.current().ajax().update("formwpisdokument:panelTabelaNBP");
+                PrimeFaces.current().ajax().update("formwpisdokument:dataList");
+                PrimeFaces.current().executeScript("r('formwpisdokument:opisdokumentu').select();");
+       
             }
         } catch (Exception e) {
             E.e(e);
