@@ -100,7 +100,7 @@
             </p:dataTable>
              <div style="padding: 10px;">
                  <p:commandButton id="walutynowabutton" value="#{mgs.pobierz}" oncomplete="PF('dialogkursrecznie').hide();powrotpozmianietabeli()" 
-                                  actionListener="#{dokfkView.zamienkursnareczny()}" style="width: 120px;" update=":formwpisdokument:dataList"/>
+                                  actionListener="#{dokfkView.zamienkursnareczny(dokfkView.tabelanbprecznie)}" style="width: 120px;" update=":formwpisdokument:dataList"/>
                  <p:commandButton id="walutynowabutton2" value="uzyj NBP" oncomplete="PF('dialogkursrecznie').hide();powrotpozmianietabeli()" 
                                   actionListener="#{dokfkView.resetujkursdoNBP()}" style="width: 120px; margin-left: 10px;"/>
             </div>

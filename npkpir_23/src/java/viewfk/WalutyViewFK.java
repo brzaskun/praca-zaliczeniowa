@@ -14,6 +14,7 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,10 +29,9 @@ import javax.interceptor.Interceptors;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
-import view.WpisView;
- import waluty.WalutyNBP;
+ import view.WpisView;
+import waluty.WalutyNBP;
 import waluty.Z;
-import interceptor.ConstructorInterceptor;
 
 /**
  *
@@ -219,6 +219,8 @@ public class WalutyViewFK implements Serializable {
             Msg.msg("e","Istnieją zapisy w walucie, nie można jej usunąć!");
         }
     }
+    
+
     
     public void dodajkurs(Tabelanbp tabelanbp, Podatnik podatnik) {
         try {

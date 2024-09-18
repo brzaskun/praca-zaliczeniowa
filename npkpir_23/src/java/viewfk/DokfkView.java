@@ -3675,7 +3675,7 @@ public class DokfkView implements Serializable {
         }catch (Exception e){}
     }
 
-    public void zamienkursnareczny() {
+    public void zamienkursnareczny(Tabelanbp tabelanbprecznie) {
         try {
             String wierszlp = poledlawaluty;
             if (selected.getRodzajedok().getKategoriadokumentu()==0 && !tabelanbprecznie.getWaluta().equals(selected.getWalutadokumentu())) {
@@ -3726,23 +3726,7 @@ public class DokfkView implements Serializable {
         }
     }
 
-    public void zamienkursnareczny(Tabelanbp tabelanbprecznie) {
-        try {
-            String wierszlp = poledlawaluty;
-            if (!wiersz.equals("")) {
-                int wierszid = Integer.parseInt(wierszlp) - 1;
-                Wiersz wiersz = selected.getListawierszy().get(wierszid);
-                wiersz.setTabelanbp(tabelanbprecznie);
-                ObslugaWiersza.przepiszWaluty(wiersz);
-                String update = "formwpisdokument:dataList:" + wierszid + ":kurswiersza";
-                PrimeFaces.current().ajax().update(update);
-                poledlawaluty = "";
-            }
-        } catch (Exception e) {
-            E.e(e);
-
-        }
-    }
+    
 
     public void oznaczDokfkJakoWzorzec() {
         if (selectedlist == null || selectedlist.isEmpty()) {
