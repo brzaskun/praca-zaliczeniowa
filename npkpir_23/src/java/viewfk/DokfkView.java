@@ -1188,10 +1188,12 @@ public class DokfkView implements Serializable {
                     }
                 }
                 if (!selected.getRodzajedok().isTylkovat() && !selected.getRodzajedok().isTylkojpk()) {
-                    for (Wiersz p : selected.getListawierszy()) {
-                        ObslugaWiersza.przepiszWaluty(p);
+                    //wykluczam faktury 2024-09-18 sitges przed przyjazdem piotrka i jamesa. kupilem cava
+                    if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
+                        for (Wiersz p : selected.getListawierszy()) {
+                            ObslugaWiersza.przepiszWaluty(p);
+                        }
                     }
-
                     oznaczdokumentSTRMK(selected, "0");
                     oznaczdokumentSTRMK(selected, "64");
                     //dodaje roznice kursowa w dokumencie
@@ -1265,8 +1267,11 @@ public class DokfkView implements Serializable {
                 selected.setwTrakcieEdycji(false);
                 selected.oznaczVATdokument(sprawdzjakiokresvat());
                 if (!selected.getRodzajedok().isTylkovat() && !selected.getRodzajedok().isTylkojpk()) {
-                    for (Wiersz p : selected.getListawierszy()) {
-                        ObslugaWiersza.przepiszWaluty(p);
+                    //wykluczam faktury 2024-09-18 sitges przed przyjazdem piotrka i jamesa. kupilem cava
+                    if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
+                        for (Wiersz p : selected.getListawierszy()) {
+                            ObslugaWiersza.przepiszWaluty(p);
+                        }
                     }
                     ObslugaWiersza.przenumerujSelected(selected);
                     oznaczdokumentSTRMK(selected, "0");
