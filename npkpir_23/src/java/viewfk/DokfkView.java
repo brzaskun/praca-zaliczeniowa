@@ -1189,7 +1189,7 @@ public class DokfkView implements Serializable {
                 }
                 if (!selected.getRodzajedok().isTylkovat() && !selected.getRodzajedok().isTylkojpk()) {
                     //wykluczam faktury 2024-09-18 sitges przed przyjazdem piotrka i jamesa. kupilem cava
-                    if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
+                   if (selected.getRodzajedok().getKategoriadokumentu() != 1 && selected.getRodzajedok().getKategoriadokumentu() !=2) {
                         for (Wiersz p : selected.getListawierszy()) {
                             ObslugaWiersza.przepiszWaluty(p);
                         }
