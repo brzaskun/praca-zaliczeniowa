@@ -18,11 +18,11 @@
                             <h:outputText value="#{pracownikEkwiwalentView.ekwiwalent.angaz.nazwiskoiImie}"/>
                             <h:outputText value="umowa:"/>
                             <h:outputText value="#{pracownikEkwiwalentView.ekwiwalent.umowa.nrkolejny}"/>
-                            <h:outputText value="współczynnik dla ekwawalentu "/>
-                            <bcf:outputpl value="#{pracownikEkwiwalentView.ekwiwalent.wspolczynnik}"/>
+                          
                         </p:panelGrid>
                         <p:panelGrid columns="2">
-                            
+                            <h:outputText value="współczynnik dla ekwawalentu "/>
+                            <bcf:outputpl value="#{pracownikEkwiwalentView.ekwiwalent.wspolczynnik}"/>
                             <p:outputLabel value="niewykorzystany rok poprzedni dni" for="urloplpop" />
                             <h:outputText id="urloplpop" value="#{pracownikEkwiwalentView.ekwiwalent.zalegly}" />
                             <p:outputLabel value="miesiące wzięte do wymiaru w roku bież." for="urloplp1ea11" />

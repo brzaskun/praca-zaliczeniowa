@@ -110,6 +110,10 @@ public class EtatPrac implements Serializable {
     public int getEtat1() {
         return etat1;
     }
+    
+    public double getEtat1Double() {
+        return (double)etat1;
+    }
 
     public void setEtat1(int etat1) {
         this.etat1 = etat1;
@@ -117,6 +121,10 @@ public class EtatPrac implements Serializable {
 
     public int getEtat2() {
         return etat2;
+    }
+    
+    public double getEtat2Double() {
+        return (double)etat2;
     }
 
     public void setEtat2(int etat2) {

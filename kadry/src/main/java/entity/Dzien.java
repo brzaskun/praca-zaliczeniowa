@@ -592,6 +592,20 @@ public class Dzien implements Serializable {
         this.wychowawczy = 0.0;
         this.kod = null;
     }
+    
+    void resetnieobecnoscEtat(Dzien dzienwzor, EtatPrac pobierzetat) {
+        double normagodzinetat = dzienwzor.normagodzin * pobierzetat.getEtat1Double() / pobierzetat.getEtat2Double();
+        this.przepracowano = normagodzinetat;
+        this.normagodzin = normagodzinetat;
+        this.wynagrodzeniezachorobe = 0;
+        this.zasilek = 0;
+        this.urlopPlatny = 0.0;
+        this.urlopbezplatny = 0.0;
+        this.opiekadziecko = 0.0;
+        this.macierzynski = 0.0;
+        this.wychowawczy = 0.0;
+        this.kod = null;
+    }
 
     void nanieswzor(Dzien dzienwzor) {
         this.typdnia = dzienwzor.typdnia;
@@ -612,6 +626,10 @@ public class Dzien implements Serializable {
         resetnieobecnosc(wzorzec);
     }
 
+    public void nanieswzorcoweEtat(List<Dzien> wzorcowe, EtatPrac pobierzetat) {
+        Dzien wzorzec = wzorcowe.stream().filter(p->p.datastring.equals(this.datastring)).findFirst().get();
+        resetnieobecnoscEtat(wzorzec, pobierzetat);
+    }
   
     
 }

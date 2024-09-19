@@ -5,6 +5,7 @@
  */
 package view;
 
+import beanstesty.EtatBean;
 import beanstesty.NieobecnosciBean;
 import beanstesty.UrlopBean;
 import comparator.Nieobecnosccomparator;
@@ -26,6 +27,7 @@ import data.Data;
 import entity.Angaz;
 import entity.Dzien;
 import entity.EkwiwalentUrlop;
+import entity.EtatPrac;
 import entity.FirmaKadry;
 import entity.Firmabaustelle;
 import entity.Kalendarzmiesiac;
@@ -789,10 +791,11 @@ public class NieobecnoscView  implements Serializable {
         if (nieob!=null) {
             List<Dzien> wzorcowe = dzienFacade.findByNrwrokuByData(nieob.getDataod(), nieob.getDatado(), wpisView.getFirma());
             for (Dzien d : nieob.getDzienList()) {
+                 EtatPrac pobierzetat = EtatBean.pobierzetat(nieob.getAngaz(),d.getDatastring());
                 d.setNieobecnosc(null);
                 //dzienFacade.edit(d);
                 try {
-                    d.nanieswzorcowe(wzorcowe);
+                    d.nanieswzorcoweEtat(wzorcowe, pobierzetat);
                 } catch (Exception e){
                     Msg.msg("w","Błąd podczas nanoszenia na kalendarz");
                 }
