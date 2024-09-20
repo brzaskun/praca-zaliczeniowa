@@ -160,7 +160,7 @@ public class PracownikEkwiwalentView  implements Serializable {
     public void pobierzurlop() {
         if (wpisView.getPracownik()!=null) {
             Rejestrurlopow rejestrurlopow = rejestrurlopowFacade.findByAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
-            urlopprezentacja = UrlopBean.pobierzurlopSwiadectwo(wpisView.getAngaz(), wpisView.getRokWpisu(), stannadzien, stannadzien, rejestrurlopow, null);
+            urlopprezentacja = UrlopBean.pobierzurlopSwiadectwoNowy(wpisView.getAngaz(), wpisView.getRokWpisu(), stannadzien, stannadzien, rejestrurlopow, null);
         }
     }
     public void pobierzoddelegowanie() {

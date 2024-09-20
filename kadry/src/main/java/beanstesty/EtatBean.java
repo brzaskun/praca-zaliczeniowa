@@ -93,14 +93,14 @@ public class EtatBean {
                 zwrot = etatList1.get(0);
             } else {
                 for (EtatPrac p : etatList1) {
-                    //musi byc jakis etat bo nie pokazuje nic dla zwolnionych i zamknietych na podgladzie wykorzystanego urlopu
-                    //01.07.2023
-                    zwrot = p;
+                    
+                    
                     String datagranicznaod = p.getDataod();
                     String datagranicznado = p.getDataod()==null||p.getDatado().equals("")? null : p.getDatado();
                     if (datagranicznado==null) {
                         if (Data.czyjestpoTerminData(datagranicznaod, data)) {
                             zwrot = p;
+              
                         }
                     } else {
                         if (DataBean.czysiemiescidzien(data, datagranicznaod, datagranicznado)) {
@@ -108,6 +108,12 @@ public class EtatBean {
                         }
                     }
                 }
+            }
+            //musi byc jakis etat bo nie pokazuje nic dla zwolnionych i zamknietych na podgladzie wykorzystanego urlopu
+                    //01.07.2023
+                    //i musi byc w tym miejscu a nie u gory
+            if (zwrot==null) {
+                zwrot = etatList1.get(0);
             }
         }
         return zwrot;

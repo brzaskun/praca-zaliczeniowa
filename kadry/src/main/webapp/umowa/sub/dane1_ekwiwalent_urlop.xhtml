@@ -39,6 +39,8 @@
                             <h:outputText id="urloplpop1" value="#{pracownikEkwiwalentView.ekwiwalent.godziny}" />-->
                             <p:outputLabel value="ekwiwalent za dni" for="urloplpop3"  style="color: blue"/>
                             <h:outputText id="urloplpop3" value="#{pracownikEkwiwalentView.ekwiwalent.dni}"  style="color: blue"/>
+                             <p:outputLabel value="ekwiwalent za godziny" for="urloplpop3"  style="color: blue"/>
+                             <h:outputText id="urloplpop3godziny" value="#{pracownikEkwiwalentView.ekwiwalent.godziny}"  style="color: blue"/>
                             <h:outputText value="etat "/>
                             <h:outputText value="#{pracownikEkwiwalentView.ekwiwalent.getEtat()}"/>
                         </p:panelGrid>
@@ -57,9 +59,9 @@
                                 <p:column headerText="składnik" width="200" >
                                     <h:outputText value="#{itempasekpotr.skladnikwynagrodzenia.rodzajwynagrodzenia.opisskrocony}"/>
                                 </p:column>
-                                <p:column headerText="dni" width="40" style="text-align: center;">
+<!--                                <p:column headerText="dni" width="40" style="text-align: center;">
                                     <h:outputText value="#{itempasekpotr.liczbadniNieobecnosci}"/>
-                                </p:column>
+                                </p:column>-->
                                 <p:column headerText="stawka dzienna" width="40">
                                     <bcf:outputpl value="#{itempasekpotr.stawkadzienna}"/>
                                 </p:column>

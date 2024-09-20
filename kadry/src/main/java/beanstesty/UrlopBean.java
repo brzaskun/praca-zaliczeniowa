@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import msg.Msg;
+import z.Z;
 
 /**
  *
@@ -68,6 +69,61 @@ public class UrlopBean {
                 urlopprezentacja.setDoprzeniesienia(doprzeniesienia);
                 int doprzeniesieniadni = (doprzeniesienia/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());
                 urlopprezentacja.setDoprzeniesieniadni(doprzeniesieniadni);
+            } else {
+                urlopprezentacja = new Nieobecnoscprezentacja();
+            }
+            //Msg.msg("Pobrano dane urlopowe");
+        }
+        return urlopprezentacja;
+    }
+     
+     public static Nieobecnoscprezentacja pobierzurlopSwiadectwoNowy(Angaz angaz, String rok, String stannadzien, String dataDlaEtatu, Rejestrurlopow rejestrurlopow, EkwiwalentUrlop ekwiwalentUrlop) {
+         Nieobecnoscprezentacja urlopprezentacja = new Nieobecnoscprezentacja(angaz, rok);
+        if (angaz!=null) {
+            EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,dataDlaEtatu);
+            if (pobierzetat!=null) {
+                List<Kalendarzmiesiac> kalendarze = angaz.getKalendarzmiesiacList().stream().filter(p->p.getRok().equals(rok)).collect(Collectors.toList());
+                //wstawilem to tu bo dzieki temu zmodyfikuje dni w kalendarzach i oznacze je jako wykorzystanie urlopu z okresu poprzedniego
+                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "U"));
+                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
+                urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UZ"));
+                List<Umowa> umowy = angaz.getUmowaList();
+                Object[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz, kalendarze);
+                if (rejestrurlopow!=null) {
+                    urlopprezentacja.setBilansotwarciadni(rejestrurlopow.getUrlopzalegly());
+                    //mariola mowila 19.09.2024 ze zawsze mnozy sie przez 8 godzin. sitges wczoraj lalo w nocy, dzisiaj sloneczko. zaraz jedzonko
+                    int urlopzaleglygodziny  = (rejestrurlopow.getUrlopzalegly()*8);
+                    urlopprezentacja.setBilansotwarciagodziny(urlopzaleglygodziny);
+                } else {
+                    Msg.msg("e","Brak rejestru urlopów dla pracownika");
+                }
+                urlopprezentacja.setWymiarokresbiezacydni((int) obliczwymiarwgodzinach[0]);
+                urlopprezentacja.setWymiarokresbiezacygodziny((int) obliczwymiarwgodzinach[1]);
+                urlopprezentacja.setWymiargeneralnydni((int) obliczwymiarwgodzinach[2]);
+                urlopprezentacja.setListamiesiecy((Set<String>) obliczwymiarwgodzinach[3]);
+                //urlopprezentacja.getWykorzystanierokbiezacy() to jest nanowszone w naniesdnizkodem
+                int wykorzystanierokbiezacygodziny = urlopprezentacja.getWykorzystanierokbiezacy();
+                double wykorzystanierokbierzacydni  = urlopprezentacja.getWykorzystanierokbiezacydni();
+
+                int doprzeniesieniaGodziny = urlopprezentacja.getBilansotwarciagodziny()+urlopprezentacja.getWymiarokresbiezacygodziny()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
+                urlopprezentacja.setDoprzeniesienia(doprzeniesieniaGodziny);
+                double doprzeniesieniadni = (doprzeniesieniaGodziny/8.0);
+                urlopprezentacja.setDoprzeniesieniadni(Z.zUD(doprzeniesieniadni));
+                double ekwiwalentwyplaconygodziny = 0;
+                if (ekwiwalentUrlop!=null) {
+                    ekwiwalentwyplaconygodziny = ekwiwalentUrlop.getDni()*8*pobierzetat.getEtat1Double()/pobierzetat.getEtat2Double();
+                }
+                int limitdnizrokubiezacego = urlopprezentacja.getWymiarokresbiezacygodziny();
+                double wykorzystaniewtymroku = wykorzystanierokbiezacygodziny+ekwiwalentwyplaconygodziny;
+                double rozliczonegodzinyztegoroku = wykorzystaniewtymroku > limitdnizrokubiezacego? limitdnizrokubiezacego:wykorzystaniewtymroku;
+                int doswiadectwagodziny = (Z.zUD(rozliczonegodzinyztegoroku));
+                urlopprezentacja.setDoswiadectwagodziny(doswiadectwagodziny);
+                double doswiadectwadni = wykorzystanierokbierzacydni;
+                urlopprezentacja.setDoswiadectwadni(Z.zUD(doswiadectwadni));
+                double rozliczonegodzinyztegorokuekwiwalent = ekwiwalentwyplaconygodziny>rozliczonegodzinyztegoroku?rozliczonegodzinyztegoroku:ekwiwalentwyplaconygodziny;
+                double rozliczonedniztegorokuekwiwalent = (rozliczonegodzinyztegorokuekwiwalent/8.0*pobierzetat.getEtat2()/pobierzetat.getEtat1());
+                urlopprezentacja.setDoswiadectwadniekwiwalent(Z.zUD(rozliczonedniztegorokuekwiwalent));
+                
             } else {
                 urlopprezentacja = new Nieobecnoscprezentacja();
             }
@@ -213,6 +269,7 @@ public class UrlopBean {
         }
         if (kod.equals("U")||kod.equals("UD")||kod.equals("UZ")) {
             urlopprezentacja.setWykorzystanierokbiezacy(urlopprezentacja.getWykorzystanierokbiezacy()+wykorzystaniesuma.getGodziny());
+            urlopprezentacja.setWykorzystanierokbiezacydni(urlopprezentacja.getWykorzystanierokbiezacydni()+(int)wykorzystaniesuma.getDni());
         }
         if (kod.equals("CH")) {
             urlopprezentacja.setWykorzystanierokbiezacy((int) wykorzystaniesuma.getDni());
@@ -254,7 +311,7 @@ public class UrlopBean {
     }
      
      public static Object[] obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat,String rok, String stannadzien, Angaz angaz, List<Kalendarzmiesiac> kalendarze) {
-        int wymiarproporcjonalny = 20;
+        int wymiarproporcjonalnyPrzedetatem = 20;
         double liczbadni = 0;
         Collections.sort(umowy,new UmowaStareNowecomparator());
         for (Umowa p : umowy) {
@@ -280,16 +337,17 @@ public class UrlopBean {
         double angazstazlata = angaz.getPracownik().getStazlata();
         double liczbalatumowy = liczbadni / 365;
         if (angazstazlata>=10) {
-            wymiarproporcjonalny = 26;
+            wymiarproporcjonalnyPrzedetatem = 26;
         } else if (angazstazlata+liczbalatumowy>=10){
-            wymiarproporcjonalny = 26;
+            wymiarproporcjonalnyPrzedetatem = 26;
         } else {
             double angazstadni = angazstazlata*365+angaz.getPracownik().getStazdni();
             double duzasumadni = angazstadni+liczbadni;
             if (duzasumadni>=3650) {
-                wymiarproporcjonalny = 26;
+                wymiarproporcjonalnyPrzedetatem = 26;
             }
         }
+         
         //trzeba pobrad date od, albo poczatek roku albo data pierwszej umowy w roku
             Set<String> napoczetemiesiace = new HashSet<>();
             String dataod = data.Data.pierwszyDzien(rok, "01");
@@ -315,17 +373,32 @@ public class UrlopBean {
                 }
             }
             Set<String> napoczetemiesiacepokorekcie = korygujnapiczetemiesiaceobezplatny(napoczetemiesiace, kalendarze);
-            double nowywymiarwdniach =  Math.ceil(wymiarproporcjonalny);
-            double wymiarwgstazu = nowywymiarwdniach;
-            double wymiargodzin = (nowywymiarwdniach*8);
-            if (etat!=null) {
-                //to musi bo moze byc zatrudnienie nie od pocztaku roku i jest proporcja
-                if (napoczetemiesiacepokorekcie.size()>0) {
-                    wymiarproporcjonalny = (int) (Math.ceil(wymiarproporcjonalny/12.0*napoczetemiesiacepokorekcie.size()));
+            double wymiarproporcjonalnydouble = 0.0;
+            int etat1 = 0;
+            int etat2 = 0;
+            double akumulatortymczaswy = 0.0;
+            int licznik = 0;
+            for (String mc : napoczetemiesiacepokorekcie) {
+                String ostatnidzien = Data.ostatniDzien(rok, mc);
+                EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,ostatnidzien);
+                if (pobierzetat.getEtat1()!=etat1||pobierzetat.getEtat2()!=etat2) {
+                    etat1 = pobierzetat.getEtat1();
+                    etat2 = pobierzetat.getEtat2();
+                    wymiarproporcjonalnydouble = wymiarproporcjonalnydouble+Math.ceil(akumulatortymczaswy);
+                    akumulatortymczaswy = 0.0;
                 }
-                wymiargodzin = (wymiarproporcjonalny*8*etat.getEtat1()/etat.getEtat2());
+                akumulatortymczaswy = akumulatortymczaswy+wymiarproporcjonalnyPrzedetatem*pobierzetat.getEtat1Double()/pobierzetat.getEtat2Double()/12.0;
+                licznik++;
+                if (licznik==napoczetemiesiacepokorekcie.size()) {
+                    wymiarproporcjonalnydouble = wymiarproporcjonalnydouble+Math.ceil(akumulatortymczaswy);
+                }
             }
-        Object[] zwrot = new Object[]{(int)wymiarproporcjonalny,(int)wymiargodzin, (int)wymiarwgstazu, napoczetemiesiacepokorekcie};
+            int wymiarproporcjonalny = (int)wymiarproporcjonalnydouble;
+          
+            double wymiarwgstazu = wymiarproporcjonalny;
+            double wymiargodzin = (wymiarproporcjonalny*8);
+            wymiargodzin = wymiarproporcjonalny*8;
+           Object[] zwrot = new Object[]{(int)wymiarwgstazu,(int)wymiargodzin, (int)wymiarproporcjonalnyPrzedetatem, napoczetemiesiacepokorekcie};
         return zwrot;
         //nie wiem co z tym etatem czy badac
     }
