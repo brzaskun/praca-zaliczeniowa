@@ -112,7 +112,7 @@ public class EtatBean {
             //musi byc jakis etat bo nie pokazuje nic dla zwolnionych i zamknietych na podgladzie wykorzystanego urlopu
                     //01.07.2023
                     //i musi byc w tym miejscu a nie u gory
-            if (zwrot==null) {
+            if (zwrot==null&&etatList1!=null&&etatList1.size()==1) {
                 zwrot = etatList1.get(0);
             }
         }

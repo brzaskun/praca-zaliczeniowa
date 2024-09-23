@@ -5,6 +5,7 @@
  */
 package view;
 
+import beanstesty.AngazBean;
 import comparator.Dziencomparator;
 import comparator.Umowacomparator;
 import dao.AngazFacade;
@@ -58,7 +59,8 @@ public class WskaznikPfronView  implements Serializable {
     
     @PostConstruct
     public void init() {
-        listaeast2 = angazFacade.findByFirmaAktywni(wpisView.getFirma());
+        List<Angaz> angazetmp = angazFacade.findByFirmaAktywni(wpisView.getFirma());
+        listaeast2 = AngazBean.filterAngazListByUmowaDate(angazetmp, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         lista = new ArrayList<>();
         List<Kalendarzmiesiac> pracownicy = kalendarzmiesiacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         Kalendarzwzor kalendarzsumaryczny = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());

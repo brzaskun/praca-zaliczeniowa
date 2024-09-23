@@ -5,6 +5,7 @@
  */
 package view;
 
+import beanstesty.AngazBean;
 import comparator.Dziencomparator;
 import comparator.Umowacomparator;
 import dao.AngazFacade;
@@ -39,7 +40,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -181,13 +181,8 @@ public class AngazView  implements Serializable {
             //zwrot = angazFacade.findByFirma(wpisView.getFirma());
             zwrot = angazFacade.findByFirmaAktywni(wpisView.getFirma());
         } else {
-            zwrot = angazFacade.findByFirmaAktywni(wpisView.getFirma());
-            for (Iterator<Angaz> it = zwrot.iterator(); it.hasNext();) {
-                Angaz angaz = it.next();
-                if (angaz.jestumowaAktywna(wpisView.getRokWpisu(), wpisView.getMiesiacWpisu())==false) {
-                    it.remove();
-                }
-            }
+            List<Angaz> angazetmp = angazFacade.findByFirmaAktywni(wpisView.getFirma());
+            zwrot = AngazBean.filterAngazListByUmowaDate(angazetmp, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         }
         // TO NIE bo nie widac ukrytych tam gdzie je sie ukrywa 27.08.2023
         //lista = zwrot;
