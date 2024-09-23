@@ -374,14 +374,14 @@ public class UrlopBean {
             }
             Set<String> napoczetemiesiacepokorekcie = korygujnapiczetemiesiaceobezplatny(napoczetemiesiace, kalendarze);
             double wymiarproporcjonalnydouble = 0.0;
-            int etat1 = 0;
-            int etat2 = 0;
+            int etat1 = 1;
+            int etat2 = 1;
             double akumulatortymczaswy = 0.0;
             int licznik = 0;
             for (String mc : napoczetemiesiacepokorekcie) {
                 String ostatnidzien = Data.ostatniDzien(rok, mc);
                 EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,ostatnidzien);
-                if (pobierzetat.getEtat1()!=etat1||pobierzetat.getEtat2()!=etat2) {
+                if (pobierzetat!=null&&(pobierzetat.getEtat1()!=etat1||pobierzetat.getEtat2()!=etat2)) {
                     etat1 = pobierzetat.getEtat1();
                     etat2 = pobierzetat.getEtat2();
                     wymiarproporcjonalnydouble = wymiarproporcjonalnydouble+Math.ceil(akumulatortymczaswy);
