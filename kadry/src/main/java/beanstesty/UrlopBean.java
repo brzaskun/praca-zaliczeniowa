@@ -374,20 +374,22 @@ public class UrlopBean {
             }
             Set<String> napoczetemiesiacepokorekcie = korygujnapiczetemiesiaceobezplatny(napoczetemiesiace, kalendarze);
             double wymiarproporcjonalnydouble = 0.0;
-            int etat1 = 1;
-            int etat2 = 1;
+            double etat1 = 1.0;
+            double etat2 = 1.0;
             double akumulatortymczaswy = 0.0;
             int licznik = 0;
             for (String mc : napoczetemiesiacepokorekcie) {
                 String ostatnidzien = Data.ostatniDzien(rok, mc);
                 EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,ostatnidzien);
-                if (pobierzetat!=null&&(pobierzetat.getEtat1()!=etat1||pobierzetat.getEtat2()!=etat2)) {
-                    etat1 = pobierzetat.getEtat1();
-                    etat2 = pobierzetat.getEtat2();
-                    wymiarproporcjonalnydouble = wymiarproporcjonalnydouble+Math.ceil(akumulatortymczaswy);
-                    akumulatortymczaswy = 0.0;
+                if (pobierzetat!=null) {
+                    if (pobierzetat.getEtat1()!=etat1||pobierzetat.getEtat2()!=etat2){
+                        etat1 = pobierzetat.getEtat1();
+                        etat2 = pobierzetat.getEtat2();
+                        wymiarproporcjonalnydouble = wymiarproporcjonalnydouble+Math.ceil(akumulatortymczaswy);
+                        akumulatortymczaswy = 0.0;
+                    }
                 }
-                akumulatortymczaswy = akumulatortymczaswy+wymiarproporcjonalnyPrzedetatem*pobierzetat.getEtat1Double()/pobierzetat.getEtat2Double()/12.0;
+                akumulatortymczaswy = akumulatortymczaswy+wymiarproporcjonalnyPrzedetatem*etat1/etat2/12.0;
                 licznik++;
                 if (licznik==napoczetemiesiacepokorekcie.size()) {
                     wymiarproporcjonalnydouble = wymiarproporcjonalnydouble+Math.ceil(akumulatortymczaswy);
