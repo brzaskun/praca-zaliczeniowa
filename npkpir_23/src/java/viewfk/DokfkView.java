@@ -560,6 +560,7 @@ public class DokfkView implements Serializable {
                     this.wierszzmieniony = wiersz;
                 }
                 wiersz.getStronaWn().setKwota(kwotanowa);
+                ObslugaWiersza.przepiszWaluty(wiersz);
                 //usunalem bo przeciez przelicza na koncu punktzmiany
                 //ObslugaWiersza.przepiszWaluty(wiersz);
             } catch (Exception e1) {
@@ -584,6 +585,7 @@ public class DokfkView implements Serializable {
                     this.wierszzmieniony = wiersz;
                 }
                 wiersz.getStronaMa().setKwota(kwotanowa);
+                ObslugaWiersza.przepiszWaluty(wiersz);
                 //usunalem bo przeciez przelicza na koncu punktzmiany
                 //ObslugaWiersza.przepiszWaluty(wiersz);
             } catch (Exception e1) {
@@ -592,6 +594,7 @@ public class DokfkView implements Serializable {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0 && jestroznica) {
                 rozliczsaldoWBRK(Integer.parseInt(indexwiersza));
             }
+            
         }
     }
     
