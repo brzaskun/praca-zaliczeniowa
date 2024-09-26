@@ -9,14 +9,14 @@
     <p:panel >
         <p:panel menuTitle="Wprowadzanie nowego użytkownika" header="Wprowadzanie danych nowego użytkownika"  >
              
-         <p:panelGrid columns="7" >
+         <p:panelGrid columns="6" >
             <h:outputLabel value="login"/>
             <h:outputLabel value="imie"/>
             <h:outputLabel value="nazwisko"/>
             <h:outputLabel value="hasło"/>
             <h:outputLabel value="uprawnienia"/>
             <h:outputLabel value="firma"/>
-            <h:outputLabel value=" "/>
+
             <p:inputText value="#{UzView.nowyUzytkownik.login}" accesskey="s" required="true" requiredMessage="logi  - uzupełnij">
             </p:inputText>
             <p:inputText value="#{UzView.nowyUzytkownik.imie}" required="true" requiredMessage="imie - uzupełnij"/>
@@ -33,7 +33,7 @@
     </p:panel>
 <!--    <p:panel id="ostatniUzytkownik" menuTitle="Ostatnio wprowadzony użytkownik">
         <h:outputLabel value="Ostatnio wprowadzony:"/>
-        <p:panelGrid columns="7">
+        <p:panelGrid columns="6">
               <h:outputLabel value="login"/>
             <h:outputLabel value="imie"/>
             <h:outputLabel value="nazwisko"/>

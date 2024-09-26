@@ -20,7 +20,7 @@
 
                     <c:forEach  items="#{ewidencjaVatView.listaewidencji.values()}"  var="item" varStatus="numer">
                         <p:tab  title="#{item[0].nazwaewidencji.nazwa}">
-                            <p:panelGrid columns="5">
+                            <p:panelGrid columns="6">
                                 <h:outputText value="suma wybranych: "/>
                                 <p:panel id="sumka#{numer.index}"  style="width: 400px;">
                                     <h:outputText value="netto: "/><h:outputText value="#{ewidencjaVatView.suma1}" style="font-weight: bold;">

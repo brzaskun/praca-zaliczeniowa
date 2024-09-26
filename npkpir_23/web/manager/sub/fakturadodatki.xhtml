@@ -11,7 +11,7 @@
         <p:tab title="pozycje fakturowane">
             <h:form id="form2">
                 <p:growl life="3600" showDetail="true"/>
-                <p:panelGrid columns="5">
+                <p:panelGrid columns="6">
                     <h:outputText value="rokqwdwdwwdwdww"/>
                     <h:outputText value="mc"/>
                     <h:outputText value=""/>
@@ -53,7 +53,7 @@
             </h:form>
             <p:separator/>
             <h:form id="listapozycji">
-                <p:panelGrid columns="5">
+                <p:panelGrid columns="6">
                     <p:commandButton value="generuj permanentne" actionListener="#{fakturaDodPozycjaKontrahentView.generujpermanentne()}" style="width: 120px;" update="akordeon:listapozycji:lista akordeon:form3 akordeon:listapozycji2:lista" />
                     <p:commandButton value="zachowaj wygenerowane" actionListener="#{fakturaDodPozycjaKontrahentView.zachowajpermanentne()}" style="width: 120px;margin-left: 20px;" update="akordeon:listapozycji:lista akordeon:form3 akordeon:listapozycji2:lista" />
                     <p:outputLabel for="boxczywszystkie" value="pokaż tylko puste"/>

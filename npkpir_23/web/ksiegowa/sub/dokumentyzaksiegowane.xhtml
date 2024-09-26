@@ -75,24 +75,14 @@
             $(document).on("keydown", TabKeyFa);
         </script>
         
-        <p:panelGrid columns="7" id="panelprzyciskow">
-            <h:outputText value="okres:" />
+        <p:panelGrid columns="6" id="panelprzyciskow" styleClass="ui-grid-responsive">
+            <h:outputText value="okres:" style="float: right;"/>
             <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}" style="width: 100px;" converter="#{okresConverter}">
                 <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="#{ytem}"/>
                 <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" global="true" oncomplete="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
                         update=":form:dokumentyLista :form:cechydokuk westKsiegowa:linki"/>
             </p:selectOneMenu>
-            <p:commandButton icon="pi pi-print" style="width: 120px;" actionListener="#{DokTabView.drukujdokumentyuproszczona()}" global="false"/>
-            <h:outputText value="dok z cechami"/>
-            <p:selectOneMenu value="#{DokTabView.wybranacechadok}" id="cechydokuk" style="width: 200px; margin-left: 10px;">
-                <p:ajax event="itemSelect" listener="#{DokTabView.init()}" onstart="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();" update=":form:dokumentyLista"/>
-                <f:selectItem itemLabel="wszystkie" itemValue="" noSelectionOption="true"/>
-                <f:selectItem itemLabel="dokumenty bez cechy" itemValue="bezcechy"/>
-                <f:selectItems value="#{DokTabView.cechydokzlisty}"/>
-            </p:selectOneMenu>
-            <p:commandButton id="cechadokumentu" value="CechyDok(V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" onclick="PF('dialogCechyDokumentuZbiorcze').show();" accesskey="v" global="false"/>
-            
-            <p:panelGrid id="sumawybranychpanel" style="width: 810px; text-align: center;">
+            <p:panelGrid id="sumawybranychpanel" style="width: 210px; text-align: center;">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -116,22 +106,33 @@
                     <p:column width="70">
                         <bcf:outputpl value="#{DokTabView.sumabrutto}"/>
                     </p:column>
-                    <p:column>
+                   
+                </p:row>
+            </p:panelGrid>
+             <h:outputText value="pokaz tylko dla jpk SF20"/>
+            <p:selectBooleanCheckbox value="#{DokTabView.dodajdlajpk}" label="+tylko jpk">
+                <p:ajax event="change" partialSubmit="true" global="false" listener="#{DokTabView.init()}" update="form:dokumentyLista"/>
+            </p:selectBooleanCheckbox>
+            <p:commandButton icon="pi pi-print" style="width: 120px;" actionListener="#{DokTabView.drukujdokumentyuproszczona()}" global="false"/>
+            <h:outputText value="dok z cechami"/>
+            <p:selectOneMenu value="#{DokTabView.wybranacechadok}" id="cechydokuk" style="width: 200px; margin-left: 10px;">
+                <p:ajax event="itemSelect" listener="#{DokTabView.init()}" onstart="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();" update=":form:dokumentyLista"/>
+                <f:selectItem itemLabel="wszystkie" itemValue="" noSelectionOption="true"/>
+                <f:selectItem itemLabel="dokumenty bez cechy" itemValue="bezcechy"/>
+                <f:selectItems value="#{DokTabView.cechydokzlisty}"/>
+            </p:selectOneMenu>
+            <p:commandButton id="cechadokumentu" value="CechyDok(V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" onclick="PF('dialogCechyDokumentuZbiorcze').show();" accesskey="v" global="false"/>
+            
+            
+             <p:column>
                         <p:commandButton global="false" value="sumuj" actionListener="#{DokTabView.sumujwybrane}" update=":form:dokumentyLista :form:sumawybranychpanel" style="width: 120px;"/>
                     </p:column>
                     <p:column>
                         <p:commandButton id="sprawdzVAT" value="VAT" actionListener="#{dokfkWeryfikacjaView.sprawdzNIPVATPKPiR(DokTabView.dokumentylista)}" style="width: 120px; margin-left: 10px;" 
                                 update="form:dokumentyLista" />
                     </p:column>
-                    <p:column width="240">
-                        <h:outputText value="spacja - oznaczanie"/>
-                    </p:column>
-                </p:row>
-            </p:panelGrid>
-            <h:outputText value="pokaz tylko dla jpk SF20"/>
-            <p:selectBooleanCheckbox value="#{DokTabView.dodajdlajpk}" label="+tylko jpk">
-                <p:ajax event="change" partialSubmit="true" global="false" listener="#{DokTabView.init()}" update="form:dokumentyLista"/>
-            </p:selectBooleanCheckbox>
+                   
+           
             <p:column>
                     <p:outputLabel for="pokazulgazle" value="ulga na złe długi" style="margin-left: 10px;"/>
                     <p:selectBooleanCheckbox id="pokazulgazle" value="#{DokTabView.robulganazledlugi}">
@@ -183,7 +184,7 @@
                     <h:outputText value=" #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}" rendered="#{!(wpis.kontr.nip eq '0000000000')}"/>
                     <h:outputText value=" #{wpis.kontr.miejscowosc}" rendered="#{wpis.kontr.nip eq '0000000000'}"/>
                 </p:column>
-                <p:column id="rodzTrColumn" filterBy="#{wpis.rodzajedok}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.rodzajedok}" style="width: 5%;text-align: center;">
+                <p:column id="rodzTrColumn" filterBy="#{wpis.rodzajedok}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.rodzajedok}" style="width: 5%;text-align: center;" styleClass="hide-on-small">
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 30px;" autoWidth="false" converter="#{rodzajedokConv}" filter="true" filterMatchMode="contains">
                             <f:selectItem itemLabel="dok" itemValue="#{null}" noSelectionOption="true"/>
@@ -192,10 +193,10 @@
                     </f:facet>
                     <h:outputText value="#{wpis.rodzajedok.skrot}"/>
                 </p:column>
-                <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" style="width: 10%;">   
+                <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" style="width: 10%;" styleClass="hide-on-small">   
                     <h:outputText value="#{wpis.nrWlDk}" />
                 </p:column>
-                <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.opis}" style="width: 10%;">  
+                <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.opis}" style="width: 10%;" styleClass="hide-on-small">  
                     <h:outputText value="#{wpis.opis}" styleClass="#{wpis.czyCecha() ? 'zapisZcecha' : null}"/>
                 </p:column>
                 <p:column id="nettoColumn" headerText="#{WpisView.vatowiec ? mgs.netto : mgs.kwota}" filterBy="#{wpis.symbolWaluty}" filterMatchMode="contains" sortBy="#{wpis.symbolWaluty}" style="width: 60px;">  
@@ -224,12 +225,12 @@
                         </h:outputText><br/>
                     </ui:repeat>
                 </p:column>
-                <p:column headerText="spr" style="text-align: center;" width="20" sortBy="#{wpis.sprawdzony}" rendered="#{DokTabView.robulganazledlugi eq false}">  
+                <p:column headerText="spr" style="text-align: center;" width="20" sortBy="#{wpis.sprawdzony}" rendered="#{DokTabView.robulganazledlugi eq false}" styleClass="hide-on-small">  
                     <h:outputText id="polespr" value="#{wpis.sprawdzony eq 2 ? '. .' : (wpis.sprawdzony eq 1 ? '. .' : '.')}" 
                                   style="#{wpis.sprawdzony eq 2 ? 'background-color: red; color: red;' : (wpis.sprawdzony eq 1 ? 'background-color: green; color: green;' : null)}"/>
                 </p:column>
                  <p:column headerText="UZD termin płatności" width="60" style="text-align: center;" rendered="#{DokTabView.robulganazledlugi eq true}" 
-                        filterBy="#{wpis.ulganazledlugidatapierwsza}" filterMatchMode="contains" sortable="true" sortBy="#{wpis.ulganazledlugidatapierwsza}">
+                        filterBy="#{wpis.ulganazledlugidatapierwsza}" filterMatchMode="contains" sortable="true" sortBy="#{wpis.ulganazledlugidatapierwsza}" styleClass="hide-on-small">
                   <p:inputMask value="#{wpis.ulganazledlugidatapierwsza}" size="10" maxlength="10" mask="9999-99-99" validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
                       <p:ajax event="change" listener="#{DokTabView.edycjaUlgaNaZleDlugi(wpis)}" partialSubmit="true" global="false"/>
                   </p:inputMask>
@@ -241,7 +242,7 @@
                         </p:inputMask>
                     </p:column>
                 <p:rowExpansion>
-                    <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
+                    <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true" styleClass="hide-on-small">  
                         <p:dataTable lazy="false" var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat" resizableColumns="true" style="width: 65%;">
                             <p:column id="SubColumn1" headerText="ewidencja" width="350">  
                                 <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
@@ -269,7 +270,7 @@
                             </p:column>
                         </p:dataTable>
                     </p:column>
-                    <p:column id="cechy" headerText="cechy zapisu" resizable="true">  
+                    <p:column id="cechy" headerText="cechy zapisu" resizable="true"  styleClass="hide-on-small">  
                         <p:dataTable lazy="false" var="subwpiscecha" value="#{wpis.cechadokumentuLista}" emptyMessage="dokument bez cechy" resizableColumns="true" style="width: 50%;">
                             <p:column id="SubColumn1" headerText="nazwa cechy">  
                                 <h:outputText value="#{subwpiscecha.nazwacechy}" />
@@ -280,16 +281,16 @@
                 <p:column id="vatMcColumn" headerText="#{mgs.VAT}" filterBy="#{wpis.vatM}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.vatM}" style="width: 14px; text-align: center;" filterMaxLength="2">  
                     <h:outputText style="#{wpis.vatM eq wpis.pkpirM ? null : 'font-weight: bold; color: red;'}" value="#{wpis.vatM}"/>
                 </p:column>
-                <p:column id="symbol" headerText="symbol" style="width: 7%; text-align: center;color: blue;" sortBy="#{wpis.pobierzsymbole()}" rendered="#{DokTabView.robulganazledlugi eq false}">
+                <p:column id="symbol" headerText="symbol" style="width: 7%; text-align: center;color: blue;" sortBy="#{wpis.pobierzsymbole()}" rendered="#{DokTabView.robulganazledlugi eq false}" styleClass="hide-on-small">
                     <h:outputText value="#{wpis.pobierzsymbole()}"/>
                 </p:column>
-                <p:column width="40" id="niemcy" headerText="niemcy" style="text-align: center" sortBy="#{wpis.jestniemcy()}" rendered="#{DokTabView.robulganazledlugi eq false}">
+                <p:column width="40" id="niemcy" headerText="niemcy" style="text-align: center" sortBy="#{wpis.jestniemcy()}" rendered="#{DokTabView.robulganazledlugi eq false}"  styleClass="hide-on-small">
                     <h:outputText value="&#x2713;" rendered="#{wpis.jestniemcy()}" style="color: green;font-weight: bold"/>
                 </p:column>
-                <p:column width="100" id="wprow" headerText="wprow."  rendered="#{DokTabView.robulganazledlugi eq false}">
+                <p:column width="100" id="wprow" headerText="wprow."  rendered="#{DokTabView.robulganazledlugi eq false}"  resizable="true" styleClass="hide-on-small">
                     <h:outputText value="#{wpis.wprowadzil}" />
                 </p:column>
-                <p:column id="status" headerText="tab" style="width: 7%; text-align: center;" sortBy="#{wpis.tabelanbp.waluta.symbolwaluty}"  rendered="#{DokTabView.robulganazledlugi eq false}">
+                <p:column id="status" headerText="tab" style="width: 7%; text-align: center;" sortBy="#{wpis.tabelanbp.waluta.symbolwaluty}"  rendered="#{DokTabView.robulganazledlugi eq false}" styleClass="hide-on-small">
                     <h:outputText value="#{wpis.tabelanbp.nrtabeli}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
                     <h:outputText value="#{wpis.tabelanbp.kurssredni}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
                 </p:column>

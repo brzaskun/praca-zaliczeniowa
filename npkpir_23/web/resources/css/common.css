@@ -75,3 +75,9 @@ html.progress, html.progress * {
 .ui-chkbox-box {
     border: 1px solid #79b7e7 !Important;
 }
+
+@media (max-width: 1200px) {
+    .hide-on-small {
+        display: none;
+    }
+}
