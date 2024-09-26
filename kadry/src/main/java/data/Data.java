@@ -7,6 +7,7 @@ package data;
 import embeddable.Mce;
 import entity.Dzien;
 import entity.Kalendarzmiesiac;
+import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.Staz;
 import error.E;
@@ -1152,7 +1153,27 @@ LocalDate date = LocalDate.parse(dateString, formatter);
         return tomorrow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
      }
     
+   public static void usunNieobecnosciNiePasujaceDoOkresu(List<Nieobecnosc> nieobecnosci, String rok, String miesiac) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+        // Konwertujemy rok i miesiąc na liczby całkowite
+        int rokInt = Integer.parseInt(rok);
+        int miesiacInt = Integer.parseInt(miesiac);
+
+        // Definiujemy zakres dat na dany rok i miesiąc
+        LocalDate poczatekOkresu = LocalDate.of(rokInt, miesiacInt, 1);
+        LocalDate koniecOkresu = poczatekOkresu.withDayOfMonth(poczatekOkresu.lengthOfMonth());
+
+        nieobecnosci.removeIf(nieobecnosc -> {
+            LocalDate dataOd = LocalDate.parse(nieobecnosc.getDataod(), formatter);
+            LocalDate dataDo = LocalDate.parse(nieobecnosc.getDatado(), formatter);
+
+            // Sprawdzamy, czy istnieje jakakolwiek część nieobecności w danym okresie
+            // Usuwamy tylko, jeśli cały okres nieobecności jest przed początkiem miesiąca
+            // lub zaczyna się po końcu miesiąca
+            return (dataDo.isBefore(poczatekOkresu) || dataOd.isAfter(koniecOkresu));
+        });
+    }
     
 
     

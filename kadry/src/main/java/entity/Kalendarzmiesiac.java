@@ -1102,7 +1102,7 @@ private static final long serialVersionUID = 1L;
                     dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);
                     nieobecnosc.setNaniesiona(true);
-                } else if (kod.equals("UM")||kod.equals("UO")) {
+                } else if (kod.equals("UR")||kod.equals("UM")||kod.equals("UO")) {
                     dzienaktualny.setMacierzynski(dzienaktualny.getNormagodzin());
                     dzienaktualny.setPrzepracowano(0);
                     dzienaktualny.setKod(kod);

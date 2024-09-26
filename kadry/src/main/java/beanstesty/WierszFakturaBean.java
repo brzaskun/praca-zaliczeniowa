@@ -9,12 +9,16 @@ import dao.KadryfakturapozycjaFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.WierszFakturyFacade;
 import data.Data;
+import entity.Angaz;
 import entity.Fakturaopisuslugi;
 import entity.Kadryfakturapozycja;
 import entity.Pasekwynagrodzen;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -35,7 +39,7 @@ public class WierszFakturaBean {
      @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
      
-    @Schedule(hour = "*", minute = "30", persistent = false)
+    @Schedule(dayOfWeek = "Mon-Fri", hour = "8-16", minute = "0", persistent = false)
     private void przetworzuslugiwmiesiacu() {
         String rok = Data.aktualnyRok();
         String mc = Data.aktualnyMc();
@@ -45,7 +49,14 @@ public class WierszFakturaBean {
         List<WierszFaktury> listawierszfaktury = wierszFakturyFacade.findbyRokMc(rok, mc);
         List<Kadryfakturapozycja> listauslugklientcena = kadryfakturapozycjaFacade.findByRok(rok);
         for (Kadryfakturapozycja k : listauslugklientcena) {
-            List<Pasekwynagrodzen> paski = pasekwynagrodzenFacade.findByRokMcNip(rok, mc, k.getFirmakadry().getNip());
+            List<Pasekwynagrodzen> paskitmp = pasekwynagrodzenFacade.findByRokMcNip(rok, mc, k.getFirmakadry().getNip());
+              Set<Angaz> unikalneAngazy = new HashSet<>();
+        
+        // Filtruj listę, pozostawiając tylko te paski, których angaz nie był wcześniej przetworzony
+            List<Pasekwynagrodzen> paski = paskitmp.stream()
+                .filter(pasek -> unikalneAngazy.add(pasek.getKalendarzmiesiac().getAngaz()))
+                .collect(Collectors.toList());
+           
             WierszFaktury wierszpobrany = pobierzwiersz(listawierszfaktury, k, rok, mc);
             if (wierszpobrany.isNowacena()) {
                 wierszFakturyFacade.edit(wierszpobrany);

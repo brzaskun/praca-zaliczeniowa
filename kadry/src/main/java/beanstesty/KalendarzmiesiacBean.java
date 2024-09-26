@@ -200,7 +200,7 @@ public class KalendarzmiesiacBean {
                 } else if (kod.equals("CH")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
                     naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, null, limitpodstawyzasilkow, minimalnedozasilkow, jestoodelegowanie);
-                } else if (kod.equals("UO")||kod.equals("UM")) {
+                } else if (kod.equals("UO")||kod.equals("UM")|kod.equals("UO")||kod.equals("UR")) {
                     //wynagrodzenie za czas niezdolnosci od pracy
                     naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen, definicjalistaplac, definicjadlazasilkow, limitpodstawyzasilkow, minimalnedozasilkow, jestoodelegowanie);
                 } else if (kod.equals("U") || kod.equals("UZ") || kod.equals("O") || kod.equals("MD") || kod.equals("NS")) {
