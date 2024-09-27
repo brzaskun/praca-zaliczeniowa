@@ -88,7 +88,7 @@ public class UrlopBean {
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UZ"));
                 List<Umowa> umowy = angaz.getUmowaList();
-                Object[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz, kalendarze);
+                Object[] obliczwymiarwgodzinach = obliczwymiarwgodzinachSwiadectwo(umowy, pobierzetat, rok, stannadzien, angaz, kalendarze);
                 if (rejestrurlopow!=null) {
                     urlopprezentacja.setBilansotwarciadni(rejestrurlopow.getUrlopzalegly());
                     //mariola mowila 19.09.2024 ze zawsze mnozy sie przez 8 godzin. sitges wczoraj lalo w nocy, dzisiaj sloneczko. zaraz jedzonko
@@ -310,7 +310,7 @@ public class UrlopBean {
         return suma;
     }
      
-     public static Object[] obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat,String rok, String stannadzien, Angaz angaz, List<Kalendarzmiesiac> kalendarze) {
+     public static Object[] obliczwymiarwgodzinachSwiadectwo(List<Umowa> umowy, EtatPrac etat,String rok, String stannadzien, Angaz angaz, List<Kalendarzmiesiac> kalendarze) {
         int wymiarproporcjonalnyPrzedetatem = 20;
         double liczbadni = 0;
         Collections.sort(umowy,new UmowaStareNowecomparator());
@@ -426,5 +426,82 @@ public class UrlopBean {
          System.out.println("zostalo dni "+zostalodni);
      }
 
-    
+     
+     //przywrocilem stare bo w zakladce wydruki urlopy byl wymiar 27 zamiast 26
+    public static Object[] obliczwymiarwgodzinach(List<Umowa> umowy, EtatPrac etat,String rok, String stannadzien, Angaz angaz, List<Kalendarzmiesiac> kalendarze) {
+        int wymiarproporcjonalny = 20;
+        double liczbadni = 0;
+        Collections.sort(umowy,new UmowaStareNowecomparator());
+        for (Umowa p : umowy) {
+            if (p.isLiczdourlopu()) {
+                if (p.getSlownikszkolazatrhistoria()!=null) {
+                    if (p.getSlownikszkolazatrhistoria().getPraca0nauka1()) {
+                        liczbadni = liczbadni+p.getSlownikszkolazatrhistoria().getDni();
+                    } else {
+                        LocalDate dateBefore =  LocalDate.parse(p.getDataod());
+                        LocalDate dateAfter = LocalDate.parse(stannadzien);
+                        if (p.getDatado()!=null && Data.czyjestpoTerminData(p.getDatado(), stannadzien)) {
+                            dateAfter = LocalDate.parse(p.getDatado());
+                        }
+                        long daysBetween =  ChronoUnit.DAYS.between(dateBefore, dateAfter);
+                        liczbadni = liczbadni+daysBetween;
+                        if (liczbadni>=3650) {
+                            break;
+                        }
+                    }
+                } 
+            }
+        }
+        double angazstazlata = angaz.getPracownik().getStazlata();
+        double liczbalatumowy = liczbadni / 365;
+        if (angazstazlata>=10) {
+            wymiarproporcjonalny = 26;
+        } else if (angazstazlata+liczbalatumowy>=10){
+            wymiarproporcjonalny = 26;
+        } else {
+            double angazstadni = angazstazlata*365+angaz.getPracownik().getStazdni();
+            double duzasumadni = angazstadni+liczbadni;
+            if (duzasumadni>=3650) {
+                wymiarproporcjonalny = 26;
+            }
+        }
+        //trzeba pobrad date od, albo poczatek roku albo data pierwszej umowy w roku
+            Set<String> napoczetemiesiace = new HashSet<>();
+            String dataod = data.Data.pierwszyDzien(rok, "01");
+            for (Umowa p : umowy) {
+                if (p.isLiczdourlopu() && p.isPraca()) {
+                    if (p.getSlownikszkolazatrhistoria() != null) {
+                        if (p.getSlownikszkolazatrhistoria().getPraca0nauka1() == false) {
+                            boolean czyumowaztegoroku = p.czynalezydoroku(rok);
+                            if (czyumowaztegoroku == true) {
+                                dataod = p.getDataod();
+                                String rokdataod = Data.getRok(dataod);
+                                if (!rok.equals(rokdataod)) {
+                                    dataod = Data.pierwszyDzien(rok, "01");
+                                }
+                                String datado = stannadzien;
+                                if (p.getDatado() != null && Data.czyjestpoTerminData(p.getDatado(), stannadzien)) {
+                                    datado = p.getDatado();
+                                }
+                                napoczetemiesiace.addAll(Mce.zakresmiesiecy(Data.getMc(dataod), Data.getMc(datado)));
+                            }
+                        }
+                    }
+                }
+            }
+            Set<String> napoczetemiesiacepokorekcie = korygujnapiczetemiesiaceobezplatny(napoczetemiesiace, kalendarze);
+            double nowywymiarwdniach =  Math.ceil(wymiarproporcjonalny);
+            double wymiarwgstazu = nowywymiarwdniach;
+            double wymiargodzin = (nowywymiarwdniach*8);
+            if (etat!=null) {
+                //to musi bo moze byc zatrudnienie nie od pocztaku roku i jest proporcja
+                if (napoczetemiesiacepokorekcie.size()>0) {
+                    wymiarproporcjonalny = (int) (Math.ceil(wymiarproporcjonalny/12.0*napoczetemiesiacepokorekcie.size()));
+                }
+                wymiargodzin = (wymiarproporcjonalny*8*etat.getEtat1()/etat.getEtat2());
+            }
+        Object[] zwrot = new Object[]{(int)wymiarproporcjonalny,(int)wymiargodzin, (int)wymiarwgstazu, napoczetemiesiacepokorekcie};
+        return zwrot;
+        //nie wiem co z tym etatem czy badac
+    }
 }
