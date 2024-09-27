@@ -11,7 +11,7 @@
         <p:panel header="firma nie będąca płatnikiem podatku VAT" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>
         <p:panel header="VAT rozliczany #{WpisView.podatnikObiekt.vatokres.size() gt 0 ? WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr : ''}" 
                  rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
-        <p:panelGrid columns="7">
+        <p:panelGrid columns="12">
             <h:outputText value="Wynik za okres rozliczeniowy: #{ewidencjaVatView.wynikOkresu gt 0 ? 'do zapłaty ' : 'do zwrotu '}"/> 
             <h:outputText value="#{ewidencjaVatView.wynikOkresu}" style="#{ewidencjaVatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                 <f:convertNumber minFractionDigits="0" locale="PL" />

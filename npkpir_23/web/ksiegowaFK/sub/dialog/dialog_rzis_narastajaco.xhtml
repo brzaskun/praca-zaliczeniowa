@@ -12,7 +12,7 @@
               resizable="false" onShow="ustawdialog('dialog_rzis_narastajaco','menubilanse', 1600, 780);" closeOnEscape="true" onHide="resetujdialog('dialog_rzis_narastajaco');"  >
         <bcf:ajaxs/>
         <h:form id="form_dialog_rzis_narastajaco">
-            <p:panelGrid columns="7">
+            <p:panelGrid columns="2">
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaRZiSNarView.uklad}" converter="#{ukladBRConv}">
