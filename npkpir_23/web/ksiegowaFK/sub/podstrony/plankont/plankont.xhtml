@@ -103,7 +103,7 @@
                    <p:commandButton value="importuj bilansowe" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('b')}" icon="fa fa-sign-in" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                    <p:commandButton value="importuj wynikowe" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}"  icon="fa fa-sign-in" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:panelGrid>
-            <p:panelGrid columns="10">
+            <p:panelGrid columns="12">
                 <p:commandButton value="0" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,0)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
                 <p:commandButton value="1" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,1)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
                 <p:commandButton value="2" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,2)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>

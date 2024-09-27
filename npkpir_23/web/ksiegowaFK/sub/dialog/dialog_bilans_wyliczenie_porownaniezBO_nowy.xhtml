@@ -11,7 +11,7 @@
     <p:dialog id="dialogbilansporownanie_nowy" header="Bilans za okres rozliczeniowy wyliczenie z porównaniem - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogbilansporownanie_nowy" 
               resizable="false" onShow="ustawdialog('dialogbilansporownanie_nowy','menubilanse', 1450, 800);" closeOnEscape="true" onHide="resetujdialog('dialogbilansporownanie_nowy');"  >
         <h:form id="form_dialogbilansporownanie_nowy">
-             <p:panelGrid columns="11">
+             <p:panelGrid columns="12">
                 <p:panelGrid columns="4" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
 <!--                    <p:column>
                         <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">

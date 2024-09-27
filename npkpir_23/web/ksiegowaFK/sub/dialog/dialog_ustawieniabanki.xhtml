@@ -21,7 +21,7 @@
         <p:ajax event="open" listener="#{bankImportWzoryView.init()}" global="false" update="ustawieniabankidodaj ustawieniabankiimport"/>
         <h:form id="ustawieniabankidodaj">
             <h:outputText value="można wpisać alternatywne wyrażenia w rubryce opis oddzielone średnikiem"/>
-            <p:panelGrid columns="8" style="margin-left: 2%; margin-bottom: 2%;" >
+            <p:panelGrid columns="12" style="margin-left: 2%; margin-bottom: 2%;" >
                 <h:outputText value="bank"/>
                 <h:outputText value="nr konta"/>
                 <h:outputText value="wyrażenie w opisie"/>
@@ -29,7 +29,7 @@
                 <h:outputText value="IBAN"/>
                 <h:outputText value="miesiące"/>
                 <h:outputText value="nadpisz"/>
-                <h:outputText value=" "/>
+                <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
                 <p:selectOneMenu value="#{bankImportWzoryView.selected.bank}" >
                     <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" noSelectionOption="true"/>
                     <f:selectItems value="#{bankImportWzoryView.wykazbankow}" var="item1" itemLabel="#{item1.opis}" itemValue="#{item1.opis}"/>

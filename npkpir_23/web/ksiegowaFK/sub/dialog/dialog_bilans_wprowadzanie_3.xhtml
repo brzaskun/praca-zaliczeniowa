@@ -46,8 +46,8 @@
                 <h:outputText value="Generowanie bilansu likwidacyjnego na dzień #{WpisView.podatnikObiekt.dataotwarcialikwidacji}" style="color: red;"/>
             </p:outputPanel>
             <p:focus for="formbilanswprowadzanienowy_wiersz"/>
-             <p:panelGrid    columns="8" style="height: 50px;">
-
+             <p:panelGrid    columns="12" style="height: 50px;">
+                    
                     <p:column width="380">
                             <h:outputText value="#{mgs.konto}"/>
                         </p:column>
@@ -73,7 +73,7 @@
                         <p:column>
                             <h:outputText value="zapisz"/>
                         </p:column>
-
+                        <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
             
                     <p:column width="380">
                         <p:autoComplete value="#{bilansWprowadzanieNowyView.selected.konto}" completeMethod="#{planKontBOView.completeBO}" id="konto2"

@@ -60,7 +60,7 @@
                     </p:column>
             </p:dataTable>
             <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
-            <p:panelGrid id="parametrypodatnika" columns="8" style="padding: 10px;" >
+            <p:panelGrid id="parametrypodatnika" columns="12" style="padding: 10px;" >
                 <h:outputText value="data od: "/>
                 <p:inputText id="dataod" value="#{podatnikView.wybranyPodatnikOpodatkowanie.datarozpoczecia}" maxlength="10" placeholder="rrrr-mm-dd" size="10">
                     <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:dataod')"/>

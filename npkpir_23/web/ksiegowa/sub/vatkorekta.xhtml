@@ -29,7 +29,7 @@
                     </p:column>
                     <p:column headerText="dane">
                         <p:dataGrid columns="1" value="#{item.selected}" var="loop" style="width: 500xp;">
-                            <h:panelGrid columns="10">
+                            <h:panelGrid columns="12">
                                 <h:outputText value="rodzaj deklaracji"/><h:outputText value="#{loop.rodzajdeklaracji}" style="font-weight: 900;"/>
                                 <h:outputText value="podatnik"/><h:outputText value="#{item.podatnik}" style="font-weight: 900;"/>
                                 <h:outputText value="miesięczna/kwartalna"/><h:outputText value="#{item.miesiackwartal eq false ? 'miesięczna' : 'kwartalna'}" style="font-weight: 900;"/>

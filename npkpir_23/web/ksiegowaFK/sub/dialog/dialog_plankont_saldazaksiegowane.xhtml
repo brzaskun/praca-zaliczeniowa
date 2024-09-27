@@ -14,11 +14,8 @@
               resizable="false" 
               onShow="ustawdialog('dialog_plankont_saldazaksiegowane','menuzestawienia', 1330, 750);ustalmaxlevel('form_dialog_plankont_saldazaksiegowane:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialog_plankont_saldazaksiegowane');"  >
         <h:form id="form_dialog_plankont_saldazaksiegowane">
-              <p:panelGrid columns="8">
-                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form_dialog_plankont_saldazaksiegowane:dataList_data')" global="false" style="float: left;" />
-                  <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('form_dialog_plankont_saldazaksiegowane:dataList_data')" global="false" style="float: left;" />
-                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form_dialog_plankont_saldazaksiegowane:dataList_data')"  global="false" style="float: left;" />
-                  <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form_dialog_plankont_saldazaksiegowane:dataList_data')"  global="false" style="float: left;" />
+              <p:panelGrid columns="4">
+
                   <p:splitButton value="#{mgs.drukuj}"  actionListener="#{planKontSaldaView.drukujPlanKont('all')}"  action="#{sesjaView.dodajwydruk()}" global="false" style="margin-left: 20px;">
                       <p:menuitem global="false" value="wynikowe" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontSaldaView.drukujPlanKont('wynikowe')}" icon="fa fa-print"/>  
                       <p:menuitem global="false" value="bilansowe" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontSaldaView.drukujPlanKont('bilansowe')}" icon="fa fa-print"/>  

@@ -117,6 +117,7 @@
                     </p:selectOneMenu>
                     <h:outputText value=" wzorzec:* " />
                     <p:inputText value="#{podatnikView.selectedDokKsi.wzorzec}" />
+                    
                     <h:outputText value=" kategoria dokumentu: " />
                     <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}"  rendered="#{WpisView.ksiegirachunkowe}">
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
@@ -153,6 +154,7 @@
                         <f:validateLongRange minimum="0" maximum="99"/>
                         <f:convertNumber integerOnly="true" type="number" />
                     </p:inputText>
+                    
                     <h:outputText value=" pokaż kg: " />
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazkg}" />
                     <h:outputText value=" pokaż szt: " />

@@ -9,7 +9,7 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core">
     <div class="vertical-container">
         <div class="col-12 md:col-12 lg:col-6" style="max-width: 1200px;" >
-                <p:panelGrid columns="10" style="padding: 10px;">
+                <p:panelGrid columns="12" style="padding: 10px;">
                     <h:outputText value="rok"></h:outputText>
                     <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisuSt}">
                         <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>

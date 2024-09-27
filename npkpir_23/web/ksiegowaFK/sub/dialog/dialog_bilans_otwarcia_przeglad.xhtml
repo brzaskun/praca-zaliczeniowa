@@ -24,7 +24,7 @@
                         }
                     }
             </script>
-              <p:panelGrid columns="10">
+              <p:panelGrid columns="6">
                 <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukuj}" style="width: 120px;"/>
                 <p:commandButton value="#{mgs.drukuj} synt" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukujAnal(false)}" style="width: 120px; margin-left: 10px;"/>
                 <p:commandButton value="#{mgs.drukuj} analit" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukujAnal(true)}" style="width: 120px; margin-left: 10px;"/>

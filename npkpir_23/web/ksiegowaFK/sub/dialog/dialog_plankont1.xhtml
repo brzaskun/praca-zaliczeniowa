@@ -21,11 +21,7 @@
               onShow="ustawdialog('dialogplankont1','menuustawienia', 1330, 750);ustalmaxlevel('form_dialog_plankont1:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialogplankont1');"  >
         <h:form id="form_dialog_plankont1">
            
-              <p:panelGrid columns="8">
-                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form_dialog_plankont1:dataList_data')" global="false" style="float: left;" />
-                  <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('form_dialog_plankont1:dataList_data')" global="false" style="float: left;" />
-                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form_dialog_plankont1:dataList_data')"  global="false" style="float: left;" />
-                  <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form_dialog_plankont1:dataList_data')"  global="false" style="float: left;" />
+              <p:panelGrid columns="4">
                   <p:selectBooleanCheckbox id="bezslownikowych" itemLabel="bez słownikowych" value="#{planKontView.bezslownikowych}">
                       <p:ajax event="change"  partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}" update="form_dialog_plankont1:dataList"/>
                   </p:selectBooleanCheckbox>

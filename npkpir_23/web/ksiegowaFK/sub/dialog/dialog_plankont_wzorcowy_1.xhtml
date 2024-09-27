@@ -37,12 +37,7 @@
                                     }
                                 }
                         </script>-->
-            <p:panelGrid columns="8">
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie"  onclick="rozwinwszystkie('formwzorcowy1:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('formwzorcowy1:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('formwzorcowy1:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('formwzorcowy1:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
-                <p:spacer width="50"/>
+            <p:panelGrid columns="4">
                  <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
                       <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczneWzorcowy()}" update="formwzorcowy1:dataListwzorcowy"/>
                   </p:selectBooleanCheckbox>

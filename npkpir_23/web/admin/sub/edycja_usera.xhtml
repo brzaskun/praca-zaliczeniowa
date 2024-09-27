@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
     <p:panel id="editDane" menuTitle="Edytowanie danych użytkownika" header="Edytowanie danych użytkownika" >
-        <p:panelGrid columns="10" >
+        <p:panelGrid columns="12" >
             <h:outputLabel value="imie"/>
             <h:outputLabel value="nazwisko"/>
             <h:outputLabel value="hasło"/>
@@ -17,6 +17,7 @@
             <h:outputLabel value="firma"/>
             <h:outputLabel value="login główny"/>
             <h:outputLabel value="grupa"/>
+            <h:outputLabel value=""/><h:outputLabel value=""/>
             
             <p:inputText  value="#{UzView.selUzytkownik.imie}"/>
             <p:inputText  value="#{UzView.selUzytkownik.nazw}"/>
