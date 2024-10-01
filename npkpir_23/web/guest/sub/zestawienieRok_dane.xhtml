@@ -8,7 +8,7 @@
 
     <p:tab id="archiwum" title="Dane zbiorcze za rok #{WpisView.rokWpisu}" >
         <p:outputPanel deferred="true">
-            <p:panelGrid id="zestawienieroczne" columns="8"  rendered="#{WpisView.ryczalt0ksiega1}" style="max-width: 900px;">
+            <p:panelGrid layout="tabular" id="zestawienieroczne" columns="12"  rendered="#{WpisView.ryczalt0ksiega1}" style="max-width: 900px;">
                 <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista" > 
                     <p:column headerText="kolumny" id="przychsprz">  
                         <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
@@ -92,6 +92,7 @@
                         </h:outputText>
                     </p:column>
                 </p:dataTable>
+                <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
                 <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista1" > 
                     <p:column headerText="kolumny" id="przychsprz">  
                         <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
@@ -194,7 +195,7 @@
                 </p:dataTable>
             </p:panelGrid>
             <!-- a teraz akapit jak jest ryczałt-->
-            <p:panelGrid id="zestawienieroczne1" columns="8"  rendered="#{!WpisView.ryczalt0ksiega1}">
+            <p:panelGrid layout="tabular" id="zestawienieroczne1" columns="12"  rendered="#{!WpisView.ryczalt0ksiega1}">
                 <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnRyczalt}" id="dokumentyRListaR" > 
                     <p:column headerText="kolumny" id="przychsprz" >  
                         <h:outputText value="#{wpis}" />
@@ -278,6 +279,7 @@
                         </h:outputText>
                     </p:column>
                 </p:dataTable>
+                <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
                 <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnRyczalt}" id="dokumentyRListaR1" > 
                     <p:column headerText="kolumny" id="przychsprz" >  
                         <h:outputText value="#{wpis}" />

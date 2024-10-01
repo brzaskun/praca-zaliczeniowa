@@ -10,7 +10,7 @@
     <h:form id="form_sprawozdanie">
         <f:event type="preRenderView" listener="#{saldoAnalitykaView.init()}"/>
         <f:event type="preRenderView" listener="#{saldoAnalitykaView.sprawozdanie()}"/>
-        <p:panelGrid columns="1">
+        <p:panelGrid layout="tabular" columns="1">
             <p:panel header="majątek firmy"></p:panel>
             <p:dataTable lazy="false"  value="#{saldoAnalitykaView.listaSaldoKonto}" var="item" nativeElements="true">
                 <f:facet name="header">

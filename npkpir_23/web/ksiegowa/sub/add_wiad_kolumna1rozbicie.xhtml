@@ -10,7 +10,7 @@
               resizable="false" onShow="ustawdialogWindow('dialog_add_wiad_kolumna1rozbicie',820,300)" onHide="resetujdialog('dialog_add_wiad_kolumna1rozbicie')"
         >
         <h:form id="formdialog_add_wiad_kolumna1rozbicie">
-            <p:panelGrid columns="3" id="podsumowanierozbicia">
+            <p:panelGrid layout="tabular" columns="3" id="podsumowanierozbicia">
                 <h:outputText value="razem"/>
                 <bcf:outputwal id="wal1" value="#{DokumentView.sumarozbicie.nettowaluta}" symbolwaluty="#{DokumentView.selDokument.walutadokumentu.skrotsymbolu}"/>
                 <bcf:outputwal id="wal2" value="#{DokumentView.sumarozbicie.netto}" symbolwaluty="PLN" />

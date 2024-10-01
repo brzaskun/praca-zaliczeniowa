@@ -26,7 +26,7 @@
         </style>
         <h:form id="formsporzadzone">
            
-            <p:panelGrid id="panelsum" style="height: 40px;" rendered="#{WpisView.biuroiszef eq true}">
+            <p:panelGrid layout="tabular" id="panelsum" style="height: 40px;" rendered="#{WpisView.biuroiszef eq true}">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -58,11 +58,11 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:panelGrid rendered="#{sMTPSettingsView.selected eq nukl}" columns="1">
+            <p:panelGrid layout="tabular" rendered="#{sMTPSettingsView.selected eq nukl}" columns="1">
                 <h:outputText value="Nie skonfigurowano maila firmy. Faktury będą wysyłane z domyślnego maila programu: info@taxman.biz.pl" style="font-weight: 800; color: red;"/>
             </p:panelGrid>
             <p:panel header="dołącz krótką wiadomość do wysyłanego maila" id="panelwiadomosc" >
-                <p:panelGrid columns="4">
+                <p:panelGrid layout="tabular" columns="4">
                 <p:commandButton value="+" actionListener="#{fakturaView.pokazedytor(1)}" update="@parent" rendered="#{!fakturaView.podazedytorvar}"/>
                 <p:commandButton value="-" actionListener="#{fakturaView.pokazedytor(0)}" update="@parent" rendered="#{fakturaView.podazedytorvar}"/>
                 <p:textEditor id="editor"  secure="false" widgetVar="editorWidget" value="#{fakturaView.wiadomoscdodatkowa}" style="width:800px;" height="300" rendered="#{fakturaView.podazedytorvar}">
@@ -179,9 +179,9 @@
                                       icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" rendered="#{!wpis.fakturaniemiecka13b}"/>
                 </p:column>
                 <p:rowExpansion>
-                    <p:panelGrid  columns="4"   columnClasses="thirty-percent twenty-percent thirty-percent twenty-percent">
+                    <p:panelGrid layout="tabular"  columns="4"   columnClasses="thirty-percent twenty-percent thirty-percent twenty-percent">
                         <p:column>
-                        <p:panelGrid  columns="2"  columnClasses="forty-percent, sixty-percent">
+                        <p:panelGrid layout="tabular"  columns="2"  columnClasses="forty-percent, sixty-percent">
                             <h:outputText value="email kontrahenta"/>
                             <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
                                 <p:ajax event="save" listener="#{fakturaView.edytujemail(wpis.kontrahent)}" global="false" update="@parent"/>
@@ -205,7 +205,7 @@
                         </p:panelGrid>
                         </p:column>
                         <p:column>
-                        <p:panelGrid  columns="2" >
+                        <p:panelGrid layout="tabular"  columns="2" >
                             <h:outputText value="okres pod doch"/>
                             <h:outputText value="#{wpis.okresCit}"/>
                             <h:outputText value="okres vat"/>
@@ -213,7 +213,7 @@
                         </p:panelGrid>
                         </p:column>
                         <p:column>
-                        <p:panelGrid columns="1">
+                        <p:panelGrid layout="tabular" columns="1">
                             <p:dataTable lazy="false"  id="tabeladuplikatow" value="#{wpis.duplikaty}" styleClass="tabduplikaty"
                                          var="loopdupl" emptyMessage="nie wystawiono duplikatów" >
                                 <f:facet name="header">
@@ -235,14 +235,14 @@
                         </p:panelGrid>
                         </p:column>
                         <p:column>
-                            <p:panelGrid  columns="1" rendered="#{wpis.odbiorca ne null}">
+                            <p:panelGrid layout="tabular"  columns="1" rendered="#{wpis.odbiorca ne null}">
                             <h:outputText value="odbiorca"/>
                             <h:outputText value="#{wpis.odbiorca.npelna}"/>
                             <h:outputText value="#{wpis.odbiorca.adres}"/>
                         </p:panelGrid>
                         </p:column>
                     </p:panelGrid>
-                    <p:panelGrid  columns="1"  style="width: 900px;">
+                    <p:panelGrid layout="tabular"  columns="1"  style="width: 900px;">
                           <p:column>
                         <p:dataTable lazy="false"  value="#{wpis.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
                              style="width: 800px;"

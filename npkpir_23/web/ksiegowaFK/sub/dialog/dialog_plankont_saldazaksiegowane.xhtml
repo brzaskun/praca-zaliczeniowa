@@ -14,7 +14,7 @@
               resizable="false" 
               onShow="ustawdialog('dialog_plankont_saldazaksiegowane','menuzestawienia', 1330, 750);ustalmaxlevel('form_dialog_plankont_saldazaksiegowane:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialog_plankont_saldazaksiegowane');"  >
         <h:form id="form_dialog_plankont_saldazaksiegowane">
-              <p:panelGrid columns="4">
+              <p:panelGrid layout="tabular" columns="4">
 
                   <p:splitButton value="#{mgs.drukuj}"  actionListener="#{planKontSaldaView.drukujPlanKont('all')}"  action="#{sesjaView.dodajwydruk()}" global="false" style="margin-left: 20px;">
                       <p:menuitem global="false" value="wynikowe" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontSaldaView.drukujPlanKont('wynikowe')}" icon="fa fa-print"/>  
@@ -42,7 +42,7 @@
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                   </p:selectOneMenu>
             </p:panelGrid>
-            <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
                 <p:dataTable lazy="false"  id="dataList" value="#{planKontSaldaView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontSaldaView.selectednodekonto}" 
                              rowStyleClass="#{planKontSaldaView.kontadowyswietlenia eq 'bilansowe' ?
                                               (loop.zwyklerozrachszczegolne eq 'zwykłe' ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : loop.zwyklerozrachszczegolne eq 'vat' ? 'rowb_vat' : 'rowb_rozrachunkowe') :

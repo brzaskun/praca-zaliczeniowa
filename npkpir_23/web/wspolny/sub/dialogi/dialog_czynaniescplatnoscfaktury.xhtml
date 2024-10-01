@@ -11,7 +11,7 @@
               resizable="false" onShow="ustawdialogWindow('czynaniescplatnoscfaktury',350,120);r('formdatazaplaty:datazaplaty').focus();" 
               closeOnEscape="true" onHide="resetujdialog('czynaniescplatnoscfaktury');"  >
         <h:form id="formdatazaplaty">
-            <p:panelGrid id="fakturadatazaplatygrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
+            <p:panelGrid layout="tabular" id="fakturadatazaplatygrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
                 <p:focus for="datazaplaty">
                     <p:inputMask id="datazaplaty" value="#{fakturyPlatnosciView.datazaplaty}" mask="9999-99-99" style="text-align: center;" immediate="true" 
                                  onkeyup="walidacjadatyzaplaty()">

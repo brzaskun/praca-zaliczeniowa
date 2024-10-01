@@ -9,7 +9,7 @@
         <h:form id="formXbilansprojekt">
         <p:growl life="3600"  id="messages"/>
         <p:focus for="dkp">
-        <p:panelGrid id="dkp" columns="2" style=" width: 500px;">
+        <p:panelGrid layout="tabular" id="dkp" columns="2" style=" width: 500px;">
             <h:outputLabel value="Nazwa pozycji:*" for="nazwa" />
                         <p:inputText id="nazwa" value="#{pozycjaBRView.nowyelementBilans.nazwa}" title="Nazwa pozycji Bilansu" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
                         <h:outputLabel value="Przychód koszt:*" for="nazwa" />

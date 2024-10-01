@@ -20,7 +20,7 @@
         <h:form id="srodkiwpis"> 
             <!--pola ewidencji SRODKOW TRWALYCH-->
             <p:panel id="panelwyszukiwarki" style="height: 50px;" >
-                <p:panelGrid id="wyszukiwarka" columns="2">
+                <p:panelGrid layout="tabular" id="wyszukiwarka" columns="2">
                     <p:row>
                         <p:column headerText="wyszukiwarka środka trw.">
                             <p:autoComplete id="acForce1" value="#{srodkiTrwaleView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
@@ -128,7 +128,7 @@
                     </p:column>
                 </p:dataTable>
             </p:panel>
-            <p:panelGrid style="padding: 5px; margin-left: 5px;" id="srodki2">
+            <p:panelGrid layout="tabular" style="padding: 5px; margin-left: 5px;" id="srodki2">
                 <f:facet name="header">
                     <p:row>
                         <p:column>

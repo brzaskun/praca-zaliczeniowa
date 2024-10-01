@@ -24,7 +24,7 @@
                 <p:panel style="text-align: center; margin-left: auto; margin-right: auto; width: 600px; height: 150px;" >
                     <p:messages id="logowanie"  showDetail="false" ><p:autoUpdate/></p:messages>
                 </p:panel>
-                    <p:panelGrid columns="1" style="text-align: center; margin-left: auto; margin-right: auto; margin-top:  1%; width: 362px; border-style: hidden !important;">
+                    <p:panelGrid layout="tabular" columns="1" style="text-align: center; margin-left: auto; margin-right: auto; margin-top:  1%; width: 362px; border-style: hidden !important;">
                         <p:column style="text-align: center; margin-left: auto; margin-right: auto;">
                             <p:commandButton value="#{mgs.powrótdologowania}" action="failure" style="width: 180px;"/>
                         </p:column>
@@ -39,7 +39,7 @@
                         <h:outputLabel value="#{mgs.danerejestracyjne}"/>
                     </f:facet>
                     <p:focus id="focus" context="rejestrowaniepanel"/>
-                    <p:panelGrid id="rejestrowaniepanel" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;">
+                    <p:panelGrid layout="tabular" id="rejestrowaniepanel" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;">
                             <h:outputText value="#{mgs.imię}"/>
                             <p:inputText id="imie" value="#{UzView.selUzytkownik.imie}" title="#{mgs.wpiszimie}"  required="true" requiredMessage="#{mgs.wpiszimie}!" autocomplete="true" >
                                 <p:ajax event="change" partialSubmit="true" global="false"/>

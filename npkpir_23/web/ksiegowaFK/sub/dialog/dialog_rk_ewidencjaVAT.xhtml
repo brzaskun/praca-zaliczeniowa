@@ -10,7 +10,7 @@
               resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',900,220);" modal="true"
               closeOnEscape="true" onHide="ukryjdialogvatrk();" >
         <h:form id="ewidencjavatRK"> 
-            <p:panelGrid id="paneldatydokumentu" columns="6" style="width: 700px;"  styleClass="uipanelGrid0">
+            <p:panelGrid layout="tabular" id="paneldatydokumentu" columns="6" style="width: 700px;"  styleClass="uipanelGrid0">
                 <h:outputText value="data dokumentu"/>
                 <h:outputText value="data operacji gosp."/>
                 <h:outputText value="dane kontrahenta"/>
@@ -66,7 +66,7 @@
                 </p:inputText>
                 <p:inputText id="opisvat" value="#{dokfkView.ewidencjaVatRK.opisvat}" style="width: 170px;"/>
             </p:panelGrid>
-            <p:panelGrid id="panelzewidencjavat" columns="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN'?'8':'7'}"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
+            <p:panelGrid layout="tabular" id="panelzewidencjavat" columns="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN'?'8':'7'}"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
                 <h:outputText value="rodzaj ewidencji" style="width: 110px;"/>
                 <h:outputText value="#{mgs.netto} waluta" style="width: 95px;" rendered="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
                 <h:outputText value="#{mgs.netto}" style="width: 95px;"/>

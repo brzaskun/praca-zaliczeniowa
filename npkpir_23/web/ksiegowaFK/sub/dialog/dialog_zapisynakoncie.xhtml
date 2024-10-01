@@ -60,7 +60,7 @@
 
                     </h:form>
                     <h:form  id="formwpiskontarok">
-                        <p:panelGrid columns="2" style="width: 180px;">
+                        <p:panelGrid layout="tabular" columns="2" style="width: 180px;">
                         <h:outputText value="rok planu kont"/>
                             <p:selectOneMenu id="rokWpisu" value="#{kontoZapisFKView.rokdopobrania}" style="width: 60px;">
                                         <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieRokPop}" partialSubmit="true"
@@ -71,7 +71,7 @@
                         </p:panelGrid>
                      </h:form>
                       <h:form id="walutazapisynakoncie">
-                    <p:panelGrid columns="2" style="width: 180px;">
+                    <p:panelGrid layout="tabular" columns="2" style="width: 180px;">
                     <h:outputText value="waluta"/>
                   
                         <p:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}" style="width: 100px; margin-left: 5px;" label="#{mgs.walutadokumentu}">
@@ -83,7 +83,7 @@
                     </h:form>
                    
                     <h:form id="miesiacezapisykonta">
-                        <p:panelGrid columns="15" style="margin-left: 15px; width: 850px;">
+                        <p:panelGrid layout="tabular" columns="15" style="margin-left: 15px; width: 850px;">
                              <h:outputText value="rok"/>
                             <p:selectOneMenu id="rokWpisuod" value="#{kontoZapisFKView.rokdopobraniaod}" style="width: 60px;">
                                         <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true"
@@ -437,9 +437,9 @@
 
             <!-- Sekcja dla tabeli sum na dole -->
             <div class="w-full p-2">
-                <p:panelGrid columns="3">
+                <p:panelGrid layout="tabular" columns="3">
                     <h:form>
-                        <p:panelGrid columns="2">
+                        <p:panelGrid layout="tabular" columns="2">
                         <h:outputText value="rodzaje kont: "/>
                         <p:selectOneMenu id="rodzajkont" value="#{kontoZapisFKView.wybranyRodzajKonta}"  style="margin-left: 20px;">
                             <p:ajax event="change" listener="#{kontoZapisFKView.publicinit()}" update="form:dataList tabelazsumami"/>
@@ -450,7 +450,7 @@
                         </p:panelGrid>
                     </h:form>
                     <h:form>
-                        <p:panelGrid columns="3" rendered="#{!WpisView.rokzamkniety}">
+                        <p:panelGrid layout="tabular" columns="3" rendered="#{!WpisView.rokzamkniety}">
                             <h:outputText value="#{mgs.wybierzkonto}: "/>
                             <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.kontodoprzeksiegowania}" completeMethod="#{kontoZapisFKView.completeWszystkieKonta}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" forceSelection="true"
@@ -468,7 +468,7 @@
                                             update="tabelazzapisami:tabela"/>  
                             </p:splitButton>
                         </p:panelGrid>
-                        <p:panelGrid columns="3" rendered="#{WpisView.rokzamkniety}" style="width: 500px;">
+                        <p:panelGrid layout="tabular" columns="3" rendered="#{WpisView.rokzamkniety}" style="width: 500px;">
                         </p:panelGrid>
                     </h:form>
                     <h:form id="tabelazsumami">
@@ -523,7 +523,7 @@
             <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
         </h:form>
         <h:form>
-        <p:panelGrid  columns="1">
+        <p:panelGrid layout="tabular"  columns="1">
              <p:messages  id="messages"><p:autoUpdate/></p:messages>
         </p:panelGrid>
         </h:form>

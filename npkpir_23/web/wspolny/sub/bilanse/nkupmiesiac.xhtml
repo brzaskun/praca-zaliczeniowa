@@ -21,7 +21,7 @@
 
         </style>
         <h:form id="formsymulacjankup">
-            <p:panelGrid columns="4" >
+            <p:panelGrid layout="tabular" columns="4" >
                     <h:outputText value="rok" style="margin-right: 10px;"/>
                     <h:outputText value="#{WpisView.rokWpisuSt}" style="margin-right: 10px;"/>
                     <h:outputText value="m-c" style="margin-right: 10px;"/>
@@ -64,7 +64,7 @@
                     <bcf:outputpl value="#{wpis1.stronaWiersza.kwotaPLN}"/>
                 </p:column>
             </p:dataTable>
-            <p:panelGrid columns="6" style="padding: 10xp;">
+            <p:panelGrid layout="tabular" columns="6" style="padding: 10xp;">
                 <h:outputText value="Razem NKUP"/>
                 <bcf:outputpl value="#{symulacjaWynikuView.nkup}"/>
                 <h:outputText value="Razem KUPMN"/>
@@ -109,7 +109,7 @@
                     <bcf:outputpl value="#{wpis.stronaWiersza.kwotaPLN}"/>
                 </p:column>
             </p:dataTable>
-            <p:panelGrid columns="6" style="padding: 10xp;">
+            <p:panelGrid layout="tabular" columns="6" style="padding: 10xp;">
                 <h:outputText value="Razem NPUP"/>
                 <bcf:outputpl value="#{symulacjaWynikuView.npup}"/>
                 <h:outputText value="Razem PMN"/>

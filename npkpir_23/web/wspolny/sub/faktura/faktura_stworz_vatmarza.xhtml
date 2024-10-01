@@ -8,14 +8,14 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     >
     <p:outputPanel rendered="#{fakturaView.fakturavatmarza}">
-        <p:panelGrid columns="2">
+        <p:panelGrid layout="tabular" columns="2">
             <h:outputText value="sprzedaż samochodu importowanego "/>
             <p:selectBooleanCheckbox value="#{fakturaView.selected.sprzedazsamochoduimportowanego}">
                 <p:ajax event="change" update="akordeon:formstworz:zalacznikdofakturymarza"/>
             </p:selectBooleanCheckbox>
         </p:panelGrid>
         <p:outputPanel  id="zalacznikdofakturymarza">
-            <p:panelGrid columns="4" rendered="#{fakturaView.selected.sprzedazsamochoduimportowanego}">
+            <p:panelGrid layout="tabular" columns="4" rendered="#{fakturaView.selected.sprzedazsamochoduimportowanego}">
                 <h:outputText value="marka samochodu"/>
                 <p:inputText value="#{fakturaView.selected.markapojazdu}">
                     <p:ajax event="blur" global="false" partialSubmit="true"/>
@@ -43,13 +43,12 @@
                 </f:facet>
                 <p:column headerText="nazwa" width="280" style="text-align: center;">
                     <p:inputText id="nazwa" value="#{row.nazwa}" style="width: 260px;"
-                                 styleClass="komorka"  label="text" title="nazwa towaru lub usługi" >
-                        <p:watermark for="nazwa" value="nazwa towaru lub usługi" />
-                        <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
+                                 styleClass="komorka"  label="text" title="nazwa towaru lub usługi" placeholder="nazwa towaru lub usługi">
+                            <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
                     </p:inputText>   
                 </p:column>
                 <p:column headerText="pkwiu" width="80" style="text-align: center;">
-                    <p:inputText id="pkwiu" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiu" value="sym.PKWiU" /></p:inputText>    
+                    <p:inputText id="pkwiu" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary" placeholder="sym.PKWiU"></p:inputText>    
                 </p:column>
                 <p:column headerText="jedn. miary" width="65" style="text-align: center;">
                     <h:selectOneMenu id="jednmiary" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 60px;"
@@ -71,7 +70,7 @@
                     </h:selectOneMenu>
                 </p:column>
                 <p:column headerText="ilość" width="60" style="text-align: center;">
-                    <p:inputText id="ilosc" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosc" value="ilość" /></p:inputText>
+                    <p:inputText id="ilosc" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;" placeholder="ilość"></p:inputText>
                 </p:column>
                 <p:column headerText="cena jedn.brutto" width="90" style="text-align: center;">
                     <p:inputNumber id="cena" value="#{row.cena}" required="true" styleClass="kwotarozrachunku" size="13"
@@ -100,12 +99,12 @@
                 </f:facet>
                 <p:column headerText="nazwa" width="280">
                     <p:inputText id="nazwak" value="#{row.nazwa}" style="width: 260px; text-align: left;"
-                                 styleClass="komorkak"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwak" value="nazwa towaru lub usługi" />
+                                 styleClass="komorkak"  label="text" title="nazwa towaru lub usługi" placeholder="nazwa towaru lub usługi">
                         <p:ajax global="false" event="focus" />
                     </p:inputText>   
                 </p:column>
                 <p:column headerText="pkwiu" width="80" style="text-align: center;">
-                    <p:inputText id="pkwiuk" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiuk" value="sym.PKWiU" /></p:inputText>    
+                    <p:inputText id="pkwiuk" value="#{row.PKWiU}" label="text" style="width: 70px;" title="sym.PKWiU" placeholder="sym.PKWiU"></p:inputText>    
                 </p:column>
                 <p:column headerText="jedn. miary" width="65" style="text-align: center;">
                     <h:selectOneMenu id="jednmiaryk" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 60px;"
@@ -127,7 +126,7 @@
                     </h:selectOneMenu>
                 </p:column>
                 <p:column headerText="ilość" width="60" style="text-align: center;">
-                    <p:inputText id="ilosck" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosck" value="ilość" /></p:inputText>
+                    <p:inputText id="ilosck" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;" placeholder="ilość"></p:inputText>
                 </p:column>
                 <p:column headerText="cena jedn.brutto" width="90" style="text-align: center;">
                     <p:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"

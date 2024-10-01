@@ -11,7 +11,7 @@
                 <p:growl life="3600"  id="msg" ><p:autoUpdate/></p:growl>
                 
                 <p:focus for="wprowadzaniepodatnika"/>
-                <p:panelGrid id="wprowadzaniepodatnika" columns="4">
+                <p:panelGrid layout="tabular" id="wprowadzaniepodatnika" columns="4">
                     <h:outputLabel value="nip"/>
                     <p:inputText id="polenip" value="#{podatnikView.selected.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!" readonly="true">
                         <f:validateLength minimum="10"/>
@@ -145,7 +145,7 @@
             <h:outputLabel value="ma kasę fiskalną"/>
             <p:selectBooleanCheckbox value="#{podatnikView.selected.kasafiskalna}"/>
                 </p:panelGrid>
-                <p:panelGrid columns="1">
+                <p:panelGrid layout="tabular" columns="1">
                     <p:commandButton action="#{podatnikView.edytuj()}" value="edytuj podatnika" update="@form" type="submit"/>
                 </p:panelGrid>
             </p:outputPanel>
@@ -157,7 +157,7 @@
                 
                 <p:panel id="panelwpisywanianowejfirmy" header="Edycja danych firmy w programie" style="width: 1150px;">
                 <p:focus for="wprowadzaniepodatnika"/>
-                <p:panelGrid id="wprowadzaniepodatnika" columns="4" >
+                <p:panelGrid layout="tabular" id="wprowadzaniepodatnika" columns="4" >
 
                     <h:outputLabel value="nip firmy"/>
                     <p:inputMask id="polenip" value="#{podatnikView.selected.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!" readonly="true"
@@ -280,7 +280,7 @@
                     <h:outputLabel value="id firmy"/>
                  <h:outputText value="#{podatnikView.selected.nazwapelna}"/>
                 </p:panelGrid>
-                <p:panelGrid columns="1">
+                <p:panelGrid layout="tabular" columns="1">
                     <p:commandButton action="#{podatnikView.edytujfk()}" value="edytuj podatnika" update="@form" type="submit" style="margin-top: 10px;"/>
                 </p:panelGrid>
                 </p:panel>

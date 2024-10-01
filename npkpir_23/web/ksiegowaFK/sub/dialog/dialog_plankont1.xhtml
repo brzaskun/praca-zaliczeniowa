@@ -21,7 +21,7 @@
               onShow="ustawdialog('dialogplankont1','menuustawienia', 1330, 750);ustalmaxlevel('form_dialog_plankont1:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialogplankont1');"  >
         <h:form id="form_dialog_plankont1">
            
-              <p:panelGrid columns="4">
+              <p:panelGrid layout="tabular" columns="4">
                   <p:selectBooleanCheckbox id="bezslownikowych" itemLabel="bez słownikowych" value="#{planKontView.bezslownikowych}">
                       <p:ajax event="change"  partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}" update="form_dialog_plankont1:dataList"/>
                   </p:selectBooleanCheckbox>
@@ -40,7 +40,7 @@
             <p:outputPanel style="padding: 10px;">
                 <h:outputText value="Uwaga! Nie można dodawać kont analitycznych do zablokowanych kont syntetycznych"/>
             </p:outputPanel>
-            <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
                 <p:dataTable lazy="false"  id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
                              rowStyleClass="#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
                                               (loop.zwyklerozrachszczegolne eq 'zwykłe' ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : loop.zwyklerozrachszczegolne eq 'vat' ? 'rowb_vat' : 'rowb_rozrachunkowe') :

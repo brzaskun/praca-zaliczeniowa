@@ -22,8 +22,8 @@
         <h:outputText value="import dokumentów z pliku XLS AdditionalDataTemplate"/>
         <h:form>
             <p:growl life="3600"  id="messages1"/>
-            <p:panelGrid columns="2" >
-                <p:panelGrid columns="1" style="width: 900px;">
+            <p:panelGrid layout="tabular" columns="2" >
+                <p:panelGrid layout="tabular" columns="1" style="width: 900px;">
                     <p:fileUpload chooseIcon="fa fa-upload" listener="#{amazonImportIntrastat.importujsprzedaz}" 
                                   mode="advanced" dragDropSupport="true" fileLimit="1"
                                   update="messages1 importtabelaintrastat" auto="true"
@@ -33,7 +33,7 @@
                                   style="height: 100px;">
                     </p:fileUpload>
                 </p:panelGrid>
-                <p:panelGrid columns="2" style="margin-left: 30px;">
+                <p:panelGrid layout="tabular" columns="2" style="margin-left: 30px;">
                     <p:commandButton value="zachowaj" update="importtabelaintrastat" actionListener="#{amazonImportIntrastat.zaksieguj}" style="margin-left: 20px;width: 120px;"/>
                     <p:commandButton value="intrastat"  actionListener="#{amazonImportIntrastat.intrastat}" style="margin-left: 20px;width: 120px;"/>
                 </p:panelGrid>
@@ -50,7 +50,7 @@
                 <p:column headerText="wiersz" style="width: 350px;">
                     <h:outputText value="#{itemikjpk.numerkolejny}"/>
                 </p:column>
-                <p:column headerText="kod" sortBy="#{itemikjpk.kodtowaru}" filterBy="#{itemikjpk.kodtowaru}" filterMatchMode="startsWidth">
+                <p:column headerText="kod" sortBy="#{itemikjpk.kodtowaru}" filterBy="#{itemikjpk.kodtowaru}" filterMatchMode="startsWith">
                     <h:outputText value="#{itemikjpk.kodtowaru}"/>
                 </p:column>
                 <p:column headerText="waga" width="50">

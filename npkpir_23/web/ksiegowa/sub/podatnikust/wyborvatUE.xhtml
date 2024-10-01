@@ -11,7 +11,7 @@
                 <h:outputText value="Wybór formy rozliczen dla VAT-UE" style="font-size: 15px"/>
                 <p:growl life="3600"  showDetail="true"/>
                 <p:focus for="parametryp1"/><br/>
-                <p:panelGrid columns="4" style="width: 500px">
+                <p:panelGrid layout="tabular" columns="4" style="width: 500px">
                     <p:dataTable lazy="false"  value="#{podatnikView.selected.paramVatUE}"  var="loop" emptyMessage="nie wprowadzono parametrów"
                                  >
                         <f:facet name="header">
@@ -31,7 +31,7 @@
                     </p:dataTable>
                 </p:panelGrid>
                 <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
-                <p:panelGrid id="parametryp1" columns="6" >
+                <p:panelGrid layout="tabular" id="parametryp1" columns="6" >
                     <h:outputText value="rok podatkowy: "/>
                     <p:selectOneMenu value="#{podatnikView.paramVatUE.rokOd}"><f:selectItems value="#{roki.rokiListString}"/></p:selectOneMenu>
                     <h:outputText value="miesiąc od: "/>
@@ -42,7 +42,7 @@
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <br/>
-                <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+                <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 500px">
                     <p:commandButton action="#{podatnikView.usunvatUE()}" value="usun parametr" update="@form" type="submit"/>
                     <p:commandButton action="#{podatnikView.dodajvatUE()}" value="dodaj parametr" update="@form" type="submit"/>
                 </p:panelGrid>

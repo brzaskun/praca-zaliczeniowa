@@ -14,7 +14,7 @@
             <div style="padding: 10px;">
                 <h:outputText value="zapisy w pkpir" style="font-weight: 500; color: green;"/>
             </div>
-            <p:panelGrid columns="13" style="text-align: center">
+            <p:panelGrid layout="tabular" columns="12" style="text-align: center">
                 <h:outputLabel value="nr kolejny" style="font-weight: 500"/>
                 <h:outputLabel value="data wyst" style="font-weight: 500"/>
                 <h:outputLabel value="data sprzedaży" style="font-weight: 500"/>
@@ -27,7 +27,7 @@
                 <h:outputLabel value="k rok" style="font-weight: 500"/>
                 <h:outputLabel value="v m-c" style="font-weight: 500"/>
                 <h:outputLabel value="v rok" style="font-weight: 500"/>
-                <h:outputLabel value="uwagi" style="font-weight: 500"/>
+<!--                <h:outputLabel value="uwagi" style="font-weight: 500"/>-->
                 <h:outputText  value="#{DokumentView.wysDokument.idDok}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.dataWyst}"><f:convertDateTime parent="dd/mm/yyyy"/></h:outputText>
                 <h:outputText  value="#{DokumentView.wysDokument.dataSprz}"><f:convertDateTime parent="dd/mm/yyyy"/></h:outputText>
@@ -52,7 +52,7 @@
                 <h:outputText  value="#{DokumentView.wysDokument.pkpirR}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.vatM}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.vatR}"/>
-                <h:outputText  value="#{DokumentView.wysDokument.uwagi}"/>
+<!--                <h:outputText  value="#{DokumentView.wysDokument.uwagi}"/>-->
             </p:panelGrid>
             <p:panel>
                 <div style="padding: 10px;">

@@ -32,7 +32,7 @@
             };
         </script>
         <h:form id="formsymulacja">
-            <p:panelGrid columns="12" style="margin-left: 2%;" >
+            <p:panelGrid layout="tabular" columns="12" style="margin-left: 2%;" >
                   <h:outputText value="rok" style="margin-right: 10px;"/>
                 <h:outputText value="#{WpisView.rokWpisuSt}" style="margin-right: 10px;"/>
                 <h:outputText value="m-c od" style="margin-right: 10px;"/>
@@ -79,7 +79,7 @@
                             oncomplete="pokazprzyciski();"/>
                 </p:selectBooleanCheckbox>
             </p:panelGrid>
-            <p:panelGrid columns="12" style="margin-left: 2%;" >
+            <p:panelGrid layout="tabular" columns="12" style="margin-left: 2%;" >
                     <p:selectOneMenu value="#{symulacjaWynikuView.wybranawaluta}" id="walutadokuk"
                                          style="width: 200px;" >
                             <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczneksiegowa}" 
@@ -95,10 +95,10 @@
                             <f:selectItems value="#{symulacjaWynikuView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.nazwacechy}" itemValue="#{item1.nazwacechy}"/>
                     </p:selectOneMenu>
             </p:panelGrid>
-            <p:panelGrid columns="1">
+            <p:panelGrid layout="tabular" columns="1">
                 <h:outputText value="Uwaga. Wyliczanie podatku działa prawidłowo pod warunkiem wybrania tego samego miesiąca jako mcod i mcdo" style="color: green"/>
             </p:panelGrid>
-            <p:panelGrid columns="2">
+            <p:panelGrid layout="tabular" columns="2">
                 <p:dataTable lazy="false"  id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}" rowIndexVar="indexa"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoPrzychody}"
                          styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 1200px; height: 400px; overflow-y: scroll;"
@@ -164,7 +164,7 @@
                     <h:outputText value="#{loop.getTopKontoOpis()}" />
                 </p:column>
                 <f:facet name="footer">
-                    <p:panelGrid style="padding-right: 30px;" columns="4">
+                    <p:panelGrid layout="tabular" style="padding-right: 30px;" columns="4">
                     <p:column colspan="8">
                         <h:outputText value="razem przychody, razem vat"/>
                     </p:column>
@@ -208,7 +208,7 @@
                 </p:rowExpansion>
                 
             </p:dataTable>
-                <p:panelGrid columns="1" style="width: 190px;">
+                <p:panelGrid layout="tabular" columns="1" style="width: 190px;">
                     <h:outputText value="brak dokumentu ARS - nie rozliczono różnic kursowych od środków własnych" rendered="#{zestawienieBrakiView.jestASR eq false}"/>
                     <h:outputText value="brak dokumentu AMO - nie naliczono odpisów amortyzacyjnych" rendered="#{zestawienieBrakiView.jestAMO eq false}"/>
                 </p:panelGrid>
@@ -279,7 +279,7 @@
                 </p:column>
 
                <f:facet name="footer">
-                   <p:panelGrid style="padding-right: 30px;" columns="4">
+                   <p:panelGrid layout="tabular" style="padding-right: 30px;" columns="4">
                     <p:column colspan="8">
                         <h:outputText value="razem koszty, razem vat"/>
                     </p:column>

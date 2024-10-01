@@ -14,7 +14,7 @@
     <p:dialog id="dialog_ukladwzorcowy_kopiuj" header="Kopiowanie układu wzorcowego w inny układ wzorcowy" widgetVar="dialog_ukladwzorcowy_kopiuj" 
               resizable="false" onShow="ustawdialog('dialog_ukladwzorcowy_kopiuj','menuustawienia', 630, 180);" closeOnEscape="true" onHide="resetujdialog('dialog_ukladwzorcowy_kopiuj');"  >
         <h:form id="formdialog_ukladwzorcowy_kopiuj">
-            <p:panelGrid  columns="2">
+            <p:panelGrid layout="tabular"  columns="2">
                 <h:outputText value="Wybrany układ wzorcowy" style="width: 250px;"/>
                 <p:selectOneMenu  value="#{ukladBRWzorcowyView.ukladzrodlowy}" style="width: 280px;"  converter="UkladBRWzorcowyConv" >
                     <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>

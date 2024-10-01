@@ -39,7 +39,7 @@
                                          update="akordeon:form_deklVATZalSchemaView:wykazschem"/>
                     </p:column>
                     <p:rowExpansion>
-                        <p:panelGrid>
+                        <p:panelGrid layout="tabular">
                             <f:facet name="header">
                                 <p:row>
                                     <p:column>
@@ -81,11 +81,11 @@
                 </p:dataTable>
             </h:form>
             <h:form id="wprowadzanieschemy">
-                <p:panelGrid id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
+                <p:panelGrid layout="tabular" id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
                     <h:outputText value="nazwa schemy: "/>
                     <p:inputText value="#{deklVATZalSchemaView.nowaschemaZZ.nazwaschemy}" style="width: 200px;" placeholder="ZZ-"/>
                 </p:panelGrid>
-                <p:panelGrid columns="2" style="padding: 10px;">
+                <p:panelGrid layout="tabular" columns="2" style="padding: 10px;">
                     <h:outputText value="wstęp: " />
                     <p:inputText value="#{deklVATZalSchemaView.nowaschemaZZ.wstep}" style="width: 600px;"/>
                     <h:outputText value="nagłówek: " />
@@ -128,7 +128,7 @@
                                          update="akordeon:formpowodyzz"/>
                         </p:column>
                     </p:dataTable>
-                <p:panelGrid columns="2">
+                <p:panelGrid layout="tabular" columns="2">
                     <h:outputText value="numer powodu"/>
                     <p:inputText value="#{deklaracjaVatZZPowodView.nowypowod.nr}"/>
                     <h:outputText value="powód rodzaj"/>

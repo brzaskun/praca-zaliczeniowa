@@ -12,7 +12,7 @@
             <p:panel  style="width: 1100px; height: 180px" >
                 <p:growl life="3600"  id="mess_add" ><p:autoUpdate/></p:growl>
                 <p:focus id="focus" for="polawprowadzania"  />
-                <p:panelGrid id="polawprowadzania" >
+                <p:panelGrid layout="tabular" id="polawprowadzania" >
                     <f:facet name="header">
                         <p:row >
                             <p:column>
@@ -35,24 +35,21 @@
                     </f:facet>
                     <p:row style="height: 33px;">
                          <p:column>
-                            <p:inputText id="nipPole" value="#{DokumentView.selectedKlient.nip}" maxlength="20" style="width: 200px">
-                                <p:watermark for="nipPole" value="bez -" />
-                                <p:ajax event="keyup" listener="#{DokumentView.znajdzdaneregon('formX')}" partialSubmit="true" global="false"/>
+                             <p:inputText id="nipPole" value="#{DokumentView.selectedKlient.nip}" maxlength="20" style="width: 200px" placeholder="bez -">
+                                                  <p:ajax event="keyup" listener="#{DokumentView.znajdzdaneregon('formX')}" partialSubmit="true" global="false"/>
                                 <p:ajax event="blur" listener="#{KlView.poszukajDuplikatNipWTrakcie()}"/>
                             </p:inputText>
                         </p:column>
                         <p:column>
                             <p:inputText id="nazwaPole" value="#{DokumentView.selectedKlient.npelna}"  title="pełna nazwa kontrahenta" maxlength="80"
                                          onblur="kopiujnazwepelnakontrahenci();"
-                                         style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste">
-                                <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 55znakow" />
-                                <p:ajax event="blur" listener="#{KlView.poszukajDuplikatNazwaWTrakcie()}"/>
+                                         style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste" placeholder="pełna nazwa kontrahenta 55znakow">
+                                   <p:ajax event="blur" listener="#{KlView.poszukajDuplikatNazwaWTrakcie()}"/>
                             </p:inputText>
                         </p:column>
                         <p:column>      
-                            <p:inputText id="symbolPole" value="#{DokumentView.selectedKlient.nskrocona}" maxlength="55" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
-                                <p:watermark for="symbolPole" value="hasłowo, np:FORTEX" /> 
-                            </p:inputText>
+                            <p:inputText id="symbolPole" value="#{DokumentView.selectedKlient.nskrocona}" maxlength="55" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste" placeholder="hasłowo, np:FORTEX">
+                               </p:inputText>
                         </p:column>
                         <p:column>
                             <p:inputText id="kodPole" value="#{DokumentView.selectedKlient.kodpocztowy}" maxlength="6" style="width: 200px" required="true" requiredMessage="Pole kod pocztowy nie może byc puste"/>
@@ -69,7 +66,7 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid >
+                <p:panelGrid layout="tabular" >
                     <f:facet name="header">
                         <p:row >
                             <p:column>
@@ -121,7 +118,7 @@
                         
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid columns="1">
+                <p:panelGrid layout="tabular" columns="1">
                     <p:column>
                         <p:commandButton value="dodaj" action="#{DokumentView.dodajKlienta()}" oncomplete="skopiujdanenowegoklienta();" update="formX" style="width: 120px;display: none;" styleClass="uibuttonmui"/>
                     </p:column>

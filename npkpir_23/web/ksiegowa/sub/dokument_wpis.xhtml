@@ -43,8 +43,8 @@
                  style="width: 900px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: -2%; min-height: 450px;" id="wprowadzanie">
             <p:growl life="3600"  id="mess_add" ><p:autoUpdate/></p:growl>
             <p:focus for="polawprowadzania1"/>
-            <p:panelGrid  columns="3" >
-                <p:panelGrid id="polawprowadzania1" style="width: 300px;">
+            <p:panelGrid layout="tabular"  columns="3" >
+                <p:panelGrid layout="tabular" id="polawprowadzania1" style="width: 300px;">
                     <f:facet name="header">
                         <p:row >
                             <p:column>
@@ -103,7 +103,7 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid id="panelTabelaNBP" style="width: 270px;">
+                <p:panelGrid layout="tabular" id="panelTabelaNBP" style="width: 270px;">
                     <f:facet name="header">
                         <p:row rendered="#{DokumentView.selDokument.walutadokumentu.symbolwaluty ne 'PLN'}">
                             <p:column width="110">
@@ -132,7 +132,7 @@
                        
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid id="panelcechy" style="width: 100px;">
+                <p:panelGrid layout="tabular" id="panelcechy" style="width: 100px;">
                      <f:facet name="header">
                          <p:row>
                                <p:column>
@@ -147,7 +147,7 @@
                         </p:row>
                 </p:panelGrid>
             </p:panelGrid>
-            <p:panelGrid id="polawprowadzania" style="width: 450px;">
+            <p:panelGrid layout="tabular" id="polawprowadzania" style="width: 450px;">
                 <f:facet name="header">
                     <p:row >
                         <p:column>
@@ -229,7 +229,7 @@
             <p:commandButton id="dodajopis" value="ok" actionListener="#{opis.dodajOpis}" style="display: none;"/>
             <!--        <span id="log"></span>-->
             <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
-            <p:panelGrid columns="2" style="width: 855px;" columnClasses="forty-percent, sixty-percent">
+            <p:panelGrid layout="tabular" columns="2" style="width: 855px;" columnClasses="forty-percent, sixty-percent">
                 <p:dataTable lazy="false"  id="tabelapkpir" value="#{DokumentView.selDokument.listakwot1}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" 
                              rowIndexVar="index" >
                     <p:column headerText="#{DokumentView.nieVatowiec ? 'kwota' : 'kwota netto*'}"  width="105">
@@ -264,7 +264,7 @@
                         </h:selectOneMenu><br/>
                     </p:column>
                 </p:dataTable>
-                <p:panelGrid id="tabelapkpir2" >
+                <p:panelGrid layout="tabular" id="tabelapkpir2" >
                     <f:facet name="header">
                         <p:row >
                             <p:column>
@@ -416,7 +416,7 @@
                 </p:autoComplete>
             </p:outputPanel>
             <p:outputPanel id="nowypanelsrodki" style="width: 900px;">
-                <p:panelGrid id="tabelasrodkitrwaleOT" rendered="#{DokumentView.renderujwysz}" style="margin-top: 5px;"> 
+                <p:panelGrid layout="tabular" id="tabelasrodkitrwaleOT" rendered="#{DokumentView.renderujwysz}" style="margin-top: 5px;"> 
                     <f:facet name="header">
                         <p:row>
                             <p:column>
@@ -513,7 +513,7 @@
                 </p:dataTable>
             </p:panel>
             <!--pola ewidencji VAT-->
-            <p:panelGrid id="ostatnipanel" style="width: 400px;">
+            <p:panelGrid layout="tabular" id="ostatnipanel" style="width: 400px;">
                 <f:facet name="header">
                     <p:row >
                         <p:column>
@@ -558,13 +558,13 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:panelGrid columns="12" id="paneloznaczenia">
+            <p:panelGrid layout="tabular" columns="12" id="paneloznaczenia">
                 <h:outputText value=":"/><h:outputText value="#{DokumentView.selDokument.oznaczenie1 ne null ?DokumentView.selDokument.oznaczenie1.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
                 <h:outputText value=":"/><h:outputText value="#{DokumentView.selDokument.oznaczenie2 ne null ?DokumentView.selDokument.oznaczenie2.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
                 <h:outputText value=":"/><h:outputText value="#{DokumentView.selDokument.oznaczenie3 ne null ?DokumentView.selDokument.oznaczenie3.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
                 <h:outputText value=":"/><h:outputText value="#{DokumentView.selDokument.oznaczenie4 ne null ?DokumentView.selDokument.oznaczenie4.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
             </p:panelGrid>
-            <p:panelGrid columns="3">
+            <p:panelGrid layout="tabular" columns="3">
                 <h:outputText value="* kalkulator wartości netto ALT-k"/>
             <h:outputText value="* dodaj kolumnę pkpir ALT-p"/>
             <h:outputText value="* usuń kolumnę pkpir ALT-t"/>

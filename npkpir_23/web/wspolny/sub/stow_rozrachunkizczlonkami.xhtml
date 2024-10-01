@@ -6,7 +6,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
    <h:form id="form_dialog_stowarzyszenie_rozrachunki">
-            <p:panelGrid columns="3">
+            <p:panelGrid layout="tabular" columns="3">
                 <p:selectOneMenu value="#{stowRozrachCzlonkView.wybranyczlonek}" converter="MiejscePrzychodowConv">
                 <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
                 <f:selectItems value="#{stowRozrachCzlonkView.czlonkowiestowarzyszenia}" />

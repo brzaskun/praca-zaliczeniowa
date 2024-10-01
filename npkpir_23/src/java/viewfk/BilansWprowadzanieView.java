@@ -32,6 +32,7 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,10 +52,9 @@ import javax.interceptor.Interceptors;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.datatable.DataTable;
-import pdffk.PdfWierszBO;
- import view.WpisView;
+ import pdffk.PdfWierszBO;
+import view.WpisView;
 import waluty.Z;
-import interceptor.ConstructorInterceptor;
 
 /**
  *
@@ -209,7 +209,11 @@ public class BilansWprowadzanieView implements Serializable {
         String rok = wpisView.getRokWpisuSt();
         String mc = wpisView.getMiesiacWpisu();
         walutadomyslna = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
-        List<WierszBO> findPodatnikRok = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<WierszBO> findPodatnikRok = wierszBODAO.findPodatnikRokBOBOR(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), tojestbilanslikwidacyjny);
+        if (tojestgenerowanieobrotow) {
+            findPodatnikRok  = wierszBODAO.findPodatnikRokBOR(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        }
+        
         this.listaW = Collections.synchronizedList(new ArrayList<>());
         if (wpisView.getPodatnikObiekt().getDataotwarcialikwidacji()!=null && !wpisView.getPodatnikObiekt().getDataotwarcialikwidacji().equals("")) {
             String mcl = Data.getMc(wpisView.getPodatnikObiekt().getDataotwarcialikwidacji());
@@ -427,6 +431,7 @@ public class BilansWprowadzanieView implements Serializable {
                 if (selected.getNowy0edycja1usun2Int()!= 0) {
                     selected.setNowy0edycja1usun2(1);
                 }
+                selected.setObrotyrozpoczecia(tojestgenerowanieobrotow);
                 wierszBODAO.edit(selected);
                 if (listaBOFiltered != null) {
                     podsumujWnMa(listaBOFiltered, listaBOsumy);
@@ -440,6 +445,7 @@ public class BilansWprowadzanieView implements Serializable {
                 selected.setWprowadzil(wpisView.getUzer());
                 listaBO.add(selected);
                 selected.setNowy0edycja1usun2(0);
+                selected.setObrotyrozpoczecia(tojestgenerowanieobrotow);
                 wierszBODAO.create(selected);
                 if (listaBOFiltered != null) {
                     listaBOFiltered.add(selected);

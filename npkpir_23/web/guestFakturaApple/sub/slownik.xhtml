@@ -8,7 +8,7 @@
     >
     <h:form id="form">
     <p:outputPanel>
-        <p:panelGrid columns="1">
+        <p:panelGrid layout="tabular" columns="1">
         <p:inputText size="50" value="#{fakturaslownikView.selected.opis}"/>
         <p:commandButton value="dodaj" style="width: 120px;margin-top: 10px;" update="form" actionListener="#{fakturaslownikView.dodaj()}"/>
         </p:panelGrid>

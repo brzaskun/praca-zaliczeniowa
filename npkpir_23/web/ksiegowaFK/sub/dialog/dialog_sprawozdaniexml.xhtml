@@ -8,7 +8,7 @@
     <p:dialog id="dialogsprawozdaniexml" header="Wzorcowy Układ Rachunku Zysków i Strat - przypisywanie kont" widgetVar="sprawozdaniexml" 
               resizable="false" onShow="ustawdialog('dialogsprawozdaniexml','menubilanse', 1050, 710);" closeOnEscape="true" onHide="resetujdialog('dialogsprawozdaniexml');"  >
         <h:form>
-            <p:panelGrid columns="1" style="margin-top: 20px;">
+            <p:panelGrid layout="tabular" columns="1" style="margin-top: 20px;">
                <h:outputText value="plik z podpisanym sprawozdaniem " style="font-weight: bold;"/>
                <p:fileUpload chooseIcon="fa fa-upload" listener="#{sprFinKwotyInfDodView.zachowajplikxml}" 
                                 mode="advanced" dragDropSupport="true" fileLimit="3"

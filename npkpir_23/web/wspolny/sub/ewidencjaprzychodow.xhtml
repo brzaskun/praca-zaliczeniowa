@@ -25,7 +25,7 @@
              /* ]]> */
         </script>
         <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
-         <p:panelGrid columns="2">
+         <p:panelGrid layout="tabular" columns="2">
         <h:outputText value="okres"/>
         <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
                 <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>

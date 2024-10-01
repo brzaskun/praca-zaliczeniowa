@@ -13,7 +13,7 @@
                 <p:outputPanel>
                     <f:view>
                         <h:form id="formtabela">
-                            <p:panelGrid columns="12">
+                            <p:panelGrid layout="tabular" columns="12">
                                 <h:outputText value="rok deklaracji:" style="text-shadow: #6374AB 1px -1px 1px"/>
                                 <p:selectOneMenu id="rokWpisu" value="#{dochodDlaDRAView.rok}" style="width: 70px;">
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -335,7 +335,7 @@
                 <p:outputPanel>
                     <f:view>
                         <h:form id="formrok">
-                            <p:panelGrid columns="4">
+                            <p:panelGrid layout="tabular" columns="4">
                                 <p:selectOneListbox id="podatnikWpisu" value="#{dochodDlaDRAView.podatnik}" style="width: 350px; height: 250px;" converter="#{podatConv}" filter="true" filterMatchMode="contains">
                                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
                                     <p:ajax event="change" partialSubmit="true"  listener="#{dochodDlaDRAView.pobierzrokByNip()}" update="akordeon:formrok:datalist akordeon:formrok:rem"/>
@@ -454,7 +454,7 @@
                                     </p:column>
                                 </p:dataTable>
                             <p:outputPanel style="padding: 10px;" id="rem">
-                                <p:panelGrid columns="2">
+                                <p:panelGrid layout="tabular" columns="2">
                                     <h:outputText value="dochód narastająco 2022:"/>
                                     <bcf:outputpl value="#{dochodDlaDRAView.rokdochod}"/>
                                     <h:outputText value="remanent końcowy:"/>
@@ -479,7 +479,7 @@
                                     background-color: #e4e3e3 !important;
                                 }
                             </style>
-                            <p:panelGrid columns="6">
+                            <p:panelGrid layout="tabular" columns="6">
                                 <h:outputText value="rok deklaracji:" style="text-shadow: #6374AB 1px -1px 1px"/>
                                 <p:selectOneMenu id="rokWpisu" value="#{dochodDlaDRAView.rok}" style="width: 70px;">
                                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -649,7 +649,7 @@
                                 </p:column>
 
                             </p:dataTable>
-                            <p:panelGrid columns="2">
+                            <p:panelGrid layout="tabular" columns="2">
                                 <h:outputText value="ubezpieczeni"/>
                                 <h:outputText value="#{dochodDlaDRAView.razemubezpieczeni}"/>
                                 <h:outputText value="przedsiębiorcy"/>

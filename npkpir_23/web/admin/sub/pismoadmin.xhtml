@@ -9,7 +9,7 @@
     <f:view>
         <bcf:ajaxs/>
         <h:form style="padding: 0.5%;">
-            <p:panelGrid columns="4">
+            <p:panelGrid layout="tabular" columns="4">
                 <h:outputText value="z archiwalnymi"/>
                 <p:selectBooleanCheckbox value="#{pismoAdminView.razemzarchiwalnymi}" label="bez archiwalnych">
                     <p:ajax event="change" listener="#{pismoAdminView.init}" update=":wykazpism" global="false"/>

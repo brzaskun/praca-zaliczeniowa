@@ -32,7 +32,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
         <p:ajax event="open" listener="#{rozrachunkiPrzegladView.init()}" update="@(.formwpisrozrachunki"/>
         <pe:layout fullPage="false" style="width: 600px; height: 700px;" >  
             <pe:layoutPane position="north" >
-                <p:panelGrid columns="4" columnClasses="kontaGrid1, kontaGrid2" >
+                <p:panelGrid layout="tabular" columns="4" columnClasses="kontaGrid1, kontaGrid2" >
                     <h:form id="formwpisrozrachunki" class="formwpisrozrachunki">
                         <p:autoComplete id="wyborkonta" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{rozrachunkiPrzegladView.complete}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" 
@@ -64,7 +64,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                         </h:selectOneMenu>
                     </h:form>
                     <h:form  class="formwpisrozrachunki">
-                        <p:panelGrid columns="6" style="margin-left: 15px;">
+                        <p:panelGrid layout="tabular" columns="6" style="margin-left: 15px;">
                             <h:outputText value="od"/>
                     
                                 <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
@@ -276,7 +276,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                 </h:form>  
             </pe:layoutPane>  
             <pe:layoutPane position="south">  
-                <p:panelGrid id="sumy" columns="4" style="width: 1350px;">
+                <p:panelGrid layout="tabular" id="sumy" columns="4" style="width: 1350px;">
                     <h:form  class="formwpisrozrachunki">
                         <p:selectOneMenu label="stan" value="#{rozrachunkiPrzegladView.coWyswietlacRozrachunkiPrzeglad}" style="width: 200px; float: left; margin-left: 30px;" >
                             <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaZakresu}" update=":tabelanowerozrachunki:tabela" partialSubmit="true"/>
@@ -290,7 +290,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
 
              
                     <h:form id="tabelazsumamirozrach"  class="formwpisrozrachunki">
-                        <p:panelGrid columns="4" style="float: left; width: 400px;margin-left: 20px;">
+                        <p:panelGrid layout="tabular" columns="4" style="float: left; width: 400px;margin-left: 20px;">
                             <h:outputText value="suma w walucie dokumentu: " rendered="#{rozrachunkiPrzegladView.sumawaluta ne 0.0}"/>
                             <bcf:outputpl value="#{rozrachunkiPrzegladView.sumawaluta}" rendered="#{rozrachunkiPrzegladView.sumawaluta ne 0.0}"
                                           style="font-weight: 700;"/>

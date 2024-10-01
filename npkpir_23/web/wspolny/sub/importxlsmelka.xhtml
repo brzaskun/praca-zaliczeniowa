@@ -9,8 +9,8 @@
     <div class="vertical-container">
     <h:outputText value="import dokumentów fiskalizowanych dla JPK"/>
    <h:form id="panelplik">
-            <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
-                    <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
+            <p:panelGrid layout="tabular" columns="2" columnClasses="sixty-percent forty-percent">
+                    <p:panelGrid layout="tabular" columns="1" style="margin-top: 20px;margin-bottom: 10px;">
                         <h:outputText value="Akceptowana wersja pliku xls,xlsx, xml" style="font-weight: bold;"/>
                         <p:fileUpload chooseIcon="fa fa-upload" listener="#{importMelkaView.zachowajplik}" 
                                       mode="advanced" multiple="true" sequential="true" auto="true"
@@ -24,14 +24,14 @@
             </p:panelGrid>
         </h:form>
         <h:form id="panelprzyciskow">
-        <p:panelGrid columns="1">
+        <p:panelGrid layout="tabular" columns="1">
             <p:growl life="3600"/>
                 <p:commandButton value="zaksięguj" actionListener="#{importMelkaView.zaksiegujdokjpk()}" update="panelprzyciskow importmelka" style="width: 120px;margin-left: 30px;" />
         </p:panelGrid>
         </h:form>  
        
             <h:form id="importmelka">
-                <p:panelGrid columns="1" >
+                <p:panelGrid layout="tabular" columns="1" >
             <p:dataTable lazy="false"  id="dataListImport" value="#{importMelkaView.wiersze}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
                          selection="#{importMelkaView.selected}" rowKey="#{itemimp.nr}"  
                          style="width: 1420px; height: 580px; overflow-y: scroll; margin-top: 15px;margin-bottom: 15px;" filteredValue="#{importMelkaView.filter}"

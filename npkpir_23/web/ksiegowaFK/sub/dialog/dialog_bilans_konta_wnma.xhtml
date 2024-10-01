@@ -10,7 +10,7 @@
     <p:dialog id="kontownmawybor" header="Wskaż stronę do przypis. konto: #{pozycjaBRKontaView.boxNaKonto.pelnynumer}" widgetVar="kontownmawybor" 
               resizable="false" onShow="kontownmawyborShow();" closeOnEscape="true" onHide="resetujdialog('kontownmawybor');"  >
         <h:form id="formkontowybor">
-            <p:panelGrid id="wyborgrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
+            <p:panelGrid layout="tabular" id="wyborgrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
                 <p:focus for="wybormenu">
                     <h:selectOneMenu id="wybormenu" value="#{pozycjaBRKontaView.wnmaPrzypisywanieKont}" style="width: 120px;"
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"

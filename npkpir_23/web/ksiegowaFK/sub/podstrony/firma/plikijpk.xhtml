@@ -101,7 +101,7 @@
                  <p:commandButton icon="fa fa-print" actionListener="#{jpk_VAT2NView.drukujUPO(item)}"  global="false"/>
             </p:column>
             <p:rowExpansion>
-                <p:panelGrid columns="1">
+                <p:panelGrid layout="tabular" columns="1">
                     <h:outputText value="#{item.getJpkNaglowek()}"/>
                 <p:dataTable lazy="false"  value="#{item}" var="itemik">
                         <p:column headerText="data jpk" width="80">

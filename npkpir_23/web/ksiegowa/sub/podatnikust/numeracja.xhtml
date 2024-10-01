@@ -12,7 +12,7 @@
             <h:outputText value="Numer pierwszego dokumentu w programie" style="font-size: 15px"/>
             <p:growl life="3600"  showDetail="true"/>
             <p:focus for="parametrypodatnika4a"/><br/>
-            <p:panelGrid columns="4" style="width: 500px">
+            <p:panelGrid layout="tabular" columns="4" style="width: 500px">
                 <p:dataTable lazy="false"  value="#{podatnikView.selected.numerpkpir}"  var="loop" 
                             paginator="true" pageLinks="12" rows="12" emptyMessage="Nie wprowadzono" >
                     <f:facet name="header">
@@ -32,13 +32,13 @@
                 </p:dataTable>
             </p:panelGrid>
             <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
-            <p:panelGrid id="parametrypodatnika4a" columns="4" >
+            <p:panelGrid layout="tabular" id="parametrypodatnika4a" columns="4" >
                 <h:outputText value="rok podatkowy: "/>
                 <p:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{roki.rokiListString}"/></p:selectOneMenu>
                 <p:inputText value="#{podatnikView.parametr.parametr}" />
             </p:panelGrid>
             <br/>
-            <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+            <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 500px">
                 <p:commandButton action="#{podatnikView.usunnrpkpir()}" value="usun parametr" update="@form" type="submit"/>
                 <p:commandButton action="#{podatnikView.dodajnrpkpir()}" value="dodaj parametr" update="@form" type="submit"/>
             </p:panelGrid>

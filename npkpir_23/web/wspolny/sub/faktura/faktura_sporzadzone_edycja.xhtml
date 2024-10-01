@@ -25,7 +25,7 @@
             }
         </style>
         <h:form id="formsporzadzone_edit">
-            <p:panelGrid id="panelsum_edit" style="height: 40px;">
+            <p:panelGrid layout="tabular" id="panelsum_edit" style="height: 40px;">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -58,7 +58,7 @@
                 </p:row>
             </p:panelGrid>
             <p:panel id="panelwiadomosc_edit" >
-                <p:panelGrid columns="1">
+                <p:panelGrid layout="tabular" columns="1">
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
                 </p:panelGrid>
             </p:panel>
@@ -145,9 +145,9 @@
                                       icon="fa fa-trash" />
                 </p:column>
                 <p:rowExpansion>
-                    <p:panelGrid  columns="4"   columnClasses="thirty-percent twenty-percent thirty-percent twenty-percent">
+                    <p:panelGrid layout="tabular"  columns="4"   columnClasses="thirty-percent twenty-percent thirty-percent twenty-percent">
                         <p:column>
-                        <p:panelGrid  columns="2"  columnClasses="forty-percent, sixty-percent">
+                        <p:panelGrid layout="tabular"  columns="2"  columnClasses="forty-percent, sixty-percent">
                             <h:outputText value="email kontrahenta"/>
                             <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
                                 <p:ajax event="save" listener="#{fakturaView.edytujemail(wpis.kontrahent)}" global="false" update="@parent"/>
@@ -169,7 +169,7 @@
                         </p:panelGrid>
                         </p:column>
                         <p:column>
-                        <p:panelGrid  columns="2" >
+                        <p:panelGrid layout="tabular"  columns="2" >
                             <h:outputText value="okres pod doch"/>
                             <h:outputText value="#{wpis.okresCit}"/>
                             <h:outputText value="okres vat"/>
@@ -177,7 +177,7 @@
                         </p:panelGrid>
                         </p:column>
                         <p:column>
-                        <p:panelGrid columns="1">
+                        <p:panelGrid layout="tabular" columns="1">
                             <p:dataTable lazy="false"  id="tabeladuplikatow" value="#{wpis.duplikaty}" styleClass="tabduplikaty"
                                          var="loopdupl" emptyMessage="nie wystawiono duplikatów" >
                                 <f:facet name="header">
@@ -199,14 +199,14 @@
                         </p:panelGrid>
                         </p:column>
                         <p:column>
-                            <p:panelGrid  columns="1" rendered="#{wpis.odbiorca ne null}">
+                            <p:panelGrid layout="tabular"  columns="1" rendered="#{wpis.odbiorca ne null}">
                             <h:outputText value="odbiorca"/>
                             <h:outputText value="#{wpis.odbiorca.npelna}"/>
                             <h:outputText value="#{wpis.odbiorca.adres}"/>
                         </p:panelGrid>
                         </p:column>
                     </p:panelGrid>
-                    <p:panelGrid  columns="1" style="width: 900px;">
+                    <p:panelGrid layout="tabular"  columns="1" style="width: 900px;">
                         <p:column>
                         <p:dataTable lazy="false"  value="#{wpis.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
                              style="width: 800px;"

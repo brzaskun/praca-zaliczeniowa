@@ -20,7 +20,7 @@
         <p:ajax event="open" listener="#{kontoObrotyFKView.init()}" update="formobrotykonta formobroty:dataListObroty"/>
         <pe:layout fullPage="false" style="width: 719px; height: 700px;">  
             <pe:layoutPane position="north" >
-                <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
+                <p:panelGrid layout="tabular" columns="2" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formobrotykonta">
                         <h:outputText value="#{mgs.wybierzkonto}: "/>
                         <p:autoComplete id="wyborkontaobroty" value="#{kontoObrotyFKView.wybranekonto}" completeMethod="#{planKontCompleteView.complete}"
@@ -38,7 +38,7 @@
                     </h:form>
 
                     <h:form id="walutaobrotynakoncie">
-                        <p:panelGrid columns="3">
+                        <p:panelGrid layout="tabular" columns="3">
                             <h:outputText value="#{mgs.walutadokumentu} " style="text-align: right;"/>
                             <h:selectOneMenu id="wybranawaluta" value="#{kontoObrotyFKView.wybranaWalutaDlaKont}">
                                 <p:ajax event="change" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":tabelazobrotami:tabelaobroty :tabelazsumamiobrotow:sumy" />

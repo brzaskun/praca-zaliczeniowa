@@ -15,19 +15,18 @@
         <h:form id="formXNowyKlient" >
             <p:panel >
                 <p:focus id="focus" for="polawprowadzania"  />
-                <p:panelGrid id="polawprowadzania" columns="4"  style="width: 100%;">
+                <p:panelGrid layout="tabular" id="polawprowadzania" columns="4"  style="width: 100%;">
                     <h:outputLabel value="nip/wypełniać tylko gdy klientem jest firma" style="font-weight: 700; color: green;"/>
                     <h:outputLabel value="nazwa pełna" style="font-weight: 700;width: 300px;"/>
                     <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
                     <h:outputLabel value="miejscowość" style="font-weight: 700"/>
-                    <p:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="20" style="width: 200px">
-                        <p:watermark for="nipPole" value="NIP firmy - bez myślników." /> 
+                    <p:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="20" style="width: 200px" placeholder="NIP firmy - bez myślników.">
+                  
                         <p:ajax event="keyup" listener="#{KlView.znajdzdaneregon('formXNowyKlient')}" partialSubmit="true" global="false"/>
                     </p:inputText>
                     <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  title="pełna nazwa kontrahenta / nazwisko i imię" 
-                                 style="width: 350px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste"
+                                 style="width: 350px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste" placeholder="nazwa kontrahenta  / nazwisko i imię"
                                   >
-                        <p:watermark for="nazwaPole" value="nazwa kontrahenta  / nazwisko i imię" />
                     </p:inputText>
                     <p:inputText id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="6" style="width: 150px" required="true" 
                                  requiredMessage="Pole kod pocztowy nie może byc puste" />
@@ -41,7 +40,7 @@
                         <p:ajax event="query" global="false"/>
                     </p:autoComplete>
                 </p:panelGrid>
-                <p:panelGrid id="polawprowadzania2" columns="6"  style="width: 100%;">
+                <p:panelGrid layout="tabular" id="polawprowadzania2" columns="6"  style="width: 100%;">
                     <h:outputLabel value="ulica" style="font-weight: 700"/>
                     <h:outputLabel value="dom" style="font-weight: 700"/>
                     <h:outputLabel value="lokal" style="font-weight: 700"/>

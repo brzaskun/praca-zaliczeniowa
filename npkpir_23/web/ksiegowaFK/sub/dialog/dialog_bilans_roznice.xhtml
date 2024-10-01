@@ -39,7 +39,7 @@
               >
             <p:ajax event="open" listener="#{bilansRozniceView.init()}" update="form_dialog_bilans_roznice"/>
         <h:form id="form_dialog_bilans_roznice">
-            <p:panelGrid columns="1">
+            <p:panelGrid layout="tabular" columns="1">
             <h:outputText value="#{bilansRozniceView.startmsg}" style="color:green"/>
             <h:outputText value="wszystkie wiersze BO są w dokumencie BO" rendered="#{bilansRozniceView.wierszeBOroznice.size() eq 0}"/>
              <h:outputText value="Te wiersze BO nie zgadzają się/nie ma ich w dokumencie BO" rendered="#{bilansRozniceView.wierszeBOroznice.size() ne 0}"/>

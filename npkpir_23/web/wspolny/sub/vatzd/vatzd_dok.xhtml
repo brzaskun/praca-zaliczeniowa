@@ -9,7 +9,7 @@
     
     <p:tab title="sprzedaż">
         <h:form id="form1">
-        <p:panelGrid columns="6">
+        <p:panelGrid layout="tabular" columns="6">
             <p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 60px;">
                             <p:ajax event="change" listener="#{vATZDView.rokinit}" partialSubmit="true"

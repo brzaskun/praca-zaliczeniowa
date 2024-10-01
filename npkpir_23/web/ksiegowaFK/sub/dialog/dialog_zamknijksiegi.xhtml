@@ -9,7 +9,7 @@
               resizable="false" onShow="ustawdialog('dialogzamknijksiegi','menubilanse', 1050, 710);" closeOnEscape="true" onHide="resetujdialog('dialogzamknijksiegi');"  >
 
         <h:form id="form_dialogzamknijksiegi">
-            <p:panelGrid columns="2" style="margin-top: 10px;">
+            <p:panelGrid layout="tabular" columns="2" style="margin-top: 10px;">
             <p:commandButton value="zamknij księgi" actionListener="#{zamknijKsiegiView.zamknijrokpoprzedni}" update="@form" style="width: 220px;"/>
             <p:commandButton value="weryfikuj układ" update="@form" style="width: 220px;" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
 <!--            //zastanowic sie czy poczebne-->

@@ -13,14 +13,14 @@
                 <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojektukladwzorcowy" onclick="PF('rzisprojektanalityczne').show();"/>
                 <p:menuitem value="Usuń" actionListener="{pozycjaRZiSView.usunpozycje}" icon="ui-icon-trash" update=":formprojektukladwzorcowy"/>
             </p:contextMenu>
-            <p:panelGrid columns="4" >
+            <p:panelGrid layout="tabular" columns="4" >
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="{pozycjaRZiSView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="{pozycjaRZiSView.rozwin()}" update=":formprojektukladwzorcowy:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="{pozycjaRZiSView.zwinwszystkie()}" update=":formprojektukladwzorcowy:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="{pozycjaRZiSView.zwin()}" update=":formprojektukladwzorcowy:dataList" style="float: left;" />
             </p:panelGrid>-->
-            <p:panelGrid columns="2" style="width: 720px;">
-                <p:panelGrid columns="1" style="width: 550px;">
+            <p:panelGrid layout="tabular" columns="2" style="width: 720px;">
+                <p:panelGrid layout="tabular" columns="1" style="width: 550px;">
                 <p:dataTable lazy="false"  id="dataList" value="#{ukladBRWzorcowyView.lista}" var="loop" selectionMode="single" selection="#{ukladBRWzorcowyView.selected}" 
                              style="width: 550px; margin-top: 0%; margin-bottom: 50px; height: 500px; overflow-y: scroll" rowKey="#{loop.uklad}" 
                              emptyMessage="Brak wzorcowych układów">
@@ -40,7 +40,7 @@
                     </p:column>
                 </p:dataTable>
                 </p:panelGrid>
-                <p:panelGrid columns="1" style="width: 200px;">
+                <p:panelGrid layout="tabular" columns="1" style="width: 200px;">
                 <p:panel header="twórz nowy układ wzorcowy">
                     <h:outputText value="wpisz nazwę nowego układu" style="margin-top: 10px;"/>
                     <p:inputText value="#{ukladBRWzorcowyView.nazwanowegoukladu}" style="width: 250px; margin-top: 10px;"/>

@@ -13,15 +13,15 @@
             <h:form id="formpit">
                 <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
                 <h:outputText value="#{zestawienieView.komunikatblad}" style="color: red;"/>
-                <p:panelGrid id="danedopit" columns="3">
-                    <p:panelGrid  columns="1" >
+                <p:panelGrid layout="tabular" id="danedopit" columns="3">
+                    <p:panelGrid layout="tabular"  columns="1" >
                         <p:panel header="pobieranie kwot ZUS: " style="width: 250px;"/>
-                        <p:panelGrid  columns="1">
+                        <p:panelGrid layout="tabular"  columns="1">
                             <h:outputText value="ZUS 51 nie pobierany automatycznie" rendered="#{podatnikView.selected.odliczeniezus51 ne true}"/>
                             <h:outputText value="ZUS 52 nie pobierany automatycznie" rendered="#{podatnikView.selected.odliczeniezus52 ne true}"/>
                         </p:panelGrid>
                         <p:panel header="rozliczenie remanentów: " style="width: 250px;" rendered="#{WpisView.miesiacWpisu eq '12'}"/>
-                        <p:panelGrid  columns="2" rendered="#{WpisView.miesiacWpisu eq '12'}">
+                        <p:panelGrid layout="tabular"  columns="2" rendered="#{WpisView.miesiacWpisu eq '12'}">
                             <h:outputText value="remanent poczatkowy"/><bcf:outputpl value="#{zestawienieView.remanentPoczRoku}"/>
                             <h:outputText value="remanent końcowy"/><bcf:outputpl value="#{zestawienieView.remanentKoniecRoku}"/>
                             <h:outputText value="wartości identyczne" rendered="#{zestawienieView.remanentroznica eq 0.0}"/>
@@ -52,21 +52,21 @@
                             <p:ajax event="change" update=":akordeon:formpit" listener="#{zestawienieView.obliczPitCecha()}" partialSubmit="true"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:panelGrid  columns="1" >
+                    <p:panelGrid layout="tabular"  columns="1" >
                         <p:panel header="dane nowego PIT-u: #{zestawienieView.wybranyudzialowiec.nazwiskoimie} #{zestawienieView.wybranyudzialowiec.udzial}%" style="width: 450px;"/>
-                        <p:panelGrid columns="1" rendered="#{zestawienieView.wybranyudzialowiec.pit eq false}">
+                        <p:panelGrid layout="tabular" columns="1" rendered="#{zestawienieView.wybranyudzialowiec.pit eq false}">
                             <h:outputText value="Udział w tej działalnosci podlega sumowaniu. Podatek będzie obliczony w działalności głównej:" style="color: red;"/>
                             <h:outputText value="#{zestawienieView.wybranyudzialowiec.glownaDzialalnosc}"/>
                         </p:panelGrid>
                         <h:outputText value="Główna działalność. Do dochodów z tej firmy są dodawane pozostałe działalności." style="color: blue;" rendered="#{zestawienieView.wybranyudzialowiec.pit eq true}"/>
-                        <p:panelGrid id="zestawieniepit1" columns="4" style="width: 450px;">
+                        <p:panelGrid layout="tabular" id="zestawieniepit1" columns="4" style="width: 450px;">
                             <h:outputText value="firma:"/><h:outputText value="#{WpisView.printNazwa}"/>
                             <h:outputText value="podatnik:"/><h:outputText value="#{zestawienieView.biezacyPit.udzialowiec}"/>
                             <h:outputText value="rok"/><h:outputText value="#{zestawienieView.biezacyPit.pkpirR}"/>
                             <h:outputText value="#{mgs.miesiąc}"/><h:outputText value="#{zestawienieView.biezacyPit.pkpirM}"/>
                             <h:outputText value="email"/><h:outputText value="#{zestawienieView.biezacyPit.podatnik1.email}"/>
                         </p:panelGrid>
-                        <p:panelGrid id="zestawieniepit" columns="2" style="width: 350px;" styleClass="borders">
+                        <p:panelGrid layout="tabular" id="zestawieniepit" columns="2" style="width: 350px;" styleClass="borders">
                             <p:separator/><p:separator/>
                             <h:outputText value="przychody za mc"/>
                             <bcf:outputpl value="#{zestawienieView.biezacyPit.przychodymc}" stylePlus="color: blue; font-weight: 700;"/>
@@ -101,9 +101,9 @@
                             <p:separator/><p:separator/>
                             <h:outputText value="wynik od pocz. rok"/>
                             <bcf:outputpl value="#{zestawienieView.biezacyPit.wynik}" stylePlus="#{zestawienieView.biezacyPit.wynik gt 0 ? 'font-weight: 700; float: right; text-align: right; color: blue;' : 'font-weight: 700; float: right; text-align: right; color: red;'}"/>
-                            <p:panelGrid  columns="2"  rendered="#{zestawienieView.wybranyudzialowiec.pit eq true}" columnClasses=".forty-percent .sixty-percent" style="width: 350px;">
+                            <p:panelGrid layout="tabular"  columns="2"  rendered="#{zestawienieView.wybranyudzialowiec.pit eq true}" columnClasses=".forty-percent .sixty-percent" style="width: 350px;">
                                 <h:outputText value="ZUS 51 (z ręki)"/>
-                                <p:panelGrid columns="2" style="border: none;">
+                                <p:panelGrid layout="tabular" columns="2" style="border: none;">
                                     <h:inputText id="kwotazus51" value="#{zestawienieView.zus51zrekivalue}" style=" font-weight: 700; float: right; text-align: right;"  >
                                         <f:convertNumber locale="PL" maxFractionDigits="2"/>
                                         <p:ajax event="change" listener="#{zestawienieView.zus51zrekiF}" partialSubmit="true" update=":akordeon:formpit:reka51"/>
@@ -119,7 +119,7 @@
                                 <h:outputText value="podatek"/>
                                 <bcf:outputpl value="#{zestawienieView.biezacyPit.podatek}" stylePlus="font-weight: 700;"/>
                                 <h:outputText value="ZUS 52 (z ręki)" rendered="#{WpisView.rokWpisu lt 2022}"/>
-                                <p:panelGrid columns="2" rendered="#{WpisView.rokWpisu lt 2022}">
+                                <p:panelGrid layout="tabular" columns="2" rendered="#{WpisView.rokWpisu lt 2022}">
                                     <h:inputText value="#{zestawienieView.biezacyPit.zus52}" style=" font-weight: 700; float: right; text-align: right;" >
                                         <f:convertNumber locale="PL"/>
                                         <p:ajax event="keyup" listener="#{zestawienieView.setZus52zreki(true)}" update=":akordeon:formpit:reka52"/>
@@ -138,7 +138,7 @@
                                 <h:outputText value="termin płatności"/><h:outputText value="#{zestawienieView.biezacyPit.terminwplaty}"/>
                             </p:panelGrid>
                         </p:panelGrid>
-                        <p:panelGrid  columns="4" style="margin-left: auto; margin-right: auto; width: 480px;">
+                        <p:panelGrid layout="tabular"  columns="4" style="margin-left: auto; margin-right: auto; width: 480px;">
                             <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{zestawienieView.drukujbiezacypit()}" 
                                               onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 120px;" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
                             </p:commandButton>
@@ -152,7 +152,7 @@
                         </p:panelGrid>
                         
                     </p:panelGrid>
-                    <!--                    <p:panelGrid  columns="1" >
+                    <!--                    <p:panelGrid layout="tabular"  columns="1" >
                                             <p:dataTable lazy="false"  value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
                                                          rows="12" id="datatable" style="width: 400px;"
                                                          sortFunction="#{zusStawkiZbiorczeNView.sortujZUSstawkinew}"  sortBy="#{loop}" 
@@ -183,8 +183,8 @@
                                                 </p:column>
                                             </p:dataTable>
                                         </p:panelGrid>-->
-                    <p:panelGrid  columns="1" >
-                        <p:panelGrid columns="1" style="width: 700px;">
+                    <p:panelGrid layout="tabular"  columns="1" >
+                        <p:panelGrid layout="tabular" columns="1" style="width: 700px;">
                             
                             <p:dataTable lazy="false"  value="#{zestawienieView.wybranyudzialowiec.podmiot.podatnikudzialy}"  var="loop" rowKey="#{loop.id}" >
                                 <f:facet name="header">
@@ -283,7 +283,7 @@
                     </p:panelGrid>
                     
                 </p:panelGrid>
-                <p:panelGrid  columns="3" style="margin-left: auto; margin-right: auto;">
+                <p:panelGrid layout="tabular"  columns="3" style="margin-left: auto; margin-right: auto;">
                     <p:selectBooleanCheckbox value="#{zestawienieView.dolaczpkpir}" label="dołącz pkpir" itemLabel="dołącz pkpir">
                         <p:ajax event="change" partialSubmit="true"/>
                     </p:selectBooleanCheckbox>
@@ -294,10 +294,10 @@
                         <p:ajax event="change" partialSubmit="true"/>
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
-                <p:panelGrid  columns="1" style="margin-left: auto; margin-right: auto; width: 1300px;">
+                <p:panelGrid layout="tabular"  columns="1" style="margin-left: auto; margin-right: auto; width: 1300px;">
                     <h:outputText value="po zaznaczeniu czekboksów i kliknięciu wyślij należy poczekać aż otworzą się wygenerowane pliki pdf" style="color:green;"/>
                 </p:panelGrid>
-                 <p:panelGrid  columns="1" style="margin-left: auto; margin-right: auto; width: 1300px;">
+                 <p:panelGrid layout="tabular"  columns="1" style="margin-left: auto; margin-right: auto; width: 1300px;">
                      <p:textEditor allowFormatting="true" placeholder="dodatkowa wiadomośc w mailu do podatnika" height="200" value="#{zestawienieView.dodatkowatresmaila}" style="max-width:1200px;">
                          <p:ajax event="blur" partialSubmit="true"/>
                      </p:textEditor>
@@ -308,8 +308,8 @@
             <h:outputText value="Uwaga podatnik rozlicza się kwartalnie!" style="font-weight: 900; color: red;" rendered="#{WpisView.mc0kw1}"/>
             <h:form id="formpit1">
                 <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
-                <p:panelGrid  columns="3" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;width: 1700px;">
-                    <p:panelGrid  columns="1" >
+                <p:panelGrid layout="tabular"  columns="3" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;width: 1700px;">
+                    <p:panelGrid layout="tabular"  columns="1" >
                         <p:panel header="wybierz osobę: " style="width: 250px;"/>
                         <p:selectOneMenu value="#{zestawienieRyczaltView.wybranyudzialowiec}" style="width: 250px;"  rendered="#{zestawienieRyczaltView.listawybranychudzialowcow.size() gt 1}"  converter="#{podatnikUdzialyConv}">
                             <f:selectItem itemLabel="wybierz osobe" noSelectionOption="true"/>
@@ -322,15 +322,15 @@
                         <h:outputText value="#{WpisView.rodzajopodatkowania}"/>
                         <h:outputText value="#{WpisView.mc0kw1 ? ' rozliczenie kwartalne': null}"/>
                     </p:panelGrid>
-                    <p:panelGrid  columns="1" >
+                    <p:panelGrid layout="tabular"  columns="1" >
                         <p:panel header="dane do ryczałtu: #{zestawienieRyczaltView.wybranyudzialowiec.nazwiskoimie} #{zestawienieRyczaltView.wybranyprocent}%" style="width: 450px;"/>
-                        <p:panelGrid id="zestawieniepit1" columns="4" style="width: 450px;">
+                        <p:panelGrid layout="tabular" id="zestawieniepit1" columns="4" style="width: 450px;">
                             <h:outputText value="firma"/><h:inputText value="#{WpisView.podatnikObiekt.printnazwa}"/>
                             <h:outputText value="podatnik"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.udzialowiec}"/>
                             <h:outputText value="rok"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.pkpirR}"/>
                             <h:outputText value="#{mgs.miesiąc}"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.pkpirM}"/>
                         </p:panelGrid>
-                        <p:panelGrid id="zestawieniepit" columns="2" style="width: 450px;">
+                        <p:panelGrid layout="tabular" id="zestawieniepit" columns="2" style="width: 450px;">
                             <p:separator/><p:separator/>
                             <h:outputText value="przychody za mc"/>
                             <p:dataTable lazy="false"  value="#{zestawienieRyczaltView.biezacyPit.listapodatkow}" var="wpis" style="width: 300px;">
@@ -351,7 +351,7 @@
                             <h:inputText value="#{zestawienieRyczaltView.biezacyPit.wynik}" style=" font-weight: 700; float: right;  text-align: right;">
                                 <f:convertNumber locale="PL"/></h:inputText>
                             <h:outputText value="ZUS 51 (z ręki)"/>
-                                <p:panelGrid columns="2">
+                                <p:panelGrid layout="tabular" columns="2">
                                     <h:inputText value="#{zestawienieRyczaltView.biezacyPit.zus51}" style=" font-weight: 700; float: right;  text-align: right;">
                                         <f:convertNumber locale="PL"/>
                                         <p:ajax event="keyup" listener="#{zestawienieRyczaltView.setZus51zreki(true)}" update=":akordeon:formpit1:reka51"/>
@@ -369,7 +369,7 @@
                                 <h:inputText value="#{zestawienieRyczaltView.biezacyPit.podatek}" style=" font-weight: 700; float: right;  text-align: right;">
                                     <f:convertNumber locale="PL"/></h:inputText>
                                 <h:outputText value="ZUS 52 (z ręki)"/>
-                                <p:panelGrid columns="2">
+                                <p:panelGrid layout="tabular" columns="2">
                                     <h:inputText value="#{zestawienieRyczaltView.biezacyPit.zus52}" style=" font-weight: 700; float: right;  text-align: right;">
                                         <f:convertNumber locale="PL"/>
                                         <p:ajax event="keyup" listener="#{zestawienieRyczaltView.setZus52zreki(true)}" update=":akordeon:formpit1:reka52"/>
@@ -387,7 +387,7 @@
                                 <h:outputText value="przelano"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.przelano}"/>
                                 <h:outputText value="zamknięty"/><h:inputText value="#{zestawienieRyczaltView.biezacyPit.zamkniety}"/>
                         </p:panelGrid>
-                        <p:panelGrid  columns="3">
+                        <p:panelGrid layout="tabular"  columns="3">
                             <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{zestawienieRyczaltView.drukujRyczalt()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 140px;">
                             </p:commandButton>
 
@@ -398,7 +398,7 @@
                             <p:commandButton value="wyślij"  action="#{zestawienieRyczaltView.wyslijPit()}" type="submit" style="width: 140px" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
                         </p:panelGrid>
                     </p:panelGrid>
-                    <!--                    <p:panelGrid  columns="1" >
+                    <!--                    <p:panelGrid layout="tabular"  columns="1" >
                                             <p:dataTable lazy="false"  value="#{podatnikView.selected.zusstawkinowe}"  var="loop" 
                                                          rows="12" id="datatable" style="width: 400px;"
                                                          sortFunction="#{zusStawkiZbiorczeNView.sortujZUSstawkinew}"  sortBy="#{loop}" 
@@ -429,7 +429,7 @@
                                                 </p:column>
                                             </p:dataTable>
                                         </p:panelGrid>-->
-                    <p:panelGrid  columns="1" >
+                    <p:panelGrid layout="tabular"  columns="1" >
                         <p:panel header="dane ZUS pobrane z Płatnika" style="width: 450px;"/>
                         <p:dataTable lazy="false"  value="#{draPIT.drasumy}" var="itemdra" style="width: 500px;padding: 20px;" 
                                      scrollable="true" scrollHeight="750" scrollRows="30" rowStyleClass="#{(yndex mod 2) eq 0 ? null : 'odd'}"
@@ -484,7 +484,7 @@
                     </p:panelGrid>
                    
                 </p:panelGrid>
-                  <p:panelGrid  columns="3" style="margin-left: auto; margin-right: auto;">
+                  <p:panelGrid layout="tabular"  columns="3" style="margin-left: auto; margin-right: auto;">
                          <p:selectBooleanCheckbox value="#{zestawienieRyczaltView.dolaczprzychody}" label="dołącz ewid.przych." itemLabel="dołącz pkpir">
                         <p:ajax event="change" partialSubmit="true"/>
                     </p:selectBooleanCheckbox>
@@ -495,10 +495,10 @@
                         <p:ajax event="change" partialSubmit="true"/>
                     </p:selectBooleanCheckbox>
                 </p:panelGrid>
-                <p:panelGrid  columns="1" style="margin-left: auto; margin-right: auto; width: 1300px;">
+                <p:panelGrid layout="tabular"  columns="1" style="margin-left: auto; margin-right: auto; width: 1300px;">
                     <h:outputText value="po zaznaczeniu czekboksów i kliknięciu wyślij należy poczekać aż otworzą się wygenerowane pliki pdf" style="color:green;"/>
                 </p:panelGrid>
-                 <p:panelGrid  columns="1" style="margin-left: auto; margin-right: auto; width: 1300px;">
+                 <p:panelGrid layout="tabular"  columns="1" style="margin-left: auto; margin-right: auto; width: 1300px;">
                      <p:textEditor allowFormatting="true" placeholder="dodatkowa wiadomośc w mailu do podatnika" height="200" value="#{zestawienieRyczaltView.dodatkowatresmaila}" style="max-width:1200px;">
                          <p:ajax event="blur" partialSubmit="true"/>
                      </p:textEditor>
@@ -560,7 +560,7 @@
             </h:form>
             <h:form id="form2">
                 <p:focus for="panelstraty">
-                    <p:panelGrid id="panelstraty" style="margin-top: 10px;margin-bottom: 10px;">
+                    <p:panelGrid layout="tabular" id="panelstraty" style="margin-top: 10px;margin-bottom: 10px;">
                         <f:facet name="header">
                             <p:row>
                                 <p:column>
@@ -597,7 +597,7 @@
             </h:form>
         </p:tab>
         <p:tab id="tab6" title="Archiwum PIT">
-            <p:panelGrid columns="4" style="width: 700px" rendered="#{WpisView.ryczalt0ksiega1 eq true and WpisView.biuroiszef eq true}" >
+            <p:panelGrid layout="tabular" columns="4" style="width: 700px" rendered="#{WpisView.ryczalt0ksiega1 eq true and WpisView.biuroiszef eq true}" >
                 <h:form id="formpi" style="width: 500px" >
                     <p:panel header="wybierz rozliczenie wg cech: " style="width: 250px;" rendered="#{pitView.pobranecechypodatnik ne null and pitView.pobranecechypodatnik.size() gt 1}"/>
                     <p:selectOneMenu value="#{pitView.wybranacechadok}" style="width: 250px;"  rendered="#{pitView.pobranecechypodatnik ne null and pitView.pobranecechypodatnik.size() gt 1}" converter="#{cechaConv}">
@@ -632,7 +632,7 @@
                 </h:form>
                 <h:form id="formpi2">
                     <p:panel header="przegląd wybranego PIT-u za #{pitView.biezacyPit.pkpirR}/#{pitView.biezacyPit.pkpirM}" style="margin-left: 50px;width: 350px"/><br/>
-                    <p:panelGrid id="zestawieniepitview" columns="2" style="margin-left: 50px; width: 350px; height: 670px;">
+                    <p:panelGrid layout="tabular" id="zestawieniepitview" columns="2" style="margin-left: 50px; width: 350px; height: 670px;">
                         <h:outputText value="firma"/><h:outputText value="#{pitView.biezacyPit.podatnik}"/>
                         <h:outputText value="podatnik"/><h:outputText value="#{pitView.biezacyPit.udzialowiec}"/> 
                         <h:outputText value="pkpirR"/><h:outputText value="#{pitView.biezacyPit.pkpirR}"/>
@@ -704,14 +704,14 @@
                         <h:outputText value="miesiąc zamknięty"/><h:outputText value="#{zestawienieView.biezacyPit.zamkniety eq 'true' ? 'tak' : 'nie'}"/>
 
                     </p:panelGrid>
-                    <p:panelGrid  columns="3" style="margin-left: 50px; width: 350px">
+                    <p:panelGrid layout="tabular"  columns="3" style="margin-left: 50px; width: 350px">
                         <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pitView.drukujarch()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" oncomplete="$('#formpi2\\:pitwysylka').show();" style="width: 150px;">
                         </p:commandButton>
                         <p:commandButton id="pitwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none; width: 150px;"/>
                     </p:panelGrid>
                 </h:form>
             </p:panelGrid>
-            <p:panelGrid columns="4" style="width: 600px" rendered="#{WpisView.ryczalt0ksiega1 eq false}">
+            <p:panelGrid layout="tabular" columns="4" style="width: 600px" rendered="#{WpisView.ryczalt0ksiega1 eq false}">
                 <h:form id="formpi1" style="width: 400px" >
                     <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
 
@@ -733,13 +733,13 @@
                 </h:form>
                 <h:form id="formpi3">
                     <p:panel header="przegląd wybranego PIT-u (ryczałt)" style="margin-left: 50px;width: 400px"/><br/>
-                    <p:panelGrid id="zestawieniepitview" columns="2" style="margin-left: 50px; width: 400px; height: 670px;">
+                    <p:panelGrid layout="tabular" id="zestawieniepitview" columns="2" style="margin-left: 50px; width: 400px; height: 670px;">
                         <h:outputText value="firma"/><h:outputText value="#{ryczView.biezacyPit.podatnik}"/>
                         <h:outputText value="podatnik"/><h:outputText value="#{ryczView.biezacyPit.udzialowiec}"/> 
                         <h:outputText value="rok"/><h:outputText value="#{ryczView.biezacyPit.pkpirR}"/>
                         <h:outputText value="#{mgs.miesiąc}"/><h:outputText value="#{ryczView.biezacyPit.pkpirM}"/>
                         <h:outputText value="przychody za mc"/>
-                        <p:panelGrid columns="2"  style="width: 200px;">
+                        <p:panelGrid layout="tabular" columns="2"  style="width: 200px;">
                             <ui:repeat value="#{ryczView.biezacyPit.listapodatkow}" var="wpis" varStatus="rowStat">
                                 <h:outputText value="stawka: #{ryczView.biezacyPit.listapodatkow[rowStat.index].stawka}"/>
                                 <h:outputText value="#{ryczView.biezacyPit.listapodatkow[rowStat.index].przychod}" style="padding-left: 20%; font-weight: 700; float: right;">
@@ -778,7 +778,7 @@
                         <h:outputText value="przelano"/><h:outputText value="#{ryczView.biezacyPit.przelano}"/>
                         <h:outputText value="zamknięty"/><h:outputText value="#{ryczView.biezacyPit.zamkniety}"/>
                     </p:panelGrid>
-                    <p:panelGrid  columns="3" style="margin-left: 50px; width: 350px">
+                    <p:panelGrid layout="tabular"  columns="3" style="margin-left: 50px; width: 350px">
                         <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{ryczView.drukujRyczalt()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" oncomplete="$('#formpi3\\:pitwysylka').show();" style="width: 150px;">
                         </p:commandButton>
                         <p:commandButton id="pitwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none; width: 150px;"/>

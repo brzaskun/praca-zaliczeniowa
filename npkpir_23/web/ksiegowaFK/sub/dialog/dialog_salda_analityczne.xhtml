@@ -37,7 +37,7 @@
               >
         <p:ajax event="open" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" update=":formtablicaanalityczne, :tabelazsumamianalityka:sumy"/>
         <h:form id="formtablicaanalityczne">
-            <p:panelGrid columns="12" style="margin-left: 2%;" >
+            <p:panelGrid layout="tabular" columns="12" style="margin-left: 2%;" >
                 <!--            <p:column>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                                     <f:selectItems value="#{roki.rokiList}"/>
@@ -45,7 +45,7 @@
                                 </p:selectOneMenu>
                             </p:column>-->
                 <p:column>
-                    <p:panelGrid columns="2" style="float: right;">
+                    <p:panelGrid layout="tabular" columns="2" style="float: right;">
                         <p:column>
                             <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
                                 <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>

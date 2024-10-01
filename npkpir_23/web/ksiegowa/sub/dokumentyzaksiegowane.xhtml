@@ -75,14 +75,14 @@
             $(document).on("keydown", TabKeyFa);
         </script>
         
-        <p:panelGrid columns="6" id="panelprzyciskow" styleClass="ui-grid-responsive">
+        <p:panelGrid layout="tabular" columns="6" id="panelprzyciskow" styleClass="ui-grid-responsive">
             <h:outputText value="okres:" style="float: right;"/>
             <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}" style="width: 100px;" converter="#{okresConverter}">
                 <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="#{ytem}"/>
                 <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" global="true" oncomplete="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
                         update=":form:dokumentyLista :form:cechydokuk westKsiegowa:linki"/>
             </p:selectOneMenu>
-            <p:panelGrid id="sumawybranychpanel" style="width: 210px; text-align: center;">
+            <p:panelGrid layout="tabular" id="sumawybranychpanel" style="width: 210px; text-align: center;">
                 <f:facet name="header">
                     <p:row>
                         <p:column>

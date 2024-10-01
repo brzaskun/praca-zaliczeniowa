@@ -27,12 +27,12 @@
                     <p:growl life="3600"  id="fifi"/>
                     <p:dialog id="confirmDialog" header="Usunąć wybrany środek trwały?"  resizable="false" closable="false"
                                       widgetVar="confirmation">  
-                        <p:panelGrid columns="2">
+                        <p:panelGrid layout="tabular" columns="2">
                             <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :akordeon:str_posiadane :akordeon:str_posiadane2" oncomplete="PF('confirmation').hide()"  
                                              actionListener="#{sTRTabView.destroy2()}" />  
                             <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
                         </p:panelGrid>
-                        <p:panelGrid columns="2" style="text-align: left;">
+                        <p:panelGrid layout="tabular" columns="2" style="text-align: left;">
                             <h:outputLabel for="powerusun" value="twarde usuwanie"/>
                             <h:selectBooleanCheckbox id="powerusun" value="#{sTRTabView.napewnousunac}" title="napewno usunac"/>
                         </p:panelGrid>

@@ -34,7 +34,7 @@
               >
         <p:ajax event="open" listener="#{saldoAnalitykaView.odswiezsaldoanalitycznebo()}" update=":form_dialog_salda_analityczne_bo :tabelazsumamianalitykabo:sumy"/>
         <h:form id="form_dialog_salda_analityczne_bo">
-            <p:panelGrid columns="12" style="margin-left: 2%;" >
+            <p:panelGrid layout="tabular" columns="12" style="margin-left: 2%;" >
                 <!--            <p:column>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                                     <f:selectItems value="#{roki.rokiList}"/>

@@ -27,7 +27,7 @@
             
             <p:panel header="dodawanie podatnika - spółki cywilnej" style="width: 500px;"/>
             <p:focus for="wprowadzaniepodatnika"/>
-            <p:panelGrid id="wprowadzaniepodatnika" columns="4">
+            <p:panelGrid layout="tabular" id="wprowadzaniepodatnika" columns="4">
                 <h:outputLabel value="nip"/>
                  <h:inputText id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!">
                         <f:validateLength minimum="10"/>
@@ -100,11 +100,11 @@
                     <h:outputText value="wysyłać dane o składkach ZUS i PIT4 na mail"/>
                      <p:selectBooleanCheckbox value="#{podatnikView.selectedDod.wysylkazusmail}" label="wysyłać dane o wysokości ZUS i PIT-4"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
                     </p:selectBooleanCheckbox>
-                <p:panelGrid columns="1">
+                <p:panelGrid layout="tabular" columns="1">
 <!--                    <h:outputLabel value="vat metoda kasowa"/>-->
                     <h:outputLabel value="urząd skarbowy VAT"/>
                 </p:panelGrid>
-                <p:panelGrid columns="1">
+                <p:panelGrid layout="tabular" columns="1">
 <!--                      <h:selectOneMenu value="#{podatnikView.selectedDod.metodakasowa}"
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                      onfocus="$(this).addClass('ui-state-focus');" 
@@ -136,7 +136,7 @@
                 </p:panelGrid>
             </p:panelGrid>
 <!--            <p:commandButton action="#{podatnikView.dodaj()}" value="dodaj podatnika" update="@form" type="submit"/>-->
-            <p:panelGrid columns="3" id="wprowadzaniepodatnikaprzyciski">
+            <p:panelGrid layout="tabular" columns="3" id="wprowadzaniepodatnikaprzyciski">
                     <p:commandButton actionListener="#{podatnikView.dodaj()}" value="dodaj" update="@form form" 
                                      rendered="#{podatnikView.selectedDodedycja eq null}"
                                      type="submit" style="margin-top: 10px; width: 120px;"/>

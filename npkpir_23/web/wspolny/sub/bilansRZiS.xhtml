@@ -11,8 +11,8 @@
     <p:tabView id="akordeonBilans" style="max-width: 1300px; min-width: 1000px;" activeIndex="#{fakturaView.aktywnytab}" >
         <p:tab title="#{mgs.RZiS}" >
            <h:form id="formprzegladRZiS">
-            <p:panelGrid columns="4">
-                <p:panelGrid columns="3">
+            <p:panelGrid layout="tabular" columns="4">
+                <p:panelGrid layout="tabular" columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <h:outputText value="#{pozycjaBRView.uklad.uklad}"/>
                 </p:panelGrid>
@@ -38,7 +38,7 @@
                     <p:commandButton value="#{mgs.drukujnrkont}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujRZiSPozycje()}"/>
                 </p:column>
             </p:panelGrid>
-            <p:panelGrid columns="2" style="height: 600px;">
+            <p:panelGrid layout="tabular" columns="2" style="height: 600px;">
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}"
@@ -62,7 +62,7 @@
                     </p:treeTable>
                 </p:column>
                 <p:column>
-                    <p:panelGrid columns="1" >
+                    <p:panelGrid layout="tabular" columns="1" >
                         <p:dataTable lazy="false"  id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
                                      style="height: 200px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}">
                             <f:facet  name="header">
@@ -107,9 +107,9 @@
         </p:tab>
         <p:tab title="#{mgs.Bilans}">
              <h:form id="formprzegladbilans">
-             <p:panelGrid columns="6">
-                <p:panelGrid columns="3">
-                <p:panelGrid columns="3">
+             <p:panelGrid layout="tabular" columns="6">
+                <p:panelGrid layout="tabular" columns="3">
+                <p:panelGrid layout="tabular" columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <h:outputText value="#{pozycjaBRView.uklad.uklad}"/>
                 </p:panelGrid>
@@ -140,7 +140,7 @@
                       </p:splitButton>
                 </p:column>
             </p:panelGrid>
-            <p:panelGrid columns="3" >
+            <p:panelGrid layout="tabular" columns="3" >
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
                              scrollable="true" style="width: 600px; max-height: 600px;" >
@@ -183,7 +183,7 @@
                     </h:outputText>
                     </p:column>
                 </p:treeTable>
-                <p:panelGrid columns="1" >
+                <p:panelGrid layout="tabular" columns="1" >
                         <p:dataTable lazy="false"  id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
                                      style="height: 200px; margin-top: 0%; width: 700px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}"
                                      rowKey="#{loop.id}" selection="#{pozycjaBRView.wybranokonto}"

@@ -50,7 +50,7 @@
                         }
                     }
             </script>-->
-              <p:panelGrid columns="12">
+              <p:panelGrid layout="tabular" columns="12">
 <!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
@@ -103,7 +103,7 @@
                    <p:commandButton value="importuj bilansowe" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('b')}" icon="fa fa-sign-in" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                    <p:commandButton value="importuj wynikowe" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}"  icon="fa fa-sign-in" action="/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:panelGrid>
-            <p:panelGrid columns="12">
+            <p:panelGrid layout="tabular" columns="12">
                 <p:commandButton value="0" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,0)}" update="form_dialog_plankont_nowy:dataList form_dialog_plankont_nowy:bezslownikowych"/>
                 <p:commandButton value="1" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,1)}" update="form_dialog_plankont_nowy:dataList form_dialog_plankont_nowy:bezslownikowych"/>
                 <p:commandButton value="2" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,2)}" update="form_dialog_plankont_nowy:dataList form_dialog_plankont_nowy:bezslownikowych"/>
@@ -115,7 +115,7 @@
                 <p:commandButton value="S" actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt,9)}" update="form_dialog_plankont_nowy:dataList form_dialog_plankont_nowy:bezslownikowych"/>
                 <h:outputText value="Uwaga! Nie można dodawać kont analit. do zablokowanych kont syntet."/>
                 </p:panelGrid>
-            <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
                 <p:dataTable lazy="false"  id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
                              rowStyleClass="#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
                                               (loop.zwyklerozrachszczegolne eq 'zwykłe' ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : loop.zwyklerozrachszczegolne eq 'vat' ? 'rowb_vat' : 'rowb_rozrachunkowe') :

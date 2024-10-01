@@ -43,7 +43,7 @@
                                     </f:facet>
                                 </p:panel>
                                 <h:form id="zmianaokresuguest">
-                                    <p:panelGrid columns="2" style="padding: 10px;">
+                                    <p:panelGrid layout="tabular" columns="2" style="padding: 10px;">
                                         <h:outputText value="okres rozliczeniowy: " />
                                         <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;margin-left: 10px;" converter="#{okresConverter}">
                                             <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>

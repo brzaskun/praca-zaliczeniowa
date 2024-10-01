@@ -8,7 +8,7 @@
       xmlns:pe="http://primefaces.org/ui/extensions">
       <p:tab id="stopka" title="Faktura mail stopka">
            <h:form id="formmailstopka">
-                <p:panelGrid columns="2">
+                <p:panelGrid layout="tabular" columns="2">
                     <p:column>
                         <p:textEditor id="editor"  secure="false" widgetVar="editorWidget" value="#{fakturadodelementyView.mailfakturastopka}" style="width:1200px;" height="600"/>
                         <p:commandButton value="Zachowaj" actionListener="#{fakturadodelementyView.zachowajstopke}" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-disk"/>

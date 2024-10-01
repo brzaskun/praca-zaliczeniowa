@@ -13,7 +13,7 @@
     <p:outputPanel style="padding: 10px;margin-top: 30px; width: 500px;">
         <div style="padding: 10px;">
             <h:outputText value="Działa tylko z kartą biurową! Jeżeli sprawdzasz inną kartę - wprowadź hasło i pesel podpisującego poniżej"/>
-            <p:panelGrid columns="2">
+            <p:panelGrid layout="tabular" columns="2">
                 <h:outputText value="inne hasło"/><p:inputText value="#{czyJestKartaView.innehaslo}"/>
                 <h:outputText value="pesel"/><p:inputText value="#{czyJestKartaView.innypesel}"/>
             </p:panelGrid>
@@ -21,7 +21,7 @@
         <p:panel header="można podpisać" rendered="#{czyJestKartaView.moznapodpisywac}"/>
         <p:panel header="nie można podpisać" rendered="#{!czyJestKartaView.moznapodpisywac}"/>
         <p:separator />
-        <p:panelGrid columns="2" >
+        <p:panelGrid layout="tabular" columns="2" >
             <h:outputText value="Raport z badania karty"/><h:outputText value=""/>
 <!--            <h:outputText value="czy jest czytnik?"/><h:outputText value="#{czyJestKartaView.czyjestczytnik eq 'tak' ?'TAK':'Nie znaleziono czytnika'}" style="#{czyJestKartaView.czyjestczytnik eq 'tak' ?'color:green':'color:red'}"/>-->
             <h:outputText value="czy jest karta"/><h:outputText value="#{czyJestKartaView.czyjestkarta eq 'tak' ?'TAK':'Nie znaleziono karty w czytniku'}" style="#{czyJestKartaView.czyjestkarta eq 'tak' ?'color:green':'color:red'}"/>

@@ -9,7 +9,7 @@
     <h:form id="form1">
         <p:outputPanel style="padding: 10px;">
             <p:panel header="bieżące domyślne ustawienia smtp" style="width: 400px;"/>
-            <p:panelGrid columns="2">
+            <p:panelGrid layout="tabular" columns="2">
                 <h:outputText value="user email"/>
                 <h:outputText value="#{sMTPSettingsView.selected.useremail}"/>
                 <h:outputText value="nazwa firmy"/>
@@ -35,7 +35,7 @@
     <h:form id="form2">
         <p:outputPanel style="padding: 10px;">
             <p:panel header="ustawienia domyślnych ustawień smtp" style="width: 400px;"/>
-            <p:panelGrid columns="2">
+            <p:panelGrid layout="tabular" columns="2">
                 <h:outputText value="user email"/>
                 <p:inputText value="#{sMTPSettingsView.nowy.useremail}" style="width: 200px;"/>
                 <h:outputText value="nazwa firmy"/>

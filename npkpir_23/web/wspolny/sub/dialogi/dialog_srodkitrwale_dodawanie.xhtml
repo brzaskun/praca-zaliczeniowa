@@ -46,7 +46,7 @@
             </p:panel>
             <p:panel id="nowypanelsrodki" style="width: 600px; height: 280px;">
                 <p:panel header="dodawanie środka trw." style="width: 300px;" />
-                <p:panelGrid id="tabelasrodkitrwaleOT" columns="4" >
+                <p:panelGrid layout="tabular" id="tabelasrodkitrwaleOT" columns="4" >
                     <h:outputText value="nazwa środka" style="height: 45px;"/>
                     <p:column headerText="nazwa środka" width="100">
                         <p:inputText id="nazwasrodka" value="#{sTRTabView.selectedSTR.nazwa}" required="true" requiredMessage="Proszę wpisać nazwę środka"/>
@@ -102,7 +102,7 @@
                         </h:selectOneMenu>
                     </p:column>
                 </p:panelGrid>
-                <p:panelGrid style="padding: 5px; margin-left: 5px;" rendered="#{WpisView.ksiegirachunkowe eq true}" columns="2">
+                <p:panelGrid layout="tabular" style="padding: 5px; margin-left: 5px;" rendered="#{WpisView.ksiegirachunkowe eq true}" columns="2">
         
                     <p:column headerText="konto środka">
                     <p:selectOneMenu value="#{sTRTabView.kontonetto}" style="width: 350px;"  converter="#{kontoConv}" required="true"

@@ -21,7 +21,7 @@
             
         }
     </script>
-    <p:panelGrid id="panelue" columns="12">
+    <p:panelGrid layout="tabular" id="panelue" columns="12">
             <h:outputText value="suma wybranych"/>
             <bcf:outputpl value="#{vatUeFKView.sumawybranych}"/>
             <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfk()}"/>
@@ -226,7 +226,7 @@
                         <p:commandButton value="drukuj uprosz." actionListener="#{vatUeFKView.drukujUPR(row)}" update="@form" style="width: 80px;"/>
                     </p:column>
                     <p:rowExpansion>
-                        <p:panelGrid columns="3">
+                        <p:panelGrid layout="tabular" columns="3">
                             <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
                             <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
                             <h:outputText value="#{row.deklaracja}"/>

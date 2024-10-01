@@ -11,7 +11,7 @@
               focus="form_dialog_wpisywanie_znajdzkontrahenta:numernip">  
         <h:form id="form_dialog_wpisywanie_znajdzkontrahenta">  
             <p:focus for="dkp">
-                <p:panelGrid id="dkp" columns="2" style="width: 400px;">
+                <p:panelGrid layout="tabular" id="dkp" columns="2" style="width: 400px;">
                     <h:outputLabel value="Wpisz nazwę lub nip kontrahenta" />
                     <p:autoComplete id="numernip" value="#{kliencifkView.wybranyklient}" completeMethod="#{klienciConverterView.completeKL}"
                                     valueChangeListener="#{kliencifkView.kopiujwybranyklient}" widgetVar="dialog_wpisywanie_znajdzkontrahenta_input"

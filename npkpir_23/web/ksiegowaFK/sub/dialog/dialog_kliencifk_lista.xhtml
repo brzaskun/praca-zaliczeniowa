@@ -8,7 +8,7 @@
     <p:dialog id="dialog_kliencifk_lista" header="Przyporządkowanie klientów do kont - lista" widgetVar="dialog_kliencifk_lista" 
               resizable="false"  onShow="ustawdialog('dialog_kliencifk_lista','menukartoteki',1200,600);" closeOnEscape="true" onHide="resetujdialog('dialog_kliencifk_lista');" >
         <h:form id="kliencifkform">
-            <p:panelGrid columns="6" >
+            <p:panelGrid layout="tabular" columns="6" >
                 <h:outputText value="nowa nazwa klientafk "/>
                 <p:inputText id="nazwaklientafk" value="#{kliencifkView.selected.nazwa}" style="width: 250px; margin-left: 5px; margin-right: 5px;"/>
                 <h:outputText value="nowy nip klientafk "/>

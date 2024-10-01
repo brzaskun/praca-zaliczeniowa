@@ -8,8 +8,8 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <h:form id="formimportklientow">
 
-    <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
-            <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
+    <p:panelGrid layout="tabular" columns="2" columnClasses="sixty-percent forty-percent">
+            <p:panelGrid layout="tabular" columns="1" style="margin-top: 20px;margin-bottom: 10px;">
                 <h:outputText value="Akceptowana wersja pliku xls,xlsx" style="font-weight: bold;"/>
                 <p:fileUpload chooseIcon="fa fa-upload" listener="#{kontrahentImportView.zachowajplik}" 
                               mode="advanced" dragDropSupport="true" multiple="false" sequential="true" auto="true"

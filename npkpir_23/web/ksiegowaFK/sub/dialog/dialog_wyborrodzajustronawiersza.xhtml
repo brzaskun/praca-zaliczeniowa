@@ -11,7 +11,7 @@
               resizable="false" onShow="transakcjawyborShow();" closeOnEscape="true" onHide="resetujdialog('transakcjawybor');"  
               focus="formtransakcjawybor:transakcjawybormenu">
         <h:form id="formtransakcjawybor">
-            <p:panelGrid id="transakcjawyborgrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
+            <p:panelGrid layout="tabular" id="transakcjawyborgrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
                 <h:selectOneMenu id="transakcjawybormenu" value="#{dokfkView.rachunekCzyPlatnosc}" style="width: 140px;"
                                  styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                  onfocus="$(this).addClass('ui-state-focus');"

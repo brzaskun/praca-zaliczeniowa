@@ -7,13 +7,13 @@
     xmlns:bcf="http://brzaskun.com/facelets"
     xmlns:f="http://java.sun.com/jsf/core">
         <h:form id="form_dialog_plankont_nazwy">
-              <p:panelGrid columns="4">
+              <p:panelGrid layout="tabular" columns="4">
                   <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{planKontInterView.zachowajzmiany()}"  global="false" style="float: left; margin-left: 20px;width: 120px;" />
                   <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSPlanKontView.zachowajPlanKontwXLS(planKontInterView.wykazkont)}" style=" margin-left: 5px;" global="false" ajax="false"/>
                   <p:commandButton id="xlsbutton2" value="pobierz dane z pliku" actionListener="#{planKontInterView.pobierzdanezpliku(WpisView.podatnikObiekt, WpisView.rokWpisuSt)}" style=" margin-left: 5px;" global="false" update=":form_dialog_plankont_nazwy"/>
                   <p:commandButton id="implementuj" value="implementuj" actionListener="#{planKontInterView.implementuj()}"   style="float: left; margin-left: 20px;width: 120px;" update=":form_dialog_plankont_nazwy"/>
             </p:panelGrid>
-            <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
                 <p:dataTable lazy="false"  id="dataList" value="#{planKontInterView.wykazkont}" var="loop"  selectionMode="single" 
                              rowStyleClass="#{loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')}" 
                              styleClass="tablicaplankont"

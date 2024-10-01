@@ -47,7 +47,7 @@
               >
         <p:ajax event="open" listener="#{saldoSyntetykaView.odswiezsaldosyntetyczne()}"   update="formtablicasyntetyczne, :tabelazsumamisyntetyka:sumy"/>
         <h:form id="formtablicasyntetyczne">
-            <p:panelGrid columns="6" style="margin-left: 2%;" >
+            <p:panelGrid layout="tabular" columns="6" style="margin-left: 2%;" >
                 <!--            <p:column>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                                     <f:selectItems value="#{roki.rokiList}"/>

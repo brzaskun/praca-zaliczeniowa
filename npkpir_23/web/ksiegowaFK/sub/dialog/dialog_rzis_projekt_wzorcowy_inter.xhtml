@@ -8,7 +8,7 @@
     <p:dialog id="dialog_rzis_projekt_wzorcowy_inter" header="Projekt Rachunku Zysków i Strat - Wzorcowy" widgetVar="dialog_rzis_projekt_wzorcowy_inter" 
               resizable="false" onShow="ustawdialog('dialog_rzis_projekt_wzorcowy_inter','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialog_rzis_projekt_wzorcowy_inter');"  >
         <h:form id="form_dialog_rzis_projekt_wzorcowy_inter">
-            <p:panelGrid columns="3" >
+            <p:panelGrid layout="tabular" columns="3" >
                 <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{pozycjaBRWzorcowyView.zachowajInt(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":form_dialog_rzis_projekt_wzorcowy_inter:dataList" style="float: left; margin-left: 100px; width: 120px;" />
                 <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSRZiSView.zachowajRZiSwXLS(pozycjaBRWzorcowyView.rootProjektRZiS)}" style=" margin-left: 5px;" global="false" ajax="false"/>
                 <p:fileUpload chooseIcon="fa fa-upload" listener="#{pozycjaBRWzorcowyView.pobierzdanezplikur}" 
@@ -18,7 +18,7 @@
                                       sequential="true">
                         </p:fileUpload>
             </p:panelGrid>
-            <p:panelGrid columns="3" style="width: 920px;">
+            <p:panelGrid layout="tabular" columns="3" style="width: 920px;">
                 <p:treeTable id="dataList" value="#{pozycjaBRWzorcowyView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRWzorcowyView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 900px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym RZiS">

@@ -30,8 +30,8 @@
                     }
                 }
             </script>
-            <p:panelGrid columns="12">
-                <p:panelGrid columns="3">
+            <p:panelGrid layout="tabular" columns="12">
+                <p:panelGrid layout="tabular" columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRZestawienieView.uklad}" converter="#{ukladBRConv}">
                         <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
@@ -69,7 +69,7 @@
                
            
             </p:panelGrid>
-            <p:panelGrid columns="2" style="height: 600px;">
+            <p:panelGrid layout="tabular" columns="2" style="height: 600px;">
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRZestawienieView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieView.selectedNodes}" 
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}"

@@ -12,7 +12,7 @@
                 <p:outputPanel id="wrapper">
                     
                     <h:outputText value="Tu należy wpisać dodatkowe dane do wystawianej faktury:"/>
-                    <p:panelGrid id="wprowadzaniefakturaxxl" columns="2">
+                    <p:panelGrid layout="tabular" id="wprowadzaniefakturaxxl" columns="2">
                         <h:outputLabel value="opis kolumna netto 0"/>
                         <p:inputText value="#{fakturaXXLKolumnaView.selected.nettoopis0}" style="width: 400px;"/>
                         <h:outputLabel value="opis kolumna netto 1"/>
@@ -26,7 +26,7 @@
                         <h:outputLabel value="opis kolumna netto 5"/>
                         <p:inputText value="#{fakturaXXLKolumnaView.selected.nettoopis5}" style="width: 400px;"/>
                     </p:panelGrid>
-                    <p:panelGrid id="wprowadzaniefakturaxxl2" columns="2">
+                    <p:panelGrid layout="tabular" id="wprowadzaniefakturaxxl2" columns="2">
                         <h:outputLabel value="pokaż pkwiu"/>
                         <p:selectBooleanCheckbox value="#{fakturaXXLKolumnaView.selected.pkwiu}" style="width: 400px;"/>
                         <h:outputLabel value="pokaż ilość"/>
@@ -36,7 +36,7 @@
                         <h:outputLabel value="pokaż cena"/>
                         <p:selectBooleanCheckbox value="#{fakturaXXLKolumnaView.selected.cena}" style="width: 400px;"/>
                     </p:panelGrid>
-                    <p:panelGrid columns="1">
+                    <p:panelGrid layout="tabular" columns="1">
                         <p:commandButton actionListener="#{fakturaXXLKolumnaView.edytujdanefaktxxl()}" value="edytuj dane" update=":akordeon:form9" type="submit"/>
                     </p:panelGrid>
                 </p:outputPanel>

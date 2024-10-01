@@ -18,7 +18,7 @@
               modal="true" appendTo="@(body)">
        
         <h:form id="form_dialog_delegacje_stworz">
-            <p:panelGrid columns="2" columnClasses="label, value">
+            <p:panelGrid layout="tabular" columns="2" columnClasses="label, value">
                 <h:outputText value="nr delegacji "/>
                 <p:inputText id="nazwamiejsca" value="#{delegacjeView.selected.opisdlugi}" style="width: 180px; margin-left: 15px; height: 20px;"/>
                 <h:outputText value="opis delegacji"/>

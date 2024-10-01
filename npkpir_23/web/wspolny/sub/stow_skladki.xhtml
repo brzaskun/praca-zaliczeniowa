@@ -11,7 +11,7 @@
                 width: 250px !important;
             }
         </style>
-        <p:panelGrid columns="4" >
+        <p:panelGrid layout="tabular" columns="4" >
             <h:outputText value="nazwa członkostwa"/>
             <p:selectOneMenu value="#{skladkaStowarzyszenieView.skladkaStowarzyszenie.rodzajCzlonkostwa}" style="width: 180px;" converter="RodzajCzlonkostwaConv">
                 <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>

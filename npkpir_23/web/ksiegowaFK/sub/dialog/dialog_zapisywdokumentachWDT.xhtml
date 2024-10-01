@@ -9,7 +9,7 @@
     <p:dialog id="zapisywdokumentachWDT" header="Zestawienie zapisów w dokumentach WDT - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisywdokumentachWDT" 
               resizable="false"  onShow="ustawdialog('zapisywdokumentachWDT','menudokumenty', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('zapisywdokumentachWDT');" maximizable="true">
         <h:form id="formzapisywdokumentachWDT">
-            <p:panelGrid columns="12" style="margin-left: 2%;" >
+            <p:panelGrid layout="tabular" columns="12" style="margin-left: 2%;" >
                 <p:column>
                     <h:outputText value="miesiąc: "/>
                 </p:column>

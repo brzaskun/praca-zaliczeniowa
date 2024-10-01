@@ -15,7 +15,7 @@
                 
                 <p:panel id="panelwpisywanianowejfirmy" header="Rejestracja nowej firmy w programie" style="width: 850px;">
                 <p:focus for="wprowadzaniepodatnika"/>
-                <p:panelGrid id="wprowadzaniepodatnika" columns="4" >
+                <p:panelGrid layout="tabular" id="wprowadzaniepodatnika" columns="4" >
                     <h:outputLabel value="nip firmy"/>
                     <p:inputText id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!"
                               validatorMessage="Nip powinien składać się z 10 cyfr">

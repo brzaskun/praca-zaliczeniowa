@@ -31,8 +31,8 @@
                     }
                 }
             </script>
-            <p:panelGrid columns="12" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
-                <p:panelGrid columns="3">
+            <p:panelGrid layout="tabular" columns="12" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
+                <p:panelGrid layout="tabular" columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <h:outputText value="#{pozycjaBRZestawienieView.uklad.uklad}"/>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSData()}" update=":form_dialog_rzis_porownanie"/>
@@ -60,7 +60,7 @@
                 </p:column>
             </p:panelGrid>
             <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
-            <p:panelGrid columns="2" style="height: 600px;">
+            <p:panelGrid layout="tabular" columns="2" style="height: 600px;">
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRZestawienieView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieView.selectedNodes}" 
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}"

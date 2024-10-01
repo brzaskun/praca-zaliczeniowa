@@ -8,7 +8,7 @@
     <p:dialog id="dialog_sinkosxls" header="Wybierz zapisy do eksportu" widgetVar="dialog_sinkosxls" resizable="false" appendTo="@(body)" 
               onShow="ustawdialog('dialog_sinkosxls','menudokumenty', 1700, 850);" closeOnEscape="true" onHide="resetujdialog('dialog_sinkosxls');">  
         <h:form id="formddialog_sinkosxls">
-            <p:panelGrid style="width: 400px; height: 60px;" columns="2">
+            <p:panelGrid layout="tabular" style="width: 400px; height: 60px;" columns="2">
                 <p:commandButton value="pobierz" actionListener="#{xLSSinkosView.pobierzzapisy}" type="submit" 
                                  style="margin-left: 40px; margin-right: auto; width: 120px;" update="formddialog_sinkosxls:tabelazapisy"
                                  />

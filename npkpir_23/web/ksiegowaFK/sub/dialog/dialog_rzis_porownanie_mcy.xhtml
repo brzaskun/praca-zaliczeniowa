@@ -12,8 +12,8 @@
               resizable="false" onShow="ustawdialog('dialog_rzis_porownanie_mcy','menubilanse', 1200, 780);" closeOnEscape="true" onHide="resetujdialog('dialog_rzis_porownanie_mcy');"  >
         <bcf:ajaxs/>
         <h:form id="form_dialog_rzis_porownanie_mcy">
-            <p:panelGrid columns="2">
-                <p:panelGrid columns="3">
+            <p:panelGrid layout="tabular" columns="2">
+                <p:panelGrid layout="tabular" columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaRZiSPorMcyView.uklad}" converter="#{ukladBRConv}">
                         <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
@@ -25,7 +25,7 @@
                    <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 50px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaRZiSPorMcyView.drukujRZiSNar()}"/>
                 </p:column>
             </p:panelGrid>
-            <p:panelGrid columns="2" style="height: 600px;">
+            <p:panelGrid layout="tabular" columns="2" style="height: 600px;">
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaRZiSPorMcyView.rootProjektRZiS}" var="loop" selectionMode="checkbox" 
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}" 

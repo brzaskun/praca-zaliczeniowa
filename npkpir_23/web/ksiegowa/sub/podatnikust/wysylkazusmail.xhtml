@@ -12,7 +12,7 @@
                 <h:outputText value="Rozliczenia ZUS/PIT-4 - wybierz opcje" style="font-size: 15px"/>
                 <p:growl life="3600"  />
                 <p:focus for="parametrypodatnika10"/><br/>
-                <p:panelGrid id="parametrypodatnika10" columns="2" style="padding: 5px;">
+                <p:panelGrid layout="tabular" id="parametrypodatnika10" columns="2" style="padding: 5px;">
                     <p:selectBooleanCheckbox value="#{podatnikView.selected.wysylkazusmail}" label="wysyłać dane o wysokości ZUS i PIT-4"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
                     </p:selectBooleanCheckbox>
                     <h:outputText value="wysyłać dane o składkach ZUS i PIT4 na mail: #{podatnikView.selected.email ne null ? podatnikView.selected.email : 'brak mail'}"/>

@@ -10,7 +10,7 @@
                   <h:outputText value="Rozmiar strony 595x842"/>
               </p:outputPanel>
         <h:form id="formelementywymiaryimport">
-            <p:panelGrid columns="1"  style="margin: 20px;">
+            <p:panelGrid layout="tabular" columns="1"  style="margin: 20px;">
                 <p:commandButton value="importuj" style="width: 120px" actionListener="#{pozycjeNaFakturzeView.importuj}" update="akordeon:formelementywymiary akordeon:formwzor"/>
             </p:panelGrid>
         </h:form>

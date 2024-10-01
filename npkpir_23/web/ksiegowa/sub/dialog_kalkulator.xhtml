@@ -11,13 +11,13 @@
               appendTo="@(body)"
               resizable="false" onShow="ustawdialogCenter('dialog_kalkulator','dodWiad:tabelapkpir', 195, 230);" closeOnEscape="true" onHide="resetujdialog('dialog_kalkulator');"  >
         <h:form id="formdialog_kalkulator">
-            <p:panelGrid  columns="1" style="height: 100px; width: 170px;">
+            <p:panelGrid layout="tabular"  columns="1" style="height: 100px; width: 170px;">
                 <h:outputText id="kalkulator_ekran" style="width: 170px; word-break: break-all; line-break: loose;"/>
             </p:panelGrid>
             <p:outputPanel style="padding: 5px; ">
                 <h:inputText id="kalkulator_wpis" onkeyup="calc();" autocomplete="false" style="width: 160px;"/>
             </p:outputPanel>
-            <p:panelGrid columns="2">
+            <p:panelGrid layout="tabular" columns="2">
                 <p:commandButton id="kopiuj" value="kopiuj" styleClass="fkbutton" style="width: 78px;" global="false" type="button"
                                  onclick="kalkulator_close();" />
                 <p:commandButton id="kasuj" value="kasuj" styleClass="fkbutton" style="width: 78px; margin-left: 10px;" global="false" type="button" 

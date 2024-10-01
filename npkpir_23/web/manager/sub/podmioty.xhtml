@@ -153,7 +153,7 @@
                 };
             </script>
             <h1><h:outputText value="Dodaj nowy podmiot"/></h1>
-            <p:panelGrid columns="2">
+            <p:panelGrid layout="tabular" columns="2">
                 <h:form id="formbuton">
                     <p:commandButton value="osoba fizyczna"  actionListener="#{podmiotView.setOsobafizyczna(true)}" update="akordeon:formdodaj:panel" style="width: 120px;"
                                      onclick="r('akordeon:formdodaj:panela').show();r('akordeon:formdodaj:buton').show()"/>
@@ -163,8 +163,8 @@
             </p:panelGrid>
             <h:form id="formdodaj">
                 <p:messages  id="messagespodmiot" ><p:autoUpdate/></p:messages>
-                <p:panelGrid columns="1" id="panel">
-                    <p:panelGrid columns="2" id="panela">
+                <p:panelGrid layout="tabular" columns="1" id="panel">
+                    <p:panelGrid layout="tabular" columns="2" id="panela">
                         <p:outputLabel value="Nip:" for="nip" />
                         <p:inputText id="nip" value="#{podmiotView.nowy.nip}" title="Nip" >
                             <p:ajax event="blur"  partialSubmit="true" listener="#{podmiotView.pobierzdaneind}" update="@form"/>
@@ -208,7 +208,7 @@
         <p:tab title="Udziały">
             <h:form id="form9">
                 <p:autoUpdate/>
-                <p:panelGrid columns="2">
+                <p:panelGrid layout="tabular" columns="2">
                     <p:selectBooleanCheckbox value="#{podmiotView.tylkoaktywne}" itemLabel="pokaż tylko aktywnych" title="pokaż tylko aktywnych" valueChangeListener="#{podmiotView.pobierzliste}">
                         <p:ajax event="change" partialSubmit="true" update="akordeon:form9:form9tablica"/>
                     </p:selectBooleanCheckbox>
@@ -268,7 +268,7 @@
         </p:tab>
         <p:tab title="Podmioty">
             <h:form id="form10">
-                 <p:panelGrid columns="2">
+                 <p:panelGrid layout="tabular" columns="2">
                      <p:selectBooleanCheckbox value="#{podmiotView.tylkofizyczne}" itemLabel="pokaż tylko fizyczne" title="pokaż tylko fizyczne" >
                          <p:ajax event="change" partialSubmit="true" update="akordeon:form10" listener="#{podmiotView.pobierzpodmioty}"/>
                     </p:selectBooleanCheckbox>

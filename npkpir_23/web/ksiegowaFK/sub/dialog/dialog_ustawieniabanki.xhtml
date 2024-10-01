@@ -21,7 +21,7 @@
         <p:ajax event="open" listener="#{bankImportWzoryView.init()}" global="false" update="ustawieniabankidodaj ustawieniabankiimport"/>
         <h:form id="ustawieniabankidodaj">
             <h:outputText value="można wpisać alternatywne wyrażenia w rubryce opis oddzielone średnikiem"/>
-            <p:panelGrid columns="12" style="margin-left: 2%; margin-bottom: 2%;" >
+            <p:panelGrid layout="tabular" columns="12" style="margin-left: 2%; margin-bottom: 2%;" >
                 <h:outputText value="bank"/>
                 <h:outputText value="nr konta"/>
                 <h:outputText value="wyrażenie w opisie"/>
@@ -56,7 +56,7 @@
         </h:form>
             <p:separator/>
            <h:form id="ustawieniabankiimport">
-            <p:panelGrid columns="2" style="margin-left: 2%; margin-bottom: 2%;" >
+            <p:panelGrid layout="tabular" columns="2" style="margin-left: 2%; margin-bottom: 2%;" >
                 <p:column>
                     <h:outputText value="pokaż ustawienia dla banku: "/>
                 </p:column>

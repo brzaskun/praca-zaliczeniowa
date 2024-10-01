@@ -18,7 +18,7 @@
                 <f:selectItem itemValue="deleK" itemLabel="Delegacje krajowe"/>
                 <f:selectItem itemValue="deleZ" itemLabel="Delegacje zagraniczne"/>
             </p:selectOneMenu>
-            <p:panelGrid id="dkp" columns="2" style="margin-top: 10px;">
+            <p:panelGrid layout="tabular" id="dkp" columns="2" style="margin-top: 10px;">
                 <p:commandButton value="dodaj" actionListener="#{planKontView.dodajslownik()}" type="submit" 
                                          update=":form_dialog_plankont:dataList" style="margin-left: auto; margin-right: auto; width: 120px;" oncomplete="PF('nowekontoslownik').hide();"  />
                 <p:commandButton value="anuluj" type="button" 

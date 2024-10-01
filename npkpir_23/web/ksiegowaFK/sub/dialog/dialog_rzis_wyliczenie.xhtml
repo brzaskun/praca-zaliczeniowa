@@ -30,8 +30,8 @@
                     }
                 }
             </script>
-            <p:panelGrid columns="6" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
-                <p:panelGrid columns="3">
+            <p:panelGrid layout="tabular" columns="6" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
+                <p:panelGrid layout="tabular" columns="3">
 <!--                    <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="#{ukladBRConv}">
                         <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
@@ -64,7 +64,7 @@
                 </p:column>
             </p:panelGrid>
             <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
-            <p:panelGrid columns="2" style="height: 600px;">
+            <p:panelGrid layout="tabular" columns="2" style="height: 600px;">
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}"
@@ -87,7 +87,7 @@
                     </p:treeTable>
                 </p:column>
                 <p:column>
-                    <p:panelGrid columns="1" >
+                    <p:panelGrid layout="tabular" columns="1" >
                         <p:dataTable lazy="false"  id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
                                      style="height: 200px; margin-top: 0%; width: 850px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}"
                                      rowKey="#{loop.id}" selection="#{pozycjaBRView.wybranokonto}">

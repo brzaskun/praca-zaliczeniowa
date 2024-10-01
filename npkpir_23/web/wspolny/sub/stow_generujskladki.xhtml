@@ -7,7 +7,7 @@
       xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
     <h:form id="form_dialog_stowarzyszenie_generujskladki">
               
-            <p:panelGrid columns="12">
+            <p:panelGrid layout="tabular" columns="12">
             <p:selectOneMenu value="#{stowNaliczenieView.wybranakategoria}">
                 <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
                 <f:selectItems value="#{stowNaliczenieKategorie.lista}"/>
@@ -27,7 +27,7 @@
             <p:commandButton value="generuj PK" actionListener="#{stowNaliczenieView.generujPK}"
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;margin-left: 5px;"/>
             </p:panelGrid>
-            <p:panelGrid columns="4">
+            <p:panelGrid layout="tabular" columns="4">
             <h:outputText value="konto Wn"/>
             <p:selectOneMenu value="#{stowNaliczenieView.kontoWn}" converter="#{kontoConv}">
                 <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>

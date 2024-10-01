@@ -90,6 +90,30 @@ public class WierszBODAO extends DAO implements Serializable {
         return zwrot;
     }
     
+     public List<WierszBO> findPodatnikRokBOBOR(Podatnik podatnik, String rok, boolean likwidacja) {
+        List<WierszBO> zwrot = new ArrayList<>();
+        try {
+            if (likwidacja==false) {
+                zwrot = getEntityManager().createNamedQuery("WierszBO.findByPodatnikRokListaBO").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+            } else if (likwidacja) {
+                zwrot = getEntityManager().createNamedQuery("WierszBO.findByPodatnikRokListaLikwidacja").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+            }
+        } catch (Exception e) { E.e(e); 
+            
+        }
+        return zwrot;
+    }
+     
+      public List<WierszBO> findPodatnikRokBOR(Podatnik podatnik, String rok, String mc) {
+        List<WierszBO> zwrot = new ArrayList<>();
+        try {
+                zwrot = getEntityManager().createNamedQuery("WierszBO.findByPodatnikRokListaObroty").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        } catch (Exception e) { E.e(e); 
+            
+        }
+        return zwrot;
+      }
+    
 //    public int deletePodatnikRok(Podatnik podatnik, String rok) {
 //        return getEntityManager().createNamedQuery("WierszBO.findByDeletePodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
 //    }

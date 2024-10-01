@@ -10,7 +10,7 @@
               onShow="snapshot('form_dialog_plankont:dataList_data');" onHide="recover('form_dialog_plankont:dataList_data');">
         <h:form id="dialog_plankont_usunkontoslownik">  
         <p:focus for="anulujusunslownik">
-                <p:panelGrid id="dkp" columns="2" style="margin-top: 10px;">
+                <p:panelGrid layout="tabular" id="dkp" columns="2" style="margin-top: 10px;">
                 <p:commandButton value="usuń" actionListener="#{planKontView.usunslownik()}" type="submit" 
                                          update=":formY :form_dialog_plankont" style="margin-left: 10px; width: 120px;" 
                                          oncomplete="PF('usunkontoslownik').hide();"  />

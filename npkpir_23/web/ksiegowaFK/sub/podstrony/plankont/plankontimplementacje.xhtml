@@ -14,7 +14,7 @@
     <bcf:ajaxs/>
     <p:panel header="Kopiowanie kompletnego planu kont z firmy do firmy" />
         <h:form id="formdialog_plankont_kopiuj">
-            <p:panelGrid styleClass="paneldialog_plankont_kopiuj" columns="4">
+            <p:panelGrid layout="tabular" styleClass="paneldialog_plankont_kopiuj" columns="4">
                 <h:outputText value="Pobierz plan kont z firmy" style="width: 250px;"/>
                 <p:selectOneMenu  value="#{planKontKopiujView.podatnikzrodlowy}" style="width: 280px;" converter="#{podatConv}">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>
@@ -28,7 +28,7 @@
                 <h:outputText value="rok" style="margin-left: 70px;"/>
                 <p:inputText value="#{planKontKopiujView.rokdocelowy}"/>
             </p:panelGrid>
-            <p:panelGrid columns="2" style="margin-top: 5px;">
+            <p:panelGrid layout="tabular" columns="2" style="margin-top: 5px;">
                 <h:outputText value="kopiuj słowniki i konta słownikowe"/>
                 <p:selectBooleanCheckbox value="#{planKontKopiujView.kopiujSlownikowe}" style="margin-left: 20px;"/>
             </p:panelGrid>
@@ -38,7 +38,7 @@
         </h:form>
     <p:panel header="Uzupełnienie planu kont z firmy do firmy o brakujące konta" style="margin-top: 10px;"/>
         <h:form id="formdialog_plankont_uzupelnij">
-            <p:panelGrid styleClass="paneldialog_plankont_uzupelnij" columns="4">
+            <p:panelGrid layout="tabular" styleClass="paneldialog_plankont_uzupelnij" columns="4">
                 <h:outputText value="Źródłowy plan kont z firmy" style="width: 250px;"/>
                 <p:selectOneMenu  value="#{planKontUzupelnijView.podatnikzrodlowy}" style="width: 280px;" converter="#{podatConv}" autoWidth="false">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>
@@ -63,7 +63,7 @@
     </style>
     <p:panel  header="Implementowanie kompletnego planu wzorcowego z roku do roku" style="margin-top: 10px;"/>
         <h:form id="formdialog_plankont_implementuj_wzorcowy">
-            <p:panelGrid styleClass="paneldialog_plankont_implementuj_wzorcowy" columns="4">
+            <p:panelGrid layout="tabular" styleClass="paneldialog_plankont_implementuj_wzorcowy" columns="4">
                 <h:outputText value="rok źródłowy planu wzorcowego" />
                 <p:inputText value="#{planKontKopiujView.rokzrodlowy_wzorzec}"/>
                 <h:outputText value="rok docelowy planu firmy"/>

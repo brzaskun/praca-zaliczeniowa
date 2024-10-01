@@ -84,7 +84,7 @@
                     <f:facet name="header">
                         <h:outputText value="dni"/>
                     </f:facet>
-                    <p:panelGrid columns="1">
+                    <p:panelGrid layout="tabular" columns="1">
                         <h:outputText value="#{item3.zostaloDni}" rendered="#{item3.zostaloDni gt 0 or item3.zostaloDni eq 0}" style="color: red;"/>
                         <h:outputText value="#{item3.zostaloDni}" rendered="#{item3.zostaloDni lt 0}" style="color: green;"/>
                     </p:panelGrid>
@@ -192,7 +192,7 @@
                     <f:facet name="header">
                         <h:outputText value="stan"/>
                     </f:facet>
-                    <p:panelGrid columns="1">
+                    <p:panelGrid layout="tabular" columns="1">
                         <h:outputText value="#{item4.status}"/>
                     </p:panelGrid>
                 </p:column>
@@ -200,7 +200,7 @@
                     <f:facet name="header">
                         <h:outputText value="data odczytu"/>
                     </f:facet>
-                    <p:panelGrid columns="1">
+                    <p:panelGrid layout="tabular" columns="1">
                         <h:outputText value="#{item4.datastatusu}">
                             <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
                         </h:outputText>
@@ -210,7 +210,7 @@
                     <f:facet name="header">
                         <h:outputText value="dni"/>
                     </f:facet>
-                    <p:panelGrid columns="1">
+                    <p:panelGrid layout="tabular" columns="1">
                         <h:outputText value="#{item4.zostaloDni}" rendered="#{item4.zostaloDni gt 0 or item4.zostaloDni eq 0}" style="color: red;"/>
                         <h:outputText value="#{item4.zostaloDni}" rendered="#{item4.zostaloDni lt 0}" style="color: green;"/>
                     </p:panelGrid>

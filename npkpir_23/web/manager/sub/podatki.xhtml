@@ -13,7 +13,7 @@
         <p:focus for="parametryzus"/><br/>
         <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
             <br/>
-        <p:panelGrid columns="1" style="width: 1200px">
+        <p:panelGrid layout="tabular" columns="1" style="width: 1200px">
             <p:dataTable lazy="false"  value="#{podStawkiView.listapobranychstawek}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
                  <f:facet name="header">
                     <h:outputText value="Lista wprowadzonych stawek"/>
@@ -60,7 +60,7 @@
         </p:panel>
         <br/>
         <p:panel header="wybierz parametry aktualne" style="width: 700px;">
-        <p:panelGrid id="parametryzus" columns="2" >
+        <p:panelGrid layout="tabular" id="parametryzus" columns="2" >
             <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podStawkiView.selected.rok}"><f:selectItems value="#{roki.rokiList}"/></h:selectOneMenu>
             <h:outputText value="mc od: "/><h:selectOneMenu value="#{podStawkiView.selected.mc}"><f:selectItems value="#{mce.mceList}"/></h:selectOneMenu>
             <h:outputText value="kwota wolna: "/><h:inputText value="#{podStawkiView.selected.kwotawolna}"><f:convertNumber /></h:inputText>
@@ -76,7 +76,7 @@
         </p:panelGrid>
             </p:panel>
         <br/>
-        <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
+        <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 700px">
             <p:commandButton action="#{podStawkiView.usun()}" value="usun parametr" update="@form" type="submit" />
             <p:commandButton action="#{podStawkiView.dodaj()}" value="dodaj parametr" update="@form"  type="submit" />
         </p:panelGrid>

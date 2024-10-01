@@ -15,7 +15,7 @@
     <div class="vertical-container">
         <div class="col-12 md:col-8 lg:col-8" style="max-width: 1240px;" >
             <h:form id="formbuttonsrodki">
-                <p:panelGrid columns="6">
+                <p:panelGrid layout="tabular" columns="6">
                 <p:commandButton id="buttonsrodki" value="dodaj środek trwały" style=" width: 150px;"  onclick="PF('dialog_srodki_dodaj').show();"/>
                 <p:commandButton id="buttondrukowanie" value="drukuj posiadane" style="margin-left: 50px; width: 150px;" actionListener="#{sTRTabView.drukowanietabeli(sTRTabView.posiadane, 'posiadane',0)}"/>
                 <p:commandButton id="buttondrukowanie3" value="drukuj posiadane2" style="margin-left: 20px; width: 150px;" actionListener="#{sTRTabView.drukowanietabeli(sTRTabView.posiadane2, 'posiadane2',1)}"/>
@@ -30,7 +30,7 @@
         <div class="col-12 md:col-4 lg:col-3" style="max-width: 440px;" >
             <h:form id="formSTR">
                 <p:growl life="3600"  id="mess_add" ><p:autoUpdate/></p:growl>
-                <p:panelGrid id="infosrodki" >
+                <p:panelGrid layout="tabular" id="infosrodki" >
                     <f:facet name="header">
                         <p:row>
                             <p:column>

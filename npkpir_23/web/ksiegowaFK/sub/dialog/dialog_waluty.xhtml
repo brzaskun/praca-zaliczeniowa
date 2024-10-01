@@ -16,7 +16,7 @@
                     height: 0px !important;
                 }
             </style>
-            <p:panelGrid columns="4">
+            <p:panelGrid layout="tabular" columns="4">
                 <h:outputText value="data od  - nie starsza niż 3 mce!!"/>
                 <p:inputText maxlength="10" size="10" placeholder="yyyy-mm-dd" value="#{walutyKursRecznieView.dataodtabela}"/>
                 <h:outputText value="data końcowa WYMAGANA!"/>
@@ -69,7 +69,7 @@
             </p:dataTable>
         </h:form>
         <h:form id="wpiswalut">
-            <p:panelGrid id="dataTablewpisywaniewalut" style="margin-top: 10px;margin-bottom: 5px; display: none; width: 150px;">
+            <p:panelGrid layout="tabular" id="dataTablewpisywaniewalut" style="margin-top: 10px;margin-bottom: 5px; display: none; width: 150px;">
                 <f:facet name="header">
                     <p:row>
                         <p:column width="40">

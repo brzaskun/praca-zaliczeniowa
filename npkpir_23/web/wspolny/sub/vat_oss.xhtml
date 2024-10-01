@@ -22,7 +22,7 @@
         }
     </script>
     
-    <p:panelGrid id="panelue" columns="2">
+    <p:panelGrid layout="tabular" id="panelue" columns="2">
             <p:commandButton value="deklar. test" style="margin-left: 10px; margin-bottom: 1%; width: 120px;display:inline ;"
                              actionListener="#{vatOSSView.tworzdeklaracje(1)}"/>
             <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" id="deklbutton"
@@ -106,7 +106,7 @@
                         <p:commandButton value="drukuj uprosz." actionListener="#{vatOSSView.drukujUPR(row)}" update="@form" style="width: 80px;"/>
                     </p:column>
                     <p:rowExpansion>
-                        <p:panelGrid columns="3">
+                        <p:panelGrid layout="tabular" columns="3">
                             <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
                             <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
                             <h:outputText value="#{row.deklaracja}"/>

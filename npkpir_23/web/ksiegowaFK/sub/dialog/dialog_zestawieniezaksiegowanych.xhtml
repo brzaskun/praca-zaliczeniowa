@@ -50,13 +50,13 @@
                 update=":zestawieniedokumentow:dataList zestawieniedokumentow:kategoriadokumentu zestawieniedokumentow:okreswpisu"/>
         <h:form id="zestawieniedokumentow">
             <p:growl life="6000" id="wiadomoscisprawdzanie" sticky="true" ><p:autoUpdate/></p:growl>
-            <p:panelGrid id="sumawybranych" columns="2" style="padding: 5px;">
+            <p:panelGrid layout="tabular" id="sumawybranych" columns="2" style="padding: 5px;">
                 <h:outputText value="   suma wartości netto wybranych dokumentów: "/>
                 <bcf:outputpl id="podsumowaniewybr" value="#{dokfkView.podsumowaniewybranych}"/>
             </p:panelGrid>
-            <p:panelGrid id="panelprzyciskowzestdok" style="margin-left: 2%;" >
+            <p:panelGrid layout="tabular" id="panelprzyciskowzestdok" style="margin-left: 2%;" >
                 <p:row>
-            <p:panelGrid columns="3" style="float: left;" id="okreswpisu">
+            <p:panelGrid layout="tabular" columns="3" style="float: left;" id="okreswpisu">
                 <p:column>
                     <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
                         <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
@@ -303,7 +303,7 @@
                                      update=":potwierdzeniazestawieniedok"/>
                 </p:column>
                 <p:rowExpansion>
-                    <p:panelGrid columns="2">
+                    <p:panelGrid layout="tabular" columns="2">
                         <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" resizable="true">  
                             <p:dataTable lazy="false"  var="subwpis" value="#{item.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 700px;">
                                 <p:column id="SubColumn1" headerText="ewidencja" width="250">  

@@ -31,7 +31,7 @@
                             <div style="padding: 10px;">
                             <h:outputText value="import dokumentów z pliku JPK_FA"/>
                             </div>
-                            <p:panelGrid columns="2">
+                            <p:panelGrid layout="tabular" columns="2">
                                 <p:selectBooleanCheckbox label="wybierz osoby fizyczne" value="#{importFakturyView.wybierzosobyfizyczne}" itemLabel="wybierz tylko osoby fizyczne">
                                     <p:ajax event="change" partialSubmit="true" update="importtabela"/>
                                 </p:selectBooleanCheckbox>
@@ -54,7 +54,7 @@
                             </p:fileUpload>
                         </h:form>
                         <h:form id="importtabela">
-                            <p:panelGrid columns="2">
+                            <p:panelGrid layout="tabular" columns="2">
                                 <h:outputText value="Razem netto: "/>
                                 <bcf:outputpl value="#{importFakturyView.netto}"/>
                                 <h:outputText value=" | vat: "/>
@@ -187,7 +187,7 @@
                                 </p:column>
                             </p:dataTable> 
                             <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
-                            <p:panelGrid columns="2">
+                            <p:panelGrid layout="tabular" columns="2">
                                 <p:commandButton value="zaksięguj" actionListener="#{importFakturyView.zaksieguj}" id="ksiegujbutton"
                                                  style="margin-top: 20px; width: 120px;" update="@form" rendered="#{importFakturyView.dokumenty.size() gt 0 and !importFakturyView.wybierzosobyfizyczne and !importFakturyView.deklaracjaniemiecka}"/>
                                 <p:commandButton value="zaksięguj dla jpk" actionListener="#{importFakturyView.zaksiegujdlajpk}" id="ksiegujbutton2"

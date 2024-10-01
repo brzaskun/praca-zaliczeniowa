@@ -10,7 +10,7 @@
         <h:form id="form6" >
             <h:outputText value="Rodzaje dokumentów księgowych" style="font-size: 15px"/>
             <p:growl life="3600"  id="messages" />
-            <p:panelGrid columns="1" style="width: 1350px">
+            <p:panelGrid layout="tabular" columns="1" style="width: 1350px">
                 <p:dataTable lazy="false"  id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
                              style="height: 300px; overflow-y: scroll" selectionMode="single" rowKey="#{loop.id}"
                              sortBy="#{loop.skrotNazwyDok}"
@@ -105,7 +105,7 @@
             <p:focus for="parametryDokKsi"/><br/>
             <h:outputText value="Wpisz nowy dokument/Edytuj dane dokumentu" style="padding: 5px; margin-bottom: 10px;"/>
             
-                <p:panelGrid id="parametryDokKsi" columns="8" >
+                <p:panelGrid layout="tabular" id="parametryDokKsi" columns="12" >
                     <h:outputText value="skrót: " />
                     <p:inputText value="#{podatnikView.selectedDokKsi.skrotNazwyDok}" />
                     <h:outputText value=" nazwa pelna: " />
@@ -178,7 +178,7 @@
                         <f:selectItems value="#{rodzajedokView.jpkoznaczenia}" var="itm1" itemLabel="#{itm1.symbol}" itemValue="#{itm1}" itemDescription="#{itm1.opis}" />
                    </h:selectOneMenu>
                 </p:panelGrid>
-            <p:panelGrid id="parametryDokKsi1" columns="4" rendered="#{WpisView.podatnikObiekt.firmafk ne 0 and podatnikView.selectedDokKsi.tylkovat eq false and podatnikView.selectedDokKsi.tylkojpk eq false}">
+            <p:panelGrid layout="tabular" id="parametryDokKsi1" columns="4" rendered="#{WpisView.podatnikObiekt.firmafk ne 0 and podatnikView.selectedDokKsi.tylkovat eq false and podatnikView.selectedDokKsi.tylkojpk eq false}">
 
                     <p:column headerText="konto rozrach." style="text-align: center;" >
                         <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontorozrachunkowe}" style="width: 250px;" converter="#{kontoConv}"  rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu == 0}">
@@ -211,12 +211,12 @@
                     </p:column>
                 </p:panelGrid>
             
-            <p:panelGrid columns="3" style="column-width: 350px; width: 300px; padding: 10px;">
+            <p:panelGrid layout="tabular" columns="3" style="column-width: 350px; width: 300px; padding: 10px;">
                 <p:commandButton actionListener="#{podatnikView.dodajDokKsi()}" global="false" value="dodaj dokument" update=":akordeon:form6:pDokKsi :akordeon:form7" style="width: 120px;" rendered="true"/>
                 <p:commandButton actionListener="#{podatnikView.editdok()}" global="false" value="edytuj dokument" update=":akordeon:form6:pDokKsi :akordeon:form7" style="width: 120px;margin-left: 20px;"/>
                 <p:commandButton actionListener="#{podatnikView.pobierzrokpoprzedni}" global="true" value="pobierz rok pop." update=":akordeon:form6:pDokKsi :akordeon:form7"  style="width: 120px;margin-left: 20px;"/>
             </p:panelGrid>
-            <p:panelGrid columns="1" style="margin-top: 15px;">
+            <p:panelGrid layout="tabular" columns="1" style="margin-top: 15px;">
                 <h:outputText value="*Dopuszczalne elementy wzorca: n - numer kolejny w roku, N - numer kolejny w miesiącu,	m - numer miesiąca, r - numer roku, s - dowolny ciąg znaków za wyjątkiem: /"/>
                 <h:outputText value="**Dotyczy faktur kosztowych. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. faktur samochodowych: 50"/>
                 <h:outputText value="***Dotyczy faktur typu WNT. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. WNT: 8"/>

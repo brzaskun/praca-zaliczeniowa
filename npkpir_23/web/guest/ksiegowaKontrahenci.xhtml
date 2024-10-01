@@ -42,7 +42,7 @@
                                     </f:facet>
                                 </p:panel>
                                 <h:form id="zmianaokresuguest">
-                                      <p:panelGrid columns="3" >
+                                      <p:panelGrid layout="tabular" columns="3" >
                                         <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" >
                                             <f:selectItems value="#{roki.rokiList}"/>
                                             <p:ajax event="change" listener="#{obrotyView.aktualizujOkres()}"  />

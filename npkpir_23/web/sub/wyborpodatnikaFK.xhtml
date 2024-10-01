@@ -19,7 +19,7 @@
             </p:column>
         </p:dataTable>-->
             <br/>
-            <p:panelGrid columns="1"  >
+            <p:panelGrid layout="tabular" columns="1"  >
                 <p:focus id="focus" context="podatnikWpisu"/>
                 <p:column >
                     <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 572px;" scrollHeight="300" converter="#{podatConv}" filter="true" filterMatchMode="contains" >
@@ -28,7 +28,7 @@
                     </p:selectOneListbox>
                 </p:column>
             </p:panelGrid>
-            <p:panelGrid columns="2" style="float: right;">
+            <p:panelGrid layout="tabular" columns="2" style="float: right;">
                 <p:column>
                      <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
                         <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>

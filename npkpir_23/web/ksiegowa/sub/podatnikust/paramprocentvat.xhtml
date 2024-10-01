@@ -12,7 +12,7 @@
                 <h:outputText value="Procent VAT naliczonego do odliczenia - struktura" style="font-size: 15px"/>
                 <p:growl life="3600"  showDetail="true"/>
                 <p:focus for="parametryp1"/><br/>
-                <p:panelGrid columns="1" style="width: 500px">
+                <p:panelGrid layout="tabular" columns="1" style="width: 500px">
                     <p:dataTable lazy="false"  value="#{podatnikView.selected.paramProcentVat}"  var="loop" emptyMessage="nie wprowadzono parametrów"
                                  >
                         <f:facet name="header">
@@ -32,13 +32,13 @@
                     </p:dataTable>
                 </p:panelGrid>
                 <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
-                <p:panelGrid id="parametryp1" columns="6" >
+                <p:panelGrid layout="tabular" id="parametryp1" columns="6" >
                     <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.paramProcentVat.rokOd}"><f:selectItems value="#{roki.rokiListString}"/></p:selectOneMenu>
                     <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{podatnikView.paramProcentVat.mcOd}"><f:selectItems value="#{mce.mceList}"/></p:selectOneMenu>
                     <h:outputText value="procent VAT (np.: 19.4): "/><p:inputText value="#{podatnikView.paramProcentVat.parametr}"/>
                 </p:panelGrid>
                 <br/>
-                <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+                <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 500px">
                     <p:commandButton action="#{podatnikView.usunparamProcentVat()}" value="usun parametr" update="@form" type="submit"/>
                     <p:commandButton action="#{podatnikView.dodajparamProcentVat()}" value="dodaj parametr" update="@form" type="submit"/>
                 </p:panelGrid>

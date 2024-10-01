@@ -11,7 +11,7 @@
 
     <p:tab  title="Aktywacja kontrahentów" >
         <h:form>
-            <p:panelGrid columns="1">
+            <p:panelGrid layout="tabular" columns="1">
                 <p:commandButton value="aktualizuj" actionListener="#{fakturaAktywniKlienci.usunnieaktywnych()}" update="@form"/>
             </p:panelGrid>
         <p:dataTable lazy="false"  value="#{fakturaAktywniKlienci.klienciaktywowanie}" var="wpis"

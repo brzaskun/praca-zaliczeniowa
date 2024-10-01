@@ -16,7 +16,7 @@
             </f:facet>
             <p:graphicImage url="/resources/images/ksiegi.jpg"/>
             <p></p>
-            <p:panelGrid columns="4">
+            <p:panelGrid layout="tabular" columns="4">
                 <p:column >
                     <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 280px;" converter="#{podatConv}">
                         <f:selectItems value="#{multiuserView.listawyboru}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>

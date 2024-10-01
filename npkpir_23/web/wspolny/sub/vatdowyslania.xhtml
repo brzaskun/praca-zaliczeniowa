@@ -11,7 +11,7 @@
     <p:outputPanel id="paneldeklaracjadowyslania">
             <p:growl life="3600"  id="msg" ><p:autoUpdate/></p:growl>
             <p:panel header="Wykaz oczekujacych wysyłki deklaracji" style="width: 1250px;"/>
-            <p:panelGrid columns="3">
+            <p:panelGrid layout="tabular" columns="3">
                 <h:outputText value="saldo konta 222: "  rendered="#{WpisView.ksiegirachunkowe and deklaracjevatView.oczekujace ne null and deklaracjevatView.oczekujace.size() gt 0}"/>
                 <bcf:outputpl value="#{deklaracjevatView.saldo222}" rendered="#{WpisView.ksiegirachunkowe and deklaracjevatView.oczekujace ne null and deklaracjevatView.oczekujace.size() gt 0}" stylePlus="color: blue;"/>
                 <p:selectBooleanCheckbox value="#{deklaracjevatView.wyslijtezjpk}" itemLabel="wysłać jednocześnie jpk" rendered="#{deklaracjevatView.oczekujace ne null and deklaracjevatView.oczekujace.size() gt 0 and deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 1}" style="float: right; margin-left: 100px;"> 
@@ -25,7 +25,7 @@
                 </p:column>
                 <p:ajax event="rowEdit" update="@form" listener="#{deklaracjevatView.edit}" />
                 <p:column headerText="wersja" width="60">
-                    <p:panelGrid columns="1">
+                    <p:panelGrid layout="tabular" columns="1">
                         <h:outputText value="#{item.wzorschemy}"/>
                         <h:outputText value="deklar. z podp. kwalif." style="color: blue" rendered="#{item.jestcertyfikat}"/>
                         <h:outputText value="deklar. z kwotą autor. " rendered="#{!item.jestcertyfikat}"/>
@@ -45,7 +45,7 @@
                             <h:outputText value="kwota autoryzacyjna"/><h:outputText value="#{loop.kwotaautoryzacja}"/>
                         </h:panelGrid>
                     </p:dataGrid>
-                    <p:panelGrid columns="2"  style="height: 150px;" columnClasses="thirty-percent seventy-percent">
+                    <p:panelGrid layout="tabular" columns="2"  style="height: 150px;" columnClasses="thirty-percent seventy-percent">
                         <p:dataTable lazy="false"  value="#{item.selected.pozycjeszczegolowe.getPozycje()}" var="wiersz" >
                             <p:column width="100">
                                 <h:outputText value="#{wiersz.nazwapola}"/>
@@ -68,7 +68,7 @@
                     </p:panelGrid>
                 </p:column>
                 <p:column id="previewColumn" headerText="operacje" width="110" style="text-align: center;">
-                    <p:panelGrid columns="1">
+                    <p:panelGrid layout="tabular" columns="1">
                         <p:commandButton value="Pdf" actionListener="#{deklaracjevatView.drukujprzygotowanedowysylki(item)}" style="width: 80px;"/>
                         <p:commandButton id="mailbutton" value="Mail" actionListener="#{deklaracjevatView.mailvat7(-1) }" update="@form" style="width: 80px; display: none;"  />
                         <p:commandButton id="mailbuttonN" value="Mail" actionListener="#{deklaracjevatView.mailvat7N(-1) }" update="@form" style="width: 80px; display: none;"  />
@@ -87,7 +87,7 @@
                 </p:rowExpansion>
             </p:dataTable>
           <p:panel header="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Deklaracja zostanie wysłana przy najbliższej wysyłce JPK"/>
-        <p:panelGrid columns="1" style="width: 100%; padding: 10px;margin-top: 20px;">
+        <p:panelGrid layout="tabular" columns="1" style="width: 100%; padding: 10px;margin-top: 20px;">
             <p:commandButton value="wyślij" actionListener="#{deklaracjevatView.zachowajdeklaracjezjpk}" 
                              style="margin-left: 3%; width: 120px;" update="@parent" rendered="#{deklaracjevatView.informacjazachowano eq null}"/>
             <h:outputText value="#{deklaracjevatView.informacjazachowano}" style="color: blue;"/>

@@ -29,7 +29,7 @@
                     }
                 }
             </script>
-                <p:panelGrid columns="6">
+                <p:panelGrid layout="tabular" columns="6">
 <!--                    <h:outputText value="#{mgs.nazwaukładu}"/>
                     <h:outputText value="#{pozycjaBRView.uklad.uklad} - #{pozycjaBRView.uklad.rok}"/>-->
 <!--                    <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="#{ukladBRConv}">
@@ -52,7 +52,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />-->
             </p:panelGrid>
-            <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
@@ -97,7 +97,7 @@
                     </p:treeTable>
                 </p:column>
                 <p:column>
-                    <p:panelGrid columns="1" >
+                    <p:panelGrid layout="tabular" columns="1" >
                         <p:dataTable lazy="false"  id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
                                      style="height: 200px; margin-top: 0%; width: 850px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.pelnynumer}"
                                      rowKey="#{loop.id}" selection="#{pozycjaBRView.wybranokonto}"

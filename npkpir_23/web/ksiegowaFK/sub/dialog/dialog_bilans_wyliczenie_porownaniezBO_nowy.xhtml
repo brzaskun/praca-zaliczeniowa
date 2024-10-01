@@ -11,8 +11,8 @@
     <p:dialog id="dialogbilansporownanie_nowy" header="Bilans za okres rozliczeniowy wyliczenie z porównaniem - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogbilansporownanie_nowy" 
               resizable="false" onShow="ustawdialog('dialogbilansporownanie_nowy','menubilanse', 1450, 800);" closeOnEscape="true" onHide="resetujdialog('dialogbilansporownanie_nowy');"  >
         <h:form id="form_dialogbilansporownanie_nowy">
-             <p:panelGrid columns="12">
-                <p:panelGrid columns="4" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
+             <p:panelGrid layout="tabular" columns="12">
+                <p:panelGrid layout="tabular" columns="4" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
 <!--                    <p:column>
                         <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{pozycjaBRZestawienieNowyView.obliczBilansOtwarciaBilansDataWybierz()}" update=":form_dialogbilansporownanie_nowy" />
@@ -25,7 +25,7 @@
                     <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
                 </p:panelGrid>
                     
-                    <p:panelGrid columns="12" style="margin-left: 20px;" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
+                    <p:panelGrid layout="tabular" columns="12" style="margin-left: 20px;" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
 <!--                     <p:commandButton value="#{mgs.drukuj}" styleClass="nb"  style="margin-left: 30px;" type="submit" action="#{sesjaView.dodajwydruk()}" 
                                       actionListener="#{pozycjaBRZestawienieNowyView.drukujBilansBODataAP('x', pozycjaBRZestawienieNowyView.sumabilansowapasywaBO, pozycjaBRZestawienieNowyView.sumabilansowaaktywa, pozycjaBRZestawienieNowyView.sumabilansowapasywa)}">
                       </p:commandButton>-->
@@ -54,12 +54,12 @@
                 </p:panelGrid>
                 
             </p:panelGrid>
-            <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
                 <p:dataTable lazy="false"  id="dataList" value="#{pozycjaBRZestawienieNowyView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieNowyView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" rowKey="#{loop.lp}"
                              scrollable="true" style="width: 700px; max-height: 600px;" >
                     <f:facet name="header">
-                        <p:panelGrid columns="3" columnClasses="seventy-percent seventy-percent">
+                        <p:panelGrid layout="tabular" columns="3" columnClasses="seventy-percent seventy-percent">
                             <p:column>
                                 <h:outputText value="#{mgs.aktywa} "/>
                             </p:column>
@@ -99,7 +99,7 @@
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}"  rowKey="#{loop.lp}"
                              scrollable="true" style="width: 700px; max-height: 600px;">
                     <f:facet name="header">
-                        <p:panelGrid columns="3" columnClasses="seventy-percent seventy-percent">
+                        <p:panelGrid layout="tabular" columns="3" columnClasses="seventy-percent seventy-percent">
                             <p:column>
                                 <h:outputText value="#{mgs.pasywa} "/>
                             </p:column>

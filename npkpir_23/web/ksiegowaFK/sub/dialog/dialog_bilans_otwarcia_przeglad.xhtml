@@ -24,7 +24,7 @@
                         }
                     }
             </script>
-              <p:panelGrid columns="6">
+              <p:panelGrid layout="tabular" columns="6">
                 <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukuj}" style="width: 120px;"/>
                 <p:commandButton value="#{mgs.drukuj} synt" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukujAnal(false)}" style="width: 120px; margin-left: 10px;"/>
                 <p:commandButton value="#{mgs.drukuj} analit" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansPodgladView.drukujAnal(true)}" style="width: 120px; margin-left: 10px;"/>
@@ -34,7 +34,7 @@
                 </p:selectBooleanCheckbox>
                 <p:commandButton value="doksięguj BO" actionListener="#{bilansWprowadzanieView.doksiegujroznice(bilansPodgladView.root)}" style="width: 120px; margin-left: 10px;" update="formbilans:dataList"/>
             </p:panelGrid>
-            <p:panelGrid columns="2">
+            <p:panelGrid layout="tabular" columns="2">
                 <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loopbop"  selection="#{bilansPodgladView.selectednodes}" selectionMode="checkbox"
                              rowStyleClass="#{loopbop.level eq 0 ? 'row1' : loopbop.level eq 1 ? 'row2' : loopbop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
                              scrollable="true" style="width: 1560px; height: 600px;overflow-y: scroll;" emptyMessage="Nie ma zapisów na kontach w pozycji BO. Sprawdz czy zapisano wiersze BO do bazy." sortBy="#{loopbop.pelnynumer}">

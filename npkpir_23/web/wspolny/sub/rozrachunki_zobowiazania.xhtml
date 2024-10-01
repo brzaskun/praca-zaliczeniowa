@@ -11,7 +11,7 @@
     <p:outputPanel style="width: 1600px;">
         <div class="flex flex-column" style="max-width: 1600px; max-height: 700px;">
             <div class="flex-none">
-                <p:panelGrid columns="4" columnClasses="kontaGrid1, kontaGrid2" >
+                <p:panelGrid layout="tabular" columns="4" columnClasses="kontaGrid1, kontaGrid2" >
                     <h:form id="formwpisrozrachunki">
                         <p:autoComplete id="wyborkonta" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{rozrachunkiPrzegladView.complete}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" 
@@ -44,7 +44,7 @@
                    
                     </h:form>
                     <h:form>
-                        <p:panelGrid columns="6" style="margin-left: 15px;">
+                        <p:panelGrid layout="tabular" columns="6" style="margin-left: 15px;">
                             <h:outputText value="od"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
@@ -243,7 +243,7 @@
             </div>
 
             <div class="flex-none">
-                <p:panelGrid id="sumy" columns="4" style="width: 1350px;">
+                <p:panelGrid layout="tabular" id="sumy" columns="4" style="width: 1350px;">
 
                 </p:panelGrid>
             </div>

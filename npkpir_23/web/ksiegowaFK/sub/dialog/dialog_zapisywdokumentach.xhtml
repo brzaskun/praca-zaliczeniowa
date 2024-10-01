@@ -15,7 +15,7 @@
     <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisywdokumentach" style="overflow-y: hidden;"
               resizable="false"  onShow="ustawdialog('dialogczwarty','menudokumenty', 1730, 750);" closeOnEscape="true" onHide="resetujdialog('dialogczwarty');" maximizable="true">
         <h:form id="zestawieniezapisownakontach">
-            <p:panelGrid columns="12" style="margin-left: 2%;" >
+            <p:panelGrid layout="tabular" columns="12" style="margin-left: 2%;" >
                 <p:column>
                     <h:outputText value="miesiąc: "/>
                 </p:column>
@@ -135,7 +135,7 @@
             <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
         </h:form>
         <h:form id="zestawieniezapisownakontach_footer">
-            <p:panelGrid columns="4" style="margin-top: 10px;">
+            <p:panelGrid layout="tabular" columns="4" style="margin-top: 10px;">
                 <h:outputText value="suma Wn"/>
                 <bcf:outputpl value="#{wierszeView.sumawn}"/>
                 <h:outputText value=" / suma Ma"/>

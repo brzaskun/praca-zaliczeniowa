@@ -6,5 +6,5 @@
     <system systemId="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd1.xsd" uri="wsdl/Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd1.xsd"/>
     <system systemId="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd2.xsd" uri="wsdl/Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd2.xsd"/>
     <system systemId="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd3.xsd" uri="wsdl/Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd3.xsd"/>
-    <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/WebApplication1Ant/web/WEB-INF/wsdl/wsdlnipvat.wsdl" uri="wsdl/wsdlnipvat.wsdl"/>
+    <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdlnipvat/wsdl/wsdlnipvat.wsdl" uri="wsdlnipvat/wsdl/wsdlnipvat.wsdl"/>
 </catalog>

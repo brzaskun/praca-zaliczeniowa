@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
         <h:form id="westWpis">
-            <p:panelGrid  columns="2" >
+            <p:panelGrid layout="tabular"  columns="2" >
                     <p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
                     <f:selectItems value="#{roki.rokiList}"/>
@@ -22,7 +22,7 @@
             </p:panelGrid>
             <p:panel header="Tu możesz sprawdzić:">
                 <h:form>
-                    <p:panelGrid columns="1">
+                    <p:panelGrid layout="tabular" columns="1">
                         <p:menu style="width: 200px;">
                             <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="dokumenty w roku"  icon="ui-icon-circle-arrow-e" action="#{obrotyView.initGuest()}" update="@form"/>

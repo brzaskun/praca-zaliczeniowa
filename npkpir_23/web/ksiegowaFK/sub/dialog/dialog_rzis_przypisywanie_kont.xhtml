@@ -8,8 +8,8 @@
         <p:dialog id="dialogrzisuklad" header="Układ Rachunku Zysków i Strat - przypisywanie kont" widgetVar="rzisuklad" 
               resizable="false" onShow="ustawdialog('dialogrzisuklad','menubilanse', 1350, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisuklad');"  >
         <h:form id="formrzisuklad">
-            <p:panelGrid columns="4">
-                <p:panelGrid columns="3">
+            <p:panelGrid layout="tabular" columns="4">
+                <p:panelGrid layout="tabular" columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRKontaView.wybranyuklad}" converter="#{ukladBRConv}" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
@@ -25,7 +25,7 @@
                     <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaView.drukujWynikKonta()}" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>
                 </p:column>
             </p:panelGrid>
-            <p:panelGrid columns="3">
+            <p:panelGrid layout="tabular" columns="3">
                 <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKontaRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
                              emptyMessage="Brak pozycji RZiS" liveResize="true">

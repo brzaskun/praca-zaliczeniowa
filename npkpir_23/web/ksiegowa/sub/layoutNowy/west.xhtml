@@ -10,6 +10,8 @@
     .busy-cursor {
         cursor: wait !important;
     }
+   
+
 </style>
 <script>
     function setBusyCursor() {
@@ -23,8 +25,7 @@
 
 
     <h:form id="westKsiegowa">
-        
-        <p:panel id="linki" header="linki" styleClass="flex flex-column" style="max-width: 180px;">
+        <p:panel id="linki" header="linki" styleClass="desktop-links flex flex-column" style="max-width: 180px;"  rendered="#{not responsiveBean.mobile}">
 
             <p:menu >
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="zmiana podatnika"  outcome="zmianapodatnika" icon="ui-icon-circle-arrow-e" />
@@ -74,6 +75,59 @@
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="napisz do admina"  outcome="pismoadmin" icon="ui-icon-circle-arrow-e"/>
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="zmień hasło"  outcome="zmianahasla" icon="ui-icon-circle-arrow-e"/>
             </p:menu>
+            
+        </p:panel>
+        <p:panel id="linkimobile" header="linki" styleClass="mobile-links flex flex-column" style="max-width: 180px;"  rendered="#{responsiveBean.mobile}">
+            <p:slideMenu backLabel="wróć" style="width:200px">
+                <p:submenu icon="ui-icon-circle-arrow-e" label="podatnik" >
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="zmiana podatnika"  outcome="zmianapodatnika" icon="ui-icon-circle-arrow-e" />
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="info podatnik"  outcome="info" icon="ui-icon-circle-arrow-e" />
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="parametry" outcome="parampodatnika" icon="ui-icon-circle-arrow-e" />
+            </p:submenu>
+                <p:submenu icon="ui-icon-circle-arrow-e" label="wpisywanie" rendered="#{WpisView.biuroiszef eq true}">
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="wpisywanie" rendered="#{!zamkniecieView.moznaksiegowac}"  outcome="ksiegowa" icon="ui-icon-circle-arrow-e" />
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="płatności" rendered="#{!zamkniecieView.moznaksiegowac}"  outcome="ksiegowawaluty"  icon="ui-icon-circle-arrow-e" />
+            </p:submenu>
+                <p:submenu icon="ui-icon-circle-arrow-e" label="zestawienia" rendered="#{WpisView.biuroiszef eq true}">
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="wykaz dokumentów"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="podatkowa ksiega"  outcome="ksiega" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ryczalt0ksiega1 == true}"/>                        
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="ewid. przychodów"  outcome="ewidencjaprzychodow" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ryczalt0ksiega1 == false}"/>
+                <!--                    <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="faktury miesieczne"  outcome="fakturymiesieczne" icon="ui-icon-circle-arrow-e"/> 
+                    <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="niezaplacone"  outcome="niezaplacone" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="zaplacone"  outcome="zaplacone" icon="ui-icon-circle-arrow-e"/>  -->
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="import sprzedaży" outcome="importy"  icon="ui-icon-circle-arrow-e" update="@form" />
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="skany dok." outcome="skanydok"  icon="ui-icon-circle-arrow-e" update="@form" />
+
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="obroty w roku" outcome="obroty"  icon="ui-icon-circle-arrow-e" update="@form" />  
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="kontrahenci fakt." outcome="klienci"  icon="ui-icon-circle-arrow-e"/>  
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="zestaw. sumaryczne"  outcome="zestawienie" icon="ui-icon-circle-arrow-e"/>  
+            </p:submenu>
+                <p:submenu icon="ui-icon-circle-arrow-e" label="środki trw.">
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="środki trwałe"  outcome="srodki" icon="ui-icon-circle-arrow-e"/>  
+            </p:submenu>
+                <p:submenu icon="ui-icon-circle-arrow-e" label="niemcy">
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="niemcy"  outcome="niemcy" icon="ui-icon-circle-arrow-e"/>  
+            </p:submenu>
+                <p:submenu icon="ui-icon-circle-arrow-e" label="vat" rendered="#{WpisView.biuroiszef eq true}">
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="PIT"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>
+<!--                    <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" outcome="vatzest" rendered="#{WpisView.vatowiecPlde}"/>-->
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="VAT ewidencje" icon="ui-icon-circle-arrow-e" outcome="vatzest"  rendered="#{WpisView.vatowiecPlde}"/>
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="JPK VAT"  outcome="vatjpk" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="VAT-UE"  outcome="vatue" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.isVatowiecUE()}"/>
+
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="zamknięcie miesiąca"  outcome="zamkniecie" icon="ui-icon-circle-arrow-e"/>
+            </p:submenu>
+                <p:submenu icon="ui-icon-circle-arrow-e" label="faktury">
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="faktury - panel"  outcome="faktura" icon="ui-icon-circle-arrow-e"/>
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="faktury - ustawienia"  outcome="fakturaustawienia" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.biuroiszef eq true}"/>
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="faktury - rozrach"  outcome="fakturarozrachunki"   icon="ui-icon-circle-arrow-e" rendered="#{WpisView.biuroiszef eq true}"/>
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="faktury - kadry"  outcome="fakturakadry"   icon="ui-icon-circle-arrow-e"/>
+            </p:submenu>
+                <p:submenu icon="ui-icon-circle-arrow-e" label="inne">
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="napisz do admina"  outcome="pismoadmin" icon="ui-icon-circle-arrow-e"/>
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="zmień hasło"  outcome="zmianahasla" icon="ui-icon-circle-arrow-e"/>
+            </p:submenu>
+            </p:slideMenu>
             <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="width: 120px; margin-top: 10px;"/>
         </p:panel>
     </h:form>

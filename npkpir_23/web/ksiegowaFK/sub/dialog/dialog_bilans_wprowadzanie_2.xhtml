@@ -45,7 +45,7 @@
                 <h:outputText value="Generowanie bilansu likwidacyjnego na dzień #{WpisView.podatnikObiekt.dataotwarcialikwidacji}" style="color: red;"/>
             </p:outputPanel>
             <p:focus for="formbilanswprowadzanie2_wiersz"/>
-             <p:panelGrid  style="height: 50px;">
+             <p:panelGrid layout="tabular"  style="height: 50px;">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -166,7 +166,7 @@
             <p:commandButton value="dołącz kontr." global="false" onclick="PF('dialog_kliencifk_dolaczanie_BO').show();" style="width: 120px; float: right;"/>
         </h:form>
         <h:form id="formbilanswprowadzanie2">
-            <p:panelGrid columns="13" style="margin-top: 5px;">
+            <p:panelGrid layout="tabular" columns="13" style="margin-top: 5px;">
                 <p:commandButton value="0" actionListener="#{bilansWprowadzanieView.pobierzlista(0)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="1" actionListener="#{bilansWprowadzanieView.pobierzlista(1)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="2" id="buttondwojek" actionListener="#{bilansWprowadzanieView.pobierzlista(2)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
@@ -304,9 +304,9 @@
                 <p:menuitem value="Przywróc zapis" update="formbilanswprowadzanie2:tab1" 
                             actionListener="#{bilansWprowadzanieView.przywrocwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
             </p:contextMenu>
-            <p:panelGrid columns="2">
+            <p:panelGrid layout="tabular" columns="2">
                 <p:column>
-                    <p:panelGrid  id="sum0" columns="12" style="margin-top: 10px;margin-left: 10px;">
+                    <p:panelGrid layout="tabular"  id="sum0" columns="12" style="margin-top: 10px;margin-left: 10px;">
                         <p:outputPanel  rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 9}">
                         <h:outputText value="Wn: "/>
                             <bcf:outputpl value="#{bilansWprowadzanieView.listaBOsumy.get(0)}" style="font-weight: 900;"/>
@@ -330,7 +330,7 @@
             
         </h:form>
         <h:form id="formbilanswprowadzanie3">
-            <p:panelGrid columns="2" id="sumyibutton" style="margin-top: 8px; margin-bottom: 10px;">
+            <p:panelGrid layout="tabular" columns="2" id="sumyibutton" style="margin-top: 8px; margin-bottom: 10px;">
                 <p:column>
                     <p:commandButton value="zapisz wiersze" actionListener="#{bilansWprowadzanieView.zapiszBilansBOdoBazy()}" style="width: 120px;" update="formbilanswprowadzanie2 formbilanswprowadzanie3">
                     </p:commandButton>
@@ -349,7 +349,7 @@
                                      style="width: 120px; margin-left: 5px;" update=":formbilanswprowadzanie2 :formbilanswprowadzanie3" rendered="#{bilansWprowadzanieView.isteniejeDokBOR and bilansWprowadzanieView.tojestgenerowanieobrotow eq true}"/>
                 </p:column>
                 <p:column>
-                    <p:panelGrid id="kwotysum" columns="4" style="margin-top: 10px;margin-left: 10px;">
+                    <p:panelGrid layout="tabular" id="kwotysum" columns="4" style="margin-top: 10px;margin-left: 10px;">
                         <h:outputText value="razem - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.stronaWn}" rendered="true" style="font-weight: 900;"/>
                         <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.stronaMa}" rendered="true" style="font-weight: 900;"/>
                         <h:outputText value=" różnica: " style="margin-left: 10px;"/>

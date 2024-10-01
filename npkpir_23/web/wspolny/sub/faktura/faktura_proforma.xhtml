@@ -26,7 +26,7 @@
         </style>
         <h:form id="formproforma">
             
-            <p:panelGrid id="panelsumpro" style="height: 40px;">
+            <p:panelGrid layout="tabular" id="panelsumpro" style="height: 40px;">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -58,7 +58,7 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:panelGrid rendered="#{sMTPSettingsView.selected eq nukl}" columns="1">
+            <p:panelGrid layout="tabular" rendered="#{sMTPSettingsView.selected eq nukl}" columns="1">
                 <h:outputText value="Nie skonfigurowano maila firmy. Faktury proforma będą wysyłane z domyślnego maila programu: info@taxman.biz.pl" style="font-weight: 800; color: red;"/>
             </p:panelGrid>
             <p:panel header="dołącz krótką wiadomość do wysyłanego maila">
@@ -149,9 +149,9 @@
                                       icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" rendered="#{!wpispro.fakturaniemiecka13b}"/>
                 </p:column>
                 <p:rowExpansion>
-                    <p:panelGrid  columns="3"  style="width: 1100px" columnClasses="forty-percent, twenty-percent, forty-percent">
+                    <p:panelGrid layout="tabular"  columns="3"  style="width: 1100px" columnClasses="forty-percent, twenty-percent, forty-percent">
                         <p:column>
-                        <p:panelGrid  columns="2"  columnClasses="forty-percent, sixty-percent">
+                        <p:panelGrid layout="tabular"  columns="2"  columnClasses="forty-percent, sixty-percent">
                             <h:outputText value="email kontrahenta"/>
                             <h:outputText value="#{wpispro.kontrahent.email ne '' ? wpispro.kontrahent.email : 'brak email'}"/>
                             <h:outputText value="konto bankowe"/>
@@ -165,7 +165,7 @@
                         </p:panelGrid>
                         </p:column>
                         <p:column>
-                        <p:panelGrid  columns="2" >
+                        <p:panelGrid layout="tabular"  columns="2" >
                             <h:outputText value="okres pod doch"/>
                             <h:outputText value="#{wpispro.okresCit}"/>
                             <h:outputText value="okres vat"/>

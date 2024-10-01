@@ -8,8 +8,8 @@
 
     <p:tab id="zestawienie" title="Faktury wystawione wg kontrahentow" >
         <h:form id="formzestawienie">
-            <p:panelGrid columns="2">
-                <p:panelGrid columns="1">
+            <p:panelGrid layout="tabular" columns="2">
+                <p:panelGrid layout="tabular" columns="1">
                     <p:selectOneListbox id="wyborklienta" value="#{fakturaZestView.szukanyklient}" style="width: 300px;"  converter="#{klientConv}"
                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
                                         filter="true" filterMatchMode="contains"
@@ -18,7 +18,7 @@
                          <p:ajax event="change" global="false" listener="#{fakturaZestView.pobierzwszystkoKlienta()}" 
                                 update="formzestawienie:dokumentyZestawienie akordeon:formzestawienie:panelinfo"/>
                     </p:selectOneListbox>
-                    <p:panelGrid columns="3">
+                    <p:panelGrid layout="tabular" columns="3">
                         <p:commandButton value="wszyscy" actionListener="#{fakturaZestView.wszyscypodatnicy()}" update="@form, :form1:messages" style="width: 120px;"  rendered="#{WpisView.biuroiszef eq true}"/>
                         <p:outputLabel value="wszystkie lata"/>
                         <p:selectBooleanCheckbox value="#{fakturaZestView.pobierzwszystkielataKlienta}"  rendered="#{WpisView.biuroiszef eq true}">
@@ -27,13 +27,13 @@
                         </p:selectBooleanCheckbox>
                     </p:panelGrid>
                 </p:panelGrid>
-                <p:panelGrid columns="1" id="panelinfo" style="margin-left: 20px;"   rendered="#{facesContext.externalContext.remoteUser eq 'szef'}">
+                <p:panelGrid layout="tabular" columns="1" id="panelinfo" style="margin-left: 20px;"   rendered="#{facesContext.externalContext.remoteUser eq 'szef'}">
                     <p:fragment>
                     <p:autoUpdate/>
                     <p:panel header="Dane dla klienta #{fakturaZestView.szukanyklient.npelna}" style="width: 600px;"/>
                     <h:outputText value="stare kadry" rendered="#{fakturaZestView.podatnik.starekadry}" style="color: crimson;"/>
-                    <p:panelGrid columns="3" >
-                        <p:panelGrid columns="2" >
+                    <p:panelGrid layout="tabular" columns="3" >
+                        <p:panelGrid layout="tabular" columns="2" >
                             <h:outputText value="księgowość"/>
                             <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.kwotabiezacanetto}"/>
                             <h:outputText value="umowa o pracę"/>
@@ -47,7 +47,7 @@
                             <h:outputText value="obsługa Niemcy"/>
                             <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.obsluganiemcy}"/>
                         </p:panelGrid>
-                        <p:panelGrid columns="2" >
+                        <p:panelGrid layout="tabular" columns="2" >
                             <h:outputText value="zmień o procent"/>
                             <p:inputNumber value="#{fakturaZestView.fakturaWaloryzacja.procentzmian}">
                                 <p:ajax event="blur" partialSubmit="true" listener="#{fakturaZestView.przelicz()}" update="@parent:@parent"/>
@@ -65,7 +65,7 @@
                             <h:outputText value="obsługa Niemcy"/>
                             <bcf:inputpl value="#{fakturaZestView.fakturaWaloryzacja.obsluganiemcyN}"/>
                         </p:panelGrid>
-                        <p:panelGrid columns="2" >
+                        <p:panelGrid layout="tabular" columns="2" >
                             <h:outputText value="dawno nie zmieniane"/>
                             <p:selectBooleanCheckbox value="#{fakturaZestView.fakturaWaloryzacja.dawnoniezmieniona}">
                                 <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaZestView.zapiszwaloryzacje}"/>
@@ -98,7 +98,7 @@
                     </p:fragment>
                 </p:panelGrid>
             </p:panelGrid>
-<!--            <p:panelGrid>
+<!--            <p:panelGrid layout="tabular">
                 <h:outputText value="#{fakturaZestView.fakturaWaloryzacja.kontrahent.email}" style=color:blue;"/>
             </p:panelGrid>-->
             <p:dataTable lazy="false"  id="dokumentyZestawienie"  value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 

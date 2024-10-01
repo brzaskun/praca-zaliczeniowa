@@ -26,7 +26,7 @@
         <ui:include src="../../../../ksiegowa/sub/podatnikust/sprzedazewidencja.xhtml"/>
         <ui:include src="../../../../ksiegowa/sub/podatnikust/automatyzacja.xhtml"/>
     </p:tabView>
-    <p:panelGrid columns="1" style="padding: 10px;" rendered="#{podatnikView.selected.datawprowadzenia ne null}">
+    <p:panelGrid layout="tabular" columns="1" style="padding: 10px;" rendered="#{podatnikView.selected.datawprowadzenia ne null}">
         <h:outputText value="ostatnia zmiana - #{podatnikView.selected.wprowadzil.toStringLIN()}"/>
         <h:outputText value="#{podatnikView.selected.datawprowadzenia}">
             <f:convertDateTime dateStyle="full" timeStyle="full" type="both" locale="pl_PL" timeZone="Poland"/>

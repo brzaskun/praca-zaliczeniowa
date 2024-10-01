@@ -232,7 +232,7 @@ c
         <p:commandButton value="numeruj dokumenty" actionListener="#{rewolucjaPodatnikView.przenumeruj()}"/>
     </h:form>-->
 <!--  <h:form>
-      <p:panelGrid columns="1">
+      <p:panelGrid layout="tabular" columns="1">
       <p:inputText value="#{gUSView.nip}" maxlength="10"/>
       <p:commandButton value="GUS" actionListener="#{gUSView.login()}" ajax="false" update="@form"/>
       <h:outputText value="#{gUSView.danefirmy}"/>
@@ -257,7 +257,7 @@ c
             <p:outputPanel style="padding: 10px;">
                 <h:outputText value="Uwaga! Nie można dodawać kont analitycznych do zablokowanych kont syntetycznych"/>
             </p:outputPanel>
-            <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
                 <p:dataTable lazy="false"  id="dataList" value="#{planKontView.wykazkontlazy}" var="loop"
                              emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              scrollRows="20" scrollable="true" virtualScroll="true" scrollHeight="200" lazy="true" rows="40" style="margin-bottom:0"
@@ -415,7 +415,7 @@ c
     </h:inputTextarea>
      <p:accordionPanel id="akordeon"   style="max-width: 1400px;"> 
         <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo">
-        <p:panelGrid columns="2" style="width: 100%;">
+        <p:panelGrid layout="tabular" columns="2" style="width: 100%;">
             <p:column>
                 <h:form>
                     <p:commandButton value="wyślij" actionListener="#{beanektest.rob()}" update=":formwysylka" style="width: 150px;"/>
@@ -424,7 +424,7 @@ c
             </p:column>
             <p:column>
                 <h:form id="form">
-                    <p:panelGrid columns="2" id="upoform" style="width: 100%;">
+                    <p:panelGrid layout="tabular" columns="2" id="upoform" style="width: 100%;">
                         <h:outputText value="id przesyłki" />
                         <h:inputText value="#{beanektest.idpobierz}" style="width: 90%;"/>
                         <h:outputText value="UPO" />
@@ -439,7 +439,7 @@ c
             </p:panelGrid>
         </p:tab>
     <p:tab title="Można też przetestować wysyłke deklaracji. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk sprawdz">
-        <p:panelGrid columns="2" style="width: 100%;">
+        <p:panelGrid layout="tabular" columns="2" style="width: 100%;">
             <p:column>
                 <h:form>
                     <p:commandButton value="test" actionListener="#{beanektest.robtest()}" update="formwysylka" style="width: 150px;"/>
@@ -448,7 +448,7 @@ c
             </p:column>
             <p:column>
                 <h:form id="formtest">
-                    <p:panelGrid columns="2" id="upoformtest" style="width: 100%;">
+                    <p:panelGrid layout="tabular" columns="2" id="upoformtest" style="width: 100%;">
                         <h:outputText value="id przesyłki"/>
                         <h:inputText value="#{beanektest.idpobierzT}" style="width: 90%;"/>
                         <h:outputText value="UPO"/>

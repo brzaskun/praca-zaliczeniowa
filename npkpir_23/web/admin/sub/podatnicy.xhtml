@@ -10,7 +10,7 @@
      <h:form id="podatnicy">
      <p:outputPanel style="padding: 10px;">
          <p:panel header="Statystyka księgowych" style="width:1200px;"/>
-         <p:panelGrid columns="4">
+         <p:panelGrid layout="tabular" columns="4">
         <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
         <p:selectOneMenu id="rokWpisu" value="#{podatnikKsiegowaView.rok}" style="width: 70px;">
             <f:selectItems value="#{roki.rokiList}" />
@@ -25,7 +25,7 @@
         </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel style="padding: 10px;">
-        <p:panelGrid columns="6">
+        <p:panelGrid layout="tabular" columns="6">
             <p:commandButton value="przeliczaj" actionListener="#{podatnikKsiegowaView.init()}" update="@form" style="width: 120px;"/>
             <p:commandButton value="zachowaj" actionListener="#{podatnikKsiegowaView.zachowaj}" update="@form" style="margin-left: 50px;width: 120px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}"/>
             <h:outputText value="księgowość:"/>

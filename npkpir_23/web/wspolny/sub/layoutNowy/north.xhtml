@@ -7,7 +7,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
-      <p:panelGrid columns="3" style="width: 90%">
+      <p:panelGrid layout="tabular" columns="3" style="width: 90%">
             <h:outputText value="TAXMAN System Księgowo-Kadrowy" style="width: 50%; font-size: 15px"/>
              <h:form id="formNorth">
                  <p:commandButton id="pl" value="pl" actionListener="#{localeChanger.polishAction}" type="submit" ajax="false"/>

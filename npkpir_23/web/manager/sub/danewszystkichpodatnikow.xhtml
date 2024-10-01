@@ -55,7 +55,7 @@
             <h:outputText value="#{podatnik.datalikwidacji}"/>
         </p:column>
          <p:column width="350" headerText="adres">
-             <p:panelGrid columns="2">
+             <p:panelGrid layout="tabular" columns="2">
                  <h:outputText value="#{podatnik.kodpocztowy}"/>
                  <h:outputText value="#{podatnik.miejscowosc}"/>
                  <h:outputText value="#{podatnik.ulica} #{podatnik.nrdomu}/#{podatnik.nrlokalu}" rendered="#{podatnik.nrlokalu ne null and podatnik.nrlokalu ne '' and podatnik.nrlokalu ne '-'}"/>

@@ -48,7 +48,7 @@
     <h:form id="form">
         <p:focus for="form:podatnikWpisu"/>
         <p:panel menuTitle="Zmien na:" header="Zmień na:" style="max-width: 800px; height: 290px;">
-            <p:panelGrid columns="3" style="margin-left: 0%; height: 100px;">
+            <p:panelGrid layout="tabular" columns="3" style="margin-left: 0%; height: 100px;">
                 <h:outputLabel value="#{mgs['nazwa.podatnika']}"/>
                 <h:outputLabel value="okres"/>
                 <h:outputLabel value=""/>
@@ -167,7 +167,7 @@
             <p:commandButton value="Trasformacja" style="width: 150px;" actionListener="{transformacjaView.ewidencjewDekalracji}"/>
         </h:form>-->
 <!--        <p:panel menuTitle="Statystyka:" header="Statystyka użytkownika o loginie - {WpisView.uzer.login}" style="width: 65%; height: 120px; margin-top: 3%;">
-            <p:panelGrid columns="1">
+            <p:panelGrid layout="tabular" columns="1">
                 <h:outputText value="ilość dotychczasowych logowań: {statisticView.iloscsesji}"/>
                 <h:outputText value="ilość zaksięgowanych dokumentów: {statisticView.iloscdokumentow}"/>
                 <h:outputText value="ilość wydrukowanych dokumentów: {statisticView.iloscwydrukow}"/>

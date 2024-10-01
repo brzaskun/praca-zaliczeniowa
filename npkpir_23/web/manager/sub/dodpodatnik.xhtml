@@ -22,7 +22,7 @@
                     <h:outputText value="W przypadku firmy podaj NIP. W przypadku osoby fizycznej bez działalności kliknij tabulatorem i  przejdź do nazwy pełnej." style="color: green;"/>
                 </p:outputPanel>
                 <p:focus for="wprowadzaniepodatnika"/>
-                <p:panelGrid id="wprowadzaniepodatnika" columns="4" style="padding: 10px;">
+                <p:panelGrid layout="tabular" id="wprowadzaniepodatnika" columns="4" style="padding: 10px;">
                     <h:outputLabel value="nip"/>
                     <p:inputText id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" >
                         <p:ajax event="blur" partialSubmit="true" global="false" listener="#{podatnikView.znajdzdaneregon('formdod2')}" update="@this"/>
@@ -159,11 +159,11 @@
                      <p:inputMask value="#{podatnikView.selectedDod.datamalyzus}" mask="9999-99-99">
                      </p:inputMask>-->
                    </p:panelGrid>
-                <p:panelGrid columns="2">
+                <p:panelGrid layout="tabular" columns="2">
                     <h:outputLabel value="id firmy"/>
                     <h:outputText value="#{podatnikView.selectedDod.nazwapelna}"/>
                 </p:panelGrid>
-                <p:panelGrid columns="3" id="wprowadzaniepodatnikaprzyciski">
+                <p:panelGrid layout="tabular" columns="3" id="wprowadzaniepodatnikaprzyciski">
                     <p:commandButton actionListener="#{podatnikView.dodaj()}" value="dodaj" update="@form form" 
                                      rendered="#{podatnikView.selectedDodedycja eq null}"
                                      type="submit" style="margin-top: 10px; width: 120px;"/>

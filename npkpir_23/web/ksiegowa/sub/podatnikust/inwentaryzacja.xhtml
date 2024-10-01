@@ -12,7 +12,7 @@
             <h:outputText value="Wartości inwentaryzacji na koniec roku podatkowego" style="font-size: 15px"/>
             <p:growl life="3600"  showDetail="true"/>
             <p:focus for="parametrypodatnika3"/><br/>
-            <p:panelGrid columns="4" style="width: 300px">
+            <p:panelGrid layout="tabular" columns="4" style="width: 300px">
                 <p:dataTable lazy="false"  value="#{remanentView.remanentypodatnika}"  var="loop" >
                     <f:facet name="header">
                     <h:outputText value="Dane historyczne"/>
@@ -29,7 +29,7 @@
                 </p:dataTable>
             </p:panelGrid>
             <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
-            <p:panelGrid id="parametrypodatnika3" columns="4" >
+            <p:panelGrid layout="tabular" id="parametrypodatnika3" columns="4" >
                 <h:outputText value="rok podatkowy: "/>
                 <p:selectOneMenu value="#{remanentView.selected.rok}">
                     <f:selectItems value="#{roki.rokiListString}"/>
@@ -37,7 +37,7 @@
                 <bcf:inputpl value="#{remanentView.selected.kwota}" />
             </p:panelGrid>
             <br/>
-            <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+            <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 500px">
                 <p:commandButton action="#{remanentView.dodajremanent()}" value="dodaj parametr" update="@form" type="submit"/>
             </p:panelGrid>
         </h:form>

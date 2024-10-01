@@ -13,7 +13,7 @@
                 <h:outputLabel value="Prosze podać nowe dane rejestracyjne"/>
             </f:facet>
             <p:focus id="focus" context="rejestrowaniepanel"/>
-            <p:panelGrid id="rejestrowaniepanel" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;">
+            <p:panelGrid layout="tabular" id="rejestrowaniepanel" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;">
                  
                 <h:outputText value="hasło"/>
                 <p:password id="haslo1" value="#{UzView.nowehaslo}" feedback="true"   

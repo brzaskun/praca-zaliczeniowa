@@ -16,7 +16,7 @@
             </p:column>
             <p:ajax event="rowEdit" listener="#{deklaracjevatView.edit}" />
             <p:column headerText="wersja" width="60">
-                <p:panelGrid columns="1">
+                <p:panelGrid layout="tabular" columns="1">
                 <h:outputText value="#{item.wzorschemy}"/>
                 <h:outputText value="deklar. z podp. kwalif." style="color: blue" rendered="#{item.jestcertyfikat}"/>
                 <h:outputText value="deklar. z kwotą autor. " rendered="#{!item.jestcertyfikat}"/>
@@ -53,7 +53,7 @@
                 </p:dataGrid>
             </p:column>
             <p:column id="previewColumn" headerText="operacje" width="110" style="text-align: center;">
-                <p:panelGrid columns="1">
+                <p:panelGrid layout="tabular" columns="1">
                     <p:commandButton value="Pdf" actionListener="#{deklaracjevatView.drukujdeklaracje(item,row)}"  style="width: 100px;"/>
                 <p:commandButton id="mailbuttonN" value="Mail" actionListener="#{deklaracjevatView.mailvat7N(row)}"
                                  update="formX:akordeon" style="width: 100px; display: none;"  />

@@ -14,7 +14,7 @@
     <p:tabView id="akordeon">
         <p:tab title="wprowadź treść">
             <h:form id="formmail">
-                <p:panelGrid columns="2">
+                <p:panelGrid layout="tabular" columns="2">
                     <p:column>
                         
                         <p:textEditor id="editor"  widgetVar="editorWidget" value="#{adminMailView.zawartoscmaila}" height="600"  secure="false" >
@@ -27,7 +27,7 @@
         </p:tab>
         <p:tab title="adresaci">
             <h:form>
-                <p:panelGrid columns="17">
+                <p:panelGrid layout="tabular" columns="17">
                     <h:outputText value="tylko dodatkowe"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkododatkowe}">
                         <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
@@ -135,7 +135,7 @@
         <p:tab title="wyslij maila">
             <bcf:ajaxs/>
             <h:form id="wysylanie">
-                <p:panelGrid columns="1">
+                <p:panelGrid layout="tabular" columns="1">
                      <p:column>
                         <h:outputLabel value="wprowadz temat wiadomości: " for="akordeon:wysylanie:tytul"/>
                         <h:inputText value="#{adminMailView.tematwiadomosci}" label="temat wiadomości" style="width: 500px;" id="tytul">
@@ -199,7 +199,7 @@
         </p:tab>
         <p:tab title="dodatkowe maile">
             <h:form>
-                <p:panelGrid columns="6">
+                <p:panelGrid layout="tabular" columns="6">
                     <h:outputText value="adres"/>
                     <p:inputText value="#{dodatkoweMaileView.selected.mail}" required="true" requiredMessage="brakuje maila" />
                     <h:outputText value="nazwa"/>

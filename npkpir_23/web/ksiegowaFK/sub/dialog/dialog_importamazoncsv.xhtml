@@ -26,8 +26,8 @@
             <h:outputText value="Import dokumentów z pliku CSV Amazon VAT Transactions Report. "/><h:outputText value="Jeśli pobieramy dane dodatkowo z Additional to ten import musi być pierwszy - to ważne!" style="color: #0066ff"/>
                         <h:form id="amazonload">
                             <p:growl life="3600"  id="messages1"/>
-                            <p:panelGrid columns="3">
-                                <p:panelGrid columns="1">
+                            <p:panelGrid layout="tabular" columns="3">
+                                <p:panelGrid layout="tabular" columns="1">
                                     <p:fileUpload chooseIcon="fa fa-upload" listener="#{importCSVView.importujsprzedaz}" 
                                                   mode="advanced" fileLimit="1"
                                                   update="messages1 importtabela" 
@@ -38,7 +38,7 @@
                                     </p:fileUpload>
                                 </p:panelGrid>
                                 <p:outputLabel value="pobierz tylko dla OSS" style="margin-left: 20px;"/>
-<!--                                <p:panelGrid columns="2" style="margin-left: 30px;">
+<!--                                <p:panelGrid layout="tabular" columns="2" style="margin-left: 30px;">
                                     <h:outputText value="wybierz rodzaj transakcji"/>
                                     <p:selectOneMenu value="#{importCSVView.wybortransakcji}">
                                         <f:selectItem itemValue="WSZYSTKIE" itemLabel="WSZYSTKIE"/>

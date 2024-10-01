@@ -16,7 +16,7 @@
             }
         </style>
         <h:form id="fakturaanaliza">
-            <p:panelGrid columns="4">
+            <p:panelGrid layout="tabular" columns="4">
                 <p:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" 
                                     required="true" style="width: 500px;"  converter="#{klientConvNoRO}"
                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" binding="#{fakturaRozrachunkiAnalizaView.selectOneUI}"
@@ -28,13 +28,13 @@
                 </p:selectOneListbox>
                 <p:commandButton icon="fa fa-print" actionListener="#{fakturaRozrachunkiAnalizaView.drukujKlienci()}" style="width: 120px;margin-left: 15px;"/>
                 <p:commandButton value="reset rozliczonych" actionListener="#{fakturaRozrachunkiAnalizaView.resetrozliczonych()}" style="width: 120px;margin-left: 5px;" update=":akordeon:fakturaanaliza:wyborklienta"/>
-                <p:panelGrid columns="1" style="margin-left: 15px;">
+                <p:panelGrid layout="tabular" columns="1" style="margin-left: 15px;">
                 <h:outputText value="dodatkowa wiadomość do maila z wezwaniem"/>
                 <p:inputTextarea cols="90" rows="7" value="#{fakturaRozrachunkiAnalizaView.tekstwiadomosci}">
                     <p:ajax event="blur" partialSubmit="true" global="false"/>
                 </p:inputTextarea>
                 </p:panelGrid>
-                <p:panelGrid columns="4" style="margin-left: 15px;">
+                <p:panelGrid layout="tabular" columns="4" style="margin-left: 15px;">
                     <h:outputText value="pokaż rok poprzedni"/>
                     <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.pokazrokpoprzedni}">
                         <p:ajax event="change" partialSubmit="true" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>
@@ -58,8 +58,8 @@
                     height: 25px;
                 }
             </style>
-                <p:panelGrid style="margin-top: 10px;" columns="3" id="polesumy">
-                    <p:panelGrid columns="1" style="width: 350px;margin-top: 10px;" id="mailklientapanel">
+                <p:panelGrid layout="tabular" style="margin-top: 10px;" columns="3" id="polesumy">
+                    <p:panelGrid layout="tabular" columns="1" style="width: 350px;margin-top: 10px;" id="mailklientapanel">
                         
                     <p:column width="350">
                         <h:outputText value="ksiegowa: "/>
@@ -100,12 +100,12 @@
                             </f:facet>
                         </p:inplace>
                     </p:column>
-                    <p:panelGrid columns="2">
+                    <p:panelGrid layout="tabular" columns="2">
                           <h:outputText value="razem: "/>
                         <bcf:outputpl value="#{fakturaRozrachunkiAnalizaView.razemwybrane}"/>
                         </p:panelGrid>
                 </p:panelGrid>
-                <p:panelGrid columns="2">
+                <p:panelGrid layout="tabular" columns="2">
                  <p:column width="35" style="text-align: center;">
                         <p:commandButton icon="fa fa-phone" actionListener="#{fakturaRozrachunkiAnalizaView.telefonKlienci()}" 
                                          update="akordeon:fakturaanaliza:tablicaanaliza" />
@@ -122,7 +122,7 @@
                                          update=":akordeon:fakturaanaliza:tablicaanaliza"/>
                 </p:column>-->
                 </p:panelGrid>
-                    <p:panelGrid columns="12">
+                    <p:panelGrid layout="tabular" columns="12">
                         <p:column width="35" style="text-align: center;">
                             <p:commandButton value="korekta" actionListener="#{fakturaRozrachunkiAnalizaView.korygujnazero()}" 
                                                 update="akordeon:fakturaanaliza:tablicaanaliza" />

@@ -13,13 +13,13 @@
     <p:dialog id="dialog_dokfk_nazwy" header="Rodzaje dokumentów firmy #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialog_dokfk_nazwy" fitViewport="true"
               resizable="false" onShow="ustawdialog('dialog_dokfk_nazwy','menuustawienia', 1250, 750);ustalmaxlevel('form:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialog_dokfk_nazwy');"  >
         <h:form id="form_dialog_dokfk_nazwy">
-              <p:panelGrid columns="4">
+              <p:panelGrid layout="tabular" columns="4">
                   <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{dokfkInterView.zachowajzmiany()}"  global="false" style="float: left; margin-left: 20px;width: 120px;" />
                   <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSRodzajeDokView.zachowajwXLS(dokfkInterView.rodzajedoklista)}" style=" margin-left: 5px;" global="false" ajax="false"/>
                   <p:commandButton id="xlsbutton2" value="pobierz dane z pliku" actionListener="#{dokfkInterView.pobierzdanezpliku()}" style=" margin-left: 5px;" global="false" update=":form_dialog_dokfk_nazwy"/>
 <!--                  <p:commandButton id="implementuj" value="implementuj" actionListener="#{dokfkInterView.implementuj()}"   style="float: left; margin-left: 20px;width: 120px;" update=":form_dialog_dokfk_nazwy"/>-->
             </p:panelGrid>
-            <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
                 <p:dataTable lazy="false"  id="dataList" value="#{dokfkInterView.rodzajedoklista}" var="loop"  selectionMode="single" 
                              styleClass="tablicaplankont"
                              style="max-width: 1200px; height: 600px;" emptyMessage="Brak zdefiniowanych dokumentów" rowKey="#{loop.hashCode()}"

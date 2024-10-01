@@ -90,7 +90,7 @@
         <p:tab title="podsumowanie">
             <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
             <p:separator/>
-            <p:panelGrid id="sumysum" columns="6" style="padding: 1%;">
+            <p:panelGrid layout="tabular" id="sumysum" columns="6" style="padding: 1%;">
                 <h:outputText value="suma wybranych ewiedencji - netto: "/><h:outputText value="#{ewidencjaVatView.suma1}" style="font-weight: bold;">
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText><br/>

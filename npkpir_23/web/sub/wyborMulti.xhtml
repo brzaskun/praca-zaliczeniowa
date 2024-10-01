@@ -20,7 +20,7 @@
             </p:column>
         </p:dataTable>-->
             <br/>
-            <p:panelGrid columns="1"  >
+            <p:panelGrid layout="tabular" columns="1"  >
                 <p:column >
                     <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 572px; min-height: 250px;"  converter="#{podatConv}">
                         <f:selectItems value="#{multiuserView.listawyboru}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
@@ -28,7 +28,7 @@
                     </p:selectOneListbox>
                 </p:column>
             </p:panelGrid>
-            <p:panelGrid columns="3" style="float: right;" >
+            <p:panelGrid layout="tabular" columns="3" style="float: right;" >
                 <p:column>
                     <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="float: right;">
                         <f:selectItems value="#{roki.rokiList}"/>

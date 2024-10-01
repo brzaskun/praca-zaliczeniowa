@@ -13,15 +13,15 @@
                         <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojektuklad" onclick="PF('rzisprojektanalityczne').show();"/>
                         <p:menuitem value="Usuń" actionListener="{pozycjaRZiSView.usunpozycje}" icon="ui-icon-trash" update=":formprojektuklad"/>
                     </p:contextMenu>
-                    <p:panelGrid columns="4" >
+                    <p:panelGrid layout="tabular" columns="4" >
                         <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="{pozycjaRZiSView.rozwinwszystkie()}" update=":form:dataList" style="float: left;" />
                         <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="{pozycjaRZiSView.rozwin()}" update=":formprojektuklad:dataList" style="float: left;" />
                         <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="{pozycjaRZiSView.zwinwszystkie()}" update=":formprojektuklad:dataList" style="float: left;" />
                         <p:commandButton id="zwinw" value="zwiń poziom" actionListener="{pozycjaRZiSView.zwin()}" update=":formprojektuklad:dataList" style="float: left;" />
                     </p:panelGrid>-->
-        <p:panelGrid columns="2" style="width: 720px;">
+        <p:panelGrid layout="tabular" columns="2" style="width: 720px;">
             <h:form id="formprojektuklad">
-                <p:panelGrid columns="1" style="width: 550px;">
+                <p:panelGrid layout="tabular" columns="1" style="width: 550px;">
                     <p:dataTable lazy="false"  id="dataList" value="#{ukladBRView.lista}" var="loop" selectionMode="single" selection="#{ukladBRView.selected}" 
                                  styleClass="tablicaplankont" style="width: 650px; margin-top: 0%; margin-bottom: 50px;" rowKey="#{loop.lp}" scrollable="true" scrollHeight="500"
                                  emptyMessage="Brak układów RZiS">
@@ -45,7 +45,7 @@
                     </p:dataTable>
                 </p:panelGrid>
             </h:form>
-            <p:panelGrid columns="1" style="width: 200px;">
+            <p:panelGrid layout="tabular" columns="1" style="width: 200px;">
                 <h:form>
                     <p:panel header="twórz własny układ">
                         <h:outputText value="wpisz nazwę nowego układu" style="margin-top: 10px;"/>

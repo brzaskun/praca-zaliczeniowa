@@ -22,7 +22,7 @@
         <div class="col-12 md:col-4 lg:col-3" style="max-width: 440px;" >
             <h:form rendered="#{WpisView.ryczalt0ksiega1 eq true}">
 
-                <p:panelGrid id="westWpisWidok" columns="6" style="margin-left: 7%; max-width: 300px;">
+                <p:panelGrid layout="tabular" id="westWpisWidok" columns="6" style="margin-left: 7%; max-width: 300px;">
                     <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 170px;" converter="#{podatConv}" filter="true" filterMatchMode="contains">
                         <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
                         <p:ajax event="change" partialSubmit="true"  listener="#{zestawienieView.aktualizujKsiegowa()}" update=":akordeon"/>
@@ -41,7 +41,7 @@
             </h:form>
              <h:form rendered="#{WpisView.ryczalt0ksiega1 eq false}">
 
-                <p:panelGrid id="westWpisWidok" columns="6" style="margin-left: 7%; max-width: 300px;">
+                <p:panelGrid layout="tabular" id="westWpisWidok" columns="6" style="margin-left: 7%; max-width: 300px;">
                     <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 170px;" converter="#{podatConv}" filter="true" filterMatchMode="contains">
                         <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
                         <p:ajax event="change" partialSubmit="true"  listener="#{zestawienieRyczaltView.aktualizujKsiegowa()}" update=":akordeon"/>

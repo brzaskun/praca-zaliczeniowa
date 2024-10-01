@@ -9,7 +9,7 @@
    
     <p:panel header="informacje o podatniku #{WpisView.podatnikObiekt.nazwapelnaPDF}" style="width: 1200px;"/>
     <p:outputPanel deferred="true">
-     <p:panelGrid columns="4">
+     <p:panelGrid layout="tabular" columns="4">
         <p:column>
             <p:dataTable lazy="false"   value="#{infoView.rodzajopodatkowania}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
@@ -51,7 +51,7 @@
             </p:dataTable>
         </p:column>
     </p:panelGrid>
-     <p:panelGrid columns="4">
+     <p:panelGrid layout="tabular" columns="4">
         <p:column>
             <p:dataTable lazy="false"   value="#{infoView.udzialy}" var="wpis" style="width: 250px; padding: 10px;" emptyMessage="Brak wprowadzonych udziałów!. Program nie będzie działał poprawnie." >
                 <f:facet name="header">
@@ -96,7 +96,7 @@
             </p:dataTable>
         </p:column>
     </p:panelGrid>
-    <p:panelGrid columns="4">
+    <p:panelGrid layout="tabular" columns="4">
         <p:column>
             <p:dataTable lazy="false"   value="#{infoView.liczbapit}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">
@@ -138,7 +138,7 @@
             </p:dataTable>
         </p:column>
     </p:panelGrid> 
-    <p:panelGrid columns="4" >
+    <p:panelGrid layout="tabular" columns="4" >
         <p:column>
             <p:dataTable lazy="false"   value="#{infoView.osobawprowadzajaca}" var="wpis" style="width: 250px; padding: 10px;">
                 <f:facet name="header">

@@ -78,10 +78,10 @@
                     </p:outputPanel>
                     <!-- Formularz do tworzenia nowej encji Freistellung -->
                     <h:form id="newFreistellungForm">
-                        <p:panelGrid columns="1">
+                        <p:panelGrid layout="tabular" columns="1">
                             <h:outputText value="Dodaj nowy Freistellung"/>
 
-                            <p:panelGrid columns="2" styleClass="grid" style="padding: 10px;">
+                            <p:panelGrid layout="tabular" columns="2" styleClass="grid" style="padding: 10px;">
                                 <h:outputLabel for="rok" value="Rok:" />
                                 <p:inputText id="rok" value="#{freistellungView.newFreistellung.rok}" />
 
@@ -175,10 +175,10 @@
 
                     <!-- Formularz do tworzenia nowej encji Uberprufung -->
                     <h:form id="newUberprufungForm">
-                        <p:panelGrid columns="1">
+                        <p:panelGrid layout="tabular" columns="1">
                             <h:outputText value="Dodaj nowy Uberprufung" />
 
-                            <p:panelGrid columns="2" styleClass="grid" style="padding: 10px;">
+                            <p:panelGrid layout="tabular" columns="2" styleClass="grid" style="padding: 10px;">
                                 <h:outputLabel for="rok" value="Rok:" />
                                 <p:inputText id="rok" value="#{uberprufungView.newUberprufung.rok}" />
 

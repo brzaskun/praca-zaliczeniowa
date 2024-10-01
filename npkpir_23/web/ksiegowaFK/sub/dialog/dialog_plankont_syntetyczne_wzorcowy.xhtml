@@ -10,7 +10,7 @@
         <h:form id="formX">
             <p:growl life="3600"  id="messages"/>
             <p:focus for="dkp">
-                <p:panelGrid id="dkp" columns="2" style=" width: 600px;">
+                <p:panelGrid layout="tabular" id="dkp" columns="2" style=" width: 600px;">
                     <h:outputLabel value="Nrkonta:" for="nrkonta" />
                     <p:inputText id="nrkonta" value="#{planKontView.noweKonto.nrkonta}" title="Nrkonta" required="true" requiredMessage="Wprowadź numer konta" maxlength="4">
                         <f:validateRegex pattern="\d+"/>

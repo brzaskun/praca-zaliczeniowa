@@ -11,7 +11,7 @@
         <div class="flex flex-column" style="max-height: 760px; max-width: 2100px;">  
             <!-- North Pane -->
             <div class="flex-none">
-                <p:panelGrid columns="3" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
+                <p:panelGrid layout="tabular" columns="3" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
                         <h:outputText value="#{mgs.wybierzkonto}: "/>
                         <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.wybranekonto}" completeMethod="#{planKontCompleteView.complete}" 
@@ -36,7 +36,7 @@
                         </h:selectOneMenu>
                     </h:form>
                     <h:form>
-                        <p:panelGrid columns="12" style="margin-left: 15px;">
+                        <p:panelGrid layout="tabular" columns="12" style="margin-left: 15px;">
                             <h:outputText value="#{mgs.odmc}"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
@@ -69,7 +69,7 @@
                 
                 <!-- West Pane -->
                 <div class="flex-none" style="width: 400px; display: flex; flex-direction: column; height: 100%;">
-                <p:panelGrid columns="2" >
+                <p:panelGrid layout="tabular" columns="2" >
                     <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form:dataList_data');" global="false" style="float: left;" />
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form:dataList_data');"  global="false" style="float: left;" />
 <!--                    <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
@@ -217,9 +217,9 @@
             
             <!-- South Pane -->
             <div class="flex-none" style="max-height: 70px;">
-                <p:panelGrid columns="3">
+                <p:panelGrid layout="tabular" columns="3">
                 <h:form>
-                    <p:panelGrid columns="2">
+                    <p:panelGrid layout="tabular" columns="2">
                     <h:outputText value="#{mgs.rodzajekont}: "/>
                      <p:selectOneMenu id="rodzajkont" value="#{kontoZapisFKView.wybranyRodzajKonta}"  style="margin-left: 20px;">
                          <p:ajax event="change" listener="#{kontoZapisFKView.publicinit()}" update="form:dataList tabelazsumami:sumy" global="false"/>
@@ -230,7 +230,7 @@
                     </p:panelGrid>
                 </h:form>
                 <h:form>
-                    <p:panelGrid columns="3" rendered="#{!WpisView.rokzamkniety and request.isUserInRole('GuestFKBook')}">
+                    <p:panelGrid layout="tabular" columns="3" rendered="#{!WpisView.rokzamkniety and request.isUserInRole('GuestFKBook')}">
                             <h:outputText value="#{mgs.wybierzkonto}: "/>
                             <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.kontodoprzeksiegowania}" completeMethod="#{kontoZapisFKView.completeWszystkieKonta}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" forceSelection="true"
@@ -246,7 +246,7 @@
                                 <p:menuitem global="false" value="zaksięguj PK" actionListener="#{kontoZapisFKView.zaksiegujpk}" icon="ui-icon-arrow"/>  
                             </p:splitButton>
                         </p:panelGrid>
-                        <p:panelGrid columns="3" rendered="#{WpisView.rokzamkniety}" style="width: 500px;">
+                        <p:panelGrid layout="tabular" columns="3" rendered="#{WpisView.rokzamkniety}" style="width: 500px;">
                         </p:panelGrid>
                     </h:form>
                 <h:form id="tabelazsumami">

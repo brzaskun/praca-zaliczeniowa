@@ -20,7 +20,7 @@
             <p:outputPanel style="margin-top: 5px;">
                 <h:outputText value="#{WpisView.podatnikObiekt.printnazwa}" style="margin-left: auto; margin-right: auto;"/>
             </p:outputPanel>
-            <p:panelGrid  columns="2" style="padding: 10px;">
+            <p:panelGrid layout="tabular"  columns="2" style="padding: 10px;">
                 <h:outputText value="Wybrany układ" style="width: 300px;"/>
                 <p:selectOneMenu  value="#{ukladBRView.ukladzrodlowy}" style="width: 280px;"  converter="#{ukladBRConv}">
                     <f:selectItems value="#{ukladBRView.lista}" var="p" itemLabel="#{p.uklad} - #{p.rok}" itemValue="#{String.valueOf(p.lp)}"/>

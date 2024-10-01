@@ -8,7 +8,7 @@
 
     <p:tab title="Naliczenia do faktur">
             <h:form styleClass="kadrypozycja">
-                <p:panelGrid columns="6">
+                <p:panelGrid layout="tabular" columns="6">
                     <p:outputLabel value="rok" for="rok" />
                      <p:selectOneMenu id="rok" value="#{wsKadryFakturaPozycjaView.rok}"  style="width: 60px;">
                            <f:selectItems value="#{roki.rokiList}"/>

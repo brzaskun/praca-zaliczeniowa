@@ -9,13 +9,13 @@
 
     <p:tab title="Udziały w firmie">
         <h:form id="form9" >
-            <p:panelGrid columns="2">
+            <p:panelGrid layout="tabular" columns="2">
                 <h:outputText value="Udziały w firmie - razem " style="font-size: 15px"/>
                 <h:outputText id="sumaudzialow" value="#{podatnikView.sumaudzialow}%" style="font-size: 15px"/>
             </p:panelGrid>
             <p:growl life="3600"  id="messages"/>
             <p:focus for="parametryp9"/>
-            <p:panelGrid columns="4" style="width: 1200px; padding: 5px;">
+            <p:panelGrid layout="tabular" columns="4" style="width: 1200px; padding: 5px;">
                 <p:dataTable lazy="false"  value="#{podatnikView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}" id="form9tablica" widgetVar="tabelaudzialy"
                               editable="true">
                     <p:ajax event="rowEdit" update=":akordeon:form9:messages" listener="#{podatnikView.editUdzialy}" />
@@ -60,10 +60,10 @@
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
-            <p:panelGrid columns="1" >
+            <p:panelGrid layout="tabular" columns="1" >
                 <h:outputText value="wpisz dane"/>
             </p:panelGrid>
-            <p:panelGrid id="parametryp9" columns="4" style="padding: 10px;" >
+            <p:panelGrid layout="tabular" id="parametryp9" columns="4" style="padding: 10px;" >
                 <h:outputText value="data od: "/>
                 <p:inputText id="dataod" value="#{podatnikView.udzialy.datarozpoczecia}" maxlength="10" placeholder="rrrr-mm-dd" size="10" required="true">
                     <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:dataod')"/>
@@ -73,7 +73,7 @@
                     <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:datado')"/>
                 </p:inputText>
             </p:panelGrid>
-            <p:panelGrid id="parametryp9a" columns="2"  style="padding: 10px;">
+            <p:panelGrid layout="tabular" id="parametryp9a" columns="2"  style="padding: 10px;">
                 <h:outputText value="udziałowiec nowe ustawienia"/>
                 <p:selectOneMenu id="rodzaj" value="#{podatnikView.udzialy.podmiot}" filter="true" filterMatchMode="contains" converter="#{podmiotConv}" autoWidth="true">
                     <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
@@ -95,7 +95,7 @@
                     <f:selectItem itemValue="dywidenda" itemLabel="dywidenda"/>
                 </p:selectOneMenu>
             </p:panelGrid>
-            <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+            <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 500px">
                 <p:commandButton action="#{podatnikView.dodajUdzialy()}" value="dodaj udział" update="akordeon:form9:sumaudzialow akordeon:form9:parametryp9 akordeon:form9:parametryp9a akordeon:form9:form9tablica" type="submit" style="width: 120px;"/>
                 <p:commandButton action="#{podatnikView.editUdzialy()}" value="edytuj udział" update="akordeon:form9:sumaudzialow akordeon:form9:parametryp9 akordeon:form9:parametryp9a akordeon:form9:form9tablica" type="submit" style="margin-left: 10px; width: 120px;"/>
             </p:panelGrid>

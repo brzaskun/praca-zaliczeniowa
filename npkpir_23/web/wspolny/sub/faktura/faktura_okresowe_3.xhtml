@@ -9,7 +9,7 @@
       
         <h:form id="formokresowe3">
            
-            <p:panelGrid id="panelsumokresowe">
+            <p:panelGrid layout="tabular" id="panelsumokresowe">
                 <f:facet name="header">
                     <p:row>
                     <p:column>
@@ -41,7 +41,7 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:panelGrid columns="12" >
+            <p:panelGrid layout="tabular" columns="12" >
 <!--                <h:outputText value="Procent waloryzacji 100=100%"/>
                 <p:inputNumber  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}"  decimalPlaces="2"  inputStyle="text-align: right;" symbol=" %" symbolPosition="s" signPosition="p"   maxValue="100">
                     <p:ajax event="blur" partialSubmit="true" global="false"/>

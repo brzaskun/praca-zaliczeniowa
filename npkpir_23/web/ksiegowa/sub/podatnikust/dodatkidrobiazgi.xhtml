@@ -6,7 +6,7 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab title="Ustawienia dodatkowe">  
-        <p:panelGrid columns="3">
+        <p:panelGrid layout="tabular" columns="3">
         <h:form >
             <h:outputText value="język maila "/>
             <p:selectOneListbox value="#{podatnikView.selected.jezykmaila}" label="język maila " >
@@ -31,7 +31,7 @@
             </p:inputText>
         </h:form>
         </p:panelGrid>
-        <p:panelGrid columns="1">
+        <p:panelGrid layout="tabular" columns="1">
         <h:form >
             <h:outputText value="Nazwa z KRS/CEIDG "/>
             <p:inputText value="#{podatnikView.selected.nazwaRejestr}" size="100">

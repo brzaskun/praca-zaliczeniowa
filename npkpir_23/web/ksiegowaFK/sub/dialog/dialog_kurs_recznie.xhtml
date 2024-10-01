@@ -12,7 +12,7 @@
         <h:form id="formkursreczniepobierz">
             <p:outputPanel style="padding: 10px; margin-bottom: 10px;">
                 <h:outputText value="pobieranie jednej tabeli z internetu" style="font-weight: 900; color: green;"/>
-            <p:panelGrid columns="2">
+            <p:panelGrid layout="tabular" columns="2">
                 <h:outputText value="data początkowa nie starsza niż 3 m-ce!!"/>
                 <p:inputText value="#{walutyViewFK.datawstepna}" placeholder="rrrr-mm-dd" maxlength="10" size="10" required="true" requiredMessage="Wpisz datę poczatkową"/>
                 <h:outputText value="data końcowa"/>

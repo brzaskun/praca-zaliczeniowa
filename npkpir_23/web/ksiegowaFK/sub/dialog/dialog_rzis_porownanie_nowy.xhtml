@@ -14,8 +14,8 @@
         <bcf:ajaxs/>
         <h:form id="form_dialog_rzis_porownanie_nowy">
 
-            <p:panelGrid columns="12" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
-                <p:panelGrid columns="3">
+            <p:panelGrid layout="tabular" columns="12" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
+                <p:panelGrid layout="tabular" columns="3">
                      <h:outputText value="#{mgs.nazwaukładu}"/>
                     <h:outputText value="#{pozycjaBRZestawienieNowyView.uklad.uklad}"/>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRZestawienieNowyView.obliczRZiSOtwarciaRZiSData()}" update=":form_dialog_rzis_porownanie_nowy"/>
@@ -51,7 +51,7 @@
                 </p:column>-->
             </p:panelGrid>
             <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
-            <p:panelGrid columns="2" style="height: 600px;">
+            <p:panelGrid layout="tabular" columns="2" style="height: 600px;">
                 <p:column>
                     <p:dataTable lazy="false"  id="dataList" value="#{pozycjaBRZestawienieNowyView.pozycje}" var="loopnowy" selectionMode="multiple" rowSelectMode="add" selection="#{pozycjaBRZestawienieNowyView.selectedNodes}" 
                                  styleClass="tablicaplankont"  emptyMessage="#{mgs.niewybranorzis} NOWY" rowKey="#{loopnowy.lp}"

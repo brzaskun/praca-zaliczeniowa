@@ -9,7 +9,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <!--        <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
+    <!--        <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 700px">
                 <p:commandButton action="{zusStawkiNView.usunzus()}" value="usun parametr" update="@form" type="submit" />
                 <p:commandButton action="{zusStawkiNView.dodajzus()}" value="dodaj parametr" update="@form"  type="submit" />
             </p:panelGrid>
@@ -30,7 +30,7 @@
             <p:tooltip for="formdod2:wprowadzaniepodatnika"/> 
             <p:panel header="Edycja podatnika - osoby fizycznej" style="width: 500px;"/>
             <p:focus for="wprowadzaniepodatnika"/>
-            <p:panelGrid id="wprowadzaniepodatnika" columns="2" style="padding: 10px;">
+            <p:panelGrid layout="tabular" id="wprowadzaniepodatnika" columns="2" style="padding: 10px;">
                 <h:outputLabel value="nip"/>
                 <h:outputText id="polenip" value="#{podatnikView.selectedDod.nip}" />
                 <h:outputLabel value="nazwa ewidencyjna (ważna informacja na dole!)"/>
@@ -79,7 +79,7 @@
                     <f:selectItems value="#{podatnikView.listakadrowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
                 </p:selectOneMenu>
             </p:panelGrid>
-            <p:panelGrid columns="3" id="wprowadzaniepodatnikaprzyciski">
+            <p:panelGrid layout="tabular" columns="3" id="wprowadzaniepodatnikaprzyciski">
                 <p:commandButton actionListener="#{podatnikView.edytujnowy()}" value="edytuj" update="@form" 
                                  rendered="#{podatnikView.selectedDodedycja ne null}"
                                  type="submit" style="margin-top: 10px; width: 120px;"/>

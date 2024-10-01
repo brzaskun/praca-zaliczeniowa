@@ -8,7 +8,7 @@
     <pe:layoutPane position="west" size="260"  resizable="true">
         <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
-              <p:panelGrid  columns="2" >
+              <p:panelGrid layout="tabular"  columns="2" >
                     <p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%;width: 150px;">
                     <f:selectItems value="#{roki.rokiList}"/>
@@ -19,7 +19,7 @@
         </h:form>
         <h:form>
             <p:panel header="Tu możesz sprawdzić:">
-                 <p:panelGrid columns="1">
+                 <p:panelGrid layout="tabular" columns="1">
                         <p:menu style="width: 180px;">
                             <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="dokumenty w roku"  icon="ui-icon-circle-arrow-e" action="#{obrotyView.initGuest()}" update="@form"/>  

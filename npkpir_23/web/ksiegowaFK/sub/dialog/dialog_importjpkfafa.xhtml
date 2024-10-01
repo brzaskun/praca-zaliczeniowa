@@ -24,7 +24,7 @@
                 </h:form>-->
 
         <h:form id="form1_jpkfafa">
-            <p:panelGrid columns="4">
+            <p:panelGrid layout="tabular" columns="4">
                 <h:outputText value="import dokumentów z pliku JPK_FA i FA3 FA4"/>
                 <p:selectBooleanCheckbox label="wybierz dla jpk" value="#{importFakturyView.wybierzdlajpk}" itemLabel="wybierz dla jpk" style="margin-left: 50px;">
                     <p:ajax event="change" partialSubmit="true" update="form1_jpkfafa importtabelafafa"/>
@@ -57,7 +57,7 @@
             </p:fileUpload>
         </h:form>
         <h:form id="importtabelafafa">
-            <p:panelGrid columns="6">
+            <p:panelGrid layout="tabular" columns="6">
                 <h:outputText value="Razem netto: "/>
                 <bcf:outputpl value="#{importFakturyView.netto}"/>
                 <h:outputText value=" | vat: "/>
@@ -124,7 +124,7 @@
                 </p:column>
             </p:dataTable>
             
-            <p:panelGrid columns="2" style="margin-top: 7px;">
+            <p:panelGrid layout="tabular" columns="2" style="margin-top: 7px;">
                 <p:commandButton value="zaksięguj" actionListener="#{importFakturyView.zaksiegujfk}" id="ksiegujbutton"
                                  style="margin-top: 20px; width: 120px;" update="@form" rendered="#{importFakturyView.dokumentyfk.size() gt 0 and !importFakturyView.wybierzosobyfizyczne and !importFakturyView.deklaracjaniemiecka and !importFakturyView.wybierzdlajpk}"/>
                 <p:commandButton value="generuj dla jpk" actionListener="#{importFakturyView.generujdlajpk()}" update="form_importjpkfa" style="width: 120px;margin-left: 15px;"  rendered="#{importFakturyView.dokumentyfk.size() gt 0 and importFakturyView.wybierzdlajpk}" />            

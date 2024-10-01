@@ -18,7 +18,7 @@
                 <p:ajax event="change" listener="#{sprawozdanieFinansoweView.pobierzrok}" global="false" update="@form"/>
             </p:selectOneMenu>
             <p:outputPanel id="listaelementow">
-                <p:panelGrid  rendered="#{sprawozdanieFinansoweView.listapodatnikow.size() gt 0}" style="height: 40px;">
+                <p:panelGrid layout="tabular"  rendered="#{sprawozdanieFinansoweView.listapodatnikow.size() gt 0}" style="height: 40px;">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -40,7 +40,7 @@
                 </p:row>
             </p:panelGrid>
             </p:outputPanel>
-            <p:panelGrid columns="3" style="padding: 5px;">
+            <p:panelGrid layout="tabular" columns="3" style="padding: 5px;">
                 <p:commandButton value="zapisz" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.zapiszzmiany}" global="false"/>
                 <p:commandButton value="resetuj" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.resetuj}" global="false" update="@form"/>
 <!--                <p:commandButton value="usuń" styleClass="nb" actionListener="#{sprawozdanieFinansoweView.usunwszystko}" global="false" update="@form"/>-->

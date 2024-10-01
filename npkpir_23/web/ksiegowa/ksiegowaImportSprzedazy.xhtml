@@ -30,7 +30,7 @@
                         <h:outputText value="import dokumentów z pliku JPK_VAT"/>
                         <h:form>
                             <p:growl life="3600"  id="messages1"/>
-                            <p:panelGrid columns="3">
+                            <p:panelGrid layout="tabular" columns="3">
                             <p:fileUpload chooseIcon="fa fa-upload" listener="#{importSprzedazyView.importujsprzedaz}"
                                           mode="advanced" dragDropSupport="true" fileLimit="1" 
                                           update="messages1 importtabela @form" sizeLimit="4000000"  
@@ -49,7 +49,7 @@
                             <p:messages><p:autoUpdate/></p:messages>
                         </h:form>
                         <h:form id="importtabela">
-                            <p:panelGrid columns="6">
+                            <p:panelGrid layout="tabular" columns="6">
                                 <h:outputText value="netto"/>
                                 <bcf:outputpl value="#{importSprzedazyView.netto}"/>
                                 <h:outputText value="vat"/>

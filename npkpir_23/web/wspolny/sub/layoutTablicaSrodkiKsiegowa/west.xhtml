@@ -7,7 +7,7 @@
       xmlns:pe="http://primefaces.org/ui/extensions">
    
         <h:form id="westSrodki">
-                 <p:panelGrid id="westKsiegowaWidok" columns="2" style="margin-left: 7%">
+                 <p:panelGrid layout="tabular" id="westKsiegowaWidok" columns="2" style="margin-left: 7%">
                 <h:outputText value="Podatnik:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <h:outputText value="#{WpisView.podatnikObiekt.nazwapelnaPDF}"/>
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
@@ -17,7 +17,7 @@
             </p:panelGrid>
            <p:panel id="linki" header="linki">
              
-                 <p:panelGrid columns="1">
+                 <p:panelGrid layout="tabular" columns="1">
                     <p:menu >
                         <p:menuitem value="powrót"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="środki trwałe"  outcome="srodki" icon="ui-icon-circle-arrow-e"/> 

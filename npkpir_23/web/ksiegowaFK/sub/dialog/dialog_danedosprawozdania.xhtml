@@ -11,7 +11,7 @@
         <p:tabView id="akordeon">
             <p:tab title="dane fin.">
                 <h:form id="form_dialogdanedosprawozdania">
-                    <p:panelGrid columns="3">
+                    <p:panelGrid layout="tabular" columns="3">
                         <h:outputText value="nazwa pozycji wyliczenia" style="font-weight: 900"/>
                         <h:outputText value="kwoty za #{WpisView.rokWpisuSt}" style="font-weight: 900"/>
                         <h:outputText value="kwota za #{WpisView.rokUprzedniSt}" style="font-weight: 900"/>
@@ -49,7 +49,7 @@
                         <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid11A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" signPosition="p"  required="true" requiredMessage="Wpisz kwotę"/>
                         <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid11B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" signPosition="p"  required="true" requiredMessage="Wpisz kwotę"/>
                     </p:panelGrid>
-                    <p:panelGrid columns="6" style="margin-top: 10px;">
+                    <p:panelGrid layout="tabular" columns="6" style="margin-top: 10px;">
                         <h:outputText value="data sporządzenia" style="font-weight: bold;"/>
                         <p:inputMask value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datasporzadzenia}" size="10" maxlength="10" mask="9999-99-99">
                             <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
@@ -63,13 +63,13 @@
                             <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
                         </p:inputMask>
                     </p:panelGrid>
-                    <p:panelGrid columns="2" style="margin-top: 10px;">
+                    <p:panelGrid layout="tabular" columns="2" style="margin-top: 10px;">
                         <p:commandButton value="zapisz" actionListener="#{sprFinKwotyInfDodView.zapisz}" style="width: 120px;" update="@form"/>
                     </p:panelGrid>
                 </h:form>
                 <h:form>
-                    <p:panelGrid columns="2" style="width: 1000px;">
-                        <p:panelGrid columns="1"  style="margin-top: 20px;width: 450px;">
+                    <p:panelGrid layout="tabular" columns="2" style="width: 1000px;">
+                        <p:panelGrid layout="tabular" columns="1"  style="margin-top: 20px;width: 450px;">
                             <h:outputText value="plik z informacją dodatkową (nazwa bez spacji i polskich znaków!!)" style="font-weight: bold;"/>
                             <p:fileUpload chooseIcon="fa fa-upload" listener="#{sprFinKwotyInfDodView.zachowajplik}" 
                                           mode="advanced" dragDropSupport="true" fileLimit="3"
@@ -84,7 +84,7 @@
                             <p:commandButton value="pokaż" style="width: 120px;margin-top: 20px;" actionListener="#{sprFinKwotyInfDodView.pokazplik}"/>
                             <h:outputText value="wersja schemy #{sprFinKwotyInfDodView.sprFinKwotyInfDod.nrschemy}" style="color: green;float:right"/>
                         </p:panelGrid>
-                        <p:panelGrid columns="1"  style="margin-top: 20px;width: 450px;">
+                        <p:panelGrid layout="tabular" columns="1"  style="margin-top: 20px;width: 450px;">
                             <h:outputText value="plik z informacją wstępną - opcjonalny (nazwa bez spacji i znaków!!)" style="font-weight: bold;"/>
                             <p:fileUpload chooseIcon="fa fa-upload" listener="#{sprFinKwotyInfDodView.zachowajplikOpcja}" 
                                           mode="advanced" dragDropSupport="true" fileLimit="3"
@@ -104,7 +104,7 @@
             </p:tab>
             <p:tab title="inf.dodatkowa">
                 <h:form>
-                    <p:panelGrid columns="2">
+                    <p:panelGrid layout="tabular" columns="2">
                         <h:outputText value="pobierz dane z roku poprzedniego"/>
                         <p:commandButton value="kopuj" actionListener="#{sprFinKwotyInfDodView.kopiujsad}" update="@form"/>
                         <h:outputText value="sąd rejestrowy"/>
@@ -156,7 +156,7 @@
                     </p:panelGrid>
                 </h:form>
                 <h:form>
-                    <p:panelGrid columns="1">
+                    <p:panelGrid layout="tabular" columns="1">
                         <h:outputText value="Ważne! Aby informacja poprawnie się wygenerowała, salda z bieżącego i poprzedniego roku muszą być zaksięgowane!" style="color: red;"/>
                     <p:commandButton value="generuj inf.dod." style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujInfdod}"/>
                     </p:panelGrid>
@@ -164,7 +164,7 @@
             </p:tab>
             <p:tab title="spr. zarządu">
                 <h:form>
-                    <p:panelGrid columns="2">
+                    <p:panelGrid layout="tabular" columns="2">
                         <h:outputText value="suma bilansowa za rok bieżący"/>
                         <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.sumabilansowa}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;">
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
@@ -172,14 +172,14 @@
                     </p:panelGrid>
                 </h:form>
                 <h:form>
-                    <p:panelGrid columns="1">
+                    <p:panelGrid layout="tabular" columns="1">
                     <p:commandButton value="generuj spraw." style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujSprawozdanieZarzadu}"/>
                     </p:panelGrid>
                 </h:form>
             </p:tab>
             <p:tab title="uchwały">
                 <h:form>
-                    <p:panelGrid columns="4" style="width: 950px; padding: 5px;">
+                    <p:panelGrid layout="tabular" columns="4" style="width: 950px; padding: 5px;">
                 <p:dataTable lazy="false"  value="#{sprFinKwotyInfDodView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}" id="form9tablica"
                               >
                     <p:column headerText="data od">
@@ -208,14 +208,14 @@
             </p:panelGrid>
                 </h:form>
                 <h:form>
-                    <p:panelGrid columns="2">
+                    <p:panelGrid layout="tabular" columns="2">
                     <h:outputText value="data uchwał" style="font-weight: bold;"/>
                         <p:inputMask value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datauchwal}" size="10" maxlength="10"  mask="9999-99-99"  validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
                             <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
                         </p:inputMask>
                     </p:panelGrid>
-                    <p:panelGrid columns="1">
+                    <p:panelGrid layout="tabular" columns="1">
                     <p:commandButton value="generuj uchwały" style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujUchwaly}"/>
                     </p:panelGrid>
                 </h:form>

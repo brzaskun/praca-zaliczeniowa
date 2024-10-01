@@ -9,7 +9,7 @@
 
     <p:tab id="archiwum" title="Dane zbiorcze"  rendered="#{WpisView.ryczalt0ksiega1}" >
         <h:form id="formarchiwum">
-            <p:panelGrid id="zestawienieroczne" columns="9" style="max-width: 1150px;">
+            <p:panelGrid layout="tabular" id="zestawienieroczne" columns="12" style="max-width: 1150px;">
                 <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista" > 
                     <p:column headerText="kolumny" id="przychsprz">  
                         <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
@@ -93,12 +93,13 @@
                         </h:outputText>
                     </p:column>
                 </p:dataTable>
+               
                 <p:selectOneMenu id="podatnikWpisu" value="#{zestawienieView.wybranacechadok}" style="width: 180px;" converter="#{cechaConv}">
                     <f:selectItem itemLabel="wybierz cechę" itemValue="" noSelectionOption="true"/>
                     <f:selectItems value="#{zestawienieView.pobranecechypodatnik}"  var="pc" itemValue="#{pc}" itemDescription="#{pc.nazwacechy}" itemLabel="#{pc.nazwacechy}"/>
                     <p:ajax event="change" listener="#{zestawienieView.init()}" update="@form"/>
                 </p:selectOneMenu>
-
+                 <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
                 <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista1" > 
                     <p:column headerText="kolumny" id="przychsprz">  
                         <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>

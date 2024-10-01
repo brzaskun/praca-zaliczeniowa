@@ -15,14 +15,14 @@
               resizable="false"  onShow="ustawdialog('dialog_pojazdy_dolaczanie','menukartoteki',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_pojazdy_dolaczanie');" >
 
         <h:form id="pojazdy">
-            <p:panelGrid columns="2" >
-                <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
+                <p:panelGrid layout="tabular" columns="2" >
                     <h:outputText value="nr rejestracyjny "/>
                     <p:inputText id="nazwamiejsca" value="#{pojazdyView.selected.nrrejestracyjny}" style="width: 180px;"/>
                     <h:outputText value="nazwa pojazdu"/>
                     <p:inputText id="nazwamiejscas" value="#{pojazdyView.selected.nazwapojazdu}" style="width: 180px;"/>
                 </p:panelGrid>
-                <p:panelGrid columns="2" >
+                <p:panelGrid layout="tabular" columns="2" >
                     <p:commandButton value="dodaj" actionListener="#{pojazdyView.dodaj()}" style="margin: 2%; width: 120px;" 
                                      update=":pojazdy, :pojazdylista" rendered="#{pojazdyView.zapisz0edytuj1 == false}"/>
                     <p:commandButton value="edytuj" actionListener="#{pojazdyView.zapiszedycje()}" style="margin: 2%; width: 120px;" 

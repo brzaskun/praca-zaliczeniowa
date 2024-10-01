@@ -44,7 +44,7 @@
                         <p:commandButton icon="ui-icon-trash" actionListener="#{granicaView.usun(item)}" update="akordeon:form_limitdovat"/>
                     </p:column>
                 </p:dataTable>
-                <p:panelGrid id="panelwprowadzania" columns="2" style="padding: 10px;">
+                <p:panelGrid layout="tabular" id="panelwprowadzania" columns="2" style="padding: 10px;">
                     <h:outputText value="rok: " />
                     <p:selectOneMenu id="rokWpisu" value="#{granicaView.nowa.rok}" style="width: 70px;">
                         <p:ajax event="change" partialSubmit="true" global="false"/>
@@ -95,7 +95,7 @@
                         <p:commandButton icon="ui-icon-trash" actionListener="#{granicaView.usun(item)}" update="akordeon:form_limitdopkpir"/>
                     </p:column>
                 </p:dataTable>
-                <p:panelGrid id="panelwprowadzania" columns="2" style="padding: 10px;">
+                <p:panelGrid layout="tabular" id="panelwprowadzania" columns="2" style="padding: 10px;">
                     <h:outputText value="rok: " />
                     <p:selectOneMenu id="rokWpisu" value="#{granicaView.nowa.rok}" style="width: 70px;">
                         <p:ajax event="change" partialSubmit="true" global="false"/>
@@ -146,7 +146,7 @@
                         <p:commandButton icon="ui-icon-trash" actionListener="#{granicaView.usun(item)}" update="akordeon:form_limitdoksiegi"/>
                     </p:column>
                 </p:dataTable>
-                <p:panelGrid id="panelwprowadzania" columns="2" style="padding: 10px;">
+                <p:panelGrid layout="tabular" id="panelwprowadzania" columns="2" style="padding: 10px;">
                     <h:outputText value="rok: " />
                     <p:selectOneMenu id="rokWpisu" value="#{granicaView.nowa.rok}" style="width: 70px;">
                         <p:ajax event="change" partialSubmit="true" global="false"/>
@@ -197,7 +197,7 @@
                         <p:commandButton icon="ui-icon-trash" actionListener="#{granicaView.usun(item)}" update="akordeon:form_limitdokasa"/>
                     </p:column>
                 </p:dataTable>
-                <p:panelGrid id="panelwprowadzania" columns="2" style="padding: 10px;">
+                <p:panelGrid layout="tabular" id="panelwprowadzania" columns="2" style="padding: 10px;">
                     <h:outputText value="rok: " />
                     <p:selectOneMenu id="rokWpisu" value="#{granicaView.nowa.rok}" style="width: 70px;">
                         <p:ajax event="change" partialSubmit="true" global="false"/>

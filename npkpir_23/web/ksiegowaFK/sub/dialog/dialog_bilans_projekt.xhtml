@@ -15,13 +15,13 @@
                 <p:menuitem value="Usuń" actionListener="#{pozycjaBRView.usunpozycje}" icon="ui-icon-trash" update=":formbilansprojekt" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
                 <p:menuitem value="nie można modyfikować importowanego układu" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'false' : 'true'}"/>
             </p:contextMenu>
-            <p:panelGrid columns="4" >
+            <p:panelGrid layout="tabular" columns="4" >
 <!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":formbilansprojekt:dataList" style="float: left;" />-->
             </p:panelGrid>
-            <p:panelGrid columns="3" style="width: 1020px;">
+            <p:panelGrid layout="tabular" columns="3" style="width: 1020px;">
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym Bilansie">

@@ -11,7 +11,7 @@
     <p:panel id="lolo">
         <p:focus id="focus" context="panelekX" />
         <p:panel header="Wprowadzanie srodkow trwalych" >
-            <p:panelGrid columns="6" id="panelekX" >
+            <p:panelGrid layout="tabular" columns="6" id="panelekX" >
                 <h:outputText value="Nazwa środka" />
                 <h:inputText value="#{DokumentView.selectedSTR.nazwa}" />
                 <h:outputText value="datazakupu" />
@@ -30,7 +30,7 @@
             </p:panelGrid>
         </p:panel>
         <p:panel header="Ostatnio wprowadzony środek trwały"  >
-            <p:panelGrid columns="4" id="panelekXA" >
+            <p:panelGrid layout="tabular" columns="4" id="panelekXA" >
                 <h:outputText value="Wartość pocz."/>
                 <h:outputText value="#{srodkiTrwaleView.selectedSTR.netto}" style="float: right;"/>
                  <h:outputText value="Data Zakupu"/>

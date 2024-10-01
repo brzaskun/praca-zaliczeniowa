@@ -21,7 +21,7 @@
 
         </style>
         <h:form id="formsymulacjanarastajaco">
-            <p:panelGrid columns="12" style="margin-left: 2%;" >
+            <p:panelGrid layout="tabular" columns="12" style="margin-left: 2%;" >
                 <h:outputText value="m-c" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
@@ -159,7 +159,7 @@
                 </p:column>
             </p:dataTable>
                 
-            <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
               <p:dataTable lazy="false"  id="tablicasymulacjasuma" value="#{symulacjaWynikuNarastajacoView.pozycjePodsumowaniaWyniku}" var="loop" rowKey="#{loop.nazwa}"
                          emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 400px; padding: 10px;" widgetVar="tablicasymulacjasuma"
@@ -178,7 +178,7 @@
                     <bcf:outputpl value="#{loop.wartosc}"/>
                 </p:column>
             </p:dataTable>
-                <p:panelGrid columns="1">
+                <p:panelGrid layout="tabular" columns="1">
                     <h:outputText value="rozliczenie podatku dochodowego - #{WpisView.mc0kw1 eq false ? 'miesiecznie':'kwartalnie'}"/>
                     <h:outputText style="color: red;" value=" #{symulacjaWynikuNarastajacoView.dodatkoweinfo}"/>
                 </p:panelGrid>
@@ -206,7 +206,7 @@
                     <bcf:outputpl value="#{loop2.podatekdochodowy}"/>
                 </p:column>
             </p:dataTable>-->
-            <p:panelGrid columns="1" rendered="#{WpisView.rokWpisu lt 2022}">
+            <p:panelGrid layout="tabular" columns="1" rendered="#{WpisView.rokWpisu lt 2022}">
             <p:dataTable lazy="false"  id="tablicasymulacjapodatek" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuTabela}" var="loop1" rowKey="#{loop1.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 1200px; padding: 10px;" widgetVar="tablicasymulacjapodatek"

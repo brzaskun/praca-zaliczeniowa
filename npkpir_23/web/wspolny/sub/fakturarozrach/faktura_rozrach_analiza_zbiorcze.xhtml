@@ -35,7 +35,7 @@
                 <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.pobierzdwalata}" style="margin-left: 10px;"/>
                 <p:commandButton value="bez wezw." actionListener="#{fakturaRozrachunkiAnalizaView.bezwezwania()}"  style="width: 120px; margin-left: 20px;" update="akordeon:fakturaanalizazbiorcza:tablicaanaliza">
                 </p:commandButton>
-                <p:panelGrid columns="2" style="padding: 10px;" id="suma">
+                <p:panelGrid layout="tabular" columns="2" style="padding: 10px;" id="suma">
                 <h:outputText value="suma"/>
                 <bcf:outputpl value="#{fakturaRozrachunkiAnalizaView.sumasaldnierozliczonych}"/>
             </p:panelGrid>

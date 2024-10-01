@@ -26,9 +26,9 @@
               resizable="true" dynamic="true">
         <p:ajax event="open" listener="#{vatZmianaOkresuView.aktualizujpozmianiedaty(WpisView.getPodatnikObiekt())}" global="true" update="form"/>
         <p:ajax event="open" listener="#{kontaVatFKView.init()}" global="true" update="form"/>
-        <p:panelGrid columns="1">
+        <p:panelGrid layout="tabular" columns="1">
         <h:form id="formokresvat"> 
-            <p:panelGrid columns="2" style="float: left;">
+            <p:panelGrid layout="tabular" columns="2" style="float: left;">
                 <p:column>
                     <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
                         <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>

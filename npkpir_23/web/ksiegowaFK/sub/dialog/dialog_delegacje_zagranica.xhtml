@@ -14,7 +14,7 @@
               resizable="false"  onShow="ustawdialog('dialog_delegacje_zagranica','menukartoteki',900,700);" closeOnEscape="true" onHide="resetujdialog('dialog_delegacje_zagranica');" >
        
         <h:form id="delegacjezagranica">
-            <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
                 <h:outputText value="nr delegacji "/>
                 <p:inputText id="nazwamiejsca" value="#{delegacjeView.selected.opisdlugi}" style="width: 180px;"/>
                 <h:outputText value="opis delegacji"/>

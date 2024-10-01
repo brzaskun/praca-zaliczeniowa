@@ -10,7 +10,7 @@
               widgetVar="dialogedycjanazwkonta" resizable="false" id="dialogedycjanazwkonta">  
         <h:form id="formedycjanazw">  
             <p:focus for="dkp">
-                <p:panelGrid id="dkp" columns="2" style="width: 400px;">
+                <p:panelGrid layout="tabular" id="dkp" columns="2" style="width: 400px;">
                     <h:outputLabel value="Numer konta:" for="numer" />
                     <h:outputText value="#{planKontView.selectednodekontoZmiana.pelnynumer}" id="numer"/>
                     <h:outputLabel value="Nazwa pelna:" for="nazwapelna" />

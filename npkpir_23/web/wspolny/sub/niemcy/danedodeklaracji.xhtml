@@ -23,8 +23,8 @@
                              oncomplete="pobierzxml()" update="formVatZestKsiegowa"
                      style="width: 120px; margin-left: 10px;"/>-->
             <p:separator/>
-                <p:panelGrid id="panelposumowaniavatniemcy" columns="2" columnClasses="fifty-percent fifty-percent" style="margin-top: 10px;">
-                <p:panelGrid columns="1">
+                <p:panelGrid layout="tabular" id="panelposumowaniavatniemcy" columns="2" columnClasses="fifty-percent fifty-percent" style="margin-top: 10px;">
+                <p:panelGrid layout="tabular" columns="1">
                     <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniasprzedazNiemcy}" var="itemik" 
                                  selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 600px;"
                                  >
@@ -74,8 +74,8 @@
                     </p:dataTable>
                 </p:panelGrid>
                      </p:panelGrid>
-                <!--                        <p:panelGrid id="paneljpk" columns="4">
-                                            <p:panelGrid rendered="#{jpk_VAT2NView.jpk ne null}" style="width: 300px;" columns="2">
+                <!--                        <p:panelGrid layout="tabular" id="paneljpk" columns="4">
+                                            <p:panelGrid layout="tabular" rendered="#{jpk_VAT2NView.jpk ne null}" style="width: 300px;" columns="2">
                                                 <h:outputText value="jpk sprzedaż"/><bcf:outputpl value="#{jpk_VAT2NView.jpk.sprzedazCtrl.podatekNalezny}"/>
                                                 <h:outputText value="jpk sprzedaż wiersze"/><h:outputText value="#{jpk_VAT2NView.jpk.sprzedazCtrl.liczbaWierszySprzedazy}"/>
                                                 <h:outputText value="jpk zakup"/><bcf:outputpl value="#{jpk_VAT2NView.jpk.zakupCtrl.podatekNaliczony}"/>

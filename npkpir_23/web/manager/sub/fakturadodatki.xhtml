@@ -11,7 +11,7 @@
         <p:tab title="pozycje fakturowane">
             <h:form id="form2">
                 <p:growl life="3600" showDetail="true"/>
-                <p:panelGrid columns="6">
+                <p:panelGrid layout="tabular" columns="6">
                     <h:outputText value="rokqwdwdwwdwdww"/>
                     <h:outputText value="mc"/>
                     <h:outputText value=""/>
@@ -53,7 +53,7 @@
             </h:form>
             <p:separator/>
             <h:form id="listapozycji">
-                <p:panelGrid columns="6">
+                <p:panelGrid layout="tabular" columns="6">
                     <p:commandButton value="generuj permanentne" actionListener="#{fakturaDodPozycjaKontrahentView.generujpermanentne()}" style="width: 120px;" update="akordeon:listapozycji:lista akordeon:form3 akordeon:listapozycji2:lista" />
                     <p:commandButton value="zachowaj wygenerowane" actionListener="#{fakturaDodPozycjaKontrahentView.zachowajpermanentne()}" style="width: 120px;margin-left: 20px;" update="akordeon:listapozycji:lista akordeon:form3 akordeon:listapozycji2:lista" />
                     <p:outputLabel for="boxczywszystkie" value="pokaż tylko puste"/>
@@ -146,7 +146,7 @@
                 </p:contextMenu>
             </h:form>
             <h:form>
-                <p:panelGrid columns="3">
+                <p:panelGrid layout="tabular" columns="3">
                     <p:commandButton value="sumuj" actionListener="#{fakturaDodPozycjaKontrahentView.sumujwybrane}" update="@form" style="width: 120px;"/>
                     <bcf:outputpl value="#{fakturaDodPozycjaKontrahentView.sumawybranych}" stylePlus="margin-left: 50px;"/>
                     <bcf:outputpl value="#{fakturaDodPozycjaKontrahentView.sumawybranych2}" stylePlus="margin-left: 50px;"/>
@@ -156,7 +156,7 @@
         <p:tab title="pozycje bez faktur">
             <h:form id="form3">
                 <p:growl life="3600" showDetail="true"/>
-                <p:panelGrid columns="2">
+                <p:panelGrid layout="tabular" columns="2">
                     <h:outputText value="rok"/>
                     <h:outputText value="mc"/>
                     <p:selectOneMenu id="rokWpisu" value="#{fakturaDodPozycjaKontrahentView.rok}" style="width: 60px;">
@@ -234,7 +234,7 @@
                 </p:dataTable>
             </h:form>
             <h:form>
-                <p:panelGrid columns="3">
+                <p:panelGrid layout="tabular" columns="3">
                     <p:commandButton value="sumuj" actionListener="#{fakturaDodPozycjaKontrahentView.sumujwybrane}" update="@form" style="width: 120px;"/>
                     <bcf:outputpl value="#{fakturaDodPozycjaKontrahentView.sumawybranych}" stylePlus="margin-left: 50px;"/>
                     <bcf:outputpl value="#{fakturaDodPozycjaKontrahentView.sumawybranych2}" stylePlus="margin-left: 50px;"/>
@@ -244,7 +244,7 @@
         <p:tab title="dodatki wprowadzanie">
             <h:form>
                 <p:growl life="3600" showDetail="true"/>
-                <p:panelGrid columns="3">
+                <p:panelGrid layout="tabular" columns="3">
                     <h:outputText value="nazwa"/>
                     <h:outputText value="kwota"/>
                     <h:outputText value=""/>

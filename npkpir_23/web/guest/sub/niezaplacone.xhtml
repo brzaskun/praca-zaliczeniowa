@@ -9,12 +9,11 @@
     
    
    <p:dialog header="Szczegóły płatności" id="dpi" widgetVar="Dialog" resizable="false">
-              <p:panelGrid id="display" style="width: 400px;" columns="2" >
+              <p:panelGrid layout="tabular" id="display" style="width: 400px;" columns="2" >
                <h:outputText value="data płatności"/>  
                <h:outputText value="kwota wpłacona"/>  
-               <p:inputText id="pole" value="#{rozrachunkiView.rozrachunek.dataplatnosci}" accesskey="s" >
-                   <p:watermark for="pole" value="rrrr-mm-dd" /> 
-               </p:inputText>
+               <p:inputText id="pole" value="#{rozrachunkiView.rozrachunek.dataplatnosci}" accesskey="s" placeholder="rrrr-mm-dd">
+              </p:inputText>
                <p:inputNumber value="#{rozrachunkiView.rozrachunek.kwotawplacona}"  decimalPlaces="2"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" signPosition="p"  />
            </p:panelGrid>
         <br/>

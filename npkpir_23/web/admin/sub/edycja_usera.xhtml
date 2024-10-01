@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
     <p:panel id="editDane" menuTitle="Edytowanie danych użytkownika" header="Edytowanie danych użytkownika" >
-        <p:panelGrid columns="12" >
+        <p:panelGrid layout="tabular" columns="12" >
             <h:outputLabel value="imie"/>
             <h:outputLabel value="nazwisko"/>
             <h:outputLabel value="hasło"/>
@@ -50,7 +50,7 @@
                 <f:selectItem itemValue="wioletta" itemLabel="wioletta"/>
             </p:selectOneMenu>
         </p:panelGrid>
-        <p:panelGrid columns="3">
+        <p:panelGrid layout="tabular" columns="3">
              <h:outputLabel value="faktura grupa"/>
             <h:outputLabel value="faktura numeracja"/>
             <h:outputLabel value=" "/>

@@ -9,7 +9,7 @@
     <f:event type="preRenderView" listener="#{planKontView.init()}"/>
     <h:form id="form_dialog_plankont_nazwy">
         <p:commandButton id="zwinw" value="#{mgs.drukuj}" actionListener="#{planKontView.drukujPlanKont('all')}"  global="false" style="margin-bottom: 10px; width: 120px;"/>
-            <p:panelGrid columns="1" >
+            <p:panelGrid layout="tabular" columns="1" >
                 
                 <p:dataTable lazy="false"  id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" 
                              rowStyleClass="#{loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')}" 

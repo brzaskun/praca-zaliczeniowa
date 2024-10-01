@@ -88,9 +88,9 @@
             </h:form>
             <h:form id="formwpisdokument" >
                
-                <p:panelGrid id="panelzkwotami" columns="2" >
-                    <p:panelGrid  columns="1"  >
-                        <p:panelGrid id="paneldatydokumentu">
+                <p:panelGrid layout="tabular" id="panelzkwotami" columns="2" >
+                    <p:panelGrid layout="tabular"  columns="1"  >
+                        <p:panelGrid layout="tabular" id="paneldatydokumentu">
                             <f:facet name="header">
                                 <p:row>
                                     <p:column>
@@ -212,7 +212,7 @@
                                 </p:column>
                             </p:row>
                         </p:panelGrid>
-                        <p:panelGrid id="paneldaneogolnefaktury">
+                        <p:panelGrid layout="tabular" id="paneldaneogolnefaktury">
                             <f:facet name="header">
                                 <p:row>
                                     <p:column>
@@ -266,7 +266,7 @@
                                 </p:column>
                             </p:row>
                         </p:panelGrid>
-                        <p:panelGrid id="panelzkwotamidok">
+                        <p:panelGrid layout="tabular" id="panelzkwotamidok">
                             <f:facet name="header">
                                 <p:row>
                                     <p:column>
@@ -330,12 +330,12 @@
                                 </p:column>
                             </p:row>
                         </p:panelGrid>
-<!--                        <p:panelGrid id="panelzkwotamidoka" rendered="#{planKontView.infozebrakslownikowych ne ''}"
+<!--                        <p:panelGrid layout="tabular" id="panelzkwotamidoka" rendered="#{planKontView.infozebrakslownikowych ne ''}"
                                      columns="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
                             <h:outputText value="#{planKontView.infozebrakslownikowych}" style="color: red; font-weight: 900;"/>
                         </p:panelGrid>-->
-                        <p:panelGrid columns="2" id="panelwalutowy" style="min-width: 100%;"  styleClass="uipanelGrid0" >
-                            <p:panelGrid id="panelwalutowywybor" style="min-width: 20%;">
+                        <p:panelGrid layout="tabular" columns="2" id="panelwalutowy" style="min-width: 100%;"  styleClass="uipanelGrid0" >
+                            <p:panelGrid layout="tabular" id="panelwalutowywybor" style="min-width: 20%;">
                                 <f:facet name="header">
                                     <p:row>
                                         <p:column>
@@ -373,7 +373,7 @@
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>
-                            <p:panelGrid id="panelTabelaNBP" style="min-width: 80%;">
+                            <p:panelGrid layout="tabular" id="panelTabelaNBP" style="min-width: 80%;">
                                 <f:facet name="header">
                                     <p:row rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu != 0)}">
                                         <p:column>
@@ -404,7 +404,7 @@
                         </p:panelGrid>
                     </p:panelGrid>
 
-                    <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" style="width: 620px;">
+                    <p:panelGrid layout="tabular" id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" style="width: 620px;">
                         <h:outputText value="tylko ewidencja vat z podatkiem należnym" style="color: blue;" rendered="#{dokfkView.selected.rodzajedok.tylkovatnalezny}"/>
                         <p:dataTable lazy="false"  id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
                                      style="margin-top: 0px;" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 || dokfkView.selected.rodzajedok.kategoriadokumentu == 2}"
@@ -676,7 +676,7 @@
                     <p:outputPanel id="komunikatywpisdok" style="text-align: left; margin-left: 10px;">
                         <h:outputText  value="#{dokfkView.komunikatywpisdok}" style="color: red;"/>
                     </p:outputPanel> 
-                    <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
+                    <p:panelGrid layout="tabular" id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
                         <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO' or dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BOR'}">
                             <h:outputText value="SaldoWn: "/>
@@ -743,7 +743,7 @@
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="lpwierszaRK" value="#{dokfkView.lpwierszaRK}" style="display: none;"/>
                 <h:inputText id="lpwierszaWpisywanie" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>
-                <p:panelGrid columns="14" id="panelinfo" style="width: 80%">
+                <p:panelGrid layout="tabular" columns="14" id="panelinfo" style="width: 80%">
                     <h:outputText value="domyślna cecha NKUP - Alt-A" style="width: 80px; color: green;" />
                      <h:outputText value="domyślna cecha KUPMN - Alt-B" style="width: 80px; color: green;" />
                     <p:spacer width="20"/>

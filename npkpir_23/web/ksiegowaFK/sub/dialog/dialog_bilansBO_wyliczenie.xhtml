@@ -30,7 +30,7 @@
                         }
                     }
             </script>
-             <p:panelGrid columns="4">
+             <p:panelGrid layout="tabular" columns="4">
                   <h:outputText value="układ: " style="margin-left: 20px;" rendered="#{ukladBRView.listarokbiezacy.isEmpty() eq false}"/>
                     <h:outputText value="#{pozycjaBRView.uklad.uklad}" style="color: green;" rendered="#{ukladBRView.listarokbiezacy.isEmpty() eq false}"/>
                       <p:splitButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRView.drukujBilans('a', pozycjaBRView.sumabilansowaaktywa)}">
@@ -42,11 +42,11 @@
                           <p:menuitem global="false" value="#{mgs.pasywaznrkont} bez 0" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRView.drukujBilansKontaBez0('p', pozycjaBRView.sumabilansowapasywa)}" icon="fa fa-print"/>  
                       </p:splitButton>
             </p:panelGrid>
-            <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
                 <h:outputText value="różnica stron: "/>
                 <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa-pozycjaBRView.sumabilansowapasywa}"/>
             </p:panelGrid>
-            <p:panelGrid columns="2" >
+            <p:panelGrid layout="tabular" columns="2" >
                 <p:column>
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 

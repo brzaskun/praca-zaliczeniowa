@@ -9,7 +9,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <!--        <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
+    <!--        <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 700px">
                 <p:commandButton action="{zusStawkiNView.usunzus()}" value="usun parametr" update="@form" type="submit" />
                 <p:commandButton action="{zusStawkiNView.dodajzus()}" value="dodaj parametr" update="@form"  type="submit" />
             </p:panelGrid>
@@ -20,7 +20,7 @@
 
         <h:form>
             <p:autoUpdate/>
-            <p:panelGrid columns="1" style="padding: 10px;">
+            <p:panelGrid layout="tabular" columns="1" style="padding: 10px;">
                 <p:commandButton value="weryfikacja #{aktywacjaPodatnikow.rok}" actionListener="#{aktywacjaPodatnikow.weryfikacja}" style="width:120px;">
                     <p:ajax event="click" partialSubmit="true" update="@form"/>
                 </p:commandButton>

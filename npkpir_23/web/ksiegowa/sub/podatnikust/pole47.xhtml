@@ -12,7 +12,7 @@
             <h:outputText value="Wartości kwoty pola47 dla pierwszej deklaracji" style="font-size: 15px"/>
             <p:growl life="3600"  showDetail="true"/>
             <p:focus for="parametrypodatnika8"/><br/>
-            <p:panelGrid columns="4" style="width: 500px">
+            <p:panelGrid layout="tabular" columns="4" style="width: 500px">
                 <p:dataTable lazy="false"  value="#{podatnikView.selected.pole47}"  var="loop" 
                             emptyMessage="Nie wprowadzono wartości pola do przeniesienia">
                     <f:facet name="header">
@@ -28,11 +28,11 @@
             </p:panelGrid>
             <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
             <h:outputText value="wpisz kwotę w pełnych złotych (bez groszy!)"/><br/>
-            <p:panelGrid id="parametrypodatnika8" columns="4" >
+            <p:panelGrid layout="tabular" id="parametrypodatnika8" columns="4" >
                 <p:inputText value="#{podatnikView.selected.pole47}" />
             </p:panelGrid>
             <br/>
-            <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
+            <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 500px">
                 <p:commandButton action="#{podatnikView.usunpole47()}" value="usun parametr" update="@form" type="submit"/>
                 <p:commandButton action="#{podatnikView.dodajpole47()}" value="dodaj parametr" update="@form" type="submit"/>
             </p:panelGrid>

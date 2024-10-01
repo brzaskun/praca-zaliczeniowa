@@ -25,8 +25,8 @@
                              oncomplete="pobierzxml()" update="formVatZestKsiegowa"
                      style="width: 120px; margin-left: 10px;"/>-->
             <p:separator/>
-            <p:panelGrid id="panelposumowaniavatniemcy" columns="2" columnClasses="fifty-percent fifty-percent" style="margin-top: 10px;">
-                <p:panelGrid columns="1">
+            <p:panelGrid layout="tabular" id="panelposumowaniavatniemcy" columns="2" columnClasses="fifty-percent fifty-percent" style="margin-top: 10px;">
+                <p:panelGrid layout="tabular" columns="1">
                     <p:dataTable lazy="false"  value="#{ewidencjaVatView.sumydowyswietleniasprzedazNiemcyRok}" var="itemik" 
                                  selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 600px;"
                                  >

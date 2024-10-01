@@ -46,7 +46,7 @@
                 <h:outputText value="Generowanie bilansu likwidacyjnego na dzień #{WpisView.podatnikObiekt.dataotwarcialikwidacji}" style="color: red;"/>
             </p:outputPanel>
             <p:focus for="formbilanswprowadzanienowy_wiersz"/>
-             <p:panelGrid    columns="12" style="height: 50px;">
+             <p:panelGrid layout="tabular"    columns="12" style="height: 50px;">
                     
                     <p:column width="380">
                             <h:outputText value="#{mgs.konto}"/>
@@ -181,7 +181,7 @@
             <p:commandButton value="dołącz kontr." global="false" onclick="PF('dialog_kliencifk_dolaczanie_BO').show();" style="width: 120px; float: right;"/>
         </h:form>
         <h:form id="formbilanswprowadzanienowy">
-            <p:panelGrid columns="13" style="margin-top: 5px;">
+            <p:panelGrid layout="tabular" columns="13" style="margin-top: 5px;">
                 <p:commandButton value="0" actionListener="#{bilansWprowadzanieNowyView.pobierzlista(0)}" global="false" update="formbilanswprowadzanienowy_wiersz formbilanswprowadzanienowy formbilanswprowadzanie3nowy"/>
                 <p:commandButton value="1" actionListener="#{bilansWprowadzanieNowyView.pobierzlista(1)}" global="false" update="formbilanswprowadzanienowy_wiersz formbilanswprowadzanienowy formbilanswprowadzanie3nowy"/>
                 <p:commandButton value="2" id="buttondwojek" actionListener="#{bilansWprowadzanieNowyView.pobierzlista(2)}" global="false" update="formbilanswprowadzanienowy_wiersz formbilanswprowadzanienowy formbilanswprowadzanie3nowy"/>
@@ -312,9 +312,9 @@
                             actionListener="#{bilansWprowadzanieNowyView.usunwiele(bilansWprowadzanieNowyView.listaBOs1)}" icon="ui-icon-disk" />
 
             </p:contextMenu>
-            <p:panelGrid columns="2">
+            <p:panelGrid layout="tabular" columns="2">
                 <p:column>
-                    <p:panelGrid  id="sum0" columns="12" style="margin-top: 10px;margin-left: 10px;">
+                    <p:panelGrid layout="tabular"  id="sum0" columns="12" style="margin-top: 10px;margin-left: 10px;">
                         <p:outputPanel  rendered="#{bilansWprowadzanieNowyView.nraktualnejlisty ne 9}">
                         <h:outputText value="Wn: "/>
                             <bcf:outputpl value="#{bilansWprowadzanieNowyView.listaBOsumy.get(0)}" style="font-weight: 900;"/>
@@ -338,7 +338,7 @@
             
         </h:form>
         <h:form id="formbilanswprowadzanie3nowy">
-            <p:panelGrid columns="2" id="sumyibutton" style="margin-top: 8px; margin-bottom: 10px;">
+            <p:panelGrid layout="tabular" columns="2" id="sumyibutton" style="margin-top: 8px; margin-bottom: 10px;">
                 <p:column>
 <!--                    niepotrzebne nie ma juz wierszy bo, wiersze sie zapisuja jak edycja dokuemntu-->
 <!--                    <p:commandButton value="zapisz wiersze" actionListener="#{bilansWprowadzanieNowyView.pobierzStronyzList()}" style="width: 120px;" update="formbilanswprowadzanienowy formbilanswprowadzanie3nowy">
@@ -357,7 +357,7 @@
                                      style="width: 120px; margin-left: 5px;" update=":formbilanswprowadzanienowy :formbilanswprowadzanie3nowy" rendered="#{bilansWprowadzanieNowyView.isteniejeDokBO and bilansWprowadzanieNowyView.tojestgenerowanieobrotow eq true}"/>
                 </p:column>
                 <p:column>
-                    <p:panelGrid id="kwotysum" columns="4" style="margin-top: 10px;margin-left: 10px;">
+                    <p:panelGrid layout="tabular" id="kwotysum" columns="4" style="margin-top: 10px;margin-left: 10px;">
                         <h:outputText value="razem - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieNowyView.stronaWn}" rendered="true" style="font-weight: 900;"/>
                         <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieNowyView.stronaMa}" rendered="true" style="font-weight: 900;"/>
                         <h:outputText value=" różnica: " style="margin-left: 10px;"/>

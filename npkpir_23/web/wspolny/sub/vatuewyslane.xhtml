@@ -56,11 +56,11 @@
                         <p:commandButton value="drukuj uprosz." actionListener="#{vatUeFKView.drukujUPR(row)}" update="@form" style="width: 80px;"/>
                     </p:column>
                     <p:rowExpansion>
-                        <p:panelGrid columns="2" columnClasses="twenty-percent eighty-percent">
+                        <p:panelGrid layout="tabular" columns="2" columnClasses="twenty-percent eighty-percent">
                             <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}" style="#{row.upo eq null ? 'color: red':null}"/>
                             <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
                         </p:panelGrid>
-                        <p:panelGrid columns="1" columnClasses="twenty-percent eighty-percent">
+                        <p:panelGrid layout="tabular" columns="1" columnClasses="twenty-percent eighty-percent">
                             <h:outputText value="#{row.deklaracja}"/>
                         </p:panelGrid>
                     </p:rowExpansion>

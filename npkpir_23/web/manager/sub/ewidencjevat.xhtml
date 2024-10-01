@@ -42,7 +42,7 @@
             <h:form id="parametryewidencji">
                 <p:focus for="parametr"/><br/>
                 <h:outputText value="dodaj nową definicję ewidencji"/><br/>
-                <p:panelGrid id="parametr" columns="4" >
+                <p:panelGrid layout="tabular" id="parametr" columns="4" >
                     <h:outputText value="nazwa ewidencji"/>
                     <p:selectOneMenu value="#{evewidencjaView.selected.nazwa}" style="width: 400px;" >
                         <f:selectItems value="#{evopisView.lista}"/>
@@ -123,7 +123,7 @@
                 </p:dataTable>
             </h:form>
             <h:form id="wprowadzanieschemy">
-                <p:panelGrid id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
+                <p:panelGrid layout="tabular" id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
                     <h:outputText value="rok od: "/><p:selectOneMenu value="#{jPKVATWersjaView.nowy.rokOd}"><f:selectItems value="#{roki.rokiList}"/></p:selectOneMenu>
                     <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{jPKVATWersjaView.nowy.mcOd}"><f:selectItems value="#{mce.mceList}"/></p:selectOneMenu>
                     <h:outputText value="nazwa jpk: "/><p:inputText value="#{jPKVATWersjaView.nowy.nazwa}" style="width: 200px;"/>
@@ -139,7 +139,7 @@
         </p:tab>
           <p:tab title="Kopiuj przyporządkowania JPKWersja">
             <h:form id="kopiowanieschemy">
-                <p:panelGrid columns="2" style="width: 400px;">
+                <p:panelGrid layout="tabular" columns="2" style="width: 400px;">
                     <h:outputText value="ewidencja źródłowa"/>
                     <p:selectOneMenu value="#{jPKvatwersjaEvewidencjaView.JPKVATWersja}" converter="#{jPKVATWersjaCechaConv}" rendered="#{jPKVATWersjaView.lista.size() > 0}">
                         <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -157,7 +157,7 @@
         </p:tab>
         <p:tab title="Definiowanie pól JPK dla ewidencji VAT">  
             <h:form id="form11" >
-                <p:panelGrid columns="3">
+                <p:panelGrid layout="tabular" columns="3">
                 <h:outputText value="wybór wersji JPK" />
                 <p:selectOneMenu value="#{jPKvatwersjaEvewidencjaView.JPKVATWersja}" converter="#{jPKVATWersjaCechaConv}">
                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -203,7 +203,7 @@
 <!--            <h:form id="parametryewidencji2">
                 <p:focus for="parametr"/><br/>
                 <h:outputText value="dodaj pola jpk dla ewidencji"/><br/>
-                <p:panelGrid id="parametr" columns="4" >
+                <p:panelGrid layout="tabular" id="parametr" columns="4" >
                      <h:outputText value="pole jpk netto sprzedaż"/>
                      <p:selectOneMenu value="#{evewidencjaView.selected.polejpk_netto_sprzedaz}" style="width: 400px;">
                          <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
@@ -272,7 +272,7 @@
             <h:form>
                 <p:focus for="parametr"/><br/>
                 <h:outputText value="dodaj nowy opis ewidencji"/><br/>
-                <p:panelGrid id="parametr" columns="1" >
+                <p:panelGrid layout="tabular" id="parametr" columns="1" >
                     <p:inputText value="#{evopisView.selected.opis}" style="width: 380px;"/>
                     <p:commandButton action="#{evopisView.dodaj()}" value="dodaj" update="@form, akordeon:form1, akordeon:parametryewidencji" style="width: 120px; margin: 10px;"/>
                 </p:panelGrid>
@@ -316,7 +316,7 @@
 
                 <p:focus for="parametr"/><br/>
                 <h:outputText value="dodaj nowy opis wiersza deklaracji i ewentualnie wybierz wiersz macierzysty"/><br/>
-                <p:panelGrid id="parametr" columns="1" >
+                <p:panelGrid layout="tabular" id="parametr" columns="1" >
                     <p:inputText value="#{evpozycjaView.selected.nazwapola}" style="width: 700px;"/>
                     <p:selectOneMenu value="#{evpozycjaView.selected.macierzysty}" converter="EvpozycjaConv">
                         <f:selectItem itemLabel="wybierz (opcjonalne)" noSelectionOption="true"/>

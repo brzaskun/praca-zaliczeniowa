@@ -9,7 +9,7 @@
         <p:tabView>
             <p:tab title="rozpoczęte">
                 <h:form id="forminwestycje">
-                <p:panelGrid columns="4" style="margin-left: 65%;">
+                <p:panelGrid layout="tabular" columns="4" style="margin-left: 65%;">
                     <h:outputText value="m-c zakończenia"/><h:selectOneMenu value="#{inwestycjeView.mczakonczenia}">
                         <f:selectItems value="#{mce.mceList}"/>
                     </h:selectOneMenu>
@@ -81,7 +81,7 @@
                     </p:column>
                     <p:rowExpansion>
                         <p:column>
-                                 <p:panelGrid columns="1">
+                                 <p:panelGrid layout="tabular" columns="1">
                         <p:autoComplete id="acForce12" value="#{item.srodkikst}" completeMethod="#{srodkikstView.complete}"
                                         var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
                                         minQueryLength="3" maxResults="15" maxlength="15" itemtipMyPosition="rightbottom"
@@ -178,7 +178,7 @@
             <p:tab id="nowa" title="nowa">
                 <h:form>
                 <p:focus for="nowapanel">
-                    <p:panelGrid id="nowapanel" columns="2">
+                    <p:panelGrid layout="tabular" id="nowapanel" columns="2">
                         <h:outputLabel value="Rok rozpoczecia:" for="rokrozpoczecia" />
                         <p:selectOneMenu id="rokrozpoczecia" value="#{inwestycjeView.selected.rokrozpoczecia}" required="true" style="width: 70px;">
                             <f:selectItems value="#{roki.rokiList}"/>
@@ -192,7 +192,7 @@
                         <h:outputLabel value="Opis:" for="#{mgs.opis}" />
                         <p:inputTextarea id="opis" value="#{inwestycjeView.selected.opis}" cols="40" title="#{mgs.opis}" required="true"/>
                         <h:outputText value="symbol inwest wg KŚT"/>
-                        <p:panelGrid columns="1">
+                        <p:panelGrid layout="tabular" columns="1">
                         <p:autoComplete id="acForce12" value="#{inwestycjeView.selected.srodkikst}" completeMethod="#{srodkikstView.complete}"
                                         var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
                                         minQueryLength="3" maxResults="15" maxlength="15" itemtipMyPosition="rightbottom"

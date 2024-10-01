@@ -14,7 +14,7 @@
     <p:dialog id="dialog_bilans_przypisywanie_wzorcowy_kopiuj" header="Kopiowanie przyporządkowania kont z Bilansu wzorcowego w inny wzorcowy" widgetVar="dialog_bilans_przypisywanie_wzorcowy_kopiuj" 
               resizable="false" onShow="ustawdialog('dialog_bilans_przypisywanie_wzorcowy_kopiuj','menuustawienia', 630, 210);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_przypisywanie_wzorcowy_kopiuj');"  >
         <h:form id="formdialog_dialog_bilans_przypisywanie_wzorcowy_kopiuj">
-            <p:panelGrid  columns="2">
+            <p:panelGrid layout="tabular"  columns="2">
                 <h:outputText value="Wybrany układ wzorcowy " style="width: 250px;"/>
                 <p:selectOneMenu  value="#{pozycjaBRKontaView.ukladzrodlowykonta}" style="width: 280px;"  converter="UkladBRWzorcowyConv">
                     <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="p" itemLabel="#{p.lp} #{p.uklad} - #{p.rok}" itemValue="#{String.valueOf(p.lp)}"/>

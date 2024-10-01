@@ -51,7 +51,7 @@
                                          update="akordeon:definowaniepozycji akordeon:form_deklaracjaVatSchemaView:wykazschem akordeon:definowaniewierszysumarycznych akordeon:definowaniewierszykoncowych"/>
                     </p:column>
                     <p:rowExpansion>
-                        <p:panelGrid>
+                        <p:panelGrid layout="tabular">
                             <f:facet name="header">
                                 <p:row>
                                     <p:column>
@@ -83,7 +83,7 @@
                 </p:dataTable>
             </h:form>
             <h:form id="wprowadzanieschemy">
-                <p:panelGrid id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
+                <p:panelGrid layout="tabular" id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
                     <h:outputText value="rok od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.rokOd}"><f:selectItems value="#{roki.rokiList}"/></p:selectOneMenu>
                     <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.mcOd}"><f:selectItems value="#{mce.mceList}"/></p:selectOneMenu>
                     <h:outputText value="nazwa schemy: "/><p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.nazwaschemy}" style="width: 200px;"/>
@@ -93,7 +93,7 @@
                         <f:selectItem itemLabel="kwartalna" itemValue="true"/>
                     </p:selectOneListbox>
                 </p:panelGrid>
-                <p:panelGrid columns="2" style="padding: 10px;">
+                <p:panelGrid layout="tabular" columns="2" style="padding: 10px;">
                     <h:outputText value="wstęp: " />
                     <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.wstep}" style="width: 600px;"/>
                     <h:outputText value="nagłówek: " />
@@ -109,7 +109,7 @@
         </p:tab>
         <p:tab title="Kopiuj przyporządkowania schem">
             <h:form id="kopiowanieschemy">
-                <p:panelGrid columns="2" style="width: 400px;">
+                <p:panelGrid layout="tabular" columns="2" style="width: 400px;">
                     <h:outputText value="ewidencja źródłowa"/>
                     <p:selectOneMenu value="#{deklaracjaVatSchemaView.wybranaschema}" converter="DeklaracjaVatSchemaConv" rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}">
                         <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -281,7 +281,7 @@
                 </p:dataTable>
             </h:form>
             <h:form id="dodawaniewierszasum">
-                <p:panelGrid columns="1" style="margin-top: 10px;">
+                <p:panelGrid layout="tabular" columns="1" style="margin-top: 10px;">
                     <p:inputText value="#{deklaracjaVatWierszeSumaryczneView.nazwawierszasumarycznego.nazwapozycji}" style="width: 600px;"/>
                     <p:commandButton value="dodaj" actionListener="#{deklaracjaVatWierszeSumaryczneView.dodajwiersz()}" style="width: 120px;" update="akordeon:definowanienazwpozycjisum:tabelawierszy, akordeon:dodawaniewierszasum"/>
                 </p:panelGrid>
@@ -355,7 +355,7 @@
                 </p:dataTable>
             </h:form>
             <h:form id="dodawaniewierszapozycjikoncowe">
-                <p:panelGrid columns="1" style="margin-top: 10px;">
+                <p:panelGrid layout="tabular" columns="1" style="margin-top: 10px;">
                     <p:inputText value="#{deklaracjaVatPozycjeKoncoweView.nazwawierszasumarycznego.nazwapozycji}" style="width: 600px;"/>
                     <p:commandButton value="dodaj" actionListener="#{deklaracjaVatPozycjeKoncoweView.dodajwiersz()}" style="width: 120px;" update="akordeon:definowanienazwpozycjikoncowe:tabelawierszy, akordeon:dodawaniewierszapozycjikoncowe"/>
                 </p:panelGrid>

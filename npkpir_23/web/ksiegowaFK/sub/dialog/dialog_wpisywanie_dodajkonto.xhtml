@@ -11,7 +11,7 @@
               focus="form_dialog_wpisywanie_dodajkonto:numerkonta">  
         <h:form id="form_dialog_wpisywanie_dodajkonto">  
             <p:focus for="dkp">
-                <p:panelGrid id="dkp" columns="2" style="width: 400px;">
+                <p:panelGrid layout="tabular" id="dkp" columns="2" style="width: 400px;">
                     <h:outputLabel value="Numer konta:" for="numerkonta" />
                     <p:inputText id="numerkonta" value="#{planKontCompleteView.noweKonto.pelnynumer}" 
                                  title="Pełny numer" required="true" requiredMessage="The Nazwaskrocona field is required." onblur="sprawdzczydodajeanalityczne()"/>

@@ -9,7 +9,7 @@
       
         <h:form id="formarchiwum">
             
-            <p:panelGrid id="panelsum1" rendered="#{WpisView.biuroiszef eq true}">
+            <p:panelGrid layout="tabular" id="panelsum1" rendered="#{WpisView.biuroiszef eq true}">
                 <f:facet name="header">
                     <p:row>
                     <p:column>
@@ -129,8 +129,8 @@
                                       icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                  <p:rowExpansion>
-                     <p:panelGrid  columns="2"  style="width: 1000px" columnClasses="sixty-percent forty-percent">
-                         <p:panelGrid  columns="2" >
+                     <p:panelGrid layout="tabular"  columns="2"  style="width: 1000px" columnClasses="sixty-percent forty-percent">
+                         <p:panelGrid layout="tabular"  columns="2" >
                              <h:outputText value="email kontrahenta"/>
                              <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
                                 <p:ajax event="save" listener="#{fakturaView.edytujemail(wpis.kontrahent)}" global="false" update="@parent"/>
@@ -152,7 +152,7 @@
                              <h:outputText value="kwota brutto"/>
                              <bcf:outputpl value="#{wpis.brutto}"/>-->
                          </p:panelGrid>
-                         <p:panelGrid columns="1">
+                         <p:panelGrid layout="tabular" columns="1">
                          <p:dataTable lazy="false"  id="tabeladuplikatow" value="#{wpis.duplikaty}" var="loopdupz" emptyMessage="nie wystawiono duplikatów" styleClass="tabduplikaty1">
                              <f:facet name="header">
                                  <h:outputText value="duplikaty"/>
@@ -172,7 +172,7 @@
                          </p:dataTable>
                          </p:panelGrid>
                      </p:panelGrid>
-                     <p:panelGrid  columns="1"  style="width:800px">
+                     <p:panelGrid layout="tabular"  columns="1"  style="width:800px">
                         <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" >  
                             <p:dataTable lazy="false"  var="subwpis" value="#{wpis.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true" >
                             <p:column id="SubColumn1" headerText="ewidencja"  width="350">  

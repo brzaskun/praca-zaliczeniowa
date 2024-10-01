@@ -23,13 +23,13 @@
                 <p:menuitem value="Usuń" actionListener="#{pozycjaBRWzorcowyView.usunpozycje}" global="false" icon="ui-icon-trash" update=":formprojektwzorcowy"/>
                 <p:menuitem value="Usuń z implementacjami" actionListener="#{pozycjaBRWzorcowyView.usunpozycjeimplantacje}" icon="ui-icon-trash" update=":formprojektwzorcowy"/>
             </p:contextMenu>
-            <p:panelGrid columns="4" >
+            <p:panelGrid layout="tabular" columns="4" >
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" global="false" actionListener="#{pozycjaBRWzorcowyView.rozwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" global="false" actionListener="#{pozycjaBRWzorcowyView.rozwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" global="false" actionListener="#{pozycjaBRWzorcowyView.zwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" global="false" actionListener="#{pozycjaBRWzorcowyView.zwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
             </p:panelGrid>
-            <p:panelGrid columns="3" style="width: 1100px;">
+            <p:panelGrid layout="tabular" columns="3" style="width: 1100px;">
                 <p:treeTable id="dataList" value="#{pozycjaBRWzorcowyView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRWzorcowyView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 850px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym RZiS">
