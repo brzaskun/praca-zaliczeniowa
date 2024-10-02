@@ -260,6 +260,9 @@
                                     <p:column>
                                         <h:outputText value="nr kol"/>
                                     </p:column>
+                                    <p:column rendered="#{WpisView.podatnikObiekt.nip eq '8513036220'}">
+                                        <h:outputText value="nr firmy"/>
+                                    </p:column>
                                     <p:column>
                                         <h:outputText value="numer własny"/>
                                     </p:column>
@@ -284,12 +287,14 @@
                                                 update=":formwpisdokument:panelwalutowy :formwpisdokument:panelzkwotamidok :formwpisdokument:dataList wpisywaniefooter:panelinfo"/>
                                     </h:selectOneMenu>
                                 </p:column>
-                                <p:column>
+                                <p:column >
                                     <p:inputText styleClass="numerauto" value="#{dokfkView.selected.nrkolejnywserii}" 
-                                                 style="width: 40px; font-weight: 900; margin-left: 15%;" readonly="true" rendered="#{WpisView.podatnikObiekt.nip ne '8513036220'}">
+                                                 style="width: 40px; font-weight: 900; margin-left: 15%;" readonly="true" >
                                     </p:inputText>
+                                </p:column>
+                                 <p:column rendered="#{WpisView.podatnikObiekt.nip eq '8513036220'}">
                                      <p:inputText styleClass="numerauto" value="#{dokfkView.selected.nrewidencyjnyfirmy}" 
-                                                  style="width: 30px;" rendered="#{WpisView.podatnikObiekt.nip eq '8513036220'}">
+                                                  style="width: 30px;">
                                     </p:inputText>
                                 </p:column>
                                 <p:column>
