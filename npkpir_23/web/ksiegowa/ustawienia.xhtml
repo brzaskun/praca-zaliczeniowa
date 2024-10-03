@@ -14,22 +14,25 @@
              
                 <f:view>
                     <h:form id="form">
-                        <p:panel menuTitle="Wprowadzanie moich ustawien" header="Wprowadzanie moich ustawień"  >
+                        <p:panel menuTitle="Wprowadzanie moich ustawien" header="Wprowadzanie moich ustawień" style="height: 300px;"  >
                             <p:focus id="focus" context="polawprowadzania" />
                             <p:growl life="3600"  id="mess_add" ><p:autoUpdate/></p:growl>
-
+                             <p:panelGrid layout="tabular" columns="2" >
                             <p:panelGrid layout="tabular" id="polawprowadzania" columns="2" >
-                                <h:outputLabel value="liczba pól w tablicy" style="font-weight: 700"/>
+<!--                                <h:outputLabel value="liczba pól w tablicy" style="font-weight: 700"/>
                                 <p:inputText id="nazwaPole" value="#{UzView.selUzytkownik.iloscwierszy}" title="liczna wierszy wyswietlanych w tablicy" maxlength="2" style="width: 100px" placeholder="pełna nazwa kontrahenta">
                         
-                                </p:inputText>
-<!--                               <h:outputLabel value="moje kolorki" style="font-weight: 700"/>
-                               <p:themeSwitcher style="width:165px" id="defaultSwitcher" value="#{UzView.selUzytkownik.theme}">  
-                                    <f:selectItem itemLabel="#{UzView.selUzytkownik.theme}" itemValue="#{UzView.selUzytkownik.theme}" />  
-                                    <f:selectItems value="#{themeSwitcherBean.themes}" />  
-                               </p:themeSwitcher>-->
+                                </p:inputText>-->
+                               <h:outputLabel value="moje kolorki" style="font-weight: 700"/>
+                               <p:selectOneListbox style="width:165px" id="defaultSwitcher" value="#{UzView.selUzytkownik.theme}">  
+                                    <f:selectItems value="#{themeSwitcherBean.themes}" />
+                                    <p:ajax event="change" listener="#{UzView.edytuj(UzView.selUzytkownik)}"/>
+                                    <p:ajax event="change" listener="#{themeSwitcherBean.init()}" update="@(form)"/>
+                               </p:selectOneListbox>
                             </p:panelGrid>
-                            <p:dataTable lazy="false"  value="#{UzView.polademo}" var="wpis" style="width: 400px">
+                            <p:graphicImage name="images/themes.webp" alt="Obraz motywu" />
+                             </p:panelGrid>
+<!--                            <p:dataTable lazy="false"  value="#{UzView.polademo}" var="wpis" style="width: 400px">
                                 <p:column width="40" headerText="lp">
                                     <h:outputText value="#{wpis.lp}"/>
                                 </p:column>
@@ -45,7 +48,7 @@
                             </p:dataTable>
                             <p:panelGrid layout="tabular" id="polawprowadzania3" columns="1" >
                                 <p:commandButton value="zmień" action="#{UzView.zmienustawienia()}" accesskey="w" style="width: 120px;"/>
-                            </p:panelGrid>
+                            </p:panelGrid>-->
                         </p:panel>
                     </h:form>
                 </f:view>
