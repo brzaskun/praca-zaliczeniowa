@@ -89,6 +89,9 @@
                 <p:ajax event="rowToggle"  partialSubmit="true" global="false" update=":akordeon:formokresowe3:panelsumokresowe confirmDialog1 confirmDialog2" />
                 <p:ajax event="rowSelect"  partialSubmit="true" global="false" update=":akordeon:formokresowe3:panelsumokresowe confirmDialog1 confirmDialog2" />
                 <p:ajax event="rowUnselect"  partialSubmit="true" global="false" update=":akordeon:formokresowe3:panelsumokresowe confirmDialog1 confirmDialog2" />
+                  <p:column width="20">
+                    <p:rowToggler />
+                </p:column>
                 <p:column style="text-align: center;" width="20"> 
                     <h:outputText value="#{row+1}"/>
                 </p:column>
@@ -101,18 +104,18 @@
                     <bcf:outputpl value="#{wpis.dokument.nettoFakturaView}" stylePlus="color: #{wpis.dokument.kolor(WpisView.rokWpisu, WpisView.miesiacWpisu)}"/>
                     <h:outputText value=" #{wpis.dokument.walutafaktury}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
                 </p:column>
-<!--                <p:column headerText="kwota r.n." width="80" filterBy="#{wpis.kwotaroknastepny}" sortBy="#{wpis.kwotaroknastepny}" >  
+                <p:column headerText="kwota r.n." width="80" filterBy="#{wpis.kwotaroknastepny}" sortBy="#{wpis.kwotaroknastepny}" >  
                     <p:inputNumber value="#{wpis.kwotaroknastepny}" symbolPosition="s" signPosition="p"    inputStyle="text-align: right;" decimalPlaces="2" size="11" >
                         <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
                     </p:inputNumber>
-                </p:column>-->
+                </p:column>
                  <p:column headerText="praca" width="80" filterBy="#{wpis.kwotapraca}" sortBy="#{wpis.kwotapraca}" >  
-                     <p:inputNumber value="#{wpis.kwotapraca}" symbolPosition="s" signPosition="p"    inputStyle="text-align: right;" decimalPlaces="2" size="8" rendered="#{wpis.kwotapraca gt 0}" >
+                     <p:inputNumber value="#{wpis.kwotapraca}" symbolPosition="s" signPosition="p"    inputStyle="text-align: right;" decimalPlaces="2" size="8" >
                         <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
                     </p:inputNumber>
                 </p:column>
                 <p:column headerText="zlecenie" width="80" filterBy="#{wpis.kwotazlecenie}" sortBy="#{wpis.kwotazlecenie}" >  
-                    <p:inputNumber value="#{wpis.kwotazlecenie}" symbolPosition="s" signPosition="p"    inputStyle="text-align: right;" decimalPlaces="2" size="8" rendered="#{wpis.kwotazlecenie gt 0}">
+                    <p:inputNumber value="#{wpis.kwotazlecenie}" symbolPosition="s" signPosition="p"    inputStyle="text-align: right;" decimalPlaces="2" size="8">
                         <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
                     </p:inputNumber>
                 </p:column>
@@ -141,6 +144,54 @@
                         <f:convertDateTime pattern="yyyy/MM/dd" />
                     </h:outputText>
                 </p:column>
+                   <p:rowExpansion>
+                    <p:panelGrid layout="tabular" columns="2">
+                        <p:panelGrid layout="tabular" columns="1">
+                            <p:column id="SubColumn3uwagi" headerText="uwagi">  uwagi
+                                <p:inputTextarea value="#{wpis.uwagi}" cols="70" rows="4">
+                                    <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
+                                </p:inputTextarea>
+                            </p:column>
+                        </p:panelGrid>
+                        <p:panelGrid layout="tabular" columns="1">
+                            <p:panelGrid layout="tabular"  columns="4" >
+                                <h:outputText value="email podatnika"/>
+                                <h:outputText value="#{wpis.podid.email ne '' ? wpis.podid.email : 'brak adresu email'}"/>
+                                <h:outputText value="email kontrahenta"/>
+                                 <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" emptyLabel="brak maila" >
+                                    <f:facet name="output">
+                                        <h:outputText value="#{wpis.dokument.kontrahent.email}" rendered="#{wpis.dokument.kontrahent.email ne null}"/>
+                                        <h:outputText value="brak maila" rendered="#{wpis.dokument.kontrahent.email eq null}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{wpis.dokument.kontrahent.email}"
+                                                      label="text" style="font-weight: bolder;" >  
+                                            <p:ajax event="change" listener="#{fakturaView.zmienmailkontrahenta(wpis.dokument.kontrahent)}" global="false" partialSubmit="true"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:inplace>
+                                <h:outputText value="#{wpis.dokument.kontrahent.email ne '' ? wpis.dokument.kontrahent.email : 'brak adresu email'}"/>
+                                <h:outputText value="kwota netto"/>
+                                <bcf:outputpl value="#{wpis.dokument.netto}"/>
+                                <h:outputText value="kwota vat"/>
+                                <bcf:outputpl value="#{wpis.dokument.vat}"/>
+                                <h:outputText value="kwota brutto"/>
+                                <bcf:outputpl value="#{wpis.dokument.brutto}"/>
+                                <h:outputText value="NIP kontrahenta"/>
+                                <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
+<!--                                <h:outputText value="data waloryzacji"/>
+                                <h:outputText value="#{wpis.dokument.datawaloryzacji}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                                </h:outputText>
+                                <h:outputText value="procent waloryzacji %" rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
+                                <bcf:outputpl value="#{wpis.dokument.procentwaloryzacji}"  rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
+                                <h:outputText value="stara kwota" rendered="#{wpis.dokument.starakwota ne 0}"/>
+                                <bcf:outputpl value="#{wpis.dokument.starakwota}"  rendered="#{wpis.dokument.starakwota ne 0}"/>-->
+                            </p:panelGrid>
+                     
+                        </p:panelGrid>
+                    </p:panelGrid>
+                </p:rowExpansion>
             </p:dataTable>
        </h:form>
     </p:tab>
