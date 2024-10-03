@@ -122,10 +122,10 @@
                     </f:facet>
                     <p:cellEditor>
                         <f:facet name="output">
-                            <bcf:outputpl value="#{item.kwotapln}" rendered="#{!item.zaplata0korekta1}"/>
+                            <bcf:outputpl value="#{item.kwotapln}" rendered="#{!item.zaplata0korekta1}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{item.kwotapln}" style="width: 90px;"/>
+                            <p:inputNumber value="#{item.kwotapln}" style="width: 90px;"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
@@ -138,7 +138,7 @@
                             <bcf:outputpl value="#{item.kwotapln}" rendered="#{item.zaplata0korekta1}"/>
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{item.kwotapln}" style="width: 90px;"/>
+                            <p:inputNumber value="#{item.kwotapln}" style="width: 90px;"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>

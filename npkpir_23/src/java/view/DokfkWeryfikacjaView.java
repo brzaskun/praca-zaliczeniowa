@@ -87,19 +87,20 @@ public class DokfkWeryfikacjaView implements Serializable {
             try {
                 if (dok.getEwidencjaVAT()!=null && !dok.getEwidencjaVAT().isEmpty()) {
                     if (dok.getKontr().getKrajkod()!=null && dok.getKontr().getKrajkod().equals("PL")) {
-                        //pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT wynik = NIPVATcheck.sprawdzNIP(dok.getKontr().getNip());
+                        pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT wynik = webservice.NIPVATcheck.sprawdzNIP(dok.getKontr().getNip());
                         try {
                             Thread.sleep(300);
                         } catch (InterruptedException ex) {
-                            // Logger.getLogger(DokfkWeryfikacjaView.class.getName()).log(Level.SEVERE, null, ex);
+                            
                         }
-//                        if (wynik.getKod().value().equals("C")) {
-//                            it.remove();
-//                        }
-//                        error.E.s("nip "+dok.getKontr().getNip()+" wynik "+wynik.getKomunikat());
-//                        if (wynik.getKomunikat().contains("nie jest zarejestrowany jako podatnik VAT")) {
-//                            Msg.msg("e","nip "+dok.getKontr().getNip()+" jest nieaktywny");
-//                        }
+                        if (wynik.getKod().value().equals("C")) {
+                            it.remove();
+                        }
+                        error.E.s("nip "+dok.getKontr().getNip()+" wynik "+wynik.getKomunikat());
+                        if (wynik.getKomunikat().contains("nie jest zarejestrowany jako podatnik VAT")) {
+                            Msg.msg("e","nip "+dok.getKontr().getNip()+" jest nieaktywny");
+                            dok.setOpisdokfk("NIEAKTYWNY");
+                        }
                     } else {
                         it.remove();
                     }
@@ -120,19 +121,20 @@ public class DokfkWeryfikacjaView implements Serializable {
                 if (dok.getRodzajedok().getKategoriadokumentu()==1) {
                     if (dok.getEwidencjaVAT1()!=null && !dok.getEwidencjaVAT1().isEmpty()) {
                         if (dok.getKontr().getKrajkod()!=null && dok.getKontr().getKrajkod().equals("PL")) {
-                            //pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT wynik = NIPVATcheck.sprawdzNIP(dok.getKontr().getNip());
+                            pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT wynik = webservice.NIPVATcheck.sprawdzNIP(dok.getKontr().getNip());
                             try {
                                 Thread.sleep(300);
                             } catch (InterruptedException ex) {
-                                // Logger.getLogger(DokfkWeryfikacjaView.class.getName()).log(Level.SEVERE, null, ex);
+                                 
                             }
-//                            if (wynik.getKod().value().equals("C")) {
-//                                it.remove();
-//                            }
-//                            error.E.s("nip "+dok.getKontr().getNip()+" wynik "+wynik.getKomunikat());
-//                            if (wynik.getKomunikat().contains("nie jest zarejestrowany jako podatnik VAT")) {
-//                                Msg.msg("e","nip "+dok.getKontr().getNip()+" jest nieaktywny");
-//                            }
+                            if (wynik.getKod().value().equals("C")) {
+                                it.remove();
+                            }
+                            error.E.s("nip "+dok.getKontr().getNip()+" wynik "+wynik.getKomunikat());
+                            if (wynik.getKomunikat().contains("nie jest zarejestrowany jako podatnik VAT")) {
+                                Msg.msg("e","nip "+dok.getKontr().getNip()+" jest nieaktywny");
+                                dok.setOpis("NIEAKTYWNY");
+                            }
                         } else {
                             it.remove();
                         }
