@@ -89,9 +89,9 @@ public class DokfkWeryfikacjaView implements Serializable {
                     if (dok.getKontr().getKrajkod()!=null && dok.getKontr().getKrajkod().equals("PL")) {
                         pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT wynik = webservice.NIPVATcheck.sprawdzNIP(dok.getKontr().getNip());
                         try {
-                            Thread.sleep(300);
+                            Thread.sleep(200);
                         } catch (InterruptedException ex) {
-                            
+                             E.m(ex);
                         }
                         if (wynik.getKod().value().equals("C")) {
                             it.remove();
@@ -123,9 +123,9 @@ public class DokfkWeryfikacjaView implements Serializable {
                         if (dok.getKontr().getKrajkod()!=null && dok.getKontr().getKrajkod().equals("PL")) {
                             pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT wynik = webservice.NIPVATcheck.sprawdzNIP(dok.getKontr().getNip());
                             try {
-                                Thread.sleep(300);
+                                Thread.sleep(200);
                             } catch (InterruptedException ex) {
-                                 
+                                 E.m(ex);
                             }
                             if (wynik.getKod().value().equals("C")) {
                                 it.remove();
