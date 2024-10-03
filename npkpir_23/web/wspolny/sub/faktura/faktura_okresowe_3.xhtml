@@ -73,7 +73,7 @@
             </p:panelGrid>
             
             <p:dataTable lazy="false"  id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}" 
-                         rowKey="#{wpis.hashCode()}" style="max-width: 1200px;height: 900px;overflow-y: scroll;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}"
+                         rowKey="#{wpis.hashCode()}" style="max-width: 1300px;height: 900px;overflow-y: scroll;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}"
                          rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" paginator="true" rows="40"
                          >
                 
@@ -99,6 +99,10 @@
                 <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" filterBy="#{wpis.dokument.kontrahent.npelna}"  sortOrder="ascending"
                           filterMatchMode="contains" width="150">
                     <h:outputText value="#{wpis.dokument.kontrahent.nazwabezCudzy}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
+                </p:column>
+                <p:column headerText="tel." filterBy="#{wpis.podid.telefonkontaktowy}"  sortOrder="ascending"
+                          filterMatchMode="contains" width="110">
+                    <h:outputText value="#{wpis.podid.telefonkontaktowy ne '' ? wpis.podid.telefonkontaktowy : 'brak telefonu kontaktowego'}"/>
                 </p:column>
                  <p:column headerText="netto" sortBy="#{wpis.dokument.nettoFakturaView}" filterBy="#{wpis.dokument.nettoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
                     <bcf:outputpl value="#{wpis.dokument.nettoFakturaView}" stylePlus="color: #{wpis.dokument.kolor(WpisView.rokWpisu, WpisView.miesiacWpisu)}"/>
