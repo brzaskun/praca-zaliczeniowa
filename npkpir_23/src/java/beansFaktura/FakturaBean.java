@@ -342,7 +342,7 @@ public class FakturaBean {
         if (pozycje != null && !pozycje.isEmpty()) {
             List<Evewidencja> ew = Collections.synchronizedList(new ArrayList<>());
             ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
-            ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz Niemcy"));
+            ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
             ew.add(evewidencjaDAO.znajdzponazwie("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4"));
             List<EVatwpis> el = Collections.synchronizedList(new ArrayList<>());
             Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
@@ -369,7 +369,7 @@ public class FakturaBean {
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjepokorekcie();
         List<Evewidencja> ew = Collections.synchronizedList(new ArrayList<>());
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
-        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz Niemcy"));
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
         ew.add(evewidencjaDAO.znajdzponazwie("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4"));
         List<EVatwpis> el = Collections.synchronizedList(new ArrayList<>());
         Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
@@ -498,12 +498,12 @@ public class FakturaBean {
                 }
             }
             if ((int) p.getPodatek() == 19) {
-                if (r.getNazwa().equals("sprzedaż Niemcy")) {
+                if (r.getNazwa().equals("sprzedaż Niemcy UMSt")) {
                     return r;
                 }
             }
             if ((int) p.getPodatek() == -3) {
-                if (r.getNazwa().equals("sprzedaż Niemcy")) {
+                if (r.getNazwa().equals("sprzedaż Niemcy 13b")) {
                     return r;
                 }
             }
