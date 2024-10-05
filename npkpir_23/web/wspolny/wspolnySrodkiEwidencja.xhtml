@@ -33,14 +33,21 @@
                     <!-- główna zawartość strony -->
                     <div class="flex-grow-1 grid grid-nogutter">
                         <!-- panel zachodni -->
-                        <div class="col-12 md:col-3 lg:col-2"  style="max-width: 200px;">
-                           <ui:include src="../guest/sub/layoutNowy/west.xhtml"/>
-                        </div>
+                        <p:outputPanel rendered="#{WpisView.uzer.uprawnienia ne 'Bookkeeper'}">
+                            <div class="col-12 md:col-3 lg:col-2"  style="max-width: 200px;">
+                               <ui:include src="../guest/sub/layoutNowy/west.xhtml"/>
+                            </div>
+                        </p:outputPanel>
+                        <p:outputPanel rendered="#{WpisView.uzer.uprawnienia eq 'Bookkeeper'}">
+                            <div class="col-12 md:col-3 lg:col-2"  style="max-width: 200px;">
+                               <ui:include src="sub/layoutTablicaSrodkiKsiegowa/west.xhtml"/>
+                            </div>
+                        </p:outputPanel>
 
                         <!-- panel centralny -->
-                        <div class="col-12 md:col-9 lg:col-10 flex">
-                            <div class="vertical-container">
-                                <div class="col-12 md:col-8 lg:col-6" style="max-width: 1200px;" >
+                        <div class="flex-grow-1 grid grid-nogutter">
+                            <div >
+                                <div class="col-12 md:col-8 lg:col-6" style="max-width: 1200px;max-height: 95vh" >
                                     <p:panel toggleable="true" closable="true">
                                         <f:facet name="header">
                                             <h:outputText value="Strona służy do wyświetlania ewidencji środków trwałych z ich wartościami netto, brtto i umorzeniem za poprzednie lata jak i za poszczególne miesiące."/><br/>

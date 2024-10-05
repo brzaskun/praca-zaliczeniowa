@@ -17,6 +17,7 @@ public class STRtabela {
     private Integer id;
     private String podatnik;
     private String symbol;
+    private boolean srodekowyposazenie1;
     private String nazwa;
     private String datawy;
     private String dataprzek;
@@ -47,6 +48,7 @@ public class STRtabela {
         this.setNetto(str.getNetto());
         this.setPodatnik(str.getPodatnik());
         this.setDatasprzedazy(str.getDatasprzedazy());
+        this.setSrodekowyposazenie1(str.getTyp()!=null?str.getTyp().equals("srodek trw.")?true:false:false);
         this.m = mapaMce();
         this.srodekTrw = str;
         
@@ -204,6 +206,14 @@ public class STRtabela {
 
     public void setSrodekTrw(SrodekTrw srodekTrw) {
         this.srodekTrw = srodekTrw;
+    }
+
+    public boolean isSrodekowyposazenie1() {
+        return srodekowyposazenie1;
+    }
+
+    public void setSrodekowyposazenie1(boolean srodekowyposazenie1) {
+        this.srodekowyposazenie1 = srodekowyposazenie1;
     }
     
 }

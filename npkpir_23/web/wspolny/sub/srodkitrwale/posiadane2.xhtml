@@ -14,7 +14,7 @@
                 <p:menuitem value="Edytuj dane środka trw." update="form_dialog_srodkitrwale_zmianawartosci" actionListener="#{sTRTabView.kopiujwybrany(sTRTabView.wybranysrodektrwalyPosiadane2)}" oncomplete="PF('dialog_srodkitrwale_zmianawartosci').show()" icon="ui-icon-wrench" />
             </p:contextMenu>
                 <p:dataTable lazy="false"   var="wpis" value="#{sTRTabView.posiadane2}" id="srodkiLista2" 
-                              widgetVar="srodkiLista2" style="width: 1400px; overflow-y: scroll; height: 390px;" 
+                              widgetVar="srodkiLista2" style="width: 1550px; overflow-y: scroll; max-height: 590px;" 
                               rowKey="#{wpis.id}" rowIndexVar="index1"  sortBy="#{wpis.dataprzek}"
                               selection="#{sTRTabView.wybranysrodektrwalyPosiadane2}" selectionMode="single"> 
                     <p:ajax event="rowSelect" global="false" update="form_dialog_srodkitrwale_zmianawartosci akordeon:str_posiadane:srodkiLista"/>
@@ -27,9 +27,9 @@
                         <h:outputText value="#{index1+1}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
                     <p:column id="data2Column" headerText="data przek." filterBy="#{wpis.dataprzek}" 
-                          filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.dataprzek}" style="width: 65px; text-align: center;"
+                          filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.dataprzek}" style="width: 80px; text-align: center;"
                           >  
-                    <h:outputText value="#{wpis.dataprzek.substring(2,10)}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
+                    <h:outputText value="#{wpis.dataprzek}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
                     </h:outputText>
                 </p:column>
                     <p:column headerText="nazwa środka trwałego" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" 

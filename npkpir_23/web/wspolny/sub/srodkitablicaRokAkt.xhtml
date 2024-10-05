@@ -36,6 +36,10 @@
             <p:column id="Column1" headerText="nazwa" styleClass="ewidencjavat" filterBy="#{wpis.nazwa}" filterMatchMode="contains" sortBy="#{wpis.nazwa}" width="220" >  
                 <h:outputText value="#{wpis.nazwa}"  style="#{wpis.dataprzek.substring(0,4) eq WpisView.rokWpisuSt ? 'color: green; font-weight: 700;' : null}"/>
             </p:column>
+            <p:column  headerText="śtrw" filterBy="#{wpis.srodekowyposazenie1}" filterMatchMode="contains" sortBy="#{wpis.srodekowyposazenie1}" width="40"  style="text-align: center;">  
+                <h:outputText value="&#x2713;" rendered="#{wpis.srodekowyposazenie1}" style="color: green;"/>
+                <h:outputText value="wyp." rendered="#{!wpis.srodekowyposazenie1}" style="color: blue;"/>
+            </p:column>
             <p:column id="Column2aa" headerText="data przyj." width="65" style="text-align: center;">  
                 <h:outputText value="#{wpis.dataprzeksub}" style="#{wpis.dataprzek.substring(0,4) eq WpisView.rokWpisuSt ? 'color: green; font-weight: 700;' : null}">
                 </h:outputText>

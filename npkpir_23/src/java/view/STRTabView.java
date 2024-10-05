@@ -248,6 +248,7 @@ public class STRTabView implements Serializable {
             posiadane.remove(wybranySrodekTrw);
             posiadane2.remove(wybranySrodekTrw);
             sprzedane.remove(wybranySrodekTrw);
+            wyposazenie.remove(wybranySrodekTrw);
             sTRDAO.remove(wybranySrodekTrw);
             Msg.msg("Usunieto środek trwały o nazwie: "+wybranySrodekTrw.getNazwa());
         } catch (Exception e) { 

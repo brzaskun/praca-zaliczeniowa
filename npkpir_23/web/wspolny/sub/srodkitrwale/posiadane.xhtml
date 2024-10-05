@@ -18,7 +18,7 @@
                             rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"/>
             </p:contextMenu>
             <p:dataTable lazy="false"   var="wpis" value="#{sTRTabView.posiadane}" id="srodkiLista" 
-                          widgetVar="srodkiLista1" style="width: 1450px; overflow-y: scroll; height: 390px;" filteredValue="#{sTRTabView.filtrowaneposiadane}"
+                          widgetVar="srodkiLista1" style="width: 1550px; overflow-y: scroll; max-height: 590px;" filteredValue="#{sTRTabView.filtrowaneposiadane}"
                           rowKey="#{wpis.id}" selection="#{sTRTabView.wybranysrodektrwalyPosiadane}" selectionMode="single"> 
                 <p:ajax event="rowSelect" global="false" update="form_dialog_srodkitrwale_zmianawartosci akordeon:str_posiadane2:srodkiLista2"/>
                 <p:ajax event="filter" global="false"/>
@@ -30,25 +30,25 @@
                 <p:column style="width: 10px;">
                     <p:rowToggler rendered="#{wpis.zmianawartosci.size() gt 0 ? true : false}"/>
                 </p:column>
-                <p:column id="idColumn" headerText="nr kol."  style="width: 20px; text-align: center;">  
+                <p:column id="idColumn" headerText="nr środka"  style="width: 20px; text-align: center;">  
 
                     <h:outputText value="#{wpis.nrsrodka}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                 </p:column>
 
                 <p:column id="dataColumn" headerText="data zakupu" filterBy="#{wpis.datazak}" filterMatchMode="contains" 
-                          filterStyle="display : none;" sortBy="#{wpis.datazak}"  style="width: 65px; text-align: center;">  
+                          filterStyle="display : none;" sortBy="#{wpis.datazak}" sortOrder="descending" sortPriority="1"  style="width: 80px; text-align: center;">  
 
-                    <h:outputText value="#{wpis.datazak.substring(2,10)}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
+                    <h:outputText value="#{wpis.datazak}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
                     </h:outputText>
                 </p:column>
                 <p:column id="data2Column" headerText="data przek." filterBy="#{wpis.dataprzek}" 
-                          filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.dataprzek}" style="width: 65px; text-align: center;"
+                          filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.dataprzek}" style="width: 80px; text-align: center;"
                           >  
-                    <h:outputText value="#{wpis.dataprzek.substring(2,10)}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
+                    <h:outputText value="#{wpis.dataprzek}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
                     </h:outputText>
                 </p:column>
                 <p:column id="nazwaColumn" headerText="nazwa środka trwałego" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" 
-                          sortBy="#{wpis.nazwa}" style="width: 150px;">  
+                          sortBy="#{wpis.nazwa}" style="width: 250px;">  
 
                     <h:outputText value="#{wpis.nazwa}"    style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                 </p:column>
@@ -56,7 +56,7 @@
                           style="width: 30px; text-align: center;">  
                     <h:outputText value="#{wpis.kst}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                 </p:column>
-                <p:column id="dowColumn" headerText="symb.inwent" filterBy="#{wpis.symbolinwentarzowy}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.symbolinwentarzowy}" style="width: 110px;">  
+                <p:column id="dowColumn" headerText="symb.inwent" filterBy="#{wpis.symbolinwentarzowy}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.symbolinwentarzowy}" style="width: 60px;">  
                     <h:outputText value="#{wpis.symbolinwentarzowy}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                 </p:column>
                 <p:column id="rodzTrColumn" headerText="#{mgs.kwota}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.netto}" style="width: 60px;">  
