@@ -6,8 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:outputPanel id="wrapperwyposazenie" deferred="true">
-        <p:dataTable lazy="false"   var="wpis" value="#{sTRTabView.wyposazenie}" id="srodkiLista" editable="true" 
+    <p:outputPanel id="wrapperwyposazenie" >
+        <p:dataTable lazy="false"   var="wpis" value="#{sTRTabView.wyposazenie}" id="srodkiLista"  
                       style="width: 1300px; overflow-y: scroll; max-height: 590px;"
                       rowKey="#{wpis.id}" selectionMode="single"> 
 
