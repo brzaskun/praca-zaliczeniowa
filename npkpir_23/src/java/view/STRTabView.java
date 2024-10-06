@@ -232,7 +232,9 @@ public class STRTabView implements Serializable {
         return lista;
     }
     
-    
+    public void kopiujdate(SrodekTrw selDok) {
+        selDok.setDataprzek(selDok.getDatazak());
+    }
     public void destroy(SrodekTrw selDok) {
         wybranySrodekTrw = new SrodekTrw();
         wybranySrodekTrw = selDok;

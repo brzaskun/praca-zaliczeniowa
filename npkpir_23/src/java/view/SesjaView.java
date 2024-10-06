@@ -16,10 +16,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -84,8 +84,8 @@ public class SesjaView implements Serializable {
             for (Iterator<Sesja> it = wykazsesji.iterator(); it.hasNext(); ) {
                 Sesja s = it.next();
                 if (s.getWylogowanie() == null) {
-                    sesjaDAO.remove(s);
-                    it.remove();
+                    //sesjaDAO.remove(s);
+                    //it.remove();
                 }
             }
             Collections.sort(wykazsesji, new Sesjacomparator());

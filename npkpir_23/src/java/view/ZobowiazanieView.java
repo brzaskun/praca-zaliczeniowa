@@ -15,11 +15,10 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.inject.Named;
-
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.joda.time.DateTime;
 
@@ -62,6 +61,7 @@ public class ZobowiazanieView implements Serializable{
          try{
          zobowiazanieDAO.create(selected);
          listapobranychstawek.add(selected);
+         selected = new Zobowiazanie();
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno zobowiązanie za rok i mc:", selected.getZobowiazaniePK().getRok().concat(selected.getZobowiazaniePK().getMc()) );
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
        
@@ -72,13 +72,15 @@ public class ZobowiazanieView implements Serializable{
          }
         
      }
+        public void updateZobowiazanie(Zobowiazanie zobowiazanie) {
+        zobowiazanieDAO.edit(zobowiazanie);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Zobowiazanie zostało zaktualizowane"));
+    }
 
      
-      public void usun(){
-        int index = listapobranychstawek.size()-1;
-        selected = listapobranychstawek.get(index);
-        zobowiazanieDAO.remove(selected);
-        listapobranychstawek.remove(index);
+      public void usun(Zobowiazanie zobowiazanie){
+        zobowiazanieDAO.remove(zobowiazanie);
+        listapobranychstawek.remove(zobowiazanie);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunieto zobowiązanie za rok i mc:", selected.getZobowiazaniePK().toString());
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
       

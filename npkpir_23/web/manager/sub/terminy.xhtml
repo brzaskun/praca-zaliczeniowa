@@ -6,106 +6,199 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:pe="http://primefaces.org/ui/extensions">
+    xmlns:pe="http://primefaces.org/ui/extensions">
     <p:accordionPanel id="akordeon">  
         <p:tab title="Terminy płatności zobowiązań">  
-           
-                <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
-                    <br/>
+
+            <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
+                <br/>
                 <p:growl life="3600"  id="msgzus" showDetail="true"/>
                 <br/>
                 <h:form id="formzob" >
-                <p:panelGrid layout="tabular" columns="1" style="width: 900px">
-                    <p:dataTable lazy="false"  value="#{zobowiazanieView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
-                                 paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                                rowsPerPageTemplate="12,50,100" 
-                                 sortBy="#{loop.zobowiazaniePK.getRokMc()}"
-                                >
-                         <f:facet name="header">
-                    <h:outputText value="Lista wprowadzonych terminów płatności #{WpisView.rokWpisuSt} "/>
-                </f:facet>
-                        <p:column headerText="rok" sortBy="#{loop.zobowiazaniePK.rok}" sortOrder="descending" sortPriority="1" sortable="true">
-                            <h:outputText value="#{loop.zobowiazaniePK.rok}" style="#{loop.zobowiazaniePK.rok eq WpisView.rokWpisuSt ? 'font-weight: 900; color: green;' : ''}"/>
-                        </p:column>
-                        <p:column headerText="miesiac" sortBy="#{loop.zobowiazaniePK.mc}" sortOrder="descending" sortPriority="2" sortable="true">
-                        <h:outputText value="#{loop.zobowiazaniePK.mc}"  style="#{loop.zobowiazaniePK.rok eq WpisView.rokWpisuSt ? 'font-weight: 900; color: green;' : ''}"/>
-                        </p:column>
-                        <p:column headerText="Termin PIT">
-                        <h:outputText value="#{loop.pitday}" />
-                        </p:column>
-                        <p:column headerText="Termin VAT">
-                        <h:outputText value="#{loop.vatday}" />
-                        </p:column>
-                        <p:column headerText="ZUS bez prac">
-                        <h:outputText value="#{loop.zusday1}" />
-                        </p:column>
-                        <p:column headerText="ZUS z prac">
-                        <h:outputText value="#{loop.zusaday2}" />
-                        </p:column>
-                        <br/>
-                    </p:dataTable>
-                </p:panelGrid>
-                     <p:commandButton action="#{zobowiazanieView.usun()}" value="usun parametr" update=":akordeon:formzob" type="submit" />
+                    <p:panelGrid layout="tabular" columns="1" style="width: 900px">
+              <p:dataTable lazy="false" value="#{zobowiazanieView.listapobranychstawek}" var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
+             paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+             rowsPerPageTemplate="12,50,100" 
+             sortBy="#{loop.zobowiazaniePK.getRokMc()}"
+             editable="true">
+
+    <f:facet name="header">
+        <h:outputText value="Lista wprowadzonych terminów płatności #{WpisView.rokWpisuSt}"/>
+    </f:facet>
+
+    <p:column headerText="rok" sortBy="#{loop.zobowiazaniePK.rok}" sortOrder="descending" sortPriority="1" sortable="true">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{loop.zobowiazaniePK.rok}" style="text-align: center; #{loop.zobowiazaniePK.rok eq WpisView.rokWpisuSt ? 'font-weight: 900; color: green;' : ''}"/>
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{loop.zobowiazaniePK.rok}" style="width:100%; text-align: center"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="miesiac" sortBy="#{loop.zobowiazaniePK.mc}" sortOrder="descending" sortPriority="2" sortable="true">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{loop.zobowiazaniePK.mc}" style="text-align: center; #{loop.zobowiazaniePK.rok eq WpisView.rokWpisuSt ? 'font-weight: 900; color: green;' : ''}"/>
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{loop.zobowiazaniePK.mc}" style="width:100%; text-align: center"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Termin PIT">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{loop.pitday}" style="text-align: center"/>
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{loop.pitday}" style="width:100%; text-align: center"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Termin VAT">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{loop.vatday}" style="text-align: center"/>
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{loop.vatday}" style="width:100%; text-align: center"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="ZUS bez prac">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{loop.zusday1}" style="text-align: center"/>
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{loop.zusday1}" style="width:100%; text-align: center"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="ZUS z prac">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{loop.zusaday2}" style="text-align: center"/>
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{loop.zusaday2}" style="width:100%; text-align: center"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <!-- Kolumna z edytorem wiersza -->
+    <p:column style="width:40px;text-align: center" headerText="edycja">
+        <p:rowEditor/>
+    </p:column>
+
+    <!-- Kolumna z przyciskiem do usuwania wiersza -->
+     <p:column style="width:100px;text-align: center" headerText="usuń">
+         <p:commandButton icon="pi pi-trash" actionListener="#{zobowiazanieView.usun(loop)}" update=":akordeon:formzob" >
+            <p:confirm type="popup" header="Potwierdzenie" message="Czy na pewno chcesz usunąć ten wiersz?" icon="pi pi-exclamation-triangle"/>
+        </p:commandButton>
+    </p:column>
+
+</p:dataTable>
+
+
+                    </p:panelGrid>
+                    <p:commandButton action="#{zobowiazanieView.usun()}" value="usun parametr" update=":akordeon:formzob" type="submit" />
                 </h:form>
                 <br/>
-                
+
                 <h:outputText value="wybierz parametry aktualne"/><br/>
                 <h:form>
                     <p:focus for="parametryzob"/>
-                <p:panelGrid layout="tabular" id="parametryzob" columns="2" >
-                    <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{zobowiazanieView.selected.zobowiazaniePK.rok}"><f:selectItems value="#{roki.rokiList}"/></h:selectOneMenu>
-                    <h:outputText value="miesiac : "/><h:selectOneMenu value="#{zobowiazanieView.selected.zobowiazaniePK.mc}" ><f:selectItems value="#{mce.mceList}"/></h:selectOneMenu>
-                    <h:outputText value="pit: "/><h:inputText value="#{zobowiazanieView.selected.pitday}" maxlength="2"><f:validateRegex pattern="[0-3][0-9]" /></h:inputText>
-                    <h:outputText value="vat: "/><h:inputText value="#{zobowiazanieView.selected.vatday}" maxlength="2"><f:validateRegex pattern="[0-3][0-9]" /></h:inputText>
-                    <h:outputText value="zus bez prac: "/><h:inputText value="#{zobowiazanieView.selected.zusday1}" maxlength="2"><f:validateRegex pattern="[0-3][0-9]" /></h:inputText>
-                    <h:outputText value="zus z prac: "/><h:inputText value="#{zobowiazanieView.selected.zusaday2}" maxlength="2"><f:validateRegex pattern="[0-3][0-9]" /></h:inputText>
-                </p:panelGrid>
-                <br/>
-                <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 500px">
-                   
-                    <p:commandButton action="#{zobowiazanieView.dodaj()}" value="dodaj parametr" update=":akordeon:formzob"  type="submit" />
-                </p:panelGrid>
+                    <p:panelGrid layout="tabular" id="parametryzob" columns="2">
+                        <!-- Rok podatkowy -->
+                        <p:outputLabel value="Rok podatkowy: "/>
+                        <p:selectOneMenu value="#{zobowiazanieView.selected.zobowiazaniePK.rok}">
+                            <f:selectItems value="#{roki.rokiList}"/>
+                        </p:selectOneMenu>
+
+                        <!-- Miesiąc -->
+                        <p:outputLabel value="Miesiąc: "/>
+                        <p:selectOneMenu value="#{zobowiazanieView.selected.zobowiazaniePK.mc}">
+                            <f:selectItems value="#{mce.mceList}"/>
+                        </p:selectOneMenu>
+
+                        <!-- PIT -->
+                        <p:outputLabel value="PIT: "/>
+                        <p:inputText value="#{zobowiazanieView.selected.pitday}" maxlength="2">
+                            <f:validateRegex pattern="[0-3][0-9]" />
+                        </p:inputText>
+
+                        <!-- VAT -->
+                        <p:outputLabel value="VAT: "/>
+                        <p:inputText value="#{zobowiazanieView.selected.vatday}" maxlength="2">
+                            <f:validateRegex pattern="[0-3][0-9]" />
+                        </p:inputText>
+
+                        <!-- ZUS bez prac -->
+                        <p:outputLabel value="ZUS bez prac: "/>
+                        <p:inputText value="#{zobowiazanieView.selected.zusday1}" maxlength="2">
+                            <f:validateRegex pattern="[0-3][0-9]" />
+                        </p:inputText>
+
+                        <!-- ZUS z prac -->
+                        <p:outputLabel value="ZUS z prac: "/>
+                        <p:inputText value="#{zobowiazanieView.selected.zusaday2}" maxlength="2">
+                            <f:validateRegex pattern="[0-3][0-9]" />
+                        </p:inputText>
+                    </p:panelGrid>
+
+                    <br/>
+                    <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 500px">
+
+                        <p:commandButton action="#{zobowiazanieView.dodaj()}" value="dodaj parametr" update=":akordeon:formzob"  type="submit" />
+                    </p:panelGrid>
                 </h:form>
-                </p:panel>
-            
+            </p:panel>
+
         </p:tab>
         <p:tab title="Stawki odsetek od zobowiązań">  
-            
+
             <h:form id="form2" >
-                 <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
+                <p:panel header="Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 700px;">
                     <br/>
-                <p:growl life="3600"  showDetail="true"/>
-                <p:focus for="parametryp1"/><br/>
-                <p:panelGrid layout="tabular" id="historia" columns="4" style="width: 500px">
-                    <p:dataTable lazy="false"  value="#{odsetkiView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
-                         <f:facet name="header">
-                    <h:outputText value="Lista wprowadzonych stóp odsetek"/>
-                </f:facet>
-                        <p:column headerText="data od">
-                        <h:outputText value="#{loop.dataod}" />
-                        </p:column>
-                        <p:column headerText="data do">
-                        <h:outputText value="#{loop.datado}" />
-                        </p:column>
-                        <p:column headerText="stopa proc.">
-                        <h:outputText value="#{loop.stopaodsetek}" />
-                        </p:column>
-                        <br/>
-                    </p:dataTable>
-                </p:panelGrid>
-                <h:outputText value="wybierz parametry aktualne"/><br/>
-                <p:panelGrid layout="tabular" id="parametryp1" columns="2" >
-                    
-                    <h:outputText value="data od: "/><p:calendar value="#{odsetkiView.selected.dataodD}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
-                    <h:outputText value="stawka: "/><h:inputText value="#{odsetkiView.selected.stopaodsetek}" maxlength="4" required="false">
-                    </h:inputText>
-                </p:panelGrid>
-                <br/>
-                <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 500px">
-                    <p:commandButton action="#{odsetkiView.usun()}" value="usun parametr" update="@form" type="submit"/>
-                    <p:commandButton action="#{odsetkiView.dodaj()}" value="dodaj parametr" update="@form" type="submit"/>
-                </p:panelGrid>
-                 </p:panel>
+                    <p:growl life="3600"  showDetail="true"/>
+                    <p:focus for="parametryp1"/><br/>
+                    <p:panelGrid layout="tabular" id="historia" columns="4" style="width: 500px">
+                        <p:dataTable lazy="false"  value="#{odsetkiView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
+                            <f:facet name="header">
+                                <h:outputText value="Lista wprowadzonych stóp odsetek"/>
+                            </f:facet>
+                            <p:column headerText="data od">
+                                <h:outputText value="#{loop.dataod}" />
+                            </p:column>
+                            <p:column headerText="data do">
+                                <h:outputText value="#{loop.datado}" />
+                            </p:column>
+                            <p:column headerText="stopa proc.">
+                                <h:outputText value="#{loop.stopaodsetek}" />
+                            </p:column>
+                            <br/>
+                        </p:dataTable>
+                    </p:panelGrid>
+                    <h:outputText value="wybierz parametry aktualne"/><br/>
+                    <p:panelGrid layout="tabular" id="parametryp1" columns="2" >
+
+                        <h:outputText value="data od: "/><p:calendar value="#{odsetkiView.selected.dataodD}" pattern="yyyy/MM/dd" locale="pl" title="wybierz dzień przelewu" showOn="focus"/>
+                        <h:outputText value="stawka: "/><h:inputText value="#{odsetkiView.selected.stopaodsetek}" maxlength="4" required="false">
+                        </h:inputText>
+                    </p:panelGrid>
+                    <br/>
+                    <p:panelGrid layout="tabular" columns="2" style="column-width: 350px; width: 500px">
+                        <p:commandButton action="#{odsetkiView.usun()}" value="usun parametr" update="@form" type="submit"/>
+                        <p:commandButton action="#{odsetkiView.dodaj()}" value="dodaj parametr" update="@form" type="submit"/>
+                    </p:panelGrid>
+                </p:panel>
             </h:form>
         </p:tab>
 

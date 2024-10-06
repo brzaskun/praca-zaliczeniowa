@@ -53,7 +53,9 @@
                     </p:column>
                     <h:outputText value="data zakupu"/>
                     <p:column>
-                        <p:inputText id="datazak" value="#{sTRTabView.selectedSTR.datazak}" onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
+                        <p:inputText id="datazak" value="#{sTRTabView.selectedSTR.datazak}" onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd">
+                            <p:ajax event="blur" listener="#{sTRTabView.kopiujdate(sTRTabView.selectedSTR)}" update="formdialogsrodki:dataprz" global="false"/>
+                        </p:inputText>
                     </p:column>
                     <h:outputText value="data przyjecia"/>
                     <p:column>

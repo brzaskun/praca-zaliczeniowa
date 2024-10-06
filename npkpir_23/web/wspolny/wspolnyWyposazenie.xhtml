@@ -16,7 +16,7 @@
                     <p:dialog id="confirmDialog" 
                               header="Usunąć wybrany środek trwały?" widgetVar="confirmation" closable="false" resizable="false"> 
                             <p:panelGrid layout="tabular" columns="2">
-                            <p:commandButton id="confirm" value="Tak, usunąć" update="formSTR" oncomplete="PF('confirmation').hide()"  
+                            <p:commandButton id="confirm" value="Tak, usunąć" update="formSTR:srodkiLista" oncomplete="PF('confirmation').hide()"  
                                              actionListener="#{sTRTabView.destroy2()}" />  
                             <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" style="margin-left: 60px;"/>   
                             </p:panelGrid>
