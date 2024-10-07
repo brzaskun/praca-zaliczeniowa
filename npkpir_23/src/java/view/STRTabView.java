@@ -18,6 +18,7 @@ import entity.Srodkikst;
 import entity.UmorzenieN;
 import entityfk.Konto;
 import error.E;
+import interceptor.WydrukInterceptor;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.Msg;
  import org.primefaces.PrimeFaces;
 import pdf.PdfSTRtabela;
@@ -769,7 +771,7 @@ public class STRTabView implements Serializable {
     }
     
    
-    
+    @Interceptors(WydrukInterceptor.class)
     public void drukowanietabeli(List<SrodekTrw> l, String nazwapliku, int modyfikator) {
         try {
             double netto = 0.0;
@@ -817,7 +819,7 @@ public class STRTabView implements Serializable {
             Msg.msg("e", "Nieudane drukowanie wykazu posiadanych środków trwałych");
         }
     }
-    
+    @Interceptors(WydrukInterceptor.class)
     public void drukowanietabeliPlan(List<SrodekTrw> l, String nazwapliku, int modyfikator) {
         try {
             double netto = 0.0;
@@ -860,7 +862,7 @@ public class STRTabView implements Serializable {
             Msg.msg("e", "Nieudane drukowanie wykazu posiadanych środków trwałych");
         }
     }
-    
+    @Interceptors(WydrukInterceptor.class)
     public void drukujsrodek() {
         if (wybranysrodektrwalyPosiadane != null) {
             try {
