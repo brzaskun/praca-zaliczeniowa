@@ -124,7 +124,7 @@ public class PasekwynagrodzenBean {
     public static Pasekwynagrodzen obliczWynagrodzenie(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, SwiadczeniekodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy,
             List<Wynagrodzeniahistoryczne> historiawynagrodzen, List<Podatki> stawkipodatkowe, double sumapoprzednich, Wynagrodzenieminimalne wynagrodzenieminimalne, double odliczonajuzkwotawolna, double kurs, double limitZUS,
             String datawyplaty, List<Nieobecnosc> nieobecnosci, double limit26, List<Kalendarzmiesiac> kalendarzlista, Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double sumabruttopoprzednich, Kalendarzwzor kalendarzwzor, 
-            Definicjalistaplac definicjadlazasilkow, double sumabruttoopodatkowanapoprzednich) {
+            Definicjalistaplac definicjadlazasilkow, double sumabruttoopodatkowanapoprzednich, double sumapoprzednichpodstawzus, double limitzuspolskaspoleczne) {
         boolean umowaoprace = definicjalistaplac.getRodzajlistyplac().getTyp() == 1;
         boolean umowazlecenia = definicjalistaplac.getRodzajlistyplac().getTyp() == 2;
         boolean umowazlecenianierezydent = definicjalistaplac.getRodzajlistyplac().getTyp() == 2 && kalendarz.isNierezydent();
@@ -170,7 +170,7 @@ public class PasekwynagrodzenBean {
         }
         if (umowaoprace) {
             umowaopracewyliczenie(kalendarz, kalendarzwzor, pasek, kurs, definicjalistaplac, odliczonajuzkwotawolna, jestoddelegowanie, 
-                    limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci, limit26, kalendarzlista, wynagrodzenieminimalne, sumabruttopoprzednich, sumabruttoopodatkowanapoprzednich);
+                    limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci, limit26, kalendarzlista, wynagrodzenieminimalne, sumabruttopoprzednich, sumabruttoopodatkowanapoprzednich, sumapoprzednichpodstawzus, limitzuspolskaspoleczne);
         } else if (swiadczeniarzeczowe) {
             umowaswiadczenierzeczowewyliczenie(kalendarz, kalendarzwzor, pasek, kurs, definicjalistaplac, odliczonajuzkwotawolna, jestoddelegowanie, 
                     limitZUS, stawkipodatkowe, sumapoprzednich, !po26roku, nieobecnosci, limit26, kalendarzlista, wynagrodzenieminimalne, sumabruttopoprzednich, sumabruttoopodatkowanapoprzednich);
@@ -273,7 +273,7 @@ public class PasekwynagrodzenBean {
 
     private static void umowaopracewyliczenie(Kalendarzmiesiac kalendarz, Kalendarzwzor kalendarzglobalny, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac,
             double odliczonajuzkwotawolna, boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, boolean nieodliczackup, List<Nieobecnosc> nieobecnoscilista,
-            double limit26, List<Kalendarzmiesiac> kalendarzlista, Wynagrodzenieminimalne wynagrodzenieminimalne, double sumabruttopoprzednich, double sumabruttoopodatkowanapoprzednich) {
+            double limit26, List<Kalendarzmiesiac> kalendarzlista, Wynagrodzenieminimalne wynagrodzenieminimalne, double sumabruttopoprzednich, double sumabruttoopodatkowanapoprzednich, double sumapoprzednichpodstawzus, double limitzuspolskaspoleczne) {
         boolean odliczaculgepodatkowa = kalendarz.getAngaz().isOdliczaculgepodatkowa();
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny);
         List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz, nieobecnoscilista);
@@ -365,6 +365,7 @@ public class PasekwynagrodzenBean {
             PasekwynagrodzenBean.uwzglednijulgeklasasrednia(pasek);
         }
         //ppk jest teraz wyzej, bo musi byc  doliczane do przekroczenia
+        PasekwynagrodzenBean.oznaczmaksymalnapodstwaemerytalnych(pasek, sumapoprzednichpodstawzus, limitzuspolskaspoleczne);
         PasekwynagrodzenBean.pracownikemerytalna(pasek);
         PasekwynagrodzenBean.pracownikrentowa(pasek);
         PasekwynagrodzenBean.pracownikchorobowa(pasek);
@@ -384,6 +385,21 @@ public class PasekwynagrodzenBean {
         }
         PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true, umowakodzus);
     }
+    
+    private static void oznaczmaksymalnapodstwaemerytalnych(Pasekwynagrodzen pasek, double sumapoprzednichpodstawzus, double limitzuspolskaspoleczne) {
+        double roznicalimitu = limitzuspolskaspoleczne-sumapoprzednichpodstawzus;
+        if (roznicalimitu<=0) {
+            double skorygowanapodstawa = pasek.getPodstawaskladkizusemerytalna();
+            skorygowanapodstawa = skorygowanapodstawa+roznicalimitu;
+            if (skorygowanapodstawa>0.0) {
+                pasek.setPodstawaskladkizusemerytalnaograniczona(Z.z(roznicalimitu));
+                pasek.setPodstawaskladkizusrentowaograniczona(Z.z(roznicalimitu));
+            }
+            pasek.setKorektapodstawaskladkizus(true);
+        }
+    }
+     
+
 
     private static void zasilekchorobowywyliczenie(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasek, double kurs, Definicjalistaplac definicjalistaplac, double odliczonajuzkwotawolna,
             boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, List<Nieobecnosc> nieobecnosci, List<Kalendarzmiesiac> kalendarzlista, Wynagrodzenieminimalne wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor, Definicjalistaplac definicjadlazasilkow) {
@@ -1168,6 +1184,9 @@ public class PasekwynagrodzenBean {
 
     private static void pracownikemerytalna(Pasekwynagrodzen pasek) {
         pasek.setPracemerytalne(Z.z(pasek.getPodstawaskladkizus() * 0.0976));
+        if (pasek.isKorektapodstawaskladkizus()) {
+            pasek.setPracemerytalne(Z.z(pasek.getPodstawaskladkizusemerytalnaograniczona() * 0.0976));
+        }
     }
     private static void pracownikemerytalnaNo(Pasekwynagrodzen pasek) {
         pasek.setPracemerytalne(Z.z(pasek.getPodstawaskladkizusemerytalna() * 0.0976));
@@ -1175,6 +1194,9 @@ public class PasekwynagrodzenBean {
 
     private static void emerytalna(Pasekwynagrodzen pasek) {
         pasek.setEmerytalne(Z.z(pasek.getPodstawaskladkizus() * 0.0976));
+        if (pasek.isKorektapodstawaskladkizus()) {
+            pasek.setEmerytalne(Z.z(pasek.getPodstawaskladkizusemerytalnaograniczona() * 0.0976));
+        }
     }
     
     private static void emerytalnaNo(Pasekwynagrodzen pasek) {
@@ -1183,6 +1205,9 @@ public class PasekwynagrodzenBean {
 
     private static void pracownikrentowa(Pasekwynagrodzen pasek) {
         pasek.setPracrentowe(Z.z(pasek.getPodstawaskladkizus() * 0.015));
+        if (pasek.isKorektapodstawaskladkizus()) {
+            pasek.setRentowe(Z.z(pasek.getPodstawaskladkizusrentowaograniczona() * 0.015));
+        }
     }
     
     
@@ -1192,7 +1217,12 @@ public class PasekwynagrodzenBean {
 
     private static void rentowa(Pasekwynagrodzen pasek) {
         pasek.setRentowe(Z.z(pasek.getPodstawaskladkizus() * 0.065));
+        if (pasek.isKorektapodstawaskladkizus()) {
+            pasek.setRentowe(Z.z(pasek.getPodstawaskladkizusrentowaograniczona() * 0.065));
+        }
     }
+    
+    
     
     private static void rentowaNo(Pasekwynagrodzen pasek) {
         pasek.setRentowe(Z.z(pasek.getPodstawaskladkizusrentowa() * 0.065));
@@ -2058,8 +2088,7 @@ public class PasekwynagrodzenBean {
         pasek.setNettoprzedpotraceniami(Z.z(pasek.getNettoprzedpotraceniami()) + bruttobezzusbezpodatek);
     }
 
-    public static double sumapodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, Kalendarzmiesiac p, double prog, String rokwyplaty) {
-        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokWyplAngaz(rokwyplaty, p.getAngaz());
+    public static double sumapodstawaopodpopmce(List<Pasekwynagrodzen> paskipodatnika, Kalendarzmiesiac p, double prog, String rokwyplaty) {
         double suma = 0.0;
         int mckalendarza = p.getMcI();
         int rokkalendarza = Integer.parseInt(rokwyplaty);
@@ -2071,8 +2100,7 @@ public class PasekwynagrodzenBean {
         return suma;
     }
 
-    public static double sumabruttopodstawaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, String rokwyplaty, String mcwyplaty, Angaz angaz) {
-        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokWyplAngaz(rokwyplaty, angaz);
+    public static double sumabruttopodstawaopodpopmce(List<Pasekwynagrodzen> paskipodatnika, String rokwyplaty, String mcwyplaty, Angaz angaz) {
         double suma = 0.0;
         int mckalendarza = Integer.parseInt(mcwyplaty);
         int rokkalendarza = Integer.parseInt(rokwyplaty);
@@ -2087,8 +2115,7 @@ public class PasekwynagrodzenBean {
         return suma;
     }
     
-     public static double sumabruttopolskaopodpopmce(PasekwynagrodzenFacade pasekwynagrodzenFacade, String rokwyplaty, String mcwyplaty, Angaz angaz) {
-        List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokWyplAngaz(rokwyplaty, angaz);
+     public static double sumabruttopolskaopodpopmce(List<Pasekwynagrodzen> paskipodatnika, String rokwyplaty, String mcwyplaty, Angaz angaz) {
         double suma = 0.0;
         int mckalendarza = Integer.parseInt(mcwyplaty);
         
@@ -2098,6 +2125,18 @@ public class PasekwynagrodzenBean {
             }
         }
         return suma;
+    }
+     
+     public static double sumapoprzednichpodstawzus(List<Pasekwynagrodzen> paskipodatnika, String rokwyplaty, String mcwyplaty, Angaz angaz) {
+        double suma = 0.0;
+        int mckalendarza = Integer.parseInt(mcwyplaty);
+        
+        for (Pasekwynagrodzen r : paskipodatnika) {
+            if (r.getMcI() < mckalendarza) {
+                suma = suma + r.getPrzychodyzus51Polska();
+            }
+        }
+        return Z.z(suma);
     }
 
     private static double sumujoddelegowaniewartosc(Pasekwynagrodzen r) {
@@ -2533,6 +2572,11 @@ public class PasekwynagrodzenBean {
         return juzodliczono;
     }
 
+    
+
+    
+
+  
     
 
 }

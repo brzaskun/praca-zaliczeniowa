@@ -155,8 +155,14 @@ public class Pasekwynagrodzen implements Serializable {
     private double podstawaskladkizus;
     @Column(name = "podstawaskladkizusemerytalna")
     private double podstawaskladkizusemerytalna;
+    @Column(name = "podstawaskladkizusemerytalnaograniczona")
+    private double podstawaskladkizusemerytalnaograniczona;
     @Column(name = "podstawaskladkizusrentowa")
     private double podstawaskladkizusrentowa;
+    @Column(name = "podstawaskladkizusrentowaograniczona")
+    private double podstawaskladkizusrentowaograniczona;
+    @Column(name = "korektapodstawaskladkizus")
+    private boolean korektapodstawaskladkizus;
     @Column(name = "podstawaskladkizuschorobowa")
     private double podstawaskladkizuschorobowa;
     @Column(name = "podstawaskladkizuswypadkowa")
@@ -1058,6 +1064,22 @@ public class Pasekwynagrodzen implements Serializable {
         }
         return zwrot;
     }
+
+    public double getPodstawaskladkizusemerytalnaograniczona() {
+        return podstawaskladkizusemerytalnaograniczona;
+    }
+
+    public void setPodstawaskladkizusemerytalnaograniczona(double podstawaskladkizusemerytalnaograniczona) {
+        this.podstawaskladkizusemerytalnaograniczona = podstawaskladkizusemerytalnaograniczona;
+    }
+
+    public double getPodstawaskladkizusrentowaograniczona() {
+        return podstawaskladkizusrentowaograniczona;
+    }
+
+    public void setPodstawaskladkizusrentowaograniczona(double podstawaskladkizusrentowaograniczona) {
+        this.podstawaskladkizusrentowaograniczona = podstawaskladkizusrentowaograniczona;
+    }
     
     
 
@@ -1718,6 +1740,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setRentoweOddelegowanieEuro(double rentoweOddelegowanieEuro) {
         this.rentoweOddelegowanieEuro = rentoweOddelegowanieEuro;
+    }
+
+    public boolean isKorektapodstawaskladkizus() {
+        return korektapodstawaskladkizus;
+    }
+
+    public void setKorektapodstawaskladkizus(boolean korektapodstawaskladkizus) {
+        this.korektapodstawaskladkizus = korektapodstawaskladkizus;
     }
 
     

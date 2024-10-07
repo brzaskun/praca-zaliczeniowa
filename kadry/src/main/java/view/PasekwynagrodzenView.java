@@ -18,6 +18,7 @@ import dao.GrupakadryFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.LimitdochodudwaszescFacade;
+import dao.LimitzusFacade;
 import dao.NieobecnoscFacade;
 import dao.OddelegowanieZUSLimitFacade;
 import dao.PasekwynagrodzenFacade;
@@ -40,6 +41,7 @@ import entity.Grupakadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Limitdochodudwaszesc;
+import entity.Limitzus;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
@@ -129,6 +131,8 @@ public class PasekwynagrodzenView implements Serializable {
     private Limitdochodudwaszesc limitdochodudwaszesc;
     @Inject
     private LimitdochodudwaszescFacade limitdochodudwaszescFacade;
+    @Inject
+    private LimitzusFacade limitzusFacade;
     @Inject
     private RachunekdoumowyzleceniaFacade rachunekdoumowyzleceniaFacade;
     @Inject
@@ -399,9 +403,13 @@ public class PasekwynagrodzenView implements Serializable {
                     }
                     String rokwyplaty = Data.getRok(datawyplaty);
                     String mcwyplaty = Data.getMc(datawyplaty);
-                    double sumapoprzednich = PasekwynagrodzenBean.sumapodstawaopodpopmce(pasekwynagrodzenFacade, kalendarzpracownikaLP, stawkipodatkowe.get(1).getKwotawolnaod(), rokwyplaty);
-                    double sumabruttopoprzednich = PasekwynagrodzenBean.sumabruttopodstawaopodpopmce(pasekwynagrodzenFacade, rokwyplaty, mcwyplaty,  angaz);
-                    double sumabruttoopodatkowanapoprzednich = PasekwynagrodzenBean.sumabruttopolskaopodpopmce(pasekwynagrodzenFacade, rokwyplaty, mcwyplaty,  angaz);
+                    List<Pasekwynagrodzen> paskipodatnika = pasekwynagrodzenFacade.findByRokWyplAngaz(rokwyplaty, kalendarzpracownikaLP.getAngaz());
+                    double sumapoprzednich = PasekwynagrodzenBean.sumapodstawaopodpopmce(paskipodatnika, kalendarzpracownikaLP, stawkipodatkowe.get(1).getKwotawolnaod(), rokwyplaty);
+                    double sumabruttopoprzednich = PasekwynagrodzenBean.sumabruttopodstawaopodpopmce(paskipodatnika, rokwyplaty, mcwyplaty,  angaz);
+                    double sumabruttoopodatkowanapoprzednich = PasekwynagrodzenBean.sumabruttopolskaopodpopmce(paskipodatnika, rokwyplaty, mcwyplaty,  angaz);
+                    double sumapoprzednichpodstawzus = PasekwynagrodzenBean.sumapoprzednichpodstawzus(paskipodatnika, rokwyplaty, mcwyplaty,  angaz);
+                    Limitzus limitzusobj = limitzusFacade.findbyRok(wpisView.getRokWpisu());
+                    double limitzuspolskaspoleczne = limitzusobj.getKwota();
                     Wynagrodzenieminimalne wynagrodzenieminimalne = pobierzwynagrodzenieminimalne(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc());
                     //zeby nei odoliczyc kwoty wolnej dwa razy
                     double odliczonajuzkwotawolna = PasekwynagrodzenBean.czyodliczonokwotewolna(kalendarzpracownikaLP.getRok(), kalendarzpracownikaLP.getMc(), angaz, pasekwynagrodzenFacade);
@@ -423,7 +431,8 @@ public class PasekwynagrodzenView implements Serializable {
                     try {
                         Pasekwynagrodzen pasek = PasekwynagrodzenBean.obliczWynagrodzenie(kalendarzpracownikaLP, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen, stawkipodatkowe, sumapoprzednich, 
                                 wynagrodzenieminimalne, odliczonajuzkwotawolna,
-                                kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, kalendarzwzor, definicjadlazasilkow, sumabruttoopodatkowanapoprzednich);
+                                kursdlalisty, limitzus, datawyplaty, nieobecnosci, limitdochodudwaszesc.getKwota(), kalendarzlista, rachunekdoumowyzlecenia, sumabruttopoprzednich, 
+                                kalendarzwzor, definicjadlazasilkow, sumabruttoopodatkowanapoprzednich, sumapoprzednichpodstawzus, limitzuspolskaspoleczne);
                         usunpasekjakzawiera(pasek);
                         pasek.setSporzadzil(wpisView.getUzer().getImieNazwisko());
                         pasek.setData(new Date());
