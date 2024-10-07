@@ -9,6 +9,7 @@ import dao.RyczDAO;
 import entity.Pitpoz;
 import entity.Ryczpoz;
 import error.E;
+import interceptor.WydrukInterceptor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import msg.Msg;
 import pdf.PdfRyczpoz;
 import waluty.Z;
@@ -150,6 +152,7 @@ public class Pit36View implements Serializable {
         listaryczalt.add(suma);
     }
     
+    @Interceptors(WydrukInterceptor.class)
     public void drukujryczalt() {
         try {
             String nazwa = wpisView.getPodatnikObiekt().getNip()+"ryczpoz";

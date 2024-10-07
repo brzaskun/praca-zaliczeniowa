@@ -37,6 +37,7 @@ import entityfk.EVatwpisFK;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import error.E;
+import interceptor.WydrukInterceptor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -62,6 +63,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import mail.MailOther;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
@@ -1712,6 +1714,7 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
+    @Interceptors(WydrukInterceptor.class)
     public void drukujPdfEwidencje(String nazwaewidencji) {
         try {
             if (zachowanewybranewierszeewidencji != null && zachowanewybranewierszeewidencji.size() > 0) {
@@ -1726,6 +1729,8 @@ public class EwidencjaVatView implements Serializable {
 
         }
     }
+    
+    @Interceptors(WydrukInterceptor.class)
     public void drukujPdfEwidencjeWartosc(String nazwaewidencji) {
         try {
             if (zachowanewybranewierszeewidencji != null && zachowanewybranewierszeewidencji.size() > 0) {
@@ -1832,7 +1837,7 @@ public class EwidencjaVatView implements Serializable {
     }
     
     
-    
+    @Interceptors(WydrukInterceptor.class)
     public void drukujPdfWszystkie() {
         try {
             PdfVAT.drukujewidencjenajednejkartce(null, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), listaewidencji, false);
@@ -1841,7 +1846,7 @@ public class EwidencjaVatView implements Serializable {
 
         }
     }
-    
+    @Interceptors(WydrukInterceptor.class)
      public void drukujPdfWszystkieWartosc() {
         try {
             PdfVAT.drukujewidencjenajednejkartce(null, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), listaewidencji, true);

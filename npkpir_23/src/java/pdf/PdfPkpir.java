@@ -35,7 +35,7 @@ import view.WpisView;
  */
 
 public class PdfPkpir {
-
+    
     public static ByteArrayOutputStream drukujksiege(List<DokKsiega> wykaz, WpisView wpisView, String mc) throws DocumentException, FileNotFoundException, IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         String nazwapliku = "pkpir" + wpisView.getPodatnikObiekt().getNip() + ".pdf";

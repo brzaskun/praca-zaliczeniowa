@@ -668,7 +668,7 @@ public class SymulacjaWynikuView implements Serializable {
             List<WynikFKRokMc> wynikpoprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokFirma(wpisView);
             double podatekzaplacony = 0.0;
             for (WynikFKRokMc p : wynikpoprzedniemce) {
-                if (Mce.getMiesiacToNumber().get(p.getMc()) < Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())) {
+                if (Mce.getMiesiacToNumber().get(p.getMc()) < Mce.getMiesiacToNumber().get(Data.getMc(bilansnadzien))) {
                     wynikfinnarastajaco += p.getWynikfinansowy();
                     podatekzaplacony += p.getPodatekdowplaty();
                 }

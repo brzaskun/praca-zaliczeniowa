@@ -22,6 +22,7 @@ import entity.Rodzajedok;
 import entityfk.Tabelanbp;
 import error.E;
 import gus.GUSView;
+import interceptor.WydrukInterceptor;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.security.Principal;
@@ -34,6 +35,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 import org.joda.time.DateTime;
@@ -135,7 +137,7 @@ public class ImportEbayView  implements Serializable {
         PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
     }
 
-    
+    @Interceptors(WydrukInterceptor.class)
     public void drukuj() {
         List<FakturaEbay> pobrane = fakturyfiltered !=null ? fakturyfiltered: faktury;
         PdfEbay.drukuj(pobrane, wpisView, 0);
