@@ -34,7 +34,7 @@
                 </p:column>
                 <p:column headerText="kurs do pln" width="150" sortBy="#{wpisT.kurssredni}" filterBy="#{wpisT.kurssredni}"  filterMatchMode="contains">
                     <h:outputText value="#{wpisT.kurssredni}" style="float: right;">
-                        <f:convertNumber minFractionDigits="4" locale="PL"/>
+                        <f:convertNumber minFractionDigits="5" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="przel." width="40" sortBy="#{wpisT.waluta.przelicznik}">

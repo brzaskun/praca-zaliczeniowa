@@ -84,12 +84,12 @@
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{wpis.kurssredni}" style="float: right; padding-right: 20px;">
-                                <f:convertNumber minFractionDigits="4" locale="PL"/>
+                                <f:convertNumber minFractionDigits="5" locale="PL"/>
                             </h:outputText>
                         </f:facet>
                         <f:facet name="input">
                             <p:inputNumber value="#{wpis.kurssredni}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="text-align: right;" symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="4" minValue="-1000000" styleClass="wiersznetto"> 
+                                            style="text-align: right;" symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="5" minValue="-1000000" styleClass="wiersznetto"> 
                              </p:inputNumber>
                         </f:facet>
                     </p:cellEditor>
