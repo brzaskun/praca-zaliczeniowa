@@ -387,13 +387,13 @@ public class PasekwynagrodzenBean {
     }
     
     private static void oznaczmaksymalnapodstwaemerytalnych(Pasekwynagrodzen pasek, double sumapoprzednichpodstawzus, double limitzuspolskaspoleczne) {
-        double roznicalimitu = limitzuspolskaspoleczne-sumapoprzednichpodstawzus;
+        double roznicalimitu = limitzuspolskaspoleczne-(Z.z(sumapoprzednichpodstawzus+pasek.getPodstawaskladkizus()));
         if (roznicalimitu<=0) {
-            double skorygowanapodstawa = pasek.getPodstawaskladkizusemerytalna();
-            skorygowanapodstawa = skorygowanapodstawa+roznicalimitu;
+            double skorygowanapodstawa = pasek.getPodstawaskladkizus();
+            skorygowanapodstawa = Z.z(skorygowanapodstawa+roznicalimitu);
             if (skorygowanapodstawa>0.0) {
-                pasek.setPodstawaskladkizusemerytalnaograniczona(Z.z(roznicalimitu));
-                pasek.setPodstawaskladkizusrentowaograniczona(Z.z(roznicalimitu));
+                pasek.setPodstawaskladkizusemerytalnaograniczona(Z.z(skorygowanapodstawa));
+                pasek.setPodstawaskladkizusrentowaograniczona(Z.z(skorygowanapodstawa));
             }
             pasek.setKorektapodstawaskladkizus(true);
         }
@@ -1206,7 +1206,7 @@ public class PasekwynagrodzenBean {
     private static void pracownikrentowa(Pasekwynagrodzen pasek) {
         pasek.setPracrentowe(Z.z(pasek.getPodstawaskladkizus() * 0.015));
         if (pasek.isKorektapodstawaskladkizus()) {
-            pasek.setRentowe(Z.z(pasek.getPodstawaskladkizusrentowaograniczona() * 0.015));
+            pasek.setPracrentowe(Z.z(pasek.getPodstawaskladkizusrentowaograniczona() * 0.015));
         }
     }
     
@@ -2130,10 +2130,10 @@ public class PasekwynagrodzenBean {
      public static double sumapoprzednichpodstawzus(List<Pasekwynagrodzen> paskipodatnika, String rokwyplaty, String mcwyplaty, Angaz angaz) {
         double suma = 0.0;
         int mckalendarza = Integer.parseInt(mcwyplaty);
-        
+        int rokkalendarza = Integer.parseInt(rokwyplaty);
         for (Pasekwynagrodzen r : paskipodatnika) {
-            if (r.getMcI() < mckalendarza) {
-                suma = suma + r.getPrzychodyzus51Polska();
+            if (r.getMcI() < mckalendarza || r.getRokI() < rokkalendarza) {
+                suma = suma + r.getPodstawaskladkizus();
             }
         }
         return Z.z(suma);

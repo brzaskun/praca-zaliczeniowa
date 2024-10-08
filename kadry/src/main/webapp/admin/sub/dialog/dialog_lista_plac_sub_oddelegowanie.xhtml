@@ -78,10 +78,14 @@
                             <h:outputText value="chorobowe"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="emerytalne"/>
+                            <h:outputText value="emerytalne" rendered="#{itempasek.korektapodstawaskladkizus eq false}"/>
+                            <h:outputText value="em. " rendered="#{itempasek.korektapodstawaskladkizus eq true}" style="color: red;"/>
+                            <bcf:outputpl value="#{itempasek.podstawaskladkizusemerytalnaograniczona}" rendered="#{itempasek.korektapodstawaskladkizus eq true}" style="color: red;"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="rentowe"/>
+                            <h:outputText value="rentowe" rendered="#{itempasek.korektapodstawaskladkizus eq false}"/>
+                            <h:outputText value="rt." rendered="#{itempasek.korektapodstawaskladkizus eq true}" style="color: red;"/>
+                            <bcf:outputpl value="#{itempasek.podstawaskladkizusrentowaograniczona}" rendered="#{itempasek.korektapodstawaskladkizus eq true}" style="color: red;"/>
                         </p:column>
                         <p:column>
                             <h:outputText value="razem społ. prac."/>
