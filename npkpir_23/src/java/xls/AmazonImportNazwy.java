@@ -152,57 +152,59 @@ public class AmazonImportNazwy implements Serializable {
             klientJPK.setDataWystawienia(Data.zmienkolejnosc(data2));
             String krajcdocelowy = row.getCell(naglowki.get("ARRIVAL_COUNTRY")).getStringCellValue();
             String krajwysylki = row.getCell(naglowki.get("DEPARTURE_COUNTRY")).getStringCellValue();
-            String stawka = row.getCell(naglowki.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT")).getStringCellValue();
-            double stawkavat = Double.valueOf(stawka);
-            klientJPK.setStawkavat(stawkavat);
-            String opodatkowanie = row.getCell(naglowki.get("TAXABLE_JURISDICTION")).getStringCellValue();
-            klientJPK.setJurysdykcja(opodatkowanie);
-            String nipwysylki = row.getCell(naglowki.get("SELLER_DEPART_COUNTRY_VAT_NUMBER")).getStringCellValue();
-            String nipodbioru = row.getCell(naglowki.get("SELLER_ARRIVAL_COUNTRY_VAT_NUMBER")).getStringCellValue();
-            String nipbuyer = row.getCell(naglowki.get("BUYER_VAT_NUMBER")).getStringCellValue();
+            if ((krajcdocelowy.equals("PL") && krajwysylki.equals("DE"))||(krajwysylki.equals("PL") && krajcdocelowy.equals("DE"))) {
+                 String stawka = row.getCell(naglowki.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT")).getStringCellValue();
+                double stawkavat = Double.valueOf(stawka);
+                klientJPK.setStawkavat(stawkavat);
+                String opodatkowanie = row.getCell(naglowki.get("TAXABLE_JURISDICTION")).getStringCellValue();
+                klientJPK.setJurysdykcja(opodatkowanie);
+                String nipwysylki = row.getCell(naglowki.get("SELLER_DEPART_COUNTRY_VAT_NUMBER")).getStringCellValue();
+                String nipodbioru = row.getCell(naglowki.get("SELLER_ARRIVAL_COUNTRY_VAT_NUMBER")).getStringCellValue();
+                String nipbuyer = row.getCell(naglowki.get("BUYER_VAT_NUMBER")).getStringCellValue();
 
-            if (nipwysylki.equals(nipue)&&krajwysylki.equals("PL")) {
-                klientJPK.setWnt(false);
-                klientJPK.setWdt(true);
-                klientJPK.setStawkavat(0.0);
-                if (rodzajtransakcji.equals("FC_TRANSFER")) {
-                    klientJPK.setNrKontrahenta(nipodbioru);
-                } else {
-                    klientJPK.setNrKontrahenta(nipbuyer);
-                }
-            } else if (nipodbioru.equals(nipue)) {
-                klientJPK.setWnt(true);
-                klientJPK.setWdt(false);
-                klientJPK.setNrKontrahenta(nipwysylki);
-            }
-            if (nipwysylki.equals(nipue) || nipodbioru.equals(nipue)) {
-                klientJPK.setKodKrajuNadania(krajwysylki);
-                klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
-                if (rodzajtransakcji.equals("FC_TRANSFER")) {
-                    klientJPK.setNazwaKontrahenta(wpisView.getPrintNazwa());
-                } else {
-                    if (row.getCell(naglowki.get("BUYER_NAME")).getStringCellValue()==null||row.getCell(naglowki.get("BUYER_NAME")).getStringCellValue().equals("")) {
-                        klientJPK.setNazwaKontrahenta("brakk");
+                if (nipwysylki.equals(nipue)&&krajwysylki.equals("PL")) {
+                    klientJPK.setWnt(false);
+                    klientJPK.setWdt(true);
+                    klientJPK.setStawkavat(0.0);
+                    if (rodzajtransakcji.equals("FC_TRANSFER")) {
+                        klientJPK.setNrKontrahenta(nipodbioru);
                     } else {
-                        klientJPK.setNazwaKontrahenta(row.getCell(naglowki.get("BUYER_NAME")).getStringCellValue());
+                        klientJPK.setNrKontrahenta(nipbuyer);
                     }
+                } else if (nipodbioru.equals(nipue)) {
+                    klientJPK.setWnt(true);
+                    klientJPK.setWdt(false);
+                    klientJPK.setNrKontrahenta(nipwysylki);
                 }
-                klientJPK.setRok(wpisView.getRokWpisuSt());
-                klientJPK.setMc(wpisView.getMiesiacWpisu());
-                klientJPK.setAmazontax0additional1(1);
-                String waluta = row.getCell(naglowki.get("TRANSACTION_CURRENCY_CODE")).getStringCellValue();
-                klientJPK.setWaluta(waluta);
-                double brutto = formatpdf.F.kwota(row.getCell(naglowki.get("TOTAL_PRICE_OF_ITEMS_VAT_INCL")).getStringCellValue());
-                klientJPK.setNettowaluta(formatpdf.F.kwota(row.getCell(naglowki.get("TOTAL_PRICE_OF_ITEMS_AMT_VAT_EXCL")).getStringCellValue()));
-                klientJPK.setVatwaluta(Z.z(brutto - klientJPK.getNettowaluta()));
-                double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta);
-                klientJPK.setKurs(kurs);
-                klientJPK.setNetto(Z.z(klientJPK.getNettowaluta() * kurs));
-                if (klientJPK.isWnt()) {
-                    klientJPK.setVat(Z.z(klientJPK.getVatwaluta() * kurs));
-                }
-                if (klientJPK.getNrKontrahenta().equals("")) {
-                    klientJPK = null;
+                if (nipwysylki.equals(nipue) || nipodbioru.equals(nipue)) {
+                    klientJPK.setKodKrajuNadania(krajwysylki);
+                    klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
+                    if (rodzajtransakcji.equals("FC_TRANSFER")) {
+                        klientJPK.setNazwaKontrahenta(wpisView.getPrintNazwa());
+                    } else {
+                        if (row.getCell(naglowki.get("BUYER_NAME")).getStringCellValue()==null||row.getCell(naglowki.get("BUYER_NAME")).getStringCellValue().equals("")) {
+                            klientJPK.setNazwaKontrahenta("brakk");
+                        } else {
+                            klientJPK.setNazwaKontrahenta(row.getCell(naglowki.get("BUYER_NAME")).getStringCellValue());
+                        }
+                    }
+                    klientJPK.setRok(wpisView.getRokWpisuSt());
+                    klientJPK.setMc(wpisView.getMiesiacWpisu());
+                    klientJPK.setAmazontax0additional1(1);
+                    String waluta = row.getCell(naglowki.get("TRANSACTION_CURRENCY_CODE")).getStringCellValue();
+                    klientJPK.setWaluta(waluta);
+                    double brutto = formatpdf.F.kwota(row.getCell(naglowki.get("TOTAL_PRICE_OF_ITEMS_VAT_INCL")).getStringCellValue());
+                    klientJPK.setNettowaluta(formatpdf.F.kwota(row.getCell(naglowki.get("TOTAL_PRICE_OF_ITEMS_AMT_VAT_EXCL")).getStringCellValue()));
+                    klientJPK.setVatwaluta(Z.z(brutto - klientJPK.getNettowaluta()));
+                    double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta);
+                    klientJPK.setKurs(kurs);
+                    klientJPK.setNetto(Z.z(klientJPK.getNettowaluta() * kurs));
+                    if (klientJPK.isWnt()) {
+                        klientJPK.setVat(Z.z(klientJPK.getVatwaluta() * kurs));
+                    }
+                    if (klientJPK.getNrKontrahenta().equals("")) {
+                        klientJPK = null;
+                    }
                 }
             } else {
                 klientJPK = null;

@@ -15,7 +15,7 @@
         }
     </style>
 
-    <p:dialog id="importamazonintrastat" header="Zestawienie pobranych faktur" widgetVar="importamazonintrastat" height="900" width="1450"
+    <p:dialog id="importamazonintrastat" header="Import danych dla INTRASTAT" widgetVar="importamazonintrastat" height="900" width="1450"
               resizable="false"  onShow="ustawdialog('importamazonintrastat','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('importamazonintrastat');" >
         <p:ajax event="open" listener="#{amazonImportIntrastat.init()}" update="importtabelaintrastat"/>
         <bcf:ajaxs/>
