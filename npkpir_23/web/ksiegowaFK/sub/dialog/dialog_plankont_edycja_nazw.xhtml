@@ -46,7 +46,7 @@
                     <h:outputText value="ma potomków"/>
                     <p:selectBooleanCheckbox value="#{planKontView.selectednodekontoZmiana.mapotomkow}"/>
                     <h:outputText value=""/>
-                    <p:commandButton value="edytuj" actionListener="#{planKontView.zmiananazwykonta()}" type="submit" update=":formedycjanazw :form_dialog_plankont" 
+                    <p:commandButton value="edytuj" actionListener="#{planKontView.zmiananazwykonta()}" type="submit" update=":formedycjanazw :form_dialog_plankont:dataList" 
                                      style="float: right; margin-top: 10px; width: 120px;" oncomplete="PF('dialogedycjanazwkonta').hide();">
                     </p:commandButton>
                 </p:panelGrid>

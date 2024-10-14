@@ -57,7 +57,7 @@
                 <p:column>
                     <!--                    <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 350px;">-->
                     <p:dataTable lazy="false"  id="dostepnekonta" var="konto" value="#{pozycjaBRKontaView.kontabezprzydzialu}" emptyMessage="wszystkie konta przyporządkowane"
-                                 style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
+                                 style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" rowKey="#{konto.id}">
                         <f:facet name="header">
                             <h:outputText value="konta nieprzypisane"/>
                         </f:facet>
@@ -91,7 +91,7 @@
                 </p:column>
                 <p:column>
                     <p:dataTable lazy="false"  id="selected" var="konto" value="#{pozycjaBRKontaView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont"
-                                 style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
+                                 style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll"  rowKey="#{konto.id}">
                         <f:facet name="header">
                             <h:outputText value="konta przypisane do #{pozycjaBRKontaView.wybranapozycja}"/>
                         </f:facet>

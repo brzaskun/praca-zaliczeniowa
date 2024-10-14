@@ -49,89 +49,100 @@ import xml.XMLValid;
 @Named
 @ViewScoped
 public class AmazonImportIntrastat implements Serializable {
-   private static final long serialVersionUID = 1L;
-   @Inject
-   private WpisView wpisView;
-   private List<Intrastatwiersz> lista;
-   @Inject
-   private IntrastatwierszDAO intrastatwierszDAO;
-   
-   
-   public void init() {
-       
-   }
-    
-   public void importujsprzedaz(FileUploadEvent event) {
+
+    private static final long serialVersionUID = 1L;
+    @Inject
+    private WpisView wpisView;
+    private List<Intrastatwiersz> lista;
+    @Inject
+    private IntrastatwierszDAO intrastatwierszDAO;
+
+    public void init() {
+
+    }
+
+    public void importujsprzedaz(FileUploadEvent event) {
         try {
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
             boolean bladkodtowaru = false;
-             try {
-            InputStream is = uploadedFile.getInputStream();
-            Workbook workbook = WorkbookFactory.create(is);
-            Sheet sheet = workbook.getSheet("Template");
-            Iterator<Row> rowIterator = sheet.iterator();
-            int i = 0;
-            lista = new ArrayList<>();
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
-                if (i>2) {
-                    Intrastatwiersz w = new Intrastatwiersz(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikObiekt());
-                    String transakcja = row.getCell(3)!=null? row.getCell(3).getStringCellValue():null;
-                    if (transakcja!=null&&transakcja.equals("FC_TRANSFER")) {
-                        w.setNumerkolejny(row.getCell(4).getStringCellValue());
-                        String quantity = row.getCell(11).getStringCellValue();
-                        w.setIlosc(quantity);
-                        String waga = row.getCell(12).getStringCellValue();
-                        w.setMasanettokg(waga);
-                        double cena = Double.valueOf(row.getCell(13).getStringCellValue());
-                        w.setWartoscfaktury((int)cena);
-                        String kod = xls.X.xString(row.getCell(27));
-                        int kodint = kod.equals("")? 99999999:Integer.parseInt(kod);
-                        if (kodint==99999999) {
-                            bladkodtowaru = true;
-                        }
-                        w.setKodtowaru(kodint);
-                        w.setRodzajtransakcji(11);
-                        String opis = row.getCell(59)!=null&&!row.getCell(59).getStringCellValue().equals("") ? row.getCell(59).getStringCellValue().replace("\"", ""):"towar";
-                        w.setOpistowaru(opis);
-                        String kraj = row.getCell(39).getStringCellValue();
-                        w.setKrajprzeznaczenia(kraj);
-                        String nip = row.getCell(46).getStringCellValue().equals("")?row.getCell(44).getStringCellValue():row.getCell(46).getStringCellValue();
-                        w.setVatuekontrahenta(nip);
-                        if(!kraj.equals("PL")) {
-                            lista.add(w);
-                        }
-                    }
+            boolean nowy = data.Data.czyjestpomc("08", "2024", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            try {
+                InputStream is = uploadedFile.getInputStream();
+                Workbook workbook = WorkbookFactory.create(is);
+                if (nowy) {
+                    Msg.msg("Nowy okres");
+                } else {
+                    bladkodtowaru = staryimport(bladkodtowaru, workbook);
                 }
-                i++;
+            } catch (Exception ex) {
+                E.e(ex);
             }
-        } catch (Exception ex) {
-            E.e(ex);
-        }
             //dokumenty = stworzdokumenty(amazonCSV);
             if (bladkodtowaru) {
-                Msg.msg("w","Uwaga. Plik " + filename + " załadowany z błędami");
-                Msg.msg("w","sprawdz kolumne nr 28 z kodami");
+                Msg.msg("w", "Uwaga. Plik " + filename + " załadowany z błędami");
+                Msg.msg("w", "sprawdz kolumne nr 28 z kodami");
             } else {
                 Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
             }
         } catch (Exception ex) {
             E.e(ex);
-            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
+            Msg.msg("e", "Wystąpił błąd. Nie udało się załadowanać pliku");
         }
         PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
     }
-   
-   public void zaksieguj() {
-       try {
-           intrastatwierszDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-           intrastatwierszDAO.createList(lista);
-           Msg.msg("Zachowano wiersze");
-       } catch (Exception e){}
-   }
 
-   
+    private boolean staryimport(boolean bladkodtowaru, Workbook workbook) {
+        boolean zwrot = bladkodtowaru;
+        Sheet sheet = workbook.getSheet("Template");
+        Iterator<Row> rowIterator = sheet.iterator();
+        int i = 0;
+        lista = new ArrayList<>();
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            if (i > 2) {
+                Intrastatwiersz w = new Intrastatwiersz(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikObiekt());
+                String transakcja = row.getCell(3) != null ? row.getCell(3).getStringCellValue() : null;
+                if (transakcja != null && transakcja.equals("FC_TRANSFER")) {
+                    w.setNumerkolejny(row.getCell(4).getStringCellValue());
+                    String quantity = row.getCell(11).getStringCellValue();
+                    w.setIlosc(quantity);
+                    String waga = row.getCell(12).getStringCellValue();
+                    w.setMasanettokg(waga);
+                    double cena = Double.valueOf(row.getCell(13).getStringCellValue());
+                    w.setWartoscfaktury((int) cena);
+                    String kod = xls.X.xString(row.getCell(27));
+                    int kodint = kod.equals("") ? 99999999 : Integer.parseInt(kod);
+                    if (kodint == 99999999) {
+                        bladkodtowaru = true;
+                    }
+                    w.setKodtowaru(kodint);
+                    w.setRodzajtransakcji(11);
+                    String opis = row.getCell(59) != null && !row.getCell(59).getStringCellValue().equals("") ? row.getCell(59).getStringCellValue().replace("\"", "") : "towar";
+                    w.setOpistowaru(opis);
+                    String kraj = row.getCell(39).getStringCellValue();
+                    w.setKrajprzeznaczenia(kraj);
+                    String nip = row.getCell(46).getStringCellValue().equals("") ? row.getCell(44).getStringCellValue() : row.getCell(46).getStringCellValue();
+                    w.setVatuekontrahenta(nip);
+                    if (!kraj.equals("PL")) {
+                        lista.add(w);
+                    }
+                }
+            }
+            i++;
+        }
+        return zwrot;
+    }
+
+    public void zaksieguj() {
+        try {
+            intrastatwierszDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            intrastatwierszDAO.createList(lista);
+            Msg.msg("Zachowano wiersze");
+        } catch (Exception e) {
+        }
+    }
+
     public IST intrastat() {
         IST ist = new IST();
         if (lista.isEmpty()) {
@@ -146,7 +157,7 @@ public class AmazonImportIntrastat implements Serializable {
                 deklaracja.setLacznaWartoscFaktur(podsumuj(lista));
                 deklaracja.setMiejscowosc("Szczecin");
                 deklaracja.setMiesiac(Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu()));
-                deklaracja.setNrWlasny("1D"+wpisView.getRokWpisuSt()+wpisView.getMiesiacWpisu()+"W1");
+                deklaracja.setNrWlasny("1D" + wpisView.getRokWpisuSt() + wpisView.getMiesiacWpisu() + "W1");
                 deklaracja.setNumer(1);
                 deklaracja.setPodmiotZobowiazany(zrobpodmiot(wpisView));
                 deklaracja.setZglaszajacy(zrobzglaszajacy(wpisView));
@@ -161,12 +172,12 @@ public class AmazonImportIntrastat implements Serializable {
                 String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt(), ist);
             } catch (Exception e) {
                 String wiad = "Wystąpił błąd. Nie wygenerowano Intrastat ";
-                Msg.msg("e",wiad);
+                Msg.msg("e", wiad);
             }
         }
         return ist;
     }
-    
+
     private String marszajuldoplikuxml(Podatnik podatnik, IST ist) {
         String sciezka = null;
         try {
@@ -174,21 +185,21 @@ public class AmazonImportIntrastat implements Serializable {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            String mainfilename = "intrastat"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+            String mainfilename = "intrastat" + podatnik.getNip() + "mcrok" + wpisView.getMiesiacWpisu() + wpisView.getRokWpisuSt() + ".xml";
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            String realPath = ctx.getRealPath("/")+"resources\\xml\\";
-            FileOutputStream fileStream = new FileOutputStream(new File(realPath+mainfilename));
+            String realPath = ctx.getRealPath("/") + "resources\\xml\\";
+            FileOutputStream fileStream = new FileOutputStream(new File(realPath + mainfilename));
             OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
             marshaller.marshal(ist, writer);
             Object[] walidacja = XMLValid.walidujIntrastat(mainfilename);
             String[] zwrot = new String[2];
 //            if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
-                zwrot[0] = mainfilename;
-                zwrot[1] = "ok";
+            zwrot[0] = mainfilename;
+            zwrot[1] = "ok";
 //                Msg.msg("Walidacja Intrastat pomyślna");
-                Msg.msg("Zachowano Intrastat");
-                String exec = "wydrukJPK('"+mainfilename+"')";
-                PrimeFaces.current().executeScript(exec);
+            Msg.msg("Zachowano Intrastat");
+            String exec = "wydrukJPK('" + mainfilename + "')";
+            PrimeFaces.current().executeScript(exec);
 //            } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
 //                zwrot[0] = mainfilename;
 //                zwrot[1] = null;
@@ -201,17 +212,15 @@ public class AmazonImportIntrastat implements Serializable {
         }
         return sciezka;
     }
-    
-    
+
     private Short podsumuj(List<Intrastatwiersz> lista) {
         int suma = 0;
         for (Intrastatwiersz p : lista) {
-            suma = suma +p.getWartoscfaktury();
+            suma = suma + p.getWartoscfaktury();
         }
         return (short) suma;
     }
-   
-    
+
     private IST.Deklaracja.PodmiotZobowiazany zrobpodmiot(WpisView wpisView) {
         ObjectFactory ob = new ObjectFactory();
         IST.Deklaracja.PodmiotZobowiazany pod = ob.createISTDeklaracjaPodmiotZobowiazany();
@@ -220,11 +229,11 @@ public class AmazonImportIntrastat implements Serializable {
         pod.setMiejscowosc(p.getMiejscowosc());
         pod.setKodPocztowy(p.getKodpocztowy());
         pod.setNip(Long.parseLong(p.getNip()));
-        pod.setRegon(Long.parseLong(p.getRegon()+"00000"));
-        pod.setUlicaNumer(p.getUlica()+" "+p.getNrdomu());
+        pod.setRegon(Long.parseLong(p.getRegon() + "00000"));
+        pod.setUlicaNumer(p.getUlica() + " " + p.getNrdomu());
         return pod;
     }
-    
+
     private IST.Deklaracja.Zglaszajacy zrobzglaszajacy(WpisView wpisView) {
         ObjectFactory ob = new ObjectFactory();
         IST.Deklaracja.Zglaszajacy pod = ob.createISTDeklaracjaZglaszajacy();
@@ -233,8 +242,8 @@ public class AmazonImportIntrastat implements Serializable {
         pod.setMiejscowosc(p.getMiejscowosc());
         pod.setKodPocztowy(p.getKodpocztowy());
         pod.setNip(Long.parseLong(p.getNip()));
-        pod.setRegon(Long.parseLong(p.getRegon()+"00000"));
-        pod.setUlicaNumer(p.getUlica()+" "+p.getNrdomu());
+        pod.setRegon(Long.parseLong(p.getRegon() + "00000"));
+        pod.setUlicaNumer(p.getUlica() + " " + p.getNrdomu());
         return pod;
     }
 
@@ -270,8 +279,7 @@ public class AmazonImportIntrastat implements Serializable {
             }
         }
     }
-    
-    
+
     public List<Intrastatwiersz> getLista() {
         return lista;
     }
@@ -279,9 +287,7 @@ public class AmazonImportIntrastat implements Serializable {
     public void setLista(List<Intrastatwiersz> lista) {
         this.lista = lista;
     }
-   
 
-   
     public static void main(String[] args) {
         HashMap<String, String> id_nazwa = new HashMap<>();
         try {
@@ -293,10 +299,10 @@ public class AmazonImportIntrastat implements Serializable {
             int i = 0;
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                if (i>2) {
-                    String nip = row.getCell(46)!=null? row.getCell(46).getStringCellValue():null;
+                if (i > 2) {
+                    String nip = row.getCell(46) != null ? row.getCell(46).getStringCellValue() : null;
                     String id1 = row.getCell(5).getStringCellValue();
-                    if (nip!=null&&!nip.equals("")) {
+                    if (nip != null && !nip.equals("")) {
                         String id = row.getCell(5).getStringCellValue();
                         String nazwa = row.getCell(36).getStringCellValue();
                         id_nazwa.put(id, nazwa);
@@ -305,13 +311,9 @@ public class AmazonImportIntrastat implements Serializable {
                 i++;
             }
         } catch (Exception e) {
-            System.out.println(""); 
+            System.out.println("");
         }
         System.out.println("koniec");
     }
-
-    
-
-  
 
 }
