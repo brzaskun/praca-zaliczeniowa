@@ -124,7 +124,8 @@ public class AmazonTaxually implements Serializable {
             String dataa = xls.X.xData(row.getCell(naglowki.get("Transaction date")));
             klientJPK.setDataSprzedazy(dataa);
             klientJPK.setDataWystawienia(dataa);
-            boolean nabycie = rodzajtransakcji.equals("Movement of own goods (in)") ? true : false;
+            //odwracamu kona ogonem, bo to sa pliki w punktu widzenia innego kraju
+            boolean nabycie = rodzajtransakcji.equals("Movement of own goods (out)") ? true : false;
             String krajcdocelowy = xls.X.xString(row.getCell(naglowki.get("Tax code")));
             krajcdocelowy = krajcdocelowy.substring(krajcdocelowy.length() - 2);
             String krajnadania = xls.X.xString(row.getCell(naglowki.get("Tax code")));
@@ -143,6 +144,8 @@ public class AmazonTaxually implements Serializable {
                 klientJPK.setWnt(true);
                 klientJPK.setWdt(false);
                 klientJPK.setNrKontrahenta(nipprzeciwstawny);
+                 double stawkavat = 0.23;
+                klientJPK.setStawkavat(stawkavat);
             }
             if (czypolska&&(nipwysylki.equals(nipue) || nipodbioru.equals(nipue))) {
                 klientJPK.setKodKrajuNadania(krajcdocelowy);
@@ -162,10 +165,9 @@ public class AmazonTaxually implements Serializable {
                 String kraj = nabycie?krajcdocelowy:krajnadania;
                 double netto = pobierznetto(kraj, row, nabycie, naglowki);
                 klientJPK.setNettowaluta(netto);
-                double vat = pobierzvat(kraj, row, nabycie, naglowki);
+                double vat = pobierzvat(netto);
                 klientJPK.setVatwaluta(vat);
-                double stawkavat = 0.0;
-                klientJPK.setStawkavat(Z.z(vat/netto));
+               
                 double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta);
                 klientJPK.setKurs(kurs);
                 klientJPK.setNetto(Z.z(netto * kurs));
@@ -353,31 +355,36 @@ public class AmazonTaxually implements Serializable {
         }
         return zwrot;
     }
+    
+//     private double pobierzvat(String kraj, Row row, boolean nabycie, Map<String, Integer> naglowki) {
+//        double zwrot = row.get;
+//        switch (kraj) {
+//            case "CZ":
+//                if(nabycie) {
+//                    zwrot = xls.X.xKwota(row.getCell(naglowki.get("3 (VAT)")));
+//                }
+//                break;
+//            case "ES":
+//                if(nabycie) {
+//                    zwrot = xls.X.xKwota(row.getCell(naglowki.get("11 (VAT)")));
+//                }
+//                break;
+//            case "IT":
+//                if(nabycie) {
+//                    zwrot = xls.X.xKwota(row.getCell(naglowki.get("VP4 (VAT)")));
+//                }
+//                break;
+//            case "FR":
+//                if(nabycie) {
+//                    zwrot = xls.X.xKwota(row.getCell(naglowki.get("20 (VAT TOTAL)")));
+//                }
+//                break;
+//        }
+//        return zwrot;
+//    }
 
-    private double pobierzvat(String kraj, Row row, boolean nabycie, Map<String, Integer> naglowki) {
-        double zwrot = 0.0;
-        switch (kraj) {
-            case "CZ":
-                if(nabycie) {
-                    zwrot = xls.X.xKwota(row.getCell(naglowki.get("3 (VAT)")));
-                }
-                break;
-            case "ES":
-                if(nabycie) {
-                    zwrot = xls.X.xKwota(row.getCell(naglowki.get("11 (VAT)")));
-                }
-                break;
-            case "IT":
-                if(nabycie) {
-                    zwrot = xls.X.xKwota(row.getCell(naglowki.get("VP4 (VAT)")));
-                }
-                break;
-            case "FR":
-                if(nabycie) {
-                    zwrot = xls.X.xKwota(row.getCell(naglowki.get("20 (VAT TOTAL)")));
-                }
-                break;
-        }
+    private double pobierzvat(double netto) {
+        double zwrot = Z.z(netto*.23);
         return zwrot;
     }
 
