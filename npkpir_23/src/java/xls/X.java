@@ -87,10 +87,18 @@ public class X {
             switch (celltype) {
                 case BLANK:
                     break;
+                case NUMERIC:
+                    // Jeśli komórka jest liczbą
+                    if (!Double.isNaN(cell.getNumericCellValue())) {
+                        // Komórka typu NUMERIC ma wartość
+                        zwrot = cell.getNumericCellValue();
+                    }
+                    break;
                 case STRING:
                     String pobrane = cell.getStringCellValue();
                     pobrane = pobrane.replace(",", ".");
                     pobrane = pobrane.replace("+", "");
+                    pobrane = pobrane.replace("\"", "");
                     //tego nie moze byc bo w niektorych important minus jest wazny
                     //pobrane = pobrane.replace("-", "");
                     zwrot = Double.valueOf(pobrane);
