@@ -1,0 +1,1615 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2024-10-15T13:15:25.785Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2024</Rok>
+        <Miesiac>9</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>9551899751</NIP>
+            <PelnaNazwa>GM PLAST sp. z o.o.</PelnaNazwa>
+            <Email>info@taxman.biz.pl</Email>
+            <Telefon>605586176</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_17>7146</P_17>
+            <P_18>572</P_18>
+            <P_19>298177</P_19>
+            <P_20>68581</P_20>
+            <P_21>769698</P_21>
+            <P_35>0</P_35>
+            <P_37>1075021</P_37>
+            <P_38>69153</P_38>
+            <P_39>0</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>74086</P_42>
+            <P_43>14261</P_43>
+            <P_48>14261</P_48>
+            <P_49>0</P_49>
+            <P_51>54892</P_51>
+            <P_52>0</P_52>
+            <P_53>0</P_53>
+            <P_62>0</P_62>
+            <P_68>-1648</P_68>
+            <P_69>-379</P_69>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513077704</NrKontrahenta>
+            <NazwaKontrahenta>HALK SERWIS Hubert Kalitowski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 555/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-06-03</DataWystawienia>
+            <DataSprzedazy>2024-06-03</DataSprzedazy>
+            <KorektaPodstawyOpodt>1</KorektaPodstawyOpodt>
+            <TerminPlatnosci>2024-06-17</TerminPlatnosci>
+            <K_19>-1648.27</K_19>
+            <K_20>-379.1</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521927850</NrKontrahenta>
+            <NazwaKontrahenta>GM PLAST Robert Szymanowicz</NazwaKontrahenta>
+            <DowodSprzedazy>FS 787/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>13953.49</K_19>
+            <K_20>3209.3</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521927850</NrKontrahenta>
+            <NazwaKontrahenta>GM PLAST Robert Szymanowicz</NazwaKontrahenta>
+            <DowodSprzedazy>FS 787/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_17>100.00</K_17>
+            <K_18>8.0</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511206296</NrKontrahenta>
+            <NazwaKontrahenta>Lars Laj Polska Sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 788/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>15674.17</K_19>
+            <K_20>3605.06</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>7393957938</NrKontrahenta>
+            <NazwaKontrahenta>GLANEL sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 789/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>7353.52</K_19>
+            <K_20>1691.31</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>7393957938</NrKontrahenta>
+            <NazwaKontrahenta>GLANEL sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 790/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>2326.16</K_19>
+            <K_20>535.02</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>7393957938</NrKontrahenta>
+            <NazwaKontrahenta>GLANEL sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 790/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_17>100.00</K_17>
+            <K_18>8.0</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513242907</NrKontrahenta>
+            <NazwaKontrahenta>LFS GROUP sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 791/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>18821.55</K_19>
+            <K_20>4328.96</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513242907</NrKontrahenta>
+            <NazwaKontrahenta>LFS GROUP sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 791/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_17>100.00</K_17>
+            <K_18>8.0</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>10</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8522079878</NrKontrahenta>
+            <NazwaKontrahenta>PHU AJM EXPO Angela Nowak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 792/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>9193.88</K_19>
+            <K_20>2114.59</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>11</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552550708</NrKontrahenta>
+            <NazwaKontrahenta>UNISEIL POLSKA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 793/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>5124.80</K_19>
+            <K_20>1178.7</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>12</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552550708</NrKontrahenta>
+            <NazwaKontrahenta>UNISEIL POLSKA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 794/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>2135.10</K_19>
+            <K_20>491.07</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>13</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552550708</NrKontrahenta>
+            <NazwaKontrahenta>UNISEIL POLSKA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 794/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_17>100.00</K_17>
+            <K_18>8.0</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>14</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512802801</NrKontrahenta>
+            <NazwaKontrahenta>CAR - TECH P.H.U. Wiliński Paweł</NazwaKontrahenta>
+            <DowodSprzedazy>FS 797/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>5003.77</K_19>
+            <K_20>1150.87</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>15</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521520114</NrKontrahenta>
+            <NazwaKontrahenta>EKO-MIN Lucjan Szymanik</NazwaKontrahenta>
+            <DowodSprzedazy>FS 798/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>2099.29</K_19>
+            <K_20>482.84</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>16</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521520114</NrKontrahenta>
+            <NazwaKontrahenta>EKO-MIN Lucjan Szymanik</NazwaKontrahenta>
+            <DowodSprzedazy>FS 798/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_17>79.32</K_17>
+            <K_18>6.35</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>17</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511735706</NrKontrahenta>
+            <NazwaKontrahenta>"ELEKTROCAR" Grzegorz Krzyżostaniak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 799/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_17>79.32</K_17>
+            <K_18>6.35</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>18</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511735706</NrKontrahenta>
+            <NazwaKontrahenta>"ELEKTROCAR" Grzegorz Krzyżostaniak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 799/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>1935.01</K_19>
+            <K_20>445.05</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>19</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511825355</NrKontrahenta>
+            <NazwaKontrahenta>ELEKTROPLUS Ireneusz Głagolski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 800/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>2399.32</K_19>
+            <K_20>551.84</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>20</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513103264</NrKontrahenta>
+            <NazwaKontrahenta>ELGAT SP. Z O.O.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 801/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>1648.27</K_19>
+            <K_20>379.1</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>21</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513161043</NrKontrahenta>
+            <NazwaKontrahenta>ENVEL Sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 802/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>22863.89</K_19>
+            <K_20>5258.69</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>22</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5632405136</NrKontrahenta>
+            <NazwaKontrahenta>Adrian Charczuk</NazwaKontrahenta>
+            <DowodSprzedazy>FS 803/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>1385.59</K_19>
+            <K_20>318.69</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>23</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513077704</NrKontrahenta>
+            <NazwaKontrahenta>HALK SERWIS Hubert Kalitowski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 805/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>1648.27</K_19>
+            <K_20>379.1</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>24</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513178813</NrKontrahenta>
+            <NazwaKontrahenta>Hyper Plastics s.c.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 806/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>6437.47</K_19>
+            <K_20>1480.62</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>25</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8510208904</NrKontrahenta>
+            <NazwaKontrahenta>FIRMA USŁUGOWA "JAKAR" Jacek Milanowicz</NazwaKontrahenta>
+            <DowodSprzedazy>FS 807/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>3495.72</K_19>
+            <K_20>804.02</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>26</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513171745</NrKontrahenta>
+            <NazwaKontrahenta>JUPITER BACH POLSKA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 810/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>1935.01</K_19>
+            <K_20>445.05</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>27</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6911480255</NrKontrahenta>
+            <NazwaKontrahenta>POZNAR KOIB Zdzisław Poznar</NazwaKontrahenta>
+            <DowodSprzedazy>FS 812/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>1935.01</K_19>
+            <K_20>445.05</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>28</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8471233104</NrKontrahenta>
+            <NazwaKontrahenta>J.P.F. Delivery Service Luiza Yasuda</NazwaKontrahenta>
+            <DowodSprzedazy>FS 816/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>4048.27</K_19>
+            <K_20>931.1</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>29</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>7671607218</NrKontrahenta>
+            <NazwaKontrahenta>NODO Meble Maciej Kozłowski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 817/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>6586.58</K_19>
+            <K_20>1514.91</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>30</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513169777</NrKontrahenta>
+            <NazwaKontrahenta>EVITRON sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 818/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>7198.20</K_19>
+            <K_20>1655.59</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>31</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511288880</NrKontrahenta>
+            <NazwaKontrahenta>ALUTECHNOLOGIA Adam Woźniak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 819/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>3961.52</K_19>
+            <K_20>911.15</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>32</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512531495</NrKontrahenta>
+            <NazwaKontrahenta>ALICANTE Tomasz Jakóbiak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 820/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>2693.12</K_19>
+            <K_20>619.42</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>33</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512531495</NrKontrahenta>
+            <NazwaKontrahenta>ALICANTE Tomasz Jakóbiak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 821/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>8157.98</K_19>
+            <K_20>1876.34</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>34</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513171745</NrKontrahenta>
+            <NazwaKontrahenta>JUPITER BACH POLSKA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 823/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>6624.51</K_19>
+            <K_20>1523.64</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>35</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513171745</NrKontrahenta>
+            <NazwaKontrahenta>JUPITER BACH POLSKA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 824/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>7074.79</K_19>
+            <K_20>1627.2</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>36</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6871910688</NrKontrahenta>
+            <NazwaKontrahenta>Emerald Group Łukasz Miszczyszyn</NazwaKontrahenta>
+            <DowodSprzedazy>FS 825/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>7989.40</K_19>
+            <K_20>1837.56</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>37</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511606340</NrKontrahenta>
+            <NazwaKontrahenta>Pilar-Kos Serwis</NazwaKontrahenta>
+            <DowodSprzedazy>FS 826/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>3408.42</K_19>
+            <K_20>783.94</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>38</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513263565</NrKontrahenta>
+            <NazwaKontrahenta>V-PROTECT  sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 827/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>7540.72</K_19>
+            <K_20>1734.37</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>39</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513263565</NrKontrahenta>
+            <NazwaKontrahenta>V-PROTECT  sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 828/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>5655.54</K_19>
+            <K_20>1300.77</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>40</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5971216461</NrKontrahenta>
+            <NazwaKontrahenta>V-PROTECT Ireneusz Ostojski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 829/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>1885.18</K_19>
+            <K_20>433.59</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>41</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8510303896</NrKontrahenta>
+            <NazwaKontrahenta>REM-BUD Dziublewski Józef</NazwaKontrahenta>
+            <DowodSprzedazy>FS 830/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>352.10</K_19>
+            <K_20>80.98</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>42</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5971751875</NrKontrahenta>
+            <NazwaKontrahenta>DESTYLARNIA SEDINA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 831/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>2549.17</K_19>
+            <K_20>586.31</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>43</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512479748</NrKontrahenta>
+            <NazwaKontrahenta>JG SYSTEM Jarosław Galewicz</NazwaKontrahenta>
+            <DowodSprzedazy>FS 836/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>353.63</K_19>
+            <K_20>81.33</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>44</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512799246</NrKontrahenta>
+            <NazwaKontrahenta>FIRMA HANDLOWO USŁUGOWO PRODUKCYJNA  "MASTER" Michał Konopski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 838/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>3860.13</K_19>
+            <K_20>887.83</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>45</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511824404</NrKontrahenta>
+            <NazwaKontrahenta>Przedsiębiorstwo Remontowo Budowlane JOANNA 3 Mariusz Dębicki</NazwaKontrahenta>
+            <DowodSprzedazy>FS 839/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>353.63</K_19>
+            <K_20>81.33</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>46</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513242244</NrKontrahenta>
+            <NazwaKontrahenta>EWIKS sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 840/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>5460.74</K_19>
+            <K_20>1255.97</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>47</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513242244</NrKontrahenta>
+            <NazwaKontrahenta>EWIKS sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 841/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>4218.68</K_19>
+            <K_20>970.3</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>48</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512773560</NrKontrahenta>
+            <NazwaKontrahenta>ORO-PRODUKT POSKA SP. Z O.O.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 843/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>12859.58</K_19>
+            <K_20>2957.7</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>49</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513171745</NrKontrahenta>
+            <NazwaKontrahenta>JUPITER BACH POLSKA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 844/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>9065.79</K_19>
+            <K_20>2085.13</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>50</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511671076</NrKontrahenta>
+            <NazwaKontrahenta>FOCUS SDRIAN SOBOŃ</NazwaKontrahenta>
+            <DowodSprzedazy>FS 845/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>2693.12</K_19>
+            <K_20>619.42</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>51</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511597434</NrKontrahenta>
+            <NazwaKontrahenta>MJ Marcin Jankowski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 847/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <K_19>352.10</K_19>
+            <K_20>80.98</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>52</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5130259070</NrKontrahenta>
+            <NazwaKontrahenta>GROSNER BAU sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>11/MAG/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-09-03</DataSprzedazy>
+            <K_19>1882.79</K_19>
+            <K_20>433.04</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>53</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512531495</NrKontrahenta>
+            <NazwaKontrahenta>ALICANTE Tomasz Jakóbiak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 848/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>1314.76</K_19>
+            <K_20>302.39</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>54</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512531495</NrKontrahenta>
+            <NazwaKontrahenta>ALICANTE Tomasz Jakóbiak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 848/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_17>2076.81</K_17>
+            <K_18>166.14</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>55</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511288880</NrKontrahenta>
+            <NazwaKontrahenta>ALUTECHNOLOGIA Adam Woźniak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 849/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>648.96</K_19>
+            <K_20>149.26</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>56</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8521927850</NrKontrahenta>
+            <NazwaKontrahenta>GM PLAST Robert Szymanowicz</NazwaKontrahenta>
+            <DowodSprzedazy>FS 850/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>3505.12</K_19>
+            <K_20>806.18</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>57</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5971751875</NrKontrahenta>
+            <NazwaKontrahenta>DESTYLARNIA SEDINA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 851/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>400.64</K_19>
+            <K_20>92.15</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>58</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6871910688</NrKontrahenta>
+            <NazwaKontrahenta>Emerald Group Łukasz Miszczyszyn</NazwaKontrahenta>
+            <DowodSprzedazy>FS 852/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>1361.92</K_19>
+            <K_20>313.24</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>59</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>6871910688</NrKontrahenta>
+            <NazwaKontrahenta>Emerald Group Łukasz Miszczyszyn</NazwaKontrahenta>
+            <DowodSprzedazy>FS 852/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_17>411.62</K_17>
+            <K_18>32.93</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>60</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513169777</NrKontrahenta>
+            <NazwaKontrahenta>EVITRON sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 853/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_17>105.44</K_17>
+            <K_18>8.44</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>61</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513169777</NrKontrahenta>
+            <NazwaKontrahenta>EVITRON sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 853/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>8294.40</K_19>
+            <K_20>1907.71</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>62</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513242244</NrKontrahenta>
+            <NazwaKontrahenta>EWIKS sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 854/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>874.24</K_19>
+            <K_20>201.08</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>63</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511671076</NrKontrahenta>
+            <NazwaKontrahenta>FOCUS SDRIAN SOBOŃ</NazwaKontrahenta>
+            <DowodSprzedazy>FS 855/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>62.72</K_19>
+            <K_20>14.43</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>64</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511671076</NrKontrahenta>
+            <NazwaKontrahenta>FOCUS SDRIAN SOBOŃ</NazwaKontrahenta>
+            <DowodSprzedazy>FS 855/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_17>392.91</K_17>
+            <K_18>31.43</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>65</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>7393957938</NrKontrahenta>
+            <NazwaKontrahenta>GLANEL sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 856/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>71.68</K_19>
+            <K_20>16.49</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>66</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5130259070</NrKontrahenta>
+            <NazwaKontrahenta>GROSNER BAU sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 857/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>211.20</K_19>
+            <K_20>48.58</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>67</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511206296</NrKontrahenta>
+            <NazwaKontrahenta>Lars Laj Polska Sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 858/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>3116.40</K_19>
+            <K_20>716.77</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>68</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513242907</NrKontrahenta>
+            <NazwaKontrahenta>LFS GROUP sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 859/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>641.28</K_19>
+            <K_20>147.49</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>69</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512799246</NrKontrahenta>
+            <NazwaKontrahenta>FIRMA HANDLOWO USŁUGOWO PRODUKCYJNA  "MASTER" Michał Konopski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 860/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>17.92</K_19>
+            <K_20>4.12</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>70</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>7671607218</NrKontrahenta>
+            <NazwaKontrahenta>NODO Meble Maciej Kozłowski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 861/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>1598.72</K_19>
+            <K_20>367.71</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>71</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512773560</NrKontrahenta>
+            <NazwaKontrahenta>ORO-PRODUKT POSKA SP. Z O.O.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 862/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_17>505.17</K_17>
+            <K_18>40.41</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>72</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512773560</NrKontrahenta>
+            <NazwaKontrahenta>ORO-PRODUKT POSKA SP. Z O.O.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 862/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>528.64</K_19>
+            <K_20>121.59</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>73</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511606340</NrKontrahenta>
+            <NazwaKontrahenta>Pilar-Kos Serwis</NazwaKontrahenta>
+            <DowodSprzedazy>FS 863/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>199.68</K_19>
+            <K_20>45.93</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>74</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511606340</NrKontrahenta>
+            <NazwaKontrahenta>Pilar-Kos Serwis</NazwaKontrahenta>
+            <DowodSprzedazy>FS 863/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_17>430.33</K_17>
+            <K_18>34.43</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>75</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9552550708</NrKontrahenta>
+            <NazwaKontrahenta>UNISEIL POLSKA sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 865/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>1139.20</K_19>
+            <K_20>262.02</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>76</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5971216461</NrKontrahenta>
+            <NazwaKontrahenta>V-PROTECT Ireneusz Ostojski</NazwaKontrahenta>
+            <DowodSprzedazy>FS 866/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>1026.88</K_19>
+            <K_20>236.18</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>77</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513263565</NrKontrahenta>
+            <NazwaKontrahenta>V-PROTECT  sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 867/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_17>2357.46</K_17>
+            <K_18>188.6</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>78</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513263565</NrKontrahenta>
+            <NazwaKontrahenta>V-PROTECT  sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 867/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <K_19>6179.52</K_19>
+            <K_20>1421.29</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>79</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513263565</NrKontrahenta>
+            <NazwaKontrahenta>V-PROTECT  sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>FS 868/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-09</DataWystawienia>
+            <DataSprzedazy>2024-09-09</DataSprzedazy>
+            <K_19>711.98</K_19>
+            <K_20>163.76</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>80</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8511735706</NrKontrahenta>
+            <NazwaKontrahenta>"ELEKTROCAR" Grzegorz Krzyżostaniak</NazwaKontrahenta>
+            <DowodSprzedazy>FS 870/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-18</DataWystawienia>
+            <DataSprzedazy>2024-09-18</DataSprzedazy>
+            <K_19>69.12</K_19>
+            <K_20>15.9</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>81</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551899751</NrKontrahenta>
+            <NazwaKontrahenta>"GM PLAST" sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>09/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-09-30</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_17>307.31</K_17>
+            <K_18>24.58</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>82</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9551899751</NrKontrahenta>
+            <NazwaKontrahenta>"GM PLAST" sp. z o.o.</NazwaKontrahenta>
+            <DowodSprzedazy>09/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-09-30</DataSprzedazy>
+            <TypDokumentu>RO</TypDokumentu>
+            <K_19>23654.97</K_19>
+            <K_20>5440.65</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>83</LpSprzedazy>
+            <KodKrajuNadaniaTIN>BE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0444159238</NrKontrahenta>
+            <NazwaKontrahenta>ALL CONCEPT SPRL</NazwaKontrahenta>
+            <DowodSprzedazy>14/th/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-09-30</DataSprzedazy>
+            <K_21>769698.00</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>84</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>ADAM GLANC</NazwaKontrahenta>
+            <DowodSprzedazy>FS 869/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-10</DataWystawienia>
+            <DataSprzedazy>2024-09-10</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_17>226.56</K_17>
+            <K_18>52.11</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>85</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>Zarzycki Radosław Paweł</NazwaKontrahenta>
+            <DowodSprzedazy>FS 832/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_15>285.13</K_15>
+            <K_16>65.58</K_16>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>86</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>ADAM GLANC</NazwaKontrahenta>
+            <DowodSprzedazy>FS 796/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_19>2146.27</K_19>
+            <K_20>493.64</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>87</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>MYKHALEVSKYI SERGII</NazwaKontrahenta>
+            <DowodSprzedazy>FS 814/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_15>1935.01</K_15>
+            <K_16>445.05</K_16>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>88</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>KOPCZYŃSKI MARCIN</NazwaKontrahenta>
+            <DowodSprzedazy>FS 837/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_19>351.96</K_19>
+            <K_20>80.95</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>89</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>MARCIN JANUSZ MICHTA</NazwaKontrahenta>
+            <DowodSprzedazy>FS 809/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_17>1935.01</K_17>
+            <K_18>445.05</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>90</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>JAKUBIAK MARCIN</NazwaKontrahenta>
+            <DowodSprzedazy>FS 808/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_15>1399.24</K_15>
+            <K_16>321.83</K_16>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>91</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>Zarzycki Radosław Paweł</NazwaKontrahenta>
+            <DowodSprzedazy>FS 833/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_15>285.13</K_15>
+            <K_16>65.58</K_16>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>92</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>GÓRNY MARIUSZ</NazwaKontrahenta>
+            <DowodSprzedazy>FS 786/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_19>56.34</K_19>
+            <K_20>5.66</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>93</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>WOŻNIAK ARTUR JANUSZ</NazwaKontrahenta>
+            <DowodSprzedazy>FS 815/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_17>2769.21</K_17>
+            <K_18>625.02</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>94</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>KUPŚ RAFAŁ ARTUR</NazwaKontrahenta>
+            <DowodSprzedazy>FS 834/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_19>628.39</K_19>
+            <K_20>144.53</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>95</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>TĘCZA PIOTR</NazwaKontrahenta>
+            <DowodSprzedazy>FS 822/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_19>1795.41</K_19>
+            <K_20>412.94</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>96</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>ŁUKASZEWICZ TOMASZ</NazwaKontrahenta>
+            <DowodSprzedazy>FS 795/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_17>2197.47</K_17>
+            <K_18>493.52</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>97</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>PRZEMYSŁAW MIELCAREK</NazwaKontrahenta>
+            <DowodSprzedazy>FS 846/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_17>392.29</K_17>
+            <K_18>90.23</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>98</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>GABRYŚ PIOTR</NazwaKontrahenta>
+            <DowodSprzedazy>FS 804/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_15>1935.01</K_15>
+            <K_16>445.05</K_16>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>99</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>ŁUKASZEWICZ TOMASZ</NazwaKontrahenta>
+            <DowodSprzedazy>FS 871/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-18</DataWystawienia>
+            <DataSprzedazy>2024-09-18</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_17>208.64</K_17>
+            <K_18>47.99</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>100</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>LORY GERMANY TRADING GMBH</NazwaKontrahenta>
+            <DowodSprzedazy>FS 811/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_19>1935.01</K_19>
+            <K_20>445.05</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>101</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>TĘCZA PIOTR</NazwaKontrahenta>
+            <DowodSprzedazy>FS 835/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_19>538.62</K_19>
+            <K_20>123.88</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>102</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>ŁUKASZEWICZ TOMASZ</NazwaKontrahenta>
+            <DowodSprzedazy>FS 842/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_19>356.67</K_19>
+            <K_20>82.03</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>103</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>TĘCZA PIOTR</NazwaKontrahenta>
+            <DowodSprzedazy>FS 864/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-04</DataWystawienia>
+            <DataSprzedazy>2024-09-04</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_17>371.20</K_17>
+            <K_18>85.38</K_18>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>104</LpSprzedazy>
+            <NrKontrahenta>brak nip indycentalnego</NrKontrahenta>
+            <NazwaKontrahenta>ARTUR RZĄCA</NazwaKontrahenta>
+            <DowodSprzedazy>FS 813/MCH/2024</DowodSprzedazy>
+            <DataWystawienia>2024-09-02</DataWystawienia>
+            <DataSprzedazy>2024-09-02</DataSprzedazy>
+            <TypDokumentu>FP</TypDokumentu>
+            <K_15>2213.72</K_15>
+            <K_16>494.16</K_16>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>83</LiczbaWierszySprzedazy>
+            <PodatekNalezny>69152.31</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1231291630</NrDostawcy>
+            <NazwaDostawcy>PRZYJACIELE KAWY sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>kcpl-71066</DowodZakupu>
+            <DataZakupu>2024-08-14</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>186.98</K_42>
+            <K_43>43.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8762459238</NrDostawcy>
+            <NazwaDostawcy>RESPECT ENERGY S.A.</NazwaDostawcy>
+            <DowodZakupu>f/skk/2024/9/23471/1</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>19646.11</K_42>
+            <K_43>4518.61</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822377160</NrDostawcy>
+            <NazwaDostawcy>ENEA OPERATOR sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>p/p/10024131/14/24</DowodZakupu>
+            <DataZakupu>2024-09-01</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>15331.25</K_42>
+            <K_43>3526.19</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261040567</NrDostawcy>
+            <NazwaDostawcy>T mobile Polska SA</NazwaDostawcy>
+            <DowodZakupu>700095680924</DowodZakupu>
+            <DataZakupu>2024-09-01</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>1285.00</K_42>
+            <K_43>295.55</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5260250995</NrDostawcy>
+            <NazwaDostawcy>ORANGE POLSKA S.A.</NazwaDostawcy>
+            <DowodZakupu>24080010233384</DowodZakupu>
+            <DataZakupu>2024-09-01</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>500.17</K_42>
+            <K_43>115.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>14452k1/1457/24</DowodZakupu>
+            <DataZakupu>2024-09-01</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>240.30</K_42>
+            <K_43>27.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822377160</NrDostawcy>
+            <NazwaDostawcy>ENEA OPERATOR sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>p/p/10024131/15/24</DowodZakupu>
+            <DataZakupu>2024-09-02</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>653.54</K_42>
+            <K_43>150.31</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7121016682</NrDostawcy>
+            <NazwaDostawcy>Pekao Leasing Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>32/d17668/l/0924</DowodZakupu>
+            <DataZakupu>2024-09-02</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>2782.90</K_42>
+            <K_43>320.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7121016682</NrDostawcy>
+            <NazwaDostawcy>Pekao Leasing Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>32/n17667/l/924</DowodZakupu>
+            <DataZakupu>2024-09-02</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>13861.21</K_42>
+            <K_43>1594.04</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5213202664</NrDostawcy>
+            <NazwaDostawcy>TOYOTA LEASING POLSKA Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>621/09/2024</DowodZakupu>
+            <DataZakupu>2024-09-02</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>2282.89</K_42>
+            <K_43>262.53</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552413963</NrDostawcy>
+            <NazwaDostawcy>DNHS PARK Sp. z o.o. sp.kom.</NazwaDostawcy>
+            <DowodZakupu>11970k27/7877/24</DowodZakupu>
+            <DataZakupu>2024-09-02</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>125.12</K_42>
+            <K_43>14.39</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9532640176</NrDostawcy>
+            <NazwaDostawcy>ENVIO GROUP POLAND sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>94/09/24</DowodZakupu>
+            <DataZakupu>2024-09-03</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>3082.46</K_42>
+            <K_43>708.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>11/2024/gmpl75</DowodZakupu>
+            <DataZakupu>2024-09-03</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>5870.00</K_42>
+            <K_43>1350.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5263041909</NrDostawcy>
+            <NazwaDostawcy>zooplus SE </NazwaDostawcy>
+            <DowodZakupu>353971835</DowodZakupu>
+            <DataZakupu>2024-09-04</DataZakupu>
+            <DataWplywu>2024-09-04</DataWplywu>
+            <K_42>181.30</K_42>
+            <K_43>14.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811897358</NrDostawcy>
+            <NazwaDostawcy>LIDL sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>2109/3056/40924/01</DowodZakupu>
+            <DataZakupu>2024-09-04</DataZakupu>
+            <DataWplywu>2024-09-04</DataWplywu>
+            <K_42>829.76</K_42>
+            <K_43>67.54</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8510004202</NrDostawcy>
+            <NazwaDostawcy>Apex Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>4733/0/2024</DowodZakupu>
+            <DataZakupu>2024-09-04</DataZakupu>
+            <DataWplywu>2024-09-04</DataWplywu>
+            <K_42>224.65</K_42>
+            <K_43>51.66</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009959</NrDostawcy>
+            <NazwaDostawcy>CASTORAMA POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>66326/374</DowodZakupu>
+            <DataZakupu>2024-09-04</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>82.54</K_42>
+            <K_43>18.99</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513212846</NrDostawcy>
+            <NazwaDostawcy>ZAKŁAD WODOCIĄGÓW I KANALIZACJI POLICE sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>17890/24</DowodZakupu>
+            <DataZakupu>2024-09-04</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>258.01</K_42>
+            <K_43>20.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8512631050</NrDostawcy>
+            <NazwaDostawcy>Matusiewicz Leszek </NazwaDostawcy>
+            <DowodZakupu>4/09/2024</DowodZakupu>
+            <DataZakupu>2024-09-05</DataZakupu>
+            <DataWplywu>2024-09-05</DataWplywu>
+            <K_42>81.30</K_42>
+            <K_43>9.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9552147527</NrDostawcy>
+            <NazwaDostawcy>SPEC-GLAS sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>17/z/9/2024</DowodZakupu>
+            <DataZakupu>2024-09-06</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>221.32</K_42>
+            <K_43>50.9</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262483798</NrDostawcy>
+            <NazwaDostawcy>AXPO POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>10032311/09/24/9</DowodZakupu>
+            <DataZakupu>2024-09-06</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>711.97</K_42>
+            <K_43>163.76</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5941473874</NrDostawcy>
+            <NazwaDostawcy>"EURO" KIELA Spółka Jawna</NazwaDostawcy>
+            <DowodZakupu>10606k2/7516/24</DowodZakupu>
+            <DataZakupu>2024-09-07</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>447.87</K_42>
+            <K_43>51.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>11025k1/219/24</DowodZakupu>
+            <DataZakupu>2024-09-09</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>397.29</K_42>
+            <K_43>45.69</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8513073557</NrDostawcy>
+            <NazwaDostawcy>Auto Eksport s.c.</NazwaDostawcy>
+            <DowodZakupu>578/2024</DowodZakupu>
+            <DataZakupu>2024-09-11</DataZakupu>
+            <DataWplywu>2024-09-11</DataWplywu>
+            <K_42>79.67</K_42>
+            <K_43>9.16</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>8355k2/4134/24</DowodZakupu>
+            <DataZakupu>2024-09-13</DataZakupu>
+            <DataWplywu>2024-09-13</DataWplywu>
+            <K_42>162.60</K_42>
+            <K_43>18.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822377160</NrDostawcy>
+            <NazwaDostawcy>ENEA OPERATOR sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>p/p/10024131/13/24</DowodZakupu>
+            <DataZakupu>2024-09-13</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>-0.13</K_42>
+            <K_43>-0.03</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>9879k2/219/24</DowodZakupu>
+            <DataZakupu>2024-09-16</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>337.46</K_42>
+            <K_43>38.81</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5213202664</NrDostawcy>
+            <NazwaDostawcy>TOYOTA LEASING POLSKA Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>3402/09/2024/toip</DowodZakupu>
+            <DataZakupu>2024-09-17</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>240.00</K_42>
+            <K_43>27.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>16849k2/1281/24</DowodZakupu>
+            <DataZakupu>2024-09-19</DataZakupu>
+            <DataWplywu>2024-09-19</DataWplywu>
+            <K_42>162.80</K_42>
+            <K_43>18.73</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>15551k1/1457/24</DowodZakupu>
+            <DataZakupu>2024-09-20</DataZakupu>
+            <DataWplywu>2024-09-20</DataWplywu>
+            <K_42>249.50</K_42>
+            <K_43>28.69</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7811897358</NrDostawcy>
+            <NazwaDostawcy>LIDL sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>2109/3271/210924/01</DowodZakupu>
+            <DataZakupu>2024-09-21</DataZakupu>
+            <DataWplywu>2024-09-21</DataWplywu>
+            <K_42>266.85</K_42>
+            <K_43>44.48</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7792433421</NrDostawcy>
+            <NazwaDostawcy>GRUPA OLX sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>2025/1400145939</DowodZakupu>
+            <DataZakupu>2024-09-23</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>80.49</K_42>
+            <K_43>18.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>15719k1/1457/24</DowodZakupu>
+            <DataZakupu>2024-09-24</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>337.60</K_42>
+            <K_43>38.83</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>11746k1/219/24</DowodZakupu>
+            <DataZakupu>2024-09-25</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>321.70</K_42>
+            <K_43>36.99</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>35</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7740001454</NrDostawcy>
+            <NazwaDostawcy>POLSKI KONCERN NAFTOWY ORLEN S.A.</NazwaDostawcy>
+            <DowodZakupu>10299k2/219/24</DowodZakupu>
+            <DataZakupu>2024-09-27</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>263.64</K_42>
+            <K_43>30.32</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>36</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5130259070</NrDostawcy>
+            <NazwaDostawcy>GROSNER BAU sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1/09/2024</DowodZakupu>
+            <DataZakupu>2024-09-30</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>500.00</K_42>
+            <K_43>115.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>37</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8522456855</NrDostawcy>
+            <NazwaDostawcy>T.Brzozowski &amp; M. Amerski s.c.</NazwaDostawcy>
+            <DowodZakupu>308/2024</DowodZakupu>
+            <DataZakupu>2024-09-30</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>1800.00</K_42>
+            <K_43>414.0</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>37</LiczbaWierszyZakupow>
+            <PodatekNaliczony>14260.74</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

@@ -1148,12 +1148,12 @@ public class EwidencjaVatView implements Serializable {
                     Predicate<EVatwpisFK> datazbiezacegomiesiaca = item->Data.czydatajestwmcu(item.getUlganazledlugidatapierwszaplus90(),rok,mc);
                     if (rokbiezacy!=null) {
                         rokbiezacy.removeIf(datazbiezacegomiesiaca.negate());
-                        rokbiezacy.stream().forEach(EVatwpisFK::zmienZnak);
+                        rokbiezacy.stream().forEach(element -> element.zmienZnak());
                         zwrot.addAll(rokbiezacy);
                     }
                     if (rokubiegly!=null) {
                         rokubiegly.removeIf(datazbiezacegomiesiaca.negate());
-                        rokubiegly.stream().forEach(EVatwpisFK::zmienZnak);
+                        rokubiegly.stream().forEach(element -> element.zmienZnak());
                         zwrot.addAll(rokubiegly);
                     }
                     break;
@@ -1161,12 +1161,12 @@ public class EwidencjaVatView implements Serializable {
                     Predicate<EVatwpisFK> datazbiezacegomiesiaca2 = item->Data.czydatajestwkwartale(item.getUlganazledlugidatapierwszaplus90(),rok,mc);
                     if (rokbiezacy!=null) {
                         rokbiezacy.removeIf(datazbiezacegomiesiaca2.negate());
-                        rokbiezacy.stream().forEach(EVatwpisFK::zmienZnak);
+                        rokbiezacy.stream().forEach(element -> element.zmienZnak());
                         zwrot.addAll(rokbiezacy);
                     }
                     if (rokubiegly!=null) {
                         rokubiegly.removeIf(datazbiezacegomiesiaca2.negate());
-                        rokubiegly.stream().forEach(EVatwpisFK::zmienZnak);
+                        rokubiegly.stream().forEach(element -> element.zmienZnak());
                         zwrot.addAll(rokubiegly);
                     }
                     break;
