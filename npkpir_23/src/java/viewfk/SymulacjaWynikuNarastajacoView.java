@@ -6,6 +6,7 @@
 package viewfk;
 
 import comparator.Stratacomparator;
+import comparator.WynikFKRokMccomparator;
 import dao.PodatnikUdzialyDAO;
 import dao.StrataDAO;
 import dao.WynikFKRokMcDAO;
@@ -93,6 +94,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         this.listamiesiecypoprzednich = Collections.synchronizedList(new ArrayList<>());
         this.dozaplaty = Collections.synchronizedList(new ArrayList<>());
         List<WynikFKRokMc> listapobrana = wynikFKRokMcDAO.findWynikFKPodatnikRok(wpisView);
+        Collections.sort(listapobrana, new WynikFKRokMccomparator());
         int biezacymc = Integer.parseInt(wpisView.getMiesiacWpisu().equals("CR")?Data.aktualnyMc():wpisView.getMiesiacWpisu());
         for (Iterator<WynikFKRokMc> p = listapobrana.iterator(); p.hasNext(); ) {
             WynikFKRokMc r = (WynikFKRokMc) p.next();

@@ -17,13 +17,16 @@ public class WynikFKRokMccomparator implements Comparator<WynikFKRokMc> {
 
     @Override
     public int compare(WynikFKRokMc o1, WynikFKRokMc o2) {
-        if (o1.getMc().equals("R") || o2.getMc().equals("R")) {
-            return 1;
-        } else {
-            int o1suma = Integer.parseInt(o1.getMc());
-            int o2suma = Integer.parseInt(o2.getMc());
-            return (o1suma>o2suma ? 1 : (o1suma<o2suma ? -1 : 0));
+        int rokCompare = o1.getRok().compareTo(o2.getRok());
+        
+        // Jeśli lata są różne, zwróć wynik porównania lat
+        if (rokCompare != 0) {
+            return rokCompare;
+        }
+        
+        // Jeśli lata są takie same, porównaj miesiące
+        return o1.getMc().compareTo(o2.getMc());
         }
     }
     
-}
+

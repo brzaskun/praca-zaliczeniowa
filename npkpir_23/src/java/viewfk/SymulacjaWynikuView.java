@@ -9,6 +9,7 @@ import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
 import beansFK.StronaWierszaBean;
 import comparator.SaldoKontocomparator;
+import comparator.WynikFKRokMccomparator;
 import dao.CechazapisuDAOfk;
 import dao.KontoDAOfk;
 import dao.PodatnikUdzialyDAO;
@@ -666,6 +667,7 @@ public class SymulacjaWynikuView implements Serializable {
             double wynikfinnarastajaco = 0.0;
             double wynikpodatkowynarastajaco = 0.0;
             List<WynikFKRokMc> wynikpoprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokFirma(wpisView);
+            Collections.sort(wynikpoprzedniemce, new WynikFKRokMccomparator());
             double podatekzaplacony = 0.0;
             for (WynikFKRokMc p : wynikpoprzedniemce) {
                 if (Mce.getMiesiacToNumber().get(p.getMc()) < Mce.getMiesiacToNumber().get(Data.getMc(bilansnadzien))) {
