@@ -56,9 +56,9 @@ public class PdfBaselinker  {
             document.add(Chunk.NEWLINE);
             
             // Tworzenie tabeli PDF (5 kolumn: Kraj, Pelny Numer, Netto, VAT, Kwota VAT, Brutto)
-            PdfPTable table = new PdfPTable(6);
-            table.setWidthPercentage(75);
-           table.setWidths(new int[]{3, 2, 3, 2, 2, 2});
+            PdfPTable table = new PdfPTable(8);
+            table.setWidthPercentage(85);
+           table.setWidths(new int[]{3, 2, 3, 2, 2, 2, 2, 2});
             
             // Nagłówki tabeli
             addTableHeader(table);
@@ -165,7 +165,7 @@ public class PdfBaselinker  {
     
     // Metoda do dodania nagłówków tabeli
     private static void addTableHeader(PdfPTable table) {
-        Stream.of("Kraj", "Pełny Numer", "Netto", "VAT", "Kwota VAT", "Brutto")
+        Stream.of("Kraj", "Pełny Numer", "Netto", "Kwota VAT", "Brutto", "Kurs", "Netto PLN", "VAT PLN")
             .forEach(columnTitle -> {
                 table.addCell(ustawfrazeAlign(columnTitle,"center",9));
             });
@@ -176,9 +176,15 @@ public class PdfBaselinker  {
         table.addCell(ustawfrazeAlign(kraj,"center",8));
         table.addCell(ustawfrazeAlign(pelnyNumer,"center",8));
         table.addCell(ustawfrazeAlign(PdfFont.formatujLiczba(Z.z(result.getNetto())), "right",8));
-        table.addCell(ustawfrazeAlign(PdfFont.formatujLiczba(Z.z(result.getVat())), "right",8));
         table.addCell(ustawfrazeAlign(PdfFont.formatujLiczba(Z.z(result.getKwotaVat())), "right",8));
         table.addCell(ustawfrazeAlign(PdfFont.formatujLiczba(Z.z(result.getBrutto())), "right",8));
+        double kurs = 0.0;
+        if (result.getNetto()!=0.0) {
+            kurs = result.getNettopln()/result.getNetto();
+        }
+        table.addCell(ustawfrazeAlign(PdfFont.formatujKurs(Z.z6(kurs)), "right",8));
+        table.addCell(ustawfrazeAlign(PdfFont.formatujLiczba(Z.z(result.getNettopln())), "right",8));
+        table.addCell(ustawfrazeAlign(PdfFont.formatujLiczba(Z.z(result.getVatpln())), "right",8));
     }
 
 
@@ -241,6 +247,8 @@ public class PdfBaselinker  {
             result.setVat(result.getVat() + record.getVat());
             result.setKwotaVat(result.getKwotaVat() + record.getKwotaVat());
             result.setBrutto(result.getBrutto() + record.getBrutto());
+            result.setNettopln(result.getNettopln() + record.getNettopln());
+            result.setVatpln(result.getVatpln() + record.getVatpln());
         }
         return result;
     }
@@ -250,6 +258,8 @@ public class PdfBaselinker  {
 class SummaryResult {
     private double netto;
     private double vat;
+    private double nettopln;
+    private double vatpln;
     private double kwotaVat;
     private double brutto;
 
@@ -265,5 +275,22 @@ class SummaryResult {
 
     public double getBrutto() { return brutto; }
     public void setBrutto(double brutto) { this.brutto = brutto; }
+
+    public double getNettopln() {
+        return nettopln;
+    }
+
+    public void setNettopln(double nettopln) {
+        this.nettopln = nettopln;
+    }
+
+    public double getVatpln() {
+        return vatpln;
+    }
+
+    public void setVatpln(double vatpln) {
+        this.vatpln = vatpln;
+    }
+    
 }
 

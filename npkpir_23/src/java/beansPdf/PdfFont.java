@@ -343,8 +343,8 @@ public class PdfFont {
     
     public static String formatujKurs(Double wsad) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        formatter.setMinimumFractionDigits(4);
-        formatter.setMaximumFractionDigits(4);
+        formatter.setMinimumFractionDigits(5);
+        formatter.setMaximumFractionDigits(5);
         formatter.setGroupingUsed(true);
         try {
             String moneyString = formatter.format(wsad);

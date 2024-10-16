@@ -162,7 +162,7 @@ public class AmazonTaxually implements Serializable {
                     waluta = "CZK";
                 }
                 klientJPK.setWaluta(waluta);
-                String kraj = nabycie?krajcdocelowy:krajnadania;
+                String kraj = nabycie?krajnadania:krajcdocelowy;
                 double netto = pobierznetto(kraj, row, nabycie, naglowki);
                 klientJPK.setNettowaluta(netto);
                 double vat = pobierzvat(netto);
@@ -325,28 +325,28 @@ public class AmazonTaxually implements Serializable {
         double zwrot = 0.0;
         switch (kraj) {
             case "CZ":
-                if(nabycie) {
+                if(nabycie==false) {
                     zwrot = xls.X.xKwota(row.getCell(naglowki.get("3 (NET)")));
                 } else {
                     zwrot = xls.X.xKwota(row.getCell(naglowki.get("20 (NET)")));
                 }
                 break;
             case "ES":
-                if(nabycie) {
+                if(nabycie==false) {
                     zwrot = xls.X.xKwota(row.getCell(naglowki.get("10 (NET)")));
                 } else {
                     zwrot = xls.X.xKwota(row.getCell(naglowki.get("124 (NET)")));
                 }
                 break;
             case "IT":
-                if(nabycie) {
+                if(nabycie==false) {
                     zwrot = xls.X.xKwota(row.getCell(naglowki.get("VP3 (NET)")));
                 } else {
                     zwrot = xls.X.xKwota(row.getCell(naglowki.get("VP2 (NET)")));
                 }
                 break;
             case "FR":
-                if(nabycie) {
+                if(nabycie==false) {
                     zwrot = xls.X.xKwota(row.getCell(naglowki.get("B2 (NET)")));
                 } else {
                     zwrot = xls.X.xKwota(row.getCell(naglowki.get("F2 (NET)")));
@@ -391,13 +391,13 @@ public class AmazonTaxually implements Serializable {
     private String pobierznip(String krajcdocelowy, String krajnadania) {
         String zwrot = "zły kraj";
         if (krajcdocelowy.equals("CZ")||krajnadania.equals("CZ")) {
-            zwrot = "nip czeski";
+            zwrot = "CZ685339188";
         } else if (krajcdocelowy.equals("ES")||krajnadania.equals("ES")) {
-            zwrot = "nip hiszpanski";
+            zwrot = "ESN0076782B";
         } else if (krajcdocelowy.equals("IT")||krajnadania.equals("IT")) {
-            zwrot = "nip włoski";
+            zwrot = "IT00277329991";
         } else if (krajcdocelowy.equals("FR")||krajnadania.equals("FR")) {
-            zwrot = "nip francuski";
+            zwrot = "FR71892169095";
         }
         return zwrot;
     }

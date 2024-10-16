@@ -25,6 +25,8 @@ public class AmazonBaselinkerRecord implements Serializable {
     private String dataSprzedazy;
     private double netto;
     private double vat;
+    private double nettopln;
+    private double vatpln;
     private double kwotaVat;
     private double brutto;
     private String sposobPlatnosci;
@@ -128,6 +130,22 @@ public class AmazonBaselinkerRecord implements Serializable {
 
     public void setVat(double vat) {
         this.vat = vat;
+    }
+
+    public double getNettopln() {
+        return nettopln;
+    }
+
+    public void setNettopln(double nettopln) {
+        this.nettopln = nettopln;
+    }
+
+    public double getVatpln() {
+        return vatpln;
+    }
+
+    public void setVatpln(double vatpln) {
+        this.vatpln = vatpln;
     }
 
     public double getKwotaVat() {
