@@ -56,9 +56,9 @@ public class PdfBaselinker  {
             document.add(Chunk.NEWLINE);
             
             // Tworzenie tabeli PDF (5 kolumn: Kraj, Pelny Numer, Netto, VAT, Kwota VAT, Brutto)
-            PdfPTable table = new PdfPTable(8);
+            PdfPTable table = new PdfPTable(9);
             table.setWidthPercentage(85);
-           table.setWidths(new int[]{3, 2, 3, 2, 2, 2, 2, 2});
+           table.setWidths(new int[]{3, 2, 2,1, 2, 2, 2, 2, 2});
             
             // Nagłówki tabeli
             addTableHeader(table);
@@ -80,6 +80,7 @@ public class PdfBaselinker  {
         } catch (Exception e) {
             e.printStackTrace();
         }
+//<editor-fold defaultstate="collapsed" desc="comment">
 //        Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
 //        String nazwapliku = "obroty" + wpisView.getPodatnikWpisu() + ".pdf";
 //        PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR(nazwapliku));
@@ -162,10 +163,11 @@ public class PdfBaselinker  {
 //        PrimeFaces.current().executeScript("wydrukobroty('"+wpisView.getPodatnikWpisu()+"');");
 //        Msg.msg("i", "Wydrukowano obroty");
     }
+//</editor-fold>
     
     // Metoda do dodania nagłówków tabeli
     private static void addTableHeader(PdfPTable table) {
-        Stream.of("Kraj", "Pełny Numer", "Netto", "Kwota VAT", "Brutto", "Kurs", "Netto PLN", "VAT PLN")
+        Stream.of("Kraj", "Pełny Numer", "Netto", "Stawka", "Kwota VAT", "Brutto", "Kurs", "Netto PLN", "VAT PLN")
             .forEach(columnTitle -> {
                 table.addCell(ustawfrazeAlign(columnTitle,"center",9));
             });
@@ -176,6 +178,7 @@ public class PdfBaselinker  {
         table.addCell(ustawfrazeAlign(kraj,"center",8));
         table.addCell(ustawfrazeAlign(pelnyNumer,"center",8));
         table.addCell(ustawfrazeAlign(PdfFont.formatujLiczba(Z.z(result.getNetto())), "right",8));
+        table.addCell(ustawfrazeAlign(PdfFont.formatujLiczba(Z.z(result.getVat())), "right",8));
         table.addCell(ustawfrazeAlign(PdfFont.formatujLiczba(Z.z(result.getKwotaVat())), "right",8));
         table.addCell(ustawfrazeAlign(PdfFont.formatujLiczba(Z.z(result.getBrutto())), "right",8));
         double kurs = 0.0;
@@ -244,7 +247,7 @@ public class PdfBaselinker  {
         SummaryResult result = new SummaryResult();
         for (AmazonBaselinkerRecord record : records) {
             result.setNetto(result.getNetto() + record.getNetto());
-            result.setVat(result.getVat() + record.getVat());
+            result.setVat(record.getVat());
             result.setKwotaVat(result.getKwotaVat() + record.getKwotaVat());
             result.setBrutto(result.getBrutto() + record.getBrutto());
             result.setNettopln(result.getNettopln() + record.getNettopln());

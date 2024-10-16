@@ -122,61 +122,66 @@ public class AmazonTaxually implements Serializable {
             klientJPK.setDowodSprzedazy(rodzajtransakcji);
             klientJPK.setSerial(serial);
             String dataa = xls.X.xData(row.getCell(naglowki.get("Transaction date")));
-            klientJPK.setDataSprzedazy(dataa);
-            klientJPK.setDataWystawienia(dataa);
-            //odwracamu kona ogonem, bo to sa pliki w punktu widzenia innego kraju
-            boolean nabycie = rodzajtransakcji.equals("Movement of own goods (out)") ? true : false;
-            String krajcdocelowy = xls.X.xString(row.getCell(naglowki.get("Tax code")));
-            krajcdocelowy = krajcdocelowy.substring(krajcdocelowy.length() - 2);
-            String krajnadania = xls.X.xString(row.getCell(naglowki.get("Tax code")));
-            krajnadania = krajnadania.substring(krajnadania.length() - 4, krajnadania.length() - 2);
-            klientJPK.setJurysdykcja(krajcdocelowy);
-            String nipwysylki = "PL8513251349";
-            String nipodbioru = "PL8513251349";
-            boolean czypolska = krajnadania.equals("PL")||krajcdocelowy.equals("PL");
-            String nipprzeciwstawny = pobierznip(krajcdocelowy,krajnadania);
-            if (nabycie == false) {
-                klientJPK.setWnt(false);
-                klientJPK.setWdt(true);
-                klientJPK.setStawkavat(0.0);
-                klientJPK.setNrKontrahenta(nipprzeciwstawny);
-            } else {
-                klientJPK.setWnt(true);
-                klientJPK.setWdt(false);
-                klientJPK.setNrKontrahenta(nipprzeciwstawny);
-                 double stawkavat = 0.23;
-                klientJPK.setStawkavat(stawkavat);
-            }
-            if (czypolska&&(nipwysylki.equals(nipue) || nipodbioru.equals(nipue))) {
-                klientJPK.setKodKrajuNadania(krajcdocelowy);
-                klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
-                klientJPK.setNazwaKontrahenta(wpisView.getPrintNazwa());
-                klientJPK.setRok(wpisView.getRokWpisuSt());
-                klientJPK.setMc(wpisView.getMiesiacWpisu());
-                klientJPK.setAmazontax0additional1(1);
-                String waluta = "EUR";
-                if (nabycie&&krajnadania.equals("CZ")) {
-                    waluta = "CZK";
+            if (data.Data.czydatajestwmcu(dataa, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu())) {
+                klientJPK.setDataSprzedazy(dataa);
+                klientJPK.setDataWystawienia(dataa);
+                //odwracamu kona ogonem, bo to sa pliki w punktu widzenia innego kraju
+                boolean nabycie = rodzajtransakcji.equals("Movement of own goods (out)") ? true : false;
+                String krajcdocelowy = xls.X.xString(row.getCell(naglowki.get("Tax code")));
+                krajcdocelowy = krajcdocelowy.substring(krajcdocelowy.length() - 2);
+                String krajnadania = xls.X.xString(row.getCell(naglowki.get("Tax code")));
+                krajnadania = krajnadania.substring(krajnadania.length() - 4, krajnadania.length() - 2);
+                klientJPK.setJurysdykcja(krajcdocelowy);
+                String nipwysylki = "PL8513251349";
+                String nipodbioru = "PL8513251349";
+                boolean czypolska = krajnadania.equals("PL")||krajcdocelowy.equals("PL");
+                String nipprzeciwstawny = pobierznip(krajcdocelowy,krajnadania);
+                if (nabycie == false) {
+                    klientJPK.setWnt(false);
+                    klientJPK.setWdt(true);
+                    klientJPK.setStawkavat(0.0);
+                    klientJPK.setNrKontrahenta(nipprzeciwstawny);
+                } else {
+                    klientJPK.setWnt(true);
+                    klientJPK.setWdt(false);
+                    klientJPK.setNrKontrahenta(nipprzeciwstawny);
+                     double stawkavat = 0.23;
+                    klientJPK.setStawkavat(stawkavat);
                 }
-                if (nabycie==false&&krajcdocelowy.equals("CZ")) {
-                    waluta = "CZK";
+                if (czypolska&&(nipwysylki.equals(nipue) || nipodbioru.equals(nipue))) {
+                    klientJPK.setKodKrajuNadania(krajcdocelowy);
+                    klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
+                    klientJPK.setNazwaKontrahenta(wpisView.getPrintNazwa());
+                    klientJPK.setRok(wpisView.getRokWpisuSt());
+                    klientJPK.setMc(wpisView.getMiesiacWpisu());
+                    klientJPK.setAmazontax0additional1(1);
+                    String waluta = "EUR";
+                    if (nabycie&&krajnadania.equals("CZ")) {
+                        waluta = "CZK";
+                    }
+                    if (nabycie==false&&krajcdocelowy.equals("CZ")) {
+                        waluta = "CZK";
+                    }
+                    klientJPK.setWaluta(waluta);
+                    String kraj = nabycie?krajnadania:krajcdocelowy;
+                    double netto = pobierznetto(kraj, row, nabycie, naglowki);
+                    klientJPK.setNettowaluta(netto);
+                    double vat = pobierzvat(netto);
+                    klientJPK.setVatwaluta(vat);
+
+                    double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta);
+                    klientJPK.setKurs(kurs);
+                    klientJPK.setNetto(Z.z(netto * kurs));
+                    if (klientJPK.isWnt()) {
+                        klientJPK.setVat(Z.z(vat * kurs));
+                    }
+                } else {
+                    klientJPK = null;
                 }
-                klientJPK.setWaluta(waluta);
-                String kraj = nabycie?krajnadania:krajcdocelowy;
-                double netto = pobierznetto(kraj, row, nabycie, naglowki);
-                klientJPK.setNettowaluta(netto);
-                double vat = pobierzvat(netto);
-                klientJPK.setVatwaluta(vat);
-               
-                double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), waluta);
-                klientJPK.setKurs(kurs);
-                klientJPK.setNetto(Z.z(netto * kurs));
-                if (klientJPK.isWnt()) {
-                    klientJPK.setVat(Z.z(vat * kurs));
-                }
-            } else {
-                klientJPK = null;
-            }
+        }
+            else {
+               klientJPK = null;
+           }
         } catch (Exception e) {
         }
          naglowki.forEach((header, index) -> System.out.println(header + " : " + index));
