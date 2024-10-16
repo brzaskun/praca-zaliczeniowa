@@ -59,7 +59,7 @@ public class AmazonImportNazwy implements Serializable {
     private TabelanbpDAO tabelanbpDAO;
    private List<KlientJPK> lista;
    private HashMap<String, String> id_nazwa;
-   
+   private boolean tylkoNiemcy;
    public void init() {
        lista = new ArrayList<>();
    }
@@ -152,7 +152,16 @@ public class AmazonImportNazwy implements Serializable {
             klientJPK.setDataWystawienia(Data.zmienkolejnosc(data2));
             String krajcdocelowy = row.getCell(naglowki.get("ARRIVAL_COUNTRY")).getStringCellValue();
             String krajwysylki = row.getCell(naglowki.get("DEPARTURE_COUNTRY")).getStringCellValue();
-            if ((krajcdocelowy.equals("PL") && krajwysylki.equals("DE"))||(krajwysylki.equals("PL") && krajcdocelowy.equals("DE"))) {
+            boolean rob = true;
+            if (tylkoNiemcy) {
+                if ((krajcdocelowy.equals("PL") && krajwysylki.equals("DE"))||(krajwysylki.equals("PL") && krajcdocelowy.equals("DE"))) {
+                    rob = true;
+                } else {
+                    rob = false;
+                }
+            }
+                
+            if (rob) {
                  String stawka = row.getCell(naglowki.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT")).getStringCellValue();
                 double stawkavat = Double.valueOf(stawka);
                 klientJPK.setStawkavat(stawkavat);
@@ -274,6 +283,14 @@ public class AmazonImportNazwy implements Serializable {
 
     public void setLista(List<KlientJPK> lista) {
         this.lista = lista;
+    }
+
+    public boolean isTylkoNiemcy() {
+        return tylkoNiemcy;
+    }
+
+    public void setTylkoNiemcy(boolean tylkoNiemcy) {
+        this.tylkoNiemcy = tylkoNiemcy;
     }
    
     public void usun(KlientJPK item) {
