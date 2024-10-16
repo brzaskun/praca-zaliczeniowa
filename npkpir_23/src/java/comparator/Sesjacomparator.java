@@ -28,7 +28,7 @@ public class Sesjacomparator implements Comparator<Sesja> {
         Date datao2date = o2.getWylogowanie();
         int zwrot = 0;
         if (datao1date!=null&&datao2date!=null) {
-            zwrot = datao1date.before(datao2date) ? 1 : (datao1date.equals(datao2date) ? 0 : -1);
+            zwrot = datao1date.before(datao2date) ? -1 : (datao1date.equals(datao2date) ? 0 : 1);
         }
         return zwrot;
     }

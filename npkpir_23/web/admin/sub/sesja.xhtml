@@ -26,12 +26,12 @@
                 <p:column headerText="ip" filterBy="#{wpis.ip}" filterMatchMode="contains" sortBy="#{wpis.ip}">  
                     <h:outputText value="#{wpis.ip}" />
                 </p:column>
-                <p:column headerText="login" filterBy="#{wpis.zalogowanie}" filterMatchMode="contains" sortBy="#{wpis.zalogowanie}">  
+                <p:column headerText="login" filterBy="#{wpis.zalogowanie}" filterMatchMode="contains" sortBy="#{wpis.zalogowanie}" sortOrder="descending">  
                     <h:outputText value="#{wpis.zalogowanie}" >
                         <f:convertDateTime locale="pl" pattern="EEE, d MMM yyyy HH:mm:ss"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="logout" filterBy="#{wpis.wylogowanie}" filterMatchMode="contains" sortBy="#{wpis.wylogowanie}" sortPriority="1" sortable="true">  
+                <p:column headerText="logout" filterBy="#{wpis.wylogowanie}" filterMatchMode="contains" sortBy="#{wpis.wylogowanie}" sortOrder="descending" sortPriority="1" sortable="true">  
                     <h:outputText value="#{wpis.wylogowanie}" >
                         <f:convertDateTime locale="pl" pattern="EEE, d MMM yyyy HH:mm:ss"/>
                     </h:outputText>
