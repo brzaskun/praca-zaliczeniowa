@@ -78,7 +78,7 @@ var isScrolledIntoView = function(elem) {
         var parent = elem.parentNode
         do {
             parent = parent.parentNode;
-        } while (parent.className !== "ui-layout-unit-content ui-widget-content");
+        } while (parent.className !== "ui-datatable ui-widget grid");
         var docViewTop = elem.parentNode.offsetParent.offsetTop;
         var docViewBottom = $(parent).height();
         var viewableheight = elem.scrollHeight;
