@@ -115,6 +115,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         obliczkwotydowyplaty();
         sumamiesiecy.setId(11111);
         sumamiesiecy.setMc("R");
+        sumamiesiecy.setRok(wpisView.getRokWpisuSt());
         listamiesiecy.add(sumamiesiecy);
     }
     

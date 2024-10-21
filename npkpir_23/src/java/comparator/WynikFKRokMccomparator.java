@@ -17,6 +17,7 @@ public class WynikFKRokMccomparator implements Comparator<WynikFKRokMc> {
 
     @Override
     public int compare(WynikFKRokMc o1, WynikFKRokMc o2) {
+        
         int rokCompare = o1.getRok().compareTo(o2.getRok());
         
         // Jeśli lata są różne, zwróć wynik porównania lat
