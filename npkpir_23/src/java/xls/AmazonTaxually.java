@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -149,7 +151,7 @@ public class AmazonTaxually implements Serializable {
                     klientJPK.setStawkavat(stawkavat);
                 }
                 if (czypolska&&(nipwysylki.equals(nipue) || nipodbioru.equals(nipue))) {
-                    klientJPK.setKodKrajuNadania(krajcdocelowy);
+                    klientJPK.setKodKrajuNadania(krajnadania);
                     klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
                     klientJPK.setNazwaKontrahenta(wpisView.getPrintNazwa());
                     klientJPK.setRok(wpisView.getRokWpisuSt());
@@ -216,30 +218,21 @@ public class AmazonTaxually implements Serializable {
     }
 
     public void zaksiegujWDTjpk() {
-        klientJPKDAO.deleteByPodRokMcAmazon(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), 1);
-        List<KlientJPK> amazontaxreport = klientJPKDAO.findbyKlientRokMcAmazon(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), 0);
-        int duplikaty = 0;
-        if (amazontaxreport == null || amazontaxreport.isEmpty()) {
-            Msg.msg("e", "Nalezy wcześniej zaksięgować pozycje z Amazon Tax Report!");
-        } else {
-            for (KlientJPK p : amazontaxreport) {
-                for (Iterator it = lista.iterator(); it.hasNext();) {
-                    KlientJPK r = (KlientJPK) it.next();
-                    if (r.getSerial().contains(p.getSerial())) {
-                        duplikaty++;
-                        it.remove();
-                        break;
-                    }
-                }
-            }
-            if (!lista.isEmpty()) {
-                klientJPKDAO.createList(lista);
-                Msg.msg("Zaksięgowano dokumenty dla JPK");
-            }
-            if (duplikaty > 0) {
-                Msg.msg("Znaleziono duplikaty w ilości: " + duplikaty);
-            }
+        KlientJPK rekord = lista.get(0);
+        String krajnadania = rekord.getKodKrajuNadania();
+        String krajodbnioru = rekord.getKodKrajuDoreczenia();
+        String kraj = krajnadania.equals("PL")==false?krajnadania:krajodbnioru;
+        List<KlientJPK> starejpk = klientJPKDAO.findbyKlientRokMcAmazon(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), 1);
+        Predicate<KlientJPK> pred = item->item.getKodKrajuDoreczenia().equals(kraj)||item.getKodKrajuDoreczenia().equals(kraj);
+        List<KlientJPK> dousuniecia = starejpk.stream()
+        .filter(pred)
+        .collect(Collectors.toList());
+        klientJPKDAO.removeList(dousuniecia);
+        if (!lista.isEmpty()) {
+            klientJPKDAO.createList(lista);
+            Msg.msg("Zaksięgowano dokumenty dla JPK");
         }
+  
     }
 
     public List<KlientJPK> getLista() {
