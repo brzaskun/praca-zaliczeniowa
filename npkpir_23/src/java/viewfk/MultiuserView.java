@@ -5,6 +5,9 @@
  */
 package viewfk;
 
+import comparator.MultiuserSettingscomparator;
+import comparator.Podatnikcomparator;
+import comparator.Uzcomparator;
 import dao.MultiuserSettingsDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
@@ -57,6 +60,7 @@ public class MultiuserView   implements Serializable{
         listamutliuserow.addAll(uzDAO.findByUprawnienia("MultiuserBook"));
         listamutliuserow.addAll(uzDAO.findByUprawnienia("MultiuserFaktury"));
         listamutliuserow.addAll(uzDAO.findByUprawnienia("GuestFaktura"));
+        Collections.sort(listamutliuserow, new Uzcomparator());
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         String name = principal.getName();
@@ -70,7 +74,11 @@ public class MultiuserView   implements Serializable{
     
     public void pokazpodpietefirmy() {
         listapodpietychfirm = multiuserSettingsDAO.findByUser(selected);
+        if (listapodpietychfirm!=null) {
+            Collections.sort(listapodpietychfirm, new MultiuserSettingscomparator());
+        }
         listafirm = podatnikDAO.findAll();
+        Collections.sort(listafirm, new Podatnikcomparator());
         for (MultiuserSettings p : listapodpietychfirm) {
             if (listafirm.contains(p.getPodatnik())) {
                 listafirm.remove(p.getPodatnik());

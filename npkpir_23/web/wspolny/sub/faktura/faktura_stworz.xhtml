@@ -165,7 +165,7 @@
                                             autocomplete="true" widgetVar="tworzenieklientapolenazwy" binding="#{fakturaView.kontrahentstworz}"
                                             requiredMessage="Nie wybrany nabywca faktury" queryDelay="10" styleClass="wpisywaniekontrfk" 
                                             >
-                                <p:ajax event="blur" listener="#{fakturaView.wgenerujnumerfaktury}" partialSubmit="true" oncomplete="sprawdzczybrakklientafaktura();"  global="false"/>
+                                <p:ajax event="blur" listener="#{fakturaView.wgenerujnumerfakturyFaktura(fakturaView.selected)}" partialSubmit="true" oncomplete="sprawdzczybrakklientafaktura();"  global="false" update="akordeon:formstworz:nrfaktury"/>
                                 <p:ajax event="itemSelect" listener="#{fakturaView.faktItemSelect}" partialSubmit="true" global="false" update="akordeon:formstworz:poleemailkontr"/>
                                 <p:ajax event="query"  global="false"/>
                                 <f:facet name="itemtip">  

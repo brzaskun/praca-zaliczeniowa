@@ -10,7 +10,7 @@
 
     <p:outputPanel id="wrapper" >
         <h:form>
-            <p:dataTable lazy="false"  value="#{multiuserView.listamutliuserow}" var="item" style="width: 500px; padding: 10px;"
+            <p:dataTable lazy="false"  value="#{multiuserView.listamutliuserow}" var="item" style="width: 500px; padding: 10px;max-height: 400px;overflow-y: scroll;"
                          selection="#{multiuserView.selected}" selectionMode="single" sortMode="#{item.login}"
                          rowKey="#{item.login}">
                 <p:ajax event="rowSelect" listener="#{multiuserView.pokazpodpietefirmy()}" update=":multiuserdodaj, :firmyniepodpiete"/>
@@ -18,7 +18,7 @@
                 <f:facet name="header">
                     <h:outputText value="Wykaz multiuserów"/>
                 </f:facet>
-                <p:column headerText="login">
+                <p:column headerText="login" filterBy="#{item.login}">
                     <h:outputText value="#{item.login}"/>
                 </p:column>
                 <p:column headerText="email">
@@ -29,16 +29,17 @@
                 </p:column>
             </p:dataTable>
         </h:form>
+        <p:panelGrid columns="2">
         <h:form id="multiuserdodaj">
-            <p:dataTable lazy="false"  value="#{multiuserView.listapodpietychfirm}" var="item" style="width: 500px; padding: 10px;"
+            <p:dataTable lazy="false"  value="#{multiuserView.listapodpietychfirm}" var="item" style="width: 500px; padding: 10px;max-height: 400px;overflow-y: scroll;"
                          emptyMessage="brak podpiętych firm" sortBy="#{item.podatnik.nazwapelna}">
                  <f:facet name="header">
                     <h:outputText value="Podpięte firmy"/>
                 </f:facet>
-                <p:column headerText="nip" width="100">
+                <p:column headerText="nip" width="100" filterBy="#{item.podatnik.nip}" filterMatchMode="contains">
                     <h:outputText value="#{item.podatnik.nip}"/>
                 </p:column>
-                <p:column headerText="nazwa" width="250">
+                <p:column headerText="nazwa" width="250" filterBy="#{item.podatnik.printnazwa}" filterMatchMode="contains">
                     <h:outputText value="#{item.podatnik.printnazwa}"/>
                 </p:column>
                 <p:column width="50" style="text-align: center;">
@@ -47,7 +48,7 @@
             </p:dataTable>
         </h:form>
         <h:form id="firmyniepodpiete">
-            <p:dataTable lazy="false"  value="#{multiuserView.listafirm}" var="item" style="width: 500px; padding: 10px; height: 500px; overflow-y: scroll"
+            <p:dataTable lazy="false"  value="#{multiuserView.listafirm}" var="item" style="width: 500px; padding: 10px; max-height: 400px;overflow-y: scroll;"
                          emptyMessage="brak niepodpiętych firm" sortBy="#{item.printnazwa}">
                 <f:facet name="header">
                     <h:outputText value="Firmy do podpięcia"/>
@@ -63,6 +64,7 @@
                 </p:column>
             </p:dataTable>
         </h:form>
+            </p:panelGrid>
     </p:outputPanel>
 </ui:composition>   
 

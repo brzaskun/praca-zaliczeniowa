@@ -3,6 +3,7 @@ package view;
 import beansRegon.SzukajDaneBean;
 import dao.KlienciDAO;
 import embeddable.PanstwaMap;
+import entity.Faktura;
 import entity.Klienci;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
@@ -143,6 +144,50 @@ public class KlView implements Serializable {
                 poszukajDuplikatNip();
                 poszukajDuplikatNazwa();
                 klDAO.create(selected);
+                kl1.add(selected);
+                Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
+                selected = new Klienci();
+                //selected.setKrajnazwa("Polska");
+                //selected.setKrajkod(panstwaMapa.getWykazPanstwSX().get("Polska"));
+            } else {
+                Msg.msg("e", "Błąd przy genrowaniu nr NIP. Nie dodano klienta");
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
+        }
+
+    }
+    
+    public void dodajKlientaFaktura(Faktura faktura) {
+        try {
+            boolean wygenerowanonip = false;
+            if (selected.getNip().isEmpty()) {
+                wygenerowanonip = wygenerujnip();
+            } else {
+                wygenerowanonip = true;
+            }
+            if (wygenerowanonip) {
+                selected.setNskrocona(selected.getNpelna());
+                if (selected.getKrajnazwa() == null) {
+                    selected.setKrajnazwa("Polska");
+                } 
+                String formatka = selected.getUlica().substring(0, 1).toUpperCase();
+                formatka = formatka.concat(selected.getUlica().substring(1));
+                selected.setUlica(formatka);
+                String kraj = selected.getKrajnazwa();
+                String symbol = ps1.getWykazPanstwSX().get(kraj);
+                selected.setKrajkod(symbol);
+                if (selected.getLokal() == null || selected.getLokal().equals("")) {
+                    selected.setLokal("-");
+                }
+                poszukajDuplikatNip();
+                poszukajDuplikatNazwa();
+                klDAO.create(selected);
+                if (faktura!=null) {
+                    faktura.setKontrahent(selected);
+                    faktura.setKontrahent_nip(selected.getNip());
+                }
                 kl1.add(selected);
                 Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
                 selected = new Klienci();
@@ -503,8 +548,13 @@ public class KlView implements Serializable {
     
     public void znajdzdaneregon(String formularz) {
         try {
-            SzukajDaneBean.znajdzdaneregon(formularz, (Klienci) selected);
-            PrimeFaces.current().executeScript("$(\".uibuttonmui\").show()");
+            String nip = selected.getNip();
+            if (isValidPolishNIP(nip)) {
+                SzukajDaneBean.znajdzdaneregon(formularz, (Klienci) selected);
+                PrimeFaces.current().executeScript("$(\".uibuttonmui\").show()");
+            } else {
+                Msg.msg("e","Klient zagraniczny/osoba fizyczna. Nie ma w bazie GUS");
+            }
         } catch (Exception e) {
             E.e(e);
         }
@@ -512,22 +562,56 @@ public class KlView implements Serializable {
     
     public void znajdzdaneregonAutomat(Klienci klientfaktura) {
         try {
-            Klienci aktualizuj = SzukajDaneBean.znajdzdaneregonAutomat(klientfaktura.getNip());
-            klientfaktura.setNpelna(aktualizuj.getNpelna());
-            klientfaktura.setMiejscowosc(aktualizuj.getMiejscowosc());
-            klientfaktura.setUlica(aktualizuj.getUlica());
-            klientfaktura.setDom(aktualizuj.getDom());
-            klientfaktura.setLokal(aktualizuj.getLokal());
-            klientfaktura.setKodpocztowy(aktualizuj.getKodpocztowy());
-            klientfaktura.setNskrocona(aktualizuj.getNpelna());
-            klDAO.edit(klientfaktura);
-            Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
+            String nip = klientfaktura.getNip();
+            if (isValidPolishNIP(nip)) {
+                Klienci aktualizuj = SzukajDaneBean.znajdzdaneregonAutomat(nip);
+                klientfaktura.setNpelna(aktualizuj.getNpelna());
+                klientfaktura.setMiejscowosc(aktualizuj.getMiejscowosc());
+                klientfaktura.setUlica(aktualizuj.getUlica());
+                klientfaktura.setDom(aktualizuj.getDom());
+                klientfaktura.setLokal(aktualizuj.getLokal());
+                klientfaktura.setKodpocztowy(aktualizuj.getKodpocztowy());
+                klientfaktura.setNskrocona(aktualizuj.getNpelna());
+                klDAO.edit(klientfaktura);
+                Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
+            } else {
+                Msg.msg("e","Klient zagraniczny/osoba fizyczna. Nie ma w bazie GUS");
+            }
         } catch (Exception e) {
             Msg.msg("e","Błąd, niezaktualizowano dane klienta pobranymi z GUS");
             E.e(e);
         }
     }
     
+    public boolean isValidPolishNIP(String nip) {
+        // Usunięcie białych znaków i przekształcenie na wielkie litery (jeśli jest przedrostek)
+        nip = nip.replaceAll("\\s+", "").toUpperCase();
+
+        // Sprawdzenie przedrostka "PL" i usunięcie go
+        if (nip.startsWith("PL")) {
+            nip = nip.substring(2);
+        }
+
+        // Sprawdzenie, czy długość NIP to 10 cyfr
+        if (nip.length() != 10 || !nip.matches("\\d+")) {
+            return false;
+        }
+
+        // Tablica wag dla cyfr NIP
+        int[] weights = {6, 5, 7, 2, 3, 4, 5, 6, 7};
+
+        // Obliczanie sumy kontrolnej
+        int sum = 0;
+        for (int i = 0; i < 9; i++) {
+            sum += Character.getNumericValue(nip.charAt(i)) * weights[i];
+        }
+
+        // Wyciągnięcie cyfry kontrolnej
+        int controlDigit = sum % 11;
+
+        // Sprawdzenie, czy cyfra kontrolna zgadza się z ostatnią cyfrą NIP
+        return controlDigit == Character.getNumericValue(nip.charAt(9));
+    }
     
     
     public void wstawkreske(int wstaw) {

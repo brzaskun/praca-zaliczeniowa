@@ -1929,6 +1929,31 @@ public class FakturaView implements Serializable {
         }
     }
     
+    public void wgenerujnumerfakturyFaktura(Faktura selected)  {
+        if (selected.getKontrahent_nip()!=null) {
+            List<Klienci> findKlienciByNip = klienciDAO.findKlienciByNip(selected.getKontrahent_nip());
+            if (findKlienciByNip!=null&&findKlienciByNip.size()>0) {
+                if (selected.getKontrahent()==null) {
+                    selected.setKontrahent(findKlienciByNip.get(0));
+                }
+            }
+        }
+        if (zapis0edycja1 == false && fakturakorekta == false) {
+            String nazwaklienta = (String) Params.params("akordeon:formstworz:acForce_input");
+            if (!nazwaklienta.equals("nowy klient")) {
+                if (selected!=null && selected.getKontrahent()!=null) {
+                    if (selected.getKontrahent().getNskrocona() == null) {
+                        Msg.msg("e", "Brak nazwy skróconej kontrahenta " + selected.getKontrahent().getNpelna() + ", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane odbiorcy faktury.");
+                        PrimeFaces.current().executeScript("PF('nazwaskroconafaktura').show();");
+                        PrimeFaces.current().executeScript("$(document.getElementById(\"formkontowybor:wybormenu\")).focus();");
+                    } else {
+                        FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, selected, wpisView);
+                    }
+                }
+            }
+        }
+    }
+    
      public void wgenerujnumerfakturyLikwidacjaProforma()  {
         String nazwaklienta = (String) Params.params("akordeon:formstworz:acForce_input");
         if (!nazwaklienta.equals("nowy klient")) {
