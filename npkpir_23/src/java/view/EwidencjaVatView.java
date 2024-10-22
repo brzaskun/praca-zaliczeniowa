@@ -419,6 +419,8 @@ public class EwidencjaVatView implements Serializable {
             przejrzyjEVatwpis1Lista();
              if (listadokvatprzetworzona != null) {
                 listadokvatprzetworzona.addAll(pobierzEVatRokUlgaNaZleDlugi(podatnik, vatokresString, wpisView.getRokWpisuSt(),wpisView.getRokUprzedniSt() , wpisView.getMiesiacWpisu()));
+                 Predicate<EVatwpisSuper> pred = item-> item.getEwidencja().isNiemcy();
+                 listadokvatprzetworzona.removeIf(pred);
              }
              nettovatuzd[0] = listadokvatprzetworzona.stream()
                     .filter(item->item.getUlganazledlugidatapierwsza()!=null&&item.getNetto()<0.0)
@@ -449,6 +451,10 @@ public class EwidencjaVatView implements Serializable {
             pobierzEVatwpisDedrazaOkres(podatnik, vatokres);
             //przejrzyjEVatwpis1Lista();
             stworzenieEwidencjiCzescWspolnaDedra();
+             if (listadokvatprzetworzona != null) {
+                 Predicate<EVatwpisSuper> pred = item-> item.getEwidencja().isNiemcy();
+                 listadokvatprzetworzona.removeIf(pred);
+             }
             for (String k : listaewidencji.keySet()) {
                 nazwyewidencji.add(k);
             }
@@ -618,6 +624,8 @@ public class EwidencjaVatView implements Serializable {
             } else {
                 listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), true));
                 listadokvatprzetworzona.addAll(pobierzEVatRokFKUlgaNaZleDlugi(podatnik, vatokres, wpisView.getRokWpisuSt(),wpisView.getRokUprzedniSt() , wpisView.getMiesiacWpisu()));
+                Predicate<EVatwpisSuper> pred = item-> item.getEwidencja().isNiemcy();
+                listadokvatprzetworzona.removeIf(pred);
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
                 listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
                 wyluskajzlisty(listaprzesunietychKoszty, "koszty");

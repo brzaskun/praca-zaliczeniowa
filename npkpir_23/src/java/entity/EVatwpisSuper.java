@@ -54,6 +54,8 @@ public class EVatwpisSuper implements Serializable {
     protected boolean nieduplikuj;
     @Column(name = "tylkodlajpk")
     protected boolean tylkodlajpk;
+    @Column(name = "tylkodlajpk")
+    protected boolean tylkodlajpk;
     @Transient
     protected boolean duplikat;
     @Transient
