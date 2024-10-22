@@ -131,7 +131,7 @@ public class AmazonBaselinker implements Serializable {
             double kurs = xls.X.xKwota(row.getCell(naglowki.get("Kurs waluty")));
             double nettopln = Z.z(record.getNetto()*kurs);
             record.setNettopln(nettopln);
-            double vatpln = Z.z(record.getVat()*kurs);
+            double vatpln = Z.z(record.getKwotaVat()*kurs);
             record.setVatpln(vatpln);
             record.setKraj(row.getCell(naglowki.get("Kraj")).getStringCellValue());
             record.setDokumentPowiazany(row.getCell(naglowki.get("Dokument powiązany")).getStringCellValue());
