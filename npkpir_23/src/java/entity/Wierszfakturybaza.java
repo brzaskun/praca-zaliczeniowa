@@ -71,6 +71,10 @@ public class Wierszfakturybaza implements Serializable {
     private boolean wymagakorekty;
     @Column(name = "datafaktury")
     private Date datafaktury;
+    @Column(name = "nowakwota")
+    private Double nowakwota;
+    @Column(name = "nowailosc")
+    private Integer nowailosc;
 
     public Wierszfakturybaza() {
     }
@@ -194,6 +198,22 @@ public class Wierszfakturybaza implements Serializable {
 
     public void setWymagakorekty(boolean wymagakorekty) {
         this.wymagakorekty = wymagakorekty;
+    }
+
+    public Double getNowakwota() {
+        return nowakwota;
+    }
+
+    public void setNowakwota(Double nowakwota) {
+        this.nowakwota = nowakwota;
+    }
+
+    public Integer getNowailosc() {
+        return nowailosc;
+    }
+
+    public void setNowailosc(Integer nowailosc) {
+        this.nowailosc = nowailosc;
     }
 
    

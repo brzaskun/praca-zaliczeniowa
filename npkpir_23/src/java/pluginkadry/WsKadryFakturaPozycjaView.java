@@ -86,6 +86,8 @@ public class WsKadryFakturaPozycjaView implements Serializable {
                         odnaleziony= wb;
                         if (w.getIlosc()!=wb.getIlosc()||w.getKwota()!=wb.getKwota()) {
                             wb.setWymagakorekty(true);
+                            wb.setNowailosc(w.getIlosc());
+                            wb.setNowakwota(w.getKwota());
                             wierszfakturybazaDAO.edit(wb);
                         } else {
                             wb.setWymagakorekty(false);

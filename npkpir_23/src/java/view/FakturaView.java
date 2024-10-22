@@ -1027,8 +1027,8 @@ public class FakturaView implements Serializable {
             }
             for (Wierszfakturybaza p : lista) {
                 if (p.isNaniesiony()==false) {
-                    double ilosc = p.getIlosc();
-                    double cena = p.getKwota();
+                    double ilosc = p.isWymagakorekty()?p.getNowailosc():p.getIlosc();
+                    double cena = p.isWymagakorekty()?p.getNowakwota():p.getKwota();
                     if (ilosc>0&&cena>0.0) {
                         if (liczodbrutto) {
                             double brutto = Z.z(ilosc*cena);
@@ -2397,7 +2397,7 @@ public class FakturaView implements Serializable {
                         Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getNumerkolejny(), nowa.getWystawca());
                         Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: data-" + nibyduplikat.getDatawystawienia()+" numer-"+nibyduplikat.getNumerkolejny()+" wystawca-"+nibyduplikat.getWystawca().getNazwapelna());
                     }
-                }
+                } 
             }
         }
         PrimeFaces.current().ajax().update("akordeon:formsporzadzone:dokumentyLista");

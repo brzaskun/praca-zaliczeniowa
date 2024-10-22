@@ -25,7 +25,7 @@
                     <p:dataTable lazy="false"  id="datalist" value="#{wsKadryFakturaPozycjaView.wierzfakturybazalist}" var="item111"
                                  selectionMode="single"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" sortBy="#{item111.nazwa}"
-                                 style="width: 1300px;"
+                                 style="width: 1450px; max-height: 70vh; overflow-y: scroll;"
                                  emptyMessage="Elementy dla danego miesiąca są w poprzedni miesiącu. W danym miesiącu fakturujemy listy za poprzedni miesiąc."
                                  >
                         <p:ajax event="filter" partialSubmit="true" global="false" />
@@ -83,6 +83,20 @@
                                 <h:outputText value="różnice"/>
                             </f:facet>
                             <h:outputText value="&#x2713;" rendered="#{item111.wymagakorekty}"  style="color: red;font-weight: 900;"/>
+                        </p:column>
+                         <p:column width="70" style="text-align: left;" sortBy="#{item111.nowakwota}" 
+                                  filterBy="#{item111.nowakwota}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="nowa cena"/>
+                            </f:facet>
+                             <bcf:outputpl value="#{item111.nowakwota}" rendered="#{item111.wymagakorekty}"/>
+                        </p:column>
+                         <p:column width="70" style="text-align: left;" sortBy="#{item111.nowailosc}" 
+                                  filterBy="#{item111.nowailosc}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="nowa ilosc"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item111.nowailosc}" rendered="#{item111.wymagakorekty}"/>
                         </p:column>
                         <p:column width="30" style="text-align: center;" sortBy="#{item111.naniesiony}" 
                                   filterBy="#{item111.naniesiony}" filterMatchMode="startsWith">
