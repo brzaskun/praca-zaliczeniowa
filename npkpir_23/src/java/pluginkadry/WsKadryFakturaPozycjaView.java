@@ -4,6 +4,7 @@
  */
 package pluginkadry;
 
+import comparator.Wierszfakturybazacomparator;
 import dao.FakturywystokresoweDAO;
 import dao.WierszfakturybazaDAO;
 import data.Data;
@@ -11,6 +12,7 @@ import entity.Fakturywystokresowe;
 import entity.Wierszfakturybaza;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -101,6 +103,7 @@ public class WsKadryFakturaPozycjaView implements Serializable {
                     wierzfakturybazalist.add(odnaleziony);
                 }
             }
+            Collections.sort(wierzfakturybazalist, new Wierszfakturybazacomparator());
         } catch (Exception ex) {
             Logger.getLogger(WsKadryFakturaPozycjaView.class.getName()).log(Level.SEVERE, null, ex);
         }
