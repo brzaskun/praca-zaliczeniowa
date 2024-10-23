@@ -65,7 +65,7 @@ public class WsKadryFakturaPozycjaView implements Serializable {
             wsKadryFakturaPozycja_Service = new WsKadryFakturaPozycja_Service();
             WsKadryFakturaPozycja wsKadryFakturaPozycjaPort = wsKadryFakturaPozycja_Service.getWsKadryFakturaPozycjaPort();
             String hello = wsKadryFakturaPozycjaPort.hello("lolo");
-            System.out.println("odp: "+hello);
+            System.out.println("wsKadryFakturaPozycjaPort: "+hello);
             if (fakturyokresowe.isEmpty()==false) {
                 for (Fakturywystokresowe f : fakturyokresowe) {
                     List<WierszFaktury> wiersze = wsKadryFakturaPozycjaPort.kadryfakturapozycjamcrok(f.getDokument().getKontrahent().getNip(), rok, mc);
@@ -84,7 +84,7 @@ public class WsKadryFakturaPozycjaView implements Serializable {
             for (WierszFaktury w : listawierszfaktury) {
                 Wierszfakturybaza odnaleziony = null;
                 for (Wierszfakturybaza wb :wierzfakturybazalist) {
-                    if (wb.getNip().equals(w.nip)&&wb.getOpis().equals(w.getOpis())) {
+                    if (wb.getNip().equals(w.getNip())&&wb.getOpis().equals(w.getOpis())) {
                         odnaleziony= wb;
                         if (w.getIlosc()!=wb.getIlosc()||w.getKwota()!=wb.getKwota()) {
                             wb.setWymagakorekty(true);
