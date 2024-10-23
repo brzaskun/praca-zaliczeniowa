@@ -69,6 +69,8 @@ public class Wierszfakturybaza implements Serializable {
     private boolean naniesiony;
     @Column(name = "wymagakorekty")
     private boolean wymagakorekty;
+    @Column(name = "datazamkniecia")
+    private String datazamkniecia;
     @Column(name = "datafaktury")
     private Date datafaktury;
     @Column(name = "nowakwota")
@@ -99,6 +101,14 @@ public class Wierszfakturybaza implements Serializable {
         this.kwota = w.getKwota();
         this.ilosc = w.getIlosc();
         this.nazwa = w.getNazwa();
+    }
+
+    public String getDatazamkniecia() {
+        return datazamkniecia;
+    }
+
+    public void setDatazamkniecia(String datazamkniecia) {
+        this.datazamkniecia = datazamkniecia;
     }
 
    

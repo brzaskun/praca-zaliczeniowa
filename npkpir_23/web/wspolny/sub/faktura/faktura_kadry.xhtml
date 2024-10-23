@@ -25,7 +25,7 @@
                     <p:dataTable lazy="false"  id="datalist" value="#{wsKadryFakturaPozycjaView.wierzfakturybazalist}" var="item111"
                                  selectionMode="single"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" sortBy="#{item111.nazwa}"
-                                 style="width: 1450px; max-height: 70vh; overflow-y: scroll;"
+                                 style="max-width: 1520px; max-height: 70vh; overflow-y: scroll;"
                                  emptyMessage="Elementy dla danego miesiąca są w poprzedni miesiącu. W danym miesiącu fakturujemy listy za poprzedni miesiąc."
                                  >
                         <p:ajax event="filter" partialSubmit="true" global="false" />
@@ -76,6 +76,13 @@
                                 <h:outputText value="ilosc"/>
                             </f:facet>
                             <bcf:outputpl value="#{item111.ilosc}"/>
+                        </p:column>
+                         <p:column width="70" style="text-align: center;" sortBy="#{item111.datazamkniecia}" sortOrder="asc"
+                                   filterBy="#{item111.datazamkniecia}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="data zamk."/>
+                            </f:facet>
+                            <h:outputText value="#{item111.datazamkniecia}" />
                         </p:column>
                          <p:column width="30" style="text-align: center;" sortBy="#{item111.wymagakorekty}" 
                                    filterBy="#{item111.wymagakorekty}" filterMatchMode="startsWith">

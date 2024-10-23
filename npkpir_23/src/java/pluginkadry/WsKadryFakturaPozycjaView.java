@@ -84,14 +84,17 @@ public class WsKadryFakturaPozycjaView implements Serializable {
             for (WierszFaktury w : listawierszfaktury) {
                 Wierszfakturybaza odnaleziony = null;
                 for (Wierszfakturybaza wb :wierzfakturybazalist) {
-                    if (wb.getNip().equals(w.getNip())&&wb.getOpis().equals(w.getOpis())) {
+                    //bierzemy tylko te ktore kadrowe zamknely
+                    if (wb.getNip().equals(w.getNip())&&wb.getOpis().equals(w.getOpis())&&w.isZamkniety()) {
                         odnaleziony= wb;
                         if (w.getIlosc()!=wb.getIlosc()||w.getKwota()!=wb.getKwota()) {
                             wb.setWymagakorekty(true);
                             wb.setNowailosc(w.getIlosc());
                             wb.setNowakwota(w.getKwota());
+                            wb.setDatazamkniecia(w.getData());
                             wierszfakturybazaDAO.edit(wb);
                         } else {
+                            wb.setDatazamkniecia(w.getData());
                             wb.setWymagakorekty(false);
                             wierszfakturybazaDAO.edit(wb);
                         }
@@ -99,6 +102,7 @@ public class WsKadryFakturaPozycjaView implements Serializable {
                 }
                 if (odnaleziony==null) {
                     odnaleziony = new Wierszfakturybaza(w);
+                    odnaleziony.setDatazamkniecia(w.getData());
                     wierszfakturybazaDAO.create(odnaleziony);
                     wierzfakturybazalist.add(odnaleziony);
                 }
