@@ -663,14 +663,14 @@ public class SymulacjaWynikuView implements Serializable {
     }
     
     public void zaksiegujwynikKsiegowa () {
-        if (Data.getMc(bilansoddnia).equals(Data.getMc(bilansnadzien))) {
+        if (mcod.equals(mcdo)) {
             double wynikfinnarastajaco = 0.0;
             double wynikpodatkowynarastajaco = 0.0;
             List<WynikFKRokMc> wynikpoprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokFirma(wpisView);
             Collections.sort(wynikpoprzedniemce, new WynikFKRokMccomparator());
             double podatekzaplacony = 0.0;
             for (WynikFKRokMc p : wynikpoprzedniemce) {
-                if (Mce.getMiesiacToNumber().get(p.getMc()) < Mce.getMiesiacToNumber().get(Data.getMc(bilansnadzien))) {
+                if (Mce.getMiesiacToNumber().get(p.getMc()) < Mce.getMiesiacToNumber().get(mcod)) {
                     wynikfinnarastajaco += p.getWynikfinansowy();
                     podatekzaplacony += p.getPodatekdowplaty();
                 }
@@ -679,7 +679,7 @@ public class SymulacjaWynikuView implements Serializable {
             WynikFKRokMc wynikFKRokMc = new WynikFKRokMc();
             wynikFKRokMc.setPodatnikObj(wpisView.getPodatnikObiekt());
             wynikFKRokMc.setRok(Data.getRok(bilansnadzien));
-            wynikFKRokMc.setMc(Data.getMc(bilansnadzien));
+            wynikFKRokMc.setMc(mcod);
             wynikFKRokMc.setDataod(bilansoddnia);
             wynikFKRokMc.setDatado(bilansnadzien);
             wynikFKRokMc.setPrzychody(wszyscy.getPrzychody());
