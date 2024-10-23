@@ -24,9 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Predicate;
 import javax.annotation.PostConstruct;
-import javax.ejb.Schedule;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -124,6 +122,15 @@ public class KadryfakturapozycjaView  implements Serializable {
         if (selected!=null&&selected.getCena()!=0) {
             selected.setDatadodania(new Date());
             kadryfakturapozycjaFacade.edit(selected);
+            Msg.msg("Zmieniono pozycję");
+            
+        }
+     }
+     
+       public void edytujWiersz(WierszFaktury selected) {
+        if (selected!=null) {
+            selected.setData(data.Data.aktualnaData());
+            wierszFakturyFacade.edit(selected);
             Msg.msg("Zmieniono pozycję");
             
         }

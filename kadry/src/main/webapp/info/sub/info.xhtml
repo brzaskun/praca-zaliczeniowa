@@ -553,8 +553,7 @@
                     <p:dataTable id="datalist" value="#{kadryfakturapozycjaView.listawierszfaktury}" var="item111"
                                  selectionMode="single"
                                  rowKey="#{item111.id}" rowIndexVar="indexumowa" 
-                                 scrollable="true" scrollHeight="600" scrollRows="20" 
-                                 style="width: 1200px;" sortBy="#{item111.nazwa}"
+                                 style="max-width: 1300px;max-height: 60vh;overflow-y: scroll;" sortBy="#{item111.nazwa}"
                                  emptyMessage="Nie pobrano elementów"
                                  >
                         <p:ajax event="filter" partialSubmit="true" global="false" />
@@ -605,6 +604,22 @@
                                 <h:outputText value="ilosc"/>
                             </f:facet>
                             <bcf:outputpl value="#{item111.ilosc}"/>
+                        </p:column>
+                        <p:column width="70" style="text-align: center;" sortBy="#{item111.data}" sortOrder="asc"
+                                  filterBy="#{item111.data}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="data"/>
+                            </f:facet>
+                            <h:outputText value="#{item111.data}" />
+                        </p:column>
+                        <p:column width="30" style="text-align: center;" sortBy="#{item111.zamkniety}" sortOrder="asc"
+                                  filterBy="#{item111.zamkniety}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="zamk."/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item111.zamkniety}" >
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{kadryfakturapozycjaView.edytujWiersz(item111)}" update="@parent:@parent"/>
+                            </p:selectBooleanCheckbox>
                         </p:column>
                         <p:column width="30" style="text-align: center;">
                             <f:facet name="header">

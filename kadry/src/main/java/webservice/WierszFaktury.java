@@ -17,12 +17,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
-import javax.transaction.Transactional;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Osito
+ * 
+ * jak chciqalem dodac nowe pola to byla cala zabawa z usuwaniem plikow jaxws-build w npkpir
+ * potem byly problemy z nazwami odwarzalem z hostorri. kupa roboty. byc moze nie zauwazylem na pocztaku ze jednak sie przeniosly pola do wygenerowancyh klas p[rzyjrzyj sie dokladnie
  */
 @Entity
 @Table(name = "wierszfaktury", uniqueConstraints = {
@@ -69,6 +71,10 @@ public class WierszFaktury implements Serializable {
     private double kwota;
     @Column(name = "ilosc")
     private int ilosc;
+    @Column(name = "data")
+    private String data;
+    @Column(name = "zamkniety")
+    private boolean zamkniety;
     @Transient
     private boolean nowacena;
 
@@ -178,6 +184,26 @@ public class WierszFaktury implements Serializable {
         this.ilosc = ilosc;
     }
 
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+ 
+
+    public boolean isZamkniety() {
+        return zamkniety;
+    }
+
+    public void setZamkniety(boolean zamkniety) {
+        this.zamkniety = zamkniety;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
