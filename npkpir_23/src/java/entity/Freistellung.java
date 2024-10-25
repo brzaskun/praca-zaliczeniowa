@@ -30,6 +30,7 @@ import javax.persistence.UniqueConstraint;
     @NamedQuery(name = "Freistellung.findById", query = "SELECT f FROM Freistellung f WHERE f.id = :id"),
     @NamedQuery(name = "Freistellung.findByRok", query = "SELECT f FROM Freistellung f WHERE f.rok = :rok"),
     @NamedQuery(name = "Freistellung.findByDatado", query = "SELECT f FROM Freistellung f WHERE f.datado = :datado"),
+    @NamedQuery(name = "Freistellung.findByPodatnik", query = "SELECT f FROM Freistellung f WHERE f.podatnik = :podatnik"),
     @NamedQuery(name = "Freistellung.findByMailprzypom1", query = "SELECT f FROM Freistellung f WHERE f.mailprzypom1 = :mailprzypom1"),
     @NamedQuery(name = "Freistellung.findByMailprzypom2", query = "SELECT f FROM Freistellung f WHERE f.mailprzypom2 = :mailprzypom2")
 })
