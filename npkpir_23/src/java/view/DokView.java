@@ -446,8 +446,9 @@ public class DokView implements Serializable {
                     if (selDokument.getRodzajedok().getStawkavat()>0.0) {
                         stawkadoprzeliczenia = selDokument.getRodzajedok().getStawkavat()/100;
                     }
-                    selDokument.getEwidencjaVAT1().get(0).setVat(Z.z((selDokument.getEwidencjaVAT1().get(0).getNetto() * stawkadoprzeliczenia) / 2));
-                    selDokument.getEwidencjaVAT1().get(0).setBrutto(selDokument.getEwidencjaVAT1().get(0).getNetto() + Z.z(((selDokument.getEwidencjaVAT1().get(0).getNetto() * stawkadoprzeliczenia) / 2)));
+                    double procentvat = selDokument.getRodzajedok().getStawkavat();
+                    selDokument.getEwidencjaVAT1().get(0).setVat(Z.z((selDokument.getEwidencjaVAT1().get(0).getNetto() * stawkadoprzeliczenia) / procentvat));
+                    selDokument.getEwidencjaVAT1().get(0).setBrutto(selDokument.getEwidencjaVAT1().get(0).getNetto() + Z.z(((selDokument.getEwidencjaVAT1().get(0).getNetto() * stawkadoprzeliczenia) / procentvat)));
                     sumbrutto = selDokument.getEwidencjaVAT1().get(0).getNetto() + Z.z(selDokument.getEwidencjaVAT1().get(0).getNetto() * stawkadoprzeliczenia);
                 } else if (transakcjiRodzaj.equals("sprzedaz")) {
                     try {
