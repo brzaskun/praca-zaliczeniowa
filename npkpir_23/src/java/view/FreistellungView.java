@@ -34,7 +34,7 @@ public class FreistellungView implements Serializable {
 
     @PostConstruct
     public void init() {
-        freistellungList = freistellungDAO.findAll();
+        freistellungList = freistellungDAO.findByPodatnik(wpisView.getPodatnikObiekt());
         newFreistellung = new Freistellung();
         newFreistellung.setPodatnik(wpisView.getPodatnikObiekt());
         newFreistellung.setRok(wpisView.getRokWpisuSt());

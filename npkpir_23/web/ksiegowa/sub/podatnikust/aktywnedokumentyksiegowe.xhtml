@@ -45,7 +45,6 @@
                     </p:column>
                     <p:column headerText="% VAT" width="30" style="text-align: right;">
                         <h:outputText value="#{loop.procentvat}"  rendered="#{loop.procentvat ne 0}">
-                            <f:convertNumber integerOnly="true"/>
                         </h:outputText>
                     </p:column>
                      <p:column headerText="stw. VAT" width="30" style="text-align: right;">
@@ -140,10 +139,9 @@
                         <p:ajax event="change" global="false" partialSubmit="true" update   =":akordeon:form7:parametryDokKsi1"/>
                     </p:selectOneMenu>
                     <h:outputText value=" procent VAT**: " />
-                    <p:inputText value="#{podatnikView.selectedDokKsi.procentvat}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
-                        <f:validateLongRange minimum="0" maximum="99"/>
-                        <f:convertNumber integerOnly="true" type="number" />
-                    </p:inputText>
+                    <p:inputNumber value="#{podatnikView.selectedDokKsi.procentvat}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99" maxValue="100" minValue="0">
+                        
+                    </p:inputNumber>
                     <h:outputText value=" stawka VAT***: " />
                     <p:inputText value="#{podatnikView.selectedDokKsi.stawkavat}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
                         <f:validateLongRange minimum="0" maximum="99"/>
