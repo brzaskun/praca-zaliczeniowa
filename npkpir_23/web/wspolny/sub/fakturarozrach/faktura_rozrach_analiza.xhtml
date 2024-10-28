@@ -175,7 +175,9 @@
                     <f:facet name="header">
                         <h:outputText value="data dok"/>
                     </f:facet>
-                    <h:outputText value="#{item.data}"/>
+                    <h:outputText value="#{item.data}" rendered="#{item.faktura0rozliczenie1 eq true}"/>
+                    <h:outputText value="#{item.data}" rendered="#{item.faktura0rozliczenie1 eq false and item.faktura.korekta eq false}"/>
+                    <h:outputText value="#{item.data}" style="color: red;" rendered="#{item.faktura0rozliczenie1 eq false and item.faktura.korekta eq true}"/>
                 </p:column>
                 <p:column width="80">
                     <f:facet name="header">
@@ -187,7 +189,9 @@
                     <f:facet name="header">
                         <h:outputText value="dokument"/>
                     </f:facet>
-                     <h:outputText value="#{item.rodzajDok} #{item.nrDok}"/>
+                    <h:outputText value="#{item.rodzajDok} #{item.nrDok}" rendered="#{item.faktura0rozliczenie1 eq true}"/>
+                    <h:outputText value="#{item.rodzajDok} #{item.nrDok}" rendered="#{item.faktura0rozliczenie1 eq false and item.faktura.korekta eq false}"/>
+                    <h:outputText value="#{item.rodzajDok} #{item.nrDok}" style="color: red;" rendered="#{item.faktura0rozliczenie1 eq false and item.faktura.korekta eq true}"/>
                 </p:column>
                  <p:column width="160">
                     <f:facet name="header">
@@ -219,7 +223,7 @@
                     </f:facet>
                          <p:cellEditor>
                         <f:facet name="output">  
-                            <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq true}" stylePlus="#{item.kwota lt 0.00 ? 'color: 0066ff':null}"/>
+                            <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq true}" stylePlus="#{item.kwota lt 0.00 ? 'color: red;':null}"/>
                         </f:facet>
                         <f:facet name="input">  
                             <p:inputNumber value="#{item.kwota}" required="true" styleClass="kwotarozrachunku" size="9"
@@ -234,7 +238,7 @@
                     </f:facet>
                     <p:cellEditor>
                         <f:facet name="output">  
-                            <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq false}" stylePlus="#{item.kwota lt 0.00 ? 'color: 0066ff':null}"/>
+                            <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq false}" stylePlus="#{item.kwota lt 0.00 ? 'color: red;':null}"/>
                         </f:facet>
                         <f:facet name="input">  
                             <p:inputNumber value="#{item.kwota}" required="true" styleClass="kwotarozrachunku" size="9"

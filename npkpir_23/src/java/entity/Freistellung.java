@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +16,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 /**
  *
@@ -45,18 +48,22 @@ public class Freistellung implements Serializable {
     @ManyToOne
     @JoinColumn(name = "podatnik", referencedColumnName = "id")
     private Podatnik podatnik;
-
     @Column(name = "rok")
     private String rok;
-
     @Column(name = "datado")
     private String datado;
-
     @Column(name = "mailprzypom1")
     private String mailprzypom1;
-
     @Column(name = "mailprzypom2")
     private String mailprzypom2;
+    @Column(name = "dataksiegowania", insertable=true, updatable=true)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dataksiegowania;
+    
+    @PrePersist
+    public void prePersist() {
+        this.dataksiegowania = new Date();
+    }
 
     // Getters and Setters
 
@@ -108,6 +115,16 @@ public class Freistellung implements Serializable {
         this.mailprzypom2 = mailprzypom2;
     }
 
+    public Date getDataksiegowania() {
+        return dataksiegowania;
+    }
+
+    public void setDataksiegowania(Date dataksiegowania) {
+        this.dataksiegowania = dataksiegowania;
+    }
+
+    
+    
     // Constructors
 
     public Freistellung() {

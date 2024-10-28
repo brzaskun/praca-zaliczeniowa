@@ -30,7 +30,7 @@ public class Podatnikkadryinfo {
      */
     @WebMethod(operationName = "Podatnikksiegowapobierz")
     public PodatnikKsiegowa hello(@WebParam(name = "nip") String nip) {
-        System.out.println("webserwis start");
+        //System.out.println("webserwis start");
         PodatnikKsiegowa zwrot = new PodatnikKsiegowa("brak podatnika");
         Podatnik findPodatnikByNIP = podatnikDAO.findPodatnikByNIP(nip);
         if (findPodatnikByNIP!=null) {

@@ -42,7 +42,7 @@
                     <p:outputPanel style="padding: 10px">
                         <!-- Tabela wyświetlająca dane Freistellung -->
                         <p:dataTable var="freistellung" value="#{freistellungView.freistellungList}" editable="true" styleClass="myDataTable" editMode="row" 
-                                     id="freistellungTable" rowKey="#{freistellung.id}" sortBy="#{freistellung.datado}" style="max-width: 700px;">
+                                     id="freistellungTable" rowKey="#{freistellung.id}" sortBy="#{freistellung.datado}" style="max-width: 800px;">
                             <p:column headerText="id" width="30">
                                 <h:outputText value="#{freistellung.id}" />
                             </p:column>
@@ -73,6 +73,12 @@
                             </p:column>
                             <p:column headerText="" width="30" style="text-align: center;">
                                 <p:commandButton icon="pi pi-trash" update="akordeon:freistellungTable" action="#{freistellungView.deleteFreistellung(freistellung)}" />
+                            </p:column>
+                             <!-- Nowa kolumna wyświetlająca dzień i czas dodania -->
+                            <p:column headerText="naniesiono">
+                                <h:outputText value="#{freistellung.dataksiegowania}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                                </h:outputText>
                             </p:column>
                         </p:dataTable>
                     </p:outputPanel>
