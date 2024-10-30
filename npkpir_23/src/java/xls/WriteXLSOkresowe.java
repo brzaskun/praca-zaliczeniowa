@@ -138,7 +138,7 @@ private static void createCheckboxCell(Cell cell, boolean value, CellStyle check
         try {
             // Ustawienia nagłówków odpowiedzi
             externalContext.setResponseContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"plik.xlsx\"");
+            externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"taxmanokresowe.xlsx\"");
 
             // Pobranie strumienia wyjściowego i zapisanie Workbook do strumienia
             OutputStream outputStream = externalContext.getResponseOutputStream();
