@@ -105,6 +105,7 @@ import serialclone.SerialClone;
 import sms.SmsSend;
 import sortfunction.FakturaSortBean;
 import waluty.Z;
+import xls.WriteXLSOkresowe;
 
 /**
  *
@@ -390,6 +391,9 @@ public class FakturaView implements Serializable {
 //        PrimeFaces.current().ajax().update("akordeon:formarchiwum");
     }
 
+    public void exportToExcel(List<Fakturywystokresowe> fakturyList) {
+        WriteXLSOkresowe.exportToExcel(fakturyList);
+    }
 
     public void nanieswaloryzacje() {
         List<FakturaWaloryzacja> waloryzacja = fakturaWaloryzacjaDAO.findAll();

@@ -103,6 +103,8 @@ public class KlientJPK implements Serializable {
     private boolean eksport;
     @Column(name = "importt")
     private boolean importt;
+    @Column(name = "rodzajtransakcji")
+    private String rodzajtransakcji;
     @Column(name = "amazontax0additional1")
     private int amazontax0additional1;
     @Column(name="opissprzedaz")
@@ -434,6 +436,14 @@ public class KlientJPK implements Serializable {
     public void setOpissprzedaz(String opissprzedaz) {
         this.opissprzedaz = opissprzedaz;
     }
+
+    public String getRodzajtransakcji() {
+        return rodzajtransakcji;
+    }
+
+    public void setRodzajtransakcji(String rodzajtransakcji) {
+        this.rodzajtransakcji = rodzajtransakcji;
+    }
     
     
 
@@ -475,7 +485,12 @@ public class KlientJPK implements Serializable {
 
     @Override
     public String toString() {
-        return "KlientJPK{" + "serial=" + serial + ", kodKrajuNadania=" + kodKrajuNadania + ", kodKrajuDoreczenia=" + kodKrajuDoreczenia + ", jurysdykcja=" + jurysdykcja + ", nrKontrahenta=" + nrKontrahenta + ", nazwaKontrahenta=" + nazwaKontrahenta + ", dowodSprzedazy=" + dowodSprzedazy + ", dataWystawienia=" + dataWystawienia + ", dataSprzedazy=" + dataSprzedazy + ", netto=" + netto + ", vat=" + vat + ", nettowaluta=" + nettowaluta + ", vatwaluta=" + vatwaluta + ", stawkavat=" + stawkavat + ", rok=" + rok + ", mc=" + mc + ", ewidencja=" + ewidencja .getNazwa() + ", waluta=" + waluta + ", wdt=" + wdt + ", wnt=" + wnt + ", eksport=" + eksport + ", importt=" + importt + '}';
+        if (ewidencja!=null) {
+            return "KlientJPK{" + "serial=" + serial + ", kodKrajuNadania=" + kodKrajuNadania + ", kodKrajuDoreczenia=" + kodKrajuDoreczenia + ", jurysdykcja=" + jurysdykcja + ", nrKontrahenta=" + nrKontrahenta + ", nazwaKontrahenta=" + nazwaKontrahenta + ", dowodSprzedazy=" + dowodSprzedazy + ", dataWystawienia=" + dataWystawienia + ", dataSprzedazy=" + dataSprzedazy + ", netto=" + netto + ", vat=" + vat + ", nettowaluta=" + nettowaluta + ", vatwaluta=" + vatwaluta + ", stawkavat=" + stawkavat + ", rok=" + rok + ", mc=" + mc + ", ewidencja=" + ewidencja .getNazwa() + ", waluta=" + waluta + ", wdt=" + wdt + ", wnt=" + wnt + ", eksport=" + eksport + ", importt=" + importt + '}';
+        }  else {
+             return "KlientJPK{" + "serial=" + serial + ", kodKrajuNadania=" + kodKrajuNadania + ", kodKrajuDoreczenia=" + kodKrajuDoreczenia + ", jurysdykcja=" + jurysdykcja + ", nrKontrahenta=" + nrKontrahenta + ", nazwaKontrahenta=" + nazwaKontrahenta + ", dowodSprzedazy=" + dowodSprzedazy + ", dataWystawienia=" + dataWystawienia + ", dataSprzedazy=" + dataSprzedazy + ", netto=" + netto + ", vat=" + vat + ", nettowaluta=" + nettowaluta + ", vatwaluta=" + vatwaluta + ", stawkavat=" + stawkavat + ", rok=" + rok + ", mc=" + mc + ", waluta=" + waluta + ", wdt=" + wdt + ", wnt=" + wnt + ", eksport=" + eksport + ", importt=" + importt + '}';
+        }
+}
     }
 
     
@@ -484,4 +499,4 @@ public class KlientJPK implements Serializable {
 
    
     
-}
+

@@ -49,8 +49,9 @@
                 <h:outputText value="Data wystawienia"/>
                 <p:inputText  id="datawystawienia" value="#{fakturaView.datawystawienia}" maxlength="10" placeholder="rrrr-mm-dd" onblur="weryfikujsporzadzfakture(this)"/>
                 <p:commandButton value="drukuj" actionListener="#{fakturaView.drukujokresowe}" global="false" style="width: 120px; margin-left: 10px;"/>
-                <p:commandButton value="drukuj zerowe" actionListener="#{fakturaView.drukujokresowezerowe}" global="false" style="width: 120px; margin-left: 10px;"/>
-                <p:selectOneMenu value="#{fakturaView.jakapobrac}" style="margin-left: 10px;">
+                <p:commandButton value="XLS" actionListener="#{fakturaView.exportToExcel(fakturaView.fakturyokresowe)}" global="false" ajax="false" style="width: 120px; margin-left: 10px;"/>
+<!--                <p:commandButton value="drukuj zerowe" actionListener="#{fakturaView.drukujokresowezerowe}" global="false" style="width: 120px; margin-left: 10px;"/>-->
+<!--                <p:selectOneMenu value="#{fakturaView.jakapobrac}" style="margin-left: 10px;">
                     <f:selectItem itemLabel="wszystkie" itemValue="0"/>
                     <f:selectItem itemLabel="niewystawione" itemValue="6"/>
                     <f:selectItem itemLabel="edycja" itemValue="1"/>
@@ -59,7 +60,7 @@
                     <f:selectItem itemLabel="waloryzowana" itemValue="4"/>
                     <f:selectItem itemLabel="niewaloryzowana" itemValue="5"/>
                     <p:ajax event="change" partialSubmit="true" global="false" listener="#{fakturaView.filtrujfakturyNowe}" update="akordeon:formokresowe3:dokumentyOkresowe"/>
-                </p:selectOneMenu>
+                </p:selectOneMenu>-->
                 <h:outputText value="filtruj wg wartości od-do"/>
                 <p:inputNumber  value="#{fakturaView.dolnylimit}" symbol=" zł" 
                                 style="width: 70px;" symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">

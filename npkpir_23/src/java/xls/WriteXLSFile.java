@@ -280,7 +280,7 @@ public class WriteXLSFile {
         Sheet sheet = workbook.createSheet("Zapisy");
         insertPrintHeader(sheet, wpisView);
         int rowIndex = 0;
-        rowIndex = drawATable(workbook, sheet, rowIndex, headersList, stronywiersza, "Zapisy", 1, "zapisynakontach");
+        rowIndex = drawATableSinkos(workbook, sheet, rowIndex, headersList, stronywiersza, "Zapisy", 1, "zapisynakontach");
         workbook.setPrintArea(
         0, //sheet index
         0, //start column
@@ -858,8 +858,39 @@ public class WriteXLSFile {
         }
         return zwrot;
     }
-
+    
     private static <T> int drawATable(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<T> elements, String tableheader, int typ, String nazwasumy) {
+        int startindex = rowIndex+3;
+        int columnIndex = 0;
+        Row rowTH = sheet.createRow(rowIndex++);
+        CellStyle styleheader = styleHeader(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, (short) 10);
+        createHeaderCell(styleheader, rowTH, (short) 2, tableheader);
+        CellRangeAddress region = new CellRangeAddress( rowIndex-1, rowIndex-1, (short) 2, (short)12);
+        sheet.addMergedRegion(region);
+        CellStyle styletext = styleText(workbook, HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
+        CellStyle styletextcenter = styleText(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
+        CellStyle styleformula = styleFormula(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
+        CellStyle styledouble = styleDouble(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
+        Row rowH = sheet.createRow(rowIndex++);
+        for(Iterator it = headers.iterator(); it.hasNext();){
+            String header = (String) it.next();
+            createHeaderCell(styleheader, rowH, (short) columnIndex++, header);
+        }
+        for(Iterator it = elements.iterator(); it.hasNext();){
+            T st = (T) it.next();
+            Row row = sheet.createRow(rowIndex++);
+            columnIndex = 0;
+            ustawWiersz(workbook, row, columnIndex, st, rowIndex, styletext, styletextcenter, styledouble,0);
+        }
+//        sheet.createRow(rowIndex++);//pusty row
+        if (headers.size()> 3) {
+            rowIndex = summaryRow(startindex, rowIndex, workbook, sheet, typ, nazwasumy, styletext, styleformula);
+        }
+        autoAlign(sheet);
+        return rowIndex;
+    }
+
+    private static <T> int drawATableSinkos(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<T> elements, String tableheader, int typ, String nazwasumy) {
         int startindex = rowIndex+3;
         int columnIndex = 0;
         Row rowTH = sheet.createRow(rowIndex++);

@@ -74,7 +74,7 @@
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                     </p:selectOneMenu>
                 </p:column> 
-                    <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSSuSaView.zachowajSuSawXLS(saldoSyntetykaView.listaSaldoKonto)}" style=" margin-left: 5px;" global="false" ajax="false"/>
+                    <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSSuSaView.zachowajSuSawXLS(saldoSyntetykaView.listaSaldoKonto,saldoSyntetykaView.listaSaldoKontofilter,saldoSyntetykaView.listaSaldoKontowybrane)}" style=" margin-left: 5px;" global="false" ajax="false"/>
             </p:panelGrid>
             <p:dataTable lazy="false"  id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          filteredValue="#{saldoSyntetykaView.listaSaldoKontofilter}" selection="#{saldoSyntetykaView.listaSaldoKontowybrane}"
