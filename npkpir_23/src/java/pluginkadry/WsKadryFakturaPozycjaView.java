@@ -100,7 +100,7 @@ public class WsKadryFakturaPozycjaView implements Serializable {
                         }
                     }
                 }
-                if (odnaleziony==null) {
+                if (odnaleziony==null&&w.isZamkniety()) {
                     odnaleziony = new Wierszfakturybaza(w);
                     odnaleziony.setDatazamkniecia(w.getData());
                     wierszfakturybazaDAO.create(odnaleziony);
