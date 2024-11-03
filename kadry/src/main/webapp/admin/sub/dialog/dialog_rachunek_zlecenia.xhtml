@@ -129,7 +129,7 @@
                     <h:outputText value="podatek zryczałtowany - nierezydent" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.pracownik.nierezydent eq true}"/>
                     <h:outputText value="podatek wg skali" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.umowa.pracownik.nierezydent eq false}"/>
                 </p:panelGrid>
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="3">
               <p:commandButton value="drukuj" actionListener="#{rachunekZlecenieView.drukuj()}" styleClass="buttonnorm" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null}"/>
                     <p:commandButton value="zaksięguj" actionListener="#{rachunekZlecenieView.zaksieguj()}" update="RachunekZleceniaForm" styleClass="buttonnorm" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id eq null}"/>
                     <p:commandButton value="edytuj" actionListener="#{rachunekZlecenieView.edytujkwadraciki()}" update="RachunekZleceniaForm" styleClass="buttonnorm" rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen eq null}"/>
@@ -138,10 +138,7 @@
                          <p:confirm type="popup" header="Usuwanie rachunku do umowy" message="Na pewno usunąć rachunek?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
                     </p:panelGrid>
-<!--                    <p:commandButton value="usuń" actionListener="#{rachunekZlecenieView.usun()}" update="RachunekZleceniaForm" styleClass="buttonnorm2" 
-                                     >
-                         <p:confirm type="popup" header="Usuwanie rachunku do umowy" message="Na pewno usunąć rachunek?" icon="pi pi-exclamation-triangle"/>
-                    </p:commandButton>--><p:panelGrid columns="1">
+                <p:panelGrid columns="1">
                     <h:outputText value="Rachunek ujęty na liście płac. Nie można usunąć rachunku." rendered="#{rachunekZlecenieView.rachunekdoumowyzlecenia.id ne null and rachunekZlecenieView.rachunekdoumowyzlecenia.pasekwynagrodzen ne null}"/>
                 </p:panelGrid>
                 </p:outputPanel>
