@@ -25,6 +25,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  * jak chciqalem dodac nowe pola to byla cala zabawa z usuwaniem plikow jaxws-build w npkpir
  * potem byly problemy z nazwami odwarzalem z hostorri. kupa roboty. byc moze nie zauwazylem na pocztaku ze jednak sie przeniosly pola do wygenerowancyh klas p[rzyjrzyj sie dokladnie
+ * nic strasznego. zaktualizowac kadry clean and build
+ * potem pobrac wsdl i wkleic C:\Users\Osito\Documents\NetBeansProjects\npkpir_23\src\conf\xml-resources\web-service-references\WsKadryFakturaPozycja_1\wsdl\localhost_8080\kadry\WsKadryFakturaPozycja.wsdl
+ * clean and buidl i dziala, cala filozofia. nie ruszamy zadnych jaxws albo build!!
  */
 @Entity
 @Table(name = "wierszfaktury", uniqueConstraints = {
