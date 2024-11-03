@@ -33,6 +33,8 @@
 <xs:element name="rok" type="xs:string" minOccurs="0"/>
 <xs:element name="nazwa" type="xs:string" minOccurs="0"/>
 <xs:element name="symbolwaluty" type="xs:string" minOccurs="0"/>
+<xs:element name="zamkniety" type="xs:boolean" minOccurs="0"/>
+<xs:element name="data" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
