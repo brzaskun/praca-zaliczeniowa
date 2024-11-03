@@ -450,6 +450,7 @@ public class PasekwynagrodzenBean {
             boolean jestoddelegowanie, double limitZUS, List<Podatki> stawkipodatkowe, double sumapoprzednich, 
             Rachunekdoumowyzlecenia rachunekdoumowyzlecenia, double limit26, double sumabruttopoprzednich, 
             List<Nieobecnosc> nieobecnoscilista, double sumabruttoopodatkowanapoprzednich) {
+
         double zmiennawynagrodzeniakwota = rachunekdoumowyzlecenia.getKwota();
         double zmiennawynagrodzeniakwotaodelegowanie = rachunekdoumowyzlecenia.getKwotaoddelegowanie();
         double zmiennawynagrodzeniakwotaodelegowaniewaluta = rachunekdoumowyzlecenia.getKwotaoddelegowaniewaluta();
@@ -957,30 +958,22 @@ public class PasekwynagrodzenBean {
    
     
     private static void obliczbruttoumowadzielo(Pasekwynagrodzen pasek, Rachunekdoumowyzlecenia rachunekdoumowyzlecenia) {
-        double bruttozuskraj = 0.0;
-        double bruttozusoddelegowanie = 0.0;
-        double bruttozusoddelegowaniewaluta = 0.0;
-        for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.isZus0bezzus1() == true && p.isPodatek0bezpodatek1() == false) {
-                if (p.getSkladnikwynagrodzenia().isOddelegowanie()) {
-                    bruttozusoddelegowanie = Z.z(bruttozusoddelegowanie + p.getKwotadolistyplac());
-                    bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotadolistyplacwaluta());
-                } else {
-                    bruttozuskraj = Z.z(bruttozuskraj + p.getKwotadolistyplac());
-                }
-            }
+        Pasekpomocnik sumyprzychodow = sumujprzychodyzlisty(pasek);
+        double przychodyBiezacyMiesiacPolska = sumyprzychodow.getBruttokraj()+sumyprzychodow.getBruttooddelegowanie();
+        double przychodyBiezacyMiesiacZagranica = 0.0;
+        if (pasek.isPrzekroczenieoddelegowanie()) {
+            przychodyBiezacyMiesiacPolska = sumyprzychodow.getBruttokraj();
+            przychodyBiezacyMiesiacZagranica = sumyprzychodow.getBruttooddelegowanie();
         }
-        for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
-            bruttozuskraj = Z.z(bruttozuskraj + p.getKwotazus());
-            bruttozusoddelegowaniewaluta = Z.z(bruttozusoddelegowaniewaluta + p.getKwotawaluta());
-        }
-        double bruttobezzus = bruttozuskraj + bruttozusoddelegowanie;
-        pasek.setBruttobezzus(bruttobezzus);
-        pasek.setStudent(rachunekdoumowyzlecenia.isStatusstudenta());
-        pasek.setOddelegowaniepln(bruttozusoddelegowanie);
-        pasek.setOddelegowaniewaluta(bruttozusoddelegowaniewaluta);
-        pasek.setBruttozuskraj(0.0);
-        pasek.setBrutto(Z.z(bruttobezzus + bruttozusoddelegowanie));
+        pasek.setPrzychodypodatekpolska(przychodyBiezacyMiesiacPolska);
+        pasek.setPrzychodypodatekzagranica(przychodyBiezacyMiesiacZagranica);
+        pasek.setBruttozuskraj(sumyprzychodow.getBruttokraj());
+        pasek.setBruttobezzusbezpodatek(sumyprzychodow.bezzusbezpodatek);
+        pasek.setBrutto(Z.z(pasek.getBrutto() + sumyprzychodow.brutto));
+        pasek.setOddelegowaniepln(sumyprzychodow.getBruttooddelegowanie());
+        pasek.setOddelegowaniewaluta(sumyprzychodow.getBruttooddelegowaniewaluta());
+        pasek.setBruttozuskraj(sumyprzychodow.getBruttokraj());
+        pasek.setBrutto(Z.z(pasek.getBrutto() + sumyprzychodow.getBruttokraj() + sumyprzychodow.getBruttooddelegowanie()));
     }
 
     private static void obliczbruttoumowaopraceKod0511(Pasekwynagrodzen pasek) {
