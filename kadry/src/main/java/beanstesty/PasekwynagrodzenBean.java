@@ -973,7 +973,6 @@ public class PasekwynagrodzenBean {
         pasek.setOddelegowaniepln(sumyprzychodow.getBruttooddelegowanie());
         pasek.setOddelegowaniewaluta(sumyprzychodow.getBruttooddelegowaniewaluta());
         pasek.setBruttozuskraj(sumyprzychodow.getBruttokraj());
-        pasek.setBrutto(Z.z(pasek.getBrutto() + sumyprzychodow.getBruttokraj() + sumyprzychodow.getBruttooddelegowanie()));
     }
 
     private static void obliczbruttoumowaopraceKod0511(Pasekwynagrodzen pasek) {
