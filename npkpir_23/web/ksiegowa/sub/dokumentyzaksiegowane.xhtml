@@ -146,7 +146,7 @@
         
         <p:outputPanel id="kontenertabeli" rendered="#{WpisView.biuroiszef eq true}">
             <p:dataTable lazy="false" var="wpis" value="#{DokTabView.dokumentylista}" id="dokumentyLista" filteredValue="#{DokTabView.dokumentyFiltered}" rowIndexVar="index"
-                          style="max-width:  1850px; margin-top: 10px; max-height: 900px; overflow-y: scroll; overflow-x: hidden;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
+                          style="max-width:  1900px; margin-top: 10px; max-height: 900px; overflow-y: scroll; overflow-x: hidden;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów" rowSelectMode="add" styleClass="grid" >
                 
@@ -287,8 +287,13 @@
                 <p:column width="40" id="niemcy" headerText="niemcy" style="text-align: center" sortBy="#{wpis.jestniemcy()}" rendered="#{DokTabView.robulganazledlugi eq false}"  styleClass="hide-on-small">
                     <h:outputText value="&#x2713;" rendered="#{wpis.jestniemcy()}" style="color: green;font-weight: bold"/>
                 </p:column>
-                <p:column width="100" id="wprow" headerText="wprow."  rendered="#{DokTabView.robulganazledlugi eq false}"  resizable="true" styleClass="hide-on-small">
+                <p:column width="100" id="wprowdata" headerText="wprow."  rendered="#{DokTabView.robulganazledlugi eq false}"  resizable="true" styleClass="hide-on-small">
                     <h:outputText value="#{wpis.wprowadzil}" />
+                </p:column>
+                 <p:column width="70" id="wprow" headerText="data ks."  rendered="#{DokTabView.robulganazledlugi eq false}"  resizable="true" styleClass="hide-on-small">
+                     <h:outputText value="#{wpis.dataK}" >
+                         <f:convertDateTime pattern="yyyy-MM-dd  HH:mm:ss" />
+                     </h:outputText>
                 </p:column>
                 <p:column id="status" headerText="tab" style="width: 7%; text-align: center;" sortBy="#{wpis.tabelanbp.waluta.symbolwaluty}"  rendered="#{DokTabView.robulganazledlugi eq false}" styleClass="hide-on-small">
                     <h:outputText value="#{wpis.tabelanbp.nrtabeli}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
