@@ -287,6 +287,7 @@ public class Mail {
     public static void mailListaPlac(FirmaKadry firma, String rok, String mc, String adresemail, String adresemaillista, SMTPSettings settings,SMTPSettings ogolne, ByteArrayOutputStream listaplac, ByteArrayOutputStream rachunki, String nazwapliku, String adresBCC)  {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
+            System.out.println("pobralem logowanie");
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adresemail));

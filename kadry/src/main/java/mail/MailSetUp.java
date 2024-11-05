@@ -19,10 +19,14 @@ public class MailSetUp implements Serializable{
     
        
       public static Session otworzsesje(SMTPSettings settings, SMTPSettings ogolne) {
+        System.out.println("otwieram sesje");
         Session session = null;
         if (settings == null) {
             final String username = ogolne.getUsername();
             final String password = ogolne.getPassword();
+            System.out.println("loguje mail ogole");
+            System.out.println("login: "+ogolne.getUsername());
+            System.out.println("haslo: "+ogolne.getPassword());
             Properties props = new Properties();
             props.put("mail.smtp.host", ogolne.getSmtphost());
             props.put("mail.smtp.port", ogolne.getSmtpport());
@@ -45,6 +49,9 @@ public class MailSetUp implements Serializable{
         } else {
             final String username = settings.getUsername();
             final String password = settings.getPassword();
+            System.out.println("loguje mail szczegolne");
+            System.out.println("login: "+ogolne.getUsername());
+            System.out.println("haslo: "+ogolne.getPassword());
             Properties props = new Properties();
             props.put("mail.smtp.host", settings.getSmtphost());
             props.put("mail.smtp.port", settings.getSmtpport());
