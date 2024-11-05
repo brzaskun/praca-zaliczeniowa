@@ -39,7 +39,7 @@
     <p:dialog id="bilanswprowadzanienowy" header="Bilans otwarcia/Obroty rozpoczęcia - wprowadzanie sald - #{WpisView.podatnikObiekt.nazwapelnaPDF}"
               widgetVar="bilanswprowadzanienowy"
               appendTo="@(body)" style="overflow-y: hidden;"
-              resizable="false" onShow="ustawdialog('bilanswprowadzanienowy','menubilanse', 1700, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanienowy');"
+              resizable="false" onShow="ustawdialog('bilanswprowadzanienowy','menudokumenty', 1700, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanienowy');"
               maximizable="true">
         <h:form id="formbilanswprowadzanienowy_wiersz">
             <p:outputPanel rendered="#{bilansWprowadzanieNowyView.tojestbilanslikwidacyjny}" id="uwaga">
