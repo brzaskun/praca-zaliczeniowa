@@ -593,15 +593,19 @@ public class PasekwynagrodzenView implements Serializable {
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
             findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
             findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
-            String nrpoprawny = wybranalistaplac.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
-            String nazwa = wybranalistaplac.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
-            mail.Mail.mailListaPlac(wpisView.getFirma(), pasek.getRok(), pasek.getMc(), wpisView.getFirma().getEmail(), wpisView.getFirma().getEmaillp(), 
-                    null, findSprawaByDef, drukujlistaplac, drukujrachunki, nazwa, wpisView.getUzer().getEmail());
-            Msg.msg("Wysłano listę płac do pracodawcy");
-            for (Pasekwynagrodzen p :lista) {
-                p.setDatawysylki(Data.aktualnaData());
+            if (wpisView.getUzer().getEmailhaslo()==null) {
+                Msg.msg("e", "Brak wpisanego maila użytkownika. Nie można wysłać listy.");
+            } else {
+                String nrpoprawny = wybranalistaplac.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
+                String nazwa = wybranalistaplac.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
+                mail.Mail.mailListaPlac(wpisView.getFirma(), pasek.getRok(), pasek.getMc(), wpisView.getFirma().getEmail(), wpisView.getFirma().getEmaillp(), 
+                        null, findSprawaByDef, drukujlistaplac, drukujrachunki, nazwa, wpisView.getUzer().getEmail());
+                Msg.msg("Wysłano listę płac do pracodawcy");
+                for (Pasekwynagrodzen p :lista) {
+                    p.setDatawysylki(Data.aktualnaData());
+                }
+                pasekwynagrodzenFacade.editList(lista);
             }
-            pasekwynagrodzenFacade.editList(lista);
         } else {
             Msg.msg("e", "Błąd drukowania. Brak pasków");
         }
