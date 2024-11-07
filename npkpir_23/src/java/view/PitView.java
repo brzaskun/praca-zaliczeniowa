@@ -15,15 +15,17 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import mail.MailOther;
 import msg.Msg;
- import org.primefaces.PrimeFaces;
-import pdf.PdfPIT5;
+import org.primefaces.PrimeFaces;
+ import pdf.PdfPIT5;
 
 /**
  *
@@ -64,6 +66,7 @@ public class PitView implements Serializable {
     public void init() { //E.m(this);
         biezacyPit = new Pitpoz();
         lista = pitDAO.findPitPod(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu(), wybranacechadok);
+        Collections.sort(lista, new PitpozComparator());
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnlyAktywne(wpisView.getPodatnikObiekt());
        
     }
@@ -76,7 +79,15 @@ public class PitView implements Serializable {
         PrimeFaces.current().ajax().update("formpi:tablicapit");
         Msg.msg("i", "Usunieto ostatni PIT dla podatnika "+selected.getUdzialowiec()+" za m-c: "+selected.getPkpirM(),"formpi:messages");
     }
-     
+      // Calculate the total należna zaliczka
+    public double getTotalNaleznaZal() {
+        return lista.stream()
+                     .map(Pitpoz::getNaleznazal)
+                    .filter(Objects::nonNull)
+                    .mapToDouble(naleznazal -> naleznazal != null ? naleznazal.doubleValue() : 0.0)
+                    .sum();
+
+    }
      public void drukujarch() {
          try {
             PdfPIT5.drukuj(biezacyPit, wpisView, podatnikDAO);
@@ -171,3 +182,32 @@ public class PitView implements Serializable {
     
 }
 
+ class PitpozComparator implements Comparator<Pitpoz>, Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public int compare(Pitpoz o1, Pitpoz o2) {
+        // Porównanie pola pkpirR (rok)
+        int year1 = parseIntSafe(o1.getPkpirR());
+        int year2 = parseIntSafe(o2.getPkpirR());
+        int yearComparison = Integer.compare(year1, year2);
+
+        if (yearComparison != 0) {
+            return yearComparison;
+        }
+
+        // Jeśli lata są równe, porównaj pole pkpirM (miesiąc)
+        int month1 = parseIntSafe(o1.getPkpirM());
+        int month2 = parseIntSafe(o2.getPkpirM());
+        return Integer.compare(month1, month2);
+    }
+
+    // Metoda pomocnicza do bezpiecznego parsowania liczb całkowitych
+    private int parseIntSafe(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return 0; // Lub inna wartość domyślna w zależności od kontekstu
+        }
+    }
+}

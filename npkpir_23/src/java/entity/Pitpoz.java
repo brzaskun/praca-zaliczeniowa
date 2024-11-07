@@ -7,6 +7,7 @@ package entity;
 import entityfk.Cechazapisu;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +19,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -130,6 +134,9 @@ public class Pitpoz implements Serializable {
     @JoinColumn(name = "podmiot", referencedColumnName = "id")
     @ManyToOne
     private Podmiot podmiot;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "data")
+    private Date data;
   
 
     public Pitpoz() {
@@ -141,7 +148,10 @@ public class Pitpoz implements Serializable {
         this.nalzalodpoczrok = BigDecimal.ZERO;
     }
     
-    
+    @PrePersist
+    public void prePersist() {
+        this.data = new Date();
+    }
 
     public Pitpoz(Integer id) {
         this.id = id;
@@ -411,6 +421,14 @@ public class Pitpoz implements Serializable {
     
     public double getWynikudzialzamc() {
         return Z.z(this.przychodyudzialmc-this.kosztyudzialmc);
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
     }
 
     

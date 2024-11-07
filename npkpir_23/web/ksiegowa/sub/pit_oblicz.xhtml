@@ -598,7 +598,7 @@
         </p:tab>
         <p:tab id="tab6" title="Archiwum PIT">
             <p:panelGrid layout="tabular" columns="4" style="width: 700px" rendered="#{WpisView.ryczalt0ksiega1 eq true and WpisView.biuroiszef eq true}" >
-                <h:form id="formpi" style="width: 500px" >
+                <h:form id="formpi" style="width: 600px" >
                     <p:panel header="wybierz rozliczenie wg cech: " style="width: 250px;" rendered="#{pitView.pobranecechypodatnik ne null and pitView.pobranecechypodatnik.size() gt 1}"/>
                     <p:selectOneMenu value="#{pitView.wybranacechadok}" style="width: 250px;"  rendered="#{pitView.pobranecechypodatnik ne null and pitView.pobranecechypodatnik.size() gt 1}" converter="#{cechaConv}">
                         <f:selectItem itemLabel="wybierz cechę" itemValue="" noSelectionOption="true"/>
@@ -615,10 +615,10 @@
                         <p:column headerText="okres rozlicz.: " width="70">
                             <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/>
                         </p:column>
-                        <p:column headerText="udzialowiec: ">
+                        <p:column headerText="udzialowiec: " width="150">
                             <h:outputText value="#{loop.udzialowiec}"/>
                         </p:column>
-                        <p:column headerText="udział: ">
+                        <p:column headerText="udział: " width="30">
                             <h:outputText value="#{loop.udzial}%"/>
                         </p:column>
                         <p:column headerText="wynik: " width="90">
@@ -626,6 +626,17 @@
                         </p:column>
                         <p:column headerText="należna zaliczka: ">
                             <h:outputText value="#{loop.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                              <f:facet name="footer">
+                                  <bcf:outputpl value="#{pitView.totalNaleznaZal}"/>
+                            </f:facet>
+                        </p:column>
+                        <p:column width="80">
+                            <f:facet name="header">
+                                <h:outputText value="data sporz."/>
+                            </f:facet>
+                            <h:outputText value="#{item.data}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            </h:outputText>
                         </p:column>
                     </p:dataTable>
                     <p:commandButton value="usuń pit"  onclick="PF('usunPIT').show();"  style="width: 120px; margin-top: 2%;"/>
@@ -712,21 +723,32 @@
                 </h:form>
             </p:panelGrid>
             <p:panelGrid layout="tabular" columns="4" style="width: 600px" rendered="#{WpisView.ryczalt0ksiega1 eq false}">
-                <h:form id="formpi1" style="width: 400px" >
+                <h:form id="formpi1" style="width: 500px" >
                     <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
 
                     <p:panel header="wprowadzone PIT-y (ryczałt): " /><br/>
                     <p:dataTable lazy="false"  id="tablicapita1" value="#{ryczView.lista}" var="loop" selectionMode="single" selection="#{ryczView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 
                                  emptyMessage="Brak sporządzonych pitów w danym roku">
                         <p:ajax event="rowSelect" listener="#{ryczView.inforryczalt}" update="akordeon:formpi3:zestawieniepitview" global="false"/>
-                        <p:column headerText="okres rozliczeniowy: ">
+                        <p:column headerText="okres rozliczeniowy: " width="60">
                             <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/>
                         </p:column>
-                        <p:column headerText="udzialowiec: ">
+                        <p:column headerText="udzialowiec: " width="190">
                             <h:outputText value="#{loop.udzialowiec}"/>
                         </p:column>
                         <p:column headerText="należna zaliczka: ">
                             <h:outputText value="#{loop.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                            <f:facet name="footer">
+                                  <bcf:outputpl value="#{ryczView.totalNaleznaZal}"/>
+                            </f:facet>
+                        </p:column>
+                        <p:column width="80">
+                            <f:facet name="header">
+                                <h:outputText value="data sporz."/>
+                            </f:facet>
+                            <h:outputText value="#{item.data}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            </h:outputText>
                         </p:column>
                     </p:dataTable>
                     <p:commandButton value="usun pit"  onclick="PF('usunPITR').show();" style="width: 120px;"/>

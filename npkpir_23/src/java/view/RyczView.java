@@ -1,5 +1,7 @@
 package view;
 
+
+import comparator.RyczpozComparator;
 import dao.PodatnikDAO;
 import dao.RyczDAO;
 import entity.Ryczpoz;
@@ -8,12 +10,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
- import org.primefaces.PrimeFaces;
+import org.primefaces.PrimeFaces;
 import pdf.PdfPIT28;
 
 /**
@@ -35,13 +38,21 @@ public class RyczView implements Serializable {
         lista = Collections.synchronizedList(new ArrayList<>());
        
     }
-    
+    // Calculate the total należna zaliczka
+    public double getTotalNaleznaZal() {
+        return lista.stream()
+                     .map(Ryczpoz::getNaleznazal)
+                    .filter(Objects::nonNull)
+                    .mapToDouble(naleznazal -> naleznazal != null ? naleznazal.doubleValue() : 0.0)
+                    .sum();
+
+    }
     
     
     @PostConstruct
     public void init() { //E.m(this);
         lista = ryczDAO.findRyczPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
-       
+        Collections.sort(lista, new RyczpozComparator());
     }
     
      public void usun() {

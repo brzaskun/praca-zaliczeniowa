@@ -8,6 +8,7 @@ import embeddable.RyczaltPodatek;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -20,7 +21,10 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -112,12 +116,20 @@ public class Ryczpoz implements Serializable {
     @JoinColumn(name = "podmiot", referencedColumnName = "id")
     @ManyToOne
     private Podmiot podmiot;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "data")
+    private Date data;
 
     public Ryczpoz() {
     }
 
     public Ryczpoz(Integer id) {
         this.id = id;
+    }
+    
+    @PrePersist
+    public void prePersist() {
+        this.data = new Date();
     }
     
     public double getP17() {
@@ -544,6 +556,14 @@ public class Ryczpoz implements Serializable {
 
     public void setPodmiot(Podmiot podmiot) {
         this.podmiot = podmiot;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
     }
 
     
