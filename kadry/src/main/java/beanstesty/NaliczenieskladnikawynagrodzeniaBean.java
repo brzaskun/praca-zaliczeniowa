@@ -351,7 +351,9 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                             redukcja = kwotazmiennej;
                         }
                     }
+                    double dowyplatyzaczasprzepracowanywaluta = 0.0;
                     if (naliczenieskladnikawynagrodzenia.getWaluta().equals("PLN")==false) {
+                        dowyplatyzaczasprzepracowanywaluta = dowyplatyzaczasprzepracowany;
                         dowyplatyzaczasprzepracowany = dowyplatyzaczasprzepracowany*kurs;
                     }
                     naliczenieskladnikawynagrodzenia.setDataod(datastart);
@@ -360,6 +362,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
                     naliczenieskladnikawynagrodzenia.setStawkadzienna(stawkadzienna);
                     naliczenieskladnikawynagrodzenia.setKwotaumownazacalymc(kwotazmiennej);
                     naliczenieskladnikawynagrodzenia.setKwotadolistyplac(Z.z6(dowyplatyzaczasprzepracowany));
+                    naliczenieskladnikawynagrodzenia.setKwotadolistyplacwaluta(dowyplatyzaczasprzepracowanywaluta);
                     naliczenieskladnikawynagrodzenia.setKwotaumownaminred11(Z.z(kwotazmiennejporedukcji11));
                     naliczenieskladnikawynagrodzenia.setDninalezne(kalendarz.getDniroboczewmiesiacu());
                     naliczenieskladnikawynagrodzenia.setDnifaktyczne(kalendarz.getDnipracywmiesiacu());
