@@ -104,7 +104,6 @@ public class UrlopBean {
                 //urlopprezentacja.getWykorzystanierokbiezacy() to jest nanowszone w naniesdnizkodem
                 int wykorzystanierokbiezacygodziny = urlopprezentacja.getWykorzystanierokbiezacy();
                 double wykorzystanierokbierzacydni  = urlopprezentacja.getWykorzystanierokbiezacydni();
-
                 int doprzeniesieniaGodziny = urlopprezentacja.getBilansotwarciagodziny()+urlopprezentacja.getWymiarokresbiezacygodziny()-urlopprezentacja.getWykorzystanierokbiezacy()-urlopprezentacja.getWykorzystanierokbiezacyekwiwalent();
                 urlopprezentacja.setDoprzeniesienia(doprzeniesieniaGodziny);
                 double doprzeniesieniadni = (doprzeniesieniaGodziny/8.0);
@@ -169,7 +168,7 @@ public class UrlopBean {
                 }
                 int limitdnizrokubiezacego = urlopprezentacja.getWymiarokresbiezacygodziny();
                 int wykorzystaniewtymroku = wykorzystanierokbiezacygodziny+ekwiwalentwyplaconygodziny;
-                int rozliczonegodzinyztegoroku = wykorzystaniewtymroku > limitdnizrokubiezacego? limitdnizrokubiezacego:wykorzystaniewtymroku;
+                int rozliczonegodzinyztegoroku = wykorzystaniewtymroku - urlopprezentacja.getBilansotwarciagodziny();
                 int doswiadectwagodziny = (rozliczonegodzinyztegoroku);
                 urlopprezentacja.setDoswiadectwagodziny(doswiadectwagodziny);
                 int doswiadectwadni = (doswiadectwagodziny/8*pobierzetat.getEtat2()/pobierzetat.getEtat1());

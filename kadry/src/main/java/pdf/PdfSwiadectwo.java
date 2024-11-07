@@ -209,9 +209,11 @@ public class PdfSwiadectwo {
                 czydodano = false;
                 String urlop3 = "4) korzystał z urlopu bezpłatnego: ";
                 int dniurlopubezplatnego = 0;
+                //zmieniam na kalendarzowe Marila 07.11.2024
                 for (Swiadectwodni s : dnidoswiadectwa) {
                     if (s.getNieobecnoscswiadectwoschema().getRodzajnieobecnosci().getKod().equals("X")&&s.getDnirobocze()>0) {
-                        dniurlopubezplatnego = dniurlopubezplatnego+(int)s.getDnirobocze();
+                        //dniurlopubezplatnego = dniurlopubezplatnego+(int)s.getDnirobocze();
+                        dniurlopubezplatnego = dniurlopubezplatnego+(int)s.getDnikalendarzowe();
                         czydodano = true;
                         break;
                     }
