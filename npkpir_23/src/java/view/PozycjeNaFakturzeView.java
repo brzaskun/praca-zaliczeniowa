@@ -14,7 +14,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -22,6 +24,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
+
 /**
  *
  * @author Osito
@@ -64,7 +67,7 @@ public class PozycjeNaFakturzeView implements Serializable {
         } else if (request.isUserInRole("Bookkeeper")) {
             west = "sub/layoutFakturaKsiegowa/west.xhtml";
             westustawienia = "sub/layoutFakturaKsiegowa/westustawienia.xhtml";
-        } else if (request.isUserInRole("GuestFK")||request.isUserInRole("GuestFKBook")) {
+        } else if (request.isUserInRole("GuestFK") || request.isUserInRole("GuestFKBook")) {
             west = "../wspolny/sub/layoutFakturaGuestFK/west.xhtml";
             westustawienia = "../wspolny/sub/layoutFakturaGuestFK/westustawienia.xhtml";
         } else if (request.isUserInRole("GuestFaktura")) {
@@ -79,7 +82,6 @@ public class PozycjeNaFakturzeView implements Serializable {
         }
         pozycjefakturapodatnik = pobierzpozycjepodatnika();
     }
-
 
     public void importuj() {
         Podatnik wzorcowy = podatnikDAO.findPodatnikByNIP("8511005008");
@@ -102,26 +104,26 @@ public class PozycjeNaFakturzeView implements Serializable {
     }
 
     public void zachowajpozycje() {
-        Pozycjenafakturze pozycje = pozycjeDAO.findPozycjePodatnikCo(wpisView.getPodatnikObiekt(),co);
+        Pozycjenafakturze pozycje = pozycjeDAO.findPozycjePodatnikCo(wpisView.getPodatnikObiekt(), co);
         if (pozycje == null) {
-                pozycje = new Pozycjenafakturze(co, wpisView.getPodatnikObiekt(), gora, lewy);
+            pozycje = new Pozycjenafakturze(co, wpisView.getPodatnikObiekt(), gora, lewy);
         } else {
             pozycje.setGora(gora);
             pozycje.setLewy(lewy);
         }
         try {
-            if (pozycje.getId()==null) {
+            if (pozycje.getId() == null) {
                 pozycjeDAO.create(pozycje);
             } else {
                 pozycjeDAO.edit(pozycje);
             }
             pobierzpozycjepodatnika();
-            Msg.msg("i", "Zachowano "+pozycje.toString());
-        } catch (Exception e) { 
-            E.e(e); 
+            Msg.msg("i", "Zachowano " + pozycje.toString());
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Wystapił błąd przy zachowywaniu pozycji");
         }
-        
+
     }
 
     public void odchowaj() {
@@ -137,7 +139,8 @@ public class PozycjeNaFakturzeView implements Serializable {
                     coTablica = coTablica + p.getNazwa() + ",";
                 }
             }
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("i", "Elementy faktury nie są ustawione");
         }
     }
@@ -145,29 +148,58 @@ public class PozycjeNaFakturzeView implements Serializable {
     private HashMap<String, Pozycjenafakturze> pobierzpozycjepodatnika(List<Pozycjenafakturze> pozycjewzorcowe) {
         pozycjefakturapodatniklista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikObiekt());
         HashMap<String, Pozycjenafakturze> nowa = new HashMap<>();
-        if (pozycjefakturapodatniklista!=null&& !pozycjefakturapodatniklista.isEmpty()) {
-            for (Pozycjenafakturze p : pozycjefakturapodatniklista) {
-                nowa.put(p.getNazwa(), p);
+        if (pozycjefakturapodatniklista != null && pozycjefakturapodatniklista.size() != pozycjewzorcowe.size()) {
+            Set<String> namesList2 = new HashSet<>();
+            // Zbieramy wszystkie nazwy z listy 2
+            for (Pozycjenafakturze item : pozycjefakturapodatniklista) {
+                namesList2.add(item.getNazwa());
             }
-        } else {
-            for (Pozycjenafakturze p : pozycjewzorcowe) {
-                Pozycjenafakturze n = new Pozycjenafakturze();
-                n.setNazwa(p.getNazwa());
-                n.setGora(p.getGora());
-                n.setLewy(p.getLewy());
-                n.setSzerokosc(p.getSzerokosc());
-                n.setWysokosc(p.getWysokosc());
-                n.setPodid(wpisView.getPodatnikObiekt());
-                nowa.put(n.getNazwa(), n);
+
+            // Tworzenie listy z unikalnymi elementami tylko z listy 1
+            List<Pozycjenafakturze> nowelista = new ArrayList<>();
+            for (Pozycjenafakturze item : pozycjewzorcowe) {
+                if (!namesList2.contains(item.getNazwa())) {
+                    Pozycjenafakturze n = new Pozycjenafakturze();
+                    n.setNazwa(item.getNazwa());
+                    n.setGora(item.getGora());
+                    n.setLewy(item.getLewy());
+                    n.setSzerokosc(item.getSzerokosc());
+                    n.setWysokosc(item.getWysokosc());
+                    n.setPodid(wpisView.getPodatnikObiekt());
+                    pozycjeDAO.create(n);
+                    nowelista.add(n);
+                }
+            }
+            if (nowelista.isEmpty()==false) {
+                pozycjefakturapodatniklista.addAll(nowelista);
             }
         }
+            
+            if (pozycjefakturapodatniklista != null && !pozycjefakturapodatniklista.isEmpty()) {
+                for (Pozycjenafakturze p : pozycjefakturapodatniklista) {
+                    nowa.put(p.getNazwa(), p);
+                }
+            } else {
+                for (Pozycjenafakturze p : pozycjewzorcowe) {
+                    Pozycjenafakturze n = new Pozycjenafakturze();
+                    n.setNazwa(p.getNazwa());
+                    n.setGora(p.getGora());
+                    n.setLewy(p.getLewy());
+                    n.setSzerokosc(p.getSzerokosc());
+                    n.setWysokosc(p.getWysokosc());
+                    n.setPodid(wpisView.getPodatnikObiekt());
+                    nowa.put(n.getNazwa(), n);
+                }
+            }
         return nowa;
     }
     
-      private HashMap<String, Pozycjenafakturze> pobierzpozycjepodatnika() {
+      
+
+    private HashMap<String, Pozycjenafakturze> pobierzpozycjepodatnika() {
         HashMap<String, Pozycjenafakturze> nowa = new HashMap<>();
         pozycjefakturapodatniklista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikObiekt());
-        if (pozycjefakturapodatniklista==null || pozycjefakturapodatniklista.isEmpty()) {
+        if (pozycjefakturapodatniklista == null || pozycjefakturapodatniklista.isEmpty()) {
             importuj();
             pozycjefakturapodatniklista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikObiekt());
         }
@@ -176,35 +208,35 @@ public class PozycjeNaFakturzeView implements Serializable {
         }
         return nowa;
     }
-    
+
     public String pW(String co) {
-        String coco = "akordeon:formwzor:"+co;
+        String coco = "akordeon:formwzor:" + co;
         Pozycjenafakturze p = pozycjefakturapodatnik.get(coco);
-        if (p!=null) {
-            double wartosc = pobierzwartosc(p,co,0);
+        if (p != null) {
+            double wartosc = pobierzwartosc(p, co, 0);
             return String.valueOf(wartosc);
         } else {
             return "222.0";
         }
     }
-        
+
     public String pH(String co) {
-        String coco = "akordeon:formwzor:"+co;
+        String coco = "akordeon:formwzor:" + co;
         Pozycjenafakturze p = pozycjefakturapodatnik.get(coco);
-        if (p!=null) {
-            double wartosc = pobierzwartosc(p,co,1);
+        if (p != null) {
+            double wartosc = pobierzwartosc(p, co, 1);
             return String.valueOf(wartosc);
         } else {
             return "80.0";
         }
     }
-    
-     private double pobierzwartosc(Pozycjenafakturze p, String co, int i) {
+
+    private double pobierzwartosc(Pozycjenafakturze p, String co, int i) {
         double zwrot = 0.0;
-        if (i==0) {
-            if (p.getSzerokosc()!=0.0) {
+        if (i == 0) {
+            if (p.getSzerokosc() != 0.0) {
                 zwrot = p.getSzerokosc();
-            } else if (p.getSzerokosc()==0.0) {
+            } else if (p.getSzerokosc() == 0.0) {
                 switch (co) {
                     case "nabywca":
                     case "odbiorcan":
@@ -243,9 +275,9 @@ public class PozycjeNaFakturzeView implements Serializable {
                 pozycjeDAO.edit(p);
             }
         } else {
-            if (p.getWysokosc()!=0.0) {
+            if (p.getWysokosc() != 0.0) {
                 zwrot = p.getWysokosc();
-            } else if (p.getWysokosc()==0.0) {
+            } else if (p.getWysokosc() == 0.0) {
                 switch (co) {
                     case "nabywca":
                     case "odbiorcan":
@@ -268,7 +300,8 @@ public class PozycjeNaFakturzeView implements Serializable {
         }
         return zwrot;
     }
-    public void zapamietajwymiar(Pozycjenafakturze p ) {
+
+    public void zapamietajwymiar(Pozycjenafakturze p) {
         pozycjeDAO.edit(p);
         odchowaj();
         Msg.msg("Zachowano zmiany");
@@ -289,7 +322,7 @@ public class PozycjeNaFakturzeView implements Serializable {
 //            //System.out.println("podid: "+podid.getPrintnazwa());
 //        }
 //    }
-    
+
     //<editor-fold defaultstate="collapsed" desc="comment">
     public String getWest() {
         return west;
@@ -366,10 +399,8 @@ public class PozycjeNaFakturzeView implements Serializable {
     public void setWestustawienia(String westustawienia) {
         this.westustawienia = westustawienia;
     }
-    
-    
-   //</editor-fold>
 
+    //</editor-fold>
     public HashMap<String, Pozycjenafakturze> getPozycjefakturapodatnik() {
         return pozycjefakturapodatnik;
     }
@@ -385,9 +416,5 @@ public class PozycjeNaFakturzeView implements Serializable {
     public void setPozycjefakturapodatniklista(List<Pozycjenafakturze> pozycjefakturapodatniklista) {
         this.pozycjefakturapodatniklista = pozycjefakturapodatniklista;
     }
-
-   
-
-    
 
 }

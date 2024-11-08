@@ -11,12 +11,10 @@ import entity.EVatwpis1;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
 import entity.FakturaXXLKolumna;
-import entity.Fakturaelementygraficzne;
 import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Inwestycje;
 import entity.Klienci;
-import entity.Logofaktura;
 import entity.MultiuserSettings;
 import entity.PlatnoscWaluta;
 import entity.Platnosci;
@@ -627,14 +625,7 @@ public class SessionFacade<T> implements Serializable {
         return  getEntityManager().find(Faktura.class, f);
     }
 
-    public Fakturaelementygraficzne findFaktElementyGraficzne(String podatnik) {
-        try {
-            return (Fakturaelementygraficzne)  getEntityManager().createNamedQuery("Fakturaelementygraficzne.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
+    
 
     public Dokfk findDokfofaTypeKontrahent(Podatnik podatnikWpisu, String rodzajdok, String rokWpisuSt, String mc) {
         return (Dokfk)  getEntityManager().createNamedQuery("Dokfk.findBySeriaNumerRokdokfk").setParameter("seriadokfk", rodzajdok).setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikWpisu).setParameter("mc", mc).getSingleResult();
@@ -964,16 +955,6 @@ public class SessionFacade<T> implements Serializable {
     }
 
     
-
-    
-    public void usunlogoplik(Podatnik podatnikObiekt) {
-         getEntityManager().createNamedQuery("Logofaktura.usunlogo").setParameter("podatnik", podatnikObiekt).executeUpdate();
-    }
-
-    public Logofaktura findLogoByPodatnik(Podatnik podatnikObiekt) {
-        return (Logofaktura)  getEntityManager().createNamedQuery("Logofaktura.findByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
-    }
-
 
     public void usunSumyPKPiR(String podatnik, String rok, String mc) {
          getEntityManager().createNamedQuery("Sumypkpir.deleteByPodatnikRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();

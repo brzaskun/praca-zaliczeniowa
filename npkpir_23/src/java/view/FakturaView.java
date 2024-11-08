@@ -379,9 +379,13 @@ public class FakturaView implements Serializable {
             }
         }
         fakturypro = fakturaDAO.findbyPodatnikRokProforma(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        Fakturaelementygraficzne logo = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+        if (logo != null) {
+            sprawdzczyniezniknalplik(logo.getFakturaelementygraficznePK().getNazwaelementu(),0);
+        }
         Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
         if (elementgraficzny != null) {
-            sprawdzczyniezniknalplik(elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu());
+            sprawdzczyniezniknalplik(elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu(),1);
         }
         filtrujfaktury();
         sumawartosciwybranych(faktury);
@@ -520,14 +524,14 @@ public class FakturaView implements Serializable {
     }
 
     
-    private void sprawdzczyniezniknalplik(String nazwa) {
+    private void sprawdzczyniezniknalplik(String nazwa, int nrkolejny) {
         try {
              ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String realPath = ctx.getRealPath("/");
             String nazwapliku = realPath+"resources/images/logo/"+nazwa;
             File oldfile = new File(nazwapliku);
             if (!oldfile.isFile()) {
-                Logofaktura logofaktura = logofakturaDAO.findByPodatnik(wpisView.getPodatnikObiekt());
+                Logofaktura logofaktura = logofakturaDAO.findByPodatnik(wpisView.getPodatnikObiekt(),nrkolejny);
                 FileUtils.copyInputStreamToFile(new ByteArrayInputStream(logofaktura.getPliklogo()), new File(nazwapliku));
             }
         } catch (Exception e) {

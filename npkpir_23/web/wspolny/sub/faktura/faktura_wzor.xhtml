@@ -26,7 +26,7 @@
                     var gora = $("#formXY\\:goraTablica").val().split(",");
                     var co = $("#formXY\\:coTablica").val().split(",");
                     petlawywolujaca(lewy, gora, co);
-                    var moduly = ['odbiorcan','nabywca','wystawca','data','fakturanumer','platnosc','datasprzedazy','towary','dozaplaty','podpis','przewłaszczenie','warunkidostawy','wezwaniedozapłaty','nrzamowienia','logo','poleUwagi'];
+                    var moduly = ['odbiorcan','nabywca','wystawca','data','fakturanumer','platnosc','datasprzedazy','towary','dozaplaty','podpis','przewłaszczenie','warunkidostawy','wezwaniedozapłaty','nrzamowienia','logo','poleUwagi','elementgraficzny'];
                     for(var modul in moduly){
                         var nazwa = moduly[modul];
                         var nazwaakordeon = "#akordeon\\:formwzor\\:"+nazwa;
@@ -152,11 +152,20 @@
                     </p:panelGrid>
                     <p:draggable for="wezwaniedozapłaty" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
-                <p:panel id="logo" style="width: #{fakturadodelementyView.pozycjecss.get('logo')[0]}px; height: #{fakturadodelementyView.pozycjecss.get('logo')[1]}px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('logo')}" >  
+                <p:panel id="logo" style="width: #{fakturadodelementyView.pozycjecss.get('logo')[0]}px; height: #{fakturadodelementyView.pozycjecss.get('logo')[1]}px;" 
+                         rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('logo')}" >  
                     <p:panelGrid layout="tabular" columns="1">
                         <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('logo')} rozmiary width: #{fakturadodelementyView.pozycjecss.get('logo')[0]} height: #{fakturadodelementyView.pozycjecss.get('logo')[1]}" />
                     </p:panelGrid>
                     <p:draggable for="logo" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
+                </p:panel>
+                 <p:panel id="elementgraficzny" style="width: #{fakturadodelementyView.pozycjecss.get('element graficzny')[0]}px; height: #{fakturadodelementyView.pozycjecss.get('element graficzny')[1]}px;" 
+                          rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('element graficzny')}" >  
+                    <p:panelGrid layout="tabular" columns="1">
+                        <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('element graficzny')} rozmiary width: #{fakturadodelementyView.pozycjecss.get('element graficzny')[0]} 
+                                      height: #{fakturadodelementyView.pozycjecss.get('element graficzny')[1]}" />
+                    </p:panelGrid>
+                    <p:draggable for="elementgraficzny" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
                 <p:panel id="stopkaniemiecka" style="width: 1150px; height: 150px;color: gray; background-color: gray; margin-top: 300px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('stopka niemiecka')}" >  
                     <p:panelGrid layout="tabular" columns="1">

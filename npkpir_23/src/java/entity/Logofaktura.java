@@ -27,12 +27,12 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames={"podid"})
+    @UniqueConstraint(columnNames={"podid,nrkolejny"})
 })
 @NamedQueries({
     @NamedQuery(name = "Logofaktura.findAll", query = "SELECT d FROM Logofaktura d"),
-    @NamedQuery(name = "Logofaktura.usunlogo", query = "DELETE FROM Logofaktura d WHERE d.podatnik = :podatnik"),
-    @NamedQuery(name = "Logofaktura.findByPodatnik", query = "SELECT d FROM Logofaktura d WHERE d.podatnik = :podatnik"),
+    @NamedQuery(name = "Logofaktura.usunlogo", query = "DELETE FROM Logofaktura d WHERE d.podatnik = :podatnik AND d.nrkolejny = :nrkolejny"),
+    @NamedQuery(name = "Logofaktura.findByPodatnik", query = "SELECT d FROM Logofaktura d WHERE d.podatnik = :podatnik AND d.nrkolejny = :nrkolejny"),
     })
 public class Logofaktura  implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -50,16 +50,20 @@ public class Logofaktura  implements Serializable{
     private String nazwapliku;
     @Column(name = "rozszerzenie")
     private String rozszerzenie;
+    //logo ma 0
+    @Column(name = "nrkolejny")
+    private int nrkolejny;
 
     public Logofaktura() {
     }
 
     
-    public Logofaktura(Podatnik podatnikObiekt, String nazwakrotka, String extension, byte[] contents) {
+    public Logofaktura(Podatnik podatnikObiekt, String nazwakrotka, String extension, byte[] contents, int nrkolejny ) {
         this.podatnik = podatnikObiekt;
         this.nazwapliku = nazwakrotka;
         this.rozszerzenie = extension;
         this.pliklogo = contents;
+        this.nrkolejny = nrkolejny;
     }
     
 
@@ -103,12 +107,20 @@ public class Logofaktura  implements Serializable{
         this.rozszerzenie = rozszerzenie;
     }
 
-    
-    
+    public int getNrkolejny() {
+        return nrkolejny;
+    }
+
+    public void setNrkolejny(int nrkolejny) {
+        this.nrkolejny = nrkolejny;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 71 * hash + Objects.hashCode(this.podatnik);
+        hash = 61 * hash + this.id;
+        hash = 61 * hash + Objects.hashCode(this.podatnik);
+        hash = 61 * hash + this.nrkolejny;
         return hash;
     }
 
@@ -124,11 +136,18 @@ public class Logofaktura  implements Serializable{
             return false;
         }
         final Logofaktura other = (Logofaktura) obj;
-        if (!Objects.equals(this.podatnik, other.podatnik)) {
+        if (this.id != other.id) {
             return false;
         }
-        return true;
+        if (this.nrkolejny != other.nrkolejny) {
+            return false;
+        }
+        return Objects.equals(this.podatnik, other.podatnik);
     }
+
+    
+    
+    
 
     @Override
     public String toString() {

@@ -51,6 +51,7 @@ public class FakturadodelementyView implements Serializable {
         elementy.put("przewłaszczenie","Do momentu zapłaty towar jest własnością sprzedawcy");
         elementy.put("nr zamówienia","Podaj numer zamowienia");
         elementy.put("logo","Plik graficzny");
+        elementy.put("element graficzny","Dodatkowy element graficzny");
         elementy.put("nagłówek", "Biuro Rachunkowe Taxman - program księgowy online");
         elementy.put("stopka", "Fakturę wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman. "
                 + "Dokument nie wymaga podpisu. Odbiorca dokumentu wyraził zgode na otrzymanie go w formie elektronicznej.");
@@ -95,6 +96,13 @@ public class FakturadodelementyView implements Serializable {
                 Integer szer = Integer.parseInt(elementgraficzny.getSzerokosc())/2;
                 Integer wys = Integer.parseInt(elementgraficzny.getWysokosc())/2;
                 pozycjecss.put("logo", new String[]{String.valueOf(szer),String.valueOf(wys)});
+            }
+            Fakturaelementygraficzne elementgraficznydodatkowy = fakturaelementygraficzneDAO.findFaktElementyGraficznedodatkowe(wpisView.getPodatnikWpisu());
+            if (elementgraficznydodatkowy != null) {
+                pozycjecss = new ConcurrentHashMap<>();
+                Integer szer = Integer.parseInt(elementgraficznydodatkowy.getSzerokosc())/2;
+                Integer wys = Integer.parseInt(elementgraficznydodatkowy.getWysokosc())/2;
+                pozycjecss.put("element graficzny", new String[]{String.valueOf(szer),String.valueOf(wys)});
             }
         } catch (Exception e) { 
                 E.e(e); 

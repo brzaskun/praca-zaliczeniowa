@@ -68,7 +68,7 @@ public class PdfFP {
         if (czydodatkowyelementjestAktywny("nagłówek", elementydod)) {
             //naglowek
             absText(writer, pobierzelementdodatkowy("nagłówek", elementydod), 15, 820, 6);
-            prost(writer.getDirectContent(), 12, 817, 560, 10);
+            //prost(writer.getDirectContent(), 12, 817, 560, 10);
         }
     }
 
@@ -76,12 +76,12 @@ public class PdfFP {
         if (czydodatkowyelementjestAktywny("nagłówek", elementydod)) {
             //naglowek
             absText(writer, pobierzelementdodatkowy("nagłówek", elementydod), 15, 820, 6);
-            prost(writer.getDirectContent(), 12, 817, 560, 10);
+            //prost(writer.getDirectContent(), 12, 817, 560, 10);
         }
         if (czydodatkowyelementjestAktywny("stopka", elementydod)) {
             //stopka
             absText(writer, pobierzelementdodatkowy("stopka", elementydod), 15, 26, 6);
-            prost(writer.getDirectContent(), 12, 15, 560, 20);
+            //prost(writer.getDirectContent(), 12, 15, 560, 20);
         }
     } 
 
@@ -387,6 +387,30 @@ public class PdfFP {
                                 float szerokoscg = zamienStringnaFloat(element.getSzerokosc());
                                 logo.scaleToFit(szerokoscg, wysokoscg);
                                 logo.setAbsolutePosition((pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:logo") - wysokoscg); //e
+                                // Add paragraph to PDF document.
+                                document.add(logo);
+                            }
+                        } catch (Exception e) {
+                            E.e(e);
+                        }
+                    }
+                    break;
+                case "akordeon:formwzor:elementgraficzny":
+                    if (PdfFP.czydodatkowyelementjestAktywny("element graficzny", elementydod)) {
+                        try {
+                            pozycja = zwrocPolozenieElementu(skladnikifaktury, "elementgraficzny");
+                            Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznedodatkowe(podatnik.getNazwapelna());
+                            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                            String realPath = ctx.getRealPath("/");
+                            String nazwaplikuzbazy = realPath+"resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
+                            File f = new File(nazwaplikuzbazy);
+                            if (f.exists()) {
+                                Image logo = Image.getInstance(nazwaplikuzbazy);
+                                // Set the position of image
+                                float wysokoscg = zamienStringnaFloat(element.getWysokosc());
+                                float szerokoscg = zamienStringnaFloat(element.getSzerokosc());
+                                logo.scaleToFit(szerokoscg, wysokoscg);
+                                logo.setAbsolutePosition((pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:elementgraficzny") - wysokoscg); //e
                                 // Add paragraph to PDF document.
                                 document.add(logo);
                             }
@@ -701,6 +725,30 @@ public class PdfFP {
                         }
                     }
                     break;
+                case "akordeon:formwzor:elementgraficzny":
+                    if (PdfFP.czydodatkowyelementjestAktywny("element graficzny", elementydod)) {
+                        try {
+                            pozycja = zwrocPolozenieElementu(skladnikifaktury, "elementgraficzny");
+                            Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznedodatkowe(podatnik.getNazwapelna());
+                            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                            String realPath = ctx.getRealPath("/");
+                            String nazwaplikuzbazy = realPath+"resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
+                            File f = new File(nazwaplikuzbazy);
+                            if (f.exists()) {
+                                Image logo = Image.getInstance(nazwaplikuzbazy);
+                                // Set the position of image
+                                float wysokoscg = zamienStringnaFloat(element.getWysokosc());
+                                float szerokoscg = zamienStringnaFloat(element.getSzerokosc());
+                                logo.scaleToFit(szerokoscg, wysokoscg);
+                                logo.setAbsolutePosition((pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:elementgraficzny") - wysokoscg); //e
+                                // Add paragraph to PDF document.
+                                document.add(logo);
+                            }
+                        } catch (Exception e) {
+                            E.e(e);
+                        }
+                    }
+                    break;
                 case "akordeon:formwzor:nrzamowienia":
                     //Dane do modulu przewłaszczenie
                     if (PdfFP.czydodatkowyelementjestAktywny("nr zamówienia", elementydod)) {
@@ -866,6 +914,30 @@ public class PdfFP {
                         }
                     } catch (Exception e) {
                         E.e(e);
+                    }
+                    break;
+                case "akordeon:formwzor:elementgraficzny":
+                    if (PdfFP.czydodatkowyelementjestAktywny("element graficzny", elementydod)) {
+                        try {
+                            pozycja = zwrocPolozenieElementu(skladnikifaktury, "elementgraficzny");
+                            Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznedodatkowe(podatnik.getNazwapelna());
+                            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                            String realPath = ctx.getRealPath("/");
+                            String nazwaplikuzbazy = realPath+"resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
+                            File f = new File(nazwaplikuzbazy);
+                            if (f.exists()) {
+                                Image logo = Image.getInstance(nazwaplikuzbazy);
+                                // Set the position of image
+                                float wysokoscg = zamienStringnaFloat(element.getWysokosc());
+                                float szerokoscg = zamienStringnaFloat(element.getSzerokosc());
+                                logo.scaleToFit(szerokoscg, wysokoscg);
+                                logo.setAbsolutePosition((pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:logo") - wysokosc * .85f); //e
+                                // Add paragraph to PDF document.
+                                document.add(logo);
+                            }
+                        } catch (Exception e) {
+                            E.e(e);
+                        }
                     }
                     break;
                 default:

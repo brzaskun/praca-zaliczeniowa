@@ -10,11 +10,10 @@ import entity.Fakturaelementygraficzne;
 import error.E;
 import java.io.Serializable;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
+import javax.transaction.Transactional;
 
 /**
  *
@@ -23,10 +22,9 @@ import session.SessionFacade;
 @Stateless
 @Transactional
 public class FakturaelementygraficzneDAO  extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
     
-    @Inject
-    private SessionFacade fakturaelementygraficzneFacade;
-      @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -47,13 +45,22 @@ public class FakturaelementygraficzneDAO  extends DAO implements Serializable {
         super.em = this.em;
     }
 
-   
-    
-    public  Fakturaelementygraficzne findFaktElementyGraficznePodatnik(String podatnik){
+   public Fakturaelementygraficzne findFaktElementyGraficznePodatnik(String podatnik) {
         try {
-            return fakturaelementygraficzneFacade.findFaktElementyGraficzne(podatnik);
-        } catch (Exception e) { E.e(e); 
+            return (Fakturaelementygraficzne)  getEntityManager().createNamedQuery("Fakturaelementygraficzne.findByPodatnikLogo").setParameter("podatnik", podatnik).getSingleResult();
+        } catch (Exception e) {
+            E.e(e);
             return null;
         }
-   }
+    }
+    
+   public Fakturaelementygraficzne findFaktElementyGraficznedodatkowe(String podatnik) {
+        try {
+            return (Fakturaelementygraficzne)  getEntityManager().createNamedQuery("Fakturaelementygraficzne.findByPodatnikElementGraficzny").setParameter("podatnik", podatnik).getSingleResult();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+   
 }

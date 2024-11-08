@@ -5,16 +5,17 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
-      <p:tab id="grafika" title="Dodatkowe elementy graficzne">
-          <h:form id="formelementygraficzne">
-              <p:panel header="aktualne logo" id="panellogo">
-                  <p:graphicImage value="#{fakturaelementygraficzneView.aktualnelogo()}" 
-                                  height="#{fakturaelementygraficzneView.logowysokosc}" width="#{fakturaelementygraficzneView.logowysokosc}"  rendered="#{fakturaelementygraficzneView.aktualnelogo() ne ''}"/><br/>
-                  <h:outputText value="Brak pliku z logiem firmy w bazie danych" rendered="#{fakturaelementygraficzneView.aktualnelogo() eq ''}"/>
-                  <p:commandButton value="Usuń z bazy" style="width: 120px;" actionListener="#{fakturaelementygraficzneView.usunlogo()}" rendered="#{fakturaelementygraficzneView.aktualnelogo() ne ''}"/>
+      <p:tab id="grafika1" title="Dodatkowe elementy graficzne">
+          <h:form id="formelementygraficznea">
+              <p:panel header="aktualne plik graficzny" id="panelgrafika">
+                  <p:graphicImage value="#{fakturaelementygraficzneView.aktualnyelementgraficzny}" 
+                                  height="#{fakturaelementygraficzneView.elementgraficznywysokosc}" width="#{fakturaelementygraficzneView.elementgraficznyszerokosc}"  rendered="#{fakturaelementygraficzneView.aktualnyelementgraficzny ne ''}"/><br/>
+                  <h:outputText value="Brak pliku z logiem firmy w bazie danych" rendered="#{fakturaelementygraficzneView.aktualnyelementgraficzny eq ''}"/>
+                  <p:commandButton value="Usuń z bazy" style="width: 120px;" actionListener="#{fakturaelementygraficzneView.usunelementgraficzny()}"
+                                   rendered="#{fakturaelementygraficzneView.aktualnyelementgraficzny ne ''}" update="@form"/>
                 </p:panel>
-                <p:panel header="Wczytaj plik graficzny, który będzie umieszczony na fakturze jako logo"/>
-                <p:fileUpload chooseIcon="fa fa-upload" listener="#{fakturaelementygraficzneView.zachowajZaladowaneLogo}" 
+                <p:panel header="Wczytaj plik graficzny, który będzie umieszczony na fakturze jako dodatkowa grafika"/>
+                <p:fileUpload chooseIcon="fa fa-upload" listener="#{fakturaelementygraficzneView.zachowajZaladowanaGrafike}" 
                                 mode="advanced" dragDropSupport="true" fileLimit="3"
                                 update="messages1" sizeLimit="200000"  
                                 validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
@@ -24,7 +25,7 @@
                 </p:fileUpload>
                 <p:growl life="3600"  id="messages1" showDetail="true"/>
             </h:form>
-            <h:form id="formelementygraficzne2">
+            <h:form id="formelementygraficznea2">
                 <p:panelGrid layout="tabular">
                     <f:facet name="header">
                         <p:row>
@@ -38,16 +39,16 @@
                     </f:facet>
                         <p:row>
                             <p:column>
-                                <p:inputNumber value="#{fakturaelementygraficzneView.logoszerokosc}" decimalPlaces="0"/>
+                                <p:inputNumber value="#{fakturaelementygraficzneView.elementgraficznyszerokosc}" decimalPlaces="0"/>
                             </p:column>
                             <p:column>
-                                <p:inputNumber value="#{fakturaelementygraficzneView.logowysokosc}" decimalPlaces="0"/>
+                                <p:inputNumber value="#{fakturaelementygraficzneView.elementgraficznywysokosc}" decimalPlaces="0"/>
                             </p:column>
                         </p:row>
                     
                 </p:panelGrid>
-                <p:commandButton value="zapisz wymiary" global="false" actionListener="#{fakturaelementygraficzneView.zapiszwymiarylogo}" 
-                                 update="akordeon:formwzor akordeon:formelementygraficzne"/>
+                <p:commandButton value="zapisz wymiary" global="false" actionListener="#{fakturaelementygraficzneView.zapiszwymiaryelementgraficzny}" 
+                                 update="akordeon:formwzor akordeon:formelementygraficznea"/>
             </h:form>
         </p:tab>
 </ui:composition>   

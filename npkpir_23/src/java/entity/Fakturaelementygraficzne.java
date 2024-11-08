@@ -25,6 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Fakturaelementygraficzne.findAll", query = "SELECT f FROM Fakturaelementygraficzne f"),
     @NamedQuery(name = "Fakturaelementygraficzne.findByPodatnik", query = "SELECT f FROM Fakturaelementygraficzne f WHERE f.fakturaelementygraficznePK.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturaelementygraficzne.findByPodatnikLogo", query = "SELECT f FROM Fakturaelementygraficzne f WHERE f.fakturaelementygraficznePK.podatnik = :podatnik AND f.logo = '1'"),
+    @NamedQuery(name = "Fakturaelementygraficzne.findByPodatnikElementGraficzny", query = "SELECT f FROM Fakturaelementygraficzne f WHERE f.fakturaelementygraficznePK.podatnik = :podatnik AND f.logo = '0'"),
     @NamedQuery(name = "Fakturaelementygraficzne.findByNazwaelementu", query = "SELECT f FROM Fakturaelementygraficzne f WHERE f.fakturaelementygraficznePK.nazwaelementu = :nazwaelementu"),
     @NamedQuery(name = "Fakturaelementygraficzne.findByAktywny", query = "SELECT f FROM Fakturaelementygraficzne f WHERE f.aktywny = :aktywny")
 })
@@ -44,6 +46,9 @@ public class Fakturaelementygraficzne implements Serializable {
     private String szerokosc;
     @Column(name = "wysokosc")
     private String wysokosc;
+    //logo jest true
+    @Column(name = "logo")
+    private boolean logo;
 
     public Fakturaelementygraficzne() {
         this.setFakturaelementygraficznePK(new FakturaelementygraficznePK());
@@ -53,17 +58,13 @@ public class Fakturaelementygraficzne implements Serializable {
         this.fakturaelementygraficznePK = fakturaelementygraficznePK;
     }
 
-    public Fakturaelementygraficzne(FakturaelementygraficznePK fakturaelementygraficznePK, String trescelementu, boolean aktywny) {
-        this.fakturaelementygraficznePK = fakturaelementygraficznePK;
-        this.trescelementu = trescelementu;
-        this.aktywny = aktywny;
-    }
 
-    public Fakturaelementygraficzne(String podatnik, String nazwaelementu) {
+    public Fakturaelementygraficzne(String podatnik, String nazwaelementu, boolean logo1nielogo0) {
         this.fakturaelementygraficznePK = new FakturaelementygraficznePK(podatnik, nazwaelementu);
         this.aktywny = true;
         this.szerokosc = "100";
         this.wysokosc = "100";
+        this.logo = logo1nielogo0;
 }
 
     public FakturaelementygraficznePK getFakturaelementygraficznePK() {
@@ -105,6 +106,15 @@ public class Fakturaelementygraficzne implements Serializable {
     public void setWysokosc(String wysokosc) {
         this.wysokosc = wysokosc;
     }
+
+    public boolean isLogo() {
+        return logo;
+    }
+
+    public void setLogo(boolean logo) {
+        this.logo = logo;
+    }
+    
     
     
 
