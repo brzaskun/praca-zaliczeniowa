@@ -27,32 +27,35 @@ public class FakturaOkresowaGenNum {
 
     public static void wygenerujnumerfaktury(FakturaDAO fakturaDAO, Faktura selected, WpisView wpisView) {
         List<String> numerypobranych = Collections.synchronizedList(new ArrayList<>());
-        List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikObiekt(), String.valueOf(wpisView.getRokWpisu()));
-        Collections.sort(wykazfaktur, new FakturaNumercomparator());
-        if (selected.isProforma()) {
-            for (Iterator<Faktura> it = wykazfaktur.iterator(); it.hasNext(); ) {
-                Faktura fa = it.next();
-                if (!fa.isProforma()) {
-                    it.remove();
-                }
-            }
-        } else {
-            for (Iterator<Faktura> it = wykazfaktur.iterator(); it.hasNext(); ) {
-                Faktura fa = it.next();
-                if (fa.isProforma()) {
-                    it.remove();
-                }
-            }
-        }
         int istniejafakturykontrahenta = 0;
-        try {
-            if (wykazfaktur.size() > 0) {
-                for (Faktura p : wykazfaktur) {
-                    numerypobranych.add(p.getNumerkolejny());
+        List<Faktura> wykazfaktur = new ArrayList<>();
+        if (selected.getKontrahent()!=null) {
+            wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikObiekt(), String.valueOf(wpisView.getRokWpisu()));
+            Collections.sort(wykazfaktur, new FakturaNumercomparator());
+            if (selected.isProforma()) {
+                for (Iterator<Faktura> it = wykazfaktur.iterator(); it.hasNext(); ) {
+                    Faktura fa = it.next();
+                    if (!fa.isProforma()) {
+                        it.remove();
+                    }
                 }
-                istniejafakturykontrahenta = 1;
+            } else {
+                for (Iterator<Faktura> it = wykazfaktur.iterator(); it.hasNext(); ) {
+                    Faktura fa = it.next();
+                    if (fa.isProforma()) {
+                        it.remove();
+                    }
+                }
             }
-        } catch (Exception er) {
+            try {
+                if (wykazfaktur.size() > 0) {
+                    for (Faktura p : wykazfaktur) {
+                        numerypobranych.add(p.getNumerkolejny());
+                    }
+                    istniejafakturykontrahenta = 1;
+                }
+            } catch (Exception er) {
+            }
         }
         String schematnumeracji = wpisView.getPodatnikObiekt().getSchematnumeracji();
         if (wpisView.getUzer().getFakturanumeracja()!=null&&!wpisView.getUzer().getFakturanumeracja().equals("")) {
@@ -77,7 +80,7 @@ public class FakturaOkresowaGenNum {
             PrimeFaces.current().ajax().update("akordeon:formstworz:nrfaktury");
             PrimeFaces.current().executeScript("przeskoczdoceny();");
         } else {
-            if (istniejafakturykontrahenta == 0) {
+            if (selected.getKontrahent()!=null&&istniejafakturykontrahenta == 0) {
                 String nazwaddo = selected.getKontrahent().getNskrocona()!=null?selected.getKontrahent().getNskrocona().replace("\"", ""):selected.getKontrahent().getNpelna().replace("\"", "");
                 int dlugoscnazwy = nazwaddo.length();
                 String nazwadofaktury = dlugoscnazwy > 4 ? nazwaddo.substring(0, 4) : nazwaddo;
@@ -85,7 +88,7 @@ public class FakturaOkresowaGenNum {
                 numer = sprawdzserie(nazwadofaktury, numer, fakturaDAO, wpisView, selected.getKontrahent().getNskrocona());
                 selected.setNumerkolejny(numer);
                 Msg.msg("i", "Generuje nową serie numerów faktury");
-            } else {
+            } else if (selected.getKontrahent()!=null){
                 String ostatniafaktura = wykazfaktur.get(wykazfaktur.size() - 1).getNumerkolejny();
                 String separator = "/";
                 String[] elementy = ostatniafaktura.split(separator);

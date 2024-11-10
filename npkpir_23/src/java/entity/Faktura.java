@@ -123,7 +123,7 @@ public class Faktura implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 126)
-    @Column(nullable = false, length = 126)
+    @Column(length = 126)
     private String kontrahent_nip;
     @JoinColumn(name = "kontrahent", referencedColumnName = "id")
     @ManyToOne
@@ -338,6 +338,12 @@ public class Faktura implements Serializable {
     private String fakturagrupa;
     @Column(name = "rozrachunekarchiwalny")
     private boolean rozrachunekarchiwalny;
+    @Column(name = "nazwiskoimieincydent")
+    private String nazwiskoimieincydent;
+    @Column(name = "adres1")
+    private String adres1;
+    @Column(name = "adres2")
+    private String adres2;
   
 
     public Faktura() {
@@ -475,6 +481,16 @@ public class Faktura implements Serializable {
         }
         return zwrot;
     }
+    
+    public String getDaneIncydentalny() {
+        String zwrot = "";
+        if (this.nazwiskoimieincydent!=null) {
+            zwrot = this.nazwiskoimieincydent+" "+this.adres1+" "+this.adres2;
+        }
+        return zwrot;
+    }
+    
+    
 //<editor-fold defaultstate="collapsed" desc="comment">
     public String getWystawcanazwa() {
         return wystawcanazwa;
@@ -482,6 +498,30 @@ public class Faktura implements Serializable {
 
     public void setWystawcanazwa(String wystawcanazwa) {
         this.wystawcanazwa = wystawcanazwa;
+    }
+
+    public String getNazwiskoimieincydent() {
+        return nazwiskoimieincydent;
+    }
+
+    public void setNazwiskoimieincydent(String nazwiskoimieincydent) {
+        this.nazwiskoimieincydent = nazwiskoimieincydent;
+    }
+
+    public String getAdres1() {
+        return adres1;
+    }
+
+    public void setAdres1(String adres1) {
+        this.adres1 = adres1;
+    }
+
+    public String getAdres2() {
+        return adres2;
+    }
+
+    public void setAdres2(String adres2) {
+        this.adres2 = adres2;
     }
 
     public boolean isRozrachunekarchiwalny() {
@@ -940,6 +980,16 @@ public class Faktura implements Serializable {
         return kontrahent;
     }
     
+    public String getKontrahentNazwa() {
+        String zwrot = "brak kontrahenta";
+        if (kontrahent!=null) {
+            zwrot = kontrahent.getNpelna();
+        } else if (this.nazwiskoimieincydent!=null) {
+            zwrot = this.nazwiskoimieincydent;
+        }
+        return zwrot;
+    }
+    
     public void setKontrahent(Klienci kontrahent) {
         this.kontrahent = kontrahent;
     }
@@ -1395,7 +1445,11 @@ public class Faktura implements Serializable {
 
     @Override
     public String toString() {
-        return "Faktura{" + "numerkolejny=" + numerkolejny + ", wystawca=" + wystawca.getPrintnazwa() + ", kontrahent=" + kontrahent.getNskrocona() + '}';
+        if (kontrahent!=null) {
+            return "Faktura{" + "numerkolejny=" + numerkolejny + ", wystawca=" + wystawca.getPrintnazwa() + ", kontrahent=" + kontrahent.getNskrocona() + '}';
+        } else {
+            return "Faktura{" + "numerkolejny=" + numerkolejny + ", wystawca=" + wystawca.getPrintnazwa() + ", kontrahent=" + nazwiskoimieincydent + '}';
+        }
     }
 
     public boolean isKorekta() {

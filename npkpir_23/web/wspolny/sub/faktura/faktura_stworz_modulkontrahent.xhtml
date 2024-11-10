@@ -1,0 +1,125 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    >
+    <p:panelGrid  columns="1" >
+        <h:outputText value="Jeśli klienta nie ma w systemie, proszę wybrać 'nowy klient' i wcisnąć przycisk Tab (ten nad CapsLock). Wyskoczy okienko wpisywania danych." style="color: green;"/>
+    </p:panelGrid>
+    <p:panelGrid  columns="1" >
+        <h:outputText value="NIP wpisujemy tylko dla firm. Jeśli mamy już osobę o danym nazwisku i imieniu w bazie, a nie jest to szukana osoba to też należy wpisać 'nowy klient'" style="color: green;"/>
+    </p:panelGrid>
+    <p:panelGrid  columns="4" styleClass="polefaktury" columnClasses="tp tp tp tp" layout="grid">
+        <h:outputLabel id="danekontrahentaout" value="dane nabywcy - NIP lub nazwa lub nazwisko: " />
+        <p:autoComplete id="acForce" value="#{fakturaView.selected.kontrahent}" completeMethod="#{klienciConverterFakturaView.completeKL}" inputStyle="width:400px;"
+                        var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientFaktConv}" title="wpisz nazwę lub NIP nabywcy"
+                        minQueryLength="3" maxResults="10" cache="true" converterMessage="Nieudana konwersja Klient" 
+                        autocomplete="true" widgetVar="tworzenieklientapolenazwy" binding="#{fakturaView.kontrahentstworz}"
+                        requiredMessage="Nie wybrany nabywca faktury" queryDelay="10" styleClass="wpisywaniekontrfk" 
+                        >
+            <p:ajax event="blur" listener="#{fakturaView.wgenerujnumerfakturyFaktura(fakturaView.selected)}" partialSubmit="true" oncomplete="sprawdzczybrakklientafaktura();"  global="false" update="akordeon:formstworz:nrfaktury  akordeon:formstworz:poleemailkontrahent"/>
+            <p:ajax event="itemSelect" listener="#{fakturaView.faktItemSelect}" partialSubmit="true" global="false" update="akordeon:formstworz:poleemailkontr akordeon:formstworz:poleemailkontrahent"/>
+            <p:ajax event="query"  global="false"/>
+            <f:facet name="itemtip">  
+                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                    <f:facet name="header">  
+                        <h:outputText value="Dane nabywcy"/>
+                    </f:facet>  
+                    <h:outputText value="Nazwa: " />  
+                    <h:outputText id="npelna" value="#{p.npelna}" />  
+                    <h:outputText value="NIP: " />  
+                    <h:outputText id="nip" value="#{p.nip}" />  
+                    <h:outputText value="Adres " />  
+                    <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" />
+                    <h:outputText value="Email " />  
+                    <h:outputText id="kemail" value="#{p.email}" /> 
+                </h:panelGrid>
+            </f:facet>
+            <f:param name="passedValue" value="#{p}" />
+        </p:autoComplete>
+
+        <p:commandButton value="pobierz z GUS" id="buton1taki" actionListener="#{KlView.znajdzdaneregonAutomat(fakturaView.selected.kontrahent)}" style="width: 140px; margin-left: 100px;" update="akordeon:formstworz:acForce"/>
+    </p:panelGrid>
+    <p:panelGrid  columns="4" styleClass="polefaktury" columnClasses="tp tp tp tp" layout="grid" id="poleemailkontrahent">
+        <h:outputText value="email kontrahenta"/>
+        <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj" id="poleemailkontr">
+            <p:ajax event="save" listener="#{fakturaView.edytujemailfakt(fakturaView.selected.kontrahent)}" global="false" update="@parent"/>
+            <f:facet name="output">
+                <h:outputText value="#{fakturaView.emailkontrahent ne null and fakturaView.emailkontrahent ne '' ? fakturaView.emailkontrahent : 'brak email'}"/>
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{fakturaView.emailkontrahent}"  style="width: 180px;"/>
+            </f:facet>
+        </p:inplace>
+    </p:panelGrid>
+    <p:panelGrid  columns="2" styleClass="polefaktury" layout="tabular" rendered="#{WpisView.ksiegirachunkowe eq false}">
+        <h:outputLabel id="danekontrahentaout11" value="dane nabywcy klienci na fakturach: " style="margin-left: 7px;"/>
+            <p:selectOneMenu id="cechadokumentulist" value="#{fakturaView.wybranyicydentalny}" styleClass="fkbutton" style="width: 650px;margin-left: 10px;" 
+                             converter="#{fakturaConverter}"
+                             filter="true" filterMatchMode="contains"
+                            >
+                <f:selectItem itemValue="" itemLabel="wybierz dane kontrahenta z poprzednich faktur" noSelectionOption="true"/>
+                <f:selectItems value="#{fakturaView.listaincydentalni}" var="p" itemValue="#{p}"  itemLabel="#{p.getDaneIncydentalny()}"/>
+                <p:ajax event="itemSelect" listener="#{fakturaView.kopiujincydentalnego()}" partialSubmit="true" update="akordeon:formstworz:polawprowadzania1"/>
+                <p:ajax event="itemSelect" listener="#{fakturaView.wgenerujnumerfakturyFaktura(fakturaView.selected)}" partialSubmit="true" global="false" update="akordeon:formstworz:nrfaktury"/>
+            </p:selectOneMenu>
+        <h:outputLabel id="danekontrahentaout1" value="nowy klient incydentalny: " style="margin-left: 7px;"/>
+        <p:panel>
+            <p:growl life="3600"  id="mess_add" />
+            <p:focus id="focus1" for="polawprowadzania1"  />
+            <p:panelGrid layout="tabular" id="polawprowadzania1" columns="3" >
+                <h:outputLabel value="nazwisko i imię" style="font-weight: 700;width:"/>
+                <h:outputLabel value="ulica, nr domu i lokalu" style="font-weight: 700"/>
+                <h:outputLabel value="kod pocztowy i miescowość" style="font-weight: 700"/>
+                <p:inputText id="nazwaPole" value="#{fakturaView.selected.nazwiskoimieincydent}"  accesskey="a" title="nazwisko i imię" style="width: 250px" 
+                             placeholder="Kowalski Jan">
+                    <p:ajax event="blur" global="false" partialSubmit="true"/>
+                    <p:ajax event="change" listener="#{fakturaView.wgenerujnumerfakturyFaktura(fakturaView.selected)}" partialSubmit="true" global="false" update="akordeon:formstworz:nrfaktury"/>
+                </p:inputText>
+                <p:inputText id="adres1" value="#{fakturaView.selected.adres1}" placeholder="ul. Jasna 15/2"  style="width: 200px" 
+                             >
+                    <p:ajax event="blur" global="false" partialSubmit="true"/>
+                </p:inputText>
+                <p:inputText id="adres2" value="#{fakturaView.selected.adres2}" placeholder="71-627 Szczecin" style="width: 200px" 
+                             >
+                    <p:ajax event="blur" global="false" partialSubmit="true"/>
+                </p:inputText>
+            </p:panelGrid>
+            </p:panel>
+    </p:panelGrid>
+    <p:panelGrid  columns="2" styleClass="polefaktury" columnClasses="tp tp tp tp" layout="grid" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('Dane Odbiorcy')}">
+        <h:outputLabel id="daneodbiorcyout" value="dane odbiorcy: " />
+        <p:autoComplete id="acForce2" value="#{fakturaView.selected.odbiorca}" completeMethod="#{klienciConverterFakturaView.completeKL}"  inputStyle="width:400px;"
+                        var="pa" itemLabel="#{pa.npelna}" itemValue="#{pa}" converter="#{klientFaktConv}" title="wpisz nazwę lub NIP odbiorcy"
+                        minQueryLength="3" maxResults="10" cache="true" converterMessage="Nieudana konwersja Klient"
+                        autocomplete="true" widgetVar="tworzenieklientapolenazwy1" binding="#{fakturaView.odbiorcastworz}"
+                        requiredMessage="Nie wybrany odbiorca faktury" queryDelay="10" styleClass="wpisywaniekontrfk"  
+                        >
+            <p:ajax event="itemSelect" listener="#{fakturaView.faktObiorcaSelect}" partialSubmit="true" global="false"/>
+            <p:ajax event="query"  global="false"/>
+            <f:facet name="itemtip1">  
+                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                    <f:facet name="header">  
+                        <h:outputText value="Dane nabywcy"/>
+                    </f:facet>  
+                    <h:outputText value="Nazwa: " />  
+                    <h:outputText  value="#{pa.npelna}" />  
+                    <h:outputText value="NIP: " />  
+                    <h:outputText  value="#{pa.nip}" />  
+                    <h:outputText value="Adres " />  
+                    <h:outputText  value="#{pa.miejscowosc} #{pa.ulica} #{pa.dom} #{pa.lokal}" />
+                    <h:outputText value="Email " />  
+                    <h:outputText  value="#{pa.email}" /> 
+                </h:panelGrid>
+            </f:facet>
+            <f:param name="passedValue1" value="#{pa}" />
+        </p:autoComplete>
+        <p:commandButton value="aktualizuj z GUS" id="szukanybuttom" actionListener="#{KlView.znajdzdaneregonAutomat(fakturaView.selected.odbiorca)}" style="width: 140px; margin-left: 100px;" update="akordeon:formstworz:acForce2" />
+    </p:panelGrid>
+</ui:composition>   
+
+

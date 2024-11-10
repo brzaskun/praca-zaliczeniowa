@@ -931,7 +931,7 @@ public class PdfFP {
                                 float wysokoscg = zamienStringnaFloat(element.getWysokosc());
                                 float szerokoscg = zamienStringnaFloat(element.getSzerokosc());
                                 logo.scaleToFit(szerokoscg, wysokoscg);
-                                logo.setAbsolutePosition((pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:logo") - wysokosc * .85f); //e
+                                logo.setAbsolutePosition((pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:logo") - wysokoscg * .85f); //e
                                 // Add paragraph to PDF document.
                                 document.add(logo);
                             }

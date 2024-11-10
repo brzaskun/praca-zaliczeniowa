@@ -126,10 +126,12 @@
                     <h:outputText value="#{wpis.nrWlDk}" style="line-break: loose;"/>
                 </p:column>
                 <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" >  
-                    <h:outputText value="#{wpis.kontr.npelna}"   />
+                    <h:outputText value="#{wpis.kontr.npelna}"  rendered="#{wpis.kontr ne null}"/>
+                    <h:outputText value="#{wpis.dokument.faktura.nazwiskoimieincydent}"  rendered="#{wpis.kontr eq null}"/>
                 </p:column>
                 <p:column id="kontrColumna" headerText="#{mgs.kontrahent}">  
-                    <h:outputText value="#{wpis.kontr.kodpocztowy} #{wpis.kontr.miejscowosc} #{wpis.kontr.ulica} #{wpis.kontr.dom} #{wpis.kontr.lokal}"   rendered="#{wpis.kontr.ulica ne 'dowód wewnętrzny'}"/>
+                    <h:outputText value="#{wpis.kontr.kodpocztowy} #{wpis.kontr.miejscowosc} #{wpis.kontr.ulica} #{wpis.kontr.dom} #{wpis.kontr.lokal}"   rendered="#{wpis.kontr ne null and wpis.kontr.ulica ne 'dowód wewnętrzny'}"/>
+                    <h:outputText value="#{wpis.dokument.faktura.adres1} #{wpis.dokument.faktura.adres2}"  rendered="#{wpis.kontr eq null}"/>
                 </p:column>
                 <p:column id="opisColumn" headerText="#{mgs.opis}" >  
                     <h:outputText value="#{wpis.opis}" />

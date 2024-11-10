@@ -45,7 +45,7 @@
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturyarchiwum}" style="width: 150px; margin-left: 30px;" rendered="#{WpisView.biuroiszef eq true}"/>
             </p:panel>
             <p:dataTable lazy="false"  id="dokumentyArchiwum" value="#{fakturaView.fakturyarchiwum}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyFilteredarchiwum}"
-                         selection="#{fakturaView.gosciwybralarchiuwm}" rowKey="#{wpis.numerkolejny}" widgetVar="archTable" rowSelectMode="add" style="max-width: 1400px;height: 900px;overflow-y: scroll;"
+                         selection="#{fakturaView.gosciwybralarchiuwm}" rowKey="#{wpis.numerkolejny}" widgetVar="archTable" rowSelectMode="add" style="max-width: 1500px;height: 900px;overflow-y: scroll;"
                          
                          emptyMessage="Nie ma wygenerowanych i zaksięgowanych faktur w tym miesiącu" >
                 <p:ajax event="filter" global="false"/>
@@ -72,7 +72,7 @@
                 </p:column>
                 <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" 
                           filterMatchMode="contains" filterStyle="display : none;" width="120">
-                    <h:outputText value="#{wpis.kontrahent.npelna}" 
+                    <h:outputText value="#{wpis.getKontrahentNazwa()}" 
                                   style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
                 </p:column>
                <p:column headerText="#{mgs.opis}" filterBy="#{wpis.opisFaktury}" filterMatchMode="contains" filterStyle="display : none;" width="250"

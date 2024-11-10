@@ -172,11 +172,17 @@ public class PdfPkpir {
             }
             table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left",6));
-            table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left",6));
-            if (rs.getKontr().getKodpocztowy() != null) {
-                table.addCell(ustawfrazeAlign(rs.getKontr().getKodpocztowy() + " " + rs.getKontr().getMiejscowosc() + " ul. " + rs.getKontr().getUlica() + " " + rs.getKontr().getDom(), "left",6));
+            if (rs.getKontr()!=null) {
+                table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left",6));
             } else {
+                table.addCell(ustawfrazeAlign(rs.getDokument().getFaktura().getNazwiskoimieincydent(), "left",6));
+            }
+            if (rs.getKontr()!=null && rs.getKontr().getKodpocztowy() != null) {
+                table.addCell(ustawfrazeAlign(rs.getKontr().getKodpocztowy() + " " + rs.getKontr().getMiejscowosc() + " ul. " + rs.getKontr().getUlica() + " " + rs.getKontr().getDom(), "left",6));
+            } else if (rs.getKontr()!=null){
                 table.addCell(ustawfrazeAlign("", "left",6));
+            } else {
+                table.addCell(ustawfrazeAlign(rs.getDokument().getFaktura().getAdres1()+" "+rs.getDokument().getFaktura().getAdres2(), "left",6));
             }
             table.addCell(ustawfrazeAlign(rs.getOpis(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna7()), "right",6));
@@ -193,7 +199,7 @@ public class PdfPkpir {
             } else {
                 table.addCell(ustawfrazeAlign(rs.getUwagi(), "right",6));
             }
-            System.out.println(rs.getKontr().getNpelna());
+            //System.out.println(rs.getKontr().getNpelna());
         }
     }
 }

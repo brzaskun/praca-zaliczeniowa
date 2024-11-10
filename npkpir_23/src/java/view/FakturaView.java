@@ -14,6 +14,7 @@ import beansMail.OznaczFaktBean;
 import beansMail.SMTPBean;
 import beansPodatnik.PodatnikBean;
 import beansRegon.SzukajDaneBean;
+import comparator.FakturaIncydentalnycomparator;
 import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
 import dao.DokDAOfk;
@@ -76,6 +77,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -238,6 +240,10 @@ public class FakturaView implements Serializable {
     private boolean mailplussms;
     List<String> listakontawwalucie;
     private String stawkaryczaltuksiegowanie;
+    private String emailkontrahent;
+    private List<Faktura> listaincydentalni;
+    private Faktura wybranyicydentalny;
+    
         
 
     public FakturaView() {
@@ -246,6 +252,7 @@ public class FakturaView implements Serializable {
 
     @PostConstruct
     public void init() { //E.m(this);
+        emailkontrahent = null;
         fakturyokresowe = Collections.synchronizedList(new ArrayList<>());
         gosciwybral = Collections.synchronizedList(new ArrayList<>());
         gosciwybralokres = Collections.synchronizedList(new ArrayList<>());
@@ -267,6 +274,13 @@ public class FakturaView implements Serializable {
         }
         Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        if (wpisView.isKsiegirachunkowe()==false) {
+            List<Faktura> faktury = fakturaDAO.findbyPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            listaincydentalni = filtrujUnikatoweFakturyNieNull(faktury);
+            if (listaincydentalni!=null) {
+                Collections.sort(listaincydentalni, new FakturaIncydentalnycomparator());
+            }
+        }
         boolean czybiuro = wpisView.getPodatnikObiekt().getNip().equals("8511005008");
         try {
             String rok = wpisView.getRokWpisuSt();
@@ -395,8 +409,30 @@ public class FakturaView implements Serializable {
 //        PrimeFaces.current().ajax().update("akordeon:formarchiwum");
     }
 
+    public List<Faktura> filtrujUnikatoweFakturyNieNull(List<Faktura> faktury) {
+        return faktury.stream()
+                .filter(faktura -> faktura.getNazwiskoimieincydent() != null) // filtrowanie gdzie nazwiskoimieincydent != null
+                .collect(Collectors.toMap(
+                        faktura -> faktura.getNazwiskoimieincydent() + faktura.getAdres1(),
+                        Function.identity(),
+                        (f1, f2) -> f1
+                ))
+                .values()
+                .stream()
+                .collect(Collectors.toList());
+    }
+    
     public void exportToExcel(List<Fakturywystokresowe> fakturyList) {
         WriteXLSOkresowe.exportToExcel(fakturyList);
+    }
+    
+    public void kopiujincydentalnego() {
+        if (wybranyicydentalny!=null&&selected!=null&&selected.getKontrahent()==null) {
+            selected.setNazwiskoimieincydent(wybranyicydentalny.getNazwiskoimieincydent());
+            selected.setAdres1(wybranyicydentalny.getAdres1());
+            selected.setAdres2(wybranyicydentalny.getAdres2());
+            Msg.msg("Pobrano dane kontrahneta incydentalnego");
+        }
     }
 
     public void nanieswaloryzacje() {
@@ -638,6 +674,7 @@ public class FakturaView implements Serializable {
     }
     
     private void inicjalizacjaczesciwspolne() {
+        emailkontrahent = null;
         selected = new Faktura();
         selected.setWalutafaktury("PLN");
         if (fakturaxxl) {
@@ -707,7 +744,7 @@ public class FakturaView implements Serializable {
         }
         if (selected.getKontrahent() != null) {
             selected.setKontrahent_nip(selected.getKontrahent().getNip());
-        } else {
+        } else if (selected.getKontrahent() != null&&selected.getNazwiskoimieincydent()==null){
             Msg.msg("e", "Nie wybrano kontrahenta. Nie zachowano faktury");
             return;
         }
@@ -1777,7 +1814,10 @@ public class FakturaView implements Serializable {
                 }
                 selDokument.setEwidencjaVAT1(ewidencjaTransformowana);
              try {
-                Dok tmp = dokDAO.znajdzDuplikat(selDokument, selDokument.getPkpirR());
+                Dok tmp = null;
+                if (selDokument.getKontr()!=null) {
+                    tmp = dokDAO.znajdzDuplikat(selDokument, selDokument.getPkpirR());
+                }
                 if (tmp==null) {
                     dokDAO.create(selDokument);
                     if (podatnik0kontrahent==0) {
@@ -1788,7 +1828,8 @@ public class FakturaView implements Serializable {
                         faktura.setZaksiegowanakontrahent(true);
                     }
                     dokDAO.edit(selDokument);
-                    String wiadomosc = "Zaksięgowano fakturę sprzedaży nr: " + selDokument.getNrWlDk() + ", kontrahent: " + selDokument.getKontr().getNpelna() + ", kwota: " + selDokument.getBrutto();
+                    String kontrahentnazwa = selDokument.getKontr()!=null?selDokument.getKontr().getNpelna():selDokument.getFaktura().getNazwiskoimieincydent();
+                    String wiadomosc = "Zaksięgowano fakturę sprzedaży nr: " + selDokument.getNrWlDk() + ", kontrahent: " + kontrahentnazwa + ", kwota: " + selDokument.getBrutto();
                     Msg.msg("i", wiadomosc);
                     fakturaDAO.edit(faktura);
                 } else {
@@ -1938,7 +1979,8 @@ public class FakturaView implements Serializable {
     }
     
     public void wgenerujnumerfakturyFaktura(Faktura selected)  {
-        if (selected.getKontrahent_nip()!=null) {
+        emailkontrahent = selected.getKontrahent()!=null?selected.getKontrahent().getEmail():null;
+        if (selected.getKontrahent_nip()!=null&&selected.getKontrahent_nip()!=null) {
             List<Klienci> findKlienciByNip = klienciDAO.findKlienciByNip(selected.getKontrahent_nip());
             if (findKlienciByNip!=null&&findKlienciByNip.size()>0) {
                 if (selected.getKontrahent()==null) {
@@ -1957,6 +1999,8 @@ public class FakturaView implements Serializable {
                     } else {
                         FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, selected, wpisView);
                     }
+                } else if (selected.getNazwiskoimieincydent()!=null) {
+                    FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, selected, wpisView);
                 }
             }
         }
@@ -3499,6 +3543,19 @@ public class FakturaView implements Serializable {
         }
     }
   }
+  
+  public void edytujemailfakt(Klienci k) {
+    if (emailkontrahent != null) {
+        try {
+            k.setEmail(emailkontrahent);
+            klienciDAO.edit(k);
+            Msg.msg("Zmieniono email kontrahenta");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd. Nie zmieniono emaila kontrahenta");
+        }
+    }
+  }
 
     private int pobierzpe(Fakturywystokresowe p, String mc) {
         int wynik = 0;
@@ -4098,6 +4155,32 @@ public class FakturaView implements Serializable {
 
     public void setStawkaryczaltuksiegowanie(String stawkaryczaltuksiegowanie) {
         this.stawkaryczaltuksiegowanie = stawkaryczaltuksiegowanie;
+    }
+
+    public String getEmailkontrahent() {
+        return emailkontrahent;
+    }
+
+    public List<Faktura> getListaincydentalni() {
+        return listaincydentalni;
+    }
+
+    public Faktura getWybranyicydentalny() {
+        return wybranyicydentalny;
+    }
+
+    public void setWybranyicydentalny(Faktura wybranyicydentalny) {
+        this.wybranyicydentalny = wybranyicydentalny;
+    }
+
+  
+
+    public void setListaincydentalni(List<Faktura> listaincydentalni) {
+        this.listaincydentalni = listaincydentalni;
+    }
+
+    public void setEmailkontrahent(String emailkontrahent) {
+        this.emailkontrahent = emailkontrahent;
     }
 
 

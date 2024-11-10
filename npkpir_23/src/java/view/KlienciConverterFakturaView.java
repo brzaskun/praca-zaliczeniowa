@@ -18,10 +18,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
@@ -48,15 +47,18 @@ public class KlienciConverterFakturaView implements Serializable{
     
     
     public List<Klienci> completeKL(String query) {
-        if (listaKlientowfakt==null) {
-            listaKlientowfakt = new ArrayList<Klienci>(new HashSet<Klienci>(fakturaDAO.findKontrahentFakturyRO(wpisView.getPodatnikObiekt())));
-        }
         List<Klienci> results = Collections.synchronizedList(new ArrayList<>());
-        if (query.length() > 3) {
-            results = completeKLcd(listaKlientowfakt, query, 0);
-            if (results.isEmpty()) {
-                listaKlientow = klienciDAO.findAllReadOnlyContains(query);
-                results = completeKLcd(listaKlientow, query, 1);
+        if (query!=null) {
+            if (listaKlientowfakt==null) {
+                listaKlientowfakt = new ArrayList<Klienci>(new HashSet<Klienci>(fakturaDAO.findKontrahentFakturyRO(wpisView.getPodatnikObiekt())));
+            }
+
+            if (query.length() > 3) {
+                results = completeKLcd(listaKlientowfakt, query, 0);
+                if (results.isEmpty()) {
+                    listaKlientow = klienciDAO.findAllReadOnlyContains(query);
+                    results = completeKLcd(listaKlientow, query, 1);
+                }
             }
         }
         return results;
