@@ -759,9 +759,11 @@ public class FakturaView implements Serializable {
             selected.setFakturagrupa(wpisView.getUzer().getFakturagrupa());
             selected.setDatasporzadzenia(new Date());
             fakturaDAO.create(selected);
-            Klienci kontra = selected.getKontrahent();
-            kontra.setAktywnydlafaktrozrachunki(true);
-            klienciDAO.edit(kontra);
+            if (selected.getKontrahent()!=null) {
+                Klienci kontra = selected.getKontrahent();
+                kontra.setAktywnydlafaktrozrachunki(true);
+                klienciDAO.edit(kontra);
+            }
             init();
             Msg.msg("i", "Dodano fakturę.");
             pokazfakture = false;
@@ -786,7 +788,9 @@ public class FakturaView implements Serializable {
             Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
             return;
         }
-        selected.setKontrahent_nip(selected.getKontrahent().getNip());
+        if (selected.getKontrahent()!=null) {
+            selected.setKontrahent_nip(selected.getKontrahent().getNip());
+        }
         selected.setRok(Data.getCzescDaty(selected.getDatawystawienia(), 0));
         selected.setMc(Data.getCzescDaty(selected.getDatawystawienia(), 1));
         selected.setFakturagrupa(wpisView.getUzer().getFakturagrupa());
@@ -809,9 +813,11 @@ public class FakturaView implements Serializable {
             if (selected.isRecznaedycja()) {
                 selected.setRecznaedycja(false);
             }
-            Klienci kontra = selected.getKontrahent();
-            kontra.setAktywnydlafaktrozrachunki(true);
-            klienciDAO.edit(kontra);
+            if (selected.getKontrahent()!=null) {
+                Klienci kontra = selected.getKontrahent();
+                kontra.setAktywnydlafaktrozrachunki(true);
+                klienciDAO.edit(kontra);
+            }
             if (selected.getIdfakturaokresowa()!=null && selected.isTylkodlaokresowej()) {
                 String nowynumer = String.valueOf(new DateTime().getMillis());
                 selected.setNumerkolejny(nowynumer);
@@ -904,7 +910,9 @@ public class FakturaView implements Serializable {
         aktywnytab = 0;
         pokazfakture = true;
         zapis0edycja1 = true;
-        kontrahentstworz.findComponent(faktura.getKontrahent().getNpelna());
+        if (faktura.getKontrahent()!=null) {
+            kontrahentstworz.findComponent(faktura.getKontrahent().getNpelna());
+        }
         if (faktura.getOdbiorca()!=null) {
             odbiorcastworz.findComponent(faktura.getOdbiorca().getNpelna());
         }

@@ -294,16 +294,24 @@ public class PdfFP {
                 case "akordeon:formwzor:nabywca":
                     if (bylnabywca==false) {
                         String nabywca = B.b("nabywca")+": ";
-                        String kontrahent = selected.getKontrahent().getNpelna();
-                        if (selected.getKontrahent().getLokal() != null && !selected.getKontrahent().getLokal().equals("-") && !selected.getKontrahent().getLokal().equals("")) {
-                            adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom() + "/" + selected.getKontrahent().getLokal();
+                        String kontrahent = "brak";
+                        String nip = "";
+                        if (selected.getKontrahent()!=null) {
+                            kontrahent = selected.getKontrahent().getNpelna();
+                            if (selected.getKontrahent().getLokal() != null && !selected.getKontrahent().getLokal().equals("-") && !selected.getKontrahent().getLokal().equals("")) {
+                                adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom() + "/" + selected.getKontrahent().getLokal();
+                            } else {
+                                adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
+                            }
+                            nip = B.b("NIP")+": " + selected.getKontrahent().getNip();
+                            if (selected.getKontrahent().getNip() != null && selected.getKontrahent().getNip().startsWith("XX")) {
+                                nip = B.b("numerklienta")+": " + selected.getKontrahent().getNip();
+                            }
                         } else {
-                            adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
+                            kontrahent = selected.getNazwiskoimieincydent();
+                            adres = selected.getAdres1()+" "+selected.getAdres2();
                         }
-                        String nip = B.b("NIP")+": " + selected.getKontrahent().getNip();
-                        if (selected.getKontrahent().getNip() != null && selected.getKontrahent().getNip().startsWith("XX")) {
-                            nip = B.b("numerklienta")+": " + selected.getKontrahent().getNip();
-                        }
+                        
                         bylnabywca=true;
                         table = PdfFTablice.wygenerujtabliceWystawcaOdbiorca(nabywca, kontrahent, adres, nip, szerokosc, wysokosc, 10);
                         table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:nabywca"), wymiaryGora.get("akordeon:formwzor:nabywca"), writer.getDirectContent());
@@ -624,16 +632,24 @@ public class PdfFP {
                 case "akordeon:formwzor:nabywca":
                     if (bylnabywca==false) {
                         String nabywca = "Leisteungsempfänger: ";
-                        String kontrahent = selected.getKontrahent().getNpelna();
-                        if (selected.getKontrahent().getLokal() != null && !selected.getKontrahent().getLokal().equals("-") && !selected.getKontrahent().getLokal().equals("")) {
-                            adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom() + "/" + selected.getKontrahent().getLokal();
-                        } else {
-                            adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
-                        }
-                        String nip = "Steuernummer: " + selected.getKontrahent().getNip();
-                        if (selected.getKontrahent().getNip() != null && selected.getKontrahent().getNip().startsWith("XX")) {
+                        String kontrahent = "brak";
+                        String nip = "";
+                        if (selected.getKontrahent()!=null) {
+                            kontrahent = selected.getKontrahent().getNpelna();
+                            if (selected.getKontrahent().getLokal() != null && !selected.getKontrahent().getLokal().equals("-") && !selected.getKontrahent().getLokal().equals("")) {
+                                adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom() + "/" + selected.getKontrahent().getLokal();
+                            } else {
+                                adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
+                            }
                             nip = "Steuernummer: " + selected.getKontrahent().getNip();
+                            if (selected.getKontrahent().getNip() != null && selected.getKontrahent().getNip().startsWith("XX")) {
+                                nip = "Steuernummer: " + selected.getKontrahent().getNip();
+                            }
+                        } else {
+                            kontrahent = selected.getNazwiskoimieincydent();
+                            adres = selected.getAdres1()+" "+selected.getAdres2();
                         }
+                        
                         bylnabywca=true;
                         table = PdfFTablice.wygenerujtabliceWystawcaOdbiorca(nabywca, kontrahent, adres, nip, szerokosc, wysokosc, 10);
                         table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:nabywca"), wymiaryGora.get("akordeon:formwzor:nabywca"), writer.getDirectContent());

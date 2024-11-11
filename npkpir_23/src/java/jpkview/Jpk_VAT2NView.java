@@ -2117,7 +2117,7 @@ public class Jpk_VAT2NView implements Serializable {
                     zwrot.add(p);
                     break;
                 }
-                if (pf.getDok().getKontr1()==null) {
+                if (pf.getKontr()==null && (pf.getDok()!=null&&pf.getDok().getFaktura()==null)) {
                     zwrot.add(p);
                     break;
                 }

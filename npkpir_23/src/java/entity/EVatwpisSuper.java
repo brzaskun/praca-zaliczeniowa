@@ -185,7 +185,8 @@ public class EVatwpisSuper implements Serializable {
 
     public void setKontr(Object object) {
     }
-
+    
+   
     public void setNrWlDk(String string) {
     }
 
@@ -244,6 +245,11 @@ public class EVatwpisSuper implements Serializable {
     public Klienci getKontr() {
         return new Klienci();
     }
+    
+    public String getKontrNazwa() {
+        return "";
+    }
+
 
     public String getInnymc() {
         return "";

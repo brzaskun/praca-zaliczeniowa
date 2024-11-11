@@ -9,8 +9,8 @@
 
     <p:tab id="archiwum" title="Dane zbiorcze"  rendered="#{WpisView.ryczalt0ksiega1}" >
         <h:form id="formarchiwum">
-            <p:panelGrid layout="tabular" id="zestawienieroczne" columns="12" style="max-width: 1150px;">
-                <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista" > 
+            <p:panelGrid layout="tabular" id="zestawienieroczne" columns="12" style="max-width: 1300px;">
+                <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista" style="width: 130px;"> 
                     <p:column headerText="kolumny" id="przychsprz">  
                         <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
                     </p:column>
@@ -82,7 +82,7 @@
                         </h:outputText>
                     </p:column>
                 </p:dataTable>
-                <p:dataTable lazy="false"   var="wpis" value="#{zestawienieView.wIpolrocze}" id="dokumentyIpolrocze" style="width: 150;"> 
+                <p:dataTable lazy="false"   var="wpis" value="#{zestawienieView.wIpolrocze}" id="dokumentyIpolrocze"> 
                     <p:column headerText="I półrocze" id="idColumn">  
                         <h:outputText value="#{wpis}" style="float: right;">
                             <f:convertNumber maxFractionDigits="2"
@@ -100,7 +100,7 @@
                     <p:ajax event="change" listener="#{zestawienieView.init()}" update="@form"/>
                 </p:selectOneMenu>
                  <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
-                <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista1" > 
+                <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista1"  style="width: 130px;"> 
                     <p:column headerText="kolumny" id="przychsprz">  
                         <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
                     </p:column>
@@ -173,7 +173,7 @@
                         </h:outputText>
                     </p:column>
                 </p:dataTable>
-                <p:dataTable lazy="false"   var="wpis" value="#{zestawienieView.wIIpolrocze}" id="dokumentyIIpolrocze"  style="width: 150;"> 
+                <p:dataTable lazy="false"   var="wpis" value="#{zestawienieView.wIIpolrocze}" id="dokumentyIIpolrocze" > 
                     <p:column headerText="II półrocze" id="idColumn">  
                         <h:outputText value="#{wpis}" style="float: right;">
                             <f:convertNumber maxFractionDigits="2"
@@ -185,12 +185,12 @@
                     </p:column>
                 </p:dataTable>
                 <h:outputText value=""/>
-                <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista2" > 
+                <p:dataTable lazy="false"   var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista2" style="width: 130px;"> 
                     <p:column headerText="kolumny" id="przychsprz">  
                         <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
                     </p:column>
                 </p:dataTable>
-                <p:dataTable lazy="false"   var="wpis" value="#{zestawienieView.wrok}" id="dokumentyrok"  style="width: 150;"> 
+                <p:dataTable lazy="false"   var="wpis" value="#{zestawienieView.wrok}" id="dokumentyrok"  style="width: 80px;"> 
                     <p:column headerText="rok" id="idColumn">  
                         <h:outputText value="#{wpis}" style="float: right;">
                             <f:convertNumber maxFractionDigits="2"
@@ -202,7 +202,7 @@
                     </p:column>
                 </p:dataTable>
 
-
+                <h:outputText value=""/><h:outputText value=""/>
             </p:panelGrid>
         </h:form>
         <div style="margin-top: 15px;">

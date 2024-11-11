@@ -179,7 +179,7 @@ public class PozycjeNaFakturzeView implements Serializable {
                 for (Pozycjenafakturze p : pozycjefakturapodatniklista) {
                     nowa.put(p.getNazwa(), p);
                 }
-            } else {
+            } else if (pozycjewzorcowe!=null) {
                 for (Pozycjenafakturze p : pozycjewzorcowe) {
                     Pozycjenafakturze n = new Pozycjenafakturze();
                     n.setNazwa(p.getNazwa());

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2024-11-11T00:04:16.390Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2024</Rok>
+        <Miesiac>11</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8522456855</NIP>
+            <PelnaNazwa>T.BRZOZOWSKI &amp; M.AMERSKI KANCELARIA RADCÓW PRAWNYCH S.C.</PelnaNazwa>
+            <Email>brzaskun@o2.pl</Email>
+            <Telefon>603133396</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <NrKontrahenta>brak</NrKontrahenta>
+            <NazwaKontrahenta>Jan Pyzialski</NazwaKontrahenta>
+            <DowodSprzedazy>1/04/2024</DowodSprzedazy>
+            <DataWystawienia>2024-11-15</DataWystawienia>
+            <DataSprzedazy>2024-11-15</DataSprzedazy>
+            <GTU_12>1</GTU_12>
+            <K_19>1000.00</K_19>
+            <K_20>230.0</K_20>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>1</LiczbaWierszySprzedazy>
+            <PodatekNalezny>230.00</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>0</LiczbaWierszyZakupow>
+            <PodatekNaliczony>0</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

@@ -61,8 +61,8 @@
                         <p:column headerText="nr własny" style="width: 130px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains">
                             <h:outputText value="#{itemik.nrWlDk}"/>
                         </p:column>
-                        <p:column headerText="nazwa kontrhenta" style="width: 190px;" sortBy="#{itemik.kontr.npelna}" filterBy="#{itemik.kontr.npelna}" filterMatchMode="contains">
-                            <h:outputText value="#{itemik.kontr.npelna}"/>
+                        <p:column headerText="nazwa kontrhenta" style="width: 190px;" sortBy="#{itemik.getKontrNazwa()}" filterBy="#{itemik.getKontrNazwa()}" filterMatchMode="contains">
+                            <h:outputText value="#{itemik.getKontrNazwa()}" />
                         </p:column>
                         <p:column headerText="opis trans." style="width: 170px;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains">
                             <h:outputText value="#{itemik.opis}"/>
