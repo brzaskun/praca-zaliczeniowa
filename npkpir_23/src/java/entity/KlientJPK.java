@@ -124,6 +124,9 @@ public class KlientJPK implements Serializable {
         this.podatnik = podatnik;
         this.rok = rok;
         this.mc = mc;
+        if (d.getEwidencjaVAT1()==null) {
+            System.out.println("");
+        }
         this.ewidencja = d.getEwidencjaVAT1().get(0).getEwidencja();
         this.netto = d.getNetto();
         this.vat = d.getVat();

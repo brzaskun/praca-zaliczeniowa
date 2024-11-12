@@ -101,6 +101,9 @@ public class ImportSprzedazyView  implements Serializable {
                 vat = 0.0;
                 brutto = 0.0;
                 for (Dok p : dokumenty) {
+                    if (p.getNetto()==0.0) {
+                        Msg.msg("e","Faktura bez kwot "+p.getNrWlDk());
+                    }
                     netto = netto+p.getNetto();
                     vat = vat+p.getVat();
                 }
@@ -391,6 +394,9 @@ public class ImportSprzedazyView  implements Serializable {
             selDokument.setRozliczony(true);
             List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
             EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz.getNetto(), wiersz.getVat(),evewidencje), wiersz.getNetto(), wiersz.getVat(), "sprz.op", miesiac, rok);
+            if (eVatwpis1==null) {
+                System.out.println("");
+            }
             eVatwpis1.setDok(selDokument);
             ewidencjaTransformowana.add(eVatwpis1);
             selDokument.setEwidencjaVAT1(ewidencjaTransformowana);

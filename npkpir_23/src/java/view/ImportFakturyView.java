@@ -7,6 +7,7 @@ package view;
 
 import beansDok.ListaEwidencjiVat;
 import beansJPK.KlienciJPKBean;
+import comparator.Dokcomparator;
 import comparator.Kontocomparator;
 import comparator.Rodzajedokcomparator;
 import dao.DokDAO;
@@ -324,6 +325,7 @@ public class ImportFakturyView  implements Serializable {
                     }
                 }
             });
+            Collections.sort(dokumenty, new Dokcomparator());
         }
         return dokumenty;
     }
@@ -344,6 +346,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             });
         }
+        Collections.sort(dokumenty, new Dokcomparator());
         return dokumenty;
     }
     
@@ -371,6 +374,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             });
         }
+        Collections.sort(dokumenty, new Dokcomparator());
         return dokumenty;
     }
     private List<Dokfk> stworzdokumentyfk(jpkfa2.JPK jpk) {
