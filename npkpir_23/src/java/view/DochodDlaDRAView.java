@@ -50,7 +50,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -183,8 +182,8 @@ public class DochodDlaDRAView implements Serializable {
             } else {
                 podatnicy = podatnikDAO.findPodatnikNieFK();
             }
-            Predicate<Podatnik> pred = item->item.getNip().equals("8521166954");
-            podatnicy.removeIf(pred.negate());
+//            Predicate<Podatnik> pred = item->item.getNip().equals("8521166954");
+//            podatnicy.removeIf(pred.negate());
             //Podatnik podat = podatnikDAO.findPodatnikByNIP("9552379284");
             //List<Podatnik> podatnicy = new ArrayList<>();
             //podatnicy.add(podat);
