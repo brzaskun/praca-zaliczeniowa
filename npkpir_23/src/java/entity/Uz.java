@@ -103,6 +103,8 @@ public class Uz implements Serializable {
     private double sumafakturkadry;
     @Column(name = "liczbapodatnikow")
     private int liczbapodatnikow;
+    @Column(name = "liczbapodatnikowfk")
+    private int liczbapodatnikowfk;
     @Column(name = "wynagrodzenieobecne")
     private double wynagrodzenieobecne;
     @Column(name = "procent")
@@ -385,6 +387,14 @@ public class Uz implements Serializable {
 
     public void setWmagajresetuhasla(boolean wmagajresetuhasla) {
         this.wmagajresetuhasla = wmagajresetuhasla;
+    }
+
+    public int getLiczbapodatnikowfk() {
+        return liczbapodatnikowfk;
+    }
+
+    public void setLiczbapodatnikowfk(int liczbapodatnikowfk) {
+        this.liczbapodatnikowfk = liczbapodatnikowfk;
     }
 
     

@@ -39,33 +39,55 @@
         </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel style="padding: 10px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}">
-        <p:dataTable lazy="false"  value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 1150px" rowIndexVar="indx" rowKey="#{it.login}">
+        <p:dataTable lazy="false"  value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 1250px" rowIndexVar="indx" rowKey="#{it.login}"
+                      rowGroupMode="subtable" groupBy="#{it.imieNazwisko}">
              <p:column style="height: 19px; text-align: center;" width="20">
                     <p:rowToggler rendered="#{it.przyporzadkowanipodatnicy.size() gt 0 }"/>
             </p:column>
             <p:column  width="30">
                 <h:outputText value="#{indx+1}"/>
             </p:column>
-            <p:column headerText="ksiegowa" width="100">
+<!--            <p:column headerText="ksiegowa" width="100">
                 <h:outputText value="#{it.login}"/>
-            </p:column>
+            </p:column>-->
             <p:column headerText="nazw. i imię" width="150" filterBy="#{it.imieNazwisko}" filterMatchMode="contains" sortBy="#{it.imieNazwisko}">
                  <h:outputText value="#{it.imieNazwisko}"/>
             </p:column>
             <p:column headerText="suma fakt. księg." width="70" sortBy="#{it.sumafaktur}">
                 <bcf:outputpl value="#{it.sumafaktur}"/>
+                <f:facet name="footer">
+                    <bcf:outputpl value="#{podatnikKsiegowaView.totalSuma}"/>
+                </f:facet>
             </p:column>
             <p:column headerText="suma fakt. kadry" width="70" sortBy="#{it.sumafakturkadry}">
                 <bcf:outputpl value="#{it.sumafakturkadry}"/>
+                <f:facet name="footer">
+                    <bcf:outputpl value="#{podatnikKsiegowaView.totalSumakadry}"/>
+                </f:facet>
             </p:column>
             <p:column headerText="liczba pod." width="40" sortBy="#{it.liczbapodatnikow}">
                 <bcf:outputpl0 value="#{it.liczbapodatnikow}"/>
+                <f:facet name="footer">
+                    <bcf:outputpl0 value="#{podatnikKsiegowaView.totalLiczba}" />
+                </f:facet>
+            </p:column>
+            <p:column headerText="liczba pod. fk" width="40" sortBy="#{it.liczbapodatnikowfk}">
+                <bcf:outputpl0 value="#{it.liczbapodatnikowfk}"/>
+                <f:facet name="footer">
+                    <bcf:outputpl0 value="#{podatnikKsiegowaView.totalLiczbafk}" />
+                </f:facet>
             </p:column>
             <p:column headerText="dok pkpir" width="40" sortBy="#{it.dokpkpir}">
                 <bcf:outputpl0 value="#{it.dokpkpir}"/>
+                <f:facet name="footer">
+                    <bcf:outputpl0 value="#{podatnikKsiegowaView.totalDokpkpir}" />
+                </f:facet>
             </p:column>
             <p:column headerText="wiersze fk" width="40" sortBy="#{it.wierszefk}">
                 <bcf:outputpl0 value="#{it.wierszefk}"/>
+                <f:facet name="footer">
+                    <bcf:outputpl0 value="#{podatnikKsiegowaView.totalWiersze}" />
+                </f:facet>
             </p:column>
             <p:column headerText="wynagrodzenie" width="90">
                 <p:inputNumber value="#{it.wynagrodzenieobecne}" symbolPosition="s" signPosition="p"    inputStyle="text-align: right;" decimalPlaces="2" style="width: 90px;" size="12">
@@ -105,7 +127,7 @@
         </p:dataTable>
     </p:outputPanel>
     <p:outputPanel>
-        <p:commandButton value="zapisz podatnicy" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaView.zapisz}"/>
+<!--        <p:commandButton value="zapisz podatnicy" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaView.zapisz}"/>-->
         <p:dataTable lazy="false"  value="#{podatnikKsiegowaView.listapodatnikow}" var="item" style="width: 800px;" rowIndexVar="index" 
                      filteredValue="#{podatnikKsiegowaView.listapodatnikowfilter}" sortBy="#{item.ksiegowa.grupa}"
                      rowStyleClass="#{item.ksiegowa.grupa.startsWith('kadr') ? 'rmarta' : item.ksiegowa.grupa.startsWith('wio') ? 'rwioletta' : item.ksiegowa.grupa.startsWith('go') ? 'rmalgosia' : 'rrenata'}">

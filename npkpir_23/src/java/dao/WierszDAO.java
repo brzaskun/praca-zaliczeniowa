@@ -53,7 +53,7 @@ public class WierszDAO extends DAO implements Serializable {
     }
     
     public List<Wiersz> findWierszeRokMc(String rok, String mc){
-        return getEntityManager().createNamedQuery("Wiersz.findByRokMc").setParameter("rok", rok).getResultList();
+        return getEntityManager().createNamedQuery("Wiersz.findByRokMc").setParameter("rok", rok).setParameter("mc", mc).getResultList();
     }
     
     public List<Wiersz> pobierzWiersze(Tabelanbp tabelanbp, Podatnik podatnik, String rok) {
