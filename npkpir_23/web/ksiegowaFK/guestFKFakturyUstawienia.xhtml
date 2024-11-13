@@ -11,14 +11,32 @@
         <ui:define name="body">
             <bcf:ajaxs/>
             <f:view>
-                <pe:layout fullPage="true" >
-                    <ui:include src="sub/layoutTablica/north.xhtml"/>  <!-- panel polnocny-->
+                  <div class="flex flex-column" style="height: 97vh;"> <!-- Zastąpienie pe:layout -->
+                
+                 <!-- North Pane -->
+                <div class="flex-none">
+                    <ui:include src="sub/layoutNowy/north.xhtml"/>  <!-- panel polnocny-->
+                </div>
+                <div class="flex-grow-1 grid grid-nogutter">
+                    <!-- panel zachodni -->
+                    <div class="col-12 md:col-4 lg:col-3"  style="max-width: 260px;">
                     <ui:include src="sub/layoutTablica/west.xhtml"/>   <!-- panel zachodni-->
-                    <pe:layoutPane position="center">
+                     </div>
+
+                 <!-- panel centralny -->
+                        <div class="col-12 md:col-9 lg:col-10 flex">
+                            <div class="vertical-container">
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                         <ui:include src="../wspolny/sub/fakturaustawienia.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                    </pe:layoutPane><ui:include src="sub/layout/south.xhtml"/> 
-                </pe:layout>
+                </div>
+                        </div>
+                   </div>
+                <!-- South Pane -->
+                <div class="flex-none">
+                    <ui:include src="sub/layoutNowy/south.xhtml"/> 
+                </div>
+            </div>
+              
             </f:view>
         </ui:define>
     </ui:composition>
