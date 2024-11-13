@@ -634,8 +634,8 @@
                             <f:facet name="header">
                                 <h:outputText value="data sporz."/>
                             </f:facet>
-                            <h:outputText value="#{item.datapit}">
-                                <f:convertDateTime pattern="yyyy//MM/dd HH:mm:ss" />
+                            <h:outputText value="#{loop.datapit}">
+                               <f:convertDateTime pattern="yyyy-MM-dd  HH:mm:ss" />
                             </h:outputText>
                         </p:column>
                     </p:dataTable>
@@ -746,8 +746,8 @@
                             <f:facet name="header">
                                 <h:outputText value="data sporz."/>
                             </f:facet>
-                            <h:outputText value="#{item.datapit}">
-                                <f:convertDateTime pattern="yyyy//MM/rr HH:mm:ss" />
+                            <h:outputText value="#{loop.datapit}">
+                                <f:convertDateTime pattern="yyyy-MM-dd  HH:mm:ss" />
                             </h:outputText>
                         </p:column>
                     </p:dataTable>
