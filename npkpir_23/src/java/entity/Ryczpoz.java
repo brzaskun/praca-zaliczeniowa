@@ -117,8 +117,8 @@ public class Ryczpoz implements Serializable {
     @ManyToOne
     private Podmiot podmiot;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "data")
-    private Date data;
+    @Column(name = "datapit")
+    private Date datapit;
 
     public Ryczpoz() {
     }
@@ -129,7 +129,7 @@ public class Ryczpoz implements Serializable {
     
     @PrePersist
     public void prePersist() {
-        this.data = new Date();
+        this.datapit = new Date();
     }
     
     public double getP17() {
@@ -558,14 +558,15 @@ public class Ryczpoz implements Serializable {
         this.podmiot = podmiot;
     }
 
-    public Date getData() {
-        return data;
+    public Date getDatapit() {
+        return datapit;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDatapit(Date datapit) {
+        this.datapit = datapit;
     }
 
+   
     
     
    

@@ -135,8 +135,8 @@ public class Pitpoz implements Serializable {
     @ManyToOne
     private Podmiot podmiot;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "data")
-    private Date data;
+    @Column(name = "datapit")
+    private Date datapit;
   
 
     public Pitpoz() {
@@ -150,7 +150,7 @@ public class Pitpoz implements Serializable {
     
     @PrePersist
     public void prePersist() {
-        this.data = new Date();
+        this.datapit = new Date();
     }
 
     public Pitpoz(Integer id) {
@@ -423,12 +423,12 @@ public class Pitpoz implements Serializable {
         return Z.z(this.przychodyudzialmc-this.kosztyudzialmc);
     }
 
-    public Date getData() {
-        return data;
+    public Date getDatapit() {
+        return datapit;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDatapit(Date datapit) {
+        this.datapit = datapit;
     }
 
     
