@@ -8,6 +8,7 @@ package view;
 import beansDok.ListaEwidencjiVat;
 import beansJPK.KlienciJPKBean;
 import comparator.Dokcomparator;
+import comparator.Dokfkcomparator;
 import comparator.Kontocomparator;
 import comparator.Rodzajedokcomparator;
 import dao.DokDAO;
@@ -403,6 +404,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             };
         }
+         Collections.sort(dokumenty, new Dokfkcomparator());
         return dokumenty;
     }
     
@@ -441,6 +443,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             };
         }
+        Collections.sort(dokumenty, new Dokfkcomparator());
         return dokumenty;
     }
     
@@ -479,6 +482,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             };
         }
+        Collections.sort(dokumenty, new Dokfkcomparator());
         return dokumenty;
     }
     
@@ -499,6 +503,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             });
         }
+        Collections.sort(dokumenty, new Dokcomparator());
         return dokumenty;
     }
     
@@ -525,6 +530,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             });
         }
+        Collections.sort(dokumenty, new Dokcomparator());
         return dokumenty;
     }
     
@@ -551,6 +557,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             });
         }
+        Collections.sort(dokumenty, new Dokcomparator());
         return dokumenty;
     }
     
@@ -598,6 +605,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             };
         }
+        Collections.sort(dokumenty, new Dokfkcomparator());
         return dokumenty;
     }
     private List<Dokfk> stworzdokumentyfizfk(pl.gov.mf.jpk.wzor._2022._02._17._02171.JPK jpk) {
@@ -624,6 +632,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             };
         }
+        Collections.sort(dokumenty, new Dokfkcomparator());
         return dokumenty;
     }
     
@@ -669,6 +678,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             };
         }
+        Collections.sort(dokumenty, new Dokfkcomparator());
         return dokumenty;
     }
     
@@ -695,6 +705,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             };
         }
+        Collections.sort(dokumenty, new Dokfkcomparator());
         return dokumenty;
     }
     
@@ -715,6 +726,7 @@ public class ImportFakturyView  implements Serializable {
                 }
             });
         }
+        Collections.sort(dokumenty, new Dokcomparator());
         return dokumenty;
     }
     
