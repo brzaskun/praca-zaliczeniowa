@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import comparator.Kontocomparator;
 import dao.KontoDAOfk;
 import dao.StronaWierszaDAO;
 import dao.WierszBODAO;
@@ -12,6 +13,7 @@ import embeddablefk.ListaSum;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,10 +27,9 @@ import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
-import pdf.PdfKontoObroty;
- import view.WpisView;
+ import pdf.PdfKontoObroty;
+import view.WpisView;
 import waluty.Z;
-import interceptor.ConstructorInterceptor;
 
 /**
  *
@@ -76,6 +77,7 @@ public class KontoObrotyFKView implements Serializable{
     public void init() { //E.m(this);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());;
         usunkontabezsald();
+        Collections.sort(wykazkont, new Kontocomparator());
     }
  
     
