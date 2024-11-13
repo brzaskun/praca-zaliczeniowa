@@ -53,6 +53,7 @@ public class PodatnikKsiegowaView implements Serializable{
     @Inject
     private FakturaDAO fakturaDAO;
     private String rok;
+    private String mc;
     private boolean bezzerowych;
     private boolean edycja;
     private double razemksiegowosc;
@@ -67,7 +68,8 @@ public class PodatnikKsiegowaView implements Serializable{
         listaksiegowychwybor = new ArrayList<>(listaksiegowych);
         Podatnik wystawca = podatnikDAO.findPodatnikByNIP("8511005008");
         Collections.sort(listaksiegowych, new Uzcomparator());
-        List<Faktura> fakturyWystawione = fakturaDAO.findFakturyByRokPodatnik(rok, wystawca);
+//        List<Faktura> fakturyWystawione = fakturaDAO.findFakturyByRokPodatnik(rok, wystawca);
+        List<Faktura> fakturyWystawione = fakturaDAO.findFakturyByRokMcWystawca(rok, mc, wystawca);
         for (Podatnik p : listapodatnikow) {
             if (p.isPodmiotaktywny()) {
                 if (p.getNip().equals("9552524929")) {
@@ -111,8 +113,10 @@ public class PodatnikKsiegowaView implements Serializable{
                }
             }
         }
-        List<Dok> pkpir = dokDAO.findDokRok(rok);
-        List<Wiersz> fk = wierszDAO.findWierszeRok(rok);
+//        List<Dok> pkpir = dokDAO.findDokRok(rok);
+//        List<Wiersz> fk = wierszDAO.findWierszeRok(rok);
+        List<Dok> pkpir = dokDAO.findDokRokMC(rok,mc);
+        List<Wiersz> fk = wierszDAO.findWierszeRokMc(rok, mc);
         for (Iterator<Podatnik> it=listapodatnikow.iterator(); it.hasNext();) {
            Podatnik p = it.next();
            if (p.getCena() == 0&&p.isNiesprawdzajfaktury()==false) {
@@ -308,6 +312,14 @@ public class PodatnikKsiegowaView implements Serializable{
 
     public void setEdycja(boolean edycja) {
         this.edycja = edycja;
+    }
+
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
     }
 
     
