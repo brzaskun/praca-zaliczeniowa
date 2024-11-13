@@ -43,6 +43,7 @@ public class PodatnikKsiegowaView implements Serializable{
     private List<Podatnik> listapodatnikow;
     private List<Podatnik> listapodatnikowfilter;
     private List<Uz> listaksiegowych;
+    private List<Uz> listaksiegowychZapis;
     private List<Uz> listaksiegowychwybor;
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -67,6 +68,7 @@ public class PodatnikKsiegowaView implements Serializable{
     double totalWiersze;
     int totalLiczba;
     int totalLiczbafk;
+    double totalWynagrodzenie;
     
 
     public void init() { //E.m(this);
@@ -76,11 +78,13 @@ public class PodatnikKsiegowaView implements Serializable{
         totalWiersze = 0.0;
         totalLiczba = 0;
         totalLiczbafk = 0;
+        totalWynagrodzenie = 0.0;
         listapodatnikow = podatnikDAO.findAktywny();
         Collections.sort(listapodatnikow, new Podatnikcomparator());
         listaksiegowych = uzDAO.findByUprawnienia("Bookkeeper");
         listaksiegowych.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
         listaksiegowychwybor = new ArrayList<>(listaksiegowych);
+        listaksiegowychZapis = new ArrayList<>(listaksiegowych);
         Podatnik wystawca = podatnikDAO.findPodatnikByNIP("8511005008");
         Collections.sort(listaksiegowych, new Uzcomparator());
 //        List<Faktura> fakturyWystawione = fakturaDAO.findFakturyByRokPodatnik(rok, wystawca);
@@ -202,6 +206,7 @@ public class PodatnikKsiegowaView implements Serializable{
             // Initialize a new Uz instance if this imieNazwisko hasn't been processed yet
             if (aggregatedRecord == null) {
                 aggregatedRecord = new Uz();
+                aggregatedRecord.setId(r.getId());
                 aggregatedRecord.setImie(r.getImie());
                 aggregatedRecord.setNazw(r.getNazw());
                 aggregatedRecord.setPrzyporzadkowanipodatnicy(new ArrayList<>());
@@ -215,7 +220,6 @@ public class PodatnikKsiegowaView implements Serializable{
             double wiersze = aggregatedRecord.getWierszefk() + r.getWierszefk();
             int liczba = aggregatedRecord.getLiczbapodatnikow() + r.getLiczbapodatnikow();
             int liczbafk = aggregatedRecord.getLiczbapodatnikowfk() + r.getLiczbapodatnikowfk();
-
             // Update aggregated Uz instance with summed values
             aggregatedRecord.setSumafaktur(suma);
             aggregatedRecord.setSumafakturkadry(sumakadry);
@@ -224,6 +228,9 @@ public class PodatnikKsiegowaView implements Serializable{
             aggregatedRecord.setLiczbapodatnikow(liczba);
             aggregatedRecord.setLiczbapodatnikowfk(liczbafk);
             aggregatedRecord.getPrzyporzadkowanipodatnicy().addAll(r.getPrzyporzadkowanipodatnicy());
+            aggregatedRecord.setWynagrodzenieobecne(r.getWynagrodzenieobecne());
+            aggregatedRecord.setProcent(r.getProcent());
+            aggregatedRecord.setWynagrodzenieprocentowe(r.getWynagrodzenieprocentowe());
         }
 
         // Convert the map values to a list if needed
@@ -236,19 +243,20 @@ public class PodatnikKsiegowaView implements Serializable{
             totalWiersze += uz.getWierszefk();
             totalLiczba += uz.getLiczbapodatnikow();
             totalLiczbafk += uz.getLiczbapodatnikowfk();
+            totalWynagrodzenie += uz.getWynagrodzenieobecne();
         }
     }
     
-    public void zachowaj() {
-        try {
-            uzDAO.editList(listaksiegowych);
-            Msg.msg("Zaksiegowano zmiany księgowych");
-        } catch (Exception e) {
-            E.e(e);
-            Msg.msg("e", "Wystąpił błąd, nie naniesiono zmian księgowych");
-        }
-    }
-    
+//    public void zachowaj() {
+//        try {
+//            uzDAO.editList(listaksiegowych);
+//            Msg.msg("Zaksiegowano zmiany księgowych");
+//        } catch (Exception e) {
+//            E.e(e);
+//            Msg.msg("e", "Wystąpił błąd, nie naniesiono zmian księgowych");
+//        }
+//    }
+//    
 //    public void zapisz() {
 //        try {
 //            podatnikDAO.editList(listapodatnikow);
@@ -267,7 +275,14 @@ public class PodatnikKsiegowaView implements Serializable{
             ksiegowa.setProcent(Z.z(procent*100));
             double wynwyliczone = Z.z(sumafaktur*procent);
             ksiegowa.setWynagrodzenieprocentowe(wynwyliczone);
-            //uzDAO.edit(ksiegowa);
+            for (Uz uz : listaksiegowychZapis) {
+                if (uz.getNazwiskoImie().equals(ksiegowa.getNazwiskoImie())) {
+                    uz.setWynagrodzenieobecne(ksiegowa.getWynagrodzenieobecne());
+                    uz.setProcent(ksiegowa.getProcent());
+                    uz.setWynagrodzenieprocentowe(ksiegowa.getWynagrodzenieprocentowe());
+                    uzDAO.edit(uz);
+                }
+            }
             Msg.msg("Przeliczono ksiegową nowe wynagrodzenie");
         } catch (Exception e) {
             E.e(e);
@@ -281,7 +296,14 @@ public class PodatnikKsiegowaView implements Serializable{
             double procent = ksiegowa.getProcent();
             double wynwyliczone = Z.z(sumafaktur*procent/100);
             ksiegowa.setWynagrodzenieprocentowe(wynwyliczone);
-            //uzDAO.edit(ksiegowa);
+            for (Uz uz : listaksiegowychZapis) {
+                if (uz.getNazwiskoImie().equals(ksiegowa.getNazwiskoImie())) {
+                    uz.setWynagrodzenieobecne(ksiegowa.getWynagrodzenieobecne());
+                    uz.setProcent(ksiegowa.getProcent());
+                    uz.setWynagrodzenieprocentowe(ksiegowa.getWynagrodzenieprocentowe());
+                    uzDAO.edit(uz);
+                }
+            }
             Msg.msg("Przeliczono ksiegową nowy procent");
         } catch (Exception e) {
             E.e(e);
@@ -414,6 +436,10 @@ public class PodatnikKsiegowaView implements Serializable{
 
     public int getTotalLiczbafk() {
         return totalLiczbafk;
+    }
+
+    public double getTotalWynagrodzenie() {
+        return totalWynagrodzenie;
     }
 
     

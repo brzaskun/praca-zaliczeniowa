@@ -31,7 +31,7 @@
     <p:outputPanel style="padding: 10px;">
         <p:panelGrid layout="tabular" columns="6">
             <p:commandButton value="przeliczaj" actionListener="#{podatnikKsiegowaView.init()}" update="@form" style="width: 120px;"/>
-            <p:commandButton value="zachowaj" actionListener="#{podatnikKsiegowaView.zachowaj}" update="@form" style="margin-left: 50px;width: 120px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}"/>
+<!--            <p:commandButton value="zachowaj" actionListener="#{podatnikKsiegowaView.zachowaj}" update="@form" style="margin-left: 50px;width: 120px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}"/>-->
             <h:outputText value="księgowość:"/>
             <bcf:outputpl value="#{podatnikKsiegowaView.razemksiegowosc}"/>
             <h:outputText value="kadry:"/>
@@ -93,6 +93,9 @@
                 <p:inputNumber value="#{it.wynagrodzenieobecne}" symbolPosition="s" signPosition="p"    inputStyle="text-align: right;" decimalPlaces="2" style="width: 90px;" size="12">
                     <p:ajax event="change" listener="#{podatnikKsiegowaView.przeliczdane(it)}" partialSubmit="true" update="@parent:@parent" global="false"/>
                 </p:inputNumber>
+                 <f:facet name="footer">
+                    <bcf:outputpl value="#{podatnikKsiegowaView.totalWynagrodzenie}" />
+                </f:facet>
             </p:column>
             <p:column headerText="proc." width="40">
                 <p:inputNumber value="#{it.procent}" symbolPosition="s" signPosition="p"    inputStyle="text-align: right;" decimalPlaces="2" maxValue="99.9" size="5" maxlength="4">
