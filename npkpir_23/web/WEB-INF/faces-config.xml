@@ -857,6 +857,10 @@
             <from-outcome>gfakturaFakturaApple</from-outcome>
             <to-view-id>/guestFakturaApple/wspolnyFaktura.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+          <navigation-case>
+            <from-outcome>GuestFakturaSlowniApple</from-outcome>
+            <to-view-id>/guestFakturaApple/guestFakturaSlownik.xhtml</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>gfakturaFakturaUstawienia</from-outcome>
             <to-view-id>/wspolny/wspolnyFakturaUstawienia.xhtml?faces-redirect=true</to-view-id>
