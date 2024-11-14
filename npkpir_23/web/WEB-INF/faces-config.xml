@@ -131,8 +131,12 @@
             <to-view-id>/admin/adminStatystyka.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>adminpodatnicy</from-outcome>
-            <to-view-id>/admin/adminPodatnicy.xhtml?faces-redirect=true</to-view-id>
+            <from-outcome>adminrentownosc</from-outcome>
+            <to-view-id>/admin/adminRentownoscKsiegowa.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>adminksiegowanie</from-outcome>
+            <to-view-id>/admin/adminKsiegowanie.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>adminstatusprogramu</from-outcome>
