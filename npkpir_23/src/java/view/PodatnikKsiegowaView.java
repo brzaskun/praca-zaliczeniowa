@@ -101,20 +101,20 @@ public class PodatnikKsiegowaView implements Serializable{
                     for (Faktura s: fakt) {
                         if (s.getPrzyczynakorekty()==null) {
                             for (Pozycjenafakturzebazadanych poz : s.getPozycjenafakturze()) {
-
+                                double kwota = s.getTabelanbp()!=null?poz.getNetto(s.getTabelanbp()):poz.getNetto();
                                 if (poz.getJednostka().equals("osb.")) {
-                                    sumakadry = sumakadry + poz.getNetto();
+                                    sumakadry = sumakadry + kwota;
                                 } else {
-                                    suma = suma + poz.getNetto();
+                                    suma = suma + kwota;
                                 }
                             }
                         } else {
                             for (Pozycjenafakturzebazadanych poz : s.getPozycjepokorekcie()) {
-
+                                double kwota = s.getTabelanbp()!=null?poz.getNetto(s.getTabelanbp()):poz.getNetto();
                                 if (poz.getJednostka().equals("osb.")) {
-                                    sumakadry = sumakadry - poz.getNetto();
+                                    sumakadry = sumakadry - kwota;
                                 } else {
-                                    suma = suma - poz.getNetto();
+                                    suma = suma - kwota;
                                 }
                             }
                         }
