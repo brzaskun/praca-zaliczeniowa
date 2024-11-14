@@ -22,8 +22,10 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -32,13 +34,15 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+
 /**
  *
  * @author Osito
  */
 @Named
 @ViewScoped
-public class PodatnikKsiegowaShortView implements Serializable{
+public class PodatnikKsiegowaShortView implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private List<Podatnik> listapodatnikow;
     private List<Podatnik> listapodatnikowfiltered;
@@ -59,7 +63,7 @@ public class PodatnikKsiegowaShortView implements Serializable{
     @Inject
     private KlienciDAO klienciDAO;
     List<Klienci> klienci;
-    
+
     @PostConstruct
     public void init() { //E.m(this);
         listapodatnikow = podatnikDAO.findAktywny();
@@ -73,12 +77,12 @@ public class PodatnikKsiegowaShortView implements Serializable{
         mc = Data.aktualnyMc();
         String[] okrespoprzedni = Data.poprzedniOkres(mc, rok);
         rok = okrespoprzedni[1];
-        mc  = okrespoprzedni[0];
+        mc = okrespoprzedni[0];
         klienci = klienciDAO.findAll();
     }
-    
+
     public void init2() { //E.m(this);
-        if (wybrany!=null) {
+        if (wybrany != null) {
             listapodatnikow = podatnikDAO.findByKsiegowa(wybrany);
             Collections.sort(listapodatnikow, new Podatnikcomparator());
             Msg.msg("Pobrano klientów wg księgowej");
@@ -88,7 +92,7 @@ public class PodatnikKsiegowaShortView implements Serializable{
             Msg.msg("Pobrano wszystkich klientów");
         }
     }
-    
+
     public void zachowaj() {
         try {
             uzDAO.editList(listaksiegowych);
@@ -98,7 +102,7 @@ public class PodatnikKsiegowaShortView implements Serializable{
             Msg.msg("e", "Wystąpił błąd, nie naniesiono zmian księgowych");
         }
     }
-    
+
     public void zapisz() {
         try {
             podatnikDAO.editList(listapodatnikow);
@@ -108,7 +112,7 @@ public class PodatnikKsiegowaShortView implements Serializable{
             Msg.msg("e", "Wystąpił błąd, nie naniesiono zmian.");
         }
     }
-    
+
     public void edytujpodatnika(Podatnik podatnik) {
         try {
             podatnikDAO.edit(podatnik);
@@ -118,54 +122,98 @@ public class PodatnikKsiegowaShortView implements Serializable{
             Msg.msg("e", "Wystąpił błąd, nie naniesiono zmian.");
         }
     }
-    
+
     public void aktualizuj() {
-        if (listaksiegowych!=null&&rok!=null&&mc!=null) {
+        if (listaksiegowych != null && rok != null && mc != null) {
             Map<String, Uz> loginksiegowa = listaksiegowych.stream().collect(Collectors.toMap(Uz::getLogin, Function.identity()));
             List<Dok> dokumentypkpir = dokDAO.findDokRokMC(rok, mc);
-            if (dokumentypkpir!=null) {
+            if (dokumentypkpir != null) {
                 //p->p.getWprowadzil() to jest login z Uz
-                Map<Podatnik, String> firmaksiegowa = dokumentypkpir.stream().collect(Collectors.toMap(Dok::getPodatnik, Dok::getWprowadzil,(existing, replacement) -> existing));
-                firmaksiegowa.forEach((k, v) -> {
-                    System.out.println("Ksiegowa: " + v + ", podatnik: " + k.getPrintnazwa());
-                    Uz ksiegowa = loginksiegowa.get(v);
-                    if (ksiegowa!=null) {
-                        k.setKsiegowa(ksiegowa);
+                //stare zlicza nie patrzac ze ktos cos moze doksiegowac
+//                Map<Podatnik, String> firmaksiegowa = dokumentypkpir.stream().collect(Collectors.toMap(Dok::getPodatnik, Dok::getWprowadzil,(existing, replacement) -> existing));
+//                firmaksiegowa.forEach((k, v) -> {
+//                    System.out.println("Ksiegowa: " + v + ", podatnik: " + k.getPrintnazwa());
+//                    Uz ksiegowa = loginksiegowa.get(v);
+//                    if (ksiegowa!=null) {
+//                        k.setKsiegowa(ksiegowa);
+//                    }
+//                });
+                Map<Podatnik, String> firmaksiegowa = new HashMap<>();
+
+                if (dokumentypkpir != null) {
+                    // Step 1: Count occurrences of each 'wprowadzil' for each 'Podatnik'
+                    Map<Podatnik, Map<String, Long>> countMap = dokumentypkpir.stream()
+                            .collect(Collectors.groupingBy(Dok::getPodatnik,
+                                    Collectors.groupingBy(Dok::getWprowadzil, Collectors.counting())));
+
+                    // Step 2: Determine the primary 'wprowadzil' (who entered 80% or more documents) for each 'Podatnik'
+                    for (Map.Entry<Podatnik, Map<String, Long>> entry : countMap.entrySet()) {
+                        Podatnik podatnik = entry.getKey();
+                        Map<String, Long> userCounts = entry.getValue();
+
+                        long totalDocuments = userCounts.values().stream().mapToLong(Long::longValue).sum();
+
+                        Optional<String> primaryUser = userCounts.entrySet().stream()
+                                .filter(e -> e.getValue() >= 0.8 * totalDocuments) // Only consider users with >= 80% of entries
+                                .map(Map.Entry::getKey)
+                                .findFirst();  // Get the first (and likely only) user meeting the criteria
+
+                        primaryUser.ifPresent(user -> firmaksiegowa.put(podatnik, user));
                     }
-                });
+                    System.out.println("");
+                }
                 Set<Podatnik> keySet = firmaksiegowa.keySet();
                 podatnikDAO.editList(new ArrayList(keySet));
                 Msg.msg("Zaktualizowano powiązania uproszczona");
-                for (Podatnik pod: keySet) {
+                for (Podatnik pod : keySet) {
                     final String nip = pod.getNip();
-                    Klienci get = klienci.parallelStream().filter(fa->fa.getNip().equals(nip)).findFirst().get();
-                    if (get!=null) {
-                        get.setKsiegowadane(pod.getKsiegowa().getNazwiskoImie());
+                    Klienci get = klienci.parallelStream().filter(fa -> fa.getNip().equals(nip)).findFirst().get();
+                    if (get != null) {
+                        get.setKsiegowadane(pod.getKsiegowa()!=null?pod.getKsiegowa().getNazwiskoImie():"brak danych");
                         get.setTelefondb(pod.getTelefonkontaktowy());
                     }
                 }
                 klienciDAO.editList(klienci);
                 Msg.msg("Naniesiono dane księgowej na klientów urposzczona");
-                
+
             }
             List<Dokfk> dokumentyfk = dokDAOfk.findDokRokMC(rok, mc);
-            if (dokumentypkpir!=null) {
+            if (dokumentyfk != null) {
                 //p->p.getWprowadzil() to jest login z Uz
-                Map<Podatnik, String> firmaksiegowa = dokumentyfk.stream().collect(Collectors.toMap(Dokfk::getPodatnikObj, Dokfk::getWprowadzil,(existing, replacement) -> existing));
-                firmaksiegowa.forEach((k, v) -> {
-                    System.out.println("Ksiegowa: " + v + ", podatnik: " + k.getPrintnazwa());
-                    Uz ksiegowa = loginksiegowa.get(v);
-                    if (ksiegowa!=null) {
-                        k.setKsiegowa(ksiegowa);
-                    }
-                });
+//                Map<Podatnik, String> firmaksiegowa = dokumentyfk.stream().collect(Collectors.toMap(Dokfk::getPodatnikObj, Dokfk::getWprowadzil,(existing, replacement) -> existing));
+//                firmaksiegowa.forEach((k, v) -> {
+//                    System.out.println("Ksiegowa: " + v + ", podatnik: " + k.getPrintnazwa());
+//                    Uz ksiegowa = loginksiegowa.get(v);
+//                    if (ksiegowa!=null) {
+//                        k.setKsiegowa(ksiegowa);
+//                    }
+//                });
+                Map<Podatnik, String> firmaksiegowa = new HashMap<>();
+                Map<Podatnik, Map<String, Long>> countMap = dokumentyfk.stream()
+                        .collect(Collectors.groupingBy(Dokfk::getPodatnikObj,
+                                Collectors.groupingBy(Dokfk::getWprowadzil, Collectors.counting())));
+
+                // Step 2: Determine the primary 'wprowadzil' (who entered 80% or more documents) for each 'Podatnik'
+                for (Map.Entry<Podatnik, Map<String, Long>> entry : countMap.entrySet()) {
+                    Podatnik podatnik = entry.getKey();
+                    Map<String, Long> userCounts = entry.getValue();
+
+                    long totalDocuments = userCounts.values().stream().mapToLong(Long::longValue).sum();
+
+                    Optional<String> primaryUser = userCounts.entrySet().stream()
+                            .filter(e -> e.getValue() >= 0.8 * totalDocuments) // Only consider users with >= 80% of entries
+                            .map(Map.Entry::getKey)
+                            .findFirst();  // Get the first (and likely only) user meeting the criteria
+
+                    primaryUser.ifPresent(user -> firmaksiegowa.put(podatnik, user));
+                }
                 Set<Podatnik> keySet = firmaksiegowa.keySet();
                 podatnikDAO.editList(new ArrayList(keySet));
                 Msg.msg("Zaktualizowano powiązania pełna");
-                for (Podatnik pod: keySet) {
+                for (Podatnik pod : keySet) {
                     final String nip = pod.getNip();
-                    Klienci get = klienci.parallelStream().filter(fa->fa.getNip().equals(nip)).findFirst().get();
-                    if (get!=null) {
+                    Klienci get = klienci.parallelStream().filter(fa -> fa.getNip().equals(nip)).findFirst().get();
+                    if (get != null) {
                         get.setKsiegowadane(pod.getKsiegowa().getNazwiskoImie());
                         get.setTelefondb(pod.getTelefonkontaktowy());
                     }
@@ -176,10 +224,10 @@ public class PodatnikKsiegowaShortView implements Serializable{
                 init2();
             }
         } else {
-            Msg.msg("e","Błąd. Brak księgowych lub rok, mc");
+            Msg.msg("e", "Błąd. Brak księgowych lub rok, mc");
         }
     }
-    
+
     public List<Podatnik> getListapodatnikow() {
         return listapodatnikow;
     }
@@ -244,6 +292,4 @@ public class PodatnikKsiegowaShortView implements Serializable{
         this.mc = mc;
     }
 
-    
-    
 }
