@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
@@ -94,7 +95,12 @@ public class PodatnikKsiegowaView implements Serializable{
                 if (p.getNip().equals("9552524929")) {
                     error.E.s("");
                 }
-                List<Faktura> fakt = fakturyWystawione.stream().filter(r->r.getKontrahent().getNip().equals(p.getNip())).collect(Collectors.toList());
+                List<Faktura> fakturyWystawioneFilter = fakturyWystawione.stream().filter(r->r.getKontrahent().getNip().equals(p.getNip())).collect(Collectors.toList());
+                //bierzemy tylko okresowe
+                List<Faktura> fakt = fakturyWystawioneFilter.stream()
+                .filter(faktura -> faktura.getIdfakturaokresowa() != null)
+                .collect(Collectors.toList());
+
                 double suma = 0.0;
                 double sumakadry = 0.0;
                 if (!fakt.isEmpty()) {
@@ -124,6 +130,7 @@ public class PodatnikKsiegowaView implements Serializable{
                 p.setCenakadry(Z.z(sumakadry));
             }
         }
+
         if (bezzerowych) {
             for (Iterator<Podatnik> it=listapodatnikow.iterator(); it.hasNext();) {
                 Podatnik p = it.next();
@@ -158,7 +165,9 @@ public class PodatnikKsiegowaView implements Serializable{
         razemkadry = 0.0;
 
         // You can now use aggregatedList for your final output or display.
-
+        List<Faktura> faktjednorazowe = fakturyWystawione.stream()
+                .filter(faktura -> faktura.getIdfakturaokresowa() != null)
+                .collect(Collectors.toList());
         for (Uz r: listaksiegowych) {
             double suma = 0.0;
             double sumakadry = 0.0;
@@ -167,6 +176,12 @@ public class PodatnikKsiegowaView implements Serializable{
             int liczba = 0;
             int liczbafk = 0;
             r.setPrzyporzadkowanipodatnicy(new ArrayList<>());
+            for (Faktura jedn : faktjednorazowe) {
+                if (jedn.getAutor().toLowerCase(new Locale("pl","PL")).equals(r.getNazwiskoImie())) {
+                    double kwota = jedn.getNettopln();
+                    suma  = suma +kwota;
+                }
+            }
             for (Iterator<Podatnik> it=listapodatnikow.iterator(); it.hasNext();) {
                 Podatnik p = it.next();
                 if (p.getKsiegowa()!=null && p.getKsiegowa().equals(r)) {
