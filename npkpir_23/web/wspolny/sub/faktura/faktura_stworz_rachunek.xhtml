@@ -29,7 +29,7 @@
                     </p:inputText>
                     <p:selectOneMenu value="#{row.nazwa}" rendered="#{fakturaslownikView.lista ne null}" style="width: 340px;"
                                      editable="true" filter="true" filterMatchMode="contains" >
-                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{fakturaslownikView.listawybor}" var="loop" itemLabel="#{loop}" itemValue="#{loop}"/>
                         <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
                     </p:selectOneMenu>

@@ -40,7 +40,7 @@ public class Fakturaslownik implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
+    @Size(max = 320)
     @Column(name = "opis")
     private String opis;
     @JoinColumn(name = "podid", referencedColumnName = "id")

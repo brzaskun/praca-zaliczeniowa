@@ -40,7 +40,7 @@
     </p:outputPanel>
     <p:outputPanel style="padding: 10px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}">
         <p:dataTable lazy="false"  value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 1250px" rowIndexVar="indx" rowKey="#{it.login}"
-                      rowGroupMode="subtable" groupBy="#{it.imieNazwisko}">
+                      >
              <p:column style="height: 19px; text-align: center;" width="20">
                     <p:rowToggler rendered="#{it.przyporzadkowanipodatnicy.size() gt 0 }"/>
             </p:column>
@@ -97,7 +97,7 @@
                     <bcf:outputpl value="#{podatnikKsiegowaView.totalWynagrodzenie}" />
                 </f:facet>
             </p:column>
-            <p:column headerText="proc." width="40">
+<p:column headerText="proc." width="40" sortBy="#{it.procent}" sortable="true">
                 <p:inputNumber value="#{it.procent}" symbolPosition="s" signPosition="p"    inputStyle="text-align: right;" decimalPlaces="2" maxValue="99.9" size="5" maxlength="4">
                     <p:ajax event="change" listener="#{podatnikKsiegowaView.przeliczdaneproc(it)}" partialSubmit="true" update="@parent:@parent" global="false"/>
                 </p:inputNumber>
