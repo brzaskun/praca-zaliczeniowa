@@ -124,6 +124,7 @@ public class PodatnikKsiegowaShortView implements Serializable {
     }
 
     public void aktualizuj() {
+        podatnikDAO.editList(listapodatnikow);
         if (listaksiegowych != null && rok != null && mc != null) {
             Map<String, Uz> loginksiegowa = listaksiegowych.stream().collect(Collectors.toMap(Uz::getLogin, Function.identity()));
             List<Dok> dokumentypkpir = dokDAO.findDokRokMC(rok, mc);
@@ -162,6 +163,12 @@ public class PodatnikKsiegowaShortView implements Serializable {
                     }
                     System.out.println("");
                 }
+                firmaksiegowa.forEach((podatnik, loginKsiegowa) -> {
+                Uz ksiegowa = loginksiegowa.get(loginKsiegowa);
+                if (ksiegowa != null) {
+                    podatnik.setKsiegowa(ksiegowa);
+                }
+                });
                 Set<Podatnik> keySet = firmaksiegowa.keySet();
                 podatnikDAO.editList(new ArrayList(keySet));
                 Msg.msg("Zaktualizowano powiązania uproszczona");
@@ -207,6 +214,12 @@ public class PodatnikKsiegowaShortView implements Serializable {
 
                     primaryUser.ifPresent(user -> firmaksiegowa.put(podatnik, user));
                 }
+                firmaksiegowa.forEach((podatnik, loginKsiegowa) -> {
+                        Uz ksiegowa = loginksiegowa.get(loginKsiegowa);
+                        if (ksiegowa != null) {
+                            podatnik.setKsiegowa(ksiegowa);
+                        }
+                    });
                 Set<Podatnik> keySet = firmaksiegowa.keySet();
                 podatnikDAO.editList(new ArrayList(keySet));
                 Msg.msg("Zaktualizowano powiązania pełna");

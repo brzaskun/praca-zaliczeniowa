@@ -43,6 +43,7 @@ import org.primefaces.model.file.UploadedFile;
 @Named
 @ViewScoped
 public class FakturaelementygraficzneView implements Serializable {
+    private static final long serialVersionUID = 1L;
     
     private List<Fakturaelementygraficzne> fakturaelementygraficzne;
     @Inject

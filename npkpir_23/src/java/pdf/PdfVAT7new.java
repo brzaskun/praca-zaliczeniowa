@@ -64,7 +64,7 @@ public class PdfVAT7new {
         }
         Uz uz = wpisView.getUzer();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        Document document = PdfMain.inicjacjaA4Landscape(40,20,40,40);
+        Document document = PdfMain.inicjacjaA4Portrait();
         PdfWriter writer = PdfMain.inicjacjaWriteraOut(document, out);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);

@@ -7,165 +7,143 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
-     <h:form id="podatnicy">
-     <p:outputPanel style="padding: 10px;">
-         <p:panel header="Statystyka księgowych" style="width:1200px;"/>
-         <p:panelGrid layout="tabular" columns="6">
-        <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
-        <p:selectOneMenu id="rokWpisu" value="#{podatnikKsiegowaView.rok}" style="width: 70px;">
-            <f:selectItems value="#{roki.rokiListString}" />
-            <p:ajax event="change" partialSubmit="true"/>
-        </p:selectOneMenu>
-         <p:selectOneMenu id="miesiacWpisu" value="#{podatnikKsiegowaView.mc}" style="width: 70px;">
+    <h:form id="podatnicy">
+        <p:outputPanel style="padding: 10px;">
+            <p:panel header="Statystyka księgowych" style="width:1200px;"/>
+            <p:panelGrid layout="tabular" columns="6">
+                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                <p:selectOneMenu id="rokWpisu" value="#{adminKsiegowanieView.rok}" style="width: 70px;">
+                    <f:selectItems value="#{roki.rokiListString}" />
+                    <p:ajax event="change" partialSubmit="true"/>
+                </p:selectOneMenu>
+                <p:selectOneMenu id="miesiacWpisu" value="#{adminKsiegowanieView.mc}" style="width: 70px;">
                     <f:selectItems value="#{mce.mceList}"/>
-                   <p:ajax event="change" partialSubmit="true"/>
+                    <p:ajax event="change" partialSubmit="true"/>
                 </p:selectOneMenu>
-        <p:selectBooleanCheckbox value="#{podatnikKsiegowaView.bezzerowych}" itemLabel="tylko niezerowe">
-            <p:ajax event="change" listener="#{podatnikKsiegowaView.init()}" update="@form"/>
-        </p:selectBooleanCheckbox>
-        <p:selectBooleanCheckbox value="#{podatnikKsiegowaView.edycja}" itemLabel="edycja">
-            <p:ajax event="change"  update="@form"/>
-        </p:selectBooleanCheckbox>
-        </p:panelGrid>
-    </p:outputPanel>
-    <p:outputPanel style="padding: 10px;">
-        <p:panelGrid layout="tabular" columns="6">
-            <p:commandButton value="przeliczaj" actionListener="#{podatnikKsiegowaView.init()}" update="@form" style="width: 120px;"/>
-<!--            <p:commandButton value="zachowaj" actionListener="#{podatnikKsiegowaView.zachowaj}" update="@form" style="margin-left: 50px;width: 120px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}"/>-->
-            <h:outputText value="księgowość:"/>
-            <bcf:outputpl value="#{podatnikKsiegowaView.razemksiegowosc}"/>
-            <h:outputText value="kadry:"/>
-            <bcf:outputpl value="#{podatnikKsiegowaView.razemkadry}"/>
-        </p:panelGrid>
-    </p:outputPanel>
-    <p:outputPanel style="padding: 10px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}">
-        <p:dataTable lazy="false"  value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 1250px" rowIndexVar="indx" rowKey="#{it.login}"
-                      >
-             <p:column style="height: 19px; text-align: center;" width="20">
-                    <p:rowToggler rendered="#{it.przyporzadkowanipodatnicy.size() gt 0 }"/>
-            </p:column>
-            <p:column  width="30">
-                <h:outputText value="#{indx+1}"/>
-            </p:column>
-<!--            <p:column headerText="ksiegowa" width="100">
-                <h:outputText value="#{it.login}"/>
-            </p:column>-->
-            <p:column headerText="nazw. i imię" width="150" filterBy="#{it.imieNazwisko}" filterMatchMode="contains" sortBy="#{it.imieNazwisko}">
-                 <h:outputText value="#{it.imieNazwisko}"/>
-            </p:column>
-            <p:column headerText="suma fakt. księg." width="70" sortBy="#{it.sumafaktur}">
-                <bcf:outputpl value="#{it.sumafaktur}"/>
-                <f:facet name="footer">
-                    <bcf:outputpl value="#{podatnikKsiegowaView.totalSuma}"/>
-                </f:facet>
-            </p:column>
-            <p:column headerText="suma fakt. kadry" width="70" sortBy="#{it.sumafakturkadry}">
-                <bcf:outputpl value="#{it.sumafakturkadry}"/>
-                <f:facet name="footer">
-                    <bcf:outputpl value="#{podatnikKsiegowaView.totalSumakadry}"/>
-                </f:facet>
-            </p:column>
-            <p:column headerText="liczba pod." width="40" sortBy="#{it.liczbapodatnikow}">
-                <bcf:outputpl0 value="#{it.liczbapodatnikow}"/>
-                <f:facet name="footer">
-                    <bcf:outputpl0 value="#{podatnikKsiegowaView.totalLiczba}" />
-                </f:facet>
-            </p:column>
-            <p:column headerText="liczba pod. fk" width="40" sortBy="#{it.liczbapodatnikowfk}">
-                <bcf:outputpl0 value="#{it.liczbapodatnikowfk}"/>
-                <f:facet name="footer">
-                    <bcf:outputpl0 value="#{podatnikKsiegowaView.totalLiczbafk}" />
-                </f:facet>
-            </p:column>
-            <p:column headerText="dok pkpir" width="40" sortBy="#{it.dokpkpir}">
-                <bcf:outputpl0 value="#{it.dokpkpir}"/>
-                <f:facet name="footer">
-                    <bcf:outputpl0 value="#{podatnikKsiegowaView.totalDokpkpir}" />
-                </f:facet>
-            </p:column>
-            <p:column headerText="wiersze fk" width="40" sortBy="#{it.wierszefk}">
-                <bcf:outputpl0 value="#{it.wierszefk}"/>
-                <f:facet name="footer">
-                    <bcf:outputpl0 value="#{podatnikKsiegowaView.totalWiersze}" />
-                </f:facet>
-            </p:column>
-            <p:column headerText="wynagrodzenie" width="90">
-                <p:inputNumber value="#{it.wynagrodzenieobecne}" symbolPosition="s" signPosition="p"    inputStyle="text-align: right;" decimalPlaces="2" style="width: 90px;" size="12">
-                    <p:ajax event="change" listener="#{podatnikKsiegowaView.przeliczdane(it)}" partialSubmit="true" update="@parent:@parent" global="false"/>
-                </p:inputNumber>
-                 <f:facet name="footer">
-                    <bcf:outputpl value="#{podatnikKsiegowaView.totalWynagrodzenie}" />
-                </f:facet>
-            </p:column>
-<p:column headerText="proc." width="40" sortBy="#{it.procent}" sortable="true">
-                <p:inputNumber value="#{it.procent}" symbolPosition="s" signPosition="p"    inputStyle="text-align: right;" decimalPlaces="2" maxValue="99.9" size="5" maxlength="4">
-                    <p:ajax event="change" listener="#{podatnikKsiegowaView.przeliczdaneproc(it)}" partialSubmit="true" update="@parent:@parent" global="false"/>
-                </p:inputNumber>
-            </p:column>
-            <p:column headerText="wynagrodzenie proc" width="90">
-                <bcf:outputpl value="#{it.wynagrodzenieprocentowe}"/>
-            </p:column>
-            <p:rowExpansion>
-                <p:dataTable lazy="false"  value="#{it.przyporzadkowanipodatnicy}" var="ita" style="width: 800px" rowIndexVar="indxa">
-                    <p:column width="20">
-                        <h:outputText value="#{indxa+1}"/>
-                    </p:column>
-                    <p:column headerText="nazwa podatnika" width="300" sortBy="#{ita.printnazwa}">
-                        <h:outputText value="#{ita.printnazwa}"/>
-                    </p:column>
-                    <p:column headerText="faktury" sortBy="#{ita.cena}">
-                        <bcf:outputpl value="#{ita.cena}"/>
-                    </p:column>
-                    <p:column headerText="faktury" sortBy="#{ita.cena}">
-                        <bcf:outputpl value="#{ita.cenakadry}"/>
-                    </p:column>
-                    <p:column headerText="liczba dok." width="50" sortBy="#{ita.liczbadok}">
-                        <bcf:outputpl0 value="#{ita.liczbadok}"/>
-                    </p:column>
-                    <p:column headerText="liczba wierszy" width="50" sortBy="#{ita.liczbawierszy}">
-                        <bcf:outputpl0 value="#{ita.liczbawierszy}"/>
-                    </p:column>
-                </p:dataTable>
-            </p:rowExpansion>
-        </p:dataTable>
-    </p:outputPanel>
-    <p:outputPanel>
-<!--        <p:commandButton value="zapisz podatnicy" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaView.zapisz}"/>-->
-        <p:dataTable lazy="false"  value="#{podatnikKsiegowaView.listapodatnikow}" var="item" style="width: 800px;" rowIndexVar="index" 
-                     filteredValue="#{podatnikKsiegowaView.listapodatnikowfilter}" sortBy="#{item.ksiegowa.grupa}"
-                     rowStyleClass="#{item.ksiegowa.grupa.startsWith('kadr') ? 'rmarta' : item.ksiegowa.grupa.startsWith('wio') ? 'rwioletta' : item.ksiegowa.grupa.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
-            <p:ajax event="filter" global="false"/>
-            <p:column headerText="lp" width="30">
-                <h:outputText value="#{index+1}"/>
-            </p:column>
-            <p:column headerText="podatnik" width="300">
-                <h:outputText value="#{item.printnazwa}"/>
-            </p:column>
-            <p:column headerText="księgowa" sortBy="#{item.ksiegowa.login}" filterBy="#{item.ksiegowa.login}"  rendered="#{!podatnikKsiegowaView.edycja}" groupRow="true">
-                 <h:outputText value="#{item.ksiegowa.login}"/>
-            </p:column>
-            <p:column headerText="grupa" sortBy="#{item.ksiegowa.grupa}" filterBy="#{item.ksiegowa.grupa}" groupRow="true" >
-                 <h:outputText value="#{item.ksiegowa.grupa}"/>
-            </p:column>
-            <p:column headerText="księgowa" rendered="#{podatnikKsiegowaView.edycja}" >
-                <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;" converter="#{uzConv}">
-                    <f:selectItems value="#{podatnikKsiegowaView.listaksiegowychwybor}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
-                </p:selectOneMenu>
-            </p:column>
-            <p:column headerText="kwota" width="100" sortBy="#{item.cena}" rendered="#{facesContext.externalContext.remoteUser eq '2'}">
-                <bcf:outputpl value="#{item.cena}"/>
-            </p:column>
-            <p:summaryRow>
-                <p:column colspan="4" style="text-align:right">
-                    <h:outputText value="Razem: " />
+                <p:column headerText="księgowa" rendered="#{adminKsiegowanieView.wybranaksiegowa}" >
+                    <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;" converter="#{uzConv}">
+                        <f:selectItems value="#{adminKsiegowanieView.listaksiegowychwybor}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
+                    </p:selectOneMenu>
                 </p:column>
-                <p:column>
-                    <h:outputText value="#{podatnikKsiegowaView.razem()}">
-                        <f:convertNumber type="currency" currencySymbol="pln" />
-                    </h:outputText>
-                </p:column>
-            </p:summaryRow>
+            </p:panelGrid>
+            <p:commandButton value="pobierz" actionListener="#{adminKsiegowanieView.pobierz()}" update="@form" style="width: 120px;"/>
+        </p:outputPanel>
+        <p:dataTable value="#{adminKsiegowanieView.zestawienierekordow}" var="record" style="width: 100%;" rowKey="#{record.id}">
+
+            <!-- id Column -->
+            <p:column headerText="id">
+                <h:outputText value="#{record.id}" />
+            </p:column>
+
+            <!-- podatnik Column (Display Name or Info) -->
+            <p:column headerText="podatnik">
+                <h:outputText value="#{record.podatnik.printnazwa}" /> <!-- Adjust based on `Podatnik` fields -->
+            </p:column>
+
+            <!-- zamkniecie Column -->
+            <p:column headerText="zamkniecie">
+                <h:outputText value="#{record.zamkniecie}">
+                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                </h:outputText>
+            </p:column>
+
+            <!-- Day Columns -->
+            <p:column headerText="1">
+                <h:outputText value="#{record.day1}" />
+            </p:column>
+            <p:column headerText="2">
+                <h:outputText value="#{record.day2}" />
+            </p:column>
+            <p:column headerText="3">
+                <h:outputText value="#{record.day3}" />
+            </p:column>
+            <p:column headerText="4">
+                <h:outputText value="#{record.day4}" />
+            </p:column>
+            <p:column headerText="5">
+                <h:outputText value="#{record.day5}" />
+            </p:column>
+            <p:column headerText="6">
+                <h:outputText value="#{record.day6}" />
+            </p:column>
+            <p:column headerText="7">
+                <h:outputText value="#{record.day7}" />
+            </p:column>
+            <p:column headerText="8">
+                <h:outputText value="#{record.day8}" />
+            </p:column>
+            <p:column headerText="9">
+                <h:outputText value="#{record.day9}" />
+            </p:column>
+            <p:column headerText="10">
+                <h:outputText value="#{record.day10}" />
+            </p:column>
+            <p:column headerText="11">
+                <h:outputText value="#{record.day11}" />
+            </p:column>
+            <p:column headerText="12">
+                <h:outputText value="#{record.day12}" />
+            </p:column>
+            <p:column headerText="13">
+                <h:outputText value="#{record.day13}" />
+            </p:column>
+            <p:column headerText="14">
+                <h:outputText value="#{record.day14}" />
+            </p:column>
+            <p:column headerText="15">
+                <h:outputText value="#{record.day15}" />
+            </p:column>
+            <p:column headerText="16">
+                <h:outputText value="#{record.day16}" />
+            </p:column>
+            <p:column headerText="17">
+                <h:outputText value="#{record.day17}" />
+            </p:column>
+            <p:column headerText="18">
+                <h:outputText value="#{record.day18}" />
+            </p:column>
+            <p:column headerText="19">
+                <h:outputText value="#{record.day19}" />
+            </p:column>
+            <p:column headerText="20">
+                <h:outputText value="#{record.day20}" />
+            </p:column>
+            <p:column headerText="21">
+                <h:outputText value="#{record.day21}" />
+            </p:column>
+            <p:column headerText="22">
+                <h:outputText value="#{record.day22}" />
+            </p:column>
+            <p:column headerText="23">
+                <h:outputText value="#{record.day23}" />
+            </p:column>
+            <p:column headerText="24">
+                <h:outputText value="#{record.day24}" />
+            </p:column>
+            <p:column headerText="25">
+                <h:outputText value="#{record.day25}" />
+            </p:column>
+            <p:column headerText="26">
+                <h:outputText value="#{record.day26}" />
+            </p:column>
+            <p:column headerText="27">
+                <h:outputText value="#{record.day27}" />
+            </p:column>
+            <p:column headerText="28">
+                <h:outputText value="#{record.day28}" />
+            </p:column>
+            <p:column headerText="29">
+                <h:outputText value="#{record.day29}" />
+            </p:column>
+            <p:column headerText="30">
+                <h:outputText value="#{record.day30}" />
+            </p:column>
+            <p:column headerText="31">
+                <h:outputText value="#{record.day31}" />
+            </p:column>
+
         </p:dataTable>
-    </p:outputPanel>
-     </h:form>
+
+
+    </h:form>
 </ui:composition>   
