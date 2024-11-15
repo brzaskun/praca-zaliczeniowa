@@ -4,6 +4,8 @@
  */
 package view;
 
+import beansDok.DayUpdater;
+import comparator.Uzcomparator;
 import dao.DokDAO;
 import dao.DokDAOfk;
 import dao.PodatnikDAO;
@@ -16,6 +18,7 @@ import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -53,21 +56,27 @@ public class AdminKsiegowanieView implements Serializable {
     public void init() {
         listaksiegowychwybor = uzDAO.findByUprawnienia("Bookkeeper");
         listaksiegowychwybor.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
+         Collections.sort(listaksiegowychwybor, new Uzcomparator());
         listapodatnikow = podatnikDAO.findAktywny();
+        zestawienierekordow = new ArrayList<>();
     }
 
     public void pobierz() {
         if (wybranaksiegowa != null) {
-            List<Dok> listaDok = dokDAO.findDokRokMC(rok, mc);
-            List<Dokfk> listaDokfk = dokDAOfk.findDokRokMC(rok, mc);
+            List<Dok> listaDokTmp = dokDAO.findDokRokMC(rok, mc);
+            List<Dokfk> listaDokfkTmp = dokDAOfk.findDokRokMC(rok, mc);
             List<Podatnik> listapodatnikowfiltered = listapodatnikow.stream()
                     .filter(podatnik -> podatnik.getKsiegowa() != null && podatnik.getKsiegowa().equals(wybranaksiegowa))
                     .collect(Collectors.toList());
-            List<PodatnikRecord> zestawienierekordow = new ArrayList<>();
+            zestawienierekordow = new ArrayList<>();
+            // Step 1: Group documents by Podatnik, filtering by the selected ksiegowa
+        Map<Podatnik, List<Dok>> dokumentyByPodatnik = listaDokTmp.stream()
+                .filter(dok -> listapodatnikowfiltered.contains(dok.getPodatnik()))
+                .collect(Collectors.groupingBy(Dok::getPodatnik));
 
-// Step 1: Group documents by Podatnik
-            Map<Podatnik, List<Dok>> dokumentyByPodatnik = listaDok.stream()
-                    .collect(Collectors.groupingBy(Dok::getPodatnik));
+        Map<Podatnik, List<Dokfk>> dokumentyFKByPodatnik = listaDokfkTmp.stream()
+                .filter(dokfk -> listapodatnikowfiltered.contains(dokfk.getPodatnikObj()))
+                .collect(Collectors.groupingBy(Dokfk::getPodatnikObj));
 
 // Step 2: For each Podatnik, create a PodatnikRecord and populate day fields
             int numerid = 1;
@@ -85,103 +94,27 @@ public class AdminKsiegowanieView implements Serializable {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(dok.getDataK());
                     int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                    DayUpdater.incrementDay(recorda, dayOfMonth);
+                }
+                // Step 4: Add the populated PodatnikRecord to the list
+                zestawienierekordow.add(recorda);
+                Msg.msg("Pobrano dane");
+            }
+             for (Map.Entry<Podatnik, List<Dokfk>> entry : dokumentyFKByPodatnik.entrySet()) {
+                Podatnik podatnik = entry.getKey();
+                List<Dokfk> dokumentyPodatnika = entry.getValue();
 
-                    // Increment the correct day field in PodatnikRecord
-                    switch (dayOfMonth) {
-                        case 1:
-                            recorda.setDay1(recorda.getDay1() + 1);
-                            break;
-                        case 2:
-                            recorda.setDay2(recorda.getDay2() + 1);
-                            break;
-                        case 3:
-                            recorda.setDay3(recorda.getDay3() + 1);
-                            break;
-                        case 4:
-                            recorda.setDay4(recorda.getDay4() + 1);
-                            break;
-                        case 5:
-                            recorda.setDay5(recorda.getDay5() + 1);
-                            break;
-                        case 6:
-                            recorda.setDay6(recorda.getDay6() + 1);
-                            break;
-                        case 7:
-                            recorda.setDay7(recorda.getDay7() + 1);
-                            break;
-                        case 8:
-                            recorda.setDay8(recorda.getDay8() + 1);
-                            break;
-                        case 9:
-                            recorda.setDay9(recorda.getDay9() + 1);
-                            break;
-                        case 10:
-                            recorda.setDay10(recorda.getDay10() + 1);
-                            break;
-                        case 11:
-                            recorda.setDay11(recorda.getDay11() + 1);
-                            break;
-                        case 12:
-                            recorda.setDay12(recorda.getDay12() + 1);
-                            break;
-                        case 13:
-                            recorda.setDay13(recorda.getDay13() + 1);
-                            break;
-                        case 14:
-                            recorda.setDay14(recorda.getDay14() + 1);
-                            break;
-                        case 15:
-                            recorda.setDay15(recorda.getDay15() + 1);
-                            break;
-                        case 16:
-                            recorda.setDay16(recorda.getDay16() + 1);
-                            break;
-                        case 17:
-                            recorda.setDay17(recorda.getDay17() + 1);
-                            break;
-                        case 18:
-                            recorda.setDay18(recorda.getDay18() + 1);
-                            break;
-                        case 19:
-                            recorda.setDay19(recorda.getDay19() + 1);
-                            break;
-                        case 20:
-                            recorda.setDay20(recorda.getDay20() + 1);
-                            break;
-                        case 21:
-                            recorda.setDay21(recorda.getDay21() + 1);
-                            break;
-                        case 22:
-                            recorda.setDay22(recorda.getDay22() + 1);
-                            break;
-                        case 23:
-                            recorda.setDay23(recorda.getDay23() + 1);
-                            break;
-                        case 24:
-                            recorda.setDay24(recorda.getDay24() + 1);
-                            break;
-                        case 25:
-                            recorda.setDay25(recorda.getDay25() + 1);
-                            break;
-                        case 26:
-                            recorda.setDay26(recorda.getDay26() + 1);
-                            break;
-                        case 27:
-                            recorda.setDay27(recorda.getDay27() + 1);
-                            break;
-                        case 28:
-                            recorda.setDay28(recorda.getDay28() + 1);
-                            break;
-                        case 29:
-                            recorda.setDay29(recorda.getDay29() + 1);
-                            break;
-                        case 30:
-                            recorda.setDay30(recorda.getDay30() + 1);
-                            break;
-                        case 31:
-                            recorda.setDay31(recorda.getDay31() + 1);
-                            break;
-                    }
+                // Create a new PodatnikRecord for this Podatnik, set zamkniecie as required
+                PodatnikRecord recorda = new PodatnikRecord();
+                recorda.setPodatnik(podatnik);
+                recorda.setId(numerid++); // Assuming Podatnik has an `id` field
+
+                // Step 3: Count documents for each day and populate the day fields
+                for (Dokfk dok : dokumentyPodatnika) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(dok.getDataujecia());
+                    int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                    DayUpdater.incrementDay(recorda, dayOfMonth);
                 }
                 // Step 4: Add the populated PodatnikRecord to the list
                 zestawienierekordow.add(recorda);
@@ -191,6 +124,12 @@ public class AdminKsiegowanieView implements Serializable {
             Msg.msg("Nie wybrano księgowej");
         }
     }
+    
+    public int getTotalSumDays() {
+        return zestawienierekordow!=null?zestawienierekordow.stream().mapToInt(PodatnikRecord::getTotalDays).sum():0;
+    }
+
+  
 
     public String getRok() {
         return rok;
@@ -232,5 +171,127 @@ public class AdminKsiegowanieView implements Serializable {
         this.zestawienierekordow = zestawienierekordow;
     }
 
-}
+    public int getSumDay1() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay1).sum();
+    }
 
+    public int getSumDay2() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay2).sum();
+    }
+
+    public int getSumDay3() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay3).sum();
+    }
+
+    public int getSumDay4() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay4).sum();
+    }
+
+    public int getSumDay5() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay5).sum();
+    }
+
+    public int getSumDay6() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay6).sum();
+    }
+
+    public int getSumDay7() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay7).sum();
+    }
+
+    public int getSumDay8() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay8).sum();
+    }
+
+    public int getSumDay9() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay9).sum();
+    }
+
+    public int getSumDay10() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay10).sum();
+    }
+
+    public int getSumDay11() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay11).sum();
+    }
+
+    public int getSumDay12() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay12).sum();
+    }
+
+    public int getSumDay13() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay13).sum();
+    }
+
+    public int getSumDay14() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay14).sum();
+    }
+
+    public int getSumDay15() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay15).sum();
+    }
+
+    public int getSumDay16() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay16).sum();
+    }
+
+    public int getSumDay17() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay17).sum();
+    }
+
+    public int getSumDay18() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay18).sum();
+    }
+
+    public int getSumDay19() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay19).sum();
+    }
+
+    public int getSumDay20() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay20).sum();
+    }
+
+    public int getSumDay21() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay21).sum();
+    }
+
+    public int getSumDay22() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay22).sum();
+    }
+
+    public int getSumDay23() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay23).sum();
+    }
+
+    public int getSumDay24() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay24).sum();
+    }
+
+    public int getSumDay25() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay25).sum();
+    }
+
+    public int getSumDay26() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay26).sum();
+    }
+
+    public int getSumDay27() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay27).sum();
+    }
+
+    public int getSumDay28() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay28).sum();
+    }
+
+    public int getSumDay29() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay29).sum();
+    }
+
+    public int getSumDay30() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay30).sum();
+    }
+
+    public int getSumDay31() {
+        return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay31).sum();
+    }
+}
