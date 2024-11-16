@@ -51,7 +51,6 @@ import entityfk.Transakcja;
 import entityfk.UkladBR;
 import entityfk.Waluty;
 import entityfk.Wiersz;
-import entityfk.WynikFKRokMc;
 import error.E;
 import java.io.Serializable;
 import java.util.Collection;
@@ -735,34 +734,6 @@ public class SessionFacade<T> implements Serializable {
 //        return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findByLevelWzorcowy").setParameter("level", i).setParameter("rok", wpisView.getRokWpisu()).getResultList());
 //    }
 
-    
-
-    
-
-    public WynikFKRokMc findWynikFKRokMc(WynikFKRokMc wynikFKRokMc) {
-        return (WynikFKRokMc)  getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokMc").setParameter("podatnik", wynikFKRokMc.getPodatnikObj()).setParameter("rok", wynikFKRokMc.getRok()).setParameter("mc", wynikFKRokMc.getMc()).getSingleResult();
-    }
-
-    public WynikFKRokMc findWynikFKRokMcFirma(WynikFKRokMc wynikFKRokMc) {
-        WynikFKRokMc zwrot = null;
-        try {
-            zwrot = (WynikFKRokMc)  getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokMcFirma").setParameter("podatnik", wynikFKRokMc.getPodatnikObj()).setParameter("rok", wynikFKRokMc.getRok()).setParameter("mc", wynikFKRokMc.getMc()).getSingleResult();
-        } catch (Exception e){}
-        return zwrot;
-    }
-
-    public List<WynikFKRokMc> findWynikFKPodatnikRok(WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
-    }
-    
-    public List<WynikFKRokMc> findWynikFKPodatnikRokFirma(WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokFirma").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
-    }
-
-    public List<WynikFKRokMc> findWynikFKPodatnikRokUdzialowiec(WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokUdzialowiec").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
-    }
-
 
     public void usunZapisaneKontoPozycjaPodatnikUklad(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {
@@ -848,20 +819,6 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList((List<String>)  getEntityManager().createNamedQuery("Dokfk.znajdzSeriePodatnik").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());
     }
 
-    
-
-    public WynikFKRokMc findWynikFKRokMcUdzialowiec(WynikFKRokMc wynikFKRokMc) {
-        return (WynikFKRokMc)  getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokMcUdzialowiec").setParameter("podatnik", wynikFKRokMc.getPodatnikObj()).setParameter("rok", wynikFKRokMc.getRok()).setParameter("mc", wynikFKRokMc.getMc()).setParameter("udzialowiec", wynikFKRokMc.getUdzialowiec()).getSingleResult();
-    }
-    
-    public WynikFKRokMc findWynikFKRokMcUdzialowiec(Podatnik podatnik, String rok, String mc, String udzialowiec) {
-        return (WynikFKRokMc)  getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokMcUdzialowiec").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).setParameter("udzialowiec", udzialowiec).getSingleResult();
-    }
-
-    
-
-    
-    
     
 
     public List<FakturaRozrachunki> rozrachunkiZDnia(Date d, WpisView wpisView) {

@@ -99,6 +99,7 @@ import waluty.Z;
     @NamedQuery(name = "Dok.findByDuplikat", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik"),
     @NamedQuery(name = "Dok.findByRMPT", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND d.rodzajedok.skrot = :typdokumentu"),
     @NamedQuery(name = "Dok.findByRokMc", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM"),
+    @NamedQuery(name = "Dok.findByRokMcDataKsiegowania", query = "SELECT d FROM Dok d WHERE d.dataK >= :startDate AND d.dataK < :endDate"),
     @NamedQuery(name = "Dok.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.podatnik FROM Dok d WHERE d.wprowadzil = :wprowadzil")
 })
 @Cacheable 

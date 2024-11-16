@@ -5,12 +5,14 @@
 package dao;
 
 import entity.Pitpoz;
+import entity.Podatnik;
 import entity.Podmiot;
 import entityfk.Cechazapisu;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -103,4 +105,15 @@ public class PitDAO extends DAO implements Serializable {
         return zwrot;
     }
 
+  
+    public Pitpoz findByPodatnikAndDateRange(Podatnik podatnik, Date startDate, Date endDate) {
+    return getEntityManager().createQuery(
+                "SELECT p FROM Pitpoz p WHERE p.podatnik1 = :podatnik AND p.datapit >= :startDate AND p.datapit < :endDate", Pitpoz.class)
+            .setParameter("podatnik", podatnik)
+            .setParameter("startDate", startDate)
+            .setParameter("endDate", endDate)
+            .getResultStream()
+            .findFirst()
+            .orElse(null);
+}
 }

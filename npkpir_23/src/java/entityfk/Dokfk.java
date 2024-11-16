@@ -82,6 +82,7 @@ import waluty.Z;
     @NamedQuery(name = "Dokfk.findByKontrahentDofk", query = "SELECT d FROM Dokfk d WHERE d.kontr.id = :kontr"),
     @NamedQuery(name = "Dokfk.findByRok", query = "SELECT d FROM Dokfk d WHERE d.rok = :rok"),
     @NamedQuery(name = "Dokfk.findByRokMc", query = "SELECT d FROM Dokfk d WHERE d.rok = :rok AND d.miesiac = :mc AND d.wprowadzil IS NOT NULL"),
+    @NamedQuery(name = "Dokfk.findByRokMcDataKsiegowania", query = "SELECT d FROM Dokfk d WHERE d.dataujecia >= :startDate AND d.dataujecia < :endDate"),
     @NamedQuery(name = "Dokfk.findByPodatnik", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik"),
     @NamedQuery(name = "Dokfk.findByPodatnikRokSrodkiTrwale", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok AND d.zawierasrodkitrw = 1"),
     @NamedQuery(name = "Dokfk.findByPodatnikRokRMK", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok AND d.zawierarmk = 1"),

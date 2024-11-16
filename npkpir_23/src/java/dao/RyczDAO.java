@@ -4,8 +4,10 @@
  */
 package dao;
 
+import entity.Podatnik;
 import entity.Ryczpoz;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -70,6 +72,17 @@ public class RyczDAO extends DAO implements Serializable {
     public List<Ryczpoz> findList(String rok, String mc, String pod) {
         return getEntityManager().createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getResultList();
     }
+
+ public Ryczpoz findByPodatnikAndDateRange(Podatnik podatnik, Date startDate, Date endDate) {
+    return getEntityManager().createQuery(
+                "SELECT r FROM Ryczpoz r WHERE r.podatnik1 = :podatnik AND r.datapit >= :startDate AND r.datapit < :endDate", Ryczpoz.class)
+            .setParameter("podatnik", podatnik)
+            .setParameter("startDate", startDate)
+            .setParameter("endDate", endDate)
+            .getResultStream()
+            .findFirst()
+            .orElse(null);
+}
     
 
 

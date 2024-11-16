@@ -12,8 +12,11 @@ import entityfk.EVatwpisFK;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PreDestroy;
@@ -80,6 +83,29 @@ public class DokDAOfk extends DAO implements Serializable {
         List<Dokfk> zwrot = new ArrayList<>();
         try {
             zwrot = getEntityManager().createNamedQuery("Dokfk.findByRokMc").setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        } catch (Exception e) {
+        }
+        return zwrot;
+    }
+     
+     public List<Dokfk> findDokRokMCDataKsiegowania(String roks, String mcs){
+        List<Dokfk> zwrot = new ArrayList<>();
+        try {
+            int rok = Integer.parseInt(roks);
+            int mc = Integer.parseInt(mcs) - 1; // Miesiące w Calendar są indeksowane od 0
+
+             // Początek miesiąca
+            Calendar start = new GregorianCalendar(rok, mc, 1, 0, 0, 0);
+            Date startDate = start.getTime();
+
+            // Pierwszy dzień kolejnego miesiąca
+            Calendar end = new GregorianCalendar(rok, mc+1, 1, 0, 0, 0);
+            Date endDate = end.getTime();
+
+            zwrot = getEntityManager().createNamedQuery("Dokfk.findByRokMcDataKsiegowania", Dokfk.class)
+                                .setParameter("startDate", startDate)
+                                .setParameter("endDate", endDate)
+                                .getResultList();
         } catch (Exception e) {
         }
         return zwrot;

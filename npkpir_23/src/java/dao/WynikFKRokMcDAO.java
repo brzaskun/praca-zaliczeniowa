@@ -8,6 +8,8 @@ package dao;
 import entity.Podatnik;
 import entityfk.WynikFKRokMc;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -52,36 +54,50 @@ public class WynikFKRokMcDAO extends DAO implements Serializable {
    
 
     public WynikFKRokMc findWynikFKRokMc(WynikFKRokMc wynikFKRokMc) {
-        return sessionFacade.findWynikFKRokMc(wynikFKRokMc);
+        return (WynikFKRokMc)  getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokMc").setParameter("podatnik", wynikFKRokMc.getPodatnikObj()).setParameter("rok", wynikFKRokMc.getRok()).setParameter("mc", wynikFKRokMc.getMc()).getSingleResult();
     }
     
     public WynikFKRokMc findWynikFKRokMcFirma(WynikFKRokMc wynikFKRokMc) {
-        return sessionFacade.findWynikFKRokMcFirma(wynikFKRokMc);
+         WynikFKRokMc zwrot = null;
+        try {
+            zwrot = (WynikFKRokMc)  getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokMcFirma").setParameter("podatnik", wynikFKRokMc.getPodatnikObj()).setParameter("rok", wynikFKRokMc.getRok()).setParameter("mc", wynikFKRokMc.getMc()).getSingleResult();
+        } catch (Exception e){}
+        return zwrot;
     }
     public List<WynikFKRokMc> findWynikFKPodatnikRokFirma(WpisView wpisView) {
-        return sessionFacade.findWynikFKPodatnikRokFirma(wpisView);
+        return Collections.synchronizedList( getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokFirma").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
     }
 
     public List<WynikFKRokMc> findWynikFKPodatnikRok(WpisView wpisView) {
-        return sessionFacade.findWynikFKPodatnikRok(wpisView);
+        return Collections.synchronizedList( getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
     }
     
     public List<WynikFKRokMc> findWynikFKPodatnikRokUdzialowiec(WpisView wpisView) {
-        return sessionFacade.findWynikFKPodatnikRokUdzialowiec(wpisView);
+        return Collections.synchronizedList( getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokUdzialowiec").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
     }
 
     public WynikFKRokMc findWynikFKPodatnikRokUdzialowiec(WynikFKRokMc wynikFKRokMc) {
         WynikFKRokMc zwrot = null;
         try {
-            zwrot = sessionFacade.findWynikFKRokMcUdzialowiec(wynikFKRokMc);
+            zwrot = (WynikFKRokMc)  getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokMcUdzialowiec").setParameter("podatnik", wynikFKRokMc.getPodatnikObj()).setParameter("rok", wynikFKRokMc.getRok()).setParameter("mc", wynikFKRokMc.getMc()).setParameter("udzialowiec", wynikFKRokMc.getUdzialowiec()).getSingleResult();
         } catch (Exception e) {
         }
         return zwrot;
     }
     
     public WynikFKRokMc findWynikFKPodatnikRokUdzialowiec(Podatnik podatnik, String rok, String mc, String udzialowiec) {
-        return sessionFacade.findWynikFKRokMcUdzialowiec(podatnik, rok, mc, udzialowiec);
+        return (WynikFKRokMc)  getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokMcUdzialowiec").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).setParameter("udzialowiec", udzialowiec).getSingleResult();
     }
   
+    public WynikFKRokMc findByPodatnikAndDateRange(Podatnik podatnik, Date startDate, Date endDate) {
+    return getEntityManager().createQuery(
+                "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.data >= :startDate AND w.data < :endDate", WynikFKRokMc.class)
+            .setParameter("podatnik", podatnik)
+            .setParameter("startDate", startDate)
+            .setParameter("endDate", endDate)
+            .getResultStream()
+            .findFirst()
+            .orElse(null);
+}
     
 }

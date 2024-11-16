@@ -12,7 +12,10 @@ import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -259,6 +262,29 @@ public class DokDAO extends DAO implements Serializable {
         List<Dok> zwrot = new ArrayList<>();
         try {
             zwrot = getEntityManager().createNamedQuery("Dok.findByRokMc").setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
+        } catch (Exception e) {
+        }
+        return zwrot;
+    }
+    
+    public List<Dok> findDokRokMCDataKsiegowania(String roks, String mcs){
+         List<Dok> zwrot = new ArrayList<>();
+        try {
+            int rok = Integer.parseInt(roks);
+            int mc = Integer.parseInt(mcs) - 1; // Miesiące w Calendar są indeksowane od 0
+
+             // Początek miesiąca
+            Calendar start = new GregorianCalendar(rok, mc, 1, 0, 0, 0);
+            Date startDate = start.getTime();
+
+            // Pierwszy dzień kolejnego miesiąca
+            Calendar end = new GregorianCalendar(rok, mc+1, 1, 0, 0, 0);
+            Date endDate = end.getTime();
+
+            zwrot = getEntityManager().createNamedQuery("Dok.findByRokMcDataKsiegowania", Dok.class)
+                                .setParameter("startDate", startDate)
+                                .setParameter("endDate", endDate)
+                                .getResultList();
         } catch (Exception e) {
         }
         return zwrot;

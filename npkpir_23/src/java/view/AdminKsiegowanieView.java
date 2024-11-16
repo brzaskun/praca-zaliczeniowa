@@ -5,20 +5,29 @@
 package view;
 
 import beansDok.DayUpdater;
-import comparator.Uzcomparator;
+import comparator.PodatnikRecordcomparator;
+import comparator.UzNazwiskocomparator;
 import dao.DokDAO;
 import dao.DokDAOfk;
+import dao.PitDAO;
 import dao.PodatnikDAO;
+import dao.RyczDAO;
 import dao.UzDAO;
+import dao.WynikFKRokMcDAO;
 import embeddable.PodatnikRecord;
 import entity.Dok;
+import entity.Pitpoz;
 import entity.Podatnik;
+import entity.Ryczpoz;
 import entity.Uz;
 import entityfk.Dokfk;
+import entityfk.WynikFKRokMc;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,33 +59,39 @@ public class AdminKsiegowanieView implements Serializable {
     @Inject
     private DokDAOfk dokDAOfk;
     @Inject
+    private PitDAO pitpozDAO;
+    @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private RyczDAO ryczpozDAO;
+    @Inject
+    private WynikFKRokMcDAO wynikFKRokMcDAO;
 
     @PostConstruct
     public void init() {
         listaksiegowychwybor = uzDAO.findByUprawnienia("Bookkeeper");
         listaksiegowychwybor.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
-         Collections.sort(listaksiegowychwybor, new Uzcomparator());
+        Collections.sort(listaksiegowychwybor, new UzNazwiskocomparator());
         listapodatnikow = podatnikDAO.findAktywny();
         zestawienierekordow = new ArrayList<>();
     }
 
     public void pobierz() {
         if (wybranaksiegowa != null) {
-            List<Dok> listaDokTmp = dokDAO.findDokRokMC(rok, mc);
-            List<Dokfk> listaDokfkTmp = dokDAOfk.findDokRokMC(rok, mc);
+            List<Dok> listaDokTmp = dokDAO.findDokRokMCDataKsiegowania(rok, mc);
+            List<Dokfk> listaDokfkTmp = dokDAOfk.findDokRokMCDataKsiegowania(rok, mc);
             List<Podatnik> listapodatnikowfiltered = listapodatnikow.stream()
                     .filter(podatnik -> podatnik.getKsiegowa() != null && podatnik.getKsiegowa().equals(wybranaksiegowa))
                     .collect(Collectors.toList());
             zestawienierekordow = new ArrayList<>();
             // Step 1: Group documents by Podatnik, filtering by the selected ksiegowa
-        Map<Podatnik, List<Dok>> dokumentyByPodatnik = listaDokTmp.stream()
-                .filter(dok -> listapodatnikowfiltered.contains(dok.getPodatnik()))
-                .collect(Collectors.groupingBy(Dok::getPodatnik));
+            Map<Podatnik, List<Dok>> dokumentyByPodatnik = listaDokTmp.stream()
+                    .filter(dok -> listapodatnikowfiltered.contains(dok.getPodatnik()))
+                    .collect(Collectors.groupingBy(Dok::getPodatnik));
 
-        Map<Podatnik, List<Dokfk>> dokumentyFKByPodatnik = listaDokfkTmp.stream()
-                .filter(dokfk -> listapodatnikowfiltered.contains(dokfk.getPodatnikObj()))
-                .collect(Collectors.groupingBy(Dokfk::getPodatnikObj));
+            Map<Podatnik, List<Dokfk>> dokumentyFKByPodatnik = listaDokfkTmp.stream()
+                    .filter(dokfk -> listapodatnikowfiltered.contains(dokfk.getPodatnikObj()))
+                    .collect(Collectors.groupingBy(Dokfk::getPodatnikObj));
 
 // Step 2: For each Podatnik, create a PodatnikRecord and populate day fields
             int numerid = 1;
@@ -96,11 +111,12 @@ public class AdminKsiegowanieView implements Serializable {
                     int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
                     DayUpdater.incrementDay(recorda, dayOfMonth);
                 }
+                ustawDateZamkniecia(recorda, rok, mc);
                 // Step 4: Add the populated PodatnikRecord to the list
                 zestawienierekordow.add(recorda);
                 Msg.msg("Pobrano dane");
             }
-             for (Map.Entry<Podatnik, List<Dokfk>> entry : dokumentyFKByPodatnik.entrySet()) {
+            for (Map.Entry<Podatnik, List<Dokfk>> entry : dokumentyFKByPodatnik.entrySet()) {
                 Podatnik podatnik = entry.getKey();
                 List<Dokfk> dokumentyPodatnika = entry.getValue();
 
@@ -117,19 +133,52 @@ public class AdminKsiegowanieView implements Serializable {
                     DayUpdater.incrementDay(recorda, dayOfMonth);
                 }
                 // Step 4: Add the populated PodatnikRecord to the list
+                ustawDateZamkniecia(recorda, rok, mc);
                 zestawienierekordow.add(recorda);
                 Msg.msg("Pobrano dane");
             }
+            Collections.sort(zestawienierekordow, new PodatnikRecordcomparator());
         } else {
             Msg.msg("Nie wybrano księgowej");
         }
     }
-    
-    public int getTotalSumDays() {
-        return zestawienierekordow!=null?zestawienierekordow.stream().mapToInt(PodatnikRecord::getTotalDays).sum():0;
+
+    public void ustawDateZamkniecia(PodatnikRecord recorda, String rok, String miesiac) {
+        int year = Integer.parseInt(rok);
+        int month = Integer.parseInt(miesiac) - 1; // W Calendar miesiące są indeksowane od 0
+
+        // Ustal zakres dat na podstawie roku i miesiąca
+        Calendar start = new GregorianCalendar(year, month, 1, 0, 0, 0);
+        Date startDate = start.getTime();
+
+        Calendar end = new GregorianCalendar(year, month + 1, 1, 0, 0, 0);
+        Date endDate = end.getTime();
+
+        // Pobierz obiekt Pitpoz dla danego podatnika, który ma datapit w określonym roku i miesiącu
+        Pitpoz pitpoz = pitpozDAO.findByPodatnikAndDateRange(recorda.getPodatnik(), startDate, endDate);
+        if (pitpoz != null) {
+            recorda.setZamkniecie(pitpoz.getDatapit());
+        } else {
+            // Jeśli brak odpowiedniego Pitpoz, pobierz obiekt Ryczpoz w tym samym zakresie
+            Ryczpoz ryczpoz = ryczpozDAO.findByPodatnikAndDateRange(recorda.getPodatnik(), startDate, endDate);
+            if (ryczpoz != null) {
+                recorda.setZamkniecie(ryczpoz.getDatapit());
+            } else {
+                // Jeśli brak odpowiedniego Ryczpoz, pobierz obiekt WynikFKRokMc w tym samym zakresie
+                WynikFKRokMc wynikFKRokMc = wynikFKRokMcDAO.findByPodatnikAndDateRange(recorda.getPodatnik(), startDate, endDate);
+                if (wynikFKRokMc != null) {
+                    recorda.setZamkniecie(wynikFKRokMc.getData());
+                }
+            }
+        }
     }
 
-  
+    
+    
+
+    public int getTotalSumDays() {
+        return zestawienierekordow != null ? zestawienierekordow.stream().mapToInt(PodatnikRecord::getTotalDays).sum() : 0;
+    }
 
     public String getRok() {
         return rok;
