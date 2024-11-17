@@ -56,6 +56,7 @@ import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;   
+import pdf.PdfAmazon;
 import pdf.PdfDok;
 import plik.Plik;
 import waluty.Z;
@@ -403,7 +404,7 @@ public class ImportCSVView  implements Serializable {
     public void drukujfk() {
         try {
             podsumowanieAmazonOSSDAO.usunmiesiacrok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            List<PodsumowanieAmazonOSS> sumy = PdfDok.drukujDokAmazonfk(l.l(listafk, listafkfilter, null), wpisView, 1);
+            List<PodsumowanieAmazonOSS> sumy = PdfAmazon.drukujDokAmazonfk(l.l(listafk, listafkfilter, null), wpisView, 1);
             if (!sumy.isEmpty()) {
                 podsumowanieAmazonOSSDAO.createList(sumy);
                 Msg.msg("Zaksięgowani sum zaimportowanych dokumentów");

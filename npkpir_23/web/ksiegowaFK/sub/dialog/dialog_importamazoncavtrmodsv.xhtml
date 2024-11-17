@@ -1,0 +1,187 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
+    <style>
+        .waluta input {
+            width: 40px !important;
+        }
+
+        .zaksiegowanewaski input {
+            width: 75px !important;
+        }
+    </style>
+
+    <p:dialog id="importamazoncavtrmodsv" header="Amazon pobieranie danych Nowy 2024.11" widgetVar="importamazoncavtrmodsv" height="900" width="1450"
+              resizable="false"  onShow="ustawdialog('importamazoncavtrmodsv','menudokumenty',1750,900);" closeOnEscape="true" onHide="resetujdialog('importamazoncavtrmodsv');" >
+        <p:ajax event="open" listener="#{amazonAVTRmod.init()}" update="panelplik amazonloadavtrmod importtabelaavtrmod"/>
+        <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":akordeon5:form_importinterpaper"/>
+        <!--        <h:form>
+                    <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
+                </h:form>-->
+        <bcf:ajaxs/>
+        <h:outputText value="Import dokumentów z pliku CSV Amazon VAT Transactions Report. "/><h:outputText value="Jeśli pobieramy dane dodatkowo z Additional to ten import musi być pierwszy - to ważne!" style="color: #0066ff"/>
+        <h:form id="amazonloadavtrmod">
+            <p:growl life="3600"  id="messages1"/>
+            <p:panelGrid layout="tabular" columns="3">
+                <p:panelGrid layout="tabular" columns="1">
+                    <p:fileUpload chooseIcon="fa fa-upload" listener="#{amazonAVTRmod.importujsprzedaz}" 
+                                  mode="advanced" fileLimit="1" auto="true"
+                                  update="messages1 importtabelaavtrmod" 
+                                  validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                  fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                  uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" onstart="PF('dialogAjaxCzekaj').show();"
+                                  style="height: 100px;">
+                    </p:fileUpload>
+                </p:panelGrid>
+                <p:outputLabel value="pobierz tylko dla OSS" style="margin-left: 20px;"/>
+                <!--                                <p:panelGrid layout="tabular" columns="2" style="margin-left: 30px;">
+                                                    <h:outputText value="wybierz rodzaj transakcji"/>
+                                                    <p:selectOneMenu value="#{importCSVView.wybortransakcji}">
+                                                        <f:selectItem itemValue="WSZYSTKIE" itemLabel="WSZYSTKIE"/>
+                                                        <f:selectItem itemValue="SALE" itemLabel="SALE"/>
+                                                        <f:selectItem itemValue="REFUND" itemLabel="REFUND"/>
+                                                        <f:selectItem itemValue="FC_TRANSFER" itemLabel="FC_TRANSFER"/>
+                                                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                                                    </p:selectOneMenu>
+                </p:panelGrid>-->               <p:selectBooleanCheckbox value="#{importCSVView.tylkoOSS}" >
+                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                </p:selectBooleanCheckbox>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="importtabelaavtrmod">
+            <p:dataTable lazy="false"   var="wpisama" value="#{amazonAVTRmod.lista}" id="dokumentyLista" 
+                         rowIndexVar="index" filteredValue="#{amazonAVTRmod.listafilter}"
+                         style="width: 1690px; margin-top: 5px;overflow-x: scroll;overflow-y:scroll" rowKey="#{wpisama.id}" 
+                         paginator="true" paginatorAlwaysVisible="true" rows="12"
+                         paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                         rowsPerPageTemplate="12,45,90,180,360"  
+                         widgetVar="dokTable1" sortBy="#{wpisama.dataSprzedazy}"
+                         rowStyleClass="#{wpisama.dowodSprzedazy eq 'REFUND' ? 'korekta' : null}" 
+                         emptyMessage="Nie pobrano jeszcze żadnych danych z pliku csv"
+                         styleClass="grid" 
+                         >
+                <p:ajax event="filter" global="false" />
+
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie #{amazonAVTRmod.lista.size()} zaimportowanych dokumentów z pliku csv" />  
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('dokTable1').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
+                    <!--                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
+                                        <p:columnToggler datasource="dokumentyLista" trigger="toggler"/>-->
+                </f:facet>
+
+
+
+                <p:column headerText="serial">
+                    <h:outputText value="#{wpisama.serial}" />
+                </p:column>
+
+                <p:column headerText="rodzaj transakcji">
+                    <h:outputText value="#{wpisama.rodzajtransakcji}" />
+                </p:column>
+
+                <p:column headerText="kod nad." filterBy="#{wpisama.kodKrajuNadania}" width="30" sortBy="#{wpisama.kodKrajuNadania}">
+                    <h:outputText value="#{wpisama.kodKrajuNadania}" />
+                </p:column>
+
+                <p:column headerText="kod dor." filterBy="#{wpisama.kodKrajuDoreczenia}" width="30" sortBy="#{wpisama.kodKrajuDoreczenia}">
+                    <h:outputText value="#{wpisama.kodKrajuDoreczenia}" />
+                </p:column>
+
+                <p:column headerText="jurysdykcja" filterBy="#{wpisama.jurysdykcja}" sortBy="#{wpisama.jurysdykcja}">
+                    <h:outputText value="#{wpisama.jurysdykcja}" />
+                </p:column>
+
+                <p:column headerText="nr kontrahenta">
+                    <h:outputText value="#{wpisama.nrKontrahenta}" />
+                </p:column>
+
+                <p:column headerText="nazwa kontrahenta" width="150">
+                    <h:outputText value="#{wpisama.nazwaKontrahenta}" />
+                </p:column>
+
+                <p:column headerText="dowod sprzedazy">
+                    <h:outputText value="#{wpisama.dowodSprzedazy}" />
+                </p:column>
+
+                <p:column headerText="data wystawienia">
+                    <h:outputText value="#{wpisama.dataWystawienia}">
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="data sprzedazy">
+                    <h:outputText value="#{wpisama.dataSprzedazy}">
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="netto">
+                    <bcf:outputwal value="#{wpisama.netto}"/>
+                </p:column>
+                <p:column headerText="vat">
+                    <bcf:outputwal value="#{wpisama.vat}"/>
+                </p:column>
+
+                <p:column headerText="netto waluta">
+                    <bcf:outputwal value="#{wpisama.nettowaluta}"/>
+                </p:column>
+
+                <p:column headerText="vat waluta">
+                    <bcf:outputpl value="#{wpisama.vatwaluta}"/>
+                </p:column>
+
+                <p:column headerText="stawka vat">
+                    <bcf:outputplprocent value="#{wpisama.stawkavat}"/>
+                </p:column>
+<!--
+                <p:column headerText="kurs">
+                    <bcf:outputkurs value="#{wpisama.kurs}"/>
+                </p:column>
+
+                <p:column headerText="rok">
+                    <h:outputText value="#{wpisama.rok}" />
+                </p:column>
+
+                <p:column headerText="mc">
+                    <h:outputText value="#{wpisama.mc}" />
+                </p:column>-->
+
+                <p:column headerText="waluta" filterBy="#{wpisama.waluta}" >
+                    <h:outputText value="#{wpisama.waluta}" />
+                </p:column>
+
+                <p:column headerText="eksport">
+                    <h:outputText value="#{wpisama.eksport}" />
+                </p:column>
+
+                <p:column headerText="import">
+                    <h:outputText value="#{wpisama.importt}" />
+                </p:column>
+
+<!--                <p:column headerText="opis sprzedaz">
+                    <h:outputText value="#{wpisama.opissprzedaz}" />
+                </p:column>
+-->
+
+                <p:column id="deleteColumn" headerText="usuń" style="width: 4%; text-align: center;">
+                    <p:commandButton actionListener="#{importCSVView.usun(wpis)}" style="width: 30px;"
+                                     id="delete" icon="ui-icon ui-icon-trash" update="importtabelaavtrmod:dokumentyLista"/>
+                </p:column>
+            </p:dataTable> 
+            <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
+            <p:commandButton  value="druk OSS"  style="margin-top: 10px; width: 120px;" actionListener="#{amazonAVTRmod.drukujfk()}"  rendered="#{amazonAVTRmod.lista.size() gt 0}"/>
+            <p:commandButton  value="zaksięguj do JPK" style="margin-top: 10px; width: 120px; margin-left: 20px;" actionListener="#{importCSVView.zaksiegujWDTjpk()}"  rendered="#{amazonAVTRmod.lista.size() gt 0}"/>
+            <p:commandButton  value="usun miesiąc" style="margin-top: 10px; width: 120px; margin-left: 20px;" actionListener="#{importCSVView.usunmiesiac()}"/>
+
+        </h:form>
+
+    </p:dialog>
+</ui:composition>
+
+
+

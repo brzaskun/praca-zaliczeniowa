@@ -218,9 +218,9 @@ public class PdfBaselinker  {
         // Grupa na podstawie kraju oraz drugiego elementu w pelnyNumer z zabezpieczeniem przed null
         Map<String, Map<String, SummaryResult>> summary = records.stream()
             .collect(Collectors.groupingBy(
-                record -> Optional.ofNullable(record.getKraj()).orElse("N/D"), // Zabezpieczenie przed null
-                Collectors.groupingBy(record -> {
-                    String[] parts = Optional.ofNullable(record.getPelnyNumer()).orElse("").split("/");
+                recorda -> Optional.ofNullable(recorda.getKraj()).orElse("N/D"), // Zabezpieczenie przed null
+                Collectors.groupingBy(recorda -> {
+                    String[] parts = Optional.ofNullable(recorda.getPelnyNumer()).orElse("").split("/");
                     return parts.length > 1 ? parts[1] : "UNKNOWN"; // Zabezpieczenie przed brakiem elementu
                 }, Collectors.collectingAndThen(
                         Collectors.toList(),
