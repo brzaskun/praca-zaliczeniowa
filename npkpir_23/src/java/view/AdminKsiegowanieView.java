@@ -12,6 +12,7 @@ import dao.DokDAOfk;
 import dao.PitDAO;
 import dao.PodatnikDAO;
 import dao.RyczDAO;
+import dao.UPODAO;
 import dao.UzDAO;
 import dao.WynikFKRokMcDAO;
 import embeddable.PodatnikRecord;
@@ -19,6 +20,7 @@ import entity.Dok;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Ryczpoz;
+import entity.UPO;
 import entity.Uz;
 import entityfk.Dokfk;
 import entityfk.WynikFKRokMc;
@@ -49,6 +51,7 @@ public class AdminKsiegowanieView implements Serializable {
     private String rok;
     private String mc;
     private List<Uz> listaksiegowychwybor;
+    private List<UPO> listajpkupo;
     private List<Podatnik> listapodatnikow;
     private List<PodatnikRecord> zestawienierekordow;
     private List<PodatnikRecord> summarizedRecords;
@@ -68,6 +71,8 @@ public class AdminKsiegowanieView implements Serializable {
     private RyczDAO ryczpozDAO;
     @Inject
     private WynikFKRokMcDAO wynikFKRokMcDAO;
+    @Inject
+    private UPODAO uPODAO;
 
     @PostConstruct
     public void init() {
@@ -80,6 +85,7 @@ public class AdminKsiegowanieView implements Serializable {
 
     public void pobierz() {
         if (wybranaksiegowa != null) {
+            listajpkupo = uPODAO.findUPORokMCDataKsiegowania(rok, mc);
             List<Dok> listaDokTmp = dokDAO.findDokRokMCDataKsiegowania(rok, mc);
             List<Dokfk> listaDokfkTmp = dokDAOfk.findDokRokMCDataKsiegowania(rok, mc);
             List<Podatnik> listapodatnikowfiltered = listapodatnikow.stream()
@@ -117,6 +123,7 @@ public class AdminKsiegowanieView implements Serializable {
                     DayUpdater.incrementDay(recorda, dayOfMonth);
                 }
                 ustawDateZamkniecia(recorda, rok, mc);
+                findFilteredUPORokMCDataKsiegowania(recorda, rok, mc);
                 // Step 4: Add the populated PodatnikRecord to the list
                 
                 zestawienierekordow.add(recorda);
@@ -141,9 +148,24 @@ public class AdminKsiegowanieView implements Serializable {
                 }
                 // Step 4: Add the populated PodatnikRecord to the list
                 ustawDateZamkniecia(recorda, rok, mc);
+                findFilteredUPORokMCDataKsiegowania(recorda, rok, mc);
                 zestawienierekordow.add(recorda);
                 Msg.msg("Pobrano dane");
             }
+            
+        // Step 5: Add empty records for taxpayers with no documents
+        for (Podatnik podatnik : listapodatnikowfiltered) { 
+            if (podatnik.getKsiegowa().equals(wybranaksiegowa)) {
+                if (!dokumentyByPodatnik.containsKey(podatnik) && !dokumentyFKByPodatnik.containsKey(podatnik)) {
+                    PodatnikRecord emptyRecord = new PodatnikRecord();
+                    emptyRecord.setPodatnik(podatnik);
+                    emptyRecord.setId(numerid++);
+                    emptyRecord.setWykazdokumentow(new ArrayList<>()); // No documents to add
+                    ustawDateZamkniecia(emptyRecord, rok, mc);
+                    zestawienierekordow.add(emptyRecord);
+                }
+            }
+        }
             Collections.sort(zestawienierekordow, new PodatnikRecordcomparator());
         } else {
             Msg.msg("Nie wybrano księgowej");
@@ -179,6 +201,36 @@ public class AdminKsiegowanieView implements Serializable {
             }
         }
     }
+
+    public List<UPO> findFilteredUPORokMCDataKsiegowania(PodatnikRecord recorda, String roks, String mcs) {
+    List<UPO> wynik = new ArrayList<>();
+    try {
+        int rok = Integer.parseInt(roks);
+        int mc = Integer.parseInt(mcs) - 1; // Miesiące w Calendar są indeksowane od 0
+
+        // Początek miesiąca
+        Calendar start = new GregorianCalendar(rok, mc, 1, 0, 0, 0);
+        Date startDate = start.getTime();
+
+        // Pierwszy dzień kolejnego miesiąca
+        Calendar end = new GregorianCalendar(rok, mc + 1, 1, 0, 0, 0);
+        Date endDate = end.getTime();
+
+        // Filtracja listy
+        wynik = listajpkupo.stream()
+                .filter(upo -> upo.getDataupo() != null)
+                .filter(upo -> upo.getDataupo().after(startDate) && upo.getDataupo().before(endDate))
+                .filter(upo -> upo.getPodatnik().equals(recorda.getPodatnik()))
+                .collect(Collectors.toList());
+        if (wynik!=null&&wynik.size()>0) {
+            recorda.setJpk(wynik.get(0).getDatajpk());
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace(); // Dodaj logowanie wyjątku
+    }
+    return wynik;
+}
 
     public void pobierzSumaryczneDlaWszystkichKsiegowych() {
     List<Dok> listaDokTmp = dokDAO.findDokRokMCDataKsiegowania(rok, mc);

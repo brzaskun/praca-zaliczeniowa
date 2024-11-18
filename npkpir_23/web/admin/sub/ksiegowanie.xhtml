@@ -53,6 +53,14 @@
                         <h:outputText value="#{recorda.zamkniecie}">
                             <f:convertDateTime pattern="yyyy-MM-dd" />
                         </h:outputText>
+                    </p:column>
+                      <!-- zamkniecie Column -->
+                    <p:column width="80" headerText="jpk">
+                        <h:outputText value="#{recorda.jpk}"  rendered="#{recorda.podatnik.vatokres ne null}">
+                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                        </h:outputText>
+                        <h:outputText value="nie vatowiec" rendered="#{recorda.podatnik.vatokres eq null}">
+                        </h:outputText>
                         <f:facet name="footer">
                             <h:outputText value="#{adminKsiegowanieView.totalSumDays}" />
                         </f:facet>

@@ -7,6 +7,10 @@ package dao;
 import entity.UPO;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -81,7 +85,28 @@ public class UPODAO extends DAO implements Serializable{
         }
     }
 
-   
+   public List<UPO> findUPORokMCDataKsiegowania(String roks, String mcs){
+        List<UPO> zwrot = new ArrayList<>();
+        try {
+            int rok = Integer.parseInt(roks);
+            int mc = Integer.parseInt(mcs) - 1; // Miesiące w Calendar są indeksowane od 0
+
+             // Początek miesiąca
+            Calendar start = new GregorianCalendar(rok, mc, 1, 0, 0, 0);
+            Date startDate = start.getTime();
+
+            // Pierwszy dzień kolejnego miesiąca
+            Calendar end = new GregorianCalendar(rok, mc+1, 1, 0, 0, 0);
+            Date endDate = end.getTime();
+
+            zwrot = getEntityManager().createQuery("SELECT d FROM UPO d WHERE d.dataupo >= :startDate AND d.dataupo < :endDate", UPO.class)
+                                .setParameter("startDate", startDate)
+                                .setParameter("endDate", endDate)
+                                .getResultList();
+        } catch (Exception e) {
+        }
+        return zwrot;
+    }
     
     
 }

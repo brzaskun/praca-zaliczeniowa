@@ -53,6 +53,7 @@ public class PodatnikRecord implements Serializable {
     private int day30;
     private int day31;
     private Date zamkniecie;
+    private Date jpk;
     private List<DokumentRecord> wykazdokumentow;
 
     public Podatnik getPodatnik() {
@@ -380,6 +381,14 @@ public class PodatnikRecord implements Serializable {
 
     public void setKsiegowa(Uz ksiegowa) {
         this.ksiegowa = ksiegowa;
+    }
+
+    public Date getJpk() {
+        return jpk;
+    }
+
+    public void setJpk(Date jpk) {
+        this.jpk = jpk;
     }
 
     
