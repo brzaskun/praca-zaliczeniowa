@@ -56,6 +56,7 @@ import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
+import pdf.PdfAmazon;
 import pdf.PdfDok;
 import plik.Plik;
 import view.*;
@@ -379,7 +380,7 @@ public class AmazonImportEbay  implements Serializable {
     
     public void drukujfk() {
         try {
-            PdfDok.drukujDokAmazonfk(listafk, wpisView, 1);
+            PdfAmazon.drukujDokAmazonfk(listafk, wpisView, 1);
             Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
         } catch (Exception e) {
             

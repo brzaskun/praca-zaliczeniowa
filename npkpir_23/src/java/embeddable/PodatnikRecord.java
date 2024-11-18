@@ -7,6 +7,7 @@ package embeddable;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -14,6 +15,7 @@ import java.util.Objects;
  * @author Osito
  */
 public class PodatnikRecord implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private int id;
     private Podatnik podatnik;
@@ -49,6 +51,7 @@ public class PodatnikRecord implements Serializable {
     private int day30;
     private int day31;
     private Date zamkniecie;
+    private List<DokumentRecord> wykazdokumentow;
 
     public Podatnik getPodatnik() {
         return podatnik;
@@ -79,11 +82,11 @@ public class PodatnikRecord implements Serializable {
         }
         return Objects.equals(this.podatnik, other.podatnik);
     }
-    
+
     public int getTotalDays() {
-        return day1 + day2 + day3 + day4 + day5 + day6 + day7 + day8 + day9 + day10 +
-               day11 + day12 + day13 + day14 + day15 + day16 + day17 + day18 + day19 + day20 +
-               day21 + day22 + day23 + day24 + day25 + day26 + day27 + day28 + day29 + day30 + day31;
+        return day1 + day2 + day3 + day4 + day5 + day6 + day7 + day8 + day9 + day10
+                + day11 + day12 + day13 + day14 + day15 + day16 + day17 + day18 + day19 + day20
+                + day21 + day22 + day23 + day24 + day25 + day26 + day27 + day28 + day29 + day30 + day31;
     }
 
     public int getId() {
@@ -353,5 +356,21 @@ public class PodatnikRecord implements Serializable {
     public void setZamkniecie(Date zamkniecie) {
         this.zamkniecie = zamkniecie;
     }
+
+    public List<DokumentRecord> getWykazdokumentow() {
+        return wykazdokumentow;
+    }
+
+    public void setWykazdokumentow(List<DokumentRecord> wykazdokumentow) {
+        this.wykazdokumentow = wykazdokumentow;
+    }
+
+    public void dodajDokument(int id, String nrksiegowy, String kontrahent, double kwota, Date dataujecia) {
+        DokumentRecord dokument = new DokumentRecord(id, nrksiegowy, kontrahent, kwota, dataujecia);
+        if (wykazdokumentow != null) {
+            wykazdokumentow.add(dokument);
+        }
+    }
+
 
 }

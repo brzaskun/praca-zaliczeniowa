@@ -301,7 +301,15 @@ public class Dok extends DokSuper implements Serializable {
         }
         return new double[]{Z.z(netto),Z.z(nettowaluta)};
     }
-    
+    public String getDokSN() {
+        StringBuilder s = new StringBuilder();
+        s.append(this.getRodzajedok().getSkrot());
+        s.append("/");
+        s.append(this.getNrWlDk());
+        s.append("/");
+        s.append(this.getPkpirR());
+        return s.toString();
+    }
     public Long getIdDok() {
         return idDok;
     }

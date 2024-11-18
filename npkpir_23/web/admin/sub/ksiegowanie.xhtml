@@ -32,7 +32,9 @@
         <p:dataTable value="#{adminKsiegowanieView.zestawienierekordow}" 
                      var="recorda" style="max-width: 1800px;height: 75vh;overflow-y: scroll;" rowKey="#{recorda.id}"
                      sortBy="#{recorda.podatnik.printnazwa}" rowIndexVar="yndex">
-                     
+                      <p:column style="height: 19px; text-align: center;" width="20">
+                    <p:rowToggler />
+                </p:column>
             <!-- id Column -->
             <p:column headerText="id" width="30">
                 <h:outputText value="#{yndex+1}" />
@@ -240,7 +242,29 @@
                     <h:outputText value="#{adminKsiegowanieView.sumDay31}" />
                 </f:facet>
             </p:column>
-
+            <!-- Define the row expansion -->
+    <p:rowExpansion>
+        <!-- Nested table to show documents for each record -->
+        <p:dataTable value="#{recorda.wykazdokumentow}" var="doc" style="max-width:800px;" sortBy="#{doc.dataujecia}" rowKey="#{doc.id}}">
+            <p:column headerText="id" width="30">
+                <h:outputText value="#{doc.id}" />
+            </p:column>
+            <p:column headerText="nr Ksiegowy">
+                <h:outputText value="#{doc.nrksiegowy}" />
+            </p:column>
+            <p:column headerText="kontrahent" width="250">
+                <h:outputText value="#{doc.kontrahent}" />
+            </p:column>
+            <p:column headerText="kwota" width="100">
+                <bcf:outputwal value="#{doc.kwota}"/>
+            </p:column>
+            <p:column headerText="data ujecia" sortBy="#{doc.dataujecia}" sortPriority="1" width="170">
+                <h:outputText value="#{doc.dataujecia}">
+                    <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+    </p:rowExpansion>
 
         </p:dataTable>
 

@@ -95,6 +95,7 @@ public class AdminKsiegowanieView implements Serializable {
 
 // Step 2: For each Podatnik, create a PodatnikRecord and populate day fields
             int numerid = 1;
+            int iddokumentu = 1;
             for (Map.Entry<Podatnik, List<Dok>> entry : dokumentyByPodatnik.entrySet()) {
                 Podatnik podatnik = entry.getKey();
                 List<Dok> dokumentyPodatnika = entry.getValue();
@@ -105,7 +106,9 @@ public class AdminKsiegowanieView implements Serializable {
                 recorda.setId(numerid++); // Assuming Podatnik has an `id` field
 
                 // Step 3: Count documents for each day and populate the day fields
+                recorda.setWykazdokumentow(new ArrayList<>());
                 for (Dok dok : dokumentyPodatnika) {
+                    recorda.dodajDokument(iddokumentu++, dok.getDokSN(), dok.getKontr().getNpelna(), dok.getBrutto(), dok.getDataK());
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(dok.getDataK());
                     int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
@@ -113,6 +116,7 @@ public class AdminKsiegowanieView implements Serializable {
                 }
                 ustawDateZamkniecia(recorda, rok, mc);
                 // Step 4: Add the populated PodatnikRecord to the list
+                
                 zestawienierekordow.add(recorda);
                 Msg.msg("Pobrano dane");
             }
@@ -124,9 +128,10 @@ public class AdminKsiegowanieView implements Serializable {
                 PodatnikRecord recorda = new PodatnikRecord();
                 recorda.setPodatnik(podatnik);
                 recorda.setId(numerid++); // Assuming Podatnik has an `id` field
-
+                recorda.setWykazdokumentow(new ArrayList<>());
                 // Step 3: Count documents for each day and populate the day fields
                 for (Dokfk dok : dokumentyPodatnika) {
+                    recorda.dodajDokument(iddokumentu++, dok.getDokfkSN(), dok.getKontr().getNpelna(), dok.getWartoscdokumentu(), dok.getDataujecia());
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(dok.getDataujecia());
                     int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
