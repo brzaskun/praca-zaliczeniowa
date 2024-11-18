@@ -52,6 +52,7 @@ public class AdminKsiegowanieView implements Serializable {
     private List<Podatnik> listapodatnikow;
     private List<PodatnikRecord> zestawienierekordow;
     private List<PodatnikRecord> summarizedRecords;
+    private PodatnikRecord selectedRecord;
     private Uz wybranaksiegowa;
     @Inject
     private UzDAO uzDAO;
@@ -401,6 +402,14 @@ public class AdminKsiegowanieView implements Serializable {
 
     public void setSummarizedRecords(List<PodatnikRecord> summarizedRecords) {
         this.summarizedRecords = summarizedRecords;
+    }
+
+    public PodatnikRecord getSelectedRecord() {
+        return selectedRecord;
+    }
+
+    public void setSelectedRecord(PodatnikRecord selectedRecord) {
+        this.selectedRecord = selectedRecord;
     }
     
     

@@ -295,7 +295,9 @@
                     </p:outputPanel>
                     <p:dataTable value="#{adminKsiegowanieView.summarizedRecords}" 
                                  var="recorda" style="max-width: 1800px;height: 75vh;overflow-y: scroll;" rowKey="#{recorda.id}"
-                                 sortBy="#{recorda.podatnik.printnazwa}" rowIndexVar="yndex">
+                                 sortBy="#{recorda.podatnik.printnazwa}" rowIndexVar="yndex"
+                                 selection="#{adminKsiegowanieView.selectedRecord}" selectionMode="single"
+             >
                         <!-- id Column -->
                         <p:column headerText="id" width="30">
                             <h:outputText value="#{yndex+1}" />
