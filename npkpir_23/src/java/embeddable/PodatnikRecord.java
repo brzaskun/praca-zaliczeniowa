@@ -5,6 +5,7 @@
 package embeddable;
 
 import entity.Podatnik;
+import entity.Uz;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ public class PodatnikRecord implements Serializable {
     private static final long serialVersionUID = 1L;
     private int id;
     private Podatnik podatnik;
+    private Uz ksiegowa;
     private int day1;
     private int day2;
     private int day3;
@@ -372,5 +374,14 @@ public class PodatnikRecord implements Serializable {
         }
     }
 
+    public Uz getKsiegowa() {
+        return ksiegowa;
+    }
+
+    public void setKsiegowa(Uz ksiegowa) {
+        this.ksiegowa = ksiegowa;
+    }
+
+    
 
 }

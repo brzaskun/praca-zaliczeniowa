@@ -7,267 +7,498 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
-    <h:form id="podatnicy">
-        <p:outputPanel style="padding: 10px;">
-            <p:panel header="Tabela z księgowanaimi i zamykaniem miesiąca" style="width:1200px;"/>
-            <p:panelGrid layout="tabular" columns="6">
-                <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
-                <p:selectOneMenu id="rokWpisu" value="#{adminKsiegowanieView.rok}" style="width: 70px;">
-                    <f:selectItems value="#{roki.rokiListString}" />
-                    <p:ajax event="change" partialSubmit="true"/>
-                </p:selectOneMenu>
-                <p:selectOneMenu id="miesiacWpisu" value="#{adminKsiegowanieView.mc}" style="width: 70px;">
-                    <f:selectItems value="#{mce.mceList}"/>
-                    <p:ajax event="change" partialSubmit="true"/>
-                </p:selectOneMenu>
-                <p:column width="20" headerText="księgowa" >
-                    <p:selectOneMenu value="#{adminKsiegowanieView.wybranaksiegowa}" style="width: 280px;" converter="#{uzConv}">
-                        <f:selectItem itemLabel="wybierz"  noSelectionOption="true" itemDescription="wybierz"/>
-                        <f:selectItems value="#{adminKsiegowanieView.listaksiegowychwybor}" var="loop" itemLabel="#{loop.nazwiskoImie} #{loop.uprawnienia} " itemValue="#{loop}"/>
-                    </p:selectOneMenu>
-                </p:column>
-                <p:commandButton value="pobierz" actionListener="#{adminKsiegowanieView.pobierz()}" update="@form" style="width: 120px;"/>
-            </p:panelGrid>
-        </p:outputPanel>
-        <p:dataTable value="#{adminKsiegowanieView.zestawienierekordow}" 
-                     var="recorda" style="max-width: 1800px;height: 75vh;overflow-y: scroll;" rowKey="#{recorda.id}"
-                     sortBy="#{recorda.podatnik.printnazwa}" rowIndexVar="yndex">
-                      <p:column style="height: 19px; text-align: center;" width="20">
-                    <p:rowToggler />
-                </p:column>
-            <!-- id Column -->
-            <p:column headerText="id" width="30">
-                <h:outputText value="#{yndex+1}" />
-            </p:column>
+    <p:tabView id="akordeon">
+        <p:tab title="wykaz">
+            <h:form id="podatnicy">
 
-            <!-- podatnik Column (Display Name or Info) -->
-            <p:column headerText="podatnik" width="200" sortable="true" sortBy="#{recorda.podatnik.printnazwa}" sortPriority="1">
-                <h:outputText value="#{recorda.podatnik.printnazwa}" /> <!-- Adjust based on `Podatnik` fields -->
-            </p:column>
+                <p:outputPanel style="padding: 10px;">
+                    <p:panel header="Tabela z księgowanaimi i zamykaniem miesiąca" style="width:1200px;"/>
+                    <p:panelGrid layout="tabular" columns="6">
+                        <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                        <p:selectOneMenu id="rokWpisu" value="#{adminKsiegowanieView.rok}" style="width: 70px;">
+                            <f:selectItems value="#{roki.rokiListString}" />
+                            <p:ajax event="change" partialSubmit="true"/>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu id="miesiacWpisu" value="#{adminKsiegowanieView.mc}" style="width: 70px;">
+                            <f:selectItems value="#{mce.mceList}"/>
+                            <p:ajax event="change" partialSubmit="true"/>
+                        </p:selectOneMenu>
+                        <p:column width="20" headerText="księgowa" >
+                            <p:selectOneMenu value="#{adminKsiegowanieView.wybranaksiegowa}" style="width: 280px;" converter="#{uzConv}">
+                                <f:selectItem itemLabel="wybierz"  noSelectionOption="true" itemDescription="wybierz"/>
+                                <f:selectItems value="#{adminKsiegowanieView.listaksiegowychwybor}" var="loop" itemLabel="#{loop.nazwiskoImie} #{loop.uprawnienia} " itemValue="#{loop}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:commandButton value="pobierz" actionListener="#{adminKsiegowanieView.pobierz()}" update="@form" style="width: 120px;"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+                <p:dataTable value="#{adminKsiegowanieView.zestawienierekordow}" 
+                             var="recorda" style="max-width: 1800px;height: 75vh;overflow-y: scroll;" rowKey="#{recorda.id}"
+                             sortBy="#{recorda.podatnik.printnazwa}" rowIndexVar="yndex">
+                    <p:column style="height: 19px; text-align: center;" width="20">
+                        <p:rowToggler />
+                    </p:column>
+                    <!-- id Column -->
+                    <p:column headerText="id" width="30">
+                        <h:outputText value="#{yndex+1}" />
+                    </p:column>
 
-            <!-- zamkniecie Column -->
-            <p:column width="80" headerText="zamkniecie">
-                <h:outputText value="#{recorda.zamkniecie}">
-                    <f:convertDateTime pattern="yyyy-MM-dd" />
-                </h:outputText>
-                 <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.totalSumDays}" />
-                </f:facet>
-            </p:column>
+                    <!-- podatnik Column (Display Name or Info) -->
+                    <p:column headerText="podatnik" width="200" sortable="true" sortBy="#{recorda.podatnik.printnazwa}" sortPriority="1">
+                        <h:outputText value="#{recorda.podatnik.printnazwa}" /> <!-- Adjust based on `Podatnik` fields -->
+                    </p:column>
 
-            <!-- Kolumny dni od 1 do 31 -->
-            <p:column width="20" headerText="1">
-                <h:outputText value="#{recorda.day1}" rendered="#{recorda.day1 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay1}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="2">
-                <h:outputText value="#{recorda.day2}" rendered="#{recorda.day2 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay2}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="3">
-                <h:outputText value="#{recorda.day3}" rendered="#{recorda.day3 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay3}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="4">
-                <h:outputText value="#{recorda.day4}" rendered="#{recorda.day4 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay4}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="5">
-                <h:outputText value="#{recorda.day5}" rendered="#{recorda.day5 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay5}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="6">
-                <h:outputText value="#{recorda.day6}" rendered="#{recorda.day6 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay6}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="7">
-                <h:outputText value="#{recorda.day7}" rendered="#{recorda.day7 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay7}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="8">
-                <h:outputText value="#{recorda.day8}" rendered="#{recorda.day8 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay8}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="9">
-                <h:outputText value="#{recorda.day9}" rendered="#{recorda.day9 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay9}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="10">
-                <h:outputText value="#{recorda.day10}" rendered="#{recorda.day10 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay10}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="11">
-                <h:outputText value="#{recorda.day11}" rendered="#{recorda.day11 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay11}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="12">
-                <h:outputText value="#{recorda.day12}" rendered="#{recorda.day12 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay12}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="13">
-                <h:outputText value="#{recorda.day13}" rendered="#{recorda.day13 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay13}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="14">
-                <h:outputText value="#{recorda.day14}" rendered="#{recorda.day14 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay14}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="15">
-                <h:outputText value="#{recorda.day15}" rendered="#{recorda.day15 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay15}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="16">
-                <h:outputText value="#{recorda.day16}" rendered="#{recorda.day16 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay16}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="17">
-                <h:outputText value="#{recorda.day17}" rendered="#{recorda.day17 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay17}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="18">
-                <h:outputText value="#{recorda.day18}" rendered="#{recorda.day18 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay18}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="19">
-                <h:outputText value="#{recorda.day19}" rendered="#{recorda.day19 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay19}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="20">
-                <h:outputText value="#{recorda.day20}" rendered="#{recorda.day20 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay20}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="21">
-                <h:outputText value="#{recorda.day21}" rendered="#{recorda.day21 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay21}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="22">
-                <h:outputText value="#{recorda.day22}" rendered="#{recorda.day22 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay22}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="23">
-                <h:outputText value="#{recorda.day23}" rendered="#{recorda.day23 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay23}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="24">
-                <h:outputText value="#{recorda.day24}" rendered="#{recorda.day24 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay24}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="25">
-                <h:outputText value="#{recorda.day25}" rendered="#{recorda.day25 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay25}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="26">
-                <h:outputText value="#{recorda.day26}" rendered="#{recorda.day26 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay26}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="27">
-                <h:outputText value="#{recorda.day27}" rendered="#{recorda.day27 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay27}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="28">
-                <h:outputText value="#{recorda.day28}" rendered="#{recorda.day28 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay28}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="29">
-                <h:outputText value="#{recorda.day29}" rendered="#{recorda.day29 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay29}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="30">
-                <h:outputText value="#{recorda.day30}" rendered="#{recorda.day30 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay30}" />
-                </f:facet>
-            </p:column>
-            <p:column width="20" headerText="31">
-                <h:outputText value="#{recorda.day31}" rendered="#{recorda.day31 > 0}" />
-                <f:facet name="footer">
-                    <h:outputText value="#{adminKsiegowanieView.sumDay31}" />
-                </f:facet>
-            </p:column>
-            <!-- Define the row expansion -->
-    <p:rowExpansion>
-        <!-- Nested table to show documents for each record -->
-        <p:dataTable value="#{recorda.wykazdokumentow}" var="doc" style="max-width:800px;" sortBy="#{doc.dataujecia}" rowKey="#{doc.id}}">
-            <p:column headerText="id" width="30">
-                <h:outputText value="#{doc.id}" />
-            </p:column>
-            <p:column headerText="nr Ksiegowy">
-                <h:outputText value="#{doc.nrksiegowy}" />
-            </p:column>
-            <p:column headerText="kontrahent" width="250">
-                <h:outputText value="#{doc.kontrahent}" />
-            </p:column>
-            <p:column headerText="kwota" width="100">
-                <bcf:outputwal value="#{doc.kwota}"/>
-            </p:column>
-            <p:column headerText="data ujecia" sortBy="#{doc.dataujecia}" sortPriority="1" width="170">
-                <h:outputText value="#{doc.dataujecia}">
-                    <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
-                </h:outputText>
-            </p:column>
-        </p:dataTable>
-    </p:rowExpansion>
+                    <!-- zamkniecie Column -->
+                    <p:column width="80" headerText="zamkniecie">
+                        <h:outputText value="#{recorda.zamkniecie}">
+                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                        </h:outputText>
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.totalSumDays}" />
+                        </f:facet>
+                    </p:column>
 
-        </p:dataTable>
+                    <!-- Kolumny dni od 1 do 31 -->
+                    <p:column width="20" headerText="1">
+                        <h:outputText value="#{recorda.day1}" rendered="#{recorda.day1 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay1}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="2">
+                        <h:outputText value="#{recorda.day2}" rendered="#{recorda.day2 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay2}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="3">
+                        <h:outputText value="#{recorda.day3}" rendered="#{recorda.day3 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay3}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="4">
+                        <h:outputText value="#{recorda.day4}" rendered="#{recorda.day4 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay4}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="5">
+                        <h:outputText value="#{recorda.day5}" rendered="#{recorda.day5 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay5}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="6">
+                        <h:outputText value="#{recorda.day6}" rendered="#{recorda.day6 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay6}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="7">
+                        <h:outputText value="#{recorda.day7}" rendered="#{recorda.day7 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay7}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="8">
+                        <h:outputText value="#{recorda.day8}" rendered="#{recorda.day8 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay8}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="9">
+                        <h:outputText value="#{recorda.day9}" rendered="#{recorda.day9 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay9}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="10">
+                        <h:outputText value="#{recorda.day10}" rendered="#{recorda.day10 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay10}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="11">
+                        <h:outputText value="#{recorda.day11}" rendered="#{recorda.day11 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay11}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="12">
+                        <h:outputText value="#{recorda.day12}" rendered="#{recorda.day12 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay12}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="13">
+                        <h:outputText value="#{recorda.day13}" rendered="#{recorda.day13 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay13}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="14">
+                        <h:outputText value="#{recorda.day14}" rendered="#{recorda.day14 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay14}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="15">
+                        <h:outputText value="#{recorda.day15}" rendered="#{recorda.day15 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay15}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="16">
+                        <h:outputText value="#{recorda.day16}" rendered="#{recorda.day16 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay16}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="17">
+                        <h:outputText value="#{recorda.day17}" rendered="#{recorda.day17 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay17}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="18">
+                        <h:outputText value="#{recorda.day18}" rendered="#{recorda.day18 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay18}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="19">
+                        <h:outputText value="#{recorda.day19}" rendered="#{recorda.day19 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay19}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="20">
+                        <h:outputText value="#{recorda.day20}" rendered="#{recorda.day20 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay20}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="21">
+                        <h:outputText value="#{recorda.day21}" rendered="#{recorda.day21 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay21}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="22">
+                        <h:outputText value="#{recorda.day22}" rendered="#{recorda.day22 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay22}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="23">
+                        <h:outputText value="#{recorda.day23}" rendered="#{recorda.day23 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay23}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="24">
+                        <h:outputText value="#{recorda.day24}" rendered="#{recorda.day24 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay24}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="25">
+                        <h:outputText value="#{recorda.day25}" rendered="#{recorda.day25 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay25}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="26">
+                        <h:outputText value="#{recorda.day26}" rendered="#{recorda.day26 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay26}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="27">
+                        <h:outputText value="#{recorda.day27}" rendered="#{recorda.day27 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay27}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="28">
+                        <h:outputText value="#{recorda.day28}" rendered="#{recorda.day28 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay28}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="29">
+                        <h:outputText value="#{recorda.day29}" rendered="#{recorda.day29 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay29}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="30">
+                        <h:outputText value="#{recorda.day30}" rendered="#{recorda.day30 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay30}" />
+                        </f:facet>
+                    </p:column>
+                    <p:column width="20" headerText="31">
+                        <h:outputText value="#{recorda.day31}" rendered="#{recorda.day31 > 0}" />
+                        <f:facet name="footer">
+                            <h:outputText value="#{adminKsiegowanieView.sumDay31}" />
+                        </f:facet>
+                    </p:column>
+                    <!-- Define the row expansion -->
+                    <p:rowExpansion>
+                        <!-- Nested table to show documents for each record -->
+                        <p:dataTable value="#{recorda.wykazdokumentow}" var="doc" style="max-width:800px;" sortBy="#{doc.dataujecia}" rowKey="#{doc.id}}">
+                            <p:column headerText="id" width="30">
+                                <h:outputText value="#{doc.id}" />
+                            </p:column>
+                            <p:column headerText="nr Ksiegowy">
+                                <h:outputText value="#{doc.nrksiegowy}" />
+                            </p:column>
+                            <p:column headerText="kontrahent" width="250">
+                                <h:outputText value="#{doc.kontrahent}" />
+                            </p:column>
+                            <p:column headerText="kwota" width="100">
+                                <bcf:outputwal value="#{doc.kwota}"/>
+                            </p:column>
+                            <p:column headerText="data ujecia" sortBy="#{doc.dataujecia}" sortPriority="1" width="170">
+                                <h:outputText value="#{doc.dataujecia}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </p:rowExpansion>
+
+                </p:dataTable>
 
 
-    </h:form>
+            </h:form>
+        </p:tab>
+        <p:tab title="porównanie">
+                <h:form id="ksiegowaporownanie">
+
+                    <p:outputPanel style="padding: 10px;">
+                        <p:panel header="Tabela z księgowanaimi i zamykaniem miesiąca" style="width:1200px;"/>
+                        <p:panelGrid layout="tabular" columns="6">
+                            <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
+                            <p:selectOneMenu id="rokWpisu" value="#{adminKsiegowanieView.rok}" style="width: 70px;">
+                                <f:selectItems value="#{roki.rokiListString}" />
+                                <p:ajax event="change" partialSubmit="true"/>
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="miesiacWpisu" value="#{adminKsiegowanieView.mc}" style="width: 70px;">
+                                <f:selectItems value="#{mce.mceList}"/>
+                                <p:ajax event="change" partialSubmit="true"/>
+                            </p:selectOneMenu>
+                          
+                            <p:commandButton value="pobierz" actionListener="#{adminKsiegowanieView.pobierzSumaryczneDlaWszystkichKsiegowych()}" update="@form" style="width: 120px;"/>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                    <p:dataTable value="#{adminKsiegowanieView.summarizedRecords}" 
+                                 var="recorda" style="max-width: 1800px;height: 75vh;overflow-y: scroll;" rowKey="#{recorda.id}"
+                                 sortBy="#{recorda.podatnik.printnazwa}" rowIndexVar="yndex">
+                        <!-- id Column -->
+                        <p:column headerText="id" width="30">
+                            <h:outputText value="#{yndex+1}" />
+                        </p:column>
+
+                        <!-- podatnik Column (Display Name or Info) -->
+                        <p:column headerText="księgowa" width="250" sortable="true" sortBy="#{recorda.ksiegowa.nazwiskoUprawnienia}" sortPriority="1">
+                            <h:outputText value="#{recorda.ksiegowa.nazwiskoUprawnienia}" /> <!-- Adjust based on `Podatnik` fields -->
+                        </p:column>
+
+                        <!-- Kolumny dni od 1 do 31 -->
+                        <p:column width="20" headerText="1">
+                            <h:outputText value="#{recorda.day1}" rendered="#{recorda.day1 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay1}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="2">
+                            <h:outputText value="#{recorda.day2}" rendered="#{recorda.day2 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay2}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="3">
+                            <h:outputText value="#{recorda.day3}" rendered="#{recorda.day3 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay3}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="4">
+                            <h:outputText value="#{recorda.day4}" rendered="#{recorda.day4 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay4}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="5">
+                            <h:outputText value="#{recorda.day5}" rendered="#{recorda.day5 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay5}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="6">
+                            <h:outputText value="#{recorda.day6}" rendered="#{recorda.day6 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay6}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="7">
+                            <h:outputText value="#{recorda.day7}" rendered="#{recorda.day7 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay7}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="8">
+                            <h:outputText value="#{recorda.day8}" rendered="#{recorda.day8 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay8}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="9">
+                            <h:outputText value="#{recorda.day9}" rendered="#{recorda.day9 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay9}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="10">
+                            <h:outputText value="#{recorda.day10}" rendered="#{recorda.day10 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay10}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="11">
+                            <h:outputText value="#{recorda.day11}" rendered="#{recorda.day11 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay11}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="12">
+                            <h:outputText value="#{recorda.day12}" rendered="#{recorda.day12 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay12}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="13">
+                            <h:outputText value="#{recorda.day13}" rendered="#{recorda.day13 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay13}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="14">
+                            <h:outputText value="#{recorda.day14}" rendered="#{recorda.day14 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay14}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="15">
+                            <h:outputText value="#{recorda.day15}" rendered="#{recorda.day15 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay15}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="16">
+                            <h:outputText value="#{recorda.day16}" rendered="#{recorda.day16 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay16}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="17">
+                            <h:outputText value="#{recorda.day17}" rendered="#{recorda.day17 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay17}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="18">
+                            <h:outputText value="#{recorda.day18}" rendered="#{recorda.day18 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay18}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="19">
+                            <h:outputText value="#{recorda.day19}" rendered="#{recorda.day19 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay19}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="20">
+                            <h:outputText value="#{recorda.day20}" rendered="#{recorda.day20 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay20}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="21">
+                            <h:outputText value="#{recorda.day21}" rendered="#{recorda.day21 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay21}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="22">
+                            <h:outputText value="#{recorda.day22}" rendered="#{recorda.day22 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay22}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="23">
+                            <h:outputText value="#{recorda.day23}" rendered="#{recorda.day23 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay23}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="24">
+                            <h:outputText value="#{recorda.day24}" rendered="#{recorda.day24 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay24}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="25">
+                            <h:outputText value="#{recorda.day25}" rendered="#{recorda.day25 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay25}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="26">
+                            <h:outputText value="#{recorda.day26}" rendered="#{recorda.day26 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay26}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="27">
+                            <h:outputText value="#{recorda.day27}" rendered="#{recorda.day27 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay27}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="28">
+                            <h:outputText value="#{recorda.day28}" rendered="#{recorda.day28 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay28}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="29">
+                            <h:outputText value="#{recorda.day29}" rendered="#{recorda.day29 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay29}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="30">
+                            <h:outputText value="#{recorda.day30}" rendered="#{recorda.day30 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay30}" />
+                            </f:facet>
+                        </p:column>
+                        <p:column width="20" headerText="31">
+                            <h:outputText value="#{recorda.day31}" rendered="#{recorda.day31 > 0}" />
+                            <f:facet name="footer">
+                                <h:outputText value="#{adminKsiegowanieView.sumDay31}" />
+                            </f:facet>
+                        </p:column>
+                  
+
+                    </p:dataTable>
+
+
+                </h:form>
+            </p:tab>
+    </p:tabView>
 </ui:composition>   

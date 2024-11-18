@@ -436,6 +436,12 @@ public class ObslugaWiersza {
             } else {
                 zwrot.setTabelanbp(wierszpoprzedni.getTabelanbp());
             }
+            if (zwrot.getTabelanbp()!=null) {
+                //dodane żaneta 18.11.2024
+                for (StronaWiersza sw : zwrot.getStronyWiersza()) {
+                       sw.setKwotaWnPLN(Z.z(kwota*zwrot.getTabelanbp().getKurssredniPrzelicznik()));
+                }
+            }
             zwrot.setDataWalutyWiersza(wierszpoprzedni.getDataWalutyWiersza());
             // wywalam bo przeliczy na koncu punktzmiany
             //ObslugaWiersza.przepiszWaluty(zwrot);

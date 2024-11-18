@@ -127,7 +127,7 @@ public class PodatnikKsiegowaShortView implements Serializable {
         podatnikDAO.editList(listapodatnikow);
         if (listaksiegowych != null && rok != null && mc != null) {
             Map<String, Uz> loginksiegowa = listaksiegowych.stream().collect(Collectors.toMap(Uz::getLogin, Function.identity()));
-            List<Dok> dokumentypkpir = dokDAO.findDokRokMC(rok, mc);
+            List<Dok> dokumentypkpir = dokDAO.findDokRokMCDataKsiegowania(rok, mc);
             if (dokumentypkpir != null) {
                 //p->p.getWprowadzil() to jest login z Uz
                 //stare zlicza nie patrzac ze ktos cos moze doksiegowac
@@ -184,7 +184,7 @@ public class PodatnikKsiegowaShortView implements Serializable {
                 Msg.msg("Naniesiono dane księgowej na klientów urposzczona");
 
             }
-            List<Dokfk> dokumentyfk = dokDAOfk.findDokRokMC(rok, mc);
+            List<Dokfk> dokumentyfk = dokDAOfk.findDokRokMCDataKsiegowania(rok, mc);
             if (dokumentyfk != null) {
                 //p->p.getWprowadzil() to jest login z Uz
 //                Map<Podatnik, String> firmaksiegowa = dokumentyfk.stream().collect(Collectors.toMap(Dokfk::getPodatnikObj, Dokfk::getWprowadzil,(existing, replacement) -> existing));
@@ -203,6 +203,9 @@ public class PodatnikKsiegowaShortView implements Serializable {
                 // Step 2: Determine the primary 'wprowadzil' (who entered 80% or more documents) for each 'Podatnik'
                 for (Map.Entry<Podatnik, Map<String, Long>> entry : countMap.entrySet()) {
                     Podatnik podatnik = entry.getKey();
+                     if (podatnik.getNip().equals("9552158028")) {
+                            System.out.println("");
+                        }
                     Map<String, Long> userCounts = entry.getValue();
 
                     long totalDocuments = userCounts.values().stream().mapToLong(Long::longValue).sum();

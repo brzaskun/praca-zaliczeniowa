@@ -155,23 +155,28 @@ public class JPKKRView  implements Serializable {
         return adres;
     }
 
+    
     private List<JPK.Dziennik> zrobdziennik(List<Dokfk> dokumenty) {
          List<JPK.Dziennik> listadziennik = new ArrayList<>();
-         for (Dokfk p : dokumenty) {
-             JPK.Dziennik dziennik = new JPK.Dziennik();
-             dziennik.setDataDowodu(Data.dataStringToXMLGregorian(p.getDatadokumentu()));
-             dziennik.setDataKsiegowania(Data.dataStringToXMLGregorian(p.getDatawplywu()));
-             dziennik.setDataOperacji(Data.dataStringToXMLGregorian(p.getDataoperacji()));
-             dziennik.setDziennikKwotaOperacji(BigDecimal.valueOf(Z.z(sumujdokument(p))));
-             dziennik.setKodOperatora(p.getWprowadzil()!=null?p.getWprowadzil():"taxman");
-             dziennik.setLpZapisuDziennika(BigInteger.valueOf(Integer.valueOf(p.getNrdziennika())));
-             dziennik.setNrDowoduKsiegowego(p.getNumerwlasnydokfk());
-             dziennik.setNrZapisuDziennika(p.getDokfkSN());
-             dziennik.setOpisDziennika(p.getRodzajedok().getRodzajtransakcji());
-             dziennik.setOpisOperacji(p.getOpisdokfk());
-             dziennik.setTyp(dziennik.getTyp());
-             dziennik.setRodzajDowodu(p.getRodzajedok().getNazwa());
-             listadziennik.add(dziennik);
+         try {
+            for (Dokfk p : dokumenty) {
+                JPK.Dziennik dziennik = new JPK.Dziennik();
+                dziennik.setDataDowodu(Data.dataStringToXMLGregorian(p.getDatadokumentu()));
+                dziennik.setDataKsiegowania(Data.dataStringToXMLGregorian(p.getDatawplywu()));
+                dziennik.setDataOperacji(Data.dataStringToXMLGregorian(p.getDataoperacji()));
+                dziennik.setDziennikKwotaOperacji(BigDecimal.valueOf(Z.z(sumujdokument(p))));
+                dziennik.setKodOperatora(p.getWprowadzil()!=null?p.getWprowadzil():"taxman");
+                dziennik.setLpZapisuDziennika(BigInteger.valueOf(Integer.valueOf(p.getNrdziennika())));
+                dziennik.setNrDowoduKsiegowego(p.getNumerwlasnydokfk());
+                dziennik.setNrZapisuDziennika(p.getDokfkSN());
+                dziennik.setOpisDziennika(p.getRodzajedok().getRodzajtransakcji());
+                dziennik.setOpisOperacji(p.getOpisdokfk());
+                dziennik.setTyp(dziennik.getTyp());
+                dziennik.setRodzajDowodu(p.getRodzajedok().getNazwa());
+                listadziennik.add(dziennik);
+            }
+         } catch (Exception e) {
+             Msg.msg("e","Wystąpił błąd podczas generowania pliku. Sprawdź czy dokumenty są w księgach i czy rok jets zamknięty");
          }
          return listadziennik;
     }

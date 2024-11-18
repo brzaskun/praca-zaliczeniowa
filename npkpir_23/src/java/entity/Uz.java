@@ -144,6 +144,11 @@ public class Uz implements Serializable {
     
     public Uz() {
     }
+    
+    
+    public String getNazwiskoUprawnienia() {
+        return this.getNazwiskoImie()+ " "+this.uprawnienia;
+    }
 
     public Uz(String login) {
         this.login = login;

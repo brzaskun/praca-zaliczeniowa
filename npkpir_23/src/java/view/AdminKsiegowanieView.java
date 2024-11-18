@@ -51,6 +51,7 @@ public class AdminKsiegowanieView implements Serializable {
     private List<Uz> listaksiegowychwybor;
     private List<Podatnik> listapodatnikow;
     private List<PodatnikRecord> zestawienierekordow;
+    private List<PodatnikRecord> summarizedRecords;
     private Uz wybranaksiegowa;
     @Inject
     private UzDAO uzDAO;
@@ -178,7 +179,52 @@ public class AdminKsiegowanieView implements Serializable {
         }
     }
 
-    
+    public void pobierzSumaryczneDlaWszystkichKsiegowych() {
+    List<Dok> listaDokTmp = dokDAO.findDokRokMCDataKsiegowania(rok, mc);
+    List<Dokfk> listaDokfkTmp = dokDAOfk.findDokRokMCDataKsiegowania(rok, mc);
+
+    summarizedRecords = new ArrayList<>();
+
+    // Iterate over each ksiegowa in wykazksiegowych
+    for (Uz ksiegowa : listaksiegowychwybor) {
+        // Step 1: Filter documents for the current ksiegowa
+        List<Dok> dokumentyKsiegowej = listaDokTmp.stream()
+                .filter(dok -> dok.getWprowadzil().equals(ksiegowa.getLogin()))
+                .collect(Collectors.toList());
+        List<Dokfk> dokumentyFKKsiegowej = listaDokfkTmp.stream()
+                .filter(dokfk -> dokfk.getWprowadzil().equals(ksiegowa.getLogin()))
+                .collect(Collectors.toList());
+
+        // Step 2: Group documents by day
+        Map<Integer, List<Dok>> dokumentyByDay = dokumentyKsiegowej.stream()
+                .collect(Collectors.groupingBy(dok -> {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(dok.getDataK());
+                    return calendar.get(Calendar.DAY_OF_MONTH);
+                }));
+        Map<Integer, List<Dokfk>> dokumentyFKByDay = dokumentyFKKsiegowej.stream()
+                .collect(Collectors.groupingBy(dokfk -> {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(dokfk.getDataujecia());
+                    return calendar.get(Calendar.DAY_OF_MONTH);
+                }));
+
+        // Step 3: Create a PodatnikRecord for the ksiegowa and populate day fields
+        PodatnikRecord recorda = new PodatnikRecord();
+        recorda.setKsiegowa(ksiegowa);  // Set the ksiegowa for this record
+
+        for (int day = 1; day <= 31; day++) {
+            int totalDocs = dokumentyByDay.getOrDefault(day, Collections.emptyList()).size();
+            int totalDocsFk = dokumentyFKByDay.getOrDefault(day, Collections.emptyList()).size();
+
+            // Use DayUpdater or equivalent method to populate each day's total in the record
+            DayUpdater.incrementDay(recorda, day, totalDocs + totalDocsFk);
+        }
+        summarizedRecords.add(recorda);
+    }
+    Msg.msg("Pobrano dane sumaryczne dla wszystkich księgowych.");
+}
+
     
 
     public int getTotalSumDays() {
@@ -348,4 +394,14 @@ public class AdminKsiegowanieView implements Serializable {
     public int getSumDay31() {
         return zestawienierekordow.stream().mapToInt(PodatnikRecord::getDay31).sum();
     }
+
+    public List<PodatnikRecord> getSummarizedRecords() {
+        return summarizedRecords;
+    }
+
+    public void setSummarizedRecords(List<PodatnikRecord> summarizedRecords) {
+        this.summarizedRecords = summarizedRecords;
+    }
+    
+    
 }
