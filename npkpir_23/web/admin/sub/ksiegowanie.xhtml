@@ -315,7 +315,10 @@
                         <p:column headerText="księgowa" width="250" sortable="true" sortBy="#{recorda.ksiegowa.nazwiskoUprawnienia}" sortPriority="1">
                             <h:outputText value="#{recorda.ksiegowa.nazwiskoUprawnienia}" /> <!-- Adjust based on `Podatnik` fields -->
                         </p:column>
-
+                           <!-- Kolumny dni od 1 do 31 -->
+                        <p:column width="30" headerText="razem" sortBy="#{recorda.totalDays}" sortable="true"> 
+                            <h:outputText value="#{recorda.totalDays}"/>
+                        </p:column>
                         <!-- Kolumny dni od 1 do 31 -->
                         <p:column width="20" headerText="1">
                             <h:outputText value="#{recorda.day1}" rendered="#{recorda.day1 > 0}" />

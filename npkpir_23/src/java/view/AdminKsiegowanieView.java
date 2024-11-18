@@ -76,8 +76,8 @@ public class AdminKsiegowanieView implements Serializable {
 
     @PostConstruct
     public void init() {
-        listaksiegowychwybor = uzDAO.findByUprawnienia("Bookkeeper");
-        listaksiegowychwybor.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
+        listaksiegowychwybor = uzDAO.findByUprawnieniaAktywny("Bookkeeper");
+        listaksiegowychwybor.addAll(uzDAO.findByUprawnieniaAktywny("BookkeeperFK"));
         Collections.sort(listaksiegowychwybor, new UzNazwiskocomparator());
         listapodatnikow = podatnikDAO.findAktywny();
         zestawienierekordow = new ArrayList<>();
