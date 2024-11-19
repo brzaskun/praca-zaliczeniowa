@@ -54,9 +54,10 @@ public class PdfAmazon extends Pdf implements Serializable {
             Set<String> waluty = pobierzwalutyfk(lista);
             Set<String> kraje = pobierzkrajefk(lista);
             List tabelazbiorcza = new ArrayList<>();
+            List tabelazbiorczafctransfer = new ArrayList<>();
             List tabelazbiorczawdt = new ArrayList<>();
             List tabelazbiorczaexport = new ArrayList<>();
-            List<KlientJPK> sprzedaz = lista.stream().filter((p) -> p.isWdt() == false && p.isEksport() == false).collect(Collectors.toList());
+            List<KlientJPK> sprzedaz = lista.stream().filter((p) -> p.isWdt() == false && p.isEksport() == false && p.getRodzajtransakcji().equals("FC_TRANSFER")==false).collect(Collectors.toList());
             for (String kraj : kraje) {
                 List<KlientJPK> sprzedazkraj = sprzedaz.stream().filter((p) -> p.getJurysdykcja()!=null&&p.getJurysdykcja().equals(kraj)).collect(Collectors.toList());
                 for (String waluta : waluty) {
@@ -65,6 +66,24 @@ public class PdfAmazon extends Pdf implements Serializable {
                         PodsumowanieAmazonOSS zwrot = dodajtabelekrajfk(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorcza, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                         if (zwrot.getPodatnik()!=null) {
                             sumy.add(zwrot);
+                        }
+                    }
+                }
+            }
+            PdfMain.dodajLinieOpisu(document, "");
+            List<KlientJPK> fctransfer = lista.stream().filter((p) -> p.getRodzajtransakcji().equals("FC_TRANSFER")==true).collect(Collectors.toList());
+            if (fctransfer.isEmpty()) {
+                PdfMain.dodajLinieOpisuBezOdstepu(document, "BRAK PRZESUNIĘĆ FC TRANSFER");
+            } else {
+                for (String kraj : kraje) {
+                    List<KlientJPK> sprzedazkraj = fctransfer.stream().filter((p) -> p.getJurysdykcja()!=null&&p.getJurysdykcja().equals(kraj)).collect(Collectors.toList());
+                    for (String waluta : waluty) {
+                        List<KlientJPK> sprzedazwaluty = sprzedazkraj.stream().filter((p) -> p.getWaluta().equals(waluta)).collect(Collectors.toList());
+                        if (!sprzedazwaluty.isEmpty()) {
+                            PodsumowanieAmazonOSS zwrot = dodajtabelefctransfer(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorczafctransfer, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                            if (zwrot.getPodatnik()!=null) {
+                                sumy.add(zwrot);
+                            }
                         }
                     }
                 }
@@ -106,6 +125,10 @@ public class PdfAmazon extends Pdf implements Serializable {
             int[] nag2 = new int[]{2,3,3,3,3,3,3,3,3};
             dodajsume(tabelazbiorcza);
             dodajTabele2(document, nag1, nag2, tabelazbiorcza, 70, modyfikator,"tabelaklientjpkfk");
+            document.newPage();
+            PdfMain.dodajLinieOpisu(document, "SUMY FC TRANSFER");
+            dodajsume(tabelazbiorczawdt);
+            dodajTabele2(document, nag1, nag2, tabelazbiorczafctransfer, 70, modyfikator,"tabelaklientjpkfk");
             document.newPage();
             PdfMain.dodajLinieOpisu(document, "SUMY SPRZEDAŻY WDT");
             dodajsume(tabelazbiorczawdt);
@@ -170,6 +193,14 @@ public class PdfAmazon extends Pdf implements Serializable {
         PodsumowanieAmazonOSS zwrot = dodajsumyfk(lista, document, waluta, tabelazbiorcza, podatnik, rok, mc);
         return zwrot;
     }
+    
+    private static PodsumowanieAmazonOSS dodajtabelefctransfer(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator, List tabelazbiorcza, Podatnik podatnik, String rok, String mc) {
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "FC TRANSFER PRZESUNIĘCIA "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLACK);
+        dodajTabele(document, testobjects.testobjects.getListaDokJPK(lista),100,modyfikator);
+        PodsumowanieAmazonOSS zwrot = dodajsumyfk(lista, document, waluta, tabelazbiorcza, podatnik, rok, mc);
+        return zwrot;
+    }
+    
     private static void dodajtabeleWDTfk(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator,List tabelazbiorcza) {
         PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ WDT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLACK);
         dodajTabele(document, testobjects.testobjects.getListaDokJPK(lista),100,modyfikator);

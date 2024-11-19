@@ -1162,18 +1162,19 @@ public static PdfWriter inicjacjaWriteraOut(Document document, ByteArrayOutputSt
                 col = new int[size];
                 col[0] = 1;
                 col[1] = 2;
-                col[2] = 3;
+                col[2] = 2;
                 col[3] = 3;
                 col[4] = 3;
-                col[5] = 2;
+                col[5] = 4;
                 col[6] = 2;
                 col[7] = 2;
                 col[8] = 2;
                 col[9] = 2;
-                col[10] = 1;
+                col[10] = 2;
                 col[11] = 1;
-                col[12] = 2;
+                col[12] = 1;
                 col[13] = 2;
+                col[14] = 2;
                 return col;
             case "entity.Ryczpoz":
                 col = new int[size];
@@ -2654,6 +2655,7 @@ public static PdfWriter inicjacjaWriteraOut(Document document, ByteArrayOutputSt
                         //error.E.s(""+p.toString());
                         table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 20f));
                         table.addCell(ustawfrazeAlign(p.getDataSprzedazy(), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getRodzajtransakcji(), "center", 8));
                         table.addCell(ustawfrazeAlign(p.getNazwaKontrahenta(), "left", 8));
                         table.addCell(ustawfrazeAlign(p.getNrKontrahenta(), "left", 8));
                         table.addCell(ustawfrazeAlign(p.getSerial(), "center", 8));

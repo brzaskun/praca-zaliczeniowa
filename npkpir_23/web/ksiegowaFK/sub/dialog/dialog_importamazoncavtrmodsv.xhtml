@@ -108,10 +108,8 @@
                     <h:outputText value="#{wpisama.dowodSprzedazy}" />
                 </p:column>
 
-                <p:column headerText="data wystawienia">
-                    <h:outputText value="#{wpisama.dataWystawienia}">
-                        <f:convertDateTime pattern="yyyy-MM-dd" />
-                    </h:outputText>
+                <p:column headerText="rodzaj trans." sortBy="#{wpisama.dataWystawienia}" filterBy="#{wpisama.dataWystawienia}" filterMatchMode="contains">
+                    <h:outputText value="#{wpisama.rodzajtransakcji}"/>
                 </p:column>
 
                 <p:column headerText="data sprzedazy">

@@ -4,21 +4,23 @@ package xls;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author Osito
  */
-
+import beansFK.TabelaNBPBean;
 import dao.PodsumowanieAmazonOSSDAO;
+import dao.TabelanbpDAO;
 import entity.KlientJPK;
 import entity.PodsumowanieAmazonOSS;
+import entityfk.Tabelanbp;
 import error.E;
 import f.l;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,11 +28,13 @@ import msg.Msg;
 import org.apache.poi.ss.usermodel.*;
 import static org.apache.poi.ss.usermodel.CellType.FORMULA;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 import pdf.PdfAmazon;
 import view.WpisView;
+import waluty.Z;
 
 @Named
 @ViewScoped
@@ -42,13 +46,16 @@ public class AmazonAVTRmod implements Serializable {
     @Inject
     private PodsumowanieAmazonOSSDAO podsumowanieAmazonOSSDAO;
     @Inject
+    private TabelanbpDAO tabelanbpDAO;
+    private Map<String, Double> kursMap;
+    @Inject
     private WpisView wpisView;
-    
+
     public void init() {
-        
+
     }
-            
-     public void importujsprzedaz(FileUploadEvent event) {
+
+    public void importujsprzedaz(FileUploadEvent event) {
         try {
 //            dokumenty = Collections.synchronizedList(new ArrayList<>());
 //            klienci = Collections.synchronizedList(new ArrayList<>());
@@ -61,15 +68,15 @@ public class AmazonAVTRmod implements Serializable {
             }
         } catch (Exception ex) {
             E.e(ex);
-            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
+            Msg.msg("e", "Wystąpił błąd. Nie udało się załadowanać pliku");
         }
         PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
-    }       
+    }
 
     public void importFromExcel(UploadedFile uploadedFile) throws IOException {
         lista = new ArrayList<>();
-        try (InputStream is = uploadedFile.getInputStream();
-             Workbook workbook = new XSSFWorkbook(is)) {
+        kursMap = new ConcurrentHashMap<>();
+        try (InputStream is = uploadedFile.getInputStream(); Workbook workbook = new XSSFWorkbook(is)) {
 
             Sheet sheet = workbook.getSheetAt(0);
             Iterator<Row> rowIterator = sheet.iterator();
@@ -95,31 +102,40 @@ public class AmazonAVTRmod implements Serializable {
                     klientJPK.setKodKrajuNadania(getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY")));
                     klientJPK.setKodKrajuDoreczenia(getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY")));
                     klientJPK.setJurysdykcja(getCellStringValue(row, columnIndices.get("TAXABLE_JURISDICTION")));
-                    klientJPK.setNrKontrahenta(pobierznumerkontrahenta(klientJPK.getRodzajtransakcji(),row, columnIndices));
-                    klientJPK.setNazwaKontrahenta(pobierznazwekontrahenta(klientJPK.getRodzajtransakcji(),row, columnIndices));
+                    klientJPK.setNrKontrahenta(pobierznumerkontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices));
+                    klientJPK.setNazwaKontrahenta(pobierznazwekontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices));
                     klientJPK.setDowodSprzedazy(getCellStringValue(row, columnIndices.get("TRANSACTION_EVENT_ID")));
                     klientJPK.setDataWystawienia(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TAX_CALCULATION_DATE"))));
-                    klientJPK.setDataSprzedazy(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TRANSACTION_DEPART_DATE"))));
-                    klientJPK.setNetto(getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
-                    klientJPK.setVat(getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_VAT_AMT")));
+                    klientJPK.setDataSprzedazy(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TRANSACTION_COMPLETE_DATE"))));
+                    klientJPK.setWaluta(getCellStringValue(row, columnIndices.get("TRANSACTION_CURRENCY_CODE")));
+                    double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), klientJPK.getWaluta());
+                    klientJPK.setKurs(kurs);
+                    double netto = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL"));
+                    double nettopln = Z.z(netto*kurs);
+                    double vat = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_VAT_AMT"));
+                    double vatpln = Z.z(vat*kurs);
+                    klientJPK.setNetto(nettopln);
+                    klientJPK.setVat(vatpln);
                     klientJPK.setNettowaluta(getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
                     klientJPK.setVatwaluta(getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_VAT_AMT")));
                     klientJPK.setStawkavat(getCellDoubleValue(row, columnIndices.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT")));
                     //klientJPK.setKurs(getCellDoubleValue(row, columnIndices.get("VAT_INV_EXCHANGE_RATE")));
                     klientJPK.setRok(data.Data.getRok(klientJPK.getDataSprzedazy()));
                     klientJPK.setMc(data.Data.getMc(klientJPK.getDataSprzedazy()));
-                    klientJPK.setWaluta(getCellStringValue(row, columnIndices.get("TRANSACTION_CURRENCY_CODE")));
+                    klientJPK.setAmazontax0additional1(1);
                     // Setting eksport and importt fields based on DEPARTURE_COUNTRY and ARRIVAL_COUNTRY
                     String departureCountry = getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY"));
                     String arrivalCountry = getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY"));
-                    klientJPK.setEksport("PL".equals(departureCountry) && !"PL".equals(arrivalCountry));
-                    klientJPK.setImportt(!"PL".equals(departureCountry) && "PL".equals(arrivalCountry));
+                    if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false) {
+                        klientJPK.setWdt("PL".equals(departureCountry) && !"PL".equals(arrivalCountry));
+                        klientJPK.setWnt(!"PL".equals(departureCountry) && "PL".equals(arrivalCountry));
+                    }
                     klientJPK.setOpissprzedaz(getCellStringValue(row, columnIndices.get("ITEM_DESCRIPTION")));
                     lista.add(klientJPK);
                 } catch (Exception e) {
-                    System.out.println("wiersz "+rowa);
+                    System.out.println("wiersz " + rowa);
                     System.out.println(E.e(e));
-                    if (rowa>1000) {
+                    if (rowa > 1000) {
                         break;
                     }
                 }
@@ -129,86 +145,95 @@ public class AmazonAVTRmod implements Serializable {
     }
 
     private static String getCellStringValue(Row row, Integer columnIndex) {
-    if (columnIndex == null) return null;
-    Cell cell = row.getCell(columnIndex);
-    if (cell == null) return null;
+        if (columnIndex == null) {
+            return null;
+        }
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) {
+            return null;
+        }
 
-    switch (cell.getCellType()) {
-        case STRING:
-            return cell.getStringCellValue();
-        case NUMERIC:
-            return String.valueOf(cell.getNumericCellValue());  // Konwersja liczb na String
-        case BOOLEAN:
-            return String.valueOf(cell.getBooleanCellValue());  // Konwersja boolean na String
-        case FORMULA:
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());  // Konwersja liczb na String
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());  // Konwersja boolean na String
+            case FORMULA:
             try {
                 return cell.getStringCellValue();
             } catch (IllegalStateException e) {
                 return String.valueOf(cell.getNumericCellValue());
             }
-        default:
-            return null;
+            default:
+                return null;
+        }
     }
-}
 
-private static Double getCellDoubleValue(Row row, Integer columnIndex) {
-    if (columnIndex == null) {
-        return null;
-    }
-    Cell cell = row.getCell(columnIndex);
-    if (cell == null) {
-        return 0.0;
-    }
-    try {
-        switch (cell.getCellType()) {
-            case NUMERIC:
-                return cell.getNumericCellValue();
-            case STRING:
+    private static Double getCellDoubleValue(Row row, Integer columnIndex) {
+        if (columnIndex == null) {
+            return null;
+        }
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) {
+            return 0.0;
+        }
+        try {
+            switch (cell.getCellType()) {
+                case NUMERIC:
+                    return cell.getNumericCellValue();
+                case STRING:
                 try {
                     return Double.parseDouble(cell.getStringCellValue());  // Konwersja String do Double
                 } catch (NumberFormatException e) {
                     return null;
                 }
-            case FORMULA:
+                case FORMULA:
                 try {
                     return cell.getNumericCellValue();
                 } catch (IllegalStateException e) {
                     return null;
                 }
-            case BLANK:
-                return 0.0;
+                case BLANK:
+                    return 0.0;
+                default:
+                    return null;
+            }
+        } catch (Exception e) {
+            System.out.println(E.e(e));
+        }
+        return null;
+    }
+
+    private static Boolean getCellBooleanValue(Row row, Integer columnIndex) {
+        if (columnIndex == null) {
+            return null;
+        }
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) {
+            return null;
+        }
+
+        switch (cell.getCellType()) {
+            case BOOLEAN:
+                return cell.getBooleanCellValue();
+            case STRING:
+                String cellValue = cell.getStringCellValue().toLowerCase();
+                if (cellValue.equals("true") || cellValue.equals("yes")) {
+                    return true;
+                } else if (cellValue.equals("false") || cellValue.equals("no")) {
+                    return false;
+                }
+                return null;
+            case NUMERIC:
+                return cell.getNumericCellValue() != 0;  // 0 = false, inne wartości = true
             default:
                 return null;
         }
-    } catch (Exception e) {
-        System.out.println(E.e(e));
     }
-    return null;
-}
 
-private static Boolean getCellBooleanValue(Row row, Integer columnIndex) {
-    if (columnIndex == null) return null;
-    Cell cell = row.getCell(columnIndex);
-    if (cell == null) return null;
-
-    switch (cell.getCellType()) {
-        case BOOLEAN:
-            return cell.getBooleanCellValue();
-        case STRING:
-            String cellValue = cell.getStringCellValue().toLowerCase();
-            if (cellValue.equals("true") || cellValue.equals("yes")) {
-                return true;
-            } else if (cellValue.equals("false") || cellValue.equals("no")) {
-                return false;
-            }
-            return null;
-        case NUMERIC:
-            return cell.getNumericCellValue() != 0;  // 0 = false, inne wartości = true
-        default:
-            return null;
-    }
-}
-        public void drukujfk() {
+    public void drukujfk() {
         try {
             podsumowanieAmazonOSSDAO.usunmiesiacrok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             List<PodsumowanieAmazonOSS> sumy = PdfAmazon.drukujDokAmazonfk(l.l(lista, listafilter, null), wpisView, 1);
@@ -218,12 +243,12 @@ private static Boolean getCellBooleanValue(Row row, Integer columnIndex) {
             }
             Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
         } catch (Exception e) {
-            
+
         }
     }
 
     public static void main(String[] args) {
-        try {            
+        try {
 //            List<KlientJPK> records = importFromExcel("d:/avtr.xlsx");
 //            records.forEach(System.out::println);
         } catch (Exception e) {
@@ -231,7 +256,7 @@ private static Boolean getCellBooleanValue(Row row, Integer columnIndex) {
         }
     }
 
-    private  String pobierznumerkontrahenta(String rodzajtransakcji, Row row, Map<String, Integer> columnIndices) {
+    private String pobierznumerkontrahenta(String rodzajtransakcji, Row row, Map<String, Integer> columnIndices) {
         if (rodzajtransakcji.equals("FC_TRANSFER")) {
             return getCellStringValue(row, columnIndices.get("SELLER_ARRIVAL_COUNTRY_VAT_NUMBER"));
         } else {
@@ -245,6 +270,24 @@ private static Boolean getCellBooleanValue(Row row, Integer columnIndex) {
             zwrot = getCellStringValue(row, columnIndices.get("SELLER_SKU"));
         }
         return zwrot;
+    }
+
+    private double pobierzkurs(String data, String waluta) {
+        String key = data + "-" + waluta;
+        if (kursMap.containsKey(key)) {
+            return kursMap.get(key);
+        } else {
+            double zwrot = 0.0;
+            DateTime dzienPoszukiwany = new DateTime(data);
+            // Tu się dodaje tabelę do dokumentu :)
+            Tabelanbp tabela = TabelaNBPBean.pobierzTabeleNBP(dzienPoszukiwany, tabelanbpDAO, waluta);
+            if (tabela!=null) {
+                zwrot = Z.z6(tabela.getKurssredniPrzelicznik());
+                // Dodaj kurs do mapy
+                kursMap.put(key, zwrot);
+            }
+            return zwrot;
+        }
     }
 
     public List<KlientJPK> getLista() {
@@ -262,8 +305,5 @@ private static Boolean getCellBooleanValue(Row row, Integer columnIndex) {
     public void setListafilter(List<KlientJPK> listafilter) {
         this.listafilter = listafilter;
     }
-    
-    
+
 }
-
-

@@ -324,6 +324,7 @@ public class testobjects {
        List n = new ArrayList();
        n.add("lp");
        n.add("data wystawienia");
+       n.add("rodzaj trans.");
        n.add("kontrahent");
        n.add("nip");
        n.add("nr własny");
