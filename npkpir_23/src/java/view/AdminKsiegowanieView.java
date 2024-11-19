@@ -453,123 +453,123 @@ public class AdminKsiegowanieView implements Serializable {
     }
 
     public int getSumTotalDay2() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay2).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay2).sum() : 0;
     }
 
     public int getSumTotalDay3() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay3).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay3).sum() : 0;
     }
 
     public int getSumTotalDay4() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay4).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay4).sum() : 0;
     }
 
     public int getSumTotalDay5() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay5).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay5).sum() : 0;
     }
 
     public int getSumTotalDay6() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay6).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay6).sum() : 0;
     }
 
     public int getSumTotalDay7() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay7).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay7).sum() : 0;
     }
 
     public int getSumTotalDay8() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay8).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay8).sum() : 0;
     }
 
     public int getSumTotalDay9() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay9).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay9).sum() : 0;
     }
 
     public int getSumTotalDay10() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay10).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay10).sum() : 0;
     }
 
     public int getSumTotalDay11() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay11).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay11).sum() : 0;
     }
 
     public int getSumTotalDay12() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay12).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay12).sum() : 0;
     }
 
     public int getSumTotalDay13() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay13).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay13).sum() : 0;
     }
 
     public int getSumTotalDay14() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay14).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay14).sum() : 0;
     }
 
     public int getSumTotalDay15() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay15).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay15).sum() : 0;
     }
 
     public int getSumTotalDay16() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay16).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay16).sum() : 0;
     }
 
     public int getSumTotalDay17() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay17).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay17).sum() : 0;
     }
 
     public int getSumTotalDay18() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay18).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay18).sum() : 0;
     }
 
     public int getSumTotalDay19() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay19).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay19).sum() : 0;
     }
 
     public int getSumTotalDay20() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay20).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay20).sum() : 0;
     }
 
     public int getSumTotalDay21() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay21).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay21).sum() : 0;
     }
 
     public int getSumTotalDay22() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay22).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay22).sum() : 0;
     }
 
     public int getSumTotalDay23() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay23).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay23).sum() : 0;
     }
 
     public int getSumTotalDay24() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay24).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay24).sum() : 0;
     }
 
     public int getSumTotalDay25() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay25).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay25).sum() : 0;
     }
 
     public int getSumTotalDay26() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay26).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay26).sum() : 0;
     }
 
     public int getSumTotalDay27() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay27).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay27).sum() : 0;
     }
 
     public int getSumTotalDay28() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay28).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay28).sum() : 0;
     }
 
     public int getSumTotalDay29() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay29).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay29).sum() : 0;
     }
 
     public int getSumTotalDay30() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay30).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay30).sum() : 0;
     }
 
     public int getSumTotalDay31() {
-        return summarizedRecords.stream().mapToInt(PodatnikRecord::getDay31).sum();
+        return summarizedRecords !=null ? summarizedRecords.stream().mapToInt(PodatnikRecord::getDay31).sum() : 0;
     }
 
     public List<PodatnikRecord> getSummarizedRecords() {
