@@ -109,6 +109,12 @@ public class KlientJPK implements Serializable {
     private int amazontax0additional1;
     @Column(name="opissprzedaz")
     private String opissprzedaz;
+    @Column(name="ilosc")
+    private double ilosc;
+    @Column(name="waga")
+    private double waga;
+    @Column(name="kodtowaru")
+    private Integer kodtowaru;
 
     public KlientJPK() {
         this.ewidencjaVAT = new ArrayList<>();
@@ -447,6 +453,32 @@ public class KlientJPK implements Serializable {
     public void setRodzajtransakcji(String rodzajtransakcji) {
         this.rodzajtransakcji = rodzajtransakcji;
     }
+
+    public double getIlosc() {
+        return ilosc;
+    }
+
+    public void setIlosc(double ilosc) {
+        this.ilosc = ilosc;
+    }
+
+    public double getWaga() {
+        return waga;
+    }
+
+    public void setWaga(double waga) {
+        this.waga = waga;
+    }
+
+    public Integer getKodtowaru() {
+        return kodtowaru;
+    }
+
+    public void setKodtowaru(Integer kodtowaru) {
+        this.kodtowaru = kodtowaru;
+    }
+
+    
     
     
 

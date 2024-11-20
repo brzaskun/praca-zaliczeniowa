@@ -37,28 +37,15 @@
                                   style="height: 100px;">
                     </p:fileUpload>
                 </p:panelGrid>
-                <p:outputLabel value="pobierz tylko dla OSS" style="margin-left: 20px;"/>
-                <!--                                <p:panelGrid layout="tabular" columns="2" style="margin-left: 30px;">
-                                                    <h:outputText value="wybierz rodzaj transakcji"/>
-                                                    <p:selectOneMenu value="#{importCSVView.wybortransakcji}">
-                                                        <f:selectItem itemValue="WSZYSTKIE" itemLabel="WSZYSTKIE"/>
-                                                        <f:selectItem itemValue="SALE" itemLabel="SALE"/>
-                                                        <f:selectItem itemValue="REFUND" itemLabel="REFUND"/>
-                                                        <f:selectItem itemValue="FC_TRANSFER" itemLabel="FC_TRANSFER"/>
-                                                        <p:ajax event="change" partialSubmit="true" global="false"/>
-                                                    </p:selectOneMenu>
-                </p:panelGrid>-->               <p:selectBooleanCheckbox value="#{importCSVView.tylkoOSS}" >
-                    <p:ajax event="change" partialSubmit="true" global="false"/>
-                </p:selectBooleanCheckbox>
             </p:panelGrid>
         </h:form>
         <h:form id="importtabelaavtrmod">
             <p:dataTable lazy="false"   var="wpisama" value="#{amazonAVTRmod.lista}" id="dokumentyLista" 
                          rowIndexVar="index" filteredValue="#{amazonAVTRmod.listafilter}"
                          style="width: 1690px; margin-top: 5px;overflow-x: scroll;overflow-y:scroll" rowKey="#{wpisama.id}" 
-                         paginator="true" paginatorAlwaysVisible="true" rows="12"
+                         paginator="true" paginatorAlwaysVisible="true" rows="11"
                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                         rowsPerPageTemplate="12,45,90,180,360"  
+                         rowsPerPageTemplate="11,45,90,180,360"  
                          widgetVar="dokTable1" sortBy="#{wpisama.dataSprzedazy}"
                          rowStyleClass="#{wpisama.dowodSprzedazy eq 'REFUND' ? 'korekta' : null}" 
                          emptyMessage="Nie pobrano jeszcze żadnych danych z pliku csv"
@@ -80,8 +67,9 @@
                     <h:outputText value="#{wpisama.serial}" />
                 </p:column>
 
-                <p:column headerText="rodzaj transakcji">
-                    <h:outputText value="#{wpisama.rodzajtransakcji}" />
+          
+                <p:column headerText="rodzaj trans." sortBy="#{wpisama.dataWystawienia}" filterBy="#{wpisama.dataWystawienia}" filterMatchMode="contains">
+                    <h:outputText value="#{wpisama.rodzajtransakcji}"/>
                 </p:column>
 
                 <p:column headerText="kod nad." filterBy="#{wpisama.kodKrajuNadania}" width="30" sortBy="#{wpisama.kodKrajuNadania}">
@@ -108,9 +96,6 @@
                     <h:outputText value="#{wpisama.dowodSprzedazy}" />
                 </p:column>
 
-                <p:column headerText="rodzaj trans." sortBy="#{wpisama.dataWystawienia}" filterBy="#{wpisama.dataWystawienia}" filterMatchMode="contains">
-                    <h:outputText value="#{wpisama.rodzajtransakcji}"/>
-                </p:column>
 
                 <p:column headerText="data sprzedazy">
                     <h:outputText value="#{wpisama.dataSprzedazy}">
@@ -172,9 +157,11 @@
                 </p:column>
             </p:dataTable> 
             <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
-            <p:commandButton  value="druk OSS"  style="margin-top: 10px; width: 120px;" actionListener="#{amazonAVTRmod.drukujfk()}"  rendered="#{amazonAVTRmod.lista.size() gt 0}"/>
-            <p:commandButton  value="zaksięguj do JPK" style="margin-top: 10px; width: 120px; margin-left: 20px;" actionListener="#{importCSVView.zaksiegujWDTjpk()}"  rendered="#{amazonAVTRmod.lista.size() gt 0}"/>
-            <p:commandButton  value="usun miesiąc" style="margin-top: 10px; width: 120px; margin-left: 20px;" actionListener="#{importCSVView.usunmiesiac()}"/>
+            <p:commandButton  value="druk OSS"  style="margin-top: 5px; width: 120px;" actionListener="#{amazonAVTRmod.drukujfk()}"  rendered="#{amazonAVTRmod.lista.size() gt 0}"/>
+            <p:commandButton  value="zaksięguj do JPK" style="margin-top: 5px; width: 120px; margin-left: 20px;" actionListener="#{amazonAVTRmod.zaksiegujWDTjpk()}"  rendered="#{amazonAVTRmod.lista.size() gt 0}"/>
+            <p:commandButton  value="usun miesiąc" style="margin-top: 5px; width: 120px; margin-left: 20px;" actionListener="#{amazonAVTRmod.usunmiesiac()}"/>
+            <p:commandButton value="zachowaj intrastat" style="margin-top: 5px; width: 120px; margin-left: 20px;"  update="importtabelaintrastat" actionListener="#{amazonAVTRmod.zaksiegujDaneIntrastat}"  rendered="#{amazonAVTRmod.listaintrastat.size() gt 0}"/>
+             <p:commandButton value="pobierz intrastat"  style="margin-top: 5px; width: 120px; margin-left: 20px;"  actionListener="#{amazonAVTRmod.generujIntrastat}" rendered="#{amazonAVTRmod.listaintrastat.size() gt 0}"/>
 
         </h:form>
 

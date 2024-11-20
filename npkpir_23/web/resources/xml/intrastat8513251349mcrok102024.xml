@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<IST Email="info@taxman.biz.pl" xmlns="http://www.mf.gov.pl/xsd/Intrastat/IST.xsd">
+    <Deklaracja NrWlasny="1D202410W1" UC="420000" Typ="W" Rodzaj="D" Rok="2024" Miesiac="10" Numer="1" Wersja="1" LacznaWartoscFaktur="29017" LacznaLiczbaPozycji="3552" Miejscowosc="Szczecin" Data="2024-11-20Z">
+        <PodmiotZobowiazany Nazwa="VINTIS sp. z o.o. sp.k." UlicaNumer=" Mariana Rapackiego 3" KodPocztowy="71-467" Miejscowosc="Szczecin" Nip="8513251349" Regon="38687808300000"/>
+        <Zglaszajacy Nazwa="VINTIS sp. z o.o. sp.k." UlicaNumer=" Mariana Rapackiego 3" KodPocztowy="71-467" Miejscowosc="Szczecin" Nip="8513251349" Regon="38687808300000"/>
+        <Wypelniajacy NazwiskoImie="Grzegorz Grzelczyk" Telefon="605586176" Email="info@taxman.biz.pl"/>
+    </Deklaracja>
+</IST>
