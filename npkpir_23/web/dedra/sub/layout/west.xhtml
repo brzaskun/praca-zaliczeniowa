@@ -12,12 +12,12 @@
                  <h:outputText value="#{mgs.rok}:" style="text-shadow: #6374AB 1px -1px 1px"/>
                  <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
                     <f:selectItems value="#{roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{eVatDedraView.aktualizujTabeleTabela}" update="form_dialog_ewvat_dedra"/>
+                    <p:ajax event="blur" listener="#{eVatDedraView.aktualizujTabeleTabela}" update="form_dialog_ewvat_dedra"/>
                 </p:selectOneMenu>
                  <h:outputText value="#{mgs.mcshort}:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
                     <f:selectItems value="#{mce.mceList}"/>
-                    <p:ajax event="change" listener="#{eVatDedraView.aktualizujTabeleTabela}" update="form_dialog_ewvat_dedra"/>
+                    <p:ajax event="blur" listener="#{eVatDedraView.aktualizujTabeleTabela}" update="form_dialog_ewvat_dedra"/>
                 </p:selectOneMenu>
             </p:panelGrid>
         </h:form>

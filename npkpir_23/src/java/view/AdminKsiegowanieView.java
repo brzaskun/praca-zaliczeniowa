@@ -30,8 +30,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -238,43 +240,49 @@ public class AdminKsiegowanieView implements Serializable {
 
     summarizedRecords = new ArrayList<>();
 
-    // Iterate over each ksiegowa in wykazksiegowych
-    for (Uz ksiegowa : listaksiegowychwybor) {
-        // Step 1: Filter documents for the current ksiegowa
-        List<Dok> dokumentyKsiegowej = listaDokTmp.stream()
-                .filter(dok -> dok.getWprowadzil().equals(ksiegowa.getLogin()))
-                .collect(Collectors.toList());
-        List<Dokfk> dokumentyFKKsiegowej = listaDokfkTmp.stream()
-                .filter(dokfk -> dokfk.getWprowadzil().equals(ksiegowa.getLogin()))
-                .collect(Collectors.toList());
-
-        // Step 2: Group documents by day
-        Map<Integer, List<Dok>> dokumentyByDay = dokumentyKsiegowej.stream()
+   // Iterate over each ksiegowa in wykazksiegowych
+for (Uz ksiegowa : listaksiegowychwybor) {
+    // Step 1: Filter documents for the current ksiegowa
+    List<Dok> dokumentyKsiegowej = Optional.ofNullable(listaDokTmp).orElse(Collections.emptyList()).stream()
+            .filter(dok -> dok.getWprowadzil().equals(ksiegowa.getLogin()))
+            .collect(Collectors.toList());
+    Map<Integer, List<Dok>> dokumentyByDay = new HashMap<>();
+    List<Dokfk> dokumentyFKKsiegowej = Optional.ofNullable(listaDokfkTmp).orElse(Collections.emptyList()).stream()
+            .filter(dokfk -> dokfk.getWprowadzil().equals(ksiegowa.getLogin()))
+            .collect(Collectors.toList());
+    Map<Integer, List<Dokfk>> dokumentyFKByDay = new HashMap<>();
+    // Step 2: Group documents by day
+    if (dokumentyKsiegowej!=null) {
+        dokumentyByDay = dokumentyKsiegowej.stream()
                 .collect(Collectors.groupingBy(dok -> {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(dok.getDataK());
                     return calendar.get(Calendar.DAY_OF_MONTH);
                 }));
-        Map<Integer, List<Dokfk>> dokumentyFKByDay = dokumentyFKKsiegowej.stream()
+    }
+    if (dokumentyFKKsiegowej!=null) {
+        dokumentyFKByDay = dokumentyFKKsiegowej.stream()
                 .collect(Collectors.groupingBy(dokfk -> {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(dokfk.getDataujecia());
                     return calendar.get(Calendar.DAY_OF_MONTH);
                 }));
-
-        // Step 3: Create a PodatnikRecord for the ksiegowa and populate day fields
-        PodatnikRecord recorda = new PodatnikRecord();
-        recorda.setKsiegowa(ksiegowa);  // Set the ksiegowa for this record
-
-        for (int day = 1; day <= 31; day++) {
-            int totalDocs = dokumentyByDay.getOrDefault(day, Collections.emptyList()).size();
-            int totalDocsFk = dokumentyFKByDay.getOrDefault(day, Collections.emptyList()).size();
-
-            // Use DayUpdater or equivalent method to populate each day's total in the record
-            DayUpdater.incrementDay(recorda, day, totalDocs + totalDocsFk);
-        }
-        summarizedRecords.add(recorda);
     }
+
+    // Step 3: Create a PodatnikRecord for the ksiegowa and populate day fields
+    PodatnikRecord recorda = new PodatnikRecord();
+    recorda.setKsiegowa(ksiegowa);  // Set the ksiegowa for this record
+
+    for (int day = 1; day <= 31; day++) {
+        int totalDocs = dokumentyByDay.getOrDefault(day, Collections.emptyList()).size();
+        int totalDocsFk = dokumentyFKByDay.getOrDefault(day, Collections.emptyList()).size();
+
+        // Use DayUpdater or equivalent method to populate each day's total in the record
+        DayUpdater.incrementDay(recorda, day, totalDocs + totalDocsFk);
+    }
+    summarizedRecords.add(recorda);
+}
+
     Msg.msg("Pobrano dane sumaryczne dla wszystkich księgowych.");
 }
 
