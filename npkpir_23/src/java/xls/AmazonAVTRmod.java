@@ -126,6 +126,7 @@ public class AmazonAVTRmod implements Serializable {
                     // Mapping columns by names to KlientJPK fields
                     klientJPK.setSerial(getCellStringValue(row, columnIndices.get("TRANSACTION_EVENT_ID")));
                     //System.out.println(klientJPK.getSerial());
+                    klientJPK.setPodatnik(wpisView.getPodatnikObiekt());
                     klientJPK.setRodzajtransakcji(getCellStringValue(row, columnIndices.get("TRANSACTION_TYPE")));
                     klientJPK.setKodKrajuNadania(getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY")));
                     klientJPK.setKodKrajuDoreczenia(getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY")));
@@ -150,7 +151,7 @@ public class AmazonAVTRmod implements Serializable {
                     //klientJPK.setKurs(getCellDoubleValue(row, columnIndices.get("VAT_INV_EXCHANGE_RATE")));
                     klientJPK.setRok(data.Data.getRok(klientJPK.getDataSprzedazy()));
                     klientJPK.setMc(data.Data.getMc(klientJPK.getDataSprzedazy()));
-                    klientJPK.setAmazontax0additional1(1);
+                    klientJPK.setAmazontax0additional1(0);
                     // Setting eksport and importt fields based on DEPARTURE_COUNTRY and ARRIVAL_COUNTRY
                     String departureCountry = getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY"));
                     String arrivalCountry = getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY"));
@@ -181,6 +182,25 @@ public class AmazonAVTRmod implements Serializable {
         }
 
     }
+    
+     public void zaksiegujWDTjpk() {
+        klientJPKDAO.deleteByPodRokMcAmazon(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(),0);
+        List<KlientJPK> selekcjafctransfer = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")).collect(Collectors.toList());
+        int duplikaty = 0;
+        if (selekcjafctransfer==null || selekcjafctransfer.isEmpty()) {
+            Msg.msg("e","W danym okresie nie ma transakcji FC_TRNASFER");
+        } else {
+            if (!selekcjafctransfer.isEmpty()) {
+                klientJPKDAO.createList(selekcjafctransfer);
+                Msg.msg("Zaksięgowano dokumenty dla JPK");
+            }
+        }
+    }
+    
+     public void usunmiesiac() {
+         klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+         Msg.msg("Usunięto dokumenty dla JPK z miesiąca");
+     }
 
     private static String getCellStringValue(Row row, Integer columnIndex) {
         if (columnIndex == null) {
@@ -348,7 +368,7 @@ public class AmazonAVTRmod implements Serializable {
     public void zaksiegujDaneIntrastat() {
         try {
             intrastatwierszDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            intrastatwierszDAO.createList(lista);
+            intrastatwierszDAO.createList(listaintrastat);
             Msg.msg("Zachowano wiersze");
         } catch (Exception e) {
         }
@@ -537,24 +557,7 @@ public class AmazonAVTRmod implements Serializable {
         }
     }
     
-    public void zaksiegujWDTjpk() {
-        klientJPKDAO.deleteByPodRokMcAmazon(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(),1);
-        List<KlientJPK> selekcjafctransfer = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")).collect(Collectors.toList());
-        int duplikaty = 0;
-        if (selekcjafctransfer==null || selekcjafctransfer.isEmpty()) {
-            Msg.msg("e","W danym okresie nie ma transakcji FC_TRNASFER");
-        } else {
-            if (!selekcjafctransfer.isEmpty()) {
-                klientJPKDAO.createList(selekcjafctransfer);
-                Msg.msg("Zaksięgowano dokumenty dla JPK");
-            }
-        }
-    }
-    
-     public void usunmiesiac() {
-         klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-         Msg.msg("Usunięto dokumenty dla JPK z miesiąca");
-     }
+   
 
     public List<KlientJPK> getLista() {
         return lista;

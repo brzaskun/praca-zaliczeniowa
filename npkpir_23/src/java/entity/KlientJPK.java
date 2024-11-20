@@ -226,10 +226,7 @@ public class KlientJPK implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
+  
     public String getSerial() {
         return serial;
     }
