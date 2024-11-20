@@ -160,8 +160,8 @@
             <p:commandButton  value="druk OSS"  style="margin-top: 5px; width: 120px;" actionListener="#{amazonAVTRmod.drukujfk()}"  rendered="#{amazonAVTRmod.lista.size() gt 0}"/>
             <p:commandButton  value="zaksięguj do JPK" style="margin-top: 5px; width: 120px; margin-left: 20px;" actionListener="#{amazonAVTRmod.zaksiegujWDTjpk()}"  rendered="#{amazonAVTRmod.lista.size() gt 0}"/>
             <p:commandButton  value="usun miesiąc" style="margin-top: 5px; width: 120px; margin-left: 20px;" actionListener="#{amazonAVTRmod.usunmiesiac()}"/>
-            <p:commandButton value="zachowaj intrastat" style="margin-top: 5px; width: 120px; margin-left: 20px;"  update="importtabelaintrastat" actionListener="#{amazonAVTRmod.zaksiegujDaneIntrastat}"  rendered="#{amazonAVTRmod.listaintrastat.size() gt 0}"/>
-             <p:commandButton value="pobierz intrastat"  style="margin-top: 5px; width: 120px; margin-left: 20px;"  actionListener="#{amazonAVTRmod.generujIntrastat}" rendered="#{amazonAVTRmod.listaintrastat.size() gt 0}"/>
+            <p:commandButton value="zachowaj intrastat" style="margin-top: 5px; width: 120px; margin-left: 20px;"  update="importtabelaintrastat" actionListener="#{amazonAVTRmod.zaksiegujDaneIntrastat()}"  rendered="#{amazonAVTRmod.listaintrastat.size() gt 0}"/>
+             <p:commandButton value="pobierz intrastat"  style="margin-top: 5px; width: 120px; margin-left: 20px;"  actionListener="#{amazonAVTRmod.generujIntrastat()}" rendered="#{amazonAVTRmod.listaintrastat.size() gt 0}"/>
 
         </h:form>
 

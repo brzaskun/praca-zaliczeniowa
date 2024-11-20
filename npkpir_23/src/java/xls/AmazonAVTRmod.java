@@ -323,6 +323,7 @@ public class AmazonAVTRmod implements Serializable {
     
     private void importujdaneintrastat() {
         if (lista!=null) {
+            listaintrastat = new ArrayList<>();
             Iterator<KlientJPK> rowIterator = lista.iterator();
             while (rowIterator.hasNext()) {
                 KlientJPK row = rowIterator.next();
