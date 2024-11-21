@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -156,8 +157,13 @@ public class AmazonAVTRmod implements Serializable {
                     String departureCountry = getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY"));
                     String arrivalCountry = getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY"));
                     if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==true && (departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
-                        klientJPK.setStawkavat(0.0);
-                        klientJPK.setVat(0);
+                        if ("PL".equals(departureCountry) && !"PL".equals(arrivalCountry)) {
+                            klientJPK.setStawkavat(0.0);
+                            klientJPK.setVat(0);
+                            klientJPK.setWdt(true);
+                    } else {
+                        klientJPK.setWnt(true);
+                    }
                     }
                     if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && (departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
                         klientJPK.setWdt("PL".equals(departureCountry) && !"PL".equals(arrivalCountry));
@@ -226,7 +232,10 @@ public class AmazonAVTRmod implements Serializable {
             case STRING:
                 return cell.getStringCellValue();
             case NUMERIC:
-                return String.valueOf(cell.getNumericCellValue());  // Konwersja liczb na String
+                  // Konwersja dużej liczby na String bez notacji naukowej
+                DecimalFormat decimalFormat = new DecimalFormat("#");
+                decimalFormat.setMaximumFractionDigits(0);
+                return decimalFormat.format(cell.getNumericCellValue());
             case BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());  // Konwersja boolean na String
             case FORMULA:
