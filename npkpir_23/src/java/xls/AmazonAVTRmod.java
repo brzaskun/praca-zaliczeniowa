@@ -155,11 +155,12 @@ public class AmazonAVTRmod implements Serializable {
                     // Setting eksport and importt fields based on DEPARTURE_COUNTRY and ARRIVAL_COUNTRY
                     String departureCountry = getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY"));
                     String arrivalCountry = getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY"));
-                    if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0) {
+                    if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && (departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
                         klientJPK.setWdt("PL".equals(departureCountry) && !"PL".equals(arrivalCountry));
                         klientJPK.setWnt(!"PL".equals(departureCountry) && "PL".equals(arrivalCountry));
-                        klientJPK.setEksport("PL".equals(departureCountry) && "GB".equals(arrivalCountry));
-                        klientJPK.setImportt("GB".equals(departureCountry) && "PL".equals(arrivalCountry));
+                    } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0 && klientJPK.getNrKontrahenta()!=null) {
+                        klientJPK.setEksport(true);
+                        
                     }
                     if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0) {
                         klientJPK.setEksport("GB".equals(departureCountry) && "GB".equals(arrivalCountry));
