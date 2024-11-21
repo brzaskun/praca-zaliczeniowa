@@ -155,9 +155,14 @@ public class AmazonAVTRmod implements Serializable {
                     // Setting eksport and importt fields based on DEPARTURE_COUNTRY and ARRIVAL_COUNTRY
                     String departureCountry = getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY"));
                     String arrivalCountry = getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY"));
-                    if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false) {
+                    if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0) {
                         klientJPK.setWdt("PL".equals(departureCountry) && !"PL".equals(arrivalCountry));
                         klientJPK.setWnt(!"PL".equals(departureCountry) && "PL".equals(arrivalCountry));
+                        klientJPK.setEksport("PL".equals(departureCountry) && "GB".equals(arrivalCountry));
+                        klientJPK.setImportt("GB".equals(departureCountry) && "PL".equals(arrivalCountry));
+                    }
+                    if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0) {
+                        klientJPK.setEksport("GB".equals(departureCountry) && "GB".equals(arrivalCountry));
                     }
                     klientJPK.setOpissprzedaz(getCellStringValue(row, columnIndices.get("ITEM_DESCRIPTION")));
                     //dane do intrastat
@@ -527,7 +532,7 @@ public class AmazonAVTRmod implements Serializable {
         if (rodzajtransakcji.equals("FC_TRANSFER")) {
             return getCellStringValue(row, columnIndices.get("SELLER_ARRIVAL_COUNTRY_VAT_NUMBER"));
         } else {
-            return getCellStringValue(row, columnIndices.get("TRANSACTION_SELLER_VAT_NUMBER"));
+            return getCellStringValue(row, columnIndices.get("BUYER_VAT_NUMBER"));
         }
     }
 

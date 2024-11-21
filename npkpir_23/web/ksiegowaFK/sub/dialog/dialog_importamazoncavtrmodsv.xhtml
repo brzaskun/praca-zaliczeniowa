@@ -137,13 +137,13 @@
                 <p:column headerText="waluta" filterBy="#{wpisama.waluta}" >
                     <h:outputText value="#{wpisama.waluta}" />
                 </p:column>
-
-                <p:column headerText="eksport">
-                    <h:outputText value="#{wpisama.eksport}" />
+                <p:column headerText="wdt/wnt" style="text-align: center;">
+                    <h:outputText value="wdt" rendered="#{wpisama.wdt}" />
+                    <h:outputText value="wnt" rendered="#{wpisama.wnt}" />
                 </p:column>
-
-                <p:column headerText="import">
-                    <h:outputText value="#{wpisama.importt}" />
+                <p:column headerText="exp./imp." style="text-align: center;">
+                    <h:outputText value="exp." rendered="#{wpisama.eksport}" />
+                    <h:outputText value="imp." rendered="#{wpisama.importt}" />
                 </p:column>
 
 <!--                <p:column headerText="opis sprzedaz">
