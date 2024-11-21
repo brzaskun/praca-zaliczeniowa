@@ -166,7 +166,7 @@
                     <p:dataTable lazy="false"  id="dataList" value="#{dokfkView.biezacetransakcje}" var="iteracja" rowIndexVar="row"  
                                  emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" 
                                  styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
-
+                                 tabindex="1"
                                   sortBy="#{iteracja.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"
                                  style="width: 1150px; height: 445px; overflow-y: scroll"
                                  >
@@ -244,7 +244,7 @@
                 <p:outputPanel style="margin-top: 20px;">
                     <h:outputText  value="Rozliczono ponad kwotę płatności. Nie można zapisać rozliczeń" style="color: red;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.getPozostalo() lt 0.0}"/>
                     <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="#{dokfkView.zapistransakcji}" 
-                                     type="submit"
+                                     type="submit" tabindex="2"
                                      oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();" 
                                      update=":rozrachunki formwpisdokument:panelwalutowy" style="margin-left: 10px; width: 150px;" 
                                      rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
