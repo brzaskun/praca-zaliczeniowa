@@ -161,8 +161,7 @@ public class AmazonAVTRmod implements Serializable {
                     } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0 && klientJPK.getNrKontrahenta()!=null) {
                         klientJPK.setEksport(true);
                         
-                    }
-                    if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0) {
+                    } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0) {
                         klientJPK.setEksport("GB".equals(departureCountry) && "GB".equals(arrivalCountry));
                     }
                     klientJPK.setOpissprzedaz(getCellStringValue(row, columnIndices.get("ITEM_DESCRIPTION")));
