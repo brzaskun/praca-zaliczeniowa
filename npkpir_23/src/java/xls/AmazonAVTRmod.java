@@ -142,12 +142,20 @@ public class AmazonAVTRmod implements Serializable {
                     klientJPK.setKurs(kurs);
                     double netto = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL"));
                     double nettopln = Z.z(netto*kurs);
+                    double nettoszippimng = getCellDoubleValue(row, columnIndices.get("SHIP_CHARGE_AMT_VAT_EXCL"));
+                    double nettoplnszipping = Z.z(netto*nettoszippimng);
+                    double nettoszippimngpromo = getCellDoubleValue(row, columnIndices.get("PROMO_SHIP_CHARGE_AMT_VAT_EXCL"));
+                    double nettoplnszippingpromo = Z.z(nettoszippimngpromo*kurs);
                     double vat = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_VAT_AMT"));
                     double vatpln = Z.z(vat*kurs);
-                    klientJPK.setNetto(nettopln);
-                    klientJPK.setVat(vatpln);
-                    klientJPK.setNettowaluta(getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
-                    klientJPK.setVatwaluta(getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_VAT_AMT")));
+                    double vatszipping = getCellDoubleValue(row, columnIndices.get("SHIP_CHARGE_VAT_AMT"));
+                    double vatplnszipping = Z.z(vatszipping*kurs);
+                    double vatszippingpromo = getCellDoubleValue(row, columnIndices.get("PROMO_SHIP_CHARGE_VAT_AMT"));
+                    double vatplnszippingpromo = Z.z(vatszippingpromo*kurs);
+                    klientJPK.setNetto(Z.z(nettopln+nettoplnszipping+nettoszippimngpromo));
+                    klientJPK.setVat(Z.z(vatpln+vatplnszipping+vatplnszippingpromo));
+                    klientJPK.setNettowaluta(Z.z(netto+nettoszippimng+nettoszippimngpromo));
+                    klientJPK.setVatwaluta(Z.z(vat+vatszipping+vatplnszippingpromo));
                     klientJPK.setStawkavat(getCellDoubleValue(row, columnIndices.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT")));
                     //klientJPK.setKurs(getCellDoubleValue(row, columnIndices.get("VAT_INV_EXCHANGE_RATE")));
                     klientJPK.setRok(data.Data.getRok(klientJPK.getDataSprzedazy()));
@@ -174,7 +182,7 @@ public class AmazonAVTRmod implements Serializable {
                         klientJPK.setEksport(true);
                         
                     } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0) {
-                        klientJPK.setEksport("GB".equals(departureCountry) && "GB".equals(arrivalCountry));
+                        klientJPK.setEksport("GB".equals(arrivalCountry));
                     }
                     klientJPK.setOpissprzedaz(getCellStringValue(row, columnIndices.get("ITEM_DESCRIPTION")));
                     //dane do intrastat

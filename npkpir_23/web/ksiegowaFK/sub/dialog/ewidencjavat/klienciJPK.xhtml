@@ -27,6 +27,9 @@
                 <p:column headerText="data sprzedaży" filterBy="#{itemikjpk.dataSprzedazy}">
                     <h:outputText value="#{itemikjpk.dataSprzedazy}"/>
                 </p:column>
+                <p:column headerText="sym"  style="text-align: center;" width="80">
+                    <h:outputText value="#{itemikjpk.serial}"/>
+                </p:column>
                 <p:column headerText="nazwa" width="350" sortBy="#{itemikjpk.nazwaKontrahenta}" filterBy="#{itemikjpk.nazwaKontrahenta}" filterMatchMode="contains">
                     <p:inplace editor="true" >
                         <p:inputText value="#{itemikjpk.nazwaKontrahenta}"/>
@@ -36,10 +39,10 @@
                 <p:column headerText="nr kontr" sortBy="#{itemikjpk.nrKontrahenta}" filterBy="#{itemikjpk.nrKontrahenta}" filterMatchMode="contains">
                     <h:outputText value="#{itemikjpk.nrKontrahenta}"/>
                 </p:column>
-                <p:column headerText="wartość netto"  sortBy="#{itemikjpk.netto}">
+                <p:column headerText="wartość netto"  sortBy="#{itemikjpk.netto}" filterBy="#{itemikjpk.vat}">
                     <bcf:outputpl value="#{itemikjpk.netto}"/>
                 </p:column>
-                <p:column headerText="wartość vat" >
+                <p:column headerText="wartość vat" sortBy="#{itemikjpk.vat}" filterBy="#{itemikjpk.vat}">
                     <bcf:outputpl value="#{itemikjpk.vat}"/>
                 </p:column>
                 <p:column headerText="WDT" style="text-align: center;" width="30">
@@ -51,9 +54,9 @@
                 <p:column headerText="TaxRep"  style="text-align: center;" width="30">
                     <h:outputText value="&#x2713;" rendered="#{itemikjpk.amazontax0additional1 eq 0}" style="color: green;font-weight: bold"/>
                 </p:column>
-                <p:column headerText="sym"  style="text-align: center;" width="30">
+<!--                <p:column headerText="sym"  style="text-align: center;" width="30">
                     <h:outputText value="#{itemikjpk.opissprzedaz}"/>
-                </p:column>
+                </p:column>-->
                 <p:column headerText="Additional"  style="text-align: center;" width="30">
                     <h:outputText value="&#x2713;" rendered="#{itemikjpk.amazontax0additional1 eq 1}" style="color: green;font-weight: bold"/>
                 </p:column>
