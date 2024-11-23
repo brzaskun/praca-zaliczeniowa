@@ -68,7 +68,7 @@ public class PdfAmazon extends Pdf implements Serializable {
             kategorie.put("fctransfer", new ArrayList<>());
             kategorie.put("wdt", new ArrayList<>());
             kategorie.put("export", new ArrayList<>());
-
+            List<KlientJPK> listatabele = new ArrayList<>();
             for (KlientJPK klient : lista) {
                 if (!klient.isWdt() && !klient.isEksport() && !"FC_TRANSFER".equals(klient.getRodzajtransakcji())) {
                     kategorie.get("sprzedaz").add(klient);
@@ -78,6 +78,8 @@ public class PdfAmazon extends Pdf implements Serializable {
                     kategorie.get("wdt").add(klient);
                 } else if (klient.isEksport()) {
                     kategorie.get("export").add(klient);
+                } else {
+                    System.out.println("");
                 }
             }
             System.out.println("sprzedaz oss "+kategorie.get("sprzedaz").size());
@@ -88,10 +90,11 @@ public class PdfAmazon extends Pdf implements Serializable {
                     if (!sprzedazwaluty.isEmpty()) {
                         dodajtabelekrajfk(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorcza, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                         for (KlientJPK klient : sprzedazwaluty) {
-                            netto += klient.getNettowaluta();
-                            vat += klient.getVatwaluta();
+                            netto = Z.z(netto+klient.getNettowaluta());
+                            vat = Z.z(vat+klient.getVatwaluta());
                         }
                         ilosc = ilosc+sprzedazwaluty.size();
+                        listatabele.addAll(sprzedazwaluty);
                     }
                     
                 }
@@ -108,10 +111,11 @@ public class PdfAmazon extends Pdf implements Serializable {
                         if (!sprzedazwaluty.isEmpty()) {
                             dodajtabelefctransfer(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorczafctransfer, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                              for (KlientJPK klient : sprzedazwaluty) {
-                                netto += klient.getNettowaluta();
-                                vat += klient.getVatwaluta();
+                                netto = Z.z(netto+klient.getNettowaluta());
+                                vat = Z.z(vat+klient.getVatwaluta());
                             }
                              ilosc = ilosc+sprzedazwaluty.size();
+                             listatabele.addAll(sprzedazwaluty);
                         }
                     }
                 }
@@ -128,10 +132,11 @@ public class PdfAmazon extends Pdf implements Serializable {
                         if (!sprzedazwaluty.isEmpty()) {
                             dodajtabeleWDTfk(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorczawdt);
                              for (KlientJPK klient : sprzedazwaluty) {
-                                netto += klient.getNettowaluta();
-                                vat += klient.getVatwaluta();
+                               netto = Z.z(netto+klient.getNettowaluta());
+                                vat = Z.z(vat+klient.getVatwaluta());
                             }
                              ilosc = ilosc+sprzedazwaluty.size();
+                             listatabele.addAll(sprzedazwaluty);
                         }
                     }
                 }
@@ -148,15 +153,26 @@ public class PdfAmazon extends Pdf implements Serializable {
                         if (!sprzedazwaluty.isEmpty()) {
                             dodajtabeleExportfk(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorczaexport);
                              for (KlientJPK klient : sprzedazwaluty) {
-                                netto += klient.getNettowaluta();
-                                vat += klient.getVatwaluta();
+                                netto = Z.z(netto+klient.getNettowaluta());
+                                vat = Z.z(vat+klient.getVatwaluta());
                             }
                              ilosc = ilosc+sprzedazwaluty.size();
+                             listatabele.addAll(sprzedazwaluty);
                         }
                     }
                 }
                 sumujtabelazbiorcza(tabelazbiorczaexport);
             }
+            List<KlientJPK> roznicowa = lista.stream()
+            .filter(klient -> !listatabele.contains(klient))
+            .collect(Collectors.toList());
+            double netto1 =0.0;
+            double vat1 =0.0;
+            for (KlientJPK klient : listatabele) {
+                    netto1 = Z.z(netto+klient.getNettowaluta());
+                    vat1 = Z.z(vat+klient.getVatwaluta());
+            }
+            
             document.newPage();
             PdfMain.dodajLinieOpisu(document, "SUMY SPRZEDAŻY DETALICZNEJ");
             String[] nag1 = new String[]{"lp","kraj","waluta","netto","vat","netto pln","vat pln", "stawka vat", "kurs"};

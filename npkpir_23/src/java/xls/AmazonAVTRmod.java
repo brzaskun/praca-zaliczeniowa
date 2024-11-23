@@ -128,75 +128,73 @@ public class AmazonAVTRmod implements Serializable {
                     //System.out.println(klientJPK.getSerial());
                     klientJPK.setPodatnik(wpisView.getPodatnikObiekt());
                     klientJPK.setRodzajtransakcji(getCellStringValue(row, columnIndices.get("TRANSACTION_TYPE")));
-                    klientJPK.setKodKrajuNadania(getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY")));
-                    klientJPK.setKodKrajuDoreczenia(getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY")));
-                    klientJPK.setJurysdykcja(getCellStringValue(row, columnIndices.get("TAXABLE_JURISDICTION")));
-                    klientJPK.setNrKontrahenta(pobierznumerkontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices));
-                    klientJPK.setNazwaKontrahenta(pobierznazwekontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices));
-                    klientJPK.setDowodSprzedazy(getCellStringValue(row, columnIndices.get("TRANSACTION_EVENT_ID")));
-                    klientJPK.setDataWystawienia(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TAX_CALCULATION_DATE"))));
-                    klientJPK.setDataSprzedazy(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TRANSACTION_COMPLETE_DATE"))));
-                    klientJPK.setWaluta(getCellStringValue(row, columnIndices.get("TRANSACTION_CURRENCY_CODE")));
-                    double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), klientJPK.getWaluta());
-                    klientJPK.setKurs(kurs);
-                    double netto = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL"));
-                    razemnetto = razemnetto+netto;
-                    double nettopln = Z.z(netto*kurs);
-                    double nettoszippimng = getCellDoubleValue(row, columnIndices.get("SHIP_CHARGE_AMT_VAT_EXCL"));
-                    double nettoplnszipping = Z.z(netto*nettoszippimng);
-                    double nettoszippimngpromo = getCellDoubleValue(row, columnIndices.get("PROMO_SHIP_CHARGE_AMT_VAT_EXCL"));
-                    double nettoplnszippingpromo = Z.z(nettoszippimngpromo*kurs);
-                    double vat = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_VAT_AMT"));
-                    razemvat = razemvat+vat;
-                    double vatpln = Z.z(vat*kurs);
-                    double vatszipping = getCellDoubleValue(row, columnIndices.get("SHIP_CHARGE_VAT_AMT"));
-                    double vatplnszipping = Z.z(vatszipping*kurs);
-                    double vatszippingpromo = getCellDoubleValue(row, columnIndices.get("PROMO_SHIP_CHARGE_VAT_AMT"));
-                    double vatplnszippingpromo = Z.z(vatszippingpromo*kurs);
-                    klientJPK.setNetto(Z.z(nettopln+nettoplnszipping+nettoszippimngpromo));
-                    klientJPK.setVat(Z.z(vatpln+vatplnszipping+vatplnszippingpromo));
-                    klientJPK.setNettowaluta(Z.z(netto+nettoszippimng+nettoszippimngpromo));
-                    klientJPK.setVatwaluta(Z.z(vat+vatszipping+vatplnszippingpromo));
-                    klientJPK.setStawkavat(getCellDoubleValue(row, columnIndices.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT")));
-                    //klientJPK.setKurs(getCellDoubleValue(row, columnIndices.get("VAT_INV_EXCHANGE_RATE")));
-                    klientJPK.setRok(data.Data.getRok(klientJPK.getDataSprzedazy()));
-                    klientJPK.setMc(data.Data.getMc(klientJPK.getDataSprzedazy()));
-                    klientJPK.setAmazontax0additional1(0);
-                    // Setting eksport and importt fields based on DEPARTURE_COUNTRY and ARRIVAL_COUNTRY
-                    String departureCountry = getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY"));
-                    String arrivalCountry = getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY"));
-                    if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==true && (departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
-                        if ("PL".equals(departureCountry) && !"PL".equals(arrivalCountry)) {
+                    if (klientJPK.getRodzajtransakcji().equals("DONATION")==false) {
+                        klientJPK.setKodKrajuNadania(getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY")));
+                        klientJPK.setKodKrajuDoreczenia(getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY")));
+                        klientJPK.setJurysdykcja(getCellStringValue(row, columnIndices.get("TAXABLE_JURISDICTION")));
+                        klientJPK.setNrKontrahenta(pobierznumerkontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices));
+                        klientJPK.setNazwaKontrahenta(pobierznazwekontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices));
+                        klientJPK.setDowodSprzedazy(getCellStringValue(row, columnIndices.get("TRANSACTION_EVENT_ID")));
+                        klientJPK.setDataWystawienia(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TAX_CALCULATION_DATE"))));
+                        klientJPK.setDataSprzedazy(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TRANSACTION_COMPLETE_DATE"))));
+                        klientJPK.setWaluta(getCellStringValue(row, columnIndices.get("TRANSACTION_CURRENCY_CODE")));
+                        double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), klientJPK.getWaluta());
+                        klientJPK.setKurs(kurs);
+                        double netto = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL"));
+                        double nettopln = Z.z(netto*kurs);
+                        double nettoszippimng = getCellDoubleValue(row, columnIndices.get("TOTAL_SHIP_CHARGE_AMT_VAT_EXCL"));
+                        double nettoplnszipping = Z.z(netto*nettoszippimng);
+                        double vat = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_VAT_AMT"));
+                        double vatpln = Z.z(vat*kurs);
+                        double vatszipping = getCellDoubleValue(row, columnIndices.get("TOTAL_SHIP_CHARGE_VAT_AMT"));
+                        double vatplnszipping = Z.z(vatszipping*kurs);
+                        klientJPK.setNetto(Z.z(nettopln+nettoplnszipping));
+                        klientJPK.setVat(Z.z(vatpln+vatplnszipping));
+                        klientJPK.setNettowaluta(Z.z(netto+nettoszippimng));
+                        razemnetto = Z.z(razemnetto+klientJPK.getNettowaluta());
+                        klientJPK.setVatwaluta(Z.z(vat+vatszipping));
+                        razemvat = Z.z(razemvat+klientJPK.getVatwaluta());
+                        klientJPK.setStawkavat(getCellDoubleValue(row, columnIndices.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT")));
+                        //klientJPK.setKurs(getCellDoubleValue(row, columnIndices.get("VAT_INV_EXCHANGE_RATE")));
+                        klientJPK.setRok(data.Data.getRok(klientJPK.getDataSprzedazy()));
+                        klientJPK.setMc(data.Data.getMc(klientJPK.getDataSprzedazy()));
+                        klientJPK.setAmazontax0additional1(0);
+                        // Setting eksport and importt fields based on DEPARTURE_COUNTRY and ARRIVAL_COUNTRY
+                        String departureCountry = getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY"));
+                        String arrivalCountry = getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY"));
+                        if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==true && (departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
+                            if ("PL".equals(departureCountry) && !"PL".equals(arrivalCountry)) {
+                                klientJPK.setStawkavat(0.0);
+                                klientJPK.setVat(0);
+                                klientJPK.setWdt(true);
+                        } else {
+                            klientJPK.setWnt(true);
+                        }
+                        }
+                        if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && departureCountry!=null&&arrivalCountry!=null&&(departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
+                            klientJPK.setWdt("PL".equals(departureCountry) && !"PL".equals(arrivalCountry));
+                            klientJPK.setWnt(!"PL".equals(departureCountry) && "PL".equals(arrivalCountry));
                             klientJPK.setStawkavat(0.0);
                             klientJPK.setVat(0);
-                            klientJPK.setWdt(true);
-                    } else {
-                        klientJPK.setWnt(true);
+                        } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0 && klientJPK.getNrKontrahenta()!=null) {
+                            klientJPK.setEksport(true);
+
+                        } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0) {
+                            klientJPK.setEksport("GB".equals(arrivalCountry));
+                        }
+                        klientJPK.setOpissprzedaz(getCellStringValue(row, columnIndices.get("ITEM_DESCRIPTION")));
+                        //dane do intrastat
+                        klientJPK.setIlosc(getCellDoubleValue(row, columnIndices.get("QTY")));
+                        klientJPK.setWaga(getCellDoubleValue(row, columnIndices.get("ITEM_WEIGHT")));
+                        Integer kodtowaru = getCellintegerValue(row, columnIndices.get("COMMODITY_CODE"));
+                        if (kodtowaru!=null) {
+                            klientJPK.setKodtowaru(kodtowaru);
+                        } else {
+                            klientJPK.setKodtowaru(99999999);
+                        }
+                        lista.add(klientJPK);
+                        importujdaneintrastat();
                     }
-                    }
-                    if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && departureCountry!=null&&arrivalCountry!=null&&(departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
-                        klientJPK.setWdt("PL".equals(departureCountry) && !"PL".equals(arrivalCountry));
-                        klientJPK.setWnt(!"PL".equals(departureCountry) && "PL".equals(arrivalCountry));
-                        klientJPK.setStawkavat(0.0);
-                        klientJPK.setVat(0);
-                    } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0 && klientJPK.getNrKontrahenta()!=null) {
-                        klientJPK.setEksport(true);
-                        
-                    } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0) {
-                        klientJPK.setEksport("GB".equals(arrivalCountry));
-                    }
-                    klientJPK.setOpissprzedaz(getCellStringValue(row, columnIndices.get("ITEM_DESCRIPTION")));
-                    //dane do intrastat
-                    klientJPK.setIlosc(getCellDoubleValue(row, columnIndices.get("QTY")));
-                    klientJPK.setWaga(getCellDoubleValue(row, columnIndices.get("ITEM_WEIGHT")));
-                    Integer kodtowaru = getCellintegerValue(row, columnIndices.get("COMMODITY_CODE"));
-                    if (kodtowaru!=null) {
-                        klientJPK.setKodtowaru(kodtowaru);
-                    } else {
-                        klientJPK.setKodtowaru(99999999);
-                    }
-                    lista.add(klientJPK);
-                    importujdaneintrastat();
                 } catch (Exception e) {
                     System.out.println("wiersz " + rowa);
                     System.out.println(E.e(e));

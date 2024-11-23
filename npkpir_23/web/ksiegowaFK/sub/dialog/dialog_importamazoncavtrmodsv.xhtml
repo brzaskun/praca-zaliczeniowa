@@ -52,11 +52,9 @@
             </p:panelGrid>
             <p:dataTable lazy="false"   var="wpisama" value="#{amazonAVTRmod.lista}" id="dokumentyLista" 
                          rowIndexVar="index" filteredValue="#{amazonAVTRmod.listafilter}"
-                         style="width: 1690px; margin-top: 5px;overflow-x: scroll;overflow-y:scroll" rowKey="#{wpisama.id}" 
-                         paginator="true" paginatorAlwaysVisible="true" rows="11"
-                         paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                         rowsPerPageTemplate="11,45,90,180,360"  
-                         widgetVar="dokTable1" sortBy="#{wpisama.dataSprzedazy}"
+                         style="width: 1690px; margin-top: 5px;overflow-x: scroll;max-height: 550px;overflow-y:scroll" rowKey="#{wpisama.serial}" 
+                         scrollRows="11" scrollable="true"
+    
                          rowStyleClass="#{wpisama.dowodSprzedazy eq 'REFUND' ? 'korekta' : null}" 
                          emptyMessage="Nie pobrano jeszcze żadnych danych z pliku csv"
                          styleClass="grid" 
@@ -113,18 +111,18 @@
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="netto">
+                <p:column headerText="netto" sortBy="#{wpisama.netto}">
                     <bcf:outputwal value="#{wpisama.netto}"/>
                 </p:column>
-                <p:column headerText="vat">
+                <p:column headerText="vat" sortBy="#{wpisama.vat}">
                     <bcf:outputwal value="#{wpisama.vat}"/>
                 </p:column>
 
-                <p:column headerText="netto waluta">
+                <p:column headerText="netto waluta" sortBy="#{wpisama.nettowaluta}">
                     <bcf:outputwal value="#{wpisama.nettowaluta}"/>
                 </p:column>
 
-                <p:column headerText="vat waluta">
+                <p:column headerText="vat waluta" sortBy="#{wpisama.vatwaluta}">
                     <bcf:outputpl value="#{wpisama.vatwaluta}"/>
                 </p:column>
 
