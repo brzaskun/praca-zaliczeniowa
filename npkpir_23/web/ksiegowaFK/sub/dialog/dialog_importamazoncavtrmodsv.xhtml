@@ -40,6 +40,16 @@
             </p:panelGrid>
         </h:form>
         <h:form id="importtabelaavtrmod">
+            <p:panelGrid layout="grid" columns="8">
+                <h:outputText value="netto"/>
+                <bcf:outputpl value="#{amazonAVTRmod.razemnetto}"/>
+                <h:outputText value="vat"/>
+                <bcf:outputpl value="#{amazonAVTRmod.razemvat}"/>
+                <h:outputText value="brutto"/>
+                <bcf:outputpl value="#{amazonAVTRmod.razembrutto}"/>
+                <h:outputText value="ilość"/>
+                <bcf:outputpl0 value="#{amazonAVTRmod.razemilosc}"/>
+            </p:panelGrid>
             <p:dataTable lazy="false"   var="wpisama" value="#{amazonAVTRmod.lista}" id="dokumentyLista" 
                          rowIndexVar="index" filteredValue="#{amazonAVTRmod.listafilter}"
                          style="width: 1690px; margin-top: 5px;overflow-x: scroll;overflow-y:scroll" rowKey="#{wpisama.id}" 

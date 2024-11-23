@@ -27,7 +27,6 @@ import entity.Evewidencja;
 import entity.Klienci;
 import entity.KlientJPK;
 import entity.Podatnik;
-import entity.PodsumowanieAmazonOSS;
 import entity.Rodzajedok;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
@@ -404,11 +403,8 @@ public class ImportCSVView  implements Serializable {
     public void drukujfk() {
         try {
             podsumowanieAmazonOSSDAO.usunmiesiacrok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            List<PodsumowanieAmazonOSS> sumy = PdfAmazon.drukujDokAmazonfk(l.l(listafk, listafkfilter, null), wpisView, 1);
-            if (!sumy.isEmpty()) {
-                podsumowanieAmazonOSSDAO.createList(sumy);
-                Msg.msg("Zaksięgowani sum zaimportowanych dokumentów");
-            }
+            PdfAmazon.drukujDokAmazonfk(l.l(listafk, listafkfilter, null), wpisView, 1);
+            Msg.msg("Zaksięgowani sum zaimportowanych dokumentów");
             Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
         } catch (Exception e) {
             

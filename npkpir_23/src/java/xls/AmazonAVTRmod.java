@@ -11,13 +11,11 @@ package xls;
 import beansFK.TabelaNBPBean;
 import dao.IntrastatwierszDAO;
 import dao.KlientJPKDAO;
-import dao.PodsumowanieAmazonOSSDAO;
 import dao.TabelanbpDAO;
 import data.Data;
 import embeddable.Mce;
 import entity.KlientJPK;
 import entity.Podatnik;
-import entity.PodsumowanieAmazonOSS;
 import entity.Uz;
 import entityfk.Intrastatwiersz;
 import entityfk.Tabelanbp;
@@ -67,8 +65,6 @@ public class AmazonAVTRmod implements Serializable {
     private List<KlientJPK> listafilter;
     private List<Intrastatwiersz> listaintrastat;
     @Inject
-    private PodsumowanieAmazonOSSDAO podsumowanieAmazonOSSDAO;
-    @Inject
     private TabelanbpDAO tabelanbpDAO;
     @Inject
     private KlientJPKDAO klientJPKDAO;
@@ -77,7 +73,8 @@ public class AmazonAVTRmod implements Serializable {
     private Map<String, Double> kursMap;
     @Inject
     private WpisView wpisView;
-
+    private double razemnetto;
+    private double razemvat;
     public void init() {
 
     }
@@ -105,6 +102,8 @@ public class AmazonAVTRmod implements Serializable {
         listafilter = new ArrayList<>();
         listaintrastat = new ArrayList<>();
         kursMap = new ConcurrentHashMap<>();
+        razemnetto = 0.0;
+        razemvat = 0.0;
         try (InputStream is = uploadedFile.getInputStream(); Workbook workbook = new XSSFWorkbook(is)) {
 
             Sheet sheet = workbook.getSheetAt(0);
@@ -141,13 +140,15 @@ public class AmazonAVTRmod implements Serializable {
                     double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), klientJPK.getWaluta());
                     klientJPK.setKurs(kurs);
                     double netto = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL"));
+                    razemnetto = razemnetto+netto;
                     double nettopln = Z.z(netto*kurs);
                     double vat = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_VAT_AMT"));
+                    razemvat = razemvat+vat;
                     double vatpln = Z.z(vat*kurs);
                     klientJPK.setNetto(nettopln);
                     klientJPK.setVat(vatpln);
-                    klientJPK.setNettowaluta(getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL")));
-                    klientJPK.setVatwaluta(getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_VAT_AMT")));
+                    klientJPK.setNettowaluta(netto);
+                    klientJPK.setVatwaluta(vat);
                     klientJPK.setStawkavat(getCellDoubleValue(row, columnIndices.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT")));
                     //klientJPK.setKurs(getCellDoubleValue(row, columnIndices.get("VAT_INV_EXCHANGE_RATE")));
                     klientJPK.setRok(data.Data.getRok(klientJPK.getDataSprzedazy()));
@@ -165,7 +166,7 @@ public class AmazonAVTRmod implements Serializable {
                         klientJPK.setWnt(true);
                     }
                     }
-                    if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && (departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
+                    if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && departureCountry!=null&&arrivalCountry!=null&&(departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
                         klientJPK.setWdt("PL".equals(departureCountry) && !"PL".equals(arrivalCountry));
                         klientJPK.setWnt(!"PL".equals(departureCountry) && "PL".equals(arrivalCountry));
                         klientJPK.setStawkavat(0.0);
@@ -195,8 +196,10 @@ public class AmazonAVTRmod implements Serializable {
                         break;
                     }
                 }
+                
             }
         }
+        System.out.println("");
 
     }
     
@@ -349,12 +352,8 @@ public class AmazonAVTRmod implements Serializable {
 
     public void drukujfk() {
         try {
-            podsumowanieAmazonOSSDAO.usunmiesiacrok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            List<PodsumowanieAmazonOSS> sumy = PdfAmazon.drukujDokAmazonfk(l.l(lista, listafilter, null), wpisView, 1);
-            if (!sumy.isEmpty()) {
-                podsumowanieAmazonOSSDAO.createList(sumy);
-                Msg.msg("Zaksięgowani sum zaimportowanych dokumentów");
-            }
+            PdfAmazon.drukujDokAmazonfk(l.l(lista, listafilter, null), wpisView, 1);
+            Msg.msg("Zaksięgowani sum zaimportowanych dokumentów");
             Msg.msg("Wydrukowano zestawienie zaimportowanych dokumentów");
         } catch (Exception e) {
 
@@ -602,7 +601,34 @@ public class AmazonAVTRmod implements Serializable {
     public void setListaintrastat(List<Intrastatwiersz> listaintrastat) {
         this.listaintrastat = listaintrastat;
     }
+
+    public double getRazemnetto() {
+        return razemnetto;
+    }
+
+    public void setRazemnetto(double razemnetto) {
+        this.razemnetto = razemnetto;
+    }
+
+    public double getRazemvat() {
+        return razemvat;
+    }
+
+    public void setRazemvat(double razemvat) {
+        this.razemvat = razemvat;
+    }
     
+    public double getRazembrutto() {
+        return Z.z(this.razemnetto+this.razemvat);
+    }
+    
+    public double getRazemilosc() {
+        double zwrot = 0.0;
+        if (lista!=null) {
+            zwrot = lista.size();
+        }
+        return zwrot;
+    }
     
 
 }

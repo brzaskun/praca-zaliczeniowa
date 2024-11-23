@@ -9,6 +9,7 @@ package pdf;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
+import embeddablefk.PodsumowanieDanychAVTR;
 import entity.Dok;
 import entity.KlientJPK;
 import entity.Podatnik;
@@ -400,7 +401,7 @@ public class PdfDok extends Pdf implements Serializable {
     
    
     
-    public static PodsumowanieAmazonOSS dodajsumyfk(List<KlientJPK> lista, Document document, String waluta, List tabelazbiorcza, Podatnik podatnik, String rok, String mc) {
+    public static PodsumowanieAmazonOSS dodajsumyfk(List<KlientJPK> lista, Document document, String waluta, List<PodsumowanieDanychAVTR> tabelazbiorcza, Podatnik podatnik, String rok, String mc) {
         double netto = 0.0;
         double vat = 0.0;
         double nettowaluta = 0.0;
@@ -433,8 +434,8 @@ public class PdfDok extends Pdf implements Serializable {
         PdfMain.dodajLinieOpisu(document, opis);
         double kurs = nettowaluta!=0.0 ? Z.z6(netto/nettowaluta):0.0;
         PodsumowanieAmazonOSS podsumowanie = new PodsumowanieAmazonOSS(jurys, waluta, nettowaluta, vatwaluta, netto, vat, vatstawka, kurs, podatnik, rok, mc);
-        Object[] a = new Object[]{jurys, waluta, nettowaluta, vatwaluta, netto, vat, vatstawka, kurs};
-        tabelazbiorcza.add(Arrays.asList(a));
+        PodsumowanieDanychAVTR a = new PodsumowanieDanychAVTR(1,jurys, waluta, nettowaluta, vatwaluta, netto, vat, vatstawka, kurs);
+        tabelazbiorcza.add(a);
         return podsumowanie;
     }
     

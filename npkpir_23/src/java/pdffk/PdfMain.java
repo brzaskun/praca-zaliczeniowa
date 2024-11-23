@@ -37,6 +37,7 @@ import embeddable.SchemaEwidencjaSuma;
 import embeddable.WierszRyczalt;
 import embeddablefk.ImportJPKSprzedaz;
 import embeddablefk.InterpaperXLS;
+import embeddablefk.PodsumowanieDanychAVTR;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Dok;
 import entity.Faktura;
@@ -1779,17 +1780,16 @@ public static PdfWriter inicjacjaWriteraOut(Document document, ByteArrayOutputSt
             }
             if (nazwaklasy.equals("tabelaklientjpkfk")) {
                 //Object[] a = new Object[]{kraj, waluta, nettowaluta, vatwaluta, bruttowal, nettopl, vatpl, bruttopln};
-                List pa =  (List) it.next();
-                Object[] p = pa.toArray();
+                PodsumowanieDanychAVTR p =  (PodsumowanieDanychAVTR) it.next();
                 table.addCell(ustawfrazeAlign(i++, "center", 7));
-                table.addCell(ustawfrazeAlign((String)p[0], "left", 7));
-                table.addCell(ustawfrazeAlign((String)p[1], "left", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[2])), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[3])), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[4])), "right", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[5])), "right", 8));
-                table.addCell(ustawfrazeAlign(formatpdf.F.procent((Double)p[6]), "right", 8));
-                table.addCell(ustawfrazeAlign(formatpdf.F.kurs6((Double)p[7]), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getJurysdykcja(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getWaluta(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNettoWaluta())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVatWaluta())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                table.addCell(ustawfrazeAlign(formatpdf.F.procent(p.getStawkaVat()), "right", 8));
+                table.addCell(ustawfrazeAlign(formatpdf.F.kurs6(p.getKurs()), "right", 8));
             }
             if (nazwaklasy.equals("embeddablefk.ImportJPKSprzedaz")) {
                 ImportJPKSprzedaz p =  (ImportJPKSprzedaz) it.next();
