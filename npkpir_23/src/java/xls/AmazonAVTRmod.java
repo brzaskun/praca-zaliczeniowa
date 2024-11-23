@@ -212,13 +212,21 @@ public class AmazonAVTRmod implements Serializable {
      public void zaksiegujWDTjpk() {
         klientJPKDAO.deleteByPodRokMcAmazon(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(),0);
         List<KlientJPK> selekcjafctransfer = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")).collect(Collectors.toList());
-        int duplikaty = 0;
         if (selekcjafctransfer==null || selekcjafctransfer.isEmpty()) {
             Msg.msg("e","W danym okresie nie ma transakcji FC_TRNASFER");
         } else {
             if (!selekcjafctransfer.isEmpty()) {
                 klientJPKDAO.createList(selekcjafctransfer);
-                Msg.msg("Zaksięgowano dokumenty dla JPK");
+                Msg.msg("Zaksięgowano dokumenty FC_TRANSFER dla JPK");
+            }
+        }
+        List<KlientJPK> selekcjawdt = lista.stream().filter(item->item.isWdt()&&item.getJurysdykcja()!=null&&item.getJurysdykcja().equals("POLAND")).collect(Collectors.toList());
+        if (selekcjawdt==null || selekcjawdt.isEmpty()) {
+            Msg.msg("e","W danym okresie nie ma transakcji WDT");
+        } else {
+            if (!selekcjawdt.isEmpty()) {
+                klientJPKDAO.createList(selekcjawdt);
+                Msg.msg("Zaksięgowano dokumenty WDT dla JPK");
             }
         }
     }
