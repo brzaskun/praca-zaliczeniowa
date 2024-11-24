@@ -21,6 +21,7 @@ import entityfk.Intrastatwiersz;
 import entityfk.Tabelanbp;
 import error.E;
 import f.l;
+import pl.gov.mf.xsd.intrastat.ist.ObjectFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,10 +41,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import msg.Msg;
 import org.apache.poi.ss.usermodel.*;
-import static org.apache.poi.ss.usermodel.CellType.BLANK;
-import static org.apache.poi.ss.usermodel.CellType.FORMULA;
-import static org.apache.poi.ss.usermodel.CellType.NUMERIC;
-import static org.apache.poi.ss.usermodel.CellType.STRING;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
@@ -51,14 +48,13 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 import pdf.PdfAmazon;
 import pl.gov.mf.xsd.intrastat.ist.IST;
-import pl.gov.mf.xsd.intrastat.ist.ObjectFactory;
 import view.WpisView;
 import waluty.Z;
 import xml.XMLValid;
 
 @Named
 @ViewScoped
-public class AmazonAVTRmod implements Serializable {
+public class Shopify implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private List<KlientJPK> lista;
@@ -127,16 +123,12 @@ public class AmazonAVTRmod implements Serializable {
                     klientJPK.setSerial(getCellStringValue(row, columnIndices.get("TRANSACTION_EVENT_ID")));
                     //System.out.println(klientJPK.getSerial());
                     klientJPK.setPodatnik(wpisView.getPodatnikObiekt());
-                    klientJPK.setRodzajtransakcji(getCellStringValue(row, columnIndices.get("TRANSACTION_TYPE")));
-                    if (klientJPK.getRodzajtransakcji().equals("DONATION")==false) {
-                        klientJPK.setKodKrajuNadania(getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY")));
-                        klientJPK.setKodKrajuDoreczenia(getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY")));
-                        klientJPK.setJurysdykcja(getCellStringValue(row, columnIndices.get("TAXABLE_JURISDICTION")));
-                        klientJPK.setNrKontrahenta(pobierznumerkontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices));
-                        klientJPK.setNazwaKontrahenta(pobierznazwekontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices));
-                        klientJPK.setDowodSprzedazy(getCellStringValue(row, columnIndices.get("TRANSACTION_EVENT_ID")));
-                        klientJPK.setDataWystawienia(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TAX_CALCULATION_DATE"))));
-                        klientJPK.setDataSprzedazy(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TRANSACTION_COMPLETE_DATE"))));
+                        klientJPK.setKodKrajuDoreczenia(getCellStringValue(row, columnIndices.get("Shipping country")));
+                        klientJPK.setJurysdykcja(getCellStringValue(row, columnIndices.get("Shipping country")));
+                        klientJPK.setNazwaKontrahenta(getCellStringValue(row, columnIndices.get("Customer name")));
+//                        klientJPK.setDowodSprzedazy(getCellStringValue(row, columnIndices.get("TRANSACTION_EVENT_ID")));
+//                        klientJPK.setDataWystawienia(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TAX_CALCULATION_DATE"))));
+//                        klientJPK.setDataSprzedazy(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TRANSACTION_COMPLETE_DATE"))));
                         klientJPK.setWaluta(getCellStringValue(row, columnIndices.get("TRANSACTION_CURRENCY_CODE")));
                         double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), klientJPK.getWaluta());
                         klientJPK.setKurs(kurs);
@@ -161,40 +153,10 @@ public class AmazonAVTRmod implements Serializable {
                         klientJPK.setAmazontax0additional1(0);
                         // Setting eksport and importt fields based on DEPARTURE_COUNTRY and ARRIVAL_COUNTRY
                         String departureCountry = getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY"));
-                        String arrivalCountry = getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY"));
-                        if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==true && (departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
-                            if ("PL".equals(departureCountry) && !"PL".equals(arrivalCountry)) {
-                                klientJPK.setStawkavat(0.0);
-                                klientJPK.setVat(0);
-                                klientJPK.setWdt(true);
-                        } else {
-                            klientJPK.setWnt(true);
-                        }
-                        }
-                        if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && departureCountry!=null&&arrivalCountry!=null&&(departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
-                            klientJPK.setWdt("PL".equals(departureCountry) && !"PL".equals(arrivalCountry));
-                            klientJPK.setWnt(!"PL".equals(departureCountry) && "PL".equals(arrivalCountry));
-                            klientJPK.setStawkavat(0.0);
-                            klientJPK.setVat(0);
-                        } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0 && klientJPK.getNrKontrahenta()!=null) {
-                            klientJPK.setEksport(true);
-
-                        } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0) {
-                            klientJPK.setEksport("GB".equals(arrivalCountry));
-                        }
-                        klientJPK.setOpissprzedaz(getCellStringValue(row, columnIndices.get("ITEM_DESCRIPTION")));
-                        //dane do intrastat
-                        klientJPK.setIlosc(getCellDoubleValue(row, columnIndices.get("QTY")));
-                        klientJPK.setWaga(getCellDoubleValue(row, columnIndices.get("ITEM_WEIGHT")));
-                        Integer kodtowaru = getCellintegerValue(row, columnIndices.get("COMMODITY_CODE"));
-                        if (kodtowaru!=null) {
-                            klientJPK.setKodtowaru(kodtowaru);
-                        } else {
-                            klientJPK.setKodtowaru(99999999);
-                        }
+                        String arrivalCountry = getCellStringValue(row, columnIndices.get("Shipping country"));
+                        klientJPK.setOpissprzedaz(getCellStringValue(row, columnIndices.get("Customer email")));
                         lista.add(klientJPK);
                         importujdaneintrastat();
-                    }
                 } catch (Exception e) {
                     System.out.println("wiersz " + rowa);
                     System.out.println(E.e(e));
@@ -202,11 +164,11 @@ public class AmazonAVTRmod implements Serializable {
                         break;
                     }
                 }
-                
             }
-        }
+        
         System.out.println("");
 
+    }
     }
     
      public void zaksiegujWDTjpk() {
@@ -220,7 +182,7 @@ public class AmazonAVTRmod implements Serializable {
                 Msg.msg("Zaksięgowano dokumenty FC_TRANSFER dla JPK");
             }
         }
-        List<KlientJPK> selekcjawdt = lista.stream().filter(item->item.isWdt()&&item.getKodKrajuNadania().equals("PL")).collect(Collectors.toList());
+        List<KlientJPK> selekcjawdt = lista.stream().filter(item->item.isWdt()&&item.getJurysdykcja()!=null&&item.getJurysdykcja().equals("POLAND")).collect(Collectors.toList());
         if (selekcjawdt==null || selekcjawdt.isEmpty()) {
             Msg.msg("e","W danym okresie nie ma transakcji WDT");
         } else {
