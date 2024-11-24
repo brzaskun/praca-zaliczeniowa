@@ -17,7 +17,7 @@
 
     <p:dialog id="importshopify" header="Amazon pobieranie danych Nowy 2024.11" widgetVar="importshopify" height="900" width="1450"
               resizable="false"  onShow="ustawdialog('importshopify','menudokumenty',1750,900);" closeOnEscape="true" onHide="resetujdialog('importshopify');" >
-        <p:ajax event="open" listener="#{shopify.init()}" update="panelplik shopify importtabelaavtrmod"/>
+        <p:ajax event="open" listener="#{shopify.init()}" update="panelplik shopify importtabelashopify"/>
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":akordeon5:form_importinterpaper"/>
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
@@ -30,7 +30,7 @@
                 <p:panelGrid layout="tabular" columns="1">
                     <p:fileUpload chooseIcon="fa fa-upload" listener="#{shopify.importujsprzedaz}" 
                                   mode="advanced" fileLimit="1" auto="true"
-                                  update="messages1 importtabelaavtrmod" 
+                                  update="messages1 importtabelashopify" 
                                   validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
                                   fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
                                   uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" onstart="PF('dialogAjaxCzekaj').show();"
@@ -39,7 +39,7 @@
                 </p:panelGrid>
             </p:panelGrid>
         </h:form>
-        <h:form id="importtabelaavtrmod">
+        <h:form id="importtabelashopify">
             <p:panelGrid layout="grid" columns="8">
                 <h:outputText value="netto"/>
                 <bcf:outputpl value="#{shopify.razemnetto}"/>
@@ -161,7 +161,7 @@
 
                 <p:column id="deleteColumn" headerText="usuń" style="width: 4%; text-align: center;">
                     <p:commandButton actionListener="#{importCSVView.usun(wpis)}" style="width: 30px;"
-                                     id="delete" icon="ui-icon ui-icon-trash" update="importtabelaavtrmod:dokumentyLista"/>
+                                     id="delete" icon="ui-icon ui-icon-trash" update="importtabelashopify:dokumentyLista"/>
                 </p:column>
             </p:dataTable> 
             <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
