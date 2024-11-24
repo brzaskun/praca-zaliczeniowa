@@ -7,6 +7,7 @@ package beanstesty;
 
 import comparator.KalendarzmiesiacRMNormalcomparator;
 import comparator.UmowaStareNowecomparator;
+import comparator.Umowacomparator;
 import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
@@ -20,9 +21,11 @@ import entity.Rejestrurlopow;
 import entity.Staz;
 import entity.Umowa;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -467,7 +470,33 @@ public class UrlopBean {
         //trzeba pobrad date od, albo poczatek roku albo data pierwszej umowy w roku
             Set<String> napoczetemiesiace = new HashSet<>();
             String dataod = data.Data.pierwszyDzien(rok, "01");
-            for (Umowa p : umowy) {
+            DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Sortowanie: najnowsze do najstarsze, uwzględniając null w datado
+        // Sortowanie: najnowsze do najstarsze, uwzględniając null w datado
+             // Sortowanie: najnowsze do najstarsze, uwzględniając null i puste daty
+         Collections.sort(umowy,new Umowacomparator());
+        // Tworzenie sublisty z ciągłymi datami
+        List<Umowa> sublista = new ArrayList<>();
+        for (Umowa umowa : umowy) {
+            if (sublista.isEmpty()) {
+                sublista.add(umowa); // Dodajemy pierwszą umowę
+            } else {
+                Umowa poprzednia = sublista.get(sublista.size() - 1);
+                LocalDate poprzedniaDatado = poprzednia.getDatado() == null || poprzednia.getDatado().isEmpty() ? LocalDate.parse("2100-12-31", DATE_FORMATTER) : LocalDate.parse(poprzednia.getDatado(), DATE_FORMATTER);
+                LocalDate aktualnaDataod = LocalDate.parse(umowa.getDataod(), DATE_FORMATTER);
+
+                if (!poprzedniaDatado.plusDays(1).equals(aktualnaDataod)) {
+                    break; // Przerwa w ciągłości dat - kończymy przetwarzanie
+                }
+
+                sublista.add(umowa);
+            }
+        }
+
+            
+            
+            for (Umowa p : sublista) {
                 if (p.isLiczdourlopu() && p.isPraca()) {
                     if (p.getSlownikszkolazatrhistoria() != null) {
                         if (p.getSlownikszkolazatrhistoria().getPraca0nauka1() == false) {
@@ -502,5 +531,9 @@ public class UrlopBean {
         Object[] zwrot = new Object[]{(int)wymiarproporcjonalny,(int)wymiargodzin, (int)wymiarwgstazu, napoczetemiesiacepokorekcie};
         return zwrot;
         //nie wiem co z tym etatem czy badac
+    }
+
+    private static Comparator<Umowa> parseDate(String datado, LocalDate MAX) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
