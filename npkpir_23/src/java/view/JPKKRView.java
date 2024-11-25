@@ -68,6 +68,21 @@ public class JPKKRView  implements Serializable {
     @Inject
     private TKodUS tKodUS;
     
+    public void przygotujrok() {
+        String dataod = wpisView.getRokWpisuSt()+"-01-01";
+        String datado = wpisView.getRokWpisuSt()+"-12-31";
+        List<Dokfk> dokumenty = dokDAOfk.findDokfkPodatnikRok(wpisView);
+        sumujdokumenty(dokumenty);
+        Collections.sort(dokumenty, new DokfkNrDziennikacomparator());
+        saldoAnalitykaView.init();
+        List<SaldoKonto> salda = saldoAnalitykaView.getListaSaldoKonto();
+        Collections.sort(salda, new SaldoKontocomparator());
+        JPK rob = rob(false, dataod, datado, tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy()), wpisView.getPodatnikObiekt(), dokumenty, salda);
+        marszajuldoplikuxml(rob, wpisView);
+        System.out.println("");
+        //porownaj(dokumenty, kontozapisy);
+    }
+    
     
     public void przygotuj() {
         String dataod = Data.pierwszyDzien(wpisView);

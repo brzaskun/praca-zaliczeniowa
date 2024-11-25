@@ -328,24 +328,28 @@ public class VatUeFKView implements Serializable {
         Set<VatUe> klienty = new HashSet<>();
         Map<String,Waluty> waluty = new HashMap<>();
         for (KlientJPK p : listadokumentow) {
-            if (p.isWdt()) {
-                //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
-                VatUe veu = new VatUe("WDT", null, 0.0, 0);
-                veu.setKontrahentnip(pobierznip(p.getNrKontrahenta()));
-                veu.setKontrahentkraj(pobierzkraj(p.getNrKontrahenta()));
-                veu.setKontrahentnazwa(p.getNazwaKontrahenta()!=null?p.getNazwaKontrahenta():"incydentalny");
-                veu.setZawierafk(new ArrayList<>());
-                veu.setNazwawaluty(pobierzwalute(p,waluty));
-                klienty.add(veu);
-            } else if (p.isWnt()) {
-                //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
-                VatUe veu = new VatUe("WNT", null, 0.0, 0);
-                veu.setKontrahentnip(pobierznip(p.getNrKontrahenta()));
-                veu.setKontrahentkraj(pobierzkraj(p.getNrKontrahenta()));
-                veu.setKontrahentnazwa(p.getNazwaKontrahenta()!=null?p.getNazwaKontrahenta():"incydentalny");
-                veu.setZawierafk(new ArrayList<>());
-                veu.setNazwawaluty(pobierzwalute(p,waluty));
-                klienty.add(veu);
+            try {
+                if (p.isWdt()) {
+                    //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
+                    VatUe veu = new VatUe("WDT", null, 0.0, 0);
+                    veu.setKontrahentnip(pobierznip(p.getNrKontrahenta()));
+                    veu.setKontrahentkraj(pobierzkraj(p.getNrKontrahenta()));
+                    veu.setKontrahentnazwa(p.getNazwaKontrahenta()!=null?p.getNazwaKontrahenta():"incydentalny");
+                    veu.setZawierafk(new ArrayList<>());
+                    veu.setNazwawaluty(pobierzwalute(p,waluty));
+                    klienty.add(veu);
+                } else if (p.isWnt()) {
+                    //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
+                    VatUe veu = new VatUe("WNT", null, 0.0, 0);
+                    veu.setKontrahentnip(pobierznip(p.getNrKontrahenta()));
+                    veu.setKontrahentkraj(pobierzkraj(p.getNrKontrahenta()));
+                    veu.setKontrahentnazwa(p.getNazwaKontrahenta()!=null?p.getNazwaKontrahenta():"incydentalny");
+                    veu.setZawierafk(new ArrayList<>());
+                    veu.setNazwawaluty(pobierzwalute(p,waluty));
+                    klienty.add(veu);
+                }
+            } catch (Exception e){
+                System.out.println("blad KlientJPK "+p.getSerial());
             }
         }
         return klienty;
