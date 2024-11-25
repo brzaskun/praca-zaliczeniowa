@@ -157,7 +157,7 @@ public class AmazonAVTRmod implements Serializable {
                         // Setting eksport and importt fields based on DEPARTURE_COUNTRY and ARRIVAL_COUNTRY
                         String departureCountry = getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY"));
                         String arrivalCountry = getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY"));
-                        if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==true && (departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
+                        if (klientJPK.getRodzajtransakcji().equals("FC_TRANSFER")==true && (departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
                             if ("PL".equals(departureCountry) && !"PL".equals(arrivalCountry)) {
                                 klientJPK.setStawkavat(0.0);
                                 klientJPK.setVat(0);
@@ -166,18 +166,18 @@ public class AmazonAVTRmod implements Serializable {
                                 klientJPK.setWnt(true);
                             }
                         }
-                        if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && departureCountry!=null&&arrivalCountry!=null) {
+                        if (klientJPK.getRodzajtransakcji().equals("FC_TRANSFER")==false && departureCountry!=null&&arrivalCountry!=null) {
                             String nipkontrahenta = getCellStringValue(row, columnIndices.get("BUYER_VAT_NUMBER"));
                             if (nipkontrahenta!=null) {
                                 klientJPK.setWdt(true);
                                 klientJPK.setStawkavat(0.0);
                                 klientJPK.setVat(0);
                             }
-                        } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0 && klientJPK.getNrKontrahenta()!=null) {
+                        } else if (klientJPK.getRodzajtransakcji().equals("FC_TRANSFER")==false && klientJPK.getStawkavat()==0.0 && klientJPK.getNrKontrahenta()!=null) {
                             klientJPK.setEksport(true);
 
                         } 
-                        if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false &&arrivalCountry!=null) {
+                        if (klientJPK.getRodzajtransakcji().equals("FC_TRANSFER")==false &&arrivalCountry!=null) {
                             if (arrivalCountry.equals("GB")) {
                                 klientJPK.setEksport(true);
                             } else if (arrivalCountry.equals("CH")) {
