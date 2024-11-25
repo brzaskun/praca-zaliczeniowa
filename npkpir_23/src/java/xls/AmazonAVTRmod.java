@@ -167,15 +167,22 @@ public class AmazonAVTRmod implements Serializable {
                         }
                         }
                         if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && departureCountry!=null&&arrivalCountry!=null&&(departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
-                            klientJPK.setWdt("PL".equals(departureCountry) && !"PL".equals(arrivalCountry));
-                            klientJPK.setWnt(!"PL".equals(departureCountry) && "PL".equals(arrivalCountry));
-                            klientJPK.setStawkavat(0.0);
-                            klientJPK.setVat(0);
+                            String nipkontrahenta = getCellStringValue(row, columnIndices.get("BUYER_VAT_NUMBER"));
+                            if (nipkontrahenta!=null) {
+                                klientJPK.setWdt("PL".equals(departureCountry) && !"PL".equals(arrivalCountry));
+                                klientJPK.setWnt(!"PL".equals(departureCountry) && "PL".equals(arrivalCountry));
+                                klientJPK.setStawkavat(0.0);
+                                klientJPK.setVat(0);
+                            }
                         } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0 && klientJPK.getNrKontrahenta()!=null) {
                             klientJPK.setEksport(true);
 
-                        } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0) {
-                            klientJPK.setEksport("GB".equals(arrivalCountry));
+                        } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0&&arrivalCountry!=null) {
+                            if (arrivalCountry.equals("GB")) {
+                                klientJPK.setEksport(true);
+                            } else if (arrivalCountry.equals("CH")) {
+                                klientJPK.setEksport(true);
+                            }
                         }
                         klientJPK.setNrKontrahenta(pobierznumerkontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices, klientJPK));
                         klientJPK.setOpissprzedaz(getCellStringValue(row, columnIndices.get("ITEM_DESCRIPTION")));
@@ -207,7 +214,7 @@ public class AmazonAVTRmod implements Serializable {
     
      public void zaksiegujWDTjpk() {
         klientJPKDAO.deleteByPodRokMcAmazon(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(),0);
-        List<KlientJPK> selekcjafctransfer = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")).collect(Collectors.toList());
+        List<KlientJPK> selekcjafctransfer = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")&&item.getNrKontrahenta()!=null&&item.getNetto()>0.0).collect(Collectors.toList());
         if (selekcjafctransfer==null || selekcjafctransfer.isEmpty()) {
             Msg.msg("e","W danym okresie nie ma transakcji FC_TRNASFER");
         } else {
@@ -216,7 +223,7 @@ public class AmazonAVTRmod implements Serializable {
                 Msg.msg("Zaksięgowano dokumenty FC_TRANSFER dla JPK");
             }
         }
-        List<KlientJPK> selekcjawdt = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")==false&&item.isWdt()&&item.getKodKrajuNadania().equals("PL")).collect(Collectors.toList());
+        List<KlientJPK> selekcjawdt = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")==false&&item.isWdt()&&item.getKodKrajuNadania().equals("PL")&&item.getNrKontrahenta()!=null&&item.getNetto()>0.0).collect(Collectors.toList());
         if (selekcjawdt==null || selekcjawdt.isEmpty()) {
             Msg.msg("e","W danym okresie nie ma transakcji WDT");
         } else {

@@ -27,7 +27,7 @@
                 <p:column headerText="data sprzedaży" filterBy="#{itemikjpk.dataSprzedazy}">
                     <h:outputText value="#{itemikjpk.dataSprzedazy}"/>
                 </p:column>
-                <p:column headerText="sym"  style="text-align: center;" width="80">
+                <p:column headerText="sym"  style="text-align: center;" width="80" sortBy="#{itemikjpk.serial}" filterBy="#{itemikjpk.serial}" filterMatchMode="contains">
                     <h:outputText value="#{itemikjpk.serial}"/>
                 </p:column>
                 <p:column headerText="nazwa" width="350" sortBy="#{itemikjpk.nazwaKontrahenta}" filterBy="#{itemikjpk.nazwaKontrahenta}" filterMatchMode="contains">
@@ -45,10 +45,10 @@
                 <p:column headerText="wartość vat" sortBy="#{itemikjpk.vat}" filterBy="#{itemikjpk.vat}">
                     <bcf:outputpl value="#{itemikjpk.vat}"/>
                 </p:column>
-                <p:column headerText="WDT" style="text-align: center;" width="30">
+                <p:column headerText="WDT" style="text-align: center;" width="30" sortBy="#{itemikjpk.wdt}">
                     <h:outputText value="&#x2713;" rendered="#{itemikjpk.wdt}" style="color: green;font-weight: bold"/>
                 </p:column>
-                <p:column headerText="WNT"  style="text-align: center;" width="30">
+                <p:column headerText="WNT"  style="text-align: center;" width="30" sortBy="#{itemikjpk.wnt}">
                     <h:outputText value="&#x2713;" rendered="#{itemikjpk.wnt}" style="color: green;font-weight: bold"/>
                 </p:column>
                 <p:column headerText="TaxRep"  style="text-align: center;" width="30">
