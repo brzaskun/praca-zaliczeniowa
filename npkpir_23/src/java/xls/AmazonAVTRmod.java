@@ -176,7 +176,8 @@ public class AmazonAVTRmod implements Serializable {
                         } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0 && klientJPK.getNrKontrahenta()!=null) {
                             klientJPK.setEksport(true);
 
-                        } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0&&arrivalCountry!=null) {
+                        } 
+                        if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false &&arrivalCountry!=null) {
                             if (arrivalCountry.equals("GB")) {
                                 klientJPK.setEksport(true);
                             } else if (arrivalCountry.equals("CH")) {
