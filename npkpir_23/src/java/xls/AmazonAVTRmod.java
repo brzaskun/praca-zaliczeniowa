@@ -166,11 +166,10 @@ public class AmazonAVTRmod implements Serializable {
                             klientJPK.setWnt(true);
                         }
                         }
-                        if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && departureCountry!=null&&arrivalCountry!=null&&(departureCountry.equals("PL")||arrivalCountry.equals("PL"))) {
+                        if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && departureCountry!=null&&arrivalCountry!=null) {
                             String nipkontrahenta = getCellStringValue(row, columnIndices.get("BUYER_VAT_NUMBER"));
                             if (nipkontrahenta!=null) {
-                                klientJPK.setWdt("PL".equals(departureCountry) && !"PL".equals(arrivalCountry));
-                                klientJPK.setWnt(!"PL".equals(departureCountry) && "PL".equals(arrivalCountry));
+                                klientJPK.setWdt(true);
                                 klientJPK.setStawkavat(0.0);
                                 klientJPK.setVat(0);
                             }
@@ -223,7 +222,8 @@ public class AmazonAVTRmod implements Serializable {
                 Msg.msg("Zaksięgowano dokumenty FC_TRANSFER dla JPK");
             }
         }
-        List<KlientJPK> selekcjawdt = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")==false&&item.isWdt()&&item.getKodKrajuNadania().equals("PL")&&item.getNrKontrahenta()!=null&&item.getNetto()>0.0).collect(Collectors.toList());
+        List<KlientJPK> selekcjawdt = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")==false&&item.isWdt()
+                &&item.getKodKrajuNadania().equals("PL")&&item.getNrKontrahenta()!=null&&item.getNetto()>0.0).collect(Collectors.toList());
         if (selekcjawdt==null || selekcjawdt.isEmpty()) {
             Msg.msg("e","W danym okresie nie ma transakcji WDT");
         } else {
