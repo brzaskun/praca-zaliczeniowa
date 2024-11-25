@@ -132,7 +132,6 @@ public class AmazonAVTRmod implements Serializable {
                         klientJPK.setKodKrajuNadania(getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY")));
                         klientJPK.setKodKrajuDoreczenia(getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY")));
                         klientJPK.setJurysdykcja(getCellStringValue(row, columnIndices.get("TAXABLE_JURISDICTION")));
-                        klientJPK.setNrKontrahenta(pobierznumerkontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices));
                         klientJPK.setNazwaKontrahenta(pobierznazwekontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices));
                         klientJPK.setDowodSprzedazy(getCellStringValue(row, columnIndices.get("TRANSACTION_EVENT_ID")));
                         klientJPK.setDataWystawienia(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TAX_CALCULATION_DATE"))));
@@ -142,17 +141,13 @@ public class AmazonAVTRmod implements Serializable {
                         klientJPK.setKurs(kurs);
                         double netto = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL"));
                         double nettopln = Z.z(netto*kurs);
-                        double nettoszippimng = getCellDoubleValue(row, columnIndices.get("TOTAL_SHIP_CHARGE_AMT_VAT_EXCL"));
-                        double nettoplnszipping = Z.z(netto*nettoszippimng);
                         double vat = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_VAT_AMT"));
                         double vatpln = Z.z(vat*kurs);
-                        double vatszipping = getCellDoubleValue(row, columnIndices.get("TOTAL_SHIP_CHARGE_VAT_AMT"));
-                        double vatplnszipping = Z.z(vatszipping*kurs);
-                        klientJPK.setNetto(Z.z(nettopln+nettoplnszipping));
-                        klientJPK.setVat(Z.z(vatpln+vatplnszipping));
-                        klientJPK.setNettowaluta(Z.z(netto+nettoszippimng));
+                        klientJPK.setNetto(Z.z(nettopln));
+                        klientJPK.setVat(Z.z(vatpln));
+                        klientJPK.setNettowaluta(Z.z(netto));
                         razemnetto = Z.z(razemnetto+klientJPK.getNettowaluta());
-                        klientJPK.setVatwaluta(Z.z(vat+vatszipping));
+                        klientJPK.setVatwaluta(Z.z(vat));
                         razemvat = Z.z(razemvat+klientJPK.getVatwaluta());
                         klientJPK.setStawkavat(getCellDoubleValue(row, columnIndices.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT")));
                         //klientJPK.setKurs(getCellDoubleValue(row, columnIndices.get("VAT_INV_EXCHANGE_RATE")));
@@ -182,6 +177,7 @@ public class AmazonAVTRmod implements Serializable {
                         } else if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && klientJPK.getStawkavat()==0.0) {
                             klientJPK.setEksport("GB".equals(arrivalCountry));
                         }
+                        klientJPK.setNrKontrahenta(pobierznumerkontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices, klientJPK));
                         klientJPK.setOpissprzedaz(getCellStringValue(row, columnIndices.get("ITEM_DESCRIPTION")));
                         //dane do intrastat
                         klientJPK.setIlosc(getCellDoubleValue(row, columnIndices.get("QTY")));
@@ -556,9 +552,13 @@ public class AmazonAVTRmod implements Serializable {
         }
     }
 
-    private String pobierznumerkontrahenta(String rodzajtransakcji, Row row, Map<String, Integer> columnIndices) {
+    private String pobierznumerkontrahenta(String rodzajtransakcji, Row row, Map<String, Integer> columnIndices, KlientJPK klientJPK) {
         if (rodzajtransakcji.equals("FC_TRANSFER")) {
-            return getCellStringValue(row, columnIndices.get("SELLER_ARRIVAL_COUNTRY_VAT_NUMBER"));
+            if (klientJPK.isWdt()) {
+                return getCellStringValue(row, columnIndices.get("SELLER_ARRIVAL_COUNTRY_VAT_NUMBER"));
+            } else {
+                return getCellStringValue(row, columnIndices.get("SELLER_DEPART_COUNTRY_VAT_NUMBER"));
+            }
         } else {
             return getCellStringValue(row, columnIndices.get("BUYER_VAT_NUMBER"));
         }
