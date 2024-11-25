@@ -563,9 +563,9 @@ public class AmazonAVTRmod implements Serializable {
     private String pobierznumerkontrahenta(String rodzajtransakcji, Row row, Map<String, Integer> columnIndices, KlientJPK klientJPK) {
         if (rodzajtransakcji.equals("FC_TRANSFER")) {
             if (klientJPK.isWdt()) {
-                return getCellStringValue(row, columnIndices.get("SELLER_ARRIVAL_COUNTRY_VAT_NUMBER"));
-            } else {
                 return getCellStringValue(row, columnIndices.get("SELLER_DEPART_COUNTRY_VAT_NUMBER"));
+            } else {
+                return getCellStringValue(row, columnIndices.get("SELLER_ARRIVAL_COUNTRY_VAT_NUMBER"));
             }
         } else {
             return getCellStringValue(row, columnIndices.get("BUYER_VAT_NUMBER"));
