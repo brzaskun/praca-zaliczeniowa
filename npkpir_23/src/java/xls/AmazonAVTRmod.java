@@ -220,7 +220,7 @@ public class AmazonAVTRmod implements Serializable {
                 Msg.msg("Zaksięgowano dokumenty FC_TRANSFER dla JPK");
             }
         }
-        List<KlientJPK> selekcjawdt = lista.stream().filter(item->item.isWdt()&&item.getKodKrajuNadania().equals("PL")).collect(Collectors.toList());
+        List<KlientJPK> selekcjawdt = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")==false&&item.isWdt()&&item.getKodKrajuNadania().equals("PL")).collect(Collectors.toList());
         if (selekcjawdt==null || selekcjawdt.isEmpty()) {
             Msg.msg("e","W danym okresie nie ma transakcji WDT");
         } else {
