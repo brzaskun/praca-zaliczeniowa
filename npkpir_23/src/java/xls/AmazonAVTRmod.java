@@ -162,9 +162,9 @@ public class AmazonAVTRmod implements Serializable {
                                 klientJPK.setStawkavat(0.0);
                                 klientJPK.setVat(0);
                                 klientJPK.setWdt(true);
-                        } else {
-                            klientJPK.setWnt(true);
-                        }
+                            } else if ("PL".equals(arrivalCountry) && !"PL".equals(departureCountry)) {
+                                klientJPK.setWnt(true);
+                            }
                         }
                         if (klientJPK.getRodzajtransakcji().equals("FC TRANSFER")==false && departureCountry!=null&&arrivalCountry!=null) {
                             String nipkontrahenta = getCellStringValue(row, columnIndices.get("BUYER_VAT_NUMBER"));
@@ -563,7 +563,8 @@ public class AmazonAVTRmod implements Serializable {
     private String pobierznumerkontrahenta(String rodzajtransakcji, Row row, Map<String, Integer> columnIndices, KlientJPK klientJPK) {
         if (rodzajtransakcji.equals("FC_TRANSFER")) {
             if (klientJPK.isWdt()) {
-                return getCellStringValue(row, columnIndices.get("SELLER_DEPART_COUNTRY_VAT_NUMBER"));
+                //Z POSLKI
+                return getCellStringValue(row, columnIndices.get("SELLER_ARRIVAL_COUNTRY_VAT_NUMBER"));
             } else {
                 return getCellStringValue(row, columnIndices.get("SELLER_DEPART_COUNTRY_VAT_NUMBER"));
             }
