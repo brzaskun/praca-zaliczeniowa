@@ -565,7 +565,7 @@ public class AmazonAVTRmod implements Serializable {
             if (klientJPK.isWdt()) {
                 return getCellStringValue(row, columnIndices.get("SELLER_DEPART_COUNTRY_VAT_NUMBER"));
             } else {
-                return getCellStringValue(row, columnIndices.get("SELLER_ARRIVAL_COUNTRY_VAT_NUMBER"));
+                return getCellStringValue(row, columnIndices.get("SELLER_DEPART_COUNTRY_VAT_NUMBER"));
             }
         } else {
             return getCellStringValue(row, columnIndices.get("BUYER_VAT_NUMBER"));
