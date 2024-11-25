@@ -21,7 +21,6 @@ import entityfk.Intrastatwiersz;
 import entityfk.Tabelanbp;
 import error.E;
 import f.l;
-import pl.gov.mf.xsd.intrastat.ist.ObjectFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,6 +47,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 import pdf.PdfAmazon;
 import pl.gov.mf.xsd.intrastat.ist.IST;
+import pl.gov.mf.xsd.intrastat.ist.ObjectFactory;
 import view.WpisView;
 import waluty.Z;
 import xml.XMLValid;
@@ -120,43 +120,41 @@ public class Shopify implements Serializable {
                     KlientJPK klientJPK = new KlientJPK();
                     rowa++;
                     // Mapping columns by names to KlientJPK fields
-                    klientJPK.setSerial(getCellStringValue(row, columnIndices.get("TRANSACTION_EVENT_ID")));
+                    klientJPK.setSerial(getCellStringValue(row, columnIndices.get("Sale ID")));
                     //System.out.println(klientJPK.getSerial());
                     klientJPK.setPodatnik(wpisView.getPodatnikObiekt());
-                        klientJPK.setKodKrajuDoreczenia(getCellStringValue(row, columnIndices.get("Shipping country")));
-                        klientJPK.setJurysdykcja(getCellStringValue(row, columnIndices.get("Shipping country")));
-                        klientJPK.setNazwaKontrahenta(getCellStringValue(row, columnIndices.get("Customer name")));
+                        klientJPK.setKodKrajuDoreczenia(getCellStringValue(row, columnIndices.get("Billing country")));
+                        klientJPK.setKodKrajuNadania("POLAND");
+                        klientJPK.setJurysdykcja(getCellStringValue(row, columnIndices.get("Billing country")));
+                        klientJPK.setNazwaKontrahenta(getCellStringValue(row, columnIndices.get("Order name")));
+                        klientJPK.setRodzajtransakcji("OSS");
 //                        klientJPK.setDowodSprzedazy(getCellStringValue(row, columnIndices.get("TRANSACTION_EVENT_ID")));
 //                        klientJPK.setDataWystawienia(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TAX_CALCULATION_DATE"))));
-//                        klientJPK.setDataSprzedazy(data.Data.zmienkolejnosc(getCellStringValue(row, columnIndices.get("TRANSACTION_COMPLETE_DATE"))));
-                        klientJPK.setWaluta(getCellStringValue(row, columnIndices.get("TRANSACTION_CURRENCY_CODE")));
+                        klientJPK.setDataSprzedazy(data.Data.zmienkolejnosc(getCellDateValue(row, columnIndices.get("Day"))));
+                        klientJPK.setWaluta("EUR");
                         double kurs = pobierzkurs(klientJPK.getDataSprzedazy(), klientJPK.getWaluta());
                         klientJPK.setKurs(kurs);
-                        double netto = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_AMT_VAT_EXCL"));
+                        double netto = getCellDoubleValue(row, columnIndices.get("Net sales"));
+                        double discounts = getCellDoubleValue(row, columnIndices.get("Discounts"));
+                        double shipping = getCellDoubleValue(row, columnIndices.get("Shipping charges"));
+                        netto = netto + discounts +shipping;
                         double nettopln = Z.z(netto*kurs);
-                        double nettoszippimng = getCellDoubleValue(row, columnIndices.get("TOTAL_SHIP_CHARGE_AMT_VAT_EXCL"));
-                        double nettoplnszipping = Z.z(netto*nettoszippimng);
-                        double vat = getCellDoubleValue(row, columnIndices.get("TOTAL_ACTIVITY_VALUE_VAT_AMT"));
+                        double vat = getCellDoubleValue(row, columnIndices.get("Taxes"));
                         double vatpln = Z.z(vat*kurs);
-                        double vatszipping = getCellDoubleValue(row, columnIndices.get("TOTAL_SHIP_CHARGE_VAT_AMT"));
-                        double vatplnszipping = Z.z(vatszipping*kurs);
-                        klientJPK.setNetto(Z.z(nettopln+nettoplnszipping));
-                        klientJPK.setVat(Z.z(vatpln+vatplnszipping));
-                        klientJPK.setNettowaluta(Z.z(netto+nettoszippimng));
+                        klientJPK.setNetto(Z.z(nettopln));
+                        klientJPK.setVat(Z.z(vatpln));
+                        klientJPK.setNettowaluta(Z.z(netto));
                         razemnetto = Z.z(razemnetto+klientJPK.getNettowaluta());
-                        klientJPK.setVatwaluta(Z.z(vat+vatszipping));
+                        klientJPK.setVatwaluta(Z.z(vat));
                         razemvat = Z.z(razemvat+klientJPK.getVatwaluta());
-                        klientJPK.setStawkavat(getCellDoubleValue(row, columnIndices.get("PRICE_OF_ITEMS_VAT_RATE_PERCENT")));
+                        klientJPK.setStawkavat(klientJPK.getVat()/klientJPK.getNetto());
                         //klientJPK.setKurs(getCellDoubleValue(row, columnIndices.get("VAT_INV_EXCHANGE_RATE")));
-                        klientJPK.setRok(data.Data.getRok(klientJPK.getDataSprzedazy()));
+                        klientJPK.setRok(data.Data.getRok(klientJPK.getDataSprzedazy()));   
                         klientJPK.setMc(data.Data.getMc(klientJPK.getDataSprzedazy()));
                         klientJPK.setAmazontax0additional1(0);
                         // Setting eksport and importt fields based on DEPARTURE_COUNTRY and ARRIVAL_COUNTRY
-                        String departureCountry = getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY"));
-                        String arrivalCountry = getCellStringValue(row, columnIndices.get("Shipping country"));
                         klientJPK.setOpissprzedaz(getCellStringValue(row, columnIndices.get("Customer email")));
                         lista.add(klientJPK);
-                        importujdaneintrastat();
                 } catch (Exception e) {
                     System.out.println("wiersz " + rowa);
                     System.out.println(E.e(e));
@@ -227,6 +225,45 @@ public class Shopify implements Serializable {
                 return null;
         }
     }
+   private static String getCellDateValue(Row row, Integer columnIndex) {
+    if (columnIndex == null) {
+        return null;
+    }
+    Cell cell = row.getCell(columnIndex);
+    if (cell == null) {
+        return null;
+    }
+    try {
+        switch (cell.getCellType()) {
+            case NUMERIC:
+                // Check if it's a date by inspecting the cell style
+                if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell)) {
+                    java.util.Date date = cell.getDateCellValue();
+                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                    return sdf.format(date);
+                } else {
+                    return String.valueOf(cell.getNumericCellValue());  // Return numeric value as String
+                }
+            case STRING:
+                return cell.getStringCellValue();  // Return the String value
+            case FORMULA:
+                try {
+                    return String.valueOf(cell.getNumericCellValue());  // Return formula result as String
+                } catch (IllegalStateException e) {
+                    return null;
+                }
+            case BLANK:
+                return null;  // Return null for blank cells
+            default:
+                return null;  // For any other cell type, return null
+        }
+    } catch (Exception e) {
+        System.out.println(E.e(e));  // Handle exception, e.g., log it
+    }
+    return null;
+}
+
+
 
     private static Double getCellDoubleValue(Row row, Integer columnIndex) {
         if (columnIndex == null) {

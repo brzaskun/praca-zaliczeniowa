@@ -23,7 +23,7 @@
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
         <bcf:ajaxs/>
-        <h:outputText value="Import dokumentów z pliku CSV Shopify. "/>
+        <h:outputText value="Import dokumentów z pliku xls Shopify. "/>
         <h:form id="shopify">
             <p:growl life="3600"  id="messages1"/>
             <p:panelGrid layout="tabular" columns="3">
@@ -166,10 +166,6 @@
             </p:dataTable> 
             <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
             <p:commandButton  value="druk OSS"  style="margin-top: 5px; width: 120px;" actionListener="#{shopify.drukujfk()}"  rendered="#{shopify.lista.size() gt 0}"/>
-            <p:commandButton  value="zaksięguj do JPK" style="margin-top: 5px; width: 120px; margin-left: 20px;" actionListener="#{shopify.zaksiegujWDTjpk()}"  rendered="#{shopify.lista.size() gt 0}"/>
-            <p:commandButton  value="usun miesiąc" style="margin-top: 5px; width: 120px; margin-left: 20px;" actionListener="#{shopify.usunmiesiac()}"/>
-            <p:commandButton value="zachowaj intrastat" style="margin-top: 5px; width: 120px; margin-left: 20px;"  update="importtabelaintrastat" actionListener="#{shopify.zaksiegujDaneIntrastat()}"  rendered="#{shopify.listaintrastat.size() gt 0}"/>
-             <p:commandButton value="pobierz intrastat"  style="margin-top: 5px; width: 120px; margin-left: 20px;"  actionListener="#{shopify.generujIntrastat()}" rendered="#{shopify.listaintrastat.size() gt 0}"/>
 
         </h:form>
 
