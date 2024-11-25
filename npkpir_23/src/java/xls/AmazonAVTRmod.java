@@ -9,11 +9,14 @@ package xls;
  * @author Osito
  */
 import beansFK.TabelaNBPBean;
+import dao.EvewidencjaDAO;
 import dao.IntrastatwierszDAO;
 import dao.KlientJPKDAO;
 import dao.TabelanbpDAO;
 import data.Data;
 import embeddable.Mce;
+import entity.EVatwpisKJPK;
+import entity.Evewidencja;
 import entity.KlientJPK;
 import entity.Podatnik;
 import entity.Uz;
@@ -69,12 +72,15 @@ public class AmazonAVTRmod implements Serializable {
     @Inject
     private KlientJPKDAO klientJPKDAO;
     @Inject
+    private EvewidencjaDAO evewidencjaDAO;
+    @Inject
     private IntrastatwierszDAO intrastatwierszDAO;
     private Map<String, Double> kursMap;
     @Inject
     private WpisView wpisView;
     private double razemnetto;
     private double razemvat;
+    private String nazwaklienta;
     public void init() {
 
     }
@@ -83,6 +89,7 @@ public class AmazonAVTRmod implements Serializable {
         try {
 //            dokumenty = Collections.synchronizedList(new ArrayList<>());
 //            klienci = Collections.synchronizedList(new ArrayList<>());
+            nazwaklienta = wpisView.getPodatnikObiekt().getPrintnazwa();
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
             importFromExcel(uploadedFile);
@@ -104,6 +111,8 @@ public class AmazonAVTRmod implements Serializable {
         kursMap = new ConcurrentHashMap<>();
         razemnetto = 0.0;
         razemvat = 0.0;
+        Evewidencja evewidencja = evewidencjaDAO.znajdzponazwie("rejestr WDT");
+        Evewidencja evewidencja1 = evewidencjaDAO.znajdzponazwie("rejestr WNT");
         try (InputStream is = uploadedFile.getInputStream(); Workbook workbook = new XSSFWorkbook(is)) {
 
             Sheet sheet = workbook.getSheetAt(0);
@@ -184,6 +193,12 @@ public class AmazonAVTRmod implements Serializable {
                                 klientJPK.setEksport(true);
                             }
                         }
+                        if (klientJPK.isWdt() && (klientJPK.getKodKrajuNadania().equals("PL")||klientJPK.getKodKrajuDoreczenia().equals("PL"))) {
+                                klientJPK.setEwidencjaVAT(tworzewidencjeVAT(evewidencja, klientJPK));
+                        }
+                        if (klientJPK.isWnt() && (klientJPK.getKodKrajuNadania().equals("PL")||klientJPK.getKodKrajuDoreczenia().equals("PL"))) {
+                                klientJPK.setEwidencjaVAT(tworzewidencjeVAT(evewidencja1, klientJPK));
+                        }
                         klientJPK.setNrKontrahenta(pobierznumerkontrahenta(klientJPK.getRodzajtransakcji(), row, columnIndices, klientJPK));
                         klientJPK.setOpissprzedaz(getCellStringValue(row, columnIndices.get("ITEM_DESCRIPTION")));
                         //dane do intrastat
@@ -211,10 +226,21 @@ public class AmazonAVTRmod implements Serializable {
         System.out.println("");
 
     }
-    
+    private List<EVatwpisKJPK> tworzewidencjeVAT(Evewidencja evewidencja, KlientJPK tmpzwrot) {
+        List<EVatwpisKJPK> zwrot = new ArrayList<>();
+        EVatwpisKJPK nowa = new EVatwpisKJPK();
+        nowa.setKlientJPK(tmpzwrot);
+        nowa.setEwidencja(evewidencja);
+        nowa.setRokEw(tmpzwrot.getRok());
+        nowa.setMcEw(tmpzwrot.getMc());
+        nowa.setNetto(tmpzwrot.getNetto());
+        nowa.setVat(tmpzwrot.getVat());
+        zwrot.add(nowa);
+        return zwrot;
+    }
      public void zaksiegujWDTjpk() {
         klientJPKDAO.deleteByPodRokMcAmazon(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(),0);
-        List<KlientJPK> selekcjafctransfer = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")&&item.getNrKontrahenta()!=null&&item.getNetto()>0.0).collect(Collectors.toList());
+        List<KlientJPK> selekcjafctransfer = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")&&(item.isWdt()||item.isWnt())).collect(Collectors.toList());
         if (selekcjafctransfer==null || selekcjafctransfer.isEmpty()) {
             Msg.msg("e","W danym okresie nie ma transakcji FC_TRNASFER");
         } else {
@@ -223,7 +249,7 @@ public class AmazonAVTRmod implements Serializable {
                 Msg.msg("Zaksięgowano dokumenty FC_TRANSFER dla JPK");
             }
         }
-        List<KlientJPK> selekcjawdt = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")==false&&item.isWdt()
+        List<KlientJPK> selekcjawdt = lista.stream().filter(item->item.getRodzajtransakcji().equals("FC_TRANSFER")==false&&(item.isWdt()||item.isWnt())
                 &&item.getKodKrajuNadania().equals("PL")&&item.getNrKontrahenta()!=null&&item.getNetto()>0.0).collect(Collectors.toList());
         if (selekcjawdt==null || selekcjawdt.isEmpty()) {
             Msg.msg("e","W danym okresie nie ma transakcji WDT");
@@ -577,6 +603,9 @@ public class AmazonAVTRmod implements Serializable {
         String zwrot = getCellStringValue(row, columnIndices.get("BUYER_NAME"));
         if (zwrot == null) {
             zwrot = getCellStringValue(row, columnIndices.get("SELLER_SKU"));
+        }
+        if (getCellStringValue(row, columnIndices.get("TRANSACTION_TYPE")).equals("FC_TRANSFER")) {
+            zwrot = nazwaklienta;
         }
         return zwrot;
     }

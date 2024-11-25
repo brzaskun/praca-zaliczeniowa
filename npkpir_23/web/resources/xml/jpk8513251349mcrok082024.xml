@@ -1,0 +1,4181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2024-11-25T16:10:12.025Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">2</CelZlozenia>
+        <KodUrzedu>3215</KodUrzedu>
+        <Rok>2024</Rok>
+        <Miesiac>8</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8513251349</NIP>
+            <PelnaNazwa>VINTIS sp. z o.o. sp.k.</PelnaNazwa>
+            <Email>info@taxman.biz.pl</Email>
+            <Telefon>605586176</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrKontrahenta>19647148</NrKontrahenta>
+            <NazwaKontrahenta>Amazon Services Europe s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>LU-ASE-2024-15956305</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-01</DataSprzedazy>
+            <K_29>179.41</K_29>
+            <K_30>41.26</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrKontrahenta>19647148</NrKontrahenta>
+            <NazwaKontrahenta>Amazon Services Europe s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>LU-ASE-2024-15956145</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-01</DataSprzedazy>
+            <K_29>230.31</K_29>
+            <K_30>52.97</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-320</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-01</DataSprzedazy>
+            <K_19>1381.37</K_19>
+            <K_20>317.72</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>ES</KodKrajuNadaniaTIN>
+            <NrKontrahenta>B87523825</NrKontrahenta>
+            <NazwaKontrahenta>Amazon Online Spain S.L.</NazwaKontrahenta>
+            <DowodSprzedazy>ES-AOES-2024-433828</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-02</DataSprzedazy>
+            <K_29>1132.12</K_29>
+            <K_30>260.39</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrKontrahenta>09457730969</NrKontrahenta>
+            <NazwaKontrahenta>Amazon Online Italy S.r.l</NazwaKontrahenta>
+            <DowodSprzedazy>ITAOIT4-492714</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-02</DataSprzedazy>
+            <K_29>1999.87</K_29>
+            <K_30>459.97</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>6</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-322</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-02</DataSprzedazy>
+            <K_19>721.12</K_19>
+            <K_20>165.85</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>7</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-323</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-02</DataSprzedazy>
+            <K_19>2884.49</K_19>
+            <K_20>663.43</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>8</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>3347697KH</NrKontrahenta>
+            <NazwaKontrahenta>Shopify International Limited</NazwaKontrahenta>
+            <DowodSprzedazy>#259638081</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-04</DataSprzedazy>
+            <K_29>725.28</K_29>
+            <K_30>166.81</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>9</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>3508218NH</NrKontrahenta>
+            <NazwaKontrahenta>SHUTTERSTOCK IRELAND LIMITED</NazwaKontrahenta>
+            <DowodSprzedazy>CS-0F715-8D85</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_29>124.42</K_29>
+            <K_30>28.62</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>10</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-324</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_19>673.79</K_19>
+            <K_20>154.96</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>11</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>814584193</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU Sarl Niederlassung Deutschland</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-325</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>1329.99</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>12</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrKontrahenta>08973230967</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Italiana </NazwaKontrahenta>
+            <DowodSprzedazy>VIT2024-91</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>486.52</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>13</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-326</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_19>1345.66</K_19>
+            <K_20>309.5</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>14</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>VPL2024-28</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_19>489.09</K_19>
+            <K_20>112.49</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>15</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrKontrahenta>08973230967</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Italiana </NazwaKontrahenta>
+            <DowodSprzedazy>VIT2024-92</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>1199.88</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>16</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrKontrahenta>08973230967</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Italiana </NazwaKontrahenta>
+            <DowodSprzedazy>VIT2024-93</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>3074.31</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>17</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrKontrahenta>08973230967</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Italiana </NazwaKontrahenta>
+            <DowodSprzedazy>VIT2024-94</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>2691.31</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>18</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrKontrahenta>08973230967</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Italiana </NazwaKontrahenta>
+            <DowodSprzedazy>VIT2024-95</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>3985.21</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>19</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>VPL2024-29</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-09</DataSprzedazy>
+            <K_19>500.55</K_19>
+            <K_20>115.1</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>20</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>814584193</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU Sarl Niederlassung Deutschland</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-327</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-09</DataSprzedazy>
+            <K_21>9025.38</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>21</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>814584193</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU Sarl Niederlassung Deutschland</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-328</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-12</DataSprzedazy>
+            <K_21>845.74</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>22</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>814584193</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU Sarl Niederlassung Deutschland</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-329</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-12</DataSprzedazy>
+            <K_21>691.81</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>23</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>814584193</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU Sarl Niederlassung Deutschland</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-330</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-12</DataSprzedazy>
+            <K_21>1370.86</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>24</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrKontrahenta>08973230967</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Italiana </NazwaKontrahenta>
+            <DowodSprzedazy>VIT2024-96</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-12</DataSprzedazy>
+            <K_21>830.17</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>25</LpSprzedazy>
+            <KodKrajuNadaniaTIN>ES</KodKrajuNadaniaTIN>
+            <NrKontrahenta>W0184081H</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Sucursal en Espana </NazwaKontrahenta>
+            <DowodSprzedazy>VES2024-66</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-12</DataSprzedazy>
+            <K_21>1674.18</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>26</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-331</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-13</DataSprzedazy>
+            <K_19>769.75</K_19>
+            <K_20>177.04</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>27</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-332</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-13</DataSprzedazy>
+            <K_19>2154.43</K_19>
+            <K_20>495.52</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>28</LpSprzedazy>
+            <KodKrajuNadaniaTIN>FR</KodKrajuNadaniaTIN>
+            <NrKontrahenta>12487773327</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Francaise </NazwaKontrahenta>
+            <DowodSprzedazy>VFR2024-67</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-13</DataSprzedazy>
+            <K_21>2980.66</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>29</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9819191E</NrKontrahenta>
+            <NazwaKontrahenta>xsellco Limited</NazwaKontrahenta>
+            <DowodSprzedazy>XS-334294</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-14</DataSprzedazy>
+            <K_29>198.41</K_29>
+            <K_30>45.63</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>30</LpSprzedazy>
+            <KodKrajuNadaniaTIN>CZ</KodKrajuNadaniaTIN>
+            <NrKontrahenta>681208919</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a r.l. CZ681</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-333</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>2111.30</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>31</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>814584193</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU Sarl Niederlassung Deutschland</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-334</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>671.11</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>32</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>9819191E</NrKontrahenta>
+            <NazwaKontrahenta>xsellco Limited</NazwaKontrahenta>
+            <DowodSprzedazy>XS-334745</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_29>2950.41</K_29>
+            <K_30>678.59</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>33</LpSprzedazy>
+            <KodKrajuNadaniaTIN>FR</KodKrajuNadaniaTIN>
+            <NrKontrahenta>64790933329</NrKontrahenta>
+            <NazwaKontrahenta>Amazon Online France SAS </NazwaKontrahenta>
+            <DowodSprzedazy>FR-AOFR-2024-516793</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-21</DataSprzedazy>
+            <K_29>4989.16</K_29>
+            <K_30>1147.51</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>34</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-335</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-22</DataSprzedazy>
+            <K_19>2006.74</K_19>
+            <K_20>461.55</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>35</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>5262907815</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU s.a.r.l.</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-336</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-22</DataSprzedazy>
+            <K_19>340.89</K_19>
+            <K_20>78.38</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>36</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>814584193</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU Sarl Niederlassung Deutschland</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-337</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-22</DataSprzedazy>
+            <K_21>719.60</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>37</LpSprzedazy>
+            <KodKrajuNadaniaTIN>FR</KodKrajuNadaniaTIN>
+            <NrKontrahenta>12487773327</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Francaise </NazwaKontrahenta>
+            <DowodSprzedazy>2424541076</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-26</DataSprzedazy>
+            <K_29>10.82</K_29>
+            <K_30>2.49</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>38</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>3347697KH</NrKontrahenta>
+            <NazwaKontrahenta>Shopify International Limited</NazwaKontrahenta>
+            <DowodSprzedazy>#266738220</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-26</DataSprzedazy>
+            <K_29>449.07</K_29>
+            <K_30>103.29</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>39</LpSprzedazy>
+            <KodKrajuNadaniaTIN>ES</KodKrajuNadaniaTIN>
+            <NrKontrahenta>W0184081H</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Sucursal en Espana </NazwaKontrahenta>
+            <DowodSprzedazy>VES2024-67</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-26</DataSprzedazy>
+            <K_21>1642.33</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>40</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>814584193</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU Sarl Niederlassung Deutschland</NazwaKontrahenta>
+            <DowodSprzedazy>2021089864</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-27</DataSprzedazy>
+            <K_29>5.18</K_29>
+            <K_30>1.19</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>41</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8512820472</NrKontrahenta>
+            <NazwaKontrahenta>Pawlukowska Magdalena</NazwaKontrahenta>
+            <DowodSprzedazy>30/08/2024</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-28</DataSprzedazy>
+            <TP>1</TP>
+            <K_19>390.00</K_19>
+            <K_20>89.7</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>42</LpSprzedazy>
+            <KodKrajuNadaniaTIN>CZ</KodKrajuNadaniaTIN>
+            <NrKontrahenta>681208919</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a r.l. CZ681</NazwaKontrahenta>
+            <DowodSprzedazy>VDE2024-338</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-28</DataSprzedazy>
+            <K_21>477.67</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>43</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>288084764</NrKontrahenta>
+            <NazwaKontrahenta>Amazon Online Germany GmBH</NazwaKontrahenta>
+            <DowodSprzedazy>DE-AOG-2024-785097</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-29</DataSprzedazy>
+            <K_29>16147.78</K_29>
+            <K_30>3713.99</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>44</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>340451093</NrKontrahenta>
+            <NazwaKontrahenta>Kaufland e-commerce GmbH (2)</NazwaKontrahenta>
+            <DowodSprzedazy>R0924-20626012</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_29>583.65</K_29>
+            <K_30>134.24</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>45</LpSprzedazy>
+            <KodKrajuNadaniaTIN>TR</KodKrajuNadaniaTIN>
+            <NrKontrahenta>0680972288</NrKontrahenta>
+            <NazwaKontrahenta>Amazon Turkey Perakende Hizmetleri Limited Sirketi</NazwaKontrahenta>
+            <DowodSprzedazy>9002024000299435</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_27>18.34</K_27>
+            <K_28>4.22</K_28>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>46</LpSprzedazy>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrKontrahenta>172046918</NrKontrahenta>
+            <NazwaKontrahenta>Amazon Online UK Limited </NazwaKontrahenta>
+            <DowodSprzedazy>GB-AOUK-2024-758509</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_27>10337.15</K_27>
+            <K_28>2377.54</K_28>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>47</LpSprzedazy>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrKontrahenta>20260743</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l. PL</NazwaKontrahenta>
+            <DowodSprzedazy>LU-CN-AEU-2024-595894</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>-14.21</K_29>
+            <K_30>-3.27</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>48</LpSprzedazy>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrKontrahenta>20260743</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l. PL</NazwaKontrahenta>
+            <DowodSprzedazy>LU-CN-AEU-2024-684108</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>-41.60</K_29>
+            <K_30>-9.57</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>49</LpSprzedazy>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrKontrahenta>20260743</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l. PL</NazwaKontrahenta>
+            <DowodSprzedazy>LU-CN-AEU-2024-123808</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>-252.47</K_29>
+            <K_30>-58.07</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>50</LpSprzedazy>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrKontrahenta>20260743</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l. PL</NazwaKontrahenta>
+            <DowodSprzedazy>LU-CN-AEU-2024-140703</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>-1496.05</K_29>
+            <K_30>-344.09</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>51</LpSprzedazy>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrKontrahenta>20260743</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l. PL</NazwaKontrahenta>
+            <DowodSprzedazy>LU-CN-AEU-2024-529963</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>-67.28</K_29>
+            <K_30>-15.47</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>52</LpSprzedazy>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrKontrahenta>20260743</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l. PL</NazwaKontrahenta>
+            <DowodSprzedazy>LU-CN-AEU-2024-200490</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>-109.56</K_29>
+            <K_30>-25.2</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>53</LpSprzedazy>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrKontrahenta>20260743</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l. PL</NazwaKontrahenta>
+            <DowodSprzedazy>LU-CN-AEU-2024-129725</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>-60.63</K_29>
+            <K_30>-13.94</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>54</LpSprzedazy>
+            <KodKrajuNadaniaTIN>NL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>815158464B01</NrKontrahenta>
+            <NazwaKontrahenta>Amazon NL</NazwaKontrahenta>
+            <DowodSprzedazy>3131021561</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>162.80</K_29>
+            <K_30>37.44</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>55</LpSprzedazy>
+            <KodKrajuNadaniaTIN>NL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>815158464B01</NrKontrahenta>
+            <NazwaKontrahenta>Amazon NL</NazwaKontrahenta>
+            <DowodSprzedazy>3131021562</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>32.57</K_29>
+            <K_30>7.49</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>56</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrKontrahenta>08973230967</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Italiana </NazwaKontrahenta>
+            <DowodSprzedazy>2322026752</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>2821.63</K_29>
+            <K_30>648.97</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>57</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrKontrahenta>08973230967</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Italiana </NazwaKontrahenta>
+            <DowodSprzedazy>2322026753</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>564.33</K_29>
+            <K_30>129.8</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>58</LpSprzedazy>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrKontrahenta>727255821</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., UK Branch</NazwaKontrahenta>
+            <DowodSprzedazy>2521005864</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_27>45.28</K_27>
+            <K_28>10.41</K_28>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>59</LpSprzedazy>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrKontrahenta>727255821</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., UK Branch</NazwaKontrahenta>
+            <DowodSprzedazy>2521005863</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_27>226.44</K_27>
+            <K_28>52.08</K_28>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>60</LpSprzedazy>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrKontrahenta>727255821</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., UK Branch</NazwaKontrahenta>
+            <DowodSprzedazy>3221006720</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_27>36.98</K_27>
+            <K_28>8.51</K_28>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>61</LpSprzedazy>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrKontrahenta>727255821</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., UK Branch</NazwaKontrahenta>
+            <DowodSprzedazy>3221006719</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_27>184.84</K_27>
+            <K_28>42.51</K_28>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>62</LpSprzedazy>
+            <KodKrajuNadaniaTIN>FR</KodKrajuNadaniaTIN>
+            <NrKontrahenta>12487773327</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Francaise </NazwaKontrahenta>
+            <DowodSprzedazy>2424544636</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>2878.94</K_29>
+            <K_30>662.16</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>63</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrKontrahenta>08973230967</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Italiana </NazwaKontrahenta>
+            <DowodSprzedazy>2222434860</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>2202.90</K_29>
+            <K_30>506.67</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>64</LpSprzedazy>
+            <KodKrajuNadaniaTIN>FR</KodKrajuNadaniaTIN>
+            <NrKontrahenta>12487773327</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Francaise </NazwaKontrahenta>
+            <DowodSprzedazy>2424544637</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>575.80</K_29>
+            <K_30>132.43</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>65</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrKontrahenta>08973230967</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., Succursale Italiana </NazwaKontrahenta>
+            <DowodSprzedazy>2222434861</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>440.56</K_29>
+            <K_30>101.33</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>66</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>814584193</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU Sarl Niederlassung Deutschland</NazwaKontrahenta>
+            <DowodSprzedazy>2021097995</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>1817.80</K_29>
+            <K_30>418.09</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>67</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>814584193</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU Sarl Niederlassung Deutschland</NazwaKontrahenta>
+            <DowodSprzedazy>2021097996</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>363.57</K_29>
+            <K_30>83.62</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>68</LpSprzedazy>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrKontrahenta>727255821</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., UK Branch</NazwaKontrahenta>
+            <DowodSprzedazy>2121893306</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_27>775.24</K_27>
+            <K_28>178.31</K_28>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>69</LpSprzedazy>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrKontrahenta>727255821</NrKontrahenta>
+            <NazwaKontrahenta>Amazon EU S.a.r.l., UK Branch</NazwaKontrahenta>
+            <DowodSprzedazy>2121893307</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_27>155.06</K_27>
+            <K_28>35.66</K_28>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>70</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>248464253</NrKontrahenta>
+            <NazwaKontrahenta>DPD Deutschland GmbH </NazwaKontrahenta>
+            <DowodSprzedazy>271001746760</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>475.53</K_29>
+            <K_30>109.37</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>71</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>252791253</NrKontrahenta>
+            <NazwaKontrahenta>IT-Recht Kanzlei</NazwaKontrahenta>
+            <DowodSprzedazy>U5488030</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>62.06</K_29>
+            <K_30>14.27</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>72</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>200081785</NrKontrahenta>
+            <NazwaKontrahenta>eBay GMBH</NazwaKontrahenta>
+            <DowodSprzedazy>FNEU037129617</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>2748.19</K_29>
+            <K_30>632.08</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>73</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>815228381</NrKontrahenta>
+            <NazwaKontrahenta>SellerLogic GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>158092</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>29.74</K_29>
+            <K_30>6.84</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>74</LpSprzedazy>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>3206488LH</NrKontrahenta>
+            <NazwaKontrahenta>Stripe Payments Europe</NazwaKontrahenta>
+            <DowodSprzedazy>MQDJE9XH-2024-08</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_29>70.87</K_29>
+            <K_30>16.3</K_30>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>75</LpSprzedazy>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrKontrahenta>368476742</NrKontrahenta>
+            <NazwaKontrahenta>Avalara Europe Limited</NazwaKontrahenta>
+            <DowodSprzedazy>AMZ-00162225</DowodSprzedazy>
+            <DataWystawienia>2024-09-30</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <K_27>42.80</K_27>
+            <K_28>9.84</K_28>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>76</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>8513251349</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>1/08/2024</DowodSprzedazy>
+            <DataWystawienia>2024-08-31</DataWystawienia>
+            <DataSprzedazy>2024-08-31</DataSprzedazy>
+            <TypDokumentu>WEW</TypDokumentu>
+            <K_19>901.49</K_19>
+            <K_20>207.34</K_20>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>77</LpSprzedazy>
+            <NrKontrahenta>DE141505352</NrKontrahenta>
+            <NazwaKontrahenta>Andy Steiniger</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-13</DataWystawienia>
+            <DataSprzedazy>2024-08-13</DataSprzedazy>
+            <K_21>123.33</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>78</LpSprzedazy>
+            <NrKontrahenta>DE217622216</NrKontrahenta>
+            <NazwaKontrahenta>David Skopec</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-25</DataWystawienia>
+            <DataSprzedazy>2024-08-25</DataSprzedazy>
+            <K_21>46.53</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>79</LpSprzedazy>
+            <NrKontrahenta>DE199200877</NrKontrahenta>
+            <NazwaKontrahenta>Autohof Thiersheim</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-25</DataWystawienia>
+            <DataSprzedazy>2024-08-24</DataSprzedazy>
+            <K_21>45.59</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>80</LpSprzedazy>
+            <NrKontrahenta>DE355742019</NrKontrahenta>
+            <NazwaKontrahenta>Zajac Gartentechnik, Zajac und Scholz GbR</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>193.36</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>81</LpSprzedazy>
+            <NrKontrahenta>DE321724987</NrKontrahenta>
+            <NazwaKontrahenta>Neumann Holzdesign</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-26</DataWystawienia>
+            <DataSprzedazy>2024-08-25</DataSprzedazy>
+            <K_21>63.21</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>82</LpSprzedazy>
+            <NrKontrahenta>DE260505201</NrKontrahenta>
+            <NazwaKontrahenta>autewo GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-23</DataWystawienia>
+            <DataSprzedazy>2024-08-22</DataSprzedazy>
+            <K_21>490.54</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>83</LpSprzedazy>
+            <NrKontrahenta>BE0697556593</NrKontrahenta>
+            <NazwaKontrahenta>GOBERT MATERIAUX-BELLEZ</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-29</DataSprzedazy>
+            <K_21>76.39</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>84</LpSprzedazy>
+            <NrKontrahenta>DE178029999</NrKontrahenta>
+            <NazwaKontrahenta>Regina Schaniel</NazwaKontrahenta>
+            <DowodSprzedazy>REFUND</DowodSprzedazy>
+            <DataWystawienia>2024-07-14</DataWystawienia>
+            <DataSprzedazy>2024-07-14</DataSprzedazy>
+            <K_21>-287.58</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>85</LpSprzedazy>
+            <NrKontrahenta>NL859485511B01</NrKontrahenta>
+            <NazwaKontrahenta>Michael Schmeitz</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>88.08</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>86</LpSprzedazy>
+            <NrKontrahenta>ATU64415127</NrKontrahenta>
+            <NazwaKontrahenta>dave brewer</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-25</DataWystawienia>
+            <DataSprzedazy>2024-08-24</DataSprzedazy>
+            <K_21>68.09</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>87</LpSprzedazy>
+            <NrKontrahenta>DE293078456</NrKontrahenta>
+            <NazwaKontrahenta>Christian Adler</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-28</DataWystawienia>
+            <DataSprzedazy>2024-08-28</DataSprzedazy>
+            <K_21>87.96</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>88</LpSprzedazy>
+            <NrKontrahenta>FR54887687754</NrKontrahenta>
+            <NazwaKontrahenta>MAS DES BUSCADES SAS</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-12</DataWystawienia>
+            <DataSprzedazy>2024-08-11</DataSprzedazy>
+            <K_21>179.96</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>89</LpSprzedazy>
+            <NrKontrahenta>DE225177819</NrKontrahenta>
+            <NazwaKontrahenta>Rebecca Hustadt</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>105.11</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>90</LpSprzedazy>
+            <NrKontrahenta>IT08448730963</NrKontrahenta>
+            <NazwaKontrahenta>Alice Coffee Bakery</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-26</DataWystawienia>
+            <DataSprzedazy>2024-08-25</DataSprzedazy>
+            <K_21>116.42</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>91</LpSprzedazy>
+            <NrKontrahenta>DE185405349</NrKontrahenta>
+            <NazwaKontrahenta>Kita BurgstÃ¤dt</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-15</DataWystawienia>
+            <DataSprzedazy>2024-08-14</DataSprzedazy>
+            <K_21>45.26</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>92</LpSprzedazy>
+            <NrKontrahenta>DE813464687</NrKontrahenta>
+            <NazwaKontrahenta>Herget Ruediger</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-02</DataWystawienia>
+            <DataSprzedazy>2024-08-01</DataSprzedazy>
+            <K_21>107.90</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>93</LpSprzedazy>
+            <NrKontrahenta>DE332682311</NrKontrahenta>
+            <NazwaKontrahenta>Nikolas Uenzen</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>46.68</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>94</LpSprzedazy>
+            <NrKontrahenta>DE319514546</NrKontrahenta>
+            <NazwaKontrahenta>gÃ¼nter dieckmann</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-28</DataWystawienia>
+            <DataSprzedazy>2024-08-28</DataSprzedazy>
+            <K_21>84.58</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>95</LpSprzedazy>
+            <NrKontrahenta>DE261481587</NrKontrahenta>
+            <NazwaKontrahenta>Nathalie + Rainer Grimm</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-29</DataWystawienia>
+            <DataSprzedazy>2024-08-28</DataSprzedazy>
+            <K_21>35.05</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>96</LpSprzedazy>
+            <NrKontrahenta>ESB02998052</NrKontrahenta>
+            <NazwaKontrahenta>UBBOK ESECURITY, S.L.U.</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-26</DataWystawienia>
+            <DataSprzedazy>2024-08-26</DataSprzedazy>
+            <K_21>34.47</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>97</LpSprzedazy>
+            <NrKontrahenta>BE0787830733</NrKontrahenta>
+            <NazwaKontrahenta>Frank De Winter</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>171.02</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>98</LpSprzedazy>
+            <NrKontrahenta>DE309906031</NrKontrahenta>
+            <NazwaKontrahenta>Michael Peters</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-16</DataWystawienia>
+            <DataSprzedazy>2024-08-16</DataSprzedazy>
+            <K_21>1412.50</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>99</LpSprzedazy>
+            <NrKontrahenta>ATU65951749</NrKontrahenta>
+            <NazwaKontrahenta>bss BauSoftware - Service GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-26</DataWystawienia>
+            <DataSprzedazy>2024-08-24</DataSprzedazy>
+            <K_21>28.01</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>100</LpSprzedazy>
+            <NrKontrahenta>ATU57082123</NrKontrahenta>
+            <NazwaKontrahenta>Gertrud Tauchhammer</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-27</DataWystawienia>
+            <DataSprzedazy>2024-08-27</DataSprzedazy>
+            <K_21>1813.99</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>101</LpSprzedazy>
+            <NrKontrahenta>DE150928006</NrKontrahenta>
+            <NazwaKontrahenta>Ralf GÃ¶tze</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-03</DataSprzedazy>
+            <K_21>88.17</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>102</LpSprzedazy>
+            <NrKontrahenta>BE0891323496</NrKontrahenta>
+            <NazwaKontrahenta>Pieter Gillis</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-12</DataWystawienia>
+            <DataSprzedazy>2024-08-09</DataSprzedazy>
+            <K_21>227.67</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>103</LpSprzedazy>
+            <NrKontrahenta>DE300907134</NrKontrahenta>
+            <NazwaKontrahenta>Maik Tiebe</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-15</DataWystawienia>
+            <DataSprzedazy>2024-08-15</DataSprzedazy>
+            <K_21>107.85</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>104</LpSprzedazy>
+            <NrKontrahenta>DE236114318</NrKontrahenta>
+            <NazwaKontrahenta>Eckhard Schulz</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-15</DataWystawienia>
+            <DataSprzedazy>2024-08-14</DataSprzedazy>
+            <K_21>39.51</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>105</LpSprzedazy>
+            <NrKontrahenta>DE300907134</NrKontrahenta>
+            <NazwaKontrahenta>Maik Tiebe</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-12</DataWystawienia>
+            <DataSprzedazy>2024-08-11</DataSprzedazy>
+            <K_21>434.46</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>106</LpSprzedazy>
+            <NrKontrahenta>ESB87282349</NrKontrahenta>
+            <NazwaKontrahenta>YEGUADA SUSAETA, S.L.</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-26</DataWystawienia>
+            <DataSprzedazy>2024-08-25</DataSprzedazy>
+            <K_21>181.17</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>107</LpSprzedazy>
+            <NrKontrahenta>ATU54821901</NrKontrahenta>
+            <NazwaKontrahenta>Hering Andreas</NazwaKontrahenta>
+            <DowodSprzedazy>REFUND</DowodSprzedazy>
+            <DataWystawienia>2024-07-21</DataWystawienia>
+            <DataSprzedazy>2024-07-21</DataSprzedazy>
+            <K_21>-142.79</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>108</LpSprzedazy>
+            <NrKontrahenta>DE178029999</NrKontrahenta>
+            <NazwaKontrahenta>Regina Schaniel</NazwaKontrahenta>
+            <DowodSprzedazy>REFUND</DowodSprzedazy>
+            <DataWystawienia>2024-07-14</DataWystawienia>
+            <DataSprzedazy>2024-07-14</DataSprzedazy>
+            <K_21>-26.82</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>109</LpSprzedazy>
+            <NrKontrahenta>DE350574516</NrKontrahenta>
+            <NazwaKontrahenta>Holiday Experience GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-16</DataWystawienia>
+            <DataSprzedazy>2024-08-16</DataSprzedazy>
+            <K_21>194.27</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>110</LpSprzedazy>
+            <NrKontrahenta>DE269948524</NrKontrahenta>
+            <NazwaKontrahenta>Andreas Stein</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-01</DataWystawienia>
+            <DataSprzedazy>2024-07-31</DataSprzedazy>
+            <K_21>105.48</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>111</LpSprzedazy>
+            <NrKontrahenta>BE0427130095</NrKontrahenta>
+            <NazwaKontrahenta>BotÃ©ro Carine</NazwaKontrahenta>
+            <DowodSprzedazy>SALE</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>279.04</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>112</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-14</DataWystawienia>
+            <DataSprzedazy>2024-08-14</DataSprzedazy>
+            <K_21>39.51</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>113</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-02</DataWystawienia>
+            <DataSprzedazy>2024-08-02</DataSprzedazy>
+            <K_21>111.17</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>114</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>660.31</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>115</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>55.78</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>116</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-21</DataWystawienia>
+            <DataSprzedazy>2024-08-21</DataSprzedazy>
+            <K_21>50.98</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>117</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>171.09</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>118</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>234.67</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>119</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>1037.63</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>120</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>63.88</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>121</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>72.43</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>122</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>93.87</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>123</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>72.36</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>124</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-04</DataWystawienia>
+            <DataSprzedazy>2024-08-04</DataSprzedazy>
+            <K_21>106.91</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>125</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-02</DataWystawienia>
+            <DataSprzedazy>2024-08-02</DataSprzedazy>
+            <K_21>39.49</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>126</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>42.52</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>127</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>93.87</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>128</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>30.72</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>129</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>147.83</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>130</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>62.79</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>131</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-02</DataWystawienia>
+            <DataSprzedazy>2024-08-02</DataSprzedazy>
+            <K_21>55.59</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>132</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>125.59</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>133</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>125.59</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>134</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>127.98</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>135</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-21</DataWystawienia>
+            <DataSprzedazy>2024-08-21</DataSprzedazy>
+            <K_21>127.78</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>136</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>24.64</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>137</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-22</DataWystawienia>
+            <DataSprzedazy>2024-08-22</DataSprzedazy>
+            <K_21>128.42</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>138</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>89.81</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>139</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>106.91</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>140</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>85.59</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>141</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>149.68</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>142</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>1131.96</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>143</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>42.52</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>144</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-02</DataWystawienia>
+            <DataSprzedazy>2024-08-02</DataSprzedazy>
+            <K_21>111.17</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>145</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-08</DataWystawienia>
+            <DataSprzedazy>2024-08-08</DataSprzedazy>
+            <K_21>42.94</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>146</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-22</DataWystawienia>
+            <DataSprzedazy>2024-08-22</DataSprzedazy>
+            <K_21>85.54</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>147</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>63.88</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>148</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-04</DataWystawienia>
+            <DataSprzedazy>2024-08-04</DataSprzedazy>
+            <K_21>179.33</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>149</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>85.25</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>150</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>660.31</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>151</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-21</DataWystawienia>
+            <DataSprzedazy>2024-08-21</DataSprzedazy>
+            <K_21>458.86</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>152</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>47.16</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>153</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>39.28</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>154</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>30.72</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>155</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-27</DataWystawienia>
+            <DataSprzedazy>2024-08-27</DataSprzedazy>
+            <K_21>42.59</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>156</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-03</DataWystawienia>
+            <DataSprzedazy>2024-08-03</DataSprzedazy>
+            <K_21>171.18</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>157</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>70.76</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>158</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>85.17</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>159</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-09</DataWystawienia>
+            <DataSprzedazy>2024-08-09</DataSprzedazy>
+            <K_21>1112.61</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>160</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>141.53</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>161</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>85.93</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>162</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-13</DataWystawienia>
+            <DataSprzedazy>2024-08-13</DataSprzedazy>
+            <K_21>90.34</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>163</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>85.04</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>164</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>46.93</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>165</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>225.54</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>166</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>187.74</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>167</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>141.53</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>168</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>112.77</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>169</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-21</DataWystawienia>
+            <DataSprzedazy>2024-08-21</DataSprzedazy>
+            <K_21>63.06</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>170</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>93.87</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>171</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>328.54</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>172</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-21</DataWystawienia>
+            <DataSprzedazy>2024-08-21</DataSprzedazy>
+            <K_21>85.12</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>173</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-03</DataWystawienia>
+            <DataSprzedazy>2024-08-03</DataSprzedazy>
+            <K_21>194.09</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>174</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>145.30</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>175</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>63.88</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>176</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>127.87</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>177</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-21</DataWystawienia>
+            <DataSprzedazy>2024-08-21</DataSprzedazy>
+            <K_21>112.08</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>178</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-21</DataWystawienia>
+            <DataSprzedazy>2024-08-21</DataSprzedazy>
+            <K_21>191.35</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>179</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>196.52</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>180</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>187.74</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>181</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-03</DataWystawienia>
+            <DataSprzedazy>2024-08-03</DataSprzedazy>
+            <K_21>711.67</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>182</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>187.74</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>183</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-22</DataWystawienia>
+            <DataSprzedazy>2024-08-22</DataSprzedazy>
+            <K_21>42.66</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>184</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>51.22</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>185</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>127.44</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>186</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>53.46</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>187</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>49.28</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>188</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>767.19</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>189</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>127.87</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>190</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>85.04</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>191</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>61.44</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>192</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-07</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>57.10</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>193</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-02</DataWystawienia>
+            <DataSprzedazy>2024-08-02</DataSprzedazy>
+            <K_21>111.17</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>194</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>28.51</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>195</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>70.76</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>196</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-13</DataWystawienia>
+            <DataSprzedazy>2024-08-13</DataSprzedazy>
+            <K_21>90.34</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>197</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>268.34</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>198</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>990.46</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>199</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>85.59</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>200</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>42.48</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>201</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>93.87</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>202</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>24.64</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>203</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-22</DataWystawienia>
+            <DataSprzedazy>2024-08-22</DataSprzedazy>
+            <K_21>42.66</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>204</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>85.17</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>205</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>57.03</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>206</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-03</DataWystawienia>
+            <DataSprzedazy>2024-08-03</DataSprzedazy>
+            <K_21>286.94</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>207</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>1697.94</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>208</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-10</DataWystawienia>
+            <DataSprzedazy>2024-08-10</DataSprzedazy>
+            <K_21>43.02</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>209</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-07</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>74.01</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>210</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>357.45</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>211</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>93.87</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>212</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-12</DataWystawienia>
+            <DataSprzedazy>2024-08-12</DataSprzedazy>
+            <K_21>38.70</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>213</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-29</DataWystawienia>
+            <DataSprzedazy>2024-08-29</DataSprzedazy>
+            <K_21>24.56</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>214</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-22</DataWystawienia>
+            <DataSprzedazy>2024-08-22</DataSprzedazy>
+            <K_21>85.54</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>215</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-07-31</DataWystawienia>
+            <DataSprzedazy>2024-07-31</DataSprzedazy>
+            <K_21>46.92</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>216</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-21</DataWystawienia>
+            <DataSprzedazy>2024-08-21</DataSprzedazy>
+            <K_21>42.45</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>217</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>63.88</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>218</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>85.25</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>219</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-21</DataWystawienia>
+            <DataSprzedazy>2024-08-21</DataSprzedazy>
+            <K_21>297.16</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>220</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>267.29</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>221</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-03</DataWystawienia>
+            <DataSprzedazy>2024-08-03</DataSprzedazy>
+            <K_21>111.12</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>222</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>127.56</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>223</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>63.88</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>224</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>68.10</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>225</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-14</DataWystawienia>
+            <DataSprzedazy>2024-08-14</DataSprzedazy>
+            <K_21>81.38</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>226</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>256.63</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>227</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-14</DataWystawienia>
+            <DataSprzedazy>2024-08-14</DataSprzedazy>
+            <K_21>42.73</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>228</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>767.19</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>229</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-08</DataWystawienia>
+            <DataSprzedazy>2024-08-08</DataSprzedazy>
+            <K_21>30.90</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>230</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>199.60</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>231</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>204.07</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>232</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>55.56</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>233</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>106.91</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>234</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-07</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>28.55</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>235</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>102.13</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>236</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>85.04</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>237</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-07</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>74.01</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>238</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>85.54</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>239</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>63.88</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>240</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>42.48</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>241</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>140.80</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>242</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-21</DataWystawienia>
+            <DataSprzedazy>2024-08-21</DataSprzedazy>
+            <K_21>50.77</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>243</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-07</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>566.73</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>244</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>85.04</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>245</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>123.19</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>246</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-07</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>59.95</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>247</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-28</DataWystawienia>
+            <DataSprzedazy>2024-08-28</DataSprzedazy>
+            <K_21>39.38</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>248</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-08</DataWystawienia>
+            <DataSprzedazy>2024-08-08</DataSprzedazy>
+            <K_21>148.12</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>249</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-07</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>59.95</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>250</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>85.17</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>251</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-07</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>1110.17</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>252</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>127.65</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>253</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>187.74</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>254</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>63.88</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>255</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-02</DataWystawienia>
+            <DataSprzedazy>2024-08-02</DataSprzedazy>
+            <K_21>55.59</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>256</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-14</DataWystawienia>
+            <DataSprzedazy>2024-08-14</DataSprzedazy>
+            <K_21>89.97</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>257</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-11</DataWystawienia>
+            <DataSprzedazy>2024-08-11</DataSprzedazy>
+            <K_21>39.78</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>258</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-07</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>49.34</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>259</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>24.64</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>260</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-13</DataWystawienia>
+            <DataSprzedazy>2024-08-13</DataSprzedazy>
+            <K_21>90.34</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>261</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>102.13</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>262</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>70.76</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>263</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-07</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>119.90</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>264</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>49.28</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>265</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>255.11</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>266</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>47.16</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>267</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>70.96</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>268</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-07</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>28.55</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>269</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>209.55</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>270</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-03</DataWystawienia>
+            <DataSprzedazy>2024-08-03</DataSprzedazy>
+            <K_21>55.56</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>271</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>68.16</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>272</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-08</DataWystawienia>
+            <DataSprzedazy>2024-08-08</DataSprzedazy>
+            <K_21>119.98</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>273</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>63.88</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>274</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>127.98</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>275</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>1078.15</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>276</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>46.93</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>277</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-07</DataWystawienia>
+            <DataSprzedazy>2024-08-07</DataSprzedazy>
+            <K_21>89.93</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>278</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>29.94</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>279</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-22</DataWystawienia>
+            <DataSprzedazy>2024-08-22</DataSprzedazy>
+            <K_21>51.24</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>280</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>46.93</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>281</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>111.12</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>282</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>42.52</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>283</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-02</DataWystawienia>
+            <DataSprzedazy>2024-08-02</DataSprzedazy>
+            <K_21>55.59</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>284</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>119.74</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>285</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>46.93</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>286</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>46.93</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>287</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>34.08</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>288</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-19</DataWystawienia>
+            <DataSprzedazy>2024-08-19</DataSprzedazy>
+            <K_21>42.52</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>289</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>68.10</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>290</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-02</DataWystawienia>
+            <DataSprzedazy>2024-08-02</DataSprzedazy>
+            <K_21>55.59</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>291</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-05</DataWystawienia>
+            <DataSprzedazy>2024-08-05</DataSprzedazy>
+            <K_21>35.87</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>292</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-04</DataWystawienia>
+            <DataSprzedazy>2024-08-04</DataSprzedazy>
+            <K_21>30.72</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>293</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-07-31</DataWystawienia>
+            <DataSprzedazy>2024-07-31</DataSprzedazy>
+            <K_21>39.42</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>294</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>191.65</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>295</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>225.33</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>296</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-20</DataWystawienia>
+            <DataSprzedazy>2024-08-20</DataSprzedazy>
+            <K_21>127.87</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>297</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>112.77</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>298</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-06</DataWystawienia>
+            <DataSprzedazy>2024-08-06</DataSprzedazy>
+            <K_21>98.55</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>299</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-03</DataWystawienia>
+            <DataSprzedazy>2024-08-03</DataSprzedazy>
+            <K_21>160.37</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>300</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-21</DataWystawienia>
+            <DataSprzedazy>2024-08-21</DataSprzedazy>
+            <K_21>126.93</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>301</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-04</DataWystawienia>
+            <DataSprzedazy>2024-08-04</DataSprzedazy>
+            <K_21>85.59</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>302</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-30</DataWystawienia>
+            <DataSprzedazy>2024-08-30</DataSprzedazy>
+            <K_21>46.93</K_21>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>303</LpSprzedazy>
+            <NrKontrahenta>DE334849391</NrKontrahenta>
+            <NazwaKontrahenta>VINTIS sp. z o.o. sp.k.</NazwaKontrahenta>
+            <DowodSprzedazy>FC_TRANSFER</DowodSprzedazy>
+            <DataWystawienia>2024-08-17</DataWystawienia>
+            <DataSprzedazy>2024-08-17</DataSprzedazy>
+            <K_21>63.88</K_21>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>303</LiczbaWierszySprzedazy>
+            <PodatekNalezny>15941.86</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7851561831</NrDostawcy>
+            <NazwaDostawcy>GENERAL LOGISTICS SYSTEMS POLAND SPÓŁKA ZO.O.</NazwaDostawcy>
+            <DowodZakupu>6500191150</DowodZakupu>
+            <DataZakupu>2024-07-28</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1483.03</K_42>
+            <K_43>341.1</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7851561831</NrDostawcy>
+            <NazwaDostawcy>GENERAL LOGISTICS SYSTEMS POLAND SPÓŁKA ZO.O.</NazwaDostawcy>
+            <DowodZakupu>6500191152</DowodZakupu>
+            <DataZakupu>2024-07-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>5398.16</K_42>
+            <K_43>1241.58</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7922198965</NrDostawcy>
+            <NazwaDostawcy>AGRIMPEX sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FV230089</DowodZakupu>
+            <DataZakupu>2024-08-02</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>8395.23</K_42>
+            <K_43>1930.9</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7941731863</NrDostawcy>
+            <NazwaDostawcy>MARGO PACK sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>000029/08/24/EKO</DowodZakupu>
+            <DataZakupu>2024-08-02</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>251.22</K_42>
+            <K_43>57.78</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7292405226</NrDostawcy>
+            <NazwaDostawcy>"ALPAKO" S.C. ZBIGNIEW KORZEPA, Ryszard Matusiak</NazwaDostawcy>
+            <DowodZakupu>23802/2024</DowodZakupu>
+            <DataZakupu>2024-08-02</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>175.60</K_42>
+            <K_43>40.39</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8521871405</NrDostawcy>
+            <NazwaDostawcy>Królewicz s.c.</NazwaDostawcy>
+            <DowodZakupu>1/08/2024</DowodZakupu>
+            <DataZakupu>2024-08-02</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>4000.00</K_42>
+            <K_43>920.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-17479</DowodZakupu>
+            <DataZakupu>2024-08-02</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>470.61</K_42>
+            <K_43>108.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>9/2024/VINT34</DowodZakupu>
+            <DataZakupu>2024-08-06</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>8500.00</K_42>
+            <K_43>1955.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9372625600</NrDostawcy>
+            <NazwaDostawcy>GARDENPLAST sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>954/MAG/2024</DowodZakupu>
+            <DataZakupu>2024-08-08</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>9150.40</K_42>
+            <K_43>2104.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8971868567</NrDostawcy>
+            <NazwaDostawcy>BASELINKER sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>58407/08/2024/BL</DowodZakupu>
+            <DataZakupu>2024-08-10</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>863.23</K_42>
+            <K_43>198.54</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7851561831</NrDostawcy>
+            <NazwaDostawcy>GENERAL LOGISTICS SYSTEMS POLAND SPÓŁKA ZO.O.</NazwaDostawcy>
+            <DowodZakupu>6500202654</DowodZakupu>
+            <DataZakupu>2024-08-11</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>14256.51</K_42>
+            <K_43>3279.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6412550486</NrDostawcy>
+            <NazwaDostawcy>GREMBOX sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>(S)FS-2008/08/2024/SKLEP</DowodZakupu>
+            <DataZakupu>2024-08-12</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>385.85</K_42>
+            <K_43>88.75</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6412550486</NrDostawcy>
+            <NazwaDostawcy>GREMBOX sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>(S)FS-2332/08/2024/SKLEP</DowodZakupu>
+            <DataZakupu>2024-08-13</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>2989.43</K_42>
+            <K_43>687.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6412550486</NrDostawcy>
+            <NazwaDostawcy>GREMBOX sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>(S)FS-2336/08/2024/SKLEP</DowodZakupu>
+            <DataZakupu>2024-08-13</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1121.06</K_42>
+            <K_43>257.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9532778271</NrDostawcy>
+            <NazwaDostawcy>JJERRS sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>734/MAG/08/2024</DowodZakupu>
+            <DataZakupu>2024-08-13</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1748.21</K_42>
+            <K_43>402.09</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8943183337</NrDostawcy>
+            <NazwaDostawcy>GENTO BOBOWIEC KWIATEK SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>SK15660/2024</DowodZakupu>
+            <DataZakupu>2024-08-13</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1512.20</K_42>
+            <K_43>347.8</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7151937228</NrDostawcy>
+            <NazwaDostawcy>"WIMAR WM" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FA/2718/2024/WIMAR</DowodZakupu>
+            <DataZakupu>2024-08-14</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>6335.00</K_42>
+            <K_43>1457.05</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8521871405</NrDostawcy>
+            <NazwaDostawcy>Królewicz s.c.</NazwaDostawcy>
+            <DowodZakupu>15/08/2024</DowodZakupu>
+            <DataZakupu>2024-08-14</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>19531.00</K_42>
+            <K_43>4492.13</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512417713</NrDostawcy>
+            <NazwaDostawcy>DHL PARCEL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1105520422</DowodZakupu>
+            <DataZakupu>2024-08-15</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1463.45</K_42>
+            <K_43>336.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7851561831</NrDostawcy>
+            <NazwaDostawcy>GENERAL LOGISTICS SYSTEMS POLAND SPÓŁKA ZO.O.</NazwaDostawcy>
+            <DowodZakupu>6500213536</DowodZakupu>
+            <DataZakupu>2024-08-18</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>8717.99</K_42>
+            <K_43>2005.13</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5922260137</NrDostawcy>
+            <NazwaDostawcy>Pestar Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FS 8600/BIH/08/2024</DowodZakupu>
+            <DataZakupu>2024-08-19</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>501.54</K_42>
+            <K_43>115.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8943082754</NrDostawcy>
+            <NazwaDostawcy>WIGOR S.C. JAROSŁAW GÓRNY I MARIUSZ SOCHA</NazwaDostawcy>
+            <DowodZakupu>00098/01/2024</DowodZakupu>
+            <DataZakupu>2024-08-21</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>8435.96</K_42>
+            <K_43>1940.27</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8792344439</NrDostawcy>
+            <NazwaDostawcy>BES-POL Daria Furmańska</NazwaDostawcy>
+            <DowodZakupu>723/8/2024</DowodZakupu>
+            <DataZakupu>2024-08-21</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>213.41</K_42>
+            <K_43>49.09</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6860000853</NrDostawcy>
+            <NazwaDostawcy>ZAKŁAD TWORZYW SZTUCZNYCH "ARTGOS" S.A.</NazwaDostawcy>
+            <DowodZakupu>(S)FS-2024/1006/WG</DowodZakupu>
+            <DataZakupu>2024-08-22</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>3777.00</K_42>
+            <K_43>868.71</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5271107221</NrDostawcy>
+            <NazwaDostawcy>ACTION S.A.</NazwaDostawcy>
+            <DowodZakupu>24/FAAWAC/001607</DowodZakupu>
+            <DataZakupu>2024-08-23</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>378.86</K_42>
+            <K_43>87.14</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7851561831</NrDostawcy>
+            <NazwaDostawcy>GENERAL LOGISTICS SYSTEMS POLAND SPÓŁKA ZO.O.</NazwaDostawcy>
+            <DowodZakupu>6500222156</DowodZakupu>
+            <DataZakupu>2024-08-25</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>10643.82</K_42>
+            <K_43>2448.08</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>Amz-EPR-POB-ES-23P3-0029611</DowodZakupu>
+            <DataZakupu>2024-08-26</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>441.46</K_42>
+            <K_43>101.54</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9372625600</NrDostawcy>
+            <NazwaDostawcy>GARDENPLAST sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>1004/MAG/2024</DowodZakupu>
+            <DataZakupu>2024-08-27</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>4251.20</K_42>
+            <K_43>977.78</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8943082754</NrDostawcy>
+            <NazwaDostawcy>WIGOR S.C. JAROSŁAW GÓRNY I MARIUSZ SOCHA</NazwaDostawcy>
+            <DowodZakupu>00101/01/2024</DowodZakupu>
+            <DataZakupu>2024-08-28</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1332.76</K_42>
+            <K_43>306.53</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5771985812</NrDostawcy>
+            <NazwaDostawcy>NM Revolution - Spółka Cywilna</NazwaDostawcy>
+            <DowodZakupu>38390/NM2/08/2024</DowodZakupu>
+            <DataZakupu>2024-08-28</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>54.88</K_42>
+            <K_43>12.62</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6792985143</NrDostawcy>
+            <NazwaDostawcy>FABRYKA KOLORÓW sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FS/760/08/2024</DowodZakupu>
+            <DataZakupu>2024-08-28</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1491.05</K_42>
+            <K_43>342.94</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1130089950</NrDostawcy>
+            <NazwaDostawcy>"LEROY-MERLIN POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>000022/1284</DowodZakupu>
+            <DataZakupu>2024-08-28</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>66.25</K_42>
+            <K_43>15.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5221004200</NrDostawcy>
+            <NazwaDostawcy>UPS POLSKA SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>202400402955</DowodZakupu>
+            <DataZakupu>2024-08-29</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>8424.84</K_42>
+            <K_43>1777.38</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5221004200</NrDostawcy>
+            <NazwaDostawcy>UPS POLSKA SP. Z O.O.</NazwaDostawcy>
+            <DowodZakupu>202400402956</DowodZakupu>
+            <DataZakupu>2024-08-29</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1217.25</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>35</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5422381091</NrDostawcy>
+            <NazwaDostawcy>AB Technic II Elżbieta Oleksy</NazwaDostawcy>
+            <DowodZakupu>FV 588/2024</DowodZakupu>
+            <DataZakupu>2024-08-29</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1378.86</K_42>
+            <K_43>317.14</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>36</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7780040905</NrDostawcy>
+            <NazwaDostawcy>PROMAG S.A.</NazwaDostawcy>
+            <DowodZakupu>SZ2024080677</DowodZakupu>
+            <DataZakupu>2024-08-29</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>264.95</K_42>
+            <K_43>60.94</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>37</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9372625600</NrDostawcy>
+            <NazwaDostawcy>GARDENPLAST sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>1030/MAG/2024</DowodZakupu>
+            <DataZakupu>2024-08-30</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>31500.00</K_42>
+            <K_43>7245.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>38</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>6423186765</NrDostawcy>
+            <NazwaDostawcy>PROFIL Patryk Pelczarski</NazwaDostawcy>
+            <DowodZakupu>729/8/2024/FV</DowodZakupu>
+            <DataZakupu>2024-08-30</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>347.20</K_42>
+            <K_43>79.86</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>39</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252817909</NrDostawcy>
+            <NazwaDostawcy>IRONPACK sp. z o.o. sp.k.</NazwaDostawcy>
+            <DowodZakupu>FS/024445/08/2024</DowodZakupu>
+            <DataZakupu>2024-08-30</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>196.74</K_42>
+            <K_43>45.25</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>40</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5423323411</NrDostawcy>
+            <NazwaDostawcy>BAM TRADE sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>000006490</DowodZakupu>
+            <DataZakupu>2024-08-30</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>186.18</K_42>
+            <K_43>42.82</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>41</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-5507</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>78.54</K_42>
+            <K_43>18.06</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>42</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-4685</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>7012.15</K_42>
+            <K_43>1612.8</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>43</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-5512</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>11644.68</K_42>
+            <K_43>2678.28</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>44</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-4254</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>38501.97</K_42>
+            <K_43>8855.45</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>45</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-4261</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>31641.93</K_42>
+            <K_43>7277.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>46</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-4681</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>11693.37</K_42>
+            <K_43>2689.47</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>47</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-14754</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>104.13</K_42>
+            <K_43>23.95</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>48</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-8201</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>193.49</K_42>
+            <K_43>44.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>49</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-8200</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>488.69</K_42>
+            <K_43>112.4</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>50</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-9123</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1998.66</K_42>
+            <K_43>459.69</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>51</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-16667</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>873.48</K_42>
+            <K_43>200.9</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>52</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-16669</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>720.39</K_42>
+            <K_43>165.68</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>53</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-16748</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>196.48</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>54</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-11534</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1051.37</K_42>
+            <K_43>241.82</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>55</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-12387</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>3810.23</K_42>
+            <K_43>876.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>56</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-CN-AEU-2024-2180</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-169.21</K_42>
+            <K_43>-38.92</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>57</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-22695</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>184.31</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>58</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-34733</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>93.86</K_42>
+            <K_43>21.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>59</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-CN-AEU-2024-50</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-23.28</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>60</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-14753</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>93.91</K_42>
+            <K_43>21.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>61</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-11533</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1571.84</K_42>
+            <K_43>361.52</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>62</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-5776</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>21428.67</K_42>
+            <K_43>0.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>63</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-5954</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>7400.22</K_42>
+            <K_43>1702.05</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>64</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-AEU-2024-5958</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>3840.03</K_42>
+            <K_43>883.21</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>65</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-CN-AEU-2024-4408</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-41.74</K_42>
+            <K_43>-9.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>66</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-CN-AEU-2024-2820</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-34.51</K_42>
+            <K_43>-7.93</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>67</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-CN-AEU-2024-6279</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-7.48</K_42>
+            <K_43>-1.72</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>68</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-CN-AEU-2024-5353</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-6.97</K_42>
+            <K_43>-1.6</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>69</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-CN-AEU-2024-6280</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-8.64</K_42>
+            <K_43>-1.99</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>70</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-CN-AEU-2024-414</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-713.03</K_42>
+            <K_43>-164.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>71</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-CN-AEU-2024-1261</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-292.31</K_42>
+            <K_43>-67.23</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>72</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262907815</NrDostawcy>
+            <NazwaDostawcy>Amazon EU s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>PL-CN-AEU-2024-1450</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-27.03</K_42>
+            <K_43>-6.21</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>73</LpZakupu>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrDostawcy>19647148</NrDostawcy>
+            <NazwaDostawcy>Amazon Services Europe s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>LU-ASE-2024-15956305</DowodZakupu>
+            <DataZakupu>2024-08-01</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>179.41</K_42>
+            <K_43>41.26</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>74</LpZakupu>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrDostawcy>19647148</NrDostawcy>
+            <NazwaDostawcy>Amazon Services Europe s.a.r.l.</NazwaDostawcy>
+            <DowodZakupu>LU-ASE-2024-15956145</DowodZakupu>
+            <DataZakupu>2024-08-01</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>230.31</K_42>
+            <K_43>52.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>75</LpZakupu>
+            <KodKrajuNadaniaTIN>ES</KodKrajuNadaniaTIN>
+            <NrDostawcy>B87523825</NrDostawcy>
+            <NazwaDostawcy>Amazon Online Spain S.L.</NazwaDostawcy>
+            <DowodZakupu>ES-AOES-2024-433828</DowodZakupu>
+            <DataZakupu>2024-08-02</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1132.12</K_42>
+            <K_43>260.39</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>76</LpZakupu>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrDostawcy>09457730969</NrDostawcy>
+            <NazwaDostawcy>Amazon Online Italy S.r.l</NazwaDostawcy>
+            <DowodZakupu>ITAOIT4-492714</DowodZakupu>
+            <DataZakupu>2024-08-02</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>1999.87</K_42>
+            <K_43>459.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>77</LpZakupu>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrDostawcy>3347697KH</NrDostawcy>
+            <NazwaDostawcy>Shopify International Limited</NazwaDostawcy>
+            <DowodZakupu>#259638081</DowodZakupu>
+            <DataZakupu>2024-08-04</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>725.28</K_42>
+            <K_43>166.81</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>78</LpZakupu>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrDostawcy>3508218NH</NrDostawcy>
+            <NazwaDostawcy>SHUTTERSTOCK IRELAND LIMITED</NazwaDostawcy>
+            <DowodZakupu>CS-0F715-8D85</DowodZakupu>
+            <DataZakupu>2024-08-05</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>124.42</K_42>
+            <K_43>28.62</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>79</LpZakupu>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrDostawcy>9819191E</NrDostawcy>
+            <NazwaDostawcy>xsellco Limited</NazwaDostawcy>
+            <DowodZakupu>XS-334294</DowodZakupu>
+            <DataZakupu>2024-08-14</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>198.41</K_42>
+            <K_43>45.63</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>80</LpZakupu>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrDostawcy>9819191E</NrDostawcy>
+            <NazwaDostawcy>xsellco Limited</NazwaDostawcy>
+            <DowodZakupu>XS-334745</DowodZakupu>
+            <DataZakupu>2024-08-20</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>2950.41</K_42>
+            <K_43>678.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>81</LpZakupu>
+            <KodKrajuNadaniaTIN>FR</KodKrajuNadaniaTIN>
+            <NrDostawcy>64790933329</NrDostawcy>
+            <NazwaDostawcy>Amazon Online France SAS </NazwaDostawcy>
+            <DowodZakupu>FR-AOFR-2024-516793</DowodZakupu>
+            <DataZakupu>2024-08-21</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>4989.16</K_42>
+            <K_43>1147.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>82</LpZakupu>
+            <KodKrajuNadaniaTIN>FR</KodKrajuNadaniaTIN>
+            <NrDostawcy>12487773327</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., Succursale Francaise </NazwaDostawcy>
+            <DowodZakupu>2424541076</DowodZakupu>
+            <DataZakupu>2024-08-26</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>10.82</K_42>
+            <K_43>2.49</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>83</LpZakupu>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrDostawcy>3347697KH</NrDostawcy>
+            <NazwaDostawcy>Shopify International Limited</NazwaDostawcy>
+            <DowodZakupu>#266738220</DowodZakupu>
+            <DataZakupu>2024-08-26</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>449.07</K_42>
+            <K_43>103.29</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>84</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>814584193</NrDostawcy>
+            <NazwaDostawcy>Amazon EU Sarl Niederlassung Deutschland</NazwaDostawcy>
+            <DowodZakupu>2021089864</DowodZakupu>
+            <DataZakupu>2024-08-27</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>5.18</K_42>
+            <K_43>1.19</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>85</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>288084764</NrDostawcy>
+            <NazwaDostawcy>Amazon Online Germany GmBH</NazwaDostawcy>
+            <DowodZakupu>DE-AOG-2024-785097</DowodZakupu>
+            <DataZakupu>2024-08-29</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>16147.78</K_42>
+            <K_43>3713.99</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>86</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>340451093</NrDostawcy>
+            <NazwaDostawcy>Kaufland e-commerce GmbH (2)</NazwaDostawcy>
+            <DowodZakupu>R0924-20626012</DowodZakupu>
+            <DataZakupu>2024-08-30</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>583.65</K_42>
+            <K_43>134.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>87</LpZakupu>
+            <KodKrajuNadaniaTIN>TR</KodKrajuNadaniaTIN>
+            <NrDostawcy>0680972288</NrDostawcy>
+            <NazwaDostawcy>Amazon Turkey Perakende Hizmetleri Limited Sirketi</NazwaDostawcy>
+            <DowodZakupu>9002024000299435</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>18.34</K_42>
+            <K_43>4.22</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>88</LpZakupu>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrDostawcy>172046918</NrDostawcy>
+            <NazwaDostawcy>Amazon Online UK Limited </NazwaDostawcy>
+            <DowodZakupu>GB-AOUK-2024-758509</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>10337.15</K_42>
+            <K_43>2377.54</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>89</LpZakupu>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrDostawcy>20260743</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l. PL</NazwaDostawcy>
+            <DowodZakupu>LU-CN-AEU-2024-595894</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-14.21</K_42>
+            <K_43>-3.27</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>90</LpZakupu>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrDostawcy>20260743</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l. PL</NazwaDostawcy>
+            <DowodZakupu>LU-CN-AEU-2024-684108</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-41.60</K_42>
+            <K_43>-9.57</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>91</LpZakupu>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrDostawcy>20260743</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l. PL</NazwaDostawcy>
+            <DowodZakupu>LU-CN-AEU-2024-123808</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-252.47</K_42>
+            <K_43>-58.07</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>92</LpZakupu>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrDostawcy>20260743</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l. PL</NazwaDostawcy>
+            <DowodZakupu>LU-CN-AEU-2024-140703</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-1496.05</K_42>
+            <K_43>-344.09</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>93</LpZakupu>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrDostawcy>20260743</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l. PL</NazwaDostawcy>
+            <DowodZakupu>LU-CN-AEU-2024-529963</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-67.28</K_42>
+            <K_43>-15.47</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>94</LpZakupu>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrDostawcy>20260743</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l. PL</NazwaDostawcy>
+            <DowodZakupu>LU-CN-AEU-2024-200490</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-109.56</K_42>
+            <K_43>-25.2</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>95</LpZakupu>
+            <KodKrajuNadaniaTIN>LU</KodKrajuNadaniaTIN>
+            <NrDostawcy>20260743</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l. PL</NazwaDostawcy>
+            <DowodZakupu>LU-CN-AEU-2024-129725</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>-60.63</K_42>
+            <K_43>-13.94</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>96</LpZakupu>
+            <KodKrajuNadaniaTIN>NL</KodKrajuNadaniaTIN>
+            <NrDostawcy>815158464B01</NrDostawcy>
+            <NazwaDostawcy>Amazon NL</NazwaDostawcy>
+            <DowodZakupu>3131021561</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>162.80</K_42>
+            <K_43>37.44</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>97</LpZakupu>
+            <KodKrajuNadaniaTIN>NL</KodKrajuNadaniaTIN>
+            <NrDostawcy>815158464B01</NrDostawcy>
+            <NazwaDostawcy>Amazon NL</NazwaDostawcy>
+            <DowodZakupu>3131021562</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>32.57</K_42>
+            <K_43>7.49</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>98</LpZakupu>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrDostawcy>08973230967</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., Succursale Italiana </NazwaDostawcy>
+            <DowodZakupu>2322026752</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>2821.63</K_42>
+            <K_43>648.97</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>99</LpZakupu>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrDostawcy>08973230967</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., Succursale Italiana </NazwaDostawcy>
+            <DowodZakupu>2322026753</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>564.33</K_42>
+            <K_43>129.8</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>100</LpZakupu>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrDostawcy>727255821</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., UK Branch</NazwaDostawcy>
+            <DowodZakupu>2521005864</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>45.28</K_42>
+            <K_43>10.41</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>101</LpZakupu>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrDostawcy>727255821</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., UK Branch</NazwaDostawcy>
+            <DowodZakupu>2521005863</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>226.44</K_42>
+            <K_43>52.08</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>102</LpZakupu>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrDostawcy>727255821</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., UK Branch</NazwaDostawcy>
+            <DowodZakupu>3221006720</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>36.98</K_42>
+            <K_43>8.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>103</LpZakupu>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrDostawcy>727255821</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., UK Branch</NazwaDostawcy>
+            <DowodZakupu>3221006719</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>184.84</K_42>
+            <K_43>42.51</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>104</LpZakupu>
+            <KodKrajuNadaniaTIN>FR</KodKrajuNadaniaTIN>
+            <NrDostawcy>12487773327</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., Succursale Francaise </NazwaDostawcy>
+            <DowodZakupu>2424544636</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>2878.94</K_42>
+            <K_43>662.16</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>105</LpZakupu>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrDostawcy>08973230967</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., Succursale Italiana </NazwaDostawcy>
+            <DowodZakupu>2222434860</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>2202.90</K_42>
+            <K_43>506.67</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>106</LpZakupu>
+            <KodKrajuNadaniaTIN>FR</KodKrajuNadaniaTIN>
+            <NrDostawcy>12487773327</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., Succursale Francaise </NazwaDostawcy>
+            <DowodZakupu>2424544637</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>575.80</K_42>
+            <K_43>132.43</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>107</LpZakupu>
+            <KodKrajuNadaniaTIN>IT</KodKrajuNadaniaTIN>
+            <NrDostawcy>08973230967</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., Succursale Italiana </NazwaDostawcy>
+            <DowodZakupu>2222434861</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>440.56</K_42>
+            <K_43>101.33</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>108</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>814584193</NrDostawcy>
+            <NazwaDostawcy>Amazon EU Sarl Niederlassung Deutschland</NazwaDostawcy>
+            <DowodZakupu>2021097995</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>1817.80</K_42>
+            <K_43>418.09</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>109</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>814584193</NrDostawcy>
+            <NazwaDostawcy>Amazon EU Sarl Niederlassung Deutschland</NazwaDostawcy>
+            <DowodZakupu>2021097996</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>363.57</K_42>
+            <K_43>83.62</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>110</LpZakupu>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrDostawcy>727255821</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., UK Branch</NazwaDostawcy>
+            <DowodZakupu>2121893306</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>775.24</K_42>
+            <K_43>178.31</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>111</LpZakupu>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrDostawcy>727255821</NrDostawcy>
+            <NazwaDostawcy>Amazon EU S.a.r.l., UK Branch</NazwaDostawcy>
+            <DowodZakupu>2121893307</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>155.06</K_42>
+            <K_43>35.66</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>112</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>248464253</NrDostawcy>
+            <NazwaDostawcy>DPD Deutschland GmbH </NazwaDostawcy>
+            <DowodZakupu>271001746760</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>475.53</K_42>
+            <K_43>109.37</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>113</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>252791253</NrDostawcy>
+            <NazwaDostawcy>IT-Recht Kanzlei</NazwaDostawcy>
+            <DowodZakupu>U5488030</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>62.06</K_42>
+            <K_43>14.27</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>114</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>200081785</NrDostawcy>
+            <NazwaDostawcy>eBay GMBH</NazwaDostawcy>
+            <DowodZakupu>FNEU037129617</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-08-31</DataWplywu>
+            <K_42>2748.19</K_42>
+            <K_43>632.08</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>115</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>815228381</NrDostawcy>
+            <NazwaDostawcy>SellerLogic GmbH</NazwaDostawcy>
+            <DowodZakupu>158092</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>29.74</K_42>
+            <K_43>6.84</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>116</LpZakupu>
+            <KodKrajuNadaniaTIN>IE</KodKrajuNadaniaTIN>
+            <NrDostawcy>3206488LH</NrDostawcy>
+            <NazwaDostawcy>Stripe Payments Europe</NazwaDostawcy>
+            <DowodZakupu>MQDJE9XH-2024-08</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>70.87</K_42>
+            <K_43>16.3</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>117</LpZakupu>
+            <KodKrajuNadaniaTIN>GB</KodKrajuNadaniaTIN>
+            <NrDostawcy>368476742</NrDostawcy>
+            <NazwaDostawcy>Avalara Europe Limited</NazwaDostawcy>
+            <DowodZakupu>AMZ-00162225</DowodZakupu>
+            <DataZakupu>2024-08-31</DataZakupu>
+            <DataWplywu>2024-09-30</DataWplywu>
+            <K_42>42.80</K_42>
+            <K_43>9.84</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>117</LiczbaWierszyZakupow>
+            <PodatekNaliczony>79626.79</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>
