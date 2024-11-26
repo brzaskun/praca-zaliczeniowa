@@ -46,6 +46,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -225,30 +226,44 @@ public class NieobecnoscView  implements Serializable {
         zwolnienie = false;
     }
 
-    public void sprawdzdaty() {
-        if (lista!=null&&lista.size()>0) {
-            String dataod = selected.getDataod();
-            String datado = selected.getDatado();
-            if (selected.getDataod()!=null&&selected.getDatado()!=null) {
-                for (Nieobecnosc p : lista) {
-                    try {
-                        if (selected.getKod()!=null&&!selected.getKod().equals("UD")) {
-                            if (selected.getId()==null || (selected.getId()!=null&&!selected.getId().equals(p.getId()))) {
-                                boolean jestwsrodkuod = Data.czydatasiezawieranieobecnosc(dataod, p.getDataod(), p.getDatado());
-                                boolean jestwsrodkudo = Data.czydatasiezawieranieobecnosc(datado, p.getDataod(), p.getDatado());
-                                if (jestwsrodkuod||jestwsrodkudo) {
-                                    Msg.msg("e","Daty nieobecności pokrywają się z inną już wprowadzoną nieobecnością");
-                                    selected.setDataod(null);
-                                    selected.setDatado(null);
-                                    break;
-                                }
-                            }
+    
+    public boolean sprawdzdaty() {
+        if (lista != null && lista.size() > 0) {
+            // Przekształcenie dat w formacie String na LocalDate
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate newStartDate = LocalDate.parse(selected.getDataod(), formatter);
+            LocalDate newEndDate = LocalDate.parse(selected.getDatado(), formatter);
+
+            // Sprawdzenie, czy którakolwiek nieobecność nakłada się na nową
+            for (Nieobecnosc existing : lista) {
+                if (selected.getKod() != null && !selected.getKod().equals("UD")) {
+                    if (selected.getId() == null || (selected.getId() != null && !selected.getId().equals(existing.getId()))) {
+                        LocalDate existingStartDate = LocalDate.parse(existing.getDataod(), formatter);
+                        LocalDate existingEndDate = LocalDate.parse(existing.getDatado(), formatter);
+
+                        // Sprawdzamy, czy występuje jakiekolwiek pokrycie dat
+                        boolean startsBeforeAndEndsAfter = newStartDate.isBefore(existingEndDate) && newEndDate.isAfter(existingStartDate);
+                        boolean newStartsInsideExisting = newStartDate.isAfter(existingStartDate) && newStartDate.isBefore(existingEndDate);
+                        boolean newEndsInsideExisting = newEndDate.isAfter(existingStartDate) && newEndDate.isBefore(existingEndDate);
+                        boolean sameStartDate = newStartDate.isEqual(existingStartDate);
+                        boolean sameEndDate = newEndDate.isEqual(existingEndDate);
+
+                        // Jeśli którykolwiek z tych przypadków jest prawdziwy, oznacza to konflikt
+                        if (startsBeforeAndEndsAfter || newStartsInsideExisting || newEndsInsideExisting || sameStartDate || sameEndDate) {
+                            Msg.msg("e", "Daty nieobecności pokrywają się z inną już wprowadzoną nieobecnością");
+                            selected.setDataod(null);
+                            selected.setDatado(null);
+                            break;
                         }
-                    } catch (Exception e){}
+                    }
                 }
             }
+
         }
+        return false;
     }
+
+    
     
     public boolean sprawdzdaty(List<Nieobecnosc> lista, Nieobecnosc selected) {
         boolean duplikat = false;

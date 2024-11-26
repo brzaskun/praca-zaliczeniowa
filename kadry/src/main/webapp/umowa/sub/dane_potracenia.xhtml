@@ -98,8 +98,11 @@
                             </p:column>
                             <p:column style="text-align: center;" width="30">
                                 <f:facet name="header">
-                                    <h:outputText value="#{itemskladnikpotracenia.rodzajpotracenia.limitumowazlecenia}" />
+                                    <h:outputText value="rozlicz." />
                                 </f:facet>
+                                <p:selectBooleanCheckbox value="#{itemskladnikpotracenia.rozliczony}" >
+                                     <p:ajax event="change" listener="#{skladnikPotraceniaView.edycja(itemskladnikpotracenia)}"/>
+                                </p:selectBooleanCheckbox>
                             </p:column>
                             <p:column style="text-align: center; width: 30px;">
                                 <p:commandButton icon="pi pi-trash" actionListener="#{skladnikPotraceniaView.usunSkladnikPotr(itemskladnikpotracenia)}" update="north, akordeon:SkladnikpotraceniaListForm"/>
