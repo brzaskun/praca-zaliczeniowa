@@ -104,15 +104,21 @@ public class DraNksiegowaView  implements Serializable {
         mcdra = wpisView.getMiesiacWpisu();
     }
 
-    public void pobierzlisty(boolean praca0reszta1) {
+    public void pobierzlisty(int praca0zlecenia1funkcja2zasilki3) {
         if (mcdra != null) {
             listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), mcdra);
             if (listadefinicjalistaplac.isEmpty()==false) {
-                if (praca0reszta1) {
+                if (praca0zlecenia1funkcja2zasilki3==0) {
                     Predicate<Definicjalistaplac> isQualified = item->(item.getRodzajlistyplac().isPraca()==false);
                     listadefinicjalistaplac.removeIf(isQualified.negate());
+                } else if (praca0zlecenia1funkcja2zasilki3==1) {
+                    Predicate<Definicjalistaplac> isQualified = item->(item.getRodzajlistyplac().isZlecenie()==true);
+                    listadefinicjalistaplac.removeIf(isQualified.negate());
+                }  else if (praca0zlecenia1funkcja2zasilki3==2) {
+                    Predicate<Definicjalistaplac> isQualified = item->(item.getRodzajlistyplac().isFunkcja()==true);
+                    listadefinicjalistaplac.removeIf(isQualified.negate());
                 } else {
-                    Predicate<Definicjalistaplac> isQualified = item->(item.getRodzajlistyplac().isPraca()==true);
+                    Predicate<Definicjalistaplac> isQualified = item->(item.getRodzajlistyplac().isZasilek()==true);
                     listadefinicjalistaplac.removeIf(isQualified.negate());
                 }
                 for (Iterator<Definicjalistaplac> it = listadefinicjalistaplac.iterator(); it.hasNext();) {
@@ -216,12 +222,13 @@ public class DraNksiegowaView  implements Serializable {
     
      public void mailListaDRAKsiegowa(String mc) {
          mcdra = mc;
-         mailListaDRAFirma(false);
-         mailListaDRAFirma(true);
+         for (int i = 0;i<4;i++) {
+            mailListaDRAFirma(i);
+         }
      }
     
-     public void mailListaDRAFirma(boolean praca0reszta1) {
-         pobierzlisty(praca0reszta1);
+     public void mailListaDRAFirma(int praca0zlecenia1funkcja2zasilki3) {
+         pobierzlisty(praca0zlecenia1funkcja2zasilki3);
          if (paskiwynagrodzen!=null && paskiwynagrodzen.size()>0) {
             try {
                 Map<String,Double> danezus = new HashMap<>();

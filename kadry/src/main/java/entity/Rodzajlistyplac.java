@@ -158,6 +158,30 @@ public class Rodzajlistyplac implements Serializable {
         return zwrot;
     }
     
+     public boolean isZlecenie() {
+        boolean zwrot = false;
+        if (this.typ!=null&&typ==2) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+     
+     public boolean isFunkcja() {
+        boolean zwrot = false;
+        if (this.typ!=null&&typ==3) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+     
+     public boolean isZasilek() {
+        boolean zwrot = false;
+        if (this.typ!=null&&typ==4) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+    
 
    
 
