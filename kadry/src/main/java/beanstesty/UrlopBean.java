@@ -480,13 +480,23 @@ public class UrlopBean {
         List<Umowa> sublista = new ArrayList<>();
         for (Umowa umowa : umowy) {
             if (sublista.isEmpty()) {
+              String dataodUmowy = umowa.getDataod();
+                String rokUmowy = dataodUmowy.substring(0, 4); // Pierwsze 4 znaki to rok
+                String miesiacUmowy = dataodUmowy.substring(5, 7); // Znaki 5 i 6 to miesiąc
+                String stanrok = stannadzien.substring(0, 4); // Pierwsze 4 znaki to rok
+                String stanmiesiac = stannadzien.substring(5, 7); // Znaki 5 i 6 to miesiąc
+
+                // Sprawdzamy, czy rok i miesiąc rozpoczęcia umowy są wcześniejsze niż okres rozliczeniowy
+                if (rokUmowy.compareTo(stanrok) > 0 || (rokUmowy.compareTo(stanrok) == 0 && miesiacUmowy.compareTo(stanmiesiac) > 0)) {
+                    continue; // Jeśli umowa zaczyna się po okresie rozliczeniowym, pomijamy ją
+                }
                 sublista.add(umowa); // Dodajemy pierwszą umowę
             } else {
                 Umowa poprzednia = sublista.get(sublista.size() - 1);
-                LocalDate poprzedniaDatado = poprzednia.getDatado() == null || poprzednia.getDatado().isEmpty() ? LocalDate.parse("2100-12-31", DATE_FORMATTER) : LocalDate.parse(poprzednia.getDatado(), DATE_FORMATTER);
-                LocalDate aktualnaDataod = LocalDate.parse(umowa.getDataod(), DATE_FORMATTER);
+                LocalDate nastepnaDataOd = LocalDate.parse(poprzednia.getDataod(), DATE_FORMATTER);
+                LocalDate poprzedniaDatado = LocalDate.parse(umowa.getDatado(), DATE_FORMATTER);
 
-                if (!poprzedniaDatado.plusDays(1).equals(aktualnaDataod)) {
+                if (!poprzedniaDatado.plusDays(1).equals(nastepnaDataOd)) {
                     break; // Przerwa w ciągłości dat - kończymy przetwarzanie
                 }
 
