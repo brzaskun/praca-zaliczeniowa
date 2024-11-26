@@ -313,7 +313,11 @@ public class RozwiazanieumowyView  implements Serializable {
                 List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = sklad.getZmiennawynagrodzeniaList();
                 if (zmiennawynagrodzeniaList!=null&&zmiennawynagrodzeniaList.size()>0) {
                     Collections.sort(zmiennawynagrodzeniaList, new ZmiennaWynagrodzeniacomparator());
-                    zmiennawynagrodzeniaList.get(0).setDatado(data);
+                    for (Zmiennawynagrodzenia zm : zmiennawynagrodzeniaList) {
+                        if (zm.getDatado()==null||zm.getDatado().isBlank()) {
+                            zm.setDatado(data);
+                        }
+                    }
                 }
             }
             List<Skladnikpotracenia> skladnikpotraceniaList = angaz.getSkladnikpotraceniaList();
@@ -321,18 +325,30 @@ public class RozwiazanieumowyView  implements Serializable {
                 List<Zmiennapotracenia> zmiennapotraceniaList = sklad.getZmiennapotraceniaList();
                 if (zmiennapotraceniaList!=null&&zmiennapotraceniaList.size()>0) {
                     Collections.sort(zmiennapotraceniaList, new ZmiennaPotraceniacomparator());
-                    zmiennapotraceniaList.get(0).setDatado(data);
+                    for (Zmiennapotracenia zm : zmiennapotraceniaList) {
+                        if (zm.getDatado()==null||zm.getDatado().isBlank()) {
+                            zm.setDatado(data);
+                        }
+                    }
                 }
             }
             List<Stanowiskoprac> stanowiskopracList = angaz.getStanowiskopracList();
             if (stanowiskopracList!=null&&stanowiskopracList.size()>0) {
                 Collections.sort(stanowiskopracList, new Stanowiskocomparator());
-                stanowiskopracList.get(0).setDatado(data);
+                 for (Stanowiskoprac zm : stanowiskopracList) {
+                        if (zm.getDatado()==null||zm.getDatado().isBlank()) {
+                            zm.setDatado(data);
+                        }
+                    }
             }
             List<EtatPrac> etatpracList = angaz.getEtatList();
             if (etatpracList!=null&&etatpracList.size()>0) {
                 Collections.sort(etatpracList, new Etatcomparator());
-                etatpracList.get(0).setDatado(data);
+                 for (EtatPrac zm : etatpracList) {
+                        if (zm.getDatado()==null||zm.getDatado().isBlank()) {
+                            zm.setDatado(data);
+                        }
+                    }
             }
         }
         //angazFacade.edit(angaz);
