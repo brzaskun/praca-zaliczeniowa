@@ -22,7 +22,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -236,15 +235,14 @@ public class UzView implements Serializable {
         }
     }
     
-    public void edit(ValueChangeEvent event) {
-        String nowy = (String) event.getNewValue();
+    public void edit(Uz nowy) {
         if (!nowy.equals("Noobie")) {
             try {
-                if (selUzytkownik!=null) {
+                if (nowy!=null) {
                     sformatuj();
-                    selUzytkownik.setAktywny(true);
-                    uzDAO.edit(selUzytkownik);
-                    Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), nowy, null, sMTPSettingsDAO.findSprawaByDef());
+                    nowy.setAktywny(true);
+                    uzDAO.edit(nowy);
+                    Mail.nadanoUprawniednia(nowy.getEmail(), nowy.getLogin(), nowy.getUprawnienia(), null, sMTPSettingsDAO.findSprawaByDef());
                     Msg.msg("Nowy uzytkownik edytowany: "+selUzytkownik.getLogin());
                 } else {
                     Msg.msg("e","Nie wybrano użytkownika");

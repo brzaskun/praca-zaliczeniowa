@@ -183,7 +183,13 @@ public class Mail {
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("info@taxman.biz.pl"));
             message.setSubject("Potwierdzenie nadania uprawnień w serwisie Biura Rachunkowego Taxman","UTF-8");
-            message.setContent("Szanowny Użytkowniku,"
+            if (uprawnienia.equals("Zablokowany")) {
+                message.setContent("Szanowny Użytkowniku,"
+                    + "<p>Administrator własnie zablokował Ci dostęp<br/>"
+                    + "do naszego serwisu powiązanego z loginem: <br/>"+login+".</p>"
+                    + stopka,  "text/html; charset=utf-8");
+            } else {
+                message.setContent("Szanowny Użytkowniku,"
                     + "<p>Administrator własnie nadał ci następujące uprawnienia: <strong>"+uprawnienia+"</strong><br/>"
                     + "w naszym serwisie powiązane z loginem: <br/>"+login+".</p>"
                     + "<p>Od teraz możesz logować się do naszego serwisu pod adresem <a href=\"https://taxman.pl:8181\">https://taxman.pl:8181</a><br/>"
@@ -191,6 +197,7 @@ public class Mail {
                     + "<p>W przypadku zagubienia hasła wybierz <a href=\"https://taxman.pl:8181/faces/zapomnialemhasla.xhtml?faces-redirect=true\">"
                     + "zapomnialem hasla</a> na stronie serwisu.</p>"
                     + stopka,  "text/html; charset=utf-8");
+            }
             message.setHeader("Content-Type", "text/html; charset=utf-8");
             Transport.send(message);
         } catch (Exception e) {
