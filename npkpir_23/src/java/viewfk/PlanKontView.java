@@ -49,9 +49,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -1437,75 +1439,141 @@ public class PlanKontView implements Serializable {
          porzadkowanieWybranegoKontaPodatnika(zapisanepozycje, selectednodekonto);
      }
     
-    public void porzadkowanieWybranegoKontaPodatnika(List<KontopozycjaZapis> zapisanepozycje, Konto selectednodekontoL) {
-        if (selectednodekontoL != null) {
-            Podatnik podatnik = selectednodekontoL.getPodatnik();
-            if (!wykazkont.isEmpty()) {
-                //tutaj nanosi czy ma potomkow
-                if (selectednodekontoL.getSyntetykaanalityka() != null) {
-                    boolean kontozwykle = selectednodekontoL.getSyntetykaanalityka().equals("zwykłe");
-                    boolean bilansowe= selectednodekontoL.isWynik0bilans1();
-                    boolean analityka = selectednodekontoL.getSyntetykaanalityka().equals("analityka");
-                    //bylo tak, ale nie nanosilo innego przyporzadkowania jak byly inne niz systetyki
-                    //List<Konto> kontapotomne = wykazkont.stream().filter(p -> p.getKontomacierzyste() != null && p.getKontomacierzyste().equals(selectednodekonto) && (p.getPozycjaWn()==null || p.getPozycjaMa()==null)).collect(Collectors.toList());
-                    List<Konto> kontapotomne = wykazkont.stream().filter(p -> p.getKontomacierzyste() != null && p.getKontomacierzyste().equals(selectednodekontoL)).collect(Collectors.toList());
-                    if (kontapotomne.isEmpty() == false) {
-                        selectednodekontoL.setMapotomkow(true);
-                        kontoDAOfk.edit(selectednodekontoL);
-                        List<Konto> kontapotomnePorzadek = new ArrayList<>();
-                        List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
-                        if (zapisanepozycje == null) {
-                            zapisanepozycje = kontopozycjaZapisDAO.findByUklad(wybranyuklad);
-                        }
-                        for (Konto p : kontapotomne) {
-                            p.kopiujPozycje(selectednodekontoL);
-                            if (bilansowe==false && analityka==false) {
-                                p.setSyntetykaanalityka("wynikowe");
-                                if (zapisanepozycje.isEmpty() == false) {
-                                    zapisanepozycje.stream().forEach(pz -> {
-                                        for (Konto pa : kontapotomnePorzadek) {
-                                            if (pa.equals(pz.getKontoID())) {
-                                                kontopozycjaZapisDAO.remove(pz);
-                                            }
-                                         }
-                                     });
-                                 }
-                            } else if (kontozwykle) {
-                                p.setSyntetykaanalityka("syntetyka");
-                                if (zapisanepozycje.isEmpty() == false) {
-                                    zapisanepozycje.stream().forEach(pz -> {
-                                        for (Konto pa : kontapotomnePorzadek) {
-                                            if (pa.equals(pz.getKontoID())) {
-                                                kontopozycjaZapisDAO.remove(pz);
-                                            }
-                                         }
-                                     });
-                                 }
-                                 nowepozycje.add(new KontopozycjaZapis(p, wybranyuklad));
-                            } else {
-                                p.setSyntetykaanalityka(selectednodekontoL.getSyntetykaanalityka());
-                            }
-                            kontapotomnePorzadek.add(p);
-                        }
-                        selectednodekontoL.setMapotomkow(true);
-                        kontoDAOfk.editList(kontapotomnePorzadek);
-                        kontopozycjaZapisDAO.editList(nowepozycje);
-                        Msg.msg("Przejrzano potomków");
-                    } else {
-                        selectednodekontoL.setMapotomkow(false);
-                        kontoDAOfk.edit(selectednodekontoL);
-                        Msg.msg("Konto bez potomków");
+     public void porzadkowanieWybranegoKontaPodatnika(List<KontopozycjaZapis> zapisanepozycje, Konto selectednodekontoL) {
+    if (selectednodekontoL != null) {
+        Podatnik podatnik = selectednodekontoL.getPodatnik();
+        if (!wykazkont.isEmpty()) {
+            if (selectednodekontoL.getSyntetykaanalityka() != null) {
+                boolean kontozwykle = selectednodekontoL.getSyntetykaanalityka().equals("zwykłe");
+                boolean bilansowe = selectednodekontoL.isWynik0bilans1();
+                boolean analityka = selectednodekontoL.getSyntetykaanalityka().equals("analityka");
+
+                List<Konto> kontapotomne = wykazkont.stream()
+                        .filter(p -> p.getKontomacierzyste() != null && p.getKontomacierzyste().equals(selectednodekontoL))
+                        .collect(Collectors.toList());
+
+                if (!kontapotomne.isEmpty()) {
+                    selectednodekontoL.setMapotomkow(true);
+                    kontoDAOfk.edit(selectednodekontoL);
+
+                    List<Konto> kontapotomnePorzadek = new ArrayList<>();
+                    List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
+
+                    if (zapisanepozycje == null) {
+                        zapisanepozycje = kontopozycjaZapisDAO.findByUklad(wybranyuklad);
                     }
+
+                    // Collect Konto IDs for fast lookup
+                    Set<Konto> kontopotomneSet = new HashSet<>(kontapotomne);
+
+                    for (Konto p : kontapotomne) {
+                        p.kopiujPozycje(selectednodekontoL);
+                        if (!bilansowe && !analityka) {
+                            p.setSyntetykaanalityka("wynikowe");
+                        } else if (kontozwykle) {
+                            p.setSyntetykaanalityka("syntetyka");
+                            nowepozycje.add(new KontopozycjaZapis(p, wybranyuklad));
+                        } else {
+                            p.setSyntetykaanalityka(selectednodekontoL.getSyntetykaanalityka());
+                        }
+                        kontapotomnePorzadek.add(p);
+                    }
+
+                    if (!zapisanepozycje.isEmpty()) {
+                        // Collect entries to remove
+                        List<KontopozycjaZapis> pzToRemove = zapisanepozycje.stream()
+                                .filter(pz -> kontopotomneSet.contains(pz.getKontoID()))
+                                .collect(Collectors.toList());
+                        // Batch remove
+                        kontopozycjaZapisDAO.removeList(pzToRemove);
+                    }
+
+                    kontoDAOfk.editList(kontapotomnePorzadek);
+                    kontopozycjaZapisDAO.editList(nowepozycje);
+                    Msg.msg("Przejrzano potomków");
+                } else {
+                    selectednodekontoL.setMapotomkow(false);
+                    kontoDAOfk.edit(selectednodekontoL);
+                    Msg.msg("Konto bez potomków - nowa funkcja");
                 }
-            } else {
-                Msg.msg("e", "Brak kont potomnych");
             }
         } else {
-            Msg.msg("e", "Nie wybrano konta");
+            Msg.msg("e", "Brak kont potomnych");
         }
+    } else {
+        Msg.msg("e", "Nie wybrano konta");
     }
-    
-    
+}
+
+//    public void porzadkowanieWybranegoKontaPodatnika(List<KontopozycjaZapis> zapisanepozycje, Konto selectednodekontoL) {
+//        if (selectednodekontoL != null) {
+//            Podatnik podatnik = selectednodekontoL.getPodatnik();
+//            if (!wykazkont.isEmpty()) {
+//                //tutaj nanosi czy ma potomkow
+//                if (selectednodekontoL.getSyntetykaanalityka() != null) {
+//                    boolean kontozwykle = selectednodekontoL.getSyntetykaanalityka().equals("zwykłe");
+//                    boolean bilansowe= selectednodekontoL.isWynik0bilans1();
+//                    boolean analityka = selectednodekontoL.getSyntetykaanalityka().equals("analityka");
+//                    //bylo tak, ale nie nanosilo innego przyporzadkowania jak byly inne niz systetyki
+//                    //List<Konto> kontapotomne = wykazkont.stream().filter(p -> p.getKontomacierzyste() != null && p.getKontomacierzyste().equals(selectednodekonto) && (p.getPozycjaWn()==null || p.getPozycjaMa()==null)).collect(Collectors.toList());
+//                    List<Konto> kontapotomne = wykazkont.stream().filter(p -> p.getKontomacierzyste() != null && p.getKontomacierzyste().equals(selectednodekontoL)).collect(Collectors.toList());
+//                    if (kontapotomne.isEmpty() == false) {
+//                        selectednodekontoL.setMapotomkow(true);
+//                        kontoDAOfk.edit(selectednodekontoL);
+//                        List<Konto> kontapotomnePorzadek = new ArrayList<>();
+//                        List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
+//                        if (zapisanepozycje == null) {
+//                            zapisanepozycje = kontopozycjaZapisDAO.findByUklad(wybranyuklad);
+//                        }
+//                        for (Konto p : kontapotomne) {
+//                            p.kopiujPozycje(selectednodekontoL);
+//                            if (bilansowe==false && analityka==false) {
+//                                p.setSyntetykaanalityka("wynikowe");
+//                                if (zapisanepozycje.isEmpty() == false) {
+//                                    zapisanepozycje.stream().forEach(pz -> {
+//                                        for (Konto pa : kontapotomnePorzadek) {
+//                                            if (pa.equals(pz.getKontoID())) {
+//                                                kontopozycjaZapisDAO.remove(pz);
+//                                            }
+//                                         }
+//                                     });
+//                                 }
+//                            } else if (kontozwykle) {
+//                                p.setSyntetykaanalityka("syntetyka");
+//                                if (zapisanepozycje.isEmpty() == false) {
+//                                    zapisanepozycje.stream().forEach(pz -> {
+//                                        for (Konto pa : kontapotomnePorzadek) {
+//                                            if (pa.equals(pz.getKontoID())) {
+//                                                kontopozycjaZapisDAO.remove(pz);
+//                                            }
+//                                         }
+//                                     });
+//                                 }
+//                                 nowepozycje.add(new KontopozycjaZapis(p, wybranyuklad));
+//                            } else {
+//                                p.setSyntetykaanalityka(selectednodekontoL.getSyntetykaanalityka());
+//                            }
+//                            kontapotomnePorzadek.add(p);
+//                        }
+//                        selectednodekontoL.setMapotomkow(true);
+//                        kontoDAOfk.editList(kontapotomnePorzadek);
+//                        kontopozycjaZapisDAO.editList(nowepozycje);
+//                        Msg.msg("Przejrzano potomków");
+//                    } else {
+//                        selectednodekontoL.setMapotomkow(false);
+//                        kontoDAOfk.edit(selectednodekontoL);
+//                        Msg.msg("Konto bez potomków");
+//                    }
+//                }
+//            } else {
+//                Msg.msg("e", "Brak kont potomnych");
+//            }
+//        } else {
+//            Msg.msg("e", "Nie wybrano konta");
+//        }
+//    }
+//    
+//    
     
     
     //stare
