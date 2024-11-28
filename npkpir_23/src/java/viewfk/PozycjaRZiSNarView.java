@@ -60,8 +60,10 @@ public class PozycjaRZiSNarView  implements Serializable {
     
     
     public void zmianaukladprzegladRZiSBO() {
-        BilansBean.zmianaukladprzegladRZiSBO(uklad, ukladBRDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, pozycjaRZiSDAO);
-        obliczRZiSOtwarciaRZiSData();
+        //BilansBean.zmianaukladprzegladRZiSBO(uklad, ukladBRDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, pozycjaRZiSDAO);
+        if (uklad!=null) {
+            obliczRZiSOtwarciaRZiSData();
+        }
     }
     
        

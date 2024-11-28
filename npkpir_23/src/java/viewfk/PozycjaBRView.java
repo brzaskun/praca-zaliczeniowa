@@ -243,9 +243,9 @@ public class PozycjaBRView implements Serializable {
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
-        List<PozycjaRZiSBilans> pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, "", "r");
+        //List<PozycjaRZiSBilans> pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, "", "r");
         if (pozycje!=null) {
-            UkladBRBean.czyscPozycje(pozycje);
+            //UkladBRBean.czyscPozycje(pozycje);
             rootProjektRZiS.getChildren().clear();
             List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             try {
@@ -522,7 +522,7 @@ public class PozycjaBRView implements Serializable {
     
     private void naniesKwoteWynikFinansowyBO(Konto kontowyniku) {
         //usunalem 27.10.2023 bo czysci pozycje przy kazdym robieniu bo!!!
-        pobierzukladprzegladRZiSBO();
+        //pobierzukladprzegladRZiSBO();
         List<Object> listazwrotnapozycji = Collections.synchronizedList(new ArrayList<>());
         rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
         PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size() - 1);
@@ -546,7 +546,8 @@ public class PozycjaBRView implements Serializable {
     
     private void naniesKwoteWynikFinansowy(Konto kontowyniku) {
         //usunalem 27.10.2023 bo czysci pozycje przy kazdym robieniu bo!!!
-        pobierzukladprzegladRZiS();
+        //28.11.02024
+        //pobierzukladprzegladRZiS();
         List<Object> listazwrotnapozycji = Collections.synchronizedList(new ArrayList<>());
         rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
         PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size() - 1);
@@ -583,8 +584,9 @@ public class PozycjaBRView implements Serializable {
                 pozycjepasywa.add(new PozycjaBilans(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
-            UkladBRBean.czyscPozycje(pozycjeaktywa);
-            UkladBRBean.czyscPozycje(pozycjepasywa);
+            //28.11.02024
+            //UkladBRBean.czyscPozycje(pozycjeaktywa);
+            //UkladBRBean.czyscPozycje(pozycjepasywa);
         } catch (Exception e) {
             E.e(e);
         }

@@ -19,6 +19,7 @@ import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.UkladBR;
 import error.E;
+import interceptor.ConstructorInterceptor;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.view.ViewScoped;
@@ -28,7 +29,6 @@ import javax.interceptor.Interceptors;
 import msg.Msg;
 import pdffk.PdfRZiS;
 import view.WpisView;
-import interceptor.ConstructorInterceptor;
 /**
  *
  * @author Osito
@@ -59,7 +59,8 @@ public class PozycjaRZiSPorMcyView  implements Serializable {
     
     
     public void zmianaukladprzegladRZiSBO() {
-        BilansBean.zmianaukladprzegladRZiSBO(uklad, ukladBRDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, pozycjaRZiSDAO);
+        //28.11.02024
+        //BilansBean.zmianaukladprzegladRZiSBO(uklad, ukladBRDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, pozycjaRZiSDAO);
         obliczRZiSOtwarciaRZiSData();
     }
     
