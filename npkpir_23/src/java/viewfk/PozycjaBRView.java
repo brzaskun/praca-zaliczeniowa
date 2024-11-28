@@ -222,7 +222,7 @@ public class PozycjaBRView implements Serializable {
         }
         List<PozycjaRZiSBilans> pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, "", "r");
         if (pozycje!=null) {
-            UkladBRBean.czyscPozycje(pozycje);
+            //UkladBRBean.czyscPozycje(pozycje);
             rootProjektRZiS.getChildren().clear();
             List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikoweBO(stronaWierszaDAO, wpisView);
             try {
@@ -243,7 +243,7 @@ public class PozycjaBRView implements Serializable {
         if (uklad.getUklad() == null) {
             uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
-        //List<PozycjaRZiSBilans> pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, "", "r");
+        List<PozycjaRZiSBilans> pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, "", "r");
         if (pozycje!=null) {
             //UkladBRBean.czyscPozycje(pozycje);
             rootProjektRZiS.getChildren().clear();
@@ -547,7 +547,7 @@ public class PozycjaBRView implements Serializable {
     private void naniesKwoteWynikFinansowy(Konto kontowyniku) {
         //usunalem 27.10.2023 bo czysci pozycje przy kazdym robieniu bo!!!
         //28.11.02024
-        //pobierzukladprzegladRZiS();
+        pobierzukladprzegladRZiS();
         List<Object> listazwrotnapozycji = Collections.synchronizedList(new ArrayList<>());
         rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
         PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size() - 1);
