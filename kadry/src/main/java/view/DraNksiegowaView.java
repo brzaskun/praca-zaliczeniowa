@@ -15,6 +15,7 @@ import dao.SMTPSettingsFacade;
 import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
+import entity.FirmaKadry;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.SMTPSettings;
@@ -105,46 +106,63 @@ public class DraNksiegowaView  implements Serializable {
     }
 
     public void pobierzlisty(int praca0zlecenia1funkcja2zasilki3) {
-        if (mcdra != null) {
-            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), mcdra);
-            if (listadefinicjalistaplac.isEmpty()==false) {
-                if (praca0zlecenia1funkcja2zasilki3==0) {
-                    Predicate<Definicjalistaplac> isQualified = item->(item.getRodzajlistyplac().isPraca()==false);
-                    listadefinicjalistaplac.removeIf(isQualified.negate());
-                } else if (praca0zlecenia1funkcja2zasilki3==1) {
-                    Predicate<Definicjalistaplac> isQualified = item->(item.getRodzajlistyplac().isZlecenie()==true);
-                    listadefinicjalistaplac.removeIf(isQualified.negate());
-                }  else if (praca0zlecenia1funkcja2zasilki3==2) {
-                    Predicate<Definicjalistaplac> isQualified = item->(item.getRodzajlistyplac().isFunkcja()==true);
-                    listadefinicjalistaplac.removeIf(isQualified.negate());
-                } else {
-                    Predicate<Definicjalistaplac> isQualified = item->(item.getRodzajlistyplac().isZasilek()==true);
-                    listadefinicjalistaplac.removeIf(isQualified.negate());
-                }
-                for (Iterator<Definicjalistaplac> it = listadefinicjalistaplac.iterator(); it.hasNext();) {
-                    Definicjalistaplac d = it.next();
-                    if (d.getPasekwynagrodzenList() == null ||d.getPasekwynagrodzenList().isEmpty()) {
-                        it.remove();
-                    }
-                }
-                Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
-                listywybrane = listadefinicjalistaplac;
-                //Msg.msg("Pobrano listy płac");
-                pobierzpaski();
-                //List<Angaz> angazelista = pobierzangaze(paskiwynagrodzen);
-                listanieobecnosci = new ArrayList<>();
-//                if (angazelista!=null) {
-//                    for (Angaz angaz : angazelista) {
-//                        List<Nieobecnosc> nieobecnoscilista = nieobecnoscFacade.findByAngaz(angaz);
-//                        if (nieobecnoscilista!=null&&nieobecnoscilista.size()>0) {
-//                            listanieobecnosci.addAll(pobierznieobecnosci(wpisView.getRokWpisu(), mcdra, nieobecnoscilista));
-//                        }
-//                    }
-//                }
-            }
+    if (mcdra != null && definicjalistaplacFacade != null && wpisView != null) {
+        FirmaKadry firma = wpisView.getFirma();
+        String rokWpisu = wpisView.getRokWpisu();
+        if (firma != null && rokWpisu != null) {
+            listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRokMc(firma, rokWpisu, mcdra);
+        } else {
+            listadefinicjalistaplac = new ArrayList<>();
         }
+
+        if (listadefinicjalistaplac != null && !listadefinicjalistaplac.isEmpty()) {
+            Predicate<Definicjalistaplac> isQualified = null;
+            switch (praca0zlecenia1funkcja2zasilki3) {
+                case 0:
+                    isQualified = item -> item != null && item.getRodzajlistyplac() != null && item.getRodzajlistyplac().isPraca();
+                    break;
+                case 1:
+                    isQualified = item -> item != null && item.getRodzajlistyplac() != null && item.getRodzajlistyplac().isZlecenie();
+                    break;
+                case 2:
+                    isQualified = item -> item != null && item.getRodzajlistyplac() != null && item.getRodzajlistyplac().isFunkcja();
+                    break;
+                case 3:
+                    isQualified = item -> item != null && item.getRodzajlistyplac() != null && item.getRodzajlistyplac().isZasilek();
+                    break;
+                default:
+                    isQualified = item -> false;
+                    break;
+            }
+
+            if (isQualified != null) {
+                listadefinicjalistaplac.removeIf(isQualified.negate());
+            }
+
+            Iterator<Definicjalistaplac> it = listadefinicjalistaplac.iterator();
+            while (it.hasNext()) {
+                Definicjalistaplac d = it.next();
+                if (d == null || d.getPasekwynagrodzenList() == null || d.getPasekwynagrodzenList().isEmpty()) {
+                    it.remove();
+                }
+            }
+
+            Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
+            listywybrane = listadefinicjalistaplac;
+            pobierzpaski();
+            listanieobecnosci = new ArrayList<>();
+        } else {
+            listadefinicjalistaplac = new ArrayList<>();
+        }
+    } else {
+        listadefinicjalistaplac = new ArrayList<>();
+    }
+
+    if (listadefinicjalistaplac != null) {
         Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
     }
+}
+
     
     private static List<Nieobecnosc> pobierznieobecnosci(String rok, String mc, List<Nieobecnosc> nieobecnosci) {
         boolean jestod = false;
