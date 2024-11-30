@@ -27,15 +27,19 @@ import dao.FakturaStopkaNiemieckaDAO;
 import dao.FakturaXXLKolumnaDAO;
 import dao.FakturadodelementyDAO;
 import dao.FakturaelementygraficzneDAO;
+import dao.LogofakturaDAO;
 import dao.PozycjenafakturzeDAO;
 import entity.Faktura;
 import entity.FakturaDuplikat;
 import entity.FakturaStopkaNiemiecka;
 import entity.Fakturadodelementy;
+import entity.Fakturaelementygraficzne;
 import entity.Fakturywystokresowe;
+import entity.Logofaktura;
 import entity.Podatnik;
 import entity.Pozycjenafakturze;
 import error.E;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -51,6 +55,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
 import msg.Msg;
+import org.apache.commons.io.FileUtils;
 import org.primefaces.PrimeFaces;
 import static pdf.PdfVAT7.absText;
 import view.WpisView;
@@ -74,6 +79,8 @@ public class PdfFaktura extends Pdf implements Serializable {
     private FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO;
     @Inject
     private FakturaStopkaNiemieckaDAO  fakturaStopkaNiemieckaDAO;
+    @Inject
+    private LogofakturaDAO logofakturaDAO;
 
     public void drukujmail(List<Faktura> fakturydruk, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         int i = 0;
@@ -107,6 +114,15 @@ public class PdfFaktura extends Pdf implements Serializable {
             if (file.isFile()) {
                 file.delete();
             }
+             Fakturaelementygraficzne logo = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+            if (logo != null) {
+                sprawdzczyniezniknalplik(logo.getFakturaelementygraficznePK().getNazwaelementu(),0);
+                    }
+            Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+            if (elementgraficzny != null) {
+                sprawdzczyniezniknalplik(elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu(),1);
+            }
+            
             List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(podatnik.getNazwapelna());
             if (selected.isFakturaniemiecka13b()) {
                 drukujcdNiemcy(selected, fdod, row, "druk", podatnik, false, null);
@@ -119,6 +135,21 @@ public class PdfFaktura extends Pdf implements Serializable {
             System.out.println(E.e(e));
             Msg.msg("e", "Błąd - nie wybrano faktury");
 
+        }
+    }
+    
+    private void sprawdzczyniezniknalplik(String nazwa, int nrkolejny) {
+        try {
+             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String nazwapliku = realPath+"resources/images/logo/"+nazwa;
+            File oldfile = new File(nazwapliku);
+            if (!oldfile.isFile()) {
+                Logofaktura logofaktura = logofakturaDAO.findByPodatnik(wpisView.getPodatnikObiekt(),nrkolejny);
+                FileUtils.copyInputStreamToFile(new ByteArrayInputStream(logofaktura.getPliklogo()), new File(nazwapliku));
+            }
+        } catch (Exception e) {
+            E.e(e);
         }
     }
     
