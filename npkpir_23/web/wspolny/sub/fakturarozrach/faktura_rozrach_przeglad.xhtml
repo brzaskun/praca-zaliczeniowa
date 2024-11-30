@@ -27,7 +27,7 @@
             
             <p:remoteCommand name="przeliczfilter1" actionListener="#{fakturaRozrachunkiRozlView.sumuj}" update="akordeon:razemfaktury"/>
             <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{fakturaRozrachunkiRozlView.pobierzplatnosci()}" update="fakturarozliczenia" global="false"/>
-            <p:dataTable lazy="false"  value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1150px; margin-top: 20px;" filteredValue="#{fakturaRozrachunkiRozlView.wprowadzoneplatnoscifiltered}"
+            <p:dataTable lazy="false"  value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1300px; margin-top: 20px;" filteredValue="#{fakturaRozrachunkiRozlView.wprowadzoneplatnoscifiltered}"
                          sortBy="#{item.lp}" 
                          emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}" id="wprowadzonetabela"
                          widgetVar="fakturarozliczenia_tablica" editable="true" paginator="true" rows="20" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -82,7 +82,9 @@
                     </f:facet>
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('fakturarozliczenia_tablica').filter()" styleClass="dokfaktrozliczenia">
-                            <f:selectItem itemLabel="all" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="wszystkie" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="wbm_pom" itemValue="wbm_pom"/>
+                            <f:selectItem itemLabel="wbme_pom" itemValue="wbme_pom"/>
                              <f:selectItem itemLabel="rk" itemValue="rk"/>
                              <f:selectItem itemLabel="rke" itemValue="rke"/>
                             <f:selectItem itemLabel="wb" itemValue="wb"/>
@@ -142,13 +144,19 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column width="70">
+   <p:column width="80"  sortable="true" filterBy="#{item.wprowadzil.nazwiskoImie}">
+                        <f:facet name="header">
+                            <h:outputText value="wprow."/>
+                        </f:facet>
+                        <h:outputText value="#{item.wprowadzil.nazwiskoImie}"/>
+                    </p:column>
+                <p:column width="100">
                     <f:facet name="header">
                         <h:outputText value="księgowano"/>
                     </f:facet>
                     <h:outputText value="#{item.dataksiegowania}">
-                        <f:convertDateTime dateStyle="default" locale="pl"/>
-                    </h:outputText>
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:rowEditor style="height: 30px;"/>

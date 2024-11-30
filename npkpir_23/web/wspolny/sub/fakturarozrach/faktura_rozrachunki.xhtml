@@ -81,6 +81,8 @@
                             <f:selectItem itemLabel="wbe" itemValue="wbe"/>
                             <f:selectItem itemLabel="wbm" itemValue="wbm"/>
                             <f:selectItem itemLabel="wbme" itemValue="wbme"/>
+                            <f:selectItem itemLabel="wbm_pom" itemValue="wbm_pom"/>
+                            <f:selectItem itemLabel="wbme_pom" itemValue="wbme_pom"/>
                             <f:selectItem itemLabel="rev" itemValue="rev"/>
                             <f:selectItem itemLabel="fa" itemValue="fa"/>
                             <f:selectItem itemLabel="bo" itemValue="bo"/>
@@ -134,7 +136,7 @@
                 <h:outputText value="suma: " style="margin-right: 10px;"/><bcf:outputpl value="#{fakturaRozrachunkiView.suma}" stylePlus="margin-right: 200px;"/>
             </p:outputPanel>
             <p:remoteCommand name="przeliczfilter" actionListener="#{fakturaRozrachunkiView.sumuj}" update="@form"/>
-                <p:dataTable lazy="false"  value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1170px; margin-top: 20px;"
+                <p:dataTable lazy="false"  value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1350px; margin-top: 20px;"
                              emptyMessage="niczego dzisiaj nie zaksięgowano"  filteredValue="#{fakturaRozrachunkiView.wprowadzoneplatnoscifiltered}"
                              editable="true" widgetVar="form_wprowadzoneplatnosci" sortBy="#{item.lp}"
                              paginator="true" rows="10" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -188,13 +190,16 @@
                         </f:facet>
                          <f:facet name="filter">
                             <p:selectOneMenu onchange="PF('form_wprowadzoneplatnosci').filter()" style="width: 60px;">
-                                <f:selectItem itemLabel="all" itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="wbm_pom" itemValue="wbm_pom"/>
+                            <f:selectItem itemLabel="wbme_pom" itemValue="wbme_pom"/>
                              <f:selectItem itemLabel="rk" itemValue="rk"/>
                              <f:selectItem itemLabel="rke" itemValue="rke"/>
                             <f:selectItem itemLabel="wb" itemValue="wb"/>
                             <f:selectItem itemLabel="wbe" itemValue="wbe"/>
                             <f:selectItem itemLabel="wbm" itemValue="wbm"/>
                             <f:selectItem itemLabel="wbme" itemValue="wbme"/>
+                           
                             <f:selectItem itemLabel="rev" itemValue="rev"/>
                             <f:selectItem itemLabel="fa" itemValue="fa"/>
                             <f:selectItem itemLabel="bo" itemValue="bo"/>
@@ -236,11 +241,25 @@
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
-                    <p:column width="50"  sortable="true">
+                     <p:column width="50"  sortable="true">
                         <f:facet name="header">
                             <h:outputText value="kurs"/>
                         </f:facet>
                         <bcf:outputkurs value="#{item.kurs}"/>
+                    </p:column>
+                <p:column width="80"  sortable="true" filterBy="#{item.wprowadzil.nazwiskoImie}">
+                        <f:facet name="header">
+                            <h:outputText value="wprow."/>
+                        </f:facet>
+                        <h:outputText value="#{item.wprowadzil.nazwiskoImie}"/>
+                    </p:column>
+                    <p:column width="100"  sortable="true">
+                        <f:facet name="header">
+                            <h:outputText value="data"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dataksiegowania}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
                         <p:rowEditor style="height: 30px;"/>
