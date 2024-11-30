@@ -130,6 +130,14 @@ public class Dokfk extends DokSuper implements Serializable {
     @Size(min = 4, max = 4)
     @Column(name = "rok", nullable = false, length = 4)
     private String rok;
+    //    <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
+//    <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
+//    <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
+//    <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
+//    <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
+//    <f:selectItem itemLabel="płatności" itemValue="0"/>
+//    @Column(name = "kategoriadokumentu")
+//    privatre int kategoriadokumentu;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rodzajdok", referencedColumnName = "id")
     private Rodzajedok rodzajedok;
@@ -178,6 +186,8 @@ public class Dokfk extends DokSuper implements Serializable {
     private Tabelanbp tabelanbp;
     @Column(name = "wartoscdokumentu")
     private double wartoscdokumentu;
+    @Column(name = "wartoscdokumentuwaluta")
+    private double wartoscdokumentuwaluta;
     @Column(name = "wtrakcieedycji")
     private boolean wTrakcieEdycji;
     @JoinColumn(name = "kontr", referencedColumnName = "id")
@@ -339,6 +349,8 @@ public class Dokfk extends DokSuper implements Serializable {
     
   
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    
     public Integer getNrdziennika() {
         return nrdziennika;
     }
@@ -873,6 +885,14 @@ public class Dokfk extends DokSuper implements Serializable {
 
     public void setUlganazledlugidatapierwszaplus90(String ulganazledlugidatapierwszaplus90) {
         this.ulganazledlugidatapierwszaplus90 = ulganazledlugidatapierwszaplus90;
+    }
+
+    public double getWartoscdokumentuwaluta() {
+        return wartoscdokumentuwaluta;
+    }
+
+    public void setWartoscdokumentuwaluta(double wartoscdokumentuwaluta) {
+        this.wartoscdokumentuwaluta = wartoscdokumentuwaluta;
     }
 
    

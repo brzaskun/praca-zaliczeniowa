@@ -36,6 +36,7 @@
                 </p:menu>
                 <p:menu>
                         <p:menuitem global="false" value="niemcy"  outcome="niemcy" icon="ui-icon-circle-arrow-e"/>  
+                        <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="podwykonawcy"  outcome="podwykonawcy" icon="ui-icon-circle-arrow-e"/>  
                     </p:menu>
                 <p:menu rendered="#{WpisView.biuroiszef eq true}">
                     <p:menuitem global="false" value="PIT"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>

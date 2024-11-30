@@ -108,6 +108,12 @@ public class Klienci extends KlienciSuper implements Serializable {
     private String polecajacy;
     @Transient
     private boolean aktywny;
+    @Transient
+    private String dataod;
+    @Transient
+    private String datado;
+    @Transient
+    private double sumadokumentow;
 
     
     
@@ -491,6 +497,30 @@ public class Klienci extends KlienciSuper implements Serializable {
 
     public void setAdresincydentalny(String adresincydentalny) {
         this.adresincydentalny = adresincydentalny;
+    }
+
+    public String getDataod() {
+        return dataod;
+    }
+
+    public void setDataod(String dataod) {
+        this.dataod = dataod;
+    }
+
+    public String getDatado() {
+        return datado;
+    }
+
+    public void setDatado(String datado) {
+        this.datado = datado;
+    }
+
+    public double getSumadokumentow() {
+        return sumadokumentow;
+    }
+
+    public void setSumadokumentow(double sumadokumentow) {
+        this.sumadokumentow = sumadokumentow;
     }
     
     

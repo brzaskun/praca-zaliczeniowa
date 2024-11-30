@@ -365,5 +365,14 @@ public class DokDAO extends DAO implements Serializable {
         return zwrot;
     }
 
+    public List<Dok> findDokfkByDateAndType(Podatnik podatnik, String dataod, String datado, List<Integer> rodzajeDokumentow) {
+    return getEntityManager()
+            .createQuery("SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.dataSprz >= :dataod AND d.dataSprz <= :datado AND d.rodzajedok.kategoriadokumentu IN :rodzaje", Dok.class)
+            .setParameter("dataod", dataod)
+            .setParameter("datado", datado)
+            .setParameter("podatnik", podatnik)
+            .setParameter("rodzaje", rodzajeDokumentow)
+            .getResultList();
+}
   
 }

@@ -58,6 +58,7 @@
             </p:menu>
             <p:menu>
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="niemcy"  outcome="niemcy" icon="ui-icon-circle-arrow-e"/>  
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="podwykonawcy"  outcome="podwykonawcy" icon="ui-icon-circle-arrow-e"/>  
             </p:menu>
             <p:menu rendered="#{WpisView.biuroiszef eq true}">
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="PIT"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>
@@ -110,6 +111,7 @@
             </p:submenu>
                 <p:submenu icon="ui-icon-circle-arrow-e" label="niemcy">
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="niemcy"  outcome="niemcy" icon="ui-icon-circle-arrow-e"/>  
+                <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="podwykonawcy"  outcome="podwykonawcy" icon="ui-icon-circle-arrow-e"/>  
             </p:submenu>
                 <p:submenu icon="ui-icon-circle-arrow-e" label="vat" rendered="#{WpisView.biuroiszef eq true}">
                 <p:menuitem onclick="setBusyCursor();" oncomplete="removeBusyCursor();" global="true" value="PIT"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>

@@ -63,6 +63,17 @@ public class DokDAOfk extends DAO implements Serializable {
         remove(selected);
     }
 
+    public List<Dokfk> findDokfkByDateAndType(Podatnik podatnik, String dataod, String datado, List<Integer> rodzajeDokumentow) {
+    return getEntityManager()
+            .createQuery("SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dataoperacji >= :dataod AND d.dataoperacji <= :datado AND d.rodzajedok.kategoriadokumentu IN :rodzaje", Dokfk.class)
+            .setParameter("dataod", dataod)
+            .setParameter("datado", datado)
+            .setParameter("podatnik", podatnik)
+            .setParameter("rodzaje", rodzajeDokumentow)
+            .getResultList();
+}
+
+    
     public List findDokfkPodatnikRokMc(WpisView wpisView) {
         try {
            return Collections.synchronizedList(sessionFacade.findDokfkPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));

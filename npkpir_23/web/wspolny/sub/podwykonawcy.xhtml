@@ -1,0 +1,73 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
+    <bcf:ajaxs/>
+    <div class="vertical-container">
+       
+        <h:form id="kliencifakturyformLista">
+             <p:panelGrid layout="tabular" columns="6" style="margin-top: 5px;">
+                        <h:outputText value="data od" style="font-weight: bold;"/>
+                        <p:inputMask value="#{kliencifakturyView.dataod}" size="10" maxlength="10"  mask="9999-99-99"  validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
+                            <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
+                        </p:inputMask>
+                        <h:outputText value="data do" style="font-weight: bold;"/>
+                        <p:inputMask value="#{kliencifakturyView.datado}" size="10" maxlength="10"  mask="9999-99-99" validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
+                            <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
+                        </p:inputMask>
+                        <h:outputText value="niemieckie nagłówki"/>
+                        <p:selectBooleanCheckbox value="#{kliencifakturyView.niemieckienaglowki}">
+                            <p:ajax event="change" partialSubmit="true"/>
+                        </p:selectBooleanCheckbox>
+                        <p:commandButton value="pobierz" actionListener="#{kliencifakturyView.pobierz()}" style="width: 120px; margin-top: 10px;" 
+                         update="@form"/>
+                        <p:commandButton id="xlsbutton"  value="dane w formacie XLS" actionListener="#{xlsKlienciView.zachowajwXLS(kliencifakturyView.listawszystkichklientow, kliencifakturyView.niemieckienaglowki)}" style="width: 120px; margin-top: 10px; margin-left: 10px;" global="false" ajax="false"/>
+            </p:panelGrid>
+             
+            <p:dataTable lazy="false"  id="infokonta" value="#{kliencifakturyView.listawszystkichklientow}" var="item"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
+                         style="margin-top: 1%; width: 1300px;overflow-y: scroll;height: 550px;" 
+                        
+                         rowIndexVar="yndex"
+                         rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" rows="40"
+                         paginator="#{kliencifakturyView.listawszystkichklientow.size() gt 150 ? 'true':'false'}">
+                                         
+                <p:ajax event="filter" global="false"/>
+                <f:facet name="header">
+                    <h:outputText value="Wykaz kontrahentów"/>
+                </f:facet>
+                <p:column headerText="lp"  style="width: 30px;" exportable="true">
+                    <h:outputText value="#{yndex+1}"/>
+                </p:column>
+                <p:column headerText="nazwa" sortBy="#{item.nazwabezCudzy}" filterBy="#{item.nazwabezCudzy}" filterMatchMode="contains" style="width: 400px;" filterStyle="width:300px;" exportable="true">
+                    <h:outputText value="#{item.nazwabezCudzy}"/>
+                </p:column>
+                <p:column headerText="nip" sortBy="#{item.nip}" filterBy="#{item.nip}" filterMatchMode="startsWith" style="width: 120px;" exportable="true">
+                    <h:outputText value="#{item.nip}"/>
+                </p:column>
+                <p:column headerText="adres" filterBy="#{item.adres}" filterMatchMode="startsWith" style="width: 150px;"  exportable="true">
+                    <h:outputText value="#{item.adres}"/>
+                </p:column>
+                <p:column headerText="data od" filterBy="#{item.dataod}" filterMatchMode="startsWith" style="width: 80px;"  exportable="true">
+                    <h:outputText value="#{item.dataod}"/>
+                </p:column>
+                <p:column headerText="data do" filterBy="#{item.datado}" filterMatchMode="startsWith" style="width: 80px;"  exportable="true">
+                    <h:outputText value="#{item.datado}"/>
+                </p:column>
+                <p:column headerText="wartość" filterBy="#{item.sumadokumentow}" filterMatchMode="startsWith" style="width: 80px;"  exportable="true">
+                    <bcf:outputwal value="#{item.sumadokumentow}"/>
+                </p:column>
+<!--                <p:column headerText="edytuj" style="text-align: center; width: 70px;"  exportable="false">
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{kliencifakturyView.edytuj(item)}" update=":kliencifakturyform :kliencifakturyformLista" global="false"/>
+                </p:column>
+                <p:column headerText="usuń" style="text-align: center; width: 70px;" exportable="false">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{kliencifakturyView.remove(item)}" update=":kliencifakturyform :kliencifakturyformLista"/>
+                </p:column>-->
+            </p:dataTable>
+        </h:form>
+    </div>
+</ui:composition>   
+

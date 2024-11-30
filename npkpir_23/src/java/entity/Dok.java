@@ -275,6 +275,8 @@ public class Dok extends DokSuper implements Serializable {
     private String ulganazledlugidatapierwszaplus90;
     @Column(name = "ulganazledlugidatadruga")
     private String ulganazledlugidatadruga;
+    @Column(name = "wartoscdokumentuwaluta")
+    private double wartoscdokumentuwaluta;
 //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
 //    private List<UmorzenieN> listaumorzen;
     
@@ -570,6 +572,14 @@ public class Dok extends DokSuper implements Serializable {
     
       public double getBruttoDouble() {
         return this.brutto != null ? this.brutto : 0.0;
+    }
+
+    public double getWartoscdokumentuwaluta() {
+        return wartoscdokumentuwaluta;
+    }
+
+    public void setWartoscdokumentuwaluta(double wartoscdokumentuwaluta) {
+        this.wartoscdokumentuwaluta = wartoscdokumentuwaluta;
     }
 
     public void setBrutto(Double brutto) {

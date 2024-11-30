@@ -446,6 +446,10 @@
             <from-outcome>niemcy</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaNiemcy.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>podwykonawcy</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaPodwykonawcy.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>srodkidok</from-outcome>
             <to-view-id>/wspolny/wspolnySrodkiDokUmorzeniowe.xhtml?faces-redirect=true</to-view-id>

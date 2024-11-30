@@ -380,6 +380,45 @@ public class WriteXLSFile {
         return workbook;
     }
     
+    public static Workbook zachowajKlienciWartoscXLS(Map<String, List> listy, WpisView wpisView, boolean niemieckienaglowki){
+        List listakontrahentow = listy.get("klienci");
+        List headersList = klienciwartosc();
+        if (niemieckienaglowki) {
+            headersList = klienciwartoscde();
+        }
+        // Using XSSF for xlsx format, for xls use HSSF
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("kontrahenci");
+        insertPrintHeader(sheet, wpisView);
+        int rowIndex = 0;
+        rowIndex = drawATableKlienciWartosc(workbook, sheet, rowIndex, headersList, listakontrahentow, "Subunternehmer", 1, "kontrahenci");
+        workbook.setPrintArea(
+        0, //sheet index
+        0, //start column
+        3, //end column
+        0, //start row
+        rowIndex //end row
+        );
+      //set paper size
+        sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+        sheet.setFitToPage(true);
+        //write this workbook in excel file.
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String FILE_PATH = realPath+FILE_PATH1;
+        try {
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
+            workbook.write(fos);
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return workbook;
+    }
+    
     public static Workbook zachowajSuSaXLS(Map<String, List> listy, WpisView wpisView){
         List lista = listy.get("kontasalda");
         List headersList = headersusa();
@@ -699,6 +738,30 @@ public class WriteXLSFile {
         return headers;
     }
     
+    public static List klienciwartosc() {
+        List headers = new ArrayList();
+        headers.add("lp");
+        headers.add("nazwa");
+        headers.add("nip");
+        headers.add("adres");
+        headers.add("data od");
+        headers.add("data do");
+        headers.add("wartość");
+        return headers;
+    }
+    
+    public static List klienciwartoscde() {
+        List headers = new ArrayList();
+        headers.add("");
+        headers.add("Name");
+        headers.add("StN");
+        headers.add("Adresse");
+        headers.add("von");
+        headers.add("bis");
+        headers.add("Wert");
+        return headers;
+    }
+    
     private static <T> int drawATableZorin(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT> elements, String tableheader, int typ, String nazwasumy) {
         int startindex = rowIndex+3;
         int columnIndex = 0;
@@ -858,6 +921,37 @@ public class WriteXLSFile {
         }
         return zwrot;
     }
+    private static <T> int drawATableKlienciWartosc(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<T> elements, String tableheader, int typ, String nazwasumy) {
+        int startindex = rowIndex+3;
+        int columnIndex = 0;
+        Row rowTH = sheet.createRow(rowIndex++);
+        CellStyle styleheader = styleHeader(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, (short) 10);
+        createHeaderCell(styleheader, rowTH, (short) 2, tableheader);
+        CellRangeAddress region = new CellRangeAddress( rowIndex-1, rowIndex-1, (short) 2, (short)12);
+        sheet.addMergedRegion(region);
+        CellStyle styletext = styleText(workbook, HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
+        CellStyle styletextcenter = styleText(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
+        CellStyle styleformula = styleFormula(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
+        CellStyle styledouble = styleDouble(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
+        Row rowH = sheet.createRow(rowIndex++);
+        for(Iterator it = headers.iterator(); it.hasNext();){
+            String header = (String) it.next();
+            createHeaderCell(styleheader, rowH, (short) columnIndex++, header);
+        }
+        for(Iterator it = elements.iterator(); it.hasNext();){
+            T st = (T) it.next();
+            Row row = sheet.createRow(rowIndex++);
+            columnIndex = 0;
+            ustawWierszKlienciWartosc(workbook, row, columnIndex, st, rowIndex, styletext, styletextcenter, styledouble,0);
+        }
+//        sheet.createRow(rowIndex++);//pusty row
+        if (headers.size()> 3) {
+            rowIndex = summaryRow(startindex, rowIndex, workbook, sheet, typ, nazwasumy, styletext, styleformula);
+        }
+        autoAlign(sheet);
+        return rowIndex;
+    }
+    
     
     private static <T> int drawATable(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<T> elements, String tableheader, int typ, String nazwasumy) {
         int startindex = rowIndex+3;
@@ -963,6 +1057,20 @@ public class WriteXLSFile {
         }
         autoAlign(sheet);
         return rowIndex;
+    }
+    
+    private static <T> void ustawWierszKlienciWartosc(Workbook workbook, Row row, int columnIndex, T ob, int rowIndex, CellStyle styletext, CellStyle styletextcenter, CellStyle styledouble, int modyfikator) {
+        Class c = ob.getClass();
+        if (c.getName().contains("Klienci")) {
+            Klienci st = (Klienci) ob;
+            createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex+1));
+            createTextCell(styletext, row, (short) columnIndex++, st.getNazwabezCudzy());
+            createTextCell(styletext, row, (short) columnIndex++, st.getNip());
+            createTextCell(styletext, row, (short) columnIndex++, st.getAdres());
+            createTextCell(styletext, row, (short) columnIndex++, st.getDataod());
+            createTextCell(styletext, row, (short) columnIndex++, st.getDatado());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getSumadokumentow());
+        } 
     }
     
     private static <T> void ustawWiersz(Workbook workbook, Row row, int columnIndex, T ob, int rowIndex, CellStyle styletext, CellStyle styletextcenter, CellStyle styledouble, int modyfikator) {
