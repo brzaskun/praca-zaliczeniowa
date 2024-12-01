@@ -94,7 +94,7 @@ public class BankImportKsiazkaView implements Serializable {
     
     @PostConstruct
     public void init() { //E.m(this);
-        rodzajedokKlienta = new ArrayList<>(Arrays.asList("wb","wbe","wbm","wbme", "rev"));
+        rodzajedokKlienta = new ArrayList<>(Arrays.asList("wb","wbe","wbm","wbme", "rev", "wbm_pom", "wbme_pom"));
         rodzajeimportu = zrobrodzajeimportu();
         tabelanbppl = tabelanbpDAO.findByTabelaPLN();
         walutapln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");

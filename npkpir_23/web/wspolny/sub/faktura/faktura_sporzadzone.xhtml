@@ -85,7 +85,7 @@
             <p:remoteCommand name="przeliczfiltersporzadzone" actionListener="#{fakturaView.sumawartoscifiltered()}" update=":akordeon:formsporzadzone:panelsum"/>
             <p:dataTable lazy="false"  id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis"  filteredValue="#{fakturaView.fakturyFiltered}" 
                          selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1550px;height: 900px;overflow-y: scroll;"
-                         sortBy="#{wpis.numerkolejny}"  emptyMessage="Nie sporządzono faktur w tym miesiącu">
+                         sortBy="#{wpis.numerkolejny}"  emptyMessage="Nie sporządzono faktur w tym miesiącu" >
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowanych faktur w mc #{WpisView.miesiacWpisu} #{fakturaView.gosciwybral.size()}" />  
                     <!--                    <h:outputText value="- wyszukiwanie: " />  
@@ -124,7 +124,7 @@
                           filterMatchMode="contains"  width="60">
                     <h:outputText value="#{wpis.terminzaplaty.substring(2)}"/>
                 </p:column>
-                <p:column styleClass="data2" headerText="netto"  sortBy="#{wpis.nettoFakturaView}" filterBy="#{wpis.nettoFakturaView}" filterMatchMode="contains"   width="70" >
+                <p:column styleClass="data2 hide-on-small" headerText="netto"  sortBy="#{wpis.nettoFakturaView}" filterBy="#{wpis.nettoFakturaView}" filterMatchMode="contains"   width="70" >
                     <bcf:outputpl value="#{wpis.nettoFakturaView}"/>
                     <h:outputText value=" #{wpis.walutafaktury}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
                 </p:column>
@@ -134,7 +134,7 @@
                     <bcf:outputpl value="#{wpis.bruttoFakturaViewPLN}" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
                     <h:outputText value=" PLN" rendered="#{wpis.walutafaktury ne 'PLN'}"/>
                 </p:column>
-                <p:column styleClass="data31" headerText="jedn." sortBy="#{wpis.idfakturaokresowa}" filterBy="#{wpis.idfakturaokresowa eq null ? 'tak' : 'nie'}" filterMatchMode="contains"  
+                <p:column styleClass="data31 hide-on-small" headerText="jedn." sortBy="#{wpis.idfakturaokresowa}" filterBy="#{wpis.idfakturaokresowa eq null ? 'tak' : 'nie'}" filterMatchMode="contains"  
                           style="text-align: center;"  width="40">
                     <h:outputText value="tak" rendered="#{wpis.idfakturaokresowa eq null}" style="color: green;"/>
                 </p:column>
@@ -145,7 +145,7 @@
                     </h:outputText>
                     <h:outputText value="nie" rendered="#{!wpis.wyslana}" style="color: green;"/>
                 </p:column>
-                <p:column styleClass="data3" headerText="zaks." sortBy="#{wpis.zaksiegowana}" filterBy="#{wpis.zaksiegowana ? 'tak' : 'nie'}" filterMatchMode="contains"  
+                <p:column styleClass="data3 hide-on-small" headerText="zaks." sortBy="#{wpis.zaksiegowana}" filterBy="#{wpis.zaksiegowana ? 'tak' : 'nie'}" filterMatchMode="contains"  
                           style="text-align: center;" width="30">
                     <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
                 </p:column>

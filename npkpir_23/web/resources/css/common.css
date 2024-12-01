@@ -76,7 +76,7 @@ html.progress, html.progress * {
     border: 1px solid #79b7e7 !Important;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1300px) {
     .hide-on-small {
         display: none;
     }
