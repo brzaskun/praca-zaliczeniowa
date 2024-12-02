@@ -747,7 +747,32 @@ public class DokfkView implements Serializable {
             } else {
                 this.selected.setEwidencjaVAT(null);
             }
+            if (wpisView.getPodatnikObiekt().isNiemcy()) {
+                String transakcjiRodzaj = selected.getRodzajedok().getRodzajtransakcji();
+                boolean pokaz = false;
+                List<Evewidencja> uzywaneewidencje = Collections.synchronizedList(new ArrayList<>());
+                 uzywaneewidencje.addAll(listaEwidencjiVat.pobierzEvewidencjeNiemcy(transakcjiRodzaj));
+
+                int nrwiersza = 0;
+                //bo od teraz sa niemieckie ewidencje. pozdro z Sitges 10.02.2024 sobota wieczor
+                if (selected.getEwidencjaVAT()==null) {
+                    selected.setEwidencjaVAT(new ArrayList<>());
+                } else {
+                    nrwiersza = selected.getEwidencjaVAT().size();
+                }
+                 //ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
+                int k = 0;
+                for (Evewidencja p : uzywaneewidencje) {
+                    EVatwpisFK ewidencjaAddwiad = new EVatwpisFK(k++,p,selected);
+                    this.selected.getEwidencjaVAT().add(ewidencjaAddwiad);
+                }
+                //obliczam 23% dla pierwszego
+                //nie bede dodawal netto bo faktur niemieckich jest mniej i jak ksiegowa nie wypelni to 
+                //selDokument.getEwidencjaVAT1().get(nrwiersza).setNetto(sumanetto);
+             }
     }
+    
+  
     
     private List<Evewidencja> reorganizujewidencje(List<Evewidencja> ewidencjepobrane, List<PodatnikEwidencjaDok> listaewidencjipodatnika) {
         List<Evewidencja> zwrot = new ArrayList<>();
@@ -869,7 +894,7 @@ public class DokfkView implements Serializable {
                     if (kontoRozrachunkowe == null && dodacdoslownikow) {
                         kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
                     }
-                    if (rodzajdok.getKategoriadokumentu() == 1) {
+                    if (rodzajdok.getKategoriadokumentu() == 1 || rodzajdok.getSkrotNazwyDok().equals("RACHDE")) {
                         if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
                             //oblicza polowe vat dla faktur samochody osobowe
                             evatwpis.setVat(Z.z(wartosciVAT.getVatPlndodoliczenia()));

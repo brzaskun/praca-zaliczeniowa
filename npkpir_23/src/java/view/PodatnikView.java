@@ -10,6 +10,7 @@ import comparator.Dokfkcomparator;
 import comparator.Kontocomparator;
 import comparator.Podatnikcomparator;
 import comparator.Podmiotcomparator;
+import comparator.Rodzajedokcomparator;
 import comparator.Uzcomparator;
 import dao.DokDAO;
 import dao.DokDAOfk;
@@ -213,6 +214,7 @@ public class PodatnikView implements Serializable {
         } catch (Exception e) { E.e(e); 
         }
         rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        Collections.sort(rodzajeDokumentowLista, new Rodzajedokcomparator());
         podatnikUdzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView.getPodatnikObiekt());
         podatnikOpodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnik(wpisView);
         biezacadata = String.valueOf(new DateTime().getYear());
@@ -1571,6 +1573,7 @@ public class PodatnikView implements Serializable {
                             }
                         }
                         rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        Collections.sort(rodzajeDokumentowLista, new Rodzajedokcomparator());
                         Msg.msg("Wygenerowano dokumenty","akordeon:form6:messages");
                     }
                 } else {
@@ -1607,6 +1610,7 @@ public class PodatnikView implements Serializable {
                             }
                         }
                         rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                        Collections.sort(rodzajeDokumentowLista, new Rodzajedokcomparator());
                         Msg.msg("Wygenerowano dokumenty","akordeon:form6:messages");
                     } else {
                     Msg.msg("e","Brak planu kont, nie można wygenerować dokumentów","akordeon:form6:messages");

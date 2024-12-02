@@ -17,7 +17,7 @@
                              emptyMessage="nie wygenerowano dokumentów/brak planu kont na bieżacy rok"
                              >
                     <p:ajax event="rowSelect" update=":akordeon:form7" listener="#{podatnikView.przygotujdoedycjiDokKsi}" />
-                    <p:column headerText="skrót" style="text-align: center;" width="90">
+                    <p:column headerText="skrót" style="text-align: center;" width="90" sortable="true" sortPriority="1" sortBy="#{loop.skrotNazwyDok}">
                         <h:outputText value="#{loop.skrotNazwyDok}" />
                     </p:column>
                     <p:column headerText="nazwa pelna" width="180">

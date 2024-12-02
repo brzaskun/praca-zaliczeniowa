@@ -87,18 +87,38 @@ public class KliencifakturyView implements Serializable {
         }
     }
 }
-
-    public void pobierz() { //E.m(this);
-        if (wpisView.isKsiegirachunkowe()==false) {
-            try {
-                listadokumentow = dokDAO.findDokfkByDateAndType(wpisView.getPodatnikObiekt(), dataod, datado, Arrays.asList(1, 3));
-                sumujdokumentyWalutaPkpir(listadokumentow);
-                dokDAO.editList(listadokumentow);
-                uzupelnijDaneKlientow();
+public void pobierz() { 
+    // E.m(this);
+    if (wpisView != null && wpisView.isKsiegirachunkowe()==false) { // Ensure wpisView is not null and ksiegirachunkowe is true
+        try {
+            listadokumentow = null; // Initialize to avoid unintentional usage of stale data
+            if (wpisView.getPodatnikObiekt() != null && dataod != null && datado != null && dokDAO != null) {
+                // Ensure dokDAOfk and input data are not null
+                listadokumentow = dokDAO.findDokfkByDateAndType(
+                    wpisView.getPodatnikObiekt(), 
+                    dataod, 
+                    datado, 
+                    Arrays.asList(0, 1, 3)
+                );
+                if (listadokumentow != null && podwykonawcyniemcy) {
+                    // Ensure listadokumentowfk is not null before filtering
+                    listadokumentow = listadokumentow.stream()
+                        .filter(item -> item != null && "RACHDE".equals(item.getRodzajedok().getSkrotNazwyDok())) // Avoid null pointer on item or getSeriadokfk
+                        .collect(Collectors.toList());
+                }
+                if (listadokumentow != null) {
+                    sumujdokumentyWalutaPkpir(listadokumentow); // Ensure method is not called with a null list
+                     dokDAO.editList(listadokumentow);// Ensure dokDAOfk is available
+                }
+                uzupelnijDaneKlientow(); // Call only if relevant conditions are met
                 System.out.println("");
-            } catch (Exception e) {}
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log exception for debugging
         }
     }
+}
+
    
    private void uzupelnijDaneKlientow() {
     if (listadokumentow != null && !listadokumentow.isEmpty()) {

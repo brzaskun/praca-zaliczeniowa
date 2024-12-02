@@ -115,6 +115,12 @@ public class Dok extends DokSuper implements Serializable {
 //    @Size(min = 1, max = 255)
 //    @Column(name = "typdokumentu")
 //    private String typdokumentu;
+    //    <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
+//    <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
+//    <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
+//    <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
+//    <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
+//    <f:selectItem itemLabel="płatności" itemValue="0"/>
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rodzajedok", referencedColumnName = "id")
     private Rodzajedok rodzajedok;
