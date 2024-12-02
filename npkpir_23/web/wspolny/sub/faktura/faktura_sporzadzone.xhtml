@@ -163,7 +163,7 @@
                     <h:outputText value=" końcowa" rendered="#{wpis.koncowa}" style="color: coral;"/>
                 </p:column>
                 <p:column  headerText="edytuj" style="text-align: center;"  width="40">
-                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycjiZwykla(wpis)}" 
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon akordeon:formstworz:poleemailkontr akordeon:formstworz:poleemailkontrahent" actionListener="#{fakturaView.skierujfakturedoedycjiZwykla(wpis)}" 
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                  <p:column styleClass="data1" headerText="sporz" sortBy="#{wpis.datasporzadzenia}" filterBy="#{wpis.datasporzadzenia}" 
@@ -294,9 +294,7 @@
                             <p:column id="SubColumn3" headerText="op/zw" style="text-align: center">  
                                 <h:outputText value="#{subwpis.estawka}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
                             </p:column>
-                            <p:column id="SubColumn4" headerText="okresy vat">  
-                                <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
-                            </p:column>
+                         
                         </p:dataTable>
                     </p:column>
                       

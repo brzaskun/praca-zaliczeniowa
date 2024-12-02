@@ -912,6 +912,7 @@ public class FakturaView implements Serializable {
         zapis0edycja1 = true;
         if (faktura.getKontrahent()!=null) {
             kontrahentstworz.findComponent(faktura.getKontrahent().getNpelna());
+            emailkontrahent = faktura.getKontrahent().getEmail();
         }
         if (faktura.getOdbiorca()!=null) {
             odbiorcastworz.findComponent(faktura.getOdbiorca().getNpelna());
