@@ -1008,8 +1008,10 @@ public class DokfkView implements Serializable {
         String rodzajdok = selected.getRodzajedok().getSkrot();
         double stawkavat = DokFKVATBean.pobierzstawke(evatwpis);
          if (!w.getSymbolwaluty().equals("PLN")) {
-            if (selected.isNieprzeliczaj()==false) {
+            if (selected.isNieprzeliczaj()==false&&evatwpis.getEwidencja().isNiemcy()==false) {
                 evatwpis.setNetto(Z.z(evatwpis.getNettowwalucie()*kurs/przelicznik));
+            } else {
+                evatwpis.setNetto(Z.z(evatwpis.getNettowwalucie()));
             }
         }
         if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("RVCS") || rodzajdok.contains("EXP") || rodzajdok.contains("sprzedaż zw")) {

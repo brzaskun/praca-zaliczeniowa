@@ -462,26 +462,26 @@
                             </p:column>
                             <p:column headerText="#{mgs.netto} wal." width="80" rendered="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
                                 <p:inputNumber  id="nettowal" value="#{item.nettowwalucie}" symbol="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                                symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                                                symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" styleClass="wiersznetto"> 
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenettowal(item,'formwpisdokument', rowindex)}" partialSubmit="true"/>
 <!--                                    <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz(event);"/>-->
                                 </p:inputNumber>
                             </p:column>
                             <p:column headerText="#{mgs.netto}" width="80">
-                                <p:inputNumber  id="netto" value="#{item.netto}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                                symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                                <p:inputNumber  id="netto" value="#{item.netto}" required="true" requiredMessage="Brak kwoty - uzupełnij" symbol="#{item.ewidencja.niemcy eq false ? ' zł':dokfkView.selected.tabelanbp.waluta.symbolwaluty}"
+                                                symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2"  styleClass="wiersznetto"> 
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument', rowindex)}" partialSubmit="true"/>
 <!--                                    <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz(event);"/>-->
                                 </p:inputNumber>
                             </p:column>
                             <p:column headerText="#{mgs.VAT} #{dokfkView.selected.rodzajedok.stawkavat ne 0.0 ? dokfkView.selected.rodzajedok.stawkavat : null}#{dokfkView.selected.rodzajedok.stawkavat ne 0.0 ? '%' : null}" width="80">
-                                <p:inputNumber   id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                                symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                                <p:inputNumber   id="vat" value="#{item.vat}" symbol="#{item.ewidencja.niemcy eq false ? ' zł':dokfkView.selected.tabelanbp.waluta.symbolwaluty}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                                symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" styleClass="wiersznetto"> 
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatevat(item,'formwpisdokument', rowindex)}" partialSubmit="true"/>
                                 </p:inputNumber>
                             </p:column>
                             <p:column headerText="brutto" width="80">
-                                <p:inputNumber   id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
+                                <p:inputNumber   id="brutto" value="#{item.brutto}" symbol="#{item.ewidencja.niemcy eq false ? ' zł':dokfkView.selected.tabelanbp.waluta.symbolwaluty}" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                                 symbolPosition="s" signPosition="p"   thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" 
                                                 >
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatebrutto(item,'formwpisdokument', rowindex)}" partialSubmit="true"/>
