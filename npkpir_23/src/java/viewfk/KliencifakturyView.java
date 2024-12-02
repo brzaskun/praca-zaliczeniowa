@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -40,6 +41,7 @@ public class KliencifakturyView implements Serializable {
     private String dataod;
     private String datado;
     private boolean niemieckienaglowki;
+    private boolean podwykonawcyniemcy;
     @Inject
     private DokDAOfk dokDAOfk;
     @Inject
@@ -54,18 +56,38 @@ public class KliencifakturyView implements Serializable {
           dataod = data.Data.aktualnyRok()+"-01-01";
     }
 
-   public void pobierzFK() { //E.m(this);
-        if (wpisView.isKsiegirachunkowe()) {
-            try {
-                listadokumentowfk = dokDAOfk.findDokfkByDateAndType(wpisView.getPodatnikObiekt(), dataod, datado, Arrays.asList(1, 3));
-                sumujdokumentyWaluta(listadokumentowfk);
-                dokDAOfk.editList(listadokumentowfk);
-                uzupelnijDaneKlientowFk();
+  public void pobierzFK() { 
+    // E.m(this);
+    if (wpisView != null && wpisView.isKsiegirachunkowe()) { // Ensure wpisView is not null and ksiegirachunkowe is true
+        try {
+            listadokumentowfk = null; // Initialize to avoid unintentional usage of stale data
+            if (wpisView.getPodatnikObiekt() != null && dataod != null && datado != null && dokDAOfk != null) {
+                // Ensure dokDAOfk and input data are not null
+                listadokumentowfk = dokDAOfk.findDokfkByDateAndType(
+                    wpisView.getPodatnikObiekt(), 
+                    dataod, 
+                    datado, 
+                    Arrays.asList(1, 3)
+                );
+                if (listadokumentowfk != null && podwykonawcyniemcy) {
+                    // Ensure listadokumentowfk is not null before filtering
+                    listadokumentowfk = listadokumentowfk.stream()
+                        .filter(item -> item != null && "RACH".equals(item.getSeriadokfk())) // Avoid null pointer on item or getSeriadokfk
+                        .collect(Collectors.toList());
+                }
+                if (listadokumentowfk != null) {
+                    sumujdokumentyWaluta(listadokumentowfk); // Ensure method is not called with a null list
+                    dokDAOfk.editList(listadokumentowfk); // Ensure dokDAOfk is available
+                }
+                uzupelnijDaneKlientowFk(); // Call only if relevant conditions are met
                 System.out.println("");
-            } catch (Exception e) {}
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log exception for debugging
         }
     }
-   
+}
+
     public void pobierz() { //E.m(this);
         if (wpisView.isKsiegirachunkowe()==false) {
             try {
@@ -254,6 +276,14 @@ private static class KlientDane {
 
     public void setNiemieckienaglowki(boolean niemieckienaglowki) {
         this.niemieckienaglowki = niemieckienaglowki;
+    }
+
+    public boolean isPodwykonawcyniemcy() {
+        return podwykonawcyniemcy;
+    }
+
+    public void setPodwykonawcyniemcy(boolean podwykonawcyniemcy) {
+        this.podwykonawcyniemcy = podwykonawcyniemcy;
     }
 
     
