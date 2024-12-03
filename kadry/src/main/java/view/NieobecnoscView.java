@@ -47,6 +47,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -228,40 +229,59 @@ public class NieobecnoscView  implements Serializable {
 
     
     public boolean sprawdzdaty() {
-        if (lista != null && lista.size() > 0) {
-            // Przekształcenie dat w formacie String na LocalDate
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate newStartDate = LocalDate.parse(selected.getDataod(), formatter);
-            LocalDate newEndDate = LocalDate.parse(selected.getDatado(), formatter);
+        try {
+            if (lista != null && !lista.isEmpty()) {
+                // Przekształcenie dat w formacie String na LocalDate
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate newStartDate = LocalDate.parse(selected.getDataod(), formatter);
+                LocalDate newEndDate = LocalDate.parse(selected.getDatado(), formatter);
 
-            // Sprawdzenie, czy którakolwiek nieobecność nakłada się na nową
-            for (Nieobecnosc existing : lista) {
-                if (selected.getKod() != null && !selected.getKod().equals("UD")) {
-                    if (selected.getId() == null || (selected.getId() != null && !selected.getId().equals(existing.getId()))) {
-                        LocalDate existingStartDate = LocalDate.parse(existing.getDataod(), formatter);
-                        LocalDate existingEndDate = LocalDate.parse(existing.getDatado(), formatter);
+                // Sprawdzenie, czy daty są logiczne (data początkowa <= data końcowa)
+                if (newStartDate.isAfter(newEndDate)) {
+                    Msg.msg("e", "Data początkowa nie może być późniejsza niż data końcowa");
+                    selected.setDataod(null);
+                    selected.setDatado(null);
+                    return false;
+                }
 
-                        // Sprawdzamy, czy występuje jakiekolwiek pokrycie dat
-                        boolean startsBeforeAndEndsAfter = newStartDate.isBefore(existingEndDate) && newEndDate.isAfter(existingStartDate);
-                        boolean newStartsInsideExisting = newStartDate.isAfter(existingStartDate) && newStartDate.isBefore(existingEndDate);
-                        boolean newEndsInsideExisting = newEndDate.isAfter(existingStartDate) && newEndDate.isBefore(existingEndDate);
-                        boolean sameStartDate = newStartDate.isEqual(existingStartDate);
-                        boolean sameEndDate = newEndDate.isEqual(existingEndDate);
+                // Sprawdzenie nakładania się z istniejącymi nieobecnościami
+                for (Nieobecnosc existing : lista) {
+                    if (selected.getKod() != null && !selected.getKod().equals("UD")) {
+                        // Pomijamy sprawdzanie tej samej nieobecności
+                        if (selected.getId() == null || !selected.getId().equals(existing.getId())) {
+                            LocalDate existingStartDate = LocalDate.parse(existing.getDataod(), formatter);
+                            LocalDate existingEndDate = LocalDate.parse(existing.getDatado(), formatter);
 
-                        // Jeśli którykolwiek z tych przypadków jest prawdziwy, oznacza to konflikt
-                        if (startsBeforeAndEndsAfter || newStartsInsideExisting || newEndsInsideExisting || sameStartDate || sameEndDate) {
-                            Msg.msg("e", "Daty nieobecności pokrywają się z inną już wprowadzoną nieobecnością");
-                            selected.setDataod(null);
-                            selected.setDatado(null);
-                            break;
+                            // Sprawdzamy, czy występuje jakiekolwiek pokrycie dat
+                            boolean conflict = newStartDate.isBefore(existingEndDate.plusDays(1))
+                                    && newEndDate.isAfter(existingStartDate.minusDays(1));
+
+                            if (conflict) {
+                                Msg.msg("e", "Daty nieobecności pokrywają się z inną już wprowadzoną nieobecnością");
+                                selected.setDataod(null);
+                                selected.setDatado(null);
+                                return false;
+                            }
                         }
                     }
                 }
             }
-
+        } catch (DateTimeParseException e) {
+            // Obsługa błędnego formatu daty
+            Msg.msg("e", "Nieprawidłowy format daty. Wprowadź daty w formacie yyyy-MM-dd");
+            selected.setDataod(null);
+            selected.setDatado(null);
+            return false;
+        } catch (Exception e) {
+            // Ogólna obsługa innych błędów
+            Msg.msg("e", "Wystąpił nieoczekiwany błąd podczas sprawdzania dat");
+            return false;
         }
-        return false;
+
+        // Jeśli wszystko jest poprawne
+        return true;
     }
+
 
     
     
