@@ -13,20 +13,18 @@ import embeddable.Roki;
 import entity.Dok;
 import entity.Podatnik;
 import entity.Zamknietemiesiace;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.enterprise.context.RequestScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import msg.Msg; import org.primefaces.PrimeFaces;
-
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
 /**
  *
  * @author Osito
@@ -113,7 +111,7 @@ public class ZamkniecieView implements Serializable {
         Collections.sort(mapaokresowPobraneZapas, new Okresrozliczeniowycomparator());
     }
 
-    public void zapisokresy(){
+    public void zapisokresy(Okresrozliczeniowy okresrozliczeniowy){
         Msg.msg("i", "Trwa wprowadzanie zmian");
         zaksiegujDokumenty();
         zamknietemiesiace.setZamkniete(mapaokresowPobrane);

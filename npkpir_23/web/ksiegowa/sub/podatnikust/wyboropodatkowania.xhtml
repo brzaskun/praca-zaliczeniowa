@@ -55,7 +55,7 @@
                                          style="#{loop.zamkniety ? 'color: green;': 'color: red;'}" />
                     </p:column>
                 <p:column  width="60" style="text-align: center;" headerText="odksięg.">
-                        <p:commandButton icon="fa fa-book" actionListener="#{podatnikView.odksiegujdokumenty}" global="true" update="@parent:@parent"
+                        <p:commandButton icon="fa fa-book" actionListener="#{podatnikView.odksiegujdokumenty(loop)}" global="true" update="@parent:@parent"
                                          rendered="#{loop.zamkniety eq false and loop.symbolroku eq WpisView.rokWpisuSt}" />
                     </p:column>
             </p:dataTable>

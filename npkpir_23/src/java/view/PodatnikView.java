@@ -1824,7 +1824,7 @@ public class PodatnikView implements Serializable {
     public void zamknijrok(PodatnikOpodatkowanieD p) {
         if (p.isZamkniety()) {
             p.setZamkniety(false);
-            //odksiegujdokumenty();
+            odksiegujdokumenty(p);
             Msg.msg("Otworzono rok");
         } else {
             p.setZamkniety(true);
@@ -1870,12 +1870,13 @@ public class PodatnikView implements Serializable {
             }
         }
     
-    public void odksiegujdokumenty() {
-        List<Dokfk> selectedlist = dokDAOfk.findDokfkPodatnikRok(wpisView);
+    public void odksiegujdokumenty(PodatnikOpodatkowanieD p) {
+        if (wpisView.isKsiegirachunkowe()) {
+        List<Dokfk> selectedlist = dokDAOfk.findDokfkPodatnikRok(wpisView.getPodatnikObiekt(), p.getSymbolroku());
             try {
-                for (Dokfk p : selectedlist) {
-                    p.setDataksiegowania(null);
-                    p.setNrdziennika(null);
+                for (Dokfk pfk : selectedlist) {
+                    pfk.setDataksiegowania(null);
+                    pfk.setNrdziennika(null);
                 }
                 dokDAOfk.editList(selectedlist);
                 Msg.msg("Odksięgowano dokumenty w liczbie: "+selectedlist.size());
@@ -1883,6 +1884,19 @@ public class PodatnikView implements Serializable {
                 E.e(e);
                 Msg.msg("e", "Wystąpił błąd podczas odksięgowania dokumentów.");
             }
+        } else {
+             List<Dok> selectedlist = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikObiekt(), p.getSymbolroku());
+            try {
+                for (Dok pd : selectedlist) {
+                    pd.setStatus("bufor");
+                }
+                dokDAO.editList(selectedlist);
+                Msg.msg("Odksięgowano dokumenty w liczbie: "+selectedlist.size());
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystąpił błąd podczas odksięgowania dokumentów.");
+            }
+        }
         }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
