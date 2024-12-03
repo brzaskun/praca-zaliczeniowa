@@ -9,6 +9,7 @@
 package slownie;
 
 import java.text.DecimalFormat;
+import waluty.Z;
 
 public class Slownie {
 
@@ -153,7 +154,7 @@ public class Slownie {
         return (lastDigit == 1) ? 0 : 1;
     }
 
-    static long ToWords(StringBuilder valueInWords, long n, int level) {
+    static double ToWords(StringBuilder valueInWords, double n, int level) {
         int smallValue = 0;
         //long divisor = (long)Math.pow(10000, (long)level + 1);
         long divisor = (long) Math.pow(1000, (long) level + 1);
@@ -179,7 +180,7 @@ public class Slownie {
         return n - smallValue * divisor;
     }
 
-    static String ToWords(long value) {
+    static String ToWords(double value) {
         if (value == 0) {
             // Zero.
             return Units[0];
@@ -203,7 +204,7 @@ public class Slownie {
         return dzlote;
     }
 
-    static long liczba_groszy(double grosze) {
+    static double liczba_groszy(double grosze) {
         //Tworzę format zmiennych aby uzyskać liczbę w frmie tekstowej
         DecimalFormat dfx = new DecimalFormat("0.00");
         String szlote = dfx.format(grosze);
@@ -211,7 +212,7 @@ public class Slownie {
         String bgzlote = szlote.substring(0, szlote.length() - 3);
         Double dzlote = Double.valueOf(bgzlote);
         //Od kowty z groszami odejmuję kwotę bez.
-        Long groszy = (long) (grosze * 100 - dzlote * 100);
+        double  groszy = Z.z((grosze * 100.0 - dzlote * 100.0));
         return groszy;
     }
 

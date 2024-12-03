@@ -2039,7 +2039,7 @@ public class PdfFP {
     }
 
     private static String przerobkwote(double kwota) {
-        String tmp = String.valueOf(kwota);
+        String tmp = String.valueOf(Z.z(kwota));
         String poczatek = null;
         String koniec = null;
         if (tmp.contains(".")) {
