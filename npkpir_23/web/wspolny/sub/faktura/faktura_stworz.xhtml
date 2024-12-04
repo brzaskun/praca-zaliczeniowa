@@ -161,6 +161,7 @@
                 <p:panelGrid  columns="4" styleClass="polefaktury" columnClasses="tp tp tp tp" layout="grid">
                             <h:outputText value="opcjonalne pole Uwagi"/>
                             <p:inputText value="#{fakturaView.selected.poleuwagi}"  style="width: 600px;">
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
                             </p:inputText>
                 </p:panelGrid>
                 <p:panelGrid  columns="4" styleClass="polefaktury" columnClasses="tp tp tp tp" layout="grid" rendered="#{fakturaView.fakturakorekta}">
@@ -171,7 +172,7 @@
                 </p:panelGrid>
                     
                             
-                                 faktura_stworz_modulkontrahent   
+                               
                 <ui:include src="faktura_stworz_normalna.xhtml" rendered="#{fakturaView.fakturazwykla}"/>
                 <ui:include src="faktura_stworz_vatmarza.xhtml" rendered="#{fakturaView.fakturavatmarza}"/>
                 <ui:include src="faktura_stworz_rachunek.xhtml" rendered="#{fakturaView.rachunek}"/>

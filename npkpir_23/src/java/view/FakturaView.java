@@ -2797,7 +2797,7 @@ public class FakturaView implements Serializable {
         if (gosciwybral.size() > 0) {
             iloscwybranych = gosciwybral.size();
             for (Faktura p : gosciwybral) {
-                if (p.getTabelanbp()!=null) {
+      
                     if (p.getPozycjepokorekcie() == null) {
                         podsumowaniewybranychnetto += p.getNettopln();
                         podsumowaniewybranychvat += p.getVatpln();
@@ -2807,23 +2807,46 @@ public class FakturaView implements Serializable {
                         podsumowaniewybranychvat += (p.getVatpkpln()-p.getVatpln());
                         podsumowaniewybranychbrutto += (p.getBruttopkpln()-p.getBruttopln());
                     }
-                } else {
-                    if (p.getPozycjepokorekcie() == null) {
-                        podsumowaniewybranychnetto += p.getNetto();
-                        podsumowaniewybranychvat += p.getVat();
-                        podsumowaniewybranychbrutto += p.getBrutto();
-                    } else {
-                        podsumowaniewybranychnetto += (p.getNettopk()-p.getNetto());
-                        podsumowaniewybranychvat += (p.getVatpk()-p.getVat());
-                        podsumowaniewybranychbrutto += (p.getBruttopk()-p.getBrutto());
-                    }
-                }
+           
             }
         }
     }
     
+    //bylo tak wiec sumowalo waluty jako zlotowki trzeba ewentualnie dodac opcje wyboru waluty
+//    public void sumawartosciwybranych2(List<Faktura> gosciwybral) {
+//        podsumowaniewybranychbrutto2 = 0.0;
+//        podsumowaniewybranychnetto2 = 0.0;
+//        podsumowaniewybranychvat2 = 0.0;
+//        if (gosciwybral.size() > 0) {
+//            iloscwybranych2 = gosciwybral.size();
+//            for (Faktura p : gosciwybral) {
+//                if (p.getTabelanbp()!=null) {
+//                    if (p.getPozycjepokorekcie() == null) {
+//                        podsumowaniewybranychnetto2 += p.getNettopln();
+//                        podsumowaniewybranychvat2 += p.getVatpln();
+//                        podsumowaniewybranychbrutto2 += p.getBruttopln();
+//                    } else {
+//                        podsumowaniewybranychnetto2 += (p.getNettopkpln()-p.getNettopln());
+//                        podsumowaniewybranychvat2 += (p.getVatpkpln()-p.getVatpln());
+//                        podsumowaniewybranychbrutto2 += (p.getBruttopkpln()-p.getBruttopln());
+//                    }
+//                } else {
+//                    if (p.getPozycjepokorekcie() == null) {
+//                        podsumowaniewybranychnetto2 += p.getNetto();
+//                        podsumowaniewybranychvat2 += p.getVat();
+//                        podsumowaniewybranychbrutto2 += p.getBrutto();
+//                    } else {
+//                        podsumowaniewybranychnetto2 += (p.getNettopk()-p.getNetto());
+//                        podsumowaniewybranychvat2 += (p.getVatpk()-p.getVat());
+//                        podsumowaniewybranychbrutto2 += (p.getBruttopk()-p.getBrutto());
+//                    }
+//                }
+//            }
+//        }
+//    }
     
-    public void sumawartosciwybranych2(List<Faktura> gosciwybral) {
+    
+     public void sumawartosciwybranych2(List<Faktura> gosciwybral) {
         podsumowaniewybranychbrutto2 = 0.0;
         podsumowaniewybranychnetto2 = 0.0;
         podsumowaniewybranychvat2 = 0.0;
@@ -2854,7 +2877,8 @@ public class FakturaView implements Serializable {
             }
         }
     }
-    
+     
+     
      public void sumawartosciwybranychokresowe() {
         podsumowaniewybranychbrutto = 0.0;
         podsumowaniewybranychnetto = 0.0;
