@@ -44,7 +44,7 @@
     <ui:include src="faktura/dialog_nowyklient_faktura.xhtml"/>
     <ui:include src="faktura/dialog_nazwaskroconafaktura.xhtml"/>
     <c:if test="#{WpisView.podatnikObiekt.nip ne '8511005008'}"  >
-    <p:tabView id="akordeon" style="max-width: 1900px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}">
+    <p:tabView id="akordeon" style="max-width: 1950px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}">
         <p:ajax event="tabChange" onstart="PF('dokTableFaktury').clearFilters()" global="false"/>
         <ui:include src="faktura/faktura_stworz.xhtml"/>
         <ui:include src="faktura/faktura_sporzadzone.xhtml"/>

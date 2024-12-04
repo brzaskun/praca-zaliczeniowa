@@ -49,7 +49,8 @@
         <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj" id="poleemailkontr">
             <p:ajax event="save" listener="#{fakturaView.edytujemailfakt(fakturaView.selected.kontrahent)}" global="false" update="@parent"/>
             <f:facet name="output">
-                <h:outputText value="#{fakturaView.emailkontrahent ne null and fakturaView.emailkontrahent ne '' ? fakturaView.emailkontrahent : 'brak email'}"/>
+                <h:outputText value="#{fakturaView.emailkontrahent}" rendered="#{fakturaView.emailkontrahent ne null and fakturaView.emailkontrahent ne ''}"/>
+                <h:outputText value="brak email" rendered="#{fakturaView.emailkontrahent eq null or fakturaView.emailkontrahent eq '' }" style="color: red;"/>
             </f:facet>
             <f:facet name="input">
                 <p:inputText value="#{fakturaView.emailkontrahent}"  style="width: 180px;"/>
