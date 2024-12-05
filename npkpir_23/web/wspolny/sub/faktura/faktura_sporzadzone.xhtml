@@ -116,10 +116,10 @@
                           >
                     <h:outputText value="#{wpis.opisFaktury}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
                 </p:column>
-                <p:column styleClass="zam" headerText="zam./op." filterBy="#{wpis.numerzamowienia}" filterMatchMode="contains"  width="100" 
+                <p:column styleClass="zam" headerText="zam./uw" filterBy="#{wpis.numerzamowienia}" filterMatchMode="contains"  width="100" 
                           >
                     <h:outputText value="#{wpis.numerzamowienia}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;" rendered="#{wpis.numerzamowienia ne null}"/>
-                    <h:outputText value="#{wpis.opisFaktury}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;" rendered="#{wpis.opisFaktury ne null}"/>
+                    <h:outputText value="#{wpis.poleuwagi}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;" rendered="#{wpis.poleuwagi ne null}"/>
                 </p:column>
                 <p:column styleClass="data1" headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 
                           filterMatchMode="contains"  width="70">
