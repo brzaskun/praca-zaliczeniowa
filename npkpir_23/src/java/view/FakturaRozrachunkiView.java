@@ -106,7 +106,8 @@ public class FakturaRozrachunkiView  implements Serializable {
         Set<Klienci> klienciset = new HashSet<>(p);
         for (Iterator<Klienci> it = klienciset.iterator(); it.hasNext();) {
             Klienci k = it.next();
-            if (k.isAktywnydlafaktrozrachunki() == false) {
+            //musialem dodac bo jest incydentalny
+            if (k!=null&&k.isAktywnydlafaktrozrachunki() == false) {
                 k.setAktywnydlafaktrozrachunki(true);
             }
         }
