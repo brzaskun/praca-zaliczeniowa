@@ -34,7 +34,7 @@ public class WriteXLSOkresowe implements Serializable {
 
         // Create header row
         String[] headers = {
-            "ID", "Firma", "Rok", "NIP Odbiorcy", "Brutto", "Kwota Rok Następny",
+            "ID", "Firma", "Rok", "NIP Odbiorcy", "Netto", "Kwota Rok Następny",
             "Kwota Praca", "Kwota Zlecenie", "Trudny", "Wabank", "Skok Dokumentow",
             "Klient Zaakceptowal", "Wygenerowano Rok Następny", "Data Zalatwione","Uwagi"
         };
@@ -71,7 +71,7 @@ public class WriteXLSOkresowe implements Serializable {
 
             // Komórki walutowe
             Cell bruttoCell = row.createCell(4);
-            bruttoCell.setCellValue(faktura.getBrutto() != null ? faktura.getBrutto() : 0.0);
+            bruttoCell.setCellValue(faktura.getNettoWylicz());
             bruttoCell.setCellStyle(currencyStyle);
 
             Cell kwotaRokNastepnyCell = row.createCell(5);

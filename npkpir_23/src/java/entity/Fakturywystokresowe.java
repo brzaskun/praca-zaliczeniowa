@@ -5,6 +5,7 @@
 package entity;
 
 import data.Data;
+import embeddable.Pozycjenafakturzebazadanych;
 import error.E;
 import java.io.Serializable;
 import java.util.Date;
@@ -26,6 +27,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import waluty.Z;
 
 /**
  *
@@ -413,7 +415,15 @@ public class Fakturywystokresowe implements Serializable {
     public double getNetto() {
         return this.dokument.getNettoPrzelicz();
     }
-
+    
+     public double getNettoWylicz() {
+         double zwrot = 0.0;
+      for (Pozycjenafakturzebazadanych p : this.dokument.getPozycjenafakturze()) {
+            zwrot = Z.z(zwrot+p.getNetto());
+      }
+        return zwrot;
+     }
+     
     public double getKwotapraca() {
         return kwotapraca;
     }

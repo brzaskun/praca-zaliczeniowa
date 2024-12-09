@@ -1137,15 +1137,12 @@ public class Faktura implements Serializable {
     }
     
     public double getNettoPrzelicz() {
-        double zwrot = this.netto;
-        if (this.getTabelanbp()!=null) {
-            zwrot = this.nettopln;
-        }
+        double zwrot = this.nettopln;
+
         if(this.pozycjepokorekcie!=null) {
-           zwrot = this.nettopk-this.netto;
-            if (this.getTabelanbp()!=null) {
-                zwrot = this.nettopkpln-this.nettopln;
-            }
+
+            zwrot = this.nettopkpln-this.nettopln;
+
         }
         return zwrot;
     }
