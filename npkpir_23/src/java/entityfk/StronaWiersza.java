@@ -37,6 +37,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 import org.eclipse.persistence.annotations.Cache;
 import org.eclipse.persistence.annotations.CacheType;
 import view.WpisView;
@@ -111,6 +112,8 @@ import waluty.Z;
 @Cache(size = 400000, refreshOnlyIfNewer = true, type = CacheType.FULL)
 public class StronaWiersza implements Serializable {
     private static final long serialVersionUID = 1L;
+        @Version
+    private Long version;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

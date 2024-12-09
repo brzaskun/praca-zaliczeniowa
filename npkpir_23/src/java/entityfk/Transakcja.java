@@ -23,6 +23,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import waluty.Z;
@@ -50,7 +51,8 @@ import waluty.Z;
 @Cacheable(false)
 public class Transakcja  implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+        @Version
+    private Long version;
     @Id
     @Basic(optional = false)
     @NotNull

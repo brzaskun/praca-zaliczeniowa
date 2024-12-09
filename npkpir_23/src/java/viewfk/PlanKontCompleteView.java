@@ -70,14 +70,14 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
       konta = kontoDAOfk.findWszystkieKontaPodatnikaRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
       if (konta!=null) {
         Collections.sort(konta, new Kontocomparator());
+        Predicate<Konto> predicate = item -> item.isMapotomkow()==false;
+        //listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        listakontOstatniaAnalitykaklienta = konta.parallelStream().filter(predicate).collect(Collectors.toList());
+        if (listakontOstatniaAnalitykaklienta!=null) {
+          Collections.sort(listakontOstatniaAnalitykaklienta, new Kontocomparator());
+        }
+        wybranyuklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
       }
-      Predicate<Konto> predicate = item -> item.isMapotomkow()==false;
-      //listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-      listakontOstatniaAnalitykaklienta = konta.parallelStream().filter(predicate).collect(Collectors.toList());
-      if (listakontOstatniaAnalitykaklienta!=null) {
-        Collections.sort(listakontOstatniaAnalitykaklienta, new Kontocomparator());
-      }
-      wybranyuklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
   }
     
     public List<Konto> complete(String qr) {

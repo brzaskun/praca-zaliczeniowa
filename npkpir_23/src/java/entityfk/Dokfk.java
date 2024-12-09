@@ -46,10 +46,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.annotations.Cache;
+import org.eclipse.persistence.annotations.CacheType;
 import org.primefaces.PrimeFaces;
  import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
@@ -105,10 +108,14 @@ import waluty.Z;
     @NamedQuery(name = "Dokfk.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.podatnikObj.nazwapelna FROM Dokfk d WHERE d.wprowadzil = :wprowadzil"),
     @NamedQuery(name = "Dokfk.znajdzSeriePodatnik", query = "SELECT DISTINCT d.seriadokfk FROM Dokfk d WHERE d.rok = :rok AND d.podatnikObj = :podatnik")
 })
-@Cacheable(false)
+@Cacheable
+@Cache(size = 40000, refreshOnlyIfNewer = true, type = CacheType.FULL)
 public class Dokfk extends DokSuper implements Serializable {
 
     private static final long serialVersionUID = 1L; //dd
+    @Version
+    @Column(name = "version")
+    private Long version;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)

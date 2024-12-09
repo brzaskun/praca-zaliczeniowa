@@ -28,6 +28,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -135,6 +136,8 @@ import waluty.Z;
 @Cache(size = 40000, refreshOnlyIfNewer = true, type = CacheType.FULL)
 public class Konto extends ToBeATreeNodeObject implements Serializable {
     private static final long serialVersionUID = 1L;
+        @Version
+    private Long version;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)

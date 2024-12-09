@@ -24,9 +24,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.eclipse.persistence.annotations.Cache;
+import org.eclipse.persistence.annotations.CacheType;
 import waluty.Z;
 
 /**
@@ -54,9 +57,12 @@ import waluty.Z;
     @NamedQuery(name = "Wiersz.findByPodatnikRokMcImport", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok AND w.iban IS NOT NULL")
 })
 @Cacheable
+@Cache(size = 40000, refreshOnlyIfNewer = true, type = CacheType.FULL)
 public class Wiersz implements Serializable {
 
     private static final long serialVersionUID = 1L;
+        @Version
+    private Long version;
 
     @Id
     @Basic(optional = false)
