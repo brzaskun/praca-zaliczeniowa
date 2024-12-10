@@ -30,8 +30,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class BankImportWzory implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Version
-    private Long version;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
