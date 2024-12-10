@@ -16,7 +16,7 @@ import javax.mail.Session;
 
 public class MailSetUp implements Serializable{
 
-    
+    //naprawa
        
       public static Session otworzsesje(SMTPSettings settings, SMTPSettings ogolne) {
         //System.out.println("otwieram sesje");

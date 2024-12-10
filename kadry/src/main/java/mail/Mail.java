@@ -219,7 +219,7 @@ public class Mail {
             // Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    //narawa
     public static void mailZaswiadczeniezarobki(FirmaKadry firma, String rok, String mc, String adres, SMTPSettings settings,SMTPSettings ogolne, byte[] zalacznik, String nazwapliku, String adresBCC, Pracownik pracownik)  {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));

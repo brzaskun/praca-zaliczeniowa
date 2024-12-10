@@ -2183,6 +2183,17 @@ public class Pasekwynagrodzen implements Serializable {
         }
         return zwrot;
     }
+
+    public double getNieopodatkowane() {
+        double zwrot = 0.0;
+        for (Naliczenieskladnikawynagrodzenia nal : this.naliczenieskladnikawynagrodzeniaList) {
+            if (nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isPodatek0bezpodatek1()) {
+                zwrot = zwrot+nal.getKwotadolistyplac();
+            }
+        }
+        return zwrot;
+
+    }
    
     
 

@@ -844,7 +844,7 @@ public class PasekwynagrodzenBean {
         return zwrot;
     }
     
-    private static void obliczbruttoumowaoprace(Pasekwynagrodzen pasek,double limit26, double sumapoprzednich, double sumabruttoopodatkowanapoprzednich) {
+    private static void obliczbruttoumowaoprace(Pasekwynagrodzen pasek,double limit26, double sumabruttopoprzednich, double sumabruttoopodatkowanapoprzednich) {
         Pasekpomocnik sumyprzychodow = sumujprzychodyzlisty(pasek);
         double przychodyBiezacyMiesiacPolska = sumyprzychodow.getBruttokraj()+sumyprzychodow.getBruttooddelegowanie();
         double przychodyBiezacyMiesiacZagranica = 0.0;
@@ -858,7 +858,7 @@ public class PasekwynagrodzenBean {
         pasek.setBruttobezzusbezpodatek(sumyprzychodow.bezzusbezpodatek);
         pasek.setPrzychodypodatekpolska(przychodyBiezacyMiesiacPolska);
         pasek.setPrzychodypodatekzagranica(przychodyBiezacyMiesiacZagranica);
-        double przychodynarastajacodolimitu26 = sumapoprzednich + przychodyBiezacyMiesiacPolska;
+        double przychodynarastajacodolimitu26 = sumabruttopoprzednich + przychodyBiezacyMiesiacPolska;
         double doopodatkowaniapow26narast = przychodynarastajacodolimitu26 - limit26;
         pasek.setPrzekroczenie26lat(doopodatkowaniapow26narast);
         pasek.setBruttominusspolecznehipotetyczne(sumyprzychodow.getBruttokraj()+sumyprzychodow.getBruttooddelegowanie());
@@ -2098,7 +2098,7 @@ public class PasekwynagrodzenBean {
         int rokkalendarza = Integer.parseInt(rokwyplaty);
         for (Pasekwynagrodzen r : paskipodatnika) {
             if (r.getMcI() < mckalendarza || r.getRokI() < rokkalendarza) {
-                suma = suma + r.getBrutto();
+                suma = suma + r.getBrutto()-r.getNieopodatkowane();
                 if (r.isPrzekroczenieoddelegowanie()) {
                     suma = suma - sumujoddelegowaniewartosc(r);
                 }
