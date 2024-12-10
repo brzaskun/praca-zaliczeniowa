@@ -2099,9 +2099,9 @@ public class PasekwynagrodzenBean {
         for (Pasekwynagrodzen r : paskipodatnika) {
             if (r.getMcI() < mckalendarza || r.getRokI() < rokkalendarza) {
                 suma = suma + r.getBrutto()-r.getNieopodatkowane();
-//                if (r.isPrzekroczenieoddelegowanie()) {
-//                    suma = suma - sumujoddelegowaniewartosc(r);
-//                }
+                if (r.isPrzekroczenieoddelegowanie()) {
+                    suma = suma - sumujoddelegowaniewartosc(r);
+                }
             }
         }
         return suma;
