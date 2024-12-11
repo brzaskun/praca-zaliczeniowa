@@ -317,8 +317,9 @@ public class KalendarzGlobalnyView  implements Serializable {
                 }
                 System.out.println("koeniec firma :" +firma.getNazwa());
   
-               
+               System.out.println("**************koeniec generowania kalendarzy firmowych" );
             }
+            
         }
     }
     

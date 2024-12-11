@@ -319,17 +319,21 @@ public class NieobecnosciBean {
                 String dataod = nowyrok+"-01-01";
                 for (Kalendarzmiesiac kal : kalendarze) {
                     String rokkalendarza = kal.getRok();
-                    if (rokkalendarza.equals(rokod)||rokkalendarza.equals(rokdo)) {
+                    String rokdonanoszenia = rokdo;
+                    if (Integer.valueOf(rokdo)>= Integer.valueOf(rokkalendarza)) {
+                        rokdonanoszenia = rokkalendarza;
+                    }
+                    if (rokkalendarza.equals(rokod)||Integer.valueOf(rokdo)>= Integer.valueOf(rokkalendarza)) {
                         boolean pierwszymc = false;
                         boolean ostatnimc = false;
                         String mckalendarza = kal.getMc();
-                        if (rokkalendarza.equals(rokdo)) {
+                        if (rokkalendarza.equals(rokdonanoszenia)) {
                             if (mckalendarza.equals(mcod)) {
                                 start = true;
                                 pierwszymc = true;
                             }
                         }
-                        if (rokkalendarza.equals(rokdo)) {
+                        if (rokkalendarza.equals(rokdonanoszenia)) {
                             if (mckalendarza.equals(mcdo)) {
                                 stop = true;
                                 ostatnimc = true;
@@ -343,6 +347,7 @@ public class NieobecnosciBean {
                              nieobecnoscFacade.edit(nieobecnosc);
                              kalendarzmiesiacFacade.edit(kal);
                              czynaniesiono = nieobecnosc.isNaniesiona();
+                             System.out.println("Naniesiono nieobecnsc "+nieobecnosc.getDataod()+" "+nieobecnosc.getDatado()+" "+nieobecnosc.getAngaz().getNazwiskoiImie());
                          }
                          if (stop) {
                              break;

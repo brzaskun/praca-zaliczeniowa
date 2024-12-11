@@ -178,7 +178,7 @@ public class NieobecnoscView  implements Serializable {
             lista  = nieobecnoscFacade.findByAngaz(wpisView.getAngaz());
             selected.setAngaz(wpisView.getAngaz());
             if (pokazcalyrok==false) {
-                lista = lista.stream().filter(p->p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())).collect(Collectors.toList());
+                lista = lista.stream().filter(p->p.getRokod().equals(wpisView.getRokWpisu())||Integer.valueOf(p.getRokdo())>Integer.valueOf(wpisView.getRokWpisu())).collect(Collectors.toList());
             }
             if (bezoddelegowania) {
                 lista = lista.stream().filter(p->p.getKod().equals("Z")==false).collect(Collectors.toList());

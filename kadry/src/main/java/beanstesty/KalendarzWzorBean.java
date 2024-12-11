@@ -7,7 +7,10 @@ package beanstesty;
 
 import entity.Dzien;
 import entity.Kalendarzwzor;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -96,5 +99,52 @@ public class KalendarzWzorBean {
             kalendarzwzor.getDzienList().add(new Dzien(31, data+licznik++, 0, 8, kalendarzwzor));
     }
 
+        public static Set<LocalDate> getPolishHolidays(int year) {
+        Set<LocalDate> holidays = new HashSet<>();
+
+        // Święta stałe:
+        holidays.add(LocalDate.of(year, 1, 1));   // Nowy Rok
+        holidays.add(LocalDate.of(year, 1, 6));   // Trzech Króli
+        holidays.add(LocalDate.of(year, 5, 1));   // Święto Pracy
+        holidays.add(LocalDate.of(year, 5, 3));   // Święto Konstytucji 3 Maja
+        holidays.add(LocalDate.of(year, 8, 15));  // Wniebowzięcie NMP
+        holidays.add(LocalDate.of(year, 11, 1));  // Wszystkich Świętych
+        holidays.add(LocalDate.of(year, 11, 11)); // Święto Niepodległości
+        holidays.add(LocalDate.of(year, 12, 25)); // Boże Narodzenie (1 dzień)
+        holidays.add(LocalDate.of(year, 12, 26)); // Boże Narodzenie (2 dzień)
+
+        // Święta ruchome:
+        LocalDate easterSunday = getEasterDate(year);
+        LocalDate easterMonday = easterSunday.plusDays(1);
+        holidays.add(easterSunday);  // Niedziela Wielkanocna (choć to i tak niedziela)
+        holidays.add(easterMonday);  // Poniedziałek Wielkanocny
+
+        // Boże Ciało (60 dni po Wielkanocy)
+        LocalDate bozeCialo = easterSunday.plusDays(60);
+        holidays.add(bozeCialo);
+
+        return holidays;
+    }
+
+    // Przykładowa implementacja algorytmu obliczającego Wielkanoc
+    // (Meeus/Jones/Butcher)
+    public static LocalDate getEasterDate(int year) {
+        int a = year % 19;
+        int b = year / 100;
+        int c = year % 100;
+        int d = b / 4;
+        int e = b % 4;
+        int f = (b + 8) / 25;
+        int g = (b - f + 1) / 3;
+        int h = (19 * a + b - d - g + 15) % 30;
+        int i = c / 4;
+        int k = c % 4;
+        int l = (32 + 2 * e + 2 * i - h - k) % 7;
+        int m = (a + 11 * h + 22 * l) / 451;
+        int month = (h + l - 7 * m + 114) / 31;
+        int day = ((h + l - 7 * m + 114) % 31) + 1;
+
+        return LocalDate.of(year, month, day);
+    }
     
 }

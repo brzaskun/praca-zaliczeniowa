@@ -5,6 +5,7 @@
  */
 package entity;
 
+import beanstesty.KalendarzWzorBean;
 import comparator.Dziencomparator;
 import java.io.Serializable;
 import java.time.DayOfWeek;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -207,6 +209,8 @@ public class Kalendarzwzor implements Serializable {
 
     public void zrobkolejnedni(Kalendarzwzor poprzedni) {
         if (poprzedni!=null) {
+            int year = Integer.parseInt(this.getRok());
+            Set<LocalDate> holidays = KalendarzWzorBean.getPolishHolidays(year);
             List<Dzien> dzienList = poprzedni.dzienList;
             Collections.sort(dzienList,new Dziencomparator());
             int iloscroboczych = 0;
@@ -250,6 +254,12 @@ public class Kalendarzwzor implements Serializable {
                         d.setNormagodzin(0.0);
                         d.setNormagodzinwzorcowa(0.0);
                         iloscroboczych=0;
+                    } 
+                    LocalDate currentDate = LocalDate.parse(d.getDatastring()); // assuming datastring is "YYYY-MM-DD"
+                    if (holidays.contains(currentDate)) {
+                        d.setTypdnia(3);
+                        d.setNormagodzin(0.0);
+                        d.setNormagodzinwzorcowa(0.0);
                     }
                 } catch (Exception e) {
                     d.setTypdnia(-1);
