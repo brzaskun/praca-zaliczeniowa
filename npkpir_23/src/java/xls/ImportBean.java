@@ -470,6 +470,8 @@ public class ImportBean {
                     EVatwpisFK eVatwpisFK = new EVatwpisFK();
                     eVatwpisFK.setLp(k++);
                     eVatwpisFK.setEwidencja(p);
+                    eVatwpisFK.setRokEw(nd.getVatR());
+                    eVatwpisFK.setMcEw(nd.getVatM());
                     przesuniecie(nd, eVatwpisFK);
                     if (nd.getSeriadokfk().equals("SZ")) {
                         if ((boolean) stawka23[0]) {

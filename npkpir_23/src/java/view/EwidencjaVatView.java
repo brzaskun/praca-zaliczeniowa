@@ -560,6 +560,7 @@ public class EwidencjaVatView implements Serializable {
             } else {
                 listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), false));
                 listadokvatprzetworzona.addAll(pobierzEVatRokFKUlgaNaZleDlugi(podatnik, vatokres, wpisView.getRokWpisuSt(),wpisView.getRokUprzedniSt() , wpisView.getMiesiacWpisu()));
+                 
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
 //                listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
 //                wyluskajzlisty(listaprzesunietychKoszty, "koszty");
@@ -1402,7 +1403,7 @@ public class EwidencjaVatView implements Serializable {
         Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMap();
         Map<String, List<EVatwpisSuper>> listaewidencji = new ConcurrentHashMap<>();
         Map<String, EVatwpisSuma> sumaewidencji = new ConcurrentHashMap<>();
-
+       
         listadokvatprzetworzona.stream()
                 .filter(vatwiersz -> vatwiersz.getNetto() != 0.0 || vatwiersz.getVat() != 0.0)
                 .forEach(vatwiersz -> {
