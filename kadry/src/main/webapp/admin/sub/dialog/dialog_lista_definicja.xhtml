@@ -51,7 +51,7 @@
             </h:form>
         </p:outputPanel>-->
         <p:outputPanel style="height: 30px">
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="3">
                 <h:form  styleClass="formadmin" id="DefinicjalistaplacgenerujForm">
                     <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.generujindywidualnie()}" value="uzupełnij rok" update="display,:DefinicjalistaplacListForm:datalist" 
                                       rendered="#{facesContext.externalContext.remoteUser eq '2'}" />
@@ -59,6 +59,10 @@
                 <h:form  styleClass="formadmin" id="DefinicjalistaplacgenerujForm1">
                     <p:commandButton styleClass="buttonnorm" actionListener="#{firmaImportView.roblistynowyrok()}" value="generuj rok" update="display,:DefinicjalistaplacListForm:datalist" 
                                       rendered="#{facesContext.externalContext.remoteUser eq '2'}"/>
+                </h:form>
+                 <h:form  styleClass="formadmin" id="DefinicjalistaplacgenerujForm2">
+                     <p:commandButton styleClass="buttonnorm" actionListener="#{firmaImportView.generujListyWszystkieFirmy()}" value="generuj globalnie" 
+                                      rendered="#{facesContext.externalContext.remoteUser eq '2' and wpisView.rokWpisu eq '2025'}"/>
                 </h:form>
             </p:panelGrid>
         </p:outputPanel>

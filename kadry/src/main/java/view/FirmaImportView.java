@@ -29,6 +29,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -122,8 +124,8 @@ public class FirmaImportView  implements Serializable {
             String rokuprzedni = Data.poprzednirok(rok);
             globalnie(rokuprzedni);
             globalnie(rok);
-            listywszystkie(rokuprzedni);
-            listywszystkie(rok);
+            listywszystkie(rokuprzedni, selected);
+            listywszystkie(rok, selected);
             selected = new FirmaKadry();
           } catch (Exception e) {
               Msg.msg("e", "Błąd - nie dodano nowej firmy");
@@ -160,76 +162,121 @@ public class FirmaImportView  implements Serializable {
     public void roblistynowyrok() {
         List<Definicjalistaplac> findByFirmaRok = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
         if (findByFirmaRok.isEmpty()) {
-            listywszystkie(wpisView.getRokWpisu());
+            listywszystkie(wpisView.getRokWpisu(), wpisView.getFirma());
         } else {
             Msg.msg("e","Firma ma już wygenerowane listy na rok "+wpisView.getRokWpisu());
         }
     }
     
-    
-    public void listywszystkie(String rok) {
-        if (rok!=null&&wpisView.getFirma()!=null) {
-            Rodzajlistyplac umowaoprace =  rodzajlistyplacFacade.findUmowaoPrace();
-            Rodzajlistyplac umowazlecenia =  rodzajlistyplacFacade.findUmowaZlecenia();
-            Rodzajlistyplac udzialworganach =  rodzajlistyplacFacade.findByTyt_serial(15);
-            Rodzajlistyplac zasilki =  rodzajlistyplacFacade.findByTyt_serial(1006);
-            Rodzajlistyplac zagraniczneryczaly =  rodzajlistyplacFacade.findByTyt_serial(1032);
-            Rodzajlistyplac umowaodzielo =  rodzajlistyplacFacade.findByTyt_serial(10);
-            Rodzajlistyplac swiadczeniarzeczowe =  rodzajlistyplacFacade.findByTyt_serial(8);
-            List<Definicjalistaplac> listy = new ArrayList<>();
-            for (String mc : Mce.getMceListS()) {
-                 String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
-                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowaoprace, wpisView.getFirma(), datawyplaty);
-                 listy.add(definicjalistaplac);
+   private static final Logger LOG = Logger.getLogger(FirmaImportView.class.getName());
+
+    public void generujListyWszystkieFirmy() {
+        List<FirmaKadry> listafirm = firmaKadryFacade.findAktywne();
+        String rokWpisu = wpisView.getRokWpisu();
+
+        if (rokWpisu != null && rokWpisu.equals("2025") && listafirm != null) {
+            for (FirmaKadry firme : listafirm) {
+                try {
+                    listywszystkie(rokWpisu.toString(), firme);
+                    LOG.log(Level.INFO, "Ukoczończono tworzenie nowych firm na nowy rok dla " + firme.getNazwa());
+                } catch (Exception e) {
+                    // Logujemy błąd wraz z NIP-em firmy, aby móc później przeanalizować problem
+                    LOG.log(Level.SEVERE, "Błąd przy generowaniu list dla firmy o NIP: " + firme.getNazwa() + " w roku " + rokWpisu, e);
+                    Msg.msg("e","Błąd przy generowaniu list dla firmy o NIP: " + firme.getNazwa() + " w roku " + rokWpisu);
+                }
             }
-            definicjalistaplacFacade.createList(listy);
-            listy = new ArrayList<>();
-            for (String mc : Mce.getMceListS()) {
-                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
-                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowazlecenia, wpisView.getFirma(), datawyplaty);
-                 listy.add(definicjalistaplac);
-            }
-            definicjalistaplacFacade.createList(listy);
-            listy = new ArrayList<>();
-            for (String mc : Mce.getMceListS()) {
-                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
-                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, udzialworganach, wpisView.getFirma(), datawyplaty);
-                 listy.add(definicjalistaplac);
-            }
-            definicjalistaplacFacade.createList(listy);
-            listy = new ArrayList<>();
-            for (String mc : Mce.getMceListS()) {
-                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
-                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, zasilki, wpisView.getFirma(), datawyplaty);
-                 listy.add(definicjalistaplac);
-            }
-            definicjalistaplacFacade.createList(listy);
-            listy = new ArrayList<>();
-            for (String mc : Mce.getMceListS()) {
-                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
-                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, zagraniczneryczaly, wpisView.getFirma(), datawyplaty);
-                 listy.add(definicjalistaplac);
-            }
-            definicjalistaplacFacade.createList(listy);
-            listy = new ArrayList<>();
-            for (String mc : Mce.getMceListS()) {
-                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
-                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowaodzielo, wpisView.getFirma(), datawyplaty);
-                 listy.add(definicjalistaplac);
-            }
-            definicjalistaplacFacade.createList(listy);
-            listy = new ArrayList<>();
-            for (String mc : Mce.getMceListS()) {
-                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, wpisView.getFirma());
-                 Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, swiadczeniarzeczowe, wpisView.getFirma(), datawyplaty);
-                 listy.add(definicjalistaplac);
-            }
-            definicjalistaplacFacade.createList(listy);
-            Msg.msg("Wygenerowano definicje list za rok "+rok);
+            Msg.msg("Ukoczończono tworzenie nowych firm na nowy rok");
+            LOG.log(Level.INFO, "Ukoczończono tworzenie nowych firm na nowy rok");
         } else {
-            Msg.msg("e","Nie wybrano firmy");
+            if (rokWpisu == null) {
+                LOG.warning("Nie podano roku, nie można wygenerować list.");
+            }
+            if (listafirm == null) {
+                LOG.warning("Lista firm jest pusta lub null, nie można wygenerować list.");
+            }
         }
     }
+
+    
+    public void listywszystkie(String rok, FirmaKadry firma) {
+        if (rok != null && firma != null) {
+            Rodzajlistyplac umowaoprace = rodzajlistyplacFacade.findUmowaoPrace();
+            Rodzajlistyplac umowazlecenia = rodzajlistyplacFacade.findUmowaZlecenia();
+            Rodzajlistyplac udzialworganach = rodzajlistyplacFacade.findByTyt_serial(15);
+            Rodzajlistyplac zasilki = rodzajlistyplacFacade.findByTyt_serial(1006);
+            Rodzajlistyplac zagraniczneryczaly = rodzajlistyplacFacade.findByTyt_serial(1032);
+            Rodzajlistyplac umowaodzielo = rodzajlistyplacFacade.findByTyt_serial(10);
+            Rodzajlistyplac swiadczeniarzeczowe = rodzajlistyplacFacade.findByTyt_serial(8);
+
+            // Listy dla umowy o pracę
+            List<Definicjalistaplac> listyUmowaOPrace = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, firma);
+                Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowaoprace, firma, datawyplaty);
+                listyUmowaOPrace.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listyUmowaOPrace);
+
+            // Listy dla umowy zlecenia
+            List<Definicjalistaplac> listyUmowaZlecenia = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, firma);
+                Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowazlecenia, firma, datawyplaty);
+                listyUmowaZlecenia.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listyUmowaZlecenia);
+
+            // Listy dla udziałów w organach
+            List<Definicjalistaplac> listyUdzialwOrganach = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, firma);
+                Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, udzialworganach, firma, datawyplaty);
+                listyUdzialwOrganach.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listyUdzialwOrganach);
+
+            // Listy dla zasiłków
+            List<Definicjalistaplac> listyZasilki = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, firma);
+                Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, zasilki, firma, datawyplaty);
+                listyZasilki.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listyZasilki);
+
+            // Listy dla zagranicznych ryczałtów
+            List<Definicjalistaplac> listyZagraniczneRyczalty = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, firma);
+                Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, zagraniczneryczaly, firma, datawyplaty);
+                listyZagraniczneRyczalty.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listyZagraniczneRyczalty);
+
+            // Listy dla umowy o dzieło
+            List<Definicjalistaplac> listyUmowaODzielo = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, firma);
+                Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, umowaodzielo, firma, datawyplaty);
+                listyUmowaODzielo.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listyUmowaODzielo);
+
+            // Listy dla świadczeń rzeczowych
+            List<Definicjalistaplac> listySwiadczeniaRzeczowe = new ArrayList<>();
+            for (String mc : Mce.getMceListS()) {
+                String datawyplaty = OsobaBean.zrobdatawyplaty(mc, rok, firma);
+                Definicjalistaplac definicjalistaplac = OsobaBean.nowalista(rok, mc, swiadczeniarzeczowe, firma, datawyplaty);
+                listySwiadczeniaRzeczowe.add(definicjalistaplac);
+            }
+            definicjalistaplacFacade.createList(listySwiadczeniaRzeczowe);
+
+            Msg.msg("Wygenerowano definicje list za rok " + rok);
+        } else {
+            Msg.msg("e", "Nie wybrano firmy");
+        }
+    }
+
     
     
     
