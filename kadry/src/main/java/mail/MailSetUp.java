@@ -22,7 +22,7 @@ public class MailSetUp implements Serializable{
         //System.out.println("otwieram sesje");
         Session session = null;
         if (settings == null) {
-            final String username = ogolne.getUsername();
+            final String username = ogolne.getUseremail();
             final String password = ogolne.getPassword();
             //System.out.println("loguje mail ogole");
             //System.out.println("login: "+ogolne.getUsername());
@@ -47,7 +47,7 @@ public class MailSetUp implements Serializable{
                         }
                     });
         } else {
-            final String username = settings.getUsername();
+            final String username = settings.getUseremail();
             final String password = settings.getPassword();
             //System.out.println("loguje mail szczegolne");
             //System.out.println("login: "+ogolne.getUsername());
