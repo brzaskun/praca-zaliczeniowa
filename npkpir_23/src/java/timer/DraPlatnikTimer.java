@@ -206,68 +206,7 @@ public class DraPlatnikTimer implements Serializable {
         System.out.println("**********************************");
         System.out.println("Koniec DRA");
     }
-      
-//      private DraSumy pobierzbaza(DraSumy dras, List<DraSumy> bazadanych) {
-//        DraSumy zwrot = dras;
-//        for (DraSumy p : bazadanych) {
-//            if (p.getPodatnik()!=null) {
-//                if ( p.getPodatnik().equals(dras.getPodatnik()) && p.getNr().equals(dras.getNr())) {
-//                    zwrot = p;
-//                    break;
-//                }
-//            } else 
-//            if (p.getPodmiot()!=null) {
-//                if ( p.getPodmiot().equals(dras.getPodmiot()) && p.getNr().equals(dras.getNr())) {
-//                    zwrot = p;
-//                    break;
-//                }
-//            } else {
-//                if ( p.getNazwa().equals(dras.getNazwa()) && p.getNr().equals(dras.getNr())) {
-//                    zwrot = p;
-//                    break;
-//                }
-//            }
-//        }
-//        return zwrot;
-//    }
-      
-      //wylaczylem 20.02.2024 nie ma superplac nie ma 
-//       private void dodajpit4DRA(DraSumy w, List<kadryiplace.Firma> firmy) {
-//        if (w.getPodatnik()!=null) {
-//            Firma firma = null;
-//            for (Firma f : firmy) {
-//                if (f.getFirNip()!=null) {
-//                    if (f.getFirNip().replace("-", "").equals(w.getPodatnik().getNip())) {
-//                        firma = f;
-//                        break;
-//                    }
-//                }
-//            }
-//            if (firma != null) {
-//                //tu jest blad po pobiera rok z superplac ale nie ma roku w superplacach
-//                Rok rok = rokFacade.findByFirmaRok(firma, Integer.parseInt(w.getRok()));
-//                kadryiplace.Okres okres = null;
-//                for (Okres o : rok.getOkresList()) {
-//                    if (o.getOkrMieNumer() == Mce.getMiesiacToNumber().get(w.getMc())) {
-//                        okres = o;
-//                        break;
-//                    }
-//                }
-//                List<Place> placeList = okres.getPlaceList();
-//                int studenci = 0;
-//                double podatekpraca = 0.0;
-//                for (Place p : placeList) {
-//                    podatekpraca = podatekpraca+p.getLplZalDoch().doubleValue();
-//                    if (p.getLplKodTytU12().equals("0411") && p.getLplZalDoch().doubleValue() == 0.0) {
-//                        studenci = studenci + 1;
-//                    }
-//                }
-//                w.setStudenci(studenci);
-//                w.setUbezpieczeni(w.getUbezpieczeni()+w.getStudenci());
-//                w.setPit4(podatekpraca);
-//            }
-//        }
-//    }
+    
 
     private DraSumy pobierzdrasumy(Integer idDokument) {
         DraSumy zwrot = new DraSumy();

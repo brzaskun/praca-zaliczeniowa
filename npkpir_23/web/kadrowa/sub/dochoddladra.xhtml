@@ -349,7 +349,7 @@
                                     <f:selectItems value="#{mce.mceList}"/>
                                     <p:ajax event="change" partialSubmit="true" />
                                 </p:selectOneMenu>
-                                <p:commandButton id="przeliczbutton1a" value="pobierz" actionListener="#{dochodDlaDRAView.przeliczRok()}"  style="width: 120px;margin-left: 20px;" update="akordeon:formrok"/>
+                                <p:commandButton id="przeliczbutton1a" value="pobierz" actionListener="#{dochodDlaDRAView.przeliczRok()}"  style="width: 120px;margin-left: 20px;" update="akordeon:formrok:datalist"/>
                             </p:panelGrid>
                             <p:dataTable lazy="false"  value="#{dochodDlaDRAView.wierszerok}" var="item2" style="width: 1600px;padding: 20px;max-height: 700px;overflow-y: scroll" reflow="true"
                                          sortBy="#{item2.rokmc}" id="datalist"
