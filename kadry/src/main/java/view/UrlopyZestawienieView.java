@@ -7,6 +7,7 @@ package view;
 
 import beanstesty.UrlopBean;
 import comparator.Rejestrurlopowcomparator;
+import comparator.UmowaStareNowecomparator;
 import dao.AngazFacade;
 import dao.EkwiwalentUrlopFacade;
 import dao.KalendarzmiesiacFacade;
@@ -24,6 +25,7 @@ import entity.Nieobecnoscprezentacja;
 import entity.Pracownik;
 import entity.Rejestrurlopow;
 import entity.SMTPSettings;
+import entity.Umowa;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -103,7 +105,14 @@ public class UrlopyZestawienieView  implements Serializable {
                             Rejestrurlopow rejestrpoprzednirok = listaurlopowrokuprzedni.stream().filter(pred).findAny().orElse(null);
                             if (rejestrpoprzednirok!=null) {
                                 System.out.println("rejestr: "+rejestrpoprzednirok.getAngaz().getNazwiskoiImie()+" "+rejestrpoprzednirok.getDowykorzystanianastrok());
-                                rejestrurlopowrok.setUrlopzalegly(rejestrpoprzednirok.getDowykorzystanianastrok());
+                                int dowykorzystaniaposprawdzeniu = rejestrpoprzednirok.getDowykorzystanianastrok()>0?rejestrpoprzednirok.getDowykorzystanianastrok():0;
+                                rejestrurlopowrok.setUrlopzalegly(dowykorzystaniaposprawdzeniu);
+                                List<Umowa> umowy = rejestrurlopowrok.getAngaz().getUmowaList();
+                                Collections.sort(umowy,new UmowaStareNowecomparator());
+                                boolean jestciagloscumow = UrlopBean.czyCiągłośćNaKoniecPoprzedniegoRoku(umowy, wpisView.getRokWpisuInt());
+                                if (jestciagloscumow==false) {
+                                    rejestrurlopowrok.setUrlopzalegly(0);
+                                }
                             }
 
                         }

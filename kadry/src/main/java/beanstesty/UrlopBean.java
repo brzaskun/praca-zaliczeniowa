@@ -546,4 +546,67 @@ public class UrlopBean {
     private static Comparator<Umowa> parseDate(String datado, LocalDate MAX) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+     public static boolean czyCiągłośćNaKoniecPoprzedniegoRoku(List<Umowa> umowy, int currentYear) {
+        LocalDate lastDayPrevYear = LocalDate.of(currentYear - 1, 12, 31);
+        LocalDate firstDayCurrentYear = LocalDate.of(currentYear, 1, 1);
+
+        // 1. Sprawdzamy bezpośrednio aktywną umowę na 31.12 poprzedniego roku
+        for (Umowa u : umowy) {
+            LocalDate dataOd = parseDate(u.getDataod());
+            LocalDate dataDo = parseDate(u.getDatado()); // null jeśli pusta
+
+            if ((dataOd.isBefore(lastDayPrevYear.plusDays(1)) || dataOd.isEqual(lastDayPrevYear))) {
+                // Umowa rozpoczęła się przed lub w dniu 31.12 poprzedniego roku
+                if (dataDo == null || !dataDo.isBefore(lastDayPrevYear)) {
+                    // dataDo == null -> umowa bezterminowa, aktywna w tym dniu
+                    // lub dataDo >= 31.12 poprzedniego roku
+                    return true;
+                }
+            }
+        }
+
+        // 2. Jeżeli nie ma umowy aktywnej wprost na 31.12 poprzedniego roku,
+        // to sprawdzamy czy istnieje ciąg umów:
+        //   - jedna umowa kończy się dokładnie 31.12 poprzedniego roku
+        //   - następna zaczyna się dokładnie 01.01 bieżącego roku
+
+        Umowa umowaKoniecPoprzedniegoRoku = null;
+        for (Umowa u : umowy) {
+            LocalDate dataDo = parseDate(u.getDatado());
+            if (dataDo != null && dataDo.isEqual(lastDayPrevYear)) {
+                umowaKoniecPoprzedniegoRoku = u;
+                break;
+            }
+        }
+
+        if (umowaKoniecPoprzedniegoRoku == null) {
+            // Nie ma umowy kończącej się dokładnie 31.12 poprzedniego roku
+            return false;
+        }
+
+        // Sprawdzamy czy istnieje umowa zaczynająca się 01.01 bieżącego roku
+        for (Umowa u : umowy) {
+            LocalDate dataOd = parseDate(u.getDataod());
+            if (dataOd != null && dataOd.isEqual(firstDayCurrentYear)) {
+                // Znaleźliśmy ciągłość na przełomie roku
+                return true;
+            }
+        }
+
+        return false;
+    }
+      private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+
+    /**
+     * Pomocnicza metoda do parsowania daty z pola String.
+     * Zwraca null, jeśli data jest nullowa lub pusta.
+     */
+    private static LocalDate parseDate(String dateStr) {
+        if (dateStr == null || dateStr.trim().isEmpty()) {
+            return null;
+        }
+        return LocalDate.parse(dateStr, DATE_FORMATTER);
+    }
 }
