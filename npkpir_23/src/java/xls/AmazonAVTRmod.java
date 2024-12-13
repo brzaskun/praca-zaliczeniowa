@@ -137,7 +137,7 @@ public class AmazonAVTRmod implements Serializable {
                     //System.out.println(klientJPK.getSerial());
                     klientJPK.setPodatnik(wpisView.getPodatnikObiekt());
                     klientJPK.setRodzajtransakcji(getCellStringValue(row, columnIndices.get("TRANSACTION_TYPE")));
-                    if (klientJPK.getRodzajtransakcji().equals("DONATION")==false) {
+                    if (klientJPK.getRodzajtransakcji().equals("DONATION")==false&&klientJPK.getRodzajtransakcji().contains("COMMINGLING")==false) {
                         klientJPK.setKodKrajuNadania(getCellStringValue(row, columnIndices.get("DEPARTURE_COUNTRY")));
                         klientJPK.setKodKrajuDoreczenia(getCellStringValue(row, columnIndices.get("ARRIVAL_COUNTRY")));
                         klientJPK.setJurysdykcja(getCellStringValue(row, columnIndices.get("TAXABLE_JURISDICTION")));
