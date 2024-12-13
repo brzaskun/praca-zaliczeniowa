@@ -17,6 +17,7 @@ import dao.STRDAO;
 import dao.StornoDokDAO;
 import dao.UmorzenieNDAO;
 import dao.UzDAO;
+import embeddable.Okres;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Faktura;
@@ -110,6 +111,8 @@ public class DokTabView implements Serializable {
      private double sumabrutto;
      private boolean dodajdlajpk;
      private boolean robulganazledlugi;
+     private Okres okreswpisuod;
+     private Okres okreswpisudo;
 
     public DokTabView() {
        inicjalizacjalist();
@@ -139,6 +142,12 @@ public class DokTabView implements Serializable {
     @PostConstruct
     public void init() { //E.m(this);
         inicjalizacjalist();
+        if (okreswpisudo==null) {
+            okreswpisudo = new Okres(wpisView.getRokWpisuSt(),wpisView.getMiesiacWpisu());
+        }
+        if (okreswpisuod==null) {
+            okreswpisuod = new Okres(wpisView.getRokWpisuSt(),wpisView.getMiesiacWpisu());
+         }
         try {
             inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
         } catch (Exception e) {
@@ -166,9 +175,10 @@ public class DokTabView implements Serializable {
             }
         }
         try {
-            dokumentypobrane.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(), mc));
+            dokumentypobrane.addAll(dokDAO.zwrocBiezacegoKlientaRokOdRokdoMcaDoMca(podatnik, okreswpisuod.getRok(),  okreswpisudo.getRok(), okreswpisuod.getMc(),  okreswpisudo.getMc()));
             //sortowanie dokumentów
             if (dokumentypobrane!=null) {
+                numerkolejny = dokumentypobrane.size();
                 for (Iterator<Dok> it = dokumentypobrane.iterator(); it.hasNext();) {
                     Dok tmpx = it.next();
                     if (dodajdlajpk==false && tmpx.getRodzajedok().isTylkojpk()) {
@@ -180,7 +190,7 @@ public class DokTabView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        numerkolejny = dokDAO.liczdokumenty(rok.toString(), mc, podatnik) + 1;
+        
         dokumentylista = Collections.synchronizedList(new ArrayList<>());
         Set<Rodzajedok> dokumentyl = new HashSet<>();
         Set<String> kontrahenty = new HashSet<>();
@@ -195,7 +205,6 @@ public class DokTabView implements Serializable {
                 System.out.println("");
                 dokDAO.remove(tmpx);
             } else {
-                if (tmpx.getPkpirM().equals(mc)) {
                     dokumentyl.add(tmpx.getRodzajedok());
                     String kontra = tmpx.getKontr()!=null?tmpx.getKontr().getNazwabezCudzy():"problem "+tmpx.getNrWlDk();
                     kontrahenty.add(kontra);
@@ -216,7 +225,7 @@ public class DokTabView implements Serializable {
                         dokumentylista.add(tmpx);
                         sumujdokumentydodane(tmpx);
                     }
-                }
+                
             }
         }
          dokumentypodatnika.addAll(dokumentyl);
@@ -397,6 +406,7 @@ public class DokTabView implements Serializable {
         dokumentylista = Collections.synchronizedList(new ArrayList<>());
         dokumentyFiltered = null;
         gosciuwybral = null;
+        wpisView.setOkreswpisu(okreswpisudo);
         wpisView.naniesDaneDoWpisOkres();
         init();
         Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPrintNazwa()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu()+" opodatkowanie: "+wpisView.getRodzajopodatkowania());
@@ -550,7 +560,6 @@ public class DokTabView implements Serializable {
         return "500px";
     }
 
-    
     
     public void drukujdokumentyuproszczona() {
         if (dokumentyFiltered != null && dokumentyFiltered.size()>0) {
@@ -790,6 +799,22 @@ public class DokTabView implements Serializable {
         public void setDokumentyFiltered(List<Dok> dokumentyFiltered) {
             this.dokumentyFiltered = dokumentyFiltered;
         }
+
+    public Okres getOkreswpisuod() {
+        return okreswpisuod;
+    }
+
+    public void setOkreswpisuod(Okres okreswpisuod) {
+        this.okreswpisuod = okreswpisuod;
+    }
+
+    public Okres getOkreswpisudo() {
+        return okreswpisudo;
+    }
+
+    public void setOkreswpisudo(Okres okreswpisudo) {
+        this.okreswpisudo = okreswpisudo;
+    }
     
         
     //</editor-fold>

@@ -289,7 +289,40 @@ public class DokDAO extends DAO implements Serializable {
         }
         return zwrot;
     }
-    
+   /**
+ * Zwraca listę dokumentów dla określonego podatnika z przedziału od (rokod-mcod) do (rokdo-mcdo).
+ * Przeszukiwane są pola pkpirR (rok) oraz pkpirM (miesiąc), które są typu String.
+ * Założenie: pkpirM jest dwucyfrowe (np. "01" do "12"), co pozwala na poprawne porównanie leksykograficzne.
+ *
+ * Warunki filtrowania:
+ * - Dokumenty z roku początkowego (rokod) od miesiąca mcod do końca tego roku.
+ * - Dokumenty ze wszystkich lat pomiędzy rokiem początkowym (rokod) i końcowym (rokdo), jeśli rokdo > rokod.
+ * - Dokumenty z roku końcowego (rokdo) od początku roku do miesiąca mcdo.
+ *
+ * @param pod   obiekt typu Podatnik określający danego podatnika
+ * @param rokod rok początkowy w formacie String (np. "2021")
+ * @param rokdo rok końcowy w formacie String (np. "2023")
+ * @param mcod  miesiąc początkowy w formacie String (dwucyfrowy, np. "01")
+ * @param mcdo  miesiąc końcowy w formacie String (dwucyfrowy, np. "12")
+ * @return      lista dokumentów typu Dok spełniających zadane kryteria
+ */
+public List<Dok> zwrocBiezacegoKlientaRokOdRokdoMcaDoMca(Podatnik pod, String rokod, String rokdo, String mcod, String mcdo) {
+    List<Dok> zwrot = null;
+    try {
+        zwrot = getEntityManager().createQuery(
+               "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND CONCAT(d.pkpirR, d.pkpirM) >= CONCAT(:rokod, :mcod) AND CONCAT(d.pkpirR, d.pkpirM) <= CONCAT(:rokdo, :mcdo)", Dok.class)
+                .setParameter("podatnik", pod)
+                .setParameter("rokod", rokod)
+                .setParameter("rokdo", rokdo)
+                .setParameter("mcod", mcod)
+                .setParameter("mcdo", mcdo)
+                .getResultList();
+    } catch (Exception e) {
+        System.out.println("");
+    }
+    return zwrot;
+}
+
     public List<Dok> findDokRok(String rok){
         List<Dok> zwrot = new ArrayList<>();
         try {

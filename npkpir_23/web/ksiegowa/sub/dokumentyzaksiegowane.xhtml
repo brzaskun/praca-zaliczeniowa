@@ -35,11 +35,11 @@
 
     <p:remoteCommand actionListener="#{DokTabView.fakturaoznaczanie()}" name="oznaczfakturespacja" global="false"/>
     <p:growl widgetVar="grmes"/>
-    <h:form>
+<!--    <h:form>
         <p:stack icon="/resources/images/menustack/stack.png">
             <p:menuitem global="false" value="duplikaty" icon="pi pi-clone" actionListener="#{DokTabView.sprawdzCzyNieDuplikat}" />
         </p:stack>
-    </h:form>
+    </h:form>-->
     <bcf:ajaxs/>
     <h:form id="form">
         <p:contextMenu id="menutablica" for="dokumentyLista">
@@ -75,9 +75,15 @@
             $(document).on("keydown", TabKeyFa);
         </script>
         
-        <p:panelGrid layout="tabular" columns="6" id="panelprzyciskow" styleClass="ui-grid-responsive">
-            <h:outputText value="okres:" style="float: right;"/>
-            <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}" style="width: 100px;" converter="#{okresConverter}">
+        <p:panelGrid layout="tabular" columns="8" id="panelprzyciskow" styleClass="ui-grid-responsive">
+            <h:outputText value="okres od:" style="float: right;"/>
+            <p:selectOneMenu id="okresWpisu" value="#{DokTabView.okreswpisuod}" style="width: 100px;" converter="#{okresConverter}">
+                <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="#{ytem}"/>
+                <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" global="true" oncomplete="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
+                        update=":form:dokumentyLista :form:cechydokuk westKsiegowa:linki"/>
+            </p:selectOneMenu>
+            <h:outputText value="okres do:" style="float: right;"/>
+            <p:selectOneMenu id="okresWpisu1" value="#{DokTabView.okreswpisudo}" style="width: 100px;" converter="#{okresConverter}">
                 <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="#{ytem}"/>
                 <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" global="true" oncomplete="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
                         update=":form:dokumentyLista :form:cechydokuk westKsiegowa:linki"/>
@@ -148,7 +154,11 @@
             <p:dataTable lazy="false" var="wpis" value="#{DokTabView.dokumentylista}" id="dokumentyLista" filteredValue="#{DokTabView.dokumentyFiltered}" rowIndexVar="index"
                           style="max-width:  1900px; margin-top: 10px; max-height: 900px; overflow-y: scroll; overflow-x: hidden;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}"
-                          emptyMessage="W danym miesiącu nie było żadnych zapisów" rowSelectMode="add" styleClass="grid" >
+                          emptyMessage="W danym miesiącu nie było żadnych zapisów" rowSelectMode="add" styleClass="grid" 
+                          paginator="#{DokTabView.dokumentylista.size() gt 500}" 
+                rows="#{DokTabView.dokumentylista.size() gt 500 ? 50 : 0}"
+            
+              >
                 
                 <p:ajax event="filter" global="false" />
                 <p:ajax event="toggleSelect" partialSubmit="true" global="false" />
