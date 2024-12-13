@@ -735,110 +735,142 @@
                 </h:form>
             </p:tab>
             <p:tab title="Zmienne podatkowe">
-                <h:form id="ZmiennepodatkoweForm">
-                    <p:panelGrid columns="10">
-                        <p:outputLabel for="prok" value="rok"/>
-                        <p:inputText id="prok" value="#{podatkiUstawieniaView.selected.rok}"/>
-                        <p:outputLabel for="pstawka1" value="stawka"/>
-                        <bcf:inputplid id="pstawka1" value="#{podatkiUstawieniaView.selected.stawka}"/>
-                        <p:outputLabel for="pkwotaod" value="kwota od"/>
-                        <bcf:inputplid id="pkwotaod" value="#{podatkiUstawieniaView.selected.kwotawolnaod}"/>
-                        <p:outputLabel for="pkwotado" value="kwota do"/>
-                        <bcf:inputplid id="pkwotado" value="#{podatkiUstawieniaView.selected.kwotawolnado}"/>
-                        <p:outputLabel for="pwolanrok" value="kwota wolna/rok"/>
-                        <bcf:inputplid id="pwolanrok" value="#{podatkiUstawieniaView.selected.wolnarok}"/>
-                        <p:outputLabel for="pwolanmc" value="kwota wolna/mc"/>
-                        <bcf:inputplid id="pwolanmc" value="#{podatkiUstawieniaView.selected.wolnamc}"/>
-                        <p:outputLabel for="pwolnazdrow" value="kwota dla zdrowotnej"/>
-                        <bcf:inputplid id="pwolnazdrow" value="#{podatkiUstawieniaView.selected.wolnadlazdrowotnej}"/>
-                        <p:outputLabel for="pkup" value="kup"/>
-                        <bcf:inputplid id="pkup" value="#{podatkiUstawieniaView.selected.kup}"/>
-                        <p:outputLabel for="pkupp" value="kup podwyż."/>
-                        <bcf:inputplid id="pkupp" value="#{podatkiUstawieniaView.selected.kuppodwyzszone}"/>
-                        <p:outputLabel for="prodz" value="rodzja um."/>
-                        <p:inputText id="prodz" value="#{podatkiUstawieniaView.selected.rodzajumowy}"/>
-                    </p:panelGrid>
-                    <p:panelGrid columns="4">
-                        <p:commandButton value="dodaj" styleClass="buttonnorm" actionListener="#{podatkiUstawieniaView.dodajrok}" update="akordeon:ZmiennepodatkoweFormLista akordeon:ZmiennepodatkoweForm" />
-                    </p:panelGrid>
-                </h:form>
-                <p:outputPanel style="margin-top: 20px;">
-                    <h:form id="ZmiennepodatkoweFormLista">
-                        <p:dataTable value="#{podatkiUstawieniaView.lista}" var="itempodatki" rowIndexVar="indexpod" rowKey="#{itempodatki.id}"
-                                     selection="#{podatkiUstawieniaView.selected}" selectionMode="single"
-                                     scrollable="true" scrollHeight="700" scrollRows="30" 
-                                     style="width: 1200px;">
-                            <p:ajax event="rowSelect" partialSubmit="true" update="akordeon:ZmiennepodatkoweForm"/>
-                            <p:column width="30" style="text-align: center;">
-                                <f:facet name="header">
-                                    <h:outputText value=""/>
-                                </f:facet>
-                                <h:outputText value="#{indexpod+1}"/>
-                            </p:column>
-                            <p:column style="text-align: center;">
-                                <f:facet name="header">
-                                    <h:outputText value="rok"/>
-                                </f:facet>
-                                <h:outputText value="#{itempodatki.rok}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="stawka"/>
-                                </f:facet>
-                                <bcf:outputplprocent value="#{itempodatki.stawka}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="limit od"/>
-                                </f:facet>
-                                <bcf:outputpl value="#{itempodatki.kwotawolnaod}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="limit do"/>
-                                </f:facet>
-                                <bcf:outputpl value="#{itempodatki.kwotawolnado}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="wolna rok"/>
-                                </f:facet>
-                                <bcf:outputpl value="#{itempodatki.wolnarok}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="wolna mc"/>
-                                </f:facet>
-                                <bcf:outputpl value="#{itempodatki.wolnamc}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="wolna dla zdrow."/>
-                                </f:facet>
-                                <bcf:outputpl value="#{itempodatki.wolnadlazdrowotnej}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="kup"/>
-                                </f:facet>
-                                <bcf:outputpl value="#{itempodatki.kup}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="kup podwyż."/>
-                                </f:facet>
-                                <bcf:outputpl value="#{itempodatki.kuppodwyzszone}"/>
-                            </p:column>
-                            <p:column style="text-align: center;" width="40">
-                                <f:facet name="header">
-                                    <h:outputText value="rodzaj umowy"/>
-                                </f:facet>
-                                <h:outputText value="#{itempodatki.rodzajumowy}"/>
-                            </p:column>
-                        </p:dataTable>
-                    </h:form>
-                </p:outputPanel>
-            </p:tab>
+    <h:form id="ZmiennepodatkoweForm">
+        <p:panelGrid columns="10">
+            <p:outputLabel for="prok" value="rok"/>
+            <p:inputText id="prok" value="#{podatkiUstawieniaView.selected.rok}"/>
+
+            <p:outputLabel for="pstawka1" value="stawka"/>
+            <bcf:inputplid id="pstawka1" value="#{podatkiUstawieniaView.selected.stawka}"/>
+
+            <p:outputLabel for="pkwotaod" value="kwota od"/>
+            <bcf:inputplid id="pkwotaod" value="#{podatkiUstawieniaView.selected.kwotawolnaod}"/>
+
+            <p:outputLabel for="pkwotado" value="kwota do"/>
+            <bcf:inputplid id="pkwotado" value="#{podatkiUstawieniaView.selected.kwotawolnado}"/>
+
+            <p:outputLabel for="pwolanrok" value="kwota wolna/rok"/>
+            <bcf:inputplid id="pwolanrok" value="#{podatkiUstawieniaView.selected.wolnarok}"/>
+
+            <p:outputLabel for="pwolanmc" value="kwota wolna/mc"/>
+            <bcf:inputplid id="pwolanmc" value="#{podatkiUstawieniaView.selected.wolnamc}"/>
+
+            <p:outputLabel for="pwolnazdrow" value="kwota dla zdrowotnej"/>
+            <bcf:inputplid id="pwolnazdrow" value="#{podatkiUstawieniaView.selected.wolnadlazdrowotnej}"/>
+
+            <p:outputLabel for="pkup" value="kup"/>
+            <bcf:inputplid id="pkup" value="#{podatkiUstawieniaView.selected.kup}"/>
+
+            <p:outputLabel for="pkupp" value="kup podwyż."/>
+            <bcf:inputplid id="pkupp" value="#{podatkiUstawieniaView.selected.kuppodwyzszone}"/>
+
+            <p:outputLabel for="prodz" value="rodzaj um."/>
+            <p:inputText id="prodz" value="#{podatkiUstawieniaView.selected.rodzajumowy}"/>
+        </p:panelGrid>
+
+        <p:panelGrid columns="4">
+            <p:commandButton value="dodaj" styleClass="buttonnorm" 
+                             actionListener="#{podatkiUstawieniaView.dodajrok}" 
+                             update="akordeon:ZmiennepodatkoweFormLista akordeon:ZmiennepodatkoweForm"/>
+        </p:panelGrid>
+    </h:form>
+
+    <p:outputPanel style="margin-top: 20px;">
+        <h:form id="ZmiennepodatkoweFormLista">
+            <p:dataTable value="#{podatkiUstawieniaView.lista}" var="itempodatki" id="tabelapodatki"
+                         rowIndexVar="indexpod" rowKey="#{itempodatki.id}"
+                         editable="true" editMode="row"  scrollable="true" scrollHeight="700" scrollRows="30"
+                         style="width: 1100px;" selectionMode="single">
+                <p:ajax event="rowEdit" listener="#{podatkiUstawieniaView.rowedit}" update="akordeon:ZmiennepodatkoweFormLista:tabelapodatki"/>
+      
+                <p:column width="30" style="text-align: center;">
+                    <f:facet name="header"><h:outputText value="#"/></f:facet>
+                    <h:outputText value="#{indexpod + 1}"/>
+                </p:column>
+
+                <p:column headerText="rok">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{itempodatki.rok}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{itempodatki.rok}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="stawka">
+                    <p:cellEditor>
+                        <f:facet name="output"><bcf:outputplprocent value="#{itempodatki.stawka}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{itempodatki.stawka}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="kwota od">
+                    <p:cellEditor>
+                        <f:facet name="output"><bcf:outputpl value="#{itempodatki.kwotawolnaod}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{itempodatki.kwotawolnaod}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="kwota do">
+                    <p:cellEditor>
+                        <f:facet name="output"><bcf:outputpl value="#{itempodatki.kwotawolnado}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{itempodatki.kwotawolnado}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="kwota wolna/rok">
+                    <p:cellEditor>
+                        <f:facet name="output"><bcf:outputpl value="#{itempodatki.wolnarok}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{itempodatki.wolnarok}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="kwota wolna/mc">
+                    <p:cellEditor>
+                        <f:facet name="output"><bcf:outputpl value="#{itempodatki.wolnamc}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{itempodatki.wolnamc}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="wolna dla zdrowotnej">
+                    <p:cellEditor>
+                        <f:facet name="output"><bcf:outputpl value="#{itempodatki.wolnadlazdrowotnej}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{itempodatki.wolnadlazdrowotnej}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="kup">
+                    <p:cellEditor>
+                        <f:facet name="output"><bcf:outputpl value="#{itempodatki.kup}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{itempodatki.kup}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="kup podwyż.">
+                    <p:cellEditor>
+                        <f:facet name="output"><bcf:outputpl value="#{itempodatki.kuppodwyzszone}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{itempodatki.kuppodwyzszone}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="rodzaj umowy" width="40" style="text-align: center;">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{itempodatki.rodzajumowy}"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{itempodatki.rodzajumowy}"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+            <p:column id="editColumn" headerText="edytuj" style="text-align: center;" width="30">
+                <p:rowEditor />  
+            </p:column>
+                <p:column headerText="" style="text-align: center;" width="30">
+                  
+                    <p:commandButton icon="pi pi-trash" update=":akordeon:ZmiennepodatkoweFormLista" 
+                                     actionListener="#{podatkiUstawieniaView.usun(itempodatki)}" 
+                                     title="Usuń wiersz"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:outputPanel>
+</p:tab>
+
             <p:tab title="Delegowanie">
                 <h:form id="Delegowanie">
                     <p:panelGrid columns="4">

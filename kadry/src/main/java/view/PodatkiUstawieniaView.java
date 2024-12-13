@@ -15,6 +15,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -39,7 +40,11 @@ public class PodatkiUstawieniaView  implements Serializable {
             lista = new ArrayList<>();
         }
     }
-    
+public void rowedit(RowEditEvent event) {
+        Podatki podmiot = (Podatki) event.getObject();
+        podatkiFacade.edit(podmiot);
+        Msg.msg("Naniesiono zmiany");
+    }
     public void dodajrok() {
         if (selected!=null && selected.getId()==null) {
             podatkiFacade.create(selected);
@@ -50,6 +55,16 @@ public class PodatkiUstawieniaView  implements Serializable {
             podatkiFacade.edit(selected);
             selected = new Podatki();
             Msg.msg("Zmieniono stawki za rok");
+        }
+    }
+    
+    public void usun(Podatki podatki) {
+        if (podatki!=null) {
+            podatkiFacade.remove(podatki);
+            lista.remove(podatki);
+            Msg.msg("Uzunięto pozycje");
+        } else {
+            Msg.msg("e", "Nie wybrano wiersza");
         }
     }
 
