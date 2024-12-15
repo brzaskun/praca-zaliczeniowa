@@ -538,6 +538,23 @@ public class PdfMain {
             E.e(ex);
         }
     }
+    public static void dodajLinieOpisuBezOdstepuTabBold(Document document, String opis, String opis1,
+            int al, int fontsize, int tab) {
+        try {
+            // Utworzenie czcionki bold na podstawie istniejącej
+            Font boldFont = new Font(ft[fontsize].getBaseFont(), ft[fontsize].getSize(), Font.BOLD);
+
+            Paragraph opiswstepny = new Paragraph();
+            opiswstepny.add(new Phrase(opis, boldFont));
+            opiswstepny.setAlignment(Element.ALIGN_LEFT);
+            opiswstepny.setTabSettings(new TabSettings(tab));
+            opiswstepny.add(Chunk.TABBING);
+            opiswstepny.add(new Phrase(opis1, ft[fontsize]));
+            document.add(opiswstepny);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
      
      public static void dodajLinieOpisuBezOdstepuWciecie(Document document, String opis, int al, int fontsize) {
         try {
