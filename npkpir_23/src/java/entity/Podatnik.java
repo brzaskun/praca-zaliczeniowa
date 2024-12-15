@@ -187,6 +187,9 @@ public class Podatnik implements Serializable {
     @Size(max = 34)
     @Column(name = "nrkontabankowego")
     private String nrkontabankowego;
+    @Size(max = 45)
+    @Column(name = "swift")
+    private String swift;
     @Size (max = 3)
     @Column(name = "platnoscwdni")
     private String platnoscwdni;
@@ -459,6 +462,14 @@ public class Podatnik implements Serializable {
 
     public String getSteuernummer() {
         return steuernummer;
+    }
+
+    public String getSwift() {
+        return swift;
+    }
+
+    public void setSwift(String swift) {
+        this.swift = swift;
     }
 
     public void setSteuernummer(String steuernummer) {

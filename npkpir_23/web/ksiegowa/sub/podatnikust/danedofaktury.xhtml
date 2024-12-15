@@ -21,6 +21,9 @@
                     <h:outputLabel value="nr konta bankowego dla faktur sprzedaży"/>
                     <h:inputText id="polekonto" value="#{podatnikView.selected.nrkontabankowego}" maxlength="26" style="width: 300px;" required="false">
                     </h:inputText>
+                    <h:outputLabel value="SWIFT"/>
+                        <h:inputText id="poleswift" value="#{podatnikView.selected.swift}" maxlength="26" style="width: 100px;" required="false">
+                    </h:inputText>
                     <h:outputLabel value="termin płatności w dniach (np. 14)"/>
                     <p:spinner id="spinnerBasic" value="#{podatnikView.selected.platnoscwdni}" max="365" min="0" size="3" />  
                     <h:outputLabel value="nazwa firmy umieszczana na fakturach sprzedaży"/>

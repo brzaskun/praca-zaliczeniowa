@@ -264,7 +264,19 @@ public class FakturaBean {
             return "brak numeru konta bankowego";
         }
     }
-    
+    public static String pobierzswift(Podatnik podatnikobiekt) {
+        try {
+            String nrkonta = podatnikobiekt.getSwift();
+            if (nrkonta != null && !nrkonta.equals("")) {
+                return nrkonta;
+            } else {
+                return "brak numeru SWIFT";
+            }
+        } catch (Exception es) {
+            Msg.msg("w", "Brak numeru SWIFT");
+            return "brak numeru NUMERU SWIFT";
+        }
+    }
     
     public static void wielekont(Faktura selected, List<FakturaWalutaKonto> konta, FakturaStopkaNiemieckaDAO fakturaStopkaNiemieckaDAO, Podatnik podatnik) {
         String waluta = selected.getWalutafaktury();

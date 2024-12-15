@@ -701,6 +701,7 @@ public class FakturaView implements Serializable {
         selected.setMiejscewystawienia(FakturaBean.pobierzmiejscewyst(podatnikobiekt));
         selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(podatnikobiekt, pelnadata));
         selected.setNrkontabankowego(FakturaBean.pobierznumerkonta(podatnikobiekt));
+        selected.setSwift(FakturaBean.pobierznumerkonta(podatnikobiekt));
         if (selected.getNrkontabankowego().equals("brak numeru konta bankowego")) {
             selected.setSposobzaplaty("gotówka");
         }
@@ -920,6 +921,7 @@ public class FakturaView implements Serializable {
         listakontawwalucie = fakturaWalutaKontoDAO.findByWalutaString(wpisView.getPodatnikObiekt(),selected.getWalutafaktury());
         if (selected.getNrkontabankowego()==null||selected.getNrkontabankowego().equals("")) {
             selected.setNrkontabankowego(FakturaBean.pobierznumerkonta(wpisView.getPodatnikObiekt()));
+            selected.setSwift(FakturaBean.pobierznumerkonta(wpisView.getPodatnikObiekt()));
             List<FakturaWalutaKonto> listakontaktywne  = fakturaWalutaKontoDAO.findPodatnik(wpisView);
             if (listakontaktywne!=null) {
                 FakturaBean.wielekont(selected, listakontaktywne, fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
