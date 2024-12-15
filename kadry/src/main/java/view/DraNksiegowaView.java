@@ -225,12 +225,14 @@ public class DraNksiegowaView  implements Serializable {
     }
     
     private void mailListaDRA(byte[] dra) {
+        List<byte[]> zal = new ArrayList<>();
+        zal.add(dra);
         if (dra != null && dra.length > 0) {
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
             findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
             findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
             String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
-            mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(),  wpisView.getUzer().getEmail(), null, findSprawaByDef, dra, nazwa,null);
+            mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(),  wpisView.getUzer().getEmail(), null, findSprawaByDef, zal, nazwa,null);
             Msg.msg("Wysłano listę płac do pracodawcy");
         } else {
             Msg.msg("e", "Błąd dwysyki DRA");
@@ -240,12 +242,26 @@ public class DraNksiegowaView  implements Serializable {
     
      public void mailListaDRAKsiegowa(String mc) {
          mcdra = mc;
+         List<byte[]> dra = new ArrayList<>();
          for (int i = 0;i<4;i++) {
-            mailListaDRAFirma(i);
+            byte[] zwrot =  mailListaDRAFirma(i);
+            if (zwrot!=null) {
+                dra.add(zwrot);
+            }
          }
+          if (dra != null && dra.size() > 0) {
+            SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+            findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
+            findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
+            String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
+            mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getUzer().getEmail(), null, findSprawaByDef, dra, nazwa, null);
+            Msg.msg("Wysłano listę płac do księgowej");
+        } else {
+            Msg.msg("e", "Błąd dwysyki DRA");
+        }
      }
     
-     public void mailListaDRAFirma(int praca0zlecenia1funkcja2zasilki3) {
+     public byte[] mailListaDRAFirma(int praca0zlecenia1funkcja2zasilki3) {
          pobierzlisty(praca0zlecenia1funkcja2zasilki3);
          if (paskiwynagrodzen!=null && paskiwynagrodzen.size()>0) {
             try {
@@ -273,21 +289,13 @@ public class DraNksiegowaView  implements Serializable {
                 danezus.put("potraceniaPozostale", potraceniaPozostale);
                 ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa(), wpisView.getFirma());
                  byte[] dra = drastream.toByteArray();
-                if (dra != null && dra.length > 0) {
-                    SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
-                    findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
-                    findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
-                    String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
-                    mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getUzer().getEmail(), null, findSprawaByDef, dra, nazwa, null);
-                    Msg.msg("Wysłano listę płac do księgowej");
-                } else {
-                    Msg.msg("e", "Błąd dwysyki DRA");
-                }
-                Msg.msg("Wydrukowano listę płac");
+               return dra;
+               
             } catch (Exception e){}
         } else {
             Msg.msg("e","Błąd drukowania. Brak pasków");
         }
+         return null;
     }
 
     public void pobierzpaski() {

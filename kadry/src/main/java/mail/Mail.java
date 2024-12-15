@@ -16,6 +16,7 @@ import entity.Umowa;
 import error.E;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import javax.activation.DataHandler;
 import javax.inject.Named;
 import javax.mail.Message;
@@ -150,7 +151,7 @@ public class Mail {
     }
     
     
-    public static void mailDRA(FirmaKadry firma, String rok, String mc, String adres, SMTPSettings settings,SMTPSettings ogolne, byte[] zalacznik, String nazwapliku, String adresBCC)  {
+    public static void mailDRA(FirmaKadry firma, String rok, String mc, String adres, SMTPSettings settings,SMTPSettings ogolne, List<byte[]> dra, String nazwapliku, String adresBCC)  {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
@@ -180,7 +181,12 @@ public class Mail {
             mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
             Multipart mp = new MimeMultipart();
             mp.addBodyPart(mbp1);
-            dolaczplik(zalacznik, mp, nazwapliku);
+            if (dra!=null&&dra.size()>0) {
+                for (byte[] zalacznik : dra) {
+                    dolaczplik(zalacznik, mp, nazwapliku);
+                }
+            }
+            
             message.setContent(mp);
             Transport.send(message);
         } catch (MessagingException e) {
