@@ -79,8 +79,8 @@
             <h:outputText value="okres od:" style="float: right;"/>
             <p:selectOneMenu id="okresWpisu" value="#{DokTabView.okreswpisuod}" style="width: 100px;" converter="#{okresConverter}">
                 <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="#{ytem}"/>
-                <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" global="true" oncomplete="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
-                        update=":form:dokumentyLista :form:cechydokuk westKsiegowa:linki"/>
+                <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkresOd}" global="true" oncomplete="PF('dokTable').clearFilters();PF('dokTable').unselectAllRows();"
+                        update=":form:dokumentyLista :form:cechydokuk westKsiegowa:linki form:okresWpisu1"/>
             </p:selectOneMenu>
             <h:outputText value="okres do:" style="float: right;"/>
             <p:selectOneMenu id="okresWpisu1" value="#{DokTabView.okreswpisudo}" style="width: 100px;" converter="#{okresConverter}">

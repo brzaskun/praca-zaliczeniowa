@@ -412,6 +412,17 @@ public class DokTabView implements Serializable {
         Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPrintNazwa()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu()+" opodatkowanie: "+wpisView.getRodzajopodatkowania());
     }
   
+    public void aktualizujTabeleTabelaOkresOd(AjaxBehaviorEvent e) throws IOException {
+        okreswpisudo = okreswpisuod;
+        dokumentylista = Collections.synchronizedList(new ArrayList<>());
+        dokumentyFiltered = null;
+        gosciuwybral = null;
+        wpisView.setOkreswpisu(okreswpisuod);
+        wpisView.naniesDaneDoWpisOkres();
+        init();
+        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPrintNazwa()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu()+" opodatkowanie: "+wpisView.getRodzajopodatkowania());
+    }
+  
    
     private void aktualizuj(){
         wpisView.naniesDaneDoWpis();
