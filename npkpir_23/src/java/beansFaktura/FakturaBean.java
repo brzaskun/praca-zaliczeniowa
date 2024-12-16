@@ -270,7 +270,7 @@ public class FakturaBean {
             if (nrkonta != null && !nrkonta.equals("")) {
                 return nrkonta;
             } else {
-                return "brak numeru SWIFT";
+                return null;
             }
         } catch (Exception es) {
             Msg.msg("w", "Brak numeru SWIFT");
