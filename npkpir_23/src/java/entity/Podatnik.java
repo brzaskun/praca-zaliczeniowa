@@ -187,7 +187,7 @@ public class Podatnik implements Serializable {
     @Size(max = 34)
     @Column(name = "nrkontabankowego")
     private String nrkontabankowego;
-    @Size(max = 45)
+    @Size(max = 128)
     @Column(name = "swift")
     private String swift;
     @Size (max = 3)
