@@ -904,7 +904,11 @@ public class DokfkView implements Serializable {
                         }
                         rozliczVatKoszt(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe, nkup);
                     } else if (selected.getListawierszy().get(0).getStronaWn().getKonto() == null && rodzajdok.getKategoriadokumentu() == 2) {
-                        rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
+                       
+                            rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
+                        
+                    } else if (evatwpis.getEwidencja().isNiemcy()) {
+                            rozliczVatPrzychodNiemcy(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
                     }
                 } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 1) {
                     rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView, nkup, rowindex, kontadlaewidencji);
@@ -1019,9 +1023,11 @@ public class DokfkView implements Serializable {
         } else {
             evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));
         }
-        if (!w.getSymbolwaluty().equals("PLN")) {
+        if (!w.getSymbolwaluty().equals("PLN")&&evatwpis.getEwidencja().isNiemcy()==false) {
             //ten vat tu musi byc bo inaczej bylby onblur przy vat i cykliczne odswiezanie
             evatwpis.setVatwwalucie(Z.z(evatwpis.getVat()/kurs*przelicznik));
+        } else if (!w.getSymbolwaluty().equals("PLN")&&evatwpis.getEwidencja().isNiemcy()==true) {
+            evatwpis.setVatwwalucie(Z.z(evatwpis.getVat()));
         }
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         evatwpis.setSprawdzony(0);
@@ -1059,9 +1065,11 @@ public class DokfkView implements Serializable {
 
     public void updatevat(EVatwpisFK evatwpis, String form, int rowindex) {
         Waluty w = selected.getWalutadokumentu();
-        if (!w.getSymbolwaluty().equals("PLN")) {
+         if (!w.getSymbolwaluty().equals("PLN")&&evatwpis.getEwidencja().isNiemcy()==false) {
             double kurs = selected.getTabelanbp().getKurssredniPrzelicznik();
             evatwpis.setVatwwalucie(Z.z(evatwpis.getVat() / kurs));
+        } else if  (!w.getSymbolwaluty().equals("PLN")&&evatwpis.getEwidencja().isNiemcy()==true) {
+            evatwpis.setVatwwalucie(Z.z(evatwpis.getVat()));
         }
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         evatwpis.setSprawdzony(0);

@@ -48,6 +48,7 @@
                                          scrollable="true" scrollHeight="750" scrollRows="30" filteredValue="#{dochodDlaDRAView.wierszeFiltered}"
                                          emptyMessage="nie pobrano danych" id="wykazschem" rowKey="#{item.podatnikudzial.podatnikObj.nip}" rowIndexVar="yndex" reflow="true"
                                          selection="#{dochodDlaDRAView.selected}" selectionMode="single" sortBy="#{item.podatnikudzial.podatnikObj.printnazwa}" >
+                                 <p:ajax event="filter" global="false"/>
                                 <p:column style="width: 20px;">
                                     <f:facet name="header">
                                         <h:outputText value="id"/>

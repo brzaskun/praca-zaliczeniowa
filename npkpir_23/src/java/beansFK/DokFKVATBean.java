@@ -110,24 +110,32 @@ public class DokFKVATBean {
     public static WartosciVAT podsumujwartosciVAT(List<EVatwpisFK> ewidencja) {
         WartosciVAT wartosciVAT = new WartosciVAT();
         for (EVatwpisFK p : ewidencja) {
-            double vatplnprocent = Z.z(p.getVat()/2);
-            double vatplnreszta = Z.z(p.getVat()-vatplnprocent);
-            double vatwalutaprocent = Z.z(p.getVatwwalucie()/2);
-            double vatwalutareszta = Z.z(p.getVatwwalucie()-vatwalutaprocent);
-            if (p.getDokfk().getRodzajedok().getProcentvat() != 0.0) {
-                vatplnprocent = Z.z(p.getVat()*p.getDokfk().getRodzajedok().getProcentvat()/100);
-                vatplnreszta = Z.z(p.getVat() - vatplnprocent);
-                vatwalutaprocent = Z.z(p.getVatwwalucie()*p.getDokfk().getRodzajedok().getProcentvat()/100);
-                vatwalutareszta = Z.z(p.getVatwwalucie()-vatwalutaprocent);
+
+            if (p.getEwidencja().isNiemcy()) {
+                wartosciVAT.vat += p.getVat() * p.getDokfk().getTabelanbp().getKurssredniPrzelicznik();
+                wartosciVAT.vatwWalucie += p.getVatwwalucie();
+
+            } else {
+                double vatplnprocent = Z.z(p.getVat() / 2);
+                double vatplnreszta = Z.z(p.getVat() - vatplnprocent);
+                double vatwalutaprocent = Z.z(p.getVatwwalucie() / 2);
+                double vatwalutareszta = Z.z(p.getVatwwalucie() - vatwalutaprocent);
+                if (p.getDokfk().getRodzajedok().getProcentvat() != 0.0) {
+                    vatplnprocent = Z.z(p.getVat() * p.getDokfk().getRodzajedok().getProcentvat() / 100);
+                    vatplnreszta = Z.z(p.getVat() - vatplnprocent);
+                    vatwalutaprocent = Z.z(p.getVatwwalucie() * p.getDokfk().getRodzajedok().getProcentvat() / 100);
+                    vatwalutareszta = Z.z(p.getVatwwalucie() - vatwalutaprocent);
+                }
+                wartosciVAT.netto += p.getNetto();
+                wartosciVAT.vat += p.getVat();
+                wartosciVAT.nettowWalucie += p.getNettowwalucie();
+                wartosciVAT.vatwWalucie += p.getVatwwalucie();
+                wartosciVAT.vatPlndodoliczenia += vatplnprocent;
+                wartosciVAT.vatPlnkup += vatplnreszta;
+                wartosciVAT.vatWalutadodoliczenia += vatwalutaprocent;
+                wartosciVAT.vatWalutakup += vatwalutareszta;
             }
-            wartosciVAT.netto += p.getNetto();
-            wartosciVAT.vat += p.getVat();
-            wartosciVAT.nettowWalucie += p.getNettowwalucie();
-            wartosciVAT.vatwWalucie += p.getVatwwalucie();
-            wartosciVAT.vatPlndodoliczenia += vatplnprocent;
-            wartosciVAT.vatPlnkup += vatplnreszta;
-            wartosciVAT.vatWalutadodoliczenia += vatwalutaprocent;
-            wartosciVAT.vatWalutakup += vatwalutareszta;
+
         }
         return wartosciVAT;
     }
@@ -219,6 +227,46 @@ public class DokFKVATBean {
         }
     }
     
+    public static void rozliczVatPrzychodNiemcy(EVatwpisFK wierszvatdoc, WartosciVAT wartosciVAT, Dokfk selected, Map<String, Konto> kontadlaewidencji, WpisView wpisView, Dokfk poprzedniDokument, Konto kontoRozrachunkowe) {
+        if (wartosciVAT.netto != 0 || wartosciVAT.nettowWalucie != 0) {
+            Wiersz wierszpierwszy = selected.getListawierszy().get(0);
+            Waluty w = selected.getWalutadokumentu();
+            try {
+             if (wierszpierwszy != null && wartosciVAT.vat!=0) {
+                    StronaWiersza wn = wierszpierwszy.getStronaWn();
+                    wn.setKwota(wn.getKwota()+wartosciVAT.vatwWalucie);
+                    wn.setKwotaWaluta(wn.getKwotaWaluta()+wartosciVAT.vatwWalucie);
+             }
+                
+               if (selected.getListawierszy().size()==1 && wartosciVAT.vat != 0) {
+                    Wiersz wierszdrugi;
+                    if (w.getSymbolwaluty().equals("PLN")) {
+                        wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, wartosciVAT.vat, 1);
+                        wierszdrugi.getStronaMa().setKwotaPLN(wartosciVAT.vat);
+                    } else {
+                        wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, wartosciVAT.vatwWalucie, 1);
+                        wierszdrugi.getStronaMa().setKwotaPLN(wartosciVAT.vat);
+                    }
+                    wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza()+" - podatek vat");
+                    Konto kontovat = selected.getRodzajedok().getKontovat();
+                    if (kontovat != null && kontovat.getRok()==selected.getRokInt()) {
+                        wierszdrugi.getStronaMa().setKonto(kontovat);
+                    } else {
+                        wierszdrugi.getStronaMa().setKonto(kontadlaewidencji.get("221-1"));
+                    }
+                    selected.getListawierszy().add(wierszdrugi);
+               }
+               
+                pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);
+                int index = wierszvatdoc.getLp()-1 < 0 ? 0 : wierszvatdoc.getLp()-1;
+                PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:"+index+":netto");
+                PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:"+index+":brutto");
+                PrimeFaces.current().ajax().update("formwpisdokument:dataList");
+            } catch (Exception e1) {
+                Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
+            }
+        }
+    }
      public static Konto pobierzKontoRozrachunkowe(KliencifkDAO kliencifkDAO, Dokfk selected, WpisView wpisView, KontoDAOfk kontoDAOfk) {
         Konto konto = null;
         try {
@@ -256,7 +304,7 @@ public class DokFKVATBean {
                 for (int i = 0; i < rozmiar; i++) {
                     try {
                         Wiersz wierszDokumentuPoprzedniego = poprzedniDokument.getListawierszy().get(i);
-                        Wiersz wierszDokumentuBiezacego = selected.getListawierszy().get(i);
+                        Wiersz wierszDokumentuBiezacego = selected.getListawierszy().size()-1>=i?selected.getListawierszy().get(i):null;
                         if (wierszDokumentuPoprzedniego != null && wierszDokumentuBiezacego != null) {
                             try {
                                 StronaWiersza wnDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaWn();
