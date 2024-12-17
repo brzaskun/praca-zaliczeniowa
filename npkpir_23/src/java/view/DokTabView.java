@@ -324,7 +324,7 @@ public class DokTabView implements Serializable {
                 }
                 try {
                     dokdoUsuniecia.setInwestycja(null);
-                    dokDAO.edit(dokdoUsuniecia);
+                    dokdoUsuniecia = (Dok) dokDAO.editRef(dokdoUsuniecia);
                     dokDAO.remove(dokdoUsuniecia);
                     dokumentypobrane.remove(dokdoUsuniecia);
                     dokumentylista.remove(dokdoUsuniecia);

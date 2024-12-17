@@ -786,7 +786,7 @@ public class DokView implements Serializable {
             selDokument.setNetto(Z.z(kwotanetto));
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
-            if (rodzajdodawania == 1) {
+            if (rodzajdodawania == 1&&wpisView.isVatowiec()==true) {
                 if (selDokument.getRodzajedok().getProcentvat() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt") && kwotanetto != 0.0) {
                     double procentvat = 1-selDokument.getRodzajedok().getProcentvat()/100.0;
                     double kwotawkoszty = selDokument.getNetto()*.23*procentvat;

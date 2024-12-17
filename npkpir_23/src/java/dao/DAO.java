@@ -66,6 +66,14 @@ public abstract class DAO<T> {
         getEntityManager().merge(entity);
     }
     
+     public T editRef(T entity) {
+        return getEntityManager().merge(entity);
+    }
+    
+    public void refresh(T entity) {
+        getEntityManager().refresh(entity);
+    }
+    
     public void editList(List<T> entityList) {
         for (T p : entityList) {
             try {
