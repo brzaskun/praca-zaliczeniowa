@@ -106,7 +106,32 @@ public class DokFKVATBean {
 //        }
 //        return wartosciVAT;
 //    }
-    
+    public static WartosciVAT podsumujwartosciVATNiemcyZakup(List<EVatwpisFK> ewidencja) {
+        WartosciVAT wartosciVAT = new WartosciVAT();
+        for (EVatwpisFK p : ewidencja) {
+
+                double vatplnprocent = Z.z(p.getVat() / 2);
+                double vatplnreszta = Z.z(p.getVat() - vatplnprocent);
+                double vatwalutaprocent = Z.z(p.getVatwwalucie() / 2);
+                double vatwalutareszta = Z.z(p.getVatwwalucie() - vatwalutaprocent);
+                if (p.getDokfk().getRodzajedok().getProcentvat() != 0.0) {
+                    vatplnprocent = Z.z(p.getVat() * p.getDokfk().getRodzajedok().getProcentvat() / 100);
+                    vatplnreszta = Z.z(p.getVat() - vatplnprocent);
+                    vatwalutaprocent = Z.z(p.getVatwwalucie() * p.getDokfk().getRodzajedok().getProcentvat() / 100);
+                    vatwalutareszta = Z.z(p.getVatwwalucie() - vatwalutaprocent);
+                }
+                wartosciVAT.netto += p.getNetto()* p.getDokfk().getTabelanbp().getKurssredniPrzelicznik();
+                wartosciVAT.vat += p.getVat()* p.getDokfk().getTabelanbp().getKurssredniPrzelicznik();
+                wartosciVAT.nettowWalucie += p.getNettowwalucie();
+                wartosciVAT.vatwWalucie += p.getVatwwalucie();
+                wartosciVAT.vatPlndodoliczenia += vatplnprocent;
+                wartosciVAT.vatPlnkup += vatplnreszta;
+                wartosciVAT.vatWalutadodoliczenia += vatwalutaprocent;
+                wartosciVAT.vatWalutakup += vatwalutareszta;
+
+        }
+        return wartosciVAT;
+    }
     public static WartosciVAT podsumujwartosciVAT(List<EVatwpisFK> ewidencja) {
         WartosciVAT wartosciVAT = new WartosciVAT();
         for (EVatwpisFK p : ewidencja) {

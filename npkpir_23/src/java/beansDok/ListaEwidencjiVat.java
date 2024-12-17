@@ -203,6 +203,8 @@ public class ListaEwidencjiVat implements Serializable{
                         return uslugiPTK;
                     case "eksport towarów":
                         return eksporttowarow;
+                    case "zakup Niemcy":
+                        return new ArrayList<Evewidencja>();
                     default:
                         return sprzedazVList;
                 }

@@ -894,7 +894,10 @@ public class DokfkView implements Serializable {
                     if (kontoRozrachunkowe == null && dodacdoslownikow) {
                         kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
                     }
-                    if (rodzajdok.getKategoriadokumentu() == 1 || rodzajdok.getSkrotNazwyDok().equals("RACHDE")) {
+                    if (rodzajdok.getSkrotNazwyDok().equals("RACHDE")) {
+                        wartosciVAT = podsumujwartosciVATNiemcyZakup(selected.getEwidencjaVAT());
+                        rozliczVatKoszt(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe, nkup);
+                    } else if (rodzajdok.getKategoriadokumentu() == 1 ) {
                         if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
                             //oblicza polowe vat dla faktur samochody osobowe
                             evatwpis.setVat(Z.z(wartosciVAT.getVatPlndodoliczenia()));
