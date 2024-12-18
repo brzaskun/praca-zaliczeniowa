@@ -8,7 +8,7 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.getPodatnikObiekt(), null)}"/>
+    <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.getPodatnikObiekt(), false)}"/>
     <h:form id="formEwidencjeGuestForm">
     <p:tabView>
         <p:tab title="#{mgs.ewidencje}">

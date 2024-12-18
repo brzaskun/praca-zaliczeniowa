@@ -5,30 +5,21 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
+    xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <bcf:ajaxs/>
     <div class="vertical-container">
-        <h:form id="formokresniemcy">
-            <p:panel style="padding: 10px;">
-                <h:outputText value="okres:" />
-                <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
-                    <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
-                    <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" global="true" 
-                            update="akordeon:formNiemcyEwidencje akordeon:formNiemcyDekalracje"/>
-                </p:selectOneMenu>
-            </p:panel>
-        </h:form>
-        <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt, true)}"/>
+     
 
         <p:outputPanel id="wrapper2">
             <p:tabView id="akordeon">
                 <p:tab title="Ewidencje">
-                    <h:form id="formNiemcyEwidencje">
+                    <h:form id="formNiemcyEwidencje" style="formniemcystyle">
                         <ui:include src="niemcy/ewidencjevat.xhtml"/>
                     </h:form>
                 </p:tab>
                 <p:tab title="VStA">
-                    <h:form id="formNiemcyDekalracje">
+                    <h:form id="formNiemcyDekalracje" style="formniemcystyle">
                         <ui:include src="niemcy/danedodeklaracji.xhtml"/>
                     </h:form>
                 </p:tab>
@@ -39,6 +30,7 @@
                 <p:tab title="rejestracja">
                 </p:tab>
                 <p:tab title="freistellung">
+                     <h:form id="formNiemcyfreistllung" style="formniemcystyle">
                     <p:outputPanel style="padding: 10px">
                         <!-- Tabela wyświetlająca dane Freistellung -->
                         <p:dataTable var="freistellung" value="#{freistellungView.freistellungList}" editable="true" styleClass="myDataTable" editMode="row" 
@@ -82,8 +74,9 @@
                             </p:column>
                         </p:dataTable>
                     </p:outputPanel>
+                     </h:form>
                     <!-- Formularz do tworzenia nowej encji Freistellung -->
-                    <h:form id="newFreistellungForm">
+                    <h:form id="newFreistellungForm" style="formniemcystyle">
                         <p:panelGrid layout="tabular" columns="1">
                             <h:outputText value="Dodaj nowy Freistellung"/>
 
@@ -95,13 +88,14 @@
                                 <p:inputMask value="#{freistellungView.newFreistellung.datado}" mask="9999-99-99" placeholder="rrrr-mm-dd" style="width:100%" />
                             </p:panelGrid>
 
-                            <p:commandButton value="Dodaj" action="#{freistellungView.createFreistellung}" update="akordeon:freistellungTable" />
+                            <p:commandButton value="Dodaj" action="#{freistellungView.createFreistellung}" update="akordeon:formNiemcyfreistllung:freistellungTable" />
                         </p:panelGrid>
                     </h:form>
 
                 </p:tab>
 
                 <p:tab title="uberprufung">
+                    <h:form id="newUberpruefungtabForm" style="formniemcystyle">
                     <p:outputPanel style="padding: 10px">
                         <!-- Tabela wyświetlająca dane Uberprufung -->
                         <p:dataTable var="uberprufung" value="#{uberprufungView.uberprufungList}" editable="true" styleClass="myDataTable" editMode="row"
@@ -178,9 +172,9 @@
                             </p:column>
                         </p:dataTable>
                     </p:outputPanel>
-
+                    </h:form>
                     <!-- Formularz do tworzenia nowej encji Uberprufung -->
-                    <h:form id="newUberprufungForm">
+                    <h:form id="newUberprufungForm" style="formniemcystyle">
                         <p:panelGrid layout="tabular" columns="1">
                             <h:outputText value="Dodaj nowy Uberprufung" />
 
@@ -192,7 +186,7 @@
                                 <p:inputMask value="#{uberprufungView.newUberprufung.datado}" mask="9999-99-99" placeholder="rrrr-mm-dd" style="width:100%" />
                             </p:panelGrid>
 
-                            <p:commandButton value="Dodaj" action="#{uberprufungView.createUberprufung}" update="akordeon:uberprufungTable" />
+                            <p:commandButton value="Dodaj" action="#{uberprufungView.createUberprufung}" update="akordeon:newUberpruefungtabForm:uberprufungTable" />
                         </p:panelGrid>
                     </h:form>
                 </p:tab>

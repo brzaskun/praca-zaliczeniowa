@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >
+    <p:tabView value="#{WpisView.ksiegirachunkowe ? ewidencjaVatView.ewidencjeFK : ewidencjaVatView.ewidencje}"  var="item" >
         <p:tab title="#{item[0].nazwaewidencji.nazwa}">
             <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}"  action="#{sesjaView.dodajwydruk()}"
                              onsuccess="wydrukewidencje('#{WpisView.podatnikObiekt.nip}','#{item[0].nazwaewidencji.nazwa}');pokazwyslijbutton(this);"  style="width: 120px;"/>

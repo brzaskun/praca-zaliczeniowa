@@ -472,7 +472,7 @@ public class EwidencjaVatView implements Serializable {
     }
 
   
-    public void stworzenieEwidencjiZDokumentowFK(Podatnik podatnik, WniosekVATZDEntity wniosekVATZDEntity) {
+    public void stworzenieEwidencjiZDokumentowFK(Podatnik podatnik, boolean polska0niemcy1) {
         try {
             listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
             ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
@@ -481,11 +481,45 @@ public class EwidencjaVatView implements Serializable {
             if (pobierzmiesiacdlajpk) {
                 vatokres = "miesięczne";
             }
-            if (wpisView.getPodatnikObiekt().getMetodakasowa().equals("tak")) {
+            if (polska0niemcy1) {
+                ReentrantLock lock = new ReentrantLock();
+                 listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), false));
+                if (listadokvatprzetworzona != null) {
+                   
+                    List<EVatwpisSuper> synchronizedList = Collections.synchronizedList(listadokvatprzetworzona);
+                    listadokvatprzetworzona = synchronizedList.stream()
+                        .filter(it -> {
+                            EVatwpisFK p = (EVatwpisFK) it;
+                            lock.lock();
+                            try {
+                                return (p.getDokfk() == null || !p.getDokfk().getRodzajedok().isTylkojpk() && p.getEwidencja().isNiemcy()==polska0niemcy1) ;
+                            } finally {
+                                lock.unlock();
+                            }
+                        })
+                        .collect(Collectors.toList());
+                }
+                Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
+            } else  if (wpisView.getPodatnikObiekt().getMetodakasowa().equals("tak")) {
                 listadokvatprzetworzona = przetworzRozliczenia(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
             } else {
                 listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), false));
+                ReentrantLock lock = new ReentrantLock();
+                if (listadokvatprzetworzona != null) {
+                    List<EVatwpisSuper> synchronizedList = Collections.synchronizedList(listadokvatprzetworzona);
+                    listadokvatprzetworzona = synchronizedList.stream()
+                        .filter(it -> {
+                            EVatwpisFK p = (EVatwpisFK) it;
+                            lock.lock();
+                            try {
+                                return (p.getDokfk() == null || !p.getDokfk().getRodzajedok().isTylkojpk() && p.getEwidencja().isNiemcy()==polska0niemcy1) ;
+                            } finally {
+                                lock.unlock();
+                            }
+                        })
+                        .collect(Collectors.toList());
+                }
                 listadokvatprzetworzona.addAll(pobierzEVatRokFKUlgaNaZleDlugi(podatnik, vatokres, wpisView.getRokWpisuSt(),wpisView.getRokUprzedniSt() , wpisView.getMiesiacWpisu()));
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
                 listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
@@ -522,7 +556,7 @@ public class EwidencjaVatView implements Serializable {
             //ale musi byc bo w fk sa faktury wdt wnt np vintis
             listadokvatprzetworzona.addAll(pobierzEVatIncydentalni(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             przejrzyjEVatwpis1Lista();
-            dodajwierszeVATZD(wniosekVATZDEntity);
+           //dajwierszeVATZD(wniosekVATZDEntity);
 
                 stworzenieEwidencjiCzescWspolnaFK();
                 for (String k : listaewidencji.keySet()) {

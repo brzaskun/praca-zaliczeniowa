@@ -10,8 +10,8 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
- 
-             <f:view>
+            <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt, true)}" />
+            <f:view>
                 <div class="flex flex-column min-h-screen">
                     <!-- panel północny -->
                     <div class="col-12">
@@ -27,11 +27,21 @@
 
                         <!-- panel centralny -->
                         <div class="col-12 md:col-9 lg:col-10 flex">
-                         <ui:include src="../wspolny/sub/niemcy.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                            <h:form id="formokresniemcy" style="formniemcystyle">
+                                <p:panel style="padding: 10px;">
+                                    <h:outputText value="okres:" />
+                                    <p:selectOneMenu id="okresWpisu" value="#{WpisView.okreswpisu}"  style="width: 100px;" converter="#{okresConverter}">
+                                        <f:selectItems value="#{okresBean.okresylista}" var="ytem" itemLabel="#{ytem.rok}-#{ytem.mc}" itemValue="${ytem}"/>
+                                        <p:ajax event="change" partialSubmit="true" listener="#{DokTabView.aktualizujTabeleTabelaOkres}" global="true" 
+                                                update="akordeon:formNiemcyEwidencje akordeon:formNiemcyDekalracje"/>
+                                    </p:selectOneMenu>
+                                </p:panel>
+                            </h:form>
+                            <ui:include src="../wspolny/sub/niemcy.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                         </div>
                     </div>
 
-                   <!-- panel południowy (footer) -->
+                    <!-- panel południowy (footer) -->
                     <div class="col-12">
                         <ui:include src="sub/layoutNowy/south.xhtml"/>
                     </div>

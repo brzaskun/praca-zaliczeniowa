@@ -348,7 +348,7 @@ public class Jpk_VAT2NView implements Serializable {
         if (podatnik.getFormaPrawna()==null) {
             ewidencjaVatView.stworzenieEwidencjiZDokumentowJPK(podatnik);
         } else {
-            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null);
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, false);
         }
         double[] nettovatuzd =  ewidencjaVatView.getNettovatuzd();
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();

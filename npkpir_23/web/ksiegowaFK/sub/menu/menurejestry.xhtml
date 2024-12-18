@@ -12,7 +12,7 @@
                             <p:menuitem value="przeglądanie rejestrów vat" oncomplete="PF('dialogewidencjevat').show();" >
                             </p:menuitem>
                             <p:menuitem value="sporządź deklarację VAT-7" oncomplete="PF('dialog_deklaracje_vat').show();" >
-                                <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.getPodatnikObiekt(), null)}"/>
+                                <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.getPodatnikObiekt(), false)}"/>
                             </p:menuitem>
 <!--                            <p:menuitem value="wyslij deklarację VAT-7" oncomplete="PF('dialog_deklaracje_vat_wysylka').show();" >
                                 
@@ -34,6 +34,13 @@
                         </p:menu>
                     </h:form>
                 </p:tab>  
-                
+                <p:tab title="niemcy">
+                    <h:form id="dialog1menu2">
+                        <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przeglądanie rejestrów niemieckich" oncomplete="PF('dialogniemcy').show();" >
+                            </p:menuitem>
+                        </p:menu>
+                    </h:form>
+                </p:tab>
             </p:tabView>
 </ui:composition>

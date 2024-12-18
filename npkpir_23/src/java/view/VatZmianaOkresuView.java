@@ -28,7 +28,7 @@ public class VatZmianaOkresuView implements Serializable {
     
     public void aktualizujpozmianiedaty(Podatnik podatnik) {
         try {
-            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null);
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, false);
             kontaVatFKView.init();
         } catch (Exception e) {
             E.e(e);

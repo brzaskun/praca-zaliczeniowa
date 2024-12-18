@@ -25,42 +25,5 @@
    <script>
         $(document).on("keydown", TabKeyVat1);
      </script>
-    <p:dialog id="dialogewidencjevatdok" header="Zestawienie ewidencji vat - #{WpisView.podatnikObiekt.printnazwa}" widgetVar="dialogewidencjevatdok"  
-              maximizable="true" onShow="ustawdialog('dialogewidencjevatdok','menudokumenty',1500,750);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevatdok');"
-              resizable="true">
-        <p:ajax event="open" listener="#{vatZmianaOkresuView.aktualizujpozmianiedatyD(WpisView.getPodatnikObiekt())}" global="false" update="formm "/>
-        <h:form id="formm"> 
-            <style>
-                .ui-datatable .mc .ui-column-filter {
-                    width: 25px !important;
-                }
-                .ui-datatable .nrwlasny .ui-column-filter {
-                    width: 90px !important;
-                }
-                .ui-datatable .datawystawienia .ui-column-filter {
-                    width: 75px !important;
-                }
-
-                .ui-datatable .nrwlasny .ui-column-filter {
-                    width: 85px !important;
-                }
-
-                .ui-datatable .nrkolejny .ui-column-filter {
-                    width: 95px !important;
-                }
-
-                .ui-datatable .ewnetto .ui-column-filter {
-                    width: 85px !important;
-                }
-
-                .ui-datatable .ewvat .ui-column-filter {
-                    width: 85px !important;
-                }
-            </style>
-            <p:tabView id="akordeon" style="height: 720px;">
-                <ui:include src="ewidencjavat/ewidencje_dok.xhtml"/>
-                <ui:include src="ewidencjavat/podsumowanie_dok.xhtml"/>
-           </p:tabView>
-        </h:form>
-    </p:dialog>
+    
 </ui:composition>
