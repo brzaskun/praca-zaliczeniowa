@@ -50,8 +50,7 @@ import org.eclipse.persistence.annotations.CacheType;
 @Cache(size = 40000, refreshOnlyIfNewer = true, type = CacheType.FULL)
 public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Version
-    private Long version;
+    
     private int lp;
     @Column(name = "nettowwalucie")
     private double nettowwalucie;

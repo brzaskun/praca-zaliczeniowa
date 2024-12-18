@@ -113,9 +113,7 @@ import waluty.Z;
 public class Dokfk extends DokSuper implements Serializable {
 
     private static final long serialVersionUID = 1L; //dd
-    @Version
-    @Column(name = "version")
-    private Long version;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)

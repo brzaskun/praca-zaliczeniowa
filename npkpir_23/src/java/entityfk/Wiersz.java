@@ -61,8 +61,7 @@ import waluty.Z;
 public class Wiersz implements Serializable {
 
     private static final long serialVersionUID = 1L;
-        @Version
-    private Long version;
+        
 
     @Id
     @Basic(optional = false)

@@ -52,8 +52,7 @@ import org.eclipse.persistence.annotations.CacheType;
 @Cache(size = 400000, refreshOnlyIfNewer = true, type = CacheType.FULL)
 public class Kliencifk implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Version
-    private Long version;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)

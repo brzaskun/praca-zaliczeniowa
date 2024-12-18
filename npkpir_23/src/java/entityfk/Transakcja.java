@@ -51,8 +51,8 @@ import waluty.Z;
 @Cacheable(false)
 public class Transakcja  implements Serializable {
     private static final long serialVersionUID = 1L;
-        @Version
-    private Long version;
+//        @Version
+//    private Long version;
     @Id
     @Basic(optional = false)
     @NotNull
