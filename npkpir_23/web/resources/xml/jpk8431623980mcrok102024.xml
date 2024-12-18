@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JPK xmlns="http://crd.gov.pl/wzor/2021/12/27/11148/" xmlns:ns2="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2021/06/08/eD/DefinicjeTypy/" xmlns:ns3="http://crd.gov.pl/wzor/2021/12/27/11149/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (2)" wersjaSchemy="1-0E">JPK_VAT</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+        <DataWytworzeniaJPK>2024-11-20T15:24:02.989Z</DataWytworzeniaJPK>
+        <NazwaSystemu>Taxman</NazwaSystemu>
+        <CelZlozenia poz="P_7">1</CelZlozenia>
+        <KodUrzedu>2204</KodUrzedu>
+        <Rok>2024</Rok>
+        <Miesiac>10</Miesiac>
+    </Naglowek>
+    <Podmiot1 rola="Podatnik">
+        <OsobaNiefizyczna>
+            <NIP>8431623980</NIP>
+            <PelnaNazwa>FIBER-TECH sp. z o.o.</PelnaNazwa>
+            <Email>m.belz@taxman.biz.pl</Email>
+            <Telefon>605586176</Telefon>
+        </OsobaNiefizyczna>
+    </Podmiot1>
+    <Deklaracja>
+        <Naglowek>
+            <KodFormularzaDekl kodSystemowy="VAT-7 (22)" kodPodatku="VAT" rodzajZobowiazania="Z" wersjaSchemy="1-0E">VAT-7</KodFormularzaDekl>
+            <WariantFormularzaDekl>22</WariantFormularzaDekl>
+        </Naglowek>
+        <PozycjeSzczegolowe>
+            <P_11>311805</P_11>
+            <P_23>206486</P_23>
+            <P_24>47492</P_24>
+            <P_35>0</P_35>
+            <P_37>518291</P_37>
+            <P_38>47492</P_38>
+            <P_39>19942</P_39>
+            <P_40>0</P_40>
+            <P_41>0</P_41>
+            <P_42>276753</P_42>
+            <P_43>58661</P_43>
+            <P_48>78603</P_48>
+            <P_49>0</P_49>
+            <P_51>0</P_51>
+            <P_52>0</P_52>
+            <P_53>31111</P_53>
+            <P_62>31111</P_62>
+            <P_68>0</P_68>
+            <P_69>0</P_69>
+        </PozycjeSzczegolowe>
+        <Pouczenia>1</Pouczenia>
+    </Deklaracja>
+    <Ewidencja>
+        <SprzedazWiersz>
+            <LpSprzedazy>1</LpSprzedazy>
+            <KodKrajuNadaniaTIN>CZ</KodKrajuNadaniaTIN>
+            <NrKontrahenta>682980583</NrKontrahenta>
+            <NazwaKontrahenta>Apple Distribution International Ltd.</NazwaKontrahenta>
+            <DowodSprzedazy>UA16181576</DowodSprzedazy>
+            <DataWystawienia>2024-10-31</DataWystawienia>
+            <DataSprzedazy>2024-10-14</DataSprzedazy>
+            <K_23>4714.63</K_23>
+            <K_24>1084.36</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>2</LpSprzedazy>
+            <KodKrajuNadaniaTIN>CZ</KodKrajuNadaniaTIN>
+            <NrKontrahenta>682980583</NrKontrahenta>
+            <NazwaKontrahenta>Apple Distribution International Ltd.</NazwaKontrahenta>
+            <DowodSprzedazy>UA16440229</DowodSprzedazy>
+            <DataWystawienia>2024-10-31</DataWystawienia>
+            <DataSprzedazy>2024-10-21</DataSprzedazy>
+            <K_23>5121.14</K_23>
+            <K_24>1177.86</K_24>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>4</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>361695307</NrKontrahenta>
+            <NazwaKontrahenta>KS Zirkel GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>2/10/2024</DowodSprzedazy>
+            <DataWystawienia>2024-10-31</DataWystawienia>
+            <DataSprzedazy>2024-10-25</DataSprzedazy>
+            <K_11>110659.80</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>5</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>342995616</NrKontrahenta>
+            <NazwaKontrahenta>pts.Netz Gifhorn GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>3/10/2024</DowodSprzedazy>
+            <DataWystawienia>2024-10-31</DataWystawienia>
+            <DataSprzedazy>2024-10-25</DataSprzedazy>
+            <K_11>201145.23</K_11>
+        </SprzedazWiersz>
+        <SprzedazWiersz>
+            <LpSprzedazy>3</LpSprzedazy>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrKontrahenta>323823800</NrKontrahenta>
+            <NazwaKontrahenta>Tiefbau Jorgensen &amp; Schmidt GmbH</NazwaKontrahenta>
+            <DowodSprzedazy>663</DowodSprzedazy>
+            <DataWystawienia>2024-10-31</DataWystawienia>
+            <DataSprzedazy>2024-10-22</DataSprzedazy>
+            <K_23>196649.88</K_23>
+            <K_24>45229.47</K_24>
+        </SprzedazWiersz>
+        <SprzedazCtrl>
+            <LiczbaWierszySprzedazy>5</LiczbaWierszySprzedazy>
+            <PodatekNalezny>47491.69</PodatekNalezny>
+        </SprzedazCtrl>
+        <ZakupWiersz>
+            <LpZakupu>8</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8511005008</NrDostawcy>
+            <NazwaDostawcy>" TAXMAN " BIURO RACHUNKOWE Grzegorz Grzelczyk</NazwaDostawcy>
+            <DowodZakupu>11/2024/FIBE98</DowodZakupu>
+            <DataZakupu>2024-10-03</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>3500.00</K_42>
+            <K_43>805.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>2</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8431434753</NrDostawcy>
+            <NazwaDostawcy>"MONIQ" Monika Andrzejewska</NazwaDostawcy>
+            <DowodZakupu>FV/4/10/2024</DowodZakupu>
+            <DataZakupu>2024-10-01</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>1637.04</K_42>
+            <K_43>130.96</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>17</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9512120077</NrDostawcy>
+            <NazwaDostawcy>"P4 sp. z o.o."</NazwaDostawcy>
+            <DowodZakupu>F/50534653/10/24</DowodZakupu>
+            <DataZakupu>2024-10-14</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>338.87</K_42>
+            <K_43>77.94</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>25</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261740388</NrDostawcy>
+            <NazwaDostawcy>"SG EQUIPMENT LEASING POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>E1987/LO/92429/27/24</DowodZakupu>
+            <DataZakupu>2024-10-20</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>2162.71</K_42>
+            <K_43>497.42</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>26</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261740388</NrDostawcy>
+            <NazwaDostawcy>"SG EQUIPMENT LEASING POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>E1989/LO/92986/24/24</DowodZakupu>
+            <DataZakupu>2024-10-20</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>1324.03</K_42>
+            <K_43>304.53</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>27</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261740388</NrDostawcy>
+            <NazwaDostawcy>"SG EQUIPMENT LEASING POLSKA" sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>E1988/LO/92984/24/24</DowodZakupu>
+            <DataZakupu>2024-10-20</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>185.65</K_42>
+            <K_43>42.7</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>24</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9532647600</NrDostawcy>
+            <NazwaDostawcy>"ŚWIAT GSM" DAWID LABICH SPÓŁKA KOMANDYTOWA</NazwaDostawcy>
+            <DowodZakupu>F0861/15</DowodZakupu>
+            <DataZakupu>2024-10-19</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>243.89</K_42>
+            <K_43>56.09</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>42</LpZakupu>
+            <KodKrajuNadaniaTIN>CZ</KodKrajuNadaniaTIN>
+            <NrDostawcy>682980583</NrDostawcy>
+            <NazwaDostawcy>Apple Distribution International Ltd.</NazwaDostawcy>
+            <DowodZakupu>UA16181576</DowodZakupu>
+            <DataZakupu>2024-10-14</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>4714.63</K_42>
+            <K_43>1084.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>43</LpZakupu>
+            <KodKrajuNadaniaTIN>CZ</KodKrajuNadaniaTIN>
+            <NrDostawcy>682980583</NrDostawcy>
+            <NazwaDostawcy>Apple Distribution International Ltd.</NazwaDostawcy>
+            <DowodZakupu>UA16440229</DowodZakupu>
+            <DataZakupu>2024-10-21</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>5121.14</K_42>
+            <K_43>1177.86</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>11</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>7822182433</NrDostawcy>
+            <NazwaDostawcy>Autostrada Eksploatacja SA</NazwaDostawcy>
+            <DowodZakupu>848108</DowodZakupu>
+            <DataZakupu>2024-10-06</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>42.28</K_42>
+            <K_43>4.86</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>39</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5832752084</NrDostawcy>
+            <NazwaDostawcy>BMG sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1/FS/2024/8223</DowodZakupu>
+            <DataZakupu>2024-10-31</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>207.23</K_42>
+            <K_43>23.83</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>20</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262361871</NrDostawcy>
+            <NazwaDostawcy>DKV Euro Service GmbH +Co.KG</NazwaDostawcy>
+            <DowodZakupu>24/004047990/995</DowodZakupu>
+            <DataZakupu>2024-10-15</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>1950.51</K_42>
+            <K_43>448.59</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>22</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262361871</NrDostawcy>
+            <NazwaDostawcy>DKV Euro Service GmbH +Co.KG</NazwaDostawcy>
+            <DowodZakupu>24/004047990/995</DowodZakupu>
+            <DataZakupu>2024-10-15</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>799.50</K_42>
+            <K_43>91.95</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>37</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262361871</NrDostawcy>
+            <NazwaDostawcy>DKV Euro Service GmbH +Co.KG</NazwaDostawcy>
+            <DowodZakupu>24/004079796/995</DowodZakupu>
+            <DataZakupu>2024-10-31</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>536.37</K_42>
+            <K_43>123.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>41</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5262361871</NrDostawcy>
+            <NazwaDostawcy>DKV Euro Service GmbH +Co.KG</NazwaDostawcy>
+            <DowodZakupu>24/004079796/995</DowodZakupu>
+            <DataZakupu>2024-10-31</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>1497.99</K_42>
+            <K_43>172.27</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>34</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252649346</NrDostawcy>
+            <NazwaDostawcy>DYSON sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>6740376498</DowodZakupu>
+            <DataZakupu>2024-10-29</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>2966.67</K_42>
+            <K_43>682.33</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>29</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8970012657</NrDostawcy>
+            <NazwaDostawcy>EUROPEJSKI FUNDUSZ LEASINGOWY S.A. Wrocław II O/Koszalin</NazwaDostawcy>
+            <DowodZakupu>3362742410</DowodZakupu>
+            <DataZakupu>2024-10-28</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>2183.62</K_42>
+            <K_43>502.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>30</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8970012657</NrDostawcy>
+            <NazwaDostawcy>EUROPEJSKI FUNDUSZ LEASINGOWY S.A. Wrocław II O/Koszalin</NazwaDostawcy>
+            <DowodZakupu>3362732410</DowodZakupu>
+            <DataZakupu>2024-10-28</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>2183.62</K_42>
+            <K_43>502.24</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>32</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8970012657</NrDostawcy>
+            <NazwaDostawcy>EUROPEJSKI FUNDUSZ LEASINGOWY S.A. Wrocław II O/Koszalin</NazwaDostawcy>
+            <DowodZakupu>2484552410</DowodZakupu>
+            <DataZakupu>2024-10-29</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>228.89</K_42>
+            <K_43>52.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>33</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8970012657</NrDostawcy>
+            <NazwaDostawcy>EUROPEJSKI FUNDUSZ LEASINGOWY S.A. Wrocław II O/Koszalin</NazwaDostawcy>
+            <DowodZakupu>2484562410</DowodZakupu>
+            <DataZakupu>2024-10-29</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>228.89</K_42>
+            <K_43>52.64</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>31</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8431002924</NrDostawcy>
+            <NazwaDostawcy>FIRMA "MAKULSKI" Dariusz Makulski</NazwaDostawcy>
+            <DowodZakupu>524/ 1/24</DowodZakupu>
+            <DataZakupu>2024-10-28</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>203.25</K_42>
+            <K_43>23.38</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>38</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8431002924</NrDostawcy>
+            <NazwaDostawcy>FIRMA "MAKULSKI" Dariusz Makulski</NazwaDostawcy>
+            <DowodZakupu>539/ 1/24</DowodZakupu>
+            <DataZakupu>2024-10-31</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>3707.41</K_42>
+            <K_43>426.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>1</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>1180000314</NrDostawcy>
+            <NazwaDostawcy>HILTI (POLAND) sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>1318082643</DowodZakupu>
+            <DataZakupu>2024-09-30</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>-642.40</K_42>
+            <K_43>-147.75</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>3</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5272710089</NrDostawcy>
+            <NazwaDostawcy>ISPOT POLAND sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FA/1055/GCR1/2024</DowodZakupu>
+            <DataZakupu>2024-10-01</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>202.44</K_42>
+            <K_43>46.56</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>10</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8421159452</NrDostawcy>
+            <NazwaDostawcy>ITRICH Transport i Paliwa Bogdan Itrich</NazwaDostawcy>
+            <DowodZakupu>FVF/466/161/10/2024</DowodZakupu>
+            <DataZakupu>2024-10-03</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>115.47</K_42>
+            <K_43>13.28</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>36</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>9562371350</NrDostawcy>
+            <NazwaDostawcy>KANCELARIA MENTZEN Spółka Komandytowo-akcyjna</NazwaDostawcy>
+            <DowodZakupu>2290/10/2024/S</DowodZakupu>
+            <DataZakupu>2024-10-31</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>679.00</K_42>
+            <K_43>156.17</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>18</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5251488303</NrDostawcy>
+            <NazwaDostawcy>Mercedes-Benz Leasing Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>30787/10/2024</DowodZakupu>
+            <DataZakupu>2024-10-14</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>7281.92</K_42>
+            <K_43>837.42</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>19</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5251488303</NrDostawcy>
+            <NazwaDostawcy>Mercedes-Benz Leasing Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>30787/10/2024*</DowodZakupu>
+            <DataZakupu>2024-10-14</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>222.84</K_42>
+            <K_43>25.62</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>35</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5251488303</NrDostawcy>
+            <NazwaDostawcy>Mercedes-Benz Leasing Polska Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>55557/10/2024</DowodZakupu>
+            <DataZakupu>2024-10-30</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>300.00</K_42>
+            <K_43>34.5</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>28</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8132819681</NrDostawcy>
+            <NazwaDostawcy>NOVUM-ELECTRIC Tomasz Giziński</NazwaDostawcy>
+            <DowodZakupu>291/2024</DowodZakupu>
+            <DataZakupu>2024-10-21</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>8881.28</K_42>
+            <K_43>2042.69</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>5</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5882381336</NrDostawcy>
+            <NazwaDostawcy>Plichta Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FV/UP/VWU/428/24/VD/BD</DowodZakupu>
+            <DataZakupu>2024-10-01</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>1451.62</K_42>
+            <K_43>166.94</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>7</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5882381336</NrDostawcy>
+            <NazwaDostawcy>Plichta Sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FV/UP/5438/24/VW/GS</DowodZakupu>
+            <DataZakupu>2024-10-02</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>3081.38</K_42>
+            <K_43>354.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>40</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8431423614</NrDostawcy>
+            <NazwaDostawcy>RECTO Michał Dyl</NazwaDostawcy>
+            <DowodZakupu>239/M/10/2024</DowodZakupu>
+            <DataZakupu>2024-10-31</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>81.30</K_42>
+            <K_43>9.35</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>12</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>SM 553K2/4130/24</DowodZakupu>
+            <DataZakupu>2024-10-07</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>24.38</K_42>
+            <K_43>2.81</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>13</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>SM 220K2/2122/24</DowodZakupu>
+            <DataZakupu>2024-10-07</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>24.38</K_42>
+            <K_43>2.81</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>14</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>F 3033K2/2122/24</DowodZakupu>
+            <DataZakupu>2024-10-07</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>229.85</K_42>
+            <K_43>26.43</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>15</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5261009190</NrDostawcy>
+            <NazwaDostawcy>SHELL POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>F 6622K2/4130/24</DowodZakupu>
+            <DataZakupu>2024-10-07</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>100.20</K_42>
+            <K_43>11.52</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>44</LpZakupu>
+            <KodKrajuNadaniaTIN>DE</KodKrajuNadaniaTIN>
+            <NrDostawcy>323823800</NrDostawcy>
+            <NazwaDostawcy>Tiefbau Jorgensen &amp; Schmidt GmbH</NazwaDostawcy>
+            <DowodZakupu>663</DowodZakupu>
+            <DataZakupu>2024-10-22</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>196649.88</K_42>
+            <K_43>45229.47</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>4</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8831848323</NrDostawcy>
+            <NazwaDostawcy>VERIZON CONNECT POLAND sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FA/3038/10/2024/R</DowodZakupu>
+            <DataZakupu>2024-10-01</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>200.00</K_42>
+            <K_43>46.0</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>6</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>8831848323</NrDostawcy>
+            <NazwaDostawcy>VERIZON CONNECT POLAND sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>FA/3038/10/2024/R</DowodZakupu>
+            <DataZakupu>2024-10-01</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>550.00</K_42>
+            <K_43>63.25</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>9</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252800978</NrDostawcy>
+            <NazwaDostawcy>VOLKSWAGEN FINANCIAL SERVICES POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>7309/1024/RM</DowodZakupu>
+            <DataZakupu>2024-10-03</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>3237.86</K_42>
+            <K_43>372.36</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>16</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252800978</NrDostawcy>
+            <NazwaDostawcy>VOLKSWAGEN FINANCIAL SERVICES POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>61980/1024/RM</DowodZakupu>
+            <DataZakupu>2024-10-12</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>3238.32</K_42>
+            <K_43>372.4</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>21</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252800978</NrDostawcy>
+            <NazwaDostawcy>VOLKSWAGEN FINANCIAL SERVICES POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>61979/1024/RM</DowodZakupu>
+            <DataZakupu>2024-10-15</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>11434.16</K_42>
+            <K_43>1314.93</K_43>
+        </ZakupWiersz>
+        <ZakupWiersz>
+            <LpZakupu>23</LpZakupu>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrDostawcy>5252800978</NrDostawcy>
+            <NazwaDostawcy>VOLKSWAGEN FINANCIAL SERVICES POLSKA sp. z o.o.</NazwaDostawcy>
+            <DowodZakupu>61981/1024/RM</DowodZakupu>
+            <DataZakupu>2024-10-16</DataZakupu>
+            <DataWplywu>2024-10-31</DataWplywu>
+            <K_42>3444.61</K_42>
+            <K_43>396.13</K_43>
+        </ZakupWiersz>
+        <ZakupCtrl>
+            <LiczbaWierszyZakupow>44</LiczbaWierszyZakupow>
+            <PodatekNaliczony>58660.80</PodatekNaliczony>
+        </ZakupCtrl>
+    </Ewidencja>
+</JPK>

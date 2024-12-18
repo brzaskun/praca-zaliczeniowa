@@ -194,6 +194,38 @@ public class DeklaracjevatView implements Serializable {
         Collections.sort(wyslanenormalne, new Vatcomparator());
     }
     
+    public void pobierzwyslane() {
+         try {
+            wyslane = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            if (wyslane==null || wyslane.size()==0) {
+                wyslane = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokUprzedniSt());
+            }
+            for (Deklaracjevat p : wyslane) {
+                try {
+                    if (p.isTestowa()) {
+                        wyslanetestowe.add(p);
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+            for (Deklaracjevat p : wyslane) {
+                if (!wyslanetestowe.contains(p)) {
+                    if (p.getStatus().startsWith("4")) {
+                        wyslanezbledem.add(p);
+                    } else if (p.getStatus().startsWith("3") || p.getStatus().startsWith("1") || p.getStatus().equals("")) {
+                        wyslaneniepotwierdzone.add(p);
+                    } else {
+                        wyslanenormalne.add(p);
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
     public boolean deklaracjazjpk() {
         boolean zwrot = false;
         oczekujace = deklaracjevatDAO.findDeklaracjeDowyslaniaList(wpisView.getPodatnikWpisu());
@@ -440,6 +472,16 @@ public class DeklaracjevatView implements Serializable {
         }
     }
     
+     public void drukujdeklaracje() {
+         if (wyslanenormalne!=null&&wyslanenormalne.size()>0) {
+             Deklaracjevat biezaca = wyslanenormalne.stream().filter(item->item.getRok().equals(wpisView.getRokWpisuSt())&&item.getMiesiac().equals(wpisView.getMiesiacWpisu())).findFirst().orElse(null);
+             if (biezaca!=null) {
+                 drukujdeklaracje(biezaca);
+             }
+             
+         }
+         
+     }
     public void drukujdeklaracje(Deklaracjevat dkl) {
         try {
             DeklaracjaVatSchema pasujacaSchema = null;

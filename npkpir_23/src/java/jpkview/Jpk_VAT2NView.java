@@ -164,6 +164,19 @@ public class Jpk_VAT2NView implements Serializable {
             E.e(e);
         }
     }
+    
+    public UPO initDruk() { //E.m(this);
+        try {
+            lista = uPODAO.findPodatnikRok(wpisView);
+            UPO biezace = lista.stream().filter(item->item.getRok().equals(wpisView.getRokWpisuSt())&&item.getMiesiac().equals(wpisView.getMiesiacWpisu())).findFirst().orElse(null);
+            if (biezace!=null) {
+                return biezace;
+            }
+        } catch (Exception e) {
+            
+        }
+        return null;
+    }
      
     private boolean ustawpokazywanie() {
         boolean zwrot = false;
