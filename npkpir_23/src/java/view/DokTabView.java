@@ -190,7 +190,7 @@ public class DokTabView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        
+        numerkolejny = dokDAO.liczdokumenty(rok.toString(), okreswpisuod.getMc(), podatnik) + 1;
         dokumentylista = Collections.synchronizedList(new ArrayList<>());
         Set<Rodzajedok> dokumentyl = new HashSet<>();
         Set<String> kontrahenty = new HashSet<>();
