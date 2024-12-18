@@ -229,26 +229,31 @@ public class PdfDRA {
 
                 tabela.addCell(stworzKomorke("zus 51 razem:"));
                 tabela.addCell(stworzKomorke(f.F.curr(danezus.get("zus51"))));
-                tabela.addCell(stworzKomorke("w tym brutto inne:"));
+                tabela.addCell(stworzKomorke("w tym brutto zlec. fun.::"));
                 tabela.addCell(stworzKomorke(f.F.curr(danezus.get("bruttozlecenia"))));
-
-                tabela.addCell(stworzKomorke("zus 52:"));
+                
+               tabela.addCell(stworzKomorke("zus 52:"));
                 tabela.addCell(stworzKomorke(f.F.curr(danezus.get("zus52"))));
-                tabela.addCell(stworzKomorke("wynagrodzenia netto:"));
-                tabela.addCell(stworzKomorke(f.F.curr(danezus.get("netto"))));
+                tabela.addCell(stworzKomorke("w tym brutto zasiłki:"));
+                tabela.addCell(stworzKomorke(f.F.curr(danezus.get("bruttozasilki"))));
 
                 tabela.addCell(stworzKomorke("zus 53 FP:"));
                 tabela.addCell(stworzKomorke(f.F.curr(danezus.get("zusFP"))));
-                tabela.addCell(stworzKomorke("ZUS do wpłaty:"));
-                tabela.addCell(stworzKomorke(f.F.curr(danezus.get("zus"))));
+                tabela.addCell(stworzKomorke("wynagrodzenia netto:"));
+                tabela.addCell(stworzKomorke(f.F.curr(danezus.get("netto"))));
 
                 tabela.addCell(stworzKomorke("zus 53 FGŚP:"));
                 tabela.addCell(stworzKomorke(f.F.curr(danezus.get("zusFGSP"))));
-                tabela.addCell(stworzKomorke("PIT-4 do wpłaty:"));
-                tabela.addCell(stworzKomorke(f.F.curr(danezus.get("pit4"))));
+                tabela.addCell(stworzKomorke("ZUS do wpłaty:"));
+                tabela.addCell(stworzKomorke(f.F.curr(danezus.get("zus"))));
 
                 tabela.addCell(stworzKomorke("zus 53 razem:"));
                 tabela.addCell(stworzKomorke(f.F.curr(danezus.get("zus53"))));
+                tabela.addCell(stworzKomorke("PIT-4 do wpłaty:"));
+                tabela.addCell(stworzKomorke(f.F.curr(danezus.get("pit4"))));
+
+                tabela.addCell(stworzPustaKomorke());
+                tabela.addCell(stworzPustaKomorke());
                 tabela.addCell(stworzKomorke("PIT-8AR do wpłaty:"));
                 tabela.addCell(stworzKomorke(f.F.curr(danezus.get("pit8AR"))));
 

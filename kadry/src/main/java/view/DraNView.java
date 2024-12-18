@@ -63,6 +63,7 @@ public class DraNView  implements Serializable {
     private double brutto;
     private double bruttopraca;
     private double bruttozlecenia;
+    private double bruttozasilki;
     private double netto;
     private double zus51;
     private double zus51pracownik;
@@ -176,6 +177,7 @@ public class DraNView  implements Serializable {
                 danezus.put("brutto", brutto);
                 danezus.put("bruttopraca", bruttopraca);
                 danezus.put("bruttozlecenia", bruttozlecenia);
+                danezus.put("bruttozasilki", bruttozasilki);
                 danezus.put("netto", netto);
                 danezus.put("potraceniaKomornik", potraceniaKomornik);
                 danezus.put("potraceniaPPK", potraceniaPPK);
@@ -195,11 +197,14 @@ public class DraNView  implements Serializable {
     
     private void mailListaDRA(byte[] dra) {
         if (dra != null && dra.length > 0) {
+            List<byte[]> zal = new ArrayList<>();
+            zal.add(dra);
             SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
             findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
             findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
             String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
-            mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(),  wpisView.getUzer().getEmail(), null, findSprawaByDef, dra, nazwa,"");
+            //wylaczylem 18.12.2024
+           // mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(),  wpisView.getUzer().getEmail(), null, findSprawaByDef, zal, nazwa,"");
             Msg.msg("Wysłano listę płac do pracodawcy");
         } else {
             Msg.msg("e", "Błąd dwysyki DRA");
@@ -234,11 +239,13 @@ public class DraNView  implements Serializable {
                 ByteArrayOutputStream drastream = PdfDRA.drukujListaPodstawowa(paskiwynagrodzen, listywybrane, listanieobecnosci, wpisView.getFirma().getNip(), mcdra, danezus, wpisView.getFirma().getNazwa(), wpisView.getFirma());
                  byte[] dra = drastream.toByteArray();
                 if (dra != null && dra.length > 0) {
+                    List<byte[]> zal = new ArrayList<>();
+                    zal.add(dra);
                     SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
                     findSprawaByDef.setUseremail(wpisView.getUzer().getEmail());
                     findSprawaByDef.setPassword(wpisView.getUzer().getEmailhaslo());
                     String nazwa = wpisView.getFirma().getNip() + "_DRA" + wpisView.getRokWpisu()+ wpisView.getMiesiacWpisu() + "_" + ".pdf";
-                    mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, dra, nazwa, wpisView.getUzer().getEmail());
+                    mail.Mail.mailDRA(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getFirma().getEmail(), null, findSprawaByDef, zal, nazwa, wpisView.getUzer().getEmail());
                     Msg.msg("Wysłano listę płac do pracodawcy");
                 } else {
                     Msg.msg("e", "Błąd dwysyki DRA");
@@ -255,6 +262,7 @@ public class DraNView  implements Serializable {
             brutto=0.0;
             bruttopraca=0.0;
             bruttozlecenia=0.0;
+            bruttozasilki=0.0;
             netto=0.0;
             zus51 = 0.0;
             zus51pracodawca = 0.0;
@@ -303,7 +311,9 @@ public class DraNView  implements Serializable {
                         brutto = Z.z(brutto+p.getBrutto());
                         if (p.getDefinicjalistaplac().getRodzajlistyplac().getTyp()==1) {
                             bruttopraca = Z.z(bruttopraca+p.getBrutto());
-                        } else {
+                        } else if (p.getDefinicjalistaplac().getRodzajlistyplac().getTyp()==4) {
+                            bruttozasilki = Z.z(bruttozasilki+p.getBrutto());
+                        }else {
                             bruttozlecenia = Z.z(bruttozlecenia+p.getBrutto());
                         }
                         netto = Z.z(netto+p.getNetto());
