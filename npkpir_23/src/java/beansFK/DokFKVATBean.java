@@ -42,7 +42,9 @@ public class DokFKVATBean {
     public static Double pobierzstawke(EVatwpisFK evatwpis) {
         double kwotavat = 0.23;
         try {
-            if (evatwpis.getDokfk().getRodzajedok().getRodzajtransakcji().equals(("sprzedaz"))) {
+            if (evatwpis.getDokfk().getRodzajedok().getRodzajtransakcji().equals(("sprzedaż zw"))) {
+                kwotavat = 0.0;
+            } else if (evatwpis.getDokfk().getRodzajedok().getRodzajtransakcji().equals(("sprzedaz"))) {
                 String stawkavat = evatwpis.getEwidencja().getNazwa().replaceAll("[^\\d]", "");
                 kwotavat = Double.parseDouble(stawkavat) / 100;
             } else if (evatwpis.getDokfk().getRodzajedok().getStawkavat() != 0.0) {
