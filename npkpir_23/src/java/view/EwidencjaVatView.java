@@ -831,6 +831,7 @@ public class EwidencjaVatView implements Serializable {
             //rozdziela zapisy na poszczególne ewidencje
             rozdzielEVatwpis1NaEwidencje();
             rozdzielsumeEwidencjiNaPodlisty();
+            rozdzielsumeEwidencjiNaPodlistyNiemcy();
             /**
              * dodajemy wiersze w tab sumowanie
              */

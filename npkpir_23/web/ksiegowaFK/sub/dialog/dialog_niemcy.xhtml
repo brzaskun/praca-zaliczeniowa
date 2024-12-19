@@ -26,6 +26,8 @@
               maximizable="true" onShow="ustawdialog('dialogniemcy','menurejestry',1500,800);;" closeOnEscape="true" onHide="resetujdialog('dialogniemcy');"
               resizable="true" dynamic="false">
         <p:ajax event="open" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(WpisView.podatnikObiekt, true)}" update="@(form)"/>
+ 
+        
 
         <ui:include src="/wspolny/sub/niemcy.xhtml"/>
     </p:dialog>
