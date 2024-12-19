@@ -136,6 +136,9 @@ public class Angaz implements Serializable {
     private List<Rejestrurlopow> rejestrurlopowList;
     @Column(name = "student")
     private  boolean student;
+    @Column(name = "pierwszyprogwniosek")
+    private  boolean pierwszyprogwniosek;
+    
     @Column(name = "przekroczenierok")
     private String przekroczenierok;
     @Column(name = "przekroczeniemc")
@@ -250,6 +253,14 @@ public class Angaz implements Serializable {
 
     public void setBourloprok(String bourloprok) {
         this.bourloprok = bourloprok;
+    }
+
+    public boolean isPierwszyprogwniosek() {
+        return pierwszyprogwniosek;
+    }
+
+    public void setPierwszyprogwniosek(boolean pierwszyprogwniosek) {
+        this.pierwszyprogwniosek = pierwszyprogwniosek;
     }
 
 

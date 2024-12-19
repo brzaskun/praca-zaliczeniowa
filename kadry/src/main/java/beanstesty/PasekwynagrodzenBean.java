@@ -1671,7 +1671,9 @@ public class PasekwynagrodzenBean {
     private static void obliczpodatekwstepnyDBStandard(Pasekwynagrodzen pasek, double podstawaopodatkowania, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
         double podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
         double drugiprog = stawkipodatkowe.get(0).getKwotawolnado();
-        if (sumapoprzednich >= drugiprog) {
+        if (pasek.getAngaz().isPierwszyprogwniosek()) {
+            podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());
+        } else if (sumapoprzednich >= drugiprog) {
             podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(1).getStawka());
             pasek.setDrugiprog(true);
         } else if (sumapoprzednich < drugiprog) {
