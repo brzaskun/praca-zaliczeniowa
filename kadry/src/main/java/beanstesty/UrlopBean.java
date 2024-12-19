@@ -57,6 +57,7 @@ public class UrlopBean {
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UZ"));
                 List<Umowa> umowy = angaz.getUmowaList();
+                 umowy = umowy.stream().filter(item->item.isPraca()).collect(Collectors.toList());
                 Object[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz, kalendarze);
                 //wymiar w trakcie roku przyjecia/zwolnienia
                 int wymiarbiezacydni = (int) obliczwymiarwgodzinach[0];
@@ -145,6 +146,7 @@ public class UrlopBean {
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UD"));
                 urlopprezentacja.getNieobecnoscwykorzystanieList().addAll(naniesdnizkodem(kalendarze, urlopprezentacja, "UZ"));
                 List<Umowa> umowy = angaz.getUmowaList();
+                 umowy = umowy.stream().filter(item->item.isPraca()).collect(Collectors.toList());
                 Object[] obliczwymiarwgodzinach = obliczwymiarwgodzinach(umowy, pobierzetat, rok, stannadzien, angaz, kalendarze);
                 if (rejestrurlopow!=null) {
                     urlopprezentacja.setBilansotwarciadni(rejestrurlopow.getUrlopzalegly());

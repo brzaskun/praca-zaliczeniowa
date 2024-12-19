@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -169,6 +170,7 @@ public class PracownikEkwiwalentView  implements Serializable {
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(wpisView.getAngaz(), wpisView.getRokWpisu());
             oddelegowanieprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, oddelegowanieprezentacja, "Z"));
             List<Umowa> umowy = umowaFacade.findByAngaz(wpisView.getAngaz());
+             umowy = umowy.stream().filter(item->item.isPraca()).collect(Collectors.toList());
             EtatPrac pobierzetat = EtatBean.pobierzetat(wpisView.getAngaz(),stannadzien);
             Object[] obliczwymiarwgodzinach = UrlopBean.obliczwymiarwgodzinach(umowy, pobierzetat, wpisView.getRokWpisu(), stannadzien, wpisView.getAngaz(), kalendarze);
             oddelegowanieprezentacja.setWymiarokresbiezacydni((int) obliczwymiarwgodzinach[0]);

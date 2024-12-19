@@ -45,6 +45,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -172,6 +173,7 @@ public class PracownikNieobecnoscView  implements Serializable {
             List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokAngaz(angaz, wpisView.getRokWpisu());
             oddelegowanieprezentacja.setNieobecnoscwykorzystanieList(UrlopBean.naniesdnizkodem(kalendarze, oddelegowanieprezentacja, "Z"));
             List<Umowa> umowy = umowaFacade.findByAngaz(angaz);
+            umowy = umowy.stream().filter(item->item.isPraca()).collect(Collectors.toList());
             EtatPrac pobierzetat = EtatBean.pobierzetat(angaz,stannadzien);
             Object[] obliczwymiarwgodzinach = UrlopBean.obliczwymiarwgodzinach(umowy, pobierzetat, wpisView.getRokWpisu(), stannadzien, angaz, kalendarze);
             oddelegowanieprezentacja.setWymiarokresbiezacydni((int) obliczwymiarwgodzinach[0]);
