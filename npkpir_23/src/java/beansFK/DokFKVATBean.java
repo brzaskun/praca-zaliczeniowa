@@ -39,15 +39,13 @@ public class DokFKVATBean {
     
     static List<String> ewidencje = new ArrayList<>(Arrays.asList("WNT","import usług","import usług art. 28b","odwrotne obciążenie","import towarów"));
     
-    public static Double pobierzstawke(EVatwpisFK evatwpis) {
+    public static double pobierzstawke(EVatwpisFK evatwpis) {
         double kwotavat = 0.23;
+        if (evatwpis.getEwidencja()!=null) {
+            kwotavat = evatwpis.getEwidencja().getStawkavat()/100;
+        }
         try {
-            if (evatwpis.getDokfk().getRodzajedok().getRodzajtransakcji().equals(("sprzedaż zw"))) {
-                kwotavat = 0.0;
-            } else if (evatwpis.getDokfk().getRodzajedok().getRodzajtransakcji().equals(("sprzedaz"))) {
-                String stawkavat = evatwpis.getEwidencja().getNazwa().replaceAll("[^\\d]", "");
-                kwotavat = Double.parseDouble(stawkavat) / 100;
-            } else if (evatwpis.getDokfk().getRodzajedok().getStawkavat() != 0.0) {
+           if (evatwpis.getDokfk().getRodzajedok().getStawkavat() != 0.0) {
                 double st = evatwpis.getDokfk().getRodzajedok().getStawkavat();
                 kwotavat = st / 100;
             }
