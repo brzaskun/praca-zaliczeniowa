@@ -65,6 +65,7 @@ public class DraNksiegowaView  implements Serializable {
     private double brutto;
     private double bruttopraca;
     private double bruttozlecenia;
+    private double bruttozasilki;
     private double netto;
     private double zus51;
     private double zus51pracownik;
@@ -207,6 +208,7 @@ public class DraNksiegowaView  implements Serializable {
                 danezus.put("brutto", brutto);
                 danezus.put("bruttopraca", bruttopraca);
                 danezus.put("bruttozlecenia", bruttozlecenia);
+                danezus.put("bruttozasilki", bruttozasilki);
                 danezus.put("netto", netto);
                 danezus.put("potraceniaKomornik", potraceniaKomornik);
                 danezus.put("potraceniaPPK", potraceniaPPK);
@@ -281,6 +283,7 @@ public class DraNksiegowaView  implements Serializable {
                 danezus.put("brutto", brutto);
                 danezus.put("bruttopraca", bruttopraca);
                 danezus.put("bruttozlecenia", bruttozlecenia);
+                danezus.put("bruttozasilki", bruttozasilki);
                 danezus.put("netto", netto);
                 danezus.put("potraceniaKomornik", potraceniaKomornik);
                 danezus.put("potraceniaPPK", potraceniaPPK);
@@ -349,9 +352,11 @@ public class DraNksiegowaView  implements Serializable {
                         pit4przekroczenie = Z.z(pit4przekroczenie+p.getPrzekroczenienowypodatek());
                         pit4N = Z.z(pit4N+p.getPodatekdochodowyzagranicawaluta());
                         brutto = Z.z(brutto+p.getBrutto());
-                        if (p.getDefinicjalistaplac().getRodzajlistyplac().getTyp()==1) {
+                       if (p.getDefinicjalistaplac().getRodzajlistyplac().getTyp()==1) {
                             bruttopraca = Z.z(bruttopraca+p.getBrutto());
-                        } else {
+                        } else if (p.getDefinicjalistaplac().getRodzajlistyplac().getTyp()==4) {
+                            bruttozasilki = Z.z(bruttozasilki+p.getBrutto());
+                        }else {
                             bruttozlecenia = Z.z(bruttozlecenia+p.getBrutto());
                         }
                         netto = Z.z(netto+p.getNetto());
