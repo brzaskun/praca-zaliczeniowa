@@ -230,6 +230,7 @@ public class DraNView  implements Serializable {
                 danezus.put("brutto", brutto);
                 danezus.put("bruttopraca", bruttopraca);
                 danezus.put("bruttozlecenia", bruttozlecenia);
+                danezus.put("bruttozasilki", bruttozasilki);
                 danezus.put("netto", netto);
                 danezus.put("potraceniaKomornik", potraceniaKomornik);
                 danezus.put("potraceniaPPK", potraceniaPPK);

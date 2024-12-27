@@ -244,7 +244,7 @@
                         <h:outputText value="tę informację uzupełniamy na poziomie pracownika"/>
                         <!--                        <p:selectBooleanCheckbox id="nierezydent" value="{angazView.selectedlista.nierezydent}"/>-->
                         <h:outputText value="wniosek do pracodawcy o niestosowanie wyższej stawki zaliczek na podatek"/>
-                        <p:selectBooleanCheckbox id="student" value="#{angazView.selectedlista.pierwszyprogwniosek}"/>
+                        <p:selectBooleanCheckbox id="pierwszyprogwniosek" value="#{angazView.selectedlista.pierwszyprogwniosek}"/>
                     </p:panelGrid>
                 </p:outputPanel>
                 <p:commandButton value="zapisz" actionListener="#{angazView.zapiszangaz()}" styleClass="buttonnorm" update="@form"/>
