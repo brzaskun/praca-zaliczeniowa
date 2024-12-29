@@ -5,6 +5,7 @@
  */
 package view;
 
+import comparator.Rodzajwynagrodzeniacomparator;
 import dao.RodzajlistyplacFacade;
 import dao.RodzajlistyplacRodzajwynagrodzeniaFacade;
 import dao.RodzajwynagrodzeniaFacade;
@@ -13,6 +14,7 @@ import entity.RodzajlistyplacRodzajwynagrodzenia;
 import entity.Rodzajwynagrodzenia;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -54,6 +56,7 @@ public class RodzajlistyplacRodzajwynagrodzeniaView  implements Serializable {
             List<Rodzajwynagrodzenia> obecne = znajdzobecne(docel);
             List<Rodzajwynagrodzenia> wszytskiewynagrodzenia = rodzajwynagrodzeniaFacade.findAktywne();
             List<Rodzajwynagrodzenia> zrodlo = znajdzzrodlo(wszytskiewynagrodzenia, docel);
+            Collections.sort(zrodlo, new Rodzajwynagrodzeniacomparator());
             picklista.setSource(zrodlo);
             picklista.setTarget(obecne);
             Msg.msg("Pobrano rodzaje wynagrodzeń");

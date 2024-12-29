@@ -1771,56 +1771,58 @@ public class PasekwynagrodzenBean {
 
     public static void naliczzdrowota(Pasekwynagrodzen pasek, boolean nierezydent, boolean praca, String umowakodzus) {
         boolean funkcja = pasek.isFunkcja();
-        double podstawazdrowotnawstepna = Z.z(pasek.getPrzychodyzus52()-pasek.getRazemspolecznepracownik());
-        double podstawazdrowotna = PasekwynagrodzenBeanDetail.zdrowotnakorektaograniczeniepodstawyspolecznych(pasek, podstawazdrowotnawstepna);
-        //usuwamy z podstawy zasilki chorobowe
-        //to jest chyba juz niepotrzebmne 24.03.2024
-//        List<Naliczenienieobecnosc> nieobecnoscilist = pasek.getNaliczenienieobecnoscList();
-//        for (Naliczenienieobecnosc n : nieobecnoscilist) {
-//            if (n.getNieobecnosc().getSwiadczeniekodzus() != null && n.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne() == false && !n.getNieobecnosc().getSwiadczeniekodzus().getRodzajnieobecnosci().getKod().equals("ZC")) {
-//                podstawazdrowotna = Z.z(podstawazdrowotna - n.getKwota());
-//            }
-//        }
-        pasek.setPodstawaubezpzdrowotne(podstawazdrowotna);
-        double zdrowotneskladka = Z.z(podstawazdrowotna * 0.09);
-        pasek.setPraczdrowotne(zdrowotneskladka);
-        double zdrowotneodliczane = Z.z(podstawazdrowotna * 0.0775);
-        if (nierezydent) {
-            PasekwynagrodzenBeanDetail.zdrowotnakorektanierezydent(pasek);
-        } else {
-            if (Integer.parseInt(pasek.getRokwypl()) < 2022) {
-                PasekwynagrodzenBeanDetail.zdrowotnarokprzed2023(pasek, zdrowotneskladka, zdrowotneodliczane);
-            } else if (umowakodzus.equals("0511")) {
-                PasekwynagrodzenBeanDetail.zdrowotnakorektaosobawspolpracujaca(pasek);
-            } else if (pasek.isDo26lat()) { 
-                //oosby do 26 roku
-                if ( pasek.isPraca() == false && pasek.isStudent()) {
-                    PasekwynagrodzenBeanDetail.zdrowotnakorektazleceniestudent(pasek);
-                } else if (pasek.isPraca() == false) {
-                    PasekwynagrodzenBeanDetail.zdrowotnakorektazlecenieNiestudent(pasek, zdrowotneskladka);
-                } else {
-                    //26 lat umowa o prace
-                    PasekwynagrodzenBeanDetail.zdrowotnakorektaumowaoprace26(pasek, zdrowotneskladka, zdrowotneodliczane);
-                }
+        if (pasek.getPrzychodyzus52()>0.0) {
+            double podstawazdrowotnawstepna = Z.z(pasek.getPrzychodyzus52()-pasek.getRazemspolecznepracownik());
+            double podstawazdrowotna = PasekwynagrodzenBeanDetail.zdrowotnakorektaograniczeniepodstawyspolecznych(pasek, podstawazdrowotnawstepna);
+            //usuwamy z podstawy zasilki chorobowe
+            //to jest chyba juz niepotrzebmne 24.03.2024
+    //        List<Naliczenienieobecnosc> nieobecnoscilist = pasek.getNaliczenienieobecnoscList();
+    //        for (Naliczenienieobecnosc n : nieobecnoscilist) {
+    //            if (n.getNieobecnosc().getSwiadczeniekodzus() != null && n.getNieobecnosc().getSwiadczeniekodzus().isZdrowotne() == false && !n.getNieobecnosc().getSwiadczeniekodzus().getRodzajnieobecnosci().getKod().equals("ZC")) {
+    //                podstawazdrowotna = Z.z(podstawazdrowotna - n.getKwota());
+    //            }
+    //        }
+            pasek.setPodstawaubezpzdrowotne(podstawazdrowotna);
+            double zdrowotneskladka = Z.z(podstawazdrowotna * 0.09);
+            pasek.setPraczdrowotne(zdrowotneskladka);
+            double zdrowotneodliczane = Z.z(podstawazdrowotna * 0.0775);
+            if (nierezydent) {
+                PasekwynagrodzenBeanDetail.zdrowotnakorektanierezydent(pasek);
             } else {
-                if (praca) {
-                    double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
-                    //zmniana 29052023
-                    //bylo if (zdrowotne > limitdlazdrowotnej && Z.z(pasek.getKwotawolna()) > 0.0) {
-                    //wyjasnic dlaczego tu jets ten emeryt
-                   if (zdrowotneskladka > limitdlazdrowotnej && pasek.isEmeryt()==false&&pasek.isSwiadczeniarzeczowe()==false) {
-                        pasek.setPraczdrowotne(limitdlazdrowotnej);
-                        pasek.setPraczdrowotnedoodliczenia(0.0);
-                        pasek.setPraczdrowotnedopotracenia(limitdlazdrowotnej);
+                if (Integer.parseInt(pasek.getRokwypl()) < 2022) {
+                    PasekwynagrodzenBeanDetail.zdrowotnarokprzed2023(pasek, zdrowotneskladka, zdrowotneodliczane);
+                } else if (umowakodzus.equals("0511")) {
+                    PasekwynagrodzenBeanDetail.zdrowotnakorektaosobawspolpracujaca(pasek);
+                } else if (pasek.isDo26lat()) { 
+                    //oosby do 26 roku
+                    if ( pasek.isPraca() == false && pasek.isStudent()) {
+                        PasekwynagrodzenBeanDetail.zdrowotnakorektazleceniestudent(pasek);
+                    } else if (pasek.isPraca() == false) {
+                        PasekwynagrodzenBeanDetail.zdrowotnakorektazlecenieNiestudent(pasek, zdrowotneskladka);
+                    } else {
+                        //26 lat umowa o prace
+                        PasekwynagrodzenBeanDetail.zdrowotnakorektaumowaoprace26(pasek, zdrowotneskladka, zdrowotneodliczane);
+                    }
+                } else {
+                    if (praca) {
+                        double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
+                        //zmniana 29052023
+                        //bylo if (zdrowotne > limitdlazdrowotnej && Z.z(pasek.getKwotawolna()) > 0.0) {
+                        //wyjasnic dlaczego tu jets ten emeryt
+                       if (zdrowotneskladka > limitdlazdrowotnej && pasek.isEmeryt()==false&&pasek.isSwiadczeniarzeczowe()==false) {
+                            pasek.setPraczdrowotne(limitdlazdrowotnej);
+                            pasek.setPraczdrowotnedoodliczenia(0.0);
+                            pasek.setPraczdrowotnedopotracenia(limitdlazdrowotnej);
+                        } else {
+                            pasek.setPraczdrowotnedoodliczenia(0.0);
+                            pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotneskladka));
+                        }
+                    } else if (funkcja) {
+                        PasekwynagrodzenBeanDetail.zdrowotnakorektafunkcja(pasek, zdrowotneskladka);
                     } else {
                         pasek.setPraczdrowotnedoodliczenia(0.0);
                         pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotneskladka));
                     }
-                } else if (funkcja) {
-                    PasekwynagrodzenBeanDetail.zdrowotnakorektafunkcja(pasek, zdrowotneskladka);
-                } else {
-                    pasek.setPraczdrowotnedoodliczenia(0.0);
-                    pasek.setPraczdrowotnedopotracenia(Z.z(zdrowotneskladka));
                 }
             }
         }
