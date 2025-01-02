@@ -184,12 +184,13 @@ public class PasekwynagrodzenView implements Serializable {
     
     
     public void init() {
-        String rok = Data.aktualnyRok();
-        if (wpisView.getRokWpisu().equals(rok)) {
-            pozwalamusunacpasek = true;
-        } else {
-            pozwalamusunacpasek = false;
-        }
+         pozwalamusunacpasek = true;
+//    String rok = Data.aktualnyRok();
+//        if (wpisView.getRokWpisu().equals(rok)) {
+//            pozwalamusunacpasek = true;
+//        } else {
+//            pozwalamusunacpasek = false;
+//        }
         lista = new ArrayList<>();
         if (wpisView.getUmowa() != null) {
             if (wpisView.getUmowa().getUmowakodzus() != null && wpisView.getUmowa().getUmowakodzus().isPraca()) {
