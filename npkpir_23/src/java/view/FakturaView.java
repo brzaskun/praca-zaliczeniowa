@@ -2740,49 +2740,53 @@ public class FakturaView implements Serializable {
     }
     
     public void skopiujdoNowegoroku() {
-        for (Fakturywystokresowe stara : gosciwybralokres) {
-            if (stara.isZawieszona()==false&&stara.getKwotaroknastepny()>0.0) {
-                Fakturywystokresowe nowa = new Fakturywystokresowe(stara, wpisView.getRokNastepnySt(), wpisView.getUzer().getNazwiskoImie());
-                double nowakwota = stara.getKwotaroknastepny();
-                if (nowakwota > 0.0) {
-                    try {
-                        Faktura nowafaktura = nowa.getDokument();
-                        //to jest po to zeby potem juz generowac z okresowych ze zwaloryzowana kwota
-                        waloryzacjakwotyKwota(nowafaktura, nowakwota);
-                        FakturaBean.ewidencjavat(nowafaktura, evewidencjaDAO);
-                    } catch (Exception e) { E.e(e); 
-                        Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:wygenerujzokresowych");
+        if (gosciwybralokres!=null) {
+            for (Fakturywystokresowe stara : gosciwybralokres) {
+                if (stara.isZawieszona()==false) {
+                    Fakturywystokresowe nowa = new Fakturywystokresowe(stara, wpisView.getRokNastepnySt(), wpisView.getUzer().getNazwiskoImie());
+                    double nowakwota = stara.getKwotaroknastepny();
+                    if (nowakwota > 0.0) {
+                        try {
+                            Faktura nowafaktura = nowa.getDokument();
+                            //to jest po to zeby potem juz generowac z okresowych ze zwaloryzowana kwota
+                            waloryzacjakwotyKwota(nowafaktura, nowakwota);
+                            FakturaBean.ewidencjavat(nowafaktura, evewidencjaDAO);
+                        } catch (Exception e) { E.e(e); 
+                            Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:wygenerujzokresowych");
+                        }
                     }
+                    nowa.setAutor(wpisView.getUzer().getNazwiskoImie());
+                    nowa.setId(null);
+                    nowa.setRok(wpisView.getRokNastepnySt());
+                    nowa.setM1(0);
+                    nowa.setM2(0);
+                    nowa.setM3(0);
+                    nowa.setM4(0);
+                    nowa.setM5(0);
+                    nowa.setM6(0);
+                    nowa.setM7(0);
+                    nowa.setM8(0);
+                    nowa.setM9(0);
+                    nowa.setM10(0);
+                    nowa.setM11(0);
+                    nowa.setM12(0);
+                    nowa.setKwotaroknastepny(0);
+                    nowa.setKwotapraca(0);
+                    nowa.setKwotazlecenie(0);
+                    if (stara.getKwotapraca()>0.0||stara.getKwotazlecenie()>0.0) {
+                        nowa.setRecznaedycja(true);
+                    } else {
+                        nowa.setRecznaedycja(false);
+                    }
+                    fakturywystokresoweDAO.create(nowa);
+                    stara.setWygenerowanoroknastepny(true);
+                    fakturywystokresoweDAO.edit(stara);
                 }
-                nowa.setAutor(wpisView.getUzer().getNazwiskoImie());
-                nowa.setId(null);
-                nowa.setRok(wpisView.getRokNastepnySt());
-                nowa.setM1(0);
-                nowa.setM2(0);
-                nowa.setM3(0);
-                nowa.setM4(0);
-                nowa.setM5(0);
-                nowa.setM6(0);
-                nowa.setM7(0);
-                nowa.setM8(0);
-                nowa.setM9(0);
-                nowa.setM10(0);
-                nowa.setM11(0);
-                nowa.setM12(0);
-                nowa.setKwotaroknastepny(0);
-                nowa.setKwotapraca(0);
-                nowa.setKwotazlecenie(0);
-                if (stara.getKwotapraca()>0.0||stara.getKwotazlecenie()>0.0) {
-                    nowa.setRecznaedycja(true);
-                } else {
-                    nowa.setRecznaedycja(false);
-                }
-                fakturywystokresoweDAO.create(nowa);
-                stara.setWygenerowanoroknastepny(true);
-                fakturywystokresoweDAO.edit(stara);
             }
-        }
         Msg.msg("Skopiowano okresowe do nowego roku");
+        } else {
+            Msg.msg("e", "Nie wybrano faktur");
+        }
     }
 
     
