@@ -566,6 +566,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 sumasaldnierozliczonych += r.getSaldopln();
             }
         }
+        
     }
     
     public void sumujwybrane() {
@@ -709,6 +710,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             f.setWprowadzil(wpisView.getUzer());
             f.setZaplata0korekta1(true);
             f.setRodzajdokumentu("ka");
+            f.setRozrachunekarchiwalny(true);
             String nr = "ka/"+wpisView.getPodatnikWpisu().substring(0,1)+"/"+wpisView.getMiesiacWpisu();
             f.setNrdokumentu(nr);
             selectOneUI.setValue(szukanyklient);
