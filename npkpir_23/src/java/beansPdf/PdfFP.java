@@ -374,7 +374,7 @@ public class PdfFP {
                     if (selected.getPozycjepokorekcie() != null) {
                         int odstep = wymiaryGora.get("akordeon:formwzor:towary") - (table.getRows().size() * 17);
                         tablekorekta.writeSelectedRows(0, tablekorekta.getRows().size(), wymiarylewy.get("akordeon:formwzor:towary"), odstep, writer.getDirectContent());
-                        int odstep1 = wymiaryGora.get("akordeon:formwzor:towary") - (table.getRows().size() * 17) - (tablekorekta.getRows().size() * 17);
+                        int odstep1 = wymiaryGora.get("akordeon:formwzor:towary") - (table.getRows().size() * 16) - (tablekorekta.getRows().size() * 16);
                         text = B.b("przyczynakorekty")+": " + selected.getPrzyczynakorekty();
                         absText(writer, text, wymiarylewy.get("akordeon:formwzor:towary"), odstep1, 8);
                     }
