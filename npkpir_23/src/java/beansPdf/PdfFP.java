@@ -1916,58 +1916,92 @@ public class PdfFP {
         table.addCell(ustawfrazeAlign(String.valueOf(F.number(selected.getNettopk() - selected.getNetto())), "right", 8));
     }
 
-    private static void wierszroznicy(Faktura selected, PdfPTable table) throws DocumentException, IOException {
-        NumberFormat formatter = NumberFormat.getNumberInstance();
-        formatter.setMaximumFractionDigits(2);
-        formatter.setMinimumFractionDigits(2);
-        formatter.setGroupingUsed(true);
-        if (selected.getNettopk() > selected.getNetto()) {
-            table.addCell(ustawfraze("Różnica - zwiększenie", 6, 0));
-        } else {
-            table.addCell(ustawfraze("Różnica - zmniejszenie", 6, 0));
+ private static void wierszroznicy(Faktura selected, PdfPTable table) throws DocumentException, IOException {
+    NumberFormat formatter = NumberFormat.getNumberInstance();
+    formatter.setMaximumFractionDigits(2);
+    formatter.setMinimumFractionDigits(2);
+    formatter.setGroupingUsed(true);
+
+    if (selected.getNettopk() > selected.getNetto()) {
+        table.addCell(ustawfraze("Różnica - zwiększenie", 6, 0));
+    } else {
+        table.addCell(ustawfraze("Różnica - zmniejszenie", 6, 0));
+    }
+    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk() - selected.getNetto())), "right", 8));
+    table.addCell(ustawfrazeAlign("*", "center", 8));
+    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVatpk() - selected.getVat())), "right", 8));
+    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBruttopk() - selected.getBrutto())), "right", 8));
+    table.addCell(ustawfrazeAlign("", "center", 8));
+
+    List<EVatwpis> ewidencja = selected.getEwidencjavat();
+    List<EVatwpis> ewidencjapk = selected.getEwidencjavatpk();
+
+    if (ewidencja != null && ewidencjapk != null) {
+        for (EVatwpis ewpier : ewidencja) {
+            boolean dopasowanoStawke = false;
+
+            for (EVatwpis ewpierPK : ewidencjapk) {
+                if (ewpierPK.getEwidencja().equals(ewpier.getEwidencja())) {
+                    double nettoPK = ewpierPK.getNetto();
+                    double vatPK = ewpierPK.getVat();
+                    double bruttoPK = Z.z(nettoPK + vatPK);
+
+                    // Dodanie wiersza różnic dla danej stawki VAT
+                    table.addCell(ustawfraze("w tym", 6, 0));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(nettoPK - ewpier.getNetto())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(ewpierPK.getEstawka())) + "%", "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(vatPK - ewpier.getVat())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(bruttoPK - (ewpier.getNetto() + ewpier.getVat()))), "right", 8));
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+
+                    dopasowanoStawke = true;
+                }
+            }
+
+            // Jeśli brak dopasowanej stawki VAT w `ewidencjapk`, dodaj ujemny wiersz
+            if (!dopasowanoStawke) {
+                 table.addCell(ustawfraze("w tym", 6, 0));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(-ewpier.getNetto())), "right", 8));
+                if (ewpier.getEstawka().equals("-2.0")) {
+                    table.addCell(ustawfrazeAlign("zw", "center", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(ewpier.getEstawka())) + "%", "center", 8));
+                }
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(-ewpier.getVat())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(-(ewpier.getNetto() + ewpier.getVat()))), "right", 8));
+                table.addCell(ustawfrazeAlign("", "center", 8));
+            }
         }
-        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk() - selected.getNetto())), "right", 8));
-        table.addCell(ustawfrazeAlign("*", "center", 8));
-        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVatpk() - selected.getVat())), "right", 8));
-        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBruttopk() - selected.getBrutto())), "right", 8));
-        table.addCell(ustawfrazeAlign("", "center", 8));
-        table.addCell(ustawfraze("w tym wg stawek vat", 6, 0));
-        List<EVatwpis> ewidencja = selected.getEwidencjavat();
-        List<EVatwpis> ewidencjapk = selected.getEwidencjavatpk();
-        int ilerow = 0;
-        if (ewidencja != null) {
-            for (int i = 0; i < ewidencja.size(); i++) {
-                if (ilerow > 0) {
-                    table.addCell(ustawfraze(" ", 6, 0));
+
+        // Iteracja nad `ewidencjapk` w celu znalezienia brakujących wpisów
+        for (EVatwpis ewpierPK : ewidencjapk) {
+            boolean nowaStawka = true;
+
+            for (EVatwpis ewpier : ewidencja) {
+                if (ewpierPK.getEwidencja().equals(ewpier.getEwidencja())) {
+                    nowaStawka = false;
+                    break;
                 }
-                EVatwpis ewpier = ewidencja.get(i);
-                double nettoPK = 0.0;
-                double vatPK = 0.0;
-                double bruttoPK = 0.0;
-                for (EVatwpis l : ewidencjapk) {
-                    int rozmiarpier = ewidencjapk.size();
-                    if (l.getEwidencja().equals(ewpier.getEwidencja())) {
-                        nettoPK = l.getNetto();
-                        vatPK = l.getVat();
-                        bruttoPK = Z.z(nettoPK + vatPK);
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(nettoPK - ewpier.getNetto())), "right", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(ewpier.getEstawka())) + "%", "center", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(vatPK - ewpier.getVat())), "right", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(bruttoPK - (ewpier.getNetto() + ewpier.getVat()))), "right", 8));
-                        table.addCell(ustawfrazeAlign("", "center", 8));
-                    } else if (!l.getEwidencja().equals(ewpier.getEwidencja()) && rozmiarpier == 1) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(-ewpier.getNetto())), "right", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(ewpier.getEstawka())) + "%", "center", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(-ewpier.getVat())), "right", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(-(ewpier.getNetto() + ewpier.getVat()))), "right", 8));
-                        table.addCell(ustawfrazeAlign("", "center", 8));
-                    }
-                    rozmiarpier--;
-                }
-                ilerow++;
+            }
+
+            if (nowaStawka) {
+                double nettoPK = ewpierPK.getNetto();
+                double vatPK = ewpierPK.getVat();
+                double bruttoPK = Z.z(nettoPK + vatPK);
+
+                // Dodanie wiersza dla nowej stawki VAT
+                 table.addCell(ustawfraze("w tym", 6, 0));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(nettoPK)), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(ewpierPK.getEstawka())) + "%", "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(vatPK)), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(bruttoPK)), "right", 8));
+                table.addCell(ustawfrazeAlign("", "center", 8));
             }
         }
     }
+}
+
+
 
     private static void wierszroznicyxxl(Faktura selected, PdfPTable table, int wielkoscXXL) throws DocumentException, IOException {
         NumberFormat formatter = NumberFormat.getNumberInstance();

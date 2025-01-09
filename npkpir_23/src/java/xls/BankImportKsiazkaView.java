@@ -204,7 +204,7 @@ public class BankImportKsiazkaView implements Serializable {
                            zwrot = ImportSantander_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                            break;
                         case 3 :
-                           zwrot = ImportMbankHist_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                           zwrot = ImportMbankHist_CSV.importujdok(partia, wpisView.getRokWpisuSt(), numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                            break;
                         case 4 :
                            return;

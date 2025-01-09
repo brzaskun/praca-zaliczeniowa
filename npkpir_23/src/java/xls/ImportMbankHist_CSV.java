@@ -38,7 +38,7 @@ public class ImportMbankHist_CSV implements Serializable {
     private static final long serialVersionUID = 1L;
     
     
-    public static List importujdok(byte[] pobrane, String mcwpisu, int nrwyciagu, int lpwiersza, String mc) {
+    public static List importujdok(byte[] pobrane, String wpisViewRok, int nrwyciagu, int lpwiersza, String mc) {
         List zwrot = new ArrayList<Object>();
         List<ImportBankWiersz> pobranefaktury = new ArrayList<>();
         ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
@@ -92,9 +92,9 @@ public class ImportMbankHist_CSV implements Serializable {
                         x.setDatatransakcji(Data.zmienkolejnosc(baza.get(0)));
                         x.setDatawaluty(Data.zmienkolejnosc(baza.get(1)));
                         String mcwiersz = x.getDatatransakcji().split("-")[1];
-//                        if (!mcwiersz.equals(mc)) {
-//                               
-//                        } else {
+                        if (!mcwiersz.equals(wpisViewRok)) {
+                               
+                        } else {
                             String opis = baza.get(3) != null && !baza.get(3).equals("\"\"") ? baza.get(3).replace("\"", "").toLowerCase(new Locale("pl", "PL")) : baza.get(2).toLowerCase(new Locale("pl", "PL"));
                             x.setOpistransakcji(opis);
                             x.setNrwyciagu(pn.getWyciagnr());
@@ -116,7 +116,7 @@ public class ImportMbankHist_CSV implements Serializable {
                             double saldopooperacji = Double.parseDouble(baza.get(7).replaceAll("\\s+", "").replace(",", "."));
                             x.setSaldopooperacji(saldopooperacji);
                             pobranefaktury.add(x);
-//                        }
+                        }
                     }
                     if (i==rozmiar-3) {
                         String replaceco = pn.getWyciagwaluta();
