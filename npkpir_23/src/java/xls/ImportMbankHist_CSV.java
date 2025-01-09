@@ -91,8 +91,8 @@ public class ImportMbankHist_CSV implements Serializable {
                         x.setNr(lpwiersza++);
                         x.setDatatransakcji(Data.zmienkolejnosc(baza.get(0)));
                         x.setDatawaluty(Data.zmienkolejnosc(baza.get(1)));
-                        String mcwiersz = x.getDatatransakcji().split("-")[1];
-                        if (!mcwiersz.equals(wpisViewRok)) {
+                        String rokwiersz = x.getDatatransakcji().split("-")[0];
+                        if (!rokwiersz.equals(wpisViewRok)) {
                                
                         } else {
                             String opis = baza.get(3) != null && !baza.get(3).equals("\"\"") ? baza.get(3).replace("\"", "").toLowerCase(new Locale("pl", "PL")) : baza.get(2).toLowerCase(new Locale("pl", "PL"));
