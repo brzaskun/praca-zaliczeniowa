@@ -359,7 +359,7 @@ public class BankImportView implements Serializable {
                            zwrot = ImportSantander_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc);
                            break;
                         case 3 :
-                           zwrot = ImportMbankHist_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, mc);
+                           zwrot = ImportMbankHist_CSV.importujdok(partia, wpisView.getRokWpisuSt(), numerwyciagu, lpwiersza, mc);
                            break;
                         case 4 :
                            zwrota = -1;
