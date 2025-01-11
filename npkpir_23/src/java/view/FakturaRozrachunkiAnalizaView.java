@@ -35,13 +35,14 @@ import entity.Uz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -113,6 +114,10 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private UzDAO uzDAO;
     private Uz wybranyksiegowy;
     private boolean pokazarchiwalne;
+    private List<FakturaRozrachunki> platnosci;
+    private List<FakturaRozrachunki> platnoscirokuprzedni;
+    private List<Faktura> faktury;
+    private List<Faktura> fakturyrokuprzedni;
     
     public FakturaRozrachunkiAnalizaView() {
         
@@ -124,15 +129,20 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         nowepozycje = Collections.synchronizedList(new ArrayList<>());
         archiwum = Collections.synchronizedList(new ArrayList<>());
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
-        klienci.addAll(pobierzkontrahentow());
+        podatnicy = podatnikDAO.findAll();
+        klienci.addAll(pobierzkontrahentow(podatnicy));
         dodatkowyadresmailowy="m.januszewska@taxman.biz.pl";
         Collections.sort(klienci, new Kliencicomparator());
-        podatnicy = podatnikDAO.findAll();
         listaksiegowych = uzDAO.findByUprawnienia("Bookkeeper");
         listaksiegowych.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
         listaksiegowych.addAll(uzDAO.findByUprawnienia("Administrator"));
-        Collections.sort(listaksiegowych, new UzNazwiskocomparator());}
+        Collections.sort(listaksiegowych, new UzNazwiskocomparator());
+        platnosci = fakturaRozrachunkiDAO.findByPodatnikrok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        platnoscirokuprzedni = fakturaRozrachunkiDAO.findByPodatnikrok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+        faktury = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(),wpisView.getPodatnikObiekt());
+        fakturyrokuprzedni = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokUprzedniSt(),wpisView.getPodatnikObiekt());
     
+    }
     
     public void pobierzwszystkoKlienta() {
         selectedrozliczenia = null;
@@ -149,8 +159,32 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         if (szukanyklient.getEmail()==null ||szukanyklient.getEmail().equals("")) {
             szukanyklient.setEmail("brakmaila!@taxman.biz.pl");
         }
-        nowepozycje = pobierzelementy(mc, false, szukanyklient, false);
-        archiwum = pobierzelementy(mc, true, szukanyklient, false);
+        if (pobierzdwalata) {
+            dolaczrokpoprzedni = true;
+        }
+        Klienci klient = szukanyklient;
+        // Bezpieczne przetwarzanie list z użyciem parallelStream
+        List<FakturaRozrachunki> klientplatnosci = (platnosci != null ? platnosci.parallelStream()
+            .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
+            .collect(Collectors.toList()) : Collections.emptyList());
+
+        List<FakturaRozrachunki> klientplatnoscirokuprzedni = (platnoscirokuprzedni != null ? platnoscirokuprzedni.parallelStream()
+            .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
+            .collect(Collectors.toList()) : Collections.emptyList());
+
+        List<Faktura> klientfaktury = (faktury != null ? faktury.parallelStream()
+            .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
+            .collect(Collectors.toList()) : Collections.emptyList());
+
+        List<Faktura> klientfakturyrokuprzedni = (fakturyrokuprzedni != null ? fakturyrokuprzedni.parallelStream()
+            .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
+            .collect(Collectors.toList()) : Collections.emptyList());
+
+        // Pobieranie nowych pozycji
+        nowepozycje = pobierzelementy(mc, false, klient, true, klientplatnosci, klientplatnoscirokuprzedni, klientfaktury, klientfakturyrokuprzedni);
+
+        // Pobieranie archiwalnych pozycji
+        archiwum = pobierzelementy(mc, true, klient, true, klientplatnosci, klientplatnoscirokuprzedni, klientfaktury, klientfakturyrokuprzedni);
         if (pokazarchiwalne==false) {
             nowepozycje = nowepozycje.stream().filter(p->p.isArchiwalny()==false).collect(Collectors.toList());
             archiwum = archiwum.stream().filter(p->p.isArchiwalny()==false).collect(Collectors.toList());
@@ -162,30 +196,60 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     //tu zbiorczo
-    public void pobierzwszystko(String mc, Klienci klient) {
+    public void pobierzwszystko(String mc, Klienci klient, List<FakturaRozrachunki> platnosciDuza, List<FakturaRozrachunki> platnoscirokuprzedniDuza, List<Faktura> fakturyDuza, List<Faktura> fakturyrokuprzedniDuza) {
+        if (klient == null || klient.getNip() == null) {
+            throw new IllegalArgumentException("Klient lub jego NIP jest null");
+        }
+
         if (pobierzdwalata) {
             dolaczrokpoprzedni = true;
         }
-        nowepozycje = pobierzelementy(mc, false, klient, true);
-        archiwum = pobierzelementy(mc, true, klient, true);
-        sortujsumuj(nowepozycje);
-        sortujsumuj(archiwum);
+
+        // Bezpieczne przetwarzanie list z użyciem parallelStream
+        List<FakturaRozrachunki> platnosci = (platnosciDuza != null ? platnosciDuza.parallelStream()
+            .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
+            .collect(Collectors.toList()) : Collections.emptyList());
+
+        List<FakturaRozrachunki> platnoscirokuprzedni = (platnoscirokuprzedniDuza != null ? platnoscirokuprzedniDuza.parallelStream()
+            .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
+            .collect(Collectors.toList()) : Collections.emptyList());
+
+        List<Faktura> faktury = (fakturyDuza != null ? fakturyDuza.parallelStream()
+            .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
+            .collect(Collectors.toList()) : Collections.emptyList());
+
+        List<Faktura> fakturyrokuprzedni = (fakturyrokuprzedniDuza != null ? fakturyrokuprzedniDuza.parallelStream()
+            .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
+            .collect(Collectors.toList()) : Collections.emptyList());
+
+        // Pobieranie nowych pozycji
+        nowepozycje = pobierzelementy(mc, false, klient, true, platnosci, platnoscirokuprzedni, faktury, fakturyrokuprzedni);
+
+        // Pobieranie archiwalnych pozycji
+        archiwum = pobierzelementy(mc, true, klient, true, platnosci, platnoscirokuprzedni, faktury, fakturyrokuprzedni);
+
+        // Sortowanie i sumowanie
+        if (nowepozycje != null) {
+            sortujsumuj(nowepozycje);
+        }
+        if (archiwum != null) {
+            sortujsumuj(archiwum);
+        }
     }
+
     
-    public List<FakturaPodatnikRozliczenie> pobierzelementy(String mc, boolean nowe0archiwum, Klienci klient, boolean pominarchiwalne) {
+    public List<FakturaPodatnikRozliczenie> pobierzelementy(String mc, boolean nowe0archiwum, Klienci klient, boolean pominarchiwalne, List<FakturaRozrachunki> platnosci, List<FakturaRozrachunki> platnoscirokuprzedni,List<Faktura> faktury, List<Faktura> fakturyrokuprzedni) {
         List<FakturaPodatnikRozliczenie> pozycje = null;
         if (klient != null) {
             if (pokazrokpoprzedni==false) {
-                List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), klient);
                 if (dolaczrokpoprzedni) {
-                    platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), klient);
                     for (Iterator<FakturaRozrachunki> it =platnosci.iterator();it.hasNext();) {
                         FakturaRozrachunki f = it.next();
                         if (f.getNrdokumentu().contains("bo")) {
                             it.remove();
                         }
                     }
-                    platnosci.addAll(fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient));
+                    platnosci.addAll(platnoscirokuprzedni);
                 }
                 if (pominarchiwalne) {
                     for (Iterator<FakturaRozrachunki> it =platnosci.iterator();it.hasNext();) {
@@ -197,10 +261,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 }
                 
                 //problem jest zeby nie brac wczesniejszych niz 2016 wiec BO sie robi
-                List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                
                 if (dolaczrokpoprzedni) {
-                    faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-                    faktury.addAll(fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt()));
+                    faktury.addAll(fakturyrokuprzedni);
                 }
                 if (pominarchiwalne) {
                     for (Iterator<Faktura> it =faktury.iterator();it.hasNext();) {
@@ -212,7 +275,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 }
                 pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
             } else {
-                List<FakturaRozrachunki>  platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient);
                 if (pominarchiwalne) {
                     for (Iterator<FakturaRozrachunki> it =platnosci.iterator();it.hasNext();) {
                         FakturaRozrachunki f = it.next();
@@ -221,7 +283,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         }
                     }
                 }
-                List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
                 if (pominarchiwalne) {
                     for (Iterator<Faktura> it =faktury.iterator();it.hasNext();) {
                         Faktura f = it.next();
@@ -259,10 +320,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
    
      
-    private Collection<? extends Klienci> pobierzkontrahentow() {
-        Collection p = fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
-        List<Podatnik> podatnicy = podatnikDAO.findAll();
-        for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
+    private List<Klienci> pobierzkontrahentow(List<Podatnik> podatnicy) {
+        List kliencifaktury = Collections.synchronizedList(fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt()));
+        for (Iterator<Klienci> it = kliencifaktury.iterator(); it.hasNext();) {
             Klienci k = it.next();
             if (k == null) {
                 it.remove();
@@ -294,7 +354,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 }
             }
         }
-        return p;
+        return kliencifaktury;
     }
     
     public List<Klienci> completeKL(String query) {
@@ -487,85 +547,108 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     public void zestawieniezbiorcze() {
-        klienci = new ArrayList<>();
-        klienci.addAll(pobierzkontrahentow());
-        Collections.sort(klienci, new Kliencicomparator());
         List<Podatnik> podatnicy = podatnikDAO.findAllManager();
+        klienci = new ArrayList<>();
+        klienci.addAll(pobierzkontrahentow(podatnicy));
+        Collections.sort(klienci, new Kliencicomparator());
+        if (pobierzdwalata) {
+            dolaczrokpoprzedni = true;
+        }
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
-        if (wybranyksiegowy!=null) {
-            for (Iterator<Klienci> itk = klienci.iterator();itk.hasNext();) {
-                Klienci k = itk.next();
-                boolean niemapodatnika = true;
-                for (Iterator<Podatnik> it = podatnicy.iterator();it.hasNext();) {
-                    Podatnik pod = it.next();
-                    if (k.getNip().equals(pod.getNip())) {
-                        niemapodatnika = false;
-                        if (pod.getKsiegowa()!=null&&!pod.getKsiegowa().equals(wybranyksiegowy)) {
-                            itk.remove();
-                        } else if (pod.getKsiegowa()==null) {
-                            itk.remove();
+        if (wybranyksiegowy != null) {
+            // Temporary list to track elements to be removed
+            List<Podatnik> toRemoveFromPodatnicy = new ArrayList<>();
+
+            List<Klienci> filteredKlienci = klienci.parallelStream()
+                .filter(k -> {
+                    boolean niemapodatnika = podatnicy.parallelStream().noneMatch(pod -> pod.getNip().equals(k.getNip()));
+                    if (niemapodatnika && !"Administrator".equals(wybranyksiegowy.getUprawnienia())) {
+                        return false;
+                    }
+                    boolean result = podatnicy.stream().anyMatch(pod -> {
+                        if (k.getNip().equals(pod.getNip())) {
+                            if (pod.getKsiegowa() != null && !pod.getKsiegowa().equals(wybranyksiegowy)) {
+                                toRemoveFromPodatnicy.add(pod);
+                                return true;
+                            } else if (pod.getKsiegowa() == null) {
+                                toRemoveFromPodatnicy.add(pod);
+                                return true;
+                            }
                         }
-                        it.remove();
-                        break;
-                    }
-                }
-                if (niemapodatnika&&wybranyksiegowy.getUprawnienia().equals("Administrator")==false) {;
-                    itk.remove();
-                }
-            }
+                        return false;
+                    });
+                    return result;
+                })
+                .collect(Collectors.toList());
+
+            // Remove collected elements from podatnicy after stream processing
+            podatnicy.removeAll(toRemoveFromPodatnicy);
+
+            klienci.clear();
+            klienci.addAll(filteredKlienci);
         }
-        for (Klienci k : klienci) {
-            for (Iterator<Podatnik> it = podatnicy.iterator();it.hasNext();) {
-                Podatnik pod = it.next();
-                if (k.getNip().equals(pod.getNip())) {
-                    k.setZnacznik1(pod.getTelefonkontaktowy());
-                    it.remove();
-                    break;
-                }
-            }
-        }
-        klienci.stream().forEach(p -> {
-//            if (szukanyklient.getNpelna().equals("\"KONSBUD\" PROJEKTOWANIE I REALIZACJA KONSTRUKCJI BUDOWLANYCH Przemysław Żurowski")) {
-//                error.E.s("");
-//            }
-            pobierzwszystko(wpisView.getMiesiacWpisu(), p);
-            if (nowepozycje.size() > 0) {
-                FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
-                r.setNrtelefonu(p.getZnacznik1());
-                if (r.getSaldopln() != 0.0) {
-                    if (r.isFaktura0rozliczenie1()) {
-                        r.setColor2("green");
-                    } else {
-                        r.setColor("initial");
-                    }
-                    if (r.getDataupomnienia()!=null || r.getDatatelefon()!=null) {
-                        r.setColor("blue");
-                        r.setSwiezowezwany(true);
-                    } else {
-                        r.setColor("initial");
-                        r.setSwiezowezwany(false);
-                    }
-                    //r.setLp(i++);
-                    if (pokaznadplaty == true) {
-                        saldanierozliczone.add(r);
-                        
-                    } else if (r.getSaldopln() > 0.0) {
-                        saldanierozliczone.add(r);
-                    }
-                }
+       // Tworzenie mapy Podatnik po NIP dla szybkiego dostępu
+        ConcurrentMap<String, Podatnik> podatnikMap = podatnicy.parallelStream()
+            .collect(Collectors.toConcurrentMap(Podatnik::getNip, pod -> pod));
+
+        // Przetwarzanie listy klienci równolegle
+        klienci.parallelStream().forEach(k -> {
+            Podatnik pod = podatnikMap.remove(k.getNip()); // Usuwanie z mapy
+            if (pod != null) {
+                k.setZnacznik1(pod.getTelefonkontaktowy());
             }
         });
-        sumasaldnierozliczonych = 0.0;
-        int i = 1;
-        for (Iterator<FakturaPodatnikRozliczenie> it =  saldanierozliczone.iterator(); it.hasNext();) {
-            FakturaPodatnikRozliczenie r = it.next();
-            if (r.getSaldopln()==0.0) {
-                it.remove();
+
+        // Aktualizacja listy podatnicy na podstawie pozostałych wartości w mapie
+        podatnicy.clear();
+        podatnicy.addAll(podatnikMap.values());
+      klienci.stream().forEachOrdered(przetwarzanyKlient -> {
+    // Pobieranie danych dla klienta
+    
+    pobierzwszystko(wpisView.getMiesiacWpisu(), przetwarzanyKlient, platnosci, platnoscirokuprzedni, faktury, fakturyrokuprzedni);
+
+    // Przetwarzanie ostatniej pozycji, jeśli istnieje
+    if (!nowepozycje.isEmpty()) {
+        FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size() - 1);
+        r.setNrtelefonu(przetwarzanyKlient.getZnacznik1());
+
+        if (r.getSaldopln() != 0.0) {
+            // Ustawienia kolorów na podstawie warunków
+            if (r.isFaktura0rozliczenie1()) {
+                r.setColor2("green");
             } else {
-                r.setLp(i++);
-                sumasaldnierozliczonych += r.getSaldopln();
+                r.setColor("initial");
+            }
+
+            if (r.getDataupomnienia() != null || r.getDatatelefon() != null) {
+                r.setColor("blue");
+                r.setSwiezowezwany(true);
+            } else {
+                r.setColor("initial");
+                r.setSwiezowezwany(false);
+            }
+
+            // Dodanie do listy, jeśli spełnia warunki
+            if (pokaznadplaty || r.getSaldopln() > 0.0) {
+                saldanierozliczone.add(r);
             }
         }
+    }
+});
+
+         sumasaldnierozliczonych = saldanierozliczone.parallelStream()
+                .filter(r -> r.getSaldopln() != 0.0) // Filtrujemy tylko elementy, które mają saldopln różne od 0
+                .mapToDouble(FakturaPodatnikRozliczenie::getSaldopln) // Sumujemy wartości saldopln
+                .sum();
+
+        // Tworzenie nowej listy z przefiltrowanymi elementami i przypisywanie numerów LP
+        AtomicInteger index = new AtomicInteger(1);
+        saldanierozliczone = saldanierozliczone.parallelStream()
+                .filter(r -> r.getSaldopln() != 0.0) // Zachowujemy tylko elementy o saldopln różnym od 0
+                .peek(r -> r.setLp(index.getAndIncrement())) // Ustawiamy wartość LP
+                .collect(Collectors.toList());
+
+   
         
     }
     
@@ -597,7 +680,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         if (szukanyklient.getNazwapodatnika()==null) {
             szukanyklient.setNazwapodatnika(szukanyklient.getNazwabezCudzy());
         }
-        pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
+        pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient, platnosci, platnoscirokuprzedni, faktury, fakturyrokuprzedni);
         selectOneUI.setValue(szukanyklient);
         aktywnytab = 3;
         selectedrozliczenia = null;
@@ -618,7 +701,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         if (szukanyklient.getNazwapodatnika()==null) {
             szukanyklient.setNazwapodatnika(szukanyklient.getNazwabezCudzy());
         }
-        pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
+        pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient, platnosci, platnoscirokuprzedni, faktury, fakturyrokuprzedni);
         selectOneUI.setValue(szukanyklient);
         aktywnytab = 3;
         selectedrozliczenia = null;
@@ -890,7 +973,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             } else {
                 szukanyklient = p.getFaktura().getKontrahent();
             }
-            pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
+            pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient, platnosci, platnoscirokuprzedni, faktury, fakturyrokuprzedni);
             klista.put(szukanyklient,nowepozycje);
         }
         PdfFaktRozrach.drukujKliencihurt(klista, wpisView);
@@ -920,7 +1003,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     } else {
                         szukanyklient = p.getFaktura().getKontrahent();
                     }
-                    pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
+                    pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient, platnosci, platnoscirokuprzedni, faktury, fakturyrokuprzedni);
                     mailKlienci();
                 } catch (Exception e) {
                     Msg.msg("e", "Bład przy jednej pozycji");
