@@ -41,8 +41,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -159,36 +157,34 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         if (szukanyklient.getEmail()==null ||szukanyklient.getEmail().equals("")) {
             szukanyklient.setEmail("brakmaila!@taxman.biz.pl");
         }
-        if (pobierzdwalata) {
-            dolaczrokpoprzedni = true;
-        }
-        Klienci klient = szukanyklient;
+         Klienci klient = szukanyklient;
         // Bezpieczne przetwarzanie list z użyciem parallelStream
-        List<FakturaRozrachunki> klientplatnosci = (platnosci != null ? platnosci.parallelStream()
+        List<FakturaRozrachunki> klientplatnosci = (platnosci != null ? platnosci.stream()
             .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
             .collect(Collectors.toList()) : Collections.emptyList());
 
-        List<FakturaRozrachunki> klientplatnoscirokuprzedni = (platnoscirokuprzedni != null ? platnoscirokuprzedni.parallelStream()
+        List<FakturaRozrachunki> klientplatnoscirokuprzedni = (platnoscirokuprzedni != null ? platnoscirokuprzedni.stream()
             .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
             .collect(Collectors.toList()) : Collections.emptyList());
 
-        List<Faktura> klientfaktury = (faktury != null ? faktury.parallelStream()
-            .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
+        List<Faktura> klientfaktury = (faktury != null ? faktury.stream()
+            .filter(item -> item != null && item.isTylkodlaokresowej()==false && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
             .collect(Collectors.toList()) : Collections.emptyList());
 
-        List<Faktura> klientfakturyrokuprzedni = (fakturyrokuprzedni != null ? fakturyrokuprzedni.parallelStream()
-            .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
+        List<Faktura> klientfakturyrokuprzedni = (fakturyrokuprzedni != null ? fakturyrokuprzedni.stream()
+            .filter(item -> item != null && item.isTylkodlaokresowej()==false && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
             .collect(Collectors.toList()) : Collections.emptyList());
 
         // Pobieranie nowych pozycji
-        nowepozycje = pobierzelementy(mc, false, klient, true, klientplatnosci, klientplatnoscirokuprzedni, klientfaktury, klientfakturyrokuprzedni);
+        nowepozycje = pobierzelementy(mc, false, klient, false, klientplatnosci, klientplatnoscirokuprzedni, klientfaktury, klientfakturyrokuprzedni);
 
         // Pobieranie archiwalnych pozycji
-        archiwum = pobierzelementy(mc, true, klient, true, klientplatnosci, klientplatnoscirokuprzedni, klientfaktury, klientfakturyrokuprzedni);
+        archiwum = pobierzelementy(mc, true, klient, false, klientplatnosci, klientplatnoscirokuprzedni, klientfaktury, klientfakturyrokuprzedni);
         if (pokazarchiwalne==false) {
             nowepozycje = nowepozycje.stream().filter(p->p.isArchiwalny()==false).collect(Collectors.toList());
             archiwum = archiwum.stream().filter(p->p.isArchiwalny()==false).collect(Collectors.toList());
         }
+     
         sortujsumuj(nowepozycje);
         sortujsumuj(archiwum);
         Msg.msg("Pobrano dane kontrahenta");
@@ -204,52 +200,46 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         if (pobierzdwalata) {
             dolaczrokpoprzedni = true;
         }
-
-        // Bezpieczne przetwarzanie list z użyciem parallelStream
-        List<FakturaRozrachunki> platnosci = (platnosciDuza != null ? platnosciDuza.parallelStream()
+       // Bezpieczne przetwarzanie list z użyciem parallelStream
+        List<FakturaRozrachunki> platnosci = (platnosciDuza != null ? platnosciDuza.stream()
             .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
             .collect(Collectors.toList()) : Collections.emptyList());
 
-        List<FakturaRozrachunki> platnoscirokuprzedni = (platnoscirokuprzedniDuza != null ? platnoscirokuprzedniDuza.parallelStream()
+        List<FakturaRozrachunki> platnoscirokuprzedni = (platnoscirokuprzedniDuza != null ? platnoscirokuprzedniDuza.stream()
             .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
             .collect(Collectors.toList()) : Collections.emptyList());
 
-        List<Faktura> faktury = (fakturyDuza != null ? fakturyDuza.parallelStream()
-            .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
+        List<Faktura> faktury = (fakturyDuza != null ? fakturyDuza.stream()
+            .filter(item -> item != null && item.isTylkodlaokresowej()==false && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
             .collect(Collectors.toList()) : Collections.emptyList());
 
-        List<Faktura> fakturyrokuprzedni = (fakturyrokuprzedniDuza != null ? fakturyrokuprzedniDuza.parallelStream()
-            .filter(item -> item != null && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
+        List<Faktura> fakturyrokuprzedni = (fakturyrokuprzedniDuza != null ? fakturyrokuprzedniDuza.stream()
+            .filter(item -> item != null && item.isTylkodlaokresowej()==false && item.getKontrahent() != null && klient.getNip().equals(item.getKontrahent().getNip()))
             .collect(Collectors.toList()) : Collections.emptyList());
-
         // Pobieranie nowych pozycji
         nowepozycje = pobierzelementy(mc, false, klient, true, platnosci, platnoscirokuprzedni, faktury, fakturyrokuprzedni);
 
         // Pobieranie archiwalnych pozycji
         archiwum = pobierzelementy(mc, true, klient, true, platnosci, platnoscirokuprzedni, faktury, fakturyrokuprzedni);
-
-        // Sortowanie i sumowanie
-        if (nowepozycje != null) {
-            sortujsumuj(nowepozycje);
-        }
-        if (archiwum != null) {
-            sortujsumuj(archiwum);
-        }
+        sortujsumuj(nowepozycje);
+        sortujsumuj(archiwum);
     }
-
     
-    public List<FakturaPodatnikRozliczenie> pobierzelementy(String mc, boolean nowe0archiwum, Klienci klient, boolean pominarchiwalne, List<FakturaRozrachunki> platnosci, List<FakturaRozrachunki> platnoscirokuprzedni,List<Faktura> faktury, List<Faktura> fakturyrokuprzedni) {
+    public List<FakturaPodatnikRozliczenie> pobierzelementy(String mc, boolean nowe0archiwum, Klienci klient, boolean pominarchiwalne,
+            List<FakturaRozrachunki> platnosci, List<FakturaRozrachunki> platnoscirokuprzedniDuza, List<Faktura> faktury, List<Faktura> fakturyrokuprzedni) {
         List<FakturaPodatnikRozliczenie> pozycje = null;
         if (klient != null) {
             if (pokazrokpoprzedni==false) {
+                //List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), klient);
                 if (dolaczrokpoprzedni) {
+                    //platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), klient);
                     for (Iterator<FakturaRozrachunki> it =platnosci.iterator();it.hasNext();) {
                         FakturaRozrachunki f = it.next();
                         if (f.getNrdokumentu().contains("bo")) {
                             it.remove();
                         }
                     }
-                    platnosci.addAll(platnoscirokuprzedni);
+                    platnosci.addAll(platnoscirokuprzedniDuza);
                 }
                 if (pominarchiwalne) {
                     for (Iterator<FakturaRozrachunki> it =platnosci.iterator();it.hasNext();) {
@@ -261,8 +251,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 }
                 
                 //problem jest zeby nie brac wczesniejszych niz 2016 wiec BO sie robi
-                
+                //List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 if (dolaczrokpoprzedni) {
+                    //faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                     faktury.addAll(fakturyrokuprzedni);
                 }
                 if (pominarchiwalne) {
@@ -275,6 +266,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 }
                 pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
             } else {
+                //List<FakturaRozrachunki>  platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), klient);
                 if (pominarchiwalne) {
                     for (Iterator<FakturaRozrachunki> it =platnosci.iterator();it.hasNext();) {
                         FakturaRozrachunki f = it.next();
@@ -283,6 +275,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         }
                     }
                 }
+                //List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
                 if (pominarchiwalne) {
                     for (Iterator<Faktura> it =faktury.iterator();it.hasNext();) {
                         Faktura f = it.next();
@@ -547,108 +540,85 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     public void zestawieniezbiorcze() {
-        List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         klienci = new ArrayList<>();
         klienci.addAll(pobierzkontrahentow(podatnicy));
         Collections.sort(klienci, new Kliencicomparator());
-        if (pobierzdwalata) {
-            dolaczrokpoprzedni = true;
-        }
+        List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
-        if (wybranyksiegowy != null) {
-            // Temporary list to track elements to be removed
-            List<Podatnik> toRemoveFromPodatnicy = new ArrayList<>();
-
-            List<Klienci> filteredKlienci = klienci.parallelStream()
-                .filter(k -> {
-                    boolean niemapodatnika = podatnicy.parallelStream().noneMatch(pod -> pod.getNip().equals(k.getNip()));
-                    if (niemapodatnika && !"Administrator".equals(wybranyksiegowy.getUprawnienia())) {
-                        return false;
-                    }
-                    boolean result = podatnicy.stream().anyMatch(pod -> {
-                        if (k.getNip().equals(pod.getNip())) {
-                            if (pod.getKsiegowa() != null && !pod.getKsiegowa().equals(wybranyksiegowy)) {
-                                toRemoveFromPodatnicy.add(pod);
-                                return true;
-                            } else if (pod.getKsiegowa() == null) {
-                                toRemoveFromPodatnicy.add(pod);
-                                return true;
-                            }
+        if (wybranyksiegowy!=null) {
+            for (Iterator<Klienci> itk = klienci.iterator();itk.hasNext();) {
+                Klienci k = itk.next();
+                boolean niemapodatnika = true;
+                for (Iterator<Podatnik> it = podatnicy.iterator();it.hasNext();) {
+                    Podatnik pod = it.next();
+                    if (k.getNip().equals(pod.getNip())) {
+                        niemapodatnika = false;
+                        if (pod.getKsiegowa()!=null&&!pod.getKsiegowa().equals(wybranyksiegowy)) {
+                            itk.remove();
+                        } else if (pod.getKsiegowa()==null) {
+                            itk.remove();
                         }
-                        return false;
-                    });
-                    return result;
-                })
-                .collect(Collectors.toList());
-
-            // Remove collected elements from podatnicy after stream processing
-            podatnicy.removeAll(toRemoveFromPodatnicy);
-
-            klienci.clear();
-            klienci.addAll(filteredKlienci);
+                        it.remove();
+                        break;
+                    }
+                }
+                if (niemapodatnika&&wybranyksiegowy.getUprawnienia().equals("Administrator")==false) {;
+                    itk.remove();
+                }
+            }
         }
-       // Tworzenie mapy Podatnik po NIP dla szybkiego dostępu
-        ConcurrentMap<String, Podatnik> podatnikMap = podatnicy.parallelStream()
-            .collect(Collectors.toConcurrentMap(Podatnik::getNip, pod -> pod));
-
-        // Przetwarzanie listy klienci równolegle
-        klienci.parallelStream().forEach(k -> {
-            Podatnik pod = podatnikMap.remove(k.getNip()); // Usuwanie z mapy
-            if (pod != null) {
-                k.setZnacznik1(pod.getTelefonkontaktowy());
+        for (Klienci k : klienci) {
+            for (Iterator<Podatnik> it = podatnicy.iterator();it.hasNext();) {
+                Podatnik pod = it.next();
+                if (k.getNip().equals(pod.getNip())) {
+                    k.setZnacznik1(pod.getTelefonkontaktowy());
+                    it.remove();
+                    break;
+                }
+            }
+        }
+        klienci.stream().forEach(p -> {
+//            if (szukanyklient.getNpelna().equals("\"KONSBUD\" PROJEKTOWANIE I REALIZACJA KONSTRUKCJI BUDOWLANYCH Przemysław Żurowski")) {
+//                error.E.s("");
+//            }
+            pobierzwszystko(wpisView.getMiesiacWpisu(), p, platnosci, platnoscirokuprzedni, faktury, fakturyrokuprzedni);
+            if (nowepozycje.size() > 0) {
+                FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
+                r.setNrtelefonu(p.getZnacznik1());
+                if (r.getSaldopln() != 0.0) {
+                    if (r.isFaktura0rozliczenie1()) {
+                        r.setColor2("green");
+                    } else {
+                        r.setColor("initial");
+                    }
+                    if (r.getDataupomnienia()!=null || r.getDatatelefon()!=null) {
+                        r.setColor("blue");
+                        r.setSwiezowezwany(true);
+                    } else {
+                        r.setColor("initial");
+                        r.setSwiezowezwany(false);
+                    }
+                    //r.setLp(i++);
+                    if (pokaznadplaty == true) {
+                        saldanierozliczone.add(r);
+                        
+                    } else if (r.getSaldopln() > 0.0) {
+                        saldanierozliczone.add(r);
+                    }
+                }
             }
         });
-
-        // Aktualizacja listy podatnicy na podstawie pozostałych wartości w mapie
-        podatnicy.clear();
-        podatnicy.addAll(podatnikMap.values());
-      klienci.stream().forEachOrdered(przetwarzanyKlient -> {
-    // Pobieranie danych dla klienta
-    
-    pobierzwszystko(wpisView.getMiesiacWpisu(), przetwarzanyKlient, platnosci, platnoscirokuprzedni, faktury, fakturyrokuprzedni);
-
-    // Przetwarzanie ostatniej pozycji, jeśli istnieje
-    if (!nowepozycje.isEmpty()) {
-        FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size() - 1);
-        r.setNrtelefonu(przetwarzanyKlient.getZnacznik1());
-
-        if (r.getSaldopln() != 0.0) {
-            // Ustawienia kolorów na podstawie warunków
-            if (r.isFaktura0rozliczenie1()) {
-                r.setColor2("green");
+        sumasaldnierozliczonych = 0.0;
+        int i = 1;
+        for (Iterator<FakturaPodatnikRozliczenie> it =  saldanierozliczone.iterator(); it.hasNext();) {
+            FakturaPodatnikRozliczenie r = it.next();
+            if (r.getSaldopln()==0.0) {
+                it.remove();
             } else {
-                r.setColor("initial");
-            }
-
-            if (r.getDataupomnienia() != null || r.getDatatelefon() != null) {
-                r.setColor("blue");
-                r.setSwiezowezwany(true);
-            } else {
-                r.setColor("initial");
-                r.setSwiezowezwany(false);
-            }
-
-            // Dodanie do listy, jeśli spełnia warunki
-            if (pokaznadplaty || r.getSaldopln() > 0.0) {
-                saldanierozliczone.add(r);
+                r.setLp(i++);
+                sumasaldnierozliczonych += r.getSaldopln();
             }
         }
-    }
-});
-
-         sumasaldnierozliczonych = saldanierozliczone.parallelStream()
-                .filter(r -> r.getSaldopln() != 0.0) // Filtrujemy tylko elementy, które mają saldopln różne od 0
-                .mapToDouble(FakturaPodatnikRozliczenie::getSaldopln) // Sumujemy wartości saldopln
-                .sum();
-
-        // Tworzenie nowej listy z przefiltrowanymi elementami i przypisywanie numerów LP
-        AtomicInteger index = new AtomicInteger(1);
-        saldanierozliczone = saldanierozliczone.parallelStream()
-                .filter(r -> r.getSaldopln() != 0.0) // Zachowujemy tylko elementy o saldopln różnym od 0
-                .peek(r -> r.setLp(index.getAndIncrement())) // Ustawiamy wartość LP
-                .collect(Collectors.toList());
-
-   
         
     }
     

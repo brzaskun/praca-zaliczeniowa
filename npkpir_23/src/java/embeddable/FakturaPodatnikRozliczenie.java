@@ -132,11 +132,11 @@ public class FakturaPodatnikRozliczenie implements Serializable{
     @Override
     public String toString() {
         if (rozliczenie != null) {
-            return "FakturaRozliczenie{" + "lp=" + lp + ", rozliczenie=" + rozliczenie.getNrdokumentu() + ", faktura0rozliczenie1=" + faktura0rozliczenie1 + ", rok=" + rok + ", mc=" + mc + ", nowy0rozliczony1=" + nowy0rozliczony1 + '}';
+            return "FakturaRozliczenie{" + "lp=" + lp + ", rozliczenie=" + rozliczenie.getNrdokumentu() + ", faktura0rozliczenie1=" + faktura0rozliczenie1 + ", rok=" + rok + ", mc=" + mc + ", archiwalny=" + archiwalny + '}';
         } else if (faktura != null) {
-            return "FakturaRozliczenie{" + "lp=" + lp + ", faktura=" + faktura.getNumerkolejny() + ", faktura0rozliczenie1=" + faktura0rozliczenie1 + ", rok=" + rok + ", mc=" + mc + ", nowy0rozliczony1=" + nowy0rozliczony1 + '}';
+            return "FakturaRozliczenie{" + "lp=" + lp + ", faktura=" + faktura.getNumerkolejny() + ", faktura0rozliczenie1=" + faktura0rozliczenie1 + ", rok=" + rok + ", mc=" + mc + ", archiwalny=" + archiwalny + '}';
         } else {
-            return "FakturaRozliczenie{" + "lp=" + lp + ", faktura0rozliczenie1=" + faktura0rozliczenie1 + ", rok=" + rok + ", mc=" + mc + ", nowy0rozliczony1=" + nowy0rozliczony1 + '}';
+            return "FakturaRozliczenie{" + "lp=" + lp + ", faktura0rozliczenie1=" + faktura0rozliczenie1 + ", rok=" + rok + ", mc=" + mc + ", archiwalny=" + archiwalny + '}';
         }
     }
 
