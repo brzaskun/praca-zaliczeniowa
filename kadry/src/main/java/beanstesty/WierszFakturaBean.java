@@ -46,8 +46,12 @@ public class WierszFakturaBean {
         String[] poprzedniokres = Data.poprzedniOkres(mc, rok);
         rok = poprzedniokres[1];
         mc = poprzedniokres[0];
+        String rokdopobrania = poprzedniokres[1];
         List<WierszFaktury> listawierszfaktury = wierszFakturyFacade.findbyRokMc(rok, mc);
-        List<Kadryfakturapozycja> listauslugklientcena = kadryfakturapozycjaFacade.findByRok(rok);
+        if (mc.equals("12")) {
+            rokdopobrania = String.valueOf(Integer.parseInt(rokdopobrania)+1);
+        }
+        List<Kadryfakturapozycja> listauslugklientcena = kadryfakturapozycjaFacade.findByRok(rokdopobrania);
         for (Kadryfakturapozycja k : listauslugklientcena) {
             List<Pasekwynagrodzen> paskitmp = pasekwynagrodzenFacade.findByRokMcNip(rok, mc, k.getFirmakadry().getNip());
               Set<Angaz> unikalneAngazy = new HashSet<>();
@@ -68,8 +72,9 @@ public class WierszFakturaBean {
             } else if (wierszpobrany.getId() != null) {
                 wierszFakturyFacade.edit(wierszpobrany);
             }
-            System.out.println(k.getOpisuslugi().getClass() + " " + wierszpobrany.getIlosc());
+            //System.out.println(k.getOpisuslugi().getClass() + " " + wierszpobrany.getIlosc());
         }
+        System.out.println("Koniec przetworzuslugiwmiesiacu()");
     }
      
      public static WierszFaktury pobierzwiersz(List<WierszFaktury> listawierszfaktury, Kadryfakturapozycja kadryfakturapozycja,String rok, String mc) {
@@ -77,9 +82,9 @@ public class WierszFakturaBean {
         for (WierszFaktury w : listawierszfaktury) {
             if (w.getNip().equals(kadryfakturapozycja.getFirmakadry().getNip())&&w.getOpis().equals(kadryfakturapozycja.getOpisuslugi().getOpis())) {
                 if (w.getKwota()!=kadryfakturapozycja.getCena()) {
-                    zwrot.setKwota(kadryfakturapozycja.getCena());
-                    zwrot.setSymbolwaluty(kadryfakturapozycja.getWaluta().getSymbolwaluty());
-                    zwrot.setNowacena(true);
+                    w.setKwota(kadryfakturapozycja.getCena());
+                    w.setSymbolwaluty(kadryfakturapozycja.getWaluta().getSymbolwaluty());
+                    w.setNowacena(true);
                 }
                 zwrot = w;
             }

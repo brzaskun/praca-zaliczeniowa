@@ -465,6 +465,9 @@
                 </p:outputPanel>
             </h:form >
                     <h:form styleClass="kadrypozycja">
+                        <p:outputPanel style="padding: 5px;">
+                            <h:outputText value="#{kadryfakturapozycjaView.komunikat}" style="color:red;"/>
+                        </p:outputPanel>
                 <p:outputPanel style="padding: 10px;">
                     <p:dataTable id="datalist" value="#{kadryfakturapozycjaView.listauslugklientcena}" var="item111"
                                  selectionMode="single"

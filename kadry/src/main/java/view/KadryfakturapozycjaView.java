@@ -63,10 +63,20 @@ public class KadryfakturapozycjaView  implements Serializable {
     private FakturaopisuslugiFacade fakturaopisuslugiFacade;
     private String rok;
     private String mc;
+    private String komunikat;
     
     @PostConstruct
     public void init() {
-        listauslugklientcena = kadryfakturapozycjaFacade.findByRok(wpisView.getRokWpisu());
+        String rokdopobrania = wpisView.getRokWpisu();
+        //po to zeby pobieral nowe ceny w styczniu nowego roku
+        if (wpisView.getMiesiacWpisu().equals("12")) {
+            rokdopobrania = wpisView.getRokNastepny();
+            komunikat = "Pobrano liste cen na rok 2025. Te ceny są brane pod uwagę przy wyliczaniu grudnia";
+        } else {
+            komunikat = null;
+        }
+        listauslugklientcena = kadryfakturapozycjaFacade.findByRok(rokdopobrania);
+        //listauslugklientcena = listauslugklientcena.stream().filter(item->item.getFirmakadry().getNazwa().contains("MANHATTAN")).collect(Collectors.toList());
         Collections.sort(listauslugklientcena, new Kadryfakturapozycjacomparator());
         if (listauslugklientcena ==null) {
             listauslugklientcena = new ArrayList<>();
@@ -161,8 +171,17 @@ public class KadryfakturapozycjaView  implements Serializable {
             } else if (wierszpobrany.getId()!=null) {
                 wierszFakturyFacade.edit(wierszpobrany);
             }
-            System.out.println(k.getOpisuslugi().getClass()+" "+wierszpobrany.getIlosc());
+            //System.out.println(k.getOpisuslugi().getClass()+" "+wierszpobrany.getIlosc());
         }
+        System.out.println("Koniec przetworzuslugiwmiesiacu()");
+    }
+
+    public String getKomunikat() {
+        return komunikat;
+    }
+
+    public void setKomunikat(String komunikat) {
+        this.komunikat = komunikat;
     }
     
    

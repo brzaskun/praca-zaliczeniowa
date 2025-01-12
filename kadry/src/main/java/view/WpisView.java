@@ -63,7 +63,7 @@ public class WpisView implements Serializable {
 
     @PostConstruct
     public void init() { //E.m(this);
-        rokWpisu = "2023";
+        rokWpisu = "2025";
         miesiacWpisu = "01";
         okreswpisu = new Okres(rokWpisu, miesiacWpisu);
         if (uzer == null) {
@@ -82,6 +82,8 @@ public class WpisView implements Serializable {
                 this.umowa = memory.getUmowa();
                 this.pracownik = memory.getPracownik();
                 this.rokWpisu = memory.getRok();
+                this.rokNastepny = String.valueOf(this.getRokWpisuInt()+1);
+                this.rokUprzedni = String.valueOf(this.getRokWpisuInt()-1);
                 this.miesiacWpisu = memory.getMc();
                 this.okreswpisu = new Okres(memory.getRok(), memory.getMc());
                 if (memory.getRok()!=null&& memory.getMc()!=null) {
@@ -153,7 +155,11 @@ public class WpisView implements Serializable {
     }
 
     public String getRokNastepny() {
-        return rokNastepny;
+        String zwrot = this.rokWpisu;
+        if (zwrot != null) {
+            zwrot = String.valueOf(Integer.parseInt(zwrot)+1);
+        }
+        return zwrot;
     }
 
     public void setRokNastepny(String rokNastepny) {
