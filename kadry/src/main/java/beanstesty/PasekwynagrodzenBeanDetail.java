@@ -63,7 +63,7 @@ public class PasekwynagrodzenBeanDetail {
 
     static void zdrowotnakorektaumowaoprace26(Pasekwynagrodzen pasek, double zdrowotneskladka, double zdrowotneodliczane) {
         double podstawahipotetyczna = pasek.getPodstawaopodatkowania();
-        if (podstawahipotetyczna>0.0) {
+        if (podstawahipotetyczna>0.0&&pasek.isDo26lat()==false) {
             double limitdlazdrowotnej = Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(podstawahipotetyczna * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
             zdrowotneskladka = zdrowotneskladka > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneskladka;
             zdrowotneodliczane = zdrowotneodliczane > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneodliczane;

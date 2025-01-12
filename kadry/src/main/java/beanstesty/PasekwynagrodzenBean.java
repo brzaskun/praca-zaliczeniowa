@@ -1377,6 +1377,9 @@ public class PasekwynagrodzenBean {
                 pasek.setSpolecznedoodliczeniakierowca(skladki);
             }
         }
+        if (pasek.isDo26lat()) {
+            skladki = pasek.getPrzekroczenie26lat()*.1371;
+        }
         //zapisek dla kierowcow 27.10.23
         //double zusbezpodatku = pasek.getBruttozusbezpodatek();
         double podstawadochdowyprzeddieta = Z.z(wynagrodzeniebrutto - skladki) > 0.0 ? Z.z(wynagrodzeniebrutto - skladki) : 0.0;
