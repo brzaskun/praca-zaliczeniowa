@@ -125,6 +125,7 @@ public class FakturaView implements Serializable {
     private List<Faktura> gosciwybralarchiuwm;
     //faktury okresowe wybrane z listy
     private List<Fakturywystokresowe> gosciwybralokres;
+    private List<Fakturywystokresowe> gosciwybralokres1;
 
     @Inject
     protected Faktura selected;
@@ -167,6 +168,7 @@ public class FakturaView implements Serializable {
     private List<Faktura> faktury_edit_filter;
     //faktury z bazy danych przefiltrowane
     private List<Faktura> fakturyFiltered;
+    private List<Faktura> fakturyFiltered1;
     //faktury z bazy danych proforma
     private List<Faktura> fakturypro;
     //faktury z bazy danych przefiltrowane profotma
@@ -177,6 +179,7 @@ public class FakturaView implements Serializable {
     private List<Faktura> fakturyarchiwum;
     //faktury okresowe z bazy danych
     private List<Fakturywystokresowe> fakturyokresowe;
+    private List<Fakturywystokresowe> fakturyokresowe1;
     //faktury okresowe z bazy danych filtrowane
     private List<Fakturywystokresowe> fakturyokresoweFiltered;
     //do zaksiegowania faktury
@@ -404,6 +407,7 @@ public class FakturaView implements Serializable {
         filtrujfaktury();
         sumawartosciwybranych(faktury);
         domyslatabela = DokFKBean.pobierzWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO);
+        fakturyokresowe1 = new ArrayList<>(fakturyokresowe);
 //        PrimeFaces.current().ajax().update("akordeon:formsporzadzone");
 //        PrimeFaces.current().ajax().update("akordeon:proforma");
 //        PrimeFaces.current().ajax().update("akordeon:formarchiwum");
@@ -4225,6 +4229,30 @@ public class FakturaView implements Serializable {
 
     public void setEmailkontrahent(String emailkontrahent) {
         this.emailkontrahent = emailkontrahent;
+    }
+
+    public List<Fakturywystokresowe> getGosciwybralokres1() {
+        return gosciwybralokres1;
+    }
+
+    public void setGosciwybralokres1(List<Fakturywystokresowe> gosciwybralokres1) {
+        this.gosciwybralokres1 = gosciwybralokres1;
+    }
+
+    public List<Faktura> getFakturyFiltered1() {
+        return fakturyFiltered1;
+    }
+
+    public void setFakturyFiltered1(List<Faktura> fakturyFiltered1) {
+        this.fakturyFiltered1 = fakturyFiltered1;
+    }
+
+    public List<Fakturywystokresowe> getFakturyokresowe1() {
+        return fakturyokresowe1;
+    }
+
+    public void setFakturyokresowe1(List<Fakturywystokresowe> fakturyokresowe1) {
+        this.fakturyokresowe1 = fakturyokresowe1;
     }
 
 

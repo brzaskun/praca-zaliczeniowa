@@ -78,7 +78,7 @@
             </p:panelGrid>
             
             <p:dataTable lazy="false"  id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}" 
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.id}" style="max-width: 1550px;" widgetVar="okresTable" 
+                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.id}" style="max-width: 1550px;max-height: 80vh;overflow-y: scroll;" widgetVar="okresTable" 
                          
                          rowSelectMode="add">
                 

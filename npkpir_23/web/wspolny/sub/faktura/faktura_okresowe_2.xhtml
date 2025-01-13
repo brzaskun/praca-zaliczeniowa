@@ -9,38 +9,7 @@
       
         <h:form id="formokresowe2">
            
-            <p:panelGrid layout="tabular" id="panelsumokresowe">
-                <f:facet name="header">
-                    <p:row>
-                    <p:column>
-                        <h:outputText value="ilość"/>
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="suma netto"/>
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="suma vat"/>
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="suma brutto"/>
-                        </p:column>
-                        </p:row>
-                </f:facet>
-                <p:row>
-                    <p:column style="text-align: center;">
-                        <h:outputText value="#{fakturaView.iloscwybranych}" rendered="#{fakturaView.iloscwybranych gt 0}"/>
-                    </p:column>
-                    <p:column>
-                        <bcf:outputpl id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranychnetto}"/>
-                    </p:column>
-                    <p:column>
-                        <bcf:outputpl id="podsumowaniewybrvat" value="#{fakturaView.podsumowaniewybranychvat}"/>
-                    </p:column>
-                    <p:column>
-                        <bcf:outputpl id="podsumowaniewybrbrutto" value="#{fakturaView.podsumowaniewybranychbrutto}"/>
-                    </p:column>
-                </p:row>
-            </p:panelGrid>
+          
             <p:panelGrid layout="tabular" columns="12" >
 <!--                <h:outputText value="Procent waloryzacji 100=100%"/>
                 <p:inputNumber  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}"  decimalPlaces="2"  inputStyle="text-align: right;" symbol=" %" symbolPosition="s" signPosition="p"   maxValue="100">
@@ -72,25 +41,19 @@
                 <p:commandButton value="pokaż otwarte" actionListener="#{fakturaView.pokazotwarte}" global="false" style="width: 120px; margin-left: 10px;"  update="akordeon:formokresowe2:dokumentyOkresowe"/>
             </p:panelGrid>
             
-            <p:dataTable lazy="false"  id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row" 
-                         filteredValue="#{fakturaView.fakturyokresoweFiltered}"
-                         selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.id}" style="max-width: 1600px;height: 900px;overflow-y: scroll;" widgetVar="okresTable2" 
-                              rowSelectMode="add"
-                         rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" paginator="true" rows="40"
+            <p:dataTable lazy="false"  id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpisokr1"  rowIndexVar="row" 
+                         filteredValue="#{fakturaView.fakturyFiltered1}"
+                         selection="#{fakturaView.gosciwybralokres1}" rowKey="#{wpisokr1.id}" style="max-width: 1600px;max-height: 80vh;overflow-y: scroll;" widgetVar="okresTable2" 
+                         rowSelectMode="add"
+                         
                          >
                 
                 <f:facet name="header">  
-                    <h:outputText value="Zestawienie faktur okresowych: " />  
+                    <h:outputText value="Zestawienie faktur okresowych szczegóły: " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('okresTable2').filter()" style="width:150px" />  
                 </f:facet>
                 <p:ajax event="filter" global="false"/>
-                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe2:panelsumokresowe confirmDialog1  confirmDialog2" global="false"/>
-                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe2:panelsumokresowe confirmDialog1 confirmDialog2" global="false"/>
-                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe2:panelsumokresowe confirmDialog1 confirmDialog2" global="false"/>      
-                <p:ajax event="rowToggle"  partialSubmit="true" global="false" update=":akordeon:formokresowe2:panelsumokresowe confirmDialog1 confirmDialog2" />
-                <p:ajax event="rowSelect"  partialSubmit="true" global="false" update=":akordeon:formokresowe2:panelsumokresowe confirmDialog1 confirmDialog2" />
-                <p:ajax event="rowUnselect"  partialSubmit="true" global="false" update=":akordeon:formokresowe2:panelsumokresowe confirmDialog1 confirmDialog2" />
                 <p:column style="text-align: center;" width="20"> 
                     <h:outputText value="#{row+1}"/>
                 </p:column>
@@ -98,182 +61,182 @@
                     <p:rowToggler />
                 </p:column>
                 <p:column selectionMode="multiple"   width="40" style="text-align: center;"/>
-                <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending" filterBy="#{wpis.dokument.kontrahent.npelna}" 
+                <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpisokr1.dokument.kontrahent.nazwabezCudzy}" sortOrder="ascending" filterBy="#{wpisokr1.dokument.kontrahent.nazwabezCudzy}" 
                           filterMatchMode="contains" width="150">
-                    <h:outputText value="#{wpis.dokument.kontrahent.nazwabezCudzy}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
+                    <h:outputText value="#{wpisokr1.dokument.kontrahent.nazwabezCudzy}" style="#{wpisokr1.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>
-                 <p:column headerText="netto" sortBy="#{wpis.dokument.nettoFakturaView}" filterBy="#{wpis.dokument.nettoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
-                    <bcf:outputpl value="#{wpis.dokument.nettoFakturaView}" stylePlus="color: #{wpis.dokument.kolor(WpisView.rokWpisu, WpisView.miesiacWpisu)}"/>
-                    <h:outputText value=" #{wpis.dokument.walutafaktury}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
+                 <p:column headerText="netto" sortBy="#{wpisokr1.dokument.nettoFakturaView}" filterBy="#{wpisokr1.dokument.nettoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
+                    <bcf:outputpl value="#{wpisokr1.dokument.nettoFakturaView}" stylePlus="color: #{wpisokr1.dokument.kolor(WpisView.rokWpisu, WpisView.miesiacWpisu)}"/>
+                    <h:outputText value=" #{wpisokr1.dokument.walutafaktury}" rendered="#{wpisokr1.dokument.walutafaktury ne 'PLN'}"/>
                 </p:column>
-                <p:column headerText="wier." width="30" filterBy="#{wpis.dokument.pozycjenafakturze.size()}" sortBy="#{wpis.dokument.pozycjenafakturze.size()}" style="text-align: center;">  
-                    <h:outputText value="#{wpis.dokument.pozycjenafakturze.size()}"/>
+                <p:column headerText="wier." width="30" filterBy="#{wpisokr1.dokument.pozycjenafakturze.size()}" sortBy="#{wpisokr1.dokument.pozycjenafakturze.size()}" style="text-align: center;">  
+                    <h:outputText value="#{wpisokr1.dokument.pozycjenafakturze.size()}"/>
                 </p:column>
-                <p:column headerText="księgowa" width="70" filterBy="#{wpis.ksiegowadane}" filterMatchMode="contains" sortBy="#{wpis.ksiegowadane}" style="text-align: left;">  
-                    <h:outputText value="#{wpis.ksiegowadane}"/>
+                <p:column headerText="księgowa" width="70" filterBy="#{wpisokr1.ksiegowadane}" filterMatchMode="contains" sortBy="#{wpisokr1.ksiegowadane}" style="text-align: left;">  
+                    <h:outputText value="#{wpisokr1.ksiegowadane}"/>
                 </p:column>
-<!--                <p:column headerText="data wystawienia" sortBy="#{wpis.getDatawystawieniaOld()}" filterBy="#{wpis.getDatawystawieniaOld()}" filterMatchMode="contains" filterStyle="display : none;" width="90">
-                    <h:outputText value="#{wpis.getDatawystawieniaOld()}" style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
+<!--                <p:column headerText="data wystawienia" sortBy="#{wpisokr1.getDatawystawieniaOld()}" filterBy="#{wpisokr1.getDatawystawieniaOld()}" filterMatchMode="contains" filterStyle="display : none;" width="90">
+                    <h:outputText value="#{wpisokr1.getDatawystawieniaOld()}" style="#{wpisokr1.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>
-                <p:column width="100" headerText="#{mgs.opis}" sortBy="#{wpis.dokument.opisFaktury}" filterBy="#{wpis.dokument.opisFaktury}" filterMatchMode="contains">
-                    <h:outputText value="#{wpis.dokument.opisFaktury}"  style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
+                <p:column width="100" headerText="#{mgs.opis}" sortBy="#{wpisokr1.dokument.opisFaktury}" filterBy="#{wpisokr1.dokument.opisFaktury}" filterMatchMode="contains">
+                    <h:outputText value="#{wpisokr1.dokument.opisFaktury}"  style="#{wpisokr1.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>-->
-<!--                <p:column headerText="brutto" sortBy="#{wpis.dokument.bruttoFakturaView}" filterBy="#{wpis.dokument.bruttoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
-                    <bcf:outputpl value="#{wpis.dokument.bruttoFakturaView}"/>
-                    <h:outputText value=" #{wpis.dokument.walutafaktury}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
-                    <bcf:outputpl value="#{wpis.dokument.bruttoFakturaViewPLN}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
-                    <h:outputText value=" PLN" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}" style="color: "/>
+<!--                <p:column headerText="brutto" sortBy="#{wpisokr1.dokument.bruttoFakturaView}" filterBy="#{wpisokr1.dokument.bruttoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
+                    <bcf:outputpl value="#{wpisokr1.dokument.bruttoFakturaView}"/>
+                    <h:outputText value=" #{wpisokr1.dokument.walutafaktury}" rendered="#{wpisokr1.dokument.walutafaktury ne 'PLN'}"/>
+                    <bcf:outputpl value="#{wpisokr1.dokument.bruttoFakturaViewPLN}" rendered="#{wpisokr1.dokument.walutafaktury ne 'PLN'}"/>
+                    <h:outputText value=" PLN" rendered="#{wpisokr1.dokument.walutafaktury ne 'PLN'}" style="color: "/>
                 </p:column>-->
-                <p:column headerText="01" width="20" sortBy="#{wpis.m1}"  rendered="#{WpisView.miesiacWpisu eq '01'}" filterBy="#{wpis.m1}">  
-                    <h:outputText value="#{wpis.m1}" styleClass="#{wpis.m1 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="01" width="20" sortBy="#{wpisokr1.m1}"  rendered="#{WpisView.miesiacWpisu eq '01'}" filterBy="#{wpisokr1.m1}">  
+                    <h:outputText value="#{wpisokr1.m1}" styleClass="#{wpisokr1.m1 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="02" width="20" sortBy="#{wpis.m2}" rendered="#{WpisView.miesiacWpisu eq '02'}" filterBy="#{wpis.m2}">  
-                    <h:outputText value="#{wpis.m2}" styleClass="#{wpis.m2 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="02" width="20" sortBy="#{wpisokr1.m2}" rendered="#{WpisView.miesiacWpisu eq '02'}" filterBy="#{wpisokr1.m2}">  
+                    <h:outputText value="#{wpisokr1.m2}" styleClass="#{wpisokr1.m2 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="03" width="20" sortBy="#{wpis.m3}" rendered="#{WpisView.miesiacWpisu eq '03'}" filterBy="#{wpis.m3}">  
-                    <h:outputText value="#{wpis.m3}" styleClass="#{wpis.m3 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="03" width="20" sortBy="#{wpisokr1.m3}" rendered="#{WpisView.miesiacWpisu eq '03'}" filterBy="#{wpisokr1.m3}">  
+                    <h:outputText value="#{wpisokr1.m3}" styleClass="#{wpisokr1.m3 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="04" width="20" sortBy="#{wpis.m4}" rendered="#{WpisView.miesiacWpisu eq '04'}" filterBy="#{wpis.m4}">  
-                    <h:outputText value="#{wpis.m4}" styleClass="#{wpis.m4 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="04" width="20" sortBy="#{wpisokr1.m4}" rendered="#{WpisView.miesiacWpisu eq '04'}" filterBy="#{wpisokr1.m4}">  
+                    <h:outputText value="#{wpisokr1.m4}" styleClass="#{wpisokr1.m4 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="05" width="20" sortBy="#{wpis.m5}" rendered="#{WpisView.miesiacWpisu eq '05'}" filterBy="#{wpis.m5}">  
-                    <h:outputText value="#{wpis.m5}" styleClass="#{wpis.m5 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="05" width="20" sortBy="#{wpisokr1.m5}" rendered="#{WpisView.miesiacWpisu eq '05'}" filterBy="#{wpisokr1.m5}">  
+                    <h:outputText value="#{wpisokr1.m5}" styleClass="#{wpisokr1.m5 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="06" width="20" sortBy="#{wpis.m6}" rendered="#{WpisView.miesiacWpisu eq '06'}" filterBy="#{wpis.m6}">  
-                    <h:outputText value="#{wpis.m6}" styleClass="#{wpis.m6 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="06" width="20" sortBy="#{wpisokr1.m6}" rendered="#{WpisView.miesiacWpisu eq '06'}" filterBy="#{wpisokr1.m6}">  
+                    <h:outputText value="#{wpisokr1.m6}" styleClass="#{wpisokr1.m6 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="07" width="20" sortBy="#{wpis.m7}" rendered="#{WpisView.miesiacWpisu eq '07'}" filterBy="#{wpis.m7}">  
-                    <h:outputText value="#{wpis.m7}" styleClass="#{wpis.m7 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="07" width="20" sortBy="#{wpisokr1.m7}" rendered="#{WpisView.miesiacWpisu eq '07'}" filterBy="#{wpisokr1.m7}">  
+                    <h:outputText value="#{wpisokr1.m7}" styleClass="#{wpisokr1.m7 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="08" width="20" sortBy="#{wpis.m8}" rendered="#{WpisView.miesiacWpisu eq '08'}" filterBy="#{wpis.m8}">  
-                    <h:outputText value="#{wpis.m8}" styleClass="#{wpis.m8 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="08" width="20" sortBy="#{wpisokr1.m8}" rendered="#{WpisView.miesiacWpisu eq '08'}" filterBy="#{wpisokr1.m8}">  
+                    <h:outputText value="#{wpisokr1.m8}" styleClass="#{wpisokr1.m8 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="09" width="20" sortBy="#{wpis.m9}" rendered="#{WpisView.miesiacWpisu eq '09'}" filterBy="#{wpis.m9}">  
-                    <h:outputText value="#{wpis.m9}" styleClass="#{wpis.m9 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="09" width="20" sortBy="#{wpisokr1.m9}" rendered="#{WpisView.miesiacWpisu eq '09'}" filterBy="#{wpisokr1.m9}">  
+                    <h:outputText value="#{wpisokr1.m9}" styleClass="#{wpisokr1.m9 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="10" width="20" sortBy="#{wpis.m10}" rendered="#{WpisView.miesiacWpisu eq '10'}" filterBy="#{wpis.m10}">  
-                    <h:outputText value="#{wpis.m10}" styleClass="#{wpis.m10 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="10" width="20" sortBy="#{wpisokr1.m10}" rendered="#{WpisView.miesiacWpisu eq '10'}" filterBy="#{wpisokr1.m10}">  
+                    <h:outputText value="#{wpisokr1.m10}" styleClass="#{wpisokr1.m10 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="11" width="20" sortBy="#{wpis.m11}" rendered="#{WpisView.miesiacWpisu eq '11'}" filterBy="#{wpis.m11}">  
-                    <h:outputText value="#{wpis.m11}" styleClass="#{wpis.m11 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="11" width="20" sortBy="#{wpisokr1.m11}" rendered="#{WpisView.miesiacWpisu eq '11'}" filterBy="#{wpisokr1.m11}">  
+                    <h:outputText value="#{wpisokr1.m11}" styleClass="#{wpisokr1.m11 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="12" width="20"  sortBy="#{wpis.m12}" rendered="#{WpisView.miesiacWpisu eq '12'}" filterBy="#{wpis.m12}">  
-                    <h:outputText value="#{wpis.m12}" styleClass="#{wpis.m12 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="12" width="20"  sortBy="#{wpisokr1.m12}" rendered="#{WpisView.miesiacWpisu eq '12'}" filterBy="#{wpisokr1.m12}">  
+                    <h:outputText value="#{wpisokr1.m12}" styleClass="#{wpisokr1.m12 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column headerText="bil." width="20"  sortBy="#{wpis.m13}">  
-                    <h:outputText value="#{wpis.m13}" styleClass="#{wpis.m13 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
+                <p:column headerText="bil." width="20"  sortBy="#{wpisokr1.m13}">  
+                    <h:outputText value="#{wpisokr1.m13}" styleClass="#{wpisokr1.m13 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
                 <p:column headerText="tel" width="110" >  
-                    <h:outputText value="#{wpis.dokument.kontrahent.telefondb}"/>
+                    <h:outputText value="#{wpisokr1.dokument.kontrahent.telefondb}"/>
                 </p:column>
-                <p:column width="40" headerText="zaw." sortBy="#{wpis.zawieszona}" filterBy="#{wpis.zawieszona}" filterMatchMode="contains" style="text-align: center;">
-                    <h:outputText value="&#x2713;" style="color: red; font-weight: 900;" rendered="#{wpis.zawieszona}"/>
+                <p:column width="40" headerText="zaw." sortBy="#{wpisokr1.zawieszona}" filterBy="#{wpisokr1.zawieszona}" filterMatchMode="contains" style="text-align: center;">
+                    <h:outputText value="&#x2713;" style="color: red; font-weight: 900;" rendered="#{wpisokr1.zawieszona}"/>
                 </p:column>
-<!--                  <p:column width="40" headerText="wielor." sortBy="#{wpis.wystawtylkoraz}" filterBy="#{wpis.wystawtylkoraz}" filterMatchMode="contains" style="text-align: center;">
-                    <h:outputText value="&#x2713;" style="color: blue; font-weight: 900;" rendered="#{!wpis.wystawtylkoraz}"/>
+<!--                  <p:column width="40" headerText="wielor." sortBy="#{wpisokr1.wystawtylkoraz}" filterBy="#{wpisokr1.wystawtylkoraz}" filterMatchMode="contains" style="text-align: center;">
+                    <h:outputText value="&#x2713;" style="color: blue; font-weight: 900;" rendered="#{!wpisokr1.wystawtylkoraz}"/>
                 </p:column>
-                  <p:column width="40" headerText="edycja" sortBy="#{wpis.recznaedycja}" filterBy="#{wpis.recznaedycja}" filterMatchMode="contains" style="text-align: center;">
-                    <h:outputText value="&#x2713;" style="color: blue; font-weight: 900;" rendered="#{wpis.recznaedycja}"/>
+                  <p:column width="40" headerText="edycja" sortBy="#{wpisokr1.recznaedycja}" filterBy="#{wpisokr1.recznaedycja}" filterMatchMode="contains" style="text-align: center;">
+                    <h:outputText value="&#x2713;" style="color: blue; font-weight: 900;" rendered="#{wpisokr1.recznaedycja}"/>
                 </p:column>-->
-                <p:column headerText="prac." width="30" filterBy="#{wpis.sapracownicy}" sortBy="#{wpis.sapracownicy}" style="text-align: center;">  
-                    <h:outputText value="&#x2713;" rendered="#{wpis.sapracownicy}" style="color: blue;font-weight: 900;"/>
+                <p:column headerText="prac." width="30" filterBy="#{wpisokr1.sapracownicy}" sortBy="#{wpisokr1.sapracownicy}" style="text-align: center;">  
+                    <h:outputText value="&#x2713;" rendered="#{wpisokr1.sapracownicy}" style="color: blue;font-weight: 900;"/>
                 </p:column>
-                 <p:column headerText="rozne maile" width="30" filterBy="#{wpis.roznemailepodatnikkontrahent}" sortBy="#{wpis.roznemailepodatnikkontrahent}" style="text-align: center;">  
-                     <h:outputText value="!!" rendered="#{wpis.roznemailepodatnikkontrahent}" style="color: red;font-weight: 900;"/>
+                 <p:column headerText="rozne maile" width="30" filterBy="#{wpisokr1.roznemailepodatnikkontrahent}" sortBy="#{wpisokr1.roznemailepodatnikkontrahent}" style="text-align: center;">  
+                     <h:outputText value="!!" rendered="#{wpisokr1.roznemailepodatnikkontrahent}" style="color: red;font-weight: 900;"/>
                 </p:column>
-                <p:column headerText="data" width="70"  sortBy="#{wpis.datautworzenia}">  
-                    <h:outputText value="#{wpis.datautworzenia}">
+                <p:column headerText="data" width="70"  sortBy="#{wpisokr1.datautworzenia}">  
+                    <h:outputText value="#{wpisokr1.datautworzenia}">
                         <f:convertDateTime pattern="yyyy/MM/dd" />
                     </h:outputText>
                 </p:column>
-                 <p:column styleClass="data" headerText="sporz." sortBy="#{wpis.autor}" filterBy="#{wpis.autor}" filterMatchMode="contains"  
+                 <p:column styleClass="data" headerText="sporz." sortBy="#{wpisokr1.autor}" filterBy="#{wpisokr1.autor}" filterMatchMode="contains"  
                           style="text-align: left;"  width="70">
-                    <h:outputText value="#{wpis.autor}">
+                    <h:outputText value="#{wpisokr1.autor}">
                     </h:outputText>
                 </p:column>
-                <p:column headerText="edycja" width="70"  sortBy="#{wpis.datautworzenia}">  
-                    <h:outputText value="#{wpis.dataedycji}">
+                <p:column headerText="edycja" width="70"  sortBy="#{wpisokr1.datautworzenia}">  
+                    <h:outputText value="#{wpisokr1.dataedycji}">
                         <f:convertDateTime pattern="yyyy/MM/dd" />
                     </h:outputText>
                 </p:column>
                 
                 <p:column headerText="drukuj" style="text-align: center;" width="40">
-                    <p:commandButton update=":form1:messages" actionListener="#{pdfFaktura.drukujokresowa(wpis, row, WpisView.podatnikObiekt)}" icon="ui-icon-print" />
+                    <p:commandButton update=":form1:messages" actionListener="#{pdfFaktura.drukujokresowa(wpisokr1, row, WpisView.podatnikObiekt)}" icon="ui-icon-print" />
                 </p:column>
                 <p:column  headerText="edytuj" style="text-align: center;"  width="40">
-                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycji(wpis)}" 
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycji(wpisokr1)}" 
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                 <p:rowExpansion>
                     <p:panelGrid layout="tabular" columns="2">
                         <p:panelGrid layout="tabular" columns="1">
                             <p:column id="SubColumn3uwagi" headerText="uwagi">  uwagi
-                                <p:inputTextarea value="#{wpis.uwagi}" cols="70" rows="4">
-                                    <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpis)}"/>
+                                <p:inputTextarea value="#{wpisokr1.uwagi}" cols="70" rows="4">
+                                    <p:ajax event="change"  partialSubmit="true" global="false" listener="#{fakturaView.edytujokresowa(wpisokr1)}"/>
                                 </p:inputTextarea>
                             </p:column>
                         </p:panelGrid>
                         <p:panelGrid layout="tabular" columns="1">
                             <p:panelGrid layout="tabular"  columns="4" >
                                 <h:outputText value="email podatnika"/>
-                                <h:outputText value="#{wpis.podid.email ne '' ? wpis.podid.email : 'brak adresu email'}"/>
+                                <h:outputText value="#{wpisokr1.podid.email ne '' ? wpisokr1.podid.email : 'brak adresu email'}"/>
                                 <h:outputText value="email kontrahenta"/>
                                  <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" emptyLabel="brak maila" >
                                     <f:facet name="output">
-                                        <h:outputText value="#{wpis.dokument.kontrahent.email}" rendered="#{wpis.dokument.kontrahent.email ne null}"/>
-                                        <h:outputText value="brak maila" rendered="#{wpis.dokument.kontrahent.email eq null}"/>
+                                        <h:outputText value="#{wpisokr1.dokument.kontrahent.email}" rendered="#{wpisokr1.dokument.kontrahent.email ne null}"/>
+                                        <h:outputText value="brak maila" rendered="#{wpisokr1.dokument.kontrahent.email eq null}"/>
                                     </f:facet>
                                     <f:facet name="input">
-                                        <p:inputText value="#{wpis.dokument.kontrahent.email}"
+                                        <p:inputText value="#{wpisokr1.dokument.kontrahent.email}"
                                                       label="text" style="font-weight: bolder;" >  
-                                            <p:ajax event="change" listener="#{fakturaView.zmienmailkontrahenta(wpis.dokument.kontrahent)}" global="false" partialSubmit="true"/>
+                                            <p:ajax event="change" listener="#{fakturaView.zmienmailkontrahenta(wpisokr1.dokument.kontrahent)}" global="false" partialSubmit="true"/>
                                         </p:inputText>
                                     </f:facet>
                                 </p:inplace>
-                                <h:outputText value="#{wpis.dokument.kontrahent.email ne '' ? wpis.dokument.kontrahent.email : 'brak adresu email'}"/>
+                                <h:outputText value="#{wpisokr1.dokument.kontrahent.email ne '' ? wpisokr1.dokument.kontrahent.email : 'brak adresu email'}"/>
                                 <h:outputText value="kwota netto"/>
-                                <bcf:outputpl value="#{wpis.dokument.netto}"/>
+                                <bcf:outputpl value="#{wpisokr1.dokument.netto}"/>
                                 <h:outputText value="kwota vat"/>
-                                <bcf:outputpl value="#{wpis.dokument.vat}"/>
+                                <bcf:outputpl value="#{wpisokr1.dokument.vat}"/>
                                 <h:outputText value="kwota brutto"/>
-                                <bcf:outputpl value="#{wpis.dokument.brutto}"/>
+                                <bcf:outputpl value="#{wpisokr1.dokument.brutto}"/>
                                 <h:outputText value="NIP kontrahenta"/>
-                                <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
+                                <h:outputText value="#{wpisokr1.dokument.kontrahent_nip}"/>
 <!--                                <h:outputText value="data waloryzacji"/>
-                                <h:outputText value="#{wpis.dokument.datawaloryzacji}">
+                                <h:outputText value="#{wpisokr1.dokument.datawaloryzacji}">
                                     <f:convertDateTime pattern="yyyy-MM-dd" />
                                 </h:outputText>
-                                <h:outputText value="procent waloryzacji %" rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
-                                <bcf:outputpl value="#{wpis.dokument.procentwaloryzacji}"  rendered="#{wpis.dokument.procentwaloryzacji ne 0}"/>
-                                <h:outputText value="stara kwota" rendered="#{wpis.dokument.starakwota ne 0}"/>
-                                <bcf:outputpl value="#{wpis.dokument.starakwota}"  rendered="#{wpis.dokument.starakwota ne 0}"/>-->
+                                <h:outputText value="procent waloryzacji %" rendered="#{wpisokr1.dokument.procentwaloryzacji ne 0}"/>
+                                <bcf:outputpl value="#{wpisokr1.dokument.procentwaloryzacji}"  rendered="#{wpisokr1.dokument.procentwaloryzacji ne 0}"/>
+                                <h:outputText value="stara kwota" rendered="#{wpisokr1.dokument.starakwota ne 0}"/>
+                                <bcf:outputpl value="#{wpisokr1.dokument.starakwota}"  rendered="#{wpisokr1.dokument.starakwota ne 0}"/>-->
                             </p:panelGrid>
                             <p:panelGrid layout="tabular"  columns="1" >
                                 <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" >  
-                                    <p:dataTable lazy="false"  var="subwpis" value="#{wpis.dokument.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true">
+                                    <p:dataTable lazy="false"  var="subwpisokr1" value="#{wpisokr1.dokument.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true">
                                         <p:column id="SubColumn1" headerText="ewidencja" width="350">  
-                                            <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
+                                            <h:outputText value="#{subwpisokr1.ewidencja.nazwa}" rendered="#{subwpisokr1.vat ne 0 ? true : subwpisokr1.netto ne 0 ? true : false}" />
                                         </p:column>
                                         <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
-                                            <h:outputText value="#{subwpis.netto}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                            <h:outputText value="#{subwpisokr1.netto}" style="float: right;" rendered="#{subwpisokr1.vat ne 0 ? true : subwpisokr1.netto ne 0 ? true : false}">
                                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                                             </h:outputText>
                                         </p:column>
                                         <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
-                                            <h:outputText value="#{subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                            <h:outputText value="#{subwpisokr1.vat}" style="float: right;" rendered="#{subwpisokr1.vat ne 0 ? true : subwpisokr1.netto ne 0 ? true : false}">
                                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                                             </h:outputText>
                                         </p:column>
                                         <p:column id="SubColumn2a" headerText="brutto">  
-                                            <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                            <h:outputText value="#{subwpisokr1.netto + subwpisokr1.vat}" style="float: right;" rendered="#{subwpisokr1.vat ne 0 ? true : subwpisokr1.netto ne 0 ? true : false}">
                                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                                             </h:outputText>
                                         </p:column>
                                         <p:column id="SubColumn3" headerText="op/zw" style="text-align: center">  
-                                            <h:outputText value="#{subwpis.estawka}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                                            <h:outputText value="#{subwpisokr1.estawka}" rendered="#{subwpisokr1.vat ne 0 ? true : subwpisokr1.netto ne 0 ? true : false}"/>
                                         </p:column>
                                         <p:column id="SubColumn4" headerText="okresy vat">  
-                                            <h:outputText value="#{subwpis.vatM}/#{subwpis.vatR}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                                            <h:outputText value="#{subwpisokr1.vatM}/#{subwpisokr1.vatR}" style="float: right;" rendered="#{subwpisokr1.vat ne 0 ? true : subwpisokr1.netto ne 0 ? true : false}"/>
                                         </p:column>
                                     </p:dataTable>
                                 </p:column>
@@ -282,26 +245,7 @@
                     </p:panelGrid>
                 </p:rowExpansion>
             </p:dataTable>
-             <p:contextMenu for=":akordeon:formokresowe2:dokumentyOkresowe" style="width: 250px;">
-                <p:menuitem value="#{mgs.drukuj}" update=":form1:messages" actionListener="#{fakturaView.drukujokresowa()}" icon="ui-icon-print" />
-                <p:menuitem value="Wygeneruj" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie " global="false" onclick="PF('confirmationFakturaOkresowe').show()" icon="ui-icon-lightbulb" />
-                <p:menuitem value="Wygeneruj fakt. z prac." update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe2').show()" icon="ui-icon-lightbulb" />
-                <p:menuitem value="Wygeneruj zaległe kadry" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe3').show()" icon="ui-icon-lightbulb"   rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
-                <p:menuitem value="Wygeneruj z waloryzacją" update=":form1:messages" actionListener="#{fakturaView.wygenerujzokresowychwaloryzacja()}" icon="ui-icon-lightbulb"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
-                <p:menuitem value="Wygeneruj jako bilansowe" update=":form1:messages akordeon:formsporzadzone_edit:dokumentyLista_edit" actionListener="#{fakturaView.wygenerujzokresowychbilansowe()}" icon="ui-icon-lightbulb"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
-                <p:menuitem value="Usuń wybrane" update=":akordeon:formokresowe2:dokumentyOkresowe" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
-                <p:separator/>
-                <p:menuitem value="Sprawdź bieżący m-c" update=":akordeon:formokresowe2:dokumentyOkresowe" actionListener="#{fakturaView.sprawdzbiezacymiesiac()}" icon="fa fa-spinner" />
-                <p:menuitem value="Resetuj bieżący m-c" update=":akordeon:formokresowe2:dokumentyOkresowe" actionListener="#{fakturaView.resetujbiezacymiesiac()}" icon="ui-icon-cancel" />
-                <p:menuitem value="Oznacz bieżący m-c" update=":akordeon:formokresowe2:dokumentyOkresowe" actionListener="#{fakturaView.oznaczbiezacymiesiac()}" icon="ui-icon-plus" />
-                <p:menuitem value="Zawieś/odwieś fakturę" update="akordeon:formokresowe2:dokumentyOkresowe" actionListener="#{fakturaView.zawiesfakture()}" icon="ui-icon-arrowthickstop-1-n" />
-                <p:menuitem value="Oznacz wielorazowa" update="akordeon:formokresowe2:dokumentyOkresowe" actionListener="#{fakturaView.oznaczwielorazowa()}" icon="ui-icon-arrowthickstop-1-n"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
-                <p:menuitem value="Oznacz waloryzacja" update="akordeon:formokresowe2:dokumentyOkresowe" actionListener="#{fakturaView.oznaczwaloryzacja()}" icon="ui-icon-arrowthickstop-1-n"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
-                <p:menuitem value="Oznacz faktura z prac." update="akordeon:formokresowe2:dokumentyOkresowe" actionListener="#{fakturaView.oznaczrecznaedycja()}" icon="ui-icon-arrowthickstop-1-n"  rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
-                <p:menuitem value="Porzadek" update="akordeon:formokresowe2:dokumentyOkresowe" actionListener="#{fakturaView.porzadekbiuro()}" icon="ui-icon-arrowthickstop-1-n" />
-                <p:separator/>
-                <p:menuitem value="Skopiuj do nowego roku" update=":akordeon:formokresowe2:dokumentyOkresowe" actionListener="#{fakturaView.skopiujdoNowegoroku()}" icon="ui-icon-star" />
-            </p:contextMenu>
+          
         </h:form>
     </p:tab>
 </ui:composition>   

@@ -74,14 +74,14 @@
             </p:panelGrid>
             
             <p:dataTable lazy="false"  id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}" 
-                         rowKey="#{wpis.hashCode()}" style="max-width: 1300px;height: 900px;overflow-y: scroll;" widgetVar="okresTable2" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}"
+                         rowKey="#{wpis.hashCode()}" style="max-width: 1300px;height: 900px;overflow-y: scroll;" widgetVar="okresTable3" sortBy="#{wpis.dokument.kontrahent.nazwabezCudzy}"
                          rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" paginator="true" rows="40"
                          >
                 
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie faktur okresowych: " />  
                     <h:outputText value="- wyszukiwanie: " />  
-                    <p:inputText id="globalFilter" onkeyup="PF('okresTable2').filter()" style="width:150px" />  
+                    <p:inputText id="globalFilter" onkeyup="PF('okresTable3').filter()" style="width:150px" />  
                 </f:facet>
                 <p:ajax event="filter" global="false"/>
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe3:panelsumokresowe confirmDialog1  confirmDialog2" global="false"/>
