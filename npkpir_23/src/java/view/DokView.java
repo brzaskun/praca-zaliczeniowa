@@ -837,6 +837,7 @@ public class DokView implements Serializable {
                     if (cechastala != null) {
                         dodajcechedodokumentu(cechastala);
                     }
+                    selDokument.setDataK(new Date());
                     dokDAO.create(selDokument);
                     //wpisywanie do bazy ostatniego dokumentu
                     pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnly(wpisView.getPodatnikObiekt());

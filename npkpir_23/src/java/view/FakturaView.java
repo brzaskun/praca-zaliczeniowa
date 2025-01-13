@@ -2681,7 +2681,7 @@ public class FakturaView implements Serializable {
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         for (Faktura r : fakturytmp) {
             for (Fakturywystokresowe p : this.fakturyokresowe) {
-                if (p.equals(r.getIdfakturaokresowa())) {
+                if (r.isTylkodlaokresowej()==false&&p.equals(r.getIdfakturaokresowa())) {
                     if (r.isBilansowa()) {
                         p.setM13(p.getM13() + 1);
                         fakturywystokresoweDAO.edit(p);

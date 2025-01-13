@@ -37,9 +37,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -148,8 +148,7 @@ public class Dok extends DokSuper implements Serializable {
     @NotNull
     @Column(name = "wpr")
     private String wprowadzil;
-    @Column(name = "data_k", insertable=false, updatable=false, columnDefinition="timestamp default current_timestamp")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dataK;
     @Column(name = "dataedycji")
     private Date dataedycji;
