@@ -538,7 +538,7 @@ public class PasekwynagrodzenBean {
                 PasekwynagrodzenBean.obliczpodstaweopodatkowaniaDB(pasek, stawkipodatkowe, nieodliczackup, kalendarz.getAngaz().isKosztyuzyskania0podwyzszone());
                 PasekwynagrodzenBean.obliczpodatekwstepnyDBStandard(pasek, pasek.getPodstawaopodatkowania(), stawkipodatkowe, sumapoprzednich);
             }
-            PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true, 0.0);
+            PasekwynagrodzenBean.ulgapodatkowaDB(pasek, stawkipodatkowe, true, odliczonajuzkwotawolna);
             PasekwynagrodzenBean.naliczzdrowota(pasek, pasek.isNierezydent(), true, umowakodzus);
         } else{
             //uzywamy tego samego bo tu nie chodzi przeciez o zlecenie tylko o skladnik 50, inne rzeczy dopasujemy bo zlecenie np. koszty uzyskania
