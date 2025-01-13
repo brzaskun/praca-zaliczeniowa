@@ -7,7 +7,7 @@
     xmlns:bcf="http://brzaskun.com/facelets" xmlns:pe="http://primefaces.org/ui/extensions">
 
     <p:tab title="Naliczenia do faktur">
-            <h:form styleClass="kadrypozycja">
+            <h:form styleClass="kadrypozycja" id="formkadry">
                 <p:panelGrid layout="tabular" columns="6">
                     <p:outputLabel value="rok" for="rok" />
                      <p:selectOneMenu id="rok" value="#{wsKadryFakturaPozycjaView.rok}"  style="width: 60px;">
@@ -18,13 +18,13 @@
                        <f:selectItems value="#{mce.mceList}"/>
                        <p:ajax event="change" partialSubmit="true"/>
                     </p:selectOneMenu>
-                    <p:commandButton styleClass="buttonnorm" style="width: 120px;margin-left: 10px;" actionListener="#{wsKadryFakturaPozycjaView.init()}" value="pobierz" update="@form" />
-                    <p:commandButton styleClass="buttonnorm" style="width: 120px;margin-left: 10px;" actionListener="#{wsKadryFakturaPozycjaView.usun()}" value="usuń wszystkie" update="@form" />
+                    <p:commandButton styleClass="buttonnorm" style="width: 120px;margin-left: 10px;" actionListener="#{wsKadryFakturaPozycjaView.init()}" value="pobierz" update="akordeon:formkadry:datalistfaktury" />
+                    <p:commandButton styleClass="buttonnorm" style="width: 120px;margin-left: 10px;" actionListener="#{wsKadryFakturaPozycjaView.usun()}" value="usuń wszystkie" update="akordeon:formkadry:datalistfaktury" />
                 </p:panelGrid>
                 <p:outputPanel style="padding: 10px;">
-                    <p:dataTable lazy="false"  id="datalist" value="#{wsKadryFakturaPozycjaView.wierzfakturybazalist}" var="item111"
-                                 selectionMode="single"
-                                 rowKey="#{item111.id}" rowIndexVar="indexumowa" sortBy="#{item111.nazwa}"
+                    <p:dataTable lazy="false"  id="datalistfaktury" value="#{wsKadryFakturaPozycjaView.wierzfakturybazalist}" var="item111"
+                                 selectionMode="single"   sortBy="#{item111.nazwa}" sortMode="single"
+                                 rowKey="#{item111.id}" rowIndexVar="indexfakturakadry" 
                                  style="max-width: 1520px; max-height: 70vh; overflow-y: scroll;"
                                  emptyMessage="Elementy dla danego miesiąca są w poprzedni miesiącu. W danym miesiącu fakturujemy listy za poprzedni miesiąc."
                                  >
@@ -33,7 +33,7 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <h:outputText value="#{indexumowa+1}"/>
+                            <h:outputText value="#{indexfakturakadry+1}"/>
                         </p:column>
                         <p:column width="70" style="text-align: left;" sortBy="#{item111.nip}" 
                                   filterBy="#{item111.nip}" filterMatchMode="contains">
@@ -42,8 +42,8 @@
                             </f:facet>
                             <h:outputText value="#{item111.nip}"/>
                         </p:column>
-                         <p:column width="250" style="text-align: left;" sortBy="#{item111.nazwa}" 
-                                  filterBy="#{item111.nazwa}" filterMatchMode="contains" >
+                        <p:column width="250" style="text-align: left;" sortBy="#{item111.nazwa}" sortable="true"
+                                   filterBy="#{item111.nazwa}" filterMatchMode="contains" sortPriority="1" >
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>

@@ -11,11 +11,15 @@ import data.Data;
 import entity.Fakturywystokresowe;
 import entity.Wierszfakturybaza;
 import java.io.Serializable;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -108,6 +112,13 @@ public class WsKadryFakturaPozycjaView implements Serializable {
                 }
             }
             Collections.sort(wierzfakturybazalist, new Wierszfakturybazacomparator());
+            wierzfakturybazalist = wierzfakturybazalist.stream()
+            .sorted(Comparator.comparing(
+                w -> w.getNazwa() != null ? w.getNazwa().toLowerCase(new Locale("pl", "PL")) : "",
+                Collator.getInstance(new Locale("pl", "PL"))))
+            .collect(Collectors.toList());
+
+            System.out.println("a");
         } catch (Exception ex) {
             Logger.getLogger(WsKadryFakturaPozycjaView.class.getName()).log(Level.SEVERE, null, ex);
         }

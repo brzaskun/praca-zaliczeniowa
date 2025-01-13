@@ -2278,7 +2278,7 @@ public class FakturaView implements Serializable {
             final String nip = p.getDokument().getKontrahent().getNip();
             if (listafakturzamiesiac!=null) {
                 Faktura get = listafakturzamiesiac.parallelStream().filter(fa->fa.getIdfakturaokresowa()!=null&&fa.getIdfakturaokresowa().equals(p)).findAny().orElse(null);
-                if (get!=null&&get.isKorekta()==false) {
+                if (get!=null&&get.isKorekta()==false&&get.isTylkodlaokresowej()==false) {
                     zwrot = true;
                 }
             }
