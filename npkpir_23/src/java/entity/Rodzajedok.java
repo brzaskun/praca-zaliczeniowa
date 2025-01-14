@@ -131,6 +131,9 @@ public class Rodzajedok implements Serializable {
     private boolean tylkovat;
     @Column(name = "tylkojpk")
     private boolean tylkojpk;
+    @Column(name = "nrprojektuwwierszu")
+    private boolean nrprojektuwwierszu;
+    
     @Column(name = "tylkopodatkowo")
     private boolean tylkopodatkowo;
     @Column(name = "jednostronny")
@@ -502,6 +505,14 @@ public class Rodzajedok implements Serializable {
 
     public void setTylkojpk(boolean tylkojpk) {
         this.tylkojpk = tylkojpk;
+    }
+
+    public boolean isNrprojektuwwierszu() {
+        return nrprojektuwwierszu;
+    }
+
+    public void setNrprojektuwwierszu(boolean nrprojektuwwierszu) {
+        this.nrprojektuwwierszu = nrprojektuwwierszu;
     }
     
 
