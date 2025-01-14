@@ -1834,6 +1834,7 @@ public class FakturaView implements Serializable {
                     tmp = dokDAO.znajdzDuplikat(selDokument, selDokument.getPkpirR());
                 }
                 if (tmp==null) {
+                    selDokument.setDataK(new Date());
                     dokDAO.create(selDokument);
                     if (podatnik0kontrahent==0) {
                         selDokument.setFaktura(faktura);
@@ -1914,6 +1915,7 @@ public class FakturaView implements Serializable {
                 try {
                     Dok tmp = dokDAO.znajdzDuplikat(selDokument, selDokument.getPkpirR());
                     if (tmp==null) {
+                        selDokument.setDataK(new Date());
                         dokDAO.create(selDokument);
                         if (podatnik0kontrahent==0) {
                             selDokument.setFaktura(faktura);
