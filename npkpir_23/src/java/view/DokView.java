@@ -1095,6 +1095,7 @@ public class DokView implements Serializable {
                 selDokument.setRozliczony(true);
                 sprawdzCzyNieDuplikat(selDokument);
                 if (selDokument.getNetto() > 0) {
+                    selDokument.setDataK(new Date());
                     dokDAO.create(selDokument);
                     String wiadomosc = "Nowy dokument umorzenia zachowany: " + selDokument.getPkpirR() + "/" + selDokument.getPkpirM() + " kwota: " + selDokument.getNetto();
                     Msg.msg("i", wiadomosc);
