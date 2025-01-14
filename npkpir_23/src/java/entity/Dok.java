@@ -148,6 +148,7 @@ public class Dok extends DokSuper implements Serializable {
     @NotNull
     @Column(name = "wpr")
     private String wprowadzil;
+    @Column(name = "data_k")
     @Temporal(TemporalType.DATE)
     private Date dataK;
     @Column(name = "dataedycji")
