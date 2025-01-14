@@ -1377,7 +1377,7 @@ public class PasekwynagrodzenBean {
                 pasek.setSpolecznedoodliczeniakierowca(skladki);
             }
         }
-        if (pasek.isDo26lat()) {
+        if (pasek.isDo26lat()&&pasek.getPrzekroczenie26lat()>0.0) {
             skladki = pasek.getPrzekroczenie26lat()*.1371;
         }
         //zapisek dla kierowcow 27.10.23

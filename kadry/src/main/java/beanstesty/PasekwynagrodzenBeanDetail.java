@@ -53,7 +53,7 @@ public class PasekwynagrodzenBeanDetail {
 
     static void zdrowotnakorektazlecenieNiestudent(Pasekwynagrodzen pasek, double zdrowotneskladka) {
         double limitdlazdrowotnej = Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) > 0.0 ? Z.z(pasek.getPodstawaopodatkowania() * 0.17 - pasek.getKwotawolnadlazdrowotnej()) : 0.0;
-        if (pasek.isDo26lat()==false&&Z.z(pasek.getKwotawolna()) > 0.0) {
+        if (pasek.isDo26lat()==false&&pasek.getPrzekroczenie26lat()>0.0&&Z.z(pasek.getKwotawolna()) > 0.0) {
             zdrowotneskladka = zdrowotneskladka > limitdlazdrowotnej ? Z.z(limitdlazdrowotnej) : zdrowotneskladka;
         }
         pasek.setPraczdrowotne(zdrowotneskladka);
