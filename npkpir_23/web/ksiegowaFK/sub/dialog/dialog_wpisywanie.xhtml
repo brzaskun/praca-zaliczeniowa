@@ -567,14 +567,21 @@
                         </p:column>
                         <p:column headerText="ilość kg" style="width: 30px;" rendered="#{dokfkView.selected.rodzajedok.pokazkg}" >
                             <p:inputNumber   id="ilosckg" value="#{wploop.ilosc_kg}" style="text-align: right;" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
-                                            thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-100000" >
+                                            thousandSeparator="&#160;"  inputStyle="text-align: right;" size="6" decimalPlaces="2" >
                                 
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:inputNumber>
+                            </p:column>
+                            <p:column headerText="nr. proj," style="width: 30px;" rendered="#{dokfkView.selected.rodzajedok.nrprojektuwwierszu}" >
+                            <p:inputText   id="nrrpoj" value="#{wploop.nrprojektuwwierszu}" style="text-align: right;" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
+                                             size="6"  >
+                                
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:inputText>
                         </p:column>
                         <p:column headerText="ilość szt" style="width: 30px;" rendered="#{dokfkView.selected.rodzajedok.pokazszt}" >
                             <p:inputNumber    id="iloscszt" value="#{wploop.ilosc_szt}" style="text-align: right;" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
-                                             thousandSeparator="&#160;"  inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-100000">
+                                             thousandSeparator="&#160;"  inputStyle="text-align: right;" size="6" decimalPlaces="2" >
                                 
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:inputNumber>

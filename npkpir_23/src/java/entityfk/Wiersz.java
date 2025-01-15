@@ -24,7 +24,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -81,6 +80,9 @@ public class Wiersz implements Serializable {
     private String opisWiersza;
     @Column(name = "ilosc_kg")
     private double ilosc_kg;
+    @Column(name = "nrprojektuwwierszu")
+    private String nrprojektuwwierszu;
+    
     @Column(name = "ilosc_szt")
     private double ilosc_szt;
     //WnMa 0
@@ -448,6 +450,16 @@ public class Wiersz implements Serializable {
     public void setTabelanbp(Tabelanbp tabelanbp) {
         this.tabelanbp = tabelanbp;
     }
+
+    public String getNrprojektuwwierszu() {
+        return nrprojektuwwierszu;
+    }
+
+    public void setNrprojektuwwierszu(String nrprojektuwwierszu) {
+        this.nrprojektuwwierszu = nrprojektuwwierszu;
+    }
+    
+    
 
     //</editor-fold>
 

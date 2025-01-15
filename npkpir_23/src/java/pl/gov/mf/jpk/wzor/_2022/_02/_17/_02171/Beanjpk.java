@@ -163,7 +163,7 @@ public class Beanjpk {
                 ustawwiersze(nd, rodzajedok, faktura, tabeladomyslna, tabelanbpDAO, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, kontokasadlajpk);
                 if (nd.getListawierszy() != null && nd.getListawierszy().size() > 0) {
                     nd.setDatadokumentu(datawystawienia);
-                    nd.setDataoperacji(datawystawienia);
+                    nd.setDataoperacji(faktura.getP6().toString());
                     nd.setDatawplywu(datawystawienia);
                     nd.setDatawystawienia(datawystawienia);
                     nd.setDataujecia(new Date());
