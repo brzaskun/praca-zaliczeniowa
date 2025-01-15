@@ -336,6 +336,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double przekroczeniepodatekniemiecki;
     @Column(name = "przekroczeniekosztyuzyskania")
     private double przekroczeniekosztyuzyskania;
+     @Column(name = "korektanettoswiadczeniarzeczowe")
+    private double korektanettoswiadczeniarzeczowe;
     @Transient
     private double pracchoroboweOddelegowanie;
     @Transient
@@ -1748,6 +1750,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setKorektapodstawaskladkizus(boolean korektapodstawaskladkizus) {
         this.korektapodstawaskladkizus = korektapodstawaskladkizus;
+    }
+
+    public double getKorektanettoswiadczeniarzeczowe() {
+        return korektanettoswiadczeniarzeczowe;
+    }
+
+    public void setKorektanettoswiadczeniarzeczowe(double korektanettoswiadczeniarzeczowe) {
+        this.korektanettoswiadczeniarzeczowe = korektanettoswiadczeniarzeczowe;
     }
 
     

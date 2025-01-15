@@ -386,6 +386,27 @@ public class KalendarzmiesiacBean {
     }
     
     
+    static void naliczskladnikiSwiadczeniaRzeczoweDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor, Pasekpomocnik sumyprzychodow) {
+        List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
+        if (skladnikwynagrodzeniaList.isEmpty()==false) {
+            skladnikwynagrodzeniaList = skladnikwynagrodzeniaList.stream().filter(p->p.getRodzajwynagrodzenia().isSpecjalny()==false).collect(Collectors.toList());
+            for (Skladnikwynagrodzenia p : skladnikwynagrodzeniaList) {
+                //trzeba usunac tylkospuerplace==true
+                if (p.getRodzajwynagrodzenia().isAktywne()) {
+                    if (p.getRodzajwynagrodzenia().isSwiadczenierzeczowe()) {
+                        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBSwiadczenieRzeczowe(kalendarz, pasekwynagrodzen, p, kurs, sumyprzychodow);
+                        if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() > 0.0) {
+                            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                        } 
+                    }
+                }
+            }
+        } else {
+            Msg.msg("e", "Brak zdefiniowanych składników wynagrodzenia");
+        }
+    }
+
+    
     static void naliczskladnikiPPKDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor, Pasekpomocnik sumyprzychodow) {
         List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
         if (skladnikwynagrodzeniaList.isEmpty()==false) {
@@ -405,7 +426,7 @@ public class KalendarzmiesiacBean {
             Msg.msg("e", "Brak zdefiniowanych składników wynagrodzenia");
         }
     }
-
+    
 //    static double naliczskladnikiPPKDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor) {
 //        double kwotappk = 0.0;
 //        for (Skladnikwynagrodzenia p : kalendarz.getAngaz().getSkladnikwynagrodzeniaList()) {

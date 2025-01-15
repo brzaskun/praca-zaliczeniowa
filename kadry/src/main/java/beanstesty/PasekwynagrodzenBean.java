@@ -328,6 +328,7 @@ public class PasekwynagrodzenBean {
         //to musi byc na dole bo inaczej nie sumuje wynagrodzenia za urlop, ktore wchodzi w ppk 29.11.2023
         Pasekpomocnik sumyprzychodow = sumujprzychodyzlisty(pasek);
         KalendarzmiesiacBean.naliczskladnikiPPKDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny, sumyprzychodow);
+        KalendarzmiesiacBean.naliczskladnikiSwiadczeniaRzeczoweDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny, sumyprzychodow);
         //myaslalem ze to jest potrzebne 21-12-2023 ale potem przeredagowalem ponizek, byly niepotrzebe zaokraglania czastkowtycgh
         //PasekwynagrodzenBean.zaokraglijgrosze(pasek);
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
@@ -1848,13 +1849,18 @@ public class PasekwynagrodzenBean {
     private static void netto(Pasekwynagrodzen pasek) {
         double wyliczenie = Z.z(pasek.getBrutto() - pasek.getRazemspolecznepracownik() - pasek.getPraczdrowotne() - pasek.getPodatekdochodowy());
         double ppk = 0.0;
+        double swiadczeniarzeczowe = 0.0;
         for (Naliczenieskladnikawynagrodzenia nal : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod()!=null&&nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("98")) {
                 ppk = ppk+nal.getKwotadolistyplac();
             }
+            if (nal.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSwiadczenierzeczowe()) {
+                swiadczeniarzeczowe = swiadczeniarzeczowe+nal.getKwotadolistyplac();
+            }
         }
-        //korekta o ppk
-        wyliczenie = wyliczenie-ppk;
+        //korekta o ppk - swiadczenie rzeczowe
+        wyliczenie = wyliczenie-ppk-swiadczeniarzeczowe;
+        pasek.setKorektanettoswiadczeniarzeczowe(ppk+swiadczeniarzeczowe);
         double wyliczenieminuspodatekwaluta = Z.z(wyliczenie-pasek.getPodatekdochodowyzagranica());
         pasek.setNettoprzedpotraceniamisafe(wyliczenieminuspodatekwaluta < 0.0 ? 0.0 : wyliczenieminuspodatekwaluta);
         pasek.setNettoprzedpotraceniami(wyliczenieminuspodatekwaluta < 0.0 ? 0.0 : wyliczenieminuspodatekwaluta);
