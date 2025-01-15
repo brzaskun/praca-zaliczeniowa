@@ -34,30 +34,32 @@ public class FreistellungReminder {
      @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
 
-    @Schedule(dayOfWeek = "Mon-Fri", hour = "22", minute = "22", persistent = false)
+    @Schedule(dayOfWeek = "Mon,Wed,Fri", hour = "22", minute = "22", persistent = false)
     public void alarmFreistellung() {
         List<Freistellung> listaFreistellung = freistellungDAO.findAll();
         String databiezaca = Data.aktualnaData();
         
-        for (Freistellung f : listaFreistellung) {
-            if (f.getDatado() != null && !f.getDatado().equals("")) {
-                String dataDo = f.getDatado();
+        for (Freistellung wybranyfreistellung : listaFreistellung) {
+            if (wybranyfreistellung.getDatado() != null && !wybranyfreistellung.getDatado().equals("")) {
+                String dataDo = wybranyfreistellung.getDatado();
                 String data60dni = Data.obliczDateMinusDni(dataDo, 60);
                 String data30dni = Data.obliczDateMinusDni(dataDo, 30);
                 
-                boolean czyMail1Niewyslany = f.getMailprzypom1() == null || f.getMailprzypom1().equals("");
-                boolean czyMail2Niewyslany = f.getMailprzypom2() == null || f.getMailprzypom2().equals("");
+                boolean czyMail1Niewyslany = wybranyfreistellung.getMailprzypom1() == null || wybranyfreistellung.getMailprzypom1().equals("");
+                boolean czyMail2Niewyslany = wybranyfreistellung.getMailprzypom2() == null || wybranyfreistellung.getMailprzypom2().equals("");
                 
                 if (czyMail1Niewyslany && Data.czyjestpoTerminData(data60dni, databiezaca)) {
+                    wybranyfreistellung.setMailprzypom1(databiezaca);
+                    freistellungDAO.edit(wybranyfreistellung);
                     // Wyślij pierwszy mail i zapisz datę wysłania
-                    wyslijMail(f, 1);
-                    f.setMailprzypom1(databiezaca);
-                    freistellungDAO.edit(f);
-                } else if (czyMail2Niewyslany && f.getMailprzypom1() != null && Data.czyjestpoTerminData(data30dni, databiezaca)) {
+                    wyslijMail(wybranyfreistellung, 1);
+                    
+                } else if (czyMail2Niewyslany && wybranyfreistellung.getMailprzypom1() != null && Data.czyjestpoTerminData(data30dni, databiezaca)) {
+                    wybranyfreistellung.setMailprzypom2(databiezaca);
+                    freistellungDAO.edit(wybranyfreistellung);
                     // Wyślij drugi mail i zapisz datę wysłania
-                    wyslijMail(f, 2);
-                    f.setMailprzypom2(databiezaca);
-                    freistellungDAO.edit(f);
+                    wyslijMail(wybranyfreistellung, 2);
+                    
                 }
             }
         }
