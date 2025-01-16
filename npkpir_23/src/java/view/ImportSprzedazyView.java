@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -567,6 +568,7 @@ public class ImportSprzedazyView  implements Serializable {
                 for (Dok p: dokumenty) {
                     try {
                         if (!p.getKontr().getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                            p.setDataK(new Date());
                             dokDAO.create(p);
                         } else {
                             Msg.msg("e","Bład kontrahenta. Nie zaksięgowano dokumentu!");

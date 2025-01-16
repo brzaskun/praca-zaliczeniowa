@@ -1180,6 +1180,7 @@ public class DokView implements Serializable {
             //sprawdzCzyNieDuplikat(selDokument);
             if (selDokument.getNetto() != 0) {
                 sprawdzCzyNieDuplikat(selDokument);
+                selDokument.setDataK(new Date());
                 dokDAO.create(selDokument);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nowy dokument storno zachowany", selDokument.getIdDok().toString());
                 FacesContext.getCurrentInstance().addMessage(null, msg);

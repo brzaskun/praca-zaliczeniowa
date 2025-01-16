@@ -30,6 +30,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -212,6 +213,7 @@ public class ImportCisView  implements Serializable {
             selDokument.setBrutto(Z.z(tmpX.getBrutto()));
             selDokument.setRozliczony(true);
             selDokument.setEwidencjaVAT1(dodajewidencje(selDokument, wiersz, innatabela, miesiac, rok));
+            selDokument.setDataK(new Date());
             if (selDokument.getKontr()!=null && sprawdzCzyNieDuplikat(selDokument)!=null) {
                 selDokument = null;
             }
@@ -335,6 +337,7 @@ public class ImportCisView  implements Serializable {
             for (Dok p: dokumenty) {
                 try {
                     if (p.getKontr().getNip()!=null) {
+                        p.setDataK(new Date());
                         dokDAO.create(p);
                         i++;
                     } else {
@@ -421,6 +424,7 @@ public class ImportCisView  implements Serializable {
         sumaryczna.setPodatek_vat_waluta(vatpln);
         sumaryczna.setWaluta("PLN");
         Dok doksuma = generujdok(sumaryczna);
+        doksuma.setDataK(new Date());
         doksuma.setOpis("zestawienie sumaryczne dokumenty PL");
         return doksuma;
     }

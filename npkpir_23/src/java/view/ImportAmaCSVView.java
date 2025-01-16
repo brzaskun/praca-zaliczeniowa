@@ -31,6 +31,7 @@ import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -307,6 +308,7 @@ public class ImportAmaCSVView  implements Serializable {
             for (Dok p: dokumenty) {
                 try {
                     if (p.getKontr().getNip()!=null) {
+                        p.setDataK(new Date());
                         dokDAO.create(p);
                     }
                 } catch(Exception e){

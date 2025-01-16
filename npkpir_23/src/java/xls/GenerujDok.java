@@ -27,6 +27,7 @@ import error.E;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -99,6 +100,7 @@ public class GenerujDok {
             
             try {
                 if (dokument!=null) {
+                    dokument.setDataK(new Date());
                     dokDAO.create(dokument);
                     wiersz.setSymbolzaksiegowanego(dokument.getNrWlDk());
                     ile = 1;

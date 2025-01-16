@@ -38,6 +38,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -929,6 +930,7 @@ public class ImportFakturyView  implements Serializable {
             for (Dok p: dokumenty) {
                 try {
                     if (p.getKontr().getNip()!=null) {
+                        p.setDataK(new Date());
                         dokDAO.create(p);
                     }
                 } catch(Exception e){

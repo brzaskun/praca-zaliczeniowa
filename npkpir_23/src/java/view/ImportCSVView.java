@@ -39,6 +39,7 @@ import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -382,6 +383,7 @@ public class ImportCSVView  implements Serializable {
             for (Dok p: dokumenty) {
                 try {
                     if (p.getKontr().getNip()!=null) {
+                        p.setDataK(new Date());
                         dokDAO.create(p);
                     }
                 } catch(Exception e){
