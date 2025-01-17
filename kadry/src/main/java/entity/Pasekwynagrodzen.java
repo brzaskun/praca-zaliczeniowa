@@ -96,6 +96,8 @@ public class Pasekwynagrodzen implements Serializable {
     private double bruttozus;
     @Column(name = "bruttozusbezpodatek")
     private double bruttozusbezpodatek;
+    @Column(name = "bruttoswiadczeniarzeczowe")
+    private double bruttoswiadczeniarzeczowe;
     //informacyjne, kwota jest w brutto
     @Column(name = "bruttozuskraj")
     private double bruttozuskraj;
@@ -1758,6 +1760,14 @@ public class Pasekwynagrodzen implements Serializable {
 
     public void setKorektanettoswiadczeniarzeczowe(double korektanettoswiadczeniarzeczowe) {
         this.korektanettoswiadczeniarzeczowe = korektanettoswiadczeniarzeczowe;
+    }
+
+    public double getBruttoswiadczeniarzeczowe() {
+        return bruttoswiadczeniarzeczowe;
+    }
+
+    public void setBruttoswiadczeniarzeczowe(double bruttoswiadczeniarzeczowe) {
+        this.bruttoswiadczeniarzeczowe = bruttoswiadczeniarzeczowe;
     }
 
     

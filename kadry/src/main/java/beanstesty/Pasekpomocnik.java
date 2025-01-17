@@ -21,6 +21,7 @@ public class Pasekpomocnik {
     double przychodyzus51wypadkowa;
     double przychodyzus52;
     double brutto;
+    double swiadczeniarzeczowe;
 
     public double getBezzusbezpodatek() {
         return bezzusbezpodatek;
@@ -117,6 +118,14 @@ public class Pasekpomocnik {
 
     public void setPrzychodyzus51wypadkowa(double przychodyzus51wypadkowa) {
         this.przychodyzus51wypadkowa = przychodyzus51wypadkowa;
+    }
+
+    public double getSwiadczeniarzeczowe() {
+        return swiadczeniarzeczowe;
+    }
+
+    public void setSwiadczeniarzeczowe(double swiadczeniarzeczowe) {
+        this.swiadczeniarzeczowe = swiadczeniarzeczowe;
     }
 
    

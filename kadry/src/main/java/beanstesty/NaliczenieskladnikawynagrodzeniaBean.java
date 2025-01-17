@@ -792,7 +792,8 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         }
         return naliczenieskladnikawynagrodzenia;
     }
-    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDBSwiadczenieRzeczowe(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs, Pasekpomocnik sumyprzychodow) {
+    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDBSwiadczenieRzeczowe(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, 
+            Skladnikwynagrodzenia skladnikwynagrodzenia, double kurs) {
         Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
         double dniroboczewmiesiacu = 0.0;
         double godzinyroboczewmiesiacu = 0.0;

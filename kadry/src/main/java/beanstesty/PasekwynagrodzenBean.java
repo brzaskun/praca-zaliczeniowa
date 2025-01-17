@@ -326,9 +326,11 @@ public class PasekwynagrodzenBean {
         KalendarzmiesiacBean.redukujskladnikistale2(kalendarz, pasek);
         String umowakodzus = pasek.getKodZus();
         //to musi byc na dole bo inaczej nie sumuje wynagrodzenia za urlop, ktore wchodzi w ppk 29.11.2023
+        KalendarzmiesiacBean.naliczskladnikiSwiadczeniaRzeczoweDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny);
         Pasekpomocnik sumyprzychodow = sumujprzychodyzlisty(pasek);
+        
         KalendarzmiesiacBean.naliczskladnikiPPKDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny, sumyprzychodow);
-        KalendarzmiesiacBean.naliczskladnikiSwiadczeniaRzeczoweDB(kalendarz, pasek, kurs, wynagrodzenieminimalne.getKwotabrutto(), kalendarzglobalny, sumyprzychodow);
+        
         //myaslalem ze to jest potrzebne 21-12-2023 ale potem przeredagowalem ponizek, byly niepotrzebe zaokraglania czastkowtycgh
         //PasekwynagrodzenBean.zaokraglijgrosze(pasek);
         if (definicjalistaplac.getRodzajlistyplac().getSymbol().equals("ZA")) {
@@ -742,6 +744,7 @@ public class PasekwynagrodzenBean {
         double przychodyzus51chorobowa = 0.0;
         double przychodyzus51wypadkowa = 0.0;
         double przychodyzus52 = 0.0;
+        double swiadczenierzeczowe = 0.0;
         if (pasek.getNaliczenieskladnikawynagrodzeniaList()!=null&&pasek.getNaliczenieskladnikawynagrodzeniaList().isEmpty()==false) {
             for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
                 //to nie ma sensu, gdyz skladnik40 zlecenie jako taki jest oznacozny jako ozusowany
@@ -766,6 +769,9 @@ public class PasekwynagrodzenBean {
                 }
                 if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkazdrowotna()) {
                         przychodyzus52 = przychodyzus52 + p.getKwotadolistyplac();
+                }
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSwiadczenierzeczowe()) {
+                        swiadczenierzeczowe = swiadczenierzeczowe + p.getKwotadolistyplac();
                 }
                 //robimy na razie rownolegle
                 if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().isSkladkapodatek()) {
@@ -842,6 +848,8 @@ public class PasekwynagrodzenBean {
         zwrot.setPrzychodyzus51rentowa(przychodyzus51rentowa);
         zwrot.setPrzychodyzus51chorobowa(przychodyzus51chorobowa);
         zwrot.setPrzychodyzus51wypadkowa(przychodyzus51wypadkowa);
+        zwrot.setSwiadczeniarzeczowe(swiadczenierzeczowe);
+        pasek.setBruttoswiadczeniarzeczowe(swiadczenierzeczowe);
         return zwrot;
     }
     
@@ -1476,6 +1484,7 @@ public class PasekwynagrodzenBean {
         pasek.setKosztyuzyskaniahipotetyczne(kosztyuzyskania);
         pasek.setPodstawaopodatkowaniahipotetyczna(podstawahipotetyczna);
         double podstawa = Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) > 0.0 ? Z.z0(bruttominusspoleczne - kosztyuzyskania - dieta30proc - ulgadlaklasysredniej) : 0.0;
+        podstawa = podstawa+pasek.getBruttoswiadczeniarzeczowe();
         //kosztyuzyskania = 0.0;
         //nie wiem po co to
 //        if (pasek.isPrzekroczenieoddelegowanie()) {
@@ -1670,7 +1679,7 @@ public class PasekwynagrodzenBean {
             }
         }
         pasek.setPodatekwstepny(podatek);
-    }
+        }
 
     private static void obliczpodatekwstepnyDBStandard(Pasekwynagrodzen pasek, double podstawaopodatkowania, List<Podatki> stawkipodatkowe, double sumapoprzednich) {
         double podatek = Z.z(Z.z0(podstawaopodatkowania) * stawkipodatkowe.get(0).getStawka());

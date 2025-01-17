@@ -386,7 +386,7 @@ public class KalendarzmiesiacBean {
     }
     
     
-    static void naliczskladnikiSwiadczeniaRzeczoweDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor, Pasekpomocnik sumyprzychodow) {
+    static void naliczskladnikiSwiadczeniaRzeczoweDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs, double wynagrodzenieminimalne, Kalendarzwzor kalendarzwzor) {
         List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList = kalendarz.getAngaz().getSkladnikwynagrodzeniaList();
         if (skladnikwynagrodzeniaList.isEmpty()==false) {
             skladnikwynagrodzeniaList = skladnikwynagrodzeniaList.stream().filter(p->p.getRodzajwynagrodzenia().isSpecjalny()==false).collect(Collectors.toList());
@@ -394,7 +394,7 @@ public class KalendarzmiesiacBean {
                 //trzeba usunac tylkospuerplace==true
                 if (p.getRodzajwynagrodzenia().isAktywne()) {
                     if (p.getRodzajwynagrodzenia().isSwiadczenierzeczowe()) {
-                        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBSwiadczenieRzeczowe(kalendarz, pasekwynagrodzen, p, kurs, sumyprzychodow);
+                        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDBSwiadczenieRzeczowe(kalendarz, pasekwynagrodzen, p, kurs);
                         if (naliczenieskladnikawynagrodzenia.getKwotadolistyplac() > 0.0) {
                             pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
                         } 
