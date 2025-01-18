@@ -551,6 +551,7 @@
                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{kadryfakturapozycjaView.pobierz}" value="pobierz" update="@form" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kadryfakturapozycjaView.pobierz}" value="wyryfikuj fakt." update="@form" />
                 </p:panelGrid>
                 <p:outputPanel style="padding: 10px;">
                     <p:dataTable id="datalist" value="#{kadryfakturapozycjaView.listawierszfaktury}" var="item111"

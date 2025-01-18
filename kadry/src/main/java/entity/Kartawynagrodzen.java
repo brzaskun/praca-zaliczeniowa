@@ -795,7 +795,13 @@ public class Kartawynagrodzen implements Serializable {
 
     @Override
     public String toString() {
-        return "Kartawynagrodzen{prac=" + angaz.getPracownik().getNazwiskoImie() + " rok  "+rok +", mc=" + mc  + "bruttobezzus=" + bruttobezzus + ", bruttozus=" + bruttozus + ", kosztyuzyskania=" + kosztyuzyskania + ", kwotawolna=" + kwotawolna + ", netto=" + netto + ", podatekdochodowy=" + podatekdochodowy + ", razemspolecznepracownik=" + razemspolecznepracownik + ", praczdrowotne=" + praczdrowotne + ", kosztypodwyzszone=" + kosztypodwyzszone + ", kosztywieleumow=" + kosztywieleumow + '}';
+        if (angaz!=null) {
+            return "Kartawynagrodzen{prac=" + angaz.getPracownik().getNazwiskoImie() + " rok  "+rok +", mc=" + mc  +"brutto=" + brutto +"bruttobezzus=" + bruttobezzus + 
+                    ", bruttozus=" + bruttozus + ", kosztyuzyskania=" + kosztyuzyskania + ", kwotawolna=" + kwotawolna + ", netto=" + netto + ", podatekdochodowy=" + podatekdochodowy + ", razemspolecznepracownik=" + razemspolecznepracownik + ", praczdrowotne=" + praczdrowotne + ", kosztypodwyzszone=" + kosztypodwyzszone + ", kosztywieleumow=" + kosztywieleumow + '}';
+        } else {
+            return "Kartawynagrodzen{prac= rok  "+rok +", mc=" + mc  + "brutto=" + brutto + "bruttobezzus=" + bruttobezzus + ", bruttozus=" + bruttozus + ", kosztyuzyskania=" + kosztyuzyskania +
+                    ", kwotawolna=" + kwotawolna + ", netto=" + netto + ", podatekdochodowy=" + podatekdochodowy + ", razemspolecznepracownik=" + razemspolecznepracownik + ", praczdrowotne=" + praczdrowotne + ", kosztypodwyzszone=" + kosztypodwyzszone + ", kosztywieleumow=" + kosztywieleumow + '}';
+        }
     }
 
     

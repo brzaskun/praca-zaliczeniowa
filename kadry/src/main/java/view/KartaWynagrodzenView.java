@@ -336,6 +336,9 @@ public class KartaWynagrodzenView  implements Serializable {
 //                                sumaUmowaoprace.dodaj(pasek);
 //                            }
                         }
+                    } else if (pasek.getRodzajWynagrodzenia()==8) {
+                        //swaidczenia rzeczowe 2024
+                            sumaUmowaoprace.dodaj(pasek);
                     } else if (pasek.getRodzajWynagrodzenia()==1006&&pasek.isDo26lat()==false) {
                             sumaZasilkiDorosly.dodaj(pasek);
                     } else if (pasek.getRodzajWynagrodzenia()==1&&pasek.isDo26lat()==true) {
