@@ -8,7 +8,7 @@
 
     <p:tab title="Naliczenia do faktur">
             <h:form styleClass="kadrypozycja" id="formkadry">
-                <p:panelGrid layout="tabular" columns="6">
+                <p:panelGrid layout="tabular" columns="7">
                     <p:outputLabel value="rok" for="rok" />
                      <p:selectOneMenu id="rok" value="#{wsKadryFakturaPozycjaView.rok}"  style="width: 60px;">
                            <f:selectItems value="#{roki.rokiList}"/>
@@ -20,6 +20,7 @@
                     </p:selectOneMenu>
                     <p:commandButton styleClass="buttonnorm" style="width: 120px;margin-left: 10px;" actionListener="#{wsKadryFakturaPozycjaView.init()}" value="pobierz" update="akordeon:formkadry:datalistfaktury" />
                     <p:commandButton styleClass="buttonnorm" style="width: 120px;margin-left: 10px;" actionListener="#{wsKadryFakturaPozycjaView.usun()}" value="usuń wszystkie" update="akordeon:formkadry:datalistfaktury" />
+                    <p:commandButton styleClass="buttonnorm" style="width: 120px;margin-left: 10px;" actionListener="#{wsKadryFakturaPozycjaView.weryfikujfaktury()}" value="weryfikuj fakt." update="akordeon:formkadry:datalistfaktury" />
                 </p:panelGrid>
                 <p:outputPanel style="padding: 10px;">
                     <p:dataTable lazy="false"  id="datalistfaktury" value="#{wsKadryFakturaPozycjaView.wierzfakturybazalist}" var="item111"

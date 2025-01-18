@@ -5,9 +5,11 @@
 package pluginkadry;
 
 import comparator.Wierszfakturybazacomparator;
+import dao.FakturaDAO;
 import dao.FakturywystokresoweDAO;
 import dao.WierszfakturybazaDAO;
 import data.Data;
+import entity.Faktura;
 import entity.Fakturywystokresowe;
 import entity.Wierszfakturybaza;
 import java.io.Serializable;
@@ -17,6 +19,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -43,6 +46,8 @@ public class WsKadryFakturaPozycjaView implements Serializable {
     @Inject
     private FakturywystokresoweDAO fakturywystokresoweDAO;
     @Inject
+    private FakturaDAO fakturaDAO;
+    @Inject
     private WierszfakturybazaDAO wierszfakturybazaDAO;
     private String rok;
     private String mc;
@@ -50,6 +55,7 @@ public class WsKadryFakturaPozycjaView implements Serializable {
     private WpisView wpisView;
     private List<WierszFaktury> listawierszfaktury;
     private List<Wierszfakturybaza> wierzfakturybazalist;
+    private List<Fakturywystokresowe> fakturyokresowe;
     
     
     @PostConstruct
@@ -65,7 +71,7 @@ public class WsKadryFakturaPozycjaView implements Serializable {
     public void init() {
         try {
             listawierszfaktury = new ArrayList<>();
-            List<Fakturywystokresowe> fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             wsKadryFakturaPozycja_Service = new WsKadryFakturaPozycja_Service();
             WsKadryFakturaPozycja wsKadryFakturaPozycjaPort = wsKadryFakturaPozycja_Service.getWsKadryFakturaPozycjaPort();
             String hello = wsKadryFakturaPozycjaPort.hello("lolo");
@@ -123,6 +129,62 @@ public class WsKadryFakturaPozycjaView implements Serializable {
             Logger.getLogger(WsKadryFakturaPozycjaView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+ public void weryfikujfaktury() {
+    if (wierzfakturybazalist == null || fakturyokresowe == null) {
+        Msg.msg("e", "Brak wymaganych danych do weryfikacji");
+        return;
+    }
+    
+    List<Faktura> fakturyZBazy = fakturaDAO.findFakturyByRokMcWystawca(
+            wpisView.getRokWpisuSt(), 
+            wpisView.getMiesiacWpisu(), 
+            wpisView.getPodatnikObiekt()
+    );
+    
+    if (fakturyZBazy == null) {
+        Msg.msg("e", "Nie ma pozycji w miesiącu");
+        return;
+    }
+    
+    fakturyZBazy = fakturyZBazy.stream()
+            .filter(item -> item.isWygenerowanaautomatycznie())
+            .collect(Collectors.toList());
+    
+    if (fakturyZBazy.isEmpty()) {
+        Msg.msg("e", "Nie ma pozycji w miesiącu");
+        return;
+    }
+    
+    // Mapa dla szybszego wyszukiwania faktur po NIP
+    Map<String, Faktura> mapaFaktur = fakturyZBazy.stream()
+            .collect(Collectors.toMap(f -> f.getKontrahent().getNip(), f -> f, (f1, f2) -> f1));
+    
+    boolean zmiany = false;
+    
+    for (Fakturywystokresowe f : fakturyokresowe) {
+        Faktura fakturaWystawiona = mapaFaktur.get(f.getDokument().getWystawca().getNip());
+        if (fakturaWystawiona != null) {
+            for (Wierszfakturybaza w : wierzfakturybazalist) {
+                if (w.getDatafaktury() == null && fakturaWystawiona.getKontrahent() != null && 
+                        w.getNip().equals(fakturaWystawiona.getKontrahent().getNip())) {
+                    w.setDatafaktury(fakturaWystawiona.getDatasporzadzenia());
+                    w.setNaniesiony(true);
+                    zmiany = true;
+                    break;
+                }
+            }
+        }
+    }
+    
+    if (zmiany) {
+        wierszfakturybazaDAO.editList(wierzfakturybazalist);
+        Msg.msg("Lista faktur zweryfikowana");
+    } else {
+        Msg.msg("Brak zmian w danych");
+    }
+}
+
     
     public void usun() {
         if (listawierszfaktury!=null&&listawierszfaktury.isEmpty()==false) {
