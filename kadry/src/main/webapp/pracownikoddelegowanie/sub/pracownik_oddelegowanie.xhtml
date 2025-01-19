@@ -1,0 +1,53 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <f:event type="preRenderView" listener="#{pracownikOddelegowanieView.init()}"/>
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="width: 1300px;">
+        <p:outputPanel>
+            <h:form id="PracownikOddelegowanieForm">
+
+                <p:panel header="opodatkowanie w związku z pracą zagranicą: cały rok #{wpisView.rokWpisu}, przekroczenie w konkretnym miesiącu danego roku"/>
+                <p:dataTable id="tabela" var="pracownik" value="#{pracownikOddelegowanieView.pracownicyoddelegowanie}"
+                             rowKey="#{pracownik.id}" rowIndexVar="endex"
+                             style="margin-top:20px;max-width: 680px;">
+
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{endex+1}" />
+                    </p:column>
+                    <p:column headerText="pracownik">
+                        <h:outputText value="#{pracownik.pracownik.nazwiskoImie}" />
+                    </p:column>
+
+                    <p:column headerText="przekrocz. od początku" width="70" style="text-align: center;">
+                        <p:selectBooleanCheckbox value="#{pracownik.przekroczenieodpoczatku}" >
+                            <p:ajax event="change" listener="#{pracownikOddelegowanieView.zapisz(pracownik)}"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+
+                    <p:column headerText="miesiąc przekrocz." width="70" style="text-align: center;">
+                        <p:selectOneMenu id="okresdra" value="#{pracownik.miesiacprzekroczenia}" required="true" requiredMessage="Wybierz miesiąc" >
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{mce.mceList}" 
+                                               var="dramcItem"
+                                               itemValue="#{dramcItem}" itemLabel="#{dramcItem}"/>
+                                <p:ajax event="change" partialSubmit="true" global="true" listener="#{pracownikOddelegowanieView.zapisz(pracownik)}" />
+                            </p:selectOneMenu>
+                    </p:column>
+                     <p:column headerText="zmieniono" width="70" style="text-align: center;">
+                         <h:outputText value="#{pracownik.datawprowadzenia}" >
+                         <f:convertDateTime pattern="yyyy-MM-dd  HH:mm:ss" />
+                     </h:outputText>
+                    </p:column>
+                    <p:column headerText="wprowadził" width="80" style="text-align: left;">
+                        <h:outputText value="#{pracownik.wprowadzajacy}" >
+                     </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:outputPanel>
+    </p:panelGrid>    
+</ui:composition>

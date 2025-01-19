@@ -28,25 +28,26 @@
                                      <p:submenu icon="pi pi-users" label="pracownicy" style="width: 150px">
                                          <p:menuitem icon="pi pi-ellipsis-v" value="lista wszystkich prac." style="width: 150px" action="Pracownikwykaz"/>
                                          <p:menuitem icon="pi pi-ellipsis-v" value="angaże w firmie bież." style="width: 150px" action="Pracownik"/>
-                                         <p:menuitem icon="pi pi-ellipsis-v" value="dane pracowników" style="width: 150px" action="Pracownikdane"/><p:menuitem icon="pi pi-ellipsis-v" value="staż pracowników" style="width: 150px" action="Pracownikhistoria"/>
-<p:menuitem icon="pi pi-ellipsis-v" value="przekroczenia oddel." style="width: 150px" action="Pracownikoddelegowanie"/><p:menuitem icon="pi pi-ellipsis-v" value="grupy do list płac" style="width: 150px" action="Pracownikgrupy"/>
-                                          <p:menuitem icon="pi pi-ellipsis-v" value="alerty - pracownicy" style="width: 150px" action="Pracownikalerty"/><p:menuitem icon="pi pi-ellipsis-v" value="aneksy do umów" style="width: 150px" action="Pracownikaneksy"/><p:menuitem icon="pi pi-ellipsis-v" value="lista aktywnych umów" style="width: 150px" action="Pracownikumowy"/><p:menuitem icon="pi pi-ellipsis-v" value="dni urlopów zatrud." style="width: 150px" action="Pracownikurlopy"/>
+                                         <p:menuitem icon="pi pi-ellipsis-v" value="dane pracowników" style="width: 150px" action="Pracownikdane"/>
+                                         <p:menuitem icon="pi pi-ellipsis-v" value="staż pracowników" style="width: 150px" action="Pracownikhistoria"/>
+                                         <p:menuitem icon="pi pi-ellipsis-v" value="przekroczenia oddel." style="width: 150px" action="Pracownikoddelegowanie"/>
+                                         <p:menuitem icon="pi pi-ellipsis-v" value="grupy do list płac" style="width: 150px" action="Pracownikgrupy"/>
+                                          <p:menuitem icon="pi pi-ellipsis-v" value="alerty - pracownicy" style="width: 150px" action="Pracownikalerty"/>
+                                          <p:menuitem icon="pi pi-ellipsis-v" value="aneksy do umów" style="width: 150px" action="Pracownikaneksy"/>
+                                          <p:menuitem icon="pi pi-ellipsis-v" value="lista aktywnych umów" style="width: 150px" action="Pracownikumowy"/>
+                                          <p:menuitem icon="pi pi-ellipsis-v" value="dni urlopów zatrud." style="width: 150px" action="Pracownikurlopy"/>
                                     </p:submenu>
                                     <p:menuitem icon="pi pi-file" value="umowy" style="width: 150px" action="Umowa"/>
                                     <p:menuitem icon="pi pi-money-bill" value="płace" style="width: 150px" action="Administrator"/>
                                     <p:menuitem icon="pi pi-file-pdf" value="PIT11" style="width: 150px" action="Pit"/>
                                     <p:menuitem icon="pi pi-file-excel" value="PIT4" style="width: 150px" action="Pit4"/>
-                                    <p:submenu icon="pi pi-print" label="wydruki" style="width: 150px">
-                                        <p:menuitem icon="pi pi-ellipsis-v" value="zaświadczenia" style="width: 150px" action="wydruki"/>
-                                        <p:menuitem icon="pi pi-ellipsis-v" value="pfron/soka/urlopy" style="width: 150px" action="wskazniki"/>
-                                    </p:submenu>
-                                    <p:menuitem icon="pi pi-chart-bar" value="statystyka" style="width: 150px" action="Statystyka"/><p:menuitem icon="pi pi-chart-bar" value="info" style="width: 150px" action="Info"/>
+                                    <p:submenu icon="pi pi-print" label="wydruki" style="width: 150px"><p:menuitem icon="pi pi-ellipsis-v" value="zaświadczenia" style="width: 150px" action="wydruki"/><p:menuitem icon="pi pi-ellipsis-v" value="pfron/soka/urlopy" style="width: 150px" action="wskazniki"/></p:submenu><p:menuitem icon="pi pi-chart-bar" value="statystyka" style="width: 150px" action="Statystyka"/><p:menuitem icon="pi pi-chart-bar" value="info" style="width: 150px" action="Info"/>
                                 </p:menubar>
                             </h:form>
                         </p:outputPanel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                        <ui:include src="sub/wskazniki.xhtml"/>
-           
+                        <ui:include src="sub/pracownik_oddelegowanie.xhtml"/>
+                    
                 
             
         </ui:define>
