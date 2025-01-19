@@ -704,38 +704,77 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
     
-    public void zaksiegujjakoBO (FakturaPodatnikRozliczenie p) {
-        double saldo = p.getSaldo();
-        FakturaRozrachunki f = new FakturaRozrachunki();
-        f.setData(wpisView.getRokNastepnySt()+"-01-01");
-        if (p.isFaktura0rozliczenie1()) {
-            FakturaRozrachunki fr = p.getRozliczenie();
-            szukanyklient = fr.getKontrahent();
-            fr.setPrzeniesionosaldo(true);
-            fakturaRozrachunkiDAO.edit(fr);
-        } else {
-            Faktura fa = p.getFaktura();
-            szukanyklient = fa.getKontrahent();
-            fa.setPrzeniesionosaldo(true);
-            fakturaDAO.edit(fa);
+     
+     
+    public void zaksiegujjakoBO(FakturaPodatnikRozliczenie p) {
+        List<Faktura> klientfaktury = (faktury != null ? faktury.stream()
+                .filter(item -> item != null && item.isTylkodlaokresowej() == false && item.getKontrahent() != null && p.getKontrahentNip().equals(item.getKontrahent().getNip()))
+                .filter(item -> item.isRozrachunekarchiwalny() == false)
+                .collect(Collectors.toList()) : Collections.emptyList());
+        for (Faktura faktura : klientfaktury) {
+            FakturaRozrachunki zapisbo = new FakturaRozrachunki();
+            zapisbo.setData(faktura.getDatawystawienia());
+            zapisbo.setKontrahent(faktura.getKontrahent());
+            if (faktura.getTabelanbp()!=null) {
+                zapisbo.setWaluta(faktura.getTabelanbp().getWaluta().getSymbolwaluty());
+            } else {
+                zapisbo.setWaluta("PLN");
+            }
+            if (faktura.getTabelanbp()!=null) {
+                zapisbo.setKurs(faktura.getTabelanbp().getKurssredniPrzelicznik());
+            }
+            zapisbo.setKwotapln(faktura.getBrutto());
+            zapisbo.setKwotawwalucie(faktura.getBrutto());
+            zapisbo.setRok(wpisView.getRokNastepnySt());
+            zapisbo.setMc("01");
+            zapisbo.setWystawca(wpisView.getPodatnikObiekt());
+            zapisbo.setWprowadzil(wpisView.getUzer());
+            zapisbo.setZaplata0korekta1(true);
+            zapisbo.setRodzajdokumentu("ka");
+            String nr = "bo/" + faktura.getNumerkolejny();
+            zapisbo.setNrdokumentu(nr);
+            zapisbo.setPrzeniesionosaldo(true);
+            faktura.setPrzeniesionosaldo(true);
+            fakturaRozrachunkiDAO.create(zapisbo);
         }
-        f.setKontrahent(szukanyklient);
-        f.setKwotapln(p.getSaldopln());
-        f.setKwotawwalucie(p.getSaldo());
-        f.setRok(wpisView.getRokNastepnySt());
-        f.setMc("01");
-        f.setWystawca(wpisView.getPodatnikObiekt());
-        f.setWprowadzil(wpisView.getUzer());
-        f.setZaplata0korekta1(true);
-        f.setRodzajdokumentu("ka");
-        String nr = "bo/"+wpisView.getPodatnikWpisu().substring(0,1)+"/"+wpisView.getMiesiacWpisu();
-        f.setNrdokumentu(nr);
-        f.setPrzeniesionosaldo(true);
-        selectOneUI.setValue(szukanyklient);
-        fakturaRozrachunkiDAO.create(f);
+        //bo oznaczylismy ze przeniesiono saldo do bo
+        fakturaDAO.editList(klientfaktury);
         aktywnytab = 3;
         Msg.msg("Zaksięgowano w bo");
     }
+    
+//    public void zaksiegujjakoBO (FakturaPodatnikRozliczenie p) {
+//        double saldo = p.getSaldo();
+//        FakturaRozrachunki f = new FakturaRozrachunki();
+//        f.setData(wpisView.getRokNastepnySt()+"-01-01");
+//        if (p.isFaktura0rozliczenie1()) {
+//            FakturaRozrachunki fr = p.getRozliczenie();
+//            szukanyklient = fr.getKontrahent();
+//            fr.setPrzeniesionosaldo(true);
+//            fakturaRozrachunkiDAO.edit(fr);
+//        } else {
+//            Faktura fa = p.getFaktura();
+//            szukanyklient = fa.getKontrahent();
+//            fa.setPrzeniesionosaldo(true);
+//            fakturaDAO.edit(fa);
+//        }
+//        f.setKontrahent(szukanyklient);
+//        f.setKwotapln(p.getSaldopln());
+//        f.setKwotawwalucie(p.getSaldo());
+//        f.setRok(wpisView.getRokNastepnySt());
+//        f.setMc("01");
+//        f.setWystawca(wpisView.getPodatnikObiekt());
+//        f.setWprowadzil(wpisView.getUzer());
+//        f.setZaplata0korekta1(true);
+//        f.setRodzajdokumentu("ka");
+//        String nr = "bo/"+wpisView.getPodatnikWpisu().substring(0,1)+"/"+wpisView.getMiesiacWpisu();
+//        f.setNrdokumentu(nr);
+//        f.setPrzeniesionosaldo(true);
+//        selectOneUI.setValue(szukanyklient);
+//        fakturaRozrachunkiDAO.create(f);
+//        aktywnytab = 3;
+//        Msg.msg("Zaksięgowano w bo");
+//    }
     
     
     

@@ -48,6 +48,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
     private boolean swiezowezwany;
     private int iloscfaktur;
     private boolean archiwalny;
+    private boolean zapisbo;
     
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
@@ -72,6 +73,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         }
         this.archiwalny = p.isRozrachunekarchiwalny();
         this.kurs = p.getKurs();
+        this.zapisbo = p.getNrdokumentu().startsWith("bo/");
     }
 
     public FakturaPodatnikRozliczenie(Faktura r) {
@@ -271,6 +273,14 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         this.przeniesionosaldo = przeniesionosaldo;
     }
     
+    
+    public String getKontrahentNip() {
+        if (this.faktura != null) {
+            return this.faktura.getKontrahent().getNip();
+        } else {
+            return this.rozliczenie.getKontrahent().getNip();
+        }
+    }
 
     public String getKontrahent() {
         if (this.faktura != null) {
@@ -408,6 +418,14 @@ public class FakturaPodatnikRozliczenie implements Serializable{
 
     public void setArchiwalny(boolean archiwalny) {
         this.archiwalny = archiwalny;
+    }
+
+    public boolean isZapisbo() {
+        return zapisbo;
+    }
+
+    public void setZapisbo(boolean zapisbo) {
+        this.zapisbo = zapisbo;
     }
 
     
