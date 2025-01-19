@@ -149,7 +149,7 @@ public class Dok extends DokSuper implements Serializable {
     @Column(name = "wpr")
     private String wprowadzil;
     @Column(name = "data_k")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataK;
     @Column(name = "dataedycji")
     private Date dataedycji;
